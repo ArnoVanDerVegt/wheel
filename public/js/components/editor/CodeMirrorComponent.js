@@ -148,6 +148,30 @@ var CodeMirrorComponent = React.createClass({
 			this.setState(state);
 		},
 
+		selectAll: function() {
+			this._editor && this._editor.execCommand('selectAll');
+		},
+
+		find: function() {
+			this._editor && this._editor.execCommand('find');
+		},
+
+		findNext: function() {
+			this._editor && this._editor.execCommand('findNext');
+		},
+
+		findPrev: function() {
+			this._editor && this._editor.execCommand('findPrev');
+		},
+
+		undo: function() {
+			this._editor && this._editor.execCommand('undo');
+		},
+
+		redo: function() {
+			this._editor && this._editor.execCommand('redo');
+		},
+
 		formatCode: function() {
 			var lines = this.getCode().split("\n");
 			for (var i = 0; i < lines.length; i++) {

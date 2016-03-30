@@ -86,6 +86,30 @@ var EditorComponent = React.createClass({
 			}
 		},
 
+		onSelectAll: function() {
+			this.refs.codeMirror.selectAll();
+		},
+
+		onFind: function() {
+			this.refs.codeMirror.find();
+		},
+
+		onFindNext: function() {
+			this.refs.codeMirror.findNext();
+		},
+
+		onFindPrev: function() {
+			this.refs.codeMirror.findPrev();
+		},
+
+		onUndo: function() {
+			this.refs.codeMirror.undo();
+		},
+
+		onRedo: function() {
+			this.refs.codeMirror.redo();
+		},
+
 		onMotors: function() {
 			var output = this.refs.output;
 			this.refs.motorsDialog.show(
@@ -289,12 +313,18 @@ var EditorComponent = React.createClass({
 					{
 						type: HeaderComponent,
 						props: {
-							onFile: 	this.onFile,
-							onSave: 	this.onSave,
-							onFormat: 	this.onFormat,
-							onMotors: 	this.onMotors,
-							onSensors: 	this.onSensors,
-							onExamples: this.onExamples
+							onFile: 		this.onFile,
+							onSave: 		this.onSave,
+							onSelectAll: 	this.onSelectAll,
+							onFormat: 		this.onFormat,
+							onFind: 		this.onFind,
+							onFindNext: 	this.onFindNext,
+							onFindPrev: 	this.onFindPrev,
+							onUndo: 		this.onUndo,
+							onRedo: 		this.onRedo,
+							onMotors: 		this.onMotors,
+							onSensors: 		this.onSensors,
+							onExamples: 	this.onExamples
 						}
 					},
 					{
