@@ -16,6 +16,7 @@ var FilesComponent = React.createClass({
 					canRename: 	file.getCanRename(),
 					name: 		file.getName(),
 					dir: 		file.getDir(),
+					open: 		file.getOpen(),
 					changed: 	file.getChanged(),
 					toString: 	function() {
 						return this.name;
@@ -56,9 +57,27 @@ var FilesComponent = React.createClass({
 					}
 				};
 
-			for (var i = 0; i < files.length; i++) {
+			var i = 0;
+			while (i < files.length) {
 				var file = files[i];
-				addPath(file.name, file.dir, file.changed, i === props.activeFileIndex);
+				if (file.dir) {
+					addPath(file.name, file.dir, file.changed, i === props.activeFileIndex);
+					if (!file.open) {
+						var name 	= file.name,
+							length 	= name.length;
+						while (i < files.length) {
+							if (files[i].name.substr(0, length) === name) {
+								i++;
+							} else {
+								i--;
+								break;
+							}
+						}
+					}
+				} else {
+					addPath(file.name, file.dir, file.changed, i === props.activeFileIndex);
+				}
+				i++;
 			}
 
 			var addNode = function(node, depth) {

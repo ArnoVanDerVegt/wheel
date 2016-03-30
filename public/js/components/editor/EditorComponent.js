@@ -8,7 +8,7 @@ var EditorComponent = React.createClass({
 			);
 			return {
 				small: 				false,
-				activeFileIndex: 	3
+				activeFileIndex: 	0
 			}
 		},
 
@@ -120,6 +120,7 @@ var EditorComponent = React.createClass({
 			file 					= files.getFile(index);
 
 			if (file.getDir()) {
+				file.setOpen(!file.getOpen());
 				codeMirror.setReadOnly(true);
 				codeMirror.setCode('');
 				this.setState(this.state);
