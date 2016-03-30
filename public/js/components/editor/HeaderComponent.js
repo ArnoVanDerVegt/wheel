@@ -9,6 +9,7 @@ var HeaderComponent = React.createClass({
 						type: MenuComponent,
 						props: {
 							onFile: 	this.props.onFile,
+							onSave: 	this.props.onSave,
 							onMotors: 	this.props.onMotors,
 							onSensors: 	this.props.onSensors,
 							onExamples: this.props.onExamples

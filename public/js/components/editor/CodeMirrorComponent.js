@@ -77,6 +77,14 @@ var CodeMirrorComponent = React.createClass({
 			editor.setGutterMarker(6, 'CodeMirror-guttermarker', div);
 			editor.setValue(value);
 
+			this._allowPublish = true;
+			editor.on(
+				'change',
+				function() {
+					this._allowPublish && this.props.onChange && this.props.onChange();
+				}.bind(this)
+			);
+
 			this._editor = editor;
 		},
 
@@ -85,8 +93,17 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		componentDidUpdate: function() {
-			this._editor && this._editor.toTextArea();
-			this.createCodeMirror(this.refs.textarea, this.props.defaultValue || this.props.value || '');
+			if (this._editor) {
+				var value = this._editor.getValue();
+				this._editor.toTextArea();
+				this.createCodeMirror(this.refs.textarea, value);
+				setTimeout(
+					function() {
+						this._editor.focus();
+					}.bind(this),
+					50
+				);
+			}
 		},
 
 		componentWillUnmount: function() {
@@ -108,7 +125,9 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		setCode: function(code) {
+			this._allowPublish = false;
 			this._editor.setValue(code);
+			this._allowPublish = true;
 		},
 
 		setSmall: function() {

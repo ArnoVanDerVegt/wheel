@@ -5,7 +5,7 @@ proc test2(number qq)
 	set 	REG_DRAW_Y, 		0
 	print 	qq
 endp
-
+;xx
 proc test(number q, number r)
 	number 	a
 	set 	a, 					0

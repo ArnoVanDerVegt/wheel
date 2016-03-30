@@ -16,6 +16,7 @@ var FilesComponent = React.createClass({
 					canRename: 	file.getCanRename(),
 					name: 		file.getName(),
 					dir: 		file.getDir(),
+					changed: 	file.getChanged(),
 					toString: 	function() {
 						return this.name;
 					}
@@ -30,7 +31,7 @@ var FilesComponent = React.createClass({
 				},
 				activeFile = props.files.getFile(props.activeFileIndex),
 				activePath = activeFile ? activeFile.getName() : '',
-				addPath = function(path, dir, active) {
+				addPath = function(path, dir, changed, active) {
 					if (path[0] === '/') {
 						path = path.substr(1 - path.length);
 					}
@@ -46,16 +47,18 @@ var FilesComponent = React.createClass({
 									name: 		part,
 									path: 		path,
 									active: 	active,
-									dir: 		dir
+									dir: 		dir,
+									changed: 	changed
 								};
 							node.children[part] = newNode;
 							node 				= newNode;
 						}
 					}
 				};
+
 			for (var i = 0; i < files.length; i++) {
 				var file = files[i];
-				addPath(file.name, file.dir, i === props.activeFileIndex);
+				addPath(file.name, file.dir, file.changed, i === props.activeFileIndex);
 			}
 
 			var addNode = function(node, depth) {
@@ -66,7 +69,7 @@ var FilesComponent = React.createClass({
 								{
 									props: {
 										onClick: 	(function() { this.props.onSelectFile(node.path); }).bind(this),
-										className: node.active ? 'active' : '',
+										className: (node.active ? 'active' : '') + (node.changed ? ' changed' : ''),
 										style: {
 											paddingLeft: (depth * 16) + 'px'
 										}

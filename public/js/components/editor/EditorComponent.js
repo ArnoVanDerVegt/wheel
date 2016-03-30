@@ -1,9 +1,20 @@
 var EditorComponent = React.createClass({
 		getInitialState: function() {
+			this.props.files.on(
+				'Loaded',
+				function() {
+					this.setState(this.state);
+				}.bind(this)
+			);
 			return {
 				small: 				false,
 				activeFileIndex: 	3
 			}
+		},
+
+		updateFiles: function() {
+			var files = this.refs.files;
+			files.setState(files.state);
 		},
 
 		onRun: function() {
@@ -52,6 +63,18 @@ var EditorComponent = React.createClass({
 			this.setState(state);
 		},
 
+		onSave: function() {
+			var state 	= this.state,
+				files 	= this.props.files,
+				file 	= files.getFile(state.activeFileIndex);
+
+			if (file) {
+				file.setData(this.refs.codeMirror.getCode(), true);
+				file.save();
+				this.updateFiles();
+			}
+		},
+
 		onMotors: function() {
 			var output = this.refs.output;
 			this.refs.motorsDialog.show(
@@ -92,7 +115,7 @@ var EditorComponent = React.createClass({
 				index 		= files.exists(filename),
 				file 		= files.getFile(state.activeFileIndex);
 
-			file.getDir() || file.setData(this.refs.codeMirror.getCode());
+			file.getDir() || file.setData(this.refs.codeMirror.getCode(), true);
 			state.activeFileIndex 	= index;
 			file 					= files.getFile(index);
 
@@ -120,15 +143,19 @@ var EditorComponent = React.createClass({
 				content: 	'Are you sure you want to delete the file "' + file.getName() + '"?',
 				title: 		'Delete file',
 				onConfirm: 	function() {
-					files.removeFile(file.getName());
-					state.activeFileIndex 	= 0;
-					file 					= files.getFile(0);
-					if (file) {
-						file.getData(function(data) {
-							this.refs.codeMirror.setCode(data);
-							this.setState(state);
-						}.bind(this));
-					}
+					files.removeFile(
+						file.getName(),
+						function() {
+							state.activeFileIndex 	= 0;
+							file 					= files.getFile(0);
+							if (file) {
+								file.getData(function(data) {
+									this.refs.codeMirror.setCode(data);
+									this.setState(state);
+								}.bind(this));
+							}
+						}.bind(this)
+					);
 				}.bind(this)
 			});
 		},
@@ -144,15 +171,19 @@ var EditorComponent = React.createClass({
 				content: 	'Are you sure you want to delete the directory "' + file.getName() + '"?',
 				title: 		'Delete directory',
 				onConfirm: 	function() {
-					files.removeDir(file.getName());
-					state.activeFileIndex 	= 0;
-					file 					= files.getFile(0);
-					if (file) {
-						file.getData(function(data) {
-							this.refs.codeMirror.setCode(data);
-							this.setState(state);
-						}.bind(this));
-					}
+					files.removeDir(
+						file.getName(),
+						function() {
+							state.activeFileIndex 	= 0;
+							file 					= files.getFile(0);
+							if (file) {
+								file.getData(function(data) {
+									this.refs.codeMirror.setCode(data);
+									this.setState(state);
+								}.bind(this));
+							}
+						}.bind(this)
+					);
 				}.bind(this)
 			});
 		},
@@ -177,14 +208,20 @@ var EditorComponent = React.createClass({
 				'Enter filename...',
 				filename,
 				function(value) {
-					file.setName(
-						dirname + value,
-						function() {
-							this.setState(state);
-						}.bind(this)
-					);
+					file.setName(dirname + value, this.updateFiles.bind(this));
 				}.bind(this)
 			);
+		},
+
+		onChange: function() {
+			var state 	= this.state,
+				files 	= this.props.files,
+				file 	= files.getFile(state.activeFileIndex);
+
+			if (file && !file.getChanged()) {
+				file.setChanged(true);
+				this.updateFiles();
+			}
 		},
 
 		openFile: function(filename, data, canRename) {
@@ -227,7 +264,9 @@ var EditorComponent = React.createClass({
 				if (file.getHasData()) {
 					data = file.getData();
 				} else {
-					file.getData(function() { this.setState(this.state); }.bind(this));
+					file.getData(function(data) {
+						this.refs.codeMirror.setCode(data);
+					}.bind(this));
 				}
 			}
 
@@ -240,6 +279,7 @@ var EditorComponent = React.createClass({
 						type: HeaderComponent,
 						props: {
 							onFile: 	this.onFile,
+							onSave: 	this.onSave,
 							onMotors: 	this.onMotors,
 							onSensors: 	this.onSensors,
 							onExamples: this.onExamples
@@ -248,6 +288,7 @@ var EditorComponent = React.createClass({
 					{
 						type: FilesComponent,
 						props: {
+							ref: 				'files',
 							activeFileIndex: 	this.state.activeFileIndex,
 							files: 				files,
 							onSelectFile: 		this.onSelectFile,
@@ -260,7 +301,8 @@ var EditorComponent = React.createClass({
 						type: CodeMirrorComponent,
 						props: {
 							defaultValue: 	data,
-							ref: 			'codeMirror'
+							ref: 			'codeMirror',
+							onChange: 		this.onChange
 						}
 					},
 					{

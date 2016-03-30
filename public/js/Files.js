@@ -6,7 +6,7 @@ var File = Class(function() {
 			this._canRename = ('canRename' in opts) ? opts.canRename : true;
 			this._data 		= opts.data || '';
 			this._hasData 	= ('data' in opts) || this._dir;
-			this._isSaved 	= ('saved' in opts) ? opts.saved : false;
+			this._changed 	= ('saved' in opts) ? !opts.saved : true;
 		};
 
 		this.getName = function() {
@@ -46,7 +46,7 @@ var File = Class(function() {
 						if (error) {
 							console.error(error, data);
 						} else {
-							this._saved 	= true;
+							this._changed 	= false;
 							this._hasData 	= true;
 							this._data 		= data;
 							callback(data);
@@ -58,8 +58,10 @@ var File = Class(function() {
 			}
 		};
 
-		this.setData = function(data) {
-			this._saved 	= false;
+		this.setData = function(data, noChange) {
+			if (!noChange) {
+				this._changed = true;
+			}
 			this._hasData 	= true;
 			this._data 		= data;
 		};
@@ -84,25 +86,33 @@ var File = Class(function() {
 			return this._name.substr(0, i);
 		};
 
+		this.getChanged = function() {
+			return this._changed;
+		};
+
+		this.setChanged = function(changed) {
+			this._changed = changed;
+		};
+
 		this.toString = function() {
 			return this._name;
 		};
 
 		this.save = function() {
-			if (this._isSaved) {
+			if (!this._changed) {
 				return;
 			}
-			this._saved = true;
+			this._changed = false;
 			ajaxUtils.send(
 				'/api/file?filename=' + encodeURIComponent(this._name),
 				function(error, data) {
 					if (error) {
 						console.error(error, data);
-						this._saved = false;
+						this._changed = true;
 					}
 				}.bind(this),
 				{
-					data: 'hello!'
+					data: this._data
 				}
 			);
 		};
@@ -197,13 +207,13 @@ var Files = Class(Emitter, function(supr) {
 			}
 		};
 
-		this.removeFile = function(name) {
+		this.removeFile = function(name, callback) {
 			ajaxUtils.send(
 				'/api/remove-file?filename=' + encodeURIComponent(name),
 				function(error, data) {
 					if (error) {
 						console.error(error, data);
-						this._saved = false;
+						this._changed = true;
 					} else {
 						var files = this._files;
 						for (var i = 0; i < files.length; i++) {
@@ -213,6 +223,7 @@ var Files = Class(Emitter, function(supr) {
 							}
 						}
 					}
+					callback && callback();
 				}.bind(this),
 				{
 					post: true
@@ -220,25 +231,27 @@ var Files = Class(Emitter, function(supr) {
 			);
 		};
 
-		this.removeDir = function(name) {
+		this.removeDir = function(name, callback) {
 			ajaxUtils.send(
 				'/api/remove-dir?path=' + encodeURIComponent(name),
 				function(error, data) {
 					if (error) {
 						console.error(error, data);
-						this._saved = false;
+						this._changed = true;
 					} else {
 						var length 	= name.length,
 							files 	= this._files,
 							i 		= 0;
 
 						while (i < files.length) {
-							if (files[i].getName().substr(0, length) === name) {
+							var filename = files[i].getName();
+							if (filename.substr(0, length) === name) {
 								files.splice(i, 1);
 							} else {
 								i++;
 							}
 						}
+						callback && callback();
 					}
 				}.bind(this),
 				{

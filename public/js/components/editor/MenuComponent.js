@@ -41,7 +41,8 @@ var MenuComponent = React.createClass({
 									{
 										type: 'li',
 										props: {
-											innerHTML: 'Close file'
+											innerHTML: 'Save file',
+											onClick: 	(function() { this.props.onSave && this.props.onSave() }).bind(this)
 										}
 									}
 								]
