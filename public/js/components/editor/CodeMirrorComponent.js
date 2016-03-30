@@ -146,5 +146,77 @@ var CodeMirrorComponent = React.createClass({
 			var state = this.state;
 			state.readOnly = readOnly;
 			this.setState(state);
+		},
+
+		formatCode: function() {
+			var lines = this.getCode().split("\n");
+			for (var i = 0; i < lines.length; i++) {
+				var s 		= lines[i],
+					line 	= s.trim();
+
+				if (line.substr(0, 4) === 'proc') {
+				} else if (line.substr(0, 4) === 'endp') {
+				} else if (line[0] === '#') {
+				} else if (line.indexOf(':') !== -1) {
+					s = line;
+				} else if (line.indexOf('(') !== -1) {
+					s = '    ' + line;
+				} else {
+					var j = line.indexOf(' '),
+						k = line.indexOf("\t"),
+						l;
+
+					if ((j === -1) && (k === -1)) {
+						s = '    ' + line;
+					} else {
+						if (j === -1) {
+							l = k;
+						} else if (k === -1) {
+							l = j;
+						} else {
+							l = Math.min(j, k);
+						}
+						s 		= '    ' + (line.substr(0, l) + '       ').substr(0, 8);
+						line 	= line.substr(l - line.length).trim();
+						j 		= line.indexOf(',');
+						if (j === -1) {
+							s += line;
+						} else {
+							var p = line.substr(0, j) + ',';
+							while (p.length < 24) {
+								p += ' ';
+							}
+							s += p;
+							line = line.substr(j + 1 - line.length).trim();
+							s += line;
+						}
+					}
+				}
+
+				j = s.indexOf(';');
+				if (j !== -1) {
+					k = s.trim().indexOf(';');
+					if (k === 0) {
+						s = s.trim();
+						s = '; ' + s.substr(2 - s.length).trim();
+					} else {
+						var comment = s.substr(j + 1 - s.length).trim();
+						s = s.substr(0, j);
+						while (s.length && (s.substr(-1) === ' ')) {
+							s = s.substr(0, s.length - 1);
+						}
+						while (s.length < 44) {
+							s += ' ';
+						}
+						s += '; ' + comment;
+					}
+				}
+
+				lines[i] = s;
+			}
+
+			var result = lines.join("\n");
+			this.setCode(result);
+			return result;
 		}
 	});

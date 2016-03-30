@@ -12,6 +12,12 @@ var EditorComponent = React.createClass({
 			}
 		},
 
+		getActiveFile: function() {
+			var state 	= this.state,
+				files 	= this.props.files;
+			return files.getFile(state.activeFileIndex);
+		},
+
 		updateFiles: function() {
 			var files = this.refs.files;
 			files.setState(files.state);
@@ -44,7 +50,7 @@ var EditorComponent = React.createClass({
 		onFile: function() {
 			var state 	= this.state,
 				files 	= this.props.files,
-				file 	= files.getFile(state.activeFileIndex),
+				file 	= this.getActiveFile(),
 				newFile = {
 					name: files.newName(file.getPath() + '/file', '.asm'),
 					data: 'number a',
@@ -64,13 +70,18 @@ var EditorComponent = React.createClass({
 		},
 
 		onSave: function() {
-			var state 	= this.state,
-				files 	= this.props.files,
-				file 	= files.getFile(state.activeFileIndex);
-
+			var file = this.getActiveFile();
 			if (file) {
 				file.setData(this.refs.codeMirror.getCode(), true);
 				file.save();
+				this.updateFiles();
+			}
+		},
+
+		onFormat: function() {
+			var file = this.getActiveFile();
+			if (file) {
+				file.setData(this.refs.codeMirror.formatCode());
 				this.updateFiles();
 			}
 		},
@@ -113,14 +124,16 @@ var EditorComponent = React.createClass({
 				state 		= this.state,
 				files 		= this.props.files,
 				index 		= files.exists(filename),
-				file 		= files.getFile(state.activeFileIndex);
+				file 		= files.getFile(state.activeFileIndex),
+				changed;
 
 			file.getDir() || file.setData(this.refs.codeMirror.getCode(), true);
+			changed 				= (state.activeFileIndex !== index);
 			state.activeFileIndex 	= index;
 			file 					= files.getFile(index);
 
 			if (file.getDir()) {
-				file.setOpen(!file.getOpen());
+				changed || file.setOpen(!file.getOpen());
 				codeMirror.setReadOnly(true);
 				codeMirror.setCode('');
 				this.setState(this.state);
@@ -215,10 +228,7 @@ var EditorComponent = React.createClass({
 		},
 
 		onChange: function() {
-			var state 	= this.state,
-				files 	= this.props.files,
-				file 	= files.getFile(state.activeFileIndex);
-
+			var file = this.getActiveFile();
 			if (file && !file.getChanged()) {
 				file.setChanged(true);
 				this.updateFiles();
@@ -281,6 +291,7 @@ var EditorComponent = React.createClass({
 						props: {
 							onFile: 	this.onFile,
 							onSave: 	this.onSave,
+							onFormat: 	this.onFormat,
 							onMotors: 	this.onMotors,
 							onSensors: 	this.onSensors,
 							onExamples: this.onExamples

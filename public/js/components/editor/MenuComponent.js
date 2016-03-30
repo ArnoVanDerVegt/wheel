@@ -59,6 +59,36 @@ var MenuComponent = React.createClass({
 								type: 'span',
 								props: {
 									className: 	'menu-item-title',
+									innerHTML: 	'Edit'
+								}
+							},
+							{
+								type: 'ul',
+								props: {
+									className: 'dropdown'
+								},
+								children: [
+									{
+										type: 'li',
+										props: {
+											innerHTML: 	'Format code',
+											onClick: 	(function() { this.props.onFormat && this.props.onFormat() }).bind(this)
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						type: 'li',
+						props: {
+							className: 	'menu-item'
+						},
+						children: [
+							{
+								type: 'span',
+								props: {
+									className: 	'menu-item-title',
 									innerHTML: 	'Run',
 								}
 							},
@@ -87,32 +117,37 @@ var MenuComponent = React.createClass({
 					{
 						type: 'li',
 						props: {
-							className: 'menu-item'
+							className: 	'menu-item'
 						},
 						children: [
 							{
 								type: 'span',
 								props: {
 									className: 	'menu-item-title',
-									innerHTML: 	'Motors',
-									onClick: 	(function() { this.props.onMotors && this.props.onMotors() }).bind(this)
+									innerHTML: 	'Setup',
 								}
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 'menu-item'
-						},
-						children: [
+							},
 							{
-								type: 'span',
+								type: 'ul',
 								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'Sensors',
-									onClick: 	(function() { this.props.onSensors && this.props.onSensors() }).bind(this)
-								}
+									className: 'dropdown'
+								},
+								children: [
+									{
+										type: 'li',
+										props: {
+											innerHTML: 	'Motors',
+											onClick: 	(function() { this.props.onMotors && this.props.onMotors() }).bind(this)
+										}
+									},
+									{
+										type: 'li',
+										props: {
+											innerHTML: 	'Sensors',
+											onClick: 	(function() { this.props.onSensors && this.props.onSensors() }).bind(this)
+										}
+									}
+								]
 							}
 						]
 					},

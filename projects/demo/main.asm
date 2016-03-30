@@ -1,5 +1,6 @@
 #include "standard"
 
+; proc header remark
 proc test2(number qq)
 	set 	REG_DRAW_X, 		0
 	set 	REG_DRAW_Y, 		0
@@ -9,10 +10,10 @@ endp
 proc test(number q, number r)
 	number 	a
 	set 	a, 					0
-testLabel:
+testLabel: ; another remark
 	number 	b
 	set 	b, 					a
-	mul 	b, 					10
+	mul 	b, 					10 ; this is remark
 	set 	REG_DRAW_X, 		b
 	set 	REG_DRAW_Y, 		b
 	set 	REG_DRAW_WIDTH, 	10
