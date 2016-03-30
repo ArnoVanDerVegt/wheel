@@ -1,0 +1,21 @@
+{
+  "name": "ev3",
+  "version": "0.0.0",
+  "description": "IDE for mindstorms VM code.",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "express": "^4.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ev3"
+  ],
+  "engines" : {
+    "node" : "0.12.x"
+  }
+}
