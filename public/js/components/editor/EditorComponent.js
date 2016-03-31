@@ -64,6 +64,21 @@ var EditorComponent = React.createClass({
 			return motorSettings;
 		},
 
+		getSensorSettings: function() {
+			var localStorage 	= LocalStorage.getInstance(),
+				sensorSettings 	= localStorage.get(
+					'sensorSettings',
+					{
+						sensor1: true,
+						sensor2: true,
+						sensor3: true,
+						sensor4: true
+					}
+				);
+
+			return sensorSettings;
+		},
+
 		updateFiles: function() {
 			var files = this.refs.files;
 			files.setState(files.state);
@@ -187,7 +202,7 @@ var EditorComponent = React.createClass({
 		},
 
 		onSensors: function() {
-			this.refs.sensorsDialog.show();
+			this.refs.sensorsDialog.show(this.refs.output.setMotorInfo);
 		},
 
 		onExamples: function() {
@@ -481,7 +496,8 @@ var EditorComponent = React.createClass({
 					{
 						type: SensorsDialog,
 						props: {
-							ref: 'sensorsDialog'
+							editor: this,
+							ref: 	'sensorsDialog'
 						}
 					},
 					{

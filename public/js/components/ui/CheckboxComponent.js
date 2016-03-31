@@ -9,6 +9,11 @@ var CheckboxComponent = React.createClass({
 			return this.state.checked;
 		},
 
+		setChecked: function(checked) {
+			this.state.checked = checked;
+			this.setState(this.state);
+		},
+
 		onClick: function() {
 			var checked = this.state.checked;
 			this.setState({

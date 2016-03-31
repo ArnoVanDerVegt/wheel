@@ -4,16 +4,22 @@ var SensorsDialog = React.createClass({
 				visible: 	false,
 				title: 		'Sensors setup',
 				sensors: {
-					sensor1: 	true,
-					sensor2: 	true,
-					sensor3: 	true,
-					sensor4: 	true,
+					sensor1: true,
+					sensor2: true,
+					sensor3: true,
+					sensor4: true,
 				}
 			};
 		},
 
-		show: function() {
-			this.state.visible = true;
+		show: function(callback) {
+			this._callback 		= callback;
+			this.state.visible 	= true;
+
+			var sensorSettings = this.props.editor.getSensorSettings();
+			for (var i in sensorSettings) {
+				this.refs[i] && this.refs[i].setChecked(sensorSettings[i]);
+			}
 			this.setState(this.state);
 		},
 
@@ -29,10 +35,14 @@ var SensorsDialog = React.createClass({
 		},
 
 		onConfirm: function() {
-			this.state.onConfirm && this.state.onConfirm();
-			this.setState({
-				visible: false
-			});
+			var sensorSettings = this.props.editor.getSensorSettings();
+			for (var i in sensorSettings) {
+				this.refs[i] && (sensorSettings[i] = this.refs[i].getChecked());
+			}
+			LocalStorage.getInstance().set('sensorSettings', sensorSettings);
+
+			this._callback && this._callback();
+			this.hide();
 		},
 
 		render: function() {
@@ -56,6 +66,7 @@ var SensorsDialog = React.createClass({
 				];
 
 			for (var sensor in sensors) {
+/*
 				var sensorTypesChildren = [];
 
 				for (var i = 0; i < sensorTypes.length; i++) {
@@ -79,6 +90,7 @@ var SensorsDialog = React.createClass({
 						]
 					});
 				}
+*/
 				sensorChildren.push({
 					props: {
 						className: 'row'
@@ -87,6 +99,7 @@ var SensorsDialog = React.createClass({
 						{
 							type: CheckboxComponent,
 							props: {
+								ref: 		sensor,
 								slider: 	true,
 								checked: 	sensors[sensor]
 							}
@@ -97,7 +110,7 @@ var SensorsDialog = React.createClass({
 								innerHTML: 	formatTitle(sensor)
 							}
 						}
-					].concat(sensorTypesChildren)
+					]//.concat(sensorTypesChildren)
 				});
 			}
 

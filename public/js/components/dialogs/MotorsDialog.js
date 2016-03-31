@@ -42,13 +42,18 @@ var MotorsDialog = React.createClass({
 
 		show: function(updateCallback) {
 			var motorSettings 	= this.props.editor.getMotorSettings(),
-				motors 			= motorSettings.motors;
+				motors 			= motorSettings.motors,
+				motorProperties	= motorSettings.motorProperties;
 
 			var state = this.state;
 			state.visible = true;
 			for (var i in motors) {
 				state.motors[i] = motors[i];
 				this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motors[i]});
+			}
+			for (var i in motorProperties) {
+				state.motorProperties[i] = motorProperties[i];
+				this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motorProperties[i]});
 			}
 
 			state.motorProperties 	= motorSettings.motorProperties;
@@ -67,12 +72,19 @@ var MotorsDialog = React.createClass({
 
 		onConfirm: function() {
 			var motorSettings 	= this.props.editor.getMotorSettings(),
-				motors 			= motorSettings.motors;
+				motors 			= motorSettings.motors,
+				motorProperties = motorSettings.motorProperties;
 
 			for (var i in motors) {
 				if (this.refs.tabs.refs[i]) {
 					motors[i] 				= this.refs.tabs.refs[i].getChecked();
 					this.state.motors[i] 	= motors[i];
+				}
+			}
+			for (var i in motorProperties) {
+				if (this.refs.tabs.refs[i]) {
+					motorProperties[i] 				= this.refs.tabs.refs[i].getChecked();
+					this.state.motorProperties[i] 	= motorProperties[i];
 				}
 			}
 			LocalStorage.getInstance().set('motorSettings', motorSettings);
@@ -139,6 +151,7 @@ var MotorsDialog = React.createClass({
 							{
 								type: CheckboxComponent,
 								props: {
+									ref: 		property,
 									checked: 	motorProperties[properties[i]],
 									onChange: 	function(checked) {
 										this.state.motorProperties[property] = checked;

@@ -459,15 +459,7 @@ var OutputComponent = React.createClass({
 					{ title: 'MMotor 3-2', 	ref: 'motor3_2' },
 					{ title: 'MMotor 4-1', 	ref: 'motor4_1' },
 					{ title: 'MMotor 4-2', 	ref: 'motor4_2' }
-				],
-				motorProperties: {
-					type: 		true,
-					position: 	true,
-					target: 	true,
-					power: 		true,
-					speed: 		true,
-					range: 		true
-				}
+				]
 			}
 		},
 
@@ -509,7 +501,9 @@ var OutputComponent = React.createClass({
 		render: function() {
 			var motorSettings 	= this.props.editor.getMotorSettings(),
 				motors 			= this.state.motors,
+				motorProperties	= motorSettings.motorProperties,
 				motorChildren 	= [];
+
 			for (var i = 0; i < motors.length; i++) {
 				var motor = motors[i];
 				if (motorSettings.motors[motor.ref]) {
@@ -520,11 +514,22 @@ var OutputComponent = React.createClass({
 							index: 				i,
 							ref: 				'motor' + i,
 							title: 				motor.title,
-							motorProperties: 	this.state.motorProperties
+							motorProperties: 	motorProperties
 						}}
 					);
 				}
 			}
+
+			var sensorSettings = this.props.editor.getSensorSettings(),
+				sensorChildren = [];
+
+			for (var i in sensorSettings) {
+				if (sensorSettings[i]) {
+					sensorChildren.push({ type: EV3SensorComponent, props: { ref: i, title: i }});
+				}
+			}
+
+
 			return utilsReact.fromJSON({
 				props: {
 					className: 'output ' + (this.state.small ? ' small' : ' large')
@@ -554,12 +559,7 @@ var OutputComponent = React.createClass({
 								props: {
 									className: 'sensor-container'
 								},
-								children: [
-									{ type: EV3SensorComponent, props: { ref: 'sensor1',  	title: 'Sensor 1' }},
-									{ type: EV3SensorComponent, props: { ref: 'sensor2', 	title: 'Sensor 2' }},
-									{ type: EV3SensorComponent, props: { ref: 'sensor3',	title: 'Sensor 3' }},
-									{ type: EV3SensorComponent, props: { ref: 'sensor4', 	title: 'Sensor 4' }}
-								]
+								children: sensorChildren
 							}
 						]
 					}
