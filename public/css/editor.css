@@ -48,6 +48,9 @@ h4 {
 .half {
 	width: 								50%;
 }
+.third {
+	width: 								33%;
+}
 
 /* Header */
 #main .header {
@@ -65,19 +68,24 @@ h4 {
 	position: 							absolute;
 	left: 								0px;
 	top: 								0px;
-	width: 								calc(100% - 196);
+	width: 								100%;
 	height: 							48px;
+}
+#main .header .menu li {
+	list-style-type: 					none;
+}
+#main .header .menu li.active-project {
+	float: 								right;
+	margin: 							0 8px 0 8px;
 }
 #main .header .menu li.menu-item {
 	float: 								left;
 	position: 							relative;
 	height: 							48px;
 	margin: 							0 8px 0 8px;
-	list-style-type: 					none;
-	/*border: 							4px solid transparent;
-	border-width: 						0 0 4px 0;*/
 }
-#main .header .menu li.menu-item .menu-item-title {
+#main .header .menu li.menu-item .menu-item-title,
+#main .header .menu li.active-project span {
 	float: 								left;
 	color: 								#FFFFFF;
 	font-family:						'Roboto', sans-serif;
@@ -85,6 +93,10 @@ h4 {
 	line-height: 						48px;
 	height: 							40px;
 	cursor: 							pointer;
+}
+#main .header .menu li.active-project span {
+	font-weight: 						400;
+	font-style: 						italic;
 }
 #main .header .menu li.menu-item:hover .menu-item-title {
 	border: 							4px solid #FFFFFF;
@@ -526,7 +538,8 @@ h4 {
 .dialog.motors .motors-content {
 	float: 								right;
 }
-.dialog.motors .motors-content .half {
+.dialog.motors .motors-content .half,
+.dialog.motors .motors-content .third {
 	float: 								left;
 }
 .dialog.motors .motors-content .row {

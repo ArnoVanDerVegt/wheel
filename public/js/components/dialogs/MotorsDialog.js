@@ -4,10 +4,22 @@ var MotorsDialog = React.createClass({
 				visible: 	false,
 				title: 		'Motors setup',
 				motors: {
-					motorA: 	true,
-					motorB: 	true,
-					motorC: 	true,
-					motorD: 	true,
+					motor1_A: 	false,
+					motor1_B: 	false,
+					motor1_C: 	false,
+					motor1_D: 	false,
+					motor2_A: 	false,
+					motor2_B: 	false,
+					motor2_C: 	false,
+					motor2_D: 	false,
+					motor3_A: 	false,
+					motor3_B: 	false,
+					motor3_C: 	false,
+					motor3_D: 	false,
+					motor4_A: 	false,
+					motor4_B: 	false,
+					motor4_C: 	false,
+					motor4_D: 	false,
 					motor1_1: 	false,
 					motor1_2: 	false,
 					motor2_1: 	false,
@@ -18,27 +30,29 @@ var MotorsDialog = React.createClass({
 					motor4_2: 	false,
 				},
 				motorProperties: {
-					type: 		true,
-					position: 	true,
-					target: 	true,
-					power: 		true,
-					speed: 		true,
-					range: 		true
+					type: 		false,
+					position: 	false,
+					target: 	false,
+					power: 		false,
+					speed: 		false,
+					range: 		false
 				}
 			};
 		},
 
-		show: function(motorState, motorProperties, updateCallback) {
+		show: function(updateCallback) {
+			var motorSettings 	= this.props.editor.getMotorSettings(),
+				motors 			= motorSettings.motors;
+
 			var state = this.state;
 			state.visible = true;
-			for (var i = 0; i < motorState.length; i++) {
-				var ref = motorState[i].ref;
-				if (ref in state.motors) {
-					state.motors[ref] = motorState[i].visible;
-				}
+			for (var i in motors) {
+				state.motors[i] = motors[i];
+				this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motors[i]});
 			}
-			state.motorProperties = motorProperties;
-			this._updateCallback = updateCallback;
+
+			state.motorProperties 	= motorSettings.motorProperties;
+			this._updateCallback 	= updateCallback;
 			this.setState(this.state);
 		},
 
@@ -52,7 +66,18 @@ var MotorsDialog = React.createClass({
 		},
 
 		onConfirm: function() {
-			this._updateCallback && this._updateCallback(this.state.motors, this.state.motorProperties);
+			var motorSettings 	= this.props.editor.getMotorSettings(),
+				motors 			= motorSettings.motors;
+
+			for (var i in motors) {
+				if (this.refs.tabs.refs[i]) {
+					motors[i] 				= this.refs.tabs.refs[i].getChecked();
+					this.state.motors[i] 	= motors[i];
+				}
+			}
+			LocalStorage.getInstance().set('motorSettings', motorSettings);
+
+			this._updateCallback && this._updateCallback();
 			this.hide();
 		},
 
@@ -66,14 +91,14 @@ var MotorsDialog = React.createClass({
 					return title;
 				},
 				motors 				= this.state.motors,
-				motorChildrenLeft 	= [],
-				motorChildrenRight 	= [],
+				motorChildrenColums = [[], [], []],
 				motorProperties		= this.state.motorProperties,
 				properties 			= ['type', 'position', 'target', 'power', 'speed', 'range'],
 				propertiesChildren	= [];
 
+			var i = 0;
 			for (var motor in motors) {
-				var motorChildren = (motor.indexOf('_') === -1) ? motorChildrenLeft : motorChildrenRight;
+				var motorChildren = motorChildrenColums[i >> 3];
 				(function(motor) {
 					motorChildren.push({
 						props: {
@@ -83,6 +108,7 @@ var MotorsDialog = React.createClass({
 							{
 								type: CheckboxComponent,
 								props: {
+									ref: 		motor,
 									checked: 	motors[motor],
 									onChange: 	function(checked) {
 										this.state.motors[motor] = checked;
@@ -100,6 +126,7 @@ var MotorsDialog = React.createClass({
 						]
 					});
 				}).call(this, motor);
+				i++;
 			}
 
 			for (var i = 0; i < properties.length; i++) {
@@ -133,20 +160,30 @@ var MotorsDialog = React.createClass({
 
 			var motorSelectPage = {
 					props: {
-						className: 'motors-content',
+						ref: 		'motorSelectPage',
+						className: 	'motors-content',
 					},
 					children: [
 						{
 							props: {
-								className: 'half'
+								ref: 		'c0',
+								className: 	'third'
 							},
-							children: motorChildrenLeft
+							children: motorChildrenColums[0]
 						},
 						{
 							props: {
-								className: 'half'
+								ref: 		'c1',
+								className: 	'third'
 							},
-							children: motorChildrenRight
+							children: motorChildrenColums[1]
+						},
+						{
+							props: {
+								ref: 		'c2',
+								className: 	'third'
+							},
+							children: motorChildrenColums[2]
 						}
 					]
 				},
@@ -166,6 +203,7 @@ var MotorsDialog = React.createClass({
 						{
 							type: TabsComponent,
 							props: {
+								ref: 	'tabs',
 								pages: [
 									{
 										title: 		'Motors',

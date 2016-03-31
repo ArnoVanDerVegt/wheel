@@ -1,4 +1,6 @@
-#include "standard"
+#project "Demo"
+
+#include "standard.asm"
 
 ; proc header remark
 proc test2(number qq)

@@ -434,31 +434,31 @@ var OutputComponent = React.createClass({
 			return {
 				small: true,
 				motors: [
-					{ title: 'Motor 1_A', 	ref: 'motor1_A', 	visible: true },
-					{ title: 'Motor 1_B', 	ref: 'motor1_B', 	visible: true },
-					{ title: 'Motor 1_C', 	ref: 'motor1_C', 	visible: true },
-					{ title: 'Motor 1_D', 	ref: 'motor1_D', 	visible: true },
-					{ title: 'Motor 2_A', 	ref: 'motor2_A', 	visible: false },
-					{ title: 'Motor 2_B', 	ref: 'motor2_B', 	visible: false },
-					{ title: 'Motor 2_C', 	ref: 'motor2_C', 	visible: false },
-					{ title: 'Motor 2_D', 	ref: 'motor2_D', 	visible: false },
-					{ title: 'Motor 3_A', 	ref: 'motor3_A', 	visible: false },
-					{ title: 'Motor 3_B', 	ref: 'motor3_B', 	visible: false },
-					{ title: 'Motor 3_C', 	ref: 'motor3_C', 	visible: false },
-					{ title: 'Motor 3_D', 	ref: 'motor3_D', 	visible: false },
-					{ title: 'Motor 4_A', 	ref: 'motor4_A', 	visible: false },
-					{ title: 'Motor 4_B', 	ref: 'motor4_B', 	visible: false },
-					{ title: 'Motor 4_C', 	ref: 'motor4_C', 	visible: false },
-					{ title: 'Motor 4_D', 	ref: 'motor4_D', 	visible: false },
+					{ title: 'Motor 1_A', 	ref: 'motor1_A' },
+					{ title: 'Motor 1_B', 	ref: 'motor1_B' },
+					{ title: 'Motor 1_C', 	ref: 'motor1_C' },
+					{ title: 'Motor 1_D', 	ref: 'motor1_D' },
+					{ title: 'Motor 2_A', 	ref: 'motor2_A' },
+					{ title: 'Motor 2_B', 	ref: 'motor2_B' },
+					{ title: 'Motor 2_C', 	ref: 'motor2_C' },
+					{ title: 'Motor 2_D', 	ref: 'motor2_D' },
+					{ title: 'Motor 3_A', 	ref: 'motor3_A' },
+					{ title: 'Motor 3_B', 	ref: 'motor3_B' },
+					{ title: 'Motor 3_C', 	ref: 'motor3_C' },
+					{ title: 'Motor 3_D', 	ref: 'motor3_D' },
+					{ title: 'Motor 4_A', 	ref: 'motor4_A' },
+					{ title: 'Motor 4_B', 	ref: 'motor4_B' },
+					{ title: 'Motor 4_C', 	ref: 'motor4_C' },
+					{ title: 'Motor 4_D', 	ref: 'motor4_D' },
 
-					{ title: 'MMotor 1-1', 	ref: 'motor1_1', 	visible: false },
-					{ title: 'MMotor 1-2', 	ref: 'motor1_2', 	visible: false },
-					{ title: 'MMotor 2-1', 	ref: 'motor2_1', 	visible: false },
-					{ title: 'MMotor 2-2', 	ref: 'motor2_2', 	visible: false },
-					{ title: 'MMotor 3-1', 	ref: 'motor3_1', 	visible: false },
-					{ title: 'MMotor 3-2', 	ref: 'motor3_2', 	visible: false },
-					{ title: 'MMotor 4-1', 	ref: 'motor4_1', 	visible: false },
-					{ title: 'MMotor 4-2', 	ref: 'motor4_2', 	visible: false }
+					{ title: 'MMotor 1-1', 	ref: 'motor1_1' },
+					{ title: 'MMotor 1-2', 	ref: 'motor1_2' },
+					{ title: 'MMotor 2-1', 	ref: 'motor2_1' },
+					{ title: 'MMotor 2-2', 	ref: 'motor2_2' },
+					{ title: 'MMotor 3-1', 	ref: 'motor3_1' },
+					{ title: 'MMotor 3-2', 	ref: 'motor3_2' },
+					{ title: 'MMotor 4-1', 	ref: 'motor4_1' },
+					{ title: 'MMotor 4-2', 	ref: 'motor4_2' }
 				],
 				motorProperties: {
 					type: 		true,
@@ -471,17 +471,8 @@ var OutputComponent = React.createClass({
 			}
 		},
 
-		setMotorInfo: function(motorState, motorProperties) {
-			var state 	= this.state,
-				motors 	= state.motors;
-			for (var i = 0; i < motors.length; i++) {
-				var motor = motors[i];
-				if (motor.ref in motorState) {
-					motor.visible = motorState[motor.ref];
-				}
-			}
-			state.motorProperties = motorProperties;
-			this.setState(state);
+		setMotorInfo: function() {
+			this.setState(this.state);
 		},
 
 		onUpdateMotors: function(changed) {
@@ -516,11 +507,12 @@ var OutputComponent = React.createClass({
 		},
 
 		render: function() {
-			var motors 			= this.state.motors,
+			var motorSettings 	= this.props.editor.getMotorSettings(),
+				motors 			= this.state.motors,
 				motorChildren 	= [];
 			for (var i = 0; i < motors.length; i++) {
 				var motor = motors[i];
-				if (motor.visible) {
+				if (motorSettings.motors[motor.ref]) {
 					motorChildren.push({
 						type: EV3MotorComponent,
 						props: {

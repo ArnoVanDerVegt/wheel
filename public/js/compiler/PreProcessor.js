@@ -56,20 +56,30 @@ var ReplaceTree = Class(function() {
 
 var FileProcessor = Class(function() {
 		this.init = function(opts) {
+			this._preProcessor 	= opts.preProcessor;
 			this._files 		= opts.files;
 			this._replaceTree 	= opts.replaceTree;
 		};
 
+		this.checkTabs = function(line) {
+			var result = '';
+			for (var i = 0; i < line.length; i++) {
+				var c = line[i];
+				result += (c === "\t") ? '    ' : c;
+			}
+			return result;
+		};
+
 		this.checkRemark = function(line) {
 			for (var i = 0; i < line.length; i++) {
-				var c = line[i++];
+				var c = line[i];
 				switch (c) {
 					case '"':
 						while ((i < line.length) && (line[i++] !== '"')) {}
 						break;
 
 					case ';':
-						return line.substr(0, i - 2);
+						return line.substr(0, i - 1);
 						break;
 				}
 			}
@@ -103,10 +113,21 @@ var FileProcessor = Class(function() {
 			return line.substr(0, i);
 		};
 
+		this.checkProject = function(line) {
+			var i = line.indexOf('#project');
+			if (i === -1) {
+				return line;
+			}
+
+			return line.substr(0, i);
+		};
+
 		this.process = function(lines) {
 			var result = [];
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
+				line = this.checkTabs(line);
+				line = this.checkProject(line);
 				line = this.checkRemark(line);
 				line = this.checkDefine(line);
 				line = this.checkDefines(line);
@@ -128,7 +149,12 @@ var FileProcessor = Class(function() {
 						filename = filename.substr(1, filename.length - 2);
 						if (result.indexOf(filename) === -1) {
 							if (this._files.exists(filename) === false) {
-								throw new Error('File not found "' + filename + '".');
+								var path = this._preProcessor.getPath() + '/';
+								if (this._files.exists(path + filename) !== false) {
+									result.push(path + filename);
+								} else {
+									throw new Error('File not found "' + filename + '".');
+								}
 							} else {
 								result.push(filename);
 							}
@@ -145,8 +171,10 @@ var FileProcessor = Class(function() {
 
 var PreProcessor = Class(function() {
 		this.init = function(opts) {
+			this._path 			= '';
 			this._files 		= opts.files;
 			this._filesDone 	= {};
+			this._fileCount 	= 0;
 			this._replaceTree 	= new ReplaceTree({});
 			this._fileProcessor = new FileProcessor({
 				preProcessor: 	this,
@@ -155,67 +183,91 @@ var PreProcessor = Class(function() {
 			});
 		};
 
-		this.getFileData = function(filename) {
+		this.getPath = function() {
+			return this._path;
+		};
+
+		this.getFileData = function(filename, callback) {
 			var index = this._files.exists(filename);
 			if (index !== false) {
 				var file = this._files.getFile(index);
 				if (file) {
-					return file.getData().split("\n");
+					if (callback) {
+						return file.getData(callback);
+					}
+					return file.getData();
 				}
 			}
-			return [''];
+			callback();
 		};
 
-		this.processFile = function(filename, depth) {
+		this.processFile = function(filename, depth, finishedCallback) {
 			var filesDone = this._filesDone;
 			filesDone[filename] = {depth: depth, index: 0};
 
-			var lines 			= this.getFileData(filename),
-				includes 		= this._fileProcessor.processIncludes(lines),
-				allFilesDone 	= false;
+			this._fileCount++;
+			this.getFileData(
+				filename,
+				function(data) {
+					var lines 			= data.split("\n"),
+						includes 		= this._fileProcessor.processIncludes(lines),
+						allFilesDone 	= false;
 
-			for (var i = 0; i < includes.length; i++) {
-				var include = includes[i];
-				if (include in filesDone) {
-					var fileDone = filesDone[filename];
-					if (depth > fileDone[filename].depth) {
-						fileDone[filename].depth = depth;
-						fileDone[filename].index = i;
+					for (var i = 0; i < includes.length; i++) {
+						var include = includes[i];
+						if (include in filesDone) {
+							var fileDone = filesDone[filename];
+							if (depth > fileDone[filename].depth) {
+								fileDone[filename].depth = depth;
+								fileDone[filename].index = i;
+							}
+						} else {
+							this.processFile(include, depth + 1, finishedCallback);
+						}
 					}
-				} else {
-					this.processFile(include, depth + 1);
-				}
-			}
-		}
 
-		this.process = function(filename) {
+					this._fileCount--;
+					(this._fileCount === 0) && finishedCallback();
+				}.bind(this)
+			)
+		};
+
+		this.process = function(path, filename, finishedCallback) {
+			this._path = path;
 			this._replaceTree.reset();
 
 			this._filesDone = {};
-			this.processFile(filename, 0);
-
-			var filesDone 	= this._filesDone,
-				includes 	= [];
-			for (var filename in filesDone) {
-				var fileDone = filesDone[filename];
-				includes.push({
-					filename: 	filename,
-					depth: 		fileDone.depth,
-					index: 		fileDone.index,
-					lines: 		this._fileProcessor.process(this.getFileData(filename)),
-					toString: 	function() {
-						var d = ('000000' + (this.depth * 10240)).substr(-6),
-							i = ('000000' + (this.index * 10240)).substr(-6);
-						return d + i;
+			this._fileCount = 0;
+			this.processFile(
+				filename,
+				0,
+				function() {
+					var filesDone 	= this._filesDone,
+						includes 	= [];
+					for (var filename in filesDone) {
+						var fileDone 	= filesDone[filename],
+							lines 		= this.getFileData(filename).split("\n");
+						includes.push({
+							filename: 	filename,
+							depth: 		fileDone.depth,
+							index: 		fileDone.index,
+							lines: 		this._fileProcessor.process(lines),
+							toString: 	function() {
+								var d = ('000000' + (this.depth * 10240)).substr(-6),
+									i = ('000000' + (this.index * 10240)).substr(-6);
+								return d + i;
+							}
+						});
 					}
-				});
-			}
-			includes.sort();
-			for (var i = includes.length - 1; i >= 0; i--) {
-				var include = includes[i];
-				include.lines = this._fileProcessor.process(this.getFileData(include.filename));
-			}
+					includes.sort();
+					for (var i = includes.length - 1; i >= 0; i--) {
+						var include = includes[i],
+							lines 	= this.getFileData(include.filename).split("\n");
+						include.lines = this._fileProcessor.process(lines);
+					}
 
-			return includes;
+					finishedCallback(includes);
+				}.bind(this)
+			);
 		};
 	});

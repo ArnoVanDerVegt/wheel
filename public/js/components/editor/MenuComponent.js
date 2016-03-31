@@ -1,269 +1,333 @@
 var MenuComponent = React.createClass({
+		createCallback: function(callback) {
+			var props = this.props;
+			return function() {
+				props.callbacks && props.callbacks[callback] && props.callbacks[callback]();
+			};
+		},
+
 		render: function() {
+			var props 			= this.props,
+				projectName 	= '',
+				projectTitle 	= '';
+
+			if (props.activeProject) {
+				projectName 	= props.activeProject.name;
+				projectTitle 	= props.activeProject.filename;
+			} else {
+				projectName = 'No project selected';
+			}
+
 			return 	utilsReact.fromJSON({
-				type: 'ul',
 				props: {
-					className: 	'menu',
+					className: 'header'
 				},
 				children: [
 					{
-						type: 'li',
+						type: 'ul',
 						props: {
-							className: 	'menu-item'
+							className: 	'menu',
 						},
 						children: [
 							{
-								type: 'span',
+								type: 'li',
 								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'File'
-								}
-							},
-							{
-								type: 'ul',
-								props: {
-									className: 'dropdown'
+									className: 'active-project'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 'New project'
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											innerHTML: 	'New file',
-											onClick: 	(function() { this.props.onFile && this.props.onFile() }).bind(this)
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											innerHTML: 'Save file',
-											onClick: 	(function() { this.props.onSave && this.props.onSave() }).bind(this)
+											innerHTML: 	projectName,
+											title: 		projectTitle,
+											onClick: 	this.createCallback('onShowProject')
 										}
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 	'menu-item'
-						},
-						children: [
-							{
-								type: 'span',
-								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'Edit'
-								}
 							},
 							{
-								type: 'ul',
+								type: 'li',
 								props: {
-									className: 'dropdown'
+									className: 	'menu-item'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 	'Undo',
-											onClick: 	(function() { this.props.onUndo && this.props.onUndo() }).bind(this)
+											className: 	'menu-item-title',
+											innerHTML: 	'File'
 										}
 									},
 									{
-										type: 'li',
+										type: 'ul',
 										props: {
-											innerHTML: 	'Redo',
-											onClick: 	(function() { this.props.onRedo && this.props.onRedo() }).bind(this)
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											className: 'separator'
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											innerHTML: 	'Select all',
-											onClick: 	(function() { this.props.onSelectAll && this.props.onSelectAll() }).bind(this)
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											innerHTML: 	'Format code',
-											onClick: 	(function() { this.props.onFormat && this.props.onFormat() }).bind(this)
-										}
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'New project'
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'New file',
+													onClick: 	this.createCallback('onFile')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'Save file',
+													onClick: 	this.createCallback('onSave')
+												}
+											}
+										]
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 	'menu-item'
-						},
-						children: [
-							{
-								type: 'span',
-								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'Find'
-								}
 							},
 							{
-								type: 'ul',
+								type: 'li',
 								props: {
-									className: 'dropdown'
+									className: 	'menu-item'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 	'Find',
-											onClick: 	(function() { this.props.onFind && this.props.onFind() }).bind(this)
+											className: 	'menu-item-title',
+											innerHTML: 	'Edit'
 										}
 									},
 									{
-										type: 'li',
+										type: 'ul',
 										props: {
-											innerHTML: 	'Find next',
-											onClick: 	(function() { this.props.onFindNext && this.props.onFindNext() }).bind(this)
-										}
-									},
-									{
-										type: 'li',
-										props: {
-											innerHTML: 	'Find previous',
-											onClick: 	(function() { this.props.onFindPrev && this.props.onFindPrev() }).bind(this)
-										}
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Undo',
+													onClick: 	this.createCallback('onUndo')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Redo',
+													onClick: 	this.createCallback('onRedo')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													className: 'separator'
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Select all',
+													onClick: 	this.createCallback('onSelectAll')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													className: 'separator'
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Format code',
+													onClick: 	this.createCallback('onFormatCode')
+												}
+											}
+										]
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 	'menu-item'
-						},
-						children: [
-							{
-								type: 'span',
-								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'Run',
-								}
 							},
 							{
-								type: 'ul',
+								type: 'li',
 								props: {
-									className: 'dropdown'
+									className: 	'menu-item'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 'Run'
+											className: 	'menu-item-title',
+											innerHTML: 	'Find'
 										}
 									},
 									{
-										type: 'li',
+										type: 'ul',
 										props: {
-											innerHTML: 'Stop'
-										}
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Find',
+													onClick: 	this.createCallback('onFind')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Find next',
+													onClick: 	this.createCallback('onFindNext')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Find previous',
+													onClick: 	this.createCallback('onFindPrev')
+												}
+											}
+										]
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 	'menu-item'
-						},
-						children: [
-							{
-								type: 'span',
-								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'Setup',
-								}
 							},
 							{
-								type: 'ul',
+								type: 'li',
 								props: {
-									className: 'dropdown'
+									className: 	'menu-item'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 	'Motors',
-											onClick: 	(function() { this.props.onMotors && this.props.onMotors() }).bind(this)
+											className: 	'menu-item-title',
+											innerHTML: 	'Run',
 										}
 									},
 									{
-										type: 'li',
+										type: 'ul',
 										props: {
-											innerHTML: 	'Sensors',
-											onClick: 	(function() { this.props.onSensors && this.props.onSensors() }).bind(this)
-										}
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'Run',
+													onClick: 	this.createCallback('onRun')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'Stop',
+													onClick: 	this.createCallback('onStop')
+												}
+											}
+										]
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 	'menu-item'
-						},
-						children: [
-							{
-								type: 'span',
-								props: {
-									className: 	'menu-item-title',
-									innerHTML: 	'View',
-								}
 							},
 							{
-								type: 'ul',
+								type: 'li',
 								props: {
-									className: 'dropdown'
+									className: 	'menu-item'
 								},
 								children: [
 									{
-										type: 'li',
+										type: 'span',
 										props: {
-											innerHTML: 'Large output'
+											className: 	'menu-item-title',
+											innerHTML: 	'Setup',
 										}
+									},
+									{
+										type: 'ul',
+										props: {
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Motors',
+													onClick: 	this.createCallback('onMotors')
+												}
+											},
+											{
+												type: 'li',
+												props: {
+													innerHTML: 	'Sensors',
+													onClick: 	this.createCallback('onSensors')
+												}
+											}
+										]
 									}
 								]
-							}
-						]
-					},
-					{
-						type: 'li',
-						props: {
-							className: 'menu-item'
-						},
-						children: [
+							},
 							{
-								type: 'span',
+								type: 'li',
 								props: {
-									className: 	'menu-item-title',
-									innerHTML: 'Examples',
-									onClick: 	(function() { this.props.onExamples && this.props.onExamples() }).bind(this)
-								}
+									className: 	'menu-item'
+								},
+								children: [
+									{
+										type: 'span',
+										props: {
+											className: 	'menu-item-title',
+											innerHTML: 	'View',
+										}
+									},
+									{
+										type: 'ul',
+										props: {
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'Large output',
+													onClick: 	this.createCallback('onToggleInput')
+												}
+											}
+										]
+									}
+								]
+							},
+							{
+								type: 'li',
+								props: {
+									className: 	'menu-item'
+								},
+								children: [
+									{
+										type: 'span',
+										props: {
+											className: 	'menu-item-title',
+											innerHTML: 	'Help',
+										}
+									},
+									{
+										type: 'ul',
+										props: {
+											className: 'dropdown'
+										},
+										children: [
+											{
+												type: 'li',
+												props: {
+													innerHTML: 'Examples',
+													onClick: 	this.createCallback('onExamples')
+												}
+											}
+										]
+									}
+								]
 							}
 						]
 					}

@@ -73,7 +73,7 @@ function createDialog(reactClass, dialogClassName, iconClassName, content, butto
 var AlertDialog = React.createClass({
 		getInitialState: function() {
 			return {
-				visible: 	true,
+				visible: 	false,
 				title: 		'This is the dialog title'
 			};
 		},

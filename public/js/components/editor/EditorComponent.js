@@ -7,8 +7,9 @@ var EditorComponent = React.createClass({
 				}.bind(this)
 			);
 			return {
-				small: 				false,
-				activeFileIndex: 	0
+				small: 					false,
+				activeFileIndex: 		0,
+				activeProject: 			null
 			}
 		},
 
@@ -18,29 +19,98 @@ var EditorComponent = React.createClass({
 			return files.getFile(state.activeFileIndex);
 		},
 
+		getMotorSettings: function() {
+			var localStorage 	= LocalStorage.getInstance(),
+				motorSettings 	= localStorage.get(
+					'motorSettings',
+					{
+						motors: {
+							motor1_A: 	true,
+							motor1_B: 	true,
+							motor1_C: 	true,
+							motor1_D: 	true,
+							motor2_A: 	false,
+							motor2_B: 	false,
+							motor2_C: 	false,
+							motor2_D: 	false,
+							motor3_A: 	false,
+							motor3_B: 	false,
+							motor3_C: 	false,
+							motor3_D: 	false,
+							motor4_A: 	false,
+							motor4_B: 	false,
+							motor4_C: 	false,
+							motor4_D: 	false,
+							motor1_1: 	false,
+							motor1_2: 	false,
+							motor2_1: 	false,
+							motor2_2: 	false,
+							motor3_1: 	false,
+							motor3_2: 	false,
+							motor4_1: 	false,
+							motor4_2: 	false,
+						},
+						motorProperties: {
+							type: 		true,
+							position: 	true,
+							target: 	true,
+							power: 		true,
+							speed: 		true,
+							range: 		true
+						}
+					}
+				);
+
+			return motorSettings;
+		},
+
 		updateFiles: function() {
 			var files = this.refs.files;
 			files.setState(files.state);
 		},
 
+		onShowProject: function() {
+			if (this.state.activeProject === null) {
+				return;
+			}
+			this.onSelectFile(this.state.activeProject.filename);
+		},
+
 		onRun: function() {
+			if (this.state.activeProject === null) {
+				var alertDialog = this.refs.alertDialog;
+				alertDialog.setState({
+					visible: 	true,
+					icon: 		'mdi-alert',
+					content: 	'There is no project selected yet. You can select a project by finding a .asmp file in the project folders.',
+					title: 		'Run - No project selected',
+				});
+				return;
+			}
+
 			var refs 			= this.refs,
 				props 			= this.props,
 				compiler		= props.compiler,
 				vm 				= props.vm,
 				files 			= props.files,
-				filename,
+				activeProject 	= this.state.activeProject,
+				path 			= activeProject.path,
+				filename 		= activeProject.filename,
 				outputCommands	= null;
 
 			try {
 				var preProcessor = new PreProcessor({files: files});
 
-				if (files.exists('test')) {
-					includes 		= preProcessor.process('test');
-					outputCommands 	= compiler.compile(includes);
-
-					vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
-					vm.run(outputCommands);
+				if (files.exists(filename)) {
+					preProcessor.process(
+						path,
+						filename,
+						function(includes) {
+							outputCommands 	= compiler.compile(includes);
+							vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
+							vm.run(outputCommands);
+						}
+					);
 				}
 			} catch (error) {
 				console.error(error);
@@ -78,7 +148,7 @@ var EditorComponent = React.createClass({
 			}
 		},
 
-		onFormat: function() {
+		onFormatCode: function() {
 			var file = this.getActiveFile();
 			if (file) {
 				file.setData(this.refs.codeMirror.formatCode());
@@ -111,12 +181,9 @@ var EditorComponent = React.createClass({
 		},
 
 		onMotors: function() {
-			var output = this.refs.output;
-			this.refs.motorsDialog.show(
-				output.state.motors,
-				output.state.motorProperties,
-				output.setMotorInfo
-			);
+			var output 			= this.refs.output,
+				motorSettings 	= this.getMotorSettings();
+			this.refs.motorsDialog.show(output.setMotorInfo);
 		},
 
 		onSensors: function() {
@@ -165,7 +232,35 @@ var EditorComponent = React.createClass({
 				file.getData(function(data) {
 					codeMirror.setReadOnly(false);
 					codeMirror.setCode(data);
-					this.setState(this.state);
+					var filename = file.getName();
+					if (filename.substr(-5) == '.asmp') {
+						var lines 	= data.split("\n"),
+							name 	= 'Project';
+						for (var i = 0; i < lines.length; i++) {
+							var line = lines[i].trim();
+							if (line.substr(0, 8) === '#project') {
+								line = line.substr(8 - line.length).trim();
+								if (line[0] === '"') {
+									var j 		= 1,
+										name 	= '';
+									while (j < line.length) {
+										if (line[j] === '"') {
+											break;
+										}
+										name += line[j++];
+									}
+								}
+								break;
+							}
+						}
+
+						state.activeProject = {
+							path: 		file.getPath(),
+							filename: 	filename,
+							name: 		name
+						}
+					}
+					this.setState(state);
 				}.bind(this));
 			}
 		},
@@ -311,20 +406,25 @@ var EditorComponent = React.createClass({
 				},
 				children: [
 					{
-						type: HeaderComponent,
+						type: MenuComponent,
 						props: {
-							onFile: 		this.onFile,
-							onSave: 		this.onSave,
-							onSelectAll: 	this.onSelectAll,
-							onFormat: 		this.onFormat,
-							onFind: 		this.onFind,
-							onFindNext: 	this.onFindNext,
-							onFindPrev: 	this.onFindPrev,
-							onUndo: 		this.onUndo,
-							onRedo: 		this.onRedo,
-							onMotors: 		this.onMotors,
-							onSensors: 		this.onSensors,
-							onExamples: 	this.onExamples
+							activeProject: this.state.activeProject,
+							callbacks: {
+								onShowProject: 	this.onShowProject,
+								onFile: 		this.onFile,
+								onSave: 		this.onSave,
+								onSelectAll: 	this.onSelectAll,
+								onFormatCode: 	this.onFormatCode,
+								onFind: 		this.onFind,
+								onFindNext: 	this.onFindNext,
+								onFindPrev: 	this.onFindPrev,
+								onUndo: 		this.onUndo,
+								onRedo: 		this.onRedo,
+								onMotors: 		this.onMotors,
+								onSensors: 		this.onSensors,
+								onExamples: 	this.onExamples,
+								onRun: 			this.onRun
+							}
 						}
 					},
 					{
@@ -351,6 +451,7 @@ var EditorComponent = React.createClass({
 						type: OutputComponent,
 						props: {
 							ref: 		'output',
+							editor: 	this,
 							onRun: 		this.onRun,
 							onSmall: 	this.onSmall,
 							onLarge: 	this.onLarge,
@@ -358,6 +459,12 @@ var EditorComponent = React.createClass({
 						}
 					},
 
+					{
+						type: AlertDialog,
+						props: {
+							ref: 'alertDialog'
+						}
+					},
 					{
 						type: ConfirmDialog,
 						props: {
@@ -367,7 +474,8 @@ var EditorComponent = React.createClass({
 					{
 						type: MotorsDialog,
 						props: {
-							ref: 'motorsDialog'
+							editor: this,
+							ref: 	'motorsDialog'
 						}
 					},
 					{

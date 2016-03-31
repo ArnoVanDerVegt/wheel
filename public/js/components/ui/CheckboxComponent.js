@@ -5,6 +5,10 @@ var CheckboxComponent = React.createClass({
 			};
 		},
 
+		getChecked: function() {
+			return this.state.checked;
+		},
+
 		onClick: function() {
 			var checked = this.state.checked;
 			this.setState({

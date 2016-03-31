@@ -81,7 +81,8 @@ var ev3_grammar = {
 			autocomplete: true,
 			tokens: [
 				'#define',
-				'#include'
+				'#include',
+				'#project'
 			]
 		},
 		'sign': {
