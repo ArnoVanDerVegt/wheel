@@ -8,6 +8,7 @@ var File = Class(function() {
 			this._hasData 	= ('data' in opts) || this._dir;
 			this._changed 	= ('saved' in opts) ? !opts.saved : true;
 			this._open 		= false;
+			this._meta		= {};
 		};
 
 		this.getName = function() {
@@ -101,6 +102,14 @@ var File = Class(function() {
 
 		this.setOpen = function(open) {
 			this._open = open;
+		};
+
+		this.getMeta = function() {
+			return this._meta;
+		};
+
+		this.setMeta = function(meta) {
+			this._meta = meta;
 		};
 
 		this.toString = function() {

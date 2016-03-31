@@ -103,6 +103,13 @@ var EditorComponent = React.createClass({
 				return;
 			}
 
+			var file = this.getActiveFile();
+			if (file) {
+				file.setData(this.refs.codeMirror.getCode(), true);
+			}
+
+			this.refs.console.clearMessages();
+
 			var refs 			= this.refs,
 				props 			= this.props,
 				compiler		= props.compiler,
@@ -121,10 +128,32 @@ var EditorComponent = React.createClass({
 						path,
 						filename,
 						function(includes) {
-							outputCommands 	= compiler.compile(includes);
-							vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
-							vm.run(outputCommands);
-						}
+							try {
+								outputCommands = compiler.compile(includes);
+								this.refs.codeMirror.setHighlight({});
+							} catch (error) {
+								var index = files.exists(error.filename);
+								if (index !== false) {
+									var file = files.getFile(index),
+										meta = file.getMeta();
+									if (!('highlightLines' in meta)) {
+										meta.highlightLines = {};
+									}
+									meta.highlightLines[error.lineNumber] = { className: 'line-error' };
+								}
+								//file.getMeta().highlightLines = {};
+
+								this.onSelectFile(error.filename);
+
+								this.refs.console.addError(error);
+
+								outputCommands = null;
+							}
+							if (outputCommands !== null) {
+								vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
+								vm.run(outputCommands);
+							}
+						}.bind(this)
 					);
 				}
 			} catch (error) {
@@ -216,6 +245,7 @@ var EditorComponent = React.createClass({
 			state.small = true;
 			this.setState(state);
 			this.refs.codeMirror.setLarge();
+			this.refs.console.setLarge();
 		},
 
 		onLarge: function() {
@@ -223,6 +253,7 @@ var EditorComponent = React.createClass({
 			state.small = false;
 			this.setState(state);
 			this.refs.codeMirror.setSmall();
+			this.refs.console.setSmall();
 		},
 
 		onSelectFile: function(filename) {
@@ -247,6 +278,7 @@ var EditorComponent = React.createClass({
 				file.getData(function(data) {
 					codeMirror.setReadOnly(false);
 					codeMirror.setCode(data);
+					codeMirror.setHighlight(file.getMeta().highlightLines || {});
 					var filename = file.getName();
 					if (filename.substr(-5) == '.asmp') {
 						var lines 	= data.split("\n"),
@@ -377,6 +409,11 @@ var EditorComponent = React.createClass({
 			}
 		},
 
+		onShowError: function(filename, lineNumber) {
+			this.onSelectFile(filename);
+			this.refs.codeMirror.highlightLine(lineNumber);
+		},
+
 		openFile: function(filename, data, canRename) {
 			var state 	= this.state,
 				files 	= this.props.files,
@@ -481,7 +518,14 @@ var EditorComponent = React.createClass({
 							motors: 	this.props.motors
 						}
 					},
-
+					{
+						type: ConsoleComponent,
+						props: {
+							ref: 			'console',
+							onShowError: 	this.onShowError,
+							editor: 		this
+						}
+					},
 					{
 						type: AlertDialog,
 						props: {

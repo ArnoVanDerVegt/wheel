@@ -3,6 +3,15 @@ var Compiler = Class(function() {
 			this._compilerData 		= new CompilerData({registers: opts.registers});
 			this._outputCommands 	= [];
 			this._mainIndex 		= -1;
+			this._filename 			= '';
+			this._lineNumber		= 0;
+		};
+
+		this.createError = function(message) {
+			var error = new Error(message);
+			error.filename 		= this._filename;
+			error.lineNumber 	= this._lineNumber;
+			return error;
 		};
 
 		this.paramInfo = function(param) {
@@ -57,7 +66,7 @@ var Compiler = Class(function() {
 				}
 
 				if (type === null) {
-					throw new Error('Undefined identifier "' + param + '".');
+					throw this.createError('Undefined identifier "' + param + '".');
 				}
 
 				return {
@@ -84,7 +93,7 @@ var Compiler = Class(function() {
 						}
 					}
 					if (!found) {
-						throw new Error('Type mismatch "' + param.param + '".');
+						throw this.createError('Type mismatch "' + param.param + '".');
 					}
 				}
 				return {
@@ -97,7 +106,7 @@ var Compiler = Class(function() {
 
 		this.validateCommand = function(command, params) {
 			if (!(command in commands)) {
-				throw new Error('Unknown command "' + command + '".');
+				throw this.createError('Unknown command "' + command + '".');
 			}
 
 			for (var i = 0; i < params.length; i++) {
@@ -110,10 +119,17 @@ var Compiler = Class(function() {
 			var compilerData 	= this._compilerData,
 				i 				= line.indexOf('('),
 				procedure 		= line.substr(0, i),
-				p 				= compilerData.findProcedure(procedure);
+				valid 			= '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
 
+			for (var j = 0; j < procedure.length; j++) {
+				if (valid.indexOf(procedure[j]) === -1) {
+					throw this.createError('Syntax error.');
+				}
+			}
+
+			var p = compilerData.findProcedure(procedure);
 			if (p === null) {
-				throw new Error('Unknown procedure "' + procedure + '".');
+				throw this.createError('Unknown procedure "' + procedure + '".');
 			} else {
 				var params = line.substr(i + 1, line.length - i - 2).trim();
 				params = params.length ? params.split(',') : [];
@@ -173,7 +189,7 @@ var Compiler = Class(function() {
 			for (var j = 0; j < params.length; j++) {
 				var param = params[j].trim().split(' ');
 				if (param.length !== 2) {
-					throw new Error('Syntax error in procedure parameter "' + params[j] + '".');
+					throw this.createError('Syntax error in procedure parameter "' + params[j] + '".');
 				}
 				switch (param[0]) {
 					case 'bool':
@@ -185,7 +201,7 @@ var Compiler = Class(function() {
 						break;
 
 					default:
-						throw new Error('Unknown type "' + param[0] + '".');
+						throw this.createError('Unknown type "' + param[0] + '".');
 				}
 				outputCommand.paramTypes.push(param[0]);
 			}
@@ -210,6 +226,7 @@ var Compiler = Class(function() {
 				activeProc 		= null;
 
 			for (var i = 0; i < lines.length; i++) {
+				this._lineNumber = i;
 				var line = lines[i].trim();
 				if (line !== '') {
 					if ((line.indexOf('proc') === -1) && (line.indexOf('(') !== -1)) {
@@ -222,7 +239,6 @@ var Compiler = Class(function() {
 								command: 	'ret',
 								code: 		81
 							});
-							// Update the jump command...
 							outputCommands[procStartIndex].localCount = compilerData.getLocalIndex();
 							procStartIndex 	= -1;
 							compilerData.resetLocal();
@@ -297,11 +313,13 @@ var Compiler = Class(function() {
 
 			var i = includes.length;
 			while (i) {
-				this.compileLines(includes[--i].lines);
+				i--;
+				this._filename = includes[i].filename;
+				this.compileLines(includes[i].lines);
 			}
 
 			if (this._mainIndex === -1) {
-				throw new Error('No main procedure found.');
+				throw this.createError('No main procedure found.');
 			}
 
 			this._outputCommands.mainIndex = this._mainIndex;

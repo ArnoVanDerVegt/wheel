@@ -1,31 +1,9 @@
-/*
-function highlightLine(lineNumber) {
-
-    //Line number is zero based index
-    var actualLineNumber = lineNumber - 1;
-
-    //Select editor loaded in the DOM
-    var myEditor = $("#body_EditorSource .CodeMirror");
-
-    //Write the item to the console window, for debugging
-    console.log(myEditor);
-
-    //Select the first item (zero index) just incase more than one found & get the CodeMirror JS object
-    var codeMirrorEditor = myEditor[0].CodeMirror;
-
-    //Write the item to the console window, for debugging
-    console.log(myEditor[0].CodeMirror);
-
-    //Set line CSS class to the line number & affecting the background of the line with the css class of line-error
-    codeMirrorEditor.setLineClass(actualLineNumber, 'background', 'line-error');
-}
-*/
-
 var CodeMirrorComponent = React.createClass({
 		getInitialState: function() {
 			return {
 				small: 		false,
-				readOnly: 	false
+				readOnly: 	false,
+				highlight: 	{}
 			};
 		},
 
@@ -100,6 +78,15 @@ var CodeMirrorComponent = React.createClass({
 				setTimeout(
 					function() {
 						this._editor.focus();
+
+
+					var highlight = this.state.highlight;
+					for (var lineNumber in highlight) {
+						lineNumber = parseInt(lineNumber, 10);
+						this._editor.removeLineClass(lineNumber, 'background', highlight[lineNumber].className || 'line-error');
+						this._editor.addLineClass(lineNumber, 'background', highlight[lineNumber].className || 'line-error');
+					}
+
 					}.bind(this),
 					50
 				);
@@ -120,6 +107,12 @@ var CodeMirrorComponent = React.createClass({
 			);
 		},
 
+		highlightLine: function(lineNumber, className) {
+			var state = this.state;
+			state.highlight[lineNumber] = { className: className || 'line-error' };
+			this._editor && this._editor.addLineClass(lineNumber, 'background', className || 'line-error');
+		},
+
 		getCode: function() {
 			return this._editor.getValue();
 		},
@@ -128,6 +121,25 @@ var CodeMirrorComponent = React.createClass({
 			this._allowPublish = false;
 			this._editor.setValue(code);
 			this._allowPublish = true;
+		},
+
+		setHighlight: function(highlight) {
+			var state 	= this.state,
+				same 	= true;
+			if (Object.keys(highlight).length === Object.keys(state.highlight).length) {
+				for (var i in highlight) {
+					if (state.highlight[i].className !== highlight[i].className) {
+						same = false;
+						break;
+					}
+				}
+			} else {
+				same = false;
+			}
+			if (!same) {
+				this.state.highlight = highlight;
+				this.setState(this.state);
+			}
 		},
 
 		setSmall: function() {

@@ -191,6 +191,7 @@ var PreProcessor = Class(function() {
 			var index = this._files.exists(filename);
 			if (index !== false) {
 				var file = this._files.getFile(index);
+				file.getMeta().highlightLines = {};
 				if (file) {
 					if (callback) {
 						return file.getData(callback);
