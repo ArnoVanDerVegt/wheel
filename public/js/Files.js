@@ -228,7 +228,7 @@ var Files = Class(Emitter, function(supr) {
 						for (var i = 0; i < files.length; i++) {
 							if (files[i].getName() === name) {
 								files.splice(i, 1);
-								return;
+								break;
 							}
 						}
 					}

@@ -294,13 +294,21 @@ var EditorComponent = React.createClass({
 					files.removeFile(
 						file.getName(),
 						function() {
+							var refs = this.refs;
 							state.activeFileIndex 	= 0;
 							file 					= files.getFile(0);
 							if (file) {
-								file.getData(function(data) {
-									this.refs.codeMirror.setCode(data);
-									this.setState(state);
-								}.bind(this));
+								if (file.getDir()) {
+									refs.files.setState(refs.files.state);
+									refs.codeMirror.setReadOnly(true);
+								} else {
+									file.getData(function(data) {
+										refs.codeMirror.setReadOnly(false);
+										refs.codeMirror.setCode(data);
+									}.bind(this));
+								}
+							} else {
+								refs.files.setState(refs.files.state);
 							}
 						}.bind(this)
 					);
