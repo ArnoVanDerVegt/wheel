@@ -5,6 +5,7 @@ var Compiler = Class(function() {
 			this._mainIndex 		= -1;
 			this._filename 			= '';
 			this._lineNumber		= 0;
+			this._includes 			= null;
 		};
 
 		this.createError = function(message) {
@@ -310,6 +311,7 @@ var Compiler = Class(function() {
 			this._compilerData.reset();
 			this._outputCommands.length = 0;
 			this._mainIndex 			= -1;
+			this._includes 				= includes;
 
 			var i = includes.length;
 			while (i) {
@@ -324,5 +326,13 @@ var Compiler = Class(function() {
 
 			this._outputCommands.mainIndex = this._mainIndex;
 			return this._outputCommands;
+		};
+
+		this.getIncludes = function() {
+			return this._includes;
+		};
+
+		this.getCompilerData = function() {
+			return this._compilerData;
 		};
 	});

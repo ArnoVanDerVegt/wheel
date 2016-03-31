@@ -407,13 +407,20 @@ var EV3ScreenComponent = React.createClass({
 							},
 							{
 								props: {
-									className: 'mdi mdi-stop'
+									className: 'mdi mdi-stop',
+									onClick: 	(function() { this.props.onStop && this.props.onStop(); }).bind(this)
 								}
 							},
 							{
 								props: {
-									className: 'mdi mdi-magnify',
+									className: 'mdi mdi-crop-free',
 									onClick: 	this.onZoom
+								}
+							},
+							{
+								props: {
+									className: 'mdi mdi-comment-outline',
+									onClick: 	(function() { this.props.onShowConsole && this.props.onShowConsole(); }).bind(this)
 								}
 							}
 						]
@@ -538,10 +545,12 @@ var OutputComponent = React.createClass({
 					{
 						type: EV3ScreenComponent,
 						props: {
-							ref: 		'screen',
-							onRun: 		this.props.onRun,
-							onSmall: 	this.onSmall,
-							onLarge: 	this.onLarge
+							ref: 			'screen',
+							onRun: 			this.props.onRun,
+							onStop: 		this.props.onStop,
+							onShowConsole: 	this.props.onShowConsole,
+							onSmall: 		this.onSmall,
+							onLarge: 		this.onLarge
 						}
 					},
 					{

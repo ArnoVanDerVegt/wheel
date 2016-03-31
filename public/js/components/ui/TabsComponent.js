@@ -30,6 +30,9 @@ var TabsComponent = React.createClass({
 					children: []
 				};
 
+			for (var i = 0; i < (props.tools || []).length; i++) {
+				tabs.children.push(props.tools[i]);
+			}
 			for (var i = 0; i < pages.length; i++) {
 				(function(pageIndex, page) {
 					tabs.children.push({

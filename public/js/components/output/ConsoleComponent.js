@@ -1,8 +1,10 @@
 var ConsoleComponent = React.createClass({
 		getInitialState: function() {
 			return {
+				visible: 	true,
 				small: 		false,
-				messages: 	[]
+				messages: 	[],
+				globals: 	{}
 			}
 		},
 
@@ -15,6 +17,12 @@ var ConsoleComponent = React.createClass({
 		setLarge: function() {
 			var state = this.state;
 			state.small = false;
+			this.setState(state);
+		},
+
+		setGlobals: function(globals) {
+			var state = this.state;
+			state.globals = globals;
 			this.setState(state);
 		},
 
@@ -35,10 +43,35 @@ var ConsoleComponent = React.createClass({
 			this.setState(state);
 		},
 
+		onClose: function() {
+			var state = this.state;
+			state.visible = false;
+			this.setState(state);
+			this.props.onClose && this.props.onClose();
+		},
+
+		onClearMessages: function() {
+			this.clearMessages();
+			this.props.onClearMessages && this.props.onClearMessages();
+		},
+
+		show: function() {
+			var state = this.state;
+			if (state.visible) {
+				return false;
+			}
+			state.visible = true;
+			this.setState(state);
+			return true;
+		},
+
 		render: function() {
 			var state 			= this.state,
 				messages 		= state.messages,
-				messageChildren = [];
+				messageChildren = [],
+				globals 		= state.globals,
+				globalsChildren = [];
+
 			for (var i = 0; i < messages.length; i++) {
 				(function(message) {
 					messageChildren.push({
@@ -64,9 +97,33 @@ var ConsoleComponent = React.createClass({
 				}).call(this, messages[i]);
 			}
 
+			for (var i in globals) {
+				var offset = ('000000' + globals[i]).substr(-6);
+				globalsChildren.push({
+					props: {
+						className: 'row var',
+						//onClick: 	function() { this.props.onShowError && this.props.onShowError(message.filename, message.lineNumber); }.bind(this)
+					},
+					children: [
+						{
+							props: {
+								className: 'offset',
+								innerHTML: offset
+							}
+						},
+						{
+							props: {
+								className: 'name',
+								innerHTML: i
+							}
+						}
+					]
+				});
+			}
+
 			return utilsReact.fromJSON({
 				props: {
-					className: 'console ' + (this.state.small ? ' small' : ' large')
+					className: 'console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large')
 				},
 				children: [
 					{
@@ -80,7 +137,37 @@ var ConsoleComponent = React.createClass({
 								},
 								{
 									title: 		'Data',
-									content: 	[]
+									content: 	globalsChildren
+								}
+							],
+							tools: [
+								{
+									type: 'li',
+									props: {
+										className: 'tool',
+									},
+									children: [
+										{
+											props: {
+												className: 	'mdi mdi-close',
+												onClick: 	this.onClose
+											}
+										}
+									]
+								},
+								{
+									type: 'li',
+									props: {
+										className: 'tool',
+									},
+									children: [
+										{
+											props: {
+												className: 	'mdi mdi-comment-remove-outline',
+												onClick: 	this.onClearMessages
+											}
+										}
+									]
 								}
 							]
 						}

@@ -28,7 +28,7 @@ var FilesComponent = React.createClass({
 			var p = '';
 				root = {
 					children: 	{},
-					name: 		null
+					name: 		'Projects'
 				},
 				activeFile = props.files.getFile(props.activeFileIndex),
 				activePath = activeFile ? activeFile.getName() : '',
@@ -87,7 +87,7 @@ var FilesComponent = React.createClass({
 							children: 	[
 								{
 									props: {
-										onClick: 	(function() { this.props.onSelectFile(node.path); }).bind(this),
+										onClick: 	(function() { node.path && this.props.onSelectFile(node.path); }).bind(this),
 										className: (node.active ? 'active' : '') + (node.changed ? ' changed' : ''),
 										style: {
 											paddingLeft: (depth * 16) + 'px'
@@ -98,7 +98,9 @@ var FilesComponent = React.createClass({
 											null :
 											{
 												props: {
-													className: 	'mdi ' + (node.dir ? 'mdi-folder-outline' : 'mdi-file-outline')
+													className: 	'mdi ' + (node.path ?
+														(node.dir ? 'mdi-folder-outline' : 'mdi-file-outline') :
+														'mdi-package-variant')
 												}
 											},
 

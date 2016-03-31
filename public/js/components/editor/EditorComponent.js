@@ -8,6 +8,7 @@ var EditorComponent = React.createClass({
 			);
 			return {
 				small: 					false,
+				console: 				false,
 				activeFileIndex: 		0,
 				activeProject: 			null
 			}
@@ -141,7 +142,6 @@ var EditorComponent = React.createClass({
 									}
 									meta.highlightLines[error.lineNumber] = { className: 'line-error' };
 								}
-								//file.getMeta().highlightLines = {};
 
 								this.onSelectFile(error.filename);
 
@@ -150,6 +150,8 @@ var EditorComponent = React.createClass({
 								outputCommands = null;
 							}
 							if (outputCommands !== null) {
+								var compilerData = compiler.getCompilerData();
+								this.refs.console.setGlobals(compilerData.getGlobalList());
 								vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
 								vm.run(outputCommands);
 							}
@@ -414,6 +416,29 @@ var EditorComponent = React.createClass({
 			this.refs.codeMirror.highlightLine(lineNumber);
 		},
 
+		onCloseConsole: function() {
+			this.refs.codeMirror.setConsole(false);
+		},
+
+		onShowConsole: function() {
+			this.refs.console.show() && this.refs.codeMirror.setConsole(true);
+		},
+
+		onClearMessages: function() {
+			var props 		= this.props,
+				files 		= props.files,
+				includes 	= props.compiler.getIncludes() || [];
+			for (var i = 0; i < includes.length; i++) {
+				var filename 	= includes[i].filename,
+					index 		= files.exists(filename);
+				if (index !== false) {
+					var file = files.getFile(index);
+					file.getMeta().highlightLines = {};
+				}
+			}
+			this.refs.codeMirror.setHighlight({});
+		},
+
 		openFile: function(filename, data, canRename) {
 			var state 	= this.state,
 				files 	= this.props.files,
@@ -510,20 +535,23 @@ var EditorComponent = React.createClass({
 					{
 						type: OutputComponent,
 						props: {
-							ref: 		'output',
-							editor: 	this,
-							onRun: 		this.onRun,
-							onSmall: 	this.onSmall,
-							onLarge: 	this.onLarge,
-							motors: 	this.props.motors
+							ref: 			'output',
+							editor: 		this,
+							onRun: 			this.onRun,
+							onSmall: 		this.onSmall,
+							onLarge: 		this.onLarge,
+							onShowConsole: 	this.onShowConsole,
+							motors: 		this.props.motors
 						}
 					},
 					{
 						type: ConsoleComponent,
 						props: {
-							ref: 			'console',
-							onShowError: 	this.onShowError,
-							editor: 		this
+							ref: 				'console',
+							onShowError: 		this.onShowError,
+							onClearMessages: 	this.onClearMessages,
+							onClose: 			this.onCloseConsole,
+							editor: 			this
 						}
 					},
 					{

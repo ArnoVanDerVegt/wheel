@@ -79,10 +79,11 @@ var FileProcessor = Class(function() {
 						break;
 
 					case ';':
-						return line.substr(0, i - 1);
+						return line.substr(0, i);
 						break;
 				}
 			}
+
 			return line;
 		};
 

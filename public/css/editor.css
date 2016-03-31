@@ -181,7 +181,8 @@ h4 {
 	float: 								right;
 }
 #main .files li .mdi.mdi-folder-outline,
-#main .files li .mdi.mdi-file-outline {
+#main .files li .mdi.mdi-file-outline,
+#main .files li .mdi.mdi-package-variant {
 	float: 								left;
 	display: 							block;
 	pointer-events: 					none;
@@ -217,12 +218,16 @@ h4 {
 	left: 								360px;
 	right: 								196px;
 	top: 								56px;
-	bottom: 							168px;
+	bottom: 							8px;
 	border: 							1px solid #B6B6B6;
 	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .editor.small {
 	right: 								376px;
+}
+#main .editor.show-console,
+#main .editor.small.show-console {
+	bottom: 							168px;
 }
 
 /* Console */
@@ -235,11 +240,14 @@ h4 {
 	border: 							1px solid #B6B6B6;
 	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 	background-color: 					#FFFFFF;
+	display: 							none;
 }
-#main .console.small {
+#main .console.visible {
+	display: 							block;
+}
+#main .console.visible.small {
 	right: 								376px;
 }
-
 #main .console .tabs {
 	position: 							absolute;
 	top: 								0px;
@@ -250,17 +258,18 @@ h4 {
 }
 #main .console .tabs ul {
 	padding-left: 						8px;
+	height: 							40px;
 }
 #main .console .tabs .tab-content,
 #main .console .tabs .tabs-content {
 	position: 							absolute;
-	top: 								46px;
+	top: 								40px;
 	left: 								0px;
 	width: 								100%;
 	bottom: 							0px;
 	margin: 							0;
 }
-#main .console .tabs .tabs-content {
+#main .console .tabs .tab-content {
 	top: 								0px;
 	overflow: 							hidden;
 	overflow-y: 						scroll;
@@ -277,12 +286,50 @@ h4 {
 #main .console .tabs .tabs-content .row.error {
 	background-color: 					#FFD0D0;
 	cursor: 							pointer;
+	border: 							1px dotted #E0E0E0;
+	border-width: 						0 0 1px 0;
 }
 #main .console .tabs .tabs-content .row.error .message {
 	float: 								left;
 }
 #main .console .tabs .tabs-content .row.error .location {
 	float: 								right;
+}
+
+#main .console .tabs .tabs-content .row.var {
+	cursor: 							pointer;
+	border: 							1px dotted #E0E0E0;
+	border-width: 						0 0 1px 0;
+}
+#main .console .tabs .tabs-content .row.var .offset {
+	float: 								left;
+}
+#main .console .tabs .tabs-content .row.var .name {
+	float: 								left;
+	margin-left:						8px;
+}
+
+#main .console .tabs-titles {
+	padding: 0;
+}
+#main .console .tabs li {
+	height: 							32px;
+	line-height: 						32px;
+	padding: 0;
+}
+#main .console .tabs li.tool {
+	float: 								right;
+	list-style-type: 					none;
+	margin: 							0 8px 0 0;
+	padding: 							0;
+	height: 							40px;
+	line-height: 						40px;
+	font-size: 							20px;
+	opacity: 							0.57;
+	cursor: 							pointer;
+}
+#main .console .tabs li.tool:hover {
+	opacity: 							0.87;
 }
 
 /* Output */
@@ -440,7 +487,8 @@ h4 {
 #main .output .ev3-screen .control-panel .mdi.mdi-play {
 	margin-left: 						8px;
 }
-#main .output .ev3-screen .control-panel .mdi.mdi-magnify {
+#main .output .ev3-screen .control-panel .mdi.mdi-comment-outline,
+#main .output .ev3-screen .control-panel .mdi.mdi-crop-free {
 	float: 								right;
 	margin-right: 						8px;
 }

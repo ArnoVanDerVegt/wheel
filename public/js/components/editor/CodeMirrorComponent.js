@@ -2,6 +2,7 @@ var CodeMirrorComponent = React.createClass({
 		getInitialState: function() {
 			return {
 				small: 		false,
+				console: 	true,
 				readOnly: 	false,
 				highlight: 	{}
 			};
@@ -101,7 +102,7 @@ var CodeMirrorComponent = React.createClass({
 			return React.createElement(
 				'div',
 				{
-					className: 'editor' + (this.state.small ? ' small' : ' large')
+					className: 'editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large')
 				},
 				React.createElement('textarea', {ref: 'textarea', defaultValue: 'code'})
 			);
@@ -128,7 +129,10 @@ var CodeMirrorComponent = React.createClass({
 				same 	= true;
 			if (Object.keys(highlight).length === Object.keys(state.highlight).length) {
 				for (var i in highlight) {
-					if (state.highlight[i].className !== highlight[i].className) {
+					if (!state.highlight[i]) {
+						same = false;
+						break;
+					} else if (state.highlight[i].className !== highlight[i].className) {
 						same = false;
 						break;
 					}
@@ -157,6 +161,12 @@ var CodeMirrorComponent = React.createClass({
 		setReadOnly: function(readOnly) {
 			var state = this.state;
 			state.readOnly = readOnly;
+			this.setState(state);
+		},
+
+		setConsole: function(console) {
+			var state = this.state;
+			state.console = console;
 			this.setState(state);
 		},
 

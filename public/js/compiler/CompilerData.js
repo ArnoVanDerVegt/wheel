@@ -104,4 +104,8 @@ var CompilerData = Class(function() {
 			}
 			return null;
 		};
+
+		this.getGlobalList = function() {
+			return this._globalList;
+		};
 	});

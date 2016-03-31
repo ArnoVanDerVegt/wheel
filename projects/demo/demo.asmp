@@ -2,8 +2,10 @@
 
 #include "standard.asm"
 
+number a, q, r, s;
+
 ; proc header remark
-prc test2(number qq)
+proc test2(number qq)
 	set 	REG_DRAW_X, 		0
 	set 	REG_DRAW_Y, 		0
 	print 	qq
