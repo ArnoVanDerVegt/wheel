@@ -289,7 +289,7 @@ var commands = {
 				{type: 'la'}
 			]
 		},
-		jneq: {
+		jne: {
 			cde: 66,
 			args: [
 				{type: 'la'}

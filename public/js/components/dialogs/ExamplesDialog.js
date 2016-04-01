@@ -4,12 +4,7 @@ var examples = [
 			examples: [
 				{
 					title: 		'Numbers',
-					filename: 	'Number example',
-					code: 		[
-						'	number n',
-						'	set 	n, 14',
-						'	print 	n'
-					].join("\n")
+					filename: 	'/examples/variables.asmp'
 				}
 			]
 		},
@@ -17,71 +12,49 @@ var examples = [
 			group: 'Conditions',
 			examples: [
 				{
-					title: 		'Equal',
-					filename: 	'Equal example',
-					code: 		[
-						'	number n',
-						'	set 	n, 1',
-						'	cmp 	n, 0',
-						'	je 	nEquals0',
-						'	print 	"n is not 0"',
-						'nEquals0:'
-					].join("\n")
+					title: 		'Jump if equal',
+					filename: 	'/examples/conditions/je.asmp'
 				},
 				{
-					title: 		'Not equal',
-					filename: 	'Not equal example',
-					code: [
-						'	number n',
-						'	set 	n, 1',
-						'	cmp 	n, 0',
-						'	jne 	nNotEqual0',
-						'	print 	"n is 0"',
-						'nNotEqual0:'
-					].join("\n")
+					title: 		'Jump if greater',
+					filename: 	'/examples/conditions/jg.asmp'
+				},
+				{
+					title: 		'Jump if greater or equal',
+					filename: 	'/examples/conditions/jge.asmp'
+				},
+				{
+					title: 		'Jump if less',
+					filename: 	'/examples/conditions/jl.asmp'
+				},
+				{
+					title: 		'Jump if less or equal',
+					filename: 	'/examples/conditions/je.asmp'
 				}
 			]
 		},
 		{
-			group: 'Loops',
+			group: 'Drawing',
 			examples: [
 				{
-					title: 		'Infinite loop',
-					filename: 	'Infinite loop example',
-					code: 		[
-						'loopForever:',
-						'	; this code will repeat...',
-						'	jmp loopForever'
-					].join("\n")
+					title: 		'Circle',
+					filename: 	'/examples/drawing/circle.asmp'
 				},
 				{
-					title: 		'For count loop',
-					filename: 	'For count loop example',
-					code: 		[
-						'	number 	n',
-						'	set 	n, 0',
-						'lessThan10:',
-						'	; this code will repeat 10 times...',
-						'	inc		n',
-						'	cmp		n, 10',
-						'	jl	 	lessThan10'
-					].join("\n")
+					title: 		'Line',
+					filename: 	'/examples/drawing/line.asmp'
 				},
-			]
-		},
-		{
-			group: 'Procedures',
-			examples: [
 				{
-					title: 		'Procedure',
-					filename: 	'Procedure example',
-					code: 		[
-						'proc demoProcedure()',
-						'	print "demo"',
-						'endp',
-						'',
-						'demoProcedure()'
-					].join("\n")
+					title: 		'Pixel',
+					filename: 	'/examples/drawing/pixel.asmp'
+				},
+				{
+					title: 		'Print',
+					filename: 	'/examples/drawing/print.asmp'
+				},
+				{
+					title: 		'Rect',
+					filename: 	'/examples/drawing/rect.asmp'
 				},
 			]
 		}
@@ -118,7 +91,7 @@ var ExamplesDialog = React.createClass({
 		},
 
 		render: function() {
-			var exampleChildren = [];
+			var exampleChildren = [[], []];
 
 			for (var i = 0; i < examples.length; i++) {
 				var exampleChild = {
@@ -141,6 +114,7 @@ var ExamplesDialog = React.createClass({
 							}
 						]
 					};
+
 				for (var j = 0; j < examples[i].examples.length; j++) {
 					(function(example) {
 						exampleChild.children[0].children[1].children.push({
@@ -160,9 +134,9 @@ var ExamplesDialog = React.createClass({
 						});
 					}).call(this, examples[i].examples[j]);
 				}
-				exampleChildren.push(exampleChild);
+				exampleChildren[~~(2 * i / examples.length)].push(exampleChild);
 			}
-
+console.log(exampleChildren);
 			return 	utilsReact.fromJSON(
 				createDialog(
 					this,
@@ -173,7 +147,20 @@ var ExamplesDialog = React.createClass({
 							props: {
 								className: 'examples-content',
 							},
-							children: exampleChildren
+							children: [
+								{
+									props: {
+										className: 'half'
+									},
+									children: exampleChildren[0]
+								},
+								{
+									props: {
+										className: 'half'
+									},
+									children: exampleChildren[1]
+								}
+							]
 						}
 					]
 				)

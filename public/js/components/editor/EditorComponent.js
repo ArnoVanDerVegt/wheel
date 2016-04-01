@@ -238,7 +238,8 @@ var EditorComponent = React.createClass({
 
 		onExamples: function() {
 			this.refs.examplesDialog.show((function(example) {
-				this.openFile(example.filename, example.code, false);
+				console.log('example.filename:', example.filename);
+				this.openFile(example.filename);
 			}).bind(this));
 		},
 
@@ -439,29 +440,19 @@ var EditorComponent = React.createClass({
 			this.refs.codeMirror.setHighlight({});
 		},
 
-		openFile: function(filename, data, canRename) {
+		openFile: function(filename) {
 			var state 	= this.state,
 				files 	= this.props.files,
 				file 	= files.getFile(state.activeFileIndex),
 				index 	= files.exists(filename);
 
+			if (index === false) {
+				return;
+			}
 			file.setData(this.refs.codeMirror.getCode());
 
-			if (index === false) {
-				var newFile = {
-						name: 		filename,
-						canRename: 	canRename,
-						data: 		data,
-						open: 		true
-					};
-				files.createFile(newFile);
-				state.activeFileIndex = files.getLength() - 1;
-				this.setState(this.state);
-			} else {
-				state.activeFileIndex = index;
-				this.setState(this.state);
-			}
-
+			state.activeFileIndex = index;
+			this.setState(this.state);
 			file = files.getFile(state.activeFileIndex);
 			if (file) {
 				file.getData(function(data) {

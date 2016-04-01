@@ -1,8 +1,8 @@
 (function() {
 	function init() {
 		var registers = {
-				REG_EQ: 			'br',
-				REG_NEQ: 			'br',
+				REG_E: 				'br',
+				REG_NE: 			'br',
 				REG_L: 				'br',
 				REG_LE: 			'br',
 				REG_G: 				'br',

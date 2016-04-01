@@ -740,6 +740,9 @@ h4 {
 	text-decoration: 					underline;
 	cursor: 							pointer;
 }
+.dialog.examples .examples-content .half {
+	float: 								left;
+}
 
 /* Checkbox */
 .checkbox {

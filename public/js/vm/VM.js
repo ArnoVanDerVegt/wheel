@@ -14,8 +14,8 @@ var VM = Class(Emitter, function(supr) {
 			var vmData 		= this._vmData,
 				ev3screen 	= this._ev3Screen,
 				compare 	= function(v1, v2) {
-					vmData.setRegister('REG_EQ', 	v1 == v2);
-					vmData.setRegister('REG_NEQ', 	v1 != v2);
+					vmData.setRegister('REG_E', 	v1 == v2);
+					vmData.setRegister('REG_NE', 	v1 != v2);
 					vmData.setRegister('REG_L', 	v1 < v2);
 					vmData.setRegister('REG_LE', 	v1 <= v2);
 					vmData.setRegister('REG_G', 	v1 < v2);
@@ -131,8 +131,8 @@ var VM = Class(Emitter, function(supr) {
 						var register = null;
 						switch (command.command) {
 							case 'jmp': 								break;
-							case 'je': 			register = 'REG_EQ'; 	break;
-							case 'jneq': 		register = 'REG_NEQ'; 	break;
+							case 'je': 			register = 'REG_E'; 	break;
+							case 'jne': 		register = 'REG_NE'; 	break;
 							case 'jl': 			register = 'REG_L'; 	break;
 							case 'jle': 		register = 'REG_LE'; 	break;
 							case 'jg': 			register = 'REG_G'; 	break;
