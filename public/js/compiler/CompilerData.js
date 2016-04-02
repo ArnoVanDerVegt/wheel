@@ -69,12 +69,16 @@ var CompilerData = Class(function() {
 		};
 
 		/* Label */
-		this.declareLabel = function(name, index) {
+		this.declareLabel = function(name) {
 			var labelList = this._labelList;
 			if (name in labelList) {
-				throw new Error('Duplicate label "' + name + '".');
+				return true;
 			}
-			labelList[name] = index;
+			labelList[name] = {
+				index: null,
+				jumps: []
+			};
+			return false;
 		};
 
 		this.findLabel = function(name) {
@@ -82,6 +86,10 @@ var CompilerData = Class(function() {
 				return this._labelList[name];
 			}
 			return null;
+		};
+
+		this.getLabelList = function() {
+			return this._labelList;
 		};
 
 		/* Procedure */

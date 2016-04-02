@@ -58,8 +58,10 @@ var Compiler = Class(function() {
 						if (index !== null) {
 							type = 'ng'; // Num global
 						} else {
-							index = compilerData.findLabel(param);
-							if (index !== null) {
+							index = 0;
+							var label = compilerData.findLabel(param);
+							if (label !== null) {
+								label.jumps.push(this._outputCommands.length);
 								type = 'la';
 							}
 						}
@@ -220,6 +222,50 @@ var Compiler = Class(function() {
 			this._outputCommands.push(outputCommand);
 		};
 
+		this.hasCall = function(line) {
+			return (line.indexOf('proc') === -1) && (line.indexOf('(') !== -1);
+		};
+
+		this.hasLabel = function(line) {
+			var i = line.indexOf(':');
+			if ((line.length > 1) && (i !== -1)) {
+				for (var j = 0; j < i; j++) {
+					if ('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'.indexOf(line[j]) === -1) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
+		};
+
+		this.compileLabels = function(lines) {
+			for (var i = 0; i < lines.length; i++) {
+				this._lineNumber = i;
+				var line = lines[i].trim();
+				if (this.hasLabel(line)) {
+					var j = line.indexOf(':');
+					if (this._compilerData.declareLabel(line.substr(0, j))) {
+						throw this.createError('Duplicate label "' + name + '".');
+					}
+				}
+			}
+		};
+
+		this.updateLabels = function() {
+			var outputCommands 	= this._outputCommands,
+				compilerData 	= this._compilerData,
+				labelList 		= compilerData.getLabelList();
+
+			for (var i in labelList) {
+				var label = labelList[i],
+					jumps = label.jumps;
+				for (var j = 0; j < jumps.length; j++) {
+					outputCommands[jumps[j]].params[0].value = label.index;
+				}
+			}
+		};
+
 		this.compileLines = function(lines) {
 			var compilerData 	= this._compilerData,
 				outputCommands 	= this._outputCommands,
@@ -230,11 +276,12 @@ var Compiler = Class(function() {
 				this._lineNumber = i;
 				var line = lines[i].trim();
 				if (line !== '') {
-					if ((line.indexOf('proc') === -1) && (line.indexOf('(') !== -1)) {
+					if (this.hasCall(line)) {
 						this.compileCall(line);
 					} else if (line.indexOf(' ') === -1) {
-						if ((line.length > 1) && (line.substr(-1) === ':')) {
-							compilerData.declareLabel(line.substr(0, line.length - 1), outputCommands.length - 1);
+						if (this.hasLabel(line)) {
+							var label = compilerData.findLabel(line.substr(0, line.length - 1));
+							label.index = outputCommands.length - 1;
 						} else if (line === 'endp') {
 							this.addOutputCommand({
 								command: 	'ret',
@@ -317,7 +364,11 @@ var Compiler = Class(function() {
 			while (i) {
 				i--;
 				this._filename = includes[i].filename;
-				this.compileLines(includes[i].lines);
+
+				var lines = includes[i].lines;
+				this.compileLabels(lines);
+				this.compileLines(lines);
+				this.updateLabels();
 			}
 
 			if (this._mainIndex === -1) {

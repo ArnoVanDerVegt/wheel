@@ -136,7 +136,7 @@ var ExamplesDialog = React.createClass({
 				}
 				exampleChildren[~~(2 * i / examples.length)].push(exampleChild);
 			}
-console.log(exampleChildren);
+
 			return 	utilsReact.fromJSON(
 				createDialog(
 					this,
