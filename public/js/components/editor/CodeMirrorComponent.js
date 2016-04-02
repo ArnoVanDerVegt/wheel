@@ -9,9 +9,21 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		createCodeMirror: function(textarea, value) {
-			var grammar = mvmGrammar,
-				lang 	= 'mvm'
-				mode 	= CodeMirrorGrammar.getMode(grammar);
+			var grammar = mvmGrammar;
+				lang 	= 'mvm';
+
+			if (this._filename) {
+				var filename = this._filename;
+				if ((filename.substr(-5) === '.mvmp') || (filename.substr(-4) === '.mvm')) {
+					grammar = mvmGrammar;
+					lang 	= 'mvm';
+				} else if (filename.substr(-4) === '.rgf') {
+					grammar = rgfGrammar;
+					lang 	= 'rgf';
+				}
+			}
+
+			var mode = CodeMirrorGrammar.getMode(grammar);
 
 			CodeMirror.defineMode(lang, mode);
 			mode.supportGrammarAnnotations = true;
@@ -118,10 +130,11 @@ var CodeMirrorComponent = React.createClass({
 			return this._editor.getValue();
 		},
 
-		setCode: function(code) {
-			this._allowPublish = false;
+		setCode: function(code, filename) {
+			this._filename 		= filename;
+			this._allowPublish 	= false;
 			this._editor.setValue(code);
-			this._allowPublish = true;
+			this._allowPublish 	= true;
 		},
 
 		setHighlight: function(highlight) {

@@ -1,6 +1,6 @@
 #project "Demo"
 
-#include "/lib/standard.asm"
+#include "/lib/standard.mvm"
 
 number a, q, r, s;
 

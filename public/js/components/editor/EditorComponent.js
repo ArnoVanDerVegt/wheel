@@ -98,7 +98,7 @@ var EditorComponent = React.createClass({
 				alertDialog.setState({
 					visible: 	true,
 					icon: 		'mdi-alert',
-					content: 	'There is no project selected yet. You can select a project by finding a .asmp file in the project folders.',
+					content: 	'There is no project selected yet. You can select a project by finding a .mvmp file in the project folders.',
 					title: 		'Run - No project selected',
 				});
 				return;
@@ -183,7 +183,7 @@ var EditorComponent = React.createClass({
 
 					files.createFile(newFile);
 					state.activeFileIndex = files.exists(newFile.name);
-					this.refs.codeMirror.setCode(newFile.data);
+					this.refs.codeMirror.setCode(newFile.data, filename);
 
 					this.setState(state);
 
@@ -282,15 +282,15 @@ var EditorComponent = React.createClass({
 			if (file.getDir()) {
 				changed || file.setOpen(!file.getOpen());
 				codeMirror.setReadOnly(true);
-				codeMirror.setCode('');
+				codeMirror.setCode('', '');
 				this.setState(this.state);
 			} else {
 				file.getData(function(data) {
 					codeMirror.setReadOnly(false);
-					codeMirror.setCode(data);
+					codeMirror.setCode(data, file.getName());
 					codeMirror.setHighlight(file.getMeta().highlightLines || {});
 					var filename = file.getName();
-					if (filename.substr(-5) == '.asmp') {
+					if (filename.substr(-5) == '.mvmp') {
 						var lines 	= data.split("\n"),
 							name 	= 'Project';
 						for (var i = 0; i < lines.length; i++) {
@@ -347,7 +347,7 @@ var EditorComponent = React.createClass({
 									file.getData(function(data) {
 										refs.files.setState(refs.files.state);
 										refs.codeMirror.setReadOnly(false);
-										refs.codeMirror.setCode(data);
+										refs.codeMirror.setCode(data, file.getName());
 									}.bind(this));
 								}
 							} else {
@@ -377,7 +377,7 @@ var EditorComponent = React.createClass({
 							file 					= files.getFile(0);
 							if (file) {
 								file.getData(function(data) {
-									this.refs.codeMirror.setCode(data);
+									this.refs.codeMirror.setCode(data, file.getName());
 									this.setState(state);
 								}.bind(this));
 							}
@@ -464,7 +464,7 @@ var EditorComponent = React.createClass({
 			file = files.getFile(state.activeFileIndex);
 			if (file) {
 				file.getData(function(data) {
-					this.refs.codeMirror.setCode(data);
+					this.refs.codeMirror.setCode(data, file, getName());
 				}.bind(this));
 			}
 		},
@@ -479,7 +479,7 @@ var EditorComponent = React.createClass({
 					data = file.getData();
 				} else {
 					file.getData(function(data) {
-						this.refs.codeMirror.setCode(data);
+						this.refs.codeMirror.setCode(data, file.getName());
 					}.bind(this));
 				}
 			}

@@ -95,7 +95,6 @@ app.get('/api/file', function(req, res) {
 });
 
 app.post('/api/file', function(req, res) {
-	console.log('save:', req.query.filename, req.body);
 	fs.writeFileSync(path.join(__dirname, 'projects', req.query.filename), req.body.data);
 	res.json({result: 'success'});
 });

@@ -4,7 +4,7 @@ var examples = [
 			examples: [
 				{
 					title: 		'Numbers',
-					filename: 	'/examples/variables.asmp'
+					filename: 	'/examples/variables.mvmp'
 				}
 			]
 		},
@@ -13,23 +13,23 @@ var examples = [
 			examples: [
 				{
 					title: 		'Jump if equal',
-					filename: 	'/examples/conditions/je.asmp'
+					filename: 	'/examples/conditions/je.mvmp'
 				},
 				{
 					title: 		'Jump if greater',
-					filename: 	'/examples/conditions/jg.asmp'
+					filename: 	'/examples/conditions/jg.mvmp'
 				},
 				{
 					title: 		'Jump if greater or equal',
-					filename: 	'/examples/conditions/jge.asmp'
+					filename: 	'/examples/conditions/jge.mvmp'
 				},
 				{
 					title: 		'Jump if less',
-					filename: 	'/examples/conditions/jl.asmp'
+					filename: 	'/examples/conditions/jl.mvmp'
 				},
 				{
 					title: 		'Jump if less or equal',
-					filename: 	'/examples/conditions/je.asmp'
+					filename: 	'/examples/conditions/je.mvmp'
 				}
 			]
 		},
@@ -38,23 +38,23 @@ var examples = [
 			examples: [
 				{
 					title: 		'Circle',
-					filename: 	'/examples/drawing/circle.asmp'
+					filename: 	'/examples/drawing/circle.mvmp'
 				},
 				{
 					title: 		'Line',
-					filename: 	'/examples/drawing/line.asmp'
+					filename: 	'/examples/drawing/line.mvmp'
 				},
 				{
 					title: 		'Pixel',
-					filename: 	'/examples/drawing/pixel.asmp'
+					filename: 	'/examples/drawing/pixel.mvmp'
 				},
 				{
 					title: 		'Print',
-					filename: 	'/examples/drawing/print.asmp'
+					filename: 	'/examples/drawing/print.mvmp'
 				},
 				{
 					title: 		'Rect',
-					filename: 	'/examples/drawing/rect.asmp'
+					filename: 	'/examples/drawing/rect.mvmp'
 				},
 			]
 		}
