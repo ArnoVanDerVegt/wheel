@@ -1,14 +1,11 @@
-#project "Conditions"
-
-#include "standard.asm"
-
+#project "Rectangle drawing demo"
+    
+#include "/lib/standard.asm"
+    
 proc main()
-    number  n
-
-    set     n,                      0
-    cmp     n,                      1
-    je      equal
-    print   "Not one"
-equal:
-
+    set     REG_DRAW_X,             10
+    set     REG_DRAW_Y,             10
+    set     REG_DRAW_WIDTH,         30
+    set     REG_DRAW_HEIGHT,        30
+    rect
 endp

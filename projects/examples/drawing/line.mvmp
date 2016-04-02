@@ -1,14 +1,11 @@
-#project "Conditions"
-
-#include "standard.asm"
-
+#project "Line drawing demo"
+    
+#include "/lib/standard.asm"
+    
 proc main()
-    number  n
-
-    set     n,                      0
-    cmp     n,                      1
-    je      equal
-    print   "Not one"
-equal:
-
+    set     REG_DRAW_X1,            5
+    set     REG_DRAW_Y1,            10
+    set     REG_DRAW_X2,            25
+    set     REG_DRAW_Y2,            35
+    line
 endp

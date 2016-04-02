@@ -1,14 +1,9 @@
-#project "Conditions"
-
-#include "standard.asm"
-
+#project "Pixel drawing demo"
+    
+#include "/lib/standard.asm"
+    
 proc main()
-    number  n
-
-    set     n,                      0
-    cmp     n,                      1
-    je      equal
-    print   "Not one"
-equal:
-
+    set     REG_DRAW_X,             20
+    set     REG_DRAW_Y,             20
+    pixel
 endp

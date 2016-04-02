@@ -1,14 +1,14 @@
-#project "Conditions"
+#project "Jump less or equal demo"
 
-#include "standard.asm"
+#include "/lib/standard.asm"
 
 proc main()
-    number  n
+    number  n                               ; Declare a local number variable...
 
-    set     n,                      0
-    cmp     n,                      1
-    je      equal
-    print   "Not one"
-equal:
+    set     n,                      2       ; Set n to 0
+    cmp     n,                      1       ; Compare n to 1
+    jle		myLabel                         ; jump to myLabel if n is less or equal than 1
+    print   "n > 1"
+myLabel:
 
 endp
