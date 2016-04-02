@@ -1,6 +1,6 @@
 #project "Demo"
 
-#include "standard.asm"
+#include "/lib/standard.asm"
 
 number a, q, r, s;
 

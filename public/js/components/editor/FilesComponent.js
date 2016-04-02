@@ -81,6 +81,24 @@ var FilesComponent = React.createClass({
 			}
 
 			var addNode = function(node, depth) {
+					var icon = 'mdi-package-variant';
+
+					if (node.path) {
+						if (node.dir) {
+							icon = 'mdi-folder-outline';
+						} else {
+							if (node.path.substr(-5) === '.mvmp') {
+								icon = 'mdi-package-variant';
+							} else if (node.path.substr(-4) === '.mvm') {
+								icon = 'mdi-code-brackets';
+							} else if (node.path.substr(-4) === '.rgf') {
+								icon = 'mdi-file-image';
+							} else {
+								icon = 'mdi-file-outline';
+							}
+						}
+					}
+
 					var hasChildren = Object.keys(node.children).length,
 						result = {
 							type: 		'li',
@@ -98,9 +116,7 @@ var FilesComponent = React.createClass({
 											null :
 											{
 												props: {
-													className: 	'mdi ' + (node.path ?
-														(node.dir ? 'mdi-folder-outline' : 'mdi-file-outline') :
-														'mdi-package-variant')
+													className: 	'mdi ' + icon
 												}
 											},
 

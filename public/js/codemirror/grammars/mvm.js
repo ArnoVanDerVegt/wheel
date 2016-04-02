@@ -1,6 +1,5 @@
-// 1. a partial ev3 grammar in simple JSON format
-// https://people.csail.mit.edu/jaffer/r5rs_9.html
-var ev3_grammar = {
+// 1. a partial mvm grammar in simple JSON format
+var mvmGrammar = {
 	// prefix ID for regular expressions used in the grammar
 	'RegExpID': 'RE::',
 	'Extra': {

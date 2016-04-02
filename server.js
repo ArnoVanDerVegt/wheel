@@ -26,7 +26,8 @@ app.get('/api/dir', function(req, res) {
 
 	function getFiles(dir, files) {
 		files = files || [];
-		var list = fs.readdirSync(dir);
+		var list 	= fs.readdirSync(dir),
+			extList = ['.mvm', '.mvmp', '.rgf'];
 		for (var i in list){
 			var name = dir + '/' + list[i];
 			if (fs.statSync(name).isDirectory()) {
@@ -36,9 +37,16 @@ app.get('/api/dir', function(req, res) {
 				});
 				getFiles(name, files);
 			} else {
-				files.push({
-					name: 	name.substr(basePath.length - name.length)
-				});
+				var filename 	= name.substr(basePath.length - name.length),
+					j 			= filename.indexOf('.');
+				if (j !== -1) {
+					var ext = filename.substr(j - filename.length);
+					if (extList.indexOf(ext) !== -1) {
+						files.push({
+							name: filename
+						});
+					}
+				}
 			}
 		}
 		return files;
@@ -51,7 +59,39 @@ app.get('/api/dir', function(req, res) {
 });
 
 app.get('/api/file', function(req, res) {
-	res.send(fs.readFileSync(path.join(__dirname, 'projects', req.query.filename)));
+	if (req.query.filename) {
+		var filename = path.join(__dirname, 'projects', req.query.filename);
+		if (filename.substr(-4) === '.rgf') {
+			var data 	= fs.readFileSync(filename),
+				width 	= data[0],
+				height 	= data[1],
+				offset  = 16,
+				readBit = function() {
+					var offsetByte 	= offset >> 3,
+						offsetBit 	= 1 << (offset & 7),
+						result 		= ((data[offsetByte] & offsetBit) === offsetBit) ? 1 : 0;
+					offset++;
+					return result;
+				};
+				var file = '';
+				for (var y = 0; y < height; y++) {
+					var line = '';
+					for (var x = 0; x < width; x++) {
+						line += readBit().toString();
+					}
+					while ((offset & 7) !== 0) {
+						offset++;
+					}
+					file += line + "\n";
+				}
+
+			res.send(file);
+		} else {
+			res.send(fs.readFileSync(filename));
+		}
+	} else {
+		res.send('');
+	}
 });
 
 app.post('/api/file', function(req, res) {

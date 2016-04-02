@@ -41,7 +41,7 @@ h2,
 h3,
 h4 {
 	font-family:						'Roboto', sans-serif;
-	font-weight: 						300;
+	font-weight: 						400;
 	font-size: 							20px;
 }
 
@@ -142,11 +142,13 @@ h4 {
 #main .files {
 	position: 							absolute;
 	width: 								360px;
-	top: 								48px;
+	top: 								56px;
 	left: 								0px;
-	bottom: 							0px;
+	bottom: 							8px;
 	list-style: 						none;
-	padding: 8px;
+	padding: 							0 8px 0 8px;
+	overflow: 							hidden;
+	overflow-y: 						scroll;
 }
 #main .files ul {
 	float: 								left;
@@ -181,18 +183,50 @@ h4 {
 	float: 								right;
 }
 #main .files li .mdi.mdi-folder-outline,
+#main .files li .mdi.mdi-package-variant,
 #main .files li .mdi.mdi-file-outline,
-#main .files li .mdi.mdi-package-variant {
+#main .files li .mdi.mdi-file-image,
+#main .files li .mdi.mdi-code-brackets {
 	float: 								left;
 	display: 							block;
 	pointer-events: 					none;
+	width: 								24px;
+	height: 							24px;
+	line-height: 						20px;
+	font-size:							18px;
+	border-radius: 						13px;
+	text-align: 						center;
+	border: 							2px solid transparent;
+	margin-right: 						8px;
+	margin-top: 						4px;
 }
-#main .files li div .mdi {
-	font-size:							20px;
+#main .files li .mdi.mdi-package-variant {
+	background-color: 					#61BD6D;
+	color: 								#FFFFFF;
+	border: 							2px solid #41A85F;
+}
+#main .files li .mdi.mdi-code-brackets {
+	background-color: 					#F7DA64;
+	color: 								#FFFFFF;
+	border: 							2px solid #FAC51C;
+}
+#main .files li .mdi.mdi-file-image {
+	background-color: 					#E25041;
+	color: 								#FFFFFF;
+	border: 							2px solid #B8312F;
 }
 #main .files li div.changed,
 #main .files li div.active.changed {
 	font-style: 						italic;
+}
+#main .files li div.active .mdi.mdi-folder-outline,
+#main .files li div.active .mdi.mdi-package-variant,
+#main .files li div.active .mdi.mdi-file-outline,
+#main .files li div.active .mdi.mdi-file-image,
+#main .files li div.active .mdi.mdi-code-brackets {
+	border: 							2px solid transparent;
+	background-color: 					transparent;
+	margin-top: 						4px;
 }
 #main .files li div.active:hover .mdi {
 	display: 							block;
@@ -585,10 +619,10 @@ h4 {
 	width: 								80px;
 	height: 							80px;
 	font-size: 							52px;
-	line-height: 						80px;
+	line-height: 						72px;
 	text-align: 						center;
 	border-radius: 						40px;
-	border: 							1px solid #E0E0E0;
+	border: 							4px solid #E0E0E0;
 	background-color: 					#E8E8E8;
 	color: 								#B0B0B0;
 }
@@ -607,6 +641,67 @@ h4 {
 	width: 								calc(100% - 96px);
 	opacity: 							0.57;
 	text-align: 						center;
+}
+
+/* New dialog */
+.dialog.new {
+	height: 							300px;
+	margin: 							-150px 0 0 0;
+}
+.dialog.new .dialog-vertical {
+	width: 								500px;
+	height: 							300px;
+}
+.dialog.new .new-content {
+	float: 								right;
+	width: 								calc(100% - 96px);
+}
+.dialog.new .new-content ul,
+.dialog.new .new-content li {
+	float: 								left;
+	list-style-type: 					none;
+	width: 								100%;
+}
+.dialog.new .new-content li {
+	padding: 							8px;
+	cursor: 							pointer;
+	opacity: 							0.37;
+}
+.dialog.new .new-content li:hover {
+	background-color: 					rgba(0, 0, 0, 0.05);
+	opacity: 							1;
+}
+.dialog.new .new-content .mdi {
+	float: 								left;
+	width: 								40px;
+	height: 							40px;
+	background-color: 					#61BD6D;
+	color: 								#FFFFFF;
+	border-radius: 						20px;
+	font-size: 							30px;
+	line-height: 						40px;
+	text-align: 						center;
+	line-height: 						32px;
+}
+.dialog.new .new-content .mdi.mdi-package-variant {
+	background-color: 					#61BD6D;
+	color: 								#FFFFFF;
+	border: 							3px solid #41A85F;
+}
+.dialog.new .new-content .mdi.mdi-code-brackets {
+	background-color: 					#F7DA64;
+	color: 								#FFFFFF;
+	border: 							2px solid #FAC51C;
+}
+.dialog.new .new-content .mdi.mdi-file-image {
+	background-color: 					#E25041;
+	color: 								#FFFFFF;
+	border: 							3px solid #B8312F;
+}
+.dialog.new .new-content .new-item-details {
+	float: 								left;
+	width: 								calc(100% - 40px);
+	padding: 							0 0 0 16px;
 }
 
 /* Prompt dialog */

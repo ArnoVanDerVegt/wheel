@@ -67,14 +67,8 @@ var MenuComponent = React.createClass({
 											{
 												type: 'li',
 												props: {
-													innerHTML: 'New project'
-												}
-											},
-											{
-												type: 'li',
-												props: {
-													innerHTML: 	'New file',
-													onClick: 	this.createCallback('onFile')
+													innerHTML: 'New...',
+													onClick: 	this.createCallback('onNew')
 												}
 											},
 											{

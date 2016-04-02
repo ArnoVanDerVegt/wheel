@@ -41,7 +41,7 @@ var VM = Class(Emitter, function(supr) {
 				case 'ng': 	v1 = vmData.getGlobalNumber(p1); 	break;
 				case 'nl': 	v1 = vmData.getLocalNumber(p1); 	break;
 				case 'nr': 	v1 = vmData.getRegister(p1); 		break;
-				case 'sc': 	v1 = vmData.getString(p1); 			break;
+				case 'sc': 	v1 = p1;/*vmData.getString(p1); */	break;
 			}
 			switch (command.params[1].type) {
 				case 'nc': 	v2 = p2; 							break;

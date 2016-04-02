@@ -54,7 +54,7 @@
 	window.addEventListener(
 		'load',
 		function() {
-			init(document.getElementById('code'), 'ev3', ev3_grammar);
+			init();
 		}
 	);
 })();

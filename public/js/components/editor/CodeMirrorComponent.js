@@ -9,8 +9,8 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		createCodeMirror: function(textarea, value) {
-			var grammar = ev3_grammar,
-				lang 	= 'ev3'
+			var grammar = mvmGrammar,
+				lang 	= 'mvm'
 				mode 	= CodeMirrorGrammar.getMode(grammar);
 
 			CodeMirror.defineMode(lang, mode);

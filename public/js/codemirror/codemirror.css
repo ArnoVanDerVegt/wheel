@@ -225,6 +225,16 @@
 	color: white 		!important;
 }
 
+.cm-s-default span.cm-color0 {
+	color: 				#000000;
+	background-color: 	#808080;
+}
+.cm-s-default span.cm-color1 {
+	color: 				#808080;
+	background-color: 	#000000;
+}
+
+
 .line-error {
 	background: 		#FFD0D0 !important;
 }

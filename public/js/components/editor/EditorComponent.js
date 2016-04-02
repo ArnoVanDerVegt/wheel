@@ -129,10 +129,10 @@ var EditorComponent = React.createClass({
 						path,
 						filename,
 						function(includes) {
-							//try {
+							try {
 								outputCommands = compiler.compile(includes);
 								this.refs.codeMirror.setHighlight({});
-							/*} catch (error) {
+							} catch (error) {
 								console.log('error', error);
 								var index = files.exists(error.filename);
 								if (index !== false) {
@@ -149,7 +149,7 @@ var EditorComponent = React.createClass({
 								this.refs.console.addError(error);
 
 								outputCommands = null;
-							}*/
+							}
 							if (outputCommands !== null) {
 								var compilerData = compiler.getCompilerData();
 								this.refs.console.setGlobals(compilerData.getGlobalList());
@@ -164,26 +164,32 @@ var EditorComponent = React.createClass({
 			//}
 		},
 
-		onFile: function() {
-			var state 	= this.state,
-				files 	= this.props.files,
-				file 	= this.getActiveFile(),
-				newFile = {
-					name: files.newName(file.getPath() + '/file', '.asm'),
-					data: 'number a',
-					open: true
-				},
-				index 	= 1,
-				found 	= true,
-				name;
+		onNew: function() {
+			var newDialog = this.refs.newDialog;
+			newDialog.setState({
+				visible: 	true,
+				activeFile: this.getActiveFile(),
+				onConfirm: 	function(filename) {
+					var state 	= this.state,
+						files 	= this.props.files,
+						file 	= this.getActiveFile(),
+						newFile = {
+							name: filename,
+							data: 'number a',
+							open: true
+						};
 
-			file && file.setData(this.refs.codeMirror.getCode());
+					file && file.setData(this.refs.codeMirror.getCode());
 
-			files.createFile(newFile);
-			state.activeFileIndex = files.exists(newFile.name);
-			this.refs.codeMirror.setCode(newFile.data);
+					files.createFile(newFile);
+					state.activeFileIndex = files.exists(newFile.name);
+					this.refs.codeMirror.setCode(newFile.data);
 
-			this.setState(state);
+					this.setState(state);
+
+
+				}.bind(this)
+			});
 		},
 
 		onSave: function() {
@@ -339,6 +345,7 @@ var EditorComponent = React.createClass({
 									refs.codeMirror.setReadOnly(true);
 								} else {
 									file.getData(function(data) {
+										refs.files.setState(refs.files.state);
 										refs.codeMirror.setReadOnly(false);
 										refs.codeMirror.setCode(data);
 									}.bind(this));
@@ -488,7 +495,7 @@ var EditorComponent = React.createClass({
 							activeProject: this.state.activeProject,
 							callbacks: {
 								onShowProject: 	this.onShowProject,
-								onFile: 		this.onFile,
+								onNew: 			this.onNew,
 								onSave: 		this.onSave,
 								onSelectAll: 	this.onSelectAll,
 								onFormatCode: 	this.onFormatCode,
@@ -582,6 +589,13 @@ var EditorComponent = React.createClass({
 						type: PromptDialog,
 						props: {
 							ref: 'promptDialog'
+						}
+					},
+					{
+						type: NewDialog,
+						props: {
+							files: 	this.props.files,
+							ref: 	'newDialog'
 						}
 					},
 				]
