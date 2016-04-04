@@ -10,8 +10,8 @@ var VMData = Class(function() {
 
 			for (var register in opts.registers) {
 				switch (opts.registers[register]) {
-					case 'nr': this._registers[register] = 0; 	break;
-					case 'br': this._registers[register] = 0; 	break;
+					case T_NUMBER_REGISTER: this._registers[register] = 0; 	break;
+					case T_NUMBER_REGISTER: this._registers[register] = 0; 	break;
 					case 'sr': this._registers[register] = ''; 	break;
 				}
 			}

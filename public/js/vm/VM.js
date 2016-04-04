@@ -37,17 +37,17 @@ var VM = Class(Emitter, function(supr) {
 				result;
 
 			switch (command.params[0].type) {
-				case 'nc': 	v1 = p1; 							break;
-				case 'ng': 	v1 = vmData.getGlobalNumber(p1); 	break;
-				case 'nl': 	v1 = vmData.getLocalNumber(p1); 	break;
-				case 'nr': 	v1 = vmData.getRegister(p1); 		break;
+				case T_NUMBER_CONSTANT: 	v1 = p1; 							break;
+				case T_NUMBER_GLOBAL: 	v1 = vmData.getGlobalNumber(p1); 	break;
+				case T_NUMBER_LOCAL: 	v1 = vmData.getLocalNumber(p1); 	break;
+				case T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
 				case 'sc': 	v1 = p1;/*vmData.getString(p1); */	break;
 			}
 			switch (command.params[1].type) {
-				case 'nc': 	v2 = p2; 							break;
-				case 'ng': 	v2 = vmData.getGlobalNumber(p2); 	break;
-				case 'nl': 	v2 = vmData.getLocalNumber(p2); 	break;
-				case 'nr': 	v2 = vmData.getRegister(p2); 		break;
+				case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
+				case T_NUMBER_GLOBAL: 	v2 = vmData.getGlobalNumber(p2); 	break;
+				case T_NUMBER_LOCAL: 	v2 = vmData.getLocalNumber(p2); 	break;
+				case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
 			}
 
 			if (command.code === 0) {
@@ -66,9 +66,9 @@ var VM = Class(Emitter, function(supr) {
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						switch (command.params[0].type) {
-							case 'ng': 	vmData.setGlobalNum(p1, result); 	break;
-							case 'nl': 	vmData.setLocalNum(p1, result); 	break;
-							case 'nr': 	vmData.setRegister(p1, result); 	break;
+							case T_NUMBER_GLOBAL: 	vmData.setGlobalNum(p1, result); 	break;
+							case T_NUMBER_LOCAL: 	vmData.setLocalNum(p1, result); 	break;
+							case T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 	break;
 						}
 						break;
 
@@ -88,9 +88,9 @@ var VM = Class(Emitter, function(supr) {
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						switch (command.params[0].type) {
-							case 'ng': 	vmData.setGlobalNum(p1, result); 	break;
-							case 'nl': 	vmData.setLocalNum(p1, result); 	break;
-							case 'nr': 	vmData.setRegister(p1, result); 	break;
+							case T_NUMBER_GLOBAL: 	vmData.setGlobalNum(p1, result); 	break;
+							case T_NUMBER_LOCAL: 	vmData.setLocalNum(p1, result); 	break;
+							case T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 	break;
 						}
 						break;
 

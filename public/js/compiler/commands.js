@@ -1,19 +1,8 @@
-/*
-Data types:
-
-bool const 			bc
-bool var global 	bg
-bool var local		bl
-bool register 		br
-int const 			ic
-int var global 		ig
-int var local 		il
-int register		ir
-string const 		sc
-string var global	sg
-label 				la
-procedure 			pr
-*/
+var T_NUMBER_CONSTANT 	= 0,
+	T_NUMBER_GLOBAL 	= 1,
+	T_NUMBER_LOCAL		= 2,
+	T_NUMBER_REGISTER	= 3,
+	T_LABEL				= 4;
 
 var commands = {
 		// 1..15: Math...
@@ -21,30 +10,30 @@ var commands = {
 			code: 1,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				}
 			]
@@ -53,30 +42,30 @@ var commands = {
 			code: 2,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 			]
@@ -85,30 +74,30 @@ var commands = {
 			code: 3,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 			]
@@ -117,30 +106,30 @@ var commands = {
 			code: 4,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 			]
@@ -149,30 +138,30 @@ var commands = {
 			code: 5,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 			]
@@ -183,30 +172,30 @@ var commands = {
 			code: 16,
 			args: [
 				{
-					type: 'ng', // Num global
+					type: T_NUMBER_GLOBAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nl', // Num local
+					type: T_NUMBER_LOCAL,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 				{
-					type: 'nr', // Num register
+					type: T_NUMBER_REGISTER,
 					args: [
-						{type: 'nc'}, // Num constant
-						{type: 'ng'}, // Num global
-						{type: 'nl'}, // Num local
-						{type: 'nr'}  // Num register
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
 					]
 				},
 			]
@@ -216,33 +205,33 @@ var commands = {
 		inc: {
 			code: 32,
 			args: [
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}, // Num register
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
 			]
 		},
 		dec: {
 			code: 33,
 			args: [
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}, // Num register
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
 			]
 		},
 		abs: {
 			code: 34,
 			args: [
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}, // Num register
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
 			]
 		},
 		neg: {
 			code: 35,
 			args: [
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}, // Num register
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
 			]
 		},
 
@@ -250,29 +239,29 @@ var commands = {
 		print: {
 			code: 48,
 			args: [
-				{type: 'nc'}, // Num constant
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}, // Num register
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
 				{type: 'sc'}, // String constant
 			]
 		},
 		motorw: { // Motor write...
 			code: 49,
 			args: [
-				{type: 'nc'}, // Num constant
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}  // Num register
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
 			]
 		},
 		motorr: { // Motor read...
 			code: 50,
 			args: [
-				{type: 'nc'}, // Num constant
-				{type: 'ng'}, // Num global
-				{type: 'nl'}, // Num local
-				{type: 'nr'}  // Num register
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
 			]
 		},
 
@@ -280,43 +269,43 @@ var commands = {
 		jmp: {
 			code: 64,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		je: {
 			code: 65,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		jne: {
 			cde: 66,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		jl: {
 			code: 67,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		jle: {
 			code: 68,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		jg: {
 			code: 69,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 		jge: {
 			code: 70,
 			args: [
-				{type: 'la'}
+				{type: T_LABEL}
 			]
 		},
 

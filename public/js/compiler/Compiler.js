@@ -18,13 +18,13 @@ var Compiler = Class(function() {
 		this.paramInfo = function(param) {
 			if (param === 'TRUE') {
 				return {
-					type: 	'nc', // Number constant
+					type: 	T_NUMBER_CONSTANT,
 					value: 	1,
 					param: 	param
 				}
 			} else if (param === 'FALSE') {
 				return {
-					type: 	'nc', // Number constant
+					type: 	T_NUMBER_CONSTANT,
 					value: 	0,
 					param: 	param
 				}
@@ -36,7 +36,7 @@ var Compiler = Class(function() {
 				};
 			} else if (!isNaN(parseInt(param, 10))) {
 				return {
-					type: 	'nc', // Num constant
+					type: 	T_NUMBER_CONSTANT,
 					value: 	parseInt(param, 10),
 					param: 	param
 				};
@@ -52,17 +52,17 @@ var Compiler = Class(function() {
 				} else {
 					index = compilerData.findLocal(param);
 					if (index !== null) {
-						type = 'nl'; // Num local
+						type = T_NUMBER_LOCAL;
 					} else {
 						index = compilerData.findGlobal(param);
 						if (index !== null) {
-							type = 'ng'; // Num global
+							type = T_NUMBER_GLOBAL;
 						} else {
 							index = 0;
 							var label = compilerData.findLabel(param);
 							if (label !== null) {
 								label.jumps.push(this._outputCommands.length);
-								type = 'la';
+								type = T_LABEL;
 							}
 						}
 					}
@@ -142,7 +142,7 @@ var Compiler = Class(function() {
 						var destParam = null;
 						switch (p.command.paramTypes[i]) {
 							case 'bool': 	destParam = { type: 'bl', value: p.command.localCount + i, param: param }; break;
-							case 'number': 	destParam = { type: 'nl', value: p.command.localCount + i, param: param }; break;
+							case 'number': 	destParam = { type: T_NUMBER_LOCAL, value: p.command.localCount + i, param: param }; break;
 						}
 						this.addOutputCommand(this.createCommand('set', [destParam, this.paramInfo(param)]));
 					}
