@@ -1,7 +1,61 @@
+var ResizeComponent = React.createClass({
+		getInitialState: function() {
+			return {
+				resizing: false
+			};
+		},
+
+		onStartResize: function(event) {
+			this.props.editor.setResizeListener(this);
+			var state = this.state;
+			state.resizing = true;
+			this.setState(state);
+
+			event.preventDefault();
+		},
+
+		onResize: function(pageX, pageY) {
+			this.props.owner.onResize(pageX, pageY);
+		},
+
+		onEndResize: function() {
+			var state = this.state;
+			state.resizing = false;
+			this.setState(state);
+		},
+
+		render: function() {
+			return utilsReact.fromJSON({
+				type: 'li',
+				props: {
+					className: 		'dotted resizer' + (this.state.resizing ? ' resizing' : ''),
+					onMouseDown: 	this.onStartResize,
+				}
+			});
+		}
+	});
+
 var FilesComponent = React.createClass({
 		getInitialState: function() {
 			this.props.files.on('Loaded', function() { this.setState({a:Math.random()}); }.bind(this) );
-			return {};
+			return {
+				width: 360
+			};
+		},
+
+		setWidth: function(width) {
+			var state = this.state;
+			width = Math.min(Math.max(width, 100), 400);
+			if (state.width !== width) {
+				state.width = width;
+				this.setState(state);
+			}
+		},
+
+		onResize: function(pageX, pageY) {
+			this.setWidth(pageX);
+			this.props.editor.refs.codeMirror.setLeft(pageX);
+			this.props.editor.refs.console.setLeft(pageX);
 		},
 
 		render: function() {
@@ -179,9 +233,24 @@ var FilesComponent = React.createClass({
 			return utilsReact.fromJSON({
 				type: 'ul',
 				props: {
-					className: 'files'
+					className: 'files',
+					style: {
+						width: this.state.width + 'px'
+					}
 				},
-				children: [addNode(root, 0)]
+				children: [
+					addNode(root, 0),
+					{
+						type: ResizeComponent,
+						props: {
+							editor: 		this.props.editor,
+							owner: 			this,
+							className: 		'resizer',
+							onMouseDown: 	this.onStartResize,
+							onMouseUp: 		this.onEndResize
+						}
+					}
+				]
 			});
 		}
 	});

@@ -24,7 +24,8 @@ li {
 	box-sizing: 						border-box;
 	color: 								#212121;
 }
-#container {
+#container,
+.container-events {
 	float: 								left;
 	position: 							relative;
 	width: 								100%;
@@ -139,9 +140,18 @@ h4 {
 }
 
 /* Files */
+.dotted {
+	/*padding: 2.25em 1.6875em;*/
+	background-image: 					-webkit-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
+	background-image: 					-moz-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
+	background-image: 					-ms-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
+	background-image: 					repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
+	-webkit-background-size: 			3px 3px;
+	-moz-background-size: 				3px 3px;
+	background-size: 					3px 3px;
+}
 #main .files {
 	position: 							absolute;
-	width: 								360px;
 	top: 								56px;
 	left: 								0px;
 	bottom: 							8px;
@@ -150,9 +160,26 @@ h4 {
 	overflow: 							hidden;
 	overflow-y: 						scroll;
 }
+#main .files .resizer {
+	position: 							absolute;
+	top: 								0;
+	right: 								0;
+	width: 								10px;
+	bottom: 							0;
+	z-index: 							100;
+	cursor: 							col-resize;
+	opacity: 							0.1;
+}
+#main .files .resizer:hover {
+	opacity: 							0.75;
+}
+#main .files .resizer.resizing {
+	opacity: 							1;
+}
 #main .files ul {
 	float: 								left;
 	width: 								100%;
+	z-index: 0;
 }
 #main .files li {
 	float: 								left;
@@ -249,7 +276,6 @@ h4 {
 /* Editor */
 #main .editor {
 	position: 							absolute;
-	left: 								360px;
 	right: 								196px;
 	top: 								56px;
 	bottom: 							8px;
@@ -267,7 +293,6 @@ h4 {
 /* Console */
 #main .console {
 	position: 							absolute;
-	left: 								360px;
 	right: 								196px;
 	height: 							152px;
 	bottom: 							8px;

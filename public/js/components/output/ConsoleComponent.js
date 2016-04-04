@@ -1,11 +1,18 @@
 var ConsoleComponent = React.createClass({
 		getInitialState: function() {
 			return {
+				left: 		360,
 				visible: 	true,
 				small: 		false,
 				messages: 	[],
 				globals: 	{}
 			}
+		},
+
+		setLeft: function(left) {
+			var state = this.state;
+			state.left = left;
+			this.setState(state);
 		},
 
 		setSmall: function() {
@@ -123,7 +130,10 @@ var ConsoleComponent = React.createClass({
 
 			return utilsReact.fromJSON({
 				props: {
-					className: 'console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large')
+					className: 'console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large'),
+					style: {
+						left: this.state.left + 'px'
+					}
 				},
 				children: [
 					{

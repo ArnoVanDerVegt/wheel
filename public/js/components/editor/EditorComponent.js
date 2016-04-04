@@ -80,6 +80,10 @@ var EditorComponent = React.createClass({
 			return sensorSettings;
 		},
 
+		setResizeListener: function(resizeListener) {
+			this._resizeListener = resizeListener;
+		},
+
 		updateFiles: function() {
 			var files = this.refs.files;
 			files.setState(files.state);
@@ -448,6 +452,23 @@ var EditorComponent = React.createClass({
 			this.refs.codeMirror.setHighlight({});
 		},
 
+		onMouseMove: function(event) {
+			if (this._resizeListener) {
+				this._resizeListener.onResize(event.pageX, event.pageY);
+				event.preventDefault();
+			}
+		},
+
+		onMouseUp: function(event) {
+			this._resizeListener && this._resizeListener.onEndResize();
+			this._resizeListener = null;
+		},
+
+		onMouseOut: function(event) {
+			this._resizeListener && this._resizeListener.onEndResize();
+			this._resizeListener = null;
+		},
+
 		openFile: function(filename) {
 			var state 	= this.state,
 				files 	= this.props.files,
@@ -486,7 +507,9 @@ var EditorComponent = React.createClass({
 
 			return utilsReact.fromJSON({
 				props: {
-					id: 'main'
+					id: 			'main',
+					onMouseMove: 	this.onMouseMove,
+					onMouseUp: 		this.onMouseUp
 				},
 				children: [
 					{
@@ -515,6 +538,7 @@ var EditorComponent = React.createClass({
 						type: FilesComponent,
 						props: {
 							ref: 				'files',
+							editor: 			this,
 							activeFileIndex: 	this.state.activeFileIndex,
 							files: 				files,
 							onSelectFile: 		this.onSelectFile,

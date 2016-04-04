@@ -1,0 +1,14 @@
+#project "Conditions"
+    
+#include "standard.asm"
+    
+    number  g                               ; Global variable
+    
+proc main()
+    set     g,                      13
+    
+    number  l                               ; Local variable
+    set     l,                      17
+    print   g
+    print   l
+endp

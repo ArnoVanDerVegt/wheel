@@ -1,6 +1,7 @@
 var CodeMirrorComponent = React.createClass({
 		getInitialState: function() {
 			return {
+				left: 		360,
 				small: 		false,
 				console: 	true,
 				readOnly: 	false,
@@ -54,6 +55,7 @@ var CodeMirrorComponent = React.createClass({
 				);
 
 			editor.setSize(null, '100%');
+/*
 			editor.addLineClass(6, 'background', 'line-step');
 
 			var div = document.createElement('div');
@@ -66,6 +68,7 @@ var CodeMirrorComponent = React.createClass({
 			div.appendChild(span);
 
 			editor.setGutterMarker(6, 'CodeMirror-guttermarker', div);
+*/
 			editor.setValue(value);
 
 			this._allowPublish = true;
@@ -111,13 +114,24 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		render: function() {
-			return React.createElement(
-				'div',
-				{
-					className: 'editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large')
+			//React.createElement('textarea', {ref: 'textarea', defaultValue: 'code'})
+			return utilsReact.fromJSON({
+				props: {
+					className: 'editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large'),
+					style: {
+						left: this.state.left + 'px'
+					}
 				},
-				React.createElement('textarea', {ref: 'textarea', defaultValue: 'code'})
-			);
+				children: [
+					{
+						type: 'textarea',
+						props: {
+							ref: 			'textarea',
+							defaultValue: 	'code'
+						}
+					}
+				]
+			});
 		},
 
 		highlightLine: function(lineNumber, className) {
@@ -157,6 +171,12 @@ var CodeMirrorComponent = React.createClass({
 				this.state.highlight = highlight;
 				this.setState(this.state);
 			}
+		},
+
+		setLeft: function(left) {
+			var state = this.state;
+			state.left = left;
+			this.setState(state);
 		},
 
 		setSmall: function() {

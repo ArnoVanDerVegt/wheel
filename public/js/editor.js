@@ -23,30 +23,25 @@
 			compiler 	= new Compiler({registers: registers}),
 			motors 		= new Motors({}),
 			vm 			= new VM({registers: registers, motors: motors}),
-			files		= new Files({}),
-			newFile;
-
-		/*files.createFile({
-			name: 'standard',
-			data: STANDARD_FILE,
-			open: true
-		});
-		files.createFile({
-			name: 'test',
-			data: TEST_FILE,
-			open: true
-		});*/
+			files		= new Files({});
 
 		ReactDOM.render(
-			React.createElement(
-				EditorComponent,
-				{
-					compiler: 	compiler,
-					vm: 		vm,
-					files: 		files,
-					motors: 	motors
-				}
-			),
+			utilsReact.fromJSON({
+				props: {
+					className: 'container-events'
+				},
+				children: [
+					{
+						type: EditorComponent,
+						props: {
+							compiler: 	compiler,
+							vm: 		vm,
+							files: 		files,
+							motors: 	motors
+						}
+					}
+				]
+			}),
 			document.getElementById('container')
 		);
 	}
