@@ -34,6 +34,7 @@ var mvmGrammar = {
 		'register': {
 			autocomplete: true,
 			tokens: [
+				'REG_OFFSET',
 				'REG_DRAW_X',
 				'REG_DRAW_Y',
 				'REG_DRAW_X1',
@@ -131,7 +132,9 @@ var mvmGrammar = {
 				'inc',
 				'dec',
 				'abs',
-				'neg'
+				'neg',
+				'arrayw',
+				'arrayr'
 			]
 		},
 		'api_keyword': {
@@ -140,6 +143,8 @@ var mvmGrammar = {
 				'print',
 				'motorw',
 				'motorr',
+				'sensorw',
+				'sensorr',
 				'rect',
 				'circle',
 				'line'

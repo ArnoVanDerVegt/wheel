@@ -11,28 +11,27 @@ var VMData = Class(function() {
 			for (var register in opts.registers) {
 				switch (opts.registers[register]) {
 					case T_NUMBER_REGISTER: this._registers[register] = 0; 	break;
-					case T_NUMBER_REGISTER: this._registers[register] = 0; 	break;
-					case 'sr': this._registers[register] = ''; 	break;
+					case T_STRING_REGISTER: this._registers[register] = ''; break;
 				}
 			}
 		};
 
 		/* Global */
-		this.setGlobalNum = function(index, value) {
-			this._globalData[index] = value;
+		this.setGlobalNumber = function(offset, value) {
+			this._globalData[offset] = value;
 		};
 
-		this.getGlobalNumber = function(index) {
-			return this._globalData[index];
+		this.getGlobalNumber = function(offset) {
+			return this._globalData[offset];
 		};
 
 		/* Local */
-		this.setLocalNum = function(index, value) {
-			this._localData[this._localOffset + index] = value;
+		this.setLocalNumber = function(offset, value) {
+			this._localData[this._localOffset + offset] = value;
 		};
 
-		this.getLocalNumber = function(index) {
-			return this._localData[this._localOffset + index];
+		this.getLocalNumber = function(offset) {
+			return this._localData[this._localOffset + offset];
 		};
 
 		/* Regigers */

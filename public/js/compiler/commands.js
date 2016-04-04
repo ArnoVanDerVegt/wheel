@@ -1,8 +1,12 @@
-var T_NUMBER_CONSTANT 	= 0,
-	T_NUMBER_GLOBAL 	= 1,
-	T_NUMBER_LOCAL		= 2,
-	T_NUMBER_REGISTER	= 3,
-	T_LABEL				= 4;
+var T_NUMBER_CONSTANT 		= 0,
+	T_NUMBER_GLOBAL 		= 1,
+	T_NUMBER_GLOBAL_ARRAY 	= 2,
+	T_NUMBER_LOCAL			= 3,
+	T_NUMBER_LOCAL_ARRAY	= 4,
+	T_NUMBER_REGISTER		= 5,
+	T_STRING_REGISTER		= 6,
+	T_STRING_CONSTANT		= 7,
+	T_LABEL					= 8;
 
 var commands = {
 		// 1..15: Math...
@@ -243,7 +247,7 @@ var commands = {
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
 				{type: T_NUMBER_REGISTER},
-				{type: 'sc'}, // String constant
+				{type: T_STRING_CONSTANT}, // String constant
 			]
 		},
 		motorw: { // Motor write...
@@ -309,9 +313,173 @@ var commands = {
 			]
 		},
 
-		// 80..95: Call, ret
+		// 80..83: Call, ret
 		call: 		{code: 80},
 		ret: 		{code: 81},
+
+		// 84..95: Array functions
+		arrayr: 	{ // Array read...
+			code: 84,
+			args: [
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{
+							type: T_NUMBER_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{
+							type: T_NUMBER_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{
+							type: T_NUMBER_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				}
+			]
+		},
+
+		arrayw: 	{ // Array write...
+			code: 85,
+			args: [
+				{
+					type: T_NUMBER_LOCAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_NUMBER_GLOBAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				}
+			]
+		},
 
 		// 96..111: Screen commands
 		cls: 		{code: 96},

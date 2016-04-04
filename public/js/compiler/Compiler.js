@@ -1,6 +1,6 @@
 var Compiler = Class(function() {
 		this.init = function(opts) {
-			this._compilerData 		= new CompilerData({registers: opts.registers});
+			this._compilerData 		= new CompilerData({compiler: this, registers: opts.registers});
 			this._outputCommands 	= [];
 			this._mainIndex 		= -1;
 			this._filename 			= '';
@@ -30,7 +30,7 @@ var Compiler = Class(function() {
 				}
 			} else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
 				return {
-					type: 	'sc', // String constant
+					type: 	T_STRING_CONSTANT, // String constant
 					value: 	param.substr(1, param.length - 2),
 					param: 	param
 				};
@@ -42,23 +42,28 @@ var Compiler = Class(function() {
 				};
 			} else {
 				var compilerData = this._compilerData,
-					index,
+					offset,
+					vr 		= null,
 					type 	= null;
 
-				index = compilerData.findRegister(param);
-				if (index !== null) {
-					type 	= index;
-					index 	= param;
+				offset = compilerData.findRegister(param);
+				if (offset !== null) {
+					type 	= offset;
+					offset 	= param;
 				} else {
-					index = compilerData.findLocal(param);
-					if (index !== null) {
-						type = T_NUMBER_LOCAL;
+					var local = compilerData.findLocal(param);
+					if (local !== null) {
+						offset 	= local.offset;
+						type 	= local.type;
+						vr 		= local;
 					} else {
-						index = compilerData.findGlobal(param);
-						if (index !== null) {
-							type = T_NUMBER_GLOBAL;
+						var global = compilerData.findGlobal(param);
+						if (global !== null) {
+							offset 	= global.offset;
+							type 	= global.type;
+							vr 		= global;
 						} else {
-							index = 0;
+							offset = 0;
 							var label = compilerData.findLabel(param);
 							if (label !== null) {
 								label.jumps.push(this._outputCommands.length);
@@ -74,7 +79,8 @@ var Compiler = Class(function() {
 
 				return {
 					type: 	type,
-					value: 	index,
+					vr: 	vr,
+					value: 	offset,
 					param: 	param
 				}
 			}
@@ -195,12 +201,8 @@ var Compiler = Class(function() {
 					throw this.createError('Syntax error in procedure parameter "' + params[j] + '".');
 				}
 				switch (param[0]) {
-					case 'bool':
-						compilerData.declareLocal(param[1]);
-						break;
-
 					case 'number':
-						compilerData.declareLocal(param[1]);
+						compilerData.declareLocal(param[1], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY);
 						break;
 
 					default:
@@ -287,7 +289,7 @@ var Compiler = Class(function() {
 								command: 	'ret',
 								code: 		81
 							});
-							outputCommands[procStartIndex].localCount = compilerData.getLocalIndex();
+							outputCommands[procStartIndex].localCount = compilerData.getLocalOffset();
 							procStartIndex 	= -1;
 							compilerData.resetLocal();
 						} else {
@@ -316,32 +318,94 @@ var Compiler = Class(function() {
 								}
 
 								switch (command) {
-									case 'bool':
-										if (procStartIndex === -1) {
-											for (var j = 0; j < params.length; j++) {
-												compilerData.declareGlobal(params[j]);
-											}
-										} else {
-											for (var j = 0; j < params.length; j++) {
-												compilerData.declareLocal(params[j]);
-											}
-										}
-										break;
-
 									case 'number':
 										if (procStartIndex === -1) {
 											for (var j = 0; j < params.length; j++) {
-												compilerData.declareGlobal(params[j]);
+												compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
 											}
 										} else {
 											for (var j = 0; j < params.length; j++) {
-												compilerData.declareLocal(params[j]);
+												compilerData.declareLocal(params[j], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY);
 											}
 										}
 										break;
 
 									default:
 										command = this.validateCommand(command, params);
+										switch (command.command) {
+											case 'arrayr': // Array read...
+												// Remove the third parameter which is the index and
+												// add a command to move the value to the REG_OFFSET...
+												this.addOutputCommand({
+													command: 	'set',
+													code: 		commands.set.code,
+													params: [
+														{
+															type: 	T_NUMBER_REGISTER,
+															value: 	'REG_OFFSET'
+														},
+														command.params.pop()
+													]
+												});
+
+												// Check if the item size is greater than 1, if so multiply with the item size...
+												var size = command.params[1].vr.size;
+												if (size > 1) {
+													this.addOutputCommand({
+														command: 	'mul',
+														code: 		commands.mul.code,
+														params: [
+															{
+																type: 	T_NUMBER_REGISTER,
+																value: 	compilerData.findRegister('REG_OFFSET')
+															},
+															{
+																type: 	T_NUMBER_CONSTANT,
+																value: 	size
+															}
+														]
+													});
+												}
+												break;
+
+											case 'arrayw': // Array write...
+											/*
+												// Remove the third parameter which is the index and
+												// add a command to move the value to the REG_OFFSET...
+												this.addOutputCommand({
+													command: 	'set',
+													code: 		commands.set.code,
+													params: [
+														{
+															type: 	T_NUMBER_REGISTER,
+															value: 	'REG_OFFSET'
+														},
+														command.params.pop()
+													]
+												});
+
+												// Check if the item size is greater than 1, if so multiply with the item size...
+												var size = command.params[1].vr.size;
+												if (size > 1) {
+													this.addOutputCommand({
+														command: 	'mul',
+														code: 		commands.mul.code,
+														params: [
+															{
+																type: 	T_NUMBER_REGISTER,
+																value: 	compilerData.findRegister('REG_OFFSET')
+															},
+															{
+																type: 	T_NUMBER_CONSTANT,
+																value: 	size
+															}
+														]
+													});
+												}
+											*/
+												break;
+										}
+
 										this.addOutputCommand(command);
 										break;
 								}

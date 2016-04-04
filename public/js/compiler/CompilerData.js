@@ -1,15 +1,16 @@
 var CompilerData = Class(function() {
 		this.init = function(opts) {
+			this._compiler 	= opts.compiler;
 			this._registers = opts.registers;
 
 			this.reset();
 		};
 
 		this.reset = function() {
-			this._globalIndex 	= 0;
+			this._globalOffset 	= 0;
 			this._globalList 	= {};
 
-			this._localIndex 	= 0;
+			this._localOffset 	= 0;
 			this._localList 	= {};
 
 			this._labelList 	= {};
@@ -17,47 +18,86 @@ var CompilerData = Class(function() {
 			this._procedure 	= null;
 		};
 
-		/* Global */
-		this.declareGlobal = function(name) {
-			var intList = this._globalList;
-			if (name in intList) {
-				throw new Error('Duplicate int identifier "' + name + '".');
+		this._parseVariable = function(name) {
+			var length 	= 1,
+				i 		= name.indexOf('[');
+			if (i !== -1) {
+				if (name[name.length - 1] === ']') {
+					length = parseInt(name.substr(i + 1, name.length - i - 2), 10);
+					if (isNaN(length)) {
+
+					}
+					name = name.substr(0, i);
+				} else {
+					throw this._compiler.createError('"]" expected.');
+				}
 			}
-			intList[name] = this._globalIndex++;
+			return {
+				name: 	name,
+				length: length
+			}
+		}
+
+		/* Global */
+		this.declareGlobal = function(name, type, arrayType) {
+			var vr 			= this._parseVariable(name);
+				globalList 	= this._globalList;
+
+			if (vr.name in globalList) {
+				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
+			}
+
+			globalList[vr.name] = {
+				type: 	(vr.length === 1) ? type : arrayType,
+				offset: this._globalOffset,
+				size: 	1,
+				length: vr.length
+			};
+			this._globalOffset += vr.length;
 		};
 
 		this.findGlobal = function(name) {
-			var intList = this._globalList;
-			if (name in intList) {
-				return intList[name];
+			var globalList = this._globalList;
+			if (name in globalList) {
+				return globalList[name];
 			}
 			return null;
 		};
 
 		/* Local */
 		this.resetLocal = function() {
-			this._localIndex 	= 0;
+			this._localOffset 	= 0;
 			this._localList 	= {};
 		};
 
-		this.declareLocal = function(name) {
-			var intList = this._localList;
-			if (name in intList) {
-				throw new Error('Duplicate int identifier "' + name + '".');
+		this.declareLocal = function(name, type, arrayType) {
+			var vr 			= this._parseVariable(name);
+				localList 	= this._localList;
+
+			if (vr.name in localList) {
+				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
 			}
-			intList[name] = this._localIndex++;
+
+			localList[vr.name] = {
+				type: 	(vr.length === 1) ? type : arrayType,
+				offset: 	this._localOffset,
+				size: 		1,
+				length: 	vr.length
+			};
+
+			this._localOffset += vr.length;
 		};
 
 		this.findLocal = function(name) {
-			var intList = this._localList;
-			if (name in intList) {
-				return intList[name];
+			var localList = this._localList;
+			if (name in localList) {
+				return localList[name];
 			}
 			return null;
 		};
 
-		this.getLocalIndex = function() {
-			return this._localIndex;
+		this.getLocalOffset = function() {
+			return this._localOffset;
 		};
 
 		/* Register */
@@ -96,7 +136,7 @@ var CompilerData = Class(function() {
 		this.declareProcedure = function(name, command, index) {
 			var procedureList = this._procedureList;
 			if (name in procedureList) {
-				throw new Error('Duplicate procedure "' + name + '".');
+				throw this._compiler.createError('Duplicate procedure "' + name + '".');
 			}
 			this.resetLocal();
 			this._procedure = {

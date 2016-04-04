@@ -38,15 +38,15 @@ var VM = Class(Emitter, function(supr) {
 
 			switch (command.params[0].type) {
 				case T_NUMBER_CONSTANT: 	v1 = p1; 							break;
-				case T_NUMBER_GLOBAL: 	v1 = vmData.getGlobalNumber(p1); 	break;
-				case T_NUMBER_LOCAL: 	v1 = vmData.getLocalNumber(p1); 	break;
+				case T_NUMBER_GLOBAL: 		v1 = vmData.getGlobalNumber(p1); 	break;
+				case T_NUMBER_LOCAL: 		v1 = vmData.getLocalNumber(p1); 	break;
 				case T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
-				case 'sc': 	v1 = p1;/*vmData.getString(p1); */	break;
+				case T_STRING_CONSTANT: 	v1 = p1;/*vmData.getString(p1); */	break;
 			}
 			switch (command.params[1].type) {
 				case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
-				case T_NUMBER_GLOBAL: 	v2 = vmData.getGlobalNumber(p2); 	break;
-				case T_NUMBER_LOCAL: 	v2 = vmData.getLocalNumber(p2); 	break;
+				case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
+				case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
 				case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
 			}
 
@@ -66,9 +66,9 @@ var VM = Class(Emitter, function(supr) {
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						switch (command.params[0].type) {
-							case T_NUMBER_GLOBAL: 	vmData.setGlobalNum(p1, result); 	break;
-							case T_NUMBER_LOCAL: 	vmData.setLocalNum(p1, result); 	break;
-							case T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 	break;
+							case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+							case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
+							case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
 						}
 						break;
 
@@ -88,9 +88,9 @@ var VM = Class(Emitter, function(supr) {
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						switch (command.params[0].type) {
-							case T_NUMBER_GLOBAL: 	vmData.setGlobalNum(p1, result); 	break;
-							case T_NUMBER_LOCAL: 	vmData.setLocalNum(p1, result); 	break;
-							case T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 	break;
+							case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); break;
+							case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 	break;
+							case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 	break;
 						}
 						break;
 
@@ -146,6 +146,23 @@ var VM = Class(Emitter, function(supr) {
 						switch (command.command) {
 							case 'call': 		callProc();					break;
 							case 'ret': 		callRet(); 					break;
+							case 'arrayr': // Read from an array...
+								var regOffset 	= vmData.getRegister('REG_OFFSET'),
+									v1 			= null;
+								switch (command.params[1].type) {
+									case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(regOffset + p2); 		break;
+									case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(regOffset + p2, result); break;
+								}
+								switch (command.params[0].type) {
+									case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, v1); break;
+									case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, v1); 	break;
+									case T_NUMBER_REGISTER: vmData.setRegister(p1, v1); 	break;
+								}
+								break;
+
+							case 'arrayw': // Write an array element...
+								break;
+
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						break;

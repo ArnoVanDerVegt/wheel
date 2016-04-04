@@ -105,7 +105,10 @@ var ConsoleComponent = React.createClass({
 			}
 
 			for (var i in globals) {
-				var offset = ('000000' + globals[i]).substr(-6);
+				var vr 		= globals[i],
+					offset 	= ('000000' + vr.offset).substr(-6),
+					length 	= ('000000' + vr.length).substr(-6),
+					size 	= ('000000' + vr.size).substr(-6);
 				globalsChildren.push({
 					props: {
 						className: 'row var',
@@ -116,6 +119,18 @@ var ConsoleComponent = React.createClass({
 							props: {
 								className: 'offset',
 								innerHTML: offset
+							}
+						},
+						{
+							props: {
+								className: 'offset',
+								innerHTML: length
+							}
+						},
+						{
+							props: {
+								className: 'offset',
+								innerHTML: size
 							}
 						},
 						{

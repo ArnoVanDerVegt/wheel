@@ -362,6 +362,7 @@ h4 {
 }
 #main .console .tabs .tabs-content .row.var .offset {
 	float: 								left;
+	margin-right: 						8px;
 }
 #main .console .tabs .tabs-content .row.var .name {
 	float: 								left;
