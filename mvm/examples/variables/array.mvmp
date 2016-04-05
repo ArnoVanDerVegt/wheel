@@ -1,14 +1,22 @@
 #project "Conditions"
     
-#include "standard.asm"
+#include "/lib/standard.mvm"
     
-    number  g                               ; Global variable
+    number  list[10]
+    number  counter
+    number  value
     
 proc main()
-    set     g,                      13
+    set     counter,                0
+loop:
+    set     value,                  10
+    sub     value,                  counter
+    arrayw  list,                   counter, value
     
-    number  l                               ; Local variable
-    set     l,                      17
-    print   g
-    print   l
+    inc     counter
+    cmp     counter,                10
+    jl      loop
+    
+    arrayr  value,                  list, 3
+    log     value
 endp

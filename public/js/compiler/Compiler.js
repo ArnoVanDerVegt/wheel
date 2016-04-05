@@ -156,7 +156,7 @@ var Compiler = Class(function() {
 
 				this.addOutputCommand({
 					command: 	'call',
-					code: 		82,
+					code: 		commands['call'].code,
 					params: [
 						{
 							value: p.index
@@ -175,7 +175,7 @@ var Compiler = Class(function() {
 				procStartIndex 	= outputCommands.length;
 				outputCommand 	= {
 					command: 	'nop',
-					code: 		0,
+					code: 		commands.nop.code,
 					params: [
 						{
 							value: 0
@@ -287,7 +287,7 @@ var Compiler = Class(function() {
 						} else if (line === 'endp') {
 							this.addOutputCommand({
 								command: 	'ret',
-								code: 		81
+								code: 		commands.ret.code
 							});
 							outputCommands[procStartIndex].localCount = compilerData.getLocalOffset();
 							procStartIndex 	= -1;
@@ -369,8 +369,7 @@ var Compiler = Class(function() {
 												break;
 
 											case 'arrayw': // Array write...
-											/*
-												// Remove the third parameter which is the index and
+												// Remove the second parameter which is the index and
 												// add a command to move the value to the REG_OFFSET...
 												this.addOutputCommand({
 													command: 	'set',
@@ -380,7 +379,7 @@ var Compiler = Class(function() {
 															type: 	T_NUMBER_REGISTER,
 															value: 	'REG_OFFSET'
 														},
-														command.params.pop()
+														command.params.splice(1, 1)[0]
 													]
 												});
 
@@ -402,7 +401,6 @@ var Compiler = Class(function() {
 														]
 													});
 												}
-											*/
 												break;
 										}
 

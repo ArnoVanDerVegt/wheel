@@ -105,6 +105,10 @@ var VM = Class(Emitter, function(supr) {
 								vmData.setRegister('REG_DRAW_X', vmData.getRegister('REG_DRAW_X') + size);
 								break;
 
+							case 'log':
+								console.log(v1);
+								break;
+
 							case 'motorw': // Motor write...
 								var motor = this._motors.getMotor(v1);
 								if (motor) {
@@ -161,6 +165,17 @@ var VM = Class(Emitter, function(supr) {
 								break;
 
 							case 'arrayw': // Write an array element...
+								var regOffset 	= vmData.getRegister('REG_OFFSET'),
+									v1 			= null;
+								switch (command.params[0].type) {
+									case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(p2); 		break;
+									case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(p2, result); break;
+								}
+								switch (command.params[1].type) {
+									case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(regOffset + p1, v1); break;
+									case T_NUMBER_LOCAL: 	vmData.setLocalNumber(regOffset + p1, v1); 	break;
+									case T_NUMBER_REGISTER: vmData.setRegister(regOffset + p1, v1); 	break;
+								}
 								break;
 
 							default: throw new Error('Unknown command "' + command.command + '"');

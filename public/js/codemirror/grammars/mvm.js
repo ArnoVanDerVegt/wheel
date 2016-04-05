@@ -141,6 +141,7 @@ var mvmGrammar = {
 			'autocomplete': true,
 			'tokens': [
 				'print',
+				'log',
 				'motorw',
 				'motorr',
 				'sensorw',

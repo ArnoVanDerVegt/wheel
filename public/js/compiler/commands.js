@@ -9,6 +9,9 @@ var T_NUMBER_CONSTANT 		= 0,
 	T_LABEL					= 8;
 
 var commands = {
+		nop: {
+			code: 0
+		},
 		// 1..15: Math...
 		set: {
 			code: 1,
@@ -250,8 +253,18 @@ var commands = {
 				{type: T_STRING_CONSTANT}, // String constant
 			]
 		},
-		motorw: { // Motor write...
+		log: {
 			code: 49,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+				{type: T_STRING_CONSTANT}, // String constant
+			]
+		},
+		motorw: { // Motor write...
+			code: 50,
 			args: [
 				{type: T_NUMBER_CONSTANT},
 				{type: T_NUMBER_GLOBAL},
@@ -260,7 +273,7 @@ var commands = {
 			]
 		},
 		motorr: { // Motor read...
-			code: 50,
+			code: 51,
 			args: [
 				{type: T_NUMBER_CONSTANT},
 				{type: T_NUMBER_GLOBAL},
