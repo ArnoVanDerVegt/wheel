@@ -348,9 +348,16 @@ h4 {
 	border: 							1px dotted #E0E0E0;
 	border-width: 						0 0 1px 0;
 }
+#main .console .tabs .tabs-content .row.log {
+	cursor: 							pointer;
+	border: 							1px dotted #E0E0E0;
+	border-width: 						0 0 1px 0;
+}
+#main .console .tabs .tabs-content .row.log .message,
 #main .console .tabs .tabs-content .row.error .message {
 	float: 								left;
 }
+#main .console .tabs .tabs-content .row.log .location,
 #main .console .tabs .tabs-content .row.error .location {
 	float: 								right;
 }

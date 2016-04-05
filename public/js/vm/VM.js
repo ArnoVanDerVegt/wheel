@@ -106,7 +106,7 @@ var VM = Class(Emitter, function(supr) {
 								break;
 
 							case 'log':
-								console.log(v1);
+								this.emit('Log', v1, command.filename, command.lineNumber);
 								break;
 
 							case 'motorw': // Motor write...

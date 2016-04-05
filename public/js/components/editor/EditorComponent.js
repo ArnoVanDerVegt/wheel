@@ -6,6 +6,16 @@ var EditorComponent = React.createClass({
 					this.setState(this.state);
 				}.bind(this)
 			);
+			this.props.vm.on(
+				'Log',
+				function(message, filename, lineNumber) {
+					this.refs.console.addLog({
+						message: 	message,
+						filename: 	filename,
+						lineNumber: lineNumber
+					});
+				}.bind(this)
+			);
 			return {
 				small: 					false,
 				console: 				false,

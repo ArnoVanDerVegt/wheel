@@ -108,7 +108,9 @@ var Compiler = Class(function() {
 				return {
 					command: 	command,
 					code: 		code,
-					params: 	params
+					params: 	params,
+					filename: 	this._filename,
+					lineNumber: this._lineNumber
 				};
 			}
 		};

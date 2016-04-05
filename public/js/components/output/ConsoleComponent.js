@@ -33,6 +33,17 @@ var ConsoleComponent = React.createClass({
 			this.setState(state);
 		},
 
+		addLog: function(message) {
+			var state = this.state;
+			state.messages.push({
+				type: 		'log',
+				message: 	message.message,
+				filename: 	message.filename,
+				lineNumber: message.lineNumber
+			});
+			this.setState(state);
+		},
+
 		addError: function(error) {
 			var state = this.state;
 			state.messages.push({
@@ -83,14 +94,14 @@ var ConsoleComponent = React.createClass({
 				(function(message) {
 					messageChildren.push({
 						props: {
-							className: 'row error',
+							className: 'row ' + message.type,
 							onClick: 	function() { this.props.onShowError && this.props.onShowError(message.filename, message.lineNumber); }.bind(this)
 						},
 						children: [
 							{
 								props: {
 									className: 'location',
-									innerHTML: message.filename + ':' + message.lineNumber
+									innerHTML: message.filename + ':' + (message.lineNumber + 1)
 								}
 							},
 							{

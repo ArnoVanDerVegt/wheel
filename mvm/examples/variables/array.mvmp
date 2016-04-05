@@ -1,22 +1,28 @@
 #project "Conditions"
-    
+
 #include "/lib/standard.mvm"
-    
+
     number  list[10]
     number  counter
     number  value
-    
+
 proc main()
     set     counter,                0
-loop:
-    set     value,                  10
+writeLoop:
+    set     value,                  11
     sub     value,                  counter
     arrayw  list,                   counter, value
-    
+
     inc     counter
     cmp     counter,                10
-    jl      loop
-    
-    arrayr  value,                  list, 3
-    log     value
+    jl      writeLoop
+
+    set     counter,                0
+readLoop:
+    arrayr  value,                  list, counter
+    log 	value
+
+    inc     counter
+    cmp     counter,                10
+    jl      readLoop
 endp
