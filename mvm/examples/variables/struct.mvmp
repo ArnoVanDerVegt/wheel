@@ -2,7 +2,7 @@
     
 #include "/lib/standard.mvm"
     
-struct  DemoStruct
+struct DemoStruct
     number  i,                      j
     number  a[5]
     number  x,                      y
@@ -11,5 +11,8 @@ ends
     DemoStruct demoStruct
     
 proc main()
-	set demoStruct.j, 5
+	set demoStruct.x, 5
+	set demoStruct.y, 34
+    log demoStruct.x
+    log demoStruct.y
 endp

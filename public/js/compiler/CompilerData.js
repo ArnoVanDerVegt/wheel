@@ -62,9 +62,32 @@ var CompilerData = Class(function() {
 		};
 
 		this.findGlobal = function(name) {
-			var globalList = this._globalList;
+			var globalList 	= this._globalList,
+				field 		= null,
+				i 			= name.indexOf('.');
+			if (i !== -1) {
+				field 	= name.substr(i + 1 - name.length);
+				name 	= name.substr(0, i);
+			}
 			if (name in globalList) {
-				return globalList[name];
+				var vr = globalList[name];
+				if (field) {
+					if (vr.struct) {
+						if (field in vr.struct.fields) {
+							var clonedVr = {};
+							for (var i in vr) {
+								clonedVr[i] = vr[i];
+							}
+							clonedVr.offset += vr.struct.fields[field].offset;
+							clonedVr.type = T_NUMBER_GLOBAL;
+							return clonedVr;
+						}
+						throw this._compiler.createError('Undefined field "' + field + '".');
+					} else {
+						throw this._compiler.createError('Type error.');
+					}
+				}
+				return vr;
 			}
 			return null;
 		};
@@ -100,9 +123,32 @@ var CompilerData = Class(function() {
 		};
 
 		this.findLocal = function(name) {
-			var localList = this._localList;
+			var localList 	= this._localList,
+				field 		= null,
+				i 			= name.indexOf('.');
+			if (i !== -1) {
+				field 	= name.substr(i + 1 - name.length);
+				name 	= name.substr(0, i);
+			}
 			if (name in localList) {
-				return localList[name];
+				var vr = localList[name];
+				if (field) {
+					if (vr.struct) {
+						if (field in vr.struct.fields) {
+							var clonedVr = {};
+							for (var i in vr) {
+								clonedVr[i] = vr[i];
+							}
+							clonedVr.offset += vr.struct.fields[field].offset;
+							clonedVr.type = T_NUMBER_LOCAL;
+							return clonedVr;
+						}
+						throw this._compiler.createError('Undefined field "' + field + '".');
+					} else {
+						throw this._compiler.createError('Type error.');
+					}
+				}
+				return vr;
 			}
 			return null;
 		};

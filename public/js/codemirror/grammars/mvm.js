@@ -113,7 +113,12 @@ var mvmGrammar = {
 		},
 		'keyword': {
 			'autocomplete': true,
-			'tokens': ['proc', 'endp']
+			'tokens': [
+				'proc',
+				'endp',
+				'struct',
+				'ends'
+			]
 		},
 		'expression_keyword': {
 			'autocomplete': true,
@@ -155,7 +160,6 @@ var mvmGrammar = {
 			'autocomplete': true,
 			'tokens': [
 				'number',
-				'bool',
 				'string'
 			]
 		}
