@@ -134,8 +134,16 @@ var CodeMirrorComponent = React.createClass({
 			});
 		},
 
-		highlightLine: function(lineNumber, className) {
+		highlightLine: function(lineNumber, className, clear) {
 			var state = this.state;
+			if (clear) {
+				for (var i in state.highlight) {
+					var highlight = state.highlight[i];
+					if (highlight.className && (highlight.className.indexOf(className) !== -1)) {
+						delete state.highlight[i];
+					}
+				}
+			}
 			state.highlight[lineNumber] = { className: className || 'line-error' };
 			this._editor && this._editor.addLineClass(lineNumber, 'background', className || 'line-error');
 		},

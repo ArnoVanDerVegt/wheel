@@ -85,6 +85,7 @@ var ConsoleComponent = React.createClass({
 
 		render: function() {
 			var state 			= this.state,
+				props			= this.props,
 				messages 		= state.messages,
 				messageChildren = [],
 				globals 		= state.globals,
@@ -95,7 +96,17 @@ var ConsoleComponent = React.createClass({
 					messageChildren.push({
 						props: {
 							className: 'row ' + message.type,
-							onClick: 	function() { this.props.onShowError && this.props.onShowError(message.filename, message.lineNumber); }.bind(this)
+							onClick: 	function() {
+								switch (message.type) {
+									case 'log':
+										props.onShowLog && props.onShowLog(message.filename, message.lineNumber);
+										break;
+
+									case 'error':
+										props.onShowError && props.onShowError(message.filename, message.lineNumber);
+										break;
+								}
+							}.bind(this)
 						},
 						children: [
 							{
@@ -121,31 +132,36 @@ var ConsoleComponent = React.createClass({
 					length 	= ('000000' + vr.length).substr(-6),
 					size 	= ('000000' + vr.size).substr(-6);
 				globalsChildren.push({
-					props: {
-						className: 'row var',
+					type: 	'tr',
+					props: 	{
+						className: 'row var'
 						//onClick: 	function() { this.props.onShowError && this.props.onShowError(message.filename, message.lineNumber); }.bind(this)
 					},
 					children: [
 						{
-							props: {
+							type: 	'td',
+							props: 	{
 								className: 'offset',
 								innerHTML: offset
 							}
 						},
 						{
-							props: {
+							type: 	'td',
+							props: 	{
 								className: 'offset',
 								innerHTML: length
 							}
 						},
 						{
-							props: {
+							type: 	'td',
+							props: 	{
 								className: 'offset',
 								innerHTML: size
 							}
 						},
 						{
-							props: {
+							type: 	'td',
+							props: 	{
 								className: 'name',
 								innerHTML: i
 							}
@@ -173,7 +189,54 @@ var ConsoleComponent = React.createClass({
 								},
 								{
 									title: 		'Data',
-									content: 	globalsChildren
+									content: 	[
+										{
+											type: 		'table',
+											children: 	[
+												{
+													type: 		'tbody',
+													children: 	[
+														{
+															type: 	'tr',
+															props: 	{
+																className: 'row var'
+															},
+															children: [
+																{
+																	type: 	'th',
+																	props: 	{
+																		className: 'offset',
+																		innerHTML: 'Offset'
+																	}
+																},
+																{
+																	type: 	'th',
+																	props: 	{
+																		className: 'offset',
+																		innerHTML: 'Length'
+																	}
+																},
+																{
+																	type: 	'th',
+																	props: 	{
+																		className: 'offset',
+																		innerHTML: 'Size'
+																	}
+																},
+																{
+																	type: 	'th',
+																	props: 	{
+																		className: 'name',
+																		innerHTML: 'Name'
+																	}
+																}
+															]
+														}
+													].concat(globalsChildren)
+												}
+											]
+										}
+									]
 								}
 							],
 							tools: [

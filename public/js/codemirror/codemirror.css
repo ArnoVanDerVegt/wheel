@@ -241,6 +241,9 @@
 .line-step {
 	background: 		#FFFFF0 !important;
 }
+.line-log {
+	background: 		#FFFFF0 !important;
+}
 
 /* Default styles for common addons */
 div.CodeMirror span.CodeMirror-matchingbracket {

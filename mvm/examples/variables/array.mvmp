@@ -1,4 +1,4 @@
-#project "Conditions"
+#project "Array demo"
 
 #include "/lib/standard.mvm"
 
@@ -7,6 +7,7 @@
     number  value
 
 proc main()
+    log 	"Start"
     set     counter,                0
 writeLoop:
     set     value,                  11

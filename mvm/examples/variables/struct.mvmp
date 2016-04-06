@@ -1,14 +1,15 @@
-#project "Conditions"
+#project "Struct demo"
     
-#include "standard.asm"
+#include "/lib/standard.mvm"
     
-    number  g                               ; Global variable
+struct  DemoStruct
+    number  i,                      j
+    number  a[5]
+    number  x,                      y
+ends
+    
+    DemoStruct demoStruct
     
 proc main()
-    set     g,                      13
-    
-    number  l                               ; Local variable
-    set     l,                      17
-    print   g
-    print   l
+	set demoStruct.j, 5
 endp

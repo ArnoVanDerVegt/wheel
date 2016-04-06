@@ -16,6 +16,9 @@ var CompilerData = Class(function() {
 			this._labelList 	= {};
 			this._procedureList = {};
 			this._procedure 	= null;
+			this._structOffset 	= 0;
+			this._structList 	= {};
+			this._struct 		= null;
 		};
 
 		this._parseVariable = function(name) {
@@ -39,9 +42,10 @@ var CompilerData = Class(function() {
 		}
 
 		/* Global */
-		this.declareGlobal = function(name, type, arrayType) {
+		this.declareGlobal = function(name, type, arrayType, struct) {
 			var vr 			= this._parseVariable(name);
-				globalList 	= this._globalList;
+				globalList 	= this._globalList,
+				size 		= struct ? struct.size : 1;
 
 			if (vr.name in globalList) {
 				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
@@ -50,10 +54,11 @@ var CompilerData = Class(function() {
 			globalList[vr.name] = {
 				type: 	(vr.length === 1) ? type : arrayType,
 				offset: this._globalOffset,
-				size: 	1,
-				length: vr.length
+				size: 	size,
+				length: vr.length,
+				struct: struct ? struct : null
 			};
-			this._globalOffset += vr.length;
+			this._globalOffset += vr.length * size;
 		};
 
 		this.findGlobal = function(name) {
@@ -64,15 +69,20 @@ var CompilerData = Class(function() {
 			return null;
 		};
 
+		this.getGlobalList = function() {
+			return this._globalList;
+		};
+
 		/* Local */
 		this.resetLocal = function() {
 			this._localOffset 	= 0;
 			this._localList 	= {};
 		};
 
-		this.declareLocal = function(name, type, arrayType) {
-			var vr 			= this._parseVariable(name);
-				localList 	= this._localList;
+		this.declareLocal = function(name, type, arrayType, struct) {
+			var vr 			= this._parseVariable(name),
+				localList 	= this._localList,
+				size 		= struct ? struct.size : 1;
 
 			if (vr.name in localList) {
 				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
@@ -81,11 +91,12 @@ var CompilerData = Class(function() {
 			localList[vr.name] = {
 				type: 	(vr.length === 1) ? type : arrayType,
 				offset: 	this._localOffset,
-				size: 		1,
-				length: 	vr.length
+				size: 		size,
+				length: 	vr.length,
+				struct: 	struct ? struct : null
 			};
 
-			this._localOffset += vr.length;
+			this._localOffset += vr.length * size;
 		};
 
 		this.findLocal = function(name) {
@@ -147,13 +158,55 @@ var CompilerData = Class(function() {
 		};
 
 		this.findProcedure = function(name) {
-			if (name in this._procedureList) {
-				return this._procedureList[name];
-			}
-			return null;
+			return (name in this._procedureList) ? this._procedureList[name] : null;
 		};
 
-		this.getGlobalList = function() {
-			return this._globalList;
+		/* Struct */
+		this.declareStruct = function(name, command) {
+			var result 		= {
+					name: 	name,
+					size: 	0,
+					fields: {}
+				},
+				compiler 	= this._compiler,
+				structList 	= this._structList;
+			if (!compiler.validateString(name)) {
+				throw compiler.createError('Syntax error.');
+			}
+			if (name in structList) {
+				throw compiler.createError('Duplicate struct "' + name + '".');
+			}
+			structList[name] 	= result;
+			this._struct 		= result;
+			this._structOffset 	= 0;
+
+			return result;
+		};
+
+		this.findStruct = function(name) {
+			return (name in this._structList) ? this._structList[name] : null;
+		};
+
+		this.declareStructField = function(name, type, arrayType) {
+			var struct = this._struct;
+			if (!struct) {
+				return;
+			}
+
+			var vr = this._parseVariable(name);
+
+			if (vr.name in struct) {
+				throw compiler.createError('Duplicate struct field "' + name + '".');
+			}
+
+			struct.fields[vr.name] = {
+				type: 	(vr.length === 1) ? type : arrayType,
+				offset: 	this._structOffset,
+				size: 		1,
+				length: 	vr.length
+			};
+
+			this._structOffset += vr.length;
+			struct.size = this._structOffset;
 		};
 	});

@@ -147,7 +147,6 @@ var EditorComponent = React.createClass({
 								outputCommands = compiler.compile(includes);
 								this.refs.codeMirror.setHighlight({});
 							} catch (error) {
-								console.log('error', error);
 								var index = files.exists(error.filename);
 								if (index !== false) {
 									var file = files.getFile(index),
@@ -259,7 +258,6 @@ var EditorComponent = React.createClass({
 
 		onExamples: function() {
 			this.refs.examplesDialog.show((function(example) {
-				console.log('example.filename:', example.filename);
 				this.openFile(example.filename);
 			}).bind(this));
 		},
@@ -436,7 +434,12 @@ var EditorComponent = React.createClass({
 
 		onShowError: function(filename, lineNumber) {
 			this.onSelectFile(filename);
-			this.refs.codeMirror.highlightLine(lineNumber);
+			this.refs.codeMirror.highlightLine(lineNumber, 'line-error');
+		},
+
+		onShowLog: function(filename, lineNumber) {
+			this.onSelectFile(filename);
+			this.refs.codeMirror.highlightLine(lineNumber, 'line-log', true);
 		},
 
 		onCloseConsole: function() {
@@ -582,6 +585,7 @@ var EditorComponent = React.createClass({
 						props: {
 							ref: 				'console',
 							onShowError: 		this.onShowError,
+							onShowLog: 			this.onShowLog,
 							onClearMessages: 	this.onClearMessages,
 							onClose: 			this.onCloseConsole,
 							editor: 			this

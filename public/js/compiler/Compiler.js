@@ -117,7 +117,7 @@ var Compiler = Class(function() {
 
 		this.validateCommand = function(command, params) {
 			if (!(command in commands)) {
-				throw this.createError('Unknown command "' + command + '".');
+				return false;
 			}
 
 			for (var i = 0; i < params.length; i++) {
@@ -126,16 +126,26 @@ var Compiler = Class(function() {
 			return this.createCommand(command, params);
 		};
 
+		this.validateString = function(s, valid) {
+			if (!valid) {
+				valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+			}
+			for (var i = 0; i < s.length; i++) {
+				if (valid.indexOf(s[i]) === -1) {
+					return false;
+				}
+			}
+			return true;
+		};
+
 		this.compileCall = function(line) {
 			var compilerData 	= this._compilerData,
 				i 				= line.indexOf('('),
 				procedure 		= line.substr(0, i),
 				valid 			= '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
 
-			for (var j = 0; j < procedure.length; j++) {
-				if (valid.indexOf(procedure[j]) === -1) {
-					throw this.createError('Syntax error.');
-				}
+			if (!this.validateString(procedure)) {
+				throw this.createError('Syntax error.');
 			}
 
 			var p = compilerData.findProcedure(procedure);
@@ -270,11 +280,81 @@ var Compiler = Class(function() {
 			}
 		};
 
+		this.compileArrayR = function(command) {
+			// Remove the third parameter which is the index and
+			// add a command to move the value to the REG_OFFSET...
+			this.addOutputCommand({
+				command: 	'set',
+				code: 		commands.set.code,
+				params: [
+					{
+						type: 	T_NUMBER_REGISTER,
+						value: 	'REG_OFFSET'
+					},
+					command.params.pop()
+				]
+			});
+
+			// Check if the item size is greater than 1, if so multiply with the item size...
+			var size = command.params[1].vr.size;
+			if (size > 1) {
+				this.addOutputCommand({
+					command: 	'mul',
+					code: 		commands.mul.code,
+					params: [
+						{
+							type: 	T_NUMBER_REGISTER,
+							value: 	compilerData.findRegister('REG_OFFSET')
+						},
+						{
+							type: 	T_NUMBER_CONSTANT,
+							value: 	size
+						}
+					]
+				});
+			}
+		};
+
+		this.compileArrayW = function(command) {
+			// Remove the second parameter which is the index and
+			// add a command to move the value to the REG_OFFSET...
+			this.addOutputCommand({
+				command: 	'set',
+				code: 		commands.set.code,
+				params: [
+					{
+						type: 	T_NUMBER_REGISTER,
+						value: 	'REG_OFFSET'
+					},
+					command.params.splice(1, 1)[0]
+				]
+			});
+
+			// Check if the item size is greater than 1, if so multiply with the item size...
+			var size = command.params[1].vr.size;
+			if (size > 1) {
+				this.addOutputCommand({
+					command: 	'mul',
+					code: 		commands.mul.code,
+					params: [
+						{
+							type: 	T_NUMBER_REGISTER,
+							value: 	compilerData.findRegister('REG_OFFSET')
+						},
+						{
+							type: 	T_NUMBER_CONSTANT,
+							value: 	size
+						}
+					]
+				});
+			}
+		};
+
 		this.compileLines = function(lines) {
 			var compilerData 	= this._compilerData,
 				outputCommands 	= this._outputCommands,
 				procStartIndex 	= -1,
-				activeProc 		= null;
+				activeStruct 	= null;
 
 			for (var i = 0; i < lines.length; i++) {
 				this._lineNumber = i;
@@ -286,7 +366,12 @@ var Compiler = Class(function() {
 						if (this.hasLabel(line)) {
 							var label = compilerData.findLabel(line.substr(0, line.length - 1));
 							label.index = outputCommands.length - 1;
+						} else if (line === 'ends') {
+							activeStruct = null;
 						} else if (line === 'endp') {
+							if (activeStruct !== null) {
+								throw this.createError('Invalid command "endp".');
+							}
 							this.addOutputCommand({
 								command: 	'ret',
 								code: 		commands.ret.code
@@ -296,23 +381,29 @@ var Compiler = Class(function() {
 							compilerData.resetLocal();
 						} else {
 							var command = line;
+							if (activeStruct !== null) {
+								throw this.createError('Invalid command "' + command + '".');
+							}
 							if (command in commands) {
 								var args = commands[command];
 								this.addOutputCommand({
 									command: 	command,
 									code: 		args.code
 								});
+							} else {
+								throw this.createError('Unknown command "' + command + '".');
 							}
 						}
 					} else {
 						var j 		= line.indexOf(' '),
 							command = line.substr(0, j),
 							params 	= line.substr(j - line.length + 1).trim();
-
 						if (params !== '') {
 							var j = params.indexOf('(');
 							if ((command === 'proc') && (j !== -1) && (params.substr(-1) === ')')) {
 								procStartIndex = this.compileProcedure(params);
+							} else if (command === 'struct') {
+								activeStruct = compilerData.declareStruct(params, command);
 							} else {
 								params = params.split(',');
 								for (var j = 0; j < params.length; j++) {
@@ -321,7 +412,11 @@ var Compiler = Class(function() {
 
 								switch (command) {
 									case 'number':
-										if (procStartIndex === -1) {
+										if (activeStruct !== null) {
+											for (var j = 0; j < params.length; j++) {
+												compilerData.declareStructField(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
+											}
+										} else if (procStartIndex === -1) {
 											for (var j = 0; j < params.length; j++) {
 												compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
 											}
@@ -333,81 +428,36 @@ var Compiler = Class(function() {
 										break;
 
 									default:
-										command = this.validateCommand(command, params);
-										switch (command.command) {
-											case 'arrayr': // Array read...
-												// Remove the third parameter which is the index and
-												// add a command to move the value to the REG_OFFSET...
-												this.addOutputCommand({
-													command: 	'set',
-													code: 		commands.set.code,
-													params: [
-														{
-															type: 	T_NUMBER_REGISTER,
-															value: 	'REG_OFFSET'
-														},
-														command.params.pop()
-													]
-												});
-
-												// Check if the item size is greater than 1, if so multiply with the item size...
-												var size = command.params[1].vr.size;
-												if (size > 1) {
-													this.addOutputCommand({
-														command: 	'mul',
-														code: 		commands.mul.code,
-														params: [
-															{
-																type: 	T_NUMBER_REGISTER,
-																value: 	compilerData.findRegister('REG_OFFSET')
-															},
-															{
-																type: 	T_NUMBER_CONSTANT,
-																value: 	size
-															}
-														]
-													});
+										var validatedCommand = this.validateCommand(command, params);
+										if (validatedCommand === false) {
+											var struct = compilerData.findStruct(command);
+											if (struct === null) {
+												throw this.createError('Unknown command "' + command + '".');
+											} else if (activeStruct !== null) {
+												throw this.createError('Nested structs are suported "' + command + '".');
+											} else if (procStartIndex === -1) {
+												for (var j = 0; j < params.length; j++) {
+													compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct);
 												}
-												break;
-
-											case 'arrayw': // Array write...
-												// Remove the second parameter which is the index and
-												// add a command to move the value to the REG_OFFSET...
-												this.addOutputCommand({
-													command: 	'set',
-													code: 		commands.set.code,
-													params: [
-														{
-															type: 	T_NUMBER_REGISTER,
-															value: 	'REG_OFFSET'
-														},
-														command.params.splice(1, 1)[0]
-													]
-												});
-
-												// Check if the item size is greater than 1, if so multiply with the item size...
-												var size = command.params[1].vr.size;
-												if (size > 1) {
-													this.addOutputCommand({
-														command: 	'mul',
-														code: 		commands.mul.code,
-														params: [
-															{
-																type: 	T_NUMBER_REGISTER,
-																value: 	compilerData.findRegister('REG_OFFSET')
-															},
-															{
-																type: 	T_NUMBER_CONSTANT,
-																value: 	size
-															}
-														]
-													});
+											} else {
+												for (var j = 0; j < params.length; j++) {
+													compilerData.declareLocal(params[j], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
 												}
-												break;
-										}
+											}
+										} else {
+											switch (validatedCommand.command) {
+												case 'arrayr': // Array read...
+													this.compileArrayR(validatedCommand);
+													break;
 
-										this.addOutputCommand(command);
-										break;
+												case 'arrayw': // Array write...
+													this.compileArrayW(validatedCommand);
+													break;
+											}
+
+											this.addOutputCommand(validatedCommand);
+											break;
+									}
 								}
 							}
 						}
@@ -428,7 +478,6 @@ var Compiler = Class(function() {
 			while (i) {
 				i--;
 				this._filename = includes[i].filename;
-
 				var lines = includes[i].lines;
 				this.compileLabels(lines);
 				this.compileLines(lines);

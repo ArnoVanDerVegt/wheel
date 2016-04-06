@@ -93,9 +93,9 @@ var FileProcessor = Class(function() {
 				return line;
 			}
 			line 	= line.substr(i + 8 - line.length);
-			i 		= line.indexOf(' ');
-			var cnst 	= line.substr(0, i),
-				value 	= line.substr(i - line.length).trim();
+			j 		= line.indexOf(' ');
+			var cnst 	= line.substr(0, j),
+				value 	= line.substr(j - line.length).trim();
 			this._replaceTree.add(cnst, value);
 
 			return line.substr(0, i);
