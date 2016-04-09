@@ -1,0 +1,44 @@
+#project "Procedure demo"
+
+#include "/lib/standard.mvm"
+
+proc test
+
+proc tests[2]
+
+struct TestStruct
+	number i, j, k
+    proc testStructProc
+    number x, y, z
+    proc moreProc[3]
+ends
+
+TestStruct testStruct
+
+proc padding()
+	log "First proc"
+endp
+
+proc testProc()
+	log "Test proc"
+endp
+
+proc bla()
+	log "Blaaaa"
+endp
+
+proc main()
+	arrayw testStruct.moreProc, 2, bla
+    
+	arrayw tests, 0, testProc
+    set testStruct.testStructProc, padding
+	set test, testProc
+    test()
+    set test, testStruct.testStructProc
+    test()
+    arrayr test, tests, 0
+    test()
+    
+    arrayr test, testStruct.moreProc, 2
+    test()
+endp

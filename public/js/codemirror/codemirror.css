@@ -183,10 +183,10 @@
 	color: 				#FF0000;
 }
 .cm-s-default span.cm-expression-keyword {
-	color: 				#008888;
+	color: 				#CC0088;
 }
 .cm-s-default span.cm-api-keyword {
-	color: 				#008888;
+	color: 				#CC0088;
 	font-style: 		italic;
 }
 .cm-s-default span.cm-string {

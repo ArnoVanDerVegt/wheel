@@ -42,12 +42,18 @@ var VM = Class(Emitter, function(supr) {
 				case T_NUMBER_LOCAL: 		v1 = vmData.getLocalNumber(p1); 	break;
 				case T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
 				case T_STRING_CONSTANT: 	v1 = p1;/*vmData.getString(p1); */	break;
+				case T_PROC_GLOBAL: 		v1 = vmData.getGlobalNumber(p1); 	break;
+				case T_PROC_LOCAL: 			v1 = vmData.getLocalNumber(p1); 	break;
+				case T_PROC: 				v1 = p1;							break;
 			}
 			switch (command.params[1].type) {
 				case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
 				case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
 				case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
 				case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
+				case T_PROC_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
+				case T_PROC_LOCAL: 			v2 = vmData.getLocalNumber(p2); 	break;
+				case T_PROC: 				v2 = p2;							break;
 			}
 
 			if (command.code === 0) {
@@ -69,6 +75,8 @@ var VM = Class(Emitter, function(supr) {
 							case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
 							case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
 							case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
+							case T_PROC_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+							case T_PROC_LOCAL: 		vmData.setLocalNumber(p1, result); 		break;
 						}
 						break;
 
@@ -148,8 +156,26 @@ var VM = Class(Emitter, function(supr) {
 
 					case 5:
 						switch (command.command) {
-							case 'call': 		callProc();					break;
-							case 'ret': 		callRet(); 					break;
+							case 'call':
+								callProc();
+								break;
+
+							case 'call_global':
+								vmData.pushLocalOffset(command.params[1].value);
+								this._callStack.push(this._index);
+								this._index = v1;
+								break;
+
+							case 'call_local':
+								vmData.pushLocalOffset(command.params[1].value);
+								this._callStack.push(this._index);
+								this._index = v1;
+								break;
+
+							case 'ret':
+								callRet();
+								break;
+
 							case 'arrayr': // Read from an array...
 								var regOffset 	= vmData.getRegister('REG_OFFSET'),
 									regSize 	= vmData.getRegister('REG_SIZE'),
@@ -188,13 +214,17 @@ var VM = Class(Emitter, function(supr) {
 
 									default:
 										switch (command.params[1].type) {
-											case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(regOffset + p2); 		break;
-											case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(regOffset + p2, result); break;
+											case T_NUMBER_GLOBAL_ARRAY: v2 = vmData.getGlobalNumber(regOffset + p2); 		break;
+											case T_NUMBER_LOCAL_ARRAY: 	v2 = vmData.getLocalNumber(regOffset + p2, result); break;
+											case T_PROC_GLOBAL_ARRAY: 	v2 = vmData.getGlobalNumber(regOffset + p2); 		break;
+											case T_PROC_LOCAL_ARRAY: 	v2 = vmData.getLocalNumber(regOffset + p2, result); break;
 										}
 										switch (command.params[0].type) {
-											case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, v1); break;
-											case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, v1); 	break;
-											case T_NUMBER_REGISTER: vmData.setRegister(p1, v1); 	break;
+											case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, v2); break;
+											case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, v2); 	break;
+											case T_NUMBER_REGISTER: vmData.setRegister(p1, v2); 	break;
+											case T_PROC_GLOBAL: 	vmData.setGlobalNumber(p1, v2); break;
+											case T_PROC_LOCAL: 	 	vmData.setLocalNumber(p1, v2); 	break;
 										}
 										break;
 								}
@@ -239,13 +269,18 @@ var VM = Class(Emitter, function(supr) {
 									default:
 										switch (command.params[1].type) {
 											case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
+											case T_PROC: 				v2 = p2; 							break;
 											case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
 											case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
 											case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
+											case T_PROC_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
+											case T_PROC_LOCAL: 			v2 = vmData.getLocalNumber(p2); 	break;
 										}
 										switch (command.params[0].type) {
 											case T_NUMBER_GLOBAL_ARRAY: vmData.setGlobalNumber(regOffset + p1, v2); break;
 											case T_NUMBER_LOCAL_ARRAY: 	vmData.setLocalNumber(regOffset + p1, v2); 	break;
+											case T_PROC_GLOBAL_ARRAY: 	vmData.setGlobalNumber(regOffset + p1, v2); break;
+											case T_PROC_LOCAL_ARRAY: 	vmData.setLocalNumber(regOffset + p1, v2); 	break;
 										}
 									}
 								break;

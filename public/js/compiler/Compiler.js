@@ -63,11 +63,18 @@ var Compiler = Class(function() {
 							type 	= global.type;
 							vr 		= global;
 						} else {
-							offset = 0;
-							var label = compilerData.findLabel(param);
-							if (label !== null) {
-								label.jumps.push(this._outputCommands.length);
-								type = T_LABEL;
+							var procedure = compilerData.findProcedure(param);
+							if (procedure !== null) {
+								offset 	= procedure.index;
+								type 	= T_PROC;
+								vr 		= procedure;
+							} else {
+								offset = 0;
+								var label = compilerData.findLabel(param);
+								if (label !== null) {
+									label.jumps.push(this._outputCommands.length);
+									type = T_LABEL;
+								}
 							}
 						}
 					}
@@ -95,7 +102,11 @@ var Compiler = Class(function() {
 						found = false;
 
 					for (var j = 0; j < args.length; j++) {
-						if (param.type === args[j].type) {
+						var argsType = args[j].type,
+							matchType = (param.type === args[j].type) ||
+								(param.vr && param.vr.field && (param.vr.field.type === args[j].type));
+
+						if (matchType) {
 							args 	= ('args' in args[j]) ? args[j].args : args[j];
 							found 	= true;
 							break;
@@ -148,25 +159,10 @@ var Compiler = Class(function() {
 				throw this.createError('Syntax error.');
 			}
 
-			var p = compilerData.findProcedure(procedure);
-			if (p === null) {
-				throw this.createError('Unknown procedure "' + procedure + '".');
-			} else {
-				var params = line.substr(i + 1, line.length - i - 2).trim();
-				params = params.length ? params.split(',') : [];
-				for (var i = 0; i < params.length; i++) {
-					var param = params[i].trim();
-					if (param !== '') {
-						var destParam = null;
-						switch (p.command.paramTypes[i]) {
-							case 'bool': 	destParam = { type: 'bl', value: p.command.localCount + i, param: param }; break;
-							case 'number': 	destParam = { type: T_NUMBER_LOCAL, value: p.command.localCount + i, param: param }; break;
-						}
-						this.addOutputCommand(this.createCommand('set', [destParam, this.paramInfo(param)]));
-					}
-				}
-
-				this.addOutputCommand({
+			var callCommand,
+				p 				= compilerData.findProcedure(procedure);
+			if (p !== null) {
+				callCommand = {
 					command: 	'call',
 					code: 		commands['call'].code,
 					params: [
@@ -174,11 +170,70 @@ var Compiler = Class(function() {
 							value: p.index
 						},
 						{
-							value: p.command.localCount
+							value: 0
 						}
 					]
-				});
+				};
+			} else {
+				var local = compilerData.findLocal(procedure);
+				if (local !== null) {
+					if (local.type !== T_PROC_LOCAL) {
+						throw this.createError('Type error, can not call "' + procedure + '".');
+					}
+					callCommand = {
+						command: 	'call_local',
+						code: 		commands.call_global.code,
+						params: [
+							{
+								value: 	local.offset,
+								type: 	T_NUMBER_LOCAL
+							},
+							{
+								value: 0
+							}
+						]
+					};
+				} else {
+					var global = compilerData.findGlobal(procedure)
+					if (global !== null) {
+						if (global.type !== T_PROC_GLOBAL) {
+							throw this.createError('Type error, can not call "' + procedure + '".');
+						}
+						callCommand = {
+							command: 	'call_global',
+							code: 		commands.call_global.code,
+							params: [
+								{
+									value: 	global.offset,
+									type: 	T_NUMBER_GLOBAL
+								},
+								{
+									value: 0
+								}
+							]
+						};
+					} else {
+						throw this.createError('Unknown procedure "' + procedure + '".');
+					}
+				}
 			}
+
+			var params = line.substr(i + 1, line.length - i - 2).trim();
+			params = params.length ? params.split(',') : [];
+			for (var i = 0; i < params.length; i++) {
+				var param = params[i].trim();
+				if (param !== '') {
+					var destParam = {
+							type: 	T_NUMBER_LOCAL,
+							value: 	p.command.localCount + i,
+							param: 	param
+						};
+					this.addOutputCommand(this.createCommand('set', [destParam, this.paramInfo(param)]));
+					callCommand.params[1].value++; // todo: add param type size!
+				}
+			}
+
+			this.addOutputCommand(callCommand);
 		};
 
 		this.compileProcedure = function(params) {
@@ -449,9 +504,30 @@ var Compiler = Class(function() {
 							command = line.substr(0, j),
 							params 	= line.substr(j - line.length + 1).trim();
 						if (params !== '') {
-							var j = params.indexOf('(');
-							if ((command === 'proc') && (j !== -1) && (params.substr(-1) === ')')) {
-								procStartIndex = this.compileProcedure(params);
+							if (command === 'proc') {
+								var j = params.indexOf('(');
+								if ((j !== -1) && (params.substr(-1) === ')')) {
+									procStartIndex = this.compileProcedure(params);
+								} else {
+									params = params.split(',');
+									for (var j = 0; j < params.length; j++) {
+										params[j] = params[j].trim();
+									}
+
+									if (activeStruct !== null) {
+										for (var j = 0; j < params.length; j++) {
+											compilerData.declareStructField(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY);
+										}
+									} else if (procStartIndex === -1) {
+										for (var j = 0; j < params.length; j++) {
+											compilerData.declareGlobal(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY, null, this._filename, i);
+										}
+									} else {
+										for (var j = 0; j < params.length; j++) {
+											compilerData.declareLocal(params[j], T_PROC_LOCAL, T_PROC_LOCAL_ARRAY);
+										}
+									}
+								}
 							} else if (command === 'struct') {
 								activeStruct = compilerData.declareStruct(params, command, this._filename, i);
 							} else {

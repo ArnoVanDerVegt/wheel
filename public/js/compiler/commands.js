@@ -13,7 +13,13 @@ var T_NUMBER_CONSTANT 		=  0,
 	T_STRUCT_LOCAL 			= 10,
 	T_STRUCT_LOCAL_ARRAY 	= 11,
 
-	T_LABEL					= 12;
+	T_PROC  				= 12,
+	T_PROC_GLOBAL 			= 13,
+	T_PROC_GLOBAL_ARRAY		= 14,
+	T_PROC_LOCAL 			= 15,
+	T_PROC_LOCAL_ARRAY 		= 16,
+
+	T_LABEL					= 17;
 
 var commands = {
 		nop: {
@@ -29,7 +35,8 @@ var commands = {
 						{type: T_NUMBER_CONSTANT},
 						{type: T_NUMBER_GLOBAL},
 						{type: T_NUMBER_LOCAL},
-						{type: T_NUMBER_REGISTER}
+						{type: T_NUMBER_REGISTER},
+						{type: T_PROC}
 					]
 				},
 				{
@@ -38,7 +45,8 @@ var commands = {
 						{type: T_NUMBER_CONSTANT},
 						{type: T_NUMBER_GLOBAL},
 						{type: T_NUMBER_LOCAL},
-						{type: T_NUMBER_REGISTER}
+						{type: T_NUMBER_REGISTER},
+						{type: T_PROC}
 					]
 				},
 				{
@@ -48,6 +56,22 @@ var commands = {
 						{type: T_NUMBER_GLOBAL},
 						{type: T_NUMBER_LOCAL},
 						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_PROC_GLOBAL,
+					args: [
+						{type: T_PROC_GLOBAL},
+						{type: T_PROC_LOCAL},
+						{type: T_PROC}
+					]
+				},
+				{
+					type: T_PROC_LOCAL,
+					args: [
+						{type: T_PROC_GLOBAL},
+						{type: T_PROC_LOCAL},
+						{type: T_PROC}
 					]
 				}
 			]
@@ -334,8 +358,24 @@ var commands = {
 		},
 
 		// 80..83: Call, ret
-		call: 		{code: 80},
-		ret: 		{code: 81},
+		call: {
+			code: 80
+		},
+		call_global: {
+			code: 81,
+			args: [
+				{type: T_PROC_GLOBAL}
+			]
+		},
+		call_local: {
+			code: 82,
+			args: [
+				{type: T_PROC_LOCAL}
+			]
+		},
+		ret: {
+			code: 83
+		},
 
 		// 84..95: Array functions
 		arrayr: 	{ // Array read...
@@ -455,6 +495,52 @@ var commands = {
 							]
 						}
 					]
+				},
+				{
+					type: T_PROC_GLOBAL,
+					args: [
+						{
+							type: T_PROC_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_PROC_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_PROC_LOCAL,
+					args: [
+						{
+							type: T_PROC_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_PROC_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -471,7 +557,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -480,7 +569,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -489,7 +581,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -498,7 +593,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						}
 					]
@@ -512,7 +610,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -521,7 +622,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -530,7 +634,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						},
 						{
@@ -539,7 +646,10 @@ var commands = {
 								{type: T_NUMBER_CONSTANT},
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
-								{type: T_NUMBER_REGISTER}
+								{type: T_NUMBER_REGISTER},
+								{type: T_PROC},
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL}
 							]
 						}
 					]
@@ -606,6 +716,80 @@ var commands = {
 							args: [
 								{type: T_STRUCT_GLOBAL},
 								{type: T_STRUCT_LOCAL}
+							]
+						}
+					]
+				},
+				{
+					type: T_PROC_GLOBAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						}
+					]
+				},
+				{
+					type: T_PROC_LOCAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_PROC_GLOBAL},
+								{type: T_PROC_LOCAL},
+								{type: T_PROC}
 							]
 						}
 					]

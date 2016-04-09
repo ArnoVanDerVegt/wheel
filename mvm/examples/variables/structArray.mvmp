@@ -1,11 +1,11 @@
-#project "Struct demo"
-    
+#project "Struct array demo"
+
 #include "/lib/standard.mvm"
-    
+
 struct Item
 	number list[5]
 ends
-    
+
 Item item
 
 proc main()
