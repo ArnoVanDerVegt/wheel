@@ -58,6 +58,21 @@ var FilesComponent = React.createClass({
 			this.props.editor.refs.console.setLeft(pageX);
 		},
 
+		showPath: function(filename) {
+			var files 	= this.props.files,
+				i 		= filename.lastIndexOf('/');
+			while (i !== -1) {
+				filename = filename.substr(0, i);
+				var j = files.exists(filename);
+				if (j !== false) {
+					file = files.getFile(j);
+					file.setOpen(true);
+				}
+				i = filename.lastIndexOf('/');
+			}
+			this.setState(this.state);
+		},
+
 		render: function() {
 			var props 			= this.props,
 				fileChildren 	= [],

@@ -42,7 +42,7 @@ var CompilerData = Class(function() {
 		}
 
 		/* Global */
-		this.declareGlobal = function(name, type, arrayType, struct) {
+		this.declareGlobal = function(name, type, arrayType, struct, filename, lineNumber) {
 			var vr 			= this._parseVariable(name);
 				globalList 	= this._globalList,
 				size 		= struct ? struct.size : 1;
@@ -52,11 +52,13 @@ var CompilerData = Class(function() {
 			}
 
 			globalList[vr.name] = {
-				type: 	(vr.length === 1) ? type : arrayType,
-				offset: this._globalOffset,
-				size: 	size,
-				length: vr.length,
-				struct: struct ? struct : null
+				type: 		(vr.length === 1) ? type : arrayType,
+				offset: 	this._globalOffset,
+				size: 		size,
+				length: 	vr.length,
+				struct: 	struct ? struct : null,
+				filename: 	filename,
+				lineNumber: lineNumber
 			};
 			this._globalOffset += vr.length * size;
 		};
@@ -74,12 +76,14 @@ var CompilerData = Class(function() {
 				if (field) {
 					if (vr.struct) {
 						if (field in vr.struct.fields) {
+							field = vr.struct.fields[field];
 							var clonedVr = {};
 							for (var i in vr) {
 								clonedVr[i] = vr[i];
 							}
-							clonedVr.offset += vr.struct.fields[field].offset;
-							clonedVr.type = T_NUMBER_GLOBAL;
+							clonedVr.offset += field.offset;
+							clonedVr.field 	= field;
+							clonedVr.type 	= (field.length > 1) ? T_NUMBER_GLOBAL_ARRAY : T_NUMBER_GLOBAL;
 							return clonedVr;
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
@@ -166,14 +170,16 @@ var CompilerData = Class(function() {
 		};
 
 		/* Label */
-		this.declareLabel = function(name) {
+		this.declareLabel = function(name, filename, lineNumber) {
 			var labelList = this._labelList;
 			if (name in labelList) {
 				return true;
 			}
 			labelList[name] = {
-				index: null,
-				jumps: []
+				filename: 	filename,
+				lineNumber: lineNumber,
+				index: 		null,
+				jumps: 		[]
 			};
 			return false;
 		};
@@ -208,11 +214,13 @@ var CompilerData = Class(function() {
 		};
 
 		/* Struct */
-		this.declareStruct = function(name, command) {
+		this.declareStruct = function(name, command, filename, lineNumber) {
 			var result 		= {
-					name: 	name,
-					size: 	0,
-					fields: {}
+					name: 		name,
+					size: 		0,
+					fields: 	{},
+					filename: 	filename,
+					lineNumber: lineNumber
 				},
 				compiler 	= this._compiler,
 				structList 	= this._structList;
@@ -254,5 +262,9 @@ var CompilerData = Class(function() {
 
 			this._structOffset += vr.length;
 			struct.size = this._structOffset;
+		};
+
+		this.getStructList = function() {
+			return this._structList;
 		};
 	});

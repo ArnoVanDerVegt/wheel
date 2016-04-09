@@ -163,11 +163,11 @@
 }
 
 .cm-s-default span.cm-comment {
-  color: #008800;
-  font-style: italic;
+  color: 				#008800;
+  font-style: 			italic;
 }
 .cm-s-default span.cm-number {
-	color: #EE6600;
+	color: 				#EE6600;
 }
 .cm-s-default span.cm-property, .cm-s-default span.cm-attribute {
 	color:				#01a252;
@@ -198,6 +198,10 @@
 }
 .cm-s-default span.cm-variable {
 	color: 				#DD0000;
+}
+.cm-s-default span.cm-struct-variable {
+	color: 				#DD0000;
+	font-style: 		italic;
 }
 .cm-s-default span.cm-sign {
 	color:				#404040;

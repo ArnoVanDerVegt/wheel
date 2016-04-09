@@ -259,7 +259,7 @@ var Compiler = Class(function() {
 				var line = lines[i].trim();
 				if (this.hasLabel(line)) {
 					var j = line.indexOf(':');
-					if (this._compilerData.declareLabel(line.substr(0, j))) {
+					if (this._compilerData.declareLabel(line.substr(0, j), this._filename, i)) {
 						throw this.createError('Duplicate label "' + name + '".');
 					}
 				}
@@ -304,7 +304,7 @@ var Compiler = Class(function() {
 					params: [
 						{
 							type: 	T_NUMBER_REGISTER,
-							value: 	compilerData.findRegister('REG_OFFSET')
+							value: 	this._compilerData.findRegister('REG_OFFSET')
 						},
 						{
 							type: 	T_NUMBER_CONSTANT,
@@ -315,9 +315,10 @@ var Compiler = Class(function() {
 			}
 		};
 
-		this.compileArrayW = function(command) {
+		this.compileArrayW = function(command, params) {
 			// Remove the second parameter which is the index and
 			// add a command to move the value to the REG_OFFSET...
+			var destParam = command.params[0];
 			this.addOutputCommand({
 				command: 	'set',
 				code: 		commands.set.code,
@@ -331,23 +332,22 @@ var Compiler = Class(function() {
 			});
 
 			// Check if the item size is greater than 1, if so multiply with the item size...
-			var size = command.params[1].vr.size;
-			if (size > 1) {
-				this.addOutputCommand({
-					command: 	'mul',
-					code: 		commands.mul.code,
-					params: [
-						{
-							type: 	T_NUMBER_REGISTER,
-							value: 	compilerData.findRegister('REG_OFFSET')
-						},
-						{
-							type: 	T_NUMBER_CONSTANT,
-							value: 	size
-						}
-					]
-				});
-			}
+			var vr 		= destParam.vr,
+				size 	= vr.field ? vr.field.size : vr.size;
+			this.addOutputCommand({
+				command: 	'mul',
+				code: 		commands.mul.code,
+				params: [
+					{
+						type: 	T_NUMBER_REGISTER,
+						value: 	this._compilerData.findRegister('REG_OFFSET')
+					},
+					{
+						type: 	T_NUMBER_CONSTANT,
+						value: 	size
+					}
+				]
+			});
 		};
 
 		this.compileLines = function(lines) {
@@ -403,7 +403,7 @@ var Compiler = Class(function() {
 							if ((command === 'proc') && (j !== -1) && (params.substr(-1) === ')')) {
 								procStartIndex = this.compileProcedure(params);
 							} else if (command === 'struct') {
-								activeStruct = compilerData.declareStruct(params, command);
+								activeStruct = compilerData.declareStruct(params, command, this._filename, i);
 							} else {
 								params = params.split(',');
 								for (var j = 0; j < params.length; j++) {
@@ -418,7 +418,7 @@ var Compiler = Class(function() {
 											}
 										} else if (procStartIndex === -1) {
 											for (var j = 0; j < params.length; j++) {
-												compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
+												compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY, null, this._filename, i);
 											}
 										} else {
 											for (var j = 0; j < params.length; j++) {
@@ -434,10 +434,10 @@ var Compiler = Class(function() {
 											if (struct === null) {
 												throw this.createError('Unknown command "' + command + '".');
 											} else if (activeStruct !== null) {
-												throw this.createError('Nested structs are suported "' + command + '".');
+												throw this.createError('Nested structs are not supported "' + command + '".');
 											} else if (procStartIndex === -1) {
 												for (var j = 0; j < params.length; j++) {
-													compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct);
+													compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct, this._filename, i);
 												}
 											} else {
 												for (var j = 0; j < params.length; j++) {
@@ -451,7 +451,7 @@ var Compiler = Class(function() {
 													break;
 
 												case 'arrayw': // Array write...
-													this.compileArrayW(validatedCommand);
+													this.compileArrayW(validatedCommand, params);
 													break;
 											}
 

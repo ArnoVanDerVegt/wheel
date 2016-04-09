@@ -289,7 +289,30 @@ h4 {
 #main .editor.small.show-console {
 	bottom: 							168px;
 }
-
+#main .editor #codeHint {
+	position: 							absolute;
+	z-index: 							9999;
+	border: 							1px solid #000000;
+	background-color: 					#FFFFF0;
+	font-family:						'Roboto', sans-serif;
+	font-weight:						300;
+	font-size:							13px;
+	padding: 							3px;
+	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+#main .editor #codeHint .code-hint-title {
+}
+#main .editor #codeHint .code-hint-title strong {
+	font-weight: 						400;
+}
+#main .editor #codeHint .code-hint-title span {
+	padding-right: 						6px;
+	font-style: 						italic;
+}
+#main .editor #codeHint .code-hint-position {
+	font-size: 							11px;
+	white-space: 						nowrap;
+}
 /* Console */
 #main .console {
 	position: 							absolute;

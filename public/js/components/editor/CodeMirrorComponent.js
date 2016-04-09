@@ -1,5 +1,124 @@
+var CodeMirrorHintComponent = React.createClass({
+		getInitialState: function() {
+			return {
+				x: 			0,
+				y: 			0,
+				visible: 	false,
+				label: 		'',
+				title: 	null
+			}
+		},
+
+		setInfo: function(info) {
+			var state = this.state;
+			state.type 			= info.type || false;
+			state.title 		= info.title;
+			state.x 			= info.x;
+			state.y 			= info.y;
+			state.filename 		= info.filename;
+			state.lineNumber 	= info.lineNumber;
+			state.typeInfo 		= info.typeInfo || false;
+			state.visible 		= true;
+			this.setState(state);
+		},
+
+		hide: function() {
+			var state = this.state;
+			if (state.visible) {
+				this._hintTimeout && clearTimeout(this._hintTimeout);
+				this._hintTimeout	= null;
+				state.visible 		= false;
+				this.setState(state);
+			}
+		},
+
+		show: function(info) {
+			this._hintTimeout && clearTimeout(this._hintTimeout);
+			this._hintTimeout = setTimeout(
+				function() {
+					this.setInfo(info);
+				}.bind(this),
+				400
+			);
+		},
+
+		render: function() {
+			var state = this.state;
+			return utilsReact.fromJSON({
+				props: {
+					id: 'codeHint',
+					style: 	{
+						display: 	state.visible ? 'block' : 'none',
+						left: 		state.x + 'px',
+						top: 		state.y + 'px'
+					}
+				},
+				children: [
+					{
+						props: {
+							className: 'code-hint-title'
+						},
+						children: [
+							state.type ?
+								{
+									type: 	'span',
+									props: 	{
+										innerHTML: state.type
+									}
+								} :
+								null,
+							{
+								type: 	'strong',
+								props: 	{
+									innerHTML: state.title
+								}
+							}
+						]
+					},
+					{
+						props: {
+							className: 	'code-hint-position',
+							innerHTML: 	state.filename + ':' + state.lineNumber
+						}
+					},
+				].concat(
+					state.typeInfo ?
+					[
+						{
+							props: {
+								className: 	'code-hint-title'
+							},
+							children: [
+								{
+									type: 'span',
+									props: {
+										innerHTML: 	state.typeInfo.type
+									}
+								},
+								{
+									type: 'strong',
+									props: {
+										innerHTML: 	state.typeInfo.title
+									}
+								}
+							]
+						},
+						{
+							props: {
+								className: 	'code-hint-position',
+								innerHTML: 	state.typeInfo.filename + ':' + state.typeInfo.lineNumber
+							}
+						}
+					] :
+					[]
+				)
+			});
+		}
+	});
+
 var CodeMirrorComponent = React.createClass({
 		getInitialState: function() {
+			this._currentTarget = null;
 			return {
 				left: 		360,
 				small: 		false,
@@ -9,6 +128,90 @@ var CodeMirrorComponent = React.createClass({
 			};
 		},
 
+		getActiveMVMGrammar: function() {
+			var result = mvmGrammar;
+
+			var compilerData 	= this.props.compiler.getCompilerData(),
+				structList 		= compilerData.getStructList(),
+				labelList 		= compilerData.getLabelList(),
+				lex 			= mvmGrammar['Lex'],
+				tokens;
+
+			tokens 						= lex.struct_variable.tokens;
+			tokens.length 				= 1;
+			lex.struct_variable.tokens 	= tokens.concat(Object.keys(structList));
+
+			tokens 						= lex.label_param.tokens;
+			tokens.length 				= 1;
+			lex.label_param.tokens 		= tokens.concat(Object.keys(labelList));
+
+			return result;
+		},
+
+		onMouseMove: function(event) {
+			var target = event.target;
+			if (this._currentTarget === target) {
+				return;
+			}
+			this._currentTarget = target;
+
+			var compilerData 	= this.props.compiler.getCompilerData(),
+				x 				= event.pageX - this.state.left + 8,
+				y 				= event.pageY - 80,
+				className 		= target.className.trim(),
+				innerHTML 		= target.innerHTML.trim(),
+				codeHint 		= this.refs.codeHint,
+				info 			= null;
+
+			if (innerHTML.length) {
+				switch (className) {
+					case 'cm-label':
+						var labelList = compilerData.getLabelList();
+						if (innerHTML in labelList) {
+							var label = labelList[innerHTML];
+							info = {
+								title: 		innerHTML,
+								filename: 	label.filename,
+								lineNumber: label.lineNumber
+							};
+						}
+						break;
+
+					case 'cm-identifier':
+						var globalList = compilerData.getGlobalList();
+						if (innerHTML in globalList) {
+							var global = globalList[innerHTML];
+							info = {
+								title: 		innerHTML,
+								filename: 	global.filename,
+								lineNumber: global.lineNumber
+							};
+							var struct = global.struct;
+							if (struct) {
+								info.typeInfo = {
+									type: 		'struct',
+									title: 		struct.name,
+									filename: 	struct.filename,
+									lineNumber: struct.lineNumber
+								}
+							} else {
+								info.type = 'number';
+							}
+						}
+						break;
+				}
+			}
+
+			if (info) {
+				info.x 		= x;
+				info.y 		= y;
+				info.target = target;
+				codeHint.show(info);
+			} else {
+				codeHint.hide();
+			}
+		},
+
 		createCodeMirror: function(textarea, value) {
 			var grammar = mvmGrammar;
 				lang 	= 'mvm';
@@ -16,7 +219,7 @@ var CodeMirrorComponent = React.createClass({
 			if (this._filename) {
 				var filename = this._filename;
 				if ((filename.substr(-5) === '.mvmp') || (filename.substr(-4) === '.mvm')) {
-					grammar = mvmGrammar;
+					grammar = this.getActiveMVMGrammar();
 					lang 	= 'mvm';
 				} else if (filename.substr(-4) === '.rgf') {
 					grammar = rgfGrammar;
@@ -36,6 +239,7 @@ var CodeMirrorComponent = React.createClass({
 			mode.supportAutoCompletion = true;
 			mode.autocompleter.options =  {prefixMatch:true, caseInsensitiveMatch:false};
 			CodeMirror.commands[autocomplete_cmd] = function(cm) {
+				console.log(cm);
 				CodeMirror.showHint(cm, mode.autocompleter);
 			};
 
@@ -114,20 +318,26 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		render: function() {
-			//React.createElement('textarea', {ref: 'textarea', defaultValue: 'code'})
 			return utilsReact.fromJSON({
 				props: {
 					className: 'editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large'),
 					style: {
 						left: this.state.left + 'px'
-					}
+					},
+					onMouseMove: this.onMouseMove
 				},
 				children: [
 					{
 						type: 'textarea',
 						props: {
 							ref: 			'textarea',
-							defaultValue: 	'code'
+							defaultValue: 	'code',
+						}
+					},
+					{
+						type: 	CodeMirrorHintComponent,
+						props: 	{
+							ref: 'codeHint'
 						}
 					}
 				]
@@ -175,10 +385,12 @@ var CodeMirrorComponent = React.createClass({
 			} else {
 				same = false;
 			}
-			if (!same) {
-				this.state.highlight = highlight;
-				this.setState(this.state);
+			if (same) {
+				return false;
 			}
+			this.state.highlight = highlight;
+			this.setState(this.state);
+			return true;
 		},
 
 		setLeft: function(left) {
@@ -235,15 +447,28 @@ var CodeMirrorComponent = React.createClass({
 			this._editor && this._editor.execCommand('redo');
 		},
 
+		update: function() {
+			this.setState(this.state);
+		},
+
 		formatCode: function() {
-			var lines = this.getCode().split("\n");
+			var lines 	= this.getCode().split("\n"),
+				inBlock = false;
+
 			for (var i = 0; i < lines.length; i++) {
 				var s 		= lines[i],
 					line 	= s.trim();
 
-				if (line.substr(0, 4) === 'proc') {
-				} else if (line.substr(0, 4) === 'endp') {
+				if ((line.substr(0, 4) === 'proc') || (line.substr(0, 6) === 'struct')) {
+					s = line;
+					var j = line.indexOf(' ');
+					(i === -1) || (s = line.substr(0, j).trim() + ' ' + line.substr(j - line.length).trim());
+					inBlock = true;
+				} else if ((line.substr(0, 4) === 'endp') || (line.substr(0, 4) === 'ends')) {
+					s 		= line.trim();
+					inBlock = false;
 				} else if (line[0] === '#') {
+					s = line.trim();
 				} else if (line.indexOf(':') !== -1) {
 					s = line;
 				} else if (line.indexOf('(') !== -1) {
@@ -263,7 +488,14 @@ var CodeMirrorComponent = React.createClass({
 						} else {
 							l = Math.min(j, k);
 						}
-						s 		= '    ' + (line.substr(0, l) + '       ').substr(0, 8);
+
+						var p = line.substr(0, l);
+						while (p.length < 8) {
+							p += ' ';
+						}
+						p += ' ';
+
+						s 		= (inBlock ? '    ' : '') + p;
 						line 	= line.substr(l - line.length).trim();
 						j 		= line.indexOf(',');
 						if (j === -1) {

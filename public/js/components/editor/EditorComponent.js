@@ -4,6 +4,9 @@ var EditorComponent = React.createClass({
 				'Loaded',
 				function() {
 					this.setState(this.state);
+
+					var activeFilename = LocalStorage.getInstance().get('activeFilename');
+					activeFilename && this.onSelectFile(activeFilename);
 				}.bind(this)
 			);
 			this.props.vm.on(
@@ -145,7 +148,8 @@ var EditorComponent = React.createClass({
 						function(includes) {
 							try {
 								outputCommands = compiler.compile(includes);
-								this.refs.codeMirror.setHighlight({});
+								var codeMirror = this.refs.codeMirror;
+								codeMirror.setHighlight({}) || codeMirror.update();
 							} catch (error) {
 								var index = files.exists(error.filename);
 								if (index !== false) {
@@ -286,6 +290,8 @@ var EditorComponent = React.createClass({
 				file 		= files.getFile(state.activeFileIndex),
 				changed;
 
+			this.refs.files.showPath(filename);
+
 			file.getDir() || file.setData(this.refs.codeMirror.getCode(), true);
 			changed 				= (state.activeFileIndex !== index);
 			state.activeFileIndex 	= index;
@@ -297,6 +303,7 @@ var EditorComponent = React.createClass({
 				codeMirror.setCode('', '');
 				this.setState(this.state);
 			} else {
+				LocalStorage.getInstance().set('activeFilename', filename);
 				file.getData(function(data) {
 					codeMirror.setReadOnly(false);
 					codeMirror.setCode(data, file.getName());
@@ -563,6 +570,7 @@ var EditorComponent = React.createClass({
 					{
 						type: CodeMirrorComponent,
 						props: {
+							compiler: 		this.props.compiler,
 							defaultValue: 	data,
 							ref: 			'codeMirror',
 							onChange: 		this.onChange

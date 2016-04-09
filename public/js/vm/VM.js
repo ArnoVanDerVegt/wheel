@@ -166,15 +166,17 @@ var VM = Class(Emitter, function(supr) {
 
 							case 'arrayw': // Write an array element...
 								var regOffset 	= vmData.getRegister('REG_OFFSET'),
-									v1 			= null;
-								switch (command.params[0].type) {
-									case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(p2); 		break;
-									case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(p2, result); break;
-								}
+									v2 			= null;
+
 								switch (command.params[1].type) {
-									case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(regOffset + p1, v1); break;
-									case T_NUMBER_LOCAL: 	vmData.setLocalNumber(regOffset + p1, v1); 	break;
-									case T_NUMBER_REGISTER: vmData.setRegister(regOffset + p1, v1); 	break;
+									case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
+									case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
+									case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
+									case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
+								}
+								switch (command.params[0].type) {
+									case T_NUMBER_GLOBAL_ARRAY: vmData.setGlobalNumber(regOffset + p1, v2); break;
+									case T_NUMBER_LOCAL_ARRAY: 	vmData.setLocalNumber(regOffset + p1, v2); 	break;
 								}
 								break;
 
