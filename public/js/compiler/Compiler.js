@@ -614,8 +614,37 @@ var Compiler = Class(function() {
 				throw this.createError('No main procedure found.');
 			}
 
-			this._outputCommands.mainIndex = this._mainIndex;
-			return this._outputCommands;
+			var outputCommands = this._outputCommands;
+			for (var i = 0; i < outputCommands.length; i++) {
+				var outputCommand 	= outputCommands[i],
+					params 			= outputCommand.params;
+				for (var j = 0; j < params.length; j++) {
+					switch (params[j].type) {
+						case T_PROC:
+							params[j].type = T_NUMBER_CONSTANT;
+							break;
+
+						case T_PROC_GLOBAL:
+							params[j].type = T_NUMBER_GLOBAL;
+							break;
+
+						case T_PROC_GLOBAL_ARRAY:
+							params[j].type = T_NUMBER_GLOBAL_ARRAY;
+							break;
+
+						case T_PROC_LOCAL:
+							params[j].type = T_NUMBER_LOCAL;
+							break;
+
+						case T_PROC_LOCAL_ARRAY:
+							params[j].type = T_NUMBER_LOCAL_ARRAY;
+							break;
+					}
+				}
+			}
+
+			outputCommands.mainIndex = this._mainIndex;
+			return outputCommands;
 		};
 
 		this.getIncludes = function() {
