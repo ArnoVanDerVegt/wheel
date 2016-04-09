@@ -152,32 +152,102 @@ var VM = Class(Emitter, function(supr) {
 							case 'ret': 		callRet(); 					break;
 							case 'arrayr': // Read from an array...
 								var regOffset 	= vmData.getRegister('REG_OFFSET'),
+									regSize 	= vmData.getRegister('REG_SIZE'),
 									v1 			= null;
-								switch (command.params[1].type) {
-									case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(regOffset + p2); 		break;
-									case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(regOffset + p2, result); break;
-								}
+
 								switch (command.params[0].type) {
-									case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, v1); break;
-									case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, v1); 	break;
-									case T_NUMBER_REGISTER: vmData.setRegister(p1, v1); 	break;
+									case T_STRUCT_GLOBAL:
+										switch (command.params[1].type) {
+											case T_STRUCT_LOCAL_ARRAY:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setGlobalNumber(p1 + offset, vmData.getLocalNumber(regOffset + p2 + offset));
+												}
+												break;
+											case T_STRUCT_GLOBAL_ARRAY:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setGlobalNumber(p1 + offset, vmData.getGlobalNumber(regOffset + p2 + offset));
+												}
+												break;
+										}
+										break;
+
+									case T_STRUCT_LOCAL:
+										switch (command.params[1].type) {
+											case T_STRUCT_LOCAL_ARRAY:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setLocalNumber(p1 + offset, vmData.getLocalNumber(regOffset + p2 + offset));
+												}
+												break;
+											case T_STRUCT_GLOBAL_ARRAY:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setLocalNumber(p1 + offset, vmData.getGlobalNumber(regOffset + p2 + offset));
+												}
+												break;
+										}
+										break;
+
+									default:
+										switch (command.params[1].type) {
+											case T_NUMBER_GLOBAL_ARRAY: v1 = vmData.getGlobalNumber(regOffset + p2); 		break;
+											case T_NUMBER_LOCAL_ARRAY: 	v1 = vmData.getLocalNumber(regOffset + p2, result); break;
+										}
+										switch (command.params[0].type) {
+											case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, v1); break;
+											case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, v1); 	break;
+											case T_NUMBER_REGISTER: vmData.setRegister(p1, v1); 	break;
+										}
+										break;
 								}
 								break;
 
 							case 'arrayw': // Write an array element...
 								var regOffset 	= vmData.getRegister('REG_OFFSET'),
+									regSize 	= vmData.getRegister('REG_SIZE'),
 									v2 			= null;
 
-								switch (command.params[1].type) {
-									case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
-									case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
-									case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
-									case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
-								}
 								switch (command.params[0].type) {
-									case T_NUMBER_GLOBAL_ARRAY: vmData.setGlobalNumber(regOffset + p1, v2); break;
-									case T_NUMBER_LOCAL_ARRAY: 	vmData.setLocalNumber(regOffset + p1, v2); 	break;
-								}
+									case T_STRUCT_GLOBAL_ARRAY:
+										switch (command.params[1].type) {
+											case T_STRUCT_LOCAL:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setGlobalNumber(regOffset + p1 + offset, vmData.getLocalNumber(v2 + offset));
+												}
+												break;
+											case T_STRUCT_GLOBAL:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setGlobalNumber(regOffset + p1 + offset, vmData.getGlobalNumber(v2 + offset));
+												}
+												break;
+										}
+										break;
+
+									case T_STRUCT_LOCAL_ARRAY:
+										switch (command.params[1].type) {
+											case T_STRUCT_LOCAL:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setLocalNumber(regOffset + p1 + offset, vmData.getLocalNumber(v2 + offset));
+												}
+												break;
+											case T_STRUCT_GLOBAL:
+												for (var offset = 0; offset < regSize; offset++) {
+													vmData.setLocalNumber(regOffset + p1 + offset, vmData.getGlobalNumber(v2 + offset));
+												}
+												break;
+										}
+										break;
+
+									default:
+										switch (command.params[1].type) {
+											case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
+											case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
+											case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
+											case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
+										}
+										switch (command.params[0].type) {
+											case T_NUMBER_GLOBAL_ARRAY: vmData.setGlobalNumber(regOffset + p1, v2); break;
+											case T_NUMBER_LOCAL_ARRAY: 	vmData.setLocalNumber(regOffset + p1, v2); 	break;
+										}
+									}
 								break;
 
 							default: throw new Error('Unknown command "' + command.command + '"');

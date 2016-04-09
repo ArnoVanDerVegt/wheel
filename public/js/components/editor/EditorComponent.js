@@ -146,11 +146,11 @@ var EditorComponent = React.createClass({
 						path,
 						filename,
 						function(includes) {
-							try {
+							//try {
 								outputCommands = compiler.compile(includes);
 								var codeMirror = this.refs.codeMirror;
 								codeMirror.setHighlight({}) || codeMirror.update();
-							} catch (error) {
+							/*} catch (error) {
 								var index = files.exists(error.filename);
 								if (index !== false) {
 									var file = files.getFile(index),
@@ -166,7 +166,7 @@ var EditorComponent = React.createClass({
 								this.refs.console.addError(error);
 
 								outputCommands = null;
-							}
+							}*/
 							if (outputCommands !== null) {
 								var compilerData = compiler.getCompilerData();
 								this.refs.console.setGlobals(compilerData.getGlobalList());
@@ -286,8 +286,13 @@ var EditorComponent = React.createClass({
 			var codeMirror 	= this.refs.codeMirror,
 				state 		= this.state,
 				files 		= this.props.files,
-				index 		= files.exists(filename),
-				file 		= files.getFile(state.activeFileIndex),
+				index 		= files.exists(filename);
+
+			if (index === false) {
+				return;
+			}
+
+			var file 		= files.getFile(state.activeFileIndex),
 				changed;
 
 			this.refs.files.showPath(filename);

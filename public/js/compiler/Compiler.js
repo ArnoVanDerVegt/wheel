@@ -280,7 +280,18 @@ var Compiler = Class(function() {
 			}
 		};
 
-		this.compileArrayR = function(command) {
+		this.compileArrayR = function(command, params) {
+			var size = 1,
+				type = params[0].type;
+			if ((type === T_STRUCT_GLOBAL) || (type === T_STRUCT_LOCAL)) {
+				var destStructName 	= params[0].vr.struct.name,
+					srcStructName 	= params[1].vr.struct.name;
+				if (destStructName !== srcStructName) {
+					throw this.createError('Type mismatch "' + destStructName + '" and "' + srcStructName + '".');
+				}
+				size = params[0].vr.struct.size;
+			}
+
 			// Remove the third parameter which is the index and
 			// add a command to move the value to the REG_OFFSET...
 			this.addOutputCommand({
@@ -292,6 +303,20 @@ var Compiler = Class(function() {
 						value: 	'REG_OFFSET'
 					},
 					command.params.pop()
+				]
+			});
+			this.addOutputCommand({
+				command: 	'set',
+				code: 		commands.set.code,
+				params: [
+					{
+						type: 	T_NUMBER_REGISTER,
+						value: 	'REG_SIZE'
+					},
+					{
+						type: 	T_NUMBER_CONSTANT,
+						value: 	size
+					}
 				]
 			});
 
@@ -316,6 +341,17 @@ var Compiler = Class(function() {
 		};
 
 		this.compileArrayW = function(command, params) {
+			var size = 1,
+				type = params[0].type;
+			if ((type === T_STRUCT_GLOBAL_ARRAY) || (type === T_STRUCT_LOCAL_ARRAY)) {
+				var destStructName 	= params[0].vr.struct.name,
+					srcStructName 	= params[2].vr.struct.name;
+				if (destStructName !== srcStructName) {
+					throw this.createError('Type mismatch "' + destStructName + '" and "' + srcStructName + '".');
+				}
+				size = params[0].vr.struct.size;
+			}
+
 			// Remove the second parameter which is the index and
 			// add a command to move the value to the REG_OFFSET...
 			var destParam = command.params[0];
@@ -328,6 +364,20 @@ var Compiler = Class(function() {
 						value: 	'REG_OFFSET'
 					},
 					command.params.splice(1, 1)[0]
+				]
+			});
+			this.addOutputCommand({
+				command: 	'set',
+				code: 		commands.set.code,
+				params: [
+					{
+						type: 	T_NUMBER_REGISTER,
+						value: 	'REG_SIZE'
+					},
+					{
+						type: 	T_NUMBER_CONSTANT,
+						value: 	size
+					}
 				]
 			});
 
@@ -447,7 +497,7 @@ var Compiler = Class(function() {
 										} else {
 											switch (validatedCommand.command) {
 												case 'arrayr': // Array read...
-													this.compileArrayR(validatedCommand);
+													this.compileArrayR(validatedCommand, params);
 													break;
 
 												case 'arrayw': // Array write...

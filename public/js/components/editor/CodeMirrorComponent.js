@@ -467,6 +467,18 @@ var CodeMirrorComponent = React.createClass({
 				} else if ((line.substr(0, 4) === 'endp') || (line.substr(0, 4) === 'ends')) {
 					s 		= line.trim();
 					inBlock = false;
+				} else if ((line.substr(0, 6) === 'number') || (line.split(',') > 2)) {
+					var j 		= line.indexOf(' '),
+						type 	= line.substr(0, j),
+						params 	= line.substr(j - line.length).split(',');
+
+					for (var j = 0; j < params.length; j++) {
+						params[j] = params[j].trim();
+					}
+					while (type.length < 8) {
+						type += ' ';
+					}
+					s = (inBlock ? '    ' : '') + type + ' ' + params.join(', ');
 				} else if (line[0] === '#') {
 					s = line.trim();
 				} else if (line.indexOf(':') !== -1) {

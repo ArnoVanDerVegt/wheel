@@ -409,6 +409,52 @@ var commands = {
 							]
 						}
 					]
+				},
+				{
+					type: T_STRUCT_GLOBAL,
+					args: [
+						{
+							type: T_STRUCT_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_STRUCT_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_STRUCT_LOCAL,
+					args: [
+						{
+							type: T_STRUCT_LOCAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						},
+						{
+							type: T_STRUCT_GLOBAL_ARRAY,
+							args: [
+								{type: T_NUMBER_CONSTANT},
+								{type: T_NUMBER_GLOBAL},
+								{type: T_NUMBER_LOCAL},
+								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -494,6 +540,72 @@ var commands = {
 								{type: T_NUMBER_GLOBAL},
 								{type: T_NUMBER_LOCAL},
 								{type: T_NUMBER_REGISTER}
+							]
+						}
+					]
+				},
+				{
+					type: T_STRUCT_GLOBAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						}
+					]
+				},
+				{
+					type: T_STRUCT_LOCAL_ARRAY,
+					args: [
+						{
+							type: T_NUMBER_CONSTANT,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_GLOBAL,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_LOCAL,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
+							]
+						},
+						{
+							type: T_NUMBER_REGISTER,
+							args: [
+								{type: T_STRUCT_GLOBAL},
+								{type: T_STRUCT_LOCAL}
 							]
 						}
 					]

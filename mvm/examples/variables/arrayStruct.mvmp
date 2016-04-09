@@ -1,0 +1,23 @@
+#project "Array demo"
+
+#include "/lib/standard.mvm"
+
+struct Point
+	number x, y, z
+ends
+
+Point srcPoint
+Point points[3]
+Point destPoint
+
+proc main()
+	set srcPoint.x, 4
+    set srcPoint.y, 7
+    set srcPoint.z, -10
+    arrayw points, 0, srcPoint
+ 
+    arrayr destPoint, points, 0
+    log destPoint.x
+    log destPoint.y
+    log destPoint.z
+endp

@@ -2,6 +2,7 @@
 	function init() {
 		var registers = {
 				REG_OFFSET: 		T_NUMBER_REGISTER,
+				REG_SIZE: 			T_NUMBER_REGISTER,
 				REG_E: 				T_NUMBER_REGISTER,
 				REG_NE: 			T_NUMBER_REGISTER,
 				REG_L: 				T_NUMBER_REGISTER,
