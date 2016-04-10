@@ -155,6 +155,100 @@ var Compiler = Class(function() {
 			return true;
 		};
 
+		this.addOutputCommand = function(outputCommand) {
+			if (!outputCommand.params) {
+				outputCommand.params = [];
+			}
+			while (outputCommand.params.length < 2) {
+				outputCommand.params.push({type: '', value: 0});
+			}
+			this._outputCommands.push(outputCommand);
+		};
+
+		this.hasCall = function(line) {
+			return (line.indexOf('proc') === -1) && (line.indexOf('(') !== -1);
+		};
+
+		this.hasLabel = function(line) {
+			var i = line.indexOf(':');
+			if ((line.length > 1) && (i !== -1)) {
+				for (var j = 0; j < i; j++) {
+					if ('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'.indexOf(line[j]) === -1) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
+		};
+
+		this.updateLabels = function() {
+			var outputCommands 	= this._outputCommands,
+				compilerData 	= this._compilerData,
+				labelList 		= compilerData.getLabelList();
+
+			for (var i in labelList) {
+				var label = labelList[i],
+					jumps = label.jumps;
+				for (var j = 0; j < jumps.length; j++) {
+					var outputCommand = outputCommands[jumps[j]];
+					if (outputCommand.code === commands.loop.code) {
+						outputCommands[jumps[j]].params[1].value = label.index;
+					} else {
+						outputCommands[jumps[j]].params[0].value = label.index;
+					}
+				}
+			}
+		};
+
+		this.splitParams = function(params) {
+			var result 	= [],
+				param 	= '',
+				j 		= 0;
+
+			while (j < params.length) {
+				var c = params[j];
+				switch (c) {
+					case ',':
+						param = param.trim();
+						(param !== '') && result.push(param);
+						param = '';
+						break;
+
+					case '[':
+						while (j < params.length) {
+							var c = params[j++];
+							param += c;
+							if (c === ']') {
+								break;
+							}
+						}
+						break;
+
+					case '"':
+						j++;
+						param += '"';
+						while (j < params.length) {
+							var c = params[j++];
+							param += c;
+							if (c === '"') {
+								break;
+							}
+						}
+						break;
+
+					default:
+						param += c;
+						break;
+				}
+				j++;
+			}
+			param = param.trim();
+			(param !== '') && result.push(param);
+
+			return result;
+		};
+
 		this.compileCall = function(line) {
 			var compilerData 	= this._compilerData,
 				i 				= line.indexOf('('),
@@ -369,33 +463,6 @@ var Compiler = Class(function() {
 			return procStartIndex;
 		};
 
-		this.addOutputCommand = function(outputCommand) {
-			if (!outputCommand.params) {
-				outputCommand.params = [];
-			}
-			while (outputCommand.params.length < 2) {
-				outputCommand.params.push({type: '', value: 0});
-			}
-			this._outputCommands.push(outputCommand);
-		};
-
-		this.hasCall = function(line) {
-			return (line.indexOf('proc') === -1) && (line.indexOf('(') !== -1);
-		};
-
-		this.hasLabel = function(line) {
-			var i = line.indexOf(':');
-			if ((line.length > 1) && (i !== -1)) {
-				for (var j = 0; j < i; j++) {
-					if ('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'.indexOf(line[j]) === -1) {
-						return false;
-					}
-				}
-				return true;
-			}
-			return false;
-		};
-
 		this.compileLabels = function(lines) {
 			for (var i = 0; i < lines.length; i++) {
 				this._lineNumber = i;
@@ -408,25 +475,6 @@ var Compiler = Class(function() {
 					var j = line.indexOf(':');
 					if (this._compilerData.declareLabel(line.substr(0, j), location)) {
 						throw this.createError('Duplicate label "' + name + '".');
-					}
-				}
-			}
-		};
-
-		this.updateLabels = function() {
-			var outputCommands 	= this._outputCommands,
-				compilerData 	= this._compilerData,
-				labelList 		= compilerData.getLabelList();
-
-			for (var i in labelList) {
-				var label = labelList[i],
-					jumps = label.jumps;
-				for (var j = 0; j < jumps.length; j++) {
-					var outputCommand = outputCommands[jumps[j]];
-					if (outputCommand.code === commands.loop.code) {
-						outputCommands[jumps[j]].params[1].value = label.index;
-					} else {
-						outputCommands[jumps[j]].params[0].value = label.index;
 					}
 				}
 			}
@@ -555,12 +603,12 @@ var Compiler = Class(function() {
 		this.compileNumberDeclaration = function(params) {
 			var compilerData = this._compilerData;
 			if (this._activeStruct !== null) {
-				for (var j = 0; j < params.length; j++) {
-					compilerData.declareStructField(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
+				for (var i = 0; i < params.length; i++) {
+					compilerData.declareStructField(params[i], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
 				}
 			} else if (this._procStartIndex === -1) {
-				for (var j = 0; j < params.length; j++) {
-					var global = compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY, null, location, true);
+				for (var i = 0; i < params.length; i++) {
+					var global = compilerData.declareGlobal(params[i], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY, null, location, true);
 					if (global.value) {
 						if (global.type === T_NUMBER_GLOBAL) {
 							var value = parseFloat(global.value);
@@ -569,7 +617,22 @@ var Compiler = Class(function() {
 							}
 							compilerData.declareConstant(global.offset, [value]);
 						} else if (global.type === T_NUMBER_GLOBAL_ARRAY) {
-							//compilerData.declareConstant(global.offset, [value]);
+							var value = global.value.trim();
+							if (value.length && (value[0] === '[') && (value[value.length - 1] !== ']')) {
+								throw this.createError('Syntax error.');
+							} else {
+								value = value.substr(1, value.length - 2);
+								var values 	= value.split(','),
+									data 	= [];
+								for (var j = 0; j < values.length; j++) {
+									var v = parseFloat(values[j].trim());
+									if (isNaN(v)) {
+										throw this.createError('Number expected, found "' + values[j] + '".');
+									}
+									data.push(v);
+								}
+								compilerData.declareConstant(global.offset, data);
+							}
 						} else {
 							throw this.createError('Type error.');
 						}
@@ -687,11 +750,7 @@ var Compiler = Class(function() {
 							} else if (command === 'struct') {
 								this._activeStruct = compilerData.declareStruct(params, command, location);
 							} else {
-								params = params.split(',');
-								for (var j = 0; j < params.length; j++) {
-									params[j] = params[j].trim();
-								}
-
+								params = this.splitParams(params);
 								switch (command) {
 									case 'number':
 										this.compileNumberDeclaration(params);

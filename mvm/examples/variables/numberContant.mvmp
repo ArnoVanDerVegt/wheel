@@ -3,9 +3,17 @@
 #include "/lib/standard.mvm"
     
 number   g = 11                             ; Global variable
+number   ga[4] = [89, 1, 498, 33]
     
 proc main()
     number   l = 7
     log      g
     log      l
+    
+    number   counter = 3
+logLoop:
+    number   value
+    arrayr   value,                  ga, counter
+    log      value
+    loop     counter,                logLoop
 endp

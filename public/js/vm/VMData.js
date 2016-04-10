@@ -64,7 +64,7 @@ var VMData = Class(function() {
 					offset 			= globalConstant.offset,
 					data 			= globalConstant.data;
 				for (var j = 0; j < data.length; j++) {
-					globalData[offset + j] = data[offset + j];
+					globalData[offset + j] = data[j];
 				}
 			}
 		};
