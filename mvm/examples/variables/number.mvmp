@@ -9,6 +9,6 @@ proc main()
 
     number  l                               ; Local variable
     set     l,                      17
-    print   g
-    print   l
+    log   	g
+    log   	l
 endp

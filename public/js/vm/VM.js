@@ -75,6 +75,15 @@ var VM = Class(Emitter, function(supr) {
 					case 1:
 						switch (command.command) {
 							case 'cmp': compare(v1, v2); break;
+							case 'loop':
+								result = v1 - 1;
+								switch (command.params[0].type) {
+									case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+									case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
+									case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
+								}
+								(result >= 0) && (this._index = command.params[1].value);
+								break;
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						break;
@@ -85,6 +94,17 @@ var VM = Class(Emitter, function(supr) {
 							case 'dec': 	result = v1 - 1; 		break;
 							case 'abs': 	result = Math.abs(v1); 	break;
 							case 'neg': 	result = -v1; 			break;
+							case 'copy_local_local':
+								break;
+							case 'copy_global_local':
+								var size 			= command.params[0].value,
+									regOffsetSrc 	= vmData.getRegister('REG_OFFSET_SRC'),
+									regOffsetDest 	= vmData.getRegister('REG_OFFSET_DEST');
+								for (var i = 0; i < size; i++) {
+									vmData.setLocalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
+								}
+								break;
+
 							default: throw new Error('Unknown command "' + command.command + '"');
 						}
 						switch (command.params[0].type) {

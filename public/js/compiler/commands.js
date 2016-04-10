@@ -205,7 +205,7 @@ var commands = {
 			]
 		},
 
-		// 16..31: Compare...
+		// 16..31: Compare, loop...
 		cmp: {
 			code: 16,
 			args: [
@@ -234,6 +234,29 @@ var commands = {
 						{type: T_NUMBER_GLOBAL},
 						{type: T_NUMBER_LOCAL},
 						{type: T_NUMBER_REGISTER}
+					]
+				},
+			]
+		},
+		loop: {
+			code: 17,
+			args: [
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{type: T_LABEL}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{type: T_LABEL}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{type: T_LABEL}
 					]
 				},
 			]
@@ -270,6 +293,18 @@ var commands = {
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
 				{type: T_NUMBER_REGISTER},
+			]
+		},
+		copy_local_local: {
+			code: 36,
+			args: [
+				{type: T_NUMBER_CONSTANT}
+			]
+		},
+		copy_global_local: {
+			code: 37,
+			args: [
+				{type: T_NUMBER_CONSTANT}
 			]
 		},
 

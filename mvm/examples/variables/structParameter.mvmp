@@ -1,0 +1,22 @@
+#project "Struct parameter demo"
+    
+#include "/lib/standard.mvm"
+    
+struct Point
+    number   x, y, z
+ends
+    
+Point    point
+    
+proc logPoint(Point pt)
+    log      pt.x
+    log      pt.y
+    log      pt.z
+endp
+    
+proc main()
+    set      point.x,                -5
+    set      point.y,                9
+    set      point.z,                -3
+    logPoint(point)
+endp

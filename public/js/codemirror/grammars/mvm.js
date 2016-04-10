@@ -148,6 +148,7 @@ var mvmGrammar = {
 					'dec',
 					'abs',
 					'neg',
+					'loop',
 					'arrayw',
 					'arrayr'
 				]

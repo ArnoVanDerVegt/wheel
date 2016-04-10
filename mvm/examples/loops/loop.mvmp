@@ -1,0 +1,11 @@
+#project "Array demo"
+
+#include "/lib/standard.mvm"
+
+proc main()
+    number  counter
+    set     counter,                4
+demoLoop:
+    log     counter
+    loop    counter,                demoLoop
+endp

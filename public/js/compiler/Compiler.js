@@ -160,7 +160,9 @@ var Compiler = Class(function() {
 			}
 
 			var callCommand,
-				p 				= compilerData.findProcedure(procedure);
+				p 						= compilerData.findProcedure(procedure),
+				currentLocalStackSize 	= compilerData.getLocalOffset();
+
 			if (p !== null) {
 				callCommand = {
 					command: 	'call',
@@ -170,7 +172,7 @@ var Compiler = Class(function() {
 							value: p.index
 						},
 						{
-							value: 0
+							value: currentLocalStackSize
 						}
 					]
 				};
@@ -189,7 +191,7 @@ var Compiler = Class(function() {
 								type: 	T_NUMBER_LOCAL
 							},
 							{
-								value: 0
+								value: currentLocalStackSize
 							}
 						]
 					};
@@ -208,7 +210,7 @@ var Compiler = Class(function() {
 									type: 	T_NUMBER_GLOBAL
 								},
 								{
-									value: 0
+									value: currentLocalStackSize
 								}
 							]
 						};
@@ -220,16 +222,91 @@ var Compiler = Class(function() {
 
 			var params = line.substr(i + 1, line.length - i - 2).trim();
 			params = params.length ? params.split(',') : [];
+
+			// The local offset is the stack size used in the current procedure...
+			var offset = currentLocalStackSize;
 			for (var i = 0; i < params.length; i++) {
 				var param = params[i].trim();
 				if (param !== '') {
-					var destParam = {
-							type: 	T_NUMBER_LOCAL,
-							value: 	p.command.localCount + i,
-							param: 	param
-						};
-					this.addOutputCommand(this.createCommand('set', [destParam, this.paramInfo(param)]));
-					callCommand.params[1].value++; // todo: add param type size!
+					var paramInfo 	= this.paramInfo(param),
+						destParam;
+						vr 			= paramInfo.vr,
+						size 		= vr.size * vr.length;
+
+					switch (paramInfo.type) {
+						case T_NUMBER_LOCAL:
+							destParam = {
+								type: 	T_NUMBER_LOCAL,
+								value: 	offset,
+								param: 	param
+							};
+							this.addOutputCommand(this.createCommand('set', [destParam, paramInfo]));
+							break;
+
+						case T_NUMBER_LOCAL_ARRAY:
+						case T_STRUCT_LOCAL_ARRAY:
+						case T_STRUCT_LOCAL:
+							this.addOutputCommand(this.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_SRC'},
+									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+								]
+							));
+							this.addOutputCommand(this.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_DEST'},
+									{type: T_NUMBER_CONSTANT, value: offset}
+								]
+							));
+							this.addOutputCommand(this.createCommand(
+								'copy_local_local',
+								[
+									{type: T_NUMBER_CONSTANT, value: size}
+								]
+							));
+							break;
+
+						case T_NUMBER_GLOBAL:
+							destParam = {
+								type: 	T_NUMBER_LOCAL,
+								value: 	offset,
+								param: 	param
+							};
+							this.addOutputCommand(this.createCommand('set', [destParam, paramInfo]));
+							break;
+
+						case T_NUMBER_GLOBAL_ARRAY:
+						case T_STRUCT_GLOBAL_ARRAY:
+						case T_STRUCT_GLOBAL:
+							this.addOutputCommand(this.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_SRC'},
+									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+								]
+							));
+							this.addOutputCommand(this.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_DEST'},
+									{type: T_NUMBER_CONSTANT, value: offset}
+								]
+							));
+							this.addOutputCommand(this.createCommand(
+								'copy_global_local',
+								[
+									{type: T_NUMBER_CONSTANT, value: size}
+								]
+							));
+							break;
+
+						default:
+							throw this.createError('Type mismatch.');
+					}
+
+					offset += size;
 				}
 			}
 
@@ -273,7 +350,12 @@ var Compiler = Class(function() {
 						break;
 
 					default:
-						throw this.createError('Unknown type "' + param[0] + '".');
+						var struct = compilerData.findStruct(param[0]);
+						if (struct === null) {
+							throw this.createError('Unknown type "' + param[0] + '".');
+						}
+						compilerData.declareLocal(param[1], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
+						break;
 				}
 				outputCommand.paramTypes.push(param[0]);
 			}
@@ -330,7 +412,12 @@ var Compiler = Class(function() {
 				var label = labelList[i],
 					jumps = label.jumps;
 				for (var j = 0; j < jumps.length; j++) {
-					outputCommands[jumps[j]].params[0].value = label.index;
+					var outputCommand = outputCommands[jumps[j]];
+					if (outputCommand.code === commands.loop.code) {
+						outputCommands[jumps[j]].params[1].value = label.index;
+					} else {
+						outputCommands[jumps[j]].params[0].value = label.index;
+					}
 				}
 			}
 		};

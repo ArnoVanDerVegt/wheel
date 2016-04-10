@@ -1,31 +1,31 @@
 #project "Struct array demo"
-
+    
 #include "/lib/standard.mvm"
-
+    
 struct Item
-	number list[5]
+    number   list[5]
 ends
-
-Item item
-
+    
+Item     item
+    
 proc main()
-	number counter
-	number value
-
-	set counter, 0
+    number   counter
+    number   value
+    
+    set      counter,                0
 writeLoop:
-    set value, counter
-    mul value, 2
-    arrayw item.list, counter, value
-	inc counter
-    cmp counter, 5
-    jl writeLoop
-
-	set counter, 0
+    set      value,                  counter
+    mul      value,                  2
+    arrayw   item.list,              counter, value
+    inc      counter
+    cmp      counter,                5
+    jl       writeLoop
+    
+    set      counter,                0
 readLoop:
-    arrayr value, item.list, counter
-    log value
-	inc counter
-    cmp counter, 5
-    jl readLoop
+    arrayr   value,                  item.list, counter
+    log      value
+    inc      counter
+    cmp      counter,                5
+    jl       readLoop
 endp
