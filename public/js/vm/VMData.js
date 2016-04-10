@@ -56,4 +56,16 @@ var VMData = Class(function() {
 		this.popLocalOffset = function() {
 			this._localOffset = this._localOffsetStack.pop();
 		};
+
+		this.setGlobalConstants = function(globalConstants) {
+			var globalData = this._globalData;
+			for (var i = 0; i < globalConstants.length; i++) {
+				var globalConstant 	= globalConstants[i],
+					offset 			= globalConstant.offset,
+					data 			= globalConstant.data;
+				for (var j = 0; j < data.length; j++) {
+					globalData[offset + j] = data[offset + j];
+				}
+			}
+		};
 	});

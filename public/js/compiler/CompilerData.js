@@ -7,23 +7,33 @@ var CompilerData = Class(function() {
 		};
 
 		this.reset = function() {
-			this._globalOffset 	= 0;
-			this._globalList 	= {};
+			this._globalOffset 		= 0;
+			this._globalList 		= {};
+			this._globalConstants 	= [];
 
-			this._localOffset 	= 0;
-			this._localList 	= {};
+			this._localOffset 		= 0;
+			this._localList 		= {};
 
-			this._labelList 	= {};
-			this._procedureList = {};
-			this._procedure 	= null;
-			this._structOffset 	= 0;
-			this._structList 	= {};
-			this._struct 		= null;
+			this._labelList 		= {};
+			this._procedureList 	= {};
+			this._procedure 		= null;
+			this._structOffset 		= 0;
+			this._structList 		= {};
+			this._struct 			= null;
 		};
 
 		this._parseVariable = function(name) {
-			var length 	= 1,
-				i 		= name.indexOf('[');
+			var value = null,
+				i;
+
+			i = name.indexOf('=');
+			if (i !== -1) {
+				value 	= name.substr(i + 1 - name.length).trim();
+				name 	= name.substr(0, i).trim();
+			}
+
+			var length = 1;
+			i = name.indexOf('[');
 			if (i !== -1) {
 				if (name[name.length - 1] === ']') {
 					length = parseInt(name.substr(i + 1, name.length - i - 2), 10);
@@ -35,14 +45,28 @@ var CompilerData = Class(function() {
 					throw this._compiler.createError('"]" expected.');
 				}
 			}
+
 			return {
 				name: 	name,
+				value: 	value,
 				length: length
 			}
 		}
 
+		/* Global constants */
+		this.declareConstant = function(offset, data) {
+			this._globalConstants.push({
+				offset: offset,
+				data: 	data
+			});
+		};
+
+		this.getGlobalConstants = function() {
+			return this._globalConstants;
+		};
+
 		/* Global */
-		this.declareGlobal = function(name, type, arrayType, struct, filename, lineNumber) {
+		this.declareGlobal = function(name, type, arrayType, struct, location, allowConstant) {
 			var vr 			= this._parseVariable(name);
 				globalList 	= this._globalList,
 				size 		= struct ? struct.size : 1;
@@ -50,17 +74,23 @@ var CompilerData = Class(function() {
 			if (vr.name in globalList) {
 				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
 			}
+			if ((vr.value !== null) && !allowConstant) {
+				throw this._compiler.createError('Invalid constant value "' + vr.value + '".');
+			}
 
-			globalList[vr.name] = {
-				type: 		(vr.length === 1) ? type : arrayType,
-				offset: 	this._globalOffset,
-				size: 		size,
-				length: 	vr.length,
-				struct: 	struct ? struct : null,
-				filename: 	filename,
-				lineNumber: lineNumber
-			};
+			var global = {
+					type: 		(vr.length === 1) ? type : arrayType,
+					offset: 	this._globalOffset,
+					size: 		size,
+					length: 	vr.length,
+					struct: 	struct ? struct : null,
+					value: 		vr.value,
+					location: 	location
+				};
+			globalList[vr.name] = global;
 			this._globalOffset += vr.length * size;
+
+			return global;
 		};
 
 		this.findGlobal = function(name) {
@@ -107,7 +137,7 @@ var CompilerData = Class(function() {
 			this._localList 	= {};
 		};
 
-		this.declareLocal = function(name, type, arrayType, struct) {
+		this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
 			var vr 			= this._parseVariable(name),
 				localList 	= this._localList,
 				size 		= struct ? struct.size : 1;
@@ -115,16 +145,22 @@ var CompilerData = Class(function() {
 			if (vr.name in localList) {
 				throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
 			}
+			if ((vr.value !== null) && !allowConstant) {
+				throw this._compiler.createError('Invalid constant value "' + vr.value + '".');
+			}
 
-			localList[vr.name] = {
-				type: 	(vr.length === 1) ? type : arrayType,
-				offset: 	this._localOffset,
-				size: 		size,
-				length: 	vr.length,
-				struct: 	struct ? struct : null
-			};
-
+			var local = {
+					type: 	(vr.length === 1) ? type : arrayType,
+					offset: 	this._localOffset,
+					size: 		size,
+					length: 	vr.length,
+					value: 		vr.value,
+					struct: 	struct ? struct : null
+				};
+			localList[vr.name] = local;
 			this._localOffset += vr.length * size;
+
+			return local;
 		};
 
 		this.findLocal = function(name) {
@@ -172,16 +208,15 @@ var CompilerData = Class(function() {
 		};
 
 		/* Label */
-		this.declareLabel = function(name, filename, lineNumber) {
+		this.declareLabel = function(name, location) {
 			var labelList = this._labelList;
 			if (name in labelList) {
 				return true;
 			}
 			labelList[name] = {
-				filename: 	filename,
-				lineNumber: lineNumber,
 				index: 		null,
-				jumps: 		[]
+				jumps: 		[],
+				location: 	location
 			};
 			return false;
 		};
@@ -216,13 +251,12 @@ var CompilerData = Class(function() {
 		};
 
 		/* Struct */
-		this.declareStruct = function(name, command, filename, lineNumber) {
+		this.declareStruct = function(name, command, location) {
 			var result 		= {
 					name: 		name,
 					size: 		0,
 					fields: 	{},
-					filename: 	filename,
-					lineNumber: lineNumber
+					location: 	location
 				},
 				compiler 	= this._compiler,
 				structList 	= this._structList;

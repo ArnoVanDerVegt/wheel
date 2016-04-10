@@ -38,8 +38,7 @@ var ConsoleComponent = React.createClass({
 			state.messages.push({
 				type: 		'log',
 				message: 	message.message,
-				filename: 	message.filename,
-				lineNumber: message.lineNumber
+				location: 	message.location
 			});
 			this.setState(state);
 		},
@@ -49,8 +48,7 @@ var ConsoleComponent = React.createClass({
 			state.messages.push({
 				type: 		'error',
 				message: 	error.toString(),
-				filename: 	error.filename,
-				lineNumber: error.lineNumber
+				location: 	error.location
 			});
 			this.setState(state);
 		},
@@ -93,17 +91,18 @@ var ConsoleComponent = React.createClass({
 
 			for (var i = 0; i < messages.length; i++) {
 				(function(message) {
+					var location = message.location;
 					messageChildren.push({
 						props: {
 							className: 'row ' + message.type,
 							onClick: 	function() {
 								switch (message.type) {
 									case 'log':
-										props.onShowLog && props.onShowLog(message.filename, message.lineNumber);
+										props.onShowLog && props.onShowLog(location.filename, location.lineNumber);
 										break;
 
 									case 'error':
-										props.onShowError && props.onShowError(message.filename, message.lineNumber);
+										props.onShowError && props.onShowError(location.filename, location.lineNumber);
 										break;
 								}
 							}.bind(this)
@@ -112,7 +111,7 @@ var ConsoleComponent = React.createClass({
 							{
 								props: {
 									className: 'location',
-									innerHTML: message.filename + ':' + (message.lineNumber + 1)
+									innerHTML: location.filename + ':' + (location.lineNumber + 1)
 								}
 							},
 							{

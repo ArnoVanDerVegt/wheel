@@ -11,11 +11,10 @@ var EditorComponent = React.createClass({
 			);
 			this.props.vm.on(
 				'Log',
-				function(message, filename, lineNumber) {
+				function(message, location) {
 					this.refs.console.addLog({
 						message: 	message,
-						filename: 	filename,
-						lineNumber: lineNumber
+						location: 	location
 					});
 				}.bind(this)
 			);
@@ -171,7 +170,7 @@ var EditorComponent = React.createClass({
 								var compilerData = compiler.getCompilerData();
 								this.refs.console.setGlobals(compilerData.getGlobalList());
 								vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
-								vm.run(outputCommands);
+								vm.run(outputCommands, compilerData.getGlobalConstants());
 							}
 						}.bind(this)
 					);

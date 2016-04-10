@@ -1,0 +1,11 @@
+#project "Number constant demo"
+    
+#include "/lib/standard.mvm"
+    
+number   g = 11                             ; Global variable
+    
+proc main()
+    number   l = 7
+    log      g
+    log      l
+endp

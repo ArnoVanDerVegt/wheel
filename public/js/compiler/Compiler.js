@@ -6,12 +6,16 @@ var Compiler = Class(function() {
 			this._filename 			= '';
 			this._lineNumber		= 0;
 			this._includes 			= null;
+			this._procStartIndex 	= -1;
+			this._activeStruct 		= null;
 		};
 
 		this.createError = function(message) {
 			var error = new Error(message);
-			error.filename 		= this._filename;
-			error.lineNumber 	= this._lineNumber;
+			error.location = {
+				filename: 	this._filename,
+				lineNumber: this._lineNumber
+			};
 			return error;
 		};
 
@@ -120,8 +124,10 @@ var Compiler = Class(function() {
 					command: 	command,
 					code: 		code,
 					params: 	params,
-					filename: 	this._filename,
-					lineNumber: this._lineNumber
+					location: {
+						filename: 	this._filename,
+						lineNumber: this._lineNumber
+					}
 				};
 			}
 		};
@@ -346,7 +352,7 @@ var Compiler = Class(function() {
 				}
 				switch (param[0]) {
 					case 'number':
-						compilerData.declareLocal(param[1], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY);
+						compilerData.declareLocal(param[1], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY, false);
 						break;
 
 					default:
@@ -354,7 +360,7 @@ var Compiler = Class(function() {
 						if (struct === null) {
 							throw this.createError('Unknown type "' + param[0] + '".');
 						}
-						compilerData.declareLocal(param[1], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
+						compilerData.declareLocal(param[1], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct, false);
 						break;
 				}
 				outputCommand.paramTypes.push(param[0]);
@@ -393,10 +399,14 @@ var Compiler = Class(function() {
 		this.compileLabels = function(lines) {
 			for (var i = 0; i < lines.length; i++) {
 				this._lineNumber = i;
-				var line = lines[i].trim();
+				var line 		= lines[i].trim(),
+					location 	= {
+						filename: 	this._filename,
+						lineNumber: i
+					};
 				if (this.hasLabel(line)) {
 					var j = line.indexOf(':');
-					if (this._compilerData.declareLabel(line.substr(0, j), this._filename, i)) {
+					if (this._compilerData.declareLabel(line.substr(0, j), location)) {
 						throw this.createError('Duplicate label "' + name + '".');
 					}
 				}
@@ -542,14 +552,95 @@ var Compiler = Class(function() {
 			});
 		};
 
+		this.compileNumberDeclaration = function(params) {
+			var compilerData = this._compilerData;
+			if (this._activeStruct !== null) {
+				for (var j = 0; j < params.length; j++) {
+					compilerData.declareStructField(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
+				}
+			} else if (this._procStartIndex === -1) {
+				for (var j = 0; j < params.length; j++) {
+					var global = compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY, null, location, true);
+					if (global.value) {
+						if (global.type === T_NUMBER_GLOBAL) {
+							var value = parseFloat(global.value);
+							if (isNaN(value)) {
+								throw this.createError('Number expected, found "' + value + '".');
+							}
+							compilerData.declareConstant(global.offset, [value]);
+						} else if (global.type === T_NUMBER_GLOBAL_ARRAY) {
+							//compilerData.declareConstant(global.offset, [value]);
+						} else {
+							throw this.createError('Type error.');
+						}
+					}
+				}
+			} else {
+				for (var j = 0; j < params.length; j++) {
+					var local = compilerData.declareLocal(params[j], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY, null, true);
+					if (local.value) {
+						if (local.type === T_NUMBER_LOCAL) {
+							var value = parseFloat(local.value);
+							if (isNaN(value)) {
+								throw this.createError('Number expected, found "' + value + '".');
+							}
+							this.addOutputCommand(this.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_LOCAL, 		value: local.offset},
+									{type: T_NUMBER_CONSTANT, 	value: value}
+								]
+							));
+						} else if (global.type === T_NUMBER_GLOBAL_ARRAY) {
+							//compilerData.declareConstant(global.offset, [value]);
+						} else {
+							throw this.createError('Type error.');
+						}
+					}
+				}
+			}
+		};
+
+		this.compileProcedureDeclaration = function(params) {
+			var j = params.indexOf('(');
+			if ((j !== -1) && (params.substr(-1) === ')')) {
+				this._procStartIndex = this.compileProcedure(params);
+			} else {
+				params = params.split(',');
+				for (var j = 0; j < params.length; j++) {
+					params[j] = params[j].trim();
+				}
+
+				if (this._activeStruct !== null) {
+					for (var j = 0; j < params.length; j++) {
+						compilerData.declareStructField(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY);
+					}
+				} else if (this._procStartIndex === -1) {
+					for (var j = 0; j < params.length; j++) {
+						compilerData.declareGlobal(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY, null, location, false);
+					}
+				} else {
+					for (var j = 0; j < params.length; j++) {
+						compilerData.declareLocal(params[j], T_PROC_LOCAL, T_PROC_LOCAL_ARRAY, false);
+					}
+				}
+			}
+		};
+
 		this.compileLines = function(lines) {
 			var compilerData 	= this._compilerData,
-				outputCommands 	= this._outputCommands,
-				procStartIndex 	= -1,
-				activeStruct 	= null;
+				outputCommands 	= this._outputCommands;
 
+			this._procStartIndex 	= -1;
+			this._activeStruct 		= null;
 			for (var i = 0; i < lines.length; i++) {
 				this._lineNumber = i;
+
+				var location = {
+						filename: 	this._filename,
+						lineNumber: i
+					};
+
 				var line = lines[i].trim();
 				if (line !== '') {
 					if (this.hasCall(line)) {
@@ -559,21 +650,21 @@ var Compiler = Class(function() {
 							var label = compilerData.findLabel(line.substr(0, line.length - 1));
 							label.index = outputCommands.length - 1;
 						} else if (line === 'ends') {
-							activeStruct = null;
+							this._activeStruct = null;
 						} else if (line === 'endp') {
-							if (activeStruct !== null) {
+							if (this._activeStruct !== null) {
 								throw this.createError('Invalid command "endp".');
 							}
 							this.addOutputCommand({
 								command: 	'ret',
 								code: 		commands.ret.code
 							});
-							outputCommands[procStartIndex].localCount = compilerData.getLocalOffset();
-							procStartIndex 	= -1;
+							outputCommands[this._procStartIndex].localCount = compilerData.getLocalOffset();
+							this._procStartIndex 	= -1;
 							compilerData.resetLocal();
 						} else {
 							var command = line;
-							if (activeStruct !== null) {
+							if (this._activeStruct !== null) {
 								throw this.createError('Invalid command "' + command + '".');
 							}
 							if (command in commands) {
@@ -592,31 +683,9 @@ var Compiler = Class(function() {
 							params 	= line.substr(j - line.length + 1).trim();
 						if (params !== '') {
 							if (command === 'proc') {
-								var j = params.indexOf('(');
-								if ((j !== -1) && (params.substr(-1) === ')')) {
-									procStartIndex = this.compileProcedure(params);
-								} else {
-									params = params.split(',');
-									for (var j = 0; j < params.length; j++) {
-										params[j] = params[j].trim();
-									}
-
-									if (activeStruct !== null) {
-										for (var j = 0; j < params.length; j++) {
-											compilerData.declareStructField(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY);
-										}
-									} else if (procStartIndex === -1) {
-										for (var j = 0; j < params.length; j++) {
-											compilerData.declareGlobal(params[j], T_PROC_GLOBAL, T_PROC_GLOBAL_ARRAY, null, this._filename, i);
-										}
-									} else {
-										for (var j = 0; j < params.length; j++) {
-											compilerData.declareLocal(params[j], T_PROC_LOCAL, T_PROC_LOCAL_ARRAY);
-										}
-									}
-								}
+								this.compileProcedureDeclaration(params);
 							} else if (command === 'struct') {
-								activeStruct = compilerData.declareStruct(params, command, this._filename, i);
+								this._activeStruct = compilerData.declareStruct(params, command, location);
 							} else {
 								params = params.split(',');
 								for (var j = 0; j < params.length; j++) {
@@ -625,19 +694,7 @@ var Compiler = Class(function() {
 
 								switch (command) {
 									case 'number':
-										if (activeStruct !== null) {
-											for (var j = 0; j < params.length; j++) {
-												compilerData.declareStructField(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY);
-											}
-										} else if (procStartIndex === -1) {
-											for (var j = 0; j < params.length; j++) {
-												compilerData.declareGlobal(params[j], T_NUMBER_GLOBAL, T_NUMBER_GLOBAL_ARRAY, null, this._filename, i);
-											}
-										} else {
-											for (var j = 0; j < params.length; j++) {
-												compilerData.declareLocal(params[j], T_NUMBER_LOCAL, T_NUMBER_LOCAL_ARRAY);
-											}
-										}
+										this.compileNumberDeclaration(params);
 										break;
 
 									default:
@@ -646,11 +703,11 @@ var Compiler = Class(function() {
 											var struct = compilerData.findStruct(command);
 											if (struct === null) {
 												throw this.createError('Unknown command "' + command + '".');
-											} else if (activeStruct !== null) {
+											} else if (this._activeStruct !== null) {
 												throw this.createError('Nested structs are not supported "' + command + '".');
-											} else if (procStartIndex === -1) {
+											} else if (this._procStartIndex === -1) {
 												for (var j = 0; j < params.length; j++) {
-													compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct, this._filename, i);
+													compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct, location);
 												}
 											} else {
 												for (var j = 0; j < params.length; j++) {

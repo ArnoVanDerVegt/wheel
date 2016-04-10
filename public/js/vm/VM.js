@@ -126,7 +126,7 @@ var VM = Class(Emitter, function(supr) {
 								break;
 
 							case 'log':
-								this.emit('Log', v1, command.filename, command.lineNumber);
+								this.emit('Log', v1, command.location);
 								break;
 
 							case 'motorw': // Motor write...
@@ -344,10 +344,11 @@ var VM = Class(Emitter, function(supr) {
 			this._motors.update();
 		};
 
-		this.run = function(commands) {
+		this.run = function(commands, globalConstants) {
 			this.stop();
 
 			this._motors.reset();
+			this._vmData.setGlobalConstants(globalConstants);
 			this._vmData.pushLocalOffset(0);
 			this._callStack.push(0xFFFF);
 			this._commands 		= commands;
