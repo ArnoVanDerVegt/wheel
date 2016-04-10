@@ -351,8 +351,8 @@ var VM = Class(Emitter, function(supr) {
 			this._vmData.setGlobalConstants(globalConstants);
 			this._vmData.pushLocalOffset(0);
 			this._callStack.push(0xFFFF);
-			this._commands 		= commands;
-			this._index 		= commands.mainIndex;
+			this._commands 		= commands.getBuffer();
+			this._index 		= commands.getMainIndex();
 			this._runInterval 	= setInterval(this.onInterval.bind(this), 20);
 		};
 

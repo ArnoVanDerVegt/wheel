@@ -303,4 +303,81 @@ var CompilerData = Class(function() {
 		this.getStructList = function() {
 			return this._structList;
 		};
+
+		this.paramInfo = function(param) {
+			if (param === 'TRUE') {
+				return {
+					type: 	T_NUMBER_CONSTANT,
+					value: 	1,
+					param: 	param
+				}
+			} else if (param === 'FALSE') {
+				return {
+					type: 	T_NUMBER_CONSTANT,
+					value: 	0,
+					param: 	param
+				}
+			} else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
+				return {
+					type: 	T_STRING_CONSTANT, // String constant
+					value: 	param.substr(1, param.length - 2),
+					param: 	param
+				};
+			} else if (!isNaN(parseInt(param, 10))) {
+				return {
+					type: 	T_NUMBER_CONSTANT,
+					value: 	parseInt(param, 10),
+					param: 	param
+				};
+			} else {
+				var offset,
+					vr 		= null,
+					type 	= null;
+
+				offset = this.findRegister(param);
+				if (offset !== null) {
+					type 	= offset;
+					offset 	= param;
+				} else {
+					var local = this.findLocal(param);
+					if (local !== null) {
+						offset 	= local.offset;
+						type 	= local.type;
+						vr 		= local;
+					} else {
+						var global = this.findGlobal(param);
+						if (global !== null) {
+							offset 	= global.offset;
+							type 	= global.type;
+							vr 		= global;
+						} else {
+							var procedure = this.findProcedure(param);
+							if (procedure !== null) {
+								offset 	= procedure.index;
+								type 	= T_PROC;
+								vr 		= procedure;
+							} else {
+								offset = 0;
+								var label = this.findLabel(param);
+								if (label !== null) {
+									label.jumps.push(this._compiler.getOutput().getLength());
+									type = T_LABEL;
+								}
+							}
+						}
+					}
+				}
+
+				if (type === null) {
+					throw this._compiler.createError('Undefined identifier "' + param + '".');
+				}
+
+				return {
+					type: 	type,
+					vr: 	vr,
+					value: 	offset,
+					param: 	param
+				}
+			}
+		};
 	});

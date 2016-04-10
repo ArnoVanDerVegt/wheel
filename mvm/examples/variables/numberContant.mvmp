@@ -11,9 +11,9 @@ proc main()
     log      l
     
     number   counter = 3
-logLoop:
+logLoop1:
     number   value
     arrayr   value,                  ga, counter
     log      value
-    loop     counter,                logLoop
+    loop     counter,                logLoop1
 endp
