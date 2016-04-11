@@ -192,7 +192,6 @@ var CompilerData = Class(function() {
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
 					} else {
-						console.log('2');
 						throw this._compiler.createError('Type error.');
 					}
 				}

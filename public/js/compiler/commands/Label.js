@@ -1,17 +1,20 @@
 var Label = Class(CommandCompiler, function(supr) {
+		/**
+		 * Check if a line starts with a label...
+		**/
 		this.hasLabel = function(line) {
 			var i = line.indexOf(':');
 			if ((line.length > 1) && (i !== -1)) {
-				for (var j = 0; j < i; j++) {
-					if ('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'.indexOf(line[j]) === -1) {
-						return false;
-					}
-				}
-				return true;
+				return compilerHelper.validateString(line.substr(0, i));
 			}
 			return false;
 		};
 
+		/**
+		 * When the compilation is done all label addresses are known,
+		 * each label has a list of associated jumps, set the jump value
+		 * to the correct label index...
+		**/
 		this.updateLabels = function() {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
@@ -32,6 +35,10 @@ var Label = Class(CommandCompiler, function(supr) {
 			}
 		};
 
+		/**
+		 * Collect all labels from the lines,
+		 * check if they are unique and create a declaration...
+		**/
 		this.compile = function(lines) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData;
