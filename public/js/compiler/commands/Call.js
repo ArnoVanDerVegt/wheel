@@ -5,7 +5,7 @@ var Call = Class(CommandCompiler, function(supr) {
 				i 				= line.indexOf('('),
 				procedure 		= line.substr(0, i);
 
-			if (!compiler.validateString(procedure)) {
+			if (!compilerHelper.validateString(procedure)) {
 				throw compiler.createError('Syntax error.');
 			}
 

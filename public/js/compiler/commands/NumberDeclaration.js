@@ -18,21 +18,7 @@ var NumberDeclaration = Class(CommandCompiler, function(supr) {
 							compilerData.declareConstant(global.offset, [value]);
 						} else if (global.type === T_NUMBER_GLOBAL_ARRAY) {
 							var value = global.value.trim();
-							if (value.length && (value[0] === '[') && (value[value.length - 1] !== ']')) {
-								throw compiler.createError('Syntax error.');
-							} else {
-								value = value.substr(1, value.length - 2);
-								var values 	= value.split(','),
-									data 	= [];
-								for (var j = 0; j < values.length; j++) {
-									var v = parseFloat(values[j].trim());
-									if (isNaN(v)) {
-										throw compiler.createError('Number expected, found "' + values[j] + '".');
-									}
-									data.push(v);
-								}
-								compilerData.declareConstant(global.offset, data);
-							}
+							compilerData.declareConstant(global.offset, compilerHelper.parseNumberArray(value, compiler));
 						} else {
 							throw compiler.createError('Type error.');
 						}
@@ -54,8 +40,31 @@ var NumberDeclaration = Class(CommandCompiler, function(supr) {
 									{type: T_NUMBER_CONSTANT, 	value: value}
 								]
 							));
-						} else if (global.type === T_NUMBER_GLOBAL_ARRAY) {
-							//compilerData.declareConstant(global.offset, [value]);
+						} else if (local.type === T_NUMBER_LOCAL_ARRAY) {
+							var size 	= local.size * local.length,
+								offset 	= compilerData.allocateGlobal(size);
+							compilerData.declareConstant(offset, compilerHelper.parseNumberArray(local.value, compiler));
+
+							compiler.getOutput().add(compiler.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_SRC'},
+									{type: T_NUMBER_CONSTANT, value: offset}
+								]
+							));
+							compiler.getOutput().add(compiler.createCommand(
+								'set',
+								[
+									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_DEST'},
+									{type: T_NUMBER_CONSTANT, value: local.offset}
+								]
+							));
+							compiler.getOutput().add(compiler.createCommand(
+								'copy_global_local',
+								[
+									{type: T_NUMBER_CONSTANT, value: size}
+								]
+							));
 						} else {
 							throw compiler.createError('Type error.');
 						}

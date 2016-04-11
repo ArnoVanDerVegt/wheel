@@ -93,6 +93,12 @@ var CompilerData = Class(function() {
 			return global;
 		};
 
+		this.allocateGlobal = function(size) {
+			var offset = this._globalOffset;
+			this._globalOffset += size;
+			return offset;
+		};
+
 		this.findGlobal = function(name) {
 			var globalList 	= this._globalList,
 				field 		= null,
@@ -260,7 +266,7 @@ var CompilerData = Class(function() {
 				},
 				compiler 	= this._compiler,
 				structList 	= this._structList;
-			if (!compiler.validateString(name)) {
+			if (!compilerHelper.validateString(name)) {
 				throw compiler.createError('Syntax error.');
 			}
 			if (name in structList) {
