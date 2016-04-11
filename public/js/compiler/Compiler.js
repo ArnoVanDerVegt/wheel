@@ -165,6 +165,7 @@ var Compiler = Class(function() {
 										compilerData.declareLocal(params[j], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
 									}
 								}
+								this.getOutput().add(validatedCommand);
 							} else {
 								switch (validatedCommand.command) {
 									case 'arrayr': // Array read...
@@ -174,9 +175,11 @@ var Compiler = Class(function() {
 									case 'arrayw': // Array write...
 										this._compilers.ArrayW.compile(validatedCommand, params);
 										break;
+
+									default:
+										this.getOutput().add(validatedCommand);
 								}
 							}
-							this.getOutput().add(validatedCommand);
 							break;
 					}
 				}
