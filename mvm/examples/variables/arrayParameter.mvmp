@@ -27,4 +27,6 @@ writeLoop:
     loop     counter,                writeLoop
 
     demoProcedure(items)
+    
+    demoProcedure([5, 9, -2, 0, 7])
 endp

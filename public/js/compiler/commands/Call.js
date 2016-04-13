@@ -57,7 +57,7 @@ var Call = Class(CommandCompiler, function(supr) {
 			}
 
 			var params = line.substr(i + 1, line.length - i - 2).trim();
-			params = params.length ? params.split(',') : [];
+			params = compilerHelper.splitParams(params);
 
 			// The local offset is the stack size used in the current procedure...
 			var offset = currentLocalStackSize;
@@ -67,8 +67,7 @@ var Call = Class(CommandCompiler, function(supr) {
 					var paramInfo 	= compilerData.paramInfo(param),
 						destParam;
 						vr 			= paramInfo.vr,
-						size 		= vr.size * vr.length;
-
+						size 		= vr ? (vr.size * vr.length) : 1;
 					switch (paramInfo.type) {
 						case T_NUMBER_LOCAL:
 							destParam = {
@@ -116,6 +115,16 @@ var Call = Class(CommandCompiler, function(supr) {
 						case T_NUMBER_GLOBAL_ARRAY:
 						case T_STRUCT_GLOBAL_ARRAY:
 						case T_STRUCT_GLOBAL:
+							if (paramInfo.value) {
+								if (paramInfo.type === T_NUMBER_GLOBAL_ARRAY) {
+									var data = compilerHelper.parseNumberArray(paramInfo.value);
+									size 			= data.length;
+									paramInfo.value = compilerData.allocateGlobal(size);
+									compilerData.declareConstant(paramInfo.value, data);
+								} else {
+									throw compiler.createError('Type mismatch.');
+								}
+							}
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[

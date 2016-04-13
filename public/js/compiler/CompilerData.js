@@ -328,6 +328,12 @@ var CompilerData = Class(function() {
 					value: 	param.substr(1, param.length - 2),
 					param: 	param
 				};
+			} else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
+				return {
+					type: 	T_NUMBER_GLOBAL_ARRAY, // Array constant
+					value: 	param,
+					param: 	param
+				};
 			} else if (!isNaN(parseInt(param, 10))) {
 				return {
 					type: 	T_NUMBER_CONSTANT,

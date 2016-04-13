@@ -169,6 +169,9 @@ var Files = Class(Emitter, function(supr) {
 		};
 
 		this.exists = function(name) {
+			if (!(typeof name === 'string')) {
+				return false;
+			}
 			if (name[0] !== '/') {
 				name = '/' + name;
 			}

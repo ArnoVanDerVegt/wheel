@@ -150,17 +150,19 @@ var EditorComponent = React.createClass({
 								var codeMirror = this.refs.codeMirror;
 								codeMirror.setHighlight({}) || codeMirror.update();
 							} catch (error) {
-								var index = files.exists(error.filename);
+								var location 	= error.location || { filename: ' ', lineNumber: 0 },
+									index 		= files.exists(location.filename);
+
 								if (index !== false) {
 									var file = files.getFile(index),
 										meta = file.getMeta();
 									if (!('highlightLines' in meta)) {
 										meta.highlightLines = {};
 									}
-									meta.highlightLines[error.lineNumber] = { className: 'line-error' };
+									meta.highlightLines[location.lineNumber] = { className: 'line-error' };
 								}
 
-								this.onSelectFile(error.filename);
+								this.onSelectFile(location.filename);
 
 								this.refs.console.addError(error);
 
