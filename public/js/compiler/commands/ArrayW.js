@@ -5,49 +5,32 @@
  *
  * Store an item in an array at a given index.
  *
- * - The item size is calculated and stored in REG_SIZE.
- *
- * - The value of the second parameter is copied to REG_OFFSET,
- *   which is then multiplied with the item size if the size is
- *   greater than 1 (if it's an array of structs).
- *
- * - The VM uses REG_OFFSET, REG_SIZE and the memory location
- *   of the first and third parameter of arrayw to copy the data.
- *
 **/
 var ArrayW = Class(CommandCompiler, function(supr) {
 		this.compile = function(command, params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
 				size 			= 1,
-				type 			= params[0].type;
-			if ((type === T_STRUCT_GLOBAL_ARRAY) || (type === T_STRUCT_LOCAL_ARRAY)) {
-				var destStructName 	= params[0].vr.struct.name,
-					srcStructName 	= params[2].vr.struct.name;
-				if (destStructName !== srcStructName) {
-					throw compiler.createError('Type mismatch "' + destStructName + '" and "' + srcStructName + '".');
+				arrayParam 		= params[0],
+				indexParam 		= params[1],
+				valueParam 		= params[2];
+
+			if ((arrayParam.type === T_STRUCT_GLOBAL_ARRAY) || (arrayParam.type === T_STRUCT_LOCAL_ARRAY)) {
+				var arrayStructName 	= arrayParam.vr.struct.name,
+					valueStructName 	= valueParam.vr.struct.name;
+				if (arrayStructName !== valueStructName) {
+					throw compiler.createError('Type mismatch "' + arrayStructName + '" and "' + valueStructName + '".');
 				}
-				size = params[0].vr.struct.size;
+				size = valueParam.vr.struct.size;
 			}
 
+			// The second parameter contains the index...
 			compiler.getOutput().add({
 				command: 	'set',
 				code: 		commands.set.code,
 				params: [
-					{type: T_NUMBER_REGISTER, value: 'REG_SIZE'},
-					{type: T_NUMBER_CONSTANT, value: size}
-				]
-			});
-
-			// Remove the second parameter which is the index and
-			// add a command to move the value to the REG_OFFSET...
-			var destParam = command.params[0];
-			compiler.getOutput().add({
-				command: 	'set',
-				code: 		commands.set.code,
-				params: [
-					{type: 	T_NUMBER_REGISTER, value: 'REG_OFFSET'},
-					command.params.splice(1, 1)[0]
+					{type: 	T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+					indexParam
 				]
 			});
 			// Check if the item size is greater than 1, if so multiply with the item size...
@@ -55,12 +38,60 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 				command: 	'mul',
 				code: 		commands.mul.code,
 				params: [
-					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET')},
+					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
 					{type: T_NUMBER_CONSTANT, value: size}
 				]
 			});
+			if (arrayParam.value !== 0) {
+				// Add the offset of the destination var to the REG_OFFSET_DEST register...
+				compiler.getOutput().add({
+					command: 	'add',
+					code: 		commands.add.code,
+					params: [
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+						{type: T_NUMBER_CONSTANT, value: parseInt(arrayParam.value, 10)}
+					]
+				});
+			}
+			if (typeToLocation(arrayParam.type) === 'local') {
+				compiler.getOutput().add({
+					command: 	'add',
+					code: 		commands.add.code,
+					params: [
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK')}
+					]
+				});
+			}
 
-			compiler.getOutput().add(command);
+			// Set the offset of the source value...
+			compiler.getOutput().add({
+				command: 	'set',
+				code: 		commands.set.code,
+				params: [
+					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
+					{type: T_NUMBER_CONSTANT, value: parseInt(valueParam.value, 10)}
+				]
+			});
+			if (typeToLocation(valueParam.type) === 'local') {
+				compiler.getOutput().add({
+					command: 	'add',
+					code: 		commands.add.code,
+					params: [
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK')}
+					]
+				});
+			}
+
+			compiler.getOutput().add({
+				command: 	'copy',
+				code: 		commands.copy.code,
+				params: [
+					{type: T_NUMBER_CONSTANT, value: size},
+					{type: T_NUMBER_CONSTANT, value: 0}
+				]
+			});
 		};
 	});
 

@@ -145,11 +145,11 @@ var EditorComponent = React.createClass({
 						path,
 						filename,
 						function(includes) {
-							try {
+							//try {
 								outputCommands = compiler.compile(includes);
 								var codeMirror = this.refs.codeMirror;
 								codeMirror.setHighlight({}) || codeMirror.update();
-							} catch (error) {
+							/*} catch (error) {
 								var location 	= error.location || { filename: ' ', lineNumber: 0 },
 									index 		= files.exists(location.filename);
 
@@ -167,12 +167,12 @@ var EditorComponent = React.createClass({
 								this.refs.console.addError(error);
 
 								outputCommands = null;
-							}
+							}*/
 							if (outputCommands !== null) {
 								var compilerData = compiler.getCompilerData();
 								this.refs.console.setGlobals(compilerData.getGlobalList());
 								vm.setEV3Screen(refs.output.refs.screen.getEV3Screen());
-								vm.run(outputCommands, compilerData.getGlobalConstants());
+								vm.run(outputCommands, compilerData.getGlobalConstants(), compilerData.getGlobalOffset());
 							}
 						}.bind(this)
 					);

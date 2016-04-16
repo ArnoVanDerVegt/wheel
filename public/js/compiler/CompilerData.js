@@ -137,6 +137,10 @@ var CompilerData = Class(function() {
 			return this._globalList;
 		};
 
+		this.getGlobalOffset = function() {
+			return this._globalOffset;
+		};
+
 		/* Local */
 		this.resetLocal = function() {
 			this._localOffset 	= 0;
@@ -206,8 +210,11 @@ var CompilerData = Class(function() {
 
 		/* Register */
 		this.findRegister = function(name) {
-			if (name in this._registers) {
-				return this._registers[name];
+			var registers = this._registers;
+			for (var i = 0; i < registers.length; i++) {
+				if (name === registers[i].name) {
+					return i;
+				}
 			}
 			return null;
 		};

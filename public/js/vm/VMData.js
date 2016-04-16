@@ -1,64 +1,91 @@
 var VMData = Class(function() {
 		this.init = function(opts) {
-			this._globalData 		= [];
+			this._data 		= [];
+			this._regOffsetStack 	= [];
+			this._registerByName	= {};
+			this._registerValues 	= [];
 
-			this._localOffset 	 	= 0;
-			this._localOffsetStack 	= [];
-			this._localData 		= [];
-
-			this._registers			= {};
-
-			for (var register in opts.registers) {
-				switch (opts.registers[register]) {
-					case T_NUMBER_REGISTER: this._registers[register] = 0; 	break;
-					case T_STRING_REGISTER: this._registers[register] = ''; break;
+			for (var i = 0; i < opts.registers.length; i++) {
+				var register = opts.registers[i];
+				switch (register.type) {
+					case T_NUMBER_REGISTER:
+						this._registerValues.push(0);
+						this._registerByName[register.name] = i;
+						break;
+					case T_STRING_REGISTER:
+						this._registerValues.push('');
+						this._registerByName[register.name] = i;
+						break;
 				}
 			}
 		};
 
 		/* Global */
 		this.setGlobalNumber = function(offset, value) {
-			this._globalData[offset] = value;
+			this._data[offset] = value;
 		};
 
 		this.getGlobalNumber = function(offset) {
-			return this._globalData[offset];
+			return this._data[offset];
 		};
 
 		/* Local */
 		this.setLocalNumber = function(offset, value) {
-			this._localData[this._localOffset + offset] = value;
+			var offsetStack = this._registerValues[this._registerByName.REG_OFFSET_STACK];
+			this._data[offsetStack + offset] = value;
 		};
 
 		this.getLocalNumber = function(offset) {
-			return this._localData[this._localOffset + offset];
+			var offsetStack = this._registerValues[this._registerByName.REG_OFFSET_STACK];
+			return this._data[offsetStack + offset];
 		};
 
-		/* Regigers */
-		this.getRegister = function(name) {
-			return this._registers[name];
+		/* Registers */
+		this.getRegister = function(index) {
+			if (typeof index === 'number') {
+				return this._registerValues[index];
+			}
+			throw new Error('Number expected, got ' + (typeof index) + ', "' + index + '".');
 		};
 
-		this.setRegister = function(name, value) {
-			this._registers[name] = value;
+		this.getRegisterByName = function(name) {
+			var registerByName = this._registerByName;
+			if (name in registerByName) {
+				return this._registerValues[registerByName[name]];
+			}
+			throw new Error('Register expected, got "' + name + '".');
+		};
+
+		this.setRegister = function(index, value) {
+			if (typeof index === 'string') {
+				var s = index;
+				index = parseInt(index, 10);
+				if (isNaN(index)) {
+					throw new Error('Number expected, got ' + (typeof s) + ', "' + s + '".');
+				}
+			}
+			this._registerValues[index] = value;
+		};
+
+		this.setRegisterByName = function(name, value) {
+			var index = this._registerByName[name];
+			this.setRegister(index, value);
 		};
 
 		/* Local offset */
-		this.pushLocalOffset = function(count) {
-			this._localOffsetStack.push(this._localOffset);
-			this._localOffset += count;
+		this.pushRegOffsetStack = function(count) {
+			var regIndex = this._registerByName.REG_OFFSET_STACK;
+			this._regOffsetStack.push(this._registerValues[regIndex]);
+			this._registerValues[regIndex] += count;
 		};
 
-		this.pushLocalOffsetRead = function(count) {
-			this._localOffset += count;
+		this.popRegOffsetStack = function() {
+			var regIndex = this._registerByName.REG_OFFSET_STACK;
+			this._registerValues[regIndex] = this._regOffsetStack.pop();
 		};
 
-		this.popLocalOffset = function() {
-			this._localOffset = this._localOffsetStack.pop();
-		};
-
-		this.setGlobalConstants = function(globalConstants) {
-			var globalData = this._globalData;
+		this.setGlobalConstants = function(globalConstants, stackOffset) {
+			var globalData = this._data;
 			for (var i = 0; i < globalConstants.length; i++) {
 				var globalConstant 	= globalConstants[i],
 					offset 			= globalConstant.offset,
@@ -67,5 +94,7 @@ var VMData = Class(function() {
 					globalData[offset + j] = data[j];
 				}
 			}
+			var regIndex = this._registerByName.REG_OFFSET_STACK;
+			this._registerValues[regIndex] = stackOffset;
 		};
 	});

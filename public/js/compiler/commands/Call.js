@@ -84,14 +84,14 @@ var Call = Class(CommandCompiler, function(supr) {
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_SRC'},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
 									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
 								]
 							));
 							compiler.getOutput.add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_DEST'},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
 									{type: T_NUMBER_CONSTANT, value: offset}
 								]
 							));
@@ -128,14 +128,14 @@ var Call = Class(CommandCompiler, function(supr) {
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_SRC'},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
 									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: 'REG_OFFSET_DEST'},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
 									{type: T_NUMBER_CONSTANT, value: offset}
 								]
 							));

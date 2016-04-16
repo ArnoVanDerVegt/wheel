@@ -36,9 +36,9 @@ var mvmGrammar = {
 			'register': {
 				autocomplete: true,
 				tokens: [
-					'REG_OFFSET',
-					'REG_DRAW_X',
-					'REG_DRAW_Y',
+					'REG_OFFSET_STACK',
+					'REG_OFFSET_SRC',
+					'REG_OFFSET_DEST',
 					'REG_DRAW_X1',
 					'REG_DRAW_Y1',
 					'REG_DRAW_X2',

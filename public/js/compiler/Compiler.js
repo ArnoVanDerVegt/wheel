@@ -1,7 +1,8 @@
 var Compiler = Class(function() {
 		this.init = function(opts) {
+			this._registers 		= opts.registers;
 			this._compilerData 		= new CompilerData({compiler: this, registers: opts.registers});
-			this._output		 	= new CompilerOutput({compiler: this});
+			this._output		 	= new CompilerOutput({compiler: this, registers: opts.registers});
 			this._mainIndex 		= -1;
 			this._filename 			= '';
 			this._lineNumber		= 0;
@@ -165,7 +166,6 @@ var Compiler = Class(function() {
 										compilerData.declareLocal(params[j], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
 									}
 								}
-								this.getOutput().add(validatedCommand);
 							} else {
 								switch (validatedCommand.command) {
 									case 'arrayr': // Array read...
@@ -189,9 +189,10 @@ var Compiler = Class(function() {
 		};
 
 		this.compile = function(includes) {
-			var output = this._output;
+			var compilerData 	= this._compilerData,
+				output 			= this._output;
 
-			this._compilerData.reset();
+			compilerData.reset();
 			output.reset();
 			this._mainIndex = -1;
 			this._includes 	= includes;
@@ -211,7 +212,9 @@ var Compiler = Class(function() {
 			}
 
 			output.optimizeTypes();
+			output.setGlobalOffset(compilerData.getGlobalOffset());
 			output.setMainIndex(this._mainIndex);
+			output.getLines();
 
 			return output;
 		};

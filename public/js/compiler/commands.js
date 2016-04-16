@@ -1,33 +1,188 @@
 var T_NUMBER_CONSTANT 		=  0,
 	T_NUMBER_GLOBAL 		=  1,
-	T_NUMBER_GLOBAL_ARRAY 	=  2,
-	T_NUMBER_LOCAL			=  3,
-	T_NUMBER_LOCAL_ARRAY	=  4,
-	T_NUMBER_REGISTER		=  5,
+	T_NUMBER_LOCAL			=  2,
+	T_NUMBER_REGISTER		=  3,
+	T_STRING_REGISTER		=  4,
+	T_STRING_CONSTANT		=  5,
+	T_PROC  				=  6,
+	T_LABEL					=  7,
 
-	T_STRING_REGISTER		=  6,
-	T_STRING_CONSTANT		=  7,
+	T_NUMBER_GLOBAL_ARRAY 	=  8,
+	T_NUMBER_LOCAL_ARRAY	=  9,
 
-	T_STRUCT_GLOBAL 		=  8,
-	T_STRUCT_GLOBAL_ARRAY 	=  9,
-	T_STRUCT_LOCAL 			= 10,
-	T_STRUCT_LOCAL_ARRAY 	= 11,
+	T_STRUCT_GLOBAL 		= 10,
+	T_STRUCT_GLOBAL_ARRAY 	= 11,
+	T_STRUCT_LOCAL 			= 12,
+	T_STRUCT_LOCAL_ARRAY 	= 13,
 
-	T_PROC  				= 12,
-	T_PROC_GLOBAL 			= 13,
-	T_PROC_GLOBAL_ARRAY		= 14,
-	T_PROC_LOCAL 			= 15,
-	T_PROC_LOCAL_ARRAY 		= 16,
+	T_PROC_GLOBAL 			= 14,
+	T_PROC_GLOBAL_ARRAY		= 15,
+	T_PROC_LOCAL 			= 16,
+	T_PROC_LOCAL_ARRAY 		= 17;
 
-	T_LABEL					= 17;
+var NO_PARAM_COMMANDS 		=  5,
+	SINGLE_PARAM_COMMANDS 	= 24;
 
 var commands = {
+		// Commands without parameters...
 		nop: {
 			code: 0
 		},
-		// 1..15: Math...
+		ret: {
+			code: 1
+		},
+		// Screen commands
+		cls: {
+			code: 2
+		},
+		line: {
+			code: 3
+		},
+		rect: {
+			code: 4
+		},
+		circle: {
+			code: 5
+		},
+
+		// Commands with a single parameter...
+		inc: {
+			code: 6,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		dec: {
+			code: 7,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		abs: {
+			code: 8,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		neg: {
+			code: 9,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		copy: {
+			code: 10,
+			args: [
+				{type: T_NUMBER_CONSTANT}
+			]
+		},
+		jmp: {
+			code: 11,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		je: {
+			code: 12,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		jne: {
+			cde: 13,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		jl: {
+			code: 14,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		jle: {
+			code: 15,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		jg: {
+			code: 16,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		jge: {
+			code: 17,
+			args: [
+				{type: T_LABEL}
+			]
+		},
+		call: {
+			code: 18
+		},
+		call_global: {
+			code: 19,
+			args: [
+				{type: T_PROC_GLOBAL}
+			]
+		},
+		call_local: {
+			code: 20,
+			args: [
+				{type: T_PROC_LOCAL}
+			]
+		},
+		print: {
+			code: 21,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+				{type: T_STRING_CONSTANT}, // String constant
+			]
+		},
+		log: {
+			code: 22,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+				{type: T_STRING_CONSTANT}, // String constant
+			]
+		},
+		motorw: { // Motor write...
+			code: 23,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
+			]
+		},
+		motorr: { // Motor read...
+			code: 24,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
+			]
+		},
+
+		// Commands with 2 parameters...
 		set: {
-			code: 1,
+			code: 25,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -77,7 +232,7 @@ var commands = {
 			]
 		},
 		add: {
-			code: 2,
+			code: 26,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -109,7 +264,7 @@ var commands = {
 			]
 		},
 		sub: {
-			code: 3,
+			code: 27,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -141,7 +296,7 @@ var commands = {
 			]
 		},
 		mul: {
-			code: 4,
+			code: 28,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -173,7 +328,7 @@ var commands = {
 			]
 		},
 		div: {
-			code: 5,
+			code: 29,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -205,9 +360,9 @@ var commands = {
 			]
 		},
 
-		// 16..31: Compare, loop...
+		// Compare, loop...
 		cmp: {
-			code: 16,
+			code: 30,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -239,7 +394,7 @@ var commands = {
 			]
 		},
 		loop: {
-			code: 17,
+			code: 31,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -262,159 +417,10 @@ var commands = {
 			]
 		},
 
-		// 32..47: Single parameter operators...
-		inc: {
-			code: 32,
-			args: [
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-			]
-		},
-		dec: {
-			code: 33,
-			args: [
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-			]
-		},
-		abs: {
-			code: 34,
-			args: [
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-			]
-		},
-		neg: {
-			code: 35,
-			args: [
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-			]
-		},
-		copy_local_local: {
-			code: 36,
-			args: [
-				{type: T_NUMBER_CONSTANT}
-			]
-		},
-		copy_global_local: {
-			code: 37,
-			args: [
-				{type: T_NUMBER_CONSTANT}
-			]
-		},
-
-		// 48...63: Single parameter procedures...
-		print: {
-			code: 48,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-				{type: T_STRING_CONSTANT}, // String constant
-			]
-		},
-		log: {
-			code: 49,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-				{type: T_STRING_CONSTANT}, // String constant
-			]
-		},
-		motorw: { // Motor write...
-			code: 50,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER}
-			]
-		},
-		motorr: { // Motor read...
-			code: 51,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER}
-			]
-		},
-
-		// 64..95: Flow control...
-		jmp: {
-			code: 64,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		je: {
-			code: 65,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		jne: {
-			cde: 66,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		jl: {
-			code: 67,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		jle: {
-			code: 68,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		jg: {
-			code: 69,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-		jge: {
-			code: 70,
-			args: [
-				{type: T_LABEL}
-			]
-		},
-
-		// 80..83: Call, ret
-		call: {
-			code: 80
-		},
-		call_global: {
-			code: 81,
-			args: [
-				{type: T_PROC_GLOBAL}
-			]
-		},
-		call_local: {
-			code: 82,
-			args: [
-				{type: T_PROC_LOCAL}
-			]
-		},
-		ret: {
-			code: 83
-		},
-
-		// 84..95: Array functions
-		arrayr: 	{ // Array read...
-			code: 84,
+		// The following commands are compiled into smaller commands with less parameters...
+		// Array functions
+		arrayr: { // Array read...
+			code: 1024,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -580,8 +586,8 @@ var commands = {
 			]
 		},
 
-		arrayw: 	{ // Array write...
-			code: 85,
+		arrayw: { // Array write...
+			code: 1025,
 			args: [
 				{
 					type: T_NUMBER_LOCAL_ARRAY,
@@ -830,11 +836,31 @@ var commands = {
 					]
 				}
 			]
-		},
+		}
+	};
 
-		// 96..111: Screen commands
-		cls: 		{code: 96},
-		line: 		{code: 97},
-		rect: 		{code: 98},
-		circle: 	{code: 99},
+var typeToLocation = function(type) {
+		var result = '';
+		switch (type) {
+			case T_NUMBER_CONSTANT: 	result = 'const';	break;
+			case T_NUMBER_GLOBAL: 		result = 'global';	break;
+			case T_NUMBER_GLOBAL_ARRAY:	result = 'global';	break;
+			case T_NUMBER_LOCAL: 		result = 'local';	break;
+			case T_NUMBER_LOCAL_ARRAY: 	result = 'local';	break;
+			case T_NUMBER_REGISTER: 	result = 'reg';		break;
+
+			case T_STRING_REGISTER: 	result = 'reg';		break;
+			case T_STRING_CONSTANT: 	result = 'const';	break;
+
+			case T_STRUCT_GLOBAL:		result = 'global';	break;
+			case T_STRUCT_GLOBAL_ARRAY:	result = 'global';	break;
+			case T_STRUCT_LOCAL: 		result = 'local';	break;
+			case T_STRUCT_LOCAL_ARRAY: 	result = 'local';	break;
+
+			case T_PROC_GLOBAL:			result = 'global';	break;
+			case T_PROC_GLOBAL_ARRAY:	result = 'global';	break;
+			case T_PROC_LOCAL:			result = 'local';	break;
+			case T_PROC_LOCAL_ARRAY: 	result = 'local';	break;
+		}
+		return result;
 	};
