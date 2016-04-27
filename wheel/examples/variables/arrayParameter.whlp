@@ -1,6 +1,6 @@
 #project "Array parameter demo"
 
-#include "/lib/standard.mvm"
+#include "/lib/standard.whl"
 
 number   items[5]
 
@@ -28,6 +28,6 @@ proc main()
 ;    loop     counter,                writeLoop
 
 ;    demoProcedure(items)
-    
+
 ;    demoProcedure([5, 9, -2, 0, 7])
 endp

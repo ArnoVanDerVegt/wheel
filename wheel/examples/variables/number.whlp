@@ -1,6 +1,6 @@
 #project "Number demo"
 
-#include "/lib/standard.mvm"
+#include "/lib/standard.whl"
 
     number  g                               ; Global variable
 

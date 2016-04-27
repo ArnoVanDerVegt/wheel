@@ -1,6 +1,6 @@
 #project "Procedure demo"
 
-#include "/lib/standard.mvm"
+#include "/lib/standard.whl"
 
 proc test
 
@@ -29,7 +29,7 @@ endp
 
 proc main()
 	arrayw testStruct.moreProc, 2, bla
-    
+
 	arrayw tests, 0, testProc
     set testStruct.testStructProc, padding
 	set test, testProc
@@ -38,7 +38,7 @@ proc main()
     test()
     arrayr test, tests, 0
     test()
-    
+
     arrayr test, testStruct.moreProc, 2
     test()
 endp

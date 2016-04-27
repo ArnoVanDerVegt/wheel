@@ -1,6 +1,6 @@
 #project "Array struct demo"
 
-#include "/lib/standard.mvm"
+#include "/lib/standard.whl"
 
 struct Point
 	number x, y, z

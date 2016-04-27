@@ -1,7 +1,7 @@
 #project "Print demo"
-    
-#include "/lib/standard.mvm"
-    
+
+#include "/lib/standard.whl"
+
 proc main()
     set      REG_DRAW_X1,            10
     set      REG_DRAW_Y1,            10

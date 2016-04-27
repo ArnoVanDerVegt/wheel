@@ -1,6 +1,6 @@
 #project "Array demo"
 
-#include "/lib/standard.mvm"
+#include "/lib/standard.whl"
 
 proc main()
     number  counter
