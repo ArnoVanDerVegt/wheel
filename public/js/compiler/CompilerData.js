@@ -124,7 +124,6 @@ var CompilerData = Class(function() {
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
 					} else {
-						console.log('1');
 						throw this._compiler.createError('Type error.');
 					}
 				}
@@ -212,8 +211,10 @@ var CompilerData = Class(function() {
 		this.findRegister = function(name) {
 			var registers = this._registers;
 			for (var i = 0; i < registers.length; i++) {
-				if (name === registers[i].name) {
-					return i;
+				var register = registers[i];
+				if (name === register.name) {
+					register.index = i;
+					return register;
 				}
 			}
 			return null;
@@ -352,10 +353,10 @@ var CompilerData = Class(function() {
 					vr 		= null,
 					type 	= null;
 
-				offset = this.findRegister(param);
-				if (offset !== null) {
-					type 	= offset;
-					offset 	= param;
+				var register = this.findRegister(param);
+				if (register !== null) {
+					type 	= register.type;
+					offset 	= register.index;
 				} else {
 					var local = this.findLocal(param);
 					if (local !== null) {

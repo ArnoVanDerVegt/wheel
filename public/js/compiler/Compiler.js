@@ -178,6 +178,7 @@ var Compiler = Class(function() {
 
 									default:
 										this.getOutput().add(validatedCommand);
+										break;
 								}
 							}
 							break;
