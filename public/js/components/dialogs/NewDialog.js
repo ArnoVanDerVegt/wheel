@@ -28,14 +28,14 @@ var NewDialog = React.createClass({
 			var files = [
 					{
 						icon: 			'mdi-package-variant',
-						ext: 			'.mvmp',
-						title: 			'Mvmp',
+						ext: 			'.whlp',
+						title: 			'Whlp',
 						description: 	'Mindstorms VM project file.'
 					},
 					{
 						icon: 			'mdi-code-brackets',
-						ext: 			'.mvm',
-						title: 			'Mvm',
+						ext: 			'.whl',
+						title: 			'Whl',
 						description: 	'Mindstorms VM include file.'
 					},
 					{

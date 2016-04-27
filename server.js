@@ -22,12 +22,12 @@ app.use(function(req, res, next) {
 });
 
 app.get('/api/dir', function(req, res) {
-	var basePath = path.join(__dirname, 'mvm');
+	var basePath = path.join(__dirname, 'wheel');
 
 	function getFiles(dir, files) {
 		files = files || [];
 		var list 	= fs.readdirSync(dir),
-			extList = ['.mvm', '.mvmp', '.rgf'];
+			extList = ['.whl', '.whlp', '.rgf'];
 		for (var i in list){
 			var name = dir + '/' + list[i];
 			if (fs.statSync(name).isDirectory()) {
@@ -60,7 +60,7 @@ app.get('/api/dir', function(req, res) {
 
 app.get('/api/file', function(req, res) {
 	if (req.query.filename) {
-		var filename = path.join(__dirname, 'mvm', req.query.filename);
+		var filename = path.join(__dirname, 'wheel', req.query.filename);
 		if (filename.substr(-4) === '.rgf') {
 			var data 	= fs.readFileSync(filename),
 				width 	= data[0],
@@ -95,12 +95,12 @@ app.get('/api/file', function(req, res) {
 });
 
 app.post('/api/file', function(req, res) {
-	fs.writeFileSync(path.join(__dirname, 'mvm', req.query.filename), req.body.data);
+	fs.writeFileSync(path.join(__dirname, 'wheel', req.query.filename), req.body.data);
 	res.json({result: 'success'});
 });
 
 app.post('/api/remove-file', function(req, res) {
-	fs.unlinkSync(path.join(__dirname, 'mvm', req.query.filename));
+	fs.unlinkSync(path.join(__dirname, 'wheel', req.query.filename));
 	res.json({result: 'success'});
 });
 
@@ -119,14 +119,14 @@ app.post('/api/remove-dir', function(req, res) {
 			}
 		};
 
-	deleteFolderRecursive(path.join(__dirname, 'mvm', req.query.path));
+	deleteFolderRecursive(path.join(__dirname, 'wheel', req.query.path));
 	res.json({result: 'success'});
 });
 
 app.get('/api/rename', function(req, res) {
 	fs.renameSync(
-		path.join(__dirname, 'mvm', req.query.oldFilename),
-		path.join(__dirname, 'mvm', req.query.newFilename)
+		path.join(__dirname, 'wheel', req.query.oldFilename),
+		path.join(__dirname, 'wheel', req.query.newFilename)
 	);
 	res.json({result: 'success'});
 });

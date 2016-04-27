@@ -1,6 +1,6 @@
 var LocalStorage = Class(function() {
 		this.init = function(opts) {
-			var data = localStorage.getItem('MVM_DATA');
+			var data = localStorage.getItem('WHEEL_DATA');
 			if (data) {
 				try {
 					data = JSON.parse(data);
@@ -31,7 +31,7 @@ var LocalStorage = Class(function() {
 			var oldValue = this._data[key];
 			this._data[key] = value;
 			try {
-				localStorage.setItem('MVM_DATA', JSON.stringify(this._data));
+				localStorage.setItem('WHEEL_DATA', JSON.stringify(this._data));
 			} catch (error) {
 				// Saving failed, restore to previous state...
 				if (oldValue === undefined) {

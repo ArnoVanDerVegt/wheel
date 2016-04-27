@@ -156,9 +156,9 @@ var FilesComponent = React.createClass({
 						if (node.dir) {
 							icon = 'mdi-folder-outline';
 						} else {
-							if (node.path.substr(-5) === '.mvmp') {
+							if (node.path.substr(-5) === '.whlp') {
 								icon = 'mdi-package-variant';
-							} else if (node.path.substr(-4) === '.mvm') {
+							} else if (node.path.substr(-4) === '.whl') {
 								icon = 'mdi-code-brackets';
 							} else if (node.path.substr(-4) === '.rgf') {
 								icon = 'mdi-file-image';

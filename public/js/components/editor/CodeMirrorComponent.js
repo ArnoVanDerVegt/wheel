@@ -128,13 +128,13 @@ var CodeMirrorComponent = React.createClass({
 			};
 		},
 
-		getActiveMVMGrammar: function() {
-			var result = mvmGrammar;
+		getActiveWheelGrammar: function() {
+			var result = wheelGrammar;
 
 			var compilerData 	= this.props.compiler.getCompilerData(),
 				structList 		= compilerData.getStructList(),
 				labelList 		= compilerData.getLabelList(),
-				lex 			= mvmGrammar['Lex'],
+				lex 			= wheelGrammar['Lex'],
 				tokens;
 
 			tokens 						= lex.struct_variable.tokens;
@@ -213,14 +213,14 @@ var CodeMirrorComponent = React.createClass({
 		},
 
 		createCodeMirror: function(textarea, value) {
-			var grammar = mvmGrammar;
-				lang 	= 'mvm';
+			var grammar = wheelGrammar;
+				lang 	= 'wheel';
 
 			if (this._filename) {
 				var filename = this._filename;
-				if ((filename.substr(-5) === '.mvmp') || (filename.substr(-4) === '.mvm')) {
-					grammar = this.getActiveMVMGrammar();
-					lang 	= 'mvm';
+				if ((filename.substr(-5) === '.whlp') || (filename.substr(-4) === '.whl')) {
+					grammar = this.getActiveWheelGrammar();
+					lang 	= 'whl';
 				} else if (filename.substr(-4) === '.rgf') {
 					grammar = rgfGrammar;
 					lang 	= 'rgf';

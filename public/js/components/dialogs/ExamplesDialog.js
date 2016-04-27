@@ -4,7 +4,7 @@ var examples = [
 			examples: [
 				{
 					title: 		'Numbers',
-					filename: 	'/examples/variables.mvmp'
+					filename: 	'/examples/variables.whlp'
 				}
 			]
 		},
@@ -13,23 +13,23 @@ var examples = [
 			examples: [
 				{
 					title: 		'Jump if equal',
-					filename: 	'/examples/conditions/je.mvmp'
+					filename: 	'/examples/conditions/je.whlp'
 				},
 				{
 					title: 		'Jump if greater',
-					filename: 	'/examples/conditions/jg.mvmp'
+					filename: 	'/examples/conditions/jg.whlp'
 				},
 				{
 					title: 		'Jump if greater or equal',
-					filename: 	'/examples/conditions/jge.mvmp'
+					filename: 	'/examples/conditions/jge.whlp'
 				},
 				{
 					title: 		'Jump if less',
-					filename: 	'/examples/conditions/jl.mvmp'
+					filename: 	'/examples/conditions/jl.whlp'
 				},
 				{
 					title: 		'Jump if less or equal',
-					filename: 	'/examples/conditions/je.mvmp'
+					filename: 	'/examples/conditions/je.whlp'
 				}
 			]
 		},
@@ -38,23 +38,23 @@ var examples = [
 			examples: [
 				{
 					title: 		'Circle',
-					filename: 	'/examples/drawing/circle.mvmp'
+					filename: 	'/examples/drawing/circle.whlp'
 				},
 				{
 					title: 		'Line',
-					filename: 	'/examples/drawing/line.mvmp'
+					filename: 	'/examples/drawing/line.whlp'
 				},
 				{
 					title: 		'Pixel',
-					filename: 	'/examples/drawing/pixel.mvmp'
+					filename: 	'/examples/drawing/pixel.whlp'
 				},
 				{
 					title: 		'Print',
-					filename: 	'/examples/drawing/print.mvmp'
+					filename: 	'/examples/drawing/print.whlp'
 				},
 				{
 					title: 		'Rect',
-					filename: 	'/examples/drawing/rect.mvmp'
+					filename: 	'/examples/drawing/rect.whlp'
 				},
 			]
 		}

@@ -114,7 +114,7 @@ var EditorComponent = React.createClass({
 				alertDialog.setState({
 					visible: 	true,
 					icon: 		'mdi-alert',
-					content: 	'There is no project selected yet. You can select a project by finding a .mvmp file in the project folders.',
+					content: 	'There is no project selected yet. You can select a project by finding a .whlp file in the project folders.',
 					title: 		'Run - No project selected',
 				});
 				return;
@@ -315,7 +315,7 @@ var EditorComponent = React.createClass({
 					codeMirror.setCode(data, file.getName());
 					codeMirror.setHighlight(file.getMeta().highlightLines || {});
 					var filename = file.getName();
-					if (filename.substr(-5) == '.mvmp') {
+					if (filename.substr(-5) == '.whlp') {
 						var lines 	= data.split("\n"),
 							name 	= 'Project';
 						for (var i = 0; i < lines.length; i++) {

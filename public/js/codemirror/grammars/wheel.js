@@ -1,5 +1,5 @@
-// 1. a partial mvm grammar in simple JSON format
-var mvmGrammar = {
+// 1. a partial wheel grammar in simple JSON format
+var wheelGrammar = {
 		// prefix ID for regular expressions used in the grammar
 		'RegExpID': 'RE::',
 		'Extra': {
