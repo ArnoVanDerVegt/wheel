@@ -97,4 +97,24 @@ var VMData = Class(function() {
 			var regIndex = this._registerByName.REG_OFFSET_STACK;
 			this._registerValues[regIndex] = stackOffset;
 		};
+
+		this.getDataFromRegOffset = function(count) {
+			var regOffsetSrc 	= this.getRegisterByName('REG_OFFSET_SRC'),
+				result 			= [];
+
+			for (var i = 0; i < count; i++) {
+				result[i] = this._data(regOffsetSrc + i);
+			}
+			return result;
+		};
+
+		this.getRecordFromRegOffset = function(recordFields) {
+			var regOffsetSrc 	= this.getRegisterByName('REG_OFFSET_SRC'),
+				result 			= {};
+
+			for (var i = 0; i < recordFields.length; i++) {
+				result[recordFields[i]] = this._data[regOffsetSrc + i];
+			}
+			return result;
+		};
 	});

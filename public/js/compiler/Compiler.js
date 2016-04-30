@@ -22,7 +22,8 @@ wheel(
 					'Call',
 					'Label',
 					'ArrayR',
-					'ArrayW'
+					'ArrayW',
+					'Addr'
 				];
 
 			this._compilers = {};
@@ -107,7 +108,6 @@ wheel(
 					};
 
 				if ((line.indexOf('proc') === -1) && (line.indexOf('(') !== -1)) {
-					console.log(line);
 					this._compilers.Call.compile(line);
 				} else if (this._compilers.Label.hasLabel(line)) {
 					compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
@@ -154,6 +154,10 @@ wheel(
 
 						case 'addr':
 							params = wheel.compiler.compilerHelper.splitParams(params);
+							this._compilers.Addr.compile(this.validateCommand(command, params));
+
+/*
+							params = wheel.compiler.compilerHelper.splitParams(params);
 							var validatedCommand 	= this.validateCommand(command, params),
 								param 				= validatedCommand.params[0];
 
@@ -175,6 +179,7 @@ wheel(
 									]
 								});
 							}
+*/
 							break;
 
 						default:
