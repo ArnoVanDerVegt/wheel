@@ -190,7 +190,7 @@
 		});
 
 	wheel(
-		'components.editor.OutputComponent',
+		'components.output.OutputComponent',
 		React.createClass({
 			getInitialState: function() {
 				this.props.motors.on('Changed', this.onUpdateMotors);
