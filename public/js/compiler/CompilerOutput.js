@@ -1,4 +1,6 @@
-var CompilerOutput = Class(function() {
+wheel(
+	'compiler.CompilerOutput',
+	Class(function() {
 		this.init = function(opts) {
 			this._buffer 		= [];
 			this._mainIndex 	= 0;
@@ -65,19 +67,19 @@ var CompilerOutput = Class(function() {
 				paramToString = function(command, param) {
 					var result = '';
 					switch (param.type) {
-						case T_NUMBER_CONSTANT:
+						case wheel.compiler.command.T_NUMBER_CONSTANT:
 							result = param.value;
 							break;
 
-						case T_NUMBER_LOCAL:
+						case wheel.compiler.command.T_NUMBER_LOCAL:
 							result = '[REG_OFFSET_STACK+' + leadingZero(param.value) + ']';
 							break;
 
-						case T_NUMBER_GLOBAL:
+						case wheel.compiler.command.T_NUMBER_GLOBAL:
 							result = '[' + leadingZero(param.value) + ']';
 							break;
 
-						case T_NUMBER_REGISTER:
+						case wheel.compiler.command.T_NUMBER_REGISTER:
 							if (this._registers[param.value]) {
 								result = this._registers[param.value].name;
 							} else {
@@ -86,11 +88,11 @@ var CompilerOutput = Class(function() {
 							}
 							break;
 
-						case T_STRING_CONSTANT:
+						case wheel.compiler.command.T_STRING_CONSTANT:
 							result = '"' + param.value + '"';
 							break;
 
-						case T_LABEL:
+						case wheel.compiler.command.T_LABEL:
 							result = leadingZero(param.value + 1);
 							break;
 
@@ -112,11 +114,11 @@ var CompilerOutput = Class(function() {
 					line += ' ';
 				}
 
-				if (commands[cmd].code <= NO_PARAM_COMMANDS) {
+				if (wheel.compiler.command[cmd].code <= wheel.compiler.command.NO_PARAM_COMMANDS) {
 					// No parameters...
 				} else {
 					line += paramToString(command, command.params[0]);
-					if (commands[cmd].code <= SINGLE_PARAM_COMMANDS) {
+					if (wheel.compiler.command[cmd].code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
 						// Single parameter...
 					} else {
 						line += ',';
@@ -138,27 +140,28 @@ var CompilerOutput = Class(function() {
 					params 			= outputCommand.params;
 				for (var j = 0; j < params.length; j++) {
 					switch (params[j].type) {
-						case T_PROC:
-							params[j].type = T_NUMBER_CONSTANT;
+						case wheel.compiler.command.T_PROC:
+							params[j].type = wheel.compiler.command.T_NUMBER_CONSTANT;
 							break;
 
-						case T_PROC_GLOBAL:
-							params[j].type = T_NUMBER_GLOBAL;
+						case wheel.compiler.command.T_PROC_GLOBAL:
+							params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL;
 							break;
 
-						case T_PROC_GLOBAL_ARRAY:
-							params[j].type = T_NUMBER_GLOBAL_ARRAY;
+						case wheel.compiler.command.T_PROC_GLOBAL_ARRAY:
+							params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY;
 							break;
 
-						case T_PROC_LOCAL:
-							params[j].type = T_NUMBER_LOCAL;
+						case wheel.compiler.command.T_PROC_LOCAL:
+							params[j].type = wheel.compiler.command.T_NUMBER_LOCAL;
 							break;
 
-						case T_PROC_LOCAL_ARRAY:
-							params[j].type = T_NUMBER_LOCAL_ARRAY;
+						case wheel.compiler.command.T_PROC_LOCAL_ARRAY:
+							params[j].type = wheel.compiler.command.T_NUMBER_LOCAL_ARRAY;
 							break;
 					}
 				}
 			}
 		};
-	});
+	})
+);

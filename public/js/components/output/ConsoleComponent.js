@@ -180,7 +180,7 @@ wheel(
 				},
 				children: [
 					{
-						type: TabsComponent,
+						type: wheel.components.ui.TabsComponent,
 						props: {
 							ref: 	'tabs',
 							pages: [

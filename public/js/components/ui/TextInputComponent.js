@@ -1,4 +1,6 @@
-var TextInputComponent = React.createClass({
+wheel(
+	'components.ui.TextInputComponent',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				value: this.props.value
@@ -20,4 +22,5 @@ var TextInputComponent = React.createClass({
 				},
 			});
 		}
-	});
+	})
+);

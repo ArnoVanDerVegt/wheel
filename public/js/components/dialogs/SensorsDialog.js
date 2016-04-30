@@ -84,7 +84,7 @@ wheel(
 								}
 							},
 							{
-								type: CheckboxComponent,
+								type: wheel.components.ui.CheckboxComponent,
 								props: {
 									checked: false
 								}
@@ -99,7 +99,7 @@ wheel(
 					},
 					children: [
 						{
-							type: CheckboxComponent,
+							type: wheel.components.ui.CheckboxComponent,
 							props: {
 								ref: 		sensor,
 								slider: 	true,

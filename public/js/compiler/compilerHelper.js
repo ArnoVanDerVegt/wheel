@@ -1,4 +1,6 @@
-var compilerHelper = {
+wheel(
+	'compiler.compilerHelper',
+	{
 		validateString: function(s, valid) {
 			if (!valid) {
 				valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
@@ -77,4 +79,5 @@ var compilerHelper = {
 
 			return result;
 		}
-	};
+	}
+);

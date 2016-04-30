@@ -1,4 +1,6 @@
-var VM = Class(Emitter, function(supr) {
+wheel(
+	'vm.VM',
+	Class(Emitter, function(supr) {
 		this.init = function(opts) {
 			supr(this, 'init', arguments);
 
@@ -15,12 +17,12 @@ var VM = Class(Emitter, function(supr) {
 				ev3screen 	= this._ev3Screen,
 				saveResult 	= function(result) {
 					switch (command.params[0].type) {
-						case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
-						case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
-						case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
+						case wheel.compiler.command.T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+						case wheel.compiler.command.T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
+						case wheel.compiler.command.T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 		break;
 					}
 				};
-			if (command.code <= NO_PARAM_COMMANDS) { // Commands without parameters...
+			if (command.code <= wheel.compiler.command.NO_PARAM_COMMANDS) { // Commands without parameters...
 				switch (command.command) {
 					case 'nop':
 						break;
@@ -29,35 +31,7 @@ var VM = Class(Emitter, function(supr) {
 						vmData.popRegOffsetStack();
 						this._index = this._callStack.pop();
 						break;
-/*
-					case 'cls':
-						ev3screen.clearScreen();
-						break;
 
-					case 'line':
-						ev3screen.drawLine(
-							vmData.getRegisterByName('REG_DRAW_X1'),
-							vmData.getRegisterByName('REG_DRAW_Y1'),
-							vmData.getRegisterByName('REG_DRAW_X2'),
-							vmData.getRegisterByName('REG_DRAW_X2'),
-							0
-						);
-						break;
-
-					case 'rect':
-						ev3screen.drawRect(
-							vmData.getRegisterByName('REG_DRAW_X1'),
-							vmData.getRegisterByName('REG_DRAW_Y1'),
-							vmData.getRegisterByName('REG_DRAW_WIDTH'),
-							vmData.getRegisterByName('REG_DRAW_HEIGHT'),
-							0
-						);
-						break;
-
-					case 'circle':
-						//ev3screen.circle();
-						break;
-*/
 					default:
 						throw new Error('Unknown command "' + command.command + '"');
 				}
@@ -65,13 +39,13 @@ var VM = Class(Emitter, function(supr) {
 				var p1 = command.params[0].value,
 					v1;
 				switch (command.params[0].type) {
-					case T_NUMBER_CONSTANT: 	v1 = p1; 							break;
-					case T_NUMBER_GLOBAL: 		v1 = vmData.getGlobalNumber(p1); 	break;
-					case T_NUMBER_LOCAL: 		v1 = vmData.getLocalNumber(p1); 	break;
-					case T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
-					case T_STRING_CONSTANT: 	v1 = p1;/*vmData.getString(p1); */	break;
+					case wheel.compiler.command.T_NUMBER_CONSTANT: 	v1 = p1; 							break;
+					case wheel.compiler.command.T_NUMBER_GLOBAL: 	v1 = vmData.getGlobalNumber(p1); 	break;
+					case wheel.compiler.command.T_NUMBER_LOCAL: 	v1 = vmData.getLocalNumber(p1); 	break;
+					case wheel.compiler.command.T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
+					case wheel.compiler.command.T_STRING_CONSTANT: 	v1 = p1;/*vmData.getString(p1); */	break;
 				}
-				if (command.code <= SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
+				if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
 					switch (command.command) {
 						case 'addr':
 							console.log(addr);
@@ -146,32 +120,6 @@ var VM = Class(Emitter, function(supr) {
 						case 'log':
 							this.emit('Log', v1, command.location);
 							break;
-/*
-						case 'print':
-							var size = ev3screen.drawText(
-									vmData.getRegisterByName('REG_DRAW_X1'),
-									vmData.getRegisterByName('REG_DRAW_Y1'),
-									v1
-								);
-							break;
-
-						case 'motorw': // Motor write...
-							var motor = this._motors.getMotor(v1);
-							if (motor) {
-								motor.setTarget(vmData.getRegisterByName('REG_MOTOR_TARGET'));
-								motor.setPower(vmData.getRegisterByName('REG_MOTOR_POWER'));
-							}
-							break;
-
-						case 'motorr': // Motor read...
-							var motor = this._motors.getMotor(v1);
-							if (motor) {
-								vmData.setRegisterByName('REG_MOTOR_TARGET', 	motor.getTarget());
-								vmData.setRegisterByName('REG_MOTOR_POSITION', 	motor.getPosition());
-								vmData.setRegisterByName('REG_MOTOR_POWER', 	motor.getPower());
-							}
-							break;
-*/
 						default:
 							throw new Error('Unknown command "' + command.command + '"');
 					}
@@ -179,10 +127,10 @@ var VM = Class(Emitter, function(supr) {
 					var p2 = command.params[1].value,
 						v2;
 					switch (command.params[1].type) {
-						case T_NUMBER_CONSTANT: 	v2 = p2; 							break;
-						case T_NUMBER_GLOBAL: 		v2 = vmData.getGlobalNumber(p2); 	break;
-						case T_NUMBER_LOCAL: 		v2 = vmData.getLocalNumber(p2); 	break;
-						case T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
+						case wheel.compiler.command.T_NUMBER_CONSTANT: 	v2 = p2; 							break;
+						case wheel.compiler.command.T_NUMBER_GLOBAL: 	v2 = vmData.getGlobalNumber(p2); 	break;
+						case wheel.compiler.command.T_NUMBER_LOCAL: 	v2 = vmData.getLocalNumber(p2); 	break;
+						case wheel.compiler.command.T_NUMBER_REGISTER: 	v2 = vmData.getRegister(p2); 		break;
 					}
 
 					switch (command.command) {
@@ -218,9 +166,9 @@ var VM = Class(Emitter, function(supr) {
 						case 'loop':
 							result = v1 - 1;
 							switch (command.params[0].type) {
-								case T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
-								case T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
-								case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
+								case wheel.compiler.command.T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+								case wheel.compiler.command.T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
+								case wheel.compiler.command.T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 		break;
 							}
 							(result >= 0) && (this._index = command.params[1].value);
 							break;
@@ -279,4 +227,60 @@ var VM = Class(Emitter, function(supr) {
 		this.getVMData = function() {
 			return this._vmData;
 		};
-	});
+	})
+);
+
+/*
+					case 'cls':
+						ev3screen.clearScreen();
+						break;
+
+					case 'line':
+						ev3screen.drawLine(
+							vmData.getRegisterByName('REG_DRAW_X1'),
+							vmData.getRegisterByName('REG_DRAW_Y1'),
+							vmData.getRegisterByName('REG_DRAW_X2'),
+							vmData.getRegisterByName('REG_DRAW_X2'),
+							0
+						);
+						break;
+
+					case 'rect':
+						ev3screen.drawRect(
+							vmData.getRegisterByName('REG_DRAW_X1'),
+							vmData.getRegisterByName('REG_DRAW_Y1'),
+							vmData.getRegisterByName('REG_DRAW_WIDTH'),
+							vmData.getRegisterByName('REG_DRAW_HEIGHT'),
+							0
+						);
+						break;
+
+					case 'circle':
+						//ev3screen.circle();
+						break;
+
+						case 'print':
+							var size = ev3screen.drawText(
+									vmData.getRegisterByName('REG_DRAW_X1'),
+									vmData.getRegisterByName('REG_DRAW_Y1'),
+									v1
+								);
+							break;
+
+						case 'motorw': // Motor write...
+							var motor = this._motors.getMotor(v1);
+							if (motor) {
+								motor.setTarget(vmData.getRegisterByName('REG_MOTOR_TARGET'));
+								motor.setPower(vmData.getRegisterByName('REG_MOTOR_POWER'));
+							}
+							break;
+
+						case 'motorr': // Motor read...
+							var motor = this._motors.getMotor(v1);
+							if (motor) {
+								vmData.setRegisterByName('REG_MOTOR_TARGET', 	motor.getTarget());
+								vmData.setRegisterByName('REG_MOTOR_POSITION', 	motor.getPosition());
+								vmData.setRegisterByName('REG_MOTOR_POWER', 	motor.getPower());
+							}
+							break;
+*/

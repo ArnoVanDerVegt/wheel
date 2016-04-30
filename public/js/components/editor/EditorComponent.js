@@ -140,7 +140,7 @@ wheel(
 				outputCommands	= null;
 
 			//try {
-				var preProcessor = new PreProcessor({files: files});
+				var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
 				if (files.exists(filename)) {
 					preProcessor.process(

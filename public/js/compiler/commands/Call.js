@@ -7,7 +7,7 @@ wheel(
 				i 				= line.indexOf('('),
 				procedure 		= line.substr(0, i);
 
-			if (!compilerHelper.validateString(procedure)) {
+			if (!wheel.compiler.compilerHelper.validateString(procedure)) {
 				throw compiler.createError('Syntax error.');
 			}
 
@@ -18,38 +18,38 @@ wheel(
 			if (p !== null) {
 				callCommand = {
 					command: 	'call',
-					code: 		commands['call'].code,
+					code: 		wheel.compiler.command['call'].code,
 					params: [
-						{type: T_NUMBER_CONSTANT, value: p.index},
-						{type: T_NUMBER_CONSTANT, value: currentLocalStackSize}
+						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index},
+						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
 					]
 				};
 			} else {
 				var local = compilerData.findLocal(procedure);
 				if (local !== null) {
-					if (local.type !== T_PROC_LOCAL) {
+					if (local.type !== wheel.compiler.command.T_PROC_LOCAL) {
 						throw compiler.createError('Type error, can not call "' + procedure + '".');
 					}
 					callCommand = {
 						command: 	'call_var',
-						code: 		commands.call_var.code,
+						code: 		wheel.compiler.command.call_var.code,
 						params: [
-							{type: T_NUMBER_LOCAL, 		value: local.offset},
-							{type: T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
+							{type: wheel.compiler.command.T_NUMBER_LOCAL, 		value: local.offset},
+							{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
 						]
 					};
 				} else {
 					var global = compilerData.findGlobal(procedure)
 					if (global !== null) {
-						if (global.type !== T_PROC_GLOBAL) {
+						if (global.type !== wheel.compiler.command.T_PROC_GLOBAL) {
 							throw compiler.createError('Type error, can not call "' + procedure + '".');
 						}
 						callCommand = {
 							command: 	'call_var',
-							code: 		commands.call_var.code,
+							code: 		wheel.compiler.command.call_var.code,
 							params: [
-								{type: T_NUMBER_GLOBAL, 	value: global.offset},
-								{type: T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
+								{type: wheel.compiler.command.T_NUMBER_GLOBAL, 	value: global.offset},
+								{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
 							]
 						};
 					} else {
@@ -59,7 +59,7 @@ wheel(
 			}
 
 			var params = line.substr(i + 1, line.length - i - 2).trim();
-			params = compilerHelper.splitParams(params);
+			params = wheel.compiler.compilerHelper.splitParams(params);
 
 			// The local offset is the stack size used in the current procedure...
 			var offset = currentLocalStackSize;
@@ -71,64 +71,64 @@ wheel(
 						vr 			= paramInfo.vr,
 						size 		= vr ? (vr.size * vr.length) : 1;
 					switch (paramInfo.type) {
-						case T_NUMBER_CONSTANT:
+						case wheel.compiler.command.T_NUMBER_CONSTANT:
 							destParam = {
-								type: 	T_NUMBER_LOCAL,
+								type: 	wheel.compiler.command.T_NUMBER_LOCAL,
 								value: 	offset,
 								param: 	param
 							};
 							compiler.getOutput().add(compiler.createCommand('set', [destParam, paramInfo]));
 							break;
 
-						case T_NUMBER_LOCAL:
+						case wheel.compiler.command.T_NUMBER_LOCAL:
 							destParam = {
-								type: 	T_NUMBER_LOCAL,
+								type: 	wheel.compiler.command.T_NUMBER_LOCAL,
 								value: 	offset,
 								param: 	param
 							};
 							compiler.getOutput().add(compiler.createCommand('set', [destParam, paramInfo]));
 							break;
 
-						case T_NUMBER_LOCAL_ARRAY:
-						case T_STRUCT_LOCAL_ARRAY:
-						case T_STRUCT_LOCAL:
+						case wheel.compiler.command.T_NUMBER_LOCAL_ARRAY:
+						case wheel.compiler.command.T_STRUCT_LOCAL_ARRAY:
+						case wheel.compiler.command.T_STRUCT_LOCAL:
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
 								]
 							));
 							compiler.getOutput.add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: T_NUMBER_CONSTANT, value: offset}
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
 								'copy_local_local',
 								[
-									{type: T_NUMBER_CONSTANT, value: size}
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]
 							));
 							break;
 
-						case T_NUMBER_GLOBAL:
+						case wheel.compiler.command.T_NUMBER_GLOBAL:
 							destParam = {
-								type: 	T_NUMBER_LOCAL,
+								type: 	wheel.compiler.command.T_NUMBER_LOCAL,
 								value: 	offset,
 								param: 	param
 							};
 							compiler.getOutput().add(compiler.createCommand('set', [destParam, paramInfo]));
 							break;
 
-						case T_NUMBER_GLOBAL_ARRAY:
-						case T_STRUCT_GLOBAL_ARRAY:
-						case T_STRUCT_GLOBAL:
+						case wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY:
+						case wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY:
+						case wheel.compiler.command.T_STRUCT_GLOBAL:
 							if (paramInfo.value) {
-								if (paramInfo.type === T_NUMBER_GLOBAL_ARRAY) {
-									var data = compilerHelper.parseNumberArray(paramInfo.value);
+								if (paramInfo.type === wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY) {
+									var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
 									size 			= data.length;
 									paramInfo.value = compilerData.allocateGlobal(size);
 									compilerData.declareConstant(paramInfo.value, data);
@@ -139,21 +139,21 @@ wheel(
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-									{type: T_NUMBER_CONSTANT, value: offset}
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
 								'copy_global_local',
 								[
-									{type: T_NUMBER_CONSTANT, value: size}
+									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]
 							));
 							break;

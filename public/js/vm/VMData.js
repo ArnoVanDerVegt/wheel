@@ -8,11 +8,11 @@ var VMData = Class(function() {
 			for (var i = 0; i < opts.registers.length; i++) {
 				var register = opts.registers[i];
 				switch (register.type) {
-					case T_NUMBER_REGISTER:
+					case wheel.compiler.command.T_NUMBER_REGISTER:
 						this._registerValues.push(0);
 						this._registerByName[register.name] = i;
 						break;
-					case T_STRING_REGISTER:
+					case wheel.compiler.command.T_STRING_REGISTER:
 						this._registerValues.push('');
 						this._registerByName[register.name] = i;
 						break;

@@ -1,30 +1,20 @@
 (function() {
 	function init() {
 		var registers = [
-				{name: 'REG_OFFSET_STACK',		type: T_NUMBER_REGISTER},
-				{name: 'REG_OFFSET_SRC',		type: T_NUMBER_REGISTER},
-				{name: 'REG_OFFSET_DEST',		type: T_NUMBER_REGISTER},
-				{name: 'REG_E',					type: T_NUMBER_REGISTER},
-				{name: 'REG_NE',				type: T_NUMBER_REGISTER},
-				{name: 'REG_L',					type: T_NUMBER_REGISTER},
-				{name: 'REG_LE',				type: T_NUMBER_REGISTER},
-				{name: 'REG_G',					type: T_NUMBER_REGISTER},
-				{name: 'REG_GE',				type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_X1',			type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_Y1',			type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_X2',			type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_Y2',			type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_WIDTH',		type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_HEIGHT',		type: T_NUMBER_REGISTER},
-				{name: 'REG_DRAW_RADIUS',		type: T_NUMBER_REGISTER},
-				{name: 'REG_MOTOR_TARGET',		type: T_NUMBER_REGISTER},
-				{name: 'REG_MOTOR_POSITION',	type: T_NUMBER_REGISTER},
-				{name: 'REG_MOTOR_POWER',		type: T_NUMBER_REGISTER}
+				{name: 'REG_OFFSET_STACK',		type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_OFFSET_SRC',		type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_OFFSET_DEST',		type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_E',					type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_NE',				type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_L',					type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_LE',				type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_G',					type: wheel.compiler.command.T_NUMBER_REGISTER},
+				{name: 'REG_GE',				type: wheel.compiler.command.T_NUMBER_REGISTER}
 			],
-			compiler 	= new Compiler({registers: registers}),
-			motors 		= new Motors({}),
-			vm 			= new VM({registers: registers, motors: motors}),
-			files		= new Files({});
+			compiler 	= new wheel.compiler.Compiler({registers: registers}),
+			motors 		= new wheel.vm.Motors({}),
+			vm 			= new wheel.vm.VM({registers: registers, motors: motors}),
+			files		= new wheel.Files({});
 
 		ReactDOM.render(
 			utilsReact.fromJSON({

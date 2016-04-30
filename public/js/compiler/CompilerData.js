@@ -1,4 +1,6 @@
-var CompilerData = Class(function() {
+wheel(
+	'compiler.CompilerData',
+	Class(function() {
 		this.init = function(opts) {
 			this._compiler 	= opts.compiler;
 			this._registers = opts.registers;
@@ -119,7 +121,7 @@ var CompilerData = Class(function() {
 							}
 							clonedVr.offset += field.offset;
 							clonedVr.field 	= field;
-							clonedVr.type 	= (field.length > 1) ? T_NUMBER_GLOBAL_ARRAY : T_NUMBER_GLOBAL;
+							clonedVr.type 	= (field.length > 1) ? wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY : wheel.compiler.command.T_NUMBER_GLOBAL;
 							return clonedVr;
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
@@ -190,7 +192,7 @@ var CompilerData = Class(function() {
 								clonedVr[i] = vr[i];
 							}
 							clonedVr.offset += vr.struct.fields[field].offset;
-							clonedVr.type = T_NUMBER_LOCAL;
+							clonedVr.type = wheel.compiler.command.T_NUMBER_LOCAL;
 							return clonedVr;
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
@@ -273,7 +275,7 @@ var CompilerData = Class(function() {
 				},
 				compiler 	= this._compiler,
 				structList 	= this._structList;
-			if (!compilerHelper.validateString(name)) {
+			if (!wheel.compiler.compilerHelper.validateString(name)) {
 				throw compiler.createError('Syntax error.');
 			}
 			if (name in structList) {
@@ -320,31 +322,31 @@ var CompilerData = Class(function() {
 		this.paramInfo = function(param) {
 			if (param === 'TRUE') {
 				return {
-					type: 	T_NUMBER_CONSTANT,
+					type: 	wheel.compiler.command.T_NUMBER_CONSTANT,
 					value: 	1,
 					param: 	param
 				}
 			} else if (param === 'FALSE') {
 				return {
-					type: 	T_NUMBER_CONSTANT,
+					type: 	wheel.compiler.command.T_NUMBER_CONSTANT,
 					value: 	0,
 					param: 	param
 				}
 			} else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
 				return {
-					type: 	T_STRING_CONSTANT, // String constant
+					type: 	wheel.compiler.command.T_STRING_CONSTANT, // String constant
 					value: 	param.substr(1, param.length - 2),
 					param: 	param
 				};
 			} else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
 				return {
-					type: 	T_NUMBER_GLOBAL_ARRAY, // Array constant
+					type: 	wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY, // Array constant
 					value: 	param,
 					param: 	param
 				};
 			} else if (!isNaN(parseInt(param, 10))) {
 				return {
-					type: 	T_NUMBER_CONSTANT,
+					type: 	wheel.compiler.command.T_NUMBER_CONSTANT,
 					value: 	parseInt(param, 10),
 					param: 	param
 				};
@@ -373,14 +375,14 @@ var CompilerData = Class(function() {
 							var procedure = this.findProcedure(param);
 							if (procedure !== null) {
 								offset 	= procedure.index;
-								type 	= T_PROC;
+								type 	= wheel.compiler.command.T_PROC;
 								vr 		= procedure;
 							} else {
 								offset = 0;
 								var label = this.findLabel(param);
 								if (label !== null) {
 									label.jumps.push(this._compiler.getOutput().getLength());
-									type = T_LABEL;
+									type = wheel.compiler.command.T_LABEL;
 								}
 							}
 						}
@@ -399,4 +401,5 @@ var CompilerData = Class(function() {
 				}
 			}
 		};
-	});
+	})
+);

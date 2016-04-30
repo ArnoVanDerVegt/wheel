@@ -1,8 +1,10 @@
-var Compiler = Class(function() {
+wheel(
+	'compiler.Compiler',
+	Class(function() {
 		this.init = function(opts) {
 			this._registers 		= opts.registers;
-			this._compilerData 		= new CompilerData({compiler: this, registers: opts.registers});
-			this._output		 	= new CompilerOutput({compiler: this, registers: opts.registers});
+			this._compilerData 		= new wheel.compiler.CompilerData({compiler: this, registers: opts.registers});
+			this._output		 	= new wheel.compiler.CompilerOutput({compiler: this, registers: opts.registers});
 			this._mainIndex 		= -1;
 			this._filename 			= '';
 			this._lineNumber		= 0;
@@ -39,8 +41,9 @@ var Compiler = Class(function() {
 		};
 
 		this.createCommand = function(command, params) {
-			var args = commands[command].args,
-				code = commands[command].code;
+			var args = wheel.compiler.command[command].args,
+				code = wheel.compiler.command[command].code;
+
 			if (params.length) {
 				for (var i = 0; i < params.length; i++) {
 					var param = params[i],
@@ -74,7 +77,7 @@ var Compiler = Class(function() {
 		};
 
 		this.validateCommand = function(command, params) {
-			if (!(command in commands)) {
+			if (!(command in wheel.compiler.command)) {
 				return false;
 			}
 
@@ -129,7 +132,7 @@ var Compiler = Class(function() {
 							}
 							this.getOutput().add({
 								command: 	'ret',
-								code: 		commands.ret.code
+								code: 		wheel.compiler.command.ret.code
 							});
 							output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
 							this._procStartIndex = -1;
@@ -145,37 +148,37 @@ var Compiler = Class(function() {
 							break;
 
 						case 'number':
-							params = compilerHelper.splitParams(params);
+							params = wheel.compiler.compilerHelper.splitParams(params);
 							this._compilers.NumberDeclaration.compile(params);
 							break;
 
 						case 'addr':
-							params = compilerHelper.splitParams(params);
+							params = wheel.compiler.compilerHelper.splitParams(params);
 							var validatedCommand 	= this.validateCommand(command, params),
 								param 				= validatedCommand.params[0];
 
 							this.getOutput().add({
 								command: 	'set',
-								code: 		commands.set.code,
+								code: 		wheel.compiler.command.set.code,
 								params: [
-									{type: 	T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: 	T_NUMBER_CONSTANT, value: param.value}
+									{type: 	wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: 	wheel.compiler.command.T_NUMBER_CONSTANT, value: param.value}
 								]
 							});
-							if (typeToLocation(param.type) === 'local') {
+							if (wheel.compiler.command.typeToLocation(param.type) === 'local') {
 								this.getOutput().add({
 									command: 	'add',
-									code: 		commands.add.code,
+									code: 		wheel.compiler.command.add.code,
 									params: [
-										{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-										{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
 									]
 								});
 							}
 							break;
 
 						default:
-							params = compilerHelper.splitParams(params);
+							params = wheel.compiler.compilerHelper.splitParams(params);
 							var validatedCommand = this.validateCommand(command, params);
 							if (validatedCommand === false) {
 								var struct = compilerData.findStruct(command);
@@ -185,11 +188,11 @@ var Compiler = Class(function() {
 									throw this.createError('Nested structs are not supported "' + command + '".');
 								} else if (this._procStartIndex === -1) {
 									for (var j = 0; j < params.length; j++) {
-										compilerData.declareGlobal(params[j], T_STRUCT_GLOBAL, T_STRUCT_GLOBAL_ARRAY, struct, location);
+										compilerData.declareGlobal(params[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
 									}
 								} else {
 									for (var j = 0; j < params.length; j++) {
-										compilerData.declareLocal(params[j], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct);
+										compilerData.declareLocal(params[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
 									}
 								}
 							} else {
@@ -273,4 +276,5 @@ var Compiler = Class(function() {
 		this.setMainIndex = function(mainIndex) {
 			this._mainIndex = mainIndex;
 		};
-	});
+	})
+);

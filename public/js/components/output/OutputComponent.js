@@ -299,7 +299,7 @@
 					},
 					children: [
 						{
-							type: EV3ScreenComponent,
+							type: wheel.components.output.EV3ScreenComponent,
 							props: {
 								ref: 			'screen',
 								onRun: 			this.props.onRun,

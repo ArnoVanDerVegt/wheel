@@ -221,7 +221,7 @@
 								}
 							},
 							{
-								type: TextInputComponent,
+								type: wheel.components.ui.TextInputComponent,
 								props: {
 									placeholder: 	this.state.placeholder || 'input text',
 									value: 			this.state.value,

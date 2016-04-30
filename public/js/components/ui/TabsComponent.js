@@ -1,4 +1,6 @@
-var TabsComponent = React.createClass({
+wheel(
+	'components.ui.TabsComponent',
+	React.createClass({
 		getInitialState: function() {
 			var props = this.props;
 			return {
@@ -59,4 +61,5 @@ var TabsComponent = React.createClass({
 				children: [tabs, content]
 			});
 		}
-	});
+	})
+);

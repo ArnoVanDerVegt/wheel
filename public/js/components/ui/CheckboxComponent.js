@@ -1,4 +1,6 @@
-var CheckboxComponent = React.createClass({
+wheel(
+	'components.ui.CheckboxComponent',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				checked: !!this.props.checked
@@ -47,4 +49,5 @@ var CheckboxComponent = React.createClass({
 				]
 			});
 		}
-	});
+	})
+);

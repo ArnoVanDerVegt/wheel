@@ -120,7 +120,7 @@ wheel(
 						},
 						children: [
 							{
-								type: CheckboxComponent,
+								type: wheel.components.ui.CheckboxComponent,
 								props: {
 									ref: 		motor,
 									checked: 	motors[motor],
@@ -151,7 +151,7 @@ wheel(
 						},
 						children: [
 							{
-								type: CheckboxComponent,
+								type: wheel.components.ui.CheckboxComponent,
 								props: {
 									ref: 		property,
 									checked: 	motorProperties[properties[i]],
@@ -216,7 +216,7 @@ wheel(
 					'icon-settings',
 					[
 						{
-							type: TabsComponent,
+							type: wheel.components.ui.TabsComponent,
 							props: {
 								ref: 	'tabs',
 								pages: [

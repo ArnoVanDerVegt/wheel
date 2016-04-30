@@ -7,7 +7,7 @@ wheel(
 		this.hasLabel = function(line) {
 			var i = line.indexOf(':');
 			if ((line.length > 1) && (i !== -1)) {
-				return compilerHelper.validateString(line.substr(0, i));
+				return wheel.compiler.compilerHelper.validateString(line.substr(0, i));
 			}
 			return false;
 		};
