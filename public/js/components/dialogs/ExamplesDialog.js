@@ -141,7 +141,7 @@ var ExamplesDialog = React.createClass({
 				createDialog(
 					this,
 					'examples',
-					'mdi-cube-outline',
+					'icon-project',
 					[
 						{
 							props: {

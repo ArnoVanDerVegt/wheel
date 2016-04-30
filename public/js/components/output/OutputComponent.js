@@ -126,7 +126,7 @@ var EV3MotorComponent = React.createClass({
 
 			return utilsReact.fromJSON({
 				props: {
-					className: 'motor ' + (this.props.className || '')
+					className: 'box-shadow motor ' + (this.props.className || '')
 				},
 				children: [
 					{
@@ -159,7 +159,7 @@ var EV3SensorComponent = React.createClass({
 		render: function() {
 			return utilsReact.fromJSON({
 				props: {
-					className: 'sensor ' + (this.props.className || '')
+					className: 'box-shadow sensor ' + (this.props.className || '')
 				},
 				children: [
 					{

@@ -320,7 +320,7 @@ var CodeMirrorComponent = React.createClass({
 		render: function() {
 			return utilsReact.fromJSON({
 				props: {
-					className: 'editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large'),
+					className: 'box-shadow editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large'),
 					style: {
 						left: this.state.left + 'px'
 					},

@@ -23,8 +23,8 @@ var CheckboxComponent = React.createClass({
 		},
 
 		render: function() {
-			var cb1 = this.props.slider ? 'mdi-check' : 'mdi-checkbox-marked-circle-outline',
-				cb2 = 'mdi-checkbox-blank-circle-outline';
+			var cb1 = this.props.slider ? 'icon-check' : 'icon-circle-check',
+				cb2 = 'icon-circle';
 
 			return 	utilsReact.fromJSON({
 				props: {

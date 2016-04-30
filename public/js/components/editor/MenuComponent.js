@@ -61,7 +61,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -98,7 +98,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -161,7 +161,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -205,7 +205,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -242,7 +242,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -279,7 +279,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{
@@ -309,7 +309,7 @@ var MenuComponent = React.createClass({
 									{
 										type: 'ul',
 										props: {
-											className: 'dropdown'
+											className: 'dropdown box-shadow'
 										},
 										children: [
 											{

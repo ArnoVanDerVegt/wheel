@@ -171,7 +171,7 @@ var ConsoleComponent = React.createClass({
 
 			return utilsReact.fromJSON({
 				props: {
-					className: 'console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large'),
+					className: 'box-shadow console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large'),
 					style: {
 						left: this.state.left + 'px'
 					}
@@ -247,7 +247,7 @@ var ConsoleComponent = React.createClass({
 									children: [
 										{
 											props: {
-												className: 	'mdi mdi-close',
+												className: 	'icon-close',
 												onClick: 	this.onClose
 											}
 										}
@@ -261,7 +261,7 @@ var ConsoleComponent = React.createClass({
 									children: [
 										{
 											props: {
-												className: 	'mdi mdi-comment-remove-outline',
+												className: 	'icon-comment-close',
 												onClick: 	this.onClearMessages
 											}
 										}

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 html,
 body {
 	margin: 							0;
@@ -7,8 +9,8 @@ body {
 }
 body {
 	position: 							relative;
-	background-color: 					#F8F8F8;
-	color: 								#212121;
+	background-color: 					GhostWhite;
+	color: 								Black;
 	font-size: 							16px;
 }
 div,
@@ -22,7 +24,7 @@ li {
 	margin: 							0;
 	padding: 							0;
 	box-sizing: 						border-box;
-	color: 								#212121;
+	color: 								Black;
 }
 #container,
 .container-events {
@@ -53,6 +55,13 @@ h4 {
 	width: 								33%;
 }
 
+.box-shadow {
+	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
+										-0px 2px 5px rgba(0, 0, 0, 0.1),
+										-2px -0px 5px rgba(0, 0, 0, 0.1),
+										2px -0px 5px rgba(0, 0, 0, 0.1);
+}
+
 /* Header */
 #main .header {
 	position: 							absolute;
@@ -60,10 +69,9 @@ h4 {
 	top: 								0px;
 	width: 								100%;
 	height: 							48px;
-	z-index: 							500;
+	z-index: 							10500;
 	box-shadow: 						0 2px 2px rgba(0, 0, 0, 0.3);
-	/* 4285f4 - 1a0dab */
-	background-color: 					#4387fd;
+	background-color: 					DodgerBlue;
 }
 #main .header .menu {
 	position: 							absolute;
@@ -88,7 +96,7 @@ h4 {
 #main .header .menu li.menu-item .menu-item-title,
 #main .header .menu li.active-project span {
 	float: 								left;
-	color: 								#FFFFFF;
+	color: 								White;
 	font-family:						'Roboto', sans-serif;
 	font-weight: 						300;
 	line-height: 						48px;
@@ -100,7 +108,7 @@ h4 {
 	font-style: 						italic;
 }
 #main .header .menu li.menu-item:hover .menu-item-title {
-	border: 							4px solid #FFFFFF;
+	border: 							4px solid White;
 	border-width: 						0 0 4px 0;
 }
 #main .header .menu li.menu-item .dropdown {
@@ -113,39 +121,37 @@ h4 {
 }
 #main .header .menu li.menu-item:hover .dropdown {
 	display: 							block;
-	background-color: 					#FFFFFF;
-	border: 							1px solid #B6B6B6;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+	background-color: 					White;
+	border: 							1px solid LightSteelBlue;
 }
 #main .header .menu li.menu-item:hover .dropdown li {
 	white-space: 						nowrap;
 	font-family:						'Roboto', sans-serif;
 	font-weight: 						300;
-	color: 								#000000;
+	color: 								Black;
 	padding: 							8px 16px 8px 16px;
 	list-style-type: 					none;
 }
 #main .header .menu li.menu-item:hover .dropdown li.separator,
 #main .header .menu li.menu-item:hover .dropdown li.separator:hover {
-	background-color: 					#B6B6B6;
+	background-color: 					LightSteelBlue;
 	cursor: 							default;
 	margin: 							8px 0 8px 0;
 	padding: 							0;
 	height: 							1px;
 }
 #main .header .menu li.menu-item:hover .dropdown li:hover {
-	background-color: 					#4387fd;
-	color: 								#FFFFFF;
+	background-color: 					DodgerBlue;
+	color: 								White;
 	cursor: 							pointer;
 }
 
 /* Files */
 .dotted {
-	/*padding: 2.25em 1.6875em;*/
-	background-image: 					-webkit-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
-	background-image: 					-moz-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
-	background-image: 					-ms-repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
-	background-image: 					repeating-radial-gradient(center center, #000000, #000000 1px, transparent 1px, transparent 100%);
+	background-image: 					-webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+	background-image: 					-moz-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+	background-image: 					-ms-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+	background-image: 					repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
 	-webkit-background-size: 			3px 3px;
 	-moz-background-size: 				3px 3px;
 	background-size: 					3px 3px;
@@ -166,7 +172,7 @@ h4 {
 	right: 								0;
 	width: 								10px;
 	bottom: 							0;
-	z-index: 							100;
+	z-index: 							10100;
 	cursor: 							col-resize;
 	opacity: 							0.1;
 }
@@ -179,7 +185,7 @@ h4 {
 #main .files ul {
 	float: 								left;
 	width: 								100%;
-	z-index: 0;
+	z-index: 							0;
 }
 #main .files li {
 	float: 								left;
@@ -193,84 +199,69 @@ h4 {
 	list-style-type: 					none;
 }
 #main .files li div {
+	position: 							relative;
 	float: 								left;
 	width: 								100%;
-	color: 								#727272;
+	color: 								Black;
 }
 #main .files li span {
 	float: 								left;
 }
-#main .files li .mdi {
-	display: 							none;
-	width: 								32px;
-	line-height: 						32px;
-}
-#main .files li .mdi.mdi-close,
-#main .files li .mdi.mdi-pencil {
-	float: 								right;
-}
-#main .files li .mdi.mdi-folder-outline,
-#main .files li .mdi.mdi-package-variant,
-#main .files li .mdi.mdi-file-outline,
-#main .files li .mdi.mdi-file-image,
-#main .files li .mdi.mdi-code-brackets {
+#main .files li .icon {
 	float: 								left;
 	display: 							block;
 	pointer-events: 					none;
 	width: 								24px;
-	height: 							24px;
-	line-height: 						20px;
+	height: 							32px;
+	line-height: 						32px;
 	font-size:							18px;
-	border-radius: 						13px;
 	text-align: 						center;
-	border: 							2px solid transparent;
-	margin-right: 						8px;
-	margin-top: 						4px;
+	margin: 							0 8px 0 0;
+	color: 								Black;
 }
-#main .files li .mdi.mdi-package-variant {
-	background-color: 					#61BD6D;
-	color: 								#FFFFFF;
-	border: 							2px solid #41A85F;
+#main .files li div.active:hover .icon {
+	display: 							block;
+	color: 								White;
 }
-#main .files li .mdi.mdi-code-brackets {
-	background-color: 					#F7DA64;
-	color: 								#FFFFFF;
-	border: 							2px solid #FAC51C;
+#main .files li div.active {
+	z-index: 							10000;
 }
-#main .files li .mdi.mdi-file-image {
-	background-color: 					#E25041;
-	color: 								#FFFFFF;
-	border: 							2px solid #B8312F;
+#main .files li div.active .icon {
+	color: 								White;
+}
+
+#main .files li .icon-close,
+#main .files li .icon-pen {
+	display: 							none;
+	float: 								right;
+	width: 								32px;
 }
 #main .files li div.changed,
 #main .files li div.active.changed {
 	font-style: 						italic;
 }
-#main .files li div.active .mdi.mdi-folder-outline,
-#main .files li div.active .mdi.mdi-package-variant,
-#main .files li div.active .mdi.mdi-file-outline,
-#main .files li div.active .mdi.mdi-file-image,
-#main .files li div.active .mdi.mdi-code-brackets {
-	border: 							2px solid transparent;
-	background-color: 					transparent;
-	margin-top: 						4px;
-}
-#main .files li div.active:hover .mdi {
-	display: 							block;
-}
 #main .files li div:hover {
-	background-color: 					rgba(0, 0, 0, 0.05);
+	background-color: 					LightBlue;
+	color: 								White;
+}
+#main .files li div:hover .icon,
+#main .files li div:hover span {
+	color: 								White;
 }
 #main .files li div:hover div {
 	background-color: 					transparent;
 }
 #main .files li div.active {
-	background-color: 					#4387fd;
+	background-color: 					DodgerBlue;
 	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .files li div.active span,
-#main .files li div.active .mdi {
-	color: 								#FFFFFF;
+#main .files li div.active .icon-project,
+#main .files li div.active .icon-file,
+#main .files li div.active .icon-image-file,
+#main .files li div.active .icon-brackets,
+#main .files li div.active .icon-folder {
+	color: 								White;
 }
 
 /* Editor */
@@ -279,8 +270,6 @@ h4 {
 	right: 								196px;
 	top: 								56px;
 	bottom: 							8px;
-	border: 							1px solid #B6B6B6;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .editor.small {
 	right: 								376px;
@@ -292,13 +281,16 @@ h4 {
 #main .editor #codeHint {
 	position: 							absolute;
 	z-index: 							9999;
-	border: 							1px solid #000000;
+	border: 							1px solid Black;
 	background-color: 					#FFFFF0;
 	font-family:						'Roboto', sans-serif;
 	font-weight:						300;
 	font-size:							13px;
 	padding: 							3px;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
+										-0px 2px 5px rgba(0, 0, 0, 0.1),
+										-2px -0px 5px rgba(0, 0, 0, 0.1),
+										2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 #main .editor #codeHint .code-hint-title {
 }
@@ -319,9 +311,7 @@ h4 {
 	right: 								196px;
 	height: 							152px;
 	bottom: 							8px;
-	border: 							1px solid #B6B6B6;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
-	background-color: 					#FFFFFF;
+	background-color: 					White;
 	display: 							none;
 }
 #main .console.visible {
@@ -368,12 +358,12 @@ h4 {
 #main .console .tabs .tabs-content .row.error {
 	background-color: 					#FFD0D0;
 	cursor: 							pointer;
-	border: 							1px dotted #E0E0E0;
+	border: 							1px dotted LightBlue;
 	border-width: 						0 0 1px 0;
 }
 #main .console .tabs .tabs-content .row.log {
 	cursor: 							pointer;
-	border: 							1px dotted #E0E0E0;
+	border: 							1px dotted LightBlue;
 	border-width: 						0 0 1px 0;
 }
 #main .console .tabs .tabs-content .row.log .message,
@@ -387,7 +377,7 @@ h4 {
 
 #main .console .tabs .tabs-content .row.var {
 	cursor: 							pointer;
-	border: 							1px dotted #E0E0E0;
+	border: 							1px dotted LightBlue;
 	border-width: 						0 0 1px 0;
 }
 #main .console .tabs .tabs-content .row.var .offset {
@@ -441,7 +431,7 @@ h4 {
 	float: 								left;
 	width: 								100%;
 	height: 							calc(100% - 192px);
-	margin-top: 8px;
+	margin-top: 						8px;
 	overflow: 							scroll;
 	overflow-x:							hidden;
 }
@@ -475,11 +465,9 @@ h4 {
 #main .output .motor-container .motor {
 	float: 								left;
 	width: 								178px;
-	background-color: 					#FFFFFF;
+	background-color: 					White;
 	margin: 							0px 8px 8px 8px;
 	padding: 							8px;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
-	border: 							1px solid #E0E0E0;
 }
 #main .output.large .motor-container .motor {
 	width: 								174px;
@@ -508,11 +496,9 @@ h4 {
 #main .output .sensor-container .sensor {
 	float: 								left;
 	width: 								178px;
-	background-color: 					#FFFFFF;
+	background-color: 					White;
 	margin: 							0px 8px 8px 8px;
 	padding: 							8px;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
-	border: 							1px solid #E0E0E0;
 }
 #main .output.large .sensor-container .sensor {
 	width: 								174px;
@@ -549,12 +535,11 @@ h4 {
 	height: 							auto;
 }
 #main .output .ev3-screen canvas {
-	float: left;
-	background-color: 					#A0A0A0;
+	float:								left;
+	background-color: 					DarkGray;
 	width: 								178px;
 	height: 							128px;
 	font-family: 						'Inconsolata';
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .output.large .ev3-screen canvas {
 	width: 								356px;
@@ -564,23 +549,25 @@ h4 {
 	float: 								left;
 	width: 								100%;
 	height: 							40px;
-	background-color: 					#4387fd;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+	background-color: 					DodgerBlue;
 }
 
-#main .output .ev3-screen .control-panel .mdi {
+#main .output .ev3-screen .control-panel .icon {
 	float: 								left;
 	cursor: 							pointer;
-	color: 								#FFFFFF;
-	font-size: 							24px;
+	color: 								White;
+	font-size: 							32px;
 	line-height: 						40px;
+	height: 							36px;
+	margin-top: 						4px;
 }
-#main .output .ev3-screen .control-panel .mdi.mdi-play {
+#main .output .ev3-screen .control-panel .icon.icon-circle-play {
 	margin-left: 						8px;
 }
-#main .output .ev3-screen .control-panel .mdi.mdi-comment-outline,
-#main .output .ev3-screen .control-panel .mdi.mdi-crop-free {
+#main .output .ev3-screen .control-panel .icon.icon-comment,
+#main .output .ev3-screen .control-panel .icon.icon-area {
 	float: 								right;
+	font-size: 							24px;
 	margin-right: 						8px;
 }
 
@@ -591,7 +578,7 @@ h4 {
 	top: 								0;
 	width: 								100%;
 	height: 							100%;
-	z-index: 							900;
+	z-index: 							10900;
 	background-color: 					rgba(0, 0, 0, 0.15);
 	display: 							none;
 }
@@ -607,14 +594,16 @@ h4 {
 	width: 								100%;
 	height: 							200px;
 	margin: 							-100px 0 0 0;
-	z-index: 							1000;
+	z-index: 							11000;
 }
 .dialog-vertical {
 	position: 							relative;
 	margin: 							0 auto 0 auto;
-	background-color: 					#FFFFFF;
-	border: 							1px solid #E0E0E0;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+	background-color: 					White;
+	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
+										-0px 2px 5px rgba(0, 0, 0, 0.1),
+										-2px -0px 5px rgba(0, 0, 0, 0.1),
+										2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 .dialog-vertical .dialog-content {
 	position: 							absolute;
@@ -633,16 +622,18 @@ h4 {
 .dialog-vertical .buttons .button {
 	float: 								right;
 	margin: 							16px 16px 16px 0;
-	/* 4285f4 - 1a0dab */
-	background-color: 					#4387fd;
+	background-color: 					DodgerBlue;
 	border: 							0;
 	padding: 							4px 16px 4px 16px;
-	color: 								#FFFFFF;
+	color: 								White;
 	font-size: 							16px;
 	font-weight: 						300;
 	line-height: 						16px;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
 	cursor: 							pointer;
+	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
+										-0px 2px 5px rgba(0, 0, 0, 0.1),
+										-2px -0px 5px rgba(0, 0, 0, 0.1),
+										2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 .dialog-vertical .dialog-header {
 	position: 							absolute;
@@ -650,8 +641,7 @@ h4 {
 	top: 								0px;
 	width: 								100%;
 	height: 							48px;
-	border: 							1px dotted #E0E0E0;
-	border-width: 						0 0 1px 0;
+	background-color: 					DodgerBlue;
 }
 .dialog-vertical .dialog-header h4 {
 	position: 							absolute;
@@ -660,16 +650,18 @@ h4 {
 	width: 								100%;
 	text-align: 						center;
 	opacity: 							0.87;
+	color: 								White;
 }
 .dialog-vertical .dialog-header .close-button {
 	position: 							absolute;
 	right: 								16px;
 	top: 								16px;
 	text-align: 						center;
-	opacity: 							0.37;
+	opacity: 							1;
 	font-size: 							20px;
 	line-height: 						20px;
 	cursor: 							pointer;
+	color: 								White;
 }
 .dialog-vertical .icon {
 	float: 								left;
@@ -679,9 +671,12 @@ h4 {
 	line-height: 						72px;
 	text-align: 						center;
 	border-radius: 						40px;
-	border: 							4px solid #E0E0E0;
+	border: 							4px solid DodgerBlue;
 	background-color: 					#E8E8E8;
 	color: 								#B0B0B0;
+}
+.dialog-vertical .icon:before {
+	line-height: 						72px;
 }
 
 /* Alert dialog */
@@ -733,7 +728,7 @@ h4 {
 	width: 								40px;
 	height: 							40px;
 	background-color: 					#61BD6D;
-	color: 								#FFFFFF;
+	color: 								White;
 	border-radius: 						20px;
 	font-size: 							30px;
 	line-height: 						40px;
@@ -742,17 +737,17 @@ h4 {
 }
 .dialog.new .new-content .mdi.mdi-package-variant {
 	background-color: 					#61BD6D;
-	color: 								#FFFFFF;
+	color: 								White;
 	border: 							3px solid #41A85F;
 }
 .dialog.new .new-content .mdi.mdi-code-brackets {
 	background-color: 					#F7DA64;
-	color: 								#FFFFFF;
+	color: 								White;
 	border: 							2px solid #FAC51C;
 }
 .dialog.new .new-content .mdi.mdi-file-image {
 	background-color: 					#E25041;
-	color: 								#FFFFFF;
+	color: 								White;
 	border: 							3px solid #B8312F;
 }
 .dialog.new .new-content .new-item-details {
@@ -779,7 +774,7 @@ h4 {
 }
 .dialog.prompt input {
 	float: 								left;
-	border: 							2px solid #000000;
+	border: 							2px solid Black;
 	border-width: 						0 0 1px 0;
 	width: 								calc(100% - 100px);
 	font-size: 							16px;
@@ -920,7 +915,7 @@ h4 {
 	left: 								8px;
 	top: 								8px;
 	border-radius: 						4px;
-	background-color: 					#E0E0E0;
+	background-color: 					LightBlue;
 	pointer-events: 					none;
 }
 .checkbox.slider .checkbox-value {
@@ -930,7 +925,7 @@ h4 {
 	width: 								20px;
 	height: 							20px;
 	border-radius: 						12px;
-	border: 							1px solid #E0E0E0;
+	border: 							1px solid LightBlue;
 	background-color: 					#B0B0B0;
 	pointer-events: 					none;
 	transition: 						left 0.3s, background-color 0.3s;
@@ -945,8 +940,8 @@ h4 {
 }
 .checkbox.slider.checked .checkbox-value {
 	left: 								26px;
-	background-color: 					#4387fd;
-	color: 								#FFFFFF;
+	background-color: 					DodgerBlue;
+	color: 								White;
 	font-size: 							16px;
 	line-height: 						18px;
 	text-align: 						center;
@@ -967,7 +962,7 @@ h4 {
 .tabs ul.tabs-titles {
 	float: 								left;
 	padding: 							8px 8px 8px 0;
-	border: 							1px dotted #E0E0E0;
+	border: 							1px dotted LightBlue;
 	border-width: 						0 0 1px 0;
 	width: 								100%;
 	margin-bottom: 						8px;
@@ -984,7 +979,7 @@ h4 {
 	font-weight: 						300;
 }
 .tabs ul.tabs-titles li.tab.active {
-	border: 							4px solid #000000;
+	border: 							4px solid Black;
 	border-width: 						0 0 4px 0;
 	opacity: 							0.87;
 }
@@ -996,4 +991,133 @@ h4 {
 }
 .tabs .tabs-content .tab-content.active {
 	display: 							block;
+}
+
+/* Icons */
+@font-face {
+	font-family: 						"icons";
+	src: 								url("/fonts/icons.eot");
+	src:								url("/fonts/icons.eot?#iefix") format("embedded-opentype"),
+										url("/fonts/icons.woff") format("woff"),
+										url("/fonts/icons.ttf") format("truetype"),
+										url("/fonts/icons.svg#icons") format("svg");
+	font-weight: 						normal;
+	font-style: 						normal;
+}
+
+[data-icon]:before {
+	font-family: 						"icons" !important;
+	content: 							attr(data-icon);
+	font-style: 						normal !important;
+	font-weight: 						normal !important;
+	font-variant: 						normal !important;
+	text-transform: 					none !important;
+	speak: 								none;
+	line-height: 						1;
+	-webkit-font-smoothing: 			antialiased;
+	-moz-osx-font-smoothing: 			grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: 						"icons" !important;
+	font-style: 						normal !important;
+	font-weight: 						normal !important;
+	font-variant: 						normal !important;
+	text-transform: 					none !important;
+	speak:								none;
+	line-height:						1;
+	-webkit-font-smoothing: 			antialiased;
+	-moz-osx-font-smoothing: 			grayscale;
+}
+
+.icon-circle-warning:before {
+  content: "\61";
+}
+.icon-triangle-warning:before {
+  content: "\62";
+}
+.icon-circle-down:before {
+  content: "\63";
+}
+.icon-circle:before {
+  content: "\64";
+}
+.icon-circle-check:before {
+  content: "\65";
+}
+.icon-light:before {
+  content: "\66";
+}
+.icon-curly:before {
+  content: "\67";
+}
+.icon-square-bracket:before {
+  content: "\68";
+}
+.icon-bracket:before {
+  content: "\69";
+}
+.icon-comment-close:before {
+  content: "\6a";
+}
+.icon-comment:before {
+  content: "\6b";
+}
+.icon-area:before {
+  content: "\6c";
+}
+.icon-file:before {
+  content: "\6d";
+}
+.icon-folder:before {
+  content: "\6e";
+}
+.icon-folders:before {
+  content: "\6f";
+}
+.icon-project:before {
+  content: "\70";
+}
+.icon-step-into:before {
+  content: "\71";
+}
+.icon-step-out:before {
+  content: "\72";
+}
+.icon-step-over:before {
+  content: "\73";
+}
+.icon-circle-pause:before {
+  content: "\74";
+}
+.icon-circle-play:before {
+  content: "\75";
+}
+.icon-sensor:before {
+  content: "\76";
+}
+.icon-settings:before {
+  content: "\77";
+}
+.icon-check:before {
+  content: "\78";
+}
+.icon-close:before {
+  content: "\79";
+}
+.icon-circle-info:before {
+  content: "\7a";
+}
+.icon-circle-minus:before {
+  content: "\41";
+}
+.icon-cirle-plus:before {
+  content: "\42";
+}
+.icon-pen:before {
+  content: "\43";
+}
+.icon-image-file:before {
+  content: "\44";
 }

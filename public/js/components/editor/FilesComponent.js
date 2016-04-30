@@ -150,20 +150,20 @@ var FilesComponent = React.createClass({
 			}
 
 			var addNode = function(node, depth) {
-					var icon = 'mdi-package-variant';
+					var icon = 'icon-project';
 
 					if (node.path) {
 						if (node.dir) {
-							icon = 'mdi-folder-outline';
+							icon = 'icon-folder';
 						} else {
 							if (node.path.substr(-5) === '.whlp') {
-								icon = 'mdi-package-variant';
+								icon = 'icon-project';
 							} else if (node.path.substr(-4) === '.whl') {
-								icon = 'mdi-code-brackets';
+								icon = 'icon-bracket';
 							} else if (node.path.substr(-4) === '.rgf') {
-								icon = 'mdi-file-image';
+								icon = 'icon-file';
 							} else {
-								icon = 'mdi-file-outline';
+								icon = 'icon-file';
 							}
 						}
 					}
@@ -185,7 +185,7 @@ var FilesComponent = React.createClass({
 											null :
 											{
 												props: {
-													className: 	'mdi ' + icon
+													className: 	'icon ' + icon
 												}
 											},
 
@@ -200,7 +200,7 @@ var FilesComponent = React.createClass({
 
 										{
 											props: {
-												className: 	'mdi mdi-close',
+												className: 	'icon-close',
 												onClick: 	(function() {
 													var index = props.files.exists(node.path);
 													if (index === props.activeFileIndex) {
@@ -217,7 +217,7 @@ var FilesComponent = React.createClass({
 										},
 										{
 											props: {
-												className: 	'mdi mdi-pencil',
+												className: 	'icon-pen',
 												onClick: 	(function() {
 													var index = props.files.exists(node.path);
 													if (index === props.activeFileIndex) {

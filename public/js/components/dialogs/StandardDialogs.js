@@ -29,7 +29,7 @@ function createDialog(reactClass, dialogClassName, iconClassName, content, butto
 									},
 									{
 										props: {
-											className: 	'close-button mdi mdi-close',
+											className: 	'close-button icon-close',
 											onClick: 	reactClass.onClose
 										}
 									}
@@ -42,7 +42,7 @@ function createDialog(reactClass, dialogClassName, iconClassName, content, butto
 								children: [
 									{
 										props: {
-											className: 'icon mdi ' + iconClassName
+											className: 'icon ' + iconClassName
 										}
 									}
 								].concat(content || [])
@@ -89,7 +89,7 @@ var AlertDialog = React.createClass({
 				createDialog(
 					this,
 					'alert',
-					'mdi-alert-outline',
+					'icon-triangle-warning',
 					[
 						{
 							props: {
@@ -200,7 +200,7 @@ var PromptDialog = React.createClass({
 				createDialog(
 					this,
 					'prompt',
-					'mdi-pencil',
+					'icon-pen',
 					[
 						{
 							props: {

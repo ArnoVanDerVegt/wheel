@@ -78,7 +78,12 @@ var CompilerOutput = Class(function() {
 							break;
 
 						case T_NUMBER_REGISTER:
-							result = this._registers[param.value].name;
+							if (this._registers[param.value]) {
+								result = this._registers[param.value].name;
+							} else {
+								console.log(param.value);
+								result = 'unknown reg' + param.value;
+							}
 							break;
 
 						case T_STRING_CONSTANT:

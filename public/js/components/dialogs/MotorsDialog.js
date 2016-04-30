@@ -211,7 +211,7 @@ var MotorsDialog = React.createClass({
 				createDialog(
 					this,
 					'motors',
-					'mdi-settings',
+					'icon-settings',
 					[
 						{
 							type: TabsComponent,

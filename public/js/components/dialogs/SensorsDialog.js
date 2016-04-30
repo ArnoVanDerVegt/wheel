@@ -118,7 +118,7 @@ var SensorsDialog = React.createClass({
 				createDialog(
 					this,
 					'sensors',
-					'mdi-signal-variant',
+					'icon-sensor',
 					[
 						{
 							props: {

@@ -27,19 +27,19 @@ var NewDialog = React.createClass({
 		render: function() {
 			var files = [
 					{
-						icon: 			'mdi-package-variant',
+						icon: 			'icon-project',
 						ext: 			'.whlp',
 						title: 			'Whlp',
 						description: 	'Mindstorms VM project file.'
 					},
 					{
-						icon: 			'mdi-code-brackets',
+						icon: 			'icon-brackets',
 						ext: 			'.whl',
 						title: 			'Whl',
 						description: 	'Mindstorms VM include file.'
 					},
 					{
-						icon: 			'mdi-file-image',
+						icon: 			'icon-image-file',
 						ext: 			'.rgf',
 						title: 			'Rgf',
 						description: 	'Robot graphics file.'
@@ -57,7 +57,7 @@ var NewDialog = React.createClass({
 						children: [
 							{
 								props: {
-									className: 	'mdi ' + file.icon,
+									className: 	'icon ' + file.icon,
 								}
 							},
 							{
@@ -91,7 +91,7 @@ var NewDialog = React.createClass({
 				createDialog(
 					this,
 					'new',
-					this.state.icon || 'mdi-file-outline',
+					this.state.icon || 'icon-file',
 					[
 						{
 							props: {

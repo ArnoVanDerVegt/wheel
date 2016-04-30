@@ -29,7 +29,7 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 				command: 	'set',
 				code: 		commands.set.code,
 				params: [
-					{type: 	T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+					{type: 	T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 					indexParam
 				]
 			});
@@ -38,7 +38,7 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 				command: 	'mul',
 				code: 		commands.mul.code,
 				params: [
-					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 					{type: T_NUMBER_CONSTANT, value: size}
 				]
 			});
@@ -48,7 +48,7 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 					command: 	'add',
 					code: 		commands.add.code,
 					params: [
-						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 						{type: T_NUMBER_CONSTANT, value: parseInt(arrayParam.value, 10)}
 					]
 				});
@@ -58,8 +58,8 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 					command: 	'add',
 					code: 		commands.add.code,
 					params: [
-						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
-						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK')}
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
 					]
 				});
 			}
@@ -69,7 +69,7 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 				command: 	'set',
 				code: 		commands.set.code,
 				params: [
-					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
+					{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
 					{type: T_NUMBER_CONSTANT, value: parseInt(valueParam.value, 10)}
 				]
 			});
@@ -78,8 +78,8 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 					command: 	'add',
 					code: 		commands.add.code,
 					params: [
-						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
-						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK')}
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+						{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
 					]
 				});
 			}

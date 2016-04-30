@@ -77,14 +77,14 @@ var NumberDeclaration = Class(CommandCompiler, function(supr) {
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC')},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
 									{type: T_NUMBER_CONSTANT, value: offset}
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
-									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST')},
+									{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 									{type: T_NUMBER_CONSTANT, value: local.offset}
 								]
 							));

@@ -92,7 +92,7 @@ var EV3Screen = Class(function() {
 			for (var y = 0; y < 128; y++) {
 				for (var x = 0; x < 178; x++) {
 					for (var i = 0; i < 3; i++) {
-						data[offset++] = 128;
+						data[offset++] = 168;
 					}
 					data[offset++] = 255;
 				}
@@ -225,9 +225,9 @@ var EV3ScreenComponent = React.createClass({
 						g = 0;
 						b = 0;
 					} else {
-						r = 128;
-						g = 128;
-						b = 128;
+						r = 168;
+						g = 168;
+						b = 168;
 					}
 					ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
 					ctx.fillRect(x * size, y * size, size, size);
@@ -267,7 +267,7 @@ var EV3ScreenComponent = React.createClass({
 
  			return utilsReact.fromJSON({
  				props: {
- 					className: 'ev3-screen dark-primary-color'
+ 					className: 'box-shadow ev3-screen'
  				},
  				children: [
  					{
@@ -285,25 +285,25 @@ var EV3ScreenComponent = React.createClass({
 						children: [
 							{
 								props: {
-									className: 	'mdi mdi-play',
+									className: 	'icon icon-circle-play',
 									onClick: 	(function() { this.props.onRun && this.props.onRun(); }).bind(this)
 								}
 							},
 							{
 								props: {
-									className: 'mdi mdi-stop',
+									className: 'icon icon-circle-pause',
 									onClick: 	(function() { this.props.onStop && this.props.onStop(); }).bind(this)
 								}
 							},
 							{
 								props: {
-									className: 'mdi mdi-crop-free',
+									className: 'icon icon-area',
 									onClick: 	this.onZoom
 								}
 							},
 							{
 								props: {
-									className: 'mdi mdi-comment-outline',
+									className: 'icon icon-comment',
 									onClick: 	(function() { this.props.onShowConsole && this.props.onShowConsole(); }).bind(this)
 								}
 							}
