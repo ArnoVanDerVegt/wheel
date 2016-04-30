@@ -33,7 +33,7 @@
 				},
 				children: [
 					{
-						type: EditorComponent,
+						type: wheel.components.editor.EditorComponent,
 						props: {
 							compiler: 	compiler,
 							vm: 		vm,

@@ -1,4 +1,6 @@
-var MenuComponent = React.createClass({
+wheel(
+	'components.editor.MenuComponent',
+	React.createClass({
 		createCallback: function(callback) {
 			var props = this.props;
 			return function() {
@@ -328,4 +330,5 @@ var MenuComponent = React.createClass({
 				]
 			});
 		}
-	});
+	})
+);

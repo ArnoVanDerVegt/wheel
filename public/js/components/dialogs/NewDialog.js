@@ -1,4 +1,6 @@
-var NewDialog = React.createClass({
+wheel(
+	'components.dialogs.NewDialog',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				visible: 	false,
@@ -33,7 +35,7 @@ var NewDialog = React.createClass({
 						description: 	'Mindstorms VM project file.'
 					},
 					{
-						icon: 			'icon-brackets',
+						icon: 			'icon-bracket',
 						ext: 			'.whl',
 						title: 			'Whl',
 						description: 	'Mindstorms VM include file.'
@@ -88,7 +90,7 @@ var NewDialog = React.createClass({
 
 
 			return 	utilsReact.fromJSON(
-				createDialog(
+				wheel.components.dialogs.createDialog(
 					this,
 					'new',
 					this.state.icon || 'icon-file',
@@ -118,4 +120,5 @@ var NewDialog = React.createClass({
 				)
 			);
 		}
-	});
+	})
+);

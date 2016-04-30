@@ -1,6 +1,6 @@
 #project "Jump if equal demo"
 
-#include "/lib/standard.asm"
+#include "/lib/standard.whl"
 
 proc main()
     number  n                               ; Declare a local number variable...

@@ -1,4 +1,6 @@
-var SensorsDialog = React.createClass({
+wheel(
+	'components.dialogs.SensorsDialog',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				visible: 	false,
@@ -115,7 +117,7 @@ var SensorsDialog = React.createClass({
 			}
 
 			return 	utilsReact.fromJSON(
-				createDialog(
+				wheel.components.dialogs.createDialog(
 					this,
 					'sensors',
 					'icon-sensor',
@@ -148,4 +150,5 @@ var SensorsDialog = React.createClass({
 				)
 			);
 		}
-	});
+	})
+);

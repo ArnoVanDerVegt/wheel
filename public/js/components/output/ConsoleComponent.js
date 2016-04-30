@@ -1,4 +1,6 @@
-var ConsoleComponent = React.createClass({
+wheel(
+	'components.output.ConsoleComponent',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				left: 		360,
@@ -273,4 +275,5 @@ var ConsoleComponent = React.createClass({
 				]
 			});
 		},
-	});
+	})
+);

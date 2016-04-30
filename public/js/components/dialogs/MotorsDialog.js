@@ -1,4 +1,6 @@
-var MotorsDialog = React.createClass({
+wheel(
+	'components.dialogs.MotorsDialog',
+	React.createClass({
 		getInitialState: function() {
 			return {
 				visible: 	false,
@@ -208,7 +210,7 @@ var MotorsDialog = React.createClass({
 				};
 
 			return 	utilsReact.fromJSON(
-				createDialog(
+				wheel.components.dialogs.createDialog(
 					this,
 					'motors',
 					'icon-settings',
@@ -251,4 +253,5 @@ var MotorsDialog = React.createClass({
 				)
 			);
 		}
-	});
+	})
+);

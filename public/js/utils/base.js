@@ -1,3 +1,20 @@
+function wheel(namespace, item) {
+	var path 	= namespace.split('.'),
+		w 		= wheel;
+
+	for (var i = 0, j = path.length - 1; i <= j; i++) {
+		var p = path[i];
+		if (i === j) {
+			w[p] = item;
+		} else {
+			if (!(p in w)) {
+				w[p] = {};
+			}
+			w = w[p];
+		}
+	}
+}
+
 function Class(parent, proto) {
     if (!parent) {
         throw new Error('No parent/prototype');

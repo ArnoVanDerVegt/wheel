@@ -1,4 +1,6 @@
-var EditorComponent = React.createClass({
+wheel(
+	'components.editor.EditorComponent',
+	React.createClass({
 		getInitialState: function() {
 			this.props.files.on(
 				'Loaded',
@@ -539,7 +541,7 @@ var EditorComponent = React.createClass({
 				},
 				children: [
 					{
-						type: MenuComponent,
+						type: wheel.components.editor.MenuComponent,
 						props: {
 							activeProject: this.state.activeProject,
 							callbacks: {
@@ -561,7 +563,7 @@ var EditorComponent = React.createClass({
 						}
 					},
 					{
-						type: FilesComponent,
+						type: wheel.components.editor.FilesComponent,
 						props: {
 							ref: 				'files',
 							editor: 			this,
@@ -574,7 +576,7 @@ var EditorComponent = React.createClass({
 						}
 					},
 					{
-						type: CodeMirrorComponent,
+						type: wheel.components.editor.CodeMirrorComponent,
 						props: {
 							compiler: 		this.props.compiler,
 							defaultValue: 	data,
@@ -583,7 +585,7 @@ var EditorComponent = React.createClass({
 						}
 					},
 					{
-						type: OutputComponent,
+						type: wheel.components.output.OutputComponent,
 						props: {
 							ref: 			'output',
 							editor: 		this,
@@ -595,7 +597,7 @@ var EditorComponent = React.createClass({
 						}
 					},
 					{
-						type: ConsoleComponent,
+						type:  wheel.components.output.ConsoleComponent,
 						props: {
 							ref: 				'console',
 							onShowError: 		this.onShowError,
@@ -606,51 +608,52 @@ var EditorComponent = React.createClass({
 						}
 					},
 					{
-						type: AlertDialog,
+						type: wheel.components.dialogs.AlertDialog,
 						props: {
 							ref: 'alertDialog'
 						}
 					},
 					{
-						type: ConfirmDialog,
+						type: wheel.components.dialogs.ConfirmDialog,
 						props: {
 							ref: 'confirmDialog'
 						}
 					},
 					{
-						type: MotorsDialog,
+						type: wheel.components.dialogs.MotorsDialog,
 						props: {
 							editor: this,
 							ref: 	'motorsDialog'
 						}
 					},
 					{
-						type: SensorsDialog,
+						type: wheel.components.dialogs.SensorsDialog,
 						props: {
 							editor: this,
 							ref: 	'sensorsDialog'
 						}
 					},
 					{
-						type: ExamplesDialog,
+						type: wheel.components.dialogs.ExamplesDialog,
 						props: {
 							ref: 'examplesDialog'
 						}
 					},
 					{
-						type: PromptDialog,
+						type: wheel.components.dialogs.PromptDialog,
 						props: {
 							ref: 'promptDialog'
 						}
 					},
 					{
-						type: NewDialog,
+						type: wheel.components.dialogs.NewDialog,
 						props: {
 							files: 	this.props.files,
 							ref: 	'newDialog'
 						}
-					},
+					}
 				]
 			});
 		}
-	});
+	})
+);

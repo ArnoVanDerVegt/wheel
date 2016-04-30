@@ -723,37 +723,20 @@ h4 {
 	background-color: 					rgba(0, 0, 0, 0.05);
 	opacity: 							1;
 }
-.dialog.new .new-content .mdi {
+.dialog.new .new-content .icon {
 	float: 								left;
 	width: 								40px;
 	height: 							40px;
-	background-color: 					#61BD6D;
-	color: 								White;
-	border-radius: 						20px;
+	color: 								Black;
+	border: 							0;
+	border-radius: 						0;
+	background-color: 					transparent;
 	font-size: 							30px;
-	line-height: 						40px;
 	text-align: 						center;
 	line-height: 						32px;
 }
-.dialog.new .new-content .mdi.mdi-package-variant {
-	background-color: 					#61BD6D;
-	color: 								White;
-	border: 							3px solid #41A85F;
-}
-.dialog.new .new-content .mdi.mdi-code-brackets {
-	background-color: 					#F7DA64;
-	color: 								White;
-	border: 							2px solid #FAC51C;
-}
-.dialog.new .new-content .mdi.mdi-file-image {
-	background-color: 					#E25041;
-	color: 								White;
-	border: 							3px solid #B8312F;
-}
-.dialog.new .new-content .new-item-details {
-	float: 								left;
-	width: 								calc(100% - 40px);
-	padding: 							0 0 0 16px;
+.dialog.new .new-content .icon:before {
+	line-height: 						32px;
 }
 
 /* Prompt dialog */
