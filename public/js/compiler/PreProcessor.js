@@ -43,8 +43,13 @@ var ReplaceTree = Class(function() {
 						}
 					}
 					if (node.value) {
-						line 	= line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
-						i 		= i + node.value.length;
+						if (j - 1 - line.length < -1) {
+							line 	= line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
+							i 		= i + node.value.length;
+						} else {
+							line 	= line.substr(0, i - 1) + node.value;
+							i 		= line.length;
+						}
 					}
 				}
 			}

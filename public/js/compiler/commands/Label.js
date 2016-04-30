@@ -1,4 +1,6 @@
-var Label = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.Label',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		/**
 		 * Check if a line starts with a label...
 		**/
@@ -57,4 +59,5 @@ var Label = Class(CommandCompiler, function(supr) {
 				}
 			}
 		};
-	});
+	})
+);

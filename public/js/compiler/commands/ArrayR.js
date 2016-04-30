@@ -6,7 +6,9 @@
  * Read an array value from a given index.
  *
 **/
-var ArrayR = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.ArrayR',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(command, params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
@@ -93,4 +95,5 @@ var ArrayR = Class(CommandCompiler, function(supr) {
 				]
 			});
 		};
-	});
+	})
+);

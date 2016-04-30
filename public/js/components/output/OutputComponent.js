@@ -293,7 +293,6 @@
 					}
 				}
 
-
 				return utilsReact.fromJSON({
 					props: {
 						className: 'output ' + (this.state.small ? ' small' : ' large')

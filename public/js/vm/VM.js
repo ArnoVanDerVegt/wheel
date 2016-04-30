@@ -29,7 +29,7 @@ var VM = Class(Emitter, function(supr) {
 						vmData.popRegOffsetStack();
 						this._index = this._callStack.pop();
 						break;
-
+/*
 					case 'cls':
 						ev3screen.clearScreen();
 						break;
@@ -57,7 +57,7 @@ var VM = Class(Emitter, function(supr) {
 					case 'circle':
 						//ev3screen.circle();
 						break;
-
+*/
 					default:
 						throw new Error('Unknown command "' + command.command + '"');
 				}
@@ -73,6 +73,10 @@ var VM = Class(Emitter, function(supr) {
 				}
 				if (command.code <= SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
 					switch (command.command) {
+						case 'addr':
+							console.log(addr);
+							break;
+
 						case 'inc':
 							saveResult(v1 + 1);
 							break;
@@ -128,28 +132,27 @@ var VM = Class(Emitter, function(supr) {
 							break;
 
 						case 'call':
-							vmData.pu(command.params[1].value);
+							vmData.pushRegOffsetStack(command.params[1].value);
 							this._callStack.push(this._index);
 							this._index = command.params[0].value;
 							break;
 
-						case 'call_global':
-						case 'call_local':
+						case 'call_var':
 							vmData.pushRegOffsetStack(command.params[1].value);
 							this._callStack.push(this._index);
 							this._index = v1;
 							break;
 
+						case 'log':
+							this.emit('Log', v1, command.location);
+							break;
+/*
 						case 'print':
 							var size = ev3screen.drawText(
 									vmData.getRegisterByName('REG_DRAW_X1'),
 									vmData.getRegisterByName('REG_DRAW_Y1'),
 									v1
 								);
-							break;
-
-						case 'log':
-							this.emit('Log', v1, command.location);
 							break;
 
 						case 'motorw': // Motor write...
@@ -168,7 +171,7 @@ var VM = Class(Emitter, function(supr) {
 								vmData.setRegisterByName('REG_MOTOR_POWER', 	motor.getPower());
 							}
 							break;
-
+*/
 						default:
 							throw new Error('Unknown command "' + command.command + '"');
 					}
@@ -220,6 +223,13 @@ var VM = Class(Emitter, function(supr) {
 								case T_NUMBER_REGISTER: vmData.setRegister(p1, result); 		break;
 							}
 							(result >= 0) && (this._index = command.params[1].value);
+							break;
+
+						case 'module':
+							var regOffsetSrc = vmData.getRegisterByName('REG_OFFSET_SRC');
+							console.log(vmData.getGlobalNumber(regOffsetSrc));
+							console.log(vmData.getGlobalNumber(regOffsetSrc + 1));
+							console.log(v1, v2);
 							break;
 
 						default:

@@ -25,7 +25,7 @@ var Compiler = Class(function() {
 
 			this._compilers = {};
 			for (var i = 0; i < constructors.length; i++) {
-				this._compilers[constructors[i]] = new window[constructors[i]](compilerOpts); // Needs namespace!
+				this._compilers[constructors[i]] = new wheel.compiler.commands[constructors[i]](compilerOpts); // Needs namespace!
 			}
 		};
 
@@ -104,6 +104,7 @@ var Compiler = Class(function() {
 					};
 
 				if ((line.indexOf('proc') === -1) && (line.indexOf('(') !== -1)) {
+					console.log(line);
 					this._compilers.Call.compile(line);
 				} else if (this._compilers.Label.hasLabel(line)) {
 					compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
@@ -146,6 +147,31 @@ var Compiler = Class(function() {
 						case 'number':
 							params = compilerHelper.splitParams(params);
 							this._compilers.NumberDeclaration.compile(params);
+							break;
+
+						case 'addr':
+							params = compilerHelper.splitParams(params);
+							var validatedCommand 	= this.validateCommand(command, params),
+								param 				= validatedCommand.params[0];
+
+							this.getOutput().add({
+								command: 	'set',
+								code: 		commands.set.code,
+								params: [
+									{type: 	T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: 	T_NUMBER_CONSTANT, value: param.value}
+								]
+							});
+							if (typeToLocation(param.type) === 'local') {
+								this.getOutput().add({
+									command: 	'add',
+									code: 		commands.add.code,
+									params: [
+										{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+										{type: T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								});
+							}
 							break;
 
 						default:

@@ -1,4 +1,6 @@
-var ProcedureDeclaration = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.ProcedureDeclaration',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compileProcedure = function(params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
@@ -25,11 +27,11 @@ var ProcedureDeclaration = Class(CommandCompiler, function(supr) {
 			}
 
 			params = params.substr(j + 1, params.length - j - 2).trim();
-			params = params.length ? params.split(',') : [];
+			params = params.length ? compilerHelper.splitParams(params) : [];
 			for (var j = 0; j < params.length; j++) {
 				var param = params[j].trim().split(' ');
 				if (param.length !== 2) {
-					throw this.createError('Syntax error in procedure parameter "' + params[j] + '".');
+					throw compiler.createError('Syntax error in procedure parameter "' + params[j] + '".');
 				}
 				switch (param[0]) {
 					case 'number':
@@ -39,7 +41,7 @@ var ProcedureDeclaration = Class(CommandCompiler, function(supr) {
 					default:
 						var struct = compilerData.findStruct(param[0]);
 						if (struct === null) {
-							throw this.createError('Unknown type "' + param[0] + '".');
+							throw compiler.createError('Unknown type "' + param[0] + '".');
 						}
 						compilerData.declareLocal(param[1], T_STRUCT_LOCAL, T_STRUCT_LOCAL_ARRAY, struct, false);
 						break;
@@ -77,4 +79,5 @@ var ProcedureDeclaration = Class(CommandCompiler, function(supr) {
 				}
 			}
 		};
-	});
+	})
+);

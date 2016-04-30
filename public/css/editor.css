@@ -987,6 +987,12 @@ h4 {
 	font-weight: 						normal;
 	font-style: 						normal;
 }
+@font-face {
+	font-family: 						"wheel";
+	src: 								url("/fonts/Legothick.ttf");
+	font-weight: 						normal;
+	font-style: 						normal;
+}
 
 [data-icon]:before {
 	font-family: 						"icons" !important;

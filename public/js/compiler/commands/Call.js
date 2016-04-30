@@ -1,4 +1,6 @@
-var Call = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.Call',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(line) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
@@ -18,8 +20,8 @@ var Call = Class(CommandCompiler, function(supr) {
 					command: 	'call',
 					code: 		commands['call'].code,
 					params: [
-						{value: p.index},
-						{value: currentLocalStackSize}
+						{type: T_NUMBER_CONSTANT, value: p.index},
+						{type: T_NUMBER_CONSTANT, value: currentLocalStackSize}
 					]
 				};
 			} else {
@@ -29,11 +31,11 @@ var Call = Class(CommandCompiler, function(supr) {
 						throw compiler.createError('Type error, can not call "' + procedure + '".');
 					}
 					callCommand = {
-						command: 	'call_local',
-						code: 		commands.call_global.code,
+						command: 	'call_var',
+						code: 		commands.call_var.code,
 						params: [
-							{value: local.offset, type: T_NUMBER_LOCAL},
-							{value: currentLocalStackSize}
+							{type: T_NUMBER_LOCAL, 		value: local.offset},
+							{type: T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
 						]
 					};
 				} else {
@@ -43,11 +45,11 @@ var Call = Class(CommandCompiler, function(supr) {
 							throw compiler.createError('Type error, can not call "' + procedure + '".');
 						}
 						callCommand = {
-							command: 	'call_global',
-							code: 		commands.call_global.code,
+							command: 	'call_var',
+							code: 		commands.call_var.code,
 							params: [
-								{value: global.offset, type: T_NUMBER_GLOBAL},
-								{value: currentLocalStackSize}
+								{type: T_NUMBER_GLOBAL, 	value: global.offset},
+								{type: T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
 							]
 						};
 					} else {
@@ -69,6 +71,15 @@ var Call = Class(CommandCompiler, function(supr) {
 						vr 			= paramInfo.vr,
 						size 		= vr ? (vr.size * vr.length) : 1;
 					switch (paramInfo.type) {
+						case T_NUMBER_CONSTANT:
+							destParam = {
+								type: 	T_NUMBER_LOCAL,
+								value: 	offset,
+								param: 	param
+							};
+							compiler.getOutput().add(compiler.createCommand('set', [destParam, paramInfo]));
+							break;
+
 						case T_NUMBER_LOCAL:
 							destParam = {
 								type: 	T_NUMBER_LOCAL,
@@ -157,4 +168,5 @@ var Call = Class(CommandCompiler, function(supr) {
 
 			compiler.getOutput().add(callCommand);
 		};
-	});
+	})
+);

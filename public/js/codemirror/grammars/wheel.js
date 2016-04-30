@@ -38,16 +38,7 @@ var wheelGrammar = {
 				tokens: [
 					'REG_OFFSET_STACK',
 					'REG_OFFSET_SRC',
-					'REG_OFFSET_DEST',
-					'REG_DRAW_X1',
-					'REG_DRAW_Y1',
-					'REG_DRAW_X2',
-					'REG_DRAW_Y2',
-					'REG_DRAW_WIDTH',
-					'REG_DRAW_HEIGHT',
-					'REG_MOTOR_TARGET',
-					'REG_MOTOR_POSITION',
-					'REG_MOTOR_POWER'
+					'REG_OFFSET_DEST'
 				]
 			},
 			'constant': {
@@ -138,7 +129,11 @@ var wheelGrammar = {
 					'sub',
 					'mul',
 					'div',
+					'mod',
+					'and',
+					'or',
 					'cmp',
+					'addr',
 					'jmp',
 					'je',
 					'jne',
@@ -150,7 +145,8 @@ var wheelGrammar = {
 					'neg',
 					'loop',
 					'arrayw',
-					'arrayr'
+					'arrayr',
+					'module'
 				]
 			},
 			'api_keyword': {
@@ -158,13 +154,13 @@ var wheelGrammar = {
 				'tokens': [
 					'print',
 					'log',
-					'motorw',
-					'motorr',
-					'sensorw',
-					'sensorr',
-					'rect',
-					'circle',
-					'line'
+					//'motorw',
+					//'motorr',
+					//'sensorw',
+					//'sensorr',
+					//'rect',
+					//'circle',
+					//'line'
 				]
 			},
 			'variable': {

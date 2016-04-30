@@ -62,7 +62,7 @@ var CompilerOutput = Class(function() {
 					}
 					return value;
 				};
-				paramToString = function(param) {
+				paramToString = function(command, param) {
 					var result = '';
 					switch (param.type) {
 						case T_NUMBER_CONSTANT:
@@ -95,7 +95,7 @@ var CompilerOutput = Class(function() {
 							break;
 
 						default:
-							console.error('Unsupported type:', param.type);
+							console.error('Unsupported type:', param.type, 'command:', command);
 							break;
 					}
 					return result;
@@ -115,7 +115,7 @@ var CompilerOutput = Class(function() {
 				if (commands[cmd].code <= NO_PARAM_COMMANDS) {
 					// No parameters...
 				} else {
-					line += paramToString(command.params[0]);
+					line += paramToString(command, command.params[0]);
 					if (commands[cmd].code <= SINGLE_PARAM_COMMANDS) {
 						// Single parameter...
 					} else {
@@ -123,7 +123,7 @@ var CompilerOutput = Class(function() {
 						while (line.length < 40) {
 							line += ' ';
 						}
-						line += paramToString(command.params[1]);
+						line += paramToString(command, command.params[1]);
 					}
 				}
 

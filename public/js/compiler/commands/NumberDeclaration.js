@@ -6,7 +6,9 @@
  * This code compiles number declarations in three scopes: global, local and struct.
  *
 **/
-var NumberDeclaration = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.NumberDeclaration',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData;
@@ -101,4 +103,5 @@ var NumberDeclaration = Class(CommandCompiler, function(supr) {
 				}
 			}
 		};
-	});
+	})
+);

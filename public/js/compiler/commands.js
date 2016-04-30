@@ -20,8 +20,8 @@ var T_NUMBER_CONSTANT 		=  0,
 	T_PROC_LOCAL 			= 16,
 	T_PROC_LOCAL_ARRAY 		= 17;
 
-var NO_PARAM_COMMANDS 		=  5,
-	SINGLE_PARAM_COMMANDS 	= 24;
+var NO_PARAM_COMMANDS 		=  1,
+	SINGLE_PARAM_COMMANDS 	= 19;
 
 var commands = {
 		// Commands without parameters...
@@ -31,23 +31,10 @@ var commands = {
 		ret: {
 			code: 1
 		},
-		// Screen commands
-		cls: {
-			code: 2
-		},
-		line: {
-			code: 3
-		},
-		rect: {
-			code: 4
-		},
-		circle: {
-			code: 5
-		},
 
 		// Commands with a single parameter...
 		inc: {
-			code: 6,
+			code: 2,
 			args: [
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
@@ -55,7 +42,7 @@ var commands = {
 			]
 		},
 		dec: {
-			code: 7,
+			code: 3,
 			args: [
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
@@ -63,7 +50,7 @@ var commands = {
 			]
 		},
 		abs: {
-			code: 8,
+			code: 4,
 			args: [
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
@@ -71,7 +58,31 @@ var commands = {
 			]
 		},
 		neg: {
-			code: 9,
+			code: 5,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		round: {
+			code: 6,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		floor: {
+			code: 7,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+			]
+		},
+		ceil: {
+			code: 8,
 			args: [
 				{type: T_NUMBER_GLOBAL},
 				{type: T_NUMBER_LOCAL},
@@ -79,80 +90,65 @@ var commands = {
 			]
 		},
 		copy: {
-			code: 10,
+			code: 9,
 			args: [
 				{type: T_NUMBER_CONSTANT}
 			]
 		},
 		jmp: {
-			code: 11,
+			code: 10,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		je: {
-			code: 12,
+			code: 11,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		jne: {
-			cde: 13,
+			cde: 12,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		jl: {
-			code: 14,
+			code: 13,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		jle: {
-			code: 15,
+			code: 14,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		jg: {
-			code: 16,
+			code: 15,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		jge: {
-			code: 17,
+			code: 16,
 			args: [
 				{type: T_LABEL}
 			]
 		},
 		call: {
-			code: 18
+			code: 17
 		},
-		call_global: {
-			code: 19,
+		call_var: {
+			code: 18,
 			args: [
+				{type: T_PROC_LOCAL},
 				{type: T_PROC_GLOBAL}
 			]
 		},
-		call_local: {
-			code: 20,
-			args: [
-				{type: T_PROC_LOCAL}
-			]
-		},
-		print: {
-			code: 21,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER},
-				{type: T_STRING_CONSTANT}, // String constant
-			]
-		},
 		log: {
-			code: 22,
+			code: 19,
 			args: [
 				{type: T_NUMBER_CONSTANT},
 				{type: T_NUMBER_GLOBAL},
@@ -161,28 +157,9 @@ var commands = {
 				{type: T_STRING_CONSTANT}, // String constant
 			]
 		},
-		motorw: { // Motor write...
-			code: 23,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER}
-			]
-		},
-		motorr: { // Motor read...
-			code: 24,
-			args: [
-				{type: T_NUMBER_CONSTANT},
-				{type: T_NUMBER_GLOBAL},
-				{type: T_NUMBER_LOCAL},
-				{type: T_NUMBER_REGISTER}
-			]
-		},
-
 		// Commands with 2 parameters...
 		set: {
-			code: 25,
+			code: 20,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -232,7 +209,7 @@ var commands = {
 			]
 		},
 		add: {
-			code: 26,
+			code: 21,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -264,7 +241,7 @@ var commands = {
 			]
 		},
 		sub: {
-			code: 27,
+			code: 22,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -296,7 +273,7 @@ var commands = {
 			]
 		},
 		mul: {
-			code: 28,
+			code: 23,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -328,7 +305,103 @@ var commands = {
 			]
 		},
 		div: {
-			code: 29,
+			code: 24,
+			args: [
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+			]
+		},
+		mod: {
+			code: 25,
+			args: [
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+			]
+		},
+		and: {
+			code: 26,
+			args: [
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+			]
+		},
+		or: {
+			code: 27,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -362,7 +435,7 @@ var commands = {
 
 		// Compare, loop...
 		cmp: {
-			code: 30,
+			code: 28,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -394,7 +467,7 @@ var commands = {
 			]
 		},
 		loop: {
-			code: 31,
+			code: 29,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -416,11 +489,121 @@ var commands = {
 				},
 			]
 		},
+		module: {
+			code: 30,
+			args: [
+				{
+					type: T_NUMBER_CONSTANT,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_GLOBAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_LOCAL,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+				{
+					type: T_NUMBER_REGISTER,
+					args: [
+						{type: T_NUMBER_CONSTANT},
+						{type: T_NUMBER_GLOBAL},
+						{type: T_NUMBER_LOCAL},
+						{type: T_NUMBER_REGISTER}
+					]
+				},
+			]
+		},
+
+
+
+
+
+
+
+		/*
+		// Screen commands
+		cls: {
+			code: 2
+		},
+		line: {
+			code: 3
+		},
+		rect: {
+			code: 4
+		},
+		circle: {
+			code: 5
+		},
+		*/
+		/*
+		print: {
+			code: 21,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+				{type: T_STRING_CONSTANT}, // String constant
+			]
+		},
+		*/
+		/*
+		motorw: { // Motor write...
+			code: 23,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
+			]
+		},
+		motorr: { // Motor read...
+			code: 24,
+			args: [
+				{type: T_NUMBER_CONSTANT},
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER}
+			]
+		},
+		*/
 
 		// The following commands are compiled into smaller commands with less parameters...
+		addr: {
+			code: 1024,
+			args: [
+				{type: T_NUMBER_GLOBAL},
+				{type: T_NUMBER_LOCAL},
+				{type: T_NUMBER_REGISTER},
+				{type: T_NUMBER_GLOBAL_ARRAY},
+				{type: T_NUMBER_LOCAL_ARRAY},
+				{type: T_STRUCT_GLOBAL},
+				{type: T_STRUCT_GLOBAL_ARRAY},
+				{type: T_STRUCT_LOCAL},
+				{type: T_STRUCT_LOCAL_ARRAY}
+			]
+		},
+
 		// Array functions
 		arrayr: { // Array read...
-			code: 1024,
+			code: 1025,
 			args: [
 				{
 					type: T_NUMBER_GLOBAL,
@@ -587,7 +770,7 @@ var commands = {
 		},
 
 		arrayw: { // Array write...
-			code: 1025,
+			code: 1026,
 			args: [
 				{
 					type: T_NUMBER_LOCAL_ARRAY,

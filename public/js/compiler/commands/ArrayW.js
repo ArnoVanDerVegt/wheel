@@ -6,7 +6,9 @@
  * Store an item in an array at a given index.
  *
 **/
-var ArrayW = Class(CommandCompiler, function(supr) {
+wheel(
+	'compiler.commands.ArrayW',
+	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(command, params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
@@ -93,5 +95,5 @@ var ArrayW = Class(CommandCompiler, function(supr) {
 				]
 			});
 		};
-	});
-
+	})
+);
