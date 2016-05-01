@@ -28,11 +28,19 @@ wheel(
 				});
 			}
 			return 	utilsReact.fromJSON({
-				type: 'select',
 				props: {
-					onChange: this.onChange
+					className: 	'select icon-chevron-down'
 				},
-				children: optionsChildren
+				children: [
+					{
+						type: 	'select',
+						props: 	{
+							value: 		state.value,
+							onChange: 	this.onChange
+						},
+						children: optionsChildren
+					}
+				]
 			});
 		}
 	})

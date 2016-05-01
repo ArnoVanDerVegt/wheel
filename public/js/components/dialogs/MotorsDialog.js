@@ -26,6 +26,12 @@
 						},
 						{
 							props: {
+								className: 'motor-number',
+								innerHTML: 'Motor'
+							}
+						},
+						{
+							props: {
 								className: 'type',
 								innerHTML: 'Motor type'
 							}
@@ -40,10 +46,35 @@
 			}
 		});
 
+	function motorSettingGenerator() {
+		if (!motorSettingGenerator._data) {
+			console.log('make');
+			motorSettingGenerator._data = {
+				visible: 		true,
+				port: 			1,
+				i2c: 			6,
+				motorNumber: 	1,
+				type: 			1
+			};
+		}
+		var data 	= motorSettingGenerator._data,
+			result 	= JSON.parse(JSON.stringify(data));
+
+		data.motorNumber++;
+		if (data.motorNumber > 2) {
+			data.motorNumber = 1;
+			data.port++;
+			if (data.port > 4) {
+				data.port = 1;
+				data.i2c++;
+			}
+		}
+		return result;
+	}
+
 	var MotorRow = React.createClass({
 			getInitialState: function() {
-				return {
-				}
+				return motorSettingGenerator();
 			},
 
 			onRemove: function() {
@@ -52,6 +83,8 @@
 			},
 
 			render: function() {
+				var state = this.state;
+
 				return utilsReact.fromJSON({
 					props: {
 						className: 'motor-row'
@@ -65,7 +98,8 @@
 								{
 									type: wheel.components.ui.CheckboxComponent,
 									props: {
-										slider: true
+										slider: 	true,
+										checked: 	state.visible
 									}
 								}
 							]
@@ -78,7 +112,8 @@
 								{
 									type: wheel.components.ui.SelectComponent,
 									props: {
-										options: [
+										value: 		state.port,
+										options: 	[
 											{value: '1', 	text: '1'},
 											{value: '2', 	text: '2'},
 											{value: '3', 	text: '3'},
@@ -94,7 +129,27 @@
 							},
 							children: [
 								{
-									type: wheel.components.ui.TextInputComponent
+									type: 	wheel.components.ui.TextInputComponent,
+									props: 	{
+										value: state.i2c
+									}
+								}
+							]
+						},
+						{
+							props: {
+								className: 'motor-number'
+							},
+							children: [
+								{
+									type: wheel.components.ui.SelectComponent,
+									props: {
+										value: 		state.motorNumber,
+										options: 	[
+											{value: '1', text: '1'},
+											{value: '2', text: '2'}
+										]
+									}
 								}
 							]
 						},
@@ -106,9 +161,10 @@
 								{
 									type: wheel.components.ui.SelectComponent,
 									props: {
-										options: [
-											{value: 'medium', 	text: 'Medium'},
-											{value: 'large', 	text: 'Large'}
+										value: 		state.type,
+										options: 	[
+											{value: '1', text: 'Medium'},
+											{value: '2', text: 'Large'}
 										]
 									}
 								}
