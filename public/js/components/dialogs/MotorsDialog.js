@@ -41,6 +41,16 @@
 		});
 
 	var MotorRow = React.createClass({
+			getInitialState: function() {
+				return {
+				}
+			},
+
+			onRemove: function() {
+				var props = this.props;
+				props.list.onRemoveMotor(props.index);
+			},
+
 			render: function() {
 				return utilsReact.fromJSON({
 					props: {
@@ -106,7 +116,8 @@
 						},
 						{
 							props: {
-								className: 'remove'
+								className: 	'remove',
+								onClick: 	this.onRemove
 							},
 							children: [
 								{
@@ -120,6 +131,82 @@
 				});
 			}
 		});
+
+	var I2CMotorList = React.createClass({
+			getInitialState: function() {
+				return {
+					motors: []
+				}
+			},
+
+			onAddMotor: function() {
+				var state 	= this.state,
+					motors 	= state.motors;
+
+				motors.push({});
+
+				this.setState(state);
+			},
+
+			onRemoveMotor: function(index) {
+				var state 	= this.state,
+					motors 	= state.motors;
+
+				motors.splice(index, 1);
+
+				this.setState(state);
+			},
+
+			render: function() {
+				var state 			= this.state,
+					motors 			= state.motors,
+					listChildren 	= [];
+
+				for (var i = 0; i < motors.length; i++) {
+					listChildren.push({
+						type: 	MotorRow,
+						props: 	{
+							list: 	this,
+							index: 	i
+						}
+					});
+				}
+
+				return utilsReact.fromJSON({
+					props: {
+						ref: 		'motorSelectPage',
+						className: 	'motors-content',
+					},
+					children: [
+						{
+							type: MotorHeader
+						},
+						{
+							props: {
+								className: 'motors-container'
+							},
+							children: listChildren
+						},
+						{
+							props: {
+								className: 'motors-add'
+							},
+							children: [
+								{
+									type: 'button',
+									props: {
+										className: 	'button',
+										innerHTML: 	'Add motor',
+										onClick: 	this.onAddMotor
+									}
+								}
+							]
+						}
+					]
+				});
+			}
+		});
+
 
 	wheel(
 		'components.dialogs.MotorsDialog',
@@ -236,43 +323,7 @@
 					}).call(this, properties[i]);
 				}
 
-				var motorSelectPage = {
-						props: {
-							ref: 		'motorSelectPage',
-							className: 	'motors-content',
-						},
-						children: [
-							{
-								type: MotorHeader
-							},
-							{
-								props: {
-									className: 'motors-container'
-								},
-								children: [
-									{
-										type: MotorRow
-									}
-								]
-							},
-							{
-								props: {
-									className: 'motors-add'
-								},
-								children: [
-									{
-										type: 'button',
-										props: {
-											className: 	'button',
-											innerHTML: 	'Add motor',
-											//onClick: 	this.onClose
-										}
-									}
-								]
-							}
-						]
-					},
-					motorProperties = {
+				var motorProperties = {
 						props: {
 							className: 'motors-content',
 						},
@@ -296,7 +347,11 @@
 										},
 										{
 											title: 		'I2C Motors',
-											content: 	[motorSelectPage]
+											content: 	[
+												{
+													type: I2CMotorList
+												}
+											]
 										},
 										{
 											title: 		'Properties',
