@@ -17,7 +17,7 @@ wheel(
 		this.initModules = function() {
 			this._modules 		= [];
 			this._modules[0]	= new wheel.vm.modules.DebugModule({vm: this, vmData: this._vmData});
-			this._modules[1]	= new wheel.vm.modules.DrawingModule({vm: this, vmData: this._vmData});
+			this._modules[1]	= new wheel.vm.modules.ScreenModule({vm: this, vmData: this._vmData});
 			this._modules[2]	= new wheel.vm.modules.MotorModule({vm: this, vmData: this._vmData});
 			this._modules[3]	= new wheel.vm.modules.SensorModule({vm: this, vmData: this._vmData});
 		};
@@ -124,10 +124,6 @@ wheel(
 							vmData.pushRegOffsetStack(command.params[1].value);
 							this._callStack.push(this._index);
 							this._index = v1;
-							break;
-
-						case 'log':
-							this.emit('Log', v1, command.location);
 							break;
 
 						default:

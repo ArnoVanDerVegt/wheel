@@ -455,21 +455,28 @@
 			},
 
 			formatCode: function() {
-				var lines 	= this.getCode().split("\n"),
-					inBlock = false;
+				var lines 		= this.getCode().split("\n"),
+					inBlock 	= 0,
+					blockIndent = function() {
+						var s = '';
+						for (var j = 0; j < inBlock; j++) {
+							s += '    ';
+						}
+						return s;
+					};
 
 				for (var i = 0; i < lines.length; i++) {
 					var s 		= lines[i],
 						line 	= s.trim();
 
 					if ((line.substr(0, 4) === 'proc') || (line.substr(0, 6) === 'struct')) {
-						s = line;
+						s = blockIndent() + line;
 						var j = line.indexOf(' ');
-						(i === -1) || (s = line.substr(0, j).trim() + ' ' + line.substr(j - line.length).trim());
-						inBlock = true;
+						(i === -1) || (s = blockIndent() + line.substr(0, j).trim() + ' ' + line.substr(j - line.length).trim());
+						inBlock++;
 					} else if ((line.substr(0, 4) === 'endp') || (line.substr(0, 4) === 'ends')) {
-						s 		= line.trim();
-						inBlock = false;
+						inBlock--;
+						s = blockIndent() + line.trim();
 					} else if ((line.substr(0, 6) === 'number') || (line.split(',') > 2)) {
 						var j 		= line.indexOf(' '),
 							type 	= line.substr(0, j),
@@ -481,7 +488,7 @@
 						while (type.length < 8) {
 							type += ' ';
 						}
-						s = (inBlock ? '    ' : '') + type + ' ' + params.join(', ');
+						s = blockIndent() + type + ' ' + params.join(', ');
 					} else if (line[0] === '#') {
 						s = line.trim();
 					} else if (line.indexOf(':') !== -1) {

@@ -13,6 +13,10 @@ wheel(
 					break;
 			}
 
+				case 'log':
+					this.emit('Log', v1, command.location);
+					break;
+
 				case 'motorw': // Motor write...
 					var motor = this._motors.getMotor(v1);
 					if (motor) {

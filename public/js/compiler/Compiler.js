@@ -155,31 +155,6 @@ wheel(
 						case 'addr':
 							params = wheel.compiler.compilerHelper.splitParams(params);
 							this._compilers.Addr.compile(this.validateCommand(command, params));
-
-/*
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							var validatedCommand 	= this.validateCommand(command, params),
-								param 				= validatedCommand.params[0];
-
-							this.getOutput().add({
-								command: 	'set',
-								code: 		wheel.compiler.command.set.code,
-								params: [
-									{type: 	wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: 	wheel.compiler.command.T_NUMBER_CONSTANT, value: param.value}
-								]
-							});
-							if (wheel.compiler.command.typeToLocation(param.type) === 'local') {
-								this.getOutput().add({
-									command: 	'add',
-									code: 		wheel.compiler.command.add.code,
-									params: [
-										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
-									]
-								});
-							}
-*/
 							break;
 
 						default:

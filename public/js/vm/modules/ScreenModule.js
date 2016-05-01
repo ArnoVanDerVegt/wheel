@@ -1,5 +1,5 @@
 wheel(
-	'vm.modules.DrawingModule',
+	'vm.modules.ScreenModule',
 	Class(wheel.vm.modules.VMModule, function(supr) {
 		this.setEV3Screen = function(ev3Screen) {
 			this._ev3Screen = ev3Screen;
