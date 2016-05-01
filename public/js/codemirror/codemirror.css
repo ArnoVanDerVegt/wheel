@@ -1,8 +1,11 @@
 /* BASICS */
 
-.CodeMirror {
+.CodeMirror,
+.CodeMirror div,
+.CodeMirror span,
+.CodeMirror pre {
 	/* Set height, width, borders, and global font properties here */
-	font-family: 						monospace;
+	font-family: 						'Courier New';
 	font-size: 							13px;
 	height: 							auto;
 	color: 								#FFFFFF;
@@ -10,10 +13,10 @@
 /* PADDING */
 
 .CodeMirror-lines {
-	padding: 4px 0; /* Vertical padding around content */
+	padding:							4px 0; /* Vertical padding around content */
 }
 .CodeMirror pre {
-	padding: 0 4px; /* Horizontal padding of content */
+	padding:							0 4px; /* Horizontal padding of content */
 }
 
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {

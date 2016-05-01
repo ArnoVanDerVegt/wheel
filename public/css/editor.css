@@ -47,6 +47,13 @@ h4 {
 	font-weight: 						400;
 	font-size: 							20px;
 }
+div,
+span,
+input,
+select {
+	font-family:						'Roboto', sans-serif;
+	font-weight: 						300;
+}
 
 .half {
 	width: 								50%;
@@ -60,6 +67,20 @@ h4 {
 										-0px 2px 5px rgba(0, 0, 0, 0.1),
 										-2px -0px 5px rgba(0, 0, 0, 0.1),
 										2px -0px 5px rgba(0, 0, 0, 0.1);
+}
+
+select,
+input[type='text'] {
+	-webkit-appearance: 				none;
+	-moz-appearance: 					none;
+	height: 							24px;
+	padding:							0 8px 0 8px;
+	margin:								0;
+	border: 							2px solid Black;
+	border-width: 						0 0 1px 0;
+	font-size: 							16px;
+	background-color: 					#FFFFFF;
+	cursor: 							pointer;
 }
 
 /* Header */
@@ -219,10 +240,10 @@ h4 {
 	margin: 							0 8px 0 0;
 	color: 								Black;
 }
-#main .files li div.active:hover .icon {
+/*#main .files li div.active:hover .icon {
 	display: 							block;
 	color: 								White;
-}
+}*/
 #main .files li div.active {
 	z-index: 							10000;
 }
@@ -262,6 +283,20 @@ h4 {
 #main .files li div.active .icon-brackets,
 #main .files li div.active .icon-folder {
 	color: 								White;
+}
+#main .files li div.active .icon-close,
+#main .files li div.active .icon-pen {
+	display: 							block;
+	color: 								White;
+	line-height: 						32px;
+	height:								32px;
+	text-align:							center;
+	padding:							0;
+	margin:								0;
+	overflow:							hidden;
+}
+#main .files li .icon:before {
+	line-height: 						32px;
 }
 
 /* Editor */
@@ -619,7 +654,7 @@ h4 {
 	bottom: 							0px;
 	width: 								100%;
 }
-.dialog-vertical .buttons .button {
+.dialog-vertical .button {
 	float: 								right;
 	margin: 							16px 16px 16px 0;
 	background-color: 					DodgerBlue;
@@ -771,8 +806,11 @@ h4 {
 	margin: 							-220px 0 0 0;
 }
 .dialog.motors .dialog-vertical {
-	width: 								500px;
+	width: 								700px;
 	height: 							440px;
+}
+.dialog.motors .dialog-vertical .tabs {
+	width: 								572px;
 }
 .dialog.motors .motors-content {
 	float: 								right;
@@ -794,6 +832,80 @@ h4 {
 }
 .dialog.motors .motors-content .row .checkbox {
 	float: 								left;
+}
+.dialog.motors .motors-content .motors-container {
+	float:								left;
+	width:								572px;
+	height:								192px;
+	overflow:							hidden;
+	overflow-y:							scroll;
+	background-color:					GhostWhite;
+}
+.dialog.motors .motors-content .motors-add {
+	float:								left;
+	width:								572px;
+}
+.dialog.motors .motors-content .motors-add .button {
+	float: 								left;
+	margin: 							8px 0 0 0;
+}
+.dialog.motors .motors-content .motor-header,
+.dialog.motors .motors-content .motor-row {
+	float:								left;
+	width:								572px;
+	height:								32px;
+}
+.dialog.motors .motors-content .motor-row {
+	border: 							1px solid White;
+	border-width: 						0 0	1px 0;
+}
+.dialog.motors .motors-content .motor-header {
+	background-color:					DodgerBlue;
+}
+.dialog.motors .motors-content .motor-row .display,
+.dialog.motors .motors-content .motor-row .port,
+.dialog.motors .motors-content .motor-row .i2c,
+.dialog.motors .motors-content .motor-row .type {
+	float: 								left;
+	width: 								128px;
+	height: 							32px;
+}
+.dialog.motors .motors-content .motor-row .display {
+	width: 								64px;
+	padding: 							4px 0 0 8px;
+}
+.dialog.motors .motors-content .motor-row .port,
+.dialog.motors .motors-content .motor-row .i2c,
+.dialog.motors .motors-content .motor-row .type {
+	padding: 							4px 0 0 4px;
+}
+.dialog.motors .motors-content .motor-row .i2c input {
+	width: 								64px;
+}
+.dialog.motors .motors-content .motor-header div {
+	float: 								left;
+	width: 								128px;
+	line-height: 						32px;
+	font-weight: 						400;
+	color: 								White;
+	opacity:  							0.87;
+}
+.dialog.motors .motors-content .motor-header div.display {
+	width: 								64px;
+	padding-left: 						8px;
+}
+.dialog.motors .motors-content .motor-row .remove {
+	float: 								right;
+	width:								32px;
+	height: 							32px;
+	cursor: 							pointer;
+}
+.dialog.motors .motors-content .motor-row .remove .icon-close,
+.dialog.motors .motors-content .motor-row .remove .icon-close:before {
+	width: 								32px;
+	height: 							32px;
+	line-height: 						32px;
+	text-align: 						center;
 }
 
 /* Sensors dialog */
