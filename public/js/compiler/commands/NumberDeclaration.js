@@ -91,7 +91,7 @@ wheel(
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
-								'copy_global_local',
+								'copy',
 								[
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]

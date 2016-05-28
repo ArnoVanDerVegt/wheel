@@ -51,10 +51,7 @@ wheel(
 			var singleParam = [
 					'log',
 					'call',
-					'copy_global_local',
-					'copy_global_global',
-					'copy_local_global',
-					'copy_local_local',
+					'copy',
 					'loop'
 				],
 				leadingZero = function(value) {
@@ -83,7 +80,6 @@ wheel(
 							if (this._registers[param.value]) {
 								result = this._registers[param.value].name;
 							} else {
-								console.log(param.value);
 								result = 'unknown reg' + param.value;
 							}
 							break;

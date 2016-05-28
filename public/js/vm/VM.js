@@ -16,7 +16,7 @@ wheel(
 
 		this.initModules = function() {
 			this._modules 		= [];
-			this._modules[0]	= new wheel.vm.modules.DebugModule({vm: this, vmData: this._vmData});
+			this._modules[0]	= new wheel.vm.modules.StandardModule({vm: this, vmData: this._vmData});
 			this._modules[1]	= new wheel.vm.modules.ScreenModule({vm: this, vmData: this._vmData});
 			this._modules[2]	= new wheel.vm.modules.MotorModule({vm: this, vmData: this._vmData});
 			this._modules[3]	= new wheel.vm.modules.SensorModule({vm: this, vmData: this._vmData});
@@ -56,10 +56,6 @@ wheel(
 				}
 				if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
 					switch (command.command) {
-						case 'addr':
-							console.log(addr);
-							break;
-
 						case 'inc':
 							saveResult(v1 + 1);
 							break;

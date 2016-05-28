@@ -1,11 +1,8 @@
 #project "Line drawing demo"
     
-#include "/lib/standard.asm"
+#include "/lib/screen.whl"
     
 proc main()
-    set     REG_DRAW_X1,            5
-    set     REG_DRAW_Y1,            10
-    set     REG_DRAW_X2,            25
-    set     REG_DRAW_Y2,            35
-    line
+	; Draw a line from (5, 10) to (25, 35)
+	drawLine(5, 10, 125, 105) 
 endp

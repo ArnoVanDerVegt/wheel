@@ -390,6 +390,7 @@ wheel(
 				}
 
 				if (type === null) {
+					console.log(this);
 					throw this._compiler.createError('Undefined identifier "' + param + '".');
 				}
 

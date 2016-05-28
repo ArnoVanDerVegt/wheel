@@ -44,6 +44,10 @@ var wheelGrammar = {
 			'constant': {
 				autocomplete: true,
 				tokens: [
+					'MOTOR_A',
+					'MOTOR_B',
+					'MOTOR_C',
+					'MOTOR_D',
 					'MOTOR1_A',
 					'MOTOR1_B',
 					'MOTOR1_C',
@@ -68,6 +72,18 @@ var wheelGrammar = {
 					'MOTOR3_2',
 					'MOTOR4_1',
 					'MOTOR4_2',
+					'MODULE_STANDARD',
+					'MODULE_SCREEN',
+					'MODULE_BUTTONS',
+					'SCREEN_CLEAR',
+					'SCREEN_DRAW_PIXEL',
+					'SCREEN_DRAW_NUM',
+					'SCREEN_DRAW_TEXT',
+					'SCREEN_DRAW_LINE',
+					'SCREEN_DRAW_RECT',
+					'SCREEN_DRAW_CIRCLE',
+					'STANDARD_LOG_NUMBER',
+					'STANDARD_LOG_STRING',
 				]
 			},
 			'meta': {
@@ -152,21 +168,19 @@ var wheelGrammar = {
 			'api_keyword': {
 				'autocomplete': true,
 				'tokens': [
-					'print',
-					'log',
-					//'motorw',
-					//'motorr',
-					//'sensorw',
-					//'sensorr',
-					//'rect',
-					//'circle',
-					//'line'
+					'logN',
+					'logS',
+					'drawLine',
+					'drawRect',
+					'drawPixel',
+					'drawCircle',
 				]
 			},
 			'variable': {
 				'autocomplete': true,
 				'tokens': [
-					'number'
+					'number',
+					'string'
 				]
 			},
 			'struct_variable': {

@@ -1,14 +1,14 @@
 #project "Number demo"
-
+    
 #include "/lib/standard.whl"
-
-    number  g                               ; Global variable
-
+    
+number   g                                  ; Global variable
+    
 proc main()
-    set     g,                      13
-
-    number  l                               ; Local variable
-    set     l,                      17
-    log   	g
-    log   	l
+    set      g,                      13
+    
+    number   l                              ; Local variable
+    set      l,                      17
+    logN(g)
+    logN(l)
 endp

@@ -1,10 +1,8 @@
 #project "Circle drawing demo"
     
-#include "/lib/standard.asm"
+#include "/lib/screen.whl"
     
 proc main()
-    set     REG_DRAW_X,             20
-    set     REG_DRAW_Y,             20
-    set     REG_DRAW_RADIUS,        10
-    circle
+	; Draw a circle at (60, 50) with a radius of 40
+	drawCircle(60, 50, 40)
 endp

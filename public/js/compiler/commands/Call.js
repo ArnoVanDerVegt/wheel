@@ -92,6 +92,7 @@ wheel(
 						case wheel.compiler.command.T_NUMBER_LOCAL_ARRAY:
 						case wheel.compiler.command.T_STRUCT_LOCAL_ARRAY:
 						case wheel.compiler.command.T_STRUCT_LOCAL:
+							console.log('check code');
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
@@ -102,12 +103,12 @@ wheel(
 							compiler.getOutput.add(compiler.createCommand(
 								'set',
 								[
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
-								'copy_local_local',
+								'copy',
 								[
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]
@@ -151,7 +152,14 @@ wheel(
 								]
 							));
 							compiler.getOutput().add(compiler.createCommand(
-								'copy_global_local',
+								'add',
+								[
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
+								]
+							));
+							compiler.getOutput().add(compiler.createCommand(
+								'copy',
 								[
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]

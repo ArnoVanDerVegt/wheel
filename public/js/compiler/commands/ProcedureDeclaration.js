@@ -20,6 +20,7 @@ wheel(
 
 			var j 			= params.indexOf('('),
 				procedure 	= params.substr(0, j);
+
 			compilerData.declareProcedure(procedure, outputCommands[outputCommands.length - 1], outputCommands.length - 1);
 
 			if (procedure === 'main') {
@@ -63,12 +64,11 @@ wheel(
 				for (var j = 0; j < params.length; j++) {
 					params[j] = params[j].trim();
 				}
-
-				if (this._activeStruct !== null) {
+				if (compiler.getActiveStruct() !== null) {
 					for (var j = 0; j < params.length; j++) {
 						compilerData.declareStructField(params[j], wheel.compiler.command.T_PROC_GLOBAL, wheel.compiler.command.T_PROC_GLOBAL_ARRAY);
 					}
-				} else if (this._procStartIndex === -1) {
+				} else if (compiler.getProcStartIndex() === -1) {
 					for (var j = 0; j < params.length; j++) {
 						compilerData.declareGlobal(params[j], wheel.compiler.command.T_PROC_GLOBAL, wheel.compiler.command.T_PROC_GLOBAL_ARRAY, null, location, false);
 					}

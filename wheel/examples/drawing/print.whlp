@@ -1,6 +1,6 @@
 #project "Print demo"
 
-#include "/lib/standard.whl"
+#include "/lib/screen.whl"
 
 proc main()
     set      REG_DRAW_X1,            10

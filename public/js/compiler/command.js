@@ -22,7 +22,7 @@
 		T_PROC_LOCAL_ARRAY 		= 17,
 
 		NO_PARAM_COMMANDS 		=  1,
-		SINGLE_PARAM_COMMANDS 	= 19;
+		SINGLE_PARAM_COMMANDS 	= 18;
 
 	wheel(
 		'compiler.command',
@@ -32,7 +32,7 @@
 				code: 0
 			},
 			ret: {
-				code: 1
+				code: 1,
 			},
 
 			// Commands with a single parameter...
@@ -150,19 +150,9 @@
 					{type: T_PROC_GLOBAL}
 				]
 			},
-			log: {
-				code: 19,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER},
-					{type: T_STRING_CONSTANT}, // String constant
-				]
-			},
 			// Commands with 2 parameters...
 			set: {
-				code: 20,
+				code: 19,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -212,7 +202,7 @@
 				]
 			},
 			add: {
-				code: 21,
+				code: 20,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -244,7 +234,7 @@
 				]
 			},
 			sub: {
-				code: 22,
+				code: 21,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -276,7 +266,7 @@
 				]
 			},
 			mul: {
-				code: 23,
+				code: 22,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -308,7 +298,7 @@
 				]
 			},
 			div: {
-				code: 24,
+				code: 23,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -340,7 +330,7 @@
 				]
 			},
 			mod: {
-				code: 25,
+				code: 24,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -372,7 +362,7 @@
 				]
 			},
 			and: {
-				code: 26,
+				code: 25,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -404,7 +394,7 @@
 				]
 			},
 			or: {
-				code: 27,
+				code: 26,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -438,7 +428,7 @@
 
 			// Compare, loop...
 			cmp: {
-				code: 28,
+				code: 27,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -470,7 +460,7 @@
 				]
 			},
 			loop: {
-				code: 29,
+				code: 28,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -493,7 +483,7 @@
 				]
 			},
 			module: {
-				code: 30,
+				code: 29,
 				args: [
 					{
 						type: T_NUMBER_CONSTANT,
@@ -533,60 +523,6 @@
 					},
 				]
 			},
-
-
-
-
-
-
-
-			/*
-			// Screen commands
-			cls: {
-				code: 2
-			},
-			line: {
-				code: 3
-			},
-			rect: {
-				code: 4
-			},
-			circle: {
-				code: 5
-			},
-			*/
-			/*
-			print: {
-				code: 21,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER},
-					{type: T_STRING_CONSTANT}, // String constant
-				]
-			},
-			*/
-			/*
-			motorw: { // Motor write...
-				code: 23,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER}
-				]
-			},
-			motorr: { // Motor read...
-				code: 24,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER}
-				]
-			},
-			*/
 
 			// The following commands are compiled into smaller commands with less parameters...
 			addr: {

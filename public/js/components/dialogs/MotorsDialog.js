@@ -1,5 +1,5 @@
 (function() {
-	var MotorHeader = React.createClass({
+	var I2CMotorHeader = React.createClass({
 			render: function() {
 				return utilsReact.fromJSON({
 					props: {
@@ -48,7 +48,6 @@
 
 	function motorSettingGenerator() {
 		if (!motorSettingGenerator._data) {
-			console.log('make');
 			motorSettingGenerator._data = {
 				visible: 		true,
 				port: 			1,
@@ -72,7 +71,7 @@
 		return result;
 	}
 
-	var MotorRow = React.createClass({
+	var I2CMotorRow = React.createClass({
 			getInitialState: function() {
 				return motorSettingGenerator();
 			},
@@ -220,7 +219,7 @@
 
 				for (var i = 0; i < motors.length; i++) {
 					listChildren.push({
-						type: 	MotorRow,
+						type: 	I2CMotorRow,
 						props: 	{
 							list: 	this,
 							index: 	i
@@ -230,12 +229,11 @@
 
 				return utilsReact.fromJSON({
 					props: {
-						ref: 		'motorSelectPage',
-						className: 	'motors-content',
+						className: 'motors-content',
 					},
 					children: [
 						{
-							type: MotorHeader
+							type: I2CMotorHeader
 						},
 						{
 							props: {
@@ -263,6 +261,138 @@
 			}
 		});
 
+	var MotorRow = React.createClass({
+			getInitialState: function() {
+				return {};
+			},
+
+			render: function() {
+				var state = this.state;
+
+				return utilsReact.fromJSON({
+					props: {
+						className: 'motor-row'
+					},
+					children: [
+						{
+							props: {
+								className: 'display'
+							},
+							children: [
+								{
+									type: wheel.components.ui.CheckboxComponent,
+									props: {
+										slider: 	true,
+										checked: 	state.visible
+									}
+								}
+							]
+						},
+						{
+							props: {
+								className: 'port'
+							},
+							children: [
+								{
+									props: {
+										innerHTML: this.props.out
+									}
+								}
+							]
+						},
+						{
+							props: {
+								className: 'type'
+							},
+							children: [
+								{
+									type: wheel.components.ui.SelectComponent,
+									props: {
+										value: 		state.type,
+										options: 	[
+											{value: '1', text: 'Medium'},
+											{value: '2', text: 'Large'}
+										]
+									}
+								}
+							]
+						}
+					]
+				});
+			}
+		});
+
+	var MotorHeader = React.createClass({
+			render: function() {
+				return utilsReact.fromJSON({
+					props: {
+						className: 'motor-header'
+					},
+					children: [
+						{
+							props: {
+								className: 'display',
+								innerHTML: 'Visible'
+							}
+						},
+						{
+							props: {
+								className: 'port',
+								innerHTML: 'Out'
+							}
+						},
+						{
+							props: {
+								className: 'type',
+								innerHTML: 'Motor type'
+							}
+						}
+					]
+				});
+			}
+		});
+
+	var StandardMotorList = React.createClass({
+			getInitialState: function() {
+				return {
+					motors: []
+				}
+			},
+
+			render: function() {
+				var state 			= this.state,
+					motors 			= state.motors,
+					listChildren 	= [];
+
+				for (var i = 0; i < 4; i++) {
+					listChildren.push({
+						type: 	MotorRow,
+						props: 	{
+							list: 	this,
+							index: 	i,
+							out: 	String.fromCharCode(65 + i)
+						}
+					});
+				}
+
+				return utilsReact.fromJSON({
+					props: {
+						className: 'motors-content'
+					},
+					children: [
+						{
+							type: MotorHeader
+						},
+						{
+							props: {
+								className: 'motors-container'
+							},
+							children: listChildren
+						}
+					]
+				});
+			}
+		});
 
 	wheel(
 		'components.dialogs.MotorsDialog',
@@ -399,7 +529,11 @@
 									pages: [
 										{
 											title: 		'Standard motors',
-											content: 	[]
+											content: 	[
+												{
+													type: StandardMotorList
+												}
+											]
 										},
 										{
 											title: 		'I2C Motors',

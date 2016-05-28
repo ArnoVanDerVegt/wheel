@@ -131,7 +131,7 @@
 
 					if ((x1 == x2) && (y1 == y2)) break;
 					var e2 = 2 * err;
-					if (e2 >-dy) {
+					if (e2 > -dy) {
 						err -= dy;
 						x1  += sx;
 					}
@@ -153,6 +153,40 @@
 				this._drawLine(x, 			y, 			x, 			y + height, mode);
 				this._drawLine(x + width, 	y, 			x + width, 	y + height, mode);
 				this._drawLine(x, 			y + height, x + width, 	y + height, mode);
+
+				this._updateCallback && this._updateCallback();
+			};
+
+			this.drawCircle = function(x, y, radius) {
+				// d start from D(M) = r^2 - r^2 + r-1/4 = r- 1/4 , but we can ignore constant because r>1/4
+				var d 	= radius,
+					dx 	= (-2) * radius, 	// dx = -2x +2 , constant move to loop
+					dy 	= 0, 				// dy = 2y + 1 , constant move to loop
+					cx 	= radius, 			// starting point:
+					cy 	= 0;
+
+				this._drawPixel(x - radius, y, 0);
+				this._drawPixel(x + radius, y, 0);
+				this._drawPixel(x, y - radius, 0);
+				this._drawPixel(x, y + radius, 0);
+
+				while (cx > cy) {
+					if (d > 0) {
+						cx--;
+						d += (-2) * cx + 2;
+					}
+					cy++;
+					d += 2 * cy + 1;
+
+					this._drawPixel(x - cx, y - cy, 0);
+					this._drawPixel(x + cx, y - cy, 0);
+					this._drawPixel(x - cx, y + cy, 0);
+					this._drawPixel(x + cx, y + cy, 0);
+					this._drawPixel(x - cy, y - cx, 0);
+					this._drawPixel(x + cy, y - cx, 0);
+					this._drawPixel(x - cy, y + cx, 0);
+					this._drawPixel(x + cy, y + cx, 0);
+				}
 
 				this._updateCallback && this._updateCallback();
 			};

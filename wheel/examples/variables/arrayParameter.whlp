@@ -1,33 +1,32 @@
 #project "Array parameter demo"
-
+    
 #include "/lib/standard.whl"
-
+    
 number   items[5]
-
-;proc demoProcedure(number list[5])
-;    number   counter
-;    set      counter,                4
-;readLoop:
-;    number   value
-;    arrayr   value,                  list, counter
-;    log      value
-;
-;    loop     counter,                readLoop
-;endp
-
+    
+proc demoProcedure(number list[5])
+    number   counter
+    set      counter,                4
+readLoop:
+    number   value
+    arrayr   value,                  list, counter
+    logN(value)
+    
+    loop     counter,                readLoop
+endp
+    
 proc main()
     number   counter
-;    set      counter,                4
-;writeLoop:
+    set      counter,                4
+writeLoop:
     number   value
-;    set      value,                  counter
-;    mul      value,                  3
+    set      value,                  counter
+    mul      value,                  3
     arrayw   items,                  counter, value
-    arrayr   value,                  items, counter
-
-;    loop     counter,                writeLoop
-
-;    demoProcedure(items)
-
-;    demoProcedure([5, 9, -2, 0, 7])
+    
+    loop     counter,                writeLoop
+    
+    demoProcedure(items)
+    
+    ;demoProcedure([5, 9, -2, 0, 7])
 endp

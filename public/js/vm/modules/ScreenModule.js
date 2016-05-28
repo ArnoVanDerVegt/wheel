@@ -31,17 +31,17 @@ wheel(
 
 				case 4: // SCREEN_DRAW_LINE
 					var drawLineRecord = vmData.getRecordFromRegOffset(['x1', 'y1', 'x2', 'y2']);
-					ev3Screen.drawText(drawLineRecord.x1, drawLineRecord.y1, drawLineRecord.x2, drawLineRecord.y1, 0);
+					ev3Screen.drawLine(drawLineRecord.x1, drawLineRecord.y1, drawLineRecord.x2, drawLineRecord.y2, 0);
 					break;
 
 				case 5: // SCREEN_DRAW_RECT
 					var drawRectRecord = vmData.getRecordFromRegOffset(['x', 'y', 'width', 'height']);
-					ev3Screen.drawText(drawRectRecord.x, drawRectRecord.y, drawRectRecord.width, drawRectRecord.height, 0);
+					ev3Screen.drawRect(drawRectRecord.x, drawRectRecord.y, drawRectRecord.width, drawRectRecord.height, 0);
 					break;
 
 				case 6: // SCREEN_DRAW_CIRCLE
 					var drawCircleRecord = vmData.getRecordFromRegOffset(['x', 'y', 'radius']);
-					ev3Screen.drawText(drawCircleRecord.x, drawCircleRecord.y, drawCircleRecord.radius, 0);
+					ev3Screen.drawCircle(drawCircleRecord.x, drawCircleRecord.y, drawCircleRecord.radius, 0);
 					break;
 
 				default:

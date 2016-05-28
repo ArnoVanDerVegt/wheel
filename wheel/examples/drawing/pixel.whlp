@@ -1,9 +1,8 @@
 #project "Pixel drawing demo"
     
-#include "/lib/standard.asm"
+#include "/lib/screen.whl"
     
 proc main()
-    set     REG_DRAW_X,             20
-    set     REG_DRAW_Y,             20
-    pixel
+	; Draw a pixel at (155, 10)
+	drawPixel(155, 10) 
 endp

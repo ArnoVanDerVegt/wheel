@@ -1,0 +1,22 @@
+#define MODULE_MOTORS      3
+
+			/*
+			motorw: { // Motor write...
+				code: 23,
+				args: [
+					{type: T_NUMBER_CONSTANT},
+					{type: T_NUMBER_GLOBAL},
+					{type: T_NUMBER_LOCAL},
+					{type: T_NUMBER_REGISTER}
+				]
+			},
+			motorr: { // Motor read...
+				code: 24,
+				args: [
+					{type: T_NUMBER_CONSTANT},
+					{type: T_NUMBER_GLOBAL},
+					{type: T_NUMBER_LOCAL},
+					{type: T_NUMBER_REGISTER}
+				]
+			},
+			*/
