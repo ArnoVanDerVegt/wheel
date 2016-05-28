@@ -1,0 +1,23 @@
+#project "Number demo"
+    
+#include "/lib/standard.whl"
+    
+string   s
+    
+proc main()
+    ;set      s,                      "Hello world"
+    
+    ;string   ls
+    ;set      ls,                     "My string"
+    
+    number a
+    set a, s
+    
+    ;struct PrintString
+	;    string   s
+    ;ends
+    ;PrintString printString
+    ;set      printString.s,          ls
+    ;addr     printString
+    ;module   MODULE_STANDARD,        STANDARD_PRINT_STRING
+endp

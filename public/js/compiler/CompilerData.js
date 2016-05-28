@@ -22,6 +22,7 @@ wheel(
 			this._structOffset 		= 0;
 			this._structList 		= {};
 			this._struct 			= null;
+			this._stringList 		= [];
 		};
 
 		this._parseVariable = function(name) {
@@ -82,6 +83,7 @@ wheel(
 
 			var global = {
 					type: 		(vr.length === 1) ? type : arrayType,
+					metaType: 	null,
 					offset: 	this._globalOffset,
 					size: 		size,
 					length: 	vr.length,
@@ -93,6 +95,15 @@ wheel(
 			this._globalOffset += vr.length * size;
 
 			return global;
+		};
+
+		this.declareString = function(value) {
+			this._stringList.push(value);
+			return this._stringList.length - 1;
+		};
+
+		this.getStringList = function() {
+			return this._stringList;
 		};
 
 		this.allocateGlobal = function(size) {
@@ -295,7 +306,7 @@ wheel(
 		this.declareStructField = function(name, type, arrayType) {
 			var struct = this._struct;
 			if (!struct) {
-				return;
+				return null;
 			}
 
 			var vr = this._parseVariable(name);
@@ -304,15 +315,18 @@ wheel(
 				throw compiler.createError('Duplicate struct field "' + name + '".');
 			}
 
-			struct.fields[vr.name] = {
-				type: 	(vr.length === 1) ? type : arrayType,
-				offset: 	this._structOffset,
-				size: 		1,
-				length: 	vr.length
-			};
+			var structField = {
+					type: 		(vr.length === 1) ? type : arrayType,
+					offset: 	this._structOffset,
+					size: 		1,
+					length: 	vr.length
+				};
+			struct.fields[vr.name] = structField;
 
 			this._structOffset += vr.length;
 			struct.size = this._structOffset;
+
+			return structField;
 		};
 
 		this.getStructList = function() {
@@ -334,9 +348,10 @@ wheel(
 				}
 			} else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
 				return {
-					type: 	wheel.compiler.command.T_STRING_CONSTANT, // String constant
-					value: 	param.substr(1, param.length - 2),
-					param: 	param
+					type: 		wheel.compiler.command.T_NUMBER_CONSTANT,
+					metaType: 	wheel.compiler.command.T_STRING,
+					value: 		param.substr(1, param.length - 2),
+					param: 		param
 				};
 			} else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
 				return {

@@ -92,21 +92,55 @@ wheel(
 						case wheel.compiler.command.T_NUMBER_LOCAL_ARRAY:
 						case wheel.compiler.command.T_STRUCT_LOCAL_ARRAY:
 						case wheel.compiler.command.T_STRUCT_LOCAL:
-							console.log('check code');
-							compiler.getOutput().add(compiler.createCommand(
-								'set',
-								[
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
-								]
-							));
-							compiler.getOutput.add(compiler.createCommand(
-								'set',
-								[
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-								]
-							));
+							if (paramInfo.value === 0) {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							} else {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+										{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+									]
+								));
+								compiler.getOutput().add(compiler.createCommand(
+									'add',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							}
+
+							if (offset === 0) {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							} else {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
+									]
+								));
+								compiler.getOutput().add(compiler.createCommand(
+									'add',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							}
 							compiler.getOutput().add(compiler.createCommand(
 								'copy',
 								[
@@ -137,6 +171,7 @@ wheel(
 									throw compiler.createError('Type mismatch.');
 								}
 							}
+
 							compiler.getOutput().add(compiler.createCommand(
 								'set',
 								[
@@ -144,20 +179,31 @@ wheel(
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
 								]
 							));
-							compiler.getOutput().add(compiler.createCommand(
-								'set',
-								[
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-								]
-							));
-							compiler.getOutput().add(compiler.createCommand(
-								'add',
-								[
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-								]
-							));
+
+							if (offset === 0) {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							} else {
+								compiler.getOutput().add(compiler.createCommand(
+									'set',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
+									]
+								));
+								compiler.getOutput().add(compiler.createCommand(
+									'add',
+									[
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+									]
+								));
+							}
 							compiler.getOutput().add(compiler.createCommand(
 								'copy',
 								[

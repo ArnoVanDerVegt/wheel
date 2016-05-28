@@ -13,7 +13,7 @@ proc main()
     set      point.y,                13
     set      point.z,                19
     
-    log      point.x
-    log      point.y
-    log      point.z
+    printN(point.x)
+    printN(point.y)
+    printN(point.z)
 endp

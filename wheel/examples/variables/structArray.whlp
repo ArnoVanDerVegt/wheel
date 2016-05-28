@@ -1,31 +1,36 @@
 #project "Struct array demo"
-
+    
 #include "/lib/standard.whl"
-
+    
 struct Item
     number   list[5]
 ends
-
+    
 Item     item
-
+    
 proc main()
-    number   counter
     number   value
-
-    set      counter,                0
+    
+    ; declare a local variable with the initial value of 2...
+    number   counter = 0
 writeLoop:
+	; value = counter * 2
     set      value,                  counter
     mul      value,                  2
+	; write the value in the item.list at index counter...
     arrayw   item.list,              counter, value
     inc      counter
+    ; Loop until the counter equals 5...
     cmp      counter,                5
     jl       writeLoop
-
+    
     set      counter,                0
 readLoop:
+    ; read the value from item.list at the index counter...
     arrayr   value,                  item.list, counter
-    log      value
+    printN(value)
     inc      counter
+    ; Loop until the counter equals 5...
     cmp      counter,                5
     jl       readLoop
 endp

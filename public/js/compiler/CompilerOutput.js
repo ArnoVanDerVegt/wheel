@@ -84,10 +84,6 @@ wheel(
 							}
 							break;
 
-						case wheel.compiler.command.T_STRING_CONSTANT:
-							result = '"' + param.value + '"';
-							break;
-
 						case wheel.compiler.command.T_LABEL:
 							result = leadingZero(param.value + 1);
 							break;

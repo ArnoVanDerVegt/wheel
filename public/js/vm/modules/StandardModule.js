@@ -5,14 +5,14 @@ wheel(
 			var vmData = this._vmData;
 
 			switch (commandId) {
-				case 0: // STANDARD_LOG_NUMBER
-					var logNumber = vmData.getRecordFromRegOffset(['n']);
-					console.log(logNumber.n);
+				case 0: // STANDARD_PRINT_NUMBER
+					var printNumber = vmData.getRecordFromRegOffset(['n']);
+					console.log(printNumber.n);
 					break;
 
-				case 0: // STANDARD_LOG_STRING
-					var logString = vmData.getRecordFromRegOffset(['s']);
-					console.log(logNumber.s);
+				case 1: // STANDARD_PRINT_STRING
+					var printString = vmData.getRecordFromRegOffset(['s']);
+					console.log(vmData.getStringList()[printString.s]);
 					break;
 			}
 		};

@@ -3,23 +3,24 @@
 		T_NUMBER_GLOBAL 		=  1,
 		T_NUMBER_LOCAL			=  2,
 		T_NUMBER_REGISTER		=  3,
-		T_STRING_REGISTER		=  4,
-		T_STRING_CONSTANT		=  5,
-		T_PROC  				=  6,
-		T_LABEL					=  7,
 
-		T_NUMBER_GLOBAL_ARRAY 	=  8,
-		T_NUMBER_LOCAL_ARRAY	=  9,
+		T_LABEL					=  4,
+		T_PROC  				=  5,
 
-		T_STRUCT_GLOBAL 		= 10,
-		T_STRUCT_GLOBAL_ARRAY 	= 11,
-		T_STRUCT_LOCAL 			= 12,
-		T_STRUCT_LOCAL_ARRAY 	= 13,
+		T_NUMBER_GLOBAL_ARRAY 	=  6,
+		T_NUMBER_LOCAL_ARRAY	=  7,
 
-		T_PROC_GLOBAL 			= 14,
-		T_PROC_GLOBAL_ARRAY		= 15,
-		T_PROC_LOCAL 			= 16,
-		T_PROC_LOCAL_ARRAY 		= 17,
+		T_STRUCT_GLOBAL 		=  8,
+		T_STRUCT_GLOBAL_ARRAY 	=  9,
+		T_STRUCT_LOCAL 			= 10,
+		T_STRUCT_LOCAL_ARRAY 	= 11,
+
+		T_PROC_GLOBAL 			= 12,
+		T_PROC_GLOBAL_ARRAY		= 13,
+		T_PROC_LOCAL 			= 14,
+		T_PROC_LOCAL_ARRAY 		= 15,
+
+		T_STRING 				= 16,
 
 		NO_PARAM_COMMANDS 		=  1,
 		SINGLE_PARAM_COMMANDS 	= 18;
@@ -966,8 +967,6 @@
 	wheel('compiler.command.T_NUMBER_GLOBAL', 		T_NUMBER_GLOBAL);
 	wheel('compiler.command.T_NUMBER_LOCAL',		T_NUMBER_LOCAL);
 	wheel('compiler.command.T_NUMBER_REGISTER',		T_NUMBER_REGISTER);
-	wheel('compiler.command.T_STRING_REGISTER',		T_STRING_REGISTER);
-	wheel('compiler.command.T_STRING_CONSTANT',		T_STRING_CONSTANT);
 	wheel('compiler.command.T_PROC',  				T_PROC);
 	wheel('compiler.command.T_LABEL',				T_LABEL);
 
@@ -984,6 +983,8 @@
 	wheel('compiler.command.T_PROC_LOCAL', 			T_PROC_LOCAL);
 	wheel('compiler.command.T_PROC_LOCAL_ARRAY', 	T_PROC_LOCAL_ARRAY);
 
+	wheel('compiler.command.T_STRING', 				T_STRING);
+
 	wheel('compiler.command.NO_PARAM_COMMANDS', 	NO_PARAM_COMMANDS);
 	wheel('compiler.command.SINGLE_PARAM_COMMANDS',	SINGLE_PARAM_COMMANDS);
 
@@ -998,9 +999,6 @@
 				case T_NUMBER_LOCAL: 		result = 'local';	break;
 				case T_NUMBER_LOCAL_ARRAY: 	result = 'local';	break;
 				case T_NUMBER_REGISTER: 	result = 'reg';		break;
-
-				case T_STRING_REGISTER: 	result = 'reg';		break;
-				case T_STRING_CONSTANT: 	result = 'const';	break;
 
 				case T_STRUCT_GLOBAL:		result = 'global';	break;
 				case T_STRUCT_GLOBAL_ARRAY:	result = 'global';	break;

@@ -2,27 +2,27 @@
 #define MOTOR_B 	1
 #define MOTOR_C 	2
 #define MOTOR_D 	3
-    
+
 #define MOTOR1_A 	0
 #define MOTOR1_B 	1
 #define MOTOR1_C 	2
 #define MOTOR1_D 	3
-    
+
 #define MOTOR2_A 	4
 #define MOTOR2_B 	5
 #define MOTOR2_C 	6
 #define MOTOR2_D 	7
-    
+
 #define MOTOR3_A 	8
 #define MOTOR3_B 	9
 #define MOTOR3_C 	10
 #define MOTOR3_D 	11
-    
+
 #define MOTOR4_A 	12
 #define MOTOR4_B 	13
 #define MOTOR4_C 	14
 #define MOTOR4_D 	15
-    
+
 #define MOTOR1_1 	16
 #define MOTOR1_2 	17
 #define MOTOR2_1 	18
@@ -31,28 +31,28 @@
 #define MOTOR3_2 	21
 #define MOTOR4_1 	22
 #define MOTOR4_2 	23
-    
+
 #define MODULE_STANDARD     0
-    
-#define STANDARD_LOG_NUMBER 0
-#define STANDARD_LOG_STRING 1
-    
-proc logN(number n)
-    struct LogNumber
+
+#define STANDARD_PRINT_NUMBER 0
+#define STANDARD_PRINT_STRING 1
+
+proc printN(number n)
+    struct PrintNumber
         number   n
     ends
-    LogNumber logNumber
-    set      logNumber.n,            n
-    addr     logNumber
-    module   MODULE_STANDARD,        STANDARD_LOG_NUMBER
+    PrintNumber printNumber
+    set      printNumber.n,            n
+    addr     printNumber
+    module   MODULE_STANDARD,        STANDARD_PRINT_NUMBER
 endp
-    
-;proc logS(string s)
-;    struct LogString
+
+;proc printS(string s)
+;    struct PrintString
 ;    string   s
 ;    ends
-;    LogString logString
-;    set      logString.s,            s
-;    addr     logString
-;    module   MODULE_STANDARD,        STANDARD_LOG_STRING
+;    PrintString printString
+;    set      printString.s,            s
+;    addr     printString
+;    module   MODULE_STANDARD,        STANDARD_PRINT_STRING
 ;endp

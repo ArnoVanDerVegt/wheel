@@ -7,23 +7,20 @@ number   ga[4] = [89, 1, 498, 33]
 
 proc main()
     number   l = 7
-    log      g
-    log      l
-
+    printN(g)
+    printN(l)
     number la[3] = [99, 100, 101];
 
     number   counter = 3
 logLoop1:
     number   value
     arrayr   value,                  ga, counter
-    ;log      value
+    printN(value)
     loop     counter,                logLoop1
-
 
     set counter, 2
 logLoop2:
     arrayr   value,                  la, counter
-    log      value
-    loop     counter,                logLoop2
-
+    printN(value)
+    loop     counter,                logLoop2;9
 endp

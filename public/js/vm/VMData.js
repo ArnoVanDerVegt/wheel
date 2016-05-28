@@ -1,6 +1,7 @@
 var VMData = Class(function() {
 		this.init = function(opts) {
-			this._data 		= [];
+			this._data 				= [];
+			this._stringList 		= [];
 			this._regOffsetStack 	= [];
 			this._registerByName	= {};
 			this._registerValues 	= [];
@@ -10,10 +11,6 @@ var VMData = Class(function() {
 				switch (register.type) {
 					case wheel.compiler.command.T_NUMBER_REGISTER:
 						this._registerValues.push(0);
-						this._registerByName[register.name] = i;
-						break;
-					case wheel.compiler.command.T_STRING_REGISTER:
-						this._registerValues.push('');
 						this._registerByName[register.name] = i;
 						break;
 				}
@@ -27,6 +24,14 @@ var VMData = Class(function() {
 
 		this.getGlobalNumber = function(offset) {
 			return this._data[offset];
+		};
+
+		this.setStringList = function(stringList) {
+			this._stringList = JSON.parse(JSON.stringify(stringList));
+		};
+
+		this.getStringList = function() {
+			return this._stringList;
 		};
 
 		/* Local */

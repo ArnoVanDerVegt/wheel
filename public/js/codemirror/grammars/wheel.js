@@ -168,8 +168,8 @@ var wheelGrammar = {
 			'api_keyword': {
 				'autocomplete': true,
 				'tokens': [
-					'logN',
-					'logS',
+					'printN',
+					'printS',
 					'drawLine',
 					'drawRect',
 					'drawPixel',

@@ -18,7 +18,9 @@ wheel(
 				},
 				constructors = [
 					'NumberDeclaration',
+					'StringDeclaration',
 					'ProcedureDeclaration',
+					'Set',
 					'Call',
 					'Label',
 					'ArrayR',
@@ -139,6 +141,11 @@ wheel(
 							compilerData.resetLocal();
 							break;
 
+						case 'set':
+							params = wheel.compiler.compilerHelper.splitParams(params);
+							this._compilers.Set.compile(this.validateCommand(command, params));
+							break;
+
 						case 'struct':
 							this._activeStruct = compilerData.declareStruct(params, command, location);
 							break;
@@ -150,6 +157,11 @@ wheel(
 						case 'number':
 							params = wheel.compiler.compilerHelper.splitParams(params);
 							this._compilers.NumberDeclaration.compile(params);
+							break;
+
+						case 'string':
+							params = wheel.compiler.compilerHelper.splitParams(params);
+							this._compilers.StringDeclaration.compile(params);
 							break;
 
 						case 'addr':

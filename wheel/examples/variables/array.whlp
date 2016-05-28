@@ -10,20 +10,26 @@ proc main()
 ;    logS("Start")
     set     counter,                0
 writeLoop:
-    set     value,                  11
+	; value = 10 - counter
+    set     value,                  10
     sub     value,                  counter
+    ; write value to list at the index counter...
     arrayw  list,                   counter, value
 
     inc     counter
+    ; loop while the counter is less than 10...
     cmp     counter,                10
     jl      writeLoop
 
     set     counter,                0
 readLoop:
+	; read value from list at index counter...
     arrayr  value,                  list, counter
-    logN(value)
+    printN(value)
 
     inc     counter
+    
+    ; loop while the counter is less than 10...
     cmp     counter,                10
     jl      readLoop
 endp

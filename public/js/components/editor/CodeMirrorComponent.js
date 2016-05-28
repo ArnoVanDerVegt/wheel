@@ -477,7 +477,7 @@
 					} else if ((line.substr(0, 4) === 'endp') || (line.substr(0, 4) === 'ends')) {
 						inBlock--;
 						s = blockIndent() + line.trim();
-					} else if ((line.substr(0, 6) === 'number') || (line.split(',') > 2)) {
+					} else if ((line.substr(0, 6) === 'number') || (line.substr(0, 6) === 'string') || (line.split(',') > 2)) {
 						var j 		= line.indexOf(' '),
 							type 	= line.substr(0, j),
 							params 	= line.substr(j - line.length).split(',');

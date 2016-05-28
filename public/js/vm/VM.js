@@ -52,7 +52,6 @@ wheel(
 					case wheel.compiler.command.T_NUMBER_GLOBAL: 	v1 = vmData.getGlobalNumber(p1); 	break;
 					case wheel.compiler.command.T_NUMBER_LOCAL: 	v1 = vmData.getLocalNumber(p1); 	break;
 					case wheel.compiler.command.T_NUMBER_REGISTER: 	v1 = vmData.getRegister(p1); 		break;
-					case wheel.compiler.command.T_STRING_CONSTANT: 	v1 = p1;/*vmData.getString(p1); */	break;
 				}
 				if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
 					switch (command.command) {
@@ -205,10 +204,11 @@ wheel(
 			this._motors.update();
 		};
 
-		this.run = function(commands, globalConstants, stackOffset) {
+		this.run = function(commands, stringList, globalConstants, stackOffset) {
 			this.stop();
 
 			this._motors.reset();
+			this._vmData.setStringList(stringList);
 			this._vmData.setGlobalConstants(globalConstants, stackOffset);
 			this._vmData.pushRegOffsetStack(0);
 			this._callStack.push(0xFFFF);

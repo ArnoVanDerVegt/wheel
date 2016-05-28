@@ -1,38 +1,21 @@
 #project "Address demo"
     
-#include "/lib/standard.whl"
+#include "/lib/screen.whl"
     
-struct Point
-    number   x, y, z
-ends
-    
-Point    point
-    
-#define MODULE_SCREEN      1
-    
-#define SCREEN_CLEAR       0
-#define SCREEN_DRAW_PIXEL  1
-#define SCREEN_DRAW_NUM    2
-#define SCREEN_DRAW_TEXT   3
-#define SCREEN_DRAW_LINE   4
-#define SCREEN_DRAW_RECT   5
-#define SCREEN_DRAW_CIRCLE 6
-    
-proc screenCrear()
-    module   MODULE_SCREEN,          SCREEN_CLEAR
-endp
-    
-proc drawPixel(number x, number y)
-	struct DrawPixel
-    	number   x, y
-	ends
-	DrawPixel drawPixel
-	set      drawPixel.x,            x
-	set      drawPixel.y,            y
-    addr     drawPixel
-	module   MODULE_SCREEN,          SCREEN_DRAW_PIXEL
+proc draw(number x, number y, number width, number height)
+    struct DDrawRect
+        number   x, y
+        number   width, height
+    ends
+    DrawRect drawRect
+    set      drawRect.x,             x
+    set      drawRect.y,             y
+    set      drawRect.width,         width
+    set      drawRect.height,        height
+    addr     drawRect
+    module   MODULE_SCREEN,          SCREEN_DRAW_RECT
 endp
     
 proc main()
-	drawPixel(20, 13)
+    draw(20, 13, 57, 23)
 endp

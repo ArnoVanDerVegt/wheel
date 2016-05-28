@@ -14,10 +14,10 @@ proc main()
 	set srcPoint.x, 4
     set srcPoint.y, 7
     set srcPoint.z, -10
-    arrayw points, 0, srcPoint
+    arrayw points, 1, srcPoint
 
-    arrayr destPoint, points, 0
-    log destPoint.x
-    log destPoint.y
-    log destPoint.z
+    arrayr destPoint, points, 1
+    printN(destPoint.x)
+    printN(destPoint.y)
+    printN(destPoint.z)
 endp
