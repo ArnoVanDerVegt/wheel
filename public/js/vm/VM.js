@@ -33,9 +33,6 @@ wheel(
 				};
 			if (command.code <= wheel.compiler.command.NO_PARAM_COMMANDS) { // Commands without parameters...
 				switch (command.command) {
-					case 'nop':
-						break;
-
 					case 'ret':
 						vmData.popRegOffsetStack();
 						this._index = this._callStack.pop();
@@ -112,7 +109,7 @@ wheel(
 						case 'call':
 							vmData.pushRegOffsetStack(command.params[1].value);
 							this._callStack.push(this._index);
-							this._index = command.params[0].value;
+							this._index = command.params[0].value - 1;
 							break;
 
 						case 'call_var':

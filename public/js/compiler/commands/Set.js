@@ -16,10 +16,10 @@ wheel(
 				} else if (param2.vr.metaType === wheel.compiler.command.T_STRING) {
 					// set string, string...
 				} else {
-					throw compiler.createError('Type error.');
+					throw compiler.createError('2)Type error.');
 				}
 			} else if (param2.vr && (param2.vr.metaType === wheel.compiler.command.T_STRING)) {
-				throw compiler.createError('Type error.');
+				throw compiler.createError('1)Type error.');
 			}
 			compiler.getOutput().add(validatedCommand);
 		};

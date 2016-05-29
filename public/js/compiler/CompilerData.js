@@ -17,11 +17,15 @@ wheel(
 			this._localList 		= {};
 
 			this._labelList 		= {};
+
 			this._procedureList 	= {};
 			this._procedure 		= null;
+
 			this._structOffset 		= 0;
 			this._structList 		= {};
 			this._struct 			= null;
+			this._structLocal 		= {};
+
 			this._stringList 		= [];
 		};
 
@@ -98,8 +102,14 @@ wheel(
 		};
 
 		this.declareString = function(value) {
-			this._stringList.push(value);
-			return this._stringList.length - 1;
+			var stringList 	= this._stringList,
+				result 		= stringList.indexOf(value);
+
+			if (result === -1) {
+				result = this._stringList.length;
+				this._stringList.push(value);
+			}
+			return result;
 		};
 
 		this.getStringList = function() {
@@ -131,8 +141,9 @@ wheel(
 								clonedVr[i] = vr[i];
 							}
 							clonedVr.offset += field.offset;
-							clonedVr.field 	= field;
-							clonedVr.type 	= (field.length > 1) ? wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY : wheel.compiler.command.T_NUMBER_GLOBAL;
+							clonedVr.field 		= field;
+							clonedVr.type 		= (field.length > 1) ? wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY : wheel.compiler.command.T_NUMBER_GLOBAL;
+							clonedVr.metaType 	= field.metaType;
 							return clonedVr;
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
@@ -172,7 +183,7 @@ wheel(
 			}
 
 			var local = {
-					type: 	(vr.length === 1) ? type : arrayType,
+					type: 		(vr.length === 1) ? type : arrayType,
 					offset: 	this._localOffset,
 					size: 		size,
 					length: 	vr.length,
@@ -193,6 +204,7 @@ wheel(
 				field 	= name.substr(i + 1 - name.length);
 				name 	= name.substr(0, i);
 			}
+
 			if (name in localList) {
 				var vr = localList[name];
 				if (field) {
@@ -202,8 +214,10 @@ wheel(
 							for (var i in vr) {
 								clonedVr[i] = vr[i];
 							}
-							clonedVr.offset += vr.struct.fields[field].offset;
-							clonedVr.type = wheel.compiler.command.T_NUMBER_LOCAL;
+							field = vr.struct.fields[field];
+							clonedVr.offset += field.offset;
+							clonedVr.type 		= wheel.compiler.command.T_NUMBER_LOCAL;
+							clonedVr.metaType   = field.metaType;
 							return clonedVr;
 						}
 						throw this._compiler.createError('Undefined field "' + field + '".');
@@ -259,7 +273,7 @@ wheel(
 		};
 
 		/* Procedure */
-		this.declareProcedure = function(name, command, index) {
+		this.declareProcedure = function(name, index) {
 			var procedureList = this._procedureList;
 			if (name in procedureList) {
 				throw this._compiler.createError('Duplicate procedure "' + name + '".');
@@ -267,9 +281,11 @@ wheel(
 			this.resetLocal();
 			this._procedure = {
 				index: 		index,
-				command: 	command
+				paramTypes: []
 			};
 			procedureList[name] = this._procedure;
+
+			return this._procedure;
 		};
 
 		this.findProcedure = function(name) {
@@ -296,7 +312,18 @@ wheel(
 			this._struct 		= result;
 			this._structOffset 	= 0;
 
+			if (compiler.getInProc()) {
+				this._structLocal[name] = true;
+			}
+
 			return result;
+		};
+
+		this.removeLocalStructs = function() {
+			for (var name in this._structLocal) {
+				delete this._structList[name];
+			}
+			this._structLocal = {};
 		};
 
 		this.findStruct = function(name) {

@@ -3,16 +3,14 @@
 #include "/lib/standard.whl"
     
 string   s
-    
+
 proc main()
+	printS("test string")
     ;set      s,                      "Hello world"
     
     ;string   ls
     ;set      ls,                     "My string"
-    
-    number a
-    set a, s
-    
+        
     ;struct PrintString
 	;    string   s
     ;ends

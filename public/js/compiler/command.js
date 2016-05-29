@@ -22,23 +22,20 @@
 
 		T_STRING 				= 16,
 
-		NO_PARAM_COMMANDS 		=  1,
-		SINGLE_PARAM_COMMANDS 	= 18;
+		NO_PARAM_COMMANDS 		=  0,
+		SINGLE_PARAM_COMMANDS 	= 17;
 
 	wheel(
 		'compiler.command',
 		{
 			// Commands without parameters...
-			nop: {
-				code: 0
-			},
 			ret: {
-				code: 1,
+				code: 0,
 			},
 
 			// Commands with a single parameter...
 			inc: {
-				code: 2,
+				code: 1,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -46,7 +43,7 @@
 				]
 			},
 			dec: {
-				code: 3,
+				code: 2,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -54,7 +51,7 @@
 				]
 			},
 			abs: {
-				code: 4,
+				code: 3,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -62,7 +59,7 @@
 				]
 			},
 			neg: {
-				code: 5,
+				code: 4,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -70,7 +67,7 @@
 				]
 			},
 			round: {
-				code: 6,
+				code: 5,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -78,7 +75,7 @@
 				]
 			},
 			floor: {
-				code: 7,
+				code: 6,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -86,7 +83,7 @@
 				]
 			},
 			ceil: {
-				code: 8,
+				code: 7,
 				args: [
 					{type: T_NUMBER_GLOBAL},
 					{type: T_NUMBER_LOCAL},
@@ -94,58 +91,58 @@
 				]
 			},
 			copy: {
-				code: 9,
+				code: 8,
 				args: [
 					{type: T_NUMBER_CONSTANT}
 				]
 			},
 			jmp: {
-				code: 10,
+				code: 9,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			je: {
-				code: 11,
+				code: 10,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			jne: {
-				cde: 12,
+				cde: 11,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			jl: {
-				code: 13,
+				code: 12,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			jle: {
-				code: 14,
+				code: 13,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			jg: {
-				code: 15,
+				code: 14,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			jge: {
-				code: 16,
+				code: 15,
 				args: [
 					{type: T_LABEL}
 				]
 			},
 			call: {
-				code: 17
+				code: 16
 			},
 			call_var: {
-				code: 18,
+				code: 17,
 				args: [
 					{type: T_PROC_LOCAL},
 					{type: T_PROC_GLOBAL}
@@ -153,7 +150,7 @@
 			},
 			// Commands with 2 parameters...
 			set: {
-				code: 19,
+				code: 18,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -203,7 +200,7 @@
 				]
 			},
 			add: {
-				code: 20,
+				code: 19,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -235,7 +232,7 @@
 				]
 			},
 			sub: {
-				code: 21,
+				code: 20,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -267,7 +264,7 @@
 				]
 			},
 			mul: {
-				code: 22,
+				code: 21,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -299,7 +296,7 @@
 				]
 			},
 			div: {
-				code: 23,
+				code: 22,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -331,7 +328,7 @@
 				]
 			},
 			mod: {
-				code: 24,
+				code: 23,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -363,7 +360,7 @@
 				]
 			},
 			and: {
-				code: 25,
+				code: 24,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -395,7 +392,7 @@
 				]
 			},
 			or: {
-				code: 26,
+				code: 25,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -429,7 +426,7 @@
 
 			// Compare, loop...
 			cmp: {
-				code: 27,
+				code: 26,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -461,7 +458,7 @@
 				]
 			},
 			loop: {
-				code: 28,
+				code: 27,
 				args: [
 					{
 						type: T_NUMBER_GLOBAL,
@@ -484,7 +481,7 @@
 				]
 			},
 			module: {
-				code: 29,
+				code: 28,
 				args: [
 					{
 						type: T_NUMBER_CONSTANT,

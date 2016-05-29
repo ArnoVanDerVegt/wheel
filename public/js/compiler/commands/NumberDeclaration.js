@@ -20,32 +20,7 @@ wheel(
 				for (var i = 0; i < params.length; i++) {
 					compilerData.declareStructField(params[i], wheel.compiler.command.T_NUMBER_GLOBAL, wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY);
 				}
-			} else if (compiler.getProcStartIndex() === -1) {
-				/**
-				 * Declare a global number or array of numbers...
-				**/
-				for (var i = 0; i < params.length; i++) {
-					var global = compilerData.declareGlobal(params[i], wheel.compiler.command.T_NUMBER_GLOBAL, wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY, null, location, true);
-
-					/**
-					 * Check if the number declaration had a constant value assigned to it...
-					**/
-					if (global.value) {
-						if (global.type === wheel.compiler.command.T_NUMBER_GLOBAL) { // Like: number n = 1
-							var value = parseFloat(global.value);
-							if (isNaN(value)) {
-								throw compiler.createError('Number expected, found "' + value + '".');
-							}
-							compilerData.declareConstant(global.offset, [value]);
-						} else if (global.type === wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY) { // Like: number arr[3] = [0, 1, 2]
-							var value = global.value.trim();
-							compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseNumberArray(value, compiler));
-						} else {
-							throw compiler.createError('Type error.');
-						}
-					}
-				}
-			} else {
+			} else if (compiler.getInProc()) {
 				/**
 				 * Declare a local number constant...
 				**/
@@ -113,6 +88,31 @@ wheel(
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
 								]
 							));
+						} else {
+							throw compiler.createError('Type error.');
+						}
+					}
+				}
+			} else {
+				/**
+				 * Declare a global number or array of numbers...
+				**/
+				for (var i = 0; i < params.length; i++) {
+					var global = compilerData.declareGlobal(params[i], wheel.compiler.command.T_NUMBER_GLOBAL, wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY, null, location, true);
+
+					/**
+					 * Check if the number declaration had a constant value assigned to it...
+					**/
+					if (global.value) {
+						if (global.type === wheel.compiler.command.T_NUMBER_GLOBAL) { // Like: number n = 1
+							var value = parseFloat(global.value);
+							if (isNaN(value)) {
+								throw compiler.createError('Number expected, found "' + value + '".');
+							}
+							compilerData.declareConstant(global.offset, [value]);
+						} else if (global.type === wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY) { // Like: number arr[3] = [0, 1, 2]
+							var value = global.value.trim();
+							compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseNumberArray(value, compiler));
 						} else {
 							throw compiler.createError('Type error.');
 						}

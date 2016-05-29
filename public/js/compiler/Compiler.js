@@ -139,6 +139,7 @@ wheel(
 							output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
 							this._procStartIndex = -1;
 							compilerData.resetLocal();
+							compilerData.removeLocalStructs();
 							break;
 
 						case 'set':
@@ -178,13 +179,13 @@ wheel(
 									throw this.createError('Unknown command "' + command + '".');
 								} else if (this._activeStruct !== null) {
 									throw this.createError('Nested structs are not supported "' + command + '".');
-								} else if (this._procStartIndex === -1) {
+								} else if (this.getInProc()) {
 									for (var j = 0; j < params.length; j++) {
-										compilerData.declareGlobal(params[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
+										compilerData.declareLocal(params[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
 									}
 								} else {
 									for (var j = 0; j < params.length; j++) {
-										compilerData.declareLocal(params[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
+										compilerData.declareGlobal(params[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
 									}
 								}
 							} else {
@@ -267,6 +268,10 @@ wheel(
 
 		this.setMainIndex = function(mainIndex) {
 			this._mainIndex = mainIndex;
+		};
+
+		this.getInProc = function() {
+			return (this._procStartIndex !== -1);
 		};
 	})
 );

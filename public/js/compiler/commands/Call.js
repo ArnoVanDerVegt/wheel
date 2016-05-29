@@ -48,7 +48,7 @@ wheel(
 							command: 	'call_var',
 							code: 		wheel.compiler.command.call_var.code,
 							params: [
-								{type: wheel.compiler.command.T_NUMBER_GLOBAL, 	value: global.offset},
+								{type: wheel.compiler.command.T_NUMBER_GLOBAL, 		value: global.offset},
 								{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
 							]
 						};
@@ -65,6 +65,7 @@ wheel(
 			var offset = currentLocalStackSize;
 			for (var i = 0; i < params.length; i++) {
 				var param = params[i].trim();
+				console.log(param);
 				if (param !== '') {
 					var paramInfo 	= compilerData.paramInfo(param),
 						destParam;
@@ -72,6 +73,9 @@ wheel(
 						size 		= vr ? (vr.size * vr.length) : 1;
 					switch (paramInfo.type) {
 						case wheel.compiler.command.T_NUMBER_CONSTANT:
+							if (paramInfo.metaType === wheel.compiler.command.T_STRING) {
+								paramInfo.value = compilerData.declareString(paramInfo.value);
+							}
 							destParam = {
 								type: 	wheel.compiler.command.T_NUMBER_LOCAL,
 								value: 	offset,
