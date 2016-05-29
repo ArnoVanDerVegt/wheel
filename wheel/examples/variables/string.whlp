@@ -2,20 +2,22 @@
     
 #include "/lib/standard.whl"
     
-string   s
+string   s[3]
+number n[3]
 
 proc main()
-	printS("test string")
-    ;set      s,                      "Hello world"
+	;arrayw n, 1, 13
+	arrayw s, 0, "Hello"
     
-    ;string   ls
-    ;set      ls,                     "My string"
-        
-    ;struct PrintString
-	;    string   s
-    ;ends
-    ;PrintString printString
-    ;set      printString.s,          ls
-    ;addr     printString
-    ;module   MODULE_STANDARD,        STANDARD_PRINT_STRING
+    string ss
+    ;set ss, "World"
+    arrayr ss, s, 0 
+    printS(ss)
+    
+    ;number nn
+    ;arrayr nn, n, 1
+    ;printN(nn)
+    
+	;printS("test string")
+    ;set      s,                      "Hello world"    
 endp
