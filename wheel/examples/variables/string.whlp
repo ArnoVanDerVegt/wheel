@@ -2,14 +2,14 @@
     
 #include "/lib/standard.whl"
     
-string   s[3]
-number n[3]
+;number n[3]
 
 proc main()
 	;arrayw n, 1, 13
-	arrayw s, 0, "Hello"
-    
-    string ss
+	;arrayw s, 0, "Hello"
+	string s[3] = ["aa", "ba", "bc"]
+
+    string ss ;= "Hello"
     ;set ss, "World"
     arrayr ss, s, 0 
     printS(ss)
