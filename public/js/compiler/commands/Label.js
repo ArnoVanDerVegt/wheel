@@ -28,11 +28,7 @@ wheel(
 					jumps = label.jumps;
 				for (var j = 0; j < jumps.length; j++) {
 					var outputCommand = outputCommands[jumps[j]];
-					if (outputCommand.code === wheel.compiler.command.loop.code) {
-						outputCommands[jumps[j]].params[1].value = label.index;
-					} else {
-						outputCommands[jumps[j]].params[0].value = label.index;
-					}
+					outputCommands[jumps[j]].params[0].value = label.index;
 				}
 			}
 		};

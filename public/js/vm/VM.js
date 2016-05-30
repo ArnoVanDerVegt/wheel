@@ -52,22 +52,6 @@ wheel(
 				}
 				if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
 					switch (command.command) {
-						case 'inc':
-							saveResult(v1 + 1);
-							break;
-
-						case 'dec':
-							saveResult(v1 - 1);
-							break;
-
-						case 'abs':
-							saveResult(Math.abs(v1));
-							break;
-
-						case 'neg':
-							saveResult(-v1);
-							break;
-
 						case 'copy':
 							var size 			= command.params[0].value,
 								regOffsetSrc 	= vmData.getRegisterByName('REG_OFFSET_SRC'),
@@ -82,40 +66,10 @@ wheel(
 							this._index = p1;
 							break;
 
-						case 'je':
-							vmData.getRegisterByName('REG_E') && (this._index = p1);
-							break;
-
-						case 'jne':
-							vmData.getRegisterByName('REG_NE') && (this._index = p1);
-							break;
-
-						case 'jl':
-							vmData.getRegisterByName('REG_L') && (this._index = p1);
-							break;
-
-						case 'jle':
-							vmData.getRegisterByName('REG_LE') && (this._index = p1);
-							break;
-
-						case 'jg':
-							vmData.getRegisterByName('REG_G') && (this._index = p1);
-							break;
-
-						case 'jge':
-							vmData.getRegisterByName('REG_GE') && (this._index = p1);
-							break;
-
 						case 'call':
 							vmData.pushRegOffsetStack(command.params[1].value);
 							this._callStack.push(this._index);
 							this._index = command.params[0].value - 1;
-							break;
-
-						case 'call_var':
-							vmData.pushRegOffsetStack(command.params[1].value);
-							this._callStack.push(this._index);
-							this._index = v1;
 							break;
 
 						default:
@@ -132,6 +86,10 @@ wheel(
 					}
 
 					switch (command.command) {
+						case 'jmpc':
+							v2 && (this._index = p1);
+							break;
+
 						case 'set':
 							saveResult(v2);
 							break;
@@ -157,18 +115,8 @@ wheel(
 							vmData.setRegisterByName('REG_NE', 	v1 != v2);
 							vmData.setRegisterByName('REG_L', 	v1 < v2);
 							vmData.setRegisterByName('REG_LE', 	v1 <= v2);
-							vmData.setRegisterByName('REG_G', 	v1 < v2);
+							vmData.setRegisterByName('REG_G', 	v1 > v2);
 							vmData.setRegisterByName('REG_GE', 	v1 >= v2);
-							break;
-
-						case 'loop':
-							result = v1 - 1;
-							switch (command.params[0].type) {
-								case wheel.compiler.command.T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
-								case wheel.compiler.command.T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
-								case wheel.compiler.command.T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 		break;
-							}
-							(result >= 0) && (this._index = command.params[1].value);
 							break;
 
 						case 'module':
@@ -230,3 +178,22 @@ wheel(
 		};
 	})
 );
+/*
+						case 'abs':
+							saveResult(Math.abs(v1));
+							break;
+
+						case 'neg':
+							saveResult(-v1);
+							break;
+
+						case 'loop':
+							result = v1 - 1;
+							switch (command.params[0].type) {
+								case wheel.compiler.command.T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
+								case wheel.compiler.command.T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
+								case wheel.compiler.command.T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 		break;
+							}
+							(result >= 0) && (this._index = command.params[1].value);
+							break;
+*/

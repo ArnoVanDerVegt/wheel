@@ -159,7 +159,8 @@ var wheelGrammar = {
 					'dec',
 					'abs',
 					'neg',
-					'loop',
+					'loopdn',
+					'loopup',
 					'arrayw',
 					'arrayr',
 					'module'

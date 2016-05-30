@@ -11,8 +11,7 @@ readLoop:
     number   value
     arrayr   value,                  list, counter
     printN(value)
-
-    loop     counter,                readLoop
+    loopdn   counter,                readLoop
 endp
 
 proc main()
@@ -23,10 +22,11 @@ writeLoop:
     set      value,                  counter
     mul      value,                  3
     arrayw   items,                  counter, value
-
-    loop     counter,                writeLoop
+    loopdn   counter,                writeLoop
 
     demoProcedure(items)
 
-    demoProcedure([5, 9, -2, 0, 7])
+	printS("----")
+    
+    demoProcedure([5, 9, -2, 7])
 endp

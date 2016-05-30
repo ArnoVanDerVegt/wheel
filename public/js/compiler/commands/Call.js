@@ -18,7 +18,7 @@ wheel(
 			if (p !== null) {
 				callCommand = {
 					command: 	'call',
-					code: 		wheel.compiler.command['call'].code,
+					code: 		wheel.compiler.command.call.code,
 					params: [
 						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index},
 						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
@@ -31,8 +31,8 @@ wheel(
 						throw compiler.createError('Type error, can not call "' + procedure + '".');
 					}
 					callCommand = {
-						command: 	'call_var',
-						code: 		wheel.compiler.command.call_var.code,
+						command: 	'call',
+						code: 		wheel.compiler.command.call.code,
 						params: [
 							{type: wheel.compiler.command.T_NUMBER_LOCAL, 		value: local.offset},
 							{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
@@ -45,8 +45,8 @@ wheel(
 							throw compiler.createError('Type error, can not call "' + procedure + '".');
 						}
 						callCommand = {
-							command: 	'call_var',
-							code: 		wheel.compiler.command.call_var.code,
+							command: 	'call',
+							code: 		wheel.compiler.command.call.code,
 							params: [
 								{type: wheel.compiler.command.T_NUMBER_GLOBAL, 		value: global.offset},
 								{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: currentLocalStackSize}
@@ -65,7 +65,6 @@ wheel(
 			var offset = currentLocalStackSize;
 			for (var i = 0; i < params.length; i++) {
 				var param = params[i].trim();
-				console.log(param);
 				if (param !== '') {
 					var paramInfo 	= compilerData.paramInfo(param),
 						destParam;

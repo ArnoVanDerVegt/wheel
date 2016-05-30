@@ -1,0 +1,14 @@
+proc round(number n)
+endp
+
+proc floor(number n)
+endp
+
+proc ceil(number n)
+endp
+
+proc abs(number n)
+endp
+
+proc neg(number n)
+endp

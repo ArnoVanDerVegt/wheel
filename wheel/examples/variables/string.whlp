@@ -2,21 +2,24 @@
     
 #include "/lib/standard.whl"
     
-;number n[3]
+number n[3]
 
 proc main()
 	;arrayw n, 1, 13
 	;arrayw s, 0, "Hello"
-	string s[3] = ["aa", "ba", "bc"]
+	;string s[3] = ["aa", "ba", "bc"]
 
-    string ss ;= "Hello"
+    ;string ss = "Hello"
     ;set ss, "World"
-    arrayr ss, s, 0 
-    printS(ss)
-    
-    ;number nn
-    ;arrayr nn, n, 1
-    ;printN(nn)
+    ;arrayr ss, s, 2 
+    ;printS(ss)
+    ;je test
+;test:
+	arrayw n, 1, 13
+    number nn
+    ;inc nn
+    arrayr nn, n, 1
+    printN(nn)
     
 	;printS("test string")
     ;set      s,                      "Hello world"    

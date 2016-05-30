@@ -9,13 +9,13 @@
 wheel(
 	'compiler.commands.ArrayR',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-		this.compile = function(command, params) {
+		this.compile = function(command) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
 				size 			= 1,
-				valueParam 		= params[0],
-				arrayParam 		= params[1],
-				indexParam 		= params[2];
+				valueParam 		= command.params[0],
+				arrayParam 		= command.params[1],
+				indexParam 		= command.params[2];
 
 			if ((valueParam.type === wheel.compiler.command.T_STRUCT_GLOBAL) ||
 				(valueParam.type === wheel.compiler.command.T_STRUCT_LOCAL)) {

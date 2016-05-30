@@ -395,7 +395,8 @@ wheel(
 			} else {
 				var offset,
 					vr 		= null,
-					type 	= null;
+					type 	= null,
+					label 	= null;
 
 				var register = this.findRegister(param);
 				if (register !== null) {
@@ -420,8 +421,8 @@ wheel(
 								type 	= wheel.compiler.command.T_PROC;
 								vr 		= procedure;
 							} else {
-								offset = 0;
-								var label = this.findLabel(param);
+								offset 	= 0;
+								label 	= this.findLabel(param);
 								if (label !== null) {
 									label.jumps.push(this._compiler.getOutput().getLength());
 									type = wheel.compiler.command.T_LABEL;
@@ -440,7 +441,8 @@ wheel(
 					type: 	type,
 					vr: 	vr,
 					value: 	offset,
-					param: 	param
+					param: 	param,
+					label: 	label
 				}
 			}
 		};

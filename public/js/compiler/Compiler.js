@@ -25,13 +25,36 @@ wheel(
 					'Label',
 					'ArrayR',
 					'ArrayW',
-					'Addr'
-				];
+					'Addr',
+					'LoopDn',
+					'LoopUp',
+					'JmpC',
+					'Inc',
+					'Dec'
+				],
+				compilers = {};
 
-			this._compilers = {};
 			for (var i = 0; i < constructors.length; i++) {
-				this._compilers[constructors[i]] = new wheel.compiler.commands[constructors[i]](compilerOpts); // Needs namespace!
+				compilers[constructors[i]] = new wheel.compiler.commands[constructors[i]](compilerOpts); // Needs namespace!
 			}
+			this._compilers = compilers;
+
+			this._compilerByCommand = {
+				inc: 	compilers.Inc,
+				dec: 	compilers.Dec,
+				je: 	compilers.JmpC,
+				jne: 	compilers.JmpC,
+				jl: 	compilers.JmpC,
+				jle: 	compilers.JmpC,
+				jg: 	compilers.JmpC,
+				jge: 	compilers.JmpC,
+				set: 	compilers.Set,
+				addr: 	compilers.Addr,
+				arrayr: compilers.ArrayR,
+				arrayw: compilers.ArrayW,
+				loopdn: compilers.LoopDn,
+				loopup: compilers.LoopUp
+			};
 		};
 
 		this.createError = function(message) {
@@ -91,8 +114,9 @@ wheel(
 		};
 
 		this.compileLines = function(lines) {
-			var compilerData 	= this._compilerData,
-				output 			= this._output;
+			var compilerByCommand 	= this._compilerByCommand,
+				compilerData 		= this._compilerData,
+				output 				= this._output;
 
 			this._procStartIndex 	= -1;
 			this._activeStruct 		= null;
@@ -122,6 +146,10 @@ wheel(
 						command = line.substr(0, spacePos),
 						params 	= line.substr(spacePos - line.length + 1).trim();
 					}
+					var splitParams 		= wheel.compiler.compilerHelper.splitParams(params),
+						validatedCommand 	= this.validateCommand(command, splitParams);
+
+					validatedCommand && (validatedCommand._command = command);
 
 					switch (command) {
 						case 'proc':
@@ -142,11 +170,6 @@ wheel(
 							compilerData.removeLocalStructs();
 							break;
 
-						case 'set':
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							this._compilers.Set.compile(this.validateCommand(command, params));
-							break;
-
 						case 'struct':
 							this._activeStruct = compilerData.declareStruct(params, command, location);
 							break;
@@ -156,52 +179,33 @@ wheel(
 							break;
 
 						case 'number':
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							this._compilers.NumberDeclaration.compile(params);
+							this._compilers.NumberDeclaration.compile(splitParams);
 							break;
 
 						case 'string':
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							this._compilers.StringDeclaration.compile(params);
-							break;
-
-						case 'addr':
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							this._compilers.Addr.compile(this.validateCommand(command, params));
+							this._compilers.StringDeclaration.compile(splitParams);
 							break;
 
 						default:
-							params = wheel.compiler.compilerHelper.splitParams(params);
-							var validatedCommand = this.validateCommand(command, params);
-							if (validatedCommand === false) {
+							if (command in compilerByCommand) {
+								compilerByCommand[command].compile(validatedCommand);
+							} else if (validatedCommand === false) {
 								var struct = compilerData.findStruct(command);
 								if (struct === null) {
 									throw this.createError('Unknown command "' + command + '".');
 								} else if (this._activeStruct !== null) {
 									throw this.createError('Nested structs are not supported "' + command + '".');
 								} else if (this.getInProc()) {
-									for (var j = 0; j < params.length; j++) {
-										compilerData.declareLocal(params[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
+									for (var j = 0; j < splitParams.length; j++) {
+										compilerData.declareLocal(splitParams[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
 									}
 								} else {
-									for (var j = 0; j < params.length; j++) {
-										compilerData.declareGlobal(params[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
+									for (var j = 0; j < splitParams.length; j++) {
+										compilerData.declareGlobal(splitParams[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
 									}
 								}
 							} else {
-								switch (validatedCommand.command) {
-									case 'arrayr': // Array read...
-										this._compilers.ArrayR.compile(validatedCommand, params);
-										break;
-
-									case 'arrayw': // Array write...
-										this._compilers.ArrayW.compile(validatedCommand, params);
-										break;
-
-									default:
-										this.getOutput().add(validatedCommand);
-										break;
-								}
+								this.getOutput().add(validatedCommand);
 							}
 							break;
 					}

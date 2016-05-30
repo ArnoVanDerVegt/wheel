@@ -131,13 +131,13 @@ wheel(
 			});
 		};
 
-		this.compile = function(command, params) {
+		this.compile = function(command) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
 				size 			= 1,
-				arrayParam 		= params[0],
-				indexParam 		= params[1],
-				valueParam 		= params[2];
+				arrayParam 		= command.params[0],
+				indexParam 		= command.params[1],
+				valueParam 		= command.params[2];
 
 			if ((arrayParam.type === wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY) ||
 				(arrayParam.type === wheel.compiler.command.T_STRUCT_LOCAL_ARRAY)) {
