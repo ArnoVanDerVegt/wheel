@@ -53,7 +53,10 @@ wheel(
 				arrayr: compilers.ArrayR,
 				arrayw: compilers.ArrayW,
 				loopdn: compilers.LoopDn,
-				loopup: compilers.LoopUp
+				loopup: compilers.LoopUp,
+				number: compilers.NumberDeclaration,
+				string: compilers.StringDeclaration,
+				proc: 	compilers.ProcedureDeclaration
 			};
 		};
 
@@ -152,10 +155,6 @@ wheel(
 					validatedCommand && (validatedCommand._command = command);
 
 					switch (command) {
-						case 'proc':
-							this._compilers.ProcedureDeclaration.compile(params);
-							break;
-
 						case 'endp':
 							if (this._activeStruct !== null) {
 								throw this.createError('Invalid command "endp".');
@@ -178,17 +177,9 @@ wheel(
 							this._activeStruct = null;
 							break;
 
-						case 'number':
-							this._compilers.NumberDeclaration.compile(splitParams);
-							break;
-
-						case 'string':
-							this._compilers.StringDeclaration.compile(splitParams);
-							break;
-
 						default:
 							if (command in compilerByCommand) {
-								compilerByCommand[command].compile(validatedCommand);
+								compilerByCommand[command].compile(validatedCommand, splitParams, params);
 							} else if (validatedCommand === false) {
 								var struct = compilerData.findStruct(command);
 								if (struct === null) {

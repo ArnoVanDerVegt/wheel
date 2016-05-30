@@ -6,17 +6,17 @@ number   items[5]
 
 proc demoProcedure(number list[5])
     number   counter
-    set      counter,                4
+    set      counter,                0
 readLoop:
     number   value
     arrayr   value,                  list, counter
     printN(value)
-    loopdn   counter,                readLoop
+    loopup   counter,                4, readLoop
 endp
 
 proc main()
     number   counter
-    set      counter,                4
+    set      counter,                3
 writeLoop:
     number   value
     set      value,                  counter

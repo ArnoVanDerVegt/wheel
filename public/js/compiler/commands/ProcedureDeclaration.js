@@ -46,7 +46,7 @@ wheel(
 			return procStartIndex;
 		};
 
-		this.compile = function(params) {
+		this.compile = function(validatedCommand, splitParams, params) {
 			var compiler 		= this._compiler,
 				compilerData 	= this._compilerData,
 				j 				= params.indexOf('(');

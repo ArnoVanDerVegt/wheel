@@ -9,8 +9,9 @@
 wheel(
 	'compiler.commands.NumberDeclaration',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-		this.compile = function(params) {
+		this.compile = function(validatedCommand, params) {
 			var compiler 		= this._compiler,
+				compilerOutput 	= compiler.getOutput(),
 				compilerData 	= this._compilerData;
 
 			if (compiler.getActiveStruct() !== null) {
@@ -37,7 +38,7 @@ wheel(
 								throw compiler.createError('Number expected, found "' + value + '".');
 							}
 							// Set the the value at the address of the local variable...
-							compiler.getOutput().add(compiler.createCommand(
+							compilerOutput.add(compiler.createCommand(
 								'set',
 								[
 									{type: wheel.compiler.command.T_NUMBER_LOCAL, 		value: local.offset},
@@ -51,7 +52,7 @@ wheel(
 							compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseNumberArray(local.value, compiler));
 
 							// Copy the data from the global offset to the local offset...
-							compiler.getOutput().add(compiler.createCommand(
+							compilerOutput.add(compiler.createCommand(
 								'set',
 								[
 									{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
@@ -59,7 +60,7 @@ wheel(
 								]
 							));
 							if (local.offset === 0) {
-								compiler.getOutput().add(compiler.createCommand(
+								compilerOutput.add(compiler.createCommand(
 									'set',
 									[
 										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
@@ -67,14 +68,14 @@ wheel(
 									]
 								));
 							} else {
-								compiler.getOutput().add(compiler.createCommand(
+								compilerOutput.add(compiler.createCommand(
 									'set',
 									[
 										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
 										{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: local.offset}
 									]
 								));
-								compiler.getOutput().add(compiler.createCommand(
+								compilerOutput.add(compiler.createCommand(
 									'add',
 									[
 										{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
@@ -82,7 +83,7 @@ wheel(
 									]
 								));
 							}
-							compiler.getOutput().add(compiler.createCommand(
+							compilerOutput.add(compiler.createCommand(
 								'copy',
 								[
 									{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}

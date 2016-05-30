@@ -11,27 +11,37 @@ wheel(
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			var compilerData 	= this._compilerData,
-				param 			= validatedCommand.params[0];
-/*
-			this._compiler.getOutput().add({
-				command: 	'set',
-				code: 		wheel.compiler.command.set.code,
+				compilerOutput 	= this._compiler.getOutput(),
+				counterParam 	= validatedCommand.params[0],
+				maxParam 		= validatedCommand.params[1],
+				labelParam 		= validatedCommand.params[2];
+
+			labelParam.label.jumps[labelParam.label.jumps.length - 1] += 2;
+
+			compilerOutput.add({
+				command: 	'add',
+				code: 		wheel.compiler.command.sub.code,
 				params: [
-					{type: 	wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-					{type: 	wheel.compiler.command.T_NUMBER_CONSTANT, value: param.value}
+					JSON.parse(JSON.stringify(counterParam)),
+					{type: 	wheel.compiler.command.T_NUMBER_CONSTANT, value: 1}
 				]
 			});
-			if (wheel.compiler.command.typeToLocation(param.type) === 'local') {
-				this._compiler.getOutput().add({
-					command: 	'add',
-					code: 		wheel.compiler.command.add.code,
-					params: [
-						{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-						{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
-					]
-				});
-			}
-*/
+			compilerOutput.add({
+				command: 	'cmp',
+				code: 		wheel.compiler.command.sub.code,
+				params: [
+					JSON.parse(JSON.stringify(counterParam)),
+					JSON.parse(JSON.stringify(maxParam))
+				]
+			});
+			compilerOutput.add({
+				command: 	'jmpc',
+				code: 		wheel.compiler.command.sub.code,
+				params: [
+					labelParam,
+					{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_L').index}
+				]
+			});
 		};
 	})
 );

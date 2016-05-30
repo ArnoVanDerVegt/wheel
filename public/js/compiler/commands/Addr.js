@@ -11,9 +11,10 @@ wheel(
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			var compilerData 	= this._compilerData,
+				compilerOutput 	= this._compiler.getOutput(),
 				param 			= validatedCommand.params[0];
 
-			this._compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -22,7 +23,7 @@ wheel(
 				]
 			});
 			if (wheel.compiler.command.typeToLocation(param.type) === 'local') {
-				this._compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [

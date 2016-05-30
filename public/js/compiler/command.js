@@ -934,6 +934,10 @@
 						type: T_NUMBER_GLOBAL,
 						args: [
 							{
+								type: T_NUMBER_CONSTANT,
+								args: [{type: T_LABEL}]
+							},
+							{
 								type: T_NUMBER_GLOBAL,
 								args: [{type: T_LABEL}]
 							},
@@ -951,6 +955,10 @@
 						type: T_NUMBER_LOCAL,
 						args: [
 							{
+								type: T_NUMBER_CONSTANT,
+								args: [{type: T_LABEL}]
+							},
+							{
 								type: T_NUMBER_GLOBAL,
 								args: [{type: T_LABEL}]
 							},
@@ -967,6 +975,10 @@
 					{
 						type: T_NUMBER_REGISTER,
 						args: [
+							{
+								type: T_NUMBER_CONSTANT,
+								args: [{type: T_LABEL}]
+							},
 							{
 								type: T_NUMBER_GLOBAL,
 								args: [{type: T_LABEL}]

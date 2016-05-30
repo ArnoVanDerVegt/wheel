@@ -10,11 +10,11 @@ wheel(
 	'compiler.commands.ArrayW',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compileDestSetup = function(arrayParam, indexParam, valueParam, size) {
-			var compiler 		= this._compiler,
+			var compilerOutput 	= this._compiler.getOutput(),
 				compilerData 	= this._compilerData;
 
 			// The second parameter contains the index...
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -23,7 +23,7 @@ wheel(
 				]
 			});
 			// Check if the item size is greater than 1, if so multiply with the item size...
-			(size > 1) && compiler.getOutput().add({
+			(size > 1) && compilerOutput.add({
 				command: 	'mul',
 				code: 		wheel.compiler.command.mul.code,
 				params: [
@@ -33,7 +33,7 @@ wheel(
 			});
 			if (arrayParam.value !== 0) {
 				// Add the offset of the destination var to the REG_OFFSET_DEST register...
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -43,7 +43,7 @@ wheel(
 				});
 			}
 			if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -55,11 +55,11 @@ wheel(
 		};
 
 		this.compileVarWrite = function(arrayParam, indexParam, valueParam, size) {
-			var compiler 		= this._compiler,
+			var compilerOutput 	= this._compiler.getOutput(),
 				compilerData 	= this._compilerData;
 
 			// Set the offset of the source value...
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -68,7 +68,7 @@ wheel(
 				]
 			});
 			if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -78,7 +78,7 @@ wheel(
 				});
 			}
 
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'copy',
 				code: 		wheel.compiler.command.copy.code,
 				params: [
@@ -89,14 +89,14 @@ wheel(
 		};
 
 		this.compileConstWrite = function(arrayParam, indexParam, valueParam) {
-			var compiler 		= this._compiler,
+			var compilerOutput 	= this._compiler.getOutput(),
 				compilerData 	= this._compilerData,
 				localOffset 	= compilerData.getLocalOffset();
 
 			if (valueParam.metaType === wheel.compiler.command.T_STRING) {
 				valueParam.value = compilerData.declareString(valueParam.value);
 			}
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -104,7 +104,7 @@ wheel(
 					{type: wheel.compiler.command.T_NUMBER_CONSTANT, 	value: valueParam.value}
 				]
 			});
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.add.code,
 				params: [
@@ -112,7 +112,7 @@ wheel(
 					{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
 				]
 			});
-			localOffset && compiler.getOutput().add({
+			localOffset && compilerOutput.add({
 				command: 	'add',
 				code: 		wheel.compiler.command.add.code,
 				params: [
@@ -121,7 +121,7 @@ wheel(
 				]
 			});
 
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'copy',
 				code: 		wheel.compiler.command.copy.code,
 				params: [
@@ -132,7 +132,7 @@ wheel(
 		};
 
 		this.compile = function(command) {
-			var compiler 		= this._compiler,
+			var compiler 		= this._compilerData,
 				compilerData 	= this._compilerData,
 				size 			= 1,
 				arrayParam 		= command.params[0],

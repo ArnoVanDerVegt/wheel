@@ -11,6 +11,7 @@ wheel(
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(command) {
 			var compiler 		= this._compiler,
+				compilerOutput 	= this._compiler.getOutput(),
 				compilerData 	= this._compilerData,
 				size 			= 1,
 				valueParam 		= command.params[0],
@@ -28,7 +29,7 @@ wheel(
 			}
 
 			// The second parameter contains the index...
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -37,7 +38,7 @@ wheel(
 				]
 			});
 			// Check if the item size is greater than 1, if so multiply with the item size...
-			(size > 1) && compiler.getOutput().add({
+			(size > 1) && compilerOutput.add({
 				command: 	'mul',
 				code: 		wheel.compiler.command.mul.code,
 				params: [
@@ -47,7 +48,7 @@ wheel(
 			});
 			if (arrayParam.value !== 0) {
 				// Add the offset of the source var to the REG_OFFSET_SRC register...
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -57,7 +58,7 @@ wheel(
 				});
 			}
 			if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -68,7 +69,7 @@ wheel(
 			}
 
 			// Set the offset of the destination value...
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'set',
 				code: 		wheel.compiler.command.set.code,
 				params: [
@@ -77,7 +78,7 @@ wheel(
 				]
 			});
 			if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {
-				compiler.getOutput().add({
+				compilerOutput.add({
 					command: 	'add',
 					code: 		wheel.compiler.command.add.code,
 					params: [
@@ -87,7 +88,7 @@ wheel(
 				});
 			}
 
-			compiler.getOutput().add({
+			compilerOutput.add({
 				command: 	'copy',
 				code: 		wheel.compiler.command.copy.code,
 				params: [
