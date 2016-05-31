@@ -18,5 +18,7 @@ proc main()
     set      point.x,                -5
     set      point.y,                9
     set      point.z,                -3
-    printPoint(point)
+    Point *p
+    set p, &point
+    printPoint(*p)
 endp

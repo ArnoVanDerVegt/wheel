@@ -74,6 +74,13 @@ wheel(
 
 		/* Global */
 		this.declareGlobal = function(name, type, arrayType, struct, location, allowConstant) {
+			var metaType 	= null;
+
+			if (name[0] === '*') {
+				name 		= name.substr(1 - name.length);
+				metaType 	= wheel.compiler.command.T_META_POINTER;
+			}
+
 			var vr 			= this._parseVariable(name);
 				globalList 	= this._globalList,
 				size 		= struct ? struct.size : 1;
@@ -87,7 +94,7 @@ wheel(
 
 			var global = {
 					type: 		(vr.length === 1) ? type : arrayType,
-					metaType: 	null,
+					metaType: 	metaType,
 					offset: 	this._globalOffset,
 					size: 		size,
 					length: 	vr.length,
@@ -96,6 +103,10 @@ wheel(
 					location: 	location
 				};
 			globalList[vr.name] = global;
+
+			if (metaType === wheel.compiler.command.T_META_POINTER) {
+				size = 1; // Only use 1 number for a pointer, the struct size might differ...
+			}
 			this._globalOffset += vr.length * size;
 
 			return global;
@@ -171,6 +182,13 @@ wheel(
 		};
 
 		this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
+			var metaType 	= null;
+
+			if (name[0] === '*') {
+				name 		= name.substr(1 - name.length);
+				metaType 	= wheel.compiler.command.T_META_POINTER;
+			}
+
 			var vr 			= this._parseVariable(name),
 				localList 	= this._localList,
 				size 		= struct ? struct.size : 1;
@@ -184,6 +202,7 @@ wheel(
 
 			var local = {
 					type: 		(vr.length === 1) ? type : arrayType,
+					metaType: 	metaType,
 					offset: 	this._localOffset,
 					size: 		size,
 					length: 	vr.length,
@@ -191,6 +210,10 @@ wheel(
 					struct: 	struct ? struct : null
 				};
 			localList[vr.name] = local;
+
+			if (metaType === wheel.compiler.command.T_META_POINTER) {
+				size = 1; // Only use 1 number for a pointer, the struct size might differ...
+			}
 			this._localOffset += vr.length * size;
 
 			return local;
@@ -331,6 +354,13 @@ wheel(
 		};
 
 		this.declareStructField = function(name, type, arrayType) {
+			var metaType 	= null;
+
+			if (name[0] === '*') {
+				name 		= name.substr(1 - name.length);
+				metaType 	= wheel.compiler.command.T_META_POINTER;
+			}
+
 			var struct = this._struct;
 			if (!struct) {
 				return null;
@@ -344,6 +374,7 @@ wheel(
 
 			var structField = {
 					type: 		(vr.length === 1) ? type : arrayType,
+					metaType: 	metaType,
 					offset: 	this._structOffset,
 					size: 		1,
 					length: 	vr.length
@@ -376,7 +407,7 @@ wheel(
 			} else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
 				return {
 					type: 		wheel.compiler.command.T_NUMBER_CONSTANT,
-					metaType: 	wheel.compiler.command.T_STRING,
+					metaType: 	wheel.compiler.command.T_META_STRING,
 					value: 		param.substr(1, param.length - 2),
 					param: 		param
 				};
@@ -394,22 +425,34 @@ wheel(
 				};
 			} else {
 				var offset,
-					vr 		= null,
-					type 	= null,
-					label 	= null;
+					vr 			= null,
+					type 		= null,
+					metaType 	= null,
+					label 		= null;
 
 				var register = this.findRegister(param);
 				if (register !== null) {
 					type 	= register.type;
 					offset 	= register.index;
 				} else {
-					var local = this.findLocal(param);
+					var name = param;
+					if (name.length) {
+						if (name[0] === '&') {
+							name 		= name.substr(1 - name.length);
+							metaType 	= wheel.compiler.command.T_META_ADDRESS;
+						} else if (name[0] === '*') {
+							name 		= name.substr(1 - name.length);
+							metaType 	= wheel.compiler.command.T_META_POINTER;
+						}
+					}
+
+					var local = this.findLocal(name);
 					if (local !== null) {
 						offset 	= local.offset;
 						type 	= local.type;
 						vr 		= local;
 					} else {
-						var global = this.findGlobal(param);
+						var global = this.findGlobal(name);
 						if (global !== null) {
 							offset 	= global.offset;
 							type 	= global.type;
@@ -433,16 +476,16 @@ wheel(
 				}
 
 				if (type === null) {
-					console.log(this);
 					throw this._compiler.createError('Undefined identifier "' + param + '".');
 				}
 
 				return {
-					type: 	type,
-					vr: 	vr,
-					value: 	offset,
-					param: 	param,
-					label: 	label
+					type: 		type,
+					metaType: 	metaType,
+					vr: 		vr,
+					value: 		offset,
+					param: 		param,
+					label: 		label
 				}
 			}
 		};

@@ -1,0 +1,22 @@
+#project "Number demo"
+    
+#include "/lib/standard.whl"
+    
+number   n
+number   *g                                 ; Global variable
+    
+; roc testPointer(number *pn)
+; printN(*pn)
+; ndp
+    
+proc main()
+    number   l                              ; number   l;
+    number   *lp
+    
+    set      n,                      19
+    set      l,                      15
+    set      lp,                     &n
+    set      g,                      &n
+    
+    printN(*g)
+endp

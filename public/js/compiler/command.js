@@ -20,7 +20,9 @@
 		T_PROC_LOCAL 			= 14,
 		T_PROC_LOCAL_ARRAY 		= 15,
 
-		T_STRING 				= 16,
+		T_META_STRING 			=  1,
+		T_META_POINTER 			=  2,
+		T_META_ADDRESS 			=  3,
 
 		NO_PARAM_COMMANDS 		=  0,
 		SINGLE_PARAM_COMMANDS 	=  3;
@@ -112,6 +114,26 @@
 							{type: T_PROC_GLOBAL},
 							{type: T_PROC_LOCAL},
 							{type: T_PROC}
+						]
+					},
+					{
+						type: 		T_STRUCT_LOCAL,
+						metaType: 	T_META_POINTER,
+						args: [
+							{type: T_STRUCT_GLOBAL, metaType: T_META_POINTER},
+							{type: T_STRUCT_GLOBAL, metaType: T_META_ADDRESS},
+							{type: T_STRUCT_LOCAL, 	metaType: T_META_POINTER},
+							{type: T_STRUCT_LOCAL, 	metaType: T_META_ADDRESS}
+						]
+					},
+					{
+						type: 		T_STRUCT_GLOBAL,
+						metaType: 	T_META_POINTER,
+						args: [
+							{type: T_STRUCT_GLOBAL, metaType: T_META_POINTER},
+							{type: T_STRUCT_GLOBAL, metaType: T_META_ADDRESS},
+							{type: T_STRUCT_LOCAL, 	metaType: T_META_POINTER},
+							{type: T_STRUCT_LOCAL, 	metaType: T_META_ADDRESS}
 						]
 					}
 				]
@@ -1018,7 +1040,9 @@
 	wheel('compiler.command.T_PROC_LOCAL', 			T_PROC_LOCAL);
 	wheel('compiler.command.T_PROC_LOCAL_ARRAY', 	T_PROC_LOCAL_ARRAY);
 
-	wheel('compiler.command.T_STRING', 				T_STRING);
+	wheel('compiler.command.T_META_STRING', 		T_META_STRING);
+	wheel('compiler.command.T_META_POINTER', 		T_META_POINTER);
+	wheel('compiler.command.T_META_ADDRESS', 		T_META_ADDRESS);
 
 	wheel('compiler.command.NO_PARAM_COMMANDS', 	NO_PARAM_COMMANDS);
 	wheel('compiler.command.SINGLE_PARAM_COMMANDS',	SINGLE_PARAM_COMMANDS);

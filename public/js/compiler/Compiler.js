@@ -79,9 +79,25 @@ wheel(
 						found = false;
 
 					for (var j = 0; j < args.length; j++) {
-						var argsType = args[j].type,
-							matchType = (param.type === args[j].type) ||
-								(param.vr && param.vr.field && (param.vr.field.type === args[j].type));
+						var argsType 		= args[j].type,
+							argsMetaType 	= args[j].metaType || false,
+							matchType 		= false;
+
+						// Check the primitive types...
+						if (param.type === args[j].type) {
+							if (argsMetaType) {
+								if (param.metaType === argsMetaType) {
+									matchType = true;
+								} else if (param.vr && (param.vr.metaType === argsMetaType)) {
+									matchType = true;
+								}
+							} else {
+								matchType = true;
+							}
+						// Check the var types...
+						} else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+							matchType = true;
+						}
 
 						if (matchType) {
 							args 	= ('args' in args[j]) ? args[j].args : args[j];

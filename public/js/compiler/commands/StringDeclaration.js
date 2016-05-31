@@ -20,7 +20,7 @@ wheel(
 				**/
 				for (var i = 0; i < params.length; i++) {
 					var structField = compilerData.declareStructField(params[i], wheel.compiler.command.T_NUMBER_GLOBAL, wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY);
-					structField && (structField.metaType = wheel.compiler.command.T_STRING);
+					structField && (structField.metaType = wheel.compiler.command.T_META_STRING);
 				}
 			} else if (compiler.getInProc()) {
 				/**
@@ -28,7 +28,7 @@ wheel(
 				**/
 				for (var j = 0; j < params.length; j++) {
 					var local = compilerData.declareLocal(params[j], wheel.compiler.command.T_NUMBER_LOCAL, wheel.compiler.command.T_NUMBER_LOCAL_ARRAY, null, true);
-					local.metaType = wheel.compiler.command.T_STRING;
+					local.metaType = wheel.compiler.command.T_META_STRING;
 
 					/**
 					 * Check if the string declaration had a constant value assigned to it...
@@ -106,7 +106,7 @@ wheel(
 				**/
 				for (var i = 0; i < params.length; i++) {
 					var global = compilerData.declareGlobal(params[i], wheel.compiler.command.T_NUMBER_GLOBAL, wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY, null, location, true);
-					global.metaType = wheel.compiler.command.T_STRING;
+					global.metaType = wheel.compiler.command.T_META_STRING;
 					/**
 					 * Check if the string declaration had a constant value assigned to it...
 					**/

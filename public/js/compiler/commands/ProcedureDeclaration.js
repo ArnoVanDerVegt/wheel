@@ -29,7 +29,7 @@ wheel(
 
 					case 'string':
 						var local = compilerData.declareLocal(param[1], wheel.compiler.command.T_NUMBER_LOCAL, wheel.compiler.command.T_NUMBER_LOCAL_ARRAY, false);
-						local.metaType = wheel.compiler.command.T_STRING;
+						local.metaType = wheel.compiler.command.T_META_STRING;
 						break;
 
 					default:

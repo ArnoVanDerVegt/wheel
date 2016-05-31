@@ -93,7 +93,7 @@ wheel(
 				compilerData 	= this._compilerData,
 				localOffset 	= compilerData.getLocalOffset();
 
-			if (valueParam.metaType === wheel.compiler.command.T_STRING) {
+			if (valueParam.metaType === wheel.compiler.command.T_META_STRING) {
 				valueParam.value = compilerData.declareString(valueParam.value);
 			}
 			compilerOutput.add({
