@@ -20,6 +20,7 @@ wheel(
 			this._modules[1]	= new wheel.vm.modules.ScreenModule({vm: this, vmData: this._vmData});
 			this._modules[2]	= new wheel.vm.modules.MotorModule({vm: this, vmData: this._vmData});
 			this._modules[3]	= new wheel.vm.modules.SensorModule({vm: this, vmData: this._vmData});
+			this._modules[4]	= new wheel.vm.modules.MathModule({vm: this, vmData: this._vmData});
 		};
 
 		this.runCommand = function(command) {

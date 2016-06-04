@@ -38,7 +38,7 @@ wheel(
 					code: 		wheel.compiler.command.add.code,
 					params: [
 						{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseInt(arrayParam.value, 10)}
+						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseFloat(arrayParam.value)}
 					]
 				});
 			}
@@ -64,7 +64,7 @@ wheel(
 				code: 		wheel.compiler.command.set.code,
 				params: [
 					{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-					{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseInt(valueParam.value, 10)}
+					{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseFloat(valueParam.value)}
 				]
 			});
 			if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {

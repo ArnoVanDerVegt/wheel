@@ -103,7 +103,7 @@ var VMData = Class(function() {
 			this._registerValues[regIndex] = stackOffset;
 		};
 
-		this.getDataFromRegOffset = function(count) {
+		this.getDataAtRegOffset = function(count) {
 			var regOffsetSrc 	= this.getRegisterByName('REG_OFFSET_SRC'),
 				result 			= [];
 
@@ -113,7 +113,7 @@ var VMData = Class(function() {
 			return result;
 		};
 
-		this.getRecordFromRegOffset = function(recordFields) {
+		this.getRecordFromAtOffset = function(recordFields) {
 			var regOffsetSrc 	= this.getRegisterByName('REG_OFFSET_SRC'),
 				result 			= {};
 
@@ -121,5 +121,13 @@ var VMData = Class(function() {
 				result[recordFields[i]] = this._data[regOffsetSrc + i];
 			}
 			return result;
+		};
+
+		this.getNumberAtRegOffset = function() {
+			return this._data[this.getRegisterByName('REG_OFFSET_SRC')];
+		};
+
+		this.setNumberAtRegOffset = function(value) {
+			return this._data[this.getRegisterByName('REG_OFFSET_SRC')] = value;
 		};
 	});

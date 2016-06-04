@@ -1,5 +1,5 @@
 wheel(
-	'compiler.commands.Dec',
+	'compiler.commands.NumberDec',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			validatedCommand.command 		= 'sub';

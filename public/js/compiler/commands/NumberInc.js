@@ -1,5 +1,5 @@
 wheel(
-	'compiler.commands.Inc',
+	'compiler.commands.NumberInc',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			validatedCommand.command 		= 'add';

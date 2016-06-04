@@ -18,6 +18,9 @@ wheel(
 				},
 				constructors = [
 					'NumberDeclaration',
+					'NumberInc',
+					'NumberDec',
+					'NumberOperator',
 					'StringDeclaration',
 					'ProcedureDeclaration',
 					'Set',
@@ -28,9 +31,7 @@ wheel(
 					'Addr',
 					'LoopDn',
 					'LoopUp',
-					'JmpC',
-					'Inc',
-					'Dec'
+					'JmpC'
 				],
 				compilers = {};
 
@@ -40,8 +41,6 @@ wheel(
 			this._compilers = compilers;
 
 			this._compilerByCommand = {
-				inc: 	compilers.Inc,
-				dec: 	compilers.Dec,
 				je: 	compilers.JmpC,
 				jne: 	compilers.JmpC,
 				jl: 	compilers.JmpC,
@@ -55,6 +54,16 @@ wheel(
 				loopdn: compilers.LoopDn,
 				loopup: compilers.LoopUp,
 				number: compilers.NumberDeclaration,
+				inc: 	compilers.NumberInc,
+				dec: 	compilers.NumberDec,
+				add: 	compilers.NumberOperator,
+				sub: 	compilers.NumberOperator,
+				mul: 	compilers.NumberOperator,
+				div: 	compilers.NumberOperator,
+				and: 	compilers.NumberOperator,
+				or: 	compilers.NumberOperator,
+				cmp: 	compilers.NumberOperator,
+				mod: 	compilers.NumberOperator,
 				string: compilers.StringDeclaration,
 				proc: 	compilers.ProcedureDeclaration
 			};
@@ -168,7 +177,7 @@ wheel(
 					var splitParams 		= wheel.compiler.compilerHelper.splitParams(params),
 						validatedCommand 	= this.validateCommand(command, splitParams);
 
-					validatedCommand && (validatedCommand._command = command);
+					validatedCommand && (validatedCommand.command = command);
 
 					switch (command) {
 						case 'endp':

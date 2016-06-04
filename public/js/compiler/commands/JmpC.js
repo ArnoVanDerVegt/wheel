@@ -3,7 +3,7 @@ wheel(
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			var compilerData 	= this._compilerData,
-				command 		= validatedCommand._command;
+				command 		= validatedCommand.command;
 
 			validatedCommand.command 	= 'jmpc';
 			validatedCommand.code 		= wheel.compiler.command.jmpc.code;

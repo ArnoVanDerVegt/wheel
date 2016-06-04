@@ -6,12 +6,12 @@ wheel(
 
 			switch (commandId) {
 				case 0: // STANDARD_PRINT_NUMBER
-					var printNumber = vmData.getRecordFromRegOffset(['n']);
+					var printNumber = vmData.getRecordFromAtOffset(['n']);
 					console.log(printNumber.n);
 					break;
 
 				case 1: // STANDARD_PRINT_STRING
-					var printString = vmData.getRecordFromRegOffset(['s']);
+					var printString = vmData.getRecordFromAtOffset(['s']);
 					console.log(vmData.getStringList()[printString.s]);
 					break;
 			}

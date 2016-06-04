@@ -1,8 +1,5 @@
-/**
- * Compile a set command.
-**/
 wheel(
-	'compiler.commands.Set',
+	'compiler.commands.NumberOperator',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
 		this.compile = function(validatedCommand) {
 			var compiler 		= this._compiler,
@@ -11,51 +8,9 @@ wheel(
 				param1 			= validatedCommand.params[0],
 				param2 			= validatedCommand.params[1],
 				regDestSet 		= false,
-				regDestUpdate 	= false,
 				regStackSaved 	= false;
 
-			if (param1.vr && (param1.vr.metaType === wheel.compiler.command.T_META_STRING)) {
-				if (param2.metaType === wheel.compiler.command.T_META_STRING) {
-					param2.value = compilerData.declareString(param2.value);
-				} else if (param2.vr.metaType === wheel.compiler.command.T_META_STRING) {
-					// set string, string...
-				} else {
-					throw compiler.createError('Type error.');
-				}
-			}
-
-			if (param2.metaType === wheel.compiler.command.T_META_ADDRESS) {
-				if (wheel.compiler.command.typeToLocation(param2.type) === 'local') {
-					compilerOutput.add({
-						command: 	'set',
-						code: 		wheel.compiler.command.set.code,
-						params: [
-							{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-							{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-						]
-					});
-					if (param2.value !== 0) {
-						compilerOutput.add({
-							command: 	'add',
-							code: 		wheel.compiler.command.set.code,
-							params: [
-								{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-								{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param2.value}
-							]
-						});
-					}
-				} else {
-					compilerOutput.add({
-						command: 	'set',
-						code: 		wheel.compiler.command.set.code,
-						params: [
-							{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-							{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param2.value}
-						]
-					});
-				}
-				regDestUpdate = true;
-			} else if (param2.metaType === wheel.compiler.command.T_META_POINTER) {
+			if (param2.metaType === wheel.compiler.command.T_META_POINTER) {
 				compilerOutput.add({
 					command: 	'set',
 					code: 		wheel.compiler.command.set.code,
@@ -169,10 +124,6 @@ wheel(
 					]
 				});
 			} else {
-				if (regDestUpdate) {
-					param2.type 	= wheel.compiler.command.T_NUMBER_REGISTER;
-					param2.value 	= compilerData.findRegister('REG_OFFSET_DEST').index;
-				}
 				compilerOutput.add(validatedCommand);
 			}
 		};

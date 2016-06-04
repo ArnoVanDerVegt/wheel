@@ -43,7 +43,7 @@ wheel(
 			i = name.indexOf('[');
 			if (i !== -1) {
 				if (name[name.length - 1] === ']') {
-					length = parseInt(name.substr(i + 1, name.length - i - 2), 10);
+					length = parseFloat(name.substr(i + 1, name.length - i - 2));
 					if (isNaN(length)) {
 
 					}
@@ -417,10 +417,10 @@ wheel(
 					value: 	param,
 					param: 	param
 				};
-			} else if (!isNaN(parseInt(param, 10))) {
+			} else if (!isNaN(parseFloat(param))) {
 				return {
 					type: 	wheel.compiler.command.T_NUMBER_CONSTANT,
-					value: 	parseInt(param, 10),
+					value: 	parseFloat(param),
 					param: 	param
 				};
 			} else {

@@ -59,6 +59,31 @@ wheel(
 
 			if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
 				this.compileLocalPoinerParam(param, paramInfo, offset, 1);
+			} else if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
+				var localOffset = paramInfo.value;
+				destParam = {
+					type: 	wheel.compiler.command.T_NUMBER_LOCAL,
+					value: 	offset,
+					param: 	param
+				};
+				paramInfo.type  = wheel.compiler.command.T_NUMBER_REGISTER;
+				paramInfo.value = compilerData.findRegister('REG_OFFSET_SRC').index;
+				compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+
+				if (localOffset) {
+					destParam = {
+						type: 	wheel.compiler.command.T_NUMBER_LOCAL,
+						value: 	offset,
+						param: 	param
+					};
+					compilerOutput.add(compiler.createCommand(
+						'set',
+						[
+							destParam,
+							{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: localOffset} // Offset of local parameter value
+						]
+					));
+				}
 			} else {
 				var destParam = {
 						type: 	wheel.compiler.command.T_NUMBER_LOCAL,
@@ -170,6 +195,14 @@ wheel(
 						{type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 1}
 					]
 				));
+			} else if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
+				destParam = {
+					type: 	wheel.compiler.command.T_NUMBER_LOCAL,
+					value: 	offset,
+					param: 	param
+				};
+				paramInfo.type = wheel.compiler.command.T_NUMBER_CONSTANT;
+				compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
 			} else {
 				destParam = {
 					type: 	wheel.compiler.command.T_NUMBER_LOCAL,
