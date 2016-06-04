@@ -1,7 +1,7 @@
 wheel(
 	'compiler.commands.Call',
 	Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-		this.compileConstantParameter = function(paramInfo) {
+		this.compileConstantParameter = function(param, paramInfo, offset) {
 			var compiler 		= this._compiler,
 				compilerOutput 	= compiler.getOutput(),
 				compilerData 	= this._compilerData;
@@ -288,7 +288,7 @@ wheel(
 						size 		= vr ? (vr.size * vr.length) : 1;
 					switch (paramInfo.type) {
 						case wheel.compiler.command.T_NUMBER_CONSTANT:
-							this.compileConstantParameter(paramInfo);
+							this.compileConstantParameter(param, paramInfo, offset);
 							break;
 
 						case wheel.compiler.command.T_NUMBER_LOCAL:

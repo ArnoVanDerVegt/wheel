@@ -2,11 +2,12 @@
     
 #define SCREEN_CLEAR       0
 #define SCREEN_DRAW_PIXEL  1
-#define SCREEN_DRAW_NUM    2
+#define SCREEN_DRAW_NUMBER 2
 #define SCREEN_DRAW_TEXT   3
 #define SCREEN_DRAW_LINE   4
 #define SCREEN_DRAW_RECT   5
 #define SCREEN_DRAW_CIRCLE 6
+#define SCREEN_DRAW_IMAGE  7
     
 proc screenCrear()
     module   MODULE_SCREEN,          SCREEN_CLEAR
@@ -23,16 +24,29 @@ proc drawPixel(number x, number y)
     module   MODULE_SCREEN,          SCREEN_DRAW_PIXEL
 endp
     
-proc drawNum(number x, number y, number num)
-    struct DrawNum
-        number   x, y, num
+proc drawNumber(number x, number y, number n)
+    struct DrawNumber
+        number   x, y, n
     ends
-    DrawNum  drawNum
-    set      drawNum.x,              x
-    set      drawNum.y,              y
-    set      drawNum.num,            num
-    addr     drawNum
-    module   MODULE_SCREEN,          SCREEN_DRAW_NUM
+    DrawNumber drawNumber
+    set      drawNumber.x,           x
+    set      drawNumber.y,           y
+    set      drawNumber.n,           n
+    addr     drawNumber
+    module   MODULE_SCREEN,          SCREEN_DRAW_NUMBER
+endp
+    
+proc drawText(number x, number y, string s)
+    struct DrawText
+        number   x, y
+        string   s
+    ends
+    DrawText drawText
+    set      drawText.x,             x
+    set      drawText.y,             y
+    set      drawText.s,             s
+    addr     drawText
+    module   MODULE_SCREEN,          SCREEN_DRAW_TEXT
 endp
     
 proc drawLine(number x1, number y1, number x2, number y2)
@@ -72,3 +86,17 @@ proc drawCircle(number x, number y, number radius)
     addr     drawCircle
     module   MODULE_SCREEN,          SCREEN_DRAW_CIRCLE
 endp
+    
+proc drawImage(number x, number y, string filename)
+    struct DrawImage
+        number   x, y
+        string   filename
+    ends
+    DrawImage drawImage
+    set      drawImage.x,            x
+    set      drawImage.y,            y
+    set      drawImage.filename,     filename
+    addr     drawImage
+    module   MODULE_SCREEN,          SCREEN_DRAW_IMAGE
+endp
+    

@@ -26,7 +26,7 @@ wheel(
 
 				case 3: // SCREEN_DRAW_TEXT
 					var drawTextRecord = vmData.getRecordFromAtOffset(['x', 'y', 'text']);
-					ev3Screen.drawText(drawTextRecord.x, drawTextRecord.y, drawTextRecord.text, 0);
+					ev3Screen.drawText(drawTextRecord.x, drawTextRecord.y, vmData.getStringList()[drawTextRecord.text], 0);
 					break;
 
 				case 4: // SCREEN_DRAW_LINE
@@ -42,6 +42,13 @@ wheel(
 				case 6: // SCREEN_DRAW_CIRCLE
 					var drawCircleRecord = vmData.getRecordFromAtOffset(['x', 'y', 'radius']);
 					ev3Screen.drawCircle(drawCircleRecord.x, drawCircleRecord.y, drawCircleRecord.radius, 0);
+					break;
+
+				case 7: // SCREEN_DRAW_IMAGE
+					var drawImageRecord = vmData.getRecordFromAtOffset(['x', 'y', 'filename']);
+					drawImageRecord.filename = vmData.getStringList()[drawImageRecord.filename];
+					console.log(drawImageRecord);
+					//ev3Screen.drawText(drawTextRecord.x, drawTextRecord.y, vmData.getStringList()[drawTextRecord.text], 0);
 					break;
 
 				default:

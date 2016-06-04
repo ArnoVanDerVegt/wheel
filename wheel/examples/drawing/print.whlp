@@ -3,7 +3,5 @@
 #include "/lib/screen.whl"
 
 proc main()
-    set      REG_DRAW_X1,            10
-    set      REG_DRAW_Y1,            10
-    print    "Hello  world"
+	drawText(0, 0, "Hello")
 endp

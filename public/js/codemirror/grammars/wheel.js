@@ -75,15 +75,23 @@ var wheelGrammar = {
 					'MODULE_STANDARD',
 					'MODULE_SCREEN',
 					'MODULE_BUTTONS',
+					'MODULE_MATH',
+					'MODULE_SENSOR',
 					'SCREEN_CLEAR',
 					'SCREEN_DRAW_PIXEL',
-					'SCREEN_DRAW_NUM',
+					'SCREEN_DRAW_NUMBER',
 					'SCREEN_DRAW_TEXT',
 					'SCREEN_DRAW_LINE',
 					'SCREEN_DRAW_RECT',
 					'SCREEN_DRAW_CIRCLE',
+					'SCREEN_DRAW_IMAGE',
 					'STANDARD_LOG_NUMBER',
 					'STANDARD_LOG_STRING',
+					'MATH_ROUND',
+					'MATH_CEIL',
+					'MATH_FLOOR',
+					'MATH_ABS',
+					'MATH_NEG',
 				]
 			},
 			'meta': {
@@ -91,6 +99,7 @@ var wheelGrammar = {
 				tokens: [
 					'#define',
 					'#include',
+					'#resource',
 					'#project'
 				]
 			},
@@ -157,8 +166,6 @@ var wheelGrammar = {
 					'jle',
 					'inc',
 					'dec',
-					'abs',
-					'neg',
 					'loopdn',
 					'loopup',
 					'arrayw',
@@ -175,6 +182,13 @@ var wheelGrammar = {
 					'drawRect',
 					'drawPixel',
 					'drawCircle',
+					'drawNumber',
+					'drawText',
+					'round',
+					'floor',
+					'ceil',
+					'abs',
+					'neg'
 				]
 			},
 			'variable': {

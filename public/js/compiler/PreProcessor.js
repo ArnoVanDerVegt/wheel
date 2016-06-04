@@ -129,6 +129,16 @@
 				return line.substr(0, i);
 			};
 
+			this.checkResource = function(line) {
+				var i = line.indexOf('#resource');
+				if (i === -1) {
+					return line;
+				}
+				console.log('resource', line);
+
+				return '';
+			};
+
 			this.process = function(lines) {
 				var result = [];
 				for (var i = 0; i < lines.length; i++) {
@@ -139,6 +149,7 @@
 					line = this.checkDefine(line);
 					line = this.checkDefines(line);
 					line = this.checkInclude(line);
+					line = this.checkResource(line);
 					result.push(line);
 				}
 
