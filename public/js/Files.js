@@ -137,6 +137,8 @@
 			};
 		});
 
+	wheel('File', File);
+
 	wheel(
 		'Files',
 		Class(Emitter, function(supr) {

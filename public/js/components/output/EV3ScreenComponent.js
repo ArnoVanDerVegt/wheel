@@ -226,6 +226,18 @@
 				return size;
 			};
 
+			this.drawImage = function(x, y, resource) {
+				var lines = resource.split("\n");
+				for (var i = 0; i < lines.length; i++) {
+					var line = lines[i];
+					for (var j = 0; j < line.length; j++) {
+						this._drawPixel(x + j, y + i, (line[j] === '0') ? 1 : 0);
+					}
+				}
+
+				this._updateCallback && this._updateCallback();
+			};
+
 			this.getImageData = function() {
 				return this._imageData;
 			};

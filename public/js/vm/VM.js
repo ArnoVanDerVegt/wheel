@@ -150,8 +150,13 @@ wheel(
 			this._motors.update();
 		};
 
-		this.run = function(commands, stringList, globalConstants, stackOffset) {
+		this.run = function(commands, stringList, globalConstants, stackOffset, resources) {
 			this.stop();
+
+			var modules = this._modules;
+			for (var i = 0; i < modules.length; i++) {
+				modules[i].setResources(resources);
+			}
 
 			this._motors.reset();
 			this._vmData.setStringList(stringList);
@@ -179,22 +184,3 @@ wheel(
 		};
 	})
 );
-/*
-						case 'abs':
-							saveResult(Math.abs(v1));
-							break;
-
-						case 'neg':
-							saveResult(-v1);
-							break;
-
-						case 'loop':
-							result = v1 - 1;
-							switch (command.params[0].type) {
-								case wheel.compiler.command.T_NUMBER_GLOBAL: 	vmData.setGlobalNumber(p1, result); 	break;
-								case wheel.compiler.command.T_NUMBER_LOCAL: 	vmData.setLocalNumber(p1, result); 		break;
-								case wheel.compiler.command.T_NUMBER_REGISTER: 	vmData.setRegister(p1, result); 		break;
-							}
-							(result >= 0) && (this._index = command.params[1].value);
-							break;
-*/

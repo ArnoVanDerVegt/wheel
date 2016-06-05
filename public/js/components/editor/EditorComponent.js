@@ -171,15 +171,24 @@ wheel(
 								outputCommands = null;
 							}*/
 							if (outputCommands !== null) {
-								var compilerData = compiler.getCompilerData();
-								this.refs.console.setGlobals(compilerData.getGlobalList());
-								vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen());
-								vm.run(
-									outputCommands,
-									compilerData.getStringList(),
-									compilerData.getGlobalConstants(),
-									compilerData.getGlobalOffset()
-								);
+								var onResourcesLoaded = (function() {
+										var compilerData = compiler.getCompilerData();
+										this.refs.console.setGlobals(compilerData.getGlobalList());
+										vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen());
+										vm.run(
+											outputCommands,
+											compilerData.getStringList(),
+											compilerData.getGlobalConstants(),
+											compilerData.getGlobalOffset(),
+											preProcessor.getResources()
+										);
+									}).bind(this);
+
+								if (preProcessor.getResourceCount()) {
+									preProcessor.once('ResourcesLoaded', onResourcesLoaded);
+								} else {
+									onResourcesLoaded();
+								}
 							}
 						}.bind(this)
 					);

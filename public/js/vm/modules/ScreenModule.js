@@ -46,9 +46,11 @@ wheel(
 
 				case 7: // SCREEN_DRAW_IMAGE
 					var drawImageRecord = vmData.getRecordFromAtOffset(['x', 'y', 'filename']);
-					drawImageRecord.filename = vmData.getStringList()[drawImageRecord.filename];
-					console.log(drawImageRecord);
-					//ev3Screen.drawText(drawTextRecord.x, drawTextRecord.y, vmData.getStringList()[drawTextRecord.text], 0);
+					var filename 		= vmData.getStringList()[drawImageRecord.filename];
+					var resource 		= this._resources[filename];
+					if (resource) {
+						ev3Screen.drawImage(drawImageRecord.x, drawImageRecord.y, resource, 0);
+					}
 					break;
 
 				default:
