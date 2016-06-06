@@ -1,32 +1,25 @@
 #project "Number demo"
     
 #include "/lib/standard.whl"
-#include "/lib/math.whl"
-    
-number   n
-number   *g                                 ; Global variable
-    
+        
 struct Point
     number   x
     number   y
 ends
     
-Point    point
+Point    points[10]
     
-proc testPointer(number *pn)
-    ;printN(*pn)
+proc testPointer(Point *points[0])
+	Point point
+    arrayr point, *points, 1
+    printN(point.y)
 endp
     
 proc main()
-    number   l                              ; number   l;
-    number   *lp
+	Point p
+    set p.x, 10
+    set p.y, 11
+    arrayw   points,              1, p
     
-    set      n,                      11.43
-    ;set      point.y,                13
-    ;set      lp,                     &n
-    ;mul      *lp,                    point.y
-    
-    round(&n)
-    ;printN(*lp)
-    printN(n)
+	testPointer(&points)
 endp

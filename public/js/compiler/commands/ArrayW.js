@@ -152,7 +152,6 @@ wheel(
 			this.compileDestSetup(arrayParam, indexParam, valueParam, size);
 
 			if (valueParam.type === wheel.compiler.command.T_NUMBER_CONSTANT) {
-				console.log('valueParam:', valueParam);
 				this.compileConstWrite(arrayParam, indexParam, valueParam, size);
 			} else {
 				this.compileVarWrite(arrayParam, indexParam, valueParam, size);
