@@ -1,569 +1,628 @@
 (function() {
-	var I2CMotorHeader = React.createClass({
-			render: function() {
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motor-header'
-					},
-					children: [
-						{
-							props: {
-								className: 'display',
-								innerHTML: 'Visible'
-							}
-						},
-						{
-							props: {
-								className: 'port',
-								innerHTML: 'Port'
-							}
-						},
-						{
-							props: {
-								className: 'i2c',
-								innerHTML: 'I2C Address'
-							}
-						},
-						{
-							props: {
-								className: 'motor-number',
-								innerHTML: 'Motor'
-							}
-						},
-						{
-							props: {
-								className: 'type',
-								innerHTML: 'Motor type'
-							}
-						},
-						{
-							props: {
-								className: 'remove'
-							}
-						}
-					]
-				});
-			}
-		});
+    var I2CMotorHeader = React.createClass({
+            render: function() {
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motor-header'
+                    },
+                    children: [
+                        {
+                            props: {
+                                className: 'display',
+                                innerHTML: 'Visible'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'port',
+                                innerHTML: 'Port'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'i2c',
+                                innerHTML: 'I2C Address'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'motor-number',
+                                innerHTML: 'Motor'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'type',
+                                innerHTML: 'Motor type'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'remove'
+                            }
+                        }
+                    ]
+                });
+            }
+        });
 
-	function motorSettingGenerator() {
-		if (!motorSettingGenerator._data) {
-			motorSettingGenerator._data = {
-				visible: 		true,
-				port: 			1,
-				i2c: 			6,
-				motorNumber: 	1,
-				type: 			1
-			};
-		}
-		var data 	= motorSettingGenerator._data,
-			result 	= JSON.parse(JSON.stringify(data));
+    function motorSettingGenerator() {
+        if (!motorSettingGenerator._data) {
+            motorSettingGenerator._data = {
+                visible:     true,
+                port:        1,
+                i2c:         6,
+                motorNumber: 1,
+                type:        1
+            };
+        }
+        var data     = motorSettingGenerator._data;
+        var result     = JSON.parse(JSON.stringify(data));
 
-		data.motorNumber++;
-		if (data.motorNumber > 2) {
-			data.motorNumber = 1;
-			data.port++;
-			if (data.port > 4) {
-				data.port = 1;
-				data.i2c++;
-			}
-		}
-		return result;
-	}
+        data.motorNumber++;
+        if (data.motorNumber > 2) {
+            data.motorNumber = 1;
+            data.port++;
+            if (data.port > 4) {
+                data.port = 1;
+                data.i2c++;
+            }
+        }
+        return result;
+    }
 
-	var I2CMotorRow = React.createClass({
-			getInitialState: function() {
-				return motorSettingGenerator();
-			},
+    var I2CMotorRow = React.createClass({
+            getInitialState: function() {
+                return {
+                    settings: this.props.motorSettings
+                };
+            },
 
-			onRemove: function() {
-				var props = this.props;
-				props.list.onRemoveMotor(props.index);
-			},
+            onRemove: function() {
+                var props = this.props;
+                props.list.onRemoveMotor(props.index);
+            },
 
-			render: function() {
-				var state = this.state;
+            onChangeDisplay: function() {
+                this.state.settings.visible = this.refs.display.getChecked();
+                this.props.onChange();
+            },
 
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motor-row'
-					},
-					children: [
-						{
-							props: {
-								className: 'display'
-							},
-							children: [
-								{
-									type: wheel.components.ui.CheckboxComponent,
-									props: {
-										slider: 	true,
-										checked: 	state.visible
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'port'
-							},
-							children: [
-								{
-									type: wheel.components.ui.SelectComponent,
-									props: {
-										value: 		state.port,
-										options: 	[
-											{value: '1', 	text: '1'},
-											{value: '2', 	text: '2'},
-											{value: '3', 	text: '3'},
-											{value: '4', 	text: '4'}
-										]
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'i2c',
-							},
-							children: [
-								{
-									type: 	wheel.components.ui.TextInputComponent,
-									props: 	{
-										value: state.i2c
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'motor-number'
-							},
-							children: [
-								{
-									type: wheel.components.ui.SelectComponent,
-									props: {
-										value: 		state.motorNumber,
-										options: 	[
-											{value: '1', text: '1'},
-											{value: '2', text: '2'}
-										]
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'type'
-							},
-							children: [
-								{
-									type: wheel.components.ui.SelectComponent,
-									props: {
-										value: 		state.type,
-										options: 	[
-											{value: '1', text: 'Medium'},
-											{value: '2', text: 'Large'}
-										]
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 	'remove',
-								onClick: 	this.onRemove
-							},
-							children: [
-								{
-									props: {
-										className: 'icon-close'
-									}
-								}
-							]
-						}
-					]
-				});
-			}
-		});
+            onChangePort: function() {
+                this.state.settings.port = this.refs.port.getValue();
+                this.props.onChange();
+            },
 
-	var I2CMotorList = React.createClass({
-			getInitialState: function() {
-				return {
-					motors: []
-				}
-			},
+            onChangeI2c: function() {
+                var i2c = this.refs.i2c.getValue();
+                if (i2c !== '') {
+                    if (!isNaN(parseInt(i2c, 10))) {
+                        this.state.settings.i2c = i2c;
+                        this.props.onChange();
+                    }
+                }
+            },
 
-			onAddMotor: function() {
-				var state 	= this.state,
-					motors 	= state.motors;
+            onChangeMotor: function() {
+                this.state.settings.motorNumber = this.refs.motor.getValue();
+                this.props.onChange();
+            },
 
-				motors.push({});
+            onChangeType: function() {
+                this.state.settings.type = this.refs.type.getValue();
+                this.props.onChange();
+            },
 
-				this.setState(state);
-			},
+            render: function() {
+                var state = this.state;
 
-			onRemoveMotor: function(index) {
-				var state 	= this.state,
-					motors 	= state.motors;
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motor-row'
+                    },
+                    children: [
+                        {
+                            props: {
+                                className: 'display'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.CheckboxComponent,
+                                    props: {
+                                        ref:      'display',
+                                        slider:   true,
+                                        checked:  state.settings.visible,
+                                        onChange: this.onChangeDisplay
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'port'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.SelectComponent,
+                                    props: {
+                                        ref:   'port',
+                                        value: state.settings.port,
+                                        options: [
+                                            {value: '1', text: '1'},
+                                            {value: '2', text: '2'},
+                                            {value: '3', text: '3'},
+                                            {value: '4', text: '4'}
+                                        ],
+                                        onChange: this.onChangePort
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'i2c',
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.TextInputComponent,
+                                    props: {
+                                        ref:      'i2c',
+                                        value:    state.settings.i2c,
+                                        onChange: this.onChangeI2c
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'motor-number'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.SelectComponent,
+                                    props: {
+                                        ref:   'motor',
+                                        value: state.settings.motorNumber,
+                                        options: [
+                                            {value: '1', text: '1'},
+                                            {value: '2', text: '2'}
+                                        ],
+                                        onChange: this.onChangeMotor
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'type'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.SelectComponent,
+                                    props: {
+                                        ref:    'type',
+                                        value:  state.settings.type,
+                                        options: [
+                                            {value: '1', text: 'Medium'},
+                                            {value: '2', text: 'Large'}
+                                        ],
+                                        onChange: this.onChangeType
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'remove',
+                                onClick:   this.onRemove
+                            },
+                            children: [
+                                {
+                                    props: {
+                                        className: 'icon-close'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
 
-				motors.splice(index, 1);
+    var I2CMotorList = React.createClass({
+            getInitialState: function() {
+                return {
+                    motors: this.props.motors || []
+                };
+            },
 
-				this.setState(state);
-			},
+            getSettings: function() {
+                return this.state.motors;
+            },
 
-			render: function() {
-				var state 			= this.state,
-					motors 			= state.motors,
-					listChildren 	= [];
+            onAddMotor: function() {
+                var state         = this.state;
+                var motors        = state.motors;
+                var motorSettings = motorSettingGenerator();
 
-				for (var i = 0; i < motors.length; i++) {
-					listChildren.push({
-						type: 	I2CMotorRow,
-						props: 	{
-							list: 	this,
-							index: 	i
-						}
-					});
-				}
+                motors.push(motorSettings);
+                this.onChange();
 
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motors-content',
-					},
-					children: [
-						{
-							type: I2CMotorHeader
-						},
-						{
-							props: {
-								className: 'motors-container'
-							},
-							children: listChildren
-						},
-						{
-							props: {
-								className: 'motors-add'
-							},
-							children: [
-								{
-									type: 'button',
-									props: {
-										className: 	'button',
-										innerHTML: 	'Add motor',
-										onClick: 	this.onAddMotor
-									}
-								}
-							]
-						}
-					]
-				});
-			}
-		});
+                this.setState(state);
+            },
 
-	var MotorRow = React.createClass({
-			getInitialState: function() {
-				return {};
-			},
+            onRemoveMotor: function(index) {
+                var state  = this.state;
+                var motors = state.motors;
 
-			render: function() {
-				var state = this.state;
+                motors.splice(index, 1);
+                this.onChange();
 
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motor-row'
-					},
-					children: [
-						{
-							props: {
-								className: 'display'
-							},
-							children: [
-								{
-									type: wheel.components.ui.CheckboxComponent,
-									props: {
-										slider: 	true,
-										checked: 	state.visible
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'port'
-							},
-							children: [
-								{
-									props: {
-										innerHTML: this.props.out
-									}
-								}
-							]
-						},
-						{
-							props: {
-								className: 'type'
-							},
-							children: [
-								{
-									type: wheel.components.ui.SelectComponent,
-									props: {
-										value: 		state.type,
-										options: 	[
-											{value: '1', text: 'Medium'},
-											{value: '2', text: 'Large'}
-										]
-									}
-								}
-							]
-						}
-					]
-				});
-			}
-		});
+                this.setState(state);
+            },
 
-	var MotorHeader = React.createClass({
-			render: function() {
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motor-header'
-					},
-					children: [
-						{
-							props: {
-								className: 'display',
-								innerHTML: 'Visible'
-							}
-						},
-						{
-							props: {
-								className: 'port',
-								innerHTML: 'Out'
-							}
-						},
-						{
-							props: {
-								className: 'type',
-								innerHTML: 'Motor type'
-							}
-						}
-					]
-				});
-			}
-		});
+            onChange: function() {
+            },
 
-	var StandardMotorList = React.createClass({
-			getInitialState: function() {
-				return {
-					motors: []
-				}
-			},
+            render: function() {
+                var state        = this.state;
+                var motors       = state.motors;
+                var listChildren = [];
 
-			render: function() {
-				var state 			= this.state,
-					motors 			= state.motors,
-					listChildren 	= [];
+                for (var i = 0; i < motors.length; i++) {
+                    listChildren.push({
+                        type: I2CMotorRow,
+                        props: {
+                            list:           this,
+                            index:          i,
+                            motorSettings:  motors[i],
+                            onChange:       this.onChange
+                        }
+                    });
+                }
 
-				for (var i = 0; i < 4; i++) {
-					listChildren.push({
-						type: 	MotorRow,
-						props: 	{
-							list: 	this,
-							index: 	i,
-							out: 	String.fromCharCode(65 + i)
-						}
-					});
-				}
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motors-content',
+                    },
+                    children: [
+                        {
+                            type: I2CMotorHeader
+                        },
+                        {
+                            props: {
+                                className: 'motors-container'
+                            },
+                            children: listChildren
+                        },
+                        {
+                            props: {
+                                className: 'motors-add'
+                            },
+                            children: [
+                                {
+                                    type: 'button',
+                                    props: {
+                                        className: 'button choice icon-cirle-plus',
+                                        innerHTML: 'Add motor',
+                                        onClick:   this.onAddMotor
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
 
-				return utilsReact.fromJSON({
-					props: {
-						className: 'motors-content'
-					},
-					children: [
-						{
-							type: MotorHeader
-						},
-						{
-							props: {
-								className: 'motors-container'
-							},
-							children: listChildren
-						}
-					]
-				});
-			}
-		});
+    var MotorRow = React.createClass({
+            getInitialState: function() {
+                return {};
+            },
 
-	wheel(
-		'components.dialogs.MotorsDialog',
-		React.createClass({
-			getInitialState: function() {
-				return {
-					visible: 	false,
-					title: 		'Motors setup',
-					motorProperties: {
-						type: 		false,
-						position: 	false,
-						target: 	false,
-						power: 		false,
-						speed: 		false,
-						range: 		false
-					}
-				};
-			},
+            render: function() {
+                var state = this.state;
 
-			show: function(updateCallback) {
-				var motorSettings 	= this.props.editor.getMotorSettings(),
-					motors 			= motorSettings.motors,
-					motorProperties	= motorSettings.motorProperties;
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motor-row'
+                    },
+                    children: [
+                        {
+                            props: {
+                                className: 'display'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.CheckboxComponent,
+                                    props: {
+                                        slider:  true,
+                                        checked: state.visible
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'out'
+                            },
+                            children: [
+                                {
+                                    props: {
+                                        innerHTML: this.props.out
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
+                                className: 'type'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.SelectComponent,
+                                    props: {
+                                        value: state.type,
+                                        options: [
+                                            {value: '1', text: 'Medium'},
+                                            {value: '2', text: 'Large'}
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
 
-				var state = this.state;
-				state.visible = true;
-				/*for (var i in motors) {
-					state.motors[i] = motors[i];
-					this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motors[i]});
-				}*/
-				for (var i in motorProperties) {
-					state.motorProperties[i] = motorProperties[i];
-					this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motorProperties[i]});
-				}
+    var MotorHeader = React.createClass({
+            render: function() {
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motor-header'
+                    },
+                    children: [
+                        {
+                            props: {
+                                className: 'display',
+                                innerHTML: 'Visible'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'port',
+                                innerHTML: 'Out'
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'type',
+                                innerHTML: 'Motor type'
+                            }
+                        }
+                    ]
+                });
+            }
+        });
 
-				state.motorProperties 	= motorSettings.motorProperties;
-				this._updateCallback 	= updateCallback;
-				this.setState(this.state);
-			},
+    var StandardMotorList = React.createClass({
+            getInitialState: function() {
+                return {
+                    motors: []
+                }
+            },
 
-			hide: function() {
-				this.state.visible = false;
-				this.setState(this.state);
-			},
+            render: function() {
+                var state        = this.state;
+                var motors       = state.motors;
+                var listChildren = [];
 
-			onClose: function() {
-				this.hide();
-			},
+                for (var i = 0; i < 4; i++) {
+                    listChildren.push({
+                        type: MotorRow,
+                        props: {
+                            list:  this,
+                            index: i,
+                            out:   String.fromCharCode(65 + i)
+                        }
+                    });
+                }
 
-			onConfirm: function() {
-				var motorSettings 	= this.props.editor.getMotorSettings(),
-					motors 			= motorSettings.motors,
-					motorProperties = motorSettings.motorProperties;
+                return utilsReact.fromJSON({
+                    props: {
+                        className: 'motors-content'
+                    },
+                    children: [
+                        {
+                            type: MotorHeader
+                        },
+                        {
+                            props: {
+                                className: 'motors-container'
+                            },
+                            children: listChildren
+                        }
+                    ]
+                });
+            }
+        });
 
-				/*for (var i in motors) {
-					if (this.refs.tabs.refs[i]) {
-						motors[i] 				= this.refs.tabs.refs[i].getChecked();
-						this.state.motors[i] 	= motors[i];
-					}
-				}*/
-				for (var i in motorProperties) {
-					if (this.refs.tabs.refs[i]) {
-						motorProperties[i] 				= this.refs.tabs.refs[i].getChecked();
-						this.state.motorProperties[i] 	= motorProperties[i];
-					}
-				}
-				LocalStorage.getInstance().set('motorSettings', motorSettings);
+    wheel(
+        'components.dialogs.MotorsDialog',
+        React.createClass({
+            getInitialState: function() {
+                var editorSettings  = wheel.editorSettings;
+                return {
+                    visible:         false,
+                    title:           'Motors setup',
+                    motorProperties: editorSettings.getMotorProperties(),
+                    i2cMotors:       editorSettings.getI2cMotorSettings()
+                };
+            },
 
-				this._updateCallback && this._updateCallback();
-				this.hide();
-			},
+            show: function() {
+                //var motorSettings   =  this.props.editor.getMotorSettings();
+                //var motors          = motorSettings.motors;
 
-			render: function() {
-				var formatTitle = function(title) {
-						title = title.substr(0, 1).toUpperCase() + title.substr(1 - title.length);
-						var i = title.indexOf('_');
-						if (i !== -1) {
-							title = title.substr(0, i) + '(' + title[i + 1] + ')';
-						}
-						return title;
-					},
-					motors 				= this.state.motors,
-					motorProperties		= this.state.motorProperties,
-					properties 			= ['type', 'position', 'target', 'power', 'speed', 'range'],
-					propertiesChildren	= [];
+                var state = this.state;
+                state.visible = true;
 
-				for (var i = 0; i < properties.length; i++) {
-					(function(property) {
-						propertiesChildren.push({
-							props: {
-								className: 'row'
-							},
-							children: [
-								{
-									type: wheel.components.ui.CheckboxComponent,
-									props: {
-										ref: 		property,
-										checked: 	motorProperties[properties[i]],
-										onChange: 	function(checked) {
-											this.state.motorProperties[property] = checked;
-											this.setState(this.state);
-										}.bind(this)
-									}
-								},
-								{
-									type: 'div',
-									props: {
-										className: 	'label',
-										innerHTML: 	formatTitle(properties[i])
-									}
-								}
-							]
-						});
-					}).call(this, properties[i]);
-				}
+                //var i2cMotors = state.i2cMotors;
+                //for (var i in i2cMotors) {
+                //    //this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motors[i]});
+                //}
 
-				var motorProperties = {
-						props: {
-							className: 'motors-content',
-						},
-						children: propertiesChildren
-					};
+                var motorProperties = state.motorProperties;
+                for (var i in motorProperties) {
+                    state.motorProperties[i] = motorProperties[i];
+                    this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motorProperties[i]});
+                }
 
-				return utilsReact.fromJSON(
-					wheel.components.dialogs.createDialog(
-						this,
-						'motors',
-						'icon-settings',
-						[
-							{
-								type: wheel.components.ui.TabsComponent,
-								props: {
-									ref: 	'tabs',
-									pages: [
-										{
-											title: 		'Standard motors',
-											content: 	[
-												{
-													type: StandardMotorList
-												}
-											]
-										},
-										{
-											title: 		'I2C Motors',
-											content: 	[
-												{
-													type: I2CMotorList
-												}
-											]
-										},
-										{
-											title: 		'Properties',
-											content: 	[motorProperties]
-										}
-									]
-								}
-							}
-						],
-						[
-							{
-								type: 'button',
-								props: {
-									className: 	'button',
-									innerHTML: 	'Ok',
-									onClick: 	this.onConfirm
-								}
-							}
-						]
-					)
-				);
-			}
-		})
-	);
+                this.setState(this.state);
+            },
+
+            hide: function() {
+                this.state.visible = false;
+                this.setState(this.state);
+            },
+
+            onClose: function() {
+                this.hide();
+            },
+
+            onConfirm: function() {
+                /*for (var i in motors) {
+                    if (this.refs.tabs.refs[i]) {
+                        motors[i]                 = this.refs.tabs.refs[i].getChecked();
+                        this.state.motors[i]     = motors[i];
+                    }
+                }*/
+
+                var editorSettings  = wheel.editorSettings;
+                var motorProperties = editorSettings.getMotorProperties();
+                for (var i in motorProperties) {
+                    motorProperties[i]            = this.refs.tabs.refs.page2.refs[i].getChecked();
+                    this.state.motorProperties[i] = motorProperties[i];
+                }
+                editorSettings.setMotorProperties(motorProperties);
+                editorSettings.setI2cMotorSettings(this.refs.tabs.refs.page1.refs.i2cMotors.getSettings());
+
+                this.hide();
+            },
+
+            render: function() {
+                var formatTitle = function(title) {
+                        title = title.substr(0, 1).toUpperCase() + title.substr(1 - title.length);
+                        var i = title.indexOf('_');
+                        if (i !== -1) {
+                            title = title.substr(0, i) + '(' + title[i + 1] + ')';
+                        }
+                        return title;
+                    };
+                var state              = this.state;
+                var motors             = state.motors;
+                var motorProperties    = state.motorProperties;
+                var properties         = ['type', 'position', 'target', 'power', 'speed', 'range'];
+                var propertiesChildren = [];
+
+                for (var i = 0; i < properties.length; i++) {
+                    (function(property) {
+                        propertiesChildren.push({
+                            props: {
+                                className: 'row'
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.CheckboxComponent,
+                                    props: {
+                                        ref:      property,
+                                        checked:  motorProperties[properties[i]],
+                                        onChange: function(checked) {
+                                            this.state.motorProperties[property] = checked;
+                                            this.setState(this.state);
+                                        }.bind(this)
+                                    }
+                                },
+                                {
+                                    type: 'div',
+                                    props: {
+                                        className: 'label',
+                                        innerHTML: formatTitle(properties[i])
+                                    }
+                                }
+                            ]
+                        });
+                    }).call(this, properties[i]);
+                }
+
+                var motorProperties = {
+                        props: {
+                            className: 'motors-content',
+                        },
+                        children: propertiesChildren
+                    };
+
+                return utilsReact.fromJSON(
+                    wheel.components.dialogs.createDialog(
+                        this,
+                        'motors',
+                        'icon-settings',
+                        [
+                            {
+                                type: wheel.components.ui.TabsComponent,
+                                props: {
+                                    ref: 'tabs',
+                                    pages: [
+                                        {
+                                            title: 'Standard motors',
+                                            content: [
+                                                {
+                                                    type: StandardMotorList
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            title:  'I2C Motors',
+                                            content: [
+                                                {
+                                                    type: I2CMotorList,
+                                                    props: {
+                                                        ref:    'i2cMotors',
+                                                        motors: state.i2cMotors
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            title:   'Properties',
+                                            content: [motorProperties]
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        [
+                            {
+                                type: 'button',
+                                props: {
+                                    className:   'button cancel icon-close',
+                                    innerHTML:   'Cancel',
+                                    onClick:     this.onClose
+                                }
+                            },
+                            {
+                                type: 'button',
+                                props: {
+                                    className:   'button accept icon-check',
+                                    innerHTML:   'Save',
+                                    onClick:     this.onConfirm
+                                }
+                            }
+                        ]
+                    )
+                );
+            }
+        })
+    );
 })();

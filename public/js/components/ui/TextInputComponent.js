@@ -1,26 +1,34 @@
 wheel(
-	'components.ui.TextInputComponent',
-	React.createClass({
-		getInitialState: function() {
-			return {
-				value: this.props.value
-			};
-		},
+    'components.ui.TextInputComponent',
+    React.createClass({
+        getInitialState: function() {
+            return {
+                value: this.props.value
+            };
+        },
 
-		onChange: function(event) {
-			this.setState({value: event.target.value});
-		},
+        getValue: function() {
+            return this.state.value;
+        },
 
-		render: function() {
-			return 	utilsReact.fromJSON({
-				type: 'input',
-				props: {
-					type: 			'text',
-					value: 			this.state.value,
-					placeholder: 	this.props.placeholder,
-					onChange: 		this.onChange
-				},
-			});
-		}
-	})
+        onChange: function(event) {
+            var state = this.state;
+            state.value = event.target.value;
+            this.setState(state);
+            var props = this.props;
+            props.onChange && props.onChange(event);
+        },
+
+        render: function() {
+            return     utilsReact.fromJSON({
+                type: 'input',
+                props: {
+                    type:        'text',
+                    value:       this.state.value,
+                    placeholder: this.props.placeholder,
+                    onChange:    this.onChange
+                },
+            });
+        }
+    })
 );
