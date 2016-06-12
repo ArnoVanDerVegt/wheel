@@ -87,7 +87,7 @@
             getInitialState: function() {
                 var props = this.props;
                 var motor = props.motor;
-                console.log('-', props.type);
+
                 return {
                     type:       props.type || 'medium',
                     i2c:        props.i2c || false,
@@ -297,7 +297,6 @@
                 }
                 for (var i = 0; i < i2cMotors.length; i++) {
                     var i2cMotor = i2cMotors[i];
-                    console.log('-->', i2cMotor);
                     if (i2cMotor.display) {
                         var title = 'In' + i2cMotor.port + ' Motor' + i2cMotor.motorNumber;
                         motorChildren.push({
