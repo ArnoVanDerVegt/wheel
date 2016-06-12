@@ -15,7 +15,36 @@
                     }
                 );
 
-                this._standardMotorSettings = LocalStorage.getInstance().get('standardMotorSettings', []);
+                this._standardMotorSettings = LocalStorage.getInstance().get(
+                    'standardMotorSettings',
+                    [
+                        {
+                            id:      1,
+                            out:     1,
+                            display: true,
+                            type:    'medium'
+                        },
+                        {
+                            id:      2,
+                            out:     2,
+                            display: true,
+                            type:    'medium'
+                        },
+                        {
+                            id:      3,
+                            out:     3,
+                            display: true,
+                            type:    'medium'
+                        },
+                        {
+                            id:      4,
+                            out:     4,
+                            display: true,
+                            type:    'medium'
+                        }
+                    ]
+                );
+
                 this._i2cMotorSettings = LocalStorage.getInstance().get('i2cMotorSettings', []);
             };
 

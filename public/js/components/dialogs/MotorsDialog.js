@@ -8,6 +8,12 @@
                     children: [
                         {
                             props: {
+                                className: 'id',
+                                innerHTML: '#'
+                            }
+                        },
+                        {
+                            props: {
                                 className: 'display',
                                 innerHTML: 'Visible'
                             }
@@ -49,15 +55,15 @@
     function motorSettingGenerator() {
         if (!motorSettingGenerator._data) {
             motorSettingGenerator._data = {
-                visible:     true,
+                display:     true,
                 port:        1,
                 i2c:         6,
                 motorNumber: 1,
-                type:        1
+                type:        'medium'
             };
         }
         var data     = motorSettingGenerator._data;
-        var result     = JSON.parse(JSON.stringify(data));
+        var result   = JSON.parse(JSON.stringify(data));
 
         data.motorNumber++;
         if (data.motorNumber > 2) {
@@ -83,8 +89,19 @@
                 props.list.onRemoveMotor(props.index);
             },
 
+            onChangeId: function() {
+                var id = this.refs.id.getValue();
+                if (id !== '') {
+                    id = parseInt(id, 10);
+                    if (!isNaN(id)) {
+                        this.state.settings.id = id;
+                        this.props.onChange();
+                    }
+                }
+            },
+
             onChangeDisplay: function() {
-                this.state.settings.visible = this.refs.display.getChecked();
+                this.state.settings.display = this.refs.display.getChecked();
                 this.props.onChange();
             },
 
@@ -123,6 +140,21 @@
                     children: [
                         {
                             props: {
+                                className: 'id',
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.TextInputComponent,
+                                    props: {
+                                        ref:      'id',
+                                        value:    state.settings.id,
+                                        onChange: this.onChangeId
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
                                 className: 'display'
                             },
                             children: [
@@ -131,7 +163,7 @@
                                     props: {
                                         ref:      'display',
                                         slider:   true,
-                                        checked:  state.settings.visible,
+                                        checked:  state.settings.display,
                                         onChange: this.onChangeDisplay
                                     }
                                 }
@@ -203,8 +235,8 @@
                                         ref:    'type',
                                         value:  state.settings.type,
                                         options: [
-                                            {value: '1', text: 'Medium'},
-                                            {value: '2', text: 'Large'}
+                                            {value: 'medium', text: 'Medium'},
+                                            {value: 'large',  text: 'Large'}
                                         ],
                                         onChange: this.onChangeType
                                     }
@@ -241,10 +273,20 @@
             },
 
             onAddMotor: function() {
-                var state         = this.state;
-                var motors        = state.motors;
-                var motorSettings = motorSettingGenerator();
+                var state           = this.state;
+                var motors          = state.motors;
+                var motorSettings   = motorSettingGenerator();
+                var maxId           = 0;
+                var standardMotors  = this.props.standardMotors;
 
+                for (var i = 0; i < standardMotors.length; i++) {
+                    maxId = Math.max(maxId, standardMotors[i].id)
+                }
+                for (var i = 0; i < motors.length; i++) {
+                    maxId = Math.max(maxId, motors[i].id)
+                }
+
+                motorSettings.id = maxId + 1;
                 motors.push(motorSettings);
                 this.onChange();
 
@@ -317,7 +359,30 @@
 
     var MotorRow = React.createClass({
             getInitialState: function() {
-                return {};
+                return {
+                    settings: this.props.settings || {}
+                };
+            },
+
+            onChangeId: function() {
+                var id = this.refs.id.getValue();
+                if (id !== '') {
+                    id = parseInt(id, 10);
+                    if (!isNaN(id)) {
+                        this.state.settings.id = id;
+                        this.props.onChange();
+                    }
+                }
+            },
+
+            onChangeDisplay: function() {
+                this.state.settings.display = this.refs.display.getChecked();
+                this.props.onChange();
+            },
+
+            onChangeType: function() {
+                this.state.settings.type = this.refs.type.getValue();
+                this.props.onChange();
             },
 
             render: function() {
@@ -330,14 +395,31 @@
                     children: [
                         {
                             props: {
+                                className: 'id',
+                            },
+                            children: [
+                                {
+                                    type: wheel.components.ui.TextInputComponent,
+                                    props: {
+                                        ref:      'id',
+                                        value:    state.settings.id,
+                                        onChange: this.onChangeId
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            props: {
                                 className: 'display'
                             },
                             children: [
                                 {
                                     type: wheel.components.ui.CheckboxComponent,
                                     props: {
-                                        slider:  true,
-                                        checked: state.visible
+                                        ref:      'display',
+                                        slider:   true,
+                                        checked:  state.settings.display,
+                                        onChange: this.onChangeDisplay
                                     }
                                 }
                             ]
@@ -362,11 +444,13 @@
                                 {
                                     type: wheel.components.ui.SelectComponent,
                                     props: {
-                                        value: state.type,
+                                        ref:   'type',
+                                        value: state.settings.type,
                                         options: [
-                                            {value: '1', text: 'Medium'},
-                                            {value: '2', text: 'Large'}
-                                        ]
+                                            {value: 'medium', text: 'Medium'},
+                                            {value: 'large',  text: 'Large'}
+                                        ],
+                                        onChange: this.onChangeType
                                     }
                                 }
                             ]
@@ -383,6 +467,12 @@
                         className: 'motor-header'
                     },
                     children: [
+                        {
+                            props: {
+                                className: 'id',
+                                innerHTML: '#'
+                            }
+                        },
                         {
                             props: {
                                 className: 'display',
@@ -409,8 +499,15 @@
     var StandardMotorList = React.createClass({
             getInitialState: function() {
                 return {
-                    motors: []
+                    motors: this.props.motors
                 }
+            },
+
+            getSettings: function() {
+                return this.state.motors;
+            },
+
+            onChange: function() {
             },
 
             render: function() {
@@ -422,9 +519,11 @@
                     listChildren.push({
                         type: MotorRow,
                         props: {
-                            list:  this,
-                            index: i,
-                            out:   String.fromCharCode(65 + i)
+                            list:       this,
+                            index:      i,
+                            out:        String.fromCharCode(65 + i),
+                            settings:   state.motors[i] || {},
+                            onChange:   this.onChange
                         }
                     });
                 }
@@ -457,21 +556,14 @@
                     visible:         false,
                     title:           'Motors setup',
                     motorProperties: editorSettings.getMotorProperties(),
+                    standardMotors:  editorSettings.getStandardMotorSettings(),
                     i2cMotors:       editorSettings.getI2cMotorSettings()
                 };
             },
 
             show: function() {
-                //var motorSettings   =  this.props.editor.getMotorSettings();
-                //var motors          = motorSettings.motors;
-
                 var state = this.state;
                 state.visible = true;
-
-                //var i2cMotors = state.i2cMotors;
-                //for (var i in i2cMotors) {
-                //    //this.refs.tabs.refs[i] && this.refs.tabs.refs[i].setState({checked: motors[i]});
-                //}
 
                 var motorProperties = state.motorProperties;
                 for (var i in motorProperties) {
@@ -492,13 +584,6 @@
             },
 
             onConfirm: function() {
-                /*for (var i in motors) {
-                    if (this.refs.tabs.refs[i]) {
-                        motors[i]                 = this.refs.tabs.refs[i].getChecked();
-                        this.state.motors[i]     = motors[i];
-                    }
-                }*/
-
                 var editorSettings  = wheel.editorSettings;
                 var motorProperties = editorSettings.getMotorProperties();
                 for (var i in motorProperties) {
@@ -506,6 +591,7 @@
                     this.state.motorProperties[i] = motorProperties[i];
                 }
                 editorSettings.setMotorProperties(motorProperties);
+                editorSettings.setStandardMotorSettings(this.refs.tabs.refs.page0.refs.standardMotors.getSettings());
                 editorSettings.setI2cMotorSettings(this.refs.tabs.refs.page1.refs.i2cMotors.getSettings());
 
                 this.hide();
@@ -523,7 +609,7 @@
                 var state              = this.state;
                 var motors             = state.motors;
                 var motorProperties    = state.motorProperties;
-                var properties         = ['type', 'position', 'target', 'power', 'speed', 'range'];
+                var properties         = ['i2c', 'type', 'position', 'target', 'power', 'speed', 'range'];
                 var propertiesChildren = [];
 
                 for (var i = 0; i < properties.length; i++) {
@@ -578,7 +664,11 @@
                                             title: 'Standard motors',
                                             content: [
                                                 {
-                                                    type: StandardMotorList
+                                                    type: StandardMotorList,
+                                                    props: {
+                                                        ref:    'standardMotors',
+                                                        motors: state.standardMotors
+                                                    }
                                                 }
                                             ]
                                         },
@@ -588,8 +678,9 @@
                                                 {
                                                     type: I2CMotorList,
                                                     props: {
-                                                        ref:    'i2cMotors',
-                                                        motors: state.i2cMotors
+                                                        ref:            'i2cMotors',
+                                                        motors:         state.i2cMotors,
+                                                        standardMotors: state.standardMotors
                                                     }
                                                 }
                                             ]

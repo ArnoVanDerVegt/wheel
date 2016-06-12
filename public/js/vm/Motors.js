@@ -126,6 +126,10 @@
             this.getMotor = function(index) {
                 return this._motors[index] || null;
             };
+
+            this.getLength = function() {
+            	return this._motors.length;
+            };
         })
     );
 })();
