@@ -1,22 +1,52 @@
-#define MODULE_MOTORS      3
-
-			/*
-			motorw: { // Motor write...
-				code: 23,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER}
-				]
-			},
-			motorr: { // Motor read...
-				code: 24,
-				args: [
-					{type: T_NUMBER_CONSTANT},
-					{type: T_NUMBER_GLOBAL},
-					{type: T_NUMBER_LOCAL},
-					{type: T_NUMBER_REGISTER}
-				]
-			},
-			*/
+#define MODULE_MOTORS      2
+    
+#define MOTOR_RESET   0
+#define MOTOR_MOVE_TO 1
+#define MOTOR_MOVE    2
+#define MOTOR_STOP    3
+    
+proc motorReset(number id)
+    struct MotorReset
+        number   id
+    ends
+    MotorReset motorReset
+    set      motorReset.id,          id
+    addr     motorReset
+    module   MODULE_MOTORS,          MOTOR_RESET
+endp
+    
+proc motorMoveTo(number id, number target, number power)
+    struct MotorMoveTo
+        number   id
+        number   target
+        number   power
+    ends
+    MotorMoveTo motorMoveTo
+    set      motorMoveTo.id,         id
+    set      motorMoveTo.target,     target
+    set      motorMoveTo.power,      power
+    addr     motorMoveTo
+    module   MODULE_MOTORS,          MOTOR_MOVE_TO
+endp
+    
+proc motorMove(number id, number power)
+    struct MotorMove
+        number   id
+        number   power
+    ends
+    MotorMove motorMove
+    set      motorMove.id,           id
+    set      motorMove.power,        power
+    addr     motorMove
+    module   MODULE_MOTORS,          MOTOR_MOVE
+endp
+    
+proc motorStop(number id)
+    struct MotorStop
+        number   id
+    ends
+    MotorStop motorStop
+    set      motorStop.id,          id
+    addr     motorStop
+    module   MODULE_MOTORS,          MOTOR_STOP
+endp

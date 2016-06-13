@@ -499,7 +499,7 @@ input[type='text'] {
 
 /* Sensor/motor status */
 #main .output .status {
-	width: 								110px;
+	width: 								100px;
 	padding: 							0;
 }
 #main .output .status-row {
@@ -562,6 +562,19 @@ input[type='text'] {
 #main .output .motor-container .motor .title {
 	margin: 							0 0 4px 0;
 	z-index: 							200;
+}
+#main .output .motor-container .motor .status-id {
+	position: 							absolute;
+	left: 								16px;
+	top: 								16px;
+	z-index: 							200;
+	width: 								32px;
+	height: 							32px;
+	line-height: 						32px;
+	text-align: 						center;
+	font-family:						'Roboto Condensed', sans-serif;
+	font-weight: 						400;
+	font-size: 							18px;
 }
 
 /* Sensor */

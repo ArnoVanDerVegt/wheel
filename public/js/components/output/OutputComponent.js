@@ -1,4 +1,6 @@
 (function() {
+    var MOTOR_STATUS_SIZE = 48;
+
     var MotorStatus = Class(function() {
             this.init = function(opts) {
                 this._canvas = opts.canvas;
@@ -19,10 +21,12 @@
                 start = Math.PI * 1.5 + start * Math.PI * 2;
                 end   = Math.PI * 1.5 + end * Math.PI * 2;
 
+                var half = MOTOR_STATUS_SIZE / 2;
+
                 ctx.globalAlpha = alpha;
                 ctx.strokeStyle = color;
                 ctx.beginPath();
-                ctx.arc(16, 16, 11, start, end);
+                ctx.arc(half, half, half - 4, start, end);
                 ctx.lineWidth = 8;
                 ctx.stroke();
                 ctx.globalAlpha = 1;
@@ -31,27 +35,28 @@
             this.render = function(state) {
                 var ctx = this._ctx;
 
-                ctx.clearRect(0, 0, 32, 32);
+                ctx.clearRect(0, 0, MOTOR_STATUS_SIZE, MOTOR_STATUS_SIZE);
 
-                var perc     = 0.5;//0.1 + Math.random() * 0.8;
                 var range    = Math.abs(state.max - state.min);
                 var target   = state.target;
                 var position = state.position;
 
-                this.renderBar(0, 1, '#FFFFFF', 1);
-                this.renderBar(0, target / range, '#1976D2', 1);
-                this.renderBar(position / range, target / range, '#FF5252', 0.8);
+                this.renderBar(0, 1, 'WhiteSmoke', 1);
+                this.renderBar(0, target / range, 'LimeGreen', 1);
+                this.renderBar(position / range, target / range, 'PaleVioletRed', 0.8);
 
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth     = 1;
 
+                var half = MOTOR_STATUS_SIZE / 2;
+
                 ctx.beginPath();
-                ctx.arc(16, 16, 15, 0, Math.PI * 2);
+                ctx.arc(half, half, half - 1, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
-                ctx.arc(16, 16, 7.5, 0, Math.PI * 2);
+                ctx.arc(half, half, half - 7.5, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.stroke();
             };
@@ -89,6 +94,7 @@
                 var motor = props.motor;
 
                 return {
+                    id:         props.id || 1,
                     type:       props.type || 'medium',
                     i2c:        props.i2c || false,
                     position:   motor.getPosition(),
@@ -103,6 +109,7 @@
             update: function(settings, motor) {
                 var state = this.state;
 
+                state.id        = settings.id;
                 state.type      = settings.type || 'medium';
                 state.i2c       = settings.i2c || false;
                 state.position  = motor.getPosition();
@@ -151,8 +158,8 @@
                             type: 'canvas',
                             props: {
                                 className: 'status-canvas',
-                                width:     32,
-                                height:    32,
+                                width:     48,
+                                height:    48,
                                 ref:       'canvas'
                             }
                         },
@@ -171,6 +178,12 @@
                         {
                             props: {
                                 className: state.type
+                            }
+                        },
+                        {
+                            props: {
+                                className: 'status-id',
+                                innerHTML: state.id
                             }
                         }
                     ]
@@ -288,6 +301,7 @@
                                 type:            standardMotor.type,
                                 index:           i,
                                 ref:             'motor' + standardMotor.id,
+                                id:              standardMotor.id,
                                 title:           title,
                                 motorProperties: motorProperties
                             },
@@ -306,6 +320,7 @@
                                 type:            i2cMotor.type,
                                 index:           i,
                                 ref:             'motor' + i2cMotor.id,
+                                id:              i2cMotor.id,
                                 title:           title,
                                 motorProperties: motorProperties,
                                 i2c:             i2cMotor.i2c
