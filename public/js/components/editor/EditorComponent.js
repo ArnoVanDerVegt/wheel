@@ -102,11 +102,11 @@ wheel(
                         path,
                         filename,
                         function(includes) {
-                            //try {
+                            try {
                                 outputCommands = compiler.compile(includes);
                                 var codeMirror = this.refs.codeMirror;
                                 codeMirror.setHighlight({}) || codeMirror.update();
-                            /*} catch (error) {
+                            } catch (error) {
                                 var location     = error.location || { filename: ' ', lineNumber: 0 },
                                     index         = files.exists(location.filename);
 
@@ -124,7 +124,7 @@ wheel(
                                 this.refs.console.addError(error);
 
                                 outputCommands = null;
-                            }*/
+                            }
                             if (outputCommands !== null) {
                                 var onResourcesLoaded = (function() {
                                         var compilerData = compiler.getCompilerData();

@@ -417,16 +417,30 @@ input[type='text'] {
 	font-size: 							13px;
 	line-height: 						13px;
 }
+#main .console .tabs .tabs-content .row.log,
 #main .console .tabs .tabs-content .row.error {
-	background-color: 					#FFD0D0;
+	position: 							relative;
 	cursor: 							pointer;
 	border: 							1px dotted LightSkyBlue;
 	border-width: 						0 0 1px 0;
+	padding-left: 						32px;
 }
-#main .console .tabs .tabs-content .row.log {
-	cursor: 							pointer;
-	border: 							1px dotted LightSkyBlue;
-	border-width: 						0 0 1px 0;
+#main .console .tabs .tabs-content .row .message {
+	font-family: 						'Courier New';
+	font-size: 							13px;
+}
+#main .console .tabs .tabs-content .row.error:before,
+#main .console .tabs .tabs-content .row.log:before {
+	position: 							absolute;
+	left: 								8px;
+	top: 								1px;
+	font-size: 							15px;
+}
+#main .console .tabs .tabs-content .row.error:before {
+	color: 								red;
+}
+#main .console .tabs .tabs-content .row.log:before {
+	color: 								green;
 }
 #main .console .tabs .tabs-content .row.log .message,
 #main .console .tabs .tabs-content .row.error .message {
