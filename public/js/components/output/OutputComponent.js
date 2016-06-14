@@ -88,81 +88,98 @@
             }
         });
 
-    var EV3MotorComponent = React.createClass({
+    var EV3IOComponent = React.createClass({
             getInitialState: function() {
-                var props = this.props;
-                var motor = props.motor;
+                var props   = this.props;
+                var device  = props.device;
 
                 return {
-                    id:         props.id || 1,
-                    type:       props.type || 'medium',
-                    i2c:        props.i2c || false,
-                    position:   motor.getPosition(),
-                    target:     motor.getTarget(),
-                    power:      motor.getPower(),
-                    speed:      motor.getSpeed(),
-                    min:        motor.getMin(),
-                    max:        motor.getMax()
+                    id:           props.id || 1,
+                    type:         props.type || 'medium',
+                    i2c:          props.i2c || false,
+                    value:        device.getValue    ? device.getValue()    : 0,
+                    position:     device.getPosition ? device.getPosition() : 0,
+                    target:       device.getTarget   ? device.getTarget()   : 0,
+                    power:        device.getPower    ? device.getPower()    : 0,
+                    speed:        device.getSpeed    ? device.getSpeed()    : 0,
+                    min:          device.getMin      ? device.getMin()      : 0,
+                    max:          device.getMax      ? device.getMax()      : 0,
+                    _motorStatus: null
                 };
             },
 
-            update: function(settings, motor) {
+            update: function(settings, device) {
                 var state = this.state;
 
                 state.id        = settings.id;
                 state.type      = settings.type || 'medium';
                 state.i2c       = settings.i2c || false;
-                state.position  = motor.getPosition();
-                state.target    = motor.getTarget();
-                state.power     = motor.getPower();
-                state.speed     = motor.getSpeed();
-                state.min       = motor.getMin();
-                state.max       = motor.getMax();
+                state.value     = device.getValue    ? device.getValue()    : 0;
+                state.position  = device.getPosition ? device.getPosition() : 0;
+                state.target    = device.getTarget   ? device.getTarget()   : 0;
+                state.power     = device.getPower    ? device.getPower()    : 0;
+                state.speed     = device.getSpeed    ? device.getSpeed()    : 0;
+                state.min       = device.getMin      ? device.getMin()      : 0;
+                state.max       = device.getMax      ? device.getMax()      : 0;
 
                 this.setState(state);
             },
 
             componentDidMount: function() {
-                if (!this._motorStatus) {
-                    this._motorStatus = new MotorStatus({canvas: this.refs.canvas});
+                if (this.props.deviceProperties.isMotor) {
+                    if (!this.state._motorStatus) {
+                        this.state._motorStatus = new MotorStatus({canvas: this.refs.canvas});
+                    }
+                    this.state._motorStatus.render(this.state);
                 }
-                this._motorStatus.render(this.state);
             },
 
             componentDidUpdate: function() {
-                if (!this._motorStatus) {
-                    this._motorStatus = new MotorStatus({canvas: this.refs.canvas});
+                if (this.props.deviceProperties.isMotor) {
+                    if (!this.state._motorStatus) {
+                        this.state._motorStatus = new MotorStatus({canvas: this.refs.canvas});
+                    }
+                    this.state._motorStatus.render(this.state);
                 }
-                this._motorStatus.render(this.state);
             },
 
             render: function() {
                 var state              = this.state;
                 var propertiesChildren = [];
-                var motorProperties    = this.props.motorProperties;
+                var deviceProperties   = this.props.deviceProperties;
 
-                motorProperties.i2c       && state.i2c && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'I2C', value: state.i2c }});
-                motorProperties.type      && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Type',     value: state.type }});
-                motorProperties.position  && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Position', value: state.position }});
-                motorProperties.target    && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Target',   value: state.target }});
-                motorProperties.power     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Power',    value: state.power + '%' }});
-                motorProperties.speed     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Speed',    value: '~' + state.speed + ' rpm' }});
-                motorProperties.range     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Range',    value: state.min + '..' + state.max }});
+                deviceProperties.i2c       && state.i2c && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'I2C', value: state.i2c }});
+                deviceProperties.type      && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Type',     value: state.type }});
+                deviceProperties.value     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Value',    value: state.value }});
+                deviceProperties.position  && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Position', value: state.position }});
+                deviceProperties.target    && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Target',   value: state.target }});
+                deviceProperties.power     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Power',    value: state.power + '%' }});
+                deviceProperties.speed     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Speed',    value: '~' + state.speed + ' rpm' }});
+                deviceProperties.range     && propertiesChildren.push({ type: EV3StatusRow, props: { name: 'Range',    value: state.min + '..' + state.max }});
 
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'box-shadow motor ' + (this.props.className || '')
+                        className: 'box-shadow io ' + (this.props.className || '')
                     },
                     children: [
-                        {
-                            type: 'canvas',
-                            props: {
-                                className: 'status-canvas',
-                                width:     48,
-                                height:    48,
-                                ref:       'canvas'
+                        (deviceProperties.isMotor ?
+                            {
+                                type: 'canvas',
+                                props: {
+                                    className: 'status-canvas',
+                                    width:     48,
+                                    height:    48,
+                                    ref:       'canvas'
+                                }
+                            } :
+                            {
+                                type: 'button',
+                                props: {
+                                    className:  'status-button button',
+                                    innerHTML:  state.id
+                                }
                             }
-                        },
+                        ),
                         {
                             props: {
                                 className: 'title',
@@ -280,66 +297,114 @@
                 this.props.onLarge && this.props.onLarge();
             },
 
-            render: function() {
+            renderMotors: function() {
                 var editorSettings   = wheel.editorSettings;
                 var standardMotors   = editorSettings.getStandardMotorSettings();
                 var i2cMotors        = editorSettings.getI2cMotorSettings();
                 var motors           = this.props.motors;
                 var motorProperties  = editorSettings.getMotorProperties();
                 var motorChildren    = [];
-                var toStringStandard = function() { return 'AA' + this.props.title; };
-                var toStringI2c      = function() { return this.props.title + '_' + this.props.i2c; };
+                var toString         = function() { return ('00000000' + this.props.id).substr(-8); };
 
+                motorProperties.isMotor = true;
                 for (var i = 0; i < standardMotors.length; i++) {
                     var standardMotor = standardMotors[i];
                     if (standardMotor.display) {
-                        var title = 'Out' + String.fromCharCode(64 + standardMotor.out);
+                        var title = 'Motor Out' + String.fromCharCode(64 + standardMotor.out);
                         motorChildren.push({
-                            type: EV3MotorComponent,
+                            type: EV3IOComponent,
                             props: {
-                                motor:           motors.getMotor(standardMotor.id - 1),
-                                type:            standardMotor.type,
-                                index:           i,
-                                ref:             'motor' + standardMotor.id,
-                                id:              standardMotor.id,
-                                title:           title,
-                                motorProperties: motorProperties
+                                device:           motors.getMotor(standardMotor.id - 1),
+                                deviceProperties: motorProperties,
+                                type:             standardMotor.type,
+                                index:            i,
+                                ref:              'motor' + standardMotor.id,
+                                id:               standardMotor.id,
+                                title:            title
                             },
-                            toString: toStringStandard
+                            toString: toString
                         });
                     }
                 }
                 for (var i = 0; i < i2cMotors.length; i++) {
                     var i2cMotor = i2cMotors[i];
                     if (i2cMotor.display) {
-                        var title = 'In' + i2cMotor.port + ' Motor' + i2cMotor.motorNumber;
+                        var title = 'Motor ' + i2cMotor.motorNumber + ' In' + i2cMotor.port;
                         motorChildren.push({
-                            type: EV3MotorComponent,
+                            type: EV3IOComponent,
                             props: {
-                                motor:           motors.getMotor(i2cMotor.id - 1),
-                                type:            i2cMotor.type,
-                                index:           i,
-                                ref:             'motor' + i2cMotor.id,
-                                id:              i2cMotor.id,
-                                title:           title,
-                                motorProperties: motorProperties,
-                                i2c:             i2cMotor.i2c
+                                device:           motors.getMotor(i2cMotor.id - 1),
+                                deviceProperties: motorProperties,
+                                type:             i2cMotor.type,
+                                index:            i,
+                                ref:              'motor' + i2cMotor.id,
+                                id:               i2cMotor.id,
+                                title:            title,
+                                i2c:              i2cMotor.i2c
                             },
-                            toString: toStringI2c
+                            toString: toString
                         });
                     }
                 }
                 motorChildren.sort();
 
-                var sensorSettings = this.props.editor.getSensorSettings();
-                var sensorChildren = [];
-/*
-                for (var i in sensorSettings) {
-                    if (sensorSettings[i]) {
-                        sensorChildren.push({ type: EV3SensorComponent, props: { ref: i, title: i }});
+                return motorChildren;
+            },
+
+            renderSensors: function() {
+                var editorSettings   = wheel.editorSettings;
+                var standardSensors  = editorSettings.getStandardSensorSettings();
+                var i2cSensors       = editorSettings.getI2cSensorSettings();
+                var sensors          = this.props.sensors;
+                var sensorProperties = editorSettings.getSensorProperties();
+                var sensorChildren   = [];
+                var toString         = function() { return ('00000000' + this.props.id).substr(-8); };
+
+                for (var i = 0; i < standardSensors.length; i++) {
+                    var standardSensor = standardSensors[i];
+                    if (standardSensor.display) {
+                        var title = 'Sensor In' + standardSensor.out;
+                        sensorChildren.push({
+                            type: EV3IOComponent,
+                            props: {
+                                device:           sensors.getSensor(standardSensor.id - 1),
+                                deviceProperties: sensorProperties,
+                                type:             standardSensor.type,
+                                index:            i,
+                                ref:              'sensor' + standardSensor.id,
+                                id:               standardSensor.id,
+                                title:            title
+                            },
+                            toString: toString
+                        });
                     }
                 }
-*/
+                for (var i = 0; i < i2cSensors.length; i++) {
+                    var i2cSensor = i2cSensors[i];
+                    if (i2cSensor.display) {
+                        var title = 'Sensor ' + i2cSensor.sensorNumber + ' In' + i2cSensor.port;
+                        sensorChildren.push({
+                            type: EV3IOComponent,
+                            props: {
+                                device:           sensors.getSensor(i2cSensor.id - 1),
+                                deviceProperties: sensorProperties,
+                                type:             i2cSensor.type,
+                                index:            i,
+                                ref:              'sensor' + i2cSensor.id,
+                                id:               i2cSensor.id,
+                                title:            title,
+                                i2c:              i2cSensor.i2c
+                            },
+                            toString: toString
+                        });
+                    }
+                }
+                sensorChildren.sort();
+
+                return sensorChildren;
+            },
+
+            render: function() {
                 return utilsReact.fromJSON({
                     props: {
                         className: 'output ' + (this.state.small ? ' small' : ' large')
@@ -365,13 +430,13 @@
                                     props: {
                                         className: 'motor-container',
                                     },
-                                    children: motorChildren
+                                    children: this.renderMotors()
                                 },
                                 {
                                     props: {
                                         className: 'sensor-container'
                                     },
-                                    children: sensorChildren
+                                    children: this.renderSensors()
                                 }
                             ]
                         }

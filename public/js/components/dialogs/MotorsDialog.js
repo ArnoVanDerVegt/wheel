@@ -3,7 +3,7 @@
             render: function() {
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motor-header'
+                        className: 'io-header'
                     },
                     children: [
                         {
@@ -32,7 +32,7 @@
                         },
                         {
                             props: {
-                                className: 'motor-number',
+                                className: 'io-number',
                                 innerHTML: 'Motor'
                             }
                         },
@@ -135,7 +135,7 @@
 
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motor-row'
+                        className: 'io-row'
                     },
                     children: [
                         {
@@ -207,7 +207,7 @@
                         },
                         {
                             props: {
-                                className: 'motor-number'
+                                className: 'io-number'
                             },
                             children: [
                                 {
@@ -325,7 +325,7 @@
 
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motors-content',
+                        className: 'io-content',
                     },
                     children: [
                         {
@@ -333,13 +333,13 @@
                         },
                         {
                             props: {
-                                className: 'motors-container'
+                                className: 'io-container'
                             },
                             children: listChildren
                         },
                         {
                             props: {
-                                className: 'motors-add'
+                                className: 'io-add'
                             },
                             children: [
                                 {
@@ -390,7 +390,7 @@
 
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motor-row'
+                        className: 'io-row'
                     },
                     children: [
                         {
@@ -464,7 +464,7 @@
             render: function() {
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motor-header'
+                        className: 'io-header'
                     },
                     children: [
                         {
@@ -530,7 +530,7 @@
 
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'motors-content'
+                        className: 'io-content'
                     },
                     children: [
                         {
@@ -538,7 +538,7 @@
                         },
                         {
                             props: {
-                                className: 'motors-container'
+                                className: 'io-container'
                             },
                             children: listChildren
                         }
@@ -644,7 +644,7 @@
 
                 var motorProperties = {
                         props: {
-                            className: 'motors-content',
+                            className: 'io-content',
                         },
                         children: propertiesChildren
                     };
@@ -652,7 +652,7 @@
                 return utilsReact.fromJSON(
                     wheel.components.dialogs.createDialog(
                         this,
-                        'motors',
+                        'io',
                         'icon-settings',
                         [
                             {

@@ -123,7 +123,7 @@ wheel(
                             {
                                 props: {
                                     className: 'location',
-                                    innerHTML: (location.filename === '') ? (location.filename + ':' + (location.lineNumber + 1)) : ''
+                                    innerHTML: (location.filename !== '') ? (location.filename + ':' + (location.lineNumber + 1)) : ''
                                 }
                             },
                             {

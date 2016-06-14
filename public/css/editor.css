@@ -190,6 +190,48 @@ input[type='text'] {
 	cursor: 							pointer;
 }
 
+/* Button */
+.button {
+	float: 								right;
+	margin: 							16px 16px 16px 0;
+	background-color: 					MidnightBlue;
+	border: 							0;
+	padding: 							4px 16px 4px 16px;
+	color: 								White;
+	font-size: 							16px;
+	font-weight: 						300;
+	line-height: 						16px;
+	cursor: 							pointer;
+	opacity: 							0.7;
+	transition: 						opacity 0.4s;
+	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
+										-0px 2px 5px rgba(0, 0, 0, 0.1),
+										-2px -0px 5px rgba(0, 0, 0, 0.1),
+										2px -0px 5px rgba(0, 0, 0, 0.1);
+}
+.button:hover,
+.button:focus {
+	opacity: 							1;
+}
+.button.accept {
+	background-color: 					Green;
+}
+.button.cancel {
+	background-color: 					Red;
+}
+.button.choice {
+	background-color: 					LimeGreen;
+}
+.button.accept:before,
+.button.cancel:before,
+.button.choice:before {
+	font-size: 							18px;
+	height: 							18px;
+	margin: 							0 8px 0 0;
+	padding: 							0;
+	text-align: 						center;
+}
+
 /* Files */
 .dotted {
 	background-image: 					-webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
@@ -425,9 +467,11 @@ input[type='text'] {
 	border-width: 						0 0 1px 0;
 	padding-left: 						32px;
 }
-#main .console .tabs .tabs-content .row .message {
+#main .console .tabs .tabs-content .row .message,
+#main .console .tabs .tabs-content .row .location {
 	font-family: 						'Courier New';
 	font-size: 							13px;
+	color: 								MidnightBlue;
 }
 #main .console .tabs .tabs-content .row.error:before,
 #main .console .tabs .tabs-content .row.log:before {
@@ -533,16 +577,19 @@ input[type='text'] {
 #main .output.large .motor-container {
 	width: 								180px;
 }
-#main .output .motor-container .motor {
+#main .output .motor-container .io,
+#main .output .sensor-container .io {
 	position: 							relative;
 	float: 								left;
 	width: 								178px;
+	min-height: 						64px;
 	background-color: 					White;
 	margin: 							0px 8px 8px 8px;
 	padding: 							8px;
 }
-#main .output .motor-container .box-shadow.motor .medium,
-#main .output .motor-container .box-shadow.motor .large {
+#main .output .motor-container .box-shadow.io .medium,
+#main .output .motor-container .box-shadow.io .large,
+#main .output .sensor-container .box-shadow.io .touch {
 	position: 							absolute;
 	background-repeat: 					no-repeat;
 	pointer-events: 					none;
@@ -553,31 +600,50 @@ input[type='text'] {
 	z-index: 							0;
 	opacity: 							0.2;
 }
-#main .output .motor-container .box-shadow.motor .medium {
+#main .output .motor-container .box-shadow.io .medium {
 	background: 						url('/images/mediumMotor.png');
+	background-size: 					100px 100px;
 }
-#main .output .motor-container .box-shadow.motor .large {
+#main .output .motor-container .box-shadow.io .large {
 	background: 						url('/images/largeMotor.png');
+	background-size: 					100px 100px;
 }
-#main .output.large .motor-container .motor {
+#main .output .sensor-container .box-shadow.io .touch {
+	background: 						url('/images/touchSensor.png');
+	background-size: 					100px 100px;
+}
+#main .output.large .motor-container .io {
 	width: 								174px;
 }
-#main .output .motor-container .motor .status-canvas {
+#main .output .motor-container .io .status-canvas {
 	float: 								left;
 	margin: 							0 8px 0 0;
 	z-index: 							100;
 }
-#main .output .motor-container .motor span,
-#main .output .motor-container .motor div {
+#main .output .sensor-container .io .status-button {
+	float: 								left;
+	margin: 							0 8px 0 0;
+	z-index: 							100;
+	width: 								48px;
+	height: 							48px;
+	background-color: 					LimeGreen;
+	cursor: 							pointer;
+	color: 								White;
+}
+#main .output .motor-container .io span,
+#main .output .motor-container .io div,
+#main .output .sensor-container .io span,
+#main .output .sensor-container .io div {
 	float: 								left;
 	position: 							relative;
 	z-index: 							150;
 }
-#main .output .motor-container .motor .title {
+#main .output .motor-container .io .title,
+#main .output .sensor-container .io .title {
 	margin: 							0 0 4px 0;
 	z-index: 							200;
 }
-#main .output .motor-container .motor .status-id {
+#main .output .motor-container .io .status-id {
 	position: 							absolute;
 	left: 								16px;
 	top: 								16px;
@@ -590,6 +656,9 @@ input[type='text'] {
 	font-weight: 						400;
 	font-size: 							18px;
 }
+#main .output .sensor-container .io .status-id {
+	display: 							none;
+}
 
 /* Sensor */
 #main .output .sensor-container {
@@ -599,32 +668,8 @@ input[type='text'] {
 #main .output.large .sensor-container {
 	width: 								188px;
 }
-#main .output .sensor-container .sensor {
-	float: 								left;
-	width: 								178px;
-	background-color: 					White;
-	margin: 							0px 8px 8px 8px;
-	padding: 							8px;
-}
-#main .output.large .sensor-container .sensor {
-	width: 								174px;
-}
-#main .output .sensor-container div.motor:last-child,
-#main .output .sensor-container div.sensor:last-child {
-	margin: 							8px;
-}
-#main .output .sensor-container .sensor .title {
-	margin: 							0 0 4px 0;
-}
-#main .output .sensor-container .sensor img {
-	float: 								left;
-	width: 								36px;
-	height: 							36px;
-	margin-right: 						4px;
-}
-#main .output .sensor-container .sensor span,
-#main .output .sensor-container .sensor div {
-	float: 								left;
+#main .output.large .sensor-container .io {
+	width: 								176px;
 }
 
 /* Screen */
@@ -726,46 +771,6 @@ input[type='text'] {
 	left: 								0px;
 	bottom: 							0px;
 	width: 								100%;
-}
-.dialog-vertical .button {
-	float: 								right;
-	margin: 							16px 16px 16px 0;
-	background-color: 					MidnightBlue;
-	border: 							0;
-	padding: 							4px 16px 4px 16px;
-	color: 								White;
-	font-size: 							16px;
-	font-weight: 						300;
-	line-height: 						16px;
-	cursor: 							pointer;
-	opacity: 							0.7;
-	transition: 						opacity 0.4s;
-	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
-										-0px 2px 5px rgba(0, 0, 0, 0.1),
-										-2px -0px 5px rgba(0, 0, 0, 0.1),
-										2px -0px 5px rgba(0, 0, 0, 0.1);
-}
-.dialog-vertical .button:hover,
-.dialog-vertical .button:focus {
-	opacity: 							1;
-}
-.dialog-vertical .button.accept {
-	background-color: 					Green;
-}
-.dialog-vertical .button.cancel {
-	background-color: 					Red;
-}
-.dialog-vertical .button.choice {
-	background-color: 					LimeGreen;
-}
-.dialog-vertical .button.accept:before,
-.dialog-vertical .button.cancel:before,
-.dialog-vertical .button.choice:before {
-	font-size: 							18px;
-	height: 							18px;
-	margin: 							0 8px 0 0;
-	padding: 							0;
-	text-align: 						center;
 }
 .dialog-vertical .dialog-header {
 	position: 							absolute;
@@ -895,144 +900,6 @@ input[type='text'] {
 	width: 								calc(100% - 100px);
 	font-size: 							16px;
 	margin: 							16px 0 0 16px;
-}
-
-/* Motors dialog */
-.dialog.motors {
-	height: 							440px;
-	margin: 							-220px 0 0 0;
-}
-.dialog.motors .dialog-vertical {
-	width: 								700px;
-	height: 							440px;
-}
-.dialog.motors .dialog-vertical .tabs {
-	width: 								572px;
-}
-.dialog.motors .motors-content {
-	float: 								right;
-}
-.dialog.motors .motors-content .half,
-.dialog.motors .motors-content .third {
-	float: 								left;
-}
-.dialog.motors .motors-content .row {
-	float: 								left;
-	width: 								100%;
-	margin-bottom: 						8px;
-}
-.dialog.motors .motors-content .row .label {
-	float: 								left;
-	line-height: 						24px;
-	margin-left: 						4px;
-}
-.dialog.motors .motors-content .row .checkbox {
-	float: 								left;
-}
-.dialog.motors .motors-content .motors-container {
-	float:								left;
-	width:								572px;
-	height:								192px;
-	overflow:							hidden;
-	overflow-y:							scroll;
-	background-color:					WhiteSmoke;
-}
-.dialog.motors .motors-content .motors-add {
-	float:								left;
-	width:								572px;
-}
-.dialog.motors .motors-content .motors-add .button {
-	float: 								left;
-	margin: 							8px 0 0 0;
-}
-.dialog.motors .motors-content .motor-header,
-.dialog.motors .motors-content .motor-row {
-	float:								left;
-	width:								572px;
-	height:								32px;
-}
-.dialog.motors .motors-content .motor-row:hover {
-	background-color: 					LightSkyBlue;
-}
-.dialog.motors .motors-content .motor-row:hover div {
-	color: 								Yellow;
-}
-.dialog.motors .motors-content .motor-header {
-	background-color:					PaleVioletRed;
-}
-.dialog.motors .motors-content .motor-row .id,
-.dialog.motors .motors-content .motor-row .display,
-.dialog.motors .motors-content .motor-row .port,
-.dialog.motors .motors-content .motor-row .out,
-.dialog.motors .motors-content .motor-row .i2c,
-.dialog.motors .motors-content .motor-row .motor-number,
-.dialog.motors .motors-content .motor-row .type {
-	float: 								left;
-	width: 								128px;
-	height: 							32px;
-}
-.dialog.motors .motors-content .motor-header .id,
-.dialog.motors .motors-content .motor-header .port,
-.dialog.motors .motors-content .motor-row .port,
-.dialog.motors .motors-content .motor-row .out,
-.dialog.motors .motors-content .motor-header .motor-number,
-.dialog.motors .motors-content .motor-row .motor-number {
-	width: 								64px;
-}
-.dialog.motors .motors-content .motor-header .id,
-.dialog.motors .motors-content .motor-row .id,
-.dialog.motors .motors-content .motor-header .display,
-.dialog.motors .motors-content .motor-row .display {
-	width: 								64px;
-}
-.dialog.motors .motors-content .motor-row .display {
-	padding: 							4px 0 0 8px;
-}
-.dialog.motors .motors-content .motor-row .id,
-.dialog.motors .motors-content .motor-row .port,
-.dialog.motors .motors-content .motor-row .i2c,
-.dialog.motors .motors-content .motor-row .motor-number,
-.dialog.motors .motors-content .motor-row .type {
-	padding: 							4px 0 0 4px;
-}
-.dialog.motors .motors-content .motor-row .out {
-	padding: 							7px 0 0 4px;
-}
-.dialog.motors .motors-content .motor-row .id input,
-.dialog.motors .motors-content .motor-row .i2c input {
-	width: 								40px;
-}
-.dialog.motors .motors-content .motor-header div {
-	float: 								left;
-	width: 								128px;
-	line-height: 						32px;
-	font-weight: 						400;
-	color: 								White;
-}
-.dialog.motors .motors-content .motor-header div.id {
-	width: 								64px;
-	padding-left: 						8px;
-}
-.dialog.motors .motors-content .motor-row .remove {
-	float: 								right;
-	width:								32px;
-	height: 							32px;
-	margin-right: 						16px;
-	cursor: 							pointer;
-}
-.dialog.motors .motors-content .motor-row .remove .icon-close,
-.dialog.motors .motors-content .motor-row .remove .icon-close:before {
-	width: 								32px;
-	height: 							32px;
-	line-height: 						32px;
-	text-align: 						center;
-}
-.dialog.motors .motors-content .motor-row:hover div select,
-.dialog.motors .motors-content .motor-row:hover div input[type='text'] {
-	border-color: 						MidnightBlue;
-}
-.dialog.motors .motors-content .motor-row:hover div .select.icon-chevron-down {
-	color: 								MidnightBlue;
 }
 
 /* Sensors dialog */

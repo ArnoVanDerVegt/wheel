@@ -1,7 +1,7 @@
 {
   "name": "ev3",
   "version": "0.0.0",
-  "description": "IDE for mindstorms VM code.",
+  "description": "Wheel IDE server and client.",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.4.3",
@@ -13,7 +13,7 @@
     "start": "node server.js"
   },
   "keywords": [
-    "ev3"
+    "wheel", "lego", "mindstorms", "ev3"
   ],
   "engines" : {
     "node" : "0.12.x"

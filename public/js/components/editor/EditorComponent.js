@@ -558,7 +558,8 @@ wheel(
                             onSmall:        this.onSmall,
                             onLarge:        this.onLarge,
                             onShowConsole:  this.onShowConsole,
-                            motors:         this.props.motors
+                            motors:         this.props.motors,
+                            sensors:        this.props.sensors
                         }
                     },
                     {
