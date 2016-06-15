@@ -208,33 +208,42 @@
             }
         });
 
-    var EV3SensorComponent = React.createClass({
+    var EV3ButtonsComponent = React.createClass({
             render: function() {
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'box-shadow sensor ' + (this.props.className || '')
+                        className: 'box-shadow io ev3-buttons'
                     },
                     children: [
                         {
-                            type: 'img',
+                            type: 'button',
                             props: {
-                                src: '/images/Hardware_NXT_Touch.png'
+                                className: 'button left'
                             }
                         },
                         {
+                            type: 'button',
                             props: {
-                                className: 'title',
-                                innerHTML: this.props.title
-                            },
+                                className: 'button right'
+                            }
                         },
                         {
+                            type: 'button',
                             props: {
-                                className: 'status'
-                            },
-                            children: [
-                                { type: EV3StatusRow, props: { name: 'Type',  value: 'Button' }},
-                                { type: EV3StatusRow, props: { name: 'Value', value: 0 }},
-                            ]
+                                className: 'button up'
+                            }
+                        },
+                        {
+                            type: 'button',
+                            props: {
+                                className: 'button down'
+                            }
+                        },
+                        {
+                            type: 'button',
+                            props: {
+                                className: 'button center'
+                            }
                         }
                     ]
                 });
@@ -347,6 +356,10 @@
                     }
                 }
                 motorChildren.sort();
+
+                motorChildren.unshift({
+                    type: EV3ButtonsComponent
+                });
 
                 return motorChildren;
             },

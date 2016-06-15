@@ -660,16 +660,40 @@ input[type='text'] {
 	display: 							none;
 }
 
-/* Sensor */
-#main .output .sensor-container {
+/* Buttons */
+#main .output .io.ev3-buttons {
 	float: 								left;
-	width: 								196px;
+	position: 							relative;
+	width: 								178px;
+	height: 							128px;
+	padding: 0;
 }
-#main .output.large .sensor-container {
-	width: 								188px;
+#main .output .io.ev3-buttons .button {
+	position: absolute;
+	width: 								32px;
+	height: 							32px;
+	background-color: 					LimeGreen;
+	margin: 0;
 }
-#main .output.large .sensor-container .io {
-	width: 								176px;
+#main .output .io.ev3-buttons .button.up {
+	left: 								77px;
+	top: 								8px;
+}
+#main .output .io.ev3-buttons .button.down {
+	left: 								77px;
+	bottom: 							8px;
+}
+#main .output .io.ev3-buttons .button.left {
+	left: 								37px;
+	top: 								48px;
+}
+#main .output .io.ev3-buttons .button.right {
+	right: 								29px;
+	top: 								48px;
+}
+#main .output .io.ev3-buttons .button.center {
+	left: 								77px;
+	top: 								48px;
 }
 
 /* Screen */
