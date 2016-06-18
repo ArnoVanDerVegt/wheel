@@ -1,1 +1,21 @@
-#define MODULE_BUTTONS      2
+#define MODULE_BUTTONS      6
+
+#define BUTTON_READ   0
+
+#define BUTTON_NONE   0
+#define BUTTON_LEFT   1
+#define BUTTON_CENTER 2
+#define BUTTON_RIGHT  3
+#define BUTTON_UP     4
+#define BUTTON_DOWN   5
+
+proc button()
+    struct Button
+        number result
+    ends
+    Button button
+    addr     button
+    module   MODULE_BUTTONS,           BUTTON_READ
+    
+    return button.result
+endp

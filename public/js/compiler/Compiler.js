@@ -26,6 +26,7 @@ wheel(
                     'Set',
                     'Call',
                     'CallFunction',
+                    'CallReturn',
                     'Label',
                     'ArrayR',
                     'ArrayW',
@@ -45,32 +46,35 @@ wheel(
             compilers.CallFunction.setSetCompiler(compilers.Set);
             compilers.CallFunction.setNumberOperatorCompiler(compilers.NumberOperator);
 
+            compilers.CallReturn.setSetCompiler(compilers.Set);
+
             this._compilerByCommand = {
-                je:     compilers.JmpC,
-                jne:    compilers.JmpC,
-                jl:     compilers.JmpC,
-                jle:    compilers.JmpC,
-                jg:     compilers.JmpC,
-                jge:    compilers.JmpC,
-                set:    compilers.Set,
-                addr:   compilers.Addr,
-                arrayr: compilers.ArrayR,
-                arrayw: compilers.ArrayW,
-                loopdn: compilers.LoopDn,
-                loopup: compilers.LoopUp,
-                number: compilers.NumberDeclaration,
-                inc:    compilers.NumberInc,
-                dec:    compilers.NumberDec,
-                add:    compilers.NumberOperator,
-                sub:    compilers.NumberOperator,
-                mul:    compilers.NumberOperator,
-                div:    compilers.NumberOperator,
-                and:    compilers.NumberOperator,
-                or:     compilers.NumberOperator,
-                cmp:    compilers.NumberOperator,
-                mod:    compilers.NumberOperator,
-                string: compilers.StringDeclaration,
-                proc:   compilers.ProcedureDeclaration
+                je:         compilers.JmpC,
+                jne:        compilers.JmpC,
+                jl:         compilers.JmpC,
+                jle:        compilers.JmpC,
+                jg:         compilers.JmpC,
+                jge:        compilers.JmpC,
+                set:        compilers.Set,
+                addr:       compilers.Addr,
+                arrayr:     compilers.ArrayR,
+                arrayw:     compilers.ArrayW,
+                loopdn:     compilers.LoopDn,
+                loopup:     compilers.LoopUp,
+                number:     compilers.NumberDeclaration,
+                inc:        compilers.NumberInc,
+                dec:        compilers.NumberDec,
+                add:        compilers.NumberOperator,
+                sub:        compilers.NumberOperator,
+                mul:        compilers.NumberOperator,
+                div:        compilers.NumberOperator,
+                and:        compilers.NumberOperator,
+                or:         compilers.NumberOperator,
+                cmp:        compilers.NumberOperator,
+                mod:        compilers.NumberOperator,
+                string:     compilers.StringDeclaration,
+                proc:       compilers.ProcedureDeclaration,
+                'return':   compilers.CallReturn
             };
         };
 
@@ -162,7 +166,6 @@ wheel(
                 }
 
                 this._lineNumber = i;
-
                 var location = {
                         filename:     this._filename,
                         lineNumber: i
@@ -197,8 +200,8 @@ wheel(
                                 throw this.createError('Invalid command "endp".');
                             }
                             this.getOutput().add({
-                                command:     'ret',
-                                code:         wheel.compiler.command.ret.code
+                                command: 'ret',
+                                code:    wheel.compiler.command.ret.code
                             });
                             output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
                             this._procStartIndex = -1;

@@ -202,76 +202,70 @@ input[type='text'] {
     font-weight:                        300;
     line-height:                        16px;
     cursor:                             pointer;
-    opacity:                            0.7;
-    transition:                         opacity 0.4s;
     box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -2px -0px 5px rgba(0, 0, 0, 0.1),
                                         2px -0px 5px rgba(0, 0, 0, 0.1);
 }
-.button:hover,
-.button:focus {
-    opacity:                             1;
-}
 .button.accept {
-    background-color:                     Green;
+    background-color:                   Green;
 }
 .button.cancel {
-    background-color:                     Red;
+    background-color:                   Red;
 }
 .button.choice {
-    background-color:                     LimeGreen;
+    background-color:                   LimeGreen;
 }
 .button.accept:before,
 .button.cancel:before,
 .button.choice:before {
-    font-size:                             18px;
+    font-size:                          18px;
     height:                             18px;
     margin:                             0 8px 0 0;
-    padding:                             0;
+    padding:                            0;
     text-align:                         center;
 }
 
 /* Files */
 .dotted {
-    background-image:                     -webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-    background-image:                     -moz-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-    background-image:                     -ms-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-    background-image:                     repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-    -webkit-background-size:             3px 3px;
-    -moz-background-size:                 3px 3px;
-    background-size:                     3px 3px;
+    background-image:                   -webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                   -moz-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                   -ms-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                   repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    -webkit-background-size:            3px 3px;
+    -moz-background-size:               3px 3px;
+    background-size:                    3px 3px;
 }
 #main .files {
-    position:                             absolute;
-    top:                                 56px;
-    left:                                 0px;
+    position:                           absolute;
+    top:                                56px;
+    left:                               0px;
     bottom:                             8px;
     list-style:                         none;
-    padding:                             0 8px 0 8px;
-    overflow:                             hidden;
+    padding:                            0 8px 0 8px;
+    overflow:                           hidden;
     overflow-y:                         scroll;
 }
 #main .files .resizer {
-    position:                             absolute;
-    top:                                 0;
-    right:                                 0;
-    width:                                 10px;
+    position:                           absolute;
+    top:                                0;
+    right:                              0;
+    width:                              10px;
     bottom:                             0;
-    z-index:                             10100;
+    z-index:                            10100;
     cursor:                             col-resize;
-    opacity:                             0.1;
+    opacity:                            0.1;
 }
 #main .files .resizer:hover {
-    opacity:                             0.75;
+    opacity:                            0.75;
 }
 #main .files .resizer.resizing {
-    opacity:                             1;
+    opacity:                            1;
 }
 #main .files ul {
-    float:                                 left;
-    width:                                 100%;
-    z-index:                             0;
+    float:                              left;
+    width:                              100%;
+    z-index:                            0;
 }
 #main .files li {
     float:                                 left;
@@ -411,122 +405,81 @@ input[type='text'] {
 }
 /* Console */
 #main .console {
-    position:                             absolute;
-    right:                                 196px;
+    position:                           absolute;
+    right:                              196px;
     height:                             152px;
     bottom:                             8px;
-    background-color:                     White;
-    display:                             none;
+    background-color:                   White;
+    display:                            none;
 }
 #main .console.visible {
-    display:                             block;
+    display:                            block;
 }
 #main .console.visible.small {
-    right:                                 376px;
+    right:                              376px;
 }
-#main .console .tabs {
-    position:                             absolute;
-    top:                                 0px;
-    left:                                 0px;
-    width:                                 100%;
-    bottom:                             0px;
+#main .console .messages {
+    position:                           absolute;
+    top:                                0px;
+    left:                               0px;
+    width:                              100%;
+    bottom:                             40px;
     margin:                             0;
-}
-#main .console .tabs ul {
-    padding-left:                         8px;
-    height:                             40px;
-}
-#main .console .tabs .tab-content,
-#main .console .tabs .tabs-content {
-    position:                             absolute;
-    top:                                 40px;
-    left:                                 0px;
-    width:                                 100%;
-    bottom:                             0px;
-    margin:                             0;
-}
-#main .console .tabs .tab-content {
-    top:                                 0px;
-    overflow:                             hidden;
+    overflow:                           hidden;
     overflow-y:                         scroll;
 }
-#main .console .tabs .tabs-content .row {
-    float:                                 left;
-    width:                                 100%;
-    padding:                             2px 16px 2px 8px;
+#main .console .messages .row {
+    float:                              left;
+    width:                              100%;
+    padding:                            2px 16px 2px 8px;
     margin:                             0;
-    font-family:                         monospace;
-    font-size:                             13px;
-    line-height:                         13px;
+    font-family:                        monospace;
+    font-size:                          13px;
+    line-height:                        13px;
 }
-#main .console .tabs .tabs-content .row.log,
-#main .console .tabs .tabs-content .row.error {
-    position:                             relative;
+#main .console .messages .row.log,
+#main .console .messages .row.error {
+    position:                           relative;
     cursor:                             pointer;
     border:                             1px dotted LightSkyBlue;
-    border-width:                         0 0 1px 0;
-    padding-left:                         32px;
+    border-width:                       0 0 1px 0;
+    padding-left:                       32px;
 }
-#main .console .tabs .tabs-content .row .message,
-#main .console .tabs .tabs-content .row .location {
-    font-family:                         'Courier New';
-    font-size:                             13px;
-    color:                                 MidnightBlue;
+#main .console .messages .message,
+#main .console .messages .row .location {
+    font-family:                        'Courier New';
+    font-size:                          13px;
+    color:                              MidnightBlue;
 }
-#main .console .tabs .tabs-content .row.error:before,
-#main .console .tabs .tabs-content .row.log:before {
-    position:                             absolute;
-    left:                                 8px;
-    top:                                 1px;
-    font-size:                             15px;
+#main .console .messages .row.error:before,
+#main .console .messages .row.log:before {
+    position:                           absolute;
+    left:                               8px;
+    top:                                1px;
+    font-size:                          15px;
 }
-#main .console .tabs .tabs-content .row.error:before {
-    color:                                 red;
+#main .console .messages .row.error:before {
+    color:                              red;
 }
-#main .console .tabs .tabs-content .row.log:before {
+#main .console .messages .row.log:before {
     color:                                 green;
 }
-#main .console .tabs .tabs-content .row.log .message,
-#main .console .tabs .tabs-content .row.error .message {
+#main .console .messages .row.log .message,
+#main .console .messages .row.error .message {
     float:                                 left;
 }
-#main .console .tabs .tabs-content .row.log .location,
-#main .console .tabs .tabs-content .row.error .location {
+#main .console .messages .row.log .location,
+#main .console .messages .row.error .location {
     float:                                 right;
 }
 
-#main .console .tabs .tabs-content .row.var {
-    cursor:                             pointer;
-    border:                             1px dotted LightSkyBlue;
-    border-width:                         0 0 1px 0;
-}
-#main .console .tabs .tabs-content .row.var .offset {
-    float:                                 left;
-    min-width:                             60px;
-    text-align:                         left;
-}
-#main .console .tabs .tabs-content .row.var .name {
-    float:                                 left;
-    margin-left:                        8px;
-}
-
-#main .console .tabs-titles {
-    padding: 0;
-}
-#main .console .tabs li {
-    height:                             32px;
-    line-height:                         32px;
-    padding: 0;
-}
-#main .console .tabs li.tool {
-    float:                                 right;
-    list-style-type:                     none;
-    margin:                             0 8px 0 0;
-    padding:                             0;
+#main .console .control-panel {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width:                              100%;
     height:                             40px;
-    line-height:                         40px;
-    font-size:                             20px;
-    cursor:                             pointer;
+    background-color:                   LightSkyBlue;
 }
 
 /* Output */
@@ -668,6 +621,67 @@ input[type='text'] {
     height:                             128px;
     padding:                            0;
 }
+@keyframes red {
+    0%      { background-color: Red; }
+    50%     { background-color: PaleVioletRed; }
+    100%    { background-color: Red; }
+}
+@keyframes red-flash {
+    0%      { background-color: WhiteSmoke; }
+    50%     { background-color: Red; }
+    100%    { background-color: WhiteSmoke; }
+}
+@keyframes yellow-flash {
+    0%      { background-color: WhiteSmoke; }
+    50%     { background-color: Yellow; }
+    100%    { background-color: WhiteSmoke; }
+}
+@keyframes yellow {
+    0%      { background-color: Orange; }
+    50%     { background-color: Yellow; }
+    100%    { background-color: Orange; }
+}
+@keyframes green {
+    0%      { background-color: LimeGreen; }
+    50%     { background-color: Green; }
+    100%    { background-color: LimeGreen; }
+}
+@keyframes green-flash {
+    0%      { background-color: WhiteSmoke; }
+    50%     { background-color: Green; }
+    100%    { background-color: WhiteSmoke; }
+}
+#main .output .io.ev3-buttons .ev3-light {
+    position:                           absolute;
+    left:                               49px;
+    top:                                24px;
+    width:                              80px;
+    height:                             80px;
+    border:                             1px solid MidnightBlue;
+    background-color:                   WhiteSmoke;
+    z-index:                            1;
+    animation-duration:                 0.5s;
+    animation-iteration-count:          infinite;
+}
+#main .output .io.ev3-buttons .ev3-light.red {
+    animation-name:                     red;
+}
+#main .output .io.ev3-buttons .ev3-light.red-flash {
+    animation-name:                     red-flash;
+}
+#main .output .io.ev3-buttons .ev3-light.yellow {
+    animation-name:                     yellow;
+}
+#main .output .io.ev3-buttons .ev3-light.yellow-flash {
+    animation-name:                     yellow-flash;
+}
+#main .output .io.ev3-buttons .ev3-light.green {
+    animation-name:                     green;
+}
+#main .output .io.ev3-buttons .ev3-light.green-flash {
+    animation-name:                     green-flash;
+}
+
 #main .output .io.ev3-buttons .button {
     position:                           absolute;
     width:                              32px;
@@ -675,6 +689,7 @@ input[type='text'] {
     background-color:                   LimeGreen;
     margin:                             0;
     padding:                            0;
+    z-index:                            10;
 }
 #main .output .io.ev3-buttons .button:before {
     position:                           absolute;
@@ -688,28 +703,28 @@ input[type='text'] {
     text-align:                         center;
     font-size:                          32px;
 }
+#main .output .io.ev3-buttons .button.left {
+    left:                               33px;
+    top:                                48px;
+}
+#main .output .io.ev3-buttons .button.up {
+    left:                               73px;
+    top:                                8px;
+}
+#main .output .io.ev3-buttons .button.center {
+    left:                               73px;
+    top:                                48px;
+}
 #main .output .io.ev3-buttons .button.center:before {
     font-size:                          25px;
 }
-#main .output .io.ev3-buttons .button.up {
-    left:                                 77px;
-    top:                                 8px;
-}
 #main .output .io.ev3-buttons .button.down {
-    left:                                 77px;
+    left:                               73px;
     bottom:                             8px;
 }
-#main .output .io.ev3-buttons .button.left {
-    left:                                 37px;
-    top:                                 48px;
-}
 #main .output .io.ev3-buttons .button.right {
-    right:                                 29px;
-    top:                                 48px;
-}
-#main .output .io.ev3-buttons .button.center {
-    left:                                 77px;
-    top:                                 48px;
+    right:                              29px;
+    top:                                48px;
 }
 
 /* Screen */
@@ -732,36 +747,42 @@ input[type='text'] {
     font-family:                         'Inconsolata';
 }
 #main .output.large .ev3-screen canvas {
-    width:                                 356px;
+    width:                              356px;
     height:                             256px;
 }
 #main .output .ev3-screen .control-panel {
-    float:                                 left;
-    width:                                 100%;
+    float:                              left;
+    width:                              100%;
     height:                             40px;
-    background-color:                     LightSkyBlue;
+    background-color:                   LightSkyBlue;
 }
 
-#main .output .ev3-screen .control-panel .icon {
-    float:                                 left;
+/* Control panel icons */
+#main .control-panel .icon {
+    float:                              left;
     cursor:                             pointer;
-    color:                                 MidnightBlue;
-    font-size:                             32px;
-    line-height:                         35px;
+    color:                              MidnightBlue;
+    font-size:                          32px;
+    line-height:                        35px;
     height:                             36px;
     margin-top:                         4px;
 }
-#main .output .ev3-screen .control-panel .icon:hover {
-    color:                                 Yellow;
+#main .control-panel .icon:hover {
+    color:                              Yellow;
 }
-#main .output .ev3-screen .control-panel .icon.icon-circle-play {
-    margin-left:                         8px;
+#main .control-panel .icon.icon-circle-play {
+    margin-left:                        8px;
 }
-#main .output .ev3-screen .control-panel .icon.icon-comment,
-#main .output .ev3-screen .control-panel .icon.icon-area {
-    float:                                 right;
-    font-size:                             24px;
-    margin-right:                         8px;
+#main .control-panel .icon.icon-comment,
+#main .control-panel .icon.icon-area,
+#main .control-panel .icon.icon-close {
+    float:                              right;
+    font-size:                          24px;
+    margin-right:                       8px;
+}
+#main .control-panel .icon.icon-comment-close {
+    font-size:                          24px;
+    margin-left:                        8px;
 }
 
 /* Dialogs */

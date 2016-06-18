@@ -285,12 +285,14 @@ wheel(
             var compilerOutput = compiler.getOutput();
             var compilerData   = this._compilerData;
 
+            console.log(params);
             params = wheel.compiler.compilerHelper.splitParams(params);
 
             // The local offset is the stack size used in the current procedure...
             var offset = currentLocalStackSize;
             for (var i = 0; i < params.length; i++) {
                 var param = params[i].trim();
+                console.log(i, param);
                 if (param !== '') {
                     var paramInfo    = compilerData.paramInfo(param);
                     var destParam;

@@ -191,100 +191,32 @@ wheel(
                 },
                 children: [
                     {
-                        type: wheel.components.ui.TabsComponent,
                         props: {
-                            ref:     'tabs',
-                            pages: [
-                                {
-                                    title:         'Messages',
-                                    content:     messageChildren
-                                },
-                                {
-                                    title:         'Data',
-                                    content:     [
-                                        {
-                                            type:         'table',
-                                            children:     [
-                                                {
-                                                    type:         'tbody',
-                                                    children:     [
-                                                        {
-                                                            type:     'tr',
-                                                            props:     {
-                                                                className: 'row var'
-                                                            },
-                                                            children: [
-                                                                {
-                                                                    type:     'th',
-                                                                    props:     {
-                                                                        className: 'offset',
-                                                                        innerHTML: 'Offset'
-                                                                    }
-                                                                },
-                                                                {
-                                                                    type:     'th',
-                                                                    props:     {
-                                                                        className: 'offset',
-                                                                        innerHTML: 'Length'
-                                                                    }
-                                                                },
-                                                                {
-                                                                    type:     'th',
-                                                                    props:     {
-                                                                        className: 'offset',
-                                                                        innerHTML: 'Size'
-                                                                    }
-                                                                },
-                                                                {
-                                                                    type:     'th',
-                                                                    props:     {
-                                                                        className: 'name',
-                                                                        innerHTML: 'Name'
-                                                                    }
-                                                                }
-                                                            ]
-                                                        }
-                                                    ].concat(globalsChildren)
-                                                }
-                                            ]
-                                        }
-                                    ]
+                            className: 'messages'
+                        },
+                        children: messageChildren
+                    },
+                    {
+                        props: {
+                            className: 'control-panel'
+                        },
+                        children: [
+                            {
+                                props: {
+                                    className:   'icon icon-close',
+                                    onClick:     this.onClose
                                 }
-                            ],
-                            tools: [
-                                {
-                                    type: 'li',
-                                    props: {
-                                        className: 'tool',
-                                    },
-                                    children: [
-                                        {
-                                            props: {
-                                                className:     'icon-close',
-                                                onClick:     this.onClose
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    type: 'li',
-                                    props: {
-                                        className: 'tool',
-                                    },
-                                    children: [
-                                        {
-                                            props: {
-                                                className:     'icon-comment-close',
-                                                onClick:     this.onClearMessages
-                                            }
-                                        }
-                                    ]
+                            },
+                            {
+                                props: {
+                                    className:   'icon icon-comment-close',
+                                    onClick:     this.onClearMessages
                                 }
-                            ]
-                        }
+                            }
+                        ]
                     }
                 ]
             });
-        },
+        }
     })
 );

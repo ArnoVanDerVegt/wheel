@@ -8,21 +8,21 @@ var wheelGrammar = {
 
         // Style model
         'Style': {
-            'comment':                 'comment',
-            'keyword':                 'keyword',
-            'expression_keyword':     'expression-keyword',
-            'api_keyword':             'api-keyword',
+            'comment':              'comment',
+            'keyword':              'keyword',
+            'expression_keyword':   'expression-keyword',
+            'api_keyword':          'api-keyword',
             'variable':             'variable',
-            'struct_variable':         'struct-variable',
+            'struct_variable':      'struct-variable',
             'register':             'register',
             'constant':             'constant',
             'meta':                 'meta',
-            'identifier':             'identifier',
-            'number':                 'number',
-            'boolean':                 'boolean',
-            'string':                 'string',
-            'label':                 'label',
-            'label_param':             'label',
+            /*'identifier':           'identifier',*/
+            'number':               'number',
+            'boolean':              'boolean',
+            'string':               'string',
+            'label':                'label',
+            'label_param':          'label',
             'sign':                 'sign'
         },
 
@@ -49,6 +49,7 @@ var wheelGrammar = {
                     'MODULE_BUTTONS',
                     'MODULE_MATH',
                     'MODULE_SENSOR',
+                    'MODULE_LIGHT',
                     'SCREEN_CLEAR',
                     'SCREEN_DRAW_PIXEL',
                     'SCREEN_DRAW_NUMBER',
@@ -68,7 +69,20 @@ var wheelGrammar = {
                     'MOTOR_RESET',
                     'MOTOR_MOVE_TO',
                     'MOTOR_MOVE',
-                    'MOTOR_STOP'
+                    'MOTOR_STOP',
+                    'LIGHT_UPDATE',
+                    'LIGHT_OFF',
+                    'LIGHT_RED',
+                    'LIGHT_YELLOW',
+                    'LIGHT_GREEN',
+                    'LIGHT_FLASH_ON',
+                    'LIGHT_FLASH_OFF',
+                    'BUTTON_NONE',
+                    'BUTTON_LEFT',
+                    'BUTTON_CENTER',
+                    'BUTTON_RIGHT',
+                    'BUTTON_UP',
+                    'BUTTON_DOWN'
                 ]
             },
             'meta': {
@@ -92,7 +106,7 @@ var wheelGrammar = {
             },
             //'identifier': 'RE::/[^A-Za-z0-9_.]*/i',
             // "RE::/\\S+/",
-            'identifier': 'RE::/[A-Z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*/i',
+            //'identifier': 'RE::/[A-Z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*/i',
             'number': [
                 // floats
                 "RE::/\\d*\\.\\d+(e[\\+\\-]?\\d+)?/",
@@ -120,7 +134,8 @@ var wheelGrammar = {
                     'proc',
                     'endp',
                     'struct',
-                    'ends'
+                    'ends',
+                    'return'
                 ]
             },
             'expression_keyword': {
@@ -165,7 +180,12 @@ var wheelGrammar = {
                     'floor',
                     'ceil',
                     'abs',
-                    'neg'
+                    'neg',
+                    'light',
+                    'motorReset',
+                    'motorMoveTo',
+                    'motorMove',
+                    'motorStop'
                 ]
             },
             'variable': {
@@ -185,7 +205,7 @@ var wheelGrammar = {
 
         // Syntax model (optional)
         'Syntax': {
-            'token': 'label | label_param | boolean | number | variable | struct_variable | string | keyword | expression_keyword | api_keyword | register | constant | meta | identifier | sign'
+            'token': 'label | label_param | boolean | number | variable | struct_variable | string | keyword | expression_keyword | api_keyword | register | constant | meta | sign'
         },
 
         // what to parse and in what order

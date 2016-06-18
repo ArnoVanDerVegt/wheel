@@ -170,6 +170,7 @@
 }
 .cm-s-default span.cm-keyword {
 	color: 								#FF0000;
+	font-weight: 						bold;
 }
 .cm-s-default span.cm-meta {
 	color: 								#FF0000;

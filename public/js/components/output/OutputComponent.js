@@ -209,40 +209,107 @@
         });
 
     var EV3ButtonsComponent = React.createClass({
+            getInitialState: function() {
+                return {
+                    animation:  '',
+                    flash:      false,
+                    _pressed:   0
+                };
+            },
+
+            setLight: function(color, flash) {
+                var state = this.state;
+                switch (color) {
+                    case 0: // Off
+                        state.animation = '';
+                        state.flash     = false;
+                        break;
+
+                    case 1: // Red
+                        state.animation = 'red';
+                        state.flash     = flash;
+                        break;
+
+                    case 2: // Yellow
+                        state.animation = 'yellow';
+                        state.flash     = flash;
+                        break;
+
+                    case 4: // Green
+                        state.animation = 'green';
+                        state.flash     = flash;
+                        break;
+                }
+                this.setState(state);
+            },
+
+            getButton: function() {
+                return this.state._pressed;
+            },
+
+            onMouseDown: function(button) {
+                this.state._pressed = button;
+            },
+
+            onMouseUp: function() {
+                this.state._pressed = 0;
+            },
+
             render: function() {
+                var state = this.state;
                 return utilsReact.fromJSON({
                     props: {
                         className: 'box-shadow io ev3-buttons'
                     },
                     children: [
                         {
-                            type: 'button',
                             props: {
-                                className: 'button left icon-chevron-left'
+                                className: 'ev3-light ' + (state.animation + (state.flash ? '-flash' : ''))
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button right icon-chevron-right'
+                                className: 'button left icon-chevron-left',
+                                onMouseDown:    (function() { this.onMouseDown(1); }).bind(this),
+                                onMouseUp:      this.onMouseUp,
+                                onMouseOut:     this.onMouseUp
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button up icon-chevron-up'
+                                className: 'button center icon-circle',
+                                onMouseDown:    (function() { this.onMouseDown(2); }).bind(this),
+                                onMouseUp:      this.onMouseUp,
+                                onMouseOut:     this.onMouseUp
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button down icon-chevron-down'
+                                className: 'button right icon-chevron-right',
+                                onMouseDown:    (function() { this.onMouseDown(3); }).bind(this),
+                                onMouseUp:      this.onMouseUp,
+                                onMouseOut:     this.onMouseUp
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button center icon-circle'
+                                className: 'button up icon-chevron-up',
+                                onMouseDown:    (function() { this.onMouseDown(4); }).bind(this),
+                                onMouseUp:      this.onMouseUp,
+                                onMouseOut:     this.onMouseUp
+                            }
+                        },
+                        {
+                            type: 'button',
+                            props: {
+                                className: 'button down icon-chevron-down',
+                                onMouseDown:    (function() { this.onMouseDown(5); }).bind(this),
+                                onMouseUp:      this.onMouseUp,
+                                onMouseOut:     this.onMouseUp
                             }
                         }
                     ]
@@ -286,7 +353,7 @@
                 for (var i = 0; i < i2cMotors.length; i++) {
                     var i2cMotor = i2cMotors[i];
                     var motor    = motors.getMotor(i2cMotor.id - 1);
-                    var ref = 'motor' + i2cMotor.id;
+                    var ref      = 'motor' + i2cMotor.id;
                     refs[ref] && refs[ref].update(i2cMotor, motor);
                 }
 
@@ -359,7 +426,11 @@
                 motorChildren.sort();
 
                 motorChildren.unshift({
-                    type: EV3ButtonsComponent
+                    type: EV3ButtonsComponent,
+                    props: {
+                        ref:    'buttons',
+                        editor: this.props.editor
+                    }
                 });
 
                 return motorChildren;

@@ -1,6 +1,6 @@
 #project "Number demo"
     
-;include "/lib/standard.whl"
+#include "/lib/standard.whl"
 #include "/lib/motors.whl"
         
 struct Point
@@ -14,6 +14,7 @@ proc testPointer(Point *points[0])
 	;Point point
     ;arrayr point, *points, 1
     ;printN(point.y)
+    return 10
 endp
     
 proc main()
@@ -27,6 +28,7 @@ proc main()
     set n, testPointer(&points)
 	;testPointer(&points)
     ;motorMoveTo(1, 4000, 10)
+    printN(n)
 ;loop:
 ;	jmp loop
 endp

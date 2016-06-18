@@ -8,7 +8,7 @@ proc main()
     set     n,                      1       ; Set n to 1
     cmp     n,                      0       ; Compare n to 0
     je      myLabel                         ; jump to myLabel if n is equal to 0
-    print   "n <> 0"
+    printS("n <> 0")
 myLabel:
 
 endp

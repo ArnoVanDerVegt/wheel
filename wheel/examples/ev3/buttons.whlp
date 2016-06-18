@@ -1,0 +1,20 @@
+#project "Read buttons"
+
+#include "/lib/standard.whl"
+#include "/lib/buttons.whl"
+#include "/lib/light.whl"
+
+proc main()
+    number pressed
+loop:
+	set pressed, button()
+	cmp pressed, BUTTON_NONE
+	je noButton
+	light(LIGHT_RED, LIGHT_FLASH_OFF)
+    jmp done
+noButton:
+	light(LIGHT_OFF, LIGHT_FLASH_OFF)
+done:
+
+	jmp loop
+endp

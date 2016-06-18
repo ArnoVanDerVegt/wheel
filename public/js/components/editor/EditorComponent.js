@@ -19,13 +19,13 @@ wheel(
                     });
                 }.bind(this)
             );
-            console.log('small:',   wheel.editorSettings.getUISetting('small'));
-            console.log('console:', wheel.editorSettings.getUISetting('console'));
+
             return {
                 small:           wheel.editorSettings.getUISetting('small'),
                 console:         wheel.editorSettings.getUISetting('console'),
                 activeFileIndex: 0,
-                activeProject:   null
+                activeProject:   null,
+                _buttons:        null
             }
         },
 
@@ -120,7 +120,10 @@ wheel(
                                 var onResourcesLoaded = (function() {
                                         var compilerData = compiler.getCompilerData();
                                         this.refs.console.setGlobals(compilerData.getGlobalList());
-                                        vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen());
+                                        vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen()); // Screen module
+                                        vm.getModule(5).setEV3Buttons(refs.output.refs.buttons);              // Light module
+                                        vm.getModule(6).setEV3Buttons(refs.output.refs.buttons);              // Buttons module
+
                                         vm.run(
                                             outputCommands,
                                             compilerData.getStringList(),

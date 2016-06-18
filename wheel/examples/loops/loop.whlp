@@ -4,8 +4,8 @@
 
 proc main()
     number  counter
-    set     counter,                4
+    set     counter,                0
 demoLoop:
-    log     counter
-    loop    counter,                demoLoop
+    printN(counter)
+    loopup    counter,   10,             demoLoop
 endp

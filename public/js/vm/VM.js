@@ -21,6 +21,8 @@ wheel(
             this._modules[2] = new wheel.vm.modules.MotorModule({vm: this, vmData: this._vmData, motors: this._motors});
             this._modules[3] = new wheel.vm.modules.SensorModule({vm: this, vmData: this._vmData});
             this._modules[4] = new wheel.vm.modules.MathModule({vm: this, vmData: this._vmData});
+            this._modules[5] = new wheel.vm.modules.LightModule({vm: this, vmData: this._vmData});
+            this._modules[6] = new wheel.vm.modules.ButtonsModule({vm: this, vmData: this._vmData});
         };
 
         this.runCommand = function(command) {

@@ -1,0 +1,7 @@
+#project "Control the ev3 lights"
+
+#include "/lib/light.whl"
+
+proc main()
+    light(LIGHT_RED, LIGHT_FLASH_ON)
+endp

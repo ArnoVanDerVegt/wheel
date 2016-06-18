@@ -1016,6 +1016,18 @@
 						]
 					}
 				]
+			},
+			'return': {
+				code: 1042,
+				args: [
+					{type: T_NUMBER_CONSTANT},
+					{type: T_NUMBER_GLOBAL},
+					{type: T_NUMBER_LOCAL},
+					{type: T_NUMBER_REGISTER},
+					{type: T_PROC},
+					{type: T_PROC_GLOBAL},
+					{type: T_PROC_LOCAL}
+				]
 			}
 		}
 	);
