@@ -218,31 +218,31 @@
                         {
                             type: 'button',
                             props: {
-                                className: 'button left'
+                                className: 'button left icon-chevron-left'
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button right'
+                                className: 'button right icon-chevron-right'
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button up'
+                                className: 'button up icon-chevron-up'
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button down'
+                                className: 'button down icon-chevron-down'
                             }
                         },
                         {
                             type: 'button',
                             props: {
-                                className: 'button center'
+                                className: 'button center icon-circle'
                             }
                         }
                     ]
@@ -254,15 +254,16 @@
         'components.output.OutputComponent',
         React.createClass({
             getInitialState: function() {
-                this.props.motors.on('Changed', this.onUpdateMotors);
+                var props = this.props;
+                props.motors.on('Changed', this.onUpdateMotors);
 
                 var editorSettings = wheel.editorSettings;
                 editorSettings.on('MotorPropertiesChanged',  this, this.onUpdateMotors);
                 editorSettings.on('I2cMotorSettingsChanged', this, this.onUpdateMotors);
 
                 return {
-                    small: true
-                }
+                    small: !props.small // If editor is large then OutputComponent is small...
+                };
             },
 
             setMotorInfo: function() {
@@ -296,14 +297,14 @@
                 var state = this.state;
                 state.small = true;
                 this.setState(state);
-                this.props.onSmall && this.props.onSmall();
+                this.props.onLarge && this.props.onLarge(); // If output is small then editor and console are large...
             },
 
             onLarge: function() {
                 var state = this.state;
                 state.small = false;
                 this.setState(state);
-                this.props.onLarge && this.props.onLarge();
+                this.props.onSmall && this.props.onSmall(); // If output is large then editor and console are small...
             },
 
             renderMotors: function() {
@@ -427,6 +428,7 @@
                             type: wheel.components.output.EV3ScreenComponent,
                             props: {
                                 ref:            'screen',
+                                small:          this.state.small,
                                 onRun:          this.props.onRun,
                                 onStop:         this.props.onStop,
                                 onShowConsole:  this.props.onShowConsole,

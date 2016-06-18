@@ -6,8 +6,7 @@ wheel(
                 'Loaded',
                 function() {
                     this.setState(this.state);
-
-                    var activeFilename = LocalStorage.getInstance().get('activeFilename');
+                    var activeFilename = wheel.editorSettings.getActiveFilename();
                     activeFilename && this.onSelectFile(activeFilename);
                 }.bind(this)
             );
@@ -20,37 +19,31 @@ wheel(
                     });
                 }.bind(this)
             );
+            console.log('small:',   wheel.editorSettings.getUISetting('small'));
+            console.log('console:', wheel.editorSettings.getUISetting('console'));
             return {
-                small:           false,
-                console:         false,
+                small:           wheel.editorSettings.getUISetting('small'),
+                console:         wheel.editorSettings.getUISetting('console'),
                 activeFileIndex: 0,
                 activeProject:   null
             }
         },
 
         getActiveFile: function() {
-            var state     = this.state,
-                files     = this.props.files;
+            var state = this.state;
+            var files = this.props.files;
             return files.getFile(state.activeFileIndex);
-        },
-
-        getSensorSettings: function() {
-            var localStorage   = LocalStorage.getInstance();
-            var sensorSettings = localStorage.get(
-                    'sensorSettings',
-                    {
-                        sensor1: true,
-                        sensor2: true,
-                        sensor3: true,
-                        sensor4: true
-                    }
-                );
-
-            return sensorSettings;
         },
 
         setResizeListener: function(resizeListener) {
             this._resizeListener = resizeListener;
+        },
+
+        setSmall: function(small) {
+            var state = this.state;
+            state.small = small;
+            wheel.editorSettings.setUISetting('small', small);
+            this.setState(state);
         },
 
         updateFiles: function() {
@@ -78,9 +71,7 @@ wheel(
             }
 
             var file = this.getActiveFile();
-            if (file) {
-                file.setData(this.refs.codeMirror.getCode(), true);
-            }
+            file && file.setData(this.refs.codeMirror.getCode(), true);
 
             this.refs.console.clearMessages();
 
@@ -107,12 +98,12 @@ wheel(
                                 var codeMirror = this.refs.codeMirror;
                                 codeMirror.setHighlight({}) || codeMirror.update();
                             } catch (error) {
-                                var location     = error.location || { filename: ' ', lineNumber: 0 },
-                                    index         = files.exists(location.filename);
+                                var location = error.location || { filename: ' ', lineNumber: 0 };
+                                var index    = files.exists(location.filename);
 
                                 if (index !== false) {
-                                    var file = files.getFile(index),
-                                        meta = file.getMeta();
+                                    var file = files.getFile(index);
+                                    var meta = file.getMeta();
                                     if (!('highlightLines' in meta)) {
                                         meta.highlightLines = {};
                                     }
@@ -235,19 +226,15 @@ wheel(
         },
 
         onSmall: function() {
-            var state = this.state;
-            state.small = true;
-            this.setState(state);
-            this.refs.codeMirror.setLarge();
-            this.refs.console.setLarge();
+            this.setSmall(true);
+            this.refs.codeMirror.setSmall();
+            this.refs.console.setSmall();
         },
 
         onLarge: function() {
-            var state = this.state;
-            state.small = false;
-            this.setState(state);
-            this.refs.codeMirror.setSmall();
-            this.refs.console.setSmall();
+            this.setSmall(false);
+            this.refs.codeMirror.setLarge();
+            this.refs.console.setLarge();
         },
 
         onSelectFile: function(filename) {
@@ -276,7 +263,8 @@ wheel(
                 codeMirror.setCode('', '');
                 this.setState(this.state);
             } else {
-                LocalStorage.getInstance().set('activeFilename', filename);
+                wheel.editorSettings.setActiveFilename(filename);
+
                 file.getData(function(data) {
                     codeMirror.setReadOnly(false);
                     codeMirror.setCode(data, file.getName());
@@ -424,10 +412,14 @@ wheel(
 
         onCloseConsole: function() {
             this.refs.codeMirror.setConsole(false);
+            wheel.editorSettings.setUISetting('console', false);
         },
 
         onShowConsole: function() {
-            this.refs.console.show() && this.refs.codeMirror.setConsole(true);
+            if (this.refs.console.show()) {
+                this.refs.codeMirror.setConsole(true);
+                wheel.editorSettings.setUISetting('console', true);
+            }
         },
 
         onClearMessages: function() {
@@ -498,6 +490,8 @@ wheel(
                 }
             }
 
+            var uiSettings = wheel.editorSettings.getUISettings();
+
             return utilsReact.fromJSON({
                 props: {
                     id:          'main',
@@ -546,7 +540,9 @@ wheel(
                             compiler:     this.props.compiler,
                             defaultValue: data,
                             ref:          'codeMirror',
-                            onChange:     this.onChange
+                            onChange:     this.onChange,
+                            small:        uiSettings.small,
+                            console:      uiSettings.console
                         }
                     },
                     {
@@ -559,7 +555,9 @@ wheel(
                             onLarge:        this.onLarge,
                             onShowConsole:  this.onShowConsole,
                             motors:         this.props.motors,
-                            sensors:        this.props.sensors
+                            sensors:        this.props.sensors,
+                            small:          uiSettings.small,
+                            console:        uiSettings.console
                         }
                     },
                     {
@@ -570,7 +568,9 @@ wheel(
                             onShowLog:       this.onShowLog,
                             onClearMessages: this.onClearMessages,
                             onClose:         this.onCloseConsole,
-                            editor:          this
+                            editor:          this,
+                            small:           uiSettings.small,
+                            visible:         uiSettings.console
                         }
                     },
                     {

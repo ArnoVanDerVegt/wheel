@@ -124,8 +124,8 @@
                 this._currentTarget = null;
                 return {
                     left:       360,
-                    small:      false,
-                    console:    true,
+                    small:      this.props.small,
+                    console:    this.props.console,
                     readOnly:   false,
                     highlight:  {}
                 };

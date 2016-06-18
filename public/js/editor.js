@@ -4,6 +4,7 @@
                 {name: 'REG_OFFSET_STACK',      type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_OFFSET_SRC',        type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_OFFSET_DEST',       type: wheel.compiler.command.T_NUMBER_REGISTER},
+                {name: 'REG_RETURN',            type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_E',                 type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_NE',                type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_L',                 type: wheel.compiler.command.T_NUMBER_REGISTER},

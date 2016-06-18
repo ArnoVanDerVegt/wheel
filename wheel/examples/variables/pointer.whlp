@@ -11,8 +11,8 @@ ends
 Point    points[10]
     
 proc testPointer(Point *points[0])
-	Point point
-    arrayr point, *points, 1
+	;Point point
+    ;arrayr point, *points, 1
     ;printN(point.y)
 endp
     
@@ -22,8 +22,11 @@ proc main()
     ;set p.y, 11
     ;arrayw   points,              1, p
     
+    number n
+    
+    set n, testPointer(&points)
 	;testPointer(&points)
-    motorMoveTo(1, 4000, 10)
-loop:
-	jmp loop
+    ;motorMoveTo(1, 4000, 10)
+;loop:
+;	jmp loop
 endp

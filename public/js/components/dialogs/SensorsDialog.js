@@ -654,7 +654,7 @@
                     wheel.components.dialogs.createDialog(
                         this,
                         'io',
-                        'icon-settings',
+                        'icon-sensor',
                         [
                             {
                                 type: wheel.components.ui.TabsComponent,

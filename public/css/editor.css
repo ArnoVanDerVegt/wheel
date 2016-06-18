@@ -1,21 +1,21 @@
 @charset "UTF-8";
 
 * {
-	box-sizing: 						border-box;
+    box-sizing:                         border-box;
 }
 
 html,
 body {
-	margin: 							0;
-	padding: 							0;
-	width: 								100%;
-	height: 							100%;
+    margin:                             0;
+    padding:                            0;
+    width:                              100%;
+    height:                             100%;
 }
 body {
-	position: 							relative;
-	background-color: 					WhiteSmoke;
-	color: 								Black;
-	font-size: 							16px;
+    position:                           relative;
+    background-color:                   WhiteSmoke;
+    color:                              Black;
+    font-size:                          16px;
 }
 div,
 span,
@@ -26,320 +26,320 @@ h4,
 ul,
 li,
 input {
-	margin: 							0;
-	padding: 							0;
-	color: 								Black;
+    margin:                             0;
+    padding:                            0;
+    color:                              Black;
 }
 #container,
 .container-events {
-	float: 								left;
-	position: 							relative;
-	width: 								100%;
-	height: 							100%;
+    float:                              left;
+    position:                           relative;
+    width:                              100%;
+    height:                             100%;
 }
 #main {
-	position:  							relative;
-	width: 								100%;
-	height: 							100%;
+    position:                           relative;
+    width:                              100%;
+    height:                             100%;
 }
 
 h1,
 h2,
 h3,
 h4 {
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	font-size: 							20px;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        400;
+    font-size:                          20px;
 }
 div,
 span {
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        400;
 }
 input,
 select {
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						300;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        300;
 }
 .select.icon-chevron-down {
-	float: 								left;
-	position: 							relative;
-	height: 							24px;
+    float:                              left;
+    position:                           relative;
+    height:                             24px;
 }
 .select.icon-chevron-down:before {
-	position: 							absolute;
-	right: 								0;
-	top: 								0;
-	height: 							24px;
-	line-height: 						24px;
-	pointer-events: 					none;
+    position:                           absolute;
+    right:                              0;
+    top:                                0;
+    height:                             24px;
+    line-height:                        24px;
+    pointer-events:                     none;
 }
 .select.icon-chevron-down select {
-	padding-right: 						16px;
+    padding-right:                      16px;
 }
 
 .half {
-	width: 								50%;
+    width:                              50%;
 }
 .third {
-	width: 								33%;
+    width:                              33%;
 }
 
 .box-shadow {
-	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
-										-0px 2px 5px rgba(0, 0, 0, 0.1),
-										-2px -0px 5px rgba(0, 0, 0, 0.1),
-										2px -0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -2px -0px 5px rgba(0, 0, 0, 0.1),
+                                        2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 
 select,
 input[type='text'] {
-	-webkit-appearance: 				none;
-	-moz-appearance: 					none;
-	height: 							24px;
-	padding:							0 8px 0 8px;
-	margin:								0;
-	border: 							1px solid LightSkyBlue;
-	font-size: 							16px;
-	background-color: 					#FFFFFF;
-	cursor: 							pointer;
+    -webkit-appearance:                 none;
+    -moz-appearance:                    none;
+    height:                             24px;
+    padding:                            0 8px 0 8px;
+    margin:                             0;
+    border:                             1px solid LightSkyBlue;
+    font-size:                          16px;
+    background-color:                   #FFFFFF;
+    cursor:                             pointer;
 }
 
 /* Header */
 #main .header {
-	position: 							absolute;
-	left: 								0px;
-	top: 								0px;
-	width: 								100%;
-	height: 							48px;
-	z-index: 							10500;
-	box-shadow: 						0 2px 2px rgba(0, 0, 0, 0.3);
-	background-color: 					LightSkyBlue;
+    position:                           absolute;
+    left:                               0px;
+    top:                                0px;
+    width:                              100%;
+    height:                             48px;
+    z-index:                            10500;
+    box-shadow:                         0 2px 2px rgba(0, 0, 0, 0.3);
+    background-color:                   LightSkyBlue;
 }
 #main .header .menu {
-	position: 							absolute;
-	left: 								0px;
-	top: 								0px;
-	width: 								100%;
-	height: 							48px;
+    position:                           absolute;
+    left:                               0px;
+    top:                                0px;
+    width:                              100%;
+    height:                             48px;
 }
 #main .header .menu li {
-	list-style-type: 					none;
+    list-style-type:                    none;
 }
 #main .header .menu li.active-project {
-	float: 								right;
-	margin: 							0 8px 0 8px;
+    float:                              right;
+    margin:                             0 8px 0 8px;
 }
 #main .header .menu li.menu-item {
-	float: 								left;
-	position: 							relative;
-	height: 							48px;
-	margin: 							0 8px 0 8px;
+    float:                              left;
+    position:                           relative;
+    height:                             48px;
+    margin:                             0 8px 0 8px;
 }
 #main .header .menu li.menu-item .menu-item-title,
 #main .header .menu li.active-project span {
-	float: 								left;
-	color: 								MidnightBlue;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	line-height: 						48px;
-	height: 							40px;
-	cursor: 							pointer;
+    float:                              left;
+    color:                              MidnightBlue;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        400;
+    line-height:                        48px;
+    height:                             40px;
+    cursor:                             pointer;
 }
 #main .header .menu li.active-project span {
-	font-weight: 						400;
-	font-style: 						italic;
+    font-weight:                         400;
+    font-style:                         italic;
 }
 #main .header .menu li.menu-item:hover .menu-item-title {
-	border: 							4px solid Yellow;
-	border-width: 						0 0 4px 0;
-	color: 								Yellow;
+    border:                             4px solid Yellow;
+    border-width:                       0 0 4px 0;
+    color:                              Yellow;
 }
 #main .header .menu li.menu-item .dropdown {
-	display: 							none;
-	position: 							absolute;
-	left: 								0px;
-	top: 								44px;
-	width: 								auto;
-	height: 							auto;
+    display:                            none;
+    position:                           absolute;
+    left:                               0px;
+    top:                                44px;
+    width:                              auto;
+    height:                             auto;
 }
 #main .header .menu li.menu-item:hover .dropdown {
-	display: 							block;
-	background-color: 					White;
-	border: 							1px solid LightSteelBlue;
+    display:                            block;
+    background-color:                   White;
+    border:                             1px solid LightSteelBlue;
 }
 #main .header .menu li.menu-item:hover .dropdown li {
-	white-space: 						nowrap;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	color: 								Black;
-	padding: 							8px 16px 8px 16px;
-	list-style-type: 					none;
+    white-space:                        nowrap;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        400;
+    color:                              Black;
+    padding:                            8px 16px 8px 16px;
+    list-style-type:                    none;
 }
 #main .header .menu li.menu-item:hover .dropdown li.separator,
 #main .header .menu li.menu-item:hover .dropdown li.separator:hover {
-	background-color: 					LightSteelBlue;
-	cursor: 							default;
-	margin: 							8px 0 8px 0;
-	padding: 							0;
-	height: 							1px;
+    background-color:                   LightSteelBlue;
+    cursor:                             default;
+    margin:                             8px 0 8px 0;
+    padding:                            0;
+    height:                             1px;
 }
 #main .header .menu li.menu-item:hover .dropdown li:hover {
-	background-color: 					LightSkyBlue;
-	color: 								Yellow;
-	cursor: 							pointer;
+    background-color:                   LightSkyBlue;
+    color:                              Yellow;
+    cursor:                             pointer;
 }
 
 /* Button */
 .button {
-	float: 								right;
-	margin: 							16px 16px 16px 0;
-	background-color: 					MidnightBlue;
-	border: 							0;
-	padding: 							4px 16px 4px 16px;
-	color: 								White;
-	font-size: 							16px;
-	font-weight: 						300;
-	line-height: 						16px;
-	cursor: 							pointer;
-	opacity: 							0.7;
-	transition: 						opacity 0.4s;
-	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
-										-0px 2px 5px rgba(0, 0, 0, 0.1),
-										-2px -0px 5px rgba(0, 0, 0, 0.1),
-										2px -0px 5px rgba(0, 0, 0, 0.1);
+    float:                              right;
+    margin:                             16px 16px 16px 0;
+    background-color:                   MidnightBlue;
+    border:                             0;
+    padding:                            4px 16px 4px 16px;
+    color:                              White;
+    font-size:                          16px;
+    font-weight:                        300;
+    line-height:                        16px;
+    cursor:                             pointer;
+    opacity:                            0.7;
+    transition:                         opacity 0.4s;
+    box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -2px -0px 5px rgba(0, 0, 0, 0.1),
+                                        2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 .button:hover,
 .button:focus {
-	opacity: 							1;
+    opacity:                             1;
 }
 .button.accept {
-	background-color: 					Green;
+    background-color:                     Green;
 }
 .button.cancel {
-	background-color: 					Red;
+    background-color:                     Red;
 }
 .button.choice {
-	background-color: 					LimeGreen;
+    background-color:                     LimeGreen;
 }
 .button.accept:before,
 .button.cancel:before,
 .button.choice:before {
-	font-size: 							18px;
-	height: 							18px;
-	margin: 							0 8px 0 0;
-	padding: 							0;
-	text-align: 						center;
+    font-size:                             18px;
+    height:                             18px;
+    margin:                             0 8px 0 0;
+    padding:                             0;
+    text-align:                         center;
 }
 
 /* Files */
 .dotted {
-	background-image: 					-webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-	background-image: 					-moz-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-	background-image: 					-ms-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-	background-image: 					repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
-	-webkit-background-size: 			3px 3px;
-	-moz-background-size: 				3px 3px;
-	background-size: 					3px 3px;
+    background-image:                     -webkit-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                     -moz-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                     -ms-repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    background-image:                     repeating-radial-gradient(center center, Black, Black 1px, transparent 1px, transparent 100%);
+    -webkit-background-size:             3px 3px;
+    -moz-background-size:                 3px 3px;
+    background-size:                     3px 3px;
 }
 #main .files {
-	position: 							absolute;
-	top: 								56px;
-	left: 								0px;
-	bottom: 							8px;
-	list-style: 						none;
-	padding: 							0 8px 0 8px;
-	overflow: 							hidden;
-	overflow-y: 						scroll;
+    position:                             absolute;
+    top:                                 56px;
+    left:                                 0px;
+    bottom:                             8px;
+    list-style:                         none;
+    padding:                             0 8px 0 8px;
+    overflow:                             hidden;
+    overflow-y:                         scroll;
 }
 #main .files .resizer {
-	position: 							absolute;
-	top: 								0;
-	right: 								0;
-	width: 								10px;
-	bottom: 							0;
-	z-index: 							10100;
-	cursor: 							col-resize;
-	opacity: 							0.1;
+    position:                             absolute;
+    top:                                 0;
+    right:                                 0;
+    width:                                 10px;
+    bottom:                             0;
+    z-index:                             10100;
+    cursor:                             col-resize;
+    opacity:                             0.1;
 }
 #main .files .resizer:hover {
-	opacity: 							0.75;
+    opacity:                             0.75;
 }
 #main .files .resizer.resizing {
-	opacity: 							1;
+    opacity:                             1;
 }
 #main .files ul {
-	float: 								left;
-	width: 								100%;
-	z-index: 							0;
+    float:                                 left;
+    width:                                 100%;
+    z-index:                             0;
 }
 #main .files li {
-	float: 								left;
-	width: 								100%;
-	line-height: 						32px;
-	padding: 							0;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	margin: 							0;
-	cursor: 							pointer;
-	list-style-type: 					none;
+    float:                                 left;
+    width:                                 100%;
+    line-height:                         32px;
+    padding:                             0;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                         400;
+    margin:                             0;
+    cursor:                             pointer;
+    list-style-type:                     none;
 }
 #main .files li div {
-	position: 							relative;
-	float: 								left;
-	width: 								100%;
-	color: 								Black;
+    position:                             relative;
+    float:                                 left;
+    width:                                 100%;
+    color:                                 Black;
 }
 #main .files li span {
-	float: 								left;
+    float:                                 left;
 }
 #main .files li .icon {
-	float: 								left;
-	display: 							block;
-	pointer-events: 					none;
-	width: 								24px;
-	height: 							32px;
-	line-height: 						32px;
-	font-size:							18px;
-	text-align: 						center;
-	margin: 							0 8px 0 0;
-	color: 								Black;
+    float:                                 left;
+    display:                             block;
+    pointer-events:                     none;
+    width:                                 24px;
+    height:                             32px;
+    line-height:                         32px;
+    font-size:                            18px;
+    text-align:                         center;
+    margin:                             0 8px 0 0;
+    color:                                 Black;
 }
 #main .files li div.active {
-	z-index: 							10000;
+    z-index:                             10000;
 }
 #main .files li div.active .icon {
-	color: 								White;
+    color:                                 White;
 }
 
 #main .files li .icon-close,
 #main .files li .icon-pen {
-	display: 							none;
-	float: 								right;
-	width: 								32px;
+    display:                             none;
+    float:                                 right;
+    width:                                 32px;
 }
 #main .files li div.changed,
 #main .files li div.active.changed {
-	font-style: 						italic;
+    font-style:                         italic;
 }
 #main .files li div:hover,
 #main .files li div:hover div,
 #main .files li div:hover span {
-	background-color: 					LightSkyBlue;
-	color: 								Yellow;
+    background-color:                     LightSkyBlue;
+    color:                                 Yellow;
 }
 #main .files li div:hover div {
-	background-color: 					transparent;
+    background-color:                     transparent;
 }
 #main .files li div.active {
-	background-color: 					PaleVioletRed;
-	box-shadow: 						2px 2px 2px rgba(0, 0, 0, 0.3);
+    background-color:                     PaleVioletRed;
+    box-shadow:                         2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .files li div.active:hover,
 #main .files li div.active:hover div,
 #main .files li div.active:hover span {
-	background-color: 					PaleVioletRed;
-	color: 								White;
+    background-color:                     PaleVioletRed;
+    color:                                 White;
 }
 
 #main .files li div.active span,
@@ -348,803 +348,819 @@ input[type='text'] {
 #main .files li div.active .icon-image-file,
 #main .files li div.active .icon-brackets,
 #main .files li div.active .icon-folder {
-	color: 								White;
+    color:                                 White;
 }
 #main .files li div.active .icon-close,
 #main .files li div.active .icon-pen {
-	display: 							block;
-	color: 								White;
-	line-height: 						32px;
-	height:								32px;
-	text-align:							center;
-	padding:							0;
-	margin:								0;
-	overflow:							hidden;
+    display:                             block;
+    color:                                 White;
+    line-height:                         32px;
+    height:                                32px;
+    text-align:                            center;
+    padding:                            0;
+    margin:                                0;
+    overflow:                            hidden;
 }
 #main .files li div.active .icon-pen {
-	margin:								2px 0 0 0;
+    margin:                                2px 0 0 0;
 }
 #main .files li .icon:before {
-	line-height: 						32px;
+    line-height:                         32px;
 }
 
 /* Editor */
 #main .editor {
-	position: 							absolute;
-	right: 								196px;
-	top: 								56px;
-	bottom: 							8px;
+    position:                             absolute;
+    right:                                 196px;
+    top:                                 56px;
+    bottom:                             8px;
 }
 #main .editor.small {
-	right: 								376px;
+    right:                                 376px;
 }
 #main .editor.show-console,
 #main .editor.small.show-console {
-	bottom: 							168px;
+    bottom:                             168px;
 }
 #main .editor #codeHint {
-	position: 							absolute;
-	z-index: 							9999;
-	border: 							1px solid Black;
-	background-color: 					#FFFFF0;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight:						300;
-	font-size:							13px;
-	padding: 							3px;
-	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
-										-0px 2px 5px rgba(0, 0, 0, 0.1),
-										-2px -0px 5px rgba(0, 0, 0, 0.1),
-										2px -0px 5px rgba(0, 0, 0, 0.1);
+    position:                             absolute;
+    z-index:                             9999;
+    border:                             1px solid Black;
+    background-color:                     #FFFFF0;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        300;
+    font-size:                            13px;
+    padding:                             3px;
+    box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -2px -0px 5px rgba(0, 0, 0, 0.1),
+                                        2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 #main .editor #codeHint .code-hint-title {
 }
 #main .editor #codeHint .code-hint-title strong {
-	font-weight: 						400;
+    font-weight:                         400;
 }
 #main .editor #codeHint .code-hint-title span {
-	padding-right: 						6px;
-	font-style: 						italic;
+    padding-right:                         6px;
+    font-style:                         italic;
 }
 #main .editor #codeHint .code-hint-position {
-	font-size: 							11px;
-	white-space: 						nowrap;
+    font-size:                             11px;
+    white-space:                         nowrap;
 }
 /* Console */
 #main .console {
-	position: 							absolute;
-	right: 								196px;
-	height: 							152px;
-	bottom: 							8px;
-	background-color: 					White;
-	display: 							none;
+    position:                             absolute;
+    right:                                 196px;
+    height:                             152px;
+    bottom:                             8px;
+    background-color:                     White;
+    display:                             none;
 }
 #main .console.visible {
-	display: 							block;
+    display:                             block;
 }
 #main .console.visible.small {
-	right: 								376px;
+    right:                                 376px;
 }
 #main .console .tabs {
-	position: 							absolute;
-	top: 								0px;
-	left: 								0px;
-	width: 								100%;
-	bottom: 							0px;
-	margin: 							0;
+    position:                             absolute;
+    top:                                 0px;
+    left:                                 0px;
+    width:                                 100%;
+    bottom:                             0px;
+    margin:                             0;
 }
 #main .console .tabs ul {
-	padding-left: 						8px;
-	height: 							40px;
+    padding-left:                         8px;
+    height:                             40px;
 }
 #main .console .tabs .tab-content,
 #main .console .tabs .tabs-content {
-	position: 							absolute;
-	top: 								40px;
-	left: 								0px;
-	width: 								100%;
-	bottom: 							0px;
-	margin: 							0;
+    position:                             absolute;
+    top:                                 40px;
+    left:                                 0px;
+    width:                                 100%;
+    bottom:                             0px;
+    margin:                             0;
 }
 #main .console .tabs .tab-content {
-	top: 								0px;
-	overflow: 							hidden;
-	overflow-y: 						scroll;
+    top:                                 0px;
+    overflow:                             hidden;
+    overflow-y:                         scroll;
 }
 #main .console .tabs .tabs-content .row {
-	float: 								left;
-	width: 								100%;
-	padding: 							2px 16px 2px 8px;
-	margin: 							0;
-	font-family: 						monospace;
-	font-size: 							13px;
-	line-height: 						13px;
+    float:                                 left;
+    width:                                 100%;
+    padding:                             2px 16px 2px 8px;
+    margin:                             0;
+    font-family:                         monospace;
+    font-size:                             13px;
+    line-height:                         13px;
 }
 #main .console .tabs .tabs-content .row.log,
 #main .console .tabs .tabs-content .row.error {
-	position: 							relative;
-	cursor: 							pointer;
-	border: 							1px dotted LightSkyBlue;
-	border-width: 						0 0 1px 0;
-	padding-left: 						32px;
+    position:                             relative;
+    cursor:                             pointer;
+    border:                             1px dotted LightSkyBlue;
+    border-width:                         0 0 1px 0;
+    padding-left:                         32px;
 }
 #main .console .tabs .tabs-content .row .message,
 #main .console .tabs .tabs-content .row .location {
-	font-family: 						'Courier New';
-	font-size: 							13px;
-	color: 								MidnightBlue;
+    font-family:                         'Courier New';
+    font-size:                             13px;
+    color:                                 MidnightBlue;
 }
 #main .console .tabs .tabs-content .row.error:before,
 #main .console .tabs .tabs-content .row.log:before {
-	position: 							absolute;
-	left: 								8px;
-	top: 								1px;
-	font-size: 							15px;
+    position:                             absolute;
+    left:                                 8px;
+    top:                                 1px;
+    font-size:                             15px;
 }
 #main .console .tabs .tabs-content .row.error:before {
-	color: 								red;
+    color:                                 red;
 }
 #main .console .tabs .tabs-content .row.log:before {
-	color: 								green;
+    color:                                 green;
 }
 #main .console .tabs .tabs-content .row.log .message,
 #main .console .tabs .tabs-content .row.error .message {
-	float: 								left;
+    float:                                 left;
 }
 #main .console .tabs .tabs-content .row.log .location,
 #main .console .tabs .tabs-content .row.error .location {
-	float: 								right;
+    float:                                 right;
 }
 
 #main .console .tabs .tabs-content .row.var {
-	cursor: 							pointer;
-	border: 							1px dotted LightSkyBlue;
-	border-width: 						0 0 1px 0;
+    cursor:                             pointer;
+    border:                             1px dotted LightSkyBlue;
+    border-width:                         0 0 1px 0;
 }
 #main .console .tabs .tabs-content .row.var .offset {
-	float: 								left;
-	min-width: 							60px;
-	text-align: 						left;
+    float:                                 left;
+    min-width:                             60px;
+    text-align:                         left;
 }
 #main .console .tabs .tabs-content .row.var .name {
-	float: 								left;
-	margin-left:						8px;
+    float:                                 left;
+    margin-left:                        8px;
 }
 
 #main .console .tabs-titles {
-	padding: 0;
+    padding: 0;
 }
 #main .console .tabs li {
-	height: 							32px;
-	line-height: 						32px;
-	padding: 0;
+    height:                             32px;
+    line-height:                         32px;
+    padding: 0;
 }
 #main .console .tabs li.tool {
-	float: 								right;
-	list-style-type: 					none;
-	margin: 							0 8px 0 0;
-	padding: 							0;
-	height: 							40px;
-	line-height: 						40px;
-	font-size: 							20px;
-	cursor: 							pointer;
+    float:                                 right;
+    list-style-type:                     none;
+    margin:                             0 8px 0 0;
+    padding:                             0;
+    height:                             40px;
+    line-height:                         40px;
+    font-size:                             20px;
+    cursor:                             pointer;
 }
 
 /* Output */
 #main .output {
-	position: 							absolute;
-	width: 								196px;
-	right: 								0px;
-	top: 								48px;
-	bottom: 							0px;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight:						300;
-	font-size:							16px;
+    position:                             absolute;
+    width:                                 196px;
+    right:                                 0px;
+    top:                                 48px;
+    bottom:                             0px;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        300;
+    font-size:                            16px;
 }
 #main .output.large {
-	width: 								376px;
+    width:                                 376px;
 }
 #main .output .io-wrapper {
-	float: 								left;
-	width: 								100%;
-	height: 							calc(100% - 192px);
-	margin-top: 						8px;
-	overflow: 							scroll;
-	overflow-x:							hidden;
+    float:                                 left;
+    width:                                 100%;
+    height:                             calc(100% - 192px);
+    margin-top:                         8px;
+    overflow:                             scroll;
+    overflow-x:                            hidden;
 }
 #main .output.large .io-wrapper {
-	height: 							calc(100% - 320px);
+    height:                             calc(100% - 320px);
 }
 
 /* Sensor/motor status */
 #main .output .status {
-	width: 								100px;
-	padding: 							0;
+    width:                                 100px;
+    padding:                             0;
 }
 #main .output .status-row {
-	width: 								100%;
-	font-size:							11px;
+    width:                                 100%;
+    font-size:                            11px;
 }
 #main .output .status-name,
 #main .output .status-value {
-	width: 								50%;
+    width:                                 50%;
 }
 
 /* Motor */
 #main .output .motor-container {
-	float: 								left;
-	width: 								196px;
+    float:                                 left;
+    width:                                 196px;
 }
 #main .output.large .motor-container {
-	width: 								180px;
+    width:                                 180px;
 }
 #main .output .motor-container .io,
 #main .output .sensor-container .io {
-	position: 							relative;
-	float: 								left;
-	width: 								178px;
-	min-height: 						64px;
-	background-color: 					White;
-	margin: 							0px 8px 8px 8px;
-	padding: 							8px;
+    position:                             relative;
+    float:                                 left;
+    width:                                 178px;
+    min-height:                         64px;
+    background-color:                     White;
+    margin:                             0px 8px 8px 8px;
+    padding:                             8px;
 }
 #main .output .motor-container .box-shadow.io .medium,
 #main .output .motor-container .box-shadow.io .large,
 #main .output .sensor-container .box-shadow.io .touch {
-	position: 							absolute;
-	background-repeat: 					no-repeat;
-	pointer-events: 					none;
-	left: 								65px;
-	top: 								8px;
-	width: 								100px;
-	height: 							100px;
-	z-index: 							0;
-	opacity: 							0.2;
+    position:                             absolute;
+    background-repeat:                     no-repeat;
+    pointer-events:                     none;
+    left:                                 65px;
+    top:                                 8px;
+    width:                                 100px;
+    height:                             100px;
+    z-index:                             0;
+    opacity:                             0.2;
 }
 #main .output .motor-container .box-shadow.io .medium {
-	background: 						url('/images/mediumMotor.png');
-	background-size: 					100px 100px;
+    background:                         url('/images/mediumMotor.png');
+    background-size:                     100px 100px;
 }
 #main .output .motor-container .box-shadow.io .large {
-	background: 						url('/images/largeMotor.png');
-	background-size: 					100px 100px;
+    background:                         url('/images/largeMotor.png');
+    background-size:                    100px 100px;
 }
 #main .output .sensor-container .box-shadow.io .touch {
-	background: 						url('/images/touchSensor.png');
-	background-size: 					100px 100px;
+    background:                         url('/images/touchSensor.png');
+    background-size:                    100px 100px;
 }
 #main .output.large .motor-container .io {
-	width: 								174px;
+    width:                              174px;
 }
 #main .output .motor-container .io .status-canvas {
-	float: 								left;
-	margin: 							0 8px 0 0;
-	z-index: 							100;
+    float:                              left;
+    margin:                             0 8px 0 0;
+    z-index:                            100;
 }
 #main .output .sensor-container .io .status-button {
-	float: 								left;
-	margin: 							0 8px 0 0;
-	z-index: 							100;
-	width: 								48px;
-	height: 							48px;
-	background-color: 					LimeGreen;
-	cursor: 							pointer;
-	color: 								White;
+    float:                              left;
+    margin:                             0 8px 0 0;
+    z-index:                            100;
+    width:                              48px;
+    height:                             48px;
+    background-color:                   LimeGreen;
+    cursor:                             pointer;
+    color:                              White;
 }
 #main .output .motor-container .io span,
 #main .output .motor-container .io div,
 #main .output .sensor-container .io span,
 #main .output .sensor-container .io div {
-	float: 								left;
-	position: 							relative;
-	z-index: 							150;
+    float:                              left;
+    position:                           relative;
+    z-index:                            150;
 }
 #main .output .motor-container .io .title,
 #main .output .sensor-container .io .title {
-	margin: 							0 0 4px 0;
-	z-index: 							200;
+    margin:                             0 0 4px 0;
+    z-index:                            200;
 }
 #main .output .motor-container .io .status-id {
-	position: 							absolute;
-	left: 								16px;
-	top: 								16px;
-	z-index: 							200;
-	width: 								32px;
-	height: 							32px;
-	line-height: 						32px;
-	text-align: 						center;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	font-size: 							18px;
+    position:                           absolute;
+    left:                               16px;
+    top:                                16px;
+    z-index:                            200;
+    width:                              32px;
+    height:                             32px;
+    line-height:                        32px;
+    text-align:                         center;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                        400;
+    font-size:                          18px;
 }
 #main .output .sensor-container .io .status-id {
-	display: 							none;
+    display:                            none;
 }
 
 /* Buttons */
 #main .output .io.ev3-buttons {
-	float: 								left;
-	position: 							relative;
-	width: 								178px;
-	height: 							128px;
-	padding: 0;
+    float:                              left;
+    position:                           relative;
+    width:                              178px;
+    height:                             128px;
+    padding:                            0;
 }
 #main .output .io.ev3-buttons .button {
-	position: absolute;
-	width: 								32px;
-	height: 							32px;
-	background-color: 					LimeGreen;
-	margin: 0;
+    position:                           absolute;
+    width:                              32px;
+    height:                             32px;
+    background-color:                   LimeGreen;
+    margin:                             0;
+    padding:                            0;
+}
+#main .output .io.ev3-buttons .button:before {
+    position:                           absolute;
+    left:                               0px;
+    top:                                0px;
+    width:                              32px;
+    height:                             32px;
+    margin:                             0;
+    padding:                            0;
+    line-height:                        32px;
+    text-align:                         center;
+    font-size:                          32px;
+}
+#main .output .io.ev3-buttons .button.center:before {
+    font-size:                          25px;
 }
 #main .output .io.ev3-buttons .button.up {
-	left: 								77px;
-	top: 								8px;
+    left:                                 77px;
+    top:                                 8px;
 }
 #main .output .io.ev3-buttons .button.down {
-	left: 								77px;
-	bottom: 							8px;
+    left:                                 77px;
+    bottom:                             8px;
 }
 #main .output .io.ev3-buttons .button.left {
-	left: 								37px;
-	top: 								48px;
+    left:                                 37px;
+    top:                                 48px;
 }
 #main .output .io.ev3-buttons .button.right {
-	right: 								29px;
-	top: 								48px;
+    right:                                 29px;
+    top:                                 48px;
 }
 #main .output .io.ev3-buttons .button.center {
-	left: 								77px;
-	top: 								48px;
+    left:                                 77px;
+    top:                                 48px;
 }
 
 /* Screen */
 #main .output .ev3-screen {
-	float: 								left;
-	width: 								178px;
-	height: 							auto;
-	margin: 							8px 8px 0 8px;
+    float:                                 left;
+    width:                                 178px;
+    height:                             auto;
+    margin:                             8px 8px 0 8px;
 }
 #main .output.large .ev3-screen {
-	float: left;
-	width: 								356px;
-	height: 							auto;
+    float: left;
+    width:                                 356px;
+    height:                             auto;
 }
 #main .output .ev3-screen canvas {
-	float:								left;
-	background-color: 					DarkGray;
-	width: 								178px;
-	height: 							128px;
-	font-family: 						'Inconsolata';
+    float:                                left;
+    background-color:                     DarkGray;
+    width:                                 178px;
+    height:                             128px;
+    font-family:                         'Inconsolata';
 }
 #main .output.large .ev3-screen canvas {
-	width: 								356px;
-	height: 							256px;
+    width:                                 356px;
+    height:                             256px;
 }
 #main .output .ev3-screen .control-panel {
-	float: 								left;
-	width: 								100%;
-	height: 							40px;
-	background-color: 					LightSkyBlue;
+    float:                                 left;
+    width:                                 100%;
+    height:                             40px;
+    background-color:                     LightSkyBlue;
 }
 
 #main .output .ev3-screen .control-panel .icon {
-	float: 								left;
-	cursor: 							pointer;
-	color: 								MidnightBlue;
-	font-size: 							32px;
-	line-height: 						35px;
-	height: 							36px;
-	margin-top: 						4px;
+    float:                                 left;
+    cursor:                             pointer;
+    color:                                 MidnightBlue;
+    font-size:                             32px;
+    line-height:                         35px;
+    height:                             36px;
+    margin-top:                         4px;
 }
 #main .output .ev3-screen .control-panel .icon:hover {
-	color: 								Yellow;
+    color:                                 Yellow;
 }
 #main .output .ev3-screen .control-panel .icon.icon-circle-play {
-	margin-left: 						8px;
+    margin-left:                         8px;
 }
 #main .output .ev3-screen .control-panel .icon.icon-comment,
 #main .output .ev3-screen .control-panel .icon.icon-area {
-	float: 								right;
-	font-size: 							24px;
-	margin-right: 						8px;
+    float:                                 right;
+    font-size:                             24px;
+    margin-right:                         8px;
 }
 
 /* Dialogs */
 .dialog-background {
-	position: 							absolute;
-	left: 								0px;
-	top: 								0;
-	width: 								100%;
-	height: 							100%;
-	z-index: 							10900;
-	background-color: 					rgba(0, 0, 0, 0.25);
-	display: 							none;
+    position:                             absolute;
+    left:                                 0px;
+    top:                                 0;
+    width:                                 100%;
+    height:                             100%;
+    z-index:                             10900;
+    background-color:                     rgba(0, 0, 0, 0.25);
+    display:                             none;
 }
 .dialog-background.visible {
-	display: 							block;
+    display:                             block;
 }
 .dialog {
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						300;
-	position: 							absolute;
-	left: 								0px;
-	top: 								50%;
-	width: 								100%;
-	height: 							200px;
-	margin: 							-100px 0 0 0;
-	z-index: 							11000;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                         300;
+    position:                             absolute;
+    left:                                 0px;
+    top:                                 50%;
+    width:                                 100%;
+    height:                             200px;
+    margin:                             -100px 0 0 0;
+    z-index:                             11000;
 }
 .dialog-vertical {
-	position: 							relative;
-	margin: 							0 auto 0 auto;
-	background-color: 					White;
-	box-shadow: 						0px 2px 5px rgba(0, 0, 0, 0.1),
-										-0px 2px 5px rgba(0, 0, 0, 0.1),
-										-2px -0px 5px rgba(0, 0, 0, 0.1),
-										2px -0px 5px rgba(0, 0, 0, 0.1);
+    position:                             relative;
+    margin:                             0 auto 0 auto;
+    background-color:                     White;
+    box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -0px 2px 5px rgba(0, 0, 0, 0.1),
+                                        -2px -0px 5px rgba(0, 0, 0, 0.1),
+                                        2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 .dialog-vertical .dialog-content {
-	position: 							absolute;
-	left: 								0px;
-	top: 								48px;
-	right: 								0px;
-	bottom: 							48px;
-	padding: 							16px;
+    position:                             absolute;
+    left:                                 0px;
+    top:                                 48px;
+    right:                                 0px;
+    bottom:                             48px;
+    padding:                             16px;
 }
 .dialog-vertical .buttons {
-	position: 							absolute;
-	left: 								0px;
-	bottom: 							0px;
-	width: 								100%;
+    position:                             absolute;
+    left:                                 0px;
+    bottom:                             0px;
+    width:                                 100%;
 }
 .dialog-vertical .dialog-header {
-	position: 							absolute;
-	left: 								0px;
-	top: 								0px;
-	width: 								100%;
-	height: 							48px;
-	background-color: 					LightSkyBlue;
+    position:                             absolute;
+    left:                                 0px;
+    top:                                 0px;
+    width:                                 100%;
+    height:                             48px;
+    background-color:                     LightSkyBlue;
 }
 .dialog-vertical .dialog-header h4 {
-	position: 							absolute;
-	left: 								0px;
-	top: 								12px;
-	width: 								100%;
-	text-align: 						center;
-	color: 								MidnightBlue;
+    position:                             absolute;
+    left:                                 0px;
+    top:                                 12px;
+    width:                                 100%;
+    text-align:                         center;
+    color:                                 MidnightBlue;
 }
 .dialog-vertical .dialog-header .close-button {
-	position: 							absolute;
-	right: 								16px;
-	top: 								12px;
-	text-align: 						center;
-	font-size: 							20px;
-	line-height: 						20px;
-	cursor: 							pointer;
-	color: 								MidnightBlue;
+    position:                             absolute;
+    right:                                 16px;
+    top:                                 12px;
+    text-align:                         center;
+    font-size:                             20px;
+    line-height:                         20px;
+    cursor:                             pointer;
+    color:                                 MidnightBlue;
 }
 .dialog-vertical .dialog-header .close-button:hover {
-	color: 								Yellow;
+    color:                                 Yellow;
 }
 .dialog-vertical .icon {
-	float: 								left;
-	width: 								80px;
-	height: 							80px;
-	font-size: 							52px;
-	line-height: 						85px;
-	text-align: 						center;
-	border-radius: 						40px;
-	background-color: 					WhiteSmoke;
-	color: 								White;
+    float:                                 left;
+    width:                                 80px;
+    height:                             80px;
+    font-size:                             52px;
+    line-height:                         85px;
+    text-align:                         center;
+    border-radius:                         40px;
+    background-color:                     WhiteSmoke;
+    color:                                 White;
 }
 .dialog-vertical .icon.icon-pen {
-	line-height: 						96px;
+    line-height:                         96px;
 }
 .dialog-vertical .icon.icon-triangle-warning {
-	line-height: 						74px;
+    line-height:                         74px;
 }
 .dialog-vertical .icon:before {
-	line-height: 						72px;
+    line-height:                         72px;
 }
 
 /* Alert dialog */
 .dialog.alert {
-	height: 							200px;
-	margin: 							-100px 0 0 0;
+    height:                             200px;
+    margin:                             -100px 0 0 0;
 }
 .dialog.alert .dialog-vertical {
-	width: 								500px;
-	height: 							200px;
+    width:                                 500px;
+    height:                             200px;
 }
 .dialog.alert .alert-content {
-	float: 								right;
-	width: 								calc(100% - 96px);
-	text-align: 						center;
+    float:                                 right;
+    width:                                 calc(100% - 96px);
+    text-align:                         center;
 }
 
 /* New dialog */
 .dialog.new {
-	height: 							300px;
-	margin: 							-150px 0 0 0;
+    height:                             300px;
+    margin:                             -150px 0 0 0;
 }
 .dialog.new .dialog-vertical {
-	width: 								500px;
-	height: 							300px;
+    width:                                 500px;
+    height:                             300px;
 }
 .dialog.new .new-content {
-	float: 								right;
-	width: 								calc(100% - 96px);
+    float:                                 right;
+    width:                                 calc(100% - 96px);
 }
 .dialog.new .new-content ul,
 .dialog.new .new-content li {
-	float: 								left;
-	list-style-type: 					none;
-	width: 								100%;
+    float:                                 left;
+    list-style-type:                     none;
+    width:                                 100%;
 }
 .dialog.new .new-content li {
-	padding: 							8px;
-	cursor: 							pointer;
+    padding:                             8px;
+    cursor:                             pointer;
 }
 .dialog.new .new-content li:hover {
-	background-color: 					rgba(0, 0, 0, 0.05);
-	opacity: 							1;
+    background-color:                     rgba(0, 0, 0, 0.05);
+    opacity:                             1;
 }
 .dialog.new .new-content .icon {
-	float: 								left;
-	width: 								40px;
-	height: 							40px;
-	color: 								Black;
-	border: 							0;
-	border-radius: 						0;
-	background-color: 					transparent;
-	font-size: 							30px;
-	text-align: 						center;
-	line-height: 						32px;
+    float:                                 left;
+    width:                                 40px;
+    height:                             40px;
+    color:                                 Black;
+    border:                             0;
+    border-radius:                         0;
+    background-color:                     transparent;
+    font-size:                             30px;
+    text-align:                         center;
+    line-height:                         32px;
 }
 .dialog.new .new-content .icon:before {
-	line-height: 						32px;
+    line-height:                         32px;
 }
 
 /* Prompt dialog */
 .dialog.prompt {
-	height: 							240px;
-	margin: 							-120px 0 0 0;
+    height:                             240px;
+    margin:                             -120px 0 0 0;
 }
 .dialog.prompt .dialog-vertical {
-	width: 								500px;
-	height: 							240px;
+    width:                                 500px;
+    height:                             240px;
 }
 .dialog.prompt .prompt-content {
-	float: 								left;
-	width: 								calc(100% - 96px);
-	text-align: 						left;
-	margin-left: 						16px;
+    float:                                 left;
+    width:                                 calc(100% - 96px);
+    text-align:                         left;
+    margin-left:                         16px;
 }
 .dialog.prompt input {
-	float: 								left;
-	width: 								calc(100% - 100px);
-	font-size: 							16px;
-	margin: 							16px 0 0 16px;
+    float:                                 left;
+    width:                                 calc(100% - 100px);
+    font-size:                             16px;
+    margin:                             16px 0 0 16px;
 }
 
 /* Sensors dialog */
 .dialog.sensors {
-	height: 							370px;
-	margin: 							-185px 0 0 0;
+    height:                             370px;
+    margin:                             -185px 0 0 0;
 }
 .dialog.sensors .dialog-vertical {
-	width: 								500px;
-	height: 							370px;
+    width:                                 500px;
+    height:                             370px;
 }
 .dialog.sensors .sensors-content {
-	float: 								right;
-	width: 								calc(100% - 96px);
+    float:                                 right;
+    width:                                 calc(100% - 96px);
 }
 .dialog.sensors .sensors-content .row {
-	float: 								left;
-	width: 								100%;
-	margin-bottom: 						8px;
+    float:                                 left;
+    width:                                 100%;
+    margin-bottom:                         8px;
 }
 .dialog.sensors .sensors-content .row .label {
-	float: 								left;
-	line-height: 						24px;
-	margin: 							2px 8px 0 16px;
+    float:                                 left;
+    line-height:                         24px;
+    margin:                             2px 8px 0 16px;
 }
 .dialog.sensors .sensors-content .row .checkbox {
-	float: 								left;
-	margin-top: 						2px;
+    float:                                 left;
+    margin-top:                         2px;
 }
 .dialog.sensors .sensors-content .row .sensor-type {
-	float: 								left;
-	width: 								32px;
+    float:                                 left;
+    width:                                 32px;
 }
 .dialog.sensors .sensors-content .row .sensor-type img {
-	float: 								left;
-	width: 								32px;
+    float:                                 left;
+    width:                                 32px;
 }
 .dialog.sensors .sensors-content .row .sensor-type .checkbox {
-	float: 								none;
-	margin: 							32px 0 0 6px;
+    float:                                 none;
+    margin:                             32px 0 0 6px;
 }
 
 /* Examples dialog */
 .dialog.examples {
-	height: 							400px;
-	margin: 							-200px 0 0 0;
+    height:                             400px;
+    margin:                             -200px 0 0 0;
 }
 .dialog.examples .dialog-vertical {
-	width: 								600px;
-	height: 							400px;
+    width:                                 600px;
+    height:                             400px;
 }
 .dialog.examples .examples-content {
-	float: 								right;
-	width: 								calc(100% - 96px);
+    float:                                 right;
+    width:                                 calc(100% - 96px);
 }
 .dialog.examples .examples-content h3 {
-	float: 								left;
-	margin: 							0 0 8px 0;
+    float:                                 left;
+    margin:                             0 0 8px 0;
 }
 .dialog.examples .examples-content ul,
 .dialog.examples .examples-content li {
-	float: 								left;
-	width: 								100%;
+    float:                                 left;
+    width:                                 100%;
 }
 .dialog.examples .examples-content ul {
-	margin: 							0 0 8px 16px;
+    margin:                             0 0 8px 16px;
 }
 .dialog.examples .examples-content .example-title {
-	float: 								left;
+    float:                                 left;
 }
 .dialog.examples .examples-content .example-title:hover {
-	text-decoration: 					underline;
-	cursor: 							pointer;
+    text-decoration:                     underline;
+    cursor:                             pointer;
 }
 .dialog.examples .examples-content .half {
-	float: 								left;
+    float:                                 left;
 }
 
 /* Checkbox */
 .checkbox {
-	position: 							relative;
-	width: 								24px;
-	height: 							24px;
-	cursor: 							pointer;
+    position:                             relative;
+    width:                                 24px;
+    height:                             24px;
+    cursor:                             pointer;
 }
 .checkbox.slider {
-	position: 							relative;
-	width: 								48px;
-	height: 							24px;
-	cursor: 							pointer;
+    position:                             relative;
+    width:                                 48px;
+    height:                             24px;
+    cursor:                             pointer;
 }
 .checkbox .checkbox-track {
-	display: 							none;
+    display:                             none;
 }
 .checkbox.slider .checkbox-track {
-	display: 							block;
-	position: 							absolute;
-	width: 								32px;
-	height: 							8px;
-	left: 								8px;
-	top: 								8px;
-	border-radius: 						4px;
-	background-color: 					MidnightBlue;
-	pointer-events: 					none;
+    display:                             block;
+    position:                             absolute;
+    width:                                 32px;
+    height:                             8px;
+    left:                                 8px;
+    top:                                 8px;
+    border-radius:                         4px;
+    background-color:                     MidnightBlue;
+    pointer-events:                     none;
 }
 .checkbox.slider .checkbox-value {
-	position: 							absolute;
-	left: 								2px;
-	top: 								2px;
-	width: 								20px;
-	height: 							20px;
-	border-radius: 						12px;
-	border: 							1px solid MidnightBlue;
-	background-color: 					White;
-	pointer-events: 					none;
-	transition: 						left 0.3s, background-color 0.3s;
+    position:                             absolute;
+    left:                                 2px;
+    top:                                 2px;
+    width:                                 20px;
+    height:                             20px;
+    border-radius:                         12px;
+    border:                             1px solid MidnightBlue;
+    background-color:                     White;
+    pointer-events:                     none;
+    transition:                         left 0.3s, background-color 0.3s;
 }
 .checkbox .checkbox-value {
-	position: 							absolute;
-	left: 								2px;
-	top: 								2px;
-	width: 								20px;
-	height: 							20px;
-	pointer-events: 					none;
+    position:                             absolute;
+    left:                                 2px;
+    top:                                 2px;
+    width:                                 20px;
+    height:                             20px;
+    pointer-events:                     none;
 }
 .dialog.motors .motors-content .motor-row:hover .checkbox.slider.checked .checkbox-value,
 .checkbox.slider.checked .checkbox-value {
-	left: 								26px;
-	color: 								MidnightBlue;
-	font-size: 							16px;
-	line-height: 						18px;
-	text-align: 						center;
+    left:                                 26px;
+    color:                                 MidnightBlue;
+    font-size:                             16px;
+    line-height:                         18px;
+    text-align:                         center;
 }
 .checkbox .checkbox-value,
 .checkbox.checked .checkbox-value {
-	font-size: 							16px;
-	line-height: 						18px;
-	text-align: 						center;
+    font-size:                             16px;
+    line-height:                         18px;
+    text-align:                         center;
 }
 
 /* Tabs */
 .tabs {
-	float: 								left;
-	width: 								370px;
-	margin-left: 						16px;
+    float:                                 left;
+    width:                                 370px;
+    margin-left:                         16px;
 }
 .tabs ul.tabs-titles {
-	float: 								left;
-	padding: 							8px 8px 8px 0;
-	border: 							1px dotted LightSkyBlue;
-	border-width: 						0 0 1px 0;
-	width: 								100%;
-	margin-bottom: 						8px;
+    float:                                 left;
+    padding:                             8px 8px 8px 0;
+    border:                             1px dotted LightSkyBlue;
+    border-width:                         0 0 1px 0;
+    width:                                 100%;
+    margin-bottom:                         8px;
 }
 .tabs ul.tabs-titles li.tab {
-	float: 								left;
-	list-style-type: 					none;
-	margin: 							0;
-	padding: 							4px 0 4px 0;
-	margin: 							0 16px 0 0;
-	cursor: 							pointer;
-	font-family:						'Roboto Condensed', sans-serif;
-	font-weight: 						400;
-	color: 								MidnightBlue;
+    float:                                 left;
+    list-style-type:                     none;
+    margin:                             0;
+    padding:                             4px 0 4px 0;
+    margin:                             0 16px 0 0;
+    cursor:                             pointer;
+    font-family:                        'Roboto Condensed', sans-serif;
+    font-weight:                         400;
+    color:                                 MidnightBlue;
 }
 .tabs ul.tabs-titles li.tab:hover {
-	color: 								PaleVioletRed;
-	border: 							4px solid PaleVioletRed;
-	border-width: 						0 0 4px 0;
+    color:                                 PaleVioletRed;
+    border:                             4px solid PaleVioletRed;
+    border-width:                         0 0 4px 0;
 }
 .tabs ul.tabs-titles li.tab.active {
-	color: 								MidnightBlue;
-	border: 							4px solid MidnightBlue;
-	border-width: 						0 0 4px 0;
+    color:                                 MidnightBlue;
+    border:                             4px solid MidnightBlue;
+    border-width:                         0 0 4px 0;
 }
 .tabs .tabs-content {
-	float: 								left;
+    float:                                 left;
 }
 .tabs .tabs-content .tab-content {
-	display: 							none;
+    display:                             none;
 }
 .tabs .tabs-content .tab-content.active {
-	display: 							block;
+    display:                             block;
 }
 
 /* Icons */
 @font-face {
-	font-family: 						"icons";
-	src: 								url("/fonts/icons1.eot");
-	src:								url("/fonts/icons1.eot?#iefix") format("embedded-opentype"),
-										url("/fonts/icons1.woff") format("woff"),
-										url("/fonts/icons1.ttf") format("truetype"),
-										url("/fonts/icons1.svg#icons") format("svg");
-	font-weight: 						normal;
-	font-style: 						normal;
+    font-family:                         "icons";
+    src:                                 url("/fonts/icons1.eot");
+    src:                                url("/fonts/icons1.eot?#iefix") format("embedded-opentype"),
+                                        url("/fonts/icons1.woff") format("woff"),
+                                        url("/fonts/icons1.ttf") format("truetype"),
+                                        url("/fonts/icons1.svg#icons") format("svg");
+    font-weight:                         normal;
+    font-style:                         normal;
 }
 
 [data-icon]:before {
-	font-family: 						"icons" !important;
-	content: 							attr(data-icon);
-	font-style: 						normal !important;
-	font-weight: 						normal !important;
-	font-variant: 						normal !important;
-	text-transform: 					none !important;
-	speak: 								none;
-	line-height: 						1;
-	-webkit-font-smoothing: 			antialiased;
-	-moz-osx-font-smoothing: 			grayscale;
+    font-family:                         "icons" !important;
+    content:                             attr(data-icon);
+    font-style:                         normal !important;
+    font-weight:                         normal !important;
+    font-variant:                         normal !important;
+    text-transform:                     none !important;
+    speak:                                 none;
+    line-height:                         1;
+    -webkit-font-smoothing:             antialiased;
+    -moz-osx-font-smoothing:             grayscale;
 }
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-	font-family: 						"icons" !important;
-	font-style: 						normal !important;
-	font-weight: 						normal !important;
-	font-variant: 						normal !important;
-	text-transform: 					none !important;
-	speak:								none;
-	line-height:						1;
-	-webkit-font-smoothing: 			antialiased;
-	-moz-osx-font-smoothing: 			grayscale;
+    font-family:                         "icons" !important;
+    font-style:                         normal !important;
+    font-weight:                         normal !important;
+    font-variant:                         normal !important;
+    text-transform:                     none !important;
+    speak:                                none;
+    line-height:                        1;
+    -webkit-font-smoothing:             antialiased;
+    -moz-osx-font-smoothing:             grayscale;
 }
 
 .icon-circle-warning:before {

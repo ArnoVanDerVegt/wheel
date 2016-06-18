@@ -2,11 +2,12 @@ wheel(
     'components.output.ConsoleComponent',
     React.createClass({
         getInitialState: function() {
+            var props = this.props;
             return {
-                left:         360,
-                visible:     true,
-                small:         false,
-                messages:     [],
+                left:        360,
+                visible:     props.visible,
+                small:       props.small,
+                messages:    [],
                 globals:     {}
             }
         },
@@ -84,12 +85,12 @@ wheel(
         },
 
         render: function() {
-            var state           = this.state,
-                props           = this.props,
-                messages        = state.messages,
-                messageChildren = [],
-                globals         = state.globals,
-                globalsChildren = [];
+            var state           = this.state;
+            var props           = this.props;
+            var messages        = state.messages;
+            var messageChildren = [];
+            var globals         = state.globals;
+            var globalsChildren = [];
 
             for (var i = 0; i < messages.length; i++) {
                 (function(message) {

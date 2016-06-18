@@ -3,8 +3,10 @@
             this.init = function() {
                 supr(this, 'init', arguments);
 
+                var localStorage = LocalStorage.getInstance();
+
                 /* Motors */
-                this._motorProperties = LocalStorage.getInstance().get(
+                this._motorProperties = localStorage.get(
                     'motorProperties',
                     {
                         type:       true,
@@ -16,7 +18,7 @@
                     }
                 );
 
-                this._standardMotorSettings = LocalStorage.getInstance().get(
+                this._standardMotorSettings = localStorage.get(
                     'standardMotorSettings',
                     [
                         {
@@ -46,10 +48,10 @@
                     ]
                 );
 
-                this._i2cMotorSettings = LocalStorage.getInstance().get('i2cMotorSettings', []);
+                this._i2cMotorSettings = localStorage.get('i2cMotorSettings', []);
 
                 /* Sensors */
-                this._sensorProperties = LocalStorage.getInstance().get(
+                this._sensorProperties = localStorage.get(
                     'sensorProperties',
                     {
                         type:  true,
@@ -57,7 +59,7 @@
                     }
                 );
 
-                this._standardSensorSettings = LocalStorage.getInstance().get(
+                this._standardSensorSettings = localStorage.get(
                     'standardSensorSettings',
                     [
                         {
@@ -87,7 +89,19 @@
                     ]
                 );
 
-                this._i2cSensorSettings = LocalStorage.getInstance().get('i2cSensorSettings', []);
+                this._i2cSensorSettings = localStorage.get('i2cSensorSettings', []);
+
+                /* Active file in editor */
+                this._activeFilename = localStorage.get('activeFilename', null);
+
+                /* UI settings */
+                this._uiSettings = localStorage.get(
+                    'uiSettings',
+                    {
+                        console: true,
+                        small:   true
+                    }
+                );
             };
 
             /* Motors */
@@ -147,10 +161,34 @@
             };
 
             this.setI2cSensorSettings = function(i2cSensorSettings) {
-console.log('i2cSensorSettings:', i2cSensorSettings);
                 this._i2cSensorSettings = i2cSensorSettings;
                 LocalStorage.getInstance().set('i2cSensorSettings', i2cSensorSettings);
                 this.emit('I2cSensorSettingsChanged');
+            };
+
+            /* Active file in editor */
+            this.getActiveFilename = function() {
+                return this._activeFilename;
+            };
+
+            this.setActiveFilename = function(activeFilename) {
+                this._activeFilename = activeFilename;
+                LocalStorage.getInstance().set('activeFilename', activeFilename);
+            };
+
+            /* UI settings */
+            this.getUISettings = function() {
+                return this._uiSettings;
+            };
+
+            this.getUISetting = function(key) {
+                return this._uiSettings[key];
+            };
+
+            this.setUISetting = function(key, value) {
+                console.log('set', key, value);
+                this._uiSettings[key] = value;
+                LocalStorage.getInstance().set('uiSettings', this._uiSettings);
             };
         });
 
