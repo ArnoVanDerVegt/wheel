@@ -25,8 +25,13 @@ wheel(
                 console:         wheel.editorSettings.getUISetting('console'),
                 activeFileIndex: 0,
                 activeProject:   null,
-                _buttons:        null
+                _buttons:        null,
+                _emitter:        new Emitter({})
             }
+        },
+
+        getEmitter: function() {
+            return this.state._emitter;
         },
 
         getActiveFile: function() {
@@ -131,6 +136,7 @@ wheel(
                                             compilerData.getGlobalOffset(),
                                             preProcessor.getResources()
                                         );
+                                        this.state._emitter.emit('Run');
                                     }).bind(this);
 
                                 if (preProcessor.getResourceCount()) {
@@ -145,6 +151,11 @@ wheel(
             //} catch (error) {
             //    console.error(error);
             //}
+        },
+
+        onStop: function() {
+            this.props.vm.stop();
+            this.state._emitter.emit('Stop');
         },
 
         onNew: function() {
@@ -473,7 +484,7 @@ wheel(
             file = files.getFile(state.activeFileIndex);
             if (file) {
                 file.getData(function(data) {
-                    this.refs.codeMirror.setCode(data, file, getName());
+                    this.refs.codeMirror.setCode(data, file.getName());
                 }.bind(this));
             }
         },
@@ -540,6 +551,7 @@ wheel(
                     {
                         type: wheel.components.editor.CodeMirrorComponent,
                         props: {
+                            editor:       this,
                             compiler:     this.props.compiler,
                             defaultValue: data,
                             ref:          'codeMirror',
@@ -554,6 +566,7 @@ wheel(
                             ref:            'output',
                             editor:         this,
                             onRun:          this.onRun,
+                            onStop:         this.onStop,
                             onSmall:        this.onSmall,
                             onLarge:        this.onLarge,
                             onShowConsole:  this.onShowConsole,

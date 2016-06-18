@@ -4,8 +4,59 @@
                 group: 'Variables',
                 examples: [
                     {
-                        title:    'Numbers',
-                        filename: '/examples/variables.whlp'
+                        title:          'Numbers',
+                        description:    'Declare a number variable',
+                        filename:       '/examples/variables/number.whlp'
+                    },
+                    {
+                        title:          'Number',
+                        description:    'Declare a number constant',
+                        filename:       '/examples/variables/numberConstant.whlp'
+                    },
+                    {
+                        title:          'String',
+                        description:    'Declaring strings',
+                        filename:       '/examples/variables/string.whlp'
+                    },
+                    {
+                        title:          'Struct',
+                        description:    'Declaring a struct data type',
+                        filename:       '/examples/variables/struct.whlp'
+                    },
+                    {
+                        title:          'Struct array',
+                        description:    'Declaring a struct data type',
+                        filename:       '/examples/variables/structArray.whlp'
+                    },
+                    {
+                        title:          'Struct parameter',
+                        description:    'Struct parameter',
+                        filename:       '/examples/variables/structParameter.whlp'
+                    },
+                    {
+                        title:          'Array',
+                        description:    'Declare an array',
+                        filename:       '/examples/variables/array.whlp'
+                    },
+                    {
+                        title:          'Array parameter',
+                        description:    'An array as a procedure parameter',
+                        filename:       '/examples/variables/arrayParameter.whlp'
+                    },
+                    {
+                        title:          'Array struct',
+                        description:    'An array of structs',
+                        filename:       '/examples/variables/arrayStruct.whlp'
+                    },
+                    {
+                        title:          'Addr',
+                        description:    'Get the address of a variable',
+                        filename:       '/examples/variables/addr.whlp'
+                    },
+                    {
+                        title:          'Pointer',
+                        description:    'Pointer declaration and assingment',
+                        filename:       '/examples/variables/pointer.whlp'
                     }
                 ]
             },
@@ -94,7 +145,7 @@
             },
 
             render: function() {
-                var exampleChildren = [[], []];
+                var exampleChildren = [];
 
                 for (var i = 0; i < examples.length; i++) {
                     var exampleChild = {
@@ -126,18 +177,25 @@
                                     {
                                         type: 'span',
                                         props: {
-                                            className:     'example-title',
-                                            innerHTML:     example.title,
-                                            onClick:     (function() {
+                                            className: 'example-title',
+                                            innerHTML: example.title,
+                                            onClick:   (function() {
                                                 this.onShowExample(example);
                                             }).bind(this)
+                                        }
+                                    },
+                                    {
+                                        type: 'span',
+                                        props: {
+                                            className: 'example-description',
+                                            innerHTML: example.description
                                         }
                                     }
                                 ]
                             });
                         }).call(this, examples[i].examples[j]);
                     }
-                    exampleChildren[~~(2 * i / examples.length)].push(exampleChild);
+                    exampleChildren.push(exampleChild);
                 }
 
                 return     utilsReact.fromJSON(
@@ -150,20 +208,7 @@
                                 props: {
                                     className: 'examples-content',
                                 },
-                                children: [
-                                    {
-                                        props: {
-                                            className: 'half'
-                                        },
-                                        children: exampleChildren[0]
-                                    },
-                                    {
-                                        props: {
-                                            className: 'half'
-                                        },
-                                        children: exampleChildren[1]
-                                    }
-                                ]
+                                children: exampleChildren
                             }
                         ]
                     )

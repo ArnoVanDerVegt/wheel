@@ -247,9 +247,18 @@
         'components.output.EV3ScreenComponent',
         React.createClass({
             getInitialState: function() {
+                var emitter = this.props.editor.getEmitter();
+
+                emitter.on('MessagesInfo', this, this.onMessagesInfo);
+                emitter.on('Run',          this, this.onRun);
+                emitter.on('Stop',         this, this.onStop);
+
                 return {
-                    small: this.props.small
-                }
+                    small:             this.props.small,
+                    running:           false,
+                    messagesCounter:   0,
+                    messagesClassName: null
+                };
             },
 
             updateCtx: function() {
@@ -309,6 +318,39 @@
                 }
             },
 
+            onRun: function() {
+                this._ev3Screen.clear();
+                var state = this.state;
+                state.running = true;
+                this.setState(state);
+            },
+
+            onStop: function() {
+                this._ev3Screen.clear();
+                var state = this.state;
+                state.running = false;
+                this.setState(state);
+            },
+
+            onMessagesInfo: function(info) {
+                var state = this.state;
+                if (info.log) {
+                    if (info.error) {
+                        state.messagesCounter   = info.log + info.error;
+                        state.messagesClassName = 'yellow';
+                    } else {
+                        state.messagesCounter   = info.log;
+                        state.messagesClassName = 'green';
+                    }
+                } else if (info.error) {
+                    state.messagesCounter   = info.error;
+                    state.messagesClassName = 'red';
+                } else {
+                    state.messagesCounter = 0;
+                }
+                this.setState(state);
+            },
+
             render: function() {
                 var state = this.state;
                 var props = this.props;
@@ -333,27 +375,40 @@
                             children: [
                                 {
                                     props: {
-                                        className:     'icon icon-circle-play',
-                                        onClick:     (function() { this.props.onRun && this.props.onRun(); }).bind(this)
+                                        className: 'icon icon-circle-play',
+                                        onClick:   (function() { this.props.onRun && this.props.onRun(); }).bind(this)
                                     }
                                 },
-                                {
-                                    props: {
-                                        className: 'icon icon-circle-pause',
-                                        onClick:     (function() { this.props.onStop && this.props.onStop(); }).bind(this)
-                                    }
-                                },
+                                (state.running ?
+                                    {
+                                        props: {
+                                            className: 'icon icon-circle-pause',
+                                            onClick:   (function() { this.props.onStop && this.props.onStop(); }).bind(this)
+                                        }
+                                    } :
+                                    null
+                                ),
                                 {
                                     props: {
                                         className: 'icon icon-area',
-                                        onClick:     this.onZoom
+                                        onClick:   this.onZoom
                                     }
                                 },
                                 {
                                     props: {
                                         className: 'icon icon-comment',
-                                        onClick:     (function() { this.props.onShowConsole && this.props.onShowConsole(); }).bind(this)
-                                    }
+                                        onClick:   (function() { this.props.onShowConsole && this.props.onShowConsole(); }).bind(this)
+                                    },
+                                    children: [
+                                        state.messagesCounter ?
+                                            {
+                                                props: {
+                                                    className: 'counter ' + state.messagesClassName,
+                                                    innerHTML: state.messagesCounter
+                                                }
+                                            } :
+                                            null
+                                    ]
                                 }
                             ]
                         }

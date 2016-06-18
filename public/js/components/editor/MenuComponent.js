@@ -275,36 +275,6 @@ wheel(
 										type: 'span',
 										props: {
 											className: 	'menu-item-title',
-											innerHTML: 	'View',
-										}
-									},
-									{
-										type: 'ul',
-										props: {
-											className: 'dropdown box-shadow'
-										},
-										children: [
-											{
-												type: 'li',
-												props: {
-													innerHTML: 'Large output',
-													onClick: 	this.createCallback('onToggleInput')
-												}
-											}
-										]
-									}
-								]
-							},
-							{
-								type: 'li',
-								props: {
-									className: 	'menu-item'
-								},
-								children: [
-									{
-										type: 'span',
-										props: {
-											className: 	'menu-item-title',
 											innerHTML: 	'Help',
 										}
 									},

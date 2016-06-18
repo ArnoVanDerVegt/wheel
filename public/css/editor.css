@@ -128,7 +128,7 @@ input[type='text'] {
 }
 #main .header .menu li.active-project {
     float:                              right;
-    margin:                             0 8px 0 8px;
+    margin:                             0 12px 0 8px;
 }
 #main .header .menu li.menu-item {
     float:                              left;
@@ -268,49 +268,49 @@ input[type='text'] {
     z-index:                            0;
 }
 #main .files li {
-    float:                                 left;
-    width:                                 100%;
-    line-height:                         32px;
-    padding:                             0;
+    float:                              left;
+    width:                              100%;
+    line-height:                        32px;
+    padding:                            0;
     font-family:                        'Roboto Condensed', sans-serif;
-    font-weight:                         400;
+    font-weight:                        400;
     margin:                             0;
     cursor:                             pointer;
-    list-style-type:                     none;
+    list-style-type:                    none;
 }
 #main .files li div {
-    position:                             relative;
-    float:                                 left;
-    width:                                 100%;
-    color:                                 Black;
+    position:                           relative;
+    float:                              left;
+    width:                              100%;
+    color:                              Black;
 }
 #main .files li span {
-    float:                                 left;
+    float:                              left;
 }
 #main .files li .icon {
-    float:                                 left;
-    display:                             block;
+    float:                              left;
+    display:                            block;
     pointer-events:                     none;
-    width:                                 24px;
+    width:                              24px;
     height:                             32px;
-    line-height:                         32px;
-    font-size:                            18px;
+    line-height:                        32px;
+    font-size:                          18px;
     text-align:                         center;
     margin:                             0 8px 0 0;
-    color:                                 Black;
+    color:                              Black;
 }
 #main .files li div.active {
-    z-index:                             10000;
+    z-index:                            10000;
 }
 #main .files li div.active .icon {
-    color:                                 White;
+    color:                              White;
 }
 
 #main .files li .icon-close,
 #main .files li .icon-pen {
-    display:                             none;
-    float:                                 right;
-    width:                                 32px;
+    display:                            none;
+    float:                              right;
+    width:                              32px;
 }
 #main .files li div.changed,
 #main .files li div.active.changed {
@@ -319,21 +319,21 @@ input[type='text'] {
 #main .files li div:hover,
 #main .files li div:hover div,
 #main .files li div:hover span {
-    background-color:                     LightSkyBlue;
-    color:                                 Yellow;
+    background-color:                   LightSkyBlue;
+    color:                              Yellow;
 }
 #main .files li div:hover div {
-    background-color:                     transparent;
+    background-color:                   transparent;
 }
 #main .files li div.active {
-    background-color:                     PaleVioletRed;
+    background-color:                   PaleVioletRed;
     box-shadow:                         2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 #main .files li div.active:hover,
 #main .files li div.active:hover div,
 #main .files li div.active:hover span {
-    background-color:                     PaleVioletRed;
-    color:                                 White;
+    background-color:                   PaleVioletRed;
+    color:                              White;
 }
 
 #main .files li div.active span,
@@ -342,49 +342,49 @@ input[type='text'] {
 #main .files li div.active .icon-image-file,
 #main .files li div.active .icon-brackets,
 #main .files li div.active .icon-folder {
-    color:                                 White;
+    color:                              White;
 }
 #main .files li div.active .icon-close,
 #main .files li div.active .icon-pen {
-    display:                             block;
-    color:                                 White;
-    line-height:                         32px;
-    height:                                32px;
-    text-align:                            center;
+    display:                            block;
+    color:                              White;
+    line-height:                        32px;
+    height:                             32px;
+    text-align:                         center;
     padding:                            0;
-    margin:                                0;
-    overflow:                            hidden;
+    margin:                             0;
+    overflow:                           hidden;
 }
 #main .files li div.active .icon-pen {
-    margin:                                2px 0 0 0;
+    margin:                             2px 0 0 0;
 }
 #main .files li .icon:before {
-    line-height:                         32px;
+    line-height:                        32px;
 }
 
 /* Editor */
 #main .editor {
-    position:                             absolute;
-    right:                                 196px;
-    top:                                 56px;
+    position:                           absolute;
+    right:                              196px;
+    top:                                56px;
     bottom:                             8px;
 }
 #main .editor.small {
-    right:                                 376px;
+    right:                              376px;
 }
 #main .editor.show-console,
 #main .editor.small.show-console {
     bottom:                             168px;
 }
 #main .editor #codeHint {
-    position:                             absolute;
-    z-index:                             9999;
+    position:                           absolute;
+    z-index:                            9999;
     border:                             1px solid Black;
-    background-color:                     #FFFFF0;
+    background-color:                   #FFFFF0;
     font-family:                        'Roboto Condensed', sans-serif;
     font-weight:                        300;
-    font-size:                            13px;
-    padding:                             3px;
+    font-size:                          13px;
+    padding:                            3px;
     box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -2px -0px 5px rgba(0, 0, 0, 0.1),
@@ -393,15 +393,15 @@ input[type='text'] {
 #main .editor #codeHint .code-hint-title {
 }
 #main .editor #codeHint .code-hint-title strong {
-    font-weight:                         400;
+    font-weight:                        400;
 }
 #main .editor #codeHint .code-hint-title span {
-    padding-right:                         6px;
+    padding-right:                      6px;
     font-style:                         italic;
 }
 #main .editor #codeHint .code-hint-position {
-    font-size:                             11px;
-    white-space:                         nowrap;
+    font-size:                          11px;
+    white-space:                        nowrap;
 }
 /* Console */
 #main .console {
@@ -462,21 +462,21 @@ input[type='text'] {
     color:                              red;
 }
 #main .console .messages .row.log:before {
-    color:                                 green;
+    color:                              green;
 }
 #main .console .messages .row.log .message,
 #main .console .messages .row.error .message {
-    float:                                 left;
+    float:                              left;
 }
 #main .console .messages .row.log .location,
 #main .console .messages .row.error .location {
-    float:                                 right;
+    float:                              right;
 }
 
 #main .console .control-panel {
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
+    position:                           absolute;
+    left:                               0px;
+    bottom:                             0px;
     width:                              100%;
     height:                             40px;
     background-color:                   LightSkyBlue;
@@ -484,25 +484,25 @@ input[type='text'] {
 
 /* Output */
 #main .output {
-    position:                             absolute;
-    width:                                 196px;
-    right:                                 0px;
-    top:                                 48px;
+    position:                           absolute;
+    width:                              196px;
+    right:                              0px;
+    top:                                48px;
     bottom:                             0px;
     font-family:                        'Roboto Condensed', sans-serif;
     font-weight:                        300;
-    font-size:                            16px;
+    font-size:                          16px;
 }
 #main .output.large {
-    width:                                 376px;
+    width:                              376px;
 }
 #main .output .io-wrapper {
-    float:                                 left;
-    width:                                 100%;
+    float:                              left;
+    width:                              100%;
     height:                             calc(100% - 192px);
     margin-top:                         8px;
-    overflow:                             scroll;
-    overflow-x:                            hidden;
+    overflow:                           scroll;
+    overflow-x:                         hidden;
 }
 #main .output.large .io-wrapper {
     height:                             calc(100% - 320px);
@@ -510,52 +510,52 @@ input[type='text'] {
 
 /* Sensor/motor status */
 #main .output .status {
-    width:                                 100px;
-    padding:                             0;
+    width:                              100px;
+    padding:                            0;
 }
 #main .output .status-row {
-    width:                                 100%;
-    font-size:                            11px;
+    width:                              100%;
+    font-size:                          11px;
 }
 #main .output .status-name,
 #main .output .status-value {
-    width:                                 50%;
+    width:                              50%;
 }
 
 /* Motor */
 #main .output .motor-container {
-    float:                                 left;
-    width:                                 196px;
+    float:                              left;
+    width:                              196px;
 }
 #main .output.large .motor-container {
-    width:                                 180px;
+    width:                              178px;
 }
 #main .output .motor-container .io,
 #main .output .sensor-container .io {
-    position:                             relative;
-    float:                                 left;
-    width:                                 178px;
+    position:                           relative;
+    float:                              left;
+    width:                              178px;
     min-height:                         64px;
-    background-color:                     White;
+    background-color:                   White;
     margin:                             0px 8px 8px 8px;
-    padding:                             8px;
+    padding:                            8px;
 }
 #main .output .motor-container .box-shadow.io .medium,
 #main .output .motor-container .box-shadow.io .large,
 #main .output .sensor-container .box-shadow.io .touch {
-    position:                             absolute;
-    background-repeat:                     no-repeat;
+    position:                           absolute;
+    background-repeat:                  no-repeat;
     pointer-events:                     none;
-    left:                                 65px;
-    top:                                 8px;
-    width:                                 100px;
+    left:                               65px;
+    top:                                8px;
+    width:                              100px;
     height:                             100px;
-    z-index:                             0;
-    opacity:                             0.2;
+    z-index:                            0;
+    opacity:                            0.2;
 }
 #main .output .motor-container .box-shadow.io .medium {
     background:                         url('/images/mediumMotor.png');
-    background-size:                     100px 100px;
+    background-size:                    100px 100px;
 }
 #main .output .motor-container .box-shadow.io .large {
     background:                         url('/images/largeMotor.png');
@@ -729,22 +729,22 @@ input[type='text'] {
 
 /* Screen */
 #main .output .ev3-screen {
-    float:                                 left;
-    width:                                 178px;
+    float:                              left;
+    width:                              178px;
     height:                             auto;
     margin:                             8px 8px 0 8px;
 }
 #main .output.large .ev3-screen {
     float: left;
-    width:                                 356px;
+    width:                              356px;
     height:                             auto;
 }
 #main .output .ev3-screen canvas {
-    float:                                left;
-    background-color:                     DarkGray;
-    width:                                 178px;
+    float:                              left;
+    background-color:                   DarkGray;
+    width:                              178px;
     height:                             128px;
-    font-family:                         'Inconsolata';
+    font-family:                        'Inconsolata';
 }
 #main .output.large .ev3-screen canvas {
     width:                              356px;
@@ -760,6 +760,7 @@ input[type='text'] {
 /* Control panel icons */
 #main .control-panel .icon {
     float:                              left;
+    position:                           relative;
     cursor:                             pointer;
     color:                              MidnightBlue;
     font-size:                          32px;
@@ -784,103 +785,124 @@ input[type='text'] {
     font-size:                          24px;
     margin-left:                        8px;
 }
+#main .control-panel .icon .counter {
+    position:                           absolute;
+    right:                              -4px;
+    top:                                0px;
+    padding:                            1px 4px 1px 4px;
+    font-size:                          10px;
+    line-height:                        12px;
+    height:                             14px;
+    border-radius:                      7px;
+    color:                              White;
+}
+#main .control-panel .icon .counter.red {
+    background-color:                   red;
+}
+#main .control-panel .icon .counter.yellow {
+    background-color:                   yellow;
+    color:                              MidnightBlue;
+}
+#main .control-panel .icon .counter.green {
+    background-color:                   green;
+}
 
 /* Dialogs */
 .dialog-background {
-    position:                             absolute;
-    left:                                 0px;
-    top:                                 0;
-    width:                                 100%;
+    position:                           absolute;
+    left:                               0px;
+    top:                                0;
+    width:                              100%;
     height:                             100%;
-    z-index:                             10900;
-    background-color:                     rgba(0, 0, 0, 0.25);
-    display:                             none;
+    z-index:                            10900;
+    background-color:                   rgba(0, 0, 0, 0.25);
+    display:                            none;
 }
 .dialog-background.visible {
-    display:                             block;
+    display:                            block;
 }
 .dialog {
     font-family:                        'Roboto Condensed', sans-serif;
-    font-weight:                         300;
-    position:                             absolute;
-    left:                                 0px;
-    top:                                 50%;
-    width:                                 100%;
+    font-weight:                        300;
+    position:                           absolute;
+    left:                               0px;
+    top:                                50%;
+    width:                              100%;
     height:                             200px;
     margin:                             -100px 0 0 0;
-    z-index:                             11000;
+    z-index:                            11000;
 }
 .dialog-vertical {
-    position:                             relative;
+    position:                           relative;
     margin:                             0 auto 0 auto;
-    background-color:                     White;
+    background-color:                   White;
     box-shadow:                         0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -0px 2px 5px rgba(0, 0, 0, 0.1),
                                         -2px -0px 5px rgba(0, 0, 0, 0.1),
                                         2px -0px 5px rgba(0, 0, 0, 0.1);
 }
 .dialog-vertical .dialog-content {
-    position:                             absolute;
-    left:                                 0px;
-    top:                                 48px;
-    right:                                 0px;
+    position:                           absolute;
+    left:                               0px;
+    top:                                48px;
+    right:                              0px;
     bottom:                             48px;
-    padding:                             16px;
+    padding:                            16px;
 }
 .dialog-vertical .buttons {
-    position:                             absolute;
-    left:                                 0px;
+    position:                           absolute;
+    left:                               0px;
     bottom:                             0px;
-    width:                                 100%;
+    width:                              100%;
 }
 .dialog-vertical .dialog-header {
-    position:                             absolute;
-    left:                                 0px;
-    top:                                 0px;
-    width:                                 100%;
+    position:                           absolute;
+    left:                               0px;
+    top:                                0px;
+    width:                              100%;
     height:                             48px;
-    background-color:                     LightSkyBlue;
+    background-color:                   LightSkyBlue;
 }
 .dialog-vertical .dialog-header h4 {
-    position:                             absolute;
-    left:                                 0px;
-    top:                                 12px;
-    width:                                 100%;
+    position:                           absolute;
+    left:                               0px;
+    top:                                12px;
+    width:                              100%;
     text-align:                         center;
-    color:                                 MidnightBlue;
+    color:                              MidnightBlue;
 }
 .dialog-vertical .dialog-header .close-button {
-    position:                             absolute;
-    right:                                 16px;
-    top:                                 12px;
+    position:                           absolute;
+    right:                              16px;
+    top:                                12px;
     text-align:                         center;
-    font-size:                             20px;
-    line-height:                         20px;
+    font-size:                          20px;
+    line-height:                        20px;
     cursor:                             pointer;
-    color:                                 MidnightBlue;
+    color:                              MidnightBlue;
 }
 .dialog-vertical .dialog-header .close-button:hover {
-    color:                                 Yellow;
+    color:                              Yellow;
 }
 .dialog-vertical .icon {
-    float:                                 left;
-    width:                                 80px;
+    float:                              left;
+    width:                              80px;
     height:                             80px;
-    font-size:                             52px;
-    line-height:                         85px;
+    font-size:                          52px;
+    line-height:                        85px;
     text-align:                         center;
-    border-radius:                         40px;
-    background-color:                     WhiteSmoke;
-    color:                                 White;
+    border-radius:                      40px;
+    background-color:                   WhiteSmoke;
+    color:                              White;
 }
 .dialog-vertical .icon.icon-pen {
-    line-height:                         96px;
+    line-height:                        96px;
 }
 .dialog-vertical .icon.icon-triangle-warning {
-    line-height:                         74px;
+    line-height:                        74px;
 }
 .dialog-vertical .icon:before {
-    line-height:                         72px;
+    line-height:                        72px;
 }
 
 /* Alert dialog */
@@ -889,12 +911,12 @@ input[type='text'] {
     margin:                             -100px 0 0 0;
 }
 .dialog.alert .dialog-vertical {
-    width:                                 500px;
+    width:                              500px;
     height:                             200px;
 }
 .dialog.alert .alert-content {
-    float:                                 right;
-    width:                                 calc(100% - 96px);
+    float:                              right;
+    width:                              calc(100% - 96px);
     text-align:                         center;
 }
 
@@ -904,41 +926,41 @@ input[type='text'] {
     margin:                             -150px 0 0 0;
 }
 .dialog.new .dialog-vertical {
-    width:                                 500px;
+    width:                              500px;
     height:                             300px;
 }
 .dialog.new .new-content {
-    float:                                 right;
-    width:                                 calc(100% - 96px);
+    float:                              right;
+    width:                              calc(100% - 96px);
 }
 .dialog.new .new-content ul,
 .dialog.new .new-content li {
-    float:                                 left;
-    list-style-type:                     none;
-    width:                                 100%;
+    float:                              left;
+    list-style-type:                    none;
+    width:                              100%;
 }
 .dialog.new .new-content li {
-    padding:                             8px;
+    padding:                            8px;
     cursor:                             pointer;
 }
 .dialog.new .new-content li:hover {
-    background-color:                     rgba(0, 0, 0, 0.05);
-    opacity:                             1;
+    background-color:                   rgba(0, 0, 0, 0.05);
+    opacity:                            1;
 }
 .dialog.new .new-content .icon {
-    float:                                 left;
-    width:                                 40px;
+    float:                              left;
+    width:                              40px;
     height:                             40px;
-    color:                                 Black;
+    color:                              Black;
     border:                             0;
-    border-radius:                         0;
-    background-color:                     transparent;
-    font-size:                             30px;
+    border-radius:                      0;
+    background-color:                   transparent;
+    font-size:                          30px;
     text-align:                         center;
-    line-height:                         32px;
+    line-height:                        32px;
 }
 .dialog.new .new-content .icon:before {
-    line-height:                         32px;
+    line-height:                        32px;
 }
 
 /* Prompt dialog */
@@ -947,19 +969,19 @@ input[type='text'] {
     margin:                             -120px 0 0 0;
 }
 .dialog.prompt .dialog-vertical {
-    width:                                 500px;
+    width:                              500px;
     height:                             240px;
 }
 .dialog.prompt .prompt-content {
-    float:                                 left;
-    width:                                 calc(100% - 96px);
+    float:                              left;
+    width:                              calc(100% - 96px);
     text-align:                         left;
-    margin-left:                         16px;
+    margin-left:                        16px;
 }
 .dialog.prompt input {
-    float:                                 left;
-    width:                                 calc(100% - 100px);
-    font-size:                             16px;
+    float:                              left;
+    width:                              calc(100% - 100px);
+    font-size:                          16px;
     margin:                             16px 0 0 16px;
 }
 
@@ -969,37 +991,37 @@ input[type='text'] {
     margin:                             -185px 0 0 0;
 }
 .dialog.sensors .dialog-vertical {
-    width:                                 500px;
+    width:                              500px;
     height:                             370px;
 }
 .dialog.sensors .sensors-content {
-    float:                                 right;
-    width:                                 calc(100% - 96px);
+    float:                              right;
+    width:                              calc(100% - 96px);
 }
 .dialog.sensors .sensors-content .row {
-    float:                                 left;
-    width:                                 100%;
-    margin-bottom:                         8px;
+    float:                              left;
+    width:                              100%;
+    margin-bottom:                      8px;
 }
 .dialog.sensors .sensors-content .row .label {
-    float:                                 left;
-    line-height:                         24px;
+    float:                              left;
+    line-height:                        24px;
     margin:                             2px 8px 0 16px;
 }
 .dialog.sensors .sensors-content .row .checkbox {
-    float:                                 left;
+    float:                              left;
     margin-top:                         2px;
 }
 .dialog.sensors .sensors-content .row .sensor-type {
-    float:                                 left;
-    width:                                 32px;
+    float:                              left;
+    width:                              32px;
 }
 .dialog.sensors .sensors-content .row .sensor-type img {
-    float:                                 left;
-    width:                                 32px;
+    float:                              left;
+    width:                              32px;
 }
 .dialog.sensors .sensors-content .row .sensor-type .checkbox {
-    float:                                 none;
+    float:                              none;
     margin:                             32px 0 0 6px;
 }
 
@@ -1009,12 +1031,15 @@ input[type='text'] {
     margin:                             -200px 0 0 0;
 }
 .dialog.examples .dialog-vertical {
-    width:                                 600px;
+    width:                              600px;
     height:                             400px;
 }
 .dialog.examples .examples-content {
-    float:                                 right;
-    width:                                 calc(100% - 96px);
+    float:                              right;
+    width:                              calc(100% - 96px);
+    height:                             276px;
+    overflow:                           hidden;
+    overflow-y:                         scroll;
 }
 .dialog.examples .examples-content h3 {
     float:                                 left;
@@ -1022,166 +1047,171 @@ input[type='text'] {
 }
 .dialog.examples .examples-content ul,
 .dialog.examples .examples-content li {
-    float:                                 left;
-    width:                                 100%;
+    float:                              left;
+    width:                              100%;
 }
 .dialog.examples .examples-content ul {
     margin:                             0 0 8px 16px;
 }
-.dialog.examples .examples-content .example-title {
-    float:                                 left;
+.dialog.examples .examples-content .example-title,
+.dialog.examples .examples-content .example-description {
+    float:                              left;
+    width:                              100%;
+}
+.dialog.examples .examples-content .example-description {
+    color:                              LightSkyBlue;
 }
 .dialog.examples .examples-content .example-title:hover {
-    text-decoration:                     underline;
+    text-decoration:                    underline;
     cursor:                             pointer;
 }
 .dialog.examples .examples-content .half {
-    float:                                 left;
+    float:                              left;
 }
 
 /* Checkbox */
 .checkbox {
-    position:                             relative;
-    width:                                 24px;
+    position:                           relative;
+    width:                              24px;
     height:                             24px;
     cursor:                             pointer;
 }
 .checkbox.slider {
-    position:                             relative;
-    width:                                 48px;
+    position:                           relative;
+    width:                              48px;
     height:                             24px;
     cursor:                             pointer;
 }
 .checkbox .checkbox-track {
-    display:                             none;
+    display:                            none;
 }
 .checkbox.slider .checkbox-track {
-    display:                             block;
-    position:                             absolute;
-    width:                                 32px;
+    display:                            block;
+    position:                           absolute;
+    width:                              32px;
     height:                             8px;
-    left:                                 8px;
-    top:                                 8px;
-    border-radius:                         4px;
-    background-color:                     MidnightBlue;
+    left:                               8px;
+    top:                                8px;
+    border-radius:                      4px;
+    background-color:                   MidnightBlue;
     pointer-events:                     none;
 }
 .checkbox.slider .checkbox-value {
-    position:                             absolute;
-    left:                                 2px;
-    top:                                 2px;
-    width:                                 20px;
+    position:                           absolute;
+    left:                               2px;
+    top:                                2px;
+    width:                              20px;
     height:                             20px;
-    border-radius:                         12px;
+    border-radius:                      12px;
     border:                             1px solid MidnightBlue;
-    background-color:                     White;
+    background-color:                   White;
     pointer-events:                     none;
     transition:                         left 0.3s, background-color 0.3s;
 }
 .checkbox .checkbox-value {
-    position:                             absolute;
-    left:                                 2px;
-    top:                                 2px;
-    width:                                 20px;
+    position:                           absolute;
+    left:                               2px;
+    top:                                2px;
+    width:                              20px;
     height:                             20px;
     pointer-events:                     none;
 }
 .dialog.motors .motors-content .motor-row:hover .checkbox.slider.checked .checkbox-value,
 .checkbox.slider.checked .checkbox-value {
-    left:                                 26px;
-    color:                                 MidnightBlue;
-    font-size:                             16px;
-    line-height:                         18px;
+    left:                               26px;
+    color:                              MidnightBlue;
+    font-size:                          16px;
+    line-height:                        18px;
     text-align:                         center;
 }
 .checkbox .checkbox-value,
 .checkbox.checked .checkbox-value {
-    font-size:                             16px;
-    line-height:                         18px;
+    font-size:                          16px;
+    line-height:                        18px;
     text-align:                         center;
 }
 
 /* Tabs */
 .tabs {
-    float:                                 left;
-    width:                                 370px;
-    margin-left:                         16px;
+    float:                              left;
+    width:                              370px;
+    margin-left:                        16px;
 }
 .tabs ul.tabs-titles {
-    float:                                 left;
-    padding:                             8px 8px 8px 0;
+    float:                              left;
+    padding:                            8px 8px 8px 0;
     border:                             1px dotted LightSkyBlue;
-    border-width:                         0 0 1px 0;
-    width:                                 100%;
-    margin-bottom:                         8px;
+    border-width:                       0 0 1px 0;
+    width:                              100%;
+    margin-bottom:                      8px;
 }
 .tabs ul.tabs-titles li.tab {
-    float:                                 left;
-    list-style-type:                     none;
+    float:                              left;
+    list-style-type:                    none;
     margin:                             0;
-    padding:                             4px 0 4px 0;
+    padding:                            4px 0 4px 0;
     margin:                             0 16px 0 0;
     cursor:                             pointer;
     font-family:                        'Roboto Condensed', sans-serif;
-    font-weight:                         400;
-    color:                                 MidnightBlue;
+    font-weight:                        400;
+    color:                              MidnightBlue;
 }
 .tabs ul.tabs-titles li.tab:hover {
-    color:                                 PaleVioletRed;
+    color:                              PaleVioletRed;
     border:                             4px solid PaleVioletRed;
-    border-width:                         0 0 4px 0;
+    border-width:                       0 0 4px 0;
 }
 .tabs ul.tabs-titles li.tab.active {
-    color:                                 MidnightBlue;
+    color:                              MidnightBlue;
     border:                             4px solid MidnightBlue;
-    border-width:                         0 0 4px 0;
+    border-width:                       0 0 4px 0;
 }
 .tabs .tabs-content {
-    float:                                 left;
+    float:                              left;
 }
 .tabs .tabs-content .tab-content {
-    display:                             none;
+    display:                            none;
 }
 .tabs .tabs-content .tab-content.active {
-    display:                             block;
+    display:                            block;
 }
 
 /* Icons */
 @font-face {
-    font-family:                         "icons";
-    src:                                 url("/fonts/icons1.eot");
+    font-family:                        "icons";
+    src:                                url("/fonts/icons1.eot");
     src:                                url("/fonts/icons1.eot?#iefix") format("embedded-opentype"),
                                         url("/fonts/icons1.woff") format("woff"),
                                         url("/fonts/icons1.ttf") format("truetype"),
                                         url("/fonts/icons1.svg#icons") format("svg");
-    font-weight:                         normal;
+    font-weight:                        normal;
     font-style:                         normal;
 }
 
 [data-icon]:before {
-    font-family:                         "icons" !important;
-    content:                             attr(data-icon);
+    font-family:                        "icons" !important;
+    content:                            attr(data-icon);
     font-style:                         normal !important;
-    font-weight:                         normal !important;
-    font-variant:                         normal !important;
+    font-weight:                        normal !important;
+    font-variant:                       normal !important;
     text-transform:                     none !important;
-    speak:                                 none;
-    line-height:                         1;
+    speak:                              none;
+    line-height:                        1;
     -webkit-font-smoothing:             antialiased;
-    -moz-osx-font-smoothing:             grayscale;
+    -moz-osx-font-smoothing:            grayscale;
 }
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-    font-family:                         "icons" !important;
+    font-family:                        "icons" !important;
     font-style:                         normal !important;
-    font-weight:                         normal !important;
-    font-variant:                         normal !important;
+    font-weight:                        normal !important;
+    font-variant:                       normal !important;
     text-transform:                     none !important;
-    speak:                                none;
+    speak:                              none;
     line-height:                        1;
     -webkit-font-smoothing:             antialiased;
-    -moz-osx-font-smoothing:             grayscale;
+    -moz-osx-font-smoothing:            grayscale;
 }
 
 .icon-circle-warning:before {

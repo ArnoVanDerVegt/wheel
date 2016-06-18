@@ -39,21 +39,23 @@ wheel(
         addLog: function(message) {
             var state = this.state;
             state.messages.push({
-                type:         'log',
+                type:        'log',
                 message:     message.message,
-                location:     message.location
+                location:    message.location
             });
             this.setState(state);
+            this.emitInfo();
         },
 
         addError: function(error) {
             var state = this.state;
             state.messages.push({
-                type:         'error',
+                type:        'error',
                 message:     error.toString(),
-                location:     error.location
+                location:    error.location
             });
             this.setState(state);
+            this.emitInfo();
         },
 
         clearMessages: function() {
@@ -72,6 +74,7 @@ wheel(
         onClearMessages: function() {
             this.clearMessages();
             this.props.onClearMessages && this.props.onClearMessages();
+            this.emitInfo();
         },
 
         show: function() {
@@ -82,6 +85,25 @@ wheel(
             state.visible = true;
             this.setState(state);
             return true;
+        },
+
+        emitInfo: function() {
+            var messages = this.state.messages;
+            var log      = 0;
+            var error    = 0;
+            for (var i = 0; i < messages.length; i++) {
+                var message = messages[i];
+                switch (message.type) {
+                    case 'log':
+                        log++;
+                        break;
+
+                    case 'error':
+                        error++;
+                        break;
+                }
+            }
+            this.props.editor.getEmitter().emit('MessagesInfo', {log: log, error: error});
         },
 
         render: function() {

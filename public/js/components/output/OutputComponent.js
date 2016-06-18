@@ -125,6 +125,20 @@
                 this.setState(state);
             },
 
+            onMouseDown: function() {
+                var state = this.state;
+                state.value = 1;
+                this.setState(state);
+                this.props.device.setValue(1);
+            },
+
+            onMouseUp: function() {
+                var state = this.state;
+                state.value = 0;
+                this.setState(state);
+                this.props.device.setValue(0);
+            },
+
             componentDidMount: function() {
                 if (this.props.deviceProperties.isMotor) {
                     if (!this.state._motorStatus) {
@@ -175,8 +189,11 @@
                             {
                                 type: 'button',
                                 props: {
-                                    className:  'status-button button',
-                                    innerHTML:  state.id
+                                    className:   'status-button button',
+                                    innerHTML:   state.id,
+                                    onMouseDown: this.onMouseDown,
+                                    onMouseUp:   this.onMouseUp,
+                                    onMouseOut:  this.onMouseUp
                                 }
                             }
                         ),
@@ -210,6 +227,8 @@
 
     var EV3ButtonsComponent = React.createClass({
             getInitialState: function() {
+                this.props.editor.getEmitter().on('Stop', this, this.onStop);
+
                 return {
                     animation:  '',
                     flash:      false,
@@ -253,6 +272,10 @@
 
             onMouseUp: function() {
                 this.state._pressed = 0;
+            },
+
+            onStop: function() {
+                this.setLight(0, false);
             },
 
             render: function() {
@@ -490,19 +513,23 @@
             },
 
             render: function() {
+                var props = this.props;
+                var state = this.state;
+
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'output ' + (this.state.small ? ' small' : ' large')
+                        className: 'output ' + (state.small ? ' small' : ' large')
                     },
                     children: [
                         {
                             type: wheel.components.output.EV3ScreenComponent,
                             props: {
+                                editor:         props.editor,
                                 ref:            'screen',
-                                small:          this.state.small,
-                                onRun:          this.props.onRun,
-                                onStop:         this.props.onStop,
-                                onShowConsole:  this.props.onShowConsole,
+                                small:          state.small,
+                                onRun:          props.onRun,
+                                onStop:         props.onStop,
+                                onShowConsole:  props.onShowConsole,
                                 onSmall:        this.onSmall,
                                 onLarge:        this.onLarge
                             }
