@@ -1,1 +1,109 @@
-index
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300' rel='stylesheet' type='text/css'/>
+
+	<link rel="stylesheet" href="/public/css/editor.css"/>
+	<link rel="stylesheet" href="/public/css/dialogs/ioDialogs.css"/>
+	<link rel="stylesheet" href="/public/jscodemirror/codemirror.css"/>
+	<link rel="stylesheet" href="/public/jscodemirror/addon/lint/lint.css"/>
+	<link rel="stylesheet" href="/public/jscodemirror/addon/hint/show-hint.css"/>
+	<link rel="stylesheet" href="/public/jscodemirror/addon/fold/foldgutter.css"/>
+	<link rel="stylesheet" href="/public/jscodemirror/addon/dialog/dialog.css"></script>
+
+	<script src="/public/jscodemirror/codemirror.js"></script>
+	<script src="/public/jscodemirror/addon/comment/comment.js"></script>
+	<script src="/public/jscodemirror/addon/lint/lint.js"></script>
+	<script src="/public/jscodemirror/addon/hint/show-hint.js"></script>
+	<script src="/public/jscodemirror/addon/fold/foldcode.js"></script>
+	<script src="/public/jscodemirror/addon/fold/foldgutter.js"></script>
+	<script src="/public/jscodemirror/addon/search/search.js"></script>
+	<script src="/public/jscodemirror/addon/search/searchcursor.js"></script>
+	<script src="/public/jscodemirror/addon/dialog/dialog.js"></script>
+	<script src="/public/jscodemirror/codemirror_grammar.js"></script>
+	<script src="/public/jscodemirror/grammars/wheel.js"></script>
+	<script src="/public/jscodemirror/grammars/rgf.js"></script>
+	<script src="/public/jscodemirror/grammars/javascript.js"></script>
+	<script src="/public/jscodemirror/grammars/json.js"></script>
+
+	<script src="/public/jsreact/react.js"></script>
+	<script src="/public/jsreact/react-dom.js"></script>
+
+	<script src="/public/jsutils/base.js"></script>
+	<script src="/public/jsutils/utilsReact.js"></script>
+	<script src="/public/jsutils/utilsAjax.js"></script>
+	<script src="/public/jsutils/LocalStorage.js"></script>
+
+	<script src="/public/jscompiler/PreProcessor.js"></script>
+	<script src="/public/jscompiler/commands/CommandCompiler.js"></script>
+	<script src="/public/jscompiler/commands/StringDeclaration.js"></script>
+	<script src="/public/jscompiler/commands/NumberDeclaration.js"></script>
+	<script src="/public/jscompiler/commands/NumberInc.js"></script>
+	<script src="/public/jscompiler/commands/NumberDec.js"></script>
+	<script src="/public/jscompiler/commands/NumberOperator.js"></script>
+	<script src="/public/jscompiler/commands/ProcedureDeclaration.js"></script>
+	<script src="/public/jscompiler/commands/Set.js"></script>
+	<script src="/public/jscompiler/commands/Call.js"></script>
+	<script src="/public/jscompiler/commands/CallFunction.js"></script>
+	<script src="/public/jscompiler/commands/CallReturn.js"></script>
+	<script src="/public/jscompiler/commands/Label.js"></script>
+	<script src="/public/jscompiler/commands/ArrayR.js"></script>
+	<script src="/public/jscompiler/commands/ArrayW.js"></script>
+	<script src="/public/jscompiler/commands/Addr.js"></script>
+	<script src="/public/jscompiler/commands/LoopDn.js"></script>
+	<script src="/public/jscompiler/commands/LoopUp.js"></script>
+	<script src="/public/jscompiler/commands/JmpC.js"></script>
+	<script src="/public/jscompiler/command.js"></script>
+	<script src="/public/jscompiler/compilerHelper.js"></script>
+	<script src="/public/jscompiler/CompilerOutput.js"></script>
+	<script src="/public/jscompiler/CompilerData.js"></script>
+	<script src="/public/jscompiler/Compiler.js"></script>
+
+	<script src="/public/jsvm/Motors.js"></script>
+	<script src="/public/jsvm/Sensors.js"></script>
+	<script src="/public/jsvm/VMData.js"></script>
+	<script src="/public/jsvm/VM.js"></script>
+	<script src="/public/jsvm/modules/VMModule.js"></script>
+	<script src="/public/jsvm/modules/StandardModule.js"></script>
+	<script src="/public/jsvm/modules/ScreenModule.js"></script>
+	<script src="/public/jsvm/modules/MotorModule.js"></script>
+	<script src="/public/jsvm/modules/SensorModule.js"></script>
+	<script src="/public/jsvm/modules/MathModule.js"></script>
+	<script src="/public/jsvm/modules/LightModule.js"></script>
+	<script src="/public/jsvm/modules/ButtonsModule.js"></script>
+
+	<script src="/public/jscomponents/ui/CheckboxComponent.js"></script>
+	<script src="/public/jscomponents/ui/TextInputComponent.js"></script>
+	<script src="/public/jscomponents/ui/SelectComponent.js"></script>
+	<script src="/public/jscomponents/ui/TabsComponent.js"></script>
+
+	<script src="/public/jscomponents/dialogs/StandardDialogs.js"></script>
+	<script src="/public/jscomponents/dialogs/MotorsDialog.js"></script>
+	<script src="/public/jscomponents/dialogs/SensorsDialog.js"></script>
+	<script src="/public/jscomponents/dialogs/ExamplesDialog.js"></script>
+	<script src="/public/jscomponents/dialogs/NewDialog.js"></script>
+
+	<script src="/public/jscomponents/output/EV3ScreenComponent.js"></script>
+	<script src="/public/jscomponents/output/OutputComponent.js"></script>
+	<script src="/public/jscomponents/output/ConsoleComponent.js"></script>
+
+	<script src="/public/jscomponents/editor/CodeMirrorComponent.js"></script>
+	<script src="/public/jscomponents/editor/MenuComponent.js"></script>
+	<script src="/public/jscomponents/editor/FilesComponent.js"></script>
+	<script src="/public/jscomponents/editor/EditorComponent.js"></script>
+
+	<script src="/public/jsEditorSettings.js"></script>
+	<script src="/public/jsFiles.js"></script>
+	<script src="/public/jseditor.js"></script>
+
+	<title>EV3</title>
+</head>
+
+<body>
+	<div id="container"></div>
+</body>
+
+</html>
