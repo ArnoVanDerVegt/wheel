@@ -59,7 +59,7 @@ wheel(
                             compilerOutput.add(compiler.createCommand(
                                 'set',
                                 [
-                                    {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                                     {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
                                 ]
                             ));
@@ -67,23 +67,23 @@ wheel(
                                 compilerOutput.add(compiler.createCommand(
                                     'set',
                                     [
-                                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-                                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+                                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                                     ]
                                 ));
                             } else {
                                 compilerOutput.add(compiler.createCommand(
                                     'set',
                                     [
-                                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+                                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                                         {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: local.offset}
                                     ]
                                 ));
                                 compilerOutput.add(compiler.createCommand(
                                     'add',
                                     [
-                                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-                                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+                                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                                     ]
                                 ));
                             }

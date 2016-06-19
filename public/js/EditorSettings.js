@@ -186,7 +186,6 @@
             };
 
             this.setUISetting = function(key, value) {
-                console.log('set', key, value);
                 this._uiSettings[key] = value;
                 LocalStorage.getInstance().set('uiSettings', this._uiSettings);
             };

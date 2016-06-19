@@ -18,7 +18,7 @@ wheel(
                 command: 'set',
                 code:    wheel.compiler.command.set.code,
                 params: [
-                    {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
                     {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param.value}
                 ]
             });
@@ -27,8 +27,8 @@ wheel(
                     command: 'add',
                     code:    wheel.compiler.command.add.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                     ]
                 });
             }

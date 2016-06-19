@@ -30,8 +30,8 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
                         ]
                     });
                     if (param2.value !== 0) {
@@ -39,7 +39,7 @@ wheel(
                             command: 'add',
                             code:    wheel.compiler.command.set.code,
                             params: [
-                                {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                                 {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param2.value}
                             ]
                         });
@@ -49,7 +49,7 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param2.value}
                         ]
                     });
@@ -60,8 +60,8 @@ wheel(
                     command: 'set',
                     code:    wheel.compiler.command.set.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                     ]
                 });
                 regStackSaved = true;
@@ -71,8 +71,8 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: param2.value}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param2.value}
                         ]
                     });
                 } else {
@@ -80,8 +80,8 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: param2.value}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: param2.value}
                         ]
                     });
                 }
@@ -89,8 +89,8 @@ wheel(
                     command: 'set',
                     code:    wheel.compiler.command.set.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
-                        {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: 0}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                        {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0}
                     ]
                 });
                 regDestSet = true;
@@ -99,14 +99,14 @@ wheel(
                     command: 'set',
                     code:    wheel.compiler.command.set.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
                     ]
                 });
 
                 if (param1.metaType !== wheel.compiler.command.T_META_POINTER) {
-                    param2.type  = wheel.compiler.command.T_NUMBER_REGISTER;
-                    param2.value = compilerData.findRegister('REG_OFFSET_DEST').index;
+                    param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
+                    param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                     compilerOutput.add(validatedCommand);
                     return;
                 }
@@ -118,7 +118,7 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_DEST').index},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
                             JSON.parse(JSON.stringify(param2))
                         ]
                     });
@@ -128,8 +128,8 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index},
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                         ]
                     });
                 }
@@ -139,8 +139,8 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: param1.value}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param1.value}
                         ]
                     });
                 } else {
@@ -148,30 +148,30 @@ wheel(
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: param1.value}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: param1.value}
                         ]
                     });
                 }
 
                 param1.type  = wheel.compiler.command.T_NUMBER_LOCAL;
                 param1.value = 0;
-                param2.type  = wheel.compiler.command.T_NUMBER_REGISTER;
-                param2.value = compilerData.findRegister('REG_OFFSET_DEST').index;
+                param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
+                param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                 compilerOutput.add(validatedCommand);
 
                 compilerOutput.add({
                     command: 'set',
                     code:    wheel.compiler.command.set.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_STACK').index},
-                        {type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_OFFSET_SRC').index}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
                     ]
                 });
             } else {
                 if (regDestUpdate) {
-                    param2.type  = wheel.compiler.command.T_NUMBER_REGISTER;
-                    param2.value = compilerData.findRegister('REG_OFFSET_DEST').index;
+                    param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
+                    param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                 }
                 compilerOutput.add(validatedCommand);
             }

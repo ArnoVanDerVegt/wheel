@@ -40,7 +40,6 @@ wheel(
                 params: [
                     labelParam,
                     {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: wheel.compiler.command.FLAG_LESS}
-                        //compilerData.findRegister('REG_L').index}
                 ]
             });
         };

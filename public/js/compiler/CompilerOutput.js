@@ -5,7 +5,6 @@ wheel(
             this._buffer       = [];
             this._mainIndex    = 0;
             this._globalOffset = 0;
-            this._registers    = opts.registers;
         };
 
         this.add = function(outputCommand) {
@@ -69,19 +68,11 @@ wheel(
                             break;
 
                         case wheel.compiler.command.T_NUMBER_LOCAL:
-                            result = '[REG_OFFSET_STACK+' + leadingZero(param.value) + ']';
+                            result = '[[0000]+' + leadingZero(param.value) + ']';
                             break;
 
                         case wheel.compiler.command.T_NUMBER_GLOBAL:
                             result = '[' + leadingZero(param.value) + ']';
-                            break;
-
-                        case wheel.compiler.command.T_NUMBER_REGISTER:
-                            if (this._registers[param.value]) {
-                                result = this._registers[param.value].name;
-                            } else {
-                                result = 'unknown reg' + param.value;
-                            }
                             break;
 
                         case wheel.compiler.command.T_LABEL:
@@ -151,10 +142,6 @@ wheel(
                         //case wheel.compiler.command.T_PROC_LOCAL_ARRAY:
                         //    params[j].type = wheel.compiler.command.T_NUMBER_LOCAL_ARRAY;
                         //    break;
-
-                        case wheel.compiler.command.T_NUMBER_REGISTER:
-                            params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL;
-                            break;
                     }
                 }
             }

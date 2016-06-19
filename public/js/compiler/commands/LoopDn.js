@@ -38,8 +38,7 @@ wheel(
                 code:    wheel.compiler.command.sub.code,
                 params: [
                     labelParam,
-                    //{type: wheel.compiler.command.T_NUMBER_REGISTER, value: compilerData.findRegister('REG_GE').index}
-                    {type: wheel.compiler.command.T_NUMBER_REGISTER, value: wheel.compiler.command.FLAG_GREATER_EQUAL}
+                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: wheel.compiler.command.FLAG_GREATER_EQUAL}
                 ]
             });
         };

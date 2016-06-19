@@ -3,16 +3,9 @@ var VMData = Class(function() {
             this._data           = [];
             this._stringList     = [];
             this._regOffsetStack = [];
-            this._registerByName = {};
 
-            for (var i = 0; i < opts.registers.length; i++) {
-                var register = opts.registers[i];
-                switch (register.type) {
-                    case wheel.compiler.command.T_NUMBER_REGISTER:
-                        this._data[i] = 0;
-                        this._registerByName[register.name] = i;
-                        break;
-                }
+            for (var i = 0; i < wheel.compiler.command.REGISTER_COUNT; i++) {
+                this._data[i] = 0;
             }
         };
 
@@ -35,68 +28,24 @@ var VMData = Class(function() {
 
         /* Local */
         this.setLocalNumber = function(offset, value) {
-            var offsetStack = this._data[this._registerByName.REG_OFFSET_STACK];
+            var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
             this._data[offsetStack + offset] = value;
         };
 
         this.getLocalNumber = function(offset) {
-            var offsetStack = this._data[this._registerByName.REG_OFFSET_STACK];
+            var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
             return this._data[offsetStack + offset];
-        };
-
-        /* Registers */
-        this.getRegister = function(index) {
-            if (typeof index === 'number') {
-                return this._data[index];
-            }
-            throw new Error('Number expected, got ' + (typeof index) + ', "' + index + '".');
-        };
-
-        this.getRegisterByName = function(name) {
-            var registerByName = this._registerByName;
-            if (name in registerByName) {
-                return registerByName[name];
-            }
-            throw new Error('Register expected, got "' + name + '".');
-        };
-
-        this.getRegisterDataByName = function(name) {
-            var registerByName = this._registerByName;
-            if (name in registerByName) {
-                return this._data[registerByName[name]];
-            }
-            throw new Error('Register expected, got "' + name + '".');
-        };
-
-        this.setRegister = function(index, value) {
-            if (typeof index === 'string') {
-                var s = index;
-                index = parseInt(index, 10);
-                if (isNaN(index)) {
-                    throw new Error('Number expected, got ' + (typeof s) + ', "' + s + '".');
-                }
-            }
-            this._data[index] = value;
-        };
-
-        this.setRegisterByName = function(name, value) {
-            var index = this._registerByName[name];
-            this.setRegister(index, value);
-        };
-
-        this.setRegisterDataByName = function(name, value) {
-            this._data[this._registerByName[name]] = value;
         };
 
         /* Local offset */
         this.pushRegOffsetStack = function(count) {
-            var regIndex = this._registerByName.REG_OFFSET_STACK;
+            var regIndex = wheel.compiler.command.REG_OFFSET_STACK;
             this._regOffsetStack.push(this._data[regIndex]);
             this._data[regIndex] += count;
         };
 
         this.popRegOffsetStack = function() {
-            this._data[this._registerByName.REG_OFFSET_STACK] = this._regOffsetStack.pop();
+            this._data[wheel.compiler.command.REG_OFFSET_STACK] = this._regOffsetStack.pop();
         };
 
         this.setGlobalConstants = function(globalConstants, stackOffset) {
@@ -109,11 +58,11 @@ var VMData = Class(function() {
                     globalData[offset + j] = data[j];
                 }
             }
-            this._data[this._registerByName.REG_OFFSET_STACK] = stackOffset;
+            this._data[wheel.compiler.command.REG_OFFSET_STACK] = stackOffset;
         };
 
         this.getDataAtRegOffset = function(count) {
-            var regOffsetSrc = this.getRegisterDataByName('REG_OFFSET_SRC');
+            var regOffsetSrc = this._data[wheel.compiler.command.REG_OFFSET_SRC];
             var result       = [];
 
             for (var i = 0; i < count; i++) {
@@ -123,7 +72,7 @@ var VMData = Class(function() {
         };
 
         this.getRecordFromAtOffset = function(recordFields) {
-            var regOffsetSrc = this.getRegisterDataByName('REG_OFFSET_SRC');
+            var regOffsetSrc = this._data[wheel.compiler.command.REG_OFFSET_SRC];
             var result       = {};
 
             for (var i = 0; i < recordFields.length; i++) {
@@ -133,10 +82,12 @@ var VMData = Class(function() {
         };
 
         this.getNumberAtRegOffset = function() {
-            return this._data[this.getRegisterDataByName('REG_OFFSET_SRC')];
+            var data = this._data;
+            return data[data[wheel.compiler.command.REG_OFFSET_SRC]];
         };
 
         this.setNumberAtRegOffset = function(value) {
-            return this._data[this.getRegisterDataByName('REG_OFFSET_SRC')] = value;
+            var data = this._data;
+            data[data[wheel.compiler.command.REG_OFFSET_SRC]] = value;
         };
     });

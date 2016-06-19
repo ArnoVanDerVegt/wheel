@@ -2,7 +2,6 @@
     var T_NUMBER_CONSTANT       =  0;
     var T_NUMBER_GLOBAL         =  1;
     var T_NUMBER_LOCAL          =  2;
-    var T_NUMBER_REGISTER       =  3;
 
     var T_LABEL                 =  4;
     var T_PROC                  =  5;
@@ -33,6 +32,14 @@
     var FLAG_LESS_EQUAL         =  8;
     var FLAG_GREATER            = 16;
     var FLAG_GREATER_EQUAL      = 32;
+
+    var REG_OFFSET_STACK        =  0;
+    var REG_OFFSET_SRC          =  1;
+    var REG_OFFSET_DEST         =  2;
+    var REG_RETURN              =  3;
+    var REG_FLAGS               =  4;
+
+    var REGISTER_COUNT          =  5;
 
     wheel(
         'compiler.command',
@@ -70,7 +77,7 @@
                     {
                         type: T_LABEL,
                         args: [
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_CONSTANT}
                         ]
                     }
                 ]
@@ -84,7 +91,6 @@
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
                             {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER},
                             {type: T_PROC}
                         ]
                     },
@@ -94,17 +100,7 @@
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
                             {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER},
                             {type: T_PROC}
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
                         ]
                     },
                     {
@@ -153,8 +149,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -162,19 +157,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             sub: {
@@ -185,8 +170,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -194,19 +178,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             mul: {
@@ -217,8 +191,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -226,19 +199,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             div: {
@@ -249,8 +212,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -258,19 +220,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             mod: {
@@ -281,8 +233,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -290,19 +241,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             and: {
@@ -313,8 +254,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -322,19 +262,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             or: {
@@ -345,8 +275,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -354,19 +283,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
 
@@ -379,8 +298,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -388,19 +306,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
             module: {
@@ -411,8 +319,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -420,8 +327,7 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
                     },
                     {
@@ -429,19 +335,9 @@
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
+                            {type: T_NUMBER_LOCAL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
-                            {type: T_NUMBER_REGISTER}
-                        ]
-                    },
+                    }
                 ]
             },
 
@@ -450,16 +346,14 @@
                 code: 1024,
                 args: [
                     {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL},
-                    {type: T_NUMBER_REGISTER},
+                    {type: T_NUMBER_LOCAL}
                 ]
             },
             dec: {
                 code: 1025,
                 args: [
                     {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL},
-                    {type: T_NUMBER_REGISTER},
+                    {type: T_NUMBER_LOCAL}
                 ]
             },
             // Contitional jumps...
@@ -505,7 +399,6 @@
                 args: [
                     {type: T_NUMBER_GLOBAL},
                     {type: T_NUMBER_LOCAL},
-                    {type: T_NUMBER_REGISTER},
                     {type: T_NUMBER_GLOBAL_ARRAY},
                     {type: T_NUMBER_LOCAL_ARRAY},
                     {type: T_STRUCT_GLOBAL},
@@ -526,8 +419,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -535,8 +427,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -549,8 +440,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -558,31 +448,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {
-                                type: T_NUMBER_LOCAL_ARRAY,
-                                args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
-                                ]
-                            },
-                            {
-                                type: T_NUMBER_GLOBAL_ARRAY,
-                                args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -595,8 +461,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -604,8 +469,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -618,8 +482,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -627,8 +490,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -641,8 +503,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -650,8 +511,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -664,8 +524,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             },
                             {
@@ -673,8 +532,7 @@
                                 args: [
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER}
+                                    {type: T_NUMBER_LOCAL}
                                 ]
                             }
                         ]
@@ -693,7 +551,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -705,7 +562,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -717,19 +573,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
-                                    {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
-                                ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -746,7 +589,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -758,7 +600,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -770,19 +611,6 @@
                                     {type: T_NUMBER_CONSTANT},
                                     {type: T_NUMBER_GLOBAL},
                                     {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
-                                    {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
-                                ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
-                                    {type: T_NUMBER_REGISTER},
                                     {type: T_PROC},
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL}
@@ -813,13 +641,6 @@
                                     {type: T_STRUCT_GLOBAL},
                                     {type: T_STRUCT_LOCAL}
                                 ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
-                                ]
                             }
                         ]
                     },
@@ -842,13 +663,6 @@
                             },
                             {
                                 type: T_NUMBER_LOCAL,
-                                args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
-                                ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
                                 args: [
                                     {type: T_STRUCT_GLOBAL},
                                     {type: T_STRUCT_LOCAL}
@@ -877,14 +691,6 @@
                             },
                             {
                                 type: T_NUMBER_LOCAL,
-                                args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
-                                    {type: T_PROC}
-                                ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
                                 args: [
                                     {type: T_PROC_GLOBAL},
                                     {type: T_PROC_LOCAL},
@@ -919,14 +725,6 @@
                                     {type: T_PROC_LOCAL},
                                     {type: T_PROC}
                                 ]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
-                                    {type: T_PROC}
-                                ]
                             }
                         ]
                     }
@@ -947,13 +745,7 @@
                         args: [
                             {type: T_LABEL}
                         ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {type: T_LABEL}
-                        ]
-                    },
+                    }
                 ]
             },
             loopup: {
@@ -973,10 +765,6 @@
                             {
                                 type: T_NUMBER_LOCAL,
                                 args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [{type: T_LABEL}]
                             }
                         ]
                     },
@@ -994,31 +782,6 @@
                             {
                                 type: T_NUMBER_LOCAL,
                                 args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [{type: T_LABEL}]
-                            }
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_REGISTER,
-                        args: [
-                            {
-                                type: T_NUMBER_CONSTANT,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_GLOBAL,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_LOCAL,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_REGISTER,
-                                args: [{type: T_LABEL}]
                             }
                         ]
                     }
@@ -1030,7 +793,6 @@
                     {type: T_NUMBER_CONSTANT},
                     {type: T_NUMBER_GLOBAL},
                     {type: T_NUMBER_LOCAL},
-                    {type: T_NUMBER_REGISTER},
                     {type: T_PROC},
                     {type: T_PROC_GLOBAL},
                     {type: T_PROC_LOCAL}
@@ -1042,7 +804,6 @@
     wheel('compiler.command.T_NUMBER_CONSTANT',     T_NUMBER_CONSTANT);
     wheel('compiler.command.T_NUMBER_GLOBAL',       T_NUMBER_GLOBAL);
     wheel('compiler.command.T_NUMBER_LOCAL',        T_NUMBER_LOCAL);
-    wheel('compiler.command.T_NUMBER_REGISTER',     T_NUMBER_REGISTER);
     wheel('compiler.command.T_PROC',                T_PROC);
     wheel('compiler.command.T_LABEL',               T_LABEL);
 
@@ -1073,6 +834,14 @@
     wheel('compiler.command.FLAG_GREATER',          FLAG_GREATER);
     wheel('compiler.command.FLAG_GREATER_EQUAL',    FLAG_GREATER_EQUAL);
 
+    wheel('compiler.command.REG_OFFSET_STACK',      REG_OFFSET_STACK);
+    wheel('compiler.command.REG_OFFSET_SRC',        REG_OFFSET_SRC);
+    wheel('compiler.command.REG_OFFSET_DEST',       REG_OFFSET_DEST);
+    wheel('compiler.command.REG_RETURN',            REG_RETURN);
+    wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
+
+    wheel('compiler.command.REGISTER_COUNT',        REGISTER_COUNT);
+
     wheel(
         'compiler.command.typeToLocation',
         function(type) {
@@ -1083,7 +852,6 @@
                 case T_NUMBER_GLOBAL_ARRAY: result = 'global';   break;
                 case T_NUMBER_LOCAL:        result = 'local';    break;
                 case T_NUMBER_LOCAL_ARRAY:  result = 'local';    break;
-                case T_NUMBER_REGISTER:     result = 'reg';      break;
 
                 case T_STRUCT_GLOBAL:       result = 'global';   break;
                 case T_STRUCT_GLOBAL_ARRAY: result = 'global';   break;

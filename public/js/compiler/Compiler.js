@@ -2,9 +2,8 @@ wheel(
     'compiler.Compiler',
     Class(function() {
         this.init = function(opts) {
-            this._registers      = opts.registers;
-            this._compilerData   = new wheel.compiler.CompilerData({compiler: this, registers: opts.registers});
-            this._output         = new wheel.compiler.CompilerOutput({compiler: this, registers: opts.registers});
+            this._compilerData   = new wheel.compiler.CompilerData({compiler: this});
+            this._output         = new wheel.compiler.CompilerOutput({compiler: this});
             this._mainIndex      = -1;
             this._filename       = '';
             this._lineNumber     = 0;

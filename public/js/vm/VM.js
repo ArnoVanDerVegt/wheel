@@ -5,7 +5,7 @@ wheel(
             supr(this, 'init', arguments);
 
             this._motors      = opts.motors;
-            this._vmData      = new VMData({registers: opts.registers});
+            this._vmData      = new VMData({});
             this._commands    = null;
             this._index       = 0;
             this._callStack   = [];
@@ -56,8 +56,8 @@ wheel(
                     switch (command.command) {
                         case 'copy':
                             var size          = command.params[0].value;
-                            var regOffsetSrc  = vmData.getRegisterDataByName('REG_OFFSET_SRC');
-                            var regOffsetDest = vmData.getRegisterDataByName('REG_OFFSET_DEST');
+                            var regOffsetSrc  = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_SRC);
+                            var regOffsetDest = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_DEST);
                             for (var i = 0; i < size; i++) {
                                 var value = vmData.getGlobalNumber(regOffsetSrc + i);
                                 vmData.setGlobalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
@@ -88,7 +88,7 @@ wheel(
 
                     switch (command.command) {
                         case 'jmpc':
-                            var regFlags = vmData.getRegisterDataByName('REG_FLAGS');
+                            var regFlags = vmData.getGlobalNumber(wheel.compiler.command.REG_FLAGS);
                             ((regFlags & v2) === v2) && (this._index = p1);
                             break;
 
@@ -120,7 +120,7 @@ wheel(
                             (v1 <= v2) && (flags |= wheel.compiler.command.FLAG_LESS_EQUAL);
                             (v1 >  v2) && (flags |= wheel.compiler.command.FLAG_GREATER);
                             (v1 >= v2) && (flags |= wheel.compiler.command.FLAG_GREATER_EQUAL);
-                            vmData.setRegisterDataByName('REG_FLAGS', flags);
+                            vmData.setGlobalNumber(wheel.compiler.command.REG_FLAGS, flags);
                             break;
 
                         case 'module':
@@ -143,6 +143,7 @@ wheel(
             var commands = this._commands;
             var count    = 0;
             while ((this._index < commands.length) && (count < 100)) {
+                //console.log(this._index, commands[this._index]);
                 this.runCommand(commands[this._index]);
                 this._index++;
                 count++;

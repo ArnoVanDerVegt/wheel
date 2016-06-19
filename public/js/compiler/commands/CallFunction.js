@@ -45,7 +45,7 @@ wheel(
             var j = line.indexOf(',');
 
             this._callCompiler.compile(line.substr(j + 1 - line.length).trim());
-            this.compileSet(line.substr(0, j).trim() + ', REG_RETURN');
+            this.compileSet(line.substr(0, j).trim() + ', _____GLOBAL_REG_RETURN_____');
         };
     })
 );
