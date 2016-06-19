@@ -264,36 +264,6 @@ wheel(
 										]
 									}
 								]
-							},
-							{
-								type: 'li',
-								props: {
-									className: 	'menu-item'
-								},
-								children: [
-									{
-										type: 'span',
-										props: {
-											className: 	'menu-item-title',
-											innerHTML: 	'Help',
-										}
-									},
-									{
-										type: 'ul',
-										props: {
-											className: 'dropdown box-shadow'
-										},
-										children: [
-											{
-												type: 'li',
-												props: {
-													innerHTML: 'Examples',
-													onClick: 	this.createCallback('onExamples')
-												}
-											}
-										]
-									}
-								]
 							}
 						]
 					}

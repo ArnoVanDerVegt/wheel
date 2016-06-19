@@ -288,7 +288,7 @@ wheel(
             params = wheel.compiler.compilerHelper.splitParams(params);
 
             // The local offset is the stack size used in the current procedure...
-            var offset = currentLocalStackSize;
+            var offset = currentLocalStackSize + 2;
             for (var i = 0; i < params.length; i++) {
                 var param = params[i].trim();
                 if (param !== '') {
@@ -347,11 +347,11 @@ wheel(
 
             if (p !== null) {
                 callCommand = {
-                    command: 'call',
-                    code:    wheel.compiler.command.call.code,
+                    command: 'set',
+                    code:    wheel.compiler.command.set.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
+                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index - 1}
                     ]
                 };
             } else {
@@ -360,12 +360,14 @@ wheel(
                     if (local.type !== wheel.compiler.command.T_PROC_LOCAL) {
                         throw compiler.createError('Type error, can not call "' + procedure + '".');
                     }
+
+                    console.warn('Check global proc offset!');
                     callCommand = {
-                        command: 'call',
-                        code:    wheel.compiler.command.call.code,
+                        command: 'set',
+                        code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: local.offset},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset}
                         ]
                     };
                 } else {
@@ -374,12 +376,14 @@ wheel(
                         if (global.type !== wheel.compiler.command.T_PROC_GLOBAL) {
                             throw compiler.createError('Type error, can not call "' + procedure + '".');
                         }
+
+                        console.warn('Check global proc offset!');
                         callCommand = {
-                            command: 'call',
-                            code:    wheel.compiler.command.call.code,
+                            command: 'set',
+                            code:    wheel.compiler.command.set.code,
                             params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: global.offset},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: global.offset}
                             ]
                         };
                     } else {
@@ -389,6 +393,50 @@ wheel(
             }
 
             this.compileParams(line.substr(i + 1, line.length - i - 2).trim(), currentLocalStackSize);
+
+
+            compilerOutput.add(compiler.createCommand(
+                'set',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE}
+                ]
+            ));
+            compilerOutput.add(compiler.createCommand(
+                'add',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
+                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 6}
+                ]
+            ));
+            compilerOutput.add(compiler.createCommand(
+                'set',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                ]
+            ));
+            compilerOutput.add(compiler.createCommand(
+                'add',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
+                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
+                ]
+            ));
+            compilerOutput.add(compiler.createCommand(
+                'set',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0},
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
+                ]
+            ));
+            compilerOutput.add(compiler.createCommand(
+                'set',
+                [
+                    {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 1},
+                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
+                ]
+            ));
 
             compilerOutput.add(callCommand);
         };

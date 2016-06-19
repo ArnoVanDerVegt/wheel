@@ -185,6 +185,9 @@ wheel(
         this.resetLocal = function() {
             this._localOffset = 0;
             this._localList   = {};
+
+            this.declareLocal('_____LOCAL1_____', wheel.compiler.command.T_NUMBER_LOCAL, false, false, false);
+            this.declareLocal('_____LOCAL2_____', wheel.compiler.command.T_NUMBER_LOCAL, false, false, false);
         };
 
         this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
@@ -296,7 +299,7 @@ wheel(
             }
             this.resetLocal();
             this._procedure = {
-                index:         index,
+                index:      index,
                 paramTypes: []
             };
             procedureList[name] = this._procedure;

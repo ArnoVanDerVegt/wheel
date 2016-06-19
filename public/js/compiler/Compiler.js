@@ -26,6 +26,7 @@ wheel(
                     'Call',
                     'CallFunction',
                     'CallReturn',
+                    'Ret',
                     'Label',
                     'ArrayR',
                     'ArrayW',
@@ -46,6 +47,7 @@ wheel(
             compilers.CallFunction.setNumberOperatorCompiler(compilers.NumberOperator);
 
             compilers.CallReturn.setSetCompiler(compilers.Set);
+            compilers.CallReturn.setRetCompiler(compilers.Ret);
 
             this._compilerByCommand = {
                 je:         compilers.JmpC,
@@ -73,6 +75,7 @@ wheel(
                 mod:        compilers.NumberOperator,
                 string:     compilers.StringDeclaration,
                 proc:       compilers.ProcedureDeclaration,
+                ret:        compilers.Ret,
                 'return':   compilers.CallReturn
             };
         };
@@ -198,10 +201,8 @@ wheel(
                             if (this._activeStruct !== null) {
                                 throw this.createError('Invalid command "endp".');
                             }
-                            this.getOutput().add({
-                                command: 'ret',
-                                code:    wheel.compiler.command.ret.code
-                            });
+                            this._compilers.Ret.compile(null);
+
                             output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
                             this._procStartIndex = -1;
                             compilerData.resetLocal();

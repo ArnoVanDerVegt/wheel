@@ -10,9 +10,9 @@ wheel(
     'compiler.commands.Addr',
     Class(wheel.compiler.commands.CommandCompiler, function(supr) {
         this.compile = function(validatedCommand) {
-            var compilerData     = this._compilerData,
-                compilerOutput   = this._compiler.getOutput(),
-                param            = validatedCommand.params[0];
+            var compilerData     = this._compilerData;
+            var compilerOutput   = this._compiler.getOutput();
+            var param            = validatedCommand.params[0];
 
             compilerOutput.add({
                 command: 'set',

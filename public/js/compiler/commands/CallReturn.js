@@ -5,10 +5,15 @@ wheel(
             supr(this, 'init', arguments);
 
             this._setCompiler = null;
+            this._retCompiler = null;
         };
 
         this.setSetCompiler = function(setCompiler) {
             this._setCompiler = setCompiler;
+        };
+
+        this.setRetCompiler = function(retCompiler) {
+            this._retCompiler = retCompiler;
         };
 
         this.compile = function(command) {
@@ -17,11 +22,7 @@ wheel(
             command.params.unshift({type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_RETURN});
 
             this._setCompiler.compile(command);
-
-            this._compiler.getOutput().add({
-                command: 'ret',
-                code:    wheel.compiler.command.ret.code
-            });
+            this._retCompiler.compile(null);
         };
     })
 );

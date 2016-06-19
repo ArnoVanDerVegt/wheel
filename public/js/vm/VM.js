@@ -9,7 +9,6 @@ wheel(
             this._commands    = null;
             this._callStack   = [];
             this._runInterval = null;
-            this._logCount    = 0;
 
             this.initModules();
         };
@@ -34,103 +33,85 @@ wheel(
                     }
                 };
 
-            if (command.code <= wheel.compiler.command.NO_PARAM_COMMANDS) { // Commands without parameters...
+            var p1 = command.params[0].value;
+            var v1;
+            switch (command.params[0].type) {
+                case wheel.compiler.command.T_NUMBER_CONSTANT: v1 = p1;                         break;
+                case wheel.compiler.command.T_NUMBER_GLOBAL:   v1 = vmData.getGlobalNumber(p1); break;
+                case wheel.compiler.command.T_NUMBER_LOCAL:    v1 = vmData.getLocalNumber(p1);  break;
+            }
+            if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a single parameter...
                 switch (command.command) {
-                    case 'ret':
-                        vmData.popRegOffsetStack();
-                        vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, this._callStack.pop());
+                    case 'copy':
+                        var size          = command.params[0].value;
+                        var regOffsetSrc  = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_SRC);
+                        var regOffsetDest = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_DEST);
+                        for (var i = 0; i < size; i++) {
+                            var value = vmData.getGlobalNumber(regOffsetSrc + i);
+                            vmData.setGlobalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
+                        }
                         break;
 
                     default:
                         throw new Error('Unknown command "' + command.command + '"');
                 }
-            } else {
-                var p1 = command.params[0].value;
-                var v1;
-                switch (command.params[0].type) {
-                    case wheel.compiler.command.T_NUMBER_CONSTANT: v1 = p1;                         break;
-                    case wheel.compiler.command.T_NUMBER_GLOBAL:   v1 = vmData.getGlobalNumber(p1); break;
-                    case wheel.compiler.command.T_NUMBER_LOCAL:    v1 = vmData.getLocalNumber(p1);  break;
+            } else { // Commands with two parameters...
+                var p2 = command.params[1].value;
+                var v2;
+                switch (command.params[1].type) {
+                    case wheel.compiler.command.T_NUMBER_CONSTANT: v2 = p2;                         break;
+                    case wheel.compiler.command.T_NUMBER_GLOBAL:   v2 = vmData.getGlobalNumber(p2); break;
+                    case wheel.compiler.command.T_NUMBER_LOCAL:    v2 = vmData.getLocalNumber(p2);  break;
                 }
-                if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
-                    switch (command.command) {
-                        case 'copy':
-                            var size          = command.params[0].value;
-                            var regOffsetSrc  = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_SRC);
-                            var regOffsetDest = vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_DEST);
-                            for (var i = 0; i < size; i++) {
-                                var value = vmData.getGlobalNumber(regOffsetSrc + i);
-                                vmData.setGlobalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
-                            }
-                            break;
 
-                        case 'call':
-                            vmData.pushRegOffsetStack(command.params[1].value);
-                            this._callStack.push(vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE));
-                            vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, command.params[0].value - 1)
-                            break;
+                switch (command.command) {
+                    case 'jmpc':
+                        var regFlags = vmData.getGlobalNumber(wheel.compiler.command.REG_FLAGS);
+                        ((regFlags & v2) === v2) && vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, p1);
+                        break;
 
-                        default:
-                            throw new Error('Unknown command "' + command.command + '"');
-                    }
-                } else { // Commands with two parameters...
-                    var p2 = command.params[1].value;
-                    var v2;
-                    switch (command.params[1].type) {
-                        case wheel.compiler.command.T_NUMBER_CONSTANT: v2 = p2;                         break;
-                        case wheel.compiler.command.T_NUMBER_GLOBAL:   v2 = vmData.getGlobalNumber(p2); break;
-                        case wheel.compiler.command.T_NUMBER_LOCAL:    v2 = vmData.getLocalNumber(p2);  break;
-                    }
+                    case 'set':
+                        saveResult(v2);
+                        break;
 
-                    switch (command.command) {
-                        case 'jmpc':
-                            var regFlags = vmData.getGlobalNumber(wheel.compiler.command.REG_FLAGS);
-                            ((regFlags & v2) === v2) && vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, p1);
-                            break;
+                    case 'add':
+                        saveResult(v1 + v2);
+                        break;
 
-                        case 'set':
-                            saveResult(v2);
-                            break;
+                    case 'sub':
+                        saveResult(v1 - v2);
+                        break;
 
-                        case 'add':
-                            saveResult(v1 + v2);
-                            break;
+                    case 'mul':
+                        saveResult(v1 * v2);
+                        break;
 
-                        case 'sub':
-                            saveResult(v1 - v2);
-                            break;
+                    case 'div':
+                        saveResult(v2 / v2);
+                        break;
 
-                        case 'mul':
-                            saveResult(v1 * v2);
-                            break;
+                    case 'cmp':
+                        var flags = 0;
+                        (v1 == v2) && (flags |= wheel.compiler.command.FLAG_EQUAL);
+                        (v1 != v2) && (flags |= wheel.compiler.command.FLAG_NOT_EQUAL);
+                        (v1 <  v2) && (flags |= wheel.compiler.command.FLAG_LESS);
+                        (v1 <= v2) && (flags |= wheel.compiler.command.FLAG_LESS_EQUAL);
+                        (v1 >  v2) && (flags |= wheel.compiler.command.FLAG_GREATER);
+                        (v1 >= v2) && (flags |= wheel.compiler.command.FLAG_GREATER_EQUAL);
+                        vmData.setGlobalNumber(wheel.compiler.command.REG_FLAGS, flags);
+                        break;
 
-                        case 'div':
-                            saveResult(v2 / v2);
-                            break;
+                    case 'module':
+                        var modules = this._modules;
+                        if (modules[v1]) {
+                            modules[v1].run(v2);
+                        } else {
+                            throw new Error('Unknown module "' + v1 + '"');
+                        }
+                        break;
 
-                        case 'cmp':
-                            var flags = 0;
-                            (v1 == v2) && (flags |= wheel.compiler.command.FLAG_EQUAL);
-                            (v1 != v2) && (flags |= wheel.compiler.command.FLAG_NOT_EQUAL);
-                            (v1 <  v2) && (flags |= wheel.compiler.command.FLAG_LESS);
-                            (v1 <= v2) && (flags |= wheel.compiler.command.FLAG_LESS_EQUAL);
-                            (v1 >  v2) && (flags |= wheel.compiler.command.FLAG_GREATER);
-                            (v1 >= v2) && (flags |= wheel.compiler.command.FLAG_GREATER_EQUAL);
-                            vmData.setGlobalNumber(wheel.compiler.command.REG_FLAGS, flags);
-                            break;
-
-                        case 'module':
-                            var modules = this._modules;
-                            if (modules[v1]) {
-                                modules[v1].run(v2);
-                            } else {
-                                throw new Error('Unknown module "' + v1 + '"');
-                            }
-                            break;
-
-                        default:
-                            throw new Error('Unknown command "' + command.command + '"');
-                    }
+                    default:
+                        throw new Error('Unknown command "' + command.command + '"');
                 }
             }
         };

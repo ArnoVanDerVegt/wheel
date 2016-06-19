@@ -23,8 +23,7 @@
     var T_META_POINTER          =  2;
     var T_META_ADDRESS          =  3;
 
-    var NO_PARAM_COMMANDS       =  0;
-    var SINGLE_PARAM_COMMANDS   =  2;
+    var SINGLE_PARAM_COMMANDS   =  0;
 
     var FLAG_EQUAL              =  1;
     var FLAG_NOT_EQUAL          =  2;
@@ -45,29 +44,16 @@
     wheel(
         'compiler.command',
         {
-            // Commands without parameters...
-            ret: {
-                code: 0
-            },
-
             // Commands with a single parameter...
             copy: {
-                code: 1,
+                code: 0,
                 args: [
                     {type: T_NUMBER_CONSTANT}
                 ]
             },
-            call: {
-                code: 2,
-                args: [
-                    {type: T_NUMBER_CONSTANT},
-                    {type: T_PROC_LOCAL},
-                    {type: T_PROC_GLOBAL}
-                ]
-            },
             // Commands with 2 parameters...
             jmpc: {
-                code: 3,
+                code: 1,
                 args: [
                     {
                         type: T_LABEL,
@@ -78,7 +64,7 @@
                 ]
             },
             set: {
-                code: 4,
+                code: 2,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -137,7 +123,7 @@
                 ]
             },
             add: {
-                code: 5,
+                code: 3,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -158,7 +144,7 @@
                 ]
             },
             sub: {
-                code: 6,
+                code: 4,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -179,7 +165,7 @@
                 ]
             },
             mul: {
-                code: 7,
+                code: 5,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -200,7 +186,7 @@
                 ]
             },
             div: {
-                code: 8,
+                code: 6,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -221,7 +207,7 @@
                 ]
             },
             mod: {
-                code: 9,
+                code: 7,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -242,7 +228,7 @@
                 ]
             },
             and: {
-                code: 10,
+                code: 8,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -263,7 +249,7 @@
                 ]
             },
             or: {
-                code: 11,
+                code: 9,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -284,9 +270,9 @@
                 ]
             },
 
-            // Compare, loop...
+            // Compare...
             cmp: {
-                code: 12,
+                code: 10,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -307,7 +293,7 @@
                 ]
             },
             module: {
-                code: 13,
+                code: 11,
                 args: [
                     {
                         type: T_NUMBER_CONSTANT,
@@ -826,7 +812,6 @@
     wheel('compiler.command.T_META_POINTER',        T_META_POINTER);
     wheel('compiler.command.T_META_ADDRESS',        T_META_ADDRESS);
 
-    wheel('compiler.command.NO_PARAM_COMMANDS',     NO_PARAM_COMMANDS);
     wheel('compiler.command.SINGLE_PARAM_COMMANDS', SINGLE_PARAM_COMMANDS);
 
     wheel('compiler.command.FLAG_EQUAL',            FLAG_EQUAL);
