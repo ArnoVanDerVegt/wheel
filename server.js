@@ -53,7 +53,7 @@ app.get('/api/dir', function(req, res) {
     }
 
     var files = getFiles(basePath);
-    //fs.writeFileSync('public/dir.json', JSON.stringify(files)); // Write as static file for github.io...
+    //fs.writeFileSync('public/dir.json', JSON.stringify({files: files})); // Write as static file for github.io...
 
     res.json({
         basePath: basePath,
