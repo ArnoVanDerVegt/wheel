@@ -30,6 +30,7 @@ wheel(
             this.declareGlobal('_____GLOBAL_REG_OFFSET_STACK_____', wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
             this.declareGlobal('_____GLOBAL_REG_OFFSET_SRC_____',   wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
             this.declareGlobal('_____GLOBAL_REG_OFFSET_DEST_____',  wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
+            this.declareGlobal('_____GLOBAL_REG_OFFSET_CODE_____',  wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
             this.declareGlobal('_____GLOBAL_REG_RETURN_____',       wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
             this.declareGlobal('_____GLOBAL_REG_FLAGS_____',        wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
         };

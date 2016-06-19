@@ -7,7 +7,6 @@ wheel(
             this._motors      = opts.motors;
             this._vmData      = new VMData({});
             this._commands    = null;
-            this._index       = 0;
             this._callStack   = [];
             this._runInterval = null;
 
@@ -38,7 +37,7 @@ wheel(
                 switch (command.command) {
                     case 'ret':
                         vmData.popRegOffsetStack();
-                        this._index = this._callStack.pop();
+                        vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, this._callStack.pop());
                         break;
 
                     default:
@@ -65,13 +64,13 @@ wheel(
                             break;
 
                         case 'jmp':
-                            this._index = p1;
+                            vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, p1);
                             break;
 
                         case 'call':
                             vmData.pushRegOffsetStack(command.params[1].value);
-                            this._callStack.push(this._index);
-                            this._index = command.params[0].value - 1;
+                            this._callStack.push(vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE));
+                            vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, command.params[0].value - 1)
                             break;
 
                         default:
@@ -89,7 +88,7 @@ wheel(
                     switch (command.command) {
                         case 'jmpc':
                             var regFlags = vmData.getGlobalNumber(wheel.compiler.command.REG_FLAGS);
-                            ((regFlags & v2) === v2) && (this._index = p1);
+                            ((regFlags & v2) === v2) && vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, p1);
                             break;
 
                         case 'set':
@@ -140,15 +139,15 @@ wheel(
         };
 
         this.onInterval = function() {
+            var vmData   = this._vmData;
             var commands = this._commands;
             var count    = 0;
-            while ((this._index < commands.length) && (count < 100)) {
-                //console.log(this._index, commands[this._index]);
-                this.runCommand(commands[this._index]);
-                this._index++;
+            while ((vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) < commands.length) && (count < 100)) {
+                this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE)]);
+                vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) + 1);
                 count++;
             }
-            if (this._index >= commands.length) {
+            if (vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) >= commands.length) {
                 this.stop();
             }
             this._motors.update();
@@ -162,13 +161,16 @@ wheel(
                 modules[i].setResources(resources);
             }
 
+            var vmData = this._vmData;
+
             this._motors.reset();
-            this._vmData.setStringList(stringList);
-            this._vmData.setGlobalConstants(globalConstants, stackOffset);
-            this._vmData.pushRegOffsetStack(0);
+            vmData.setStringList(stringList);
+            vmData.setGlobalConstants(globalConstants, stackOffset);
+            vmData.pushRegOffsetStack(0);
             this._callStack.push(0xFFFF);
-            this._commands    = commands.getBuffer();
-            this._index       = commands.getMainIndex();
+            this._commands = commands.getBuffer();
+
+            vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
             this._runInterval = setInterval(this.onInterval.bind(this), 20);
         };
 

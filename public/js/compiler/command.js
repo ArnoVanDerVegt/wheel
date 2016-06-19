@@ -36,10 +36,11 @@
     var REG_OFFSET_STACK        =  0;
     var REG_OFFSET_SRC          =  1;
     var REG_OFFSET_DEST         =  2;
-    var REG_RETURN              =  3;
-    var REG_FLAGS               =  4;
+    var REG_OFFSET_CODE         =  3;
+    var REG_RETURN              =  4;
+    var REG_FLAGS               =  5;
 
-    var REGISTER_COUNT          =  5;
+    var REGISTER_COUNT          =  6;
 
     wheel(
         'compiler.command',
