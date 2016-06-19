@@ -554,15 +554,15 @@ input[type='text'] {
     opacity:                            0.2;
 }
 #main .output .motor-container .box-shadow.io .medium {
-    background:                         url('/images/mediumMotor.png');
+    background:                         url('../images/mediumMotor.png');
     background-size:                    100px 100px;
 }
 #main .output .motor-container .box-shadow.io .large {
-    background:                         url('/images/largeMotor.png');
+    background:                         url('../images/largeMotor.png');
     background-size:                    100px 100px;
 }
 #main .output .sensor-container .box-shadow.io .touch {
-    background:                         url('/images/touchSensor.png');
+    background:                         url('../images/touchSensor.png');
     background-size:                    100px 100px;
 }
 #main .output.large .motor-container .io {
