@@ -9,6 +9,7 @@ wheel(
             this._commands    = null;
             this._callStack   = [];
             this._runInterval = null;
+            this._logCount    = 0;
 
             this.initModules();
         };
@@ -61,10 +62,6 @@ wheel(
                                 var value = vmData.getGlobalNumber(regOffsetSrc + i);
                                 vmData.setGlobalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
                             }
-                            break;
-
-                        case 'jmp':
-                            vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, p1);
                             break;
 
                         case 'call':

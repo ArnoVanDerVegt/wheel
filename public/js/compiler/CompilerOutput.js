@@ -68,7 +68,7 @@ wheel(
                             break;
 
                         case wheel.compiler.command.T_NUMBER_LOCAL:
-                            result = '[[0000]+' + leadingZero(param.value) + ']';
+                            result = '[[000' + wheel.compiler.command.REG_OFFSET_STACK + ']+' + leadingZero(param.value) + ']';
                             break;
 
                         case wheel.compiler.command.T_NUMBER_GLOBAL:

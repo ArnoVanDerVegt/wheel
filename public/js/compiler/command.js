@@ -24,7 +24,7 @@
     var T_META_ADDRESS          =  3;
 
     var NO_PARAM_COMMANDS       =  0;
-    var SINGLE_PARAM_COMMANDS   =  3;
+    var SINGLE_PARAM_COMMANDS   =  2;
 
     var FLAG_EQUAL              =  1;
     var FLAG_NOT_EQUAL          =  2;
@@ -57,14 +57,8 @@
                     {type: T_NUMBER_CONSTANT}
                 ]
             },
-            jmp: {
-                code: 2,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
             call: {
-                code: 3,
+                code: 2,
                 args: [
                     {type: T_NUMBER_CONSTANT},
                     {type: T_PROC_LOCAL},
@@ -73,7 +67,7 @@
             },
             // Commands with 2 parameters...
             jmpc: {
-                code: 4,
+                code: 3,
                 args: [
                     {
                         type: T_LABEL,
@@ -84,7 +78,7 @@
                 ]
             },
             set: {
-                code: 5,
+                code: 4,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -143,7 +137,7 @@
                 ]
             },
             add: {
-                code: 6,
+                code: 5,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -164,7 +158,7 @@
                 ]
             },
             sub: {
-                code: 7,
+                code: 6,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -185,7 +179,7 @@
                 ]
             },
             mul: {
-                code: 8,
+                code: 7,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -206,7 +200,7 @@
                 ]
             },
             div: {
-                code: 9,
+                code: 8,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -227,7 +221,7 @@
                 ]
             },
             mod: {
-                code: 10,
+                code: 9,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -248,7 +242,7 @@
                 ]
             },
             and: {
-                code: 11,
+                code: 10,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -269,7 +263,7 @@
                 ]
             },
             or: {
-                code: 12,
+                code: 11,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -292,7 +286,7 @@
 
             // Compare, loop...
             cmp: {
-                code: 13,
+                code: 12,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -313,7 +307,7 @@
                 ]
             },
             module: {
-                code: 14,
+                code: 13,
                 args: [
                     {
                         type: T_NUMBER_CONSTANT,
@@ -355,6 +349,13 @@
                 args: [
                     {type: T_NUMBER_GLOBAL},
                     {type: T_NUMBER_LOCAL}
+                ]
+            },
+            // Jump...
+            jmp: {
+                code: 1026,
+                args: [
+                    {type: T_LABEL}
                 ]
             },
             // Contitional jumps...
@@ -838,6 +839,7 @@
     wheel('compiler.command.REG_OFFSET_STACK',      REG_OFFSET_STACK);
     wheel('compiler.command.REG_OFFSET_SRC',        REG_OFFSET_SRC);
     wheel('compiler.command.REG_OFFSET_DEST',       REG_OFFSET_DEST);
+    wheel('compiler.command.REG_OFFSET_CODE',       REG_OFFSET_CODE);
     wheel('compiler.command.REG_RETURN',            REG_RETURN);
     wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
 

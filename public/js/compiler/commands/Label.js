@@ -27,8 +27,19 @@ wheel(
                 var label = labelList[i];
                 var jumps = label.jumps;
                 for (var j = 0; j < jumps.length; j++) {
-                    var outputCommand = outputCommands[jumps[j]];
-                    outputCommands[jumps[j]].params[0].value = label.index;
+                    var jump = jumps[j];
+                    if (outputCommands[jump].command === 'jmpc') {
+                        outputCommands[jump].params[0].value = label.index;
+                    } else {
+                        outputCommands[jump] = {
+                            command: 'set',
+                            code:    wheel.compiler.command.set.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: label.index}
+                            ]
+                        };
+                    }
                 }
             }
         };
