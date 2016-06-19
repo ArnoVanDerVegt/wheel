@@ -17,21 +17,20 @@ wheel(
         this.initModules = function() {
             this._modules    = [];
             this._modules[0] = new wheel.vm.modules.StandardModule({vm: this, vmData: this._vmData});
-            this._modules[1] = new wheel.vm.modules.ScreenModule({vm: this, vmData: this._vmData});
-            this._modules[2] = new wheel.vm.modules.MotorModule({vm: this, vmData: this._vmData, motors: this._motors});
-            this._modules[3] = new wheel.vm.modules.SensorModule({vm: this, vmData: this._vmData});
-            this._modules[4] = new wheel.vm.modules.MathModule({vm: this, vmData: this._vmData});
-            this._modules[5] = new wheel.vm.modules.LightModule({vm: this, vmData: this._vmData});
-            this._modules[6] = new wheel.vm.modules.ButtonsModule({vm: this, vmData: this._vmData});
+            this._modules[1] = new wheel.vm.modules.ScreenModule  ({vm: this, vmData: this._vmData});
+            this._modules[2] = new wheel.vm.modules.MotorModule   ({vm: this, vmData: this._vmData});
+            this._modules[3] = new wheel.vm.modules.SensorModule  ({vm: this, vmData: this._vmData});
+            this._modules[4] = new wheel.vm.modules.MathModule    ({vm: this, vmData: this._vmData});
+            this._modules[5] = new wheel.vm.modules.LightModule   ({vm: this, vmData: this._vmData});
+            this._modules[6] = new wheel.vm.modules.ButtonsModule ({vm: this, vmData: this._vmData});
         };
 
         this.runCommand = function(command) {
             var vmData     = this._vmData;
             var saveResult = function(result) {
                     switch (command.params[0].type) {
-                        case wheel.compiler.command.T_NUMBER_GLOBAL:   vmData.setGlobalNumber(p1, result); break;
-                        case wheel.compiler.command.T_NUMBER_LOCAL:    vmData.setLocalNumber(p1, result);  break;
-                        case wheel.compiler.command.T_NUMBER_REGISTER: vmData.setRegister(p1, result);     break;
+                        case wheel.compiler.command.T_NUMBER_GLOBAL: vmData.setGlobalNumber(p1, result); break;
+                        case wheel.compiler.command.T_NUMBER_LOCAL:  vmData.setLocalNumber(p1, result);  break;
                     }
                 };
 
@@ -52,14 +51,13 @@ wheel(
                     case wheel.compiler.command.T_NUMBER_CONSTANT: v1 = p1;                         break;
                     case wheel.compiler.command.T_NUMBER_GLOBAL:   v1 = vmData.getGlobalNumber(p1); break;
                     case wheel.compiler.command.T_NUMBER_LOCAL:    v1 = vmData.getLocalNumber(p1);  break;
-                    case wheel.compiler.command.T_NUMBER_REGISTER: v1 = vmData.getRegister(p1);     break;
                 }
                 if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) { // Commands with a signle parameter...
                     switch (command.command) {
                         case 'copy':
                             var size          = command.params[0].value;
-                            var regOffsetSrc  = vmData.getRegisterByName('REG_OFFSET_SRC');
-                            var regOffsetDest = vmData.getRegisterByName('REG_OFFSET_DEST');
+                            var regOffsetSrc  = vmData.getRegisterDataByName('REG_OFFSET_SRC');
+                            var regOffsetDest = vmData.getRegisterDataByName('REG_OFFSET_DEST');
                             for (var i = 0; i < size; i++) {
                                 var value = vmData.getGlobalNumber(regOffsetSrc + i);
                                 vmData.setGlobalNumber(regOffsetDest + i, vmData.getGlobalNumber(regOffsetSrc + i));
@@ -86,13 +84,12 @@ wheel(
                         case wheel.compiler.command.T_NUMBER_CONSTANT: v2 = p2;                         break;
                         case wheel.compiler.command.T_NUMBER_GLOBAL:   v2 = vmData.getGlobalNumber(p2); break;
                         case wheel.compiler.command.T_NUMBER_LOCAL:    v2 = vmData.getLocalNumber(p2);  break;
-                        case wheel.compiler.command.T_NUMBER_REGISTER: v2 = vmData.getRegister(p2);     break;
                     }
 
                     switch (command.command) {
                         case 'jmpc':
-                            var regFlags = vmData.getRegisterByName('REG_FLAGS');
-                            (regFlags & v2 === v2) && (this._index = p1);
+                            var regFlags = vmData.getRegisterDataByName('REG_FLAGS');
+                            ((regFlags & v2) === v2) && (this._index = p1);
                             break;
 
                         case 'set':
@@ -117,13 +114,13 @@ wheel(
 
                         case 'cmp':
                             var flags = 0;
-                            (v1 == v2) && (flags = flags || wheel.compiler.command.FLAG_EQUAL);
-                            (v1 != v2) && (flags = flags || wheel.compiler.command.FLAG_NOT_EQUAL);
-                            (v1 <  v2) && (flags = flags || wheel.compiler.command.FLAG_LESS);
-                            (v1 <= v2) && (flags = flags || wheel.compiler.command.FLAG_LESS_EQUAL);
-                            (v1 >  v2) && (flags = flags || wheel.compiler.command.FLAG_GREATER);
-                            (v1 >= v2) && (flags = flags || wheel.compiler.command.FLAG_GREATER_EQUAL);
-                            vmData.setRegisterByName('REG_FLAGS', flags);
+                            (v1 == v2) && (flags |= wheel.compiler.command.FLAG_EQUAL);
+                            (v1 != v2) && (flags |= wheel.compiler.command.FLAG_NOT_EQUAL);
+                            (v1 <  v2) && (flags |= wheel.compiler.command.FLAG_LESS);
+                            (v1 <= v2) && (flags |= wheel.compiler.command.FLAG_LESS_EQUAL);
+                            (v1 >  v2) && (flags |= wheel.compiler.command.FLAG_GREATER);
+                            (v1 >= v2) && (flags |= wheel.compiler.command.FLAG_GREATER_EQUAL);
+                            vmData.setRegisterDataByName('REG_FLAGS', flags);
                             break;
 
                         case 'module':

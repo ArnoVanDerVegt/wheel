@@ -1,10 +1,14 @@
 wheel(
     'vm.modules.MotorModule',
     Class(wheel.vm.modules.VMModule, function(supr) {
-        this.init = function(opts) {
+        /*this.init = function(opts) {
             supr(this, 'init', arguments);
 
             this._motors = opts.motors;
+        };*/
+
+        this.setMotors = function(motors) {
+            this._motors = motors;
         };
 
         this.run = function(commandId) {

@@ -9,7 +9,7 @@ wheel(
 		};
 
 		this.reset = function() {
-			this._globalOffset 		= 0;
+			this._globalOffset 		= this._registers.length;
 			this._globalList 		= {};
 			this._globalConstants 	= [];
 

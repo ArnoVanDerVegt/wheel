@@ -46,19 +46,30 @@
                     }
                     var uri;
                     if (this._local) {
-                    	uri = '/api/file?filename=' + encodeURIComponent(this._name);
+                        uri = '/api/file?filename=' + encodeURIComponent(this._name);
                     } else {
-                    	uri = 'http://arnovandervegt.github.io/wheel/wheel' + this._name;
+                        // Check if there's a version of this file in local storage...
+                        var files = LocalStorage.getInstance().get('files', {});
+                        if (this._name in files) {
+                            this._changed = false;
+                            this._hasData = true;
+                            this._data    = files[this._name];
+                            callback(this._data);
+                            return;
+                        }
+
+                        uri = 'http://arnovandervegt.github.io/wheel/wheel' + this._name;
                     }
+
                     ajaxUtils.send(
                         uri,
                         function(error, data) {
                             if (error) {
                                 console.error(error, data);
                             } else {
-                                this._changed     = false;
-                                this._hasData     = true;
-                                this._data         = data;
+                                this._changed = false;
+                                this._hasData = true;
+                                this._data    = data;
                                 callback(data);
                             }
                         }.bind(this)
@@ -72,8 +83,8 @@
                 if (!noChange) {
                     this._changed = true;
                 }
-                this._hasData     = true;
-                this._data         = data;
+                this._hasData = true;
+                this._data    = data;
             };
 
             this.getHasData = function() {
@@ -129,18 +140,29 @@
                     return;
                 }
                 this._changed = false;
-                ajaxUtils.send(
-                    '/api/file?filename=' + encodeURIComponent(this._name),
-                    function(error, data) {
-                        if (error) {
-                            console.error(error, data);
-                            this._changed = true;
+console.log('---', this._local);
+                if (this._local) {
+                    // Running a node server...
+                    ajaxUtils.send(
+                        '/api/file?filename=' + encodeURIComponent(this._name),
+                        function(error, data) {
+                            if (error) {
+                                console.error(error, data);
+                                this._changed = true;
+                            }
+                        }.bind(this),
+                        {
+                            data: this._data
                         }
-                    }.bind(this),
-                    {
-                        data: this._data
-                    }
-                );
+                    );
+                } else {
+                    console.log('save!!!');
+                    // Not running a node server, store in local storage...
+                    var localStorage = LocalStorage.getInstance();
+                    var files        = localStorage.get('files', {});
+                    files[this._name] = this._data;
+                    localStorage.set('files', files);
+                }
             };
         });
 
@@ -152,10 +174,27 @@
             this.init = function(opts) {
                 supr(this, 'init', arguments);
 
-                this._local = (document.location.href.indexOf('github') === -1);
-                this._files = [];
+                this._local             = false;//(document.location.href.indexOf('github') === -1);
+                this._savedLocalStorage = false;
+                this._files             = [];
 
-                ajaxUtils.send(this._local ? '/api/dir' : 'dir.json', this.onDir.bind(this));
+                if (this._local) {
+                    // Running a node server...
+                    ajaxUtils.send('/api/dir', this.onDir.bind(this));
+                } else {
+                    var dir = LocalStorage.getInstance().get('dir', null);
+                    if (dir) {
+                        this._savedLocalStorage = true;
+                        setTimeout(
+                            function() {
+                                this.onDir(false, {files: dir});
+                            }.bind(this),
+                            1
+                        );
+                    } else {
+                        ajaxUtils.send('dir.json', this.onDir.bind(this));
+                    }
+                }
             };
 
             this.onDir = function(error, data) {
@@ -170,6 +209,12 @@
                     files[i].toString = toString;
                 }
                 files.sort();
+
+                if (!this._local && !this._savedLocalStorage) {
+                    this._savedLocalStorage = true;
+                    LocalStorage.getInstance().set('dir', files);
+                }
+
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     this.createFile({
@@ -179,6 +224,7 @@
                         saved:   true
                     });
                 }
+
                 this.emit('Loaded');
             };
 
@@ -189,6 +235,7 @@
                 if (name[0] !== '/') {
                     name = '/' + name;
                 }
+
                 var files = this._files;
                 for (var i = 0; i < files.length; i++) {
                     if (files[i].getName() === name) {

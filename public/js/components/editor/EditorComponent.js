@@ -98,11 +98,11 @@ wheel(
                         path,
                         filename,
                         function(includes) {
-                            try {
+                            //try {
                                 outputCommands = compiler.compile(includes);
                                 var codeMirror = this.refs.codeMirror;
                                 codeMirror.setHighlight({}) || codeMirror.update();
-                            } catch (error) {
+                            /*} catch (error) {
                                 var location = error.location || { filename: ' ', lineNumber: 0 };
                                 var index    = files.exists(location.filename);
 
@@ -120,13 +120,14 @@ wheel(
                                 this.refs.console.addError(error);
 
                                 outputCommands = null;
-                            }
+                            }*/
                             if (outputCommands !== null) {
                                 var onResourcesLoaded = (function() {
                                         var compilerData = compiler.getCompilerData();
                                         this.refs.console.setGlobals(compilerData.getGlobalList());
                                         vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen()); // Screen module
                                         vm.getModule(5).setEV3Buttons(refs.output.refs.buttons);              // Light module
+                                        vm.getModule(2).setMotors(this.props.motors);                         // Motors module
                                         vm.getModule(6).setEV3Buttons(refs.output.refs.buttons);              // Buttons module
 
                                         vm.run(

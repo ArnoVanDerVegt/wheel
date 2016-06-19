@@ -4,7 +4,7 @@
 
 proc main()
     number  n                               ; Declare a local number variable...
-
+?
     set     n,                      1       ; Set n to 1
     cmp     n,                      0       ; Compare n to 0
     je      myLabel                         ; jump to myLabel if n is equal to 0
