@@ -5,12 +5,7 @@
                 {name: 'REG_OFFSET_SRC',        type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_OFFSET_DEST',       type: wheel.compiler.command.T_NUMBER_REGISTER},
                 {name: 'REG_RETURN',            type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_E',                 type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_NE',                type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_L',                 type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_LE',                type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_G',                 type: wheel.compiler.command.T_NUMBER_REGISTER},
-                {name: 'REG_GE',                type: wheel.compiler.command.T_NUMBER_REGISTER}
+                {name: 'REG_FLAGS',             type: wheel.compiler.command.T_NUMBER_REGISTER}
             ];
         var compiler    = new wheel.compiler.Compiler({registers: registers});
         var motors      = new wheel.vm.Motors({});

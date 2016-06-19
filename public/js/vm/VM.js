@@ -80,8 +80,8 @@ wheel(
                             throw new Error('Unknown command "' + command.command + '"');
                     }
                 } else { // Commands with two parameters...
-                    var p2 = command.params[1].value,
-                        v2;
+                    var p2 = command.params[1].value;
+                    var v2;
                     switch (command.params[1].type) {
                         case wheel.compiler.command.T_NUMBER_CONSTANT: v2 = p2;                         break;
                         case wheel.compiler.command.T_NUMBER_GLOBAL:   v2 = vmData.getGlobalNumber(p2); break;
@@ -91,7 +91,8 @@ wheel(
 
                     switch (command.command) {
                         case 'jmpc':
-                            v2 && (this._index = p1);
+                            var regFlags = vmData.getRegisterByName('REG_FLAGS');
+                            (regFlags & v2 === v2) && (this._index = p1);
                             break;
 
                         case 'set':
@@ -115,12 +116,14 @@ wheel(
                             break;
 
                         case 'cmp':
-                            vmData.setRegisterByName('REG_E',  v1 == v2);
-                            vmData.setRegisterByName('REG_NE', v1 != v2);
-                            vmData.setRegisterByName('REG_L',  v1 < v2);
-                            vmData.setRegisterByName('REG_LE', v1 <= v2);
-                            vmData.setRegisterByName('REG_G',  v1 > v2);
-                            vmData.setRegisterByName('REG_GE', v1 >= v2);
+                            var flags = 0;
+                            (v1 == v2) && (flags = flags || wheel.compiler.command.FLAG_EQUAL);
+                            (v1 != v2) && (flags = flags || wheel.compiler.command.FLAG_NOT_EQUAL);
+                            (v1 <  v2) && (flags = flags || wheel.compiler.command.FLAG_LESS);
+                            (v1 <= v2) && (flags = flags || wheel.compiler.command.FLAG_LESS_EQUAL);
+                            (v1 >  v2) && (flags = flags || wheel.compiler.command.FLAG_GREATER);
+                            (v1 >= v2) && (flags = flags || wheel.compiler.command.FLAG_GREATER_EQUAL);
+                            vmData.setRegisterByName('REG_FLAGS', flags);
                             break;
 
                         case 'module':
