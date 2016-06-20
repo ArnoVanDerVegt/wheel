@@ -196,7 +196,7 @@ input[type='text'] {
     float:                              right;
     margin:                             16px 16px 16px 0;
     background-color:                   #0D2C54; /* MidnightBlue */
-    border:                             0;
+    border:                             1px solid DarkGray;
     border-radius:                      4px;
     padding:                            4px 16px 4px 16px;
     color:                              White;
@@ -920,9 +920,6 @@ input[type='text'] {
 .dialog-vertical .icon:before {
     line-height:                        72px;
 }
-.dialog-vertical .icon.icon-settings {
-    line-height:                        92px;
-}
 
 /* Alert dialog */
 .dialog.alert {
@@ -1158,8 +1155,7 @@ input[type='text'] {
 }
 .tabs ul.tabs-titles {
     float:                              left;
-    padding:                            8px 8px 8px 0;
-    /*border:                             1px dotted #00A6ED; /* LightSkyBlue */
+    padding:                            0 8px 8px 0;
     border-width:                       0 0 1px 0;
     width:                              100%;
     margin-bottom:                      8px;

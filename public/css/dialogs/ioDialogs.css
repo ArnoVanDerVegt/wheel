@@ -37,7 +37,7 @@
 	overflow:							hidden;
 	overflow-y:							scroll;
 	background-color:					WhiteSmoke;
-	border-radius: 						4px;
+	border-radius: 						0 0 4px 4px;
 }
 .dialog.io .io-content .io-add {
 	float:								left;
