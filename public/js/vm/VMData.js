@@ -1,12 +1,15 @@
 var VMData = Class(function() {
         this.init = function(opts) {
-            this._data           = [];
-            this._stringList     = [];
-            this._regOffsetStack = [];
+            this._data       = [];
+            this._stringList = [];
 
             for (var i = 0; i < wheel.compiler.command.REGISTER_COUNT; i++) {
                 this._data[i] = 0;
             }
+        };
+
+        this.getData = function() {
+            return this._data;
         };
 
         /* Global */
@@ -35,17 +38,6 @@ var VMData = Class(function() {
         this.getLocalNumber = function(offset) {
             var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
             return this._data[offsetStack + offset];
-        };
-
-        /* Local offset */
-        this.pushRegOffsetStack = function(count) {
-            var regIndex = wheel.compiler.command.REG_OFFSET_STACK;
-            this._regOffsetStack.push(this._data[regIndex]);
-            this._data[regIndex] += count;
-        };
-
-        this.popRegOffsetStack = function() {
-            this._data[wheel.compiler.command.REG_OFFSET_STACK] = this._regOffsetStack.pop();
         };
 
         this.setGlobalConstants = function(globalConstants, stackOffset) {

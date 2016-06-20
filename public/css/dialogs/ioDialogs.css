@@ -37,6 +37,7 @@
 	overflow:							hidden;
 	overflow-y:							scroll;
 	background-color:					WhiteSmoke;
+	border-radius: 						4px;
 }
 .dialog.io .io-content .io-add {
 	float:								left;
@@ -53,13 +54,14 @@
 	height:								32px;
 }
 .dialog.io .io-content .io-row:hover {
-	background-color: 					LightSkyBlue;
+	background-color: 					#7FB800; /* LimeGreen */
 }
 .dialog.io .io-content .io-row:hover div {
-	color: 								Yellow;
+	color: 								White;
 }
 .dialog.io .io-content .io-header {
-	background-color:					PaleVioletRed;
+	background-color:					#00A6ED; /* LightSkyBlue */
+	border-radius: 						4px 4px 0 0;
 }
 .dialog.io .io-content .io-row .id,
 .dialog.io .io-content .io-row .display,
@@ -127,11 +129,4 @@
 	height: 							32px;
 	line-height: 						32px;
 	text-align: 						center;
-}
-.dialog.io .io-content .io-row:hover div select,
-.dialog.io .io-content .io-row:hover div input[type='text'] {
-	border-color: 						MidnightBlue;
-}
-.dialog.io .io-content .io-row:hover div .select.icon-chevron-down {
-	color: 								MidnightBlue;
 }

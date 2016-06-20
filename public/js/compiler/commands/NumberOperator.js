@@ -79,6 +79,7 @@ wheel(
                     });
                 }
                 if (!regStackSaved) {
+                    // Save the stack pointer to the source register...
                     compilerOutput.add({
                         command: 'set',
                         code:    wheel.compiler.command.set.code,
@@ -115,6 +116,7 @@ wheel(
                 param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                 compilerOutput.add(validatedCommand);
 
+                // Restore the stack register...
                 compilerOutput.add({
                     command: 'set',
                     code:    wheel.compiler.command.set.code,

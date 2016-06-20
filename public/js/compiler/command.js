@@ -44,14 +44,12 @@
     wheel(
         'compiler.command',
         {
-            // Commands with a single parameter...
             copy: {
                 code: 0,
                 args: [
                     {type: T_NUMBER_CONSTANT}
                 ]
             },
-            // Commands with 2 parameters...
             jmpc: {
                 code: 1,
                 args: [
@@ -63,8 +61,60 @@
                     }
                 ]
             },
-            set: {
+            cmp: {
                 code: 2,
+                args: [
+                    {
+                        type: T_NUMBER_GLOBAL,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    },
+                    {
+                        type: T_NUMBER_LOCAL,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    }
+                ]
+            },
+            module: {
+                code: 3,
+                args: [
+                    {
+                        type: T_NUMBER_CONSTANT,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    },
+                    {
+                        type: T_NUMBER_GLOBAL,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    },
+                    {
+                        type: T_NUMBER_LOCAL,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    }
+                ]
+            },
+
+            /* Operators */
+            set: {
+                code: 4,
                 args: [
                     {
                         type: T_NUMBER_GLOBAL,
@@ -123,48 +173,6 @@
                 ]
             },
             add: {
-                code: 3,
-                args: [
-                    {
-                        type: T_NUMBER_GLOBAL,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_LOCAL,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
-                        ]
-                    }
-                ]
-            },
-            sub: {
-                code: 4,
-                args: [
-                    {
-                        type: T_NUMBER_GLOBAL,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_LOCAL,
-                        args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
-                        ]
-                    }
-                ]
-            },
-            mul: {
                 code: 5,
                 args: [
                     {
@@ -185,7 +193,7 @@
                     }
                 ]
             },
-            div: {
+            sub: {
                 code: 6,
                 args: [
                     {
@@ -206,7 +214,7 @@
                     }
                 ]
             },
-            mod: {
+            mul: {
                 code: 7,
                 args: [
                     {
@@ -227,7 +235,7 @@
                     }
                 ]
             },
-            and: {
+            div: {
                 code: 8,
                 args: [
                     {
@@ -248,7 +256,7 @@
                     }
                 ]
             },
-            or: {
+            mod: {
                 code: 9,
                 args: [
                     {
@@ -269,9 +277,7 @@
                     }
                 ]
             },
-
-            // Compare...
-            cmp: {
+            and: {
                 code: 10,
                 args: [
                     {
@@ -292,17 +298,30 @@
                     }
                 ]
             },
-            module: {
+            or: {
                 code: 11,
                 args: [
                     {
-                        type: T_NUMBER_CONSTANT,
+                        type: T_NUMBER_GLOBAL,
                         args: [
                             {type: T_NUMBER_CONSTANT},
                             {type: T_NUMBER_GLOBAL},
                             {type: T_NUMBER_LOCAL}
                         ]
                     },
+                    {
+                        type: T_NUMBER_LOCAL,
+                        args: [
+                            {type: T_NUMBER_CONSTANT},
+                            {type: T_NUMBER_GLOBAL},
+                            {type: T_NUMBER_LOCAL}
+                        ]
+                    }
+                ]
+            },
+            xor: {
+                code: 12,
+                args: [
                     {
                         type: T_NUMBER_GLOBAL,
                         args: [

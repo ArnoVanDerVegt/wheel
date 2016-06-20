@@ -180,7 +180,7 @@
                                             onClick:   (function() { node.path && this.props.onSelectFile(node.path); }).bind(this),
                                             className: (node.active ? 'active' : '') + (node.changed ? ' changed' : ''),
                                             style: {
-                                                paddingLeft: (depth * 16) + 'px'
+                                                paddingLeft: (8 + depth * 16) + 'px'
                                             }
                                         },
                                         children: [

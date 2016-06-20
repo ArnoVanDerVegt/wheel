@@ -71,6 +71,7 @@ wheel(
                 div:        compilers.NumberOperator,
                 and:        compilers.NumberOperator,
                 or:         compilers.NumberOperator,
+                xor:        compilers.NumberOperator,
                 cmp:        compilers.NumberOperator,
                 mod:        compilers.NumberOperator,
                 string:     compilers.StringDeclaration,
