@@ -1,3 +1,9 @@
+html,
+body {
+    overflow:                           hidden;
+    overflow-y:                         scroll;
+}
+
 * {
     box-sizing:                         border-box;
 }
