@@ -1,11 +1,11 @@
 /* Icons */
 @font-face {
     font-family:                        "icons";
-    src:                                url("/fonts/icons.eot");
-    src:                                url("/fonts/icons.eot?#iefix") format("embedded-opentype"),
-                                        url("/fonts/icons.woff") format("woff"),
-                                        url("/fonts/icons.ttf") format("truetype"),
-                                        url("/fonts/icons.svg#icons") format("svg");
+    src:                                url("/fonts/icons1.eot");
+    src:                                url("/fonts/icons1.eot?#iefix") format("embedded-opentype"),
+                                        url("/fonts/icons1.woff") format("woff"),
+                                        url("/fonts/icons1.ttf") format("truetype"),
+                                        url("/fonts/icons1.svg#icons") format("svg");
     font-weight:                        normal;
     font-style:                         normal;
 }
