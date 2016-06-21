@@ -82,7 +82,7 @@ wheel(
                     {
                         type: 'iframe',
                         props: {
-                            src: '/help.html'
+                            src: 'help.html'
                         }
                     },
                     {
