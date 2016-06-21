@@ -69,15 +69,22 @@ pre {
     padding:                            8px 16px 8px 16px;
     border:                             1px solid DarkGray;
     border-radius:                      4px;
-    line-height:                        16px;
+    line-height:                        14px;
     background-color:                   WhiteSmoke;
+    overflow:                           hidden;
+    text-overflow:                      ellipsis;
+    white-space:                        pre-wrap;
+    white-space:                        -moz-pre-wrap;
+    white-space:                        -pre-wrap;
+    white-space:                        -o-pre-wrap;
+    word-wrap:                          break-word;
 }
 pre span {
     font-family:                        'Courier new';
-    font-size:                          14px;
+    font-size:                          12px;
     margin:                             0;
     padding:                            0;
-    line-height:                        16px;
+    line-height:                        14px;
 }
 pre span.line {
     float:                              left;
