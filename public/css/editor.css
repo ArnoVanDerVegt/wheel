@@ -372,6 +372,58 @@ input[type='text'] {
     line-height:                        32px;
 }
 
+/* Help */
+#main .help {
+    position:                           absolute;
+    right:                              204px;
+    left:                               400px;
+    top:                                calc(50% - 8px);
+    bottom:                             8px;
+    border-radius:                      4px;
+    overflow:                           hidden;
+    background-color:                   White;
+    display:                            none;
+}
+#main .help iframe {
+    float:                              left;
+    position:                           relative;
+    width:                              100%;
+    height:                             100%;
+    border:                             0;
+    z-index:                            1;
+}
+#main .help .icon-close {
+    position:                           absolute;
+    top:                                4px;
+    right:                              4px;
+    width:                              24px;
+    height:                             24px;
+    border:                             0;
+    z-index:                            10;
+    text-align:                         center;
+    font-size:                          24px;
+    line-height:                        24px;
+    opacity:                            0.3;
+    transition:                         opacity 0.2s;
+    cursor:                             pointer;
+}
+#main .help .icon-close:hover {
+    opacity:                            1;
+}
+#main .help.show-console {
+    top:                                calc(45% - 8px);
+    bottom:                             calc(25% + 24px);
+}
+#main .help.visible {
+    display:                            block;
+}
+#main .help.small {
+    right:                              384px;
+}
+
+/* bottom: calc(55% + 24px);        */
+/* height: 25%                      */
+
 /* Editor */
 #main .editor {
     position:                           absolute;
@@ -386,7 +438,15 @@ input[type='text'] {
 }
 #main .editor.show-console,
 #main .editor.small.show-console {
-    bottom:                             168px;
+    bottom:                             calc(25% + 24px);
+}
+#main .editor.show-help,
+#main .editor.small.show-help {
+    bottom:                             calc(50% + 24px);
+}
+#main .editor.show-console.show-help,
+#main .editor.small.show-console.show-help {
+    bottom:                             calc(55% + 24px);
 }
 #main .editor #codeHint {
     position:                           absolute;
@@ -418,8 +478,8 @@ input[type='text'] {
 /* Console */
 #main .console {
     position:                           absolute;
-    right:                              196px;
-    height:                             144px;
+    right:                              204px;
+    height:                             25%;
     bottom:                             8px;
     background-color:                   White;
     display:                            none;
@@ -485,6 +545,7 @@ input[type='text'] {
     float:                              right;
 }
 
+#main .help .control-panel,
 #main .console .control-panel {
     position:                           absolute;
     left:                               0px;
@@ -535,13 +596,17 @@ input[type='text'] {
     width:                              50%;
 }
 
-/* Motor */
-#main .output .motor-container {
+/* Motor, sensor */
+#main .output .motor-container,
+#main .output .sensor-container {
     float:                              left;
     width:                              196px;
 }
 #main .output.large .motor-container {
-    width:                              178px;
+    width:                              182px;
+}
+#main .output.large .sensor-container {
+    width:                              182px;
 }
 #main .output .motor-container .io,
 #main .output .sensor-container .io {
@@ -579,6 +644,9 @@ input[type='text'] {
     background-size:                    100px 100px;
 }
 #main .output.large .motor-container .io {
+    width:                              174px;
+}
+#main .output.large .sensor-container .io {
     width:                              174px;
 }
 #main .output .motor-container .io .status-canvas {
@@ -772,29 +840,48 @@ input[type='text'] {
 #main .control-panel .icon {
     float:                              left;
     position:                           relative;
+    width:                              40px;
+    height:                             40px;
     cursor:                             pointer;
     color:                              #0D2C54; /* MidnightBlue */
+    text-align:                         center;
     font-size:                          32px;
-    line-height:                        35px;
-    height:                             36px;
-    margin-top:                         4px;
+    line-height:                        40px;
+    margin:                             0;
 }
 #main .control-panel .icon:hover {
     color:                              White;
 }
-#main .control-panel .icon.icon-circle-play {
-    margin-left:                        8px;
-}
+#main .control-panel .icon.icon-smaller,
+#main .control-panel .icon.icon-larger,
 #main .control-panel .icon.icon-comment,
-#main .control-panel .icon.icon-area,
-#main .control-panel .icon.icon-close {
-    float:                              right;
-    font-size:                          24px;
-    margin-right:                       8px;
-}
+#main .control-panel .icon.icon-comment-help,
 #main .control-panel .icon.icon-comment-close {
     font-size:                          24px;
-    margin-left:                        8px;
+}
+#main .ev3-screen .control-panel .icon.icon-smaller,
+#main .ev3-screen .control-panel .icon.icon-larger,
+#main .ev3-screen .control-panel .icon.icon-comment,
+#main .ev3-screen .control-panel .icon.icon-comment-help,
+#main .ev3-screen .control-panel .icon.icon-comment-close,
+#main .console .control-panel .icon.icon-close,
+#main .help .control-panel .icon.icon-close {
+    float:                              right;
+}
+#main .ev3-screen .control-panel .icon.icon-comment,
+#main .ev3-screen .control-panel .icon.icon-smaller,
+#main .ev3-screen .control-panel .icon.icon-larger {
+    margin-right:                       -8px;
+}
+#main .ev3-screen .control-panel .icon.icon-circle-pause {
+    margin-left:                        -8px;
+}
+#main .console .control-panel .icon.icon-comment-help {
+    margin-left:                        -8px;
+}
+#main .control-panel .icon.icon-comment-close,
+#main .control-panel .icon.icon-comment-help {
+    font-size:                          24px;
 }
 #main .control-panel .icon .counter {
     position:                           absolute;

@@ -160,50 +160,6 @@ wheel(
                 }).call(this, messages[i]);
             }
 
-            for (var i in globals) {
-                var vr         = globals[i],
-                    offset     = ('000000' + vr.offset).substr(-6),
-                    length     = ('000000' + vr.length).substr(-6),
-                    size     = ('000000' + vr.size).substr(-6);
-                globalsChildren.push({
-                    type:     'tr',
-                    props:     {
-                        className: 'row var'
-                        //onClick:     function() { this.props.onShowError && this.props.onShowError(message.filename, message.lineNumber); }.bind(this)
-                    },
-                    children: [
-                        {
-                            type:     'td',
-                            props:     {
-                                className: 'offset',
-                                innerHTML: offset
-                            }
-                        },
-                        {
-                            type:     'td',
-                            props:     {
-                                className: 'offset',
-                                innerHTML: length
-                            }
-                        },
-                        {
-                            type:     'td',
-                            props:     {
-                                className: 'offset',
-                                innerHTML: size
-                            }
-                        },
-                        {
-                            type:     'td',
-                            props:     {
-                                className: 'name',
-                                innerHTML: i
-                            }
-                        }
-                    ]
-                });
-            }
-
             return utilsReact.fromJSON({
                 props: {
                     className: 'box-shadow console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large'),
@@ -225,14 +181,23 @@ wheel(
                         children: [
                             {
                                 props: {
-                                    className:   'icon icon-close',
-                                    onClick:     this.onClose
+                                    className: 'icon icon-close',
+                                    onClick:   this.onClose,
+                                    title:     'Close console'
                                 }
                             },
                             {
                                 props: {
-                                    className:   'icon icon-comment-close',
-                                    onClick:     this.onClearMessages
+                                    className: 'icon icon-comment-close',
+                                    onClick:   this.onClearMessages,
+                                    title:     'Clear console'
+                                }
+                            },
+                            {
+                                props: {
+                                    className: 'icon icon-comment-help',
+                                    onClick:    props.onShowHelp,
+                                    title:     'Help'
                                 }
                             }
                         ]

@@ -530,6 +530,7 @@
                                 onRun:          props.onRun,
                                 onStop:         props.onStop,
                                 onShowConsole:  props.onShowConsole,
+                                onShowHelp:     props.onShowHelp,
                                 onSmall:        this.onSmall,
                                 onLarge:        this.onLarge
                             }

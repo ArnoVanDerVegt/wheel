@@ -59,6 +59,7 @@
                 this.setWidth(pageX);
                 this.props.editor.refs.codeMirror.setLeft(pageX);
                 this.props.editor.refs.console.setLeft(pageX);
+                this.props.editor.refs.help.setLeft(pageX);
             },
 
             showPath: function(filename) {

@@ -426,15 +426,34 @@ wheel(
         },
 
         onCloseConsole: function() {
+            this.refs.help.setConsole(false);
             this.refs.codeMirror.setConsole(false);
             wheel.editorSettings.setUISetting('console', false);
         },
 
         onShowConsole: function() {
             if (this.refs.console.show()) {
+                this.refs.help.setConsole(true);
                 this.refs.codeMirror.setConsole(true);
                 wheel.editorSettings.setUISetting('console', true);
             }
+        },
+
+        onShowHelp: function() {
+            if (this.refs.help.show()) {
+                this.refs.codeMirror.setHelp(true);
+                wheel.editorSettings.setUISetting('help', true);
+            } else {
+                this.refs.help.hide();
+                this.refs.codeMirror.setHelp(false);
+                wheel.editorSettings.setUISetting('help', false);
+            }
+        },
+
+        onCloseHelp: function() {
+            console.log('close');
+            this.refs.codeMirror.setHelp(false);
+            wheel.editorSettings.setUISetting('help', false);
         },
 
         onClearMessages: function() {
@@ -558,7 +577,33 @@ wheel(
                             ref:          'codeMirror',
                             onChange:     this.onChange,
                             small:        uiSettings.small,
-                            console:      uiSettings.console
+                            console:      uiSettings.console,
+                            help:         uiSettings.help
+                        }
+                    },
+                    {
+                        type:  wheel.components.editor.HelpComponent,
+                        props: {
+                            ref:             'help',
+                            onClose:         this.onCloseHelp,
+                            editor:          this,
+                            console:         uiSettings.console,
+                            small:           uiSettings.small,
+                            visible:         uiSettings.help
+                        }
+                    },
+                    {
+                        type:  wheel.components.output.ConsoleComponent,
+                        props: {
+                            ref:             'console',
+                            onShowError:     this.onShowError,
+                            onShowLog:       this.onShowLog,
+                            onClearMessages: this.onClearMessages,
+                            onShowHelp:      this.onShowHelp,
+                            onClose:         this.onCloseConsole,
+                            editor:          this,
+                            small:           uiSettings.small,
+                            visible:         uiSettings.console
                         }
                     },
                     {
@@ -571,23 +616,11 @@ wheel(
                             onSmall:        this.onSmall,
                             onLarge:        this.onLarge,
                             onShowConsole:  this.onShowConsole,
+                            onShowHelp:     this.onShowHelp,
                             motors:         this.props.motors,
                             sensors:        this.props.sensors,
                             small:          uiSettings.small,
                             console:        uiSettings.console
-                        }
-                    },
-                    {
-                        type:  wheel.components.output.ConsoleComponent,
-                        props: {
-                            ref:             'console',
-                            onShowError:     this.onShowError,
-                            onShowLog:       this.onShowLog,
-                            onClearMessages: this.onClearMessages,
-                            onClose:         this.onCloseConsole,
-                            editor:          this,
-                            small:           uiSettings.small,
-                            visible:         uiSettings.console
                         }
                     },
                     {

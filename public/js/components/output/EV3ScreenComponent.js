@@ -79,8 +79,8 @@
 
                 this._fonts = {
                     size1: new EV3Font({
-                        ev3Screen:     this,
-                        filename:     '/images/text1.png'
+                        ev3Screen: this,
+                        filename:  '/images/text1.png'
                     })
                 };
 
@@ -149,10 +149,10 @@
             };
 
             this.drawRect = function(x, y, width, height, mode) {
-                this._drawLine(x,             y,             x + width,     y,             mode);
-                this._drawLine(x,             y,             x,             y + height, mode);
-                this._drawLine(x + width,     y,             x + width,     y + height, mode);
-                this._drawLine(x,             y + height, x + width,     y + height, mode);
+                this._drawLine(x,         y,             x + width, y,          mode);
+                this._drawLine(x,         y,             x,         y + height, mode);
+                this._drawLine(x + width, y,             x + width, y + height, mode);
+                this._drawLine(x,         y + height, x + width,    y + height, mode);
 
                 this._updateCallback && this._updateCallback();
             };
@@ -363,9 +363,9 @@
                          {
                             type: 'canvas',
                             props: {
-                                width:     state.small ? 178 : 356,
+                                width:  state.small ? 178 : 356,
                                 height: state.small ? 128 : 256,
-                                ref:     'canvas'
+                                ref:    'canvas'
                             }
                         },
                         {
@@ -373,31 +373,34 @@
                                 className: 'control-panel'
                             },
                             children: [
+                                // Left side...
                                 {
                                     props: {
                                         className: 'icon icon-circle-play',
-                                        onClick:   (function() { this.props.onRun && this.props.onRun(); }).bind(this)
+                                        onClick:   function() { props.onRun && props.onRun(); }
                                     }
                                 },
                                 (state.running ?
                                     {
                                         props: {
                                             className: 'icon icon-circle-pause',
-                                            onClick:   (function() { this.props.onStop && this.props.onStop(); }).bind(this)
+                                            onClick:   function() { props.onStop && props.onStop(); }
                                         }
                                     } :
                                     null
                                 ),
+
+                                // Right side...
                                 {
                                     props: {
-                                        className: 'icon icon-area',
-                                        onClick:   this.onZoom
+                                        className: 'icon icon-comment-help',
+                                        onClick:   function() { props.onShowHelp && props.onShowHelp(); }
                                     }
                                 },
                                 {
                                     props: {
                                         className: 'icon icon-comment',
-                                        onClick:   (function() { this.props.onShowConsole && this.props.onShowConsole(); }).bind(this)
+                                        onClick:   function() { props.onShowConsole && props.onShowConsole(); }
                                     },
                                     children: [
                                         state.messagesCounter ?
@@ -409,6 +412,12 @@
                                             } :
                                             null
                                     ]
+                                },
+                                {
+                                    props: {
+                                        className: state.small ? 'icon icon-larger' : 'icon icon-smaller',
+                                        onClick:   this.onZoom
+                                    }
                                 }
                             ]
                         }

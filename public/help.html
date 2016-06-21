@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="/css/help.css"/>
+
+    <title>Wheel Help</title>
+</head>
+
+<body>
+    <div>
+        <h1>Wheel Manual</h1>
+
+        <ul>
+            <li>
+                <a href="#programming">Programming</a><br/>
+                <ul>
+                    <li>
+                        <a href="#programming-variables">Variables</a>
+                        <ul>
+                            <li><a href="#programming-numbers">Numbers</a></li>
+                            <li><a href="#programming-strings">Strings</a></li>
+                            <li><a href="#programming-structs">Structs</a></li>
+                            <li><a href="#programming-arrays">Arrays</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#progamming-operators">Operators</a>
+                        <ul>
+                            <li><a href="#programming-operators-set">Set</a></li>
+                            <li><a href="#programming-operators-add">Add</a></li>
+                            <li><a href="#programming-operators-sub">Sub</a></li>
+                            <li><a href="#programming-operators-mul">Mul</a></li>
+                            <li><a href="#programming-operators-div">Div</a></li>
+                            <li><a href="#programming-operators-and">And</a></li>
+                            <li><a href="#programming-operators-or">Or</a></li>
+                            <li><a href="#programming-operators-xor">Xor</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#progamming-conditions">Conditions</a>
+                        <ul>
+                            <li><a href="#programming-conditions-equal">Equal</a></li>
+                            <li><a href="#programming-conditions-not-equal">Not equal</a></li>
+                            <li><a href="#programming-conditions-less">Less</a></li>
+                            <li><a href="#programming-conditions-less-equal">Less or equal</a></li>
+                            <li><a href="#programming-conditions-greater">Greater</a></li>
+                            <li><a href="#programming-conditions-greater-equal">Greater or equal</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#progamming-procedures">Procedures and functions</a></li>
+                </ul>
+                <br/>
+            </li>
+            <li>
+                <a href="#modules">Modules</a><br/>
+                <ul>
+                    <li>
+                        <a href="#modules-standard">Standard</a>
+                        <ul>
+                            <li><a href="#modules-standard-printn">printN - <i>Print number</i></a></li>
+                            <li><a href="#modules-standard-prints">printS - <i>Print string</i></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#modules-math">Math</a>
+                        <ul>
+                            <li><a href="#modules-math-round">round - <i>Round a number</i></a></li>
+                            <li><a href="#modules-math-floor">floor - <i>Round a number down</i></a></li>
+                            <li><a href="#modules-math-ceil">ceil - <i>Round a number up</i></a></li>
+                            <li><a href="#modules-math-abs">abs - <i>Make a number positive</i></a></li>
+                            <li><a href="#modules-math-neg">neg - <i>Make a number negative</i></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#modules-motors">Motors</a>
+                        <ul>
+                            <li><a href="#modules-motors-reset">motorReset - <i>Reset motor</i></a></li>
+                            <li><a href="#modules-motors-move-to">motorMoveTo - <i>Move motor to a given position</i></a></li>
+                            <li><a href="#modules-motors-move">motorMove - <i>Turn the motor on</i></a></li>
+                            <li><a href="#modules-motors-stop">motorStop - <i>Stop the motor</i></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#modules-sensors">Sensors</a>
+                    </li>
+                    <li>
+                        <a href="#modules-screen">Screen</a>
+                        <ul>
+                            <li><a href="#modules-screen-clear">screenCrear - <i>Clear the screen</i></a></li>
+                            <li><a href="#modules-screen-pixel">drawPixel - <i>Draw a pixel</i></a></li>
+                            <li><a href="#modules-screen-number">drawNumber - <i>Draw a number</i></a></li>
+                            <li><a href="#modules-screen-text">drawText - <i>Draw a text</i></a></li>
+                            <li><a href="#modules-screen-line">drawLine - <i>Draw a line</i></a></li>
+                            <li><a href="#modules-screen-rect">drawRect - <i>Draw a rectangle</i></a></li>
+                            <li><a href="#modules-screen-circle">drawCircle - <i>Draw a circle</i></a></li>
+                            <li><a href="#modules-screen-image">drawImage - <i>Draw an image</i></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#modules-light">Light</a>
+                        <ul>
+                            <li><a href="#modules-light-light">light - <i>Control the light</i></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#modules-buttons">Buttons</a>
+                        <ul>
+                            <li><a href="#modules-buttons-button">button - <i>Read the button status</i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <br/>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <a id="programming"></a>
+        <h2>Programming</h2>
+    </div>
+        <div>
+            <a id="programming-variables"></a>
+            <h3>Variables</h3>
+        </div>
+            <div>
+                <a id="programming-numbers"></a>
+                <h4>Numbers</h4>
+                <pre><span class="line"><span class="command">number</span> n</span></pre>
+            </div>
+            <div>
+                <a id="programming-strings"></a>
+                <h4>Strings</h4>
+                <pre><span class="line"><span class="command">string</span> s</span></pre>
+            </div>
+            <div>
+                <a id="programming-arrays"></a>
+                <h4>Arrays</h4>
+                <pre><span class="line"><span class="command">number</span> numberList[10]</span><span class="line"><span class="command">string</span> stringList[5]</span></pre>
+            </div>
+
+        <div>
+            <a id="programming-operators"></a>
+            <h3>Operators</h3>
+        </div>
+            <div>
+                <a id="programming-operators-set"></a>
+                <h4>Set</h4>
+                <pre><span class="line"><span class="command">set   </span> <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">set   </span> <span class="variable">stringVariable</span>, <span class="value">stringValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-add"></a>
+                <h4>Add</h4>
+                <pre><span class="line"><span class="command">add   </span> <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-sub"></a>
+                <h4>Sub</h4>
+                <pre><span class="line"><span class="command">sub</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-mul"></a>
+                <h4>Mul</h4>
+                <pre><span class="line"><span class="command">mul</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-div"></a>
+                <h4>Div</h4>
+                <pre><span class="line"><span class="command">div</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-and"></a>
+                <h4>And</h4>
+                <pre><span class="line"><span class="command">and</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-or"></a>
+                <h4>Or</h4>
+                <pre><span class="line"><span class="command">or</span>     <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+            <div>
+                <a id="programming-operators-xor"></a>
+                <h4>Xor</h4>
+                <pre><span class="line"><span class="command">xor</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
+            </div>
+
+        <div>
+            <a id="#progamming-conditions"></a>
+            <h3>Conditions</h3>
+        </div>
+            <div>
+                <a id="programming-conditions-equal"></a>
+                <h4>Equal</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">je</span>     label</span></pre>
+            </div>
+            <div>
+                <a id="programming-conditions-not-equal"></a>
+                <h4>Not equal</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jne</span>    label</span></pre>
+            </div>
+            <div>
+                <a id="programming-conditions-less"></a>
+                <h4>Less</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jl</span>     label</span></pre>
+            </div>
+            <div>
+                <a id="programming-conditions-less-equal"></a>
+                <h4>Less or equal</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jle</span>    label</span></pre>
+            </div>
+            <div>
+                <a id="programming-conditions-greater"></a>
+                <h4>Greater</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jg</span>     label</span></pre>
+            </div>
+            <div>
+                <a id="programming-conditions-greater-equal"></a>
+                <h4>Greater or equal</h4>
+                <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jge</span>    label</span></pre>
+            </div>
+
+        <div>
+            <a id="#progamming-procedures"></a>
+            <h3>Procedures and functions</h3>
+        </div>
+
+    <div>
+        <a id="modules"></a>
+        <h2>Modules</h2>
+    </div>
+        <div>
+            <a id="modules-standard"></a>
+            <h3>Standard</h3>
+        </div>
+            <div>
+                <a id="modules-standard-printn"></a>
+                <h4>printN - <i>Print number</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">printN</span>(<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-standard-prints"></a>
+                <h4>printS - <i>Print string</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">printS</span>(<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+
+        <div>
+            <a id="modules-math"></a>
+            <h3>Math</h3>
+        </div>
+            <div>
+                <a id="modules-math-round"></a>
+                <h4>round - <i>Round a number</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">round</span>(*<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-math-floor"></a>
+                <h4>floor - <i>Round a number down</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">floor</span>(*<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-math-ceil"></a>
+                <h4>ceil - <i>Round a number up</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">ceil</span>(*<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-math-abs"></a>
+                <h4>abs - <i>Make a number positive</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">abs</span>(*<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-math-neg"></a>
+                <h4>neg - <i>Make a number negative</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">neg</span>(*<span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+
+        <div>
+            <a id="modules-motors"></a>
+            <h3>Motors</h3>
+        </div>
+            <div>
+                <a id="modules-motors-reset"></a>
+                <h4>motorReset - <i>Reset motor</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">motorReset</span>(<span class="command">number</span> <span class="variable">id</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-motors-move-to"></a>
+                <h4>motorMoveTo - <i>Move motor to a given position</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">motorMoveTo</span>(<span class="command">number</span> <span class="variable">id</span>, <span class="command">number</span> <span class="variable">target</span>, <span class="command">number</span> <span class="variable">power</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-motors-move"></a>
+                <h4>motorMove - <i>Turn the motor on</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">motorMoveTo</span>(<span class="command">number</span> <span class="variable">id</span>, <span class="command">number</span> <span class="variable">power</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-motors-stop"></a>
+                <h4>motorStop - <i>Stop the motor</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">motorStop</span>(<span class="command">number</span> <span class="variable">id</span>)</span></pre>
+            </div>
+
+        <div>
+            <a id="modules-sensors"></a>
+            <h3>Sensors</h3>
+        </div>
+
+        <div>
+            <a id="modules-light"></a>
+            <h3>Light</h3>
+        </div>
+            <div>
+                <a id="modules-light-light"></a>
+                <h4>light - <i>Control the light</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">light</span>(<span class="command">number</span> <span class="variable">color</span>, <span class="command">number</span> <span class="variable">flash</span>)</span></pre>
+            </div>
+
+        <div>
+            <a id="modules-buttons"></a>
+            <h3>Button</h3>
+        </div>
+            <div>
+                <a id="modules-buttons-button"></a>
+                <h4>button - <i>Read the button status</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">button</span>()</span></pre>
+            </div>
+
+    <div>
+        <br/>
+    </div>
+</body>
+
+</html>

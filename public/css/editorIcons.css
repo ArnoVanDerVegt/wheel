@@ -1,11 +1,11 @@
 /* Icons */
 @font-face {
     font-family:                        "icons";
-    src:                                url("../fonts/icons.eot");
-    src:                                url("../fonts/icons.eot?#iefix") format("embedded-opentype"),
-                                        url("../fonts/icons.woff") format("woff"),
-                                        url("../fonts/icons.ttf") format("truetype"),
-                                        url("../fonts/icons.svg#icons") format("svg");
+    src:                                url("/fonts/icons.eot");
+    src:                                url("/fonts/icons.eot?#iefix") format("embedded-opentype"),
+                                        url("/fonts/icons.woff") format("woff"),
+                                        url("/fonts/icons.ttf") format("truetype"),
+                                        url("/fonts/icons.svg#icons") format("svg");
     font-weight:                        normal;
     font-style:                         normal;
 }
@@ -137,4 +137,16 @@
 }
 .icon-chevron-up:before {
   content: "\48";
+}
+.icon-comment-alert:before {
+  content: "\49";
+}
+.icon-smaller:before {
+  content: "\4a";
+}
+.icon-larger:before {
+  content: "\4b";
+}
+.icon-comment-help:before {
+  content: "\4c";
 }

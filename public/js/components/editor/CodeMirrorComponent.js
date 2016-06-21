@@ -12,14 +12,14 @@
 
             setInfo: function(info) {
                 var state = this.state;
-                state.type          = info.type || false;
-                state.title         = info.title;
-                state.x             = info.x;
-                state.y             = info.y;
-                state.filename      = info.filename;
-                state.lineNumber    = info.lineNumber;
-                state.typeInfo      = info.typeInfo || false;
-                state.visible       = true;
+                state.type       = info.type || false;
+                state.title      = info.title;
+                state.x          = info.x;
+                state.y          = info.y;
+                state.filename   = info.filename;
+                state.lineNumber = info.lineNumber;
+                state.typeInfo   = info.typeInfo || false;
+                state.visible    = true;
                 this.setState(state);
             },
 
@@ -121,11 +121,14 @@
         'components.editor.CodeMirrorComponent',
         React.createClass({
             getInitialState: function() {
+                var props = this.props;
+
                 this._currentTarget = null;
                 return {
                     left:       360,
-                    small:      this.props.small,
-                    console:    this.props.console,
+                    small:      props.small,
+                    console:    props.console,
+                    help:       props.help,
                     readOnly:   false,
                     highlight:  {}
                 };
@@ -317,11 +320,18 @@
             },
 
             render: function() {
+                var state = this.state;
+                console.log('console:', state.console);
+                console.log('help:', state.help);
+                console.log('small:', state.small);
                 return utilsReact.fromJSON({
                     props: {
-                        className: 'box-shadow editor' + (this.state.console ? ' show-console' : '') + (this.state.small ? ' small' : ' large'),
+                        className: 'box-shadow editor' +
+                            (state.console ? ' show-console' : '') +
+                            (state.help    ? ' show-help'    : '') +
+                            (state.small   ? ' small'        : ' large'),
                         style: {
-                            left: this.state.left + 'px'
+                            left: state.left + 'px'
                         },
                         onMouseMove: this.onMouseMove
                     },
@@ -419,6 +429,12 @@
             setConsole: function(console) {
                 var state = this.state;
                 state.console = console;
+                this.setState(state);
+            },
+
+            setHelp: function(help) {
+                var state = this.state;
+                state.help = help;
                 this.setState(state);
             },
 

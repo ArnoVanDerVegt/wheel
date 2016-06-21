@@ -99,6 +99,7 @@
                     'uiSettings',
                     {
                         console: true,
+                        help:    false,
                         small:   true
                     }
                 );
