@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var ResizeComponent = React.createClass({
             getInitialState: function() {
                 return {

@@ -4,18 +4,21 @@
   "description": "Wheel IDE server and client.",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.4.3",
-    "express": "^4.4.5"
+    "body-parser": "^1.15.2",
+    "express": "^4.4.5",
+    "mocha": "^3.0.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "node_modules/.bin/mocha -w"
   },
   "keywords": [
-    "wheel", "lego", "mindstorms", "ev3"
+    "wheel",
+    "lego",
+    "mindstorms",
+    "ev3"
   ],
-  "engines" : {
-    "node" : "0.12.x"
+  "engines": {
+    "node": "0.12.x"
   }
 }

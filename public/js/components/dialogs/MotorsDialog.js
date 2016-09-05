@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var I2CMotorHeader = React.createClass({
             render: function() {
                 return utilsReact.fromJSON({

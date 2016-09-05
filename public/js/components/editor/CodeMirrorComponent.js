@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var CodeMirrorHintComponent = React.createClass({
             getInitialState: function() {
                 return {

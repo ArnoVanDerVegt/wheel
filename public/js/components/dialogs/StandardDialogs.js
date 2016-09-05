@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var LORUM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar dui et velit suscipit dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.';
 
     wheel(

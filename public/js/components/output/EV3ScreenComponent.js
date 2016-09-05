@@ -1,5 +1,7 @@
 (function() {
-    var EV3Font = Class(function() {
+    var wheel = require('../../utils/base.js');
+
+    var EV3Font = wheel.Class(function() {
             this.init = function(opts) {
                 this._chars     = {};
                 this._ev3Screen = opts.ev3Screen;
@@ -64,7 +66,7 @@
             };
         });
 
-    var EV3Screen = Class(function() {
+    var EV3Screen = wheel.Class(function() {
             this.init = function(opts) {
                 this._updateCallback = opts.updateCallback;
 
@@ -298,8 +300,8 @@
                 var ctx    = canvas.getContext('2d');
                 if (!this._ev3Screen) {
                     this._ev3Screen = new EV3Screen({
-                        imageData:         ctx.getImageData(0, 0, 178, 128),
-                        updateCallback: bind(this, this.updateCtx)
+                        imageData:      ctx.getImageData(0, 0, 178, 128),
+                        updateCallback: wheel.bind(this, this.updateCtx)
                     });
                 }
                 this._ctx = ctx;

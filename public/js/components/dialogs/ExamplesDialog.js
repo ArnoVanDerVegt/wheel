@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var examples = [
             {
                 group: 'Variables',

@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     function init() {
         var compiler    = new wheel.compiler.Compiler({});
         var motors      = new wheel.vm.Motors({});

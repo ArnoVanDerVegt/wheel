@@ -1,9 +1,11 @@
 (function() {
-    var EditorSettings = Class(Emitter, function(supr) {
+    var wheel = require('../../utils/base.js');
+
+    var EditorSettings = wheel.Class(wheel.Emitter, function(supr) {
             this.init = function() {
                 supr(this, 'init', arguments);
 
-                var localStorage = LocalStorage.getInstance();
+                var localStorage = wheel.LocalStorage.getInstance();
 
                 /* Motors */
                 this._motorProperties = localStorage.get(
@@ -174,7 +176,7 @@
 
             this.setActiveFilename = function(activeFilename) {
                 this._activeFilename = activeFilename;
-                LocalStorage.getInstance().set('activeFilename', activeFilename);
+                wheel.LocalStorage.getInstance().set('activeFilename', activeFilename);
             };
 
             /* UI settings */
@@ -188,7 +190,7 @@
 
             this.setUISetting = function(key, value) {
                 this._uiSettings[key] = value;
-                LocalStorage.getInstance().set('uiSettings', this._uiSettings);
+                wheel.LocalStorage.getInstance().set('uiSettings', this._uiSettings);
             };
         });
 

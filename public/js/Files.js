@@ -1,5 +1,7 @@
 (function() {
-    var File = Class(function() {
+    var wheel = require('../../utils/base.js');
+
+    var File = wheel.Class(function() {
             this.init = function(opts) {
                 this._dir       = opts.dir;
                 this._files     = opts.files;
@@ -168,7 +170,7 @@
 
     wheel(
         'Files',
-        Class(Emitter, function(supr) {
+        wheel.Class(wheel.Emitter, function(supr) {
             this.init = function(opts) {
                 supr(this, 'init', arguments);
 

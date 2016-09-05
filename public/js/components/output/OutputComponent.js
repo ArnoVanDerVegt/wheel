@@ -1,7 +1,9 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var MOTOR_STATUS_SIZE = 48;
 
-    var MotorStatus = Class(function() {
+    var MotorStatus = wheel.Class(function() {
             this.init = function(opts) {
                 this._canvas = opts.canvas;
                 this._ctx    = this._canvas.getContext('2d');

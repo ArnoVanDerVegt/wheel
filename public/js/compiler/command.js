@@ -1,4 +1,6 @@
 (function() {
+    var wheel = require('../../utils/base.js');
+
     var T_NUMBER_CONSTANT       =  0;
     var T_NUMBER_GLOBAL         =  1;
     var T_NUMBER_LOCAL          =  2;
@@ -738,62 +740,6 @@
                 ]
             },
             // Loops...
-            loopdn: {
-                code: 1040,
-                args: [
-                    {
-                        type: T_NUMBER_GLOBAL,
-                        args: [
-                            {type: T_LABEL}
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_LOCAL,
-                        args: [
-                            {type: T_LABEL}
-                        ]
-                    }
-                ]
-            },
-            loopup: {
-                code: 1041,
-                args: [
-                    {
-                        type: T_NUMBER_GLOBAL,
-                        args: [
-                            {
-                                type: T_NUMBER_CONSTANT,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_GLOBAL,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_LOCAL,
-                                args: [{type: T_LABEL}]
-                            }
-                        ]
-                    },
-                    {
-                        type: T_NUMBER_LOCAL,
-                        args: [
-                            {
-                                type: T_NUMBER_CONSTANT,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_GLOBAL,
-                                args: [{type: T_LABEL}]
-                            },
-                            {
-                                type: T_NUMBER_LOCAL,
-                                args: [{type: T_LABEL}]
-                            }
-                        ]
-                    }
-                ]
-            },
             'return': {
                 code: 1042,
                 args: [

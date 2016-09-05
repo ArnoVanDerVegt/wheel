@@ -1,5 +1,7 @@
 (function() {
-    var ReplaceTree = Class(function() {
+    var wheel = require('../../utils/base.js');
+
+    var ReplaceTree = wheel.Class(function() {
             this.init = function(opts) {
                 this.reset();
             };
@@ -60,7 +62,7 @@
         });
 
 
-    var FileProcessor = Class(function() {
+    var FileProcessor = wheel.Class(function() {
             this.init = function(opts) {
                 this._preProcessor     = opts.preProcessor;
                 this._files         = opts.files;
@@ -235,7 +237,7 @@
 
     wheel(
         'compiler.PreProcessor',
-        Class(Emitter, function(supr) {
+        wheel.Class(wheel.Emitter, function(supr) {
             this.init = function init(opts) {
                 supr(this, this.init, arguments);
 

@@ -1,28 +1,32 @@
-wheel(
-    'compiler.commands.CallReturn',
-    Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-        this.init = function() {
-            supr(this, 'init', arguments);
+(function() {
+    var wheel = require('../../utils/base.js');
 
-            this._setCompiler = null;
-            this._retCompiler = null;
-        };
+    wheel(
+        'compiler.commands.CallReturn',
+        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+            this.init = function() {
+                supr(this, 'init', arguments);
 
-        this.setSetCompiler = function(setCompiler) {
-            this._setCompiler = setCompiler;
-        };
+                this._setCompiler = null;
+                this._retCompiler = null;
+            };
 
-        this.setRetCompiler = function(retCompiler) {
-            this._retCompiler = retCompiler;
-        };
+            this.setSetCompiler = function(setCompiler) {
+                this._setCompiler = setCompiler;
+            };
 
-        this.compile = function(command) {
-            command.command = 'set';
-            command.code    = wheel.compiler.command.set.code;
-            command.params.unshift({type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_RETURN});
+            this.setRetCompiler = function(retCompiler) {
+                this._retCompiler = retCompiler;
+            };
 
-            this._setCompiler.compile(command);
-            this._retCompiler.compile(null);
-        };
-    })
-);
+            this.compile = function(command) {
+                command.command = 'set';
+                command.code    = wheel.compiler.command.set.code;
+                command.params.unshift({type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_RETURN});
+
+                this._setCompiler.compile(command);
+                this._retCompiler.compile(null);
+            };
+        })
+    );
+})();

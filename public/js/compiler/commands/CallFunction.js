@@ -1,51 +1,55 @@
-wheel(
-    'compiler.commands.CallFunction',
-    Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-        this.init = function() {
-            supr(this, 'init', arguments);
+(function() {
+    var wheel = require('../../utils/base.js');
 
-            this._callCompiler           = null;
-            this._setCompiler            = null;
-            this._numberOperatorCompiler = null;
-        };
+    wheel(
+        'compiler.commands.CallFunction',
+        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+            this.init = function() {
+                supr(this, 'init', arguments);
 
-        this.setCallCompiler = function(callCompiler) {
-            this._callCompiler = callCompiler;
-        };
+                this._callCompiler           = null;
+                this._setCompiler            = null;
+                this._numberOperatorCompiler = null;
+            };
 
-        this.setSetCompiler = function(setCompiler) {
-            this._setCompiler = setCompiler;
-        };
+            this.setCallCompiler = function(callCompiler) {
+                this._callCompiler = callCompiler;
+            };
 
-        this.setNumberOperatorCompiler = function(numberOperatorCompiler) {
-            this._numberOperatorCompiler = numberOperatorCompiler;
-        };
+            this.setSetCompiler = function(setCompiler) {
+                this._setCompiler = setCompiler;
+            };
 
-        this.compileSet = function(line) {
-            var spacePos = line.indexOf(' ');
-            var command;
-            if (spacePos === -1) {
-                command = line;
-                params  = '';
-            } else {
-                command = line.substr(0, spacePos),
-                params  = line.substr(spacePos - line.length + 1).trim();
-            }
-            var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
-            var validatedCommand = this._compiler.validateCommand(command, splitParams);
+            this.setNumberOperatorCompiler = function(numberOperatorCompiler) {
+                this._numberOperatorCompiler = numberOperatorCompiler;
+            };
 
-            if (command === 'set') {
-                this._setCompiler.compile(validatedCommand, splitParams, params);
-            } else {
-                this._numberOperatorCompiler.compile(validatedCommand, splitParams, params);
-            }
-        };
+            this.compileSet = function(line) {
+                var spacePos = line.indexOf(' ');
+                var command;
+                if (spacePos === -1) {
+                    command = line;
+                    params  = '';
+                } else {
+                    command = line.substr(0, spacePos),
+                    params  = line.substr(spacePos - line.length + 1).trim();
+                }
+                var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
+                var validatedCommand = this._compiler.validateCommand(command, splitParams);
 
-        this.compile = function(line) {
-            var j = line.indexOf(',');
+                if (command === 'set') {
+                    this._setCompiler.compile(validatedCommand, splitParams, params);
+                } else {
+                    this._numberOperatorCompiler.compile(validatedCommand, splitParams, params);
+                }
+            };
 
-            this._callCompiler.compile(line.substr(j + 1 - line.length).trim());
-            this.compileSet(line.substr(0, j).trim() + ', _____GLOBAL_REG_RETURN_____');
-        };
-    })
-);
+            this.compile = function(line) {
+                var j = line.indexOf(',');
+
+                this._callCompiler.compile(line.substr(j + 1 - line.length).trim());
+                this.compileSet(line.substr(0, j).trim() + ', _____GLOBAL_REG_RETURN_____');
+            };
+        })
+    );
+})();

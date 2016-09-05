@@ -1,5 +1,7 @@
 (function() {
-    var Motor = Class(function() {
+    var wheel = require('../../utils/base.js');
+
+    var Motor = wheel.Class(function() {
             this.init = function(opts) {
                 this._index = opts.index;
                 this.reset();
@@ -94,7 +96,7 @@
 
     wheel(
         'vm.Motors',
-        Class(Emitter, function(supr) {
+        wheel.Class(wheel.Emitter, function(supr) {
             this.init = function() {
                 supr(this, 'init', arguments);
 
