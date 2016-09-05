@@ -1,5 +1,5 @@
 (function() {
-    var wheel = require('../../utils/base.js');
+    var wheel = require('../../utils/base.js').wheel;
 
     var LocalStorage = wheel.Class(function() {
             this.init = function(opts) {

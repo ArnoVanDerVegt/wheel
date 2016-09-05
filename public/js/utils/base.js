@@ -143,7 +143,13 @@
         };
     });
 
-    window.require = function() {
-        return wheel;
+    // http://stackoverflow.com/questions/4224606/how-to-check-whether-a-script-is-running-under-node-js
+    var isNode = ((typeof module !== 'undefined') && module.exports);
+    if (isNode) {
+        exports.wheel = wheel;
+    } else {
+        window.require = function() {
+            return {wheel: wheel};
+        };
     };
 })();

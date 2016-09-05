@@ -1,5 +1,5 @@
 (function() {
-    var wheel = require('../../utils/base.js');
+    var wheel = require('../utils/base.js').wheel;
 
     var T_NUMBER_CONSTANT       =  0;
     var T_NUMBER_GLOBAL         =  1;
