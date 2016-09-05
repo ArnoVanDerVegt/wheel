@@ -130,13 +130,13 @@ input[type='text'] {
 }
 #main .header .menu li.active-project {
     float:                              right;
-    margin:                             0 16px 0 8px;
+    margin:                             0 24px 0 8px;
 }
 #main .header .menu li.menu-item {
     float:                              left;
     position:                           relative;
     height:                             48px;
-    margin:                             0 8px 0 8px;
+    margin:                             0 0 0 16px;
 }
 #main .header .menu li.menu-item .menu-item-title,
 #main .header .menu li.active-project span {
@@ -241,7 +241,7 @@ input[type='text'] {
 #main .files {
     position:                           absolute;
     top:                                56px;
-    left:                               0px;
+    left:                               8px;
     bottom:                             8px;
     list-style:                         none;
     padding:                            0 8px 0 8px;
@@ -395,7 +395,7 @@ input[type='text'] {
 #main .help .icon-close {
     position:                           absolute;
     top:                                4px;
-    right:                              4px;
+    right:                              16px;
     width:                              24px;
     height:                             24px;
     border:                             0;
@@ -418,7 +418,7 @@ input[type='text'] {
     display:                            block;
 }
 #main .help.small {
-    right:                              384px;
+    right:                              392px;
 }
 
 /* bottom: calc(55% + 24px);        */
@@ -434,7 +434,7 @@ input[type='text'] {
     overflow:                           hidden;
 }
 #main .editor.small {
-    right:                              384px;
+    right:                              392px;
 }
 #main .editor.show-console,
 #main .editor.small.show-console {
@@ -488,7 +488,7 @@ input[type='text'] {
     display:                            block;
 }
 #main .console.visible.small {
-    right:                              384px;
+    right:                              392px;
 }
 #main .console .messages {
     position:                           absolute;
@@ -568,7 +568,7 @@ input[type='text'] {
     font-size:                          16px;
 }
 #main .output.large {
-    width:                              376px;
+    width:                              384px;
 }
 #main .output .io-wrapper {
     float:                              left;
@@ -606,7 +606,7 @@ input[type='text'] {
     width:                              182px;
 }
 #main .output.large .sensor-container {
-    width:                              182px;
+    width:                              178px;
 }
 #main .output .motor-container .io,
 #main .output .sensor-container .io {

@@ -221,10 +221,12 @@ wheel(
 
             if (paramInfo.value) {
                 if (paramInfo.type === wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY) {
-                    var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
-                    size            = data.length;
-                    paramInfo.value = compilerData.allocateGlobal(size);
-                    compilerData.declareConstant(paramInfo.value, data);
+                    if (typeof paramInfo.value === 'string') {
+                        var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
+                        size            = data.length;
+                        paramInfo.value = compilerData.allocateGlobal(size);
+                        compilerData.declareConstant(paramInfo.value, data);
+                    }
                 } else {
                     throw compiler.createError('Type mismatch.');
                 }

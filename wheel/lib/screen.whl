@@ -1,5 +1,5 @@
 #define MODULE_SCREEN      1
-    
+
 #define SCREEN_CLEAR       0
 #define SCREEN_DRAW_PIXEL  1
 #define SCREEN_DRAW_NUMBER 2
@@ -8,11 +8,11 @@
 #define SCREEN_DRAW_RECT   5
 #define SCREEN_DRAW_CIRCLE 6
 #define SCREEN_DRAW_IMAGE  7
-    
-proc screenCrear()
+
+proc clearScreen()
     module   MODULE_SCREEN,          SCREEN_CLEAR
 endp
-    
+
 proc drawPixel(number x, number y)
     struct DrawPixel
         number   x, y
@@ -23,7 +23,7 @@ proc drawPixel(number x, number y)
     addr     drawPixel
     module   MODULE_SCREEN,          SCREEN_DRAW_PIXEL
 endp
-    
+
 proc drawNumber(number x, number y, number n)
     struct DrawNumber
         number   x, y, n
@@ -35,7 +35,7 @@ proc drawNumber(number x, number y, number n)
     addr     drawNumber
     module   MODULE_SCREEN,          SCREEN_DRAW_NUMBER
 endp
-    
+
 proc drawText(number x, number y, string s)
     struct DrawText
         number   x, y
@@ -48,7 +48,7 @@ proc drawText(number x, number y, string s)
     addr     drawText
     module   MODULE_SCREEN,          SCREEN_DRAW_TEXT
 endp
-    
+
 proc drawLine(number x1, number y1, number x2, number y2)
     struct DrawLine
         number   x1, y1, x2, y2
@@ -61,7 +61,7 @@ proc drawLine(number x1, number y1, number x2, number y2)
     addr     drawLine
     module   MODULE_SCREEN,          SCREEN_DRAW_LINE
 endp
-    
+
 proc drawRect(number x, number y, number width, number height)
     struct DrawRect
         number   x, y, width, height
@@ -74,7 +74,7 @@ proc drawRect(number x, number y, number width, number height)
     addr     drawRect
     module   MODULE_SCREEN,          SCREEN_DRAW_RECT
 endp
-    
+
 proc drawCircle(number x, number y, number radius)
     struct DrawCircle
         number   x, y, radius
@@ -86,7 +86,7 @@ proc drawCircle(number x, number y, number radius)
     addr     drawCircle
     module   MODULE_SCREEN,          SCREEN_DRAW_CIRCLE
 endp
-    
+
 proc drawImage(number x, number y, string filename)
     struct DrawImage
         number   x, y
@@ -99,4 +99,3 @@ proc drawImage(number x, number y, string filename)
     addr     drawImage
     module   MODULE_SCREEN,          SCREEN_DRAW_IMAGE
 endp
-    

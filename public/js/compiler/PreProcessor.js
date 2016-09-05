@@ -288,7 +288,8 @@
                 this._resourceCount++;
                 resources[name] = true;
                 new wheel.File({
-                    name: file
+                    name:  file,
+                    local: true
                 }).getData(
                     (function(data) {
                         resources[name] = data;

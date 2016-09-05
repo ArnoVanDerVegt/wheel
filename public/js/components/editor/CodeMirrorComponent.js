@@ -125,12 +125,12 @@
 
                 this._currentTarget = null;
                 return {
-                    left:       360,
-                    small:      props.small,
-                    console:    props.console,
-                    help:       props.help,
-                    readOnly:   false,
-                    highlight:  {}
+                    left:      360,
+                    small:     props.small,
+                    console:   props.console,
+                    help:      props.help,
+                    readOnly:  false,
+                    highlight: {}
                 };
             },
 
@@ -244,7 +244,7 @@
                 mode.supportAutoCompletion = true;
                 mode.autocompleter.options =  {prefixMatch:true, caseInsensitiveMatch:false};
                 CodeMirror.commands[autocomplete_cmd] = function(cm) {
-                    console.log(cm);
+                    //console.log(cm);
                     CodeMirror.showHint(cm, mode.autocompleter);
                 };
 
@@ -321,9 +321,9 @@
 
             render: function() {
                 var state = this.state;
-                console.log('console:', state.console);
-                console.log('help:', state.help);
-                console.log('small:', state.small);
+                //console.log('console:', state.console);
+                //console.log('help:', state.help);
+                //console.log('small:', state.small);
                 return utilsReact.fromJSON({
                     props: {
                         className: 'box-shadow editor' +

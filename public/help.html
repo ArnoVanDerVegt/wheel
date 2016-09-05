@@ -130,17 +130,22 @@
             <div>
                 <a id="programming-numbers"></a>
                 <h4>Numbers</h4>
-                <pre><span class="line"><span class="command">number</span> n</span></pre>
+                <pre><span class="line"><span class="command">number</span> <span class="value">n</span></span></pre>
             </div>
             <div>
                 <a id="programming-strings"></a>
                 <h4>Strings</h4>
-                <pre><span class="line"><span class="command">string</span> s</span></pre>
+                <pre><span class="line"><span class="command">string</span> <span class="value">s</span></span></pre>
             </div>
             <div>
                 <a id="programming-arrays"></a>
                 <h4>Arrays</h4>
-                <pre><span class="line"><span class="command">number</span> numberList[10]</span><span class="line"><span class="command">string</span> stringList[5]</span></pre>
+                <pre><span class="line"><span class="command">number</span> <span class="value">numberList</span>[10]</span><span class="line"><span class="command">string</span> <span class="value">stringList</span>[5]</span></pre>
+            </div>
+            <div>
+                <a id="programming-arrays"></a>
+                <h4>Structs</h4>
+                <pre><span class="line"><span class="command">struct</span> <span class="variable">Record</span></span><span class="line"><span class="command">    number</span><span class="value"> f</span></span><span class="line"><span class="command">ends</span></span></pre>
             </div>
 
         <div>
@@ -306,6 +311,51 @@
             <a id="modules-sensors"></a>
             <h3>Sensors</h3>
         </div>
+
+        <div>
+            <a id="modules-screen"></a>
+            <h3>Screen</h3>
+        </div>
+            <div>
+                <a id="modules-screen-clear"></a>
+                <h4>screenCrear - <i>Clear the screen</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">clearScreen</span>()</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-pixel"></a>
+                <h4>drawPixel - <i>Draw a pixel</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawPixel</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-number"></a>
+                <h4>drawNumber - <i>Draw a number</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawNumber</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>, <span class="command">number</span> <span class="variable">n</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-text"></a>
+                <h4>drawText - <i>Draw a text</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawPixel</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>, <span class="command">string</span> <span class="variable">s</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-line"></a>
+                <h4>drawLine - <i>Draw a line</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawLine</span>(<span class="command">number</span> <span class="variable">x1</span>, <span class="command">number</span> <span class="variable">y1</span>, <span class="command">number</span> <span class="variable">x2</span>, <span class="command">number</span> <span class="variable">y2</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-rect"></a>
+                <h4>drawRect - <i>Draw a rectangle</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawRect</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>, <span class="command">number</span> <span class="variable">width</span>, <span class="command">number</span> <span class="variable">height</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-rect"></a>
+                <h4>drawCircle - <i>Draw a circle</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawCircle</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>, <span class="command">number</span> <span class="variable">radius</span>)</span></pre>
+            </div>
+            <div>
+                <a id="modules-screen-image"></a>
+                <h4>drawImage - <i>Draw an image</i></h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="api">drawImage</span>(<span class="command">number</span> <span class="variable">x</span>, <span class="command">number</span> <span class="variable">y</span>, <span class="command">string</span> <span class="variable">filename</span>)</span></pre>
+            </div>
 
         <div>
             <a id="modules-light"></a>

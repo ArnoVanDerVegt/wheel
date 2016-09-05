@@ -114,7 +114,7 @@
                         for (var i = 0; i < parts.length; i++) {
                             var part = parts[i];
                             if (part in node.children) {
-                                node                 = node.children[part];
+                                node = node.children[part];
                             } else {
                                 var newNode = {
                                         children: [],
@@ -254,7 +254,7 @@
                     props: {
                         className: 'files',
                         style: {
-                            width: this.state.width + 'px'
+                            width: (this.state.width - 16) + 'px'
                         }
                     },
                     children: [
@@ -263,10 +263,10 @@
                             type: ResizeComponent,
                             props: {
                                 editor:         this.props.editor,
-                                owner:             this,
-                                className:         'resizer',
-                                onMouseDown:     this.onStartResize,
-                                onMouseUp:         this.onEndResize
+                                owner:          this,
+                                className:      'resizer',
+                                onMouseDown:    this.onStartResize,
+                                onMouseUp:      this.onEndResize
                             }
                         }
                     ]

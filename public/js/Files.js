@@ -2,8 +2,8 @@
     var File = Class(function() {
             this.init = function(opts) {
                 this._dir       = opts.dir;
-                this._local     = opts.local;
                 this._files     = opts.files;
+                this._local     = ('local' in opts) ? opts.local : this._files.getLocal();
                 this._name      = opts.name || this._files.createNewName('File');
                 this._canRename = ('canRename' in opts) ? opts.canRename : true;
                 this._data      = opts.data || '';
@@ -140,7 +140,6 @@
                     return;
                 }
                 this._changed = false;
-console.log('---', this._local);
                 if (this._local) {
                     // Running a node server...
                     ajaxUtils.send(
@@ -156,7 +155,6 @@ console.log('---', this._local);
                         }
                     );
                 } else {
-                    console.log('save!!!');
                     // Not running a node server, store in local storage...
                     var localStorage = LocalStorage.getInstance();
                     var files        = localStorage.get('files', {});
@@ -174,7 +172,7 @@ console.log('---', this._local);
             this.init = function(opts) {
                 supr(this, 'init', arguments);
 
-                this._local             = false;//(document.location.href.indexOf('github') === -1);
+                this._local             = (document.location.href.indexOf('github') === -1);
                 this._savedLocalStorage = false;
                 this._files             = [];
 
@@ -259,6 +257,10 @@ console.log('---', this._local);
                 }
 
                 return name;
+            };
+
+            this.getLocal = function() {
+                return this._local;
             };
 
             this.getFile = function(index) {
