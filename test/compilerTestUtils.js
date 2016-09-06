@@ -1,7 +1,3 @@
-var assert = require('assert');
-
-var wheel = require('../public/js/utils/base.js').wheel;
-
 require('../public/js/compiler/PreProcessor.js');
 require('../public/js/compiler/commands/CommandCompiler.js');
 require('../public/js/compiler/commands/StringDeclaration.js');
@@ -39,27 +35,27 @@ require('../public/js/vm/modules/MathModule.js');
 require('../public/js/vm/modules/LightModule.js');
 require('../public/js/vm/modules/ButtonsModule.js');
 
-var compiler = new wheel.compiler.Compiler({});
-var motors   = new wheel.vm.Motors({});
-var sensors  = new wheel.vm.Sensors({});
-var vm       = new wheel.vm.VM({motors: motors, sensors: sensors});
+var wheel = require('../public/js/utils/base.js').wheel;
 
-describe(
-    'Conditions',
-    function() {
-        describe(
-            'Conditions',
-            function () {
-                it('Check something', function() {
-                    console.log('here...');
-                    /*assert.throws(
-                        function() {
-                            second.insert({firstId: 10});
-                        },
-                        Error
-                    );*/
-                });
-            }
-        );
-    }
-);
+exports.setup = function() {
+    var compiler = new wheel.compiler.Compiler({});
+    var motors   = new wheel.vm.Motors({});
+    var sensors  = new wheel.vm.Sensors({});
+    var vm       = new wheel.vm.VM({motors: motors, sensors: sensors});
+
+    return {
+        compiler: compiler,
+        motors:   motors,
+        sensors:  sensors,
+        vm:       vm
+    };
+};
+
+exports.createIncludes = function(lines) {
+    return [
+        {
+            filename: 'test',
+            lines:    lines
+        }
+    ];
+};

@@ -12,7 +12,7 @@
     wheel(
         'compiler.commands.NumberDeclaration',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, params) {
+            this.compile = function(validatedCommand, params, origParams, location) {
                 var compiler       = this._compiler;
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;

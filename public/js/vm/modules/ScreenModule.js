@@ -49,14 +49,9 @@
 
 					case 7: // SCREEN_DRAW_IMAGE
 						var drawImageRecord = vmData.getRecordFromAtOffset(['x', 'y', 'filename']);
-						console.log(drawImageRecord);
 						var filename 		= vmData.getStringList()[drawImageRecord.filename];
-						console.log('filename', filename);
 						var resource 		= this._resources[filename];
-						console.log(resource);
-						if (resource) {
-							ev3Screen.drawImage(drawImageRecord.x, drawImageRecord.y, resource, 0);
-						}
+						resource && ev3Screen.drawImage(drawImageRecord.x, drawImageRecord.y, resource, 0);
 						break;
 
 					default:

@@ -17,7 +17,6 @@
 			},
 
 			parseNumberArray: function(value, compiler) {
-				console.log(value);
 				var value = value.trim();
 				if (value.length && (value[0] === '[') && (value[value.length - 1] !== ']')) {
 					throw compiler.createError('Syntax error.');

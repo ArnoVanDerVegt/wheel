@@ -114,8 +114,6 @@
                             line += paramToString(command, command.params[1]);
                         }
                     }
-
-                    console.log(line);
                 }
             };
 

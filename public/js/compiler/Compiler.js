@@ -147,7 +147,6 @@
                 }
 
                 for (var i = 0; i < params.length; i++) {
-                    //console.log(i, params[i]);
                     params[i] = this._compilerData.paramInfo(params[i]);
                 }
                 return this.createCommand(command, params);
@@ -219,7 +218,7 @@
 
                             default:
                                 if (command in compilerByCommand) {
-                                    compilerByCommand[command].compile(validatedCommand, splitParams, params);
+                                    compilerByCommand[command].compile(validatedCommand, splitParams, params, location);
                                 } else if (validatedCommand === false) {
                                     var struct = compilerData.findStruct(command);
                                     if (struct === null) {
