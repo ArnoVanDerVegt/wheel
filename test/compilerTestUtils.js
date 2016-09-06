@@ -37,7 +37,7 @@ require('../public/js/vm/modules/ButtonsModule.js');
 
 var wheel = require('../public/js/utils/base.js').wheel;
 
-exports.setup = function() {
+var setup = function() {
     var compiler = new wheel.compiler.Compiler({});
     var motors   = new wheel.vm.Motors({});
     var sensors  = new wheel.vm.Sensors({});
@@ -50,12 +50,34 @@ exports.setup = function() {
         vm:       vm
     };
 };
+exports.setup = setup;
 
-exports.createIncludes = function(lines) {
+var createIncludes = function(lines) {
     return [
         {
             filename: 'test',
             lines:    lines
         }
     ];
+};
+exports.createIncludes = createIncludes;
+
+exports.compileAndRun = function(lines) {
+    var testData       = setup();
+    var compiler       = testData.compiler;
+    var vm             = testData.vm;
+    var includes       = createIncludes(lines);
+    var outputCommands = compiler.compile(includes);
+    var compilerData   = compiler.getCompilerData();
+    var vmData         = vm.getVMData();
+
+    vm.runAll(
+        outputCommands,
+        compilerData.getStringList(),
+        compilerData.getGlobalConstants(),
+        compilerData.getGlobalOffset(),
+        null
+    );
+
+    return {testData: testData, outputCommands: outputCommands};
 };

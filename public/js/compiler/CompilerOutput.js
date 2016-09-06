@@ -90,6 +90,7 @@
                     }.bind(this);
                 var buffer = this._buffer;
 
+                var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
                     var line    = leadingZero(i);
@@ -114,7 +115,9 @@
                             line += paramToString(command, command.params[1]);
                         }
                     }
+                    lines.push(line);
                 }
+                return lines;
             };
 
             this.optimizeTypes = function() {
@@ -145,6 +148,13 @@
                             //    break;
                         }
                     }
+                }
+            };
+
+            this.logLines = function() {
+                var lines = this.getLines();
+                for (var i = 0; i < lines.length; i++) {
+                    console.log('            ' + lines[i]);
                 }
             };
         })

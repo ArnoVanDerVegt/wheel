@@ -136,7 +136,7 @@
                 var vmData   = this._vmData;
                 var commands = this._commands;
                 var count    = 0;
-                while ((vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) < commands.length) && (count < 100)) {
+                while ((vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) < commands.length - 1) && (count < 100)) {
                     this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE)]);
                     vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) + 1);
                     count++;
@@ -164,6 +164,31 @@
 
                 vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
                 this._runInterval = setInterval(this.onInterval.bind(this), 20);
+            };
+
+            this.runAll = function(commands, stringList, globalConstants, stackOffset, resources) {
+                this.stop();
+
+                var modules = this._modules;
+                for (var i = 0; i < modules.length; i++) {
+                    modules[i].setResources(resources);
+                }
+
+                var vmData = this._vmData;
+
+                this._motors.reset();
+                vmData.reset(stackOffset);
+                vmData.setStringList(stringList);
+                vmData.setGlobalConstants(globalConstants, stackOffset);
+                this._commands = commands.getBuffer();
+
+                vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
+
+                // Return pointers...
+                vmData.setGlobalNumber(stackOffset + 1, 65535);       // Code execution position...
+                vmData.setGlobalNumber(stackOffset,     stackOffset); // Stack offset
+
+                this.onInterval();
             };
 
             this.stop = function() {

@@ -22,12 +22,6 @@ describe(
                         Error
                     );
                 });
-            }
-        );
-
-        describe(
-            'Main proc',
-            function () {
                 it('Should not throw anything', function() {
                     var testData = compilerTestUtils.setup();
                     var includes = compilerTestUtils.createIncludes([
@@ -35,7 +29,13 @@ describe(
                             'endp'
                         ]);
 
-                    testData.compiler.compile(includes);
+                    assert.doesNotThrow(
+                        function() {
+                            var compiler = testData.compiler;
+                            compiler.compile(includes);
+                        },
+                        Error
+                    );
                 });
             }
         );

@@ -13,6 +13,13 @@
                 }
             };
 
+            this.reset = function(count) {
+                var data = this._data;
+                for (var i = 0; i < count; i++) {
+                    data[i] = 0;
+                }
+            };
+
             this.getData = function() {
                 return this._data;
             };
@@ -37,6 +44,7 @@
             /* Local */
             this.setLocalNumber = function(offset, value) {
                 var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
+                //console.log('set local', offsetStack + offset, value);
                 this._data[offsetStack + offset] = value;
             };
 
@@ -55,7 +63,7 @@
                         globalData[offset + j] = data[j];
                     }
                 }
-                this._data[wheel.compiler.command.REG_OFFSET_STACK] = stackOffset;
+                globalData[wheel.compiler.command.REG_OFFSET_STACK] = stackOffset;
             };
 
             this.getDataAtRegOffset = function(count) {
@@ -85,6 +93,7 @@
 
             this.setNumberAtRegOffset = function(value) {
                 var data = this._data;
+                console.log('set number', wheel.compiler.command.REG_OFFSET_SRC, data[wheel.compiler.command.REG_OFFSET_SRC], value);
                 data[data[wheel.compiler.command.REG_OFFSET_SRC]] = value;
             };
         })
