@@ -185,8 +185,8 @@
                 vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
 
                 // Return pointers...
-                vmData.setGlobalNumber(stackOffset + 1, 65535);       // Code execution position...
                 vmData.setGlobalNumber(stackOffset,     stackOffset); // Stack offset
+                vmData.setGlobalNumber(stackOffset + 1, 65535);       // Code execution position...
 
                 this.onInterval();
             };

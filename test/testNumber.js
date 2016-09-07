@@ -25,6 +25,7 @@ describe(
                         Error
                     );
                 });
+
                 it('Global offset should be 7 (registers+1)', function() {
                     var testData = compilerTestUtils.setup();
                     var compiler = testData.compiler;
@@ -37,6 +38,7 @@ describe(
                     compiler.compile(includes);
                     assert.equal(compiler.getCompilerData().getGlobalOffset(), 7);
                 });
+
                 it('Global offset should be 8 (registers+2)', function() {
                     var testData = compilerTestUtils.setup();
                     var compiler = testData.compiler;
@@ -52,6 +54,7 @@ describe(
                     var compilerData   = compiler.getCompilerData();
                     assert.equal(compilerData.getGlobalOffset(), 8);
                 });
+
                 it('Should set memory', function() {
                     var testData = compilerTestUtils.setup();
                     var compiler = testData.compiler;
@@ -75,6 +78,7 @@ describe(
                         null
                     );
                 });
+
                 it('Should set memory values', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a',
@@ -85,52 +89,20 @@ describe(
                             'endp'
                         ]).testData;
 
-                    /**
-                     * offset | value | description
-                     * -------+-------+------------------------------
-                     *      0 |     7 | REG_OFFSET_STACK
-                     *      1 |     0 | REG_OFFSET_SRC
-                     *      2 | 65535 | REG_OFFSET_DEST
-                     *      3 |     4 | REG_OFFSET_CODE
-                     *      4 |     0 | REG_RETURN
-                     *      5 |     0 | REG_FLAGS
-                     *      6 |    71 | number a - start of globals
-                     *      7 |     7 | number b - local
-                     *      8 | 65535 | return execution offset
-                     *      9 |     2 | return stack pointer
-                    **/
                     assert.deepStrictEqual(
                         testData.vm.getVMData().getData(),
-                        [7, 0, 65535, 4, 0, 0, 71, 7, 65535, 2]
-                    );
-                });
-                it('Should set memory', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number a',
-                            'proc main()',
-                            '    set a, 71',
-                            '    number b',
-                            '    set b, 2',
-                            'endp'
-                        ]).testData;
-
-                    /**
-                     * offset | value | description
-                     * -------+-------+------------------------------
-                     *      0 |     7 | REG_OFFSET_STACK
-                     *      1 |     0 | REG_OFFSET_SRC
-                     *      2 | 65535 | REG_OFFSET_DEST
-                     *      3 |     4 | REG_OFFSET_CODE
-                     *      4 |     0 | REG_RETURN
-                     *      5 |     0 | REG_FLAGS
-                     *      6 |    71 | number a - start of globals
-                     *      7 |     7 | number b - local
-                     *      8 | 65535 | return execution offset
-                     *      9 |     2 | return stack pointer
-                    **/
-                    assert.deepStrictEqual(
-                        testData.vm.getVMData().getData(),
-                        [7, 0, 65535, 4, 0, 0, 71, 7, 65535, 2]
+                        [
+                            7,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            65535,  // REG_OFFSET_DEST
+                            4,      // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            71,     // number a - start of globals
+                            7,      // stack pointer
+                            65535,  // return code offset
+                            2       // number b - local
+                        ]
                     );
                 });
             }

@@ -22,6 +22,7 @@ describe(
                         Error
                     );
                 });
+
                 it('Should not throw anything', function() {
                     var testData = compilerTestUtils.setup();
                     var includes = compilerTestUtils.createIncludes([
