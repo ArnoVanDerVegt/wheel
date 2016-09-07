@@ -70,6 +70,7 @@
                         (v1 <= v2) && (flags |= wheel.compiler.command.FLAG_LESS_EQUAL);
                         (v1 >  v2) && (flags |= wheel.compiler.command.FLAG_GREATER);
                         (v1 >= v2) && (flags |= wheel.compiler.command.FLAG_GREATER_EQUAL);
+
                         data[wheel.compiler.command.REG_FLAGS] = flags;
                         break;
 

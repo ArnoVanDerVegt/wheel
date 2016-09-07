@@ -7,7 +7,7 @@ describe(
     'Test operator',
     function() {
         describe(
-            'Test operators - numbers',
+            'Test operators',
             function () {
                 var operators = ['set', 'add', 'sub', 'mul', 'div'];
                 for (var i = 0; i < operators.length; i++) {

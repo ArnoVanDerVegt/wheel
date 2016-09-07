@@ -55,7 +55,7 @@ describe(
                     assert.equal(compilerData.getGlobalOffset(), 8);
                 });
 
-                it('Should set memory', function() {
+                it('Should set global memory', function() {
                     var testData = compilerTestUtils.setup();
                     var compiler = testData.compiler;
                     var vm       = testData.vm;
@@ -79,7 +79,7 @@ describe(
                     );
                 });
 
-                it('Should set memory values', function() {
+                it('Should set memory global and local', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a',
                             'proc main()',
