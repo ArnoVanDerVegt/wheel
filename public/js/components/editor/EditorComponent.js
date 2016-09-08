@@ -133,6 +133,8 @@
                                             vm.getModule(2).setMotors(this.props.motors);                         // Motors module
                                             vm.getModule(6).setEV3Buttons(refs.output.refs.buttons);              // Buttons module
 
+                                            outputCommands.logLines();
+
                                             vm.run(
                                                 outputCommands,
                                                 compilerData.getStringList(),

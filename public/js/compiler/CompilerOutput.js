@@ -135,17 +135,19 @@
                                 params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL;
                                 break;
 
-                            //case wheel.compiler.command.T_PROC_GLOBAL_ARRAY:
+                            case wheel.compiler.command.T_PROC_GLOBAL_ARRAY:
+                                console.error(params);
                             //    params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY;
-                            //    break;
+                                break;
 
                             case wheel.compiler.command.T_PROC_LOCAL:
                                 params[j].type = wheel.compiler.command.T_NUMBER_LOCAL;
                                 break;
 
-                            //case wheel.compiler.command.T_PROC_LOCAL_ARRAY:
+                            case wheel.compiler.command.T_PROC_LOCAL_ARRAY:
+                                console.error(params);
                             //    params[j].type = wheel.compiler.command.T_NUMBER_LOCAL_ARRAY;
-                            //    break;
+                                break;
                         }
                     }
                 }

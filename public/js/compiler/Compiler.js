@@ -158,8 +158,8 @@
                 var output            = this._output;
                 var command;
 
-                this._procStartIndex     = -1;
-                this._activeStruct         = null;
+                this._procStartIndex = -1;
+                this._activeStruct   = null;
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i].trim();
                     if (line === '') {
@@ -168,7 +168,7 @@
 
                     this._lineNumber = i;
                     var location = {
-                            filename:     this._filename,
+                            filename:   this._filename,
                             lineNumber: i
                         };
 
@@ -193,7 +193,6 @@
                         }
                         var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
                         var validatedCommand = this.validateCommand(command, splitParams);
-
                         validatedCommand && (validatedCommand.command = command);
                         switch (command) {
                             case 'endp':

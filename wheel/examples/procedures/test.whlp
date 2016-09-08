@@ -1,0 +1,19 @@
+proc printN(number n)
+    struct PrintNumber
+        number n
+    ends
+    PrintNumber printNumber
+    set      printNumber.n,n
+    addr     printNumber
+    module   0,0
+endp
+
+proc test()
+    printN(12)
+endp
+
+proc main()
+   proc ptr
+   set ptr, test
+   ptr()
+endp

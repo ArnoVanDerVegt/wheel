@@ -454,7 +454,7 @@
                         } else {
                             var procedure = this.findProcedure(param);
                             if (procedure !== null) {
-                                offset = procedure.index;
+                                offset = procedure.index - 1; // Offset of procedure?
                                 type   = wheel.compiler.command.T_PROC;
                                 vr     = procedure;
                             } else {

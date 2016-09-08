@@ -49,7 +49,7 @@
                 return procStartIndex;
             };
 
-            this.compile = function(validatedCommand, splitParams, params) {
+            this.compile = function(validatedCommand, splitParams, params, location) {
                 var compiler     = this._compiler;
                 var compilerData = this._compilerData;
                 var j            = params.indexOf('(');

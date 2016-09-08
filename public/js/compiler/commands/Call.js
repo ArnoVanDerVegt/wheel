@@ -366,7 +366,14 @@
                             throw compiler.createError('Type error, can not call "' + procedure + '".');
                         }
 
-                        console.warn('Check global proc offset!');
+                        // Move the code offset above the stack into the stack of the new procedure...
+                        compilerOutput.add(compiler.createCommand(
+                            'set',
+                            [
+                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset + currentLocalStackSize},
+                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset}
+                            ]
+                        ));
                         callCommand = {
                             command: 'set',
                             code:    wheel.compiler.command.set.code,
@@ -382,7 +389,6 @@
                                 throw compiler.createError('Type error, can not call "' + procedure + '".');
                             }
 
-                            console.warn('Check global proc offset!');
                             callCommand = {
                                 command: 'set',
                                 code:    wheel.compiler.command.set.code,
@@ -399,7 +405,7 @@
 
                 this.compileParams(line.substr(i + 1, line.length - i - 2).trim(), currentLocalStackSize);
 
-
+                // Move the code offset to the dest register...
                 compilerOutput.add(compiler.createCommand(
                     'set',
                     [
@@ -407,6 +413,7 @@
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE}
                     ]
                 ));
+                // Add 6, these are the call setup commands... (including this one!)
                 compilerOutput.add(compiler.createCommand(
                     'add',
                     [
@@ -435,6 +442,7 @@
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
                     ]
                 ));
+                // Move the dest register value to the stack, this is the return code offset!
                 compilerOutput.add(compiler.createCommand(
                     'set',
                     [
