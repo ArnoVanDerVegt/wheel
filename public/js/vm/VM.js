@@ -200,6 +200,7 @@
             };
 
             this.getModule = function(index) {
+                //console.log('get', this._modules);
                 return this._modules[index];
             };
 

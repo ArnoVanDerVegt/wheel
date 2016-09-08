@@ -42,12 +42,22 @@ var setup = function() {
     var motors   = new wheel.vm.Motors({});
     var sensors  = new wheel.vm.Sensors({});
     var vm       = new wheel.vm.VM({motors: motors, sensors: sensors});
+    var messages = [];
+
+    vm.on(
+        'Log',
+        this,
+        function(message) {
+            messages.push(message);
+        }
+    );
 
     return {
         compiler: compiler,
         motors:   motors,
         sensors:  sensors,
-        vm:       vm
+        vm:       vm,
+        messages: messages
     };
 };
 exports.setup = setup;
