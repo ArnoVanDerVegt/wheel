@@ -8,14 +8,13 @@
         'compiler.commands.Set',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(validatedCommand) {
-                var compiler         = this._compiler;
-                var compilerData     = this._compilerData;
-                var compilerOutput   = compiler.getOutput();
-                var param1           = validatedCommand.params[0];
-                var param2           = validatedCommand.params[1];
-                var regDestSet       = false;
-                var regDestUpdate    = false;
-                var regStackSaved    = false;
+                var compiler       = this._compiler;
+                var compilerData   = this._compilerData;
+                var compilerOutput = compiler.getOutput();
+                var param1         = validatedCommand.params[0];
+                var param2         = validatedCommand.params[1];
+                var regDestSet     = false;
+                var regStackSaved  = false;
 
                 if (param1.vr && (param1.vr.metaType === wheel.compiler.command.T_META_STRING)) {
                     if (param2.metaType === wheel.compiler.command.T_META_STRING) {
@@ -54,7 +53,16 @@
                             ]
                         });
                     }
-                    regDestUpdate = true;
+                    if (param1.vr && (param1.vr.metaType === wheel.compiler.command.T_META_POINTER)) {
+                        if (wheel.compiler.command.typeToLocation(param1.type) === 'local') {
+                            param1.type = wheel.compiler.command.T_NUMBER_LOCAL;
+                        } else {
+                            param1.type = wheel.compiler.command.T_NUMBER_GLOBAL;
+                        }
+                    }
+
+                    param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
+                    param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                 } else if (param2.metaType === wheel.compiler.command.T_META_POINTER) {
                     compilerOutput.add({
                         code: wheel.compiler.command.set.code,
@@ -159,10 +167,6 @@
                         ]
                     });
                 } else {
-                    if (regDestUpdate) {
-                        param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
-                        param2.value = wheel.compiler.command.REG_OFFSET_DEST;
-                    }
                     compilerOutput.add(validatedCommand);
                 }
             };

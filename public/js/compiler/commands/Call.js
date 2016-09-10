@@ -302,6 +302,13 @@
                         var destParam;
                         var vr           = paramInfo.vr;
                         var size         = vr ? (vr.size * vr.length) : 1;
+
+                        // If the var is declared as a pointer and passed as *varname...
+                        if ((vr && vr.struct && (vr.metaType === wheel.compiler.command.T_META_POINTER)) &&
+                            (paramInfo.metaType === wheel.compiler.command.T_META_POINTER)) {
+                            size = vr.struct.size;
+                        }
+
                         switch (paramInfo.type) {
                             case wheel.compiler.command.T_NUMBER_CONSTANT:
                                 this.compileConstantParameter(param, paramInfo, offset);

@@ -119,11 +119,25 @@
                     }.bind(this);
                 var buffer = this._buffer;
 
+                var cmd = [
+                        'copy',
+                        'jmpc',
+                        'cmp',
+                        'module',
+                        'set',
+                        'add',
+                        'sub',
+                        'mul',
+                        'div',
+                        'mod',
+                        'and',
+                        'or',
+                        'xor'
+                    ];
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var cmd     = '???';
-                    var line    = leadingZero(i) + '  ' + cmd;
+                    var line    = leadingZero(i) + '  ' + (cmd[command.code] || command.code);
 
                     while (line.length < 13) {
                         line += ' ';

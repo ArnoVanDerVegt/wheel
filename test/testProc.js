@@ -255,6 +255,33 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [678, 534]);
                 });
+
+                it('Should call a procedure with a dereferenced pointer struct parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x, y, z',
+                            'ends',
+                            '',
+                            'Point point',
+                            '',
+                            'proc printPoint(Point pt)',
+                            '    printN(pt.x)',
+                            '    printN(pt.y)',
+                            '    printN(pt.z)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    set point.x, -5',
+                            '    set point.y, 9',
+                            '    set point.z, -3',
+                            '    Point *p',
+                            '    set p, &point',
+                            '    printPoint(*p)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [-5, 9, -3]);
+                });
             }
         );
     }
