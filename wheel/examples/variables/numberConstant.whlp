@@ -3,24 +3,28 @@
 #include "/lib/standard.whl"
 
 number   g = 11                             ; Global variable
-number   ga[4] = [89, 1, 498, 33]
+number   globalArray[4] = [89, 1, 498, 33]
 
 proc main()
     number   l = 7
     printN(g)
     printN(l)
-    number la[3] = [99, 100, 101];
+    number localArray[3] = [99, 100, 101];
 
     number   counter = 3
 logLoop1:
     number   value
-    arrayr   value,                  ga, counter
+    arrayr   value,                  globalArray, counter
     printN(value)
-    loop     counter,                logLoop1
+    sub      counter,                1
+    cmp      counter,                0
+    jge      logLoop1
 
     set counter, 2
 logLoop2:
-    arrayr   value,                  la, counter
+    arrayr   value,                  localArray, counter
     printN(value)
-    loop     counter,                logLoop2;9
+    sub      counter,                1
+    cmp      counter,                0
+    jge      logLoop2
 endp

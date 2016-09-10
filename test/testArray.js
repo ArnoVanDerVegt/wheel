@@ -3,6 +3,27 @@ var assert = require('assert');
 var wheel             = require('../public/js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
+var standardLines = [
+        'proc printN(number n)',
+        '    struct PrintNumber',
+        '        number n',
+        '    ends',
+        '    PrintNumber printNumber',
+        '    set      printNumber.n,n',
+        '    addr     printNumber',
+        '    module   0,0',
+        'endp',
+        'proc printS(string s)',
+        '    struct PrintString',
+        '        string s',
+        '    ends',
+        '    PrintString printString',
+        '    set      printString.s,s',
+        '    addr     printString',
+        '    module   0,1',
+        'endp'
+    ];
+
 describe(
     'Test array',
     function() {
@@ -170,6 +191,113 @@ describe(
                             36      // param [2]
                         ]
                     );
+                });
+            }
+        );
+        describe(
+            'Write and read arrays',
+            function () {
+                it('Should write and read 5 numbers', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Item',
+                            '    number list[5]',
+                            'ends',
+                            '',
+                            'Item item',
+                            '',
+                            'proc main()',
+                            '    number   value',
+                            '',
+                            '    number   counter = 0',
+                            'writeLoop:',
+                            '    set      value, counter',
+                            '    mul      value, 2',
+                            '    arrayw   item.list, counter, value',
+                            '    inc      counter',
+                            '    cmp      counter, 5',
+                            '    jl       writeLoop',
+                            '    set      counter, 0',
+                            'readLoop:',
+                            '    arrayr   value, item.list, counter',
+                            '    printN(value)',
+                            '    inc      counter',
+                            '    cmp      counter, 5',
+                            '    jl       readLoop',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, 8]);
+                });
+
+                it('Should write and read 5 numbers', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x, y, z',
+                            'ends',
+                            '',
+                            'Point srcPoint',
+                            'Point points[3]',
+                            'Point destPoint',
+                            '',
+                            'proc main()',
+                            '    set srcPoint.x, 4',
+                            '    set srcPoint.y, 7',
+                            '    set srcPoint.z, -10',
+                            '    arrayw points, 1, srcPoint',
+                            '',
+                            '    arrayr destPoint, points, 1',
+                            '    printN(destPoint.x)',
+                            '    printN(destPoint.y)',
+                            '    printN(destPoint.z)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [4, 7, -10]);
+                });
+
+                it('Should declare and print local constant array', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'proc main()',
+                            '    number l = 7',
+                            '    printN(l)',
+                            '    number localArray[3] = [99, 100, 101]',
+                            '',
+                            '    number counter',
+                            '    number value',
+                            '    set counter, 2',
+                            'loop:',
+                            '    arrayr   value, localArray, counter',
+                            '    printN(value)',
+                            '    sub      counter, 1',
+                            '    cmp      counter, 0',
+                            '    jge      loop',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [7, 101, 100, 99]);
+                });
+
+                it('Should declare and print global constant array', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'number g = 437',
+                            'number globalArray[4] = [457, 345, 72, 348]',
+                            '',
+                            'proc main()',
+                            '    printN(g)',
+                            '',
+                            '    number counter',
+                            '    number value',
+                            '    set counter, 3',
+                            'loop:',
+                            '    arrayr   value, globalArray, counter',
+                            '    printN(value)',
+                            '    sub      counter, 1',
+                            '    cmp      counter, 0',
+                            '    jge      loop',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [437, 348, 72, 345, 457]);
                 });
             }
         );
