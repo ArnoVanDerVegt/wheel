@@ -203,7 +203,7 @@
 
                 var vr        = this._parseVariable(name);
                 var localList = this._localList;
-                var size      = struct ? struct.size : 1;
+                var size      = (metaType === wheel.compiler.command.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
 
                 if (vr.name in localList) {
                     throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
@@ -224,9 +224,10 @@
                 localList[vr.name] = local;
 
                 if (metaType === wheel.compiler.command.T_META_POINTER) {
-                    size = 1; // Only use 1 number for a pointer, the struct size might differ...
+                    this._localOffset += 1; // Only use 1 number for a pointer, the struct size might differ...
+                } else {
+                    this._localOffset += vr.length * size;
                 }
-                this._localOffset += vr.length * size;
 
                 return local;
             };

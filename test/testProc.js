@@ -197,6 +197,35 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, ['Point:', 3975, 296, 7013]);
                 });
+
+                it('Should call a procedure with a pointer to array parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point pp[10]',
+                            '',
+                            'proc testPointer(Point *points[0])',
+                            '    Point point',
+                            '    arrayr point, *points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point p',
+                            '    set p.x, 32342',
+                            '    set p.y, 6757',
+                            '    arrayw   pp, 1, p',
+                            '',
+                            '    testPointer(&pp)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [32342, 6757]);
+                });
             }
         );
     }

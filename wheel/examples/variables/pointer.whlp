@@ -1,7 +1,6 @@
 #project "Number demo"
     
 #include "/lib/standard.whl"
-#include "/lib/motors.whl"
         
 struct Point
     number   x
@@ -11,24 +10,23 @@ ends
 Point    points[10]
     
 proc testPointer(Point *points[0])
-	;Point point
-    ;arrayr point, *points, 1
-    ;printN(point.y)
-    return 10
+	Point point
+    arrayr point, *points, 1
+    printN(point.x)
+    printN(point.y)
+    ;return 10
 endp
     
 proc main()
-	;Point p
-    ;set p.x, 10
-    ;set p.y, 11
-    ;arrayw   points,              1, p
+	Point p
+    set p.x, 10
+    set p.y, 11
+    arrayw   points,              1, p
     
-    number n
-    
-    set n, testPointer(&points)
-	;testPointer(&points)
-    ;motorMoveTo(1, 4000, 10)
-    printN(n)
-;loop:
+    ;number n
+    ;set n, testPointer(&points)
+	testPointer(&points)
+    ;printN(n)
+; loop:
 ;	jmp loop
 endp
