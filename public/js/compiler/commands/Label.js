@@ -35,8 +35,7 @@
                             outputCommands[jump].params[0].value = label.index;
                         } else {
                             outputCommands[jump] = {
-                                command: 'set',
-                                code:    wheel.compiler.command.set.code,
+                                code: wheel.compiler.command.set.code,
                                 params: [
                                     {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
                                     {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: label.index}

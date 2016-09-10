@@ -95,8 +95,8 @@
 
                 if (params.length) {
                     for (var i = 0; i < params.length; i++) {
-                        var param = params[i],
-                            found = false;
+                        var param = params[i];
+                        var found = false;
 
                         for (var j = 0; j < args.length; j++) {
                             var argsType     = args[j].type;
@@ -130,9 +130,8 @@
                         }
                     }
                     return {
-                        command:    command,
-                        code:       code,
-                        params:     params,
+                        code:   code,
+                        params: params,
                         location: {
                             filename:   this._filename,
                             lineNumber: this._lineNumber

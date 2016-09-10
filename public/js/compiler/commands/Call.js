@@ -353,8 +353,7 @@
 
                 if (p !== null) {
                     callCommand = {
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index - 1}
@@ -376,8 +375,7 @@
                             ]
                         ));
                         callCommand = {
-                            command: 'set',
-                            code:    wheel.compiler.command.set.code,
+                            code: wheel.compiler.command.set.code,
                             params: [
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
                                 {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset}
@@ -392,8 +390,7 @@
                             }
 
                             callCommand = {
-                                command: 'set',
-                                code:    wheel.compiler.command.set.code,
+                                code: wheel.compiler.command.set.code,
                                 params: [
                                     {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
                                     {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: global.offset}

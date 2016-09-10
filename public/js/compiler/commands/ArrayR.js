@@ -20,8 +20,7 @@
                 // De-reference the pointer, let REG_OFFSET_SRC point to the value...
                 if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
                     compilerOutput.add({
-                        command:  'set',
-                        code:     wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                             {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: arrayParam.value}
@@ -29,32 +28,28 @@
                     });
                 } else {
                     compilerOutput.add({
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
                         ]
                     });
                     compilerOutput.add({
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.value}
                         ]
                     });
                     compilerOutput.add({
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                             {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0}
                         ]
                     });
                     compilerOutput.add({
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
@@ -64,8 +59,7 @@
 
                 // The third parameter contains the index...
                 compilerOutput.add({
-                    command: 'set',
-                    code:    wheel.compiler.command.set.code,
+                    code: wheel.compiler.command.set.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
                         indexParam
@@ -74,8 +68,7 @@
 
                 // Check if the item size is greater than 1, if so multiply with the item size...
                 (size > 1) && compilerOutput.add({
-                    command:     'mul',
-                    code:         wheel.compiler.command.mul.code,
+                    code: wheel.compiler.command.mul.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
                         {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
@@ -86,8 +79,7 @@
                 if ((arrayParam.value !== 0) && (arrayParam.metaType !== wheel.compiler.command.T_META_POINTER)) {
                     // Add the offset of the source var to the REG_OFFSET_SRC register...
                     compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
+                        code: wheel.compiler.command.add.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.value}
@@ -98,8 +90,7 @@
 
                 // pointer...
                 compilerOutput.add({
-                    command: 'add',
-                    code:    wheel.compiler.command.add.code,
+                    code: wheel.compiler.command.add.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
@@ -114,8 +105,7 @@
 
                 // The third parameter contains the index...
                 compilerOutput.add({
-                    command: 'set',
-                    code:    wheel.compiler.command.set.code,
+                    code: wheel.compiler.command.set.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                         indexParam
@@ -123,8 +113,7 @@
                 });
                 // Check if the item size is greater than 1, if so multiply with the item size...
                 (size > 1) && compilerOutput.add({
-                    command: 'mul',
-                    code:     wheel.compiler.command.mul.code,
+                    code: wheel.compiler.command.mul.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
                         {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
@@ -133,8 +122,7 @@
                 if (arrayParam.value !== 0) {
                     // Add the offset of the source var to the REG_OFFSET_SRC register...
                     compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
+                        code: wheel.compiler.command.add.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.value}
@@ -143,8 +131,7 @@
                 }
                 if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
                     compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
+                        code: wheel.compiler.command.add.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
@@ -178,8 +165,7 @@
                     if (indexParam.type === wheel.compiler.command.T_NUMBER_CONSTANT) {
                         if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'global') {
                             compilerOutput.add({
-                                command: 'set',
-                                code:    wheel.compiler.command.set.code,
+                                code: wheel.compiler.command.set.code,
                                 params: [
                                     {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: valueParam.value},
                                     {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: arrayParam.value + indexParam.value}
@@ -200,8 +186,7 @@
 
                     // Set the offset of the destination value...
                     compilerOutput.add({
-                        command: 'set',
-                        code:    wheel.compiler.command.set.code,
+                        code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: valueParam.value}
@@ -209,8 +194,7 @@
                     });
                     if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {
                         compilerOutput.add({
-                            command: 'add',
-                            code:    wheel.compiler.command.add.code,
+                            code: wheel.compiler.command.add.code,
                             params: [
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
@@ -219,8 +203,7 @@
                     }
 
                     compilerOutput.add({
-                        command: 'copy',
-                        code:    wheel.compiler.command.copy.code,
+                        code: wheel.compiler.command.copy.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size},
                             {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 0}

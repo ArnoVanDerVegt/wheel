@@ -122,18 +122,18 @@
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var cmd     = command.command;
+                    var cmd     = '???';
                     var line    = leadingZero(i) + '  ' + cmd;
 
                     while (line.length < 13) {
                         line += ' ';
                     }
 
-                    if (wheel.compiler.command[cmd].code <= wheel.compiler.command.NO_PARAM_COMMANDS) {
+                    if (command.code <= wheel.compiler.command.NO_PARAM_COMMANDS) {
                         // No parameters...
                     } else {
                         line += paramToString(command, command.params[0]);
-                        if (wheel.compiler.command[cmd].code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
+                        if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
                             // Single parameter...
                         } else {
                             line += ',';
