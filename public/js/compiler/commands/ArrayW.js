@@ -136,7 +136,7 @@
                 });
                 compilerOutput.add({
                     command: 'set',
-                    code:    wheel.compiler.command.add.code,
+                    code:    wheel.compiler.command.set.code,
                     params: [
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
                         {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}

@@ -11,7 +11,10 @@
                     visible:     props.visible,
                     small:       props.small,
                     messages:    [],
-                    globals:     {}
+                    output:      [],
+                    viewMode:    'messages',
+                    runLines:    [],
+                    runCount:    0
                 }
             },
 
@@ -33,12 +36,6 @@
                 this.setState(state);
             },
 
-            setGlobals: function(globals) {
-                var state = this.state;
-                state.globals = globals;
-                this.setState(state);
-            },
-
             addLog: function(message) {
                 var state = this.state;
                 state.messages.push({
@@ -48,6 +45,24 @@
                 });
                 this.setState(state);
                 this.emitInfo();
+            },
+
+            addRunLine: function(index) {
+                var state = this.state;
+                if (state) {
+                    var runLines = state.runLines;
+                    state.runCount++;
+                    state.runLines[index] = state.runCount;
+                    this.setState(state);
+                }
+            },
+
+            setOutput: function(output) {
+                this.setState({
+                    runLines: [],
+                    runCount: 0,
+                    output:   output
+                });
             },
 
             addError: function(error) {
@@ -62,15 +77,11 @@
             },
 
             clearMessages: function() {
-                var state = this.state;
-                state.messages = [];
-                this.setState(state);
+                this.setState({messages: []});
             },
 
             onClose: function() {
-                var state = this.state;
-                state.visible = false;
-                this.setState(state);
+                this.setState({visible: false});
                 this.props.onClose && this.props.onClose();
             },
 
@@ -78,6 +89,14 @@
                 this.clearMessages();
                 this.props.onClearMessages && this.props.onClearMessages();
                 this.emitInfo();
+            },
+
+            onShowCode: function() {
+                this.setState({viewMode: 'code'});
+            },
+
+            onShowMessages: function() {
+                this.setState({viewMode: 'messages'});
             },
 
             show: function() {
@@ -109,13 +128,11 @@
                 this.props.editor.getEmitter().emit('MessagesInfo', {log: log, error: error});
             },
 
-            render: function() {
+            renderMessages: function() {
                 var state           = this.state;
                 var props           = this.props;
                 var messages        = state.messages;
                 var messageChildren = [];
-                var globals         = state.globals;
-                var globalsChildren = [];
 
                 for (var i = 0; i < messages.length; i++) {
                     (function(message) {
@@ -163,6 +180,68 @@
                     }).call(this, messages[i]);
                 }
 
+                return messageChildren;
+            },
+
+            renderCode: function() {
+                var state           = this.state;
+                var props           = this.props;
+                var output          = state.output;
+                var messageChildren = [];
+
+                for (var i = 0; i < output.length; i++) {
+                    var className = 'row code';
+                    var runLine   = state.runLines[i];
+                    var color     = '#000000';
+                    if (runLine !== undefined) {
+                        var grn = ~~(255 * runLine / state.runCount);
+                        var red = ~~(255 * (1 - runLine / state.runCount));
+                        color = '#' + ('000000' + ((red << 16) + (grn << 8)).toString(16)).substr(-6);
+                    }
+
+                    messageChildren.push({
+                        props: {
+                            className: className,
+                        },
+                        children: [
+                            {
+                                type: 'pre',
+                                props: {
+                                    className: 'message',
+                                },
+                                children: [
+                                    (runLine !== undefined) ?
+                                        {
+                                            type: 'span',
+                                            props: {
+                                                style: {
+                                                    backgroundColor: color
+                                                },
+                                                className: 'executed',
+                                                innerHTML: runLine
+                                            }
+                                        } :
+                                        null,
+                                    {
+                                        type: 'span',
+                                        props: {
+                                            className: 'output-code',
+                                            innerHTML: output[i]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
+
+                return messageChildren;
+            },
+
+            render: function() {
+                var state = this.state;
+                var props = this.props;
+
                 return utilsReact.fromJSON({
                     props: {
                         className: 'box-shadow console ' + (state.visible ? ' visible' : '') + (state.small ? ' small' : ' large'),
@@ -171,12 +250,23 @@
                         }
                     },
                     children: [
-                        {
-                            props: {
-                                className: 'messages'
-                            },
-                            children: messageChildren
-                        },
+                        (state.viewMode === 'messages') ?
+                            {
+                                props: {
+                                    className: 'messages'
+                                },
+                                children: this.renderMessages()
+                            } :
+                            null,
+
+                        (state.viewMode === 'code') ?
+                            {
+                                props: {
+                                    className: 'messages'
+                                },
+                                children: this.renderCode()
+                            } :
+                            null,
                         {
                             props: {
                                 className: 'control-panel'
@@ -187,6 +277,20 @@
                                         className: 'icon icon-close',
                                         onClick:   this.onClose,
                                         title:     'Close console'
+                                    }
+                                },
+                                {
+                                    props: {
+                                        className: 'icon icon-square-bracket',
+                                        onClick:    this.onShowCode,
+                                        title:     'Code'
+                                    }
+                                },
+                                {
+                                    props: {
+                                        className: 'icon icon-comment',
+                                        onClick:    this.onShowMessages,
+                                        title:     'Messages'
                                     }
                                 },
                                 {

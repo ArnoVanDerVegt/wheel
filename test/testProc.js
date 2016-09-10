@@ -150,7 +150,7 @@ describe(
                             '    number z',
                             'ends',
                             '',
-                            'Point point',
+                            'Point p',
                             '',
                             'proc printPoint(Point point)',
                             '    printS("Point:")',
@@ -160,14 +160,42 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set point.x, 1656',
-                            '    set point.y, 98',
-                            '    set point.z, 75',
-                            '    printPoint(point)',
+                            '    set p.x, 1656',
+                            '    set p.y, 98',
+                            '    set p.z, 75',
+                            '    printPoint(p)',
                             'endp'
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, ['Point:', 1656, 98, 75]);
+                });
+
+                it('Should call a procedure with an array parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'number p[3]',
+                            '',
+                            'proc printPoint(number point[3])',
+                            '    printS("Point:")',
+                            '',
+                            '    number n',
+                            '',
+                            '    arrayr n, point, 0',
+                            '    printN(n)',
+                            '    arrayr n, point, 1',
+                            '    printN(n)',
+                            '    arrayr n, point, 2',
+                            '    printN(n)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    arrayw  p, 0, 3975',
+                            '    arrayw  p, 1, 296',
+                            '    arrayw  p, 2, 7013',
+                            '    printPoint(p)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['Point:', 3975, 296, 7013]);
                 });
             }
         );

@@ -71,7 +71,8 @@
                                 break;
 
                             case wheel.compiler.command.T_NUMBER_LOCAL:
-                                result = '[[000' + wheel.compiler.command.REG_OFFSET_STACK + ']+' + leadingZero(param.value) + ']';
+                                result = '[[stack]+' + leadingZero(param.value) + ']';
+                                //result = '[[000' + wheel.compiler.command.REG_OFFSET_STACK + ']+' + leadingZero(param.value) + ']';
                                 break;
 
                             case wheel.compiler.command.T_NUMBER_GLOBAL:
@@ -121,11 +122,10 @@
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var line    = leadingZero(i);
+                    var cmd     = command.command;
+                    var line    = leadingZero(i) + '  ' + cmd;
 
-                    var cmd = command.command;
-                    line += ': ' + cmd;
-                    while (line.length < 14) {
+                    while (line.length < 13) {
                         line += ' ';
                     }
 
@@ -137,7 +137,7 @@
                             // Single parameter...
                         } else {
                             line += ',';
-                            while (line.length < 40) {
+                            while (line.length < 30) {
                                 line += ' ';
                             }
                             line += paramToString(command, command.params[1]);

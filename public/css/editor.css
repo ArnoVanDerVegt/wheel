@@ -503,7 +503,7 @@ input[type='text'] {
 #main .console .messages .row {
     float:                              left;
     width:                              100%;
-    padding:                            2px 16px 2px 8px;
+    /*padding:                            2px 16px 2px 8px;*/
     margin:                             0;
     font-family:                        monospace;
     font-size:                          13px;
@@ -513,16 +513,45 @@ input[type='text'] {
 #main .console .messages .row.error {
     position:                           relative;
     cursor:                             pointer;
-    border:                             1px dotted #00A6ED; /* LightSkyBlue */
-    border-width:                       0 0 1px 0;
+    padding-left:                       32px;
+    padding:                            4px 16px 2px 32px;
+}
+#main .console .messages .row.code {
+    position:                           relative;
+    cursor:                             pointer;
+}
+#main .console .messages pre.message {
+    float:                              left;
+    margin:                             0;
+    width:                              100%;
+    padding:                            2px 16px 2px 8px;
+}
+#main .console .messages pre.message:hover {
+    background-color:                   WhiteSmoke;
+}
+#main .console .messages pre.message span.output-code {
+    float:                              left;
+    font-family:                        'Courier New';
     padding-left:                       32px;
 }
+#main .console .messages pre.message span.executed {
+    float:                              right;
+    padding:                            1px 4px 1px 4px;
+    font-size:                          10px;
+    line-height:                        12px;
+    height:                             14px;
+    border-radius:                      7px;
+    color:                              White;
+    background-color:                   #7FB800; /* LimeGreen */
+}
+
 #main .console .messages .message,
 #main .console .messages .row .location {
     font-family:                        'Courier New';
     font-size:                          13px;
     color:                              #0D2C54; /* MidnightBlue */
 }
+#main .console .messages .row.code:before,
 #main .console .messages .row.error:before,
 #main .console .messages .row.log:before {
     position:                           absolute;
@@ -536,6 +565,7 @@ input[type='text'] {
 #main .console .messages .row.log:before {
     color:                              #7FB800; /* LimeGreen */
 }
+#main .console .messages .row.code .message,
 #main .console .messages .row.log .message,
 #main .console .messages .row.error .message {
     float:                              left;
@@ -886,6 +916,9 @@ input[type='text'] {
 }
 #main .console .control-panel .icon.icon-comment-help {
     margin-left:                        -8px;
+}
+#main .control-panel .icon.icon-square-bracket {
+    font-size:                          26px;
 }
 #main .control-panel .icon.icon-comment-close,
 #main .control-panel .icon.icon-comment-help {

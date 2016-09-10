@@ -350,6 +350,7 @@
                 var callCommand;
                 var p                     = compilerData.findProcedure(procedure);
                 var currentLocalStackSize = compilerData.getLocalOffset();
+
                 if (p !== null) {
                     callCommand = {
                         command: 'set',

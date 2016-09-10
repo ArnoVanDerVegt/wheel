@@ -22,6 +22,12 @@
                         });
                     }.bind(this)
                 );
+                this.props.vm.on(
+                    'RunLine',
+                    function(index) {
+                        this.refs.console.addRunLine(index);
+                    }.bind(this)
+                );
 
                 return {
                     small:           wheel.editorSettings.getUISetting('small'),
@@ -125,15 +131,15 @@
                                     outputCommands = null;
                                 }*/
                                 if (outputCommands !== null) {
+                                    //console.log('////', this.refs.console);
                                     var onResourcesLoaded = (function() {
                                             var compilerData = compiler.getCompilerData();
-                                            this.refs.console.setGlobals(compilerData.getGlobalList());
                                             vm.getModule(1).setEV3Screen(refs.output.refs.screen.getEV3Screen()); // Screen module
                                             vm.getModule(5).setEV3Buttons(refs.output.refs.buttons);              // Light module
                                             vm.getModule(2).setMotors(this.props.motors);                         // Motors module
                                             vm.getModule(6).setEV3Buttons(refs.output.refs.buttons);              // Buttons module
 
-                                            outputCommands.logLines();
+                                            this.refs.console.setOutput(outputCommands.getLines());
 
                                             vm.run(
                                                 outputCommands,

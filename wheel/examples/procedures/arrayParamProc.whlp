@@ -1,0 +1,25 @@
+#project "Array parameter demo"
+
+#include "/lib/standard.whl"
+
+number p[3]
+
+proc printPoint(number point[3])
+    printS("Point:")
+
+    number n
+
+    arrayr n, point, 0
+    printN(n)
+    arrayr n, point, 1
+    printN(n)
+    arrayr n, point, 2
+    printN(n)
+endp
+
+proc main()
+    arrayw  p, 0, 3975
+    arrayw  p, 1, 296
+    arrayw  p, 2, 7013
+    printPoint(p)
+endp
