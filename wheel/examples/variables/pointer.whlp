@@ -7,26 +7,36 @@ struct Point
     number   y
 ends
     
-Point    points[10]
+Point points[10]
     
+;proc testPointer(Point *points[0])
+;	Point point
+;    arrayr point, *points, 1
+;    printN(point.x)
+;    printN(point.y)
+;endp
+    
+;proc main()
+;	Point p
+;    set p.x, 10
+;    set p.y, 11
+;    arrayw   points,              1, p
+;    
+;	testPointer(&points)
+;endp
+
 proc testPointer(Point *points[0])
-	Point point
-    arrayr point, *points, 1
-    printN(point.x)
-    printN(point.y)
-    ;return 10
+	Point p    
+    set p.x, 678
+    set p.y, 534
+    arrayw *points, 1, p
 endp
     
 proc main()
-	Point p
-    set p.x, 10
-    set p.y, 11
-    arrayw   points,              1, p
-    
-    ;number n
-    ;set n, testPointer(&points)
 	testPointer(&points)
-    ;printN(n)
-; loop:
-;	jmp loop
+
+	Point point
+    arrayr point, points, 1
+    printN(point.x)
+    printN(point.y)
 endp

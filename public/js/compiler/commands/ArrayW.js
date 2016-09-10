@@ -30,30 +30,66 @@
                     command: 'mul',
                     code:     wheel.compiler.command.mul.code,
                     params: [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                         {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
                     ]
                 });
-                if (arrayParam.value !== 0) {
-                    // Add the offset of the destination var to the REG_OFFSET_DEST register...
-                    compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseFloat(arrayParam.value)}
-                        ]
-                    });
-                }
+
                 if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
-                    compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                        ]
-                    });
+                    if (arrayParam.metaType === wheel.compiler.command.T_META_POINTER) {
+                        // Local pointer...
+                        compilerOutput.add({
+                            command: 'add',
+                            code:    wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: arrayParam.value}
+                            ]
+                        });
+                    } else {
+                        // Local...
+                        if (arrayParam.value !== 0) {
+                            // Add the offset of the destination var to the REG_OFFSET_DEST register...
+                            compilerOutput.add({
+                                command: 'add',
+                                code:    wheel.compiler.command.add.code,
+                                params: [
+                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
+                                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.value}
+                                ]
+                            });
+                        }
+                        compilerOutput.add({
+                            command: 'add',
+                            code:    wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                            ]
+                        });
+                    }
+                } else {
+                    if (arrayParam.value !== 0) {
+                        // Add the offset of the destination var to the REG_OFFSET_DEST register...
+                        compilerOutput.add({
+                            command: 'add',
+                            code:    wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: parseFloat(arrayParam.value)}
+                            ]
+                        });
+                    }
+                    if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
+                        compilerOutput.add({
+                            command: 'add',
+                            code:    wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                            ]
+                        });
+                    }
                 }
             };
 

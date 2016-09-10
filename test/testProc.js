@@ -226,6 +226,35 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [32342, 6757]);
                 });
+
+                it('Should call a procedure and write to a pointer array', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point points[10]',
+                            '',
+                            'proc testPointer(Point *points[0])',
+                            '    Point p',
+                            '    set p.x, 678',
+                            '    set p.y, 534',
+                            '    arrayw *points, 1, p',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    testPointer(&points)',
+                            '',
+                            '    Point point',
+                            '    arrayr point, points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [678, 534]);
+                });
             }
         );
     }
