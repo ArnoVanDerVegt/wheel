@@ -1,0 +1,20 @@
+#project "Procedure pointer demo"
+
+#include "/lib/standard.whl"
+
+proc procPtr
+
+proc demoProc()
+    printS("Demo procedure")
+endp
+
+struct TestStruct
+    proc p
+ends
+
+TestStruct testStruct
+
+proc main()
+    set testStruct.p, demoProc
+    testStruct.p()
+endp

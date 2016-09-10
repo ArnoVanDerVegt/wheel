@@ -75,7 +75,35 @@
                                 break;
 
                             case wheel.compiler.command.T_NUMBER_GLOBAL:
-                                result = '[' + leadingZero(param.value) + ']';
+                                switch (param.value) {
+                                    case wheel.compiler.command.REG_OFFSET_STACK:
+                                        result = 'stack';
+                                        break;
+
+                                    case wheel.compiler.command.REG_OFFSET_SRC:
+                                        result = 'src';
+                                        break;
+
+                                    case wheel.compiler.command.REG_OFFSET_DEST:
+                                        result = 'dest';
+                                        break;
+
+                                    case wheel.compiler.command.REG_OFFSET_CODE:
+                                        result = 'code';
+                                        break;
+
+                                    case wheel.compiler.command.REG_RETURN:
+                                        result = 'return';
+                                        break;
+
+                                    case wheel.compiler.command.REG_FLAGS:
+                                        result = 'flags';
+                                        break;
+
+                                    default:
+                                        result = '[' + leadingZero(param.value) + ']';
+                                        break;
+                                }
                                 break;
 
                             case wheel.compiler.command.T_LABEL:

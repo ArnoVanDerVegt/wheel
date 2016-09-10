@@ -773,9 +773,10 @@ input[type='text'] {
     position:                           absolute;
     left:                               0px;
     top:                                0px;
-    width:                              32px;
+    width:                              30px;
     height:                             32px;
     margin:                             0;
+    margin-top:                         -2px;
     padding:                            0;
     line-height:                        32px;
     text-align:                         center;
@@ -784,6 +785,13 @@ input[type='text'] {
 #main .output .io.ev3-buttons .button.left {
     left:                               33px;
     top:                                48px;
+}
+#main .output .io.ev3-buttons .button.left:before {
+    margin-left:                        -2px;
+}
+#main .output .io.ev3-buttons .button.up:before,
+#main .output .io.ev3-buttons .button.down:before {
+    margin-left:                        -1px;
 }
 #main .output .io.ev3-buttons .button.up {
     left:                               73px;

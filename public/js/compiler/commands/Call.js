@@ -230,7 +230,8 @@
                             paramInfo.value = compilerData.allocateGlobal(size);
                             compilerData.declareConstant(paramInfo.value, data);
                         }
-                    } else {
+                    } else if ((paramInfo.type !== wheel.compiler.command.T_STRUCT_GLOBAL) &&
+                                (paramInfo.type !== wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY)) {
                         throw compiler.createError('Type mismatch.');
                     }
                 }
@@ -342,14 +343,13 @@
                 var i                = line.indexOf('(');
                 var procedure        = line.substr(0, i);
 
-                if (!wheel.compiler.compilerHelper.validateString(procedure)) {
+                if (!wheel.compiler.compilerHelper.validateString(procedure, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')) {
                     throw compiler.createError('Syntax error.');
                 }
 
                 var callCommand;
                 var p                     = compilerData.findProcedure(procedure);
                 var currentLocalStackSize = compilerData.getLocalOffset();
-
                 if (p !== null) {
                     callCommand = {
                         command: 'set',
@@ -385,7 +385,8 @@
                     } else {
                         var global = compilerData.findGlobal(procedure)
                         if (global !== null) {
-                            if (global.type !== wheel.compiler.command.T_PROC_GLOBAL) {
+                            if ((global.type !== wheel.compiler.command.T_NUMBER_GLOBAL) &&
+                                (global.type !== wheel.compiler.command.T_PROC_GLOBAL)) {
                                 throw compiler.createError('Type error, can not call "' + procedure + '".');
                             }
 
@@ -393,8 +394,8 @@
                                 command: 'set',
                                 code:    wheel.compiler.command.set.code,
                                 params: [
-                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
-                                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: global.offset}
+                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
+                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: global.offset}
                                 ]
                             };
                         } else {
@@ -402,7 +403,6 @@
                         }
                     }
                 }
-
                 this.compileParams(line.substr(i + 1, line.length - i - 2).trim(), currentLocalStackSize);
 
                 // Move the code offset to the dest register...

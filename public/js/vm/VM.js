@@ -138,6 +138,7 @@
                 var commands = this._commands;
                 var count    = 0;
                 while ((vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) < commands.length - 1) && (count < 100)) {
+                    //console.log(vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE));
                     this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE)]);
                     vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) + 1);
                     count++;

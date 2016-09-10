@@ -1,0 +1,7 @@
+#project "Main procedure demo"
+
+#include "/lib/standard.whl"
+
+proc main()
+    printS("This is the main procedure.")
+endp

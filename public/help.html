@@ -123,6 +123,8 @@
         <a id="programming"></a>
         <h2>Programming</h2>
     </div>
+
+        <!-- ====================== Programming: variables ====================== -->
         <div>
             <a id="programming-variables"></a>
             <h3>Variables</h3>
@@ -148,6 +150,7 @@
                 <pre><span class="line"><span class="command">struct</span> <span class="variable">Record</span></span><span class="line"><span class="command">    number</span><span class="value"> f</span></span><span class="line"><span class="command">ends</span></span></pre>
             </div>
 
+        <!-- ====================== Programming: operators ====================== -->
         <div>
             <a id="programming-operators"></a>
             <h3>Operators</h3>
@@ -193,6 +196,7 @@
                 <pre><span class="line"><span class="command">xor</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span></pre>
             </div>
 
+        <!-- ====================== Programming: conditions ====================== -->
         <div>
             <a id="#progamming-conditions"></a>
             <h3>Conditions</h3>
@@ -228,11 +232,46 @@
                 <pre><span class="line"><span class="command">cmp</span>    <span class="variable">numberVariable</span>, <span class="value">numberValue</span></span><span class="line"><span class="command">jge</span>    label</span></pre>
             </div>
 
+        <!-- ====================== Programming: procedures and functions ====================== -->
         <div>
             <a id="#progamming-procedures"></a>
             <h3>Procedures and functions</h3>
+            <p>
+                A procedure is a group of commands which you can call.<br/>
+                A program must contain at least one procedure which must be called <i>main</i>.
+            </p>
         </div>
+            <div>
+                <a id="programming-main-procedure"></a>
+                <h4>Main procedure</h4>
+                <pre><span class="line"><span class="command">proc</span> <span class="variable">main</span>()</span><span class="line"><span class="command">endp</span></span></pre>
+            </div>
+            <div>
+                <h5>Example</h5>
+                <span class="example">/examples/procedures/mainProc.whlp</span>
+            </div>
 
+            <div>
+                <a id="programming-procedure-pointer"></a>
+                <h4>Procedure pointer</h4>
+                <p>
+                    Procedure pointers can be stored in <i>proc</i> typed variables.<br/>
+                    <br/>
+                    Setting the pointer can be done with the <i>set</i> command.<br/>
+                    Once a value is assigned the pointer can be called like a normal procedure.
+                </p>
+                <pre><span class="line"><span class="command">proc</span> <span class="variable">demoProc</span>()</span><span class="line"><span class="command">endp</span></span>
+                <span class="line"><span class="command">proc</span> <span class="value">procPtr</span></span>
+                <span class="line"><span class="command">proc</span> <span class="variable">main</span>()</span><span class="line">    <span class="variable">demoProc</span>()</span><span class="line">    <span class="command">set</span> <span class="value">procPtr</span>, <span class="variable">demoProc</span></span><span class="line">    <span class="value">procPtr</span>()</span><span class="line"><span class="command">endp</span></span></pre>
+            </div>
+            <div>
+                <h5>Examples</h5>
+                <span class="example">/examples/procedures/procPtr.whlp</span>
+                <span class="example">/examples/procedures/structProcPtr.whlp</span>
+                <span class="example">/examples/procedures/arrayProcPtr.whlp</span>
+            </div>
+
+    <!-- ====================== Modules ====================== -->
     <div>
         <a id="modules"></a>
         <h2>Modules</h2>

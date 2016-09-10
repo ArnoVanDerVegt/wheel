@@ -172,7 +172,7 @@
                             lineNumber: i
                         };
 
-                    if ((line.indexOf('proc') === -1) && (line.indexOf('(') !== -1)) {
+                    if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                         var spacePos = line.indexOf(' ');
                         command = line.substr(0, spacePos).trim();
                         if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'cmp'].indexOf(command) === -1) {

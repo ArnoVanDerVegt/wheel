@@ -17,7 +17,7 @@ var wheelGrammar = {
             'register':             'register',
             'constant':             'constant',
             'meta':                 'meta',
-            /*'identifier':           'identifier',*/
+            'identifier':           'identifier',
             'number':               'number',
             'boolean':              'boolean',
             'string':               'string',
@@ -104,7 +104,7 @@ var wheelGrammar = {
                     '_____________________________'
                 ]
             },
-            //'identifier': 'RE::/[^A-Za-z0-9_.]*/i',
+            'identifier': 'RE::/[^A-Za-z0-9_.]*/i',
             // "RE::/\\S+/",
             //'identifier': 'RE::/[A-Z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*/i',
             'number': [

@@ -164,48 +164,69 @@
 
                 if ((valueParam.type === wheel.compiler.command.T_STRUCT_GLOBAL) ||
                     (valueParam.type === wheel.compiler.command.T_STRUCT_LOCAL)) {
-                    var valueStructName = valueParam.vr.struct.name,
-                        arrayStructName = arrayParam.vr.struct.name;
+                    var valueStructName = valueParam.vr.struct.name;
+                    var arrayStructName = arrayParam.vr.struct.name;
                     if (valueStructName !== arrayStructName) {
                         throw compiler.createError('Type mismatch "' + valueStructName + '" and "' + arrayStructName + '".');
                     }
                     size = valueParam.vr.struct.size;
                 }
 
-                if (arrayParam.metaType === wheel.compiler.command.T_META_POINTER) {
-                    this.compileDestSetupPointer(valueParam, arrayParam, indexParam);
+                if (valueParam.type === wheel.compiler.command.T_PROC_GLOBAL) {
+                    console.log('Warning unsupported global proc.');
+                } else if (valueParam.type === wheel.compiler.command.T_PROC_LOCAL) {
+                    if (indexParam.type === wheel.compiler.command.T_NUMBER_CONSTANT) {
+                        if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'global') {
+                            compilerOutput.add({
+                                command: 'set',
+                                code:    wheel.compiler.command.set.code,
+                                params: [
+                                    {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: valueParam.value},
+                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: arrayParam.value + indexParam.value}
+                                ]
+                            });
+                        } else {
+                            console.log('Unsupported array param location.');
+                        }
+                    } else {
+                        console.log('Unsupported index param type.');
+                    }
                 } else {
-                    this.compileDestSetup(valueParam, arrayParam, indexParam, size);
-                }
+                    if (arrayParam.metaType === wheel.compiler.command.T_META_POINTER) {
+                        this.compileDestSetupPointer(valueParam, arrayParam, indexParam);
+                    } else {
+                        this.compileDestSetup(valueParam, arrayParam, indexParam, size);
+                    }
 
-                // Set the offset of the destination value...
-                compilerOutput.add({
-                    command: 'set',
-                    code:    wheel.compiler.command.set.code,
-                    params: [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: valueParam.value}
-                    ]
-                });
-                if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {
+                    // Set the offset of the destination value...
                     compilerOutput.add({
-                        command: 'add',
-                        code:    wheel.compiler.command.add.code,
+                        command: 'set',
+                        code:    wheel.compiler.command.set.code,
                         params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: valueParam.value}
+                        ]
+                    });
+                    if (wheel.compiler.command.typeToLocation(valueParam.type) === 'local') {
+                        compilerOutput.add({
+                            command: 'add',
+                            code:    wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                            ]
+                        });
+                    }
+
+                    compilerOutput.add({
+                        command: 'copy',
+                        code:    wheel.compiler.command.copy.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size},
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 0}
                         ]
                     });
                 }
-
-                compilerOutput.add({
-                    command: 'copy',
-                    code:    wheel.compiler.command.copy.code,
-                    params: [
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 0}
-                    ]
-                });
             };
         })
     );

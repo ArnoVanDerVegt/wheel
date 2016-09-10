@@ -11,6 +11,7 @@
                 this._motorProperties = localStorage.get(
                     'motorProperties',
                     {
+                        i2c:        false,
                         type:       true,
                         position:   true,
                         target:     true,
@@ -56,6 +57,7 @@
                 this._sensorProperties = localStorage.get(
                     'sensorProperties',
                     {
+                        i2c:   false,
                         type:  true,
                         value: true
                     }
@@ -114,7 +116,8 @@
 
             this.setMotorProperties = function(motorProperties) {
                 this._motorProperties = motorProperties;
-                LocalStorage.getInstance().set('motorProperties', motorProperties);
+                console.log('----->', motorProperties);
+                wheel.LocalStorage.getInstance().set('motorProperties', motorProperties);
                 this.emit('MotorPropertiesChanged', motorProperties);
             };
 
@@ -124,7 +127,7 @@
 
             this.setStandardMotorSettings = function(standardMotorSettings) {
                 this._standardMotorSettings = standardMotorSettings;
-                LocalStorage.getInstance().set('standardMotorSettings', standardMotorSettings);
+                wheel.LocalStorage.getInstance().set('standardMotorSettings', standardMotorSettings);
                 this.emit('StandardMotorSettingsChanged')
             };
 
@@ -134,7 +137,7 @@
 
             this.setI2cMotorSettings = function(i2cMotorSettings) {
                 this._i2cMotorSettings = i2cMotorSettings;
-                LocalStorage.getInstance().set('i2cMotorSettings', i2cMotorSettings);
+                wheel.LocalStorage.getInstance().set('i2cMotorSettings', i2cMotorSettings);
                 this.emit('I2cMotorSettingsChanged');
             };
 
@@ -145,7 +148,7 @@
 
             this.setSensorProperties = function(sensorProperties) {
                 this._sensorProperties = sensorProperties;
-                LocalStorage.getInstance().set('sensorProperties', sensorProperties);
+                wheel.LocalStorage.getInstance().set('sensorProperties', sensorProperties);
                 this.emit('SensorPropertiesChanged', sensorProperties);
             };
 
@@ -155,7 +158,7 @@
 
             this.setStandardSensorSettings = function(standardSensorSettings) {
                 this._standardSensorSettings = standardSensorSettings;
-                LocalStorage.getInstance().set('standardSensorSettings', standardSensorSettings);
+                wheel.LocalStorage.getInstance().set('standardSensorSettings', standardSensorSettings);
                 this.emit('StandardSensorSettingsChanged')
             };
 
@@ -165,7 +168,7 @@
 
             this.setI2cSensorSettings = function(i2cSensorSettings) {
                 this._i2cSensorSettings = i2cSensorSettings;
-                LocalStorage.getInstance().set('i2cSensorSettings', i2cSensorSettings);
+                wheel.LocalStorage.getInstance().set('i2cSensorSettings', i2cSensorSettings);
                 this.emit('I2cSensorSettingsChanged');
             };
 

@@ -1,0 +1,25 @@
+#project "Struct parameter demo"
+
+#include "/lib/standard.whl"
+
+struct Point
+    number x
+    number y
+    number z
+ends
+
+proc printPoint(Point point)
+    printS("Point:")
+    printN(point.x)
+    printN(point.y)
+    printN(point.z)
+endp
+
+Point point
+
+proc main()
+    set point.x, 1656
+    set point.y, 98
+    set point.z, 75
+    printPoint(point)
+endp

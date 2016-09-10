@@ -1,0 +1,14 @@
+#project "Number parameter demo"
+
+#include "/lib/standard.whl"
+
+proc printPoint(number x, number y, number z)
+    printS("Point:")
+    printN(x)
+    printN(y)
+    printN(z)
+endp
+
+proc main()
+    printPoint(561, 520, 974)
+endp
