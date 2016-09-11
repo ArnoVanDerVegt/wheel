@@ -91,3 +91,24 @@ exports.compileAndRun = function(lines) {
 
     return {testData: testData, outputCommands: outputCommands};
 };
+
+exports.standardLines = [
+    'proc printN(number n)',
+    '    struct PrintNumber',
+    '        number n',
+    '    ends',
+    '    PrintNumber printNumber',
+    '    set      printNumber.n,n',
+    '    addr     printNumber',
+    '    module   0,0',
+    'endp',
+    'proc printS(string s)',
+    '    struct PrintString',
+    '        string s',
+    '    ends',
+    '    PrintString printString',
+    '    set      printString.s,s',
+    '    addr     printString',
+    '    module   0,1',
+    'endp'
+];

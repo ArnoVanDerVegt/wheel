@@ -25,20 +25,41 @@ ends
 ;	testPointer(&points)
 ;endp
 
-proc testPointer(Point *points[0])
-	Point p    
-    set p.x, 678
-    set p.y, 534
-    arrayw *points, 1, p
-endp
+;proc testPointer(Point *points[0])
+;	Point p    
+;    set p.x, 678
+;    set p.y, 534
+;    arrayw *points, 1, p
+;endp
+    
+;proc main()
+;	Point points[10]
+    
+;	testPointer(&points)
+
+;	Point point
+;    arrayr point, points, 1
+;    printN(point.x)
+;    printN(point.y)
+;endp
+
+;proc testPointer(Point *point)
+;	Point p    
+;    set *p.x, 678
+;    set *p.y, 534
+;endp
     
 proc main()
-	Point points[10]
+	Point p
+ 
+	Point *pp   
+    set pp, &p
     
-	testPointer(&points)
+    set *pp.x, 678
+    ;set *pp.y, 534
+ 
+;	testPointer(&p)
 
-	;Point point
-    ;arrayr point, points, 1
-    ;printN(point.x)
-    ;printN(point.y)
+    printN(p.x)
+    ;printN(p.y)
 endp

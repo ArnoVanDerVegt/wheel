@@ -194,6 +194,7 @@ describe(
                 });
             }
         );
+
         describe(
             'Write and read arrays',
             function () {
@@ -298,6 +299,38 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [437, 348, 72, 345, 457]);
+                });
+            }
+        );
+
+        describe(
+            'Arrays and pointers',
+            function () {
+                it('Should pass a pointer to a procedure and set values', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'proc testArray(number *n[3])',
+                            '    arrayw  *n, 0, 586',
+                            '    arrayw  *n, 1, -3232',
+                            '    arrayw  *n, 2, 90',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x[3]',
+                            '',
+                            '    testArray(&x)',
+                            '',
+                            '    number a',
+                            '',
+                            '    arrayr  a, x, 0',
+                            '    printN(a)',
+                            '    arrayr  a, x, 1',
+                            '    printN(a)',
+                            '    arrayr  a, x, 2',
+                            '    printN(a)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [586, -3232, 90]);
                 });
             }
         );

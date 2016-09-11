@@ -125,5 +125,58 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Structs and pointers',
+            function () {
+                it('Should set values of a struct pointer', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'proc main()',
+                            '    Point p',
+                            '',
+                            '    Point *pp',
+                            '    set pp, &p',
+                            '',
+                            '    set *pp.x, -472',
+                            '    set *pp.y, 58',
+                            '',
+                            '    printN(p.x)',
+                            '    printN(p.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [-472, 58]);
+                });
+
+                it('Should pass a struct pointer to a procedure', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'proc testPointer(Point *p)',
+                            '    set *p.x, 38934',
+                            '    set *p.y, -2978',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point p',
+                            '    testPointer(&p)',
+                            '',
+                            '    printN(p.x)',
+                            '    printN(p.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [38934, -2978]);
+                });
+            }
+        );
     }
 );

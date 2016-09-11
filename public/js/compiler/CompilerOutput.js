@@ -71,7 +71,7 @@
                                 break;
 
                             case wheel.compiler.command.T_NUMBER_LOCAL:
-                                result = '[[stack]+' + leadingZero(param.value) + ']';
+                                result = '[stack+' + leadingZero(param.value) + ']';
                                 //result = '[[000' + wheel.compiler.command.REG_OFFSET_STACK + ']+' + leadingZero(param.value) + ']';
                                 break;
 
@@ -152,7 +152,7 @@
                             // Single parameter...
                         } else {
                             line += ',';
-                            while (line.length < 30) {
+                            while (line.length < 28) {
                                 line += ' ';
                             }
                             line += paramToString(command, command.params[1]);

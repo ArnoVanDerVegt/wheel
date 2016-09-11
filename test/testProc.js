@@ -3,27 +3,6 @@ var assert = require('assert');
 var wheel             = require('../public/js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
-var standardLines = [
-        'proc printN(number n)',
-        '    struct PrintNumber',
-        '        number n',
-        '    ends',
-        '    PrintNumber printNumber',
-        '    set      printNumber.n,n',
-        '    addr     printNumber',
-        '    module   0,0',
-        'endp',
-        'proc printS(string s)',
-        '    struct PrintString',
-        '        string s',
-        '    ends',
-        '    PrintString printString',
-        '    set      printString.s,s',
-        '    addr     printString',
-        '    module   0,1',
-        'endp'
-    ];
-
 describe(
     'Test proc',
     function() {
@@ -31,7 +10,7 @@ describe(
             'Call a procedure',
             function () {
                 it('Should call a procedure', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(89)',
                             'endp',
@@ -45,7 +24,7 @@ describe(
                 });
 
                 it('Should call a global procedure pointer', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc ptr',
                             '',
                             'proc test()',
@@ -62,7 +41,7 @@ describe(
                 });
 
                 it('Should call a local procedure pointer', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(12)',
                             'endp',
@@ -78,7 +57,7 @@ describe(
                 });
 
                 it('Should call a struct procedure pointer', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(59)',
                             'endp',
@@ -99,7 +78,7 @@ describe(
                 });
 
                 it('Should call a struct procedure pointer with offset', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(97)',
                             'endp',
@@ -126,7 +105,7 @@ describe(
             'Call a with parameters',
             function () {
                 it('Should call a procedure with number parameters', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc printPoint(number x, number y, number z)',
                             '    printS("Point:")',
                             '    printN(x)',
@@ -143,7 +122,7 @@ describe(
                 });
 
                 it('Should call a procedure with a struct parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
                             '    number y',
@@ -171,7 +150,7 @@ describe(
                 });
 
                 it('Should call a procedure with an array parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number p[3]',
                             '',
                             'proc printPoint(number point[3])',
@@ -199,7 +178,7 @@ describe(
                 });
 
                 it('Should call a procedure with a pointer to array parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
                             '    number y',
@@ -228,7 +207,7 @@ describe(
                 });
 
                 it('Should call a procedure and write to a pointer of to global array', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
                             '    number y',
@@ -257,7 +236,7 @@ describe(
                 });
 
                 it('Should call a procedure and write to a pointer of to local array', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
                             '    number y',
@@ -286,7 +265,7 @@ describe(
                 });
 
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x, y, z',
                             'ends',
@@ -313,7 +292,7 @@ describe(
                 });
 
                 it('Should call a procedure with a dereferenced global pointer struct parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x, y, z',
                             'ends',

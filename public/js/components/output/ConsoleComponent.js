@@ -7,14 +7,15 @@
             getInitialState: function() {
                 var props = this.props;
                 return {
-                    left:        360,
-                    visible:     props.visible,
-                    small:       props.small,
-                    messages:    [],
-                    output:      [],
-                    viewMode:    'messages',
-                    runLines:    [],
-                    runCount:    0
+                    left:     360,
+                    visible:  props.visible,
+                    small:    props.small,
+                    messages: [],
+                    output:   [],
+                    viewMode: 'messages',
+                    runLines: [],
+                    runCount: 0,
+                    regs:     []
                 }
             },
 
@@ -47,12 +48,13 @@
                 this.emitInfo();
             },
 
-            addRunLine: function(index) {
+            addRunLine: function(index, regs) {
                 var state = this.state;
                 if (state) {
                     var runLines = state.runLines;
                     state.runCount++;
                     state.runLines[index] = state.runCount;
+                    state.regs[index]     = regs;
                     this.setState(state);
                 }
             },
@@ -61,6 +63,7 @@
                 this.setState({
                     runLines: [],
                     runCount: 0,
+                    regs:     [],
                     output:   output
                 });
             },
@@ -192,11 +195,26 @@
                 for (var i = 0; i < output.length; i++) {
                     var className = 'row code';
                     var runLine   = state.runLines[i];
+                    var regs      = state.regs[i];
                     var color     = '#000000';
                     if (runLine !== undefined) {
                         var grn = ~~(255 * runLine / state.runCount);
                         var red = ~~(255 * (1 - runLine / state.runCount));
                         color = '#' + ('000000' + ((red << 16) + (grn << 8)).toString(16)).substr(-6);
+                    }
+
+                    if (regs) {
+                        var s = '';
+                        for (var j in regs) {
+                            s += j + ':' + regs[j] + ' ';
+                        }
+                        regs = {
+                            type: 'span',
+                            props: {
+                                className: 'regs',
+                                innerHTML: s
+                            }
+                        };
                     }
 
                     messageChildren.push({
@@ -219,7 +237,10 @@
                                                 },
                                                 className: 'executed',
                                                 innerHTML: runLine
-                                            }
+                                            },
+                                            children: [
+                                                regs || null
+                                            ]
                                         } :
                                         null,
                                     {

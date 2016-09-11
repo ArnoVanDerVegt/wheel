@@ -24,8 +24,8 @@
                 );
                 this.props.vm.on(
                     'RunLine',
-                    function(index) {
-                        this.refs.console.addRunLine(index);
+                    function(index, regs) {
+                        this.refs.console.addRunLine(index, regs);
                     }.bind(this)
                 );
 

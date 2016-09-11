@@ -26,7 +26,9 @@
                     }
                 }
 
-                if (param2.metaType === wheel.compiler.command.T_META_ADDRESS) {
+                var param2IsAddress = (param2.metaType === wheel.compiler.command.T_META_ADDRESS);
+
+                if (param2IsAddress) {
                     if (wheel.compiler.command.typeToLocation(param2.type) === 'local') {
                         compilerOutput.add({
                             code: wheel.compiler.command.set.code,
@@ -37,7 +39,7 @@
                         });
                         if (param2.value !== 0) {
                             compilerOutput.add({
-                                code: wheel.compiler.command.set.code,
+                                code: wheel.compiler.command.add.code,
                                 params: [
                                     {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
                                     {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param2.value}
@@ -140,7 +142,7 @@
                             code: wheel.compiler.command.set.code,
                             params: [
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param1.value}
+                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param1.vr.origOffset}
                             ]
                         });
                     } else {
@@ -151,10 +153,21 @@
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: param1.value}
                             ]
                         });
+
+                    }
+
+
+                    var offset = 0;
+                    if (param1.vr.struct && !param2IsAddress) {
+                        // Hacky...
+                        var p      = param1.param;
+                        var i      = p.lastIndexOf('.');
+                        var field  = p.substr(i + 1 - p.length);
+                        offset = param1.vr.struct.fields[field].offset;
                     }
 
                     param1.type  = wheel.compiler.command.T_NUMBER_LOCAL;
-                    param1.value = 0;
+                    param1.value = offset;
                     param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
                     param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                     compilerOutput.add(validatedCommand);

@@ -160,6 +160,7 @@
                                 for (var i in vr) {
                                     clonedVr[i] = vr[i];
                                 }
+                                clonedVr.origOffset = clonedVr.offset;
                                 clonedVr.offset += field.offset;
                                 clonedVr.field    = field;
                                 clonedVr.type     = (field.length > 1) ? wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY : wheel.compiler.command.T_NUMBER_GLOBAL;
@@ -251,6 +252,7 @@
                                     clonedVr[i] = vr[i];
                                 }
                                 field = vr.struct.fields[field];
+                                clonedVr.origOffset = clonedVr.offset;
                                 clonedVr.offset += field.offset;
                                 clonedVr.type     = wheel.compiler.command.T_NUMBER_LOCAL;
                                 clonedVr.metaType = field.metaType;
