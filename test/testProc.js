@@ -227,7 +227,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [32342, 6757]);
                 });
 
-                it('Should call a procedure and write to a pointer array', function() {
+                it('Should call a procedure and write to a pointer of to global array', function() {
                     var testData = compilerTestUtils.compileAndRun(standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -254,6 +254,35 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [678, 534]);
+                });
+
+                it('Should call a procedure and write to a pointer of to local array', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'proc testPointer(Point *points[0])',
+                            '    Point p',
+                            '    set p.x, 6852',
+                            '    set p.y, -93',
+                            '    arrayw *points, 1, p',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point points[10]',
+                            '',
+                            '    testPointer(&points)',
+                            '',
+                            '    Point point',
+                            '    arrayr point, points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [6852, -93]);
                 });
 
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {

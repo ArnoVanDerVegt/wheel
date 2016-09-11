@@ -7,7 +7,7 @@ struct Point
     number   y
 ends
     
-Point points[10]
+;Point points[10]
     
 ;proc testPointer(Point *points[0])
 ;	Point point
@@ -33,10 +33,12 @@ proc testPointer(Point *points[0])
 endp
     
 proc main()
+	Point points[10]
+    
 	testPointer(&points)
 
-	Point point
-    arrayr point, points, 1
-    printN(point.x)
-    printN(point.y)
+	;Point point
+    ;arrayr point, points, 1
+    ;printN(point.x)
+    ;printN(point.y)
 endp

@@ -112,6 +112,7 @@
                                 break;
 
                             default:
+                                result = 'Unsup. type ' + param.type + ' ' + command;
                                 console.error('Unsupported type:', param.type, 'command:', command);
                                 break;
                         }

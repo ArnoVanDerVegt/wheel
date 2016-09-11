@@ -103,7 +103,29 @@
                 var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
-                if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
+                if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
+                    compilerOutput.add({
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                        ]
+                    });
+                    compilerOutput.add({
+                        code: wheel.compiler.command.add.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value}
+                        ]
+                    });
+                    compilerOutput.add({
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
+                        ]
+                    });
+                } else if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, size);
                 } else {
                     if (paramInfo.value === 0) {
