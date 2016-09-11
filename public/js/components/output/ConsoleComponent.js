@@ -205,8 +205,9 @@
 
                     if (regs) {
                         var s = '';
-                        for (var j in regs) {
-                            s += j + ':' + regs[j] + ' ';
+                        var r = ['stack', 'src', 'dest'];
+                        for (var j = 0; j < r.length; j++) {
+                            s += r[j] + ':' + (regs[r[j]] || 0) + ' ';
                         }
                         regs = {
                             type: 'span',

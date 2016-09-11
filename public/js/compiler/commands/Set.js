@@ -27,7 +27,6 @@
                 }
 
                 var param2IsAddress = (param2.metaType === wheel.compiler.command.T_META_ADDRESS);
-
                 if (param2IsAddress) {
                     if (wheel.compiler.command.typeToLocation(param2.type) === 'local') {
                         compilerOutput.add({
@@ -138,11 +137,13 @@
                     }
 
                     if (wheel.compiler.command.typeToLocation(param1.type) === 'local') {
+                        var vr     = param1.vr;
+                        var offset = ('origOffset' in vr) ? vr.origOffset : vr.offset;
                         compilerOutput.add({
                             code: wheel.compiler.command.set.code,
                             params: [
                                 {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param1.vr.origOffset}
+                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset}
                             ]
                         });
                     } else {
@@ -155,7 +156,6 @@
                         });
 
                     }
-
 
                     var offset = 0;
                     if (param1.vr.struct && !param2IsAddress) {

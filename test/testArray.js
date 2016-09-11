@@ -230,7 +230,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, 8]);
                 });
 
-                it('Should write and read 5 numbers', function() {
+                it('Should write and read a struct', function() {
                     var testData = compilerTestUtils.compileAndRun(standardLines.concat([
                             'struct Point',
                             '    number x, y, z',
@@ -299,6 +299,84 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [437, 348, 72, 345, 457]);
+                });
+
+                it('Should pass a global and constant array to a procedure', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'number items[3]',
+                            '',
+                            'proc testProcedure(number list[3])',
+                            '    number   counter',
+                            '    set      counter,                0',
+                            'readLoop:',
+                            '    number   value',
+                            '    arrayr   value,                  list, counter',
+                            '    printN(value)',
+                            '    add      counter,                1',
+                            '    cmp      counter,                3',
+                            '    jl       readLoop',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number   counter',
+                            '    set      counter,                0',
+                            'writeLoop:',
+                            '    number   value',
+                            '    set      value,                  counter',
+                            '    mul      value,                  3',
+                            '    arrayw   items,                  counter, value',
+                            '    add      counter,                1',
+                            '    cmp      counter,                3',
+                            '    jl       writeLoop',
+                            '',
+                            '    testProcedure(items)',
+                            '',
+                            '    printS("----")',
+                            '',
+                            '    testProcedure([5, 9, -2])',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [0, 3, 6, '----', 5, 9, -2]);
+                });
+
+                it('Should pass a local and constant array to a procedure', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'proc testProcedure(number list[4])',
+                            '    number   counter',
+                            '    set      counter,                0',
+                            'readLoop:',
+                            '    number   value',
+                            '    arrayr   value,                  list, counter',
+                            '    printN(value)',
+                            '    add      counter,                1',
+                            '    cmp      counter,                4',
+                            '    jl       readLoop',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number items[4]',
+                            '',
+                            '    number   counter',
+                            '    set      counter,                0',
+                            'writeLoop:',
+                            '    number   value',
+                            '    set      value,                  counter',
+                            '    mul      value,                  2',
+                            '    arrayw   items,                  counter, value',
+                            '    add      counter,                1',
+                            '    cmp      counter,                4',
+                            '    jl       writeLoop',
+                            '',
+                            '    testProcedure(items)',
+                            '',
+                            '    printS("----")',
+                            '',
+                            '    testProcedure([-45, 921, -5, 467])',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, '----', -45, 921, -5, 467]);
                 });
             }
         );

@@ -1,11 +1,11 @@
 #project "Number demo"
     
-#include "/lib/standard.whl"
+;include "/lib/standard.whl"
         
-struct Point
-    number   x
-    number   y
-ends
+;struct Point
+;    number   x
+;    number   y
+;ends
     
 ;Point points[10]
     
@@ -50,16 +50,11 @@ ends
 ;endp
     
 proc main()
-	Point p
+	number n
+    number *pn
  
-	Point *pp   
-    set pp, &p
+    ;set pn, &n
+    set *pn, 34
     
-    set *pp.x, 678
-    ;set *pp.y, 534
- 
-;	testPointer(&p)
-
-    printN(p.x)
-    ;printN(p.y)
+    ;printN(n)
 endp

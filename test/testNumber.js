@@ -107,5 +107,27 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Pointers to numbers',
+            function () {
+                it('Should set a pointer number', function() {
+                    var n = 10 + ~~(Math.random() * 100);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                                'number n',
+                                'number *pn',
+                                '',
+                                'set pn, &n',
+                                'set *pn, ' + n,
+                                '',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [n]);
+                });
+            }
+        );
     }
 );

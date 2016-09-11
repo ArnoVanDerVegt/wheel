@@ -319,5 +319,73 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Return values',
+            function () {
+                it('Should return a constant number', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc one()',
+                            '    return 1',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x',
+                            '    set x, one()',
+                            '',
+                            '    printN(x)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [1]);
+                });
+
+                it('Should return a multiplied parameter number', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc timesTwo(number n)',
+                            '    mul n, 2',
+                            '    return n',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x',
+                            '    set x, timesTwo(13)',
+                            '',
+                            '    printN(x)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [26]);
+                });
+
+                it('Should call multiple functions, check local stack after return', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc plusThree(number n)',
+                            '    add n, 3',
+                            '    return n',
+                            'endp',
+                            '',
+                            'proc timesTwoPlusThree(number n)',
+                            '    mul n, 2',
+                            '    set n, plusThree(n)',
+                            '    return n',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x',
+                            '    number y',
+                            '    set y, 371',
+                            '    set x, timesTwoPlusThree(6)',
+                            '',
+                            '    printN(x)',
+                            '    printN(y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [15, 371]);
+                });
+            }
+        );
     }
 );
+

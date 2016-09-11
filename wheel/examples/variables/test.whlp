@@ -2,14 +2,20 @@
 
 #include "/lib/standard.whl"
 
-proc printPoint(number *n[3])
-    arrayw  *n, 0, 586
-    ;arrayw  *n, 1, 3232
-    ;arrayw  *n, 2, 90
+proc plusThree(number n)
+	add n, 3
+    return n
+endp
+
+proc timesTwoPlusThree(number n)
+	mul n, 2
+    set n, plusThree(n)
+    return n
 endp
 
 proc main()
-	array x[3]
+	number x
+    set x, timesTwoPlusThree(5)
 
-    printPoint(&x)
+    printN(x)
 endp
