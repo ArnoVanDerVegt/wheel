@@ -245,13 +245,23 @@
                     paramInfo.type = wheel.compiler.command.T_NUMBER_CONSTANT;
                     compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
                 } else {
-                    compilerOutput.add(compiler.createCommand(
-                        'set',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
-                        ]
-                    ));
+                    if (paramInfo.metaType === wheel.compiler.command.T_META_POINTER) {
+                        compilerOutput.add(compiler.createCommand(
+                            'set',
+                            [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: paramInfo.value}
+                            ]
+                        ));
+                    } else {
+                        compilerOutput.add(compiler.createCommand(
+                            'set',
+                            [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
+                            ]
+                        ));
+                    }
 
                     if (offset === 0) {
                         compilerOutput.add(compiler.createCommand(

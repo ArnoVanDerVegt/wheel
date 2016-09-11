@@ -256,7 +256,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [678, 534]);
                 });
 
-                it('Should call a procedure with a dereferenced pointer struct parameter', function() {
+                it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
                     var testData = compilerTestUtils.compileAndRun(standardLines.concat([
                             'struct Point',
                             '    number x, y, z',
@@ -281,6 +281,33 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [-5, 9, -3]);
+                });
+
+                it('Should call a procedure with a dereferenced global pointer struct parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                            'struct Point',
+                            '    number x, y, z',
+                            'ends',
+                            '',
+                            'Point point',
+                            'Point *p',
+                            '',
+                            'proc printPoint(Point pt)',
+                            '    printN(pt.x)',
+                            '    printN(pt.y)',
+                            '    printN(pt.z)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    set point.x, 338',
+                            '    set point.y, -782',
+                            '    set point.z, 24',
+                            '    set p, &point',
+                            '    printPoint(*p)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [338, -782, 24]);
                 });
             }
         );

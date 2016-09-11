@@ -7,6 +7,7 @@ struct Point
 ends
     
 Point    point
+Point *p
     
 proc printPoint(Point pt)
     printN(pt.x)
@@ -18,7 +19,6 @@ proc main()
     set      point.x,                -5
     set      point.y,                9
     set      point.z,                -3
-    Point *p
     set p, &point
     printPoint(*p)
 endp
