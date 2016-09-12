@@ -65,7 +65,7 @@
                     param2.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
                     param2.value = wheel.compiler.command.REG_OFFSET_DEST;
                 } else if (param2.metaType === wheel.compiler.command.T_META_POINTER) {
-                    compilerOutput.add({
+                    compilerOutput.add({ // set src, stack
                         code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
@@ -74,28 +74,51 @@
                     });
                     regStackSaved = true;
 
+                    var paramOffset = param2.value;
+                    if (param2.vr && param2.vr.origOffset) {
+                        paramOffset = param2.vr.origOffset;
+                    }
+
                     if (wheel.compiler.command.typeToLocation(param2.type) === 'local') {
-                        compilerOutput.add({
-                            code: wheel.compiler.command.set.code,
+                        compilerOutput.add({ // add stack, paramOffset
+                            code: wheel.compiler.command.add.code,
                             params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: param2.value}
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramOffset}
                             ]
                         });
                     } else {
-                        compilerOutput.add({
+                        compilerOutput.add({ // set stack, paramOffset
                             code: wheel.compiler.command.set.code,
                             params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: param2.value}
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramOffset}
                             ]
                         });
                     }
-                    compilerOutput.add({
+
+                    compilerOutput.add({ // set stack, [stack]
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0}
+                        ]
+                    });
+
+                    var paramOffset = 0;
+                    if (param2.vr.struct) {
+                        // Hacky...
+                        var p      = param2.param;
+                        var i      = p.lastIndexOf('.');
+                        var field  = p.substr(i + 1 - p.length);
+                        var paramOffset = param2.vr.struct.fields[field].offset;
+                    }
+
+                    compilerOutput.add({ // set dest, [stack + paramOffset]
                         code: wheel.compiler.command.set.code,
                         params: [
                             {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0}
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: paramOffset}
                         ]
                     });
                     regDestSet = true;

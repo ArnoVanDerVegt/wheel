@@ -219,7 +219,7 @@ describe(
                             '    Point p',
                             '    set p.x, 678',
                             '    set p.y, 534',
-                            '    arrayw *points, 1, p',
+                            '    arrayw *points, 1, &p',
                             'endp',
                             '',
                             'proc main()',

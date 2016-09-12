@@ -153,6 +153,31 @@ describe(
                     assert.deepStrictEqual(testData.messages, [-472, 58]);
                 });
 
+                it('Should get derefferenced struct pointer values', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'proc main()',
+                                'Point p1',
+                                'set p1.x, -678',
+                                'set p1.y, 37',
+                                'Point *p2',
+                                'set p2, &p1',
+                                '',
+                                'number n',
+                                'set n, *p2.y',
+                                'printN(n)',
+                                'set n, *p2.x',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [37, -678]);
+                });
+
                 it('Should pass a struct pointer to a procedure', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',

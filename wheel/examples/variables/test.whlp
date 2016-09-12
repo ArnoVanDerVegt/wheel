@@ -2,20 +2,40 @@
 
 #include "/lib/standard.whl"
 
-proc plusThree(number n)
-	add n, 3
-    return n
-endp
+number mark
 
-proc timesTwoPlusThree(number n)
-	mul n, 2
-    set n, plusThree(n)
-    return n
-endp
+struct Point
+	number x
+    number y
+ends
 
 proc main()
-	number x
-    set x, timesTwoPlusThree(5)
+	;Point *p[10]
+	;Point p1
+    ;set p1.x, 37
+    ;set p1.y, 251
+    ;arrayw p, 3, &p1
+    ;Point *p2
+	;arrayr p2, p, 3  
+    ;set p2, &p1
+	;printS(*p2.x)
+	;printS(*p2.y)
 
-    printN(x)
+
+
+	Point p1
+    ;set p1.y, 37
+    Point *p2
+
+    ;set mark, 9999
+
+	;set p2, &p1    
+
+    ;set mark, 9999
+
+	number n
+    set n, *p2.y
+    
+    ;set mark, 9999
+	;printN(n)
 endp

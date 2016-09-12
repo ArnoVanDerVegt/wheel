@@ -181,6 +181,60 @@
                 });
             };
 
+            this.compilePointerWrite = function(arrayParam, indexParam, valueParam) {
+                var compilerOutput = this._compiler.getOutput();
+                var compilerData   = this._compilerData;
+                var localOffset    = compilerData.getLocalOffset();
+
+                if (wheel.compiler.command.typeToLocation(arrayParam.type) === 'local') {
+                    compilerOutput.add({
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: localOffset},
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: valueParam.value}
+                        ]
+                    });
+                    compilerOutput.add({
+                        code: wheel.compiler.command.add.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: localOffset},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                        ]
+                    });
+                } else {
+                    compilerOutput.add({
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,    value: localOffset},
+                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: valueParam.value}
+                        ]
+                    });
+                }
+
+                compilerOutput.add({
+                    code: wheel.compiler.command.set.code,
+                    params: [
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                    ]
+                });
+                localOffset && compilerOutput.add({
+                    code: wheel.compiler.command.add.code,
+                    params: [
+                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
+                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: localOffset}
+                    ]
+                });
+
+                compilerOutput.add({
+                    code: wheel.compiler.command.copy.code,
+                    params: [
+                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 1},
+                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 0}
+                    ]
+                });
+            };
+
             this.compile = function(command) {
                 var compiler     = this._compilerData;
                 var compilerData = this._compilerData;
@@ -197,6 +251,14 @@
                         throw compiler.createError('Type mismatch "' + arrayStructName + '" and "' + valueStructName + '".');
                     }
                     size = valueParam.vr.struct.size;
+                }
+                if (arrayParam && arrayParam.vr && (arrayParam.vr.metaType === wheel.compiler.command.T_META_POINTER)) {
+                    if ((arrayParam.metaType === null) && (valueParam.metaType === wheel.compiler.command.T_META_ADDRESS)) {
+                        // Point *p[10]
+                        // arrayw p, 3, &p1
+                        this.compilePointerWrite(arrayParam, indexParam, valueParam);
+                        return;
+                    }
                 }
 
                 if (valueParam.type !== wheel.compiler.command.T_PROC) {

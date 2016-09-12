@@ -62,6 +62,66 @@
 
                 if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
+                } else if (paramInfo.metaType === wheel.compiler.command.T_META_POINTER) {
+console.log(paramInfo);
+                    compilerOutput.add({ // set dest, stack
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
+                        ]
+                    });
+
+                    if (wheel.compiler.command.typeToLocation(paramInfo.type) === 'local') {
+                        compilerOutput.add({ // add stack, origOffset
+                            code: wheel.compiler.command.add.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.vr.origOffset}
+                            ]
+                        });
+                    } else {
+                        compilerOutput.add({ // set stack, origOffset
+                            code: wheel.compiler.command.set.code,
+                            params: [
+                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
+                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.vr.origiOffset}
+                            ]
+                        });
+                    }
+
+                    var offset = 0;
+                    if (paramInfo.vr.struct) {
+                        // Hacky...
+                        var p      = param;
+                        var i      = p.lastIndexOf('.');
+                        var field  = p.substr(i + 1 - p.length);
+                        var offset = paramInfo.vr.struct.fields[field].offset;
+                    }
+
+                    compilerOutput.add({ // set stack, [stack+0]
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset}
+                        ]
+                    });
+
+                    compilerOutput.add({ // set stack, dest
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
+                        ]
+                    });
+
+                    compilerOutput.add({ // set [stack+offset], src
+                        code: wheel.compiler.command.set.code,
+                        params: [
+                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset},
+                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
+                        ]
+                    });
                 } else if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
                     var localOffset = paramInfo.value;
                     destParam = {

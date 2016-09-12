@@ -3,27 +3,6 @@ var assert = require('assert');
 var wheel             = require('../public/js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
-var standardLines = [
-        'proc printN(number n)',
-        '    struct PrintNumber',
-        '        number n',
-        '    ends',
-        '    PrintNumber printNumber',
-        '    set      printNumber.n,n',
-        '    addr     printNumber',
-        '    module   0,0',
-        'endp',
-        'proc printS(string s)',
-        '    struct PrintString',
-        '        string s',
-        '    ends',
-        '    PrintString printString',
-        '    set      printString.s,s',
-        '    addr     printString',
-        '    module   0,1',
-        'endp'
-    ];
-
 describe(
     'Test array',
     function() {
@@ -199,7 +178,7 @@ describe(
             'Write and read arrays',
             function () {
                 it('Should write and read 5 numbers', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Item',
                             '    number list[5]',
                             'ends',
@@ -231,7 +210,7 @@ describe(
                 });
 
                 it('Should write and read a struct', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x, y, z',
                             'ends',
@@ -257,7 +236,7 @@ describe(
                 });
 
                 it('Should declare and print local constant array', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number l = 7',
                             '    printN(l)',
@@ -279,7 +258,7 @@ describe(
                 });
 
                 it('Should declare and print global constant array', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number g = 437',
                             'number globalArray[4] = [457, 345, 72, 348]',
                             '',
@@ -302,7 +281,7 @@ describe(
                 });
 
                 it('Should pass a global and constant array to a procedure', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number items[3]',
                             '',
                             'proc testProcedure(number list[3])',
@@ -341,7 +320,7 @@ describe(
                 });
 
                 it('Should pass a local and constant array to a procedure', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc testProcedure(number list[4])',
                             '    number   counter',
                             '    set      counter,                0',
@@ -385,7 +364,7 @@ describe(
             'Arrays and pointers',
             function () {
                 it('Should pass a pointer to a procedure and set values', function() {
-                    var testData = compilerTestUtils.compileAndRun(standardLines.concat([
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc testArray(number *n[3])',
                             '    arrayw  *n, 0, 586',
                             '    arrayw  *n, 1, -3232',
