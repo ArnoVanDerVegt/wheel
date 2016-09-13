@@ -63,7 +63,6 @@
                 if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
                 } else if (paramInfo.metaType === wheel.compiler.command.T_META_POINTER) {
-console.log(paramInfo);
                     compilerOutput.add({ // set dest, stack
                         code: wheel.compiler.command.set.code,
                         params: [
