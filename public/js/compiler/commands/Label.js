@@ -37,8 +37,8 @@
                             outputCommands[jump] = {
                                 code: wheel.compiler.command.set.code,
                                 params: [
-                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
-                                    {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: label.index}
+                                    {type: wheel.compiler.command.T_NUM_G,   value: wheel.compiler.command.REG_CODE},
+                                    {type: wheel.compiler.command.T_NUM_C, value: label.index}
                                 ]
                             };
                         }

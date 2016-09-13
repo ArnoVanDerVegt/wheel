@@ -20,6 +20,10 @@
                 this._buffer.push(outputCommand);
             };
 
+            this.a = function(code, params) {
+                this.add({code: code, params: params});
+            };
+
             this.reset = function() {
                 this._buffer.length = 0;
                 this._mainIndex     = 0;
@@ -66,30 +70,30 @@
                 var paramToString = function(command, param) {
                         var result = '';
                         switch (param.type) {
-                            case wheel.compiler.command.T_NUMBER_CONSTANT:
+                            case wheel.compiler.command.T_NUM_C:
                                 result = param.value;
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_LOCAL:
+                            case wheel.compiler.command.T_NUM_L:
                                 result = '[stack+' + leadingZero(param.value) + ']';
-                                //result = '[[000' + wheel.compiler.command.REG_OFFSET_STACK + ']+' + leadingZero(param.value) + ']';
+                                //result = '[[000' + wheel.compiler.command.REG_STACK + ']+' + leadingZero(param.value) + ']';
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_GLOBAL:
+                            case wheel.compiler.command.T_NUM_G:
                                 switch (param.value) {
-                                    case wheel.compiler.command.REG_OFFSET_STACK:
+                                    case wheel.compiler.command.REG_STACK:
                                         result = 'stack';
                                         break;
 
-                                    case wheel.compiler.command.REG_OFFSET_SRC:
+                                    case wheel.compiler.command.REG_SRC:
                                         result = 'src';
                                         break;
 
-                                    case wheel.compiler.command.REG_OFFSET_DEST:
+                                    case wheel.compiler.command.REG_DEST:
                                         result = 'dest';
                                         break;
 
-                                    case wheel.compiler.command.REG_OFFSET_CODE:
+                                    case wheel.compiler.command.REG_CODE:
                                         result = 'code';
                                         break;
 
@@ -171,25 +175,25 @@
                     for (var j = 0; j < params.length; j++) {
                         switch (params[j].type) {
                             case wheel.compiler.command.T_PROC:
-                                params[j].type = wheel.compiler.command.T_NUMBER_CONSTANT;
+                                params[j].type = wheel.compiler.command.T_NUM_C;
                                 break;
 
-                            case wheel.compiler.command.T_PROC_GLOBAL:
-                                params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL;
+                            case wheel.compiler.command.T_PROC_G:
+                                params[j].type = wheel.compiler.command.T_NUM_G;
                                 break;
 
-                            case wheel.compiler.command.T_PROC_GLOBAL_ARRAY:
+                            case wheel.compiler.command.T_PROC_G_ARRAY:
                                 console.error(params);
-                            //    params[j].type = wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY;
+                            //    params[j].type = wheel.compiler.command.T_NUM_G_ARRAY;
                                 break;
 
-                            case wheel.compiler.command.T_PROC_LOCAL:
-                                params[j].type = wheel.compiler.command.T_NUMBER_LOCAL;
+                            case wheel.compiler.command.T_PROC_L:
+                                params[j].type = wheel.compiler.command.T_NUM_L;
                                 break;
 
-                            case wheel.compiler.command.T_PROC_LOCAL_ARRAY:
+                            case wheel.compiler.command.T_PROC_L_ARRAY:
                                 console.error(params);
-                            //    params[j].type = wheel.compiler.command.T_NUMBER_LOCAL_ARRAY;
+                            //    params[j].type = wheel.compiler.command.T_NUM_L_ARRAY;
                                 break;
                         }
                     }

@@ -1,25 +1,25 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
 
-    var T_NUMBER_CONSTANT       =  0;
-    var T_NUMBER_GLOBAL         =  1;
-    var T_NUMBER_LOCAL          =  2;
+    var T_NUM_C                 =  0;
+    var T_NUM_G                 =  1;
+    var T_NUM_L                 =  2;
 
     var T_LABEL                 =  4;
     var T_PROC                  =  5;
 
-    var T_NUMBER_GLOBAL_ARRAY   =  6;
-    var T_NUMBER_LOCAL_ARRAY    =  7;
+    var T_NUM_G_ARRAY           =  6;
+    var T_NUM_L_ARRAY           =  7;
 
-    var T_STRUCT_GLOBAL         =  8;
-    var T_STRUCT_GLOBAL_ARRAY   =  9;
-    var T_STRUCT_LOCAL          = 10;
-    var T_STRUCT_LOCAL_ARRAY    = 11;
+    var T_STRUCT_G              =  8;
+    var T_STRUCT_G_ARRAY        =  9;
+    var T_STRUCT_L              = 10;
+    var T_STRUCT_L_ARRAY        = 11;
 
-    var T_PROC_GLOBAL           = 12;
-    var T_PROC_GLOBAL_ARRAY     = 13;
-    var T_PROC_LOCAL            = 14;
-    var T_PROC_LOCAL_ARRAY      = 15;
+    var T_PROC_G                = 12;
+    var T_PROC_G_ARRAY          = 13;
+    var T_PROC_L                = 14;
+    var T_PROC_L_ARRAY          = 15;
 
     var T_META_STRING           =  1;
     var T_META_POINTER          =  2;
@@ -34,10 +34,10 @@
     var FLAG_GREATER            = 16;
     var FLAG_GREATER_EQUAL      = 32;
 
-    var REG_OFFSET_STACK        =  0;
-    var REG_OFFSET_SRC          =  1;
-    var REG_OFFSET_DEST         =  2;
-    var REG_OFFSET_CODE         =  3;
+    var REG_STACK               =  0;
+    var REG_SRC                 =  1;
+    var REG_DEST                =  2;
+    var REG_CODE                =  3;
     var REG_RETURN              =  4;
     var REG_FLAGS               =  5;
 
@@ -49,7 +49,7 @@
             copy: {
                 code: 0,
                 args: [
-                    {type: T_NUMBER_CONSTANT}
+                    {type: T_NUM_C}
                 ]
             },
             jmpc: {
@@ -58,7 +58,7 @@
                     {
                         type: T_LABEL,
                         args: [
-                            {type: T_NUMBER_CONSTANT}
+                            {type: T_NUM_C}
                         ]
                     }
                 ]
@@ -67,19 +67,19 @@
                 code: 2,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -88,27 +88,27 @@
                 code: 3,
                 args: [
                     {
-                        type: T_NUMBER_CONSTANT,
+                        type: T_NUM_C,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -119,57 +119,57 @@
                 code: 4,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L},
                             {type: T_PROC}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL},
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L},
                             {type: T_PROC}
                         ]
                     },
                     {
-                        type: T_PROC_GLOBAL,
+                        type: T_PROC_G,
                         args: [
-                            {type: T_PROC_GLOBAL},
-                            {type: T_PROC_LOCAL},
+                            {type: T_PROC_G},
+                            {type: T_PROC_L},
                             {type: T_PROC}
                         ]
                     },
                     {
-                        type: T_PROC_LOCAL,
+                        type: T_PROC_L,
                         args: [
-                            {type: T_PROC_GLOBAL},
-                            {type: T_PROC_LOCAL},
+                            {type: T_PROC_G},
+                            {type: T_PROC_L},
                             {type: T_PROC}
                         ]
                     },
                     {
-                        type:         T_STRUCT_LOCAL,
+                        type:         T_STRUCT_L,
                         metaType:     T_META_POINTER,
                         args: [
-                            {type: T_STRUCT_GLOBAL, metaType: T_META_POINTER},
-                            {type: T_STRUCT_GLOBAL, metaType: T_META_ADDRESS},
-                            {type: T_STRUCT_LOCAL,     metaType: T_META_POINTER},
-                            {type: T_STRUCT_LOCAL,     metaType: T_META_ADDRESS}
+                            {type: T_STRUCT_G, metaType: T_META_POINTER},
+                            {type: T_STRUCT_G, metaType: T_META_ADDRESS},
+                            {type: T_STRUCT_L,     metaType: T_META_POINTER},
+                            {type: T_STRUCT_L,     metaType: T_META_ADDRESS}
                         ]
                     },
                     {
-                        type:         T_STRUCT_GLOBAL,
+                        type:         T_STRUCT_G,
                         metaType:     T_META_POINTER,
                         args: [
-                            {type: T_STRUCT_GLOBAL, metaType: T_META_POINTER},
-                            {type: T_STRUCT_GLOBAL, metaType: T_META_ADDRESS},
-                            {type: T_STRUCT_LOCAL,     metaType: T_META_POINTER},
-                            {type: T_STRUCT_LOCAL,     metaType: T_META_ADDRESS}
+                            {type: T_STRUCT_G, metaType: T_META_POINTER},
+                            {type: T_STRUCT_G, metaType: T_META_ADDRESS},
+                            {type: T_STRUCT_L,     metaType: T_META_POINTER},
+                            {type: T_STRUCT_L,     metaType: T_META_ADDRESS}
                         ]
                     }
                 ]
@@ -178,19 +178,19 @@
                 code: 5,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -199,19 +199,19 @@
                 code: 6,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -220,19 +220,19 @@
                 code: 7,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -241,19 +241,19 @@
                 code: 8,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -262,19 +262,19 @@
                 code: 9,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -283,19 +283,19 @@
                 code: 10,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -304,19 +304,19 @@
                 code: 11,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -325,19 +325,19 @@
                 code: 12,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
-                            {type: T_NUMBER_CONSTANT},
-                            {type: T_NUMBER_GLOBAL},
-                            {type: T_NUMBER_LOCAL}
+                            {type: T_NUM_C},
+                            {type: T_NUM_G},
+                            {type: T_NUM_L}
                         ]
                     }
                 ]
@@ -347,15 +347,15 @@
             inc: {
                 code: 1024,
                 args: [
-                    {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL}
+                    {type: T_NUM_G},
+                    {type: T_NUM_L}
                 ]
             },
             dec: {
                 code: 1025,
                 args: [
-                    {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL}
+                    {type: T_NUM_G},
+                    {type: T_NUM_L}
                 ]
             },
             // Jump...
@@ -406,14 +406,14 @@
             addr: {
                 code: 1037,
                 args: [
-                    {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL},
-                    {type: T_NUMBER_GLOBAL_ARRAY},
-                    {type: T_NUMBER_LOCAL_ARRAY},
-                    {type: T_STRUCT_GLOBAL},
-                    {type: T_STRUCT_GLOBAL_ARRAY},
-                    {type: T_STRUCT_LOCAL},
-                    {type: T_STRUCT_LOCAL_ARRAY}
+                    {type: T_NUM_G},
+                    {type: T_NUM_L},
+                    {type: T_NUM_G_ARRAY},
+                    {type: T_NUM_L_ARRAY},
+                    {type: T_STRUCT_G},
+                    {type: T_STRUCT_G_ARRAY},
+                    {type: T_STRUCT_L},
+                    {type: T_STRUCT_L_ARRAY}
                 ]
             },
             // Array functions
@@ -421,127 +421,127 @@
                 code: 1038,
                 args: [
                     {
-                        type: T_NUMBER_GLOBAL,
+                        type: T_NUM_G,
                         args: [
                             {
-                                type: T_NUMBER_LOCAL_ARRAY,
+                                type: T_NUM_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL_ARRAY,
+                                type: T_NUM_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_NUMBER_LOCAL,
+                        type: T_NUM_L,
                         args: [
                             {
-                                type: T_NUMBER_LOCAL_ARRAY,
+                                type: T_NUM_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL_ARRAY,
+                                type: T_NUM_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_STRUCT_GLOBAL,
+                        type: T_STRUCT_G,
                         args: [
                             {
-                                type: T_STRUCT_LOCAL_ARRAY,
+                                type: T_STRUCT_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_STRUCT_GLOBAL_ARRAY,
+                                type: T_STRUCT_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_STRUCT_LOCAL,
+                        type: T_STRUCT_L,
                         args: [
                             {
-                                type: T_STRUCT_LOCAL_ARRAY,
+                                type: T_STRUCT_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_STRUCT_GLOBAL_ARRAY,
+                                type: T_STRUCT_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_PROC_GLOBAL,
+                        type: T_PROC_G,
                         args: [
                             {
-                                type: T_PROC_LOCAL_ARRAY,
+                                type: T_PROC_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_PROC_GLOBAL_ARRAY,
+                                type: T_PROC_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_PROC_LOCAL,
+                        type: T_PROC_L,
                         args: [
                             {
-                                type: T_PROC_LOCAL_ARRAY,
+                                type: T_PROC_L_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             },
                             {
-                                type: T_PROC_GLOBAL_ARRAY,
+                                type: T_PROC_G_ARRAY,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL}
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
                                 ]
                             }
                         ]
@@ -552,186 +552,186 @@
                 code: 1039,
                 args: [
                     {
-                        type: T_NUMBER_LOCAL_ARRAY,
+                        type: T_NUM_L_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_NUMBER_GLOBAL_ARRAY,
+                        type: T_NUM_G_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_NUMBER_CONSTANT},
-                                    {type: T_NUMBER_GLOBAL},
-                                    {type: T_NUMBER_LOCAL},
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
                                     {type: T_PROC},
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL}
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_STRUCT_GLOBAL_ARRAY,
+                        type: T_STRUCT_G_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_STRUCT_LOCAL_ARRAY,
+                        type: T_STRUCT_L_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_STRUCT_GLOBAL},
-                                    {type: T_STRUCT_LOCAL}
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_PROC_GLOBAL_ARRAY,
+                        type: T_PROC_G_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             }
                         ]
                     },
                     {
-                        type: T_PROC_LOCAL_ARRAY,
+                        type: T_PROC_L_ARRAY,
                         args: [
                             {
-                                type: T_NUMBER_CONSTANT,
+                                type: T_NUM_C,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             },
                             {
-                                type: T_NUMBER_GLOBAL,
+                                type: T_NUM_G,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             },
                             {
-                                type: T_NUMBER_LOCAL,
+                                type: T_NUM_L,
                                 args: [
-                                    {type: T_PROC_GLOBAL},
-                                    {type: T_PROC_LOCAL},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
                                     {type: T_PROC}
                                 ]
                             }
@@ -743,35 +743,35 @@
             'return': {
                 code: 1042,
                 args: [
-                    {type: T_NUMBER_CONSTANT},
-                    {type: T_NUMBER_GLOBAL},
-                    {type: T_NUMBER_LOCAL},
+                    {type: T_NUM_C},
+                    {type: T_NUM_G},
+                    {type: T_NUM_L},
                     {type: T_PROC},
-                    {type: T_PROC_GLOBAL},
-                    {type: T_PROC_LOCAL}
+                    {type: T_PROC_G},
+                    {type: T_PROC_L}
                 ]
             }
         }
     );
 
-    wheel('compiler.command.T_NUMBER_CONSTANT',     T_NUMBER_CONSTANT);
-    wheel('compiler.command.T_NUMBER_GLOBAL',       T_NUMBER_GLOBAL);
-    wheel('compiler.command.T_NUMBER_LOCAL',        T_NUMBER_LOCAL);
+    wheel('compiler.command.T_NUM_C',               T_NUM_C);
+    wheel('compiler.command.T_NUM_G',               T_NUM_G);
+    wheel('compiler.command.T_NUM_L',               T_NUM_L);
     wheel('compiler.command.T_PROC',                T_PROC);
     wheel('compiler.command.T_LABEL',               T_LABEL);
 
-    wheel('compiler.command.T_NUMBER_GLOBAL_ARRAY', T_NUMBER_GLOBAL_ARRAY);
-    wheel('compiler.command.T_NUMBER_LOCAL_ARRAY',  T_NUMBER_LOCAL_ARRAY);
+    wheel('compiler.command.T_NUM_G_ARRAY',         T_NUM_G_ARRAY);
+    wheel('compiler.command.T_NUM_L_ARRAY',         T_NUM_L_ARRAY);
 
-    wheel('compiler.command.T_STRUCT_GLOBAL',       T_STRUCT_GLOBAL);
-    wheel('compiler.command.T_STRUCT_GLOBAL_ARRAY', T_STRUCT_GLOBAL_ARRAY);
-    wheel('compiler.command.T_STRUCT_LOCAL',        T_STRUCT_LOCAL);
-    wheel('compiler.command.T_STRUCT_LOCAL_ARRAY',  T_STRUCT_LOCAL_ARRAY);
+    wheel('compiler.command.T_STRUCT_G',            T_STRUCT_G);
+    wheel('compiler.command.T_STRUCT_G_ARRAY',      T_STRUCT_G_ARRAY);
+    wheel('compiler.command.T_STRUCT_L',            T_STRUCT_L);
+    wheel('compiler.command.T_STRUCT_L_ARRAY',      T_STRUCT_L_ARRAY);
 
-    wheel('compiler.command.T_PROC_GLOBAL',         T_PROC_GLOBAL);
-    wheel('compiler.command.T_PROC_GLOBAL_ARRAY',   T_PROC_GLOBAL_ARRAY);
-    wheel('compiler.command.T_PROC_LOCAL',          T_PROC_LOCAL);
-    wheel('compiler.command.T_PROC_LOCAL_ARRAY',    T_PROC_LOCAL_ARRAY);
+    wheel('compiler.command.T_PROC_G',              T_PROC_G);
+    wheel('compiler.command.T_PROC_G_ARRAY',        T_PROC_G_ARRAY);
+    wheel('compiler.command.T_PROC_L',              T_PROC_L);
+    wheel('compiler.command.T_PROC_L_ARRAY',        T_PROC_L_ARRAY);
 
     wheel('compiler.command.T_META_STRING',         T_META_STRING);
     wheel('compiler.command.T_META_POINTER',        T_META_POINTER);
@@ -786,12 +786,19 @@
     wheel('compiler.command.FLAG_GREATER',          FLAG_GREATER);
     wheel('compiler.command.FLAG_GREATER_EQUAL',    FLAG_GREATER_EQUAL);
 
-    wheel('compiler.command.REG_OFFSET_STACK',      REG_OFFSET_STACK);
-    wheel('compiler.command.REG_OFFSET_SRC',        REG_OFFSET_SRC);
-    wheel('compiler.command.REG_OFFSET_DEST',       REG_OFFSET_DEST);
-    wheel('compiler.command.REG_OFFSET_CODE',       REG_OFFSET_CODE);
+    wheel('compiler.command.REG_STACK',             REG_STACK);
+    wheel('compiler.command.REG_SRC',               REG_SRC);
+    wheel('compiler.command.REG_DEST',              REG_DEST);
+    wheel('compiler.command.REG_CODE',              REG_CODE);
     wheel('compiler.command.REG_RETURN',            REG_RETURN);
     wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
+
+    wheel('compiler.command.STACK',                 function() { return {type: T_NUM_G, value: REG_STACK  }});
+    wheel('compiler.command.SRC',                   function() { return {type: T_NUM_G, value: REG_SRC    }});
+    wheel('compiler.command.DEST',                  function() { return {type: T_NUM_G, value: REG_DEST   }});
+    wheel('compiler.command.CODE',                  function() { return {type: T_NUM_G, value: REG_CODE   }});
+    wheel('compiler.command.RETURN',                function() { return {type: T_NUM_G, value: REG_RETURN }});
+    wheel('compiler.command.FLAGS',                 function() { return {type: T_NUM_G, value: REG_FLAGS  }});
 
     wheel('compiler.command.REGISTER_COUNT',        REGISTER_COUNT);
 
@@ -800,21 +807,21 @@
         function(type) {
             var result = '';
             switch (type) {
-                case T_NUMBER_CONSTANT:     result = 'const';    break;
-                case T_NUMBER_GLOBAL:       result = 'global';   break;
-                case T_NUMBER_GLOBAL_ARRAY: result = 'global';   break;
-                case T_NUMBER_LOCAL:        result = 'local';    break;
-                case T_NUMBER_LOCAL_ARRAY:  result = 'local';    break;
+                case T_NUM_C:           result = 'const';    break;
+                case T_NUM_G:           result = 'global';   break;
+                case T_NUM_G_ARRAY:     result = 'global';   break;
+                case T_NUM_L:           result = 'local';    break;
+                case T_NUM_L_ARRAY:     result = 'local';    break;
 
-                case T_STRUCT_GLOBAL:       result = 'global';   break;
-                case T_STRUCT_GLOBAL_ARRAY: result = 'global';   break;
-                case T_STRUCT_LOCAL:        result = 'local';    break;
-                case T_STRUCT_LOCAL_ARRAY:  result = 'local';    break;
+                case T_STRUCT_G:        result = 'global';   break;
+                case T_STRUCT_G_ARRAY:  result = 'global';   break;
+                case T_STRUCT_L:        result = 'local';    break;
+                case T_STRUCT_L_ARRAY:  result = 'local';    break;
 
-                case T_PROC_GLOBAL:         result = 'global';   break;
-                case T_PROC_GLOBAL_ARRAY:   result = 'global';   break;
-                case T_PROC_LOCAL:          result = 'local';    break;
-                case T_PROC_LOCAL_ARRAY:    result = 'local';    break;
+                case T_PROC_G:          result = 'global';   break;
+                case T_PROC_G_ARRAY:    result = 'global';   break;
+                case T_PROC_L:          result = 'local';    break;
+                case T_PROC_L_ARRAY:    result = 'local';    break;
             }
             return result;
         }

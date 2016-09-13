@@ -8,30 +8,23 @@
 **/
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.Addr',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(validatedCommand) {
+                $ = wheel.compiler.command;
+
                 var compilerData   = this._compilerData;
                 var compilerOutput = this._compiler.getOutput();
                 var param          = validatedCommand.params[0];
 
-                compilerOutput.add({
-                    code: wheel.compiler.command.set.code,
-                    params: [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: param.value}
-                    ]
-                });
-                if (wheel.compiler.command.typeToLocation(param.type) === 'local') {
-                    compilerOutput.add({
-                        code: wheel.compiler.command.add.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                        ]
-                    });
+                // set src, param.value
+                compilerOutput.a($.set.code, [{type: $.T_NUM_G, value: $.REG_SRC}, {type: $.T_NUM_C, value: param.value}]);
+                if ($.typeToLocation(param.type) === 'local') {
+                    // add src, stack
+                    compilerOutput.a($.add.code, [{type: $.T_NUM_G, value: $.REG_SRC}, {type: $.T_NUM_G, value: $.REG_STACK}]);
                 }
             };
         })

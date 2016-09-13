@@ -27,11 +27,11 @@
                     }
                     switch (param[0]) {
                         case 'number':
-                            compilerData.declareLocal(param[1], wheel.compiler.command.T_NUMBER_LOCAL, wheel.compiler.command.T_NUMBER_LOCAL_ARRAY, false);
+                            compilerData.declareLocal(param[1], wheel.compiler.command.T_NUM_L, wheel.compiler.command.T_NUM_L_ARRAY, false);
                             break;
 
                         case 'string':
-                            var local = compilerData.declareLocal(param[1], wheel.compiler.command.T_NUMBER_LOCAL, wheel.compiler.command.T_NUMBER_LOCAL_ARRAY, false);
+                            var local = compilerData.declareLocal(param[1], wheel.compiler.command.T_NUM_L, wheel.compiler.command.T_NUM_L_ARRAY, false);
                             local.metaType = wheel.compiler.command.T_META_STRING;
                             break;
 
@@ -40,7 +40,7 @@
                             if (struct === null) {
                                 throw compiler.createError('Unknown type "' + param[0] + '".');
                             }
-                            compilerData.declareLocal(param[1], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct, false);
+                            compilerData.declareLocal(param[1], wheel.compiler.command.T_STRUCT_L, wheel.compiler.command.T_STRUCT_L_ARRAY, struct, false);
                             break;
                     }
                     procedure.paramTypes.push(param[0]);
@@ -62,15 +62,15 @@
                     }
                     if (compiler.getActiveStruct() !== null) {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareStructField(params[j], wheel.compiler.command.T_PROC_GLOBAL, wheel.compiler.command.T_PROC_GLOBAL_ARRAY);
+                            compilerData.declareStructField(params[j], wheel.compiler.command.T_PROC_G, wheel.compiler.command.T_PROC_G_ARRAY);
                         }
                     } else if (compiler.getInProc()) {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareLocal(params[j], wheel.compiler.command.T_PROC_LOCAL, wheel.compiler.command.T_PROC_LOCAL_ARRAY, false);
+                            compilerData.declareLocal(params[j], wheel.compiler.command.T_PROC_L, wheel.compiler.command.T_PROC_L_ARRAY, false);
                         }
                     } else {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareGlobal(params[j], wheel.compiler.command.T_PROC_GLOBAL, wheel.compiler.command.T_PROC_GLOBAL_ARRAY, null, location, false);
+                            compilerData.declareGlobal(params[j], wheel.compiler.command.T_PROC_G, wheel.compiler.command.T_PROC_G_ARRAY, null, location, false);
                         }
                     }
                 }

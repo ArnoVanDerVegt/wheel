@@ -1,5 +1,6 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.Call',
@@ -9,15 +10,10 @@
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                if (paramInfo.metaType === wheel.compiler.command.T_META_STRING) {
+                if (paramInfo.metaType === $.T_META_STRING) {
                     paramInfo.value = compilerData.declareString(paramInfo.value);
                 }
-                destParam = {
-                    type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                    value: offset,
-                    param: param
-                };
-                compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+                compilerOutput.add(compiler.createCommand('set', [{type: $.T_NUM_L, value: offset}, paramInfo]));
             };
 
             this.compileLocalPoinerParam = function(param, paramInfo, offset, size) {
@@ -25,33 +21,10 @@
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                        {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: paramInfo.value}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'add',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'copy',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
-                    ]
-                ));
+                compilerOutput.a($.set.code,  [$.SRC(),  {type: $.T_NUM_L,  value: paramInfo.value}]);
+                compilerOutput.a($.set.code,  [$.DEST(), {type: $.T_NUM_C, value: offset}]);
+                compilerOutput.a($.add.code,  [$.DEST(), $.STACK()]);
+                compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
             };
 
             this.compileLocalParam = function(param, paramInfo, offset) {
@@ -60,33 +33,15 @@
                 var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
-                if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
+                if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
-                } else if (paramInfo.metaType === wheel.compiler.command.T_META_POINTER) {
-                    compilerOutput.add({ // set dest, stack
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                        ]
-                    });
+                } else if (paramInfo.metaType === $.T_META_POINTER) {
+                    compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
 
-                    if (wheel.compiler.command.typeToLocation(paramInfo.type) === 'local') {
-                        compilerOutput.add({ // add stack, origOffset
-                            code: wheel.compiler.command.add.code,
-                            params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.vr.origOffset}
-                            ]
-                        });
+                    if ($.typeToLocation(paramInfo.type) === 'local') {
+                        compilerOutput.a($.add.code, [$.STACK(), {type: $.T_NUM_C, value: paramInfo.vr.origOffset}]);
                     } else {
-                        compilerOutput.add({ // set stack, origOffset
-                            code: wheel.compiler.command.set.code,
-                            params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: arrayParam.vr.origiOffset}
-                            ]
-                        });
+                        compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_C, value: arrayParam.vr.origiOffset}]);
                     }
 
                     var offset = 0;
@@ -98,61 +53,20 @@
                         var offset = paramInfo.vr.struct.fields[field].offset;
                     }
 
-                    compilerOutput.add({ // set stack, [stack+0]
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset}
-                        ]
-                    });
+                    compilerOutput.a($.set.code, [$.SRC(),                           {type: $.T_NUM_L, value: offset}]);
+                    compilerOutput.a($.set.code, [$.STACK(),                         $.DEST()]);
+                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset},  $.SRC()]);
+                } else if (paramInfo.metaType === $.T_META_ADDRESS) {
+console.log('Warning!!!');
+                    paramInfo.type  = $.T_NUM_G;
+                    paramInfo.value = $.REG_SRC;
+                    compilerOutput.add(compiler.createCommand('set', [{type: $.T_NUM_L, value: offset}, paramInfo]));
 
-                    compilerOutput.add({ // set stack, dest
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
-                        ]
-                    });
-
-                    compilerOutput.add({ // set [stack+offset], src
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
-                        ]
-                    });
-                } else if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
-                    var localOffset = paramInfo.value;
-                    destParam = {
-                        type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                        value: offset,
-                        param: param
-                    };
-                    paramInfo.type  = wheel.compiler.command.T_NUMBER_GLOBAL;
-                    paramInfo.value = wheel.compiler.command.REG_OFFSET_SRC;
-                    compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
-
-                    if (localOffset) {
-                        destParam = {
-                            type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                            value: offset,
-                            param: param
-                        };
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                destParam,
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: localOffset} // Offset of local parameter value
-                            ]
-                        ));
+                    if (paramInfo.value) {
+                        compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, {type: $.T_NUM_C, value: paramInfo.value}]);
                     }
                 } else {
-                    var destParam = {
-                            type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                            value: offset,
-                            param: param
-                        };
-                    compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+                    compilerOutput.add(compiler.createCommand('set', [{type: $.T_NUM_L, value: offset}, paramInfo]));
                 }
             };
 
@@ -162,86 +76,27 @@
                 var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
-                if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
-                    compilerOutput.add({
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                        ]
-                    });
-                    compilerOutput.add({
-                        code: wheel.compiler.command.add.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value}
-                        ]
-                    });
-                    compilerOutput.add({
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: offset},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
-                        ]
-                    });
-                } else if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
+                if (paramInfo.metaType === $.T_META_ADDRESS) {
+                    compilerOutput.a($.set.code, [$.DEST(),                         $.STACK()]);
+                    compilerOutput.a($.add.code, [$.DEST(),                         {type: $.T_NUM_C, value: paramInfo.value}]);
+                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, $.DEST()]);
+                } else if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, size);
                 } else {
                     if (paramInfo.value === 0) {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.SRC(), $.STACK()]);
                     } else {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
-                            ]
-                        ));
-                        compilerOutput.add(compiler.createCommand(
-                            'add',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_C, value: paramInfo.value}]);
+                        compilerOutput.a($.add.code, [$.SRC(), $.STACK()]);
                     }
 
                     if (offset === 0) {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
                     } else {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-                            ]
-                        ));
-                        compilerOutput.add(compiler.createCommand(
-                            'add',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: offset}]);
+                        compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
                     }
-                    compilerOutput.add(compiler.createCommand(
-                        'copy',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
-                        ]
-                    ));
+                    compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
                 }
             };
 
@@ -251,49 +106,16 @@
                 var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
-                if (vr.metaType === wheel.compiler.command.T_META_POINTER) {
-                    compilerOutput.add(compiler.createCommand(
-                        'set',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: paramInfo.value}
-                        ]
-                    ));
-                    compilerOutput.add(compiler.createCommand(
-                        'set',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-                        ]
-                    ));
-                    compilerOutput.add(compiler.createCommand(
-                        'add',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                        ]
-                    ));
-                    compilerOutput.add(compiler.createCommand(
-                        'copy',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 1}
-                        ]
-                    ));
-                } else if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
-                    destParam = {
-                        type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                        value: offset,
-                        param: param
-                    };
-                    paramInfo.type = wheel.compiler.command.T_NUMBER_CONSTANT;
-                    compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+                if (vr.metaType === $.T_META_POINTER) {
+                    compilerOutput.a($.set.code,  [$.SRC(),  {type: $.T_NUM_G, value: paramInfo.value}]);
+                    compilerOutput.a($.set.code,  [$.DEST(), {type: $.T_NUM_C, value: offset}]);
+                    compilerOutput.a($.add.code,  [$.DEST(), $.STACK()]);
+                    compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: 1}]);
+                } else if (paramInfo.metaType === $.T_META_ADDRESS) {
+                    paramInfo.type = $.T_NUM_C;
+                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, paramInfo]);
                 } else {
-                    destParam = {
-                        type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                        value: offset,
-                        param: param
-                    };
-                    compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, paramInfo]);
                 }
             };
 
@@ -304,76 +126,35 @@
                 var vr             = paramInfo.vr;
 
                 if (paramInfo.value) {
-                    if (paramInfo.type === wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY) {
+                    if (paramInfo.type === $.T_NUM_G_ARRAY) {
                         if (typeof paramInfo.value === 'string') {
                             var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
                             size            = data.length;
                             paramInfo.value = compilerData.allocateGlobal(size);
                             compilerData.declareConstant(paramInfo.value, data);
                         }
-                    } else if ((paramInfo.type !== wheel.compiler.command.T_STRUCT_GLOBAL) &&
-                                (paramInfo.type !== wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY)) {
+                    } else if ((paramInfo.type !== $.T_STRUCT_G) && (paramInfo.type !== $.T_STRUCT_G_ARRAY)) {
                         throw compiler.createError('Type mismatch.');
                     }
                 }
 
-                if (paramInfo.metaType === wheel.compiler.command.T_META_ADDRESS) {
-                    destParam = {
-                        type:  wheel.compiler.command.T_NUMBER_LOCAL,
-                        value: offset,
-                        param: param
-                    };
-                    paramInfo.type = wheel.compiler.command.T_NUMBER_CONSTANT;
-                    compilerOutput.add(compiler.createCommand('set', [destParam, paramInfo]));
+                if (paramInfo.metaType === $.T_META_ADDRESS) {
+                    paramInfo.type = $.T_NUM_C;
+                    compilerOutput.add(compiler.createCommand('set', [{type: $.T_NUM_L, value: offset}, paramInfo]));
                 } else {
-                    if (paramInfo.metaType === wheel.compiler.command.T_META_POINTER) {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: paramInfo.value}
-                            ]
-                        ));
+                    if (paramInfo.metaType === $.T_META_POINTER) {
+                        compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_G, value: paramInfo.value}]);
                     } else {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_SRC},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: paramInfo.value} // Offset of local parameter value
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_C, value: paramInfo.value}]);
                     }
 
                     if (offset === 0) {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
                     } else {
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: offset}
-                            ]
-                        ));
-                        compilerOutput.add(compiler.createCommand(
-                            'add',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                            ]
-                        ));
+                        compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: offset}]);
+                        compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
                     }
-                    compilerOutput.add(compiler.createCommand(
-                        'copy',
-                        [
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: size}
-                        ]
-                    ));
+                    compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
                 }
             };
 
@@ -395,33 +176,33 @@
                         var size         = vr ? (vr.size * vr.length) : 1;
 
                         // If the var is declared as a pointer and passed as *varname...
-                        if ((vr && vr.struct && (vr.metaType === wheel.compiler.command.T_META_POINTER)) &&
-                            (paramInfo.metaType === wheel.compiler.command.T_META_POINTER)) {
+                        if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) &&
+                            (paramInfo.metaType === $.T_META_POINTER)) {
                             size = vr.struct.size;
                         }
 
                         switch (paramInfo.type) {
-                            case wheel.compiler.command.T_NUMBER_CONSTANT:
+                            case $.T_NUM_C:
                                 this.compileConstantParameter(param, paramInfo, offset);
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_LOCAL:
+                            case $.T_NUM_L:
                                 this.compileLocalParam(param, paramInfo, offset);
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_LOCAL_ARRAY:
-                            case wheel.compiler.command.T_STRUCT_LOCAL_ARRAY:
-                            case wheel.compiler.command.T_STRUCT_LOCAL:
+                            case $.T_NUM_L_ARRAY:
+                            case $.T_STRUCT_L_ARRAY:
+                            case $.T_STRUCT_L:
                                 this.compileLocalStructParam(param, paramInfo, offset, size);
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_GLOBAL:
+                            case $.T_NUM_G:
                                 this.compileGlobalParam(param, paramInfo, offset);
                                 break;
 
-                            case wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY:
-                            case wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY:
-                            case wheel.compiler.command.T_STRUCT_GLOBAL:
+                            case $.T_NUM_G_ARRAY:
+                            case $.T_STRUCT_G_ARRAY:
+                            case $.T_STRUCT_G:
                                 this.compileGlobalStructParam(param, paramInfo, offset, size);
                                 break;
 
@@ -435,6 +216,8 @@
             };
 
             this.compile = function(line) {
+                $ = wheel.compiler.command;
+
                 var compiler         = this._compiler;
                 var compilerOutput   = compiler.getOutput();
                 var compilerData     = this._compilerData;
@@ -450,48 +233,36 @@
                 var currentLocalStackSize = compilerData.getLocalOffset();
 
                 if (p !== null) {
-                    callCommand = {
-                        code: wheel.compiler.command.set.code,
-                        params: [
-                            {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_CODE},
-                            {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: p.index - 1}
-                        ]
-                    };
+                    callCommand = {code: $.set.code, params: [$.CODE(), {type: $.T_NUM_C, value: p.index - 1}]};
                 } else {
                     var local = compilerData.findLocal(procedure);
                     if (local !== null) {
-                        if (local.type !== wheel.compiler.command.T_PROC_LOCAL) {
+                        if (local.type !== $.T_PROC_L) {
                             throw compiler.createError('Type error, can not call "' + procedure + '".');
                         }
 
                         // Move the code offset above the stack into the stack of the new procedure...
-                        compilerOutput.add(compiler.createCommand(
-                            'set',
-                            [
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset + currentLocalStackSize},
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset}
-                            ]
-                        ));
+                        var offset = local.offset + currentLocalStackSize;
+                        compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, {type: $.T_NUM_L, value: local.offset}]);
                         callCommand = {
-                            code: wheel.compiler.command.set.code,
+                            code: $.set.code,
                             params: [
-                                {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
-                                {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: local.offset}
+                                {type: $.T_NUM_G, value: $.REG_CODE},
+                                {type: $.T_NUM_L, value: local.offset}
                             ]
                         };
                     } else {
                         var global = compilerData.findGlobal(procedure)
                         if (global !== null) {
-                            if ((global.type !== wheel.compiler.command.T_NUMBER_GLOBAL) &&
-                                (global.type !== wheel.compiler.command.T_PROC_GLOBAL)) {
+                            if ((global.type !== $.T_NUM_G) && (global.type !== $.T_PROC_G)) {
                                 throw compiler.createError('Type error, can not call "' + procedure + '".');
                             }
 
                             callCommand = {
-                                code: wheel.compiler.command.set.code,
+                                code: $.set.code,
                                 params: [
-                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE},
-                                    {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: global.offset}
+                                    {type: $.T_NUM_G, value: $.REG_CODE},
+                                    {type: $.T_NUM_G, value: global.offset}
                                 ]
                             };
                         } else {
@@ -502,50 +273,15 @@
                 this.compileParams(line.substr(i + 1, line.length - i - 2).trim(), currentLocalStackSize);
 
                 // Move the code offset to the dest register...
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST},
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_CODE}
-                    ]
-                ));
+                compilerOutput.a($.set.code, [$.DEST(),                     $.CODE()]);
                 // Add 6, these are the call setup commands... (including this one!)
-                compilerOutput.add(compiler.createCommand(
-                    'add',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_DEST},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: 6}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC},
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_STACK}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'add',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL,   value: wheel.compiler.command.REG_OFFSET_STACK},
-                        {type: wheel.compiler.command.T_NUMBER_CONSTANT, value: currentLocalStackSize}
-                    ]
-                ));
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 0},
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_SRC}
-                    ]
-                ));
+                compilerOutput.a($.add.code, [$.DEST(),                     {type: $.T_NUM_C, value: 6}]);
+
+                compilerOutput.a($.set.code, [$.SRC(),                      $.STACK()]);
+                compilerOutput.a($.add.code, [$.STACK(),                    {type: $.T_NUM_C, value: currentLocalStackSize}]);
+                compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: 0},  $.SRC()]);
                 // Move the dest register value to the stack, this is the return code offset!
-                compilerOutput.add(compiler.createCommand(
-                    'set',
-                    [
-                        {type: wheel.compiler.command.T_NUMBER_LOCAL,  value: 1},
-                        {type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_OFFSET_DEST}
-                    ]
-                ));
+                compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: 1},  $.DEST()]);
 
                 compilerOutput.add(callCommand);
             };

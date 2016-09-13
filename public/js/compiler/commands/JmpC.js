@@ -21,7 +21,7 @@
                 validatedCommand.command = 'jmpc';
                 validatedCommand.code    = wheel.compiler.command.jmpc.code;
                 validatedCommand.params.push({
-                    type:  wheel.compiler.command.T_NUMBER_CONSTANT,
+                    type:  wheel.compiler.command.T_NUM_C,
                     value: flag
                 });
                 this._compiler.getOutput().add(validatedCommand);

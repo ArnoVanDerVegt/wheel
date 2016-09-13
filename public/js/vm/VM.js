@@ -32,23 +32,23 @@
 
                 var p1 = command.params[0].value;
                 var v1;
-                var regOffsetStack = data[wheel.compiler.command.REG_OFFSET_STACK];
+                var regOffsetStack = data[wheel.compiler.command.REG_STACK];
                 switch (command.params[0].type) {
-                    case wheel.compiler.command.T_NUMBER_CONSTANT: v1 = p1;                         break;
-                    case wheel.compiler.command.T_NUMBER_GLOBAL:   v1 = data[p1];                   break;
-                    case wheel.compiler.command.T_NUMBER_LOCAL:    v1 = data[p1 + regOffsetStack];  break;
+                    case wheel.compiler.command.T_NUM_C: v1 = p1;                         break;
+                    case wheel.compiler.command.T_NUM_G:   v1 = data[p1];                   break;
+                    case wheel.compiler.command.T_NUM_L:    v1 = data[p1 + regOffsetStack];  break;
                 }
                 var p2 = command.params[1].value;
                 var v2;
                 switch (command.params[1].type) {
-                    case wheel.compiler.command.T_NUMBER_CONSTANT: v2 = p2;                         break;
-                    case wheel.compiler.command.T_NUMBER_GLOBAL:   v2 = data[p2];                   break;
-                    case wheel.compiler.command.T_NUMBER_LOCAL:    v2 = data[p2 + regOffsetStack];  break;
+                    case wheel.compiler.command.T_NUM_C: v2 = p2;                         break;
+                    case wheel.compiler.command.T_NUM_G:   v2 = data[p2];                   break;
+                    case wheel.compiler.command.T_NUM_L:    v2 = data[p2 + regOffsetStack];  break;
                 }
 /*
-    var regOffsetSrc  = data[wheel.compiler.command.REG_OFFSET_SRC];
-    var regOffsetDest = data[wheel.compiler.command.REG_OFFSET_DEST];
-    var regOffsetCode = data[wheel.compiler.command.REG_OFFSET_CODE];
+    var regOffsetSrc  = data[wheel.compiler.command.REG_SRC];
+    var regOffsetDest = data[wheel.compiler.command.REG_DEST];
+    var regOffsetCode = data[wheel.compiler.command.REG_CODE];
     console.log(
         regOffsetCode, '>', command.command
     );
@@ -61,8 +61,8 @@
                 switch (command.code) {
                     case 0: // copy
                         var size          = v1;
-                        var regOffsetSrc  = data[wheel.compiler.command.REG_OFFSET_SRC];
-                        var regOffsetDest = data[wheel.compiler.command.REG_OFFSET_DEST];
+                        var regOffsetSrc  = data[wheel.compiler.command.REG_SRC];
+                        var regOffsetDest = data[wheel.compiler.command.REG_DEST];
                         for (var i = 0; i < size; i++) {
                             data[regOffsetDest + i] = data[regOffsetSrc + i];
                         }
@@ -70,7 +70,7 @@
 
                     case 1: // jmpc
                         var regFlags = data[wheel.compiler.command.REG_FLAGS];
-                        ((regFlags & v2) === v2) && (data[wheel.compiler.command.REG_OFFSET_CODE] = p1);
+                        ((regFlags & v2) === v2) && (data[wheel.compiler.command.REG_CODE] = p1);
                         break;
 
                     case 2: // cmp
@@ -138,8 +138,8 @@
                         }
 
                         switch (command.params[0].type) {
-                            case wheel.compiler.command.T_NUMBER_GLOBAL: data[p1]                  = result; break;
-                            case wheel.compiler.command.T_NUMBER_LOCAL:  data[p1 + regOffsetStack] = result; break;
+                            case wheel.compiler.command.T_NUM_G: data[p1]                  = result; break;
+                            case wheel.compiler.command.T_NUM_L:  data[p1 + regOffsetStack] = result; break;
                         }
                 }
             };
@@ -149,25 +149,25 @@
                 var data     = vmData.getData();
                 var commands = this._commands;
                 var count    = 0;
-                while ((vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) < commands.length - 1) && (count < 1000)) {
-                    //console.log(vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE), JSON.parse(JSON.stringify(vmData.getData())));
+                while ((vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) < commands.length - 1) && (count < 1000)) {
+                    //console.log(vmData.getGlobalNumber(wheel.compiler.command.REG_CODE), JSON.parse(JSON.stringify(vmData.getData())));
                     this.emit(
                         'RunLine',
-                        vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE),
+                        vmData.getGlobalNumber(wheel.compiler.command.REG_CODE),
                         {
-                            stack: data[wheel.compiler.command.REG_OFFSET_STACK],
-                            src:   data[wheel.compiler.command.REG_OFFSET_SRC],
-                            dest:  data[wheel.compiler.command.REG_OFFSET_DEST],
-                            code:  data[wheel.compiler.command.REG_OFFSET_CODE],
+                            stack: data[wheel.compiler.command.REG_STACK],
+                            src:   data[wheel.compiler.command.REG_SRC],
+                            dest:  data[wheel.compiler.command.REG_DEST],
+                            code:  data[wheel.compiler.command.REG_CODE],
                             ret:   data[wheel.compiler.command.REG_RETURN],
                             flags: data[wheel.compiler.command.REG_FLAGS]
                         }
                     );
-                    this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE)]);
-                    vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) + 1);
+                    this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_CODE)]);
+                    vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) + 1);
                     count++;
                 }
-                if (vmData.getGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE) >= commands.length) {
+                if (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) >= commands.length) {
                     this.stop();
                 }
                 this._motors.update();
@@ -189,7 +189,7 @@
                 vmData.setGlobalConstants(globalConstants, stackOffset);
                 this._commands = commands.getBuffer();
 
-                vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
+                vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, commands.getMainIndex());
                 this._runInterval = setInterval(this.onInterval.bind(this), 20);
             };
 
@@ -209,7 +209,7 @@
                 vmData.setGlobalConstants(globalConstants, stackOffset);
                 this._commands = commands.getBuffer();
 
-                vmData.setGlobalNumber(wheel.compiler.command.REG_OFFSET_CODE, commands.getMainIndex());
+                vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, commands.getMainIndex());
 
                 // Return pointers...
                 vmData.setGlobalNumber(stackOffset,     stackOffset); // Stack offset

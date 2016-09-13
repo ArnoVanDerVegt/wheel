@@ -30,12 +30,12 @@
 
                 this._stringList        = [];
 
-                this.declareGlobal('_____GLOBAL_REG_OFFSET_STACK_____', wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_OFFSET_SRC_____',   wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_OFFSET_DEST_____',  wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_OFFSET_CODE_____',  wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_RETURN_____',       wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',        wheel.compiler.command.T_NUMBER_GLOBAL, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_STACK_____', wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_SRC_____',   wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_DEST_____',  wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_CODE_____',  wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_RETURN_____',       wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',        wheel.compiler.command.T_NUM_G, 0, null, {}, false);
             };
 
             this._parseVariable = function(name) {
@@ -163,7 +163,7 @@
                                 clonedVr.origOffset = clonedVr.offset;
                                 clonedVr.offset += field.offset;
                                 clonedVr.field    = field;
-                                clonedVr.type     = (field.length > 1) ? wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY : wheel.compiler.command.T_NUMBER_GLOBAL;
+                                clonedVr.type     = (field.length > 1) ? wheel.compiler.command.T_NUM_G_ARRAY : wheel.compiler.command.T_NUM_G;
                                 clonedVr.metaType = field.metaType;
                                 return clonedVr;
                             }
@@ -190,8 +190,8 @@
                 this._localOffset = 0;
                 this._localList   = {};
 
-                this.declareLocal('_____LOCAL1_____', wheel.compiler.command.T_NUMBER_LOCAL, false, false, false);
-                this.declareLocal('_____LOCAL2_____', wheel.compiler.command.T_NUMBER_LOCAL, false, false, false);
+                this.declareLocal('_____LOCAL1_____', wheel.compiler.command.T_NUM_L, false, false, false);
+                this.declareLocal('_____LOCAL2_____', wheel.compiler.command.T_NUM_L, false, false, false);
             };
 
             this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
@@ -254,7 +254,7 @@
                                 field = vr.struct.fields[field];
                                 clonedVr.origOffset = clonedVr.offset;
                                 clonedVr.offset += field.offset;
-                                clonedVr.type     = wheel.compiler.command.T_NUMBER_LOCAL;
+                                clonedVr.type     = wheel.compiler.command.T_NUM_L;
                                 clonedVr.metaType = field.metaType;
                                 return clonedVr;
                             }
@@ -396,32 +396,32 @@
             this.paramInfo = function(param) {
                 if (param === 'TRUE') {
                     return {
-                        type:  wheel.compiler.command.T_NUMBER_CONSTANT,
+                        type:  wheel.compiler.command.T_NUM_C,
                         value: 1,
                         param: param
                     }
                 } else if (param === 'FALSE') {
                     return {
-                        type:  wheel.compiler.command.T_NUMBER_CONSTANT,
+                        type:  wheel.compiler.command.T_NUM_C,
                         value: 0,
                         param: param
                     }
                 } else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
                     return {
-                        type:     wheel.compiler.command.T_NUMBER_CONSTANT,
+                        type:     wheel.compiler.command.T_NUM_C,
                         metaType: wheel.compiler.command.T_META_STRING,
                         value:    param.substr(1, param.length - 2),
                         param:    param
                     };
                 } else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
                     return {
-                        type:  wheel.compiler.command.T_NUMBER_GLOBAL_ARRAY, // Array constant
+                        type:  wheel.compiler.command.T_NUM_G_ARRAY, // Array constant
                         value: param,
                         param: param
                     };
                 } else if (!isNaN(parseFloat(param))) {
                     return {
-                        type:  wheel.compiler.command.T_NUMBER_CONSTANT,
+                        type:  wheel.compiler.command.T_NUM_C,
                         value: parseFloat(param),
                         param: param
                     };

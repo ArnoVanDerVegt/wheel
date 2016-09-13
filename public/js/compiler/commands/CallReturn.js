@@ -22,7 +22,7 @@
             this.compile = function(command) {
                 command.command = 'set';
                 command.code    = wheel.compiler.command.set.code;
-                command.params.unshift({type: wheel.compiler.command.T_NUMBER_GLOBAL, value: wheel.compiler.command.REG_RETURN});
+                command.params.unshift({type: wheel.compiler.command.T_NUM_G, value: wheel.compiler.command.REG_RETURN});
 
                 this._setCompiler.compile(command);
                 this._retCompiler.compile(null);

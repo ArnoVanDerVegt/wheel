@@ -36,9 +36,9 @@ var wheelGrammar = {
             'register': {
                 autocomplete: true,
                 tokens: [
-                    'REG_OFFSET_STACK',
-                    'REG_OFFSET_SRC',
-                    'REG_OFFSET_DEST'
+                    'REG_STACK',
+                    'REG_SRC',
+                    'REG_DEST'
                 ]
             },
             'constant': {

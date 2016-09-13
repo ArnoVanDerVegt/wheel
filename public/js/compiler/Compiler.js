@@ -225,11 +225,11 @@
                                         throw this.createError('Nested structs are not supported "' + command + '".');
                                     } else if (this.getInProc()) {
                                         for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareLocal(splitParams[j], wheel.compiler.command.T_STRUCT_LOCAL, wheel.compiler.command.T_STRUCT_LOCAL_ARRAY, struct);
+                                            compilerData.declareLocal(splitParams[j], wheel.compiler.command.T_STRUCT_L, wheel.compiler.command.T_STRUCT_L_ARRAY, struct);
                                         }
                                     } else {
                                         for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareGlobal(splitParams[j], wheel.compiler.command.T_STRUCT_GLOBAL, wheel.compiler.command.T_STRUCT_GLOBAL_ARRAY, struct, location);
+                                            compilerData.declareGlobal(splitParams[j], wheel.compiler.command.T_STRUCT_G, wheel.compiler.command.T_STRUCT_G_ARRAY, struct, location);
                                         }
                                     }
                                 } else {

@@ -43,13 +43,13 @@
 
             /* Local */
             this.setLocalNumber = function(offset, value) {
-                var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
+                var offsetStack = this._data[wheel.compiler.command.REG_STACK];
                 //console.log('set local', offsetStack + offset, value);
                 this._data[offsetStack + offset] = value;
             };
 
             this.getLocalNumber = function(offset) {
-                var offsetStack = this._data[wheel.compiler.command.REG_OFFSET_STACK];
+                var offsetStack = this._data[wheel.compiler.command.REG_STACK];
                 return this._data[offsetStack + offset];
             };
 
@@ -63,11 +63,11 @@
                         globalData[offset + j] = data[j];
                     }
                 }
-                globalData[wheel.compiler.command.REG_OFFSET_STACK] = stackOffset;
+                globalData[wheel.compiler.command.REG_STACK] = stackOffset;
             };
 
             this.getDataAtRegOffset = function(count) {
-                var regOffsetSrc = this._data[wheel.compiler.command.REG_OFFSET_SRC];
+                var regOffsetSrc = this._data[wheel.compiler.command.REG_SRC];
                 var result       = [];
 
                 for (var i = 0; i < count; i++) {
@@ -77,7 +77,7 @@
             };
 
             this.getRecordFromAtOffset = function(recordFields) {
-                var regOffsetSrc = this._data[wheel.compiler.command.REG_OFFSET_SRC];
+                var regOffsetSrc = this._data[wheel.compiler.command.REG_SRC];
                 var result       = {};
 
                 for (var i = 0; i < recordFields.length; i++) {
@@ -88,13 +88,13 @@
 
             this.getNumberAtRegOffset = function() {
                 var data = this._data;
-                return data[data[wheel.compiler.command.REG_OFFSET_SRC]];
+                return data[data[wheel.compiler.command.REG_SRC]];
             };
 
             this.setNumberAtRegOffset = function(value) {
                 var data = this._data;
-                console.log('set number', wheel.compiler.command.REG_OFFSET_SRC, data[wheel.compiler.command.REG_OFFSET_SRC], value);
-                data[data[wheel.compiler.command.REG_OFFSET_SRC]] = value;
+                console.log('set number', wheel.compiler.command.REG_SRC, data[wheel.compiler.command.REG_SRC], value);
+                data[data[wheel.compiler.command.REG_SRC]] = value;
             };
         })
     );
