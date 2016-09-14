@@ -134,5 +134,70 @@ describe(
                 }
             }
         );
+
+        describe(
+            'Inc, dec',
+            function () {
+                it('Increase a global', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    set n, 17',
+                            '    inc n',
+                            '',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [18]);
+                });
+
+                it('Decrease a global', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    set n, 19305',
+                            '    dec n',
+                            '',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [19304]);
+                });
+
+                it('Increase a local', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    set n, 1467',
+                            '    inc n',
+                            '',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [1468]);
+                });
+
+                it('Decrease a local', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    set n, 2305',
+                            '    dec n',
+                            '',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [2304]);
+                });
+            }
+        );
     }
 );

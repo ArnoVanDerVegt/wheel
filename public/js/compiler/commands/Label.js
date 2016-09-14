@@ -31,7 +31,7 @@
                     var jumps = label.jumps;
                     for (var j = 0; j < jumps.length; j++) {
                         var jump = jumps[j];
-                        if (outputCommands[jump].command === 'jmpc') {
+                        if (outputCommands[jump].code === wheel.compiler.command.jmpc.code) {
                             outputCommands[jump].params[0].value = label.index;
                         } else {
                             outputCommands[jump] = {
@@ -55,8 +55,9 @@
                 var compilerData = this._compilerData;
                 for (var i = 0; i < lines.length; i++) {
                     this._lineNumber = i;
-                    var line         = lines[i].trim();
-                    var location     = {
+
+                    var line     = lines[i].trim();
+                    var location = {
                             filename:   this._filename,
                             lineNumber: i
                         };

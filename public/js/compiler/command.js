@@ -862,6 +862,13 @@
     );
 
     wheel(
+        'compiler.command.isConst',
+        function(value) {
+            return (value.type === T_NUM_C);
+        }
+    );
+
+    wheel(
         'compiler.command.isStructVarType',
         function(value) {
             if (value.vr) {

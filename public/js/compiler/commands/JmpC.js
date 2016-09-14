@@ -1,29 +1,26 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.JmpC',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(validatedCommand) {
-                var compilerData = this._compilerData;
-                var command      = validatedCommand.command;
-                var flag         = 0;
+                $ = wheel.compiler.command;
 
-                switch (command) {
-                    case 'je':  flag = wheel.compiler.command.FLAG_EQUAL;         break;
-                    case 'jne': flag = wheel.compiler.command.FLAG_NOT_EQUAL;     break;
-                    case 'jl':  flag = wheel.compiler.command.FLAG_LESS;          break;
-                    case 'jle': flag = wheel.compiler.command.FLAG_LESS_EQUAL;    break;
-                    case 'jg':  flag = wheel.compiler.command.FLAG_GREATER;       break;
-                    case 'jge': flag = wheel.compiler.command.FLAG_GREATER_EQUAL; break;
+                var flag = 0;
+
+                switch (validatedCommand.command) {
+                    case 'je':  flag = $.FLAG_EQUAL;         break;
+                    case 'jne': flag = $.FLAG_NOT_EQUAL;     break;
+                    case 'jl':  flag = $.FLAG_LESS;          break;
+                    case 'jle': flag = $.FLAG_LESS_EQUAL;    break;
+                    case 'jg':  flag = $.FLAG_GREATER;       break;
+                    case 'jge': flag = $.FLAG_GREATER_EQUAL; break;
                 }
 
-                validatedCommand.command = 'jmpc';
-                validatedCommand.code    = wheel.compiler.command.jmpc.code;
-                validatedCommand.params.push({
-                    type:  wheel.compiler.command.T_NUM_C,
-                    value: flag
-                });
+                validatedCommand.code      = $.jmpc.code;
+                validatedCommand.params[1] = $.CONST(flag);
                 this._compiler.getOutput().add(validatedCommand);
             };
         })

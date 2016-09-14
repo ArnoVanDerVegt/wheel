@@ -21,11 +21,8 @@
                 var param          = validatedCommand.params[0];
 
                 // set src, param.value
-                compilerOutput.a($.set.code, [{type: $.T_NUM_G, value: $.REG_SRC}, {type: $.T_NUM_C, value: param.value}]);
-                if ($.typeToLocation(param.type) === 'local') {
-                    // add src, stack
-                    compilerOutput.a($.add.code, [{type: $.T_NUM_G, value: $.REG_SRC}, {type: $.T_NUM_G, value: $.REG_STACK}]);
-                }
+                compilerOutput.a($.set.code, $.SRC(), $.CONST(param.value));
+                $.isLocal(param) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
             };
         })
     );

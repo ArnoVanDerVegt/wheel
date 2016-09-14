@@ -10,9 +10,9 @@
 
                 var compilerOutput = this._compiler.getOutput();
 
-                compilerOutput.a($.set.code, [$.DEST(),  {type: $.T_NUM_L, value: 1}]);
-                compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_L, value: 0}]);
-                compilerOutput.a($.set.code, [$.CODE(),  $.DEST()]);
+                compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(1));
+                compilerOutput.a($.set.code, $.STACK(), $.LOCAL(0));
+                compilerOutput.a($.set.code, $.CODE(),  $.DEST());
             };
         })
     );
