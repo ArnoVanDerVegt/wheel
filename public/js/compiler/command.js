@@ -153,23 +153,43 @@
                         ]
                     },
                     {
-                        type:         T_STRUCT_L,
-                        metaType:     T_META_POINTER,
+                        type:     T_STRUCT_L,
+                        metaType: T_META_POINTER,
                         args: [
                             {type: T_STRUCT_G, metaType: T_META_POINTER},
                             {type: T_STRUCT_G, metaType: T_META_ADDRESS},
-                            {type: T_STRUCT_L,     metaType: T_META_POINTER},
-                            {type: T_STRUCT_L,     metaType: T_META_ADDRESS}
+                            {type: T_STRUCT_L, metaType: T_META_POINTER},
+                            {type: T_STRUCT_L, metaType: T_META_ADDRESS}
                         ]
                     },
                     {
-                        type:         T_STRUCT_G,
-                        metaType:     T_META_POINTER,
+                        type:     T_STRUCT_G,
+                        metaType: T_META_POINTER,
                         args: [
                             {type: T_STRUCT_G, metaType: T_META_POINTER},
                             {type: T_STRUCT_G, metaType: T_META_ADDRESS},
-                            {type: T_STRUCT_L,     metaType: T_META_POINTER},
-                            {type: T_STRUCT_L,     metaType: T_META_ADDRESS}
+                            {type: T_STRUCT_L, metaType: T_META_POINTER},
+                            {type: T_STRUCT_L, metaType: T_META_ADDRESS}
+                        ]
+                    },
+                    {
+                        type:     T_STRUCT_G_ARRAY,
+                        metaType: T_META_POINTER,
+                        args: [
+                            {type: T_STRUCT_G_ARRAY, metaType: T_META_POINTER},
+                            {type: T_STRUCT_G_ARRAY, metaType: T_META_ADDRESS},
+                            {type: T_STRUCT_L_ARRAY, metaType: T_META_POINTER},
+                            {type: T_STRUCT_L_ARRAY, metaType: T_META_ADDRESS},
+                        ]
+                    },
+                    {
+                        type:     T_STRUCT_L_ARRAY,
+                        metaType: T_META_POINTER,
+                        args: [
+                            {type: T_STRUCT_G_ARRAY, metaType: T_META_POINTER},
+                            {type: T_STRUCT_G_ARRAY, metaType: T_META_ADDRESS},
+                            {type: T_STRUCT_L_ARRAY, metaType: T_META_POINTER},
+                            {type: T_STRUCT_L_ARRAY, metaType: T_META_ADDRESS},
                         ]
                     }
                 ]
@@ -793,12 +813,14 @@
     wheel('compiler.command.REG_RETURN',            REG_RETURN);
     wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
 
-    wheel('compiler.command.STACK',                 function() { return {type: T_NUM_G, value: REG_STACK  }});
-    wheel('compiler.command.SRC',                   function() { return {type: T_NUM_G, value: REG_SRC    }});
-    wheel('compiler.command.DEST',                  function() { return {type: T_NUM_G, value: REG_DEST   }});
-    wheel('compiler.command.CODE',                  function() { return {type: T_NUM_G, value: REG_CODE   }});
-    wheel('compiler.command.RETURN',                function() { return {type: T_NUM_G, value: REG_RETURN }});
-    wheel('compiler.command.FLAGS',                 function() { return {type: T_NUM_G, value: REG_FLAGS  }});
+    wheel('compiler.command.STACK',                 function()       { return {type: T_NUM_G, value: REG_STACK  }});
+    wheel('compiler.command.SRC',                   function()       { return {type: T_NUM_G, value: REG_SRC    }});
+    wheel('compiler.command.DEST',                  function()       { return {type: T_NUM_G, value: REG_DEST   }});
+    wheel('compiler.command.CODE',                  function()       { return {type: T_NUM_G, value: REG_CODE   }});
+    wheel('compiler.command.RETURN',                function()       { return {type: T_NUM_G, value: REG_RETURN }});
+    wheel('compiler.command.FLAGS',                 function()       { return {type: T_NUM_G, value: REG_FLAGS  }});
+    wheel('compiler.command.CONST',                 function(v)      { return {type: T_NUM_C, value: v }});
+    wheel('compiler.command.LOCAL',                 function(offset) { return {type: T_NUM_L, value: offset }});
 
     wheel('compiler.command.REGISTER_COUNT',        REGISTER_COUNT);
 
@@ -824,6 +846,65 @@
                 case T_PROC_L_ARRAY:    result = 'local';    break;
             }
             return result;
+        }
+    );
+
+    wheel(
+        'compiler.command.isLocal',
+        function(value) {
+            if (value.vr) {
+                return (value.vr.type === T_NUM_L) || (value.vr.type === T_NUM_L_ARRAY) ||
+                    (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_L_ARRAY) ||
+                    (value.vr.type === T_PROC_L) || (value.vr.type === T_PROC_L_ARRAY);
+            }
+            return false;
+        }
+    );
+
+    wheel(
+        'compiler.command.isStructVarType',
+        function(value) {
+            if (value.vr) {
+                return (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_G) ||
+                    (value.vr.type === T_STRUCT_L_ARRAY) || (value.vr.type === T_STRUCT_G_ARRAY);
+            }
+            return false;
+        }
+    );
+
+    wheel(
+        'compiler.command.isNumberType',
+        function(value) {
+            if (value.vr) {
+                return (value.type === T_NUM_L) || (value.type === T_NUM_G) ||
+                    (value.type === T_NUM_G_ARRAY) || (value.type === T_NUM_L_ARRAY);
+            }
+            return false;
+        }
+    );
+
+    wheel(
+        'compiler.command.isProcType',
+        function(value) {
+            if (value.vr) {
+                return (value.type === T_PROC_G) || (value.type === T_PROC_L) ||
+                    (value.type === T_PROC_G_ARRAY) || (value.type === T_PROC_L_ARRAY);
+            }
+            return false;
+        }
+    );
+
+    wheel(
+        'compiler.command.isPointerMetaType',
+        function(value) {
+            return value && (value.metaType === T_META_POINTER);
+        }
+    );
+
+    wheel(
+        'compiler.command.isPointerVarMetaType',
+        function(value) {
+            return value.vr && (value.vr.metaType === T_META_POINTER);
         }
     );
 })();

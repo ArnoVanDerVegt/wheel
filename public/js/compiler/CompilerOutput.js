@@ -20,8 +20,10 @@
                 this._buffer.push(outputCommand);
             };
 
-            this.a = function(code, params) {
-                this.add({code: code, params: params});
+            this.a = function(code, params, p2) {
+                (p2 === undefined) ?
+                    this.add({code: code, params: params}) :
+                    this.add({code: code, params: [params, p2]});
             };
 
             this.reset = function() {

@@ -1,23 +1,28 @@
-#project "Test"
+#project "Number demo"
 
 #include "/lib/standard.whl"
 
-number mark
-
-struct Point
-	number x
-    number y
+struct Item
+    number list[5]
 ends
+Item item
 
 proc main()
-	Point *p[10]
-	Point p1
-    ;set p1.x, 37
-    ;set p1.y, 251
-    arrayw p, 3, &p1
-    ;Point *p2
-	;arrayr p2, p, 3  
-    ;set p2, &p1
-	;printN(*p2.x)
-	;printN(*p2.y)
+    number   value
+
+    number   counter = 0
+writeLoop:
+    set      value, counter
+    mul      value, 2
+    arrayw   item.list, counter, value
+    inc      counter
+    cmp      counter, 5
+    jl       writeLoop
+    set      counter, 0
+readLoop:
+    arrayr   value, item.list, counter
+    printN(value)
+    inc      counter
+    cmp      counter, 5
+    jl       readLoop
 endp

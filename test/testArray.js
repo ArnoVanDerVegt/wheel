@@ -75,9 +75,9 @@ describe(
                         testData.vm.getVMData().getData(),
                         [
                             10,     // REG_OFFSET_STACK
-                            8,      // REG_OFFSET_SRC
+                            41,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            12,     // REG_OFFSET_CODE
+                            15,     // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             41,     // number i - start of globals
@@ -388,6 +388,37 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [586, -3232, 90]);
+                });
+
+                it('Should call a procedure with a pointer to array parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point pp[10]',
+                            'Point *points[0]',
+                            '',
+                            'proc testPointer()',
+                            '    Point point',
+                            '    arrayr point, *points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point p',
+                            '    set p.x, 984',
+                            '    set p.y, 157',
+                            '    arrayw   pp, 1, p',
+                            '    set points, &pp',
+                            '',
+                            '    testPointer()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [984, 157]);
                 });
             }
         );

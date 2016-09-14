@@ -126,6 +126,7 @@
                             }
                         }
                         if (!found) {
+                            console.log(command, params);
                             throw this.createError('Type mismatch "' + param.param + '".');
                         }
                     }

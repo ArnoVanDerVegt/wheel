@@ -149,7 +149,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, ['Point:', 1656, 98, 75]);
                 });
 
-                it('Should call a procedure with an array parameter', function() {
+                it('Should call a procedure with an array parameter, read local', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number p[3]',
                             '',
@@ -157,6 +157,33 @@ describe(
                             '    printS("Point:")',
                             '',
                             '    number n',
+                            '',
+                            '    arrayr n, point, 0',
+                            '    printN(n)',
+                            '    arrayr n, point, 1',
+                            '    printN(n)',
+                            '    arrayr n, point, 2',
+                            '    printN(n)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    arrayw  p, 0, 3975',
+                            '    arrayw  p, 1, 296',
+                            '    arrayw  p, 2, 7013',
+                            '    printPoint(p)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['Point:', 3975, 296, 7013]);
+                });
+
+                it('Should call a procedure with an array parameter, read global', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number p[3]',
+                            'number n',
+                            '',
+                            'proc printPoint(number point[3])',
+                            '    printS("Point:")',
                             '',
                             '    arrayr n, point, 0',
                             '    printN(n)',
@@ -188,7 +215,7 @@ describe(
                             '',
                             'proc testPointer(Point *points[0])',
                             '    Point point',
-                            '    arrayr point, *points, 1',
+                            '    arrayr point, points, 1',
                             '    printN(point.x)',
                             '    printN(point.y)',
                             'endp',
