@@ -821,6 +821,7 @@
     wheel('compiler.command.FLAGS',                 function()       { return {type: T_NUM_G, value: REG_FLAGS  }});
     wheel('compiler.command.CONST',                 function(v)      { return {type: T_NUM_C, value: v }});
     wheel('compiler.command.LOCAL',                 function(offset) { return {type: T_NUM_L, value: offset }});
+    wheel('compiler.command.GLOBAL',                function(offset) { return {type: T_NUM_G, value: offset }});
 
     wheel('compiler.command.REGISTER_COUNT',        REGISTER_COUNT);
 
@@ -880,6 +881,13 @@
     );
 
     wheel(
+        'compiler.command.isSimpleNumberType',
+        function(value) {
+            return (value.type === T_NUM_L) || (value.type === T_NUM_G);
+        }
+    );
+
+    wheel(
         'compiler.command.isNumberType',
         function(value) {
             if (value.vr) {
@@ -893,11 +901,9 @@
     wheel(
         'compiler.command.isProcType',
         function(value) {
-            if (value.vr) {
-                return (value.type === T_PROC_G) || (value.type === T_PROC_L) ||
-                    (value.type === T_PROC_G_ARRAY) || (value.type === T_PROC_L_ARRAY);
-            }
-            return false;
+            return (value.type === T_PROC) ||
+                (value.type === T_PROC_G) || (value.type === T_PROC_L) ||
+                (value.type === T_PROC_G_ARRAY) || (value.type === T_PROC_L_ARRAY);
         }
     );
 
@@ -912,6 +918,27 @@
         'compiler.command.isPointerVarMetaType',
         function(value) {
             return value.vr && (value.vr.metaType === T_META_POINTER);
+        }
+    );
+
+    wheel(
+        'compiler.command.isAddressMetaType',
+        function(value) {
+            return (value.metaType === T_META_ADDRESS);
+        }
+    );
+
+    wheel(
+        'compiler.command.isStringMetaType',
+        function(value) {
+            return (value.metaType === T_META_STRING);
+        }
+    );
+
+    wheel(
+        'compiler.command.isStringVarMetaType',
+        function(value) {
+            return value.vr && (value.vr.metaType === T_META_STRING);
         }
     );
 })();

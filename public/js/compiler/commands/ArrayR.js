@@ -38,10 +38,6 @@
                     compilerOutput.a($.set.code, $.SRC(),    $.LOCAL(0));
                     compilerOutput.a($.set.code, $.STACK(),  $.DEST());
                     compilerOutput.a($.set.code, valueParam, $.SRC());
-                } else if ($.isProcType(valueParam) && $.isProcType(arrayParam)) {
-                    console.error('Unimplemented.');
-                } else if ($.isPointerVarMetaType(valueParam) && $.isPointerVarMetaType(arrayParam)) {
-                    console.error('Unimplemented.');
                 } else if ($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) {
                     var size = valueParam.vr.struct.size;
                     compilerOutput.a($.set.code, $.SRC(), indexParam);
@@ -64,10 +60,6 @@
                     }
 
                     compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
-                } else if ($.isStructVarType(valueParam) && $.isPointerVarMetaType(arrayParam)) {
-                    console.error('Unimplemented.');
-                } else if ($.isPointerVarMetaType(valueParam) && $.isPointerVarMetaType(arrayParam)) {
-                    console.error('Unimplemented.');
                 } else {
                     console.error('Unimplemented.');
                 }

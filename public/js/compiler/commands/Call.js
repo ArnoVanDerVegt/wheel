@@ -21,10 +21,10 @@
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                compilerOutput.a($.set.code,  [$.SRC(),  {type: $.T_NUM_L,  value: paramInfo.value}]);
-                compilerOutput.a($.set.code,  [$.DEST(), {type: $.T_NUM_C, value: offset}]);
-                compilerOutput.a($.add.code,  [$.DEST(), $.STACK()]);
-                compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
+                compilerOutput.a($.set.code,  $.SRC(),       $.LOCAL(paramInfo.value));
+                compilerOutput.a($.set.code,  $.DEST(),      $.CONST(offset));
+                compilerOutput.a($.add.code,  $.DEST(),      $.STACK());
+                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
             };
 
             this.compileLocalParam = function(param, paramInfo, offset) {
@@ -36,26 +36,11 @@
                 if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
                 } else if (paramInfo.metaType === $.T_META_POINTER) {
-                    compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
-
-                    if ($.typeToLocation(paramInfo.type) === 'local') {
-                        compilerOutput.a($.add.code, [$.STACK(), {type: $.T_NUM_C, value: paramInfo.vr.origOffset}]);
-                    } else {
-                        compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_C, value: arrayParam.vr.origiOffset}]);
-                    }
-
-                    var offset = 0;
-                    if (paramInfo.vr.struct) {
-                        // Hacky...
-                        var p      = param;
-                        var i      = p.lastIndexOf('.');
-                        var field  = p.substr(i + 1 - p.length);
-                        var offset = paramInfo.vr.struct.fields[field].offset;
-                    }
-
-                    compilerOutput.a($.set.code, [$.SRC(),                           {type: $.T_NUM_L, value: offset}]);
-                    compilerOutput.a($.set.code, [$.STACK(),                         $.DEST()]);
-                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset},  $.SRC()]);
+                    compilerOutput.a($.set.code, $.DEST(),        $.STACK());
+                    compilerOutput.a($.isLocal(paramInfo) ? $.add.code : $.set.code, $.STACK(), $.CONST(paramInfo.vr.origOffset));
+                    compilerOutput.a($.set.code, $.SRC(),         $.LOCAL(offset));
+                    compilerOutput.a($.set.code, $.STACK(),       $.DEST());
+                    compilerOutput.a($.set.code, $.LOCAL(offset), $.SRC());
                 } else if (paramInfo.metaType === $.T_META_ADDRESS) {
 console.log('Warning!!!');
                     paramInfo.type  = $.T_NUM_G;
@@ -77,26 +62,26 @@ console.log('Warning!!!');
                 var vr             = paramInfo.vr;
 
                 if (paramInfo.metaType === $.T_META_ADDRESS) {
-                    compilerOutput.a($.set.code, [$.DEST(),                         $.STACK()]);
-                    compilerOutput.a($.add.code, [$.DEST(),                         {type: $.T_NUM_C, value: paramInfo.value}]);
-                    compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, $.DEST()]);
+                    compilerOutput.a($.set.code, $.DEST(),        $.STACK());
+                    compilerOutput.a($.add.code, $.DEST(),        $.CONST(paramInfo.value));
+                    compilerOutput.a($.set.code, $.LOCAL(offset), $.DEST());
                 } else if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, size);
                 } else {
                     if (paramInfo.value === 0) {
-                        compilerOutput.a($.set.code, [$.SRC(), $.STACK()]);
+                        compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     } else {
-                        compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_C, value: paramInfo.value}]);
-                        compilerOutput.a($.add.code, [$.SRC(), $.STACK()]);
+                        compilerOutput.a($.set.code, $.SRC(), $.CONST(paramInfo.value));
+                        compilerOutput.a($.add.code, $.SRC(), $.STACK());
                     }
 
                     if (offset === 0) {
-                        compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
+                        compilerOutput.a($.set.code, $.DEST(), $.STACK());
                     } else {
-                        compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: offset}]);
-                        compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
+                        compilerOutput.a($.set.code, $.DEST(), $.CONST(offset));
+                        compilerOutput.a($.add.code, $.DEST(), $.STACK());
                     }
-                    compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
+                    compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                 }
             };
 
@@ -107,10 +92,10 @@ console.log('Warning!!!');
                 var vr             = paramInfo.vr;
 
                 if (vr.metaType === $.T_META_POINTER) {
-                    compilerOutput.a($.set.code,  [$.SRC(),  {type: $.T_NUM_G, value: paramInfo.value}]);
-                    compilerOutput.a($.set.code,  [$.DEST(), {type: $.T_NUM_C, value: offset}]);
-                    compilerOutput.a($.add.code,  [$.DEST(), $.STACK()]);
-                    compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: 1}]);
+                    compilerOutput.a($.set.code,  $.SRC(),    $.GLOBAL(paramInfo.value));
+                    compilerOutput.a($.set.code,  $.DEST(),   $.CONST(offset));
+                    compilerOutput.a($.add.code,  $.DEST(),   $.STACK());
+                    compilerOutput.a($.copy.code, $.CONST(1), $.CONST(0));
                 } else if (paramInfo.metaType === $.T_META_ADDRESS) {
                     paramInfo.type = $.T_NUM_C;
                     compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, paramInfo]);

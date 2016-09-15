@@ -393,6 +393,23 @@
                 return this._structList;
             };
 
+            this.getStructOffset = function(param) {
+                var offset = 0;
+                if (param.vr.struct) {
+                    // Hacky...
+                    var p     = param.param;
+                    var i     = p.lastIndexOf('.');
+                    var field = p.substr(i + 1 - p.length);
+                    offset = param.vr.struct.fields[field].offset;
+                }
+                return offset;
+            };
+
+            this.getOffset = function(param) {
+                var vr = param.vr;
+                return ('origOffset' in param.vr) ? param.vr.origOffset : param.vr.offset;
+            };
+
             this.paramInfo = function(param) {
                 if (param === 'TRUE') {
                     return {

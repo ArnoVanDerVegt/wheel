@@ -11,116 +11,48 @@
             this.compile = function(validatedCommand) {
                 $ = wheel.compiler.command;
 
-                var compiler       = this._compiler;
                 var compilerData   = this._compilerData;
-                var compilerOutput = compiler.getOutput();
+                var compilerOutput = this._compiler.getOutput();
                 var param1         = validatedCommand.params[0];
                 var param2         = validatedCommand.params[1];
-                var regDestSet     = false;
-                var regStackSaved  = false;
+                var offset;
 
-                if (param1.vr && (param1.vr.metaType === $.T_META_STRING)) {
-                    if (param2.metaType === $.T_META_STRING) {
-                        param2.value = compilerData.declareString(param2.value);
-                    } else if (param2.vr.metaType === $.T_META_STRING) {
-                        // set string, string...
-                    } else {
-                        throw compiler.createError('Type error.');
-                    }
-                }
-
-                var param2IsAddress = (param2.metaType === $.T_META_ADDRESS);
-                if (param2IsAddress) {
-                    if ($.typeToLocation(param2.type) === 'local') {
-                        compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_G, value: $.REG_STACK}]);
-                        (param2.value !== 0) &&
-                            compilerOutput.a($.add.code, [$.DEST(), {type: $.T_NUM_C, value: param2.value}]);
-                    } else {
-                        compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: param2.value}]);
-                    }
-                    if (param1.vr && (param1.vr.metaType === $.T_META_POINTER)) {
-                        if ($.typeToLocation(param1.type) === 'local') {
-                            param1.type = $.T_NUM_L;
-                        } else {
-                            param1.type = $.T_NUM_G;
-                        }
-                    }
-
-                    param2.type  = $.T_NUM_G;
-                    param2.value = $.REG_DEST;
-                } else if (param2.metaType === $.T_META_POINTER) {
-                    compilerOutput.a($.set.code, [$.SRC(), $.STACK()]);
-                    regStackSaved = true;
-
-                    var paramOffset = param2.value;
-                    if (param2.vr && param2.vr.origOffset) {
-                        paramOffset = param2.vr.origOffset;
-                    }
-
-                    if ($.typeToLocation(param2.type) === 'local') {
-                        compilerOutput.a($.add.code, [$.STACK(), {type: $.T_NUM_C, value: paramOffset}]);
-                    } else {
-                        compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_C, value: paramOffset}]);
-                    }
-
-                    compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_L, value: 0}]);
-
-                    var paramOffset = 0;
-                    if (param2.vr.struct) {
-                        // Hacky...
-                        var p      = param2.param;
-                        var i      = p.lastIndexOf('.');
-                        var field  = p.substr(i + 1 - p.length);
-                        var paramOffset = param2.vr.struct.fields[field].offset;
-                    }
-
-                    compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_L,  value: paramOffset}]);
-                    regDestSet = true;
-
-                    compilerOutput.a($.set.code, [$.STACK(), $.SRC()]);
-
-                    if (param1.metaType !== $.T_META_POINTER) {
-                        param2.type  = $.T_NUM_G;
-                        param2.value = $.REG_DEST;
-                        compilerOutput.add(validatedCommand);
-                        return;
-                    }
-                }
-
-                if (param1.metaType === $.T_META_POINTER) {
-                    if (!regDestSet) {
-                        compilerOutput.a($.set.code, [$.DEST(), JSON.parse(JSON.stringify(param2))]);
-                    }
-                    if (!regStackSaved) {
-                        compilerOutput.a($.set.code, [$.SRC(), $.STACK()]);
-                    }
-
-                    if ($.typeToLocation(param1.type) === 'local') {
-                        var vr     = param1.vr;
-                        var offset = ('origOffset' in vr) ? vr.origOffset : vr.offset;
-                        compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_L, value: offset}]);
-                    } else {
-                        compilerOutput.a($.set.code, [$.STACK(), {type: $.T_NUM_G, value: param1.value}]);
-                    }
-
-                    var offset = 0;
-                    if (param1.vr.struct && !param2IsAddress) {
-                        // Hacky...
-                        var p     = param1.param;
-                        var i     = p.lastIndexOf('.');
-                        var field = p.substr(i + 1 - p.length);
-                        offset = param1.vr.struct.fields[field].offset;
-                    }
-
-                    param1.type  = $.T_NUM_L;
-                    param1.value = offset;
+                if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
+                    compilerOutput.a($.set.code, $.DEST(), $.CONST(param2.value));
+                    $.isLocal(param2) && compilerOutput.a($.add.code, $.DEST(), $.STACK());
+                    param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;
                     param2.type  = $.T_NUM_G;
                     param2.value = $.REG_DEST;
                     compilerOutput.add(validatedCommand);
-
-                    compilerOutput.a($.set.code, [$.STACK(), $.SRC()]);
+                } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
+                    $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
+                    compilerOutput.add(validatedCommand);
+                } else if ($.isPointerMetaType(param1)) {
+                    offset = compilerData.getStructOffset(param1);
+                    compilerOutput.a($.set.code, $.DEST(),        param2);
+                    compilerOutput.a($.set.code, $.SRC(),         $.STACK());
+                    compilerOutput.a($.set.code, $.STACK(),       $.isLocal(param1) ? $.LOCAL(compilerData.getOffset(param1)) : $.GLOBAL(param1.value));
+                    compilerOutput.a($.set.code, $.LOCAL(offset), $.DEST());
+                    compilerOutput.a($.set.code, $.STACK(),       $.SRC());
+                } else if ($.isSimpleNumberType(param1) && $.isPointerMetaType(param2)) {
+                    compilerOutput.a($.set.code, $.SRC(), $.STACK());
+                    offset = compilerData.getOffset(param2);
+                    compilerOutput.a($.isLocal(param2) ? $.add.code : $.set.code, $.STACK(), $.CONST(offset));
+                    compilerOutput.a($.set.code, $.STACK(), $.LOCAL(0));
+                    offset = compilerData.getStructOffset(param2);
+                    compilerOutput.a($.set.code, $.DEST(), $.LOCAL(offset));
+                    compilerOutput.a($.set.code, $.STACK(), $.SRC());
+                    compilerOutput.a($.set.code, param1, $.DEST());
+                } else if ($.isSimpleNumberType(param1) && $.isConst(param2)) {
+                    compilerOutput.add(validatedCommand);
+                } else if ($.isSimpleNumberType(param1) && $.isSimpleNumberType(param2)) {
+                    compilerOutput.add(validatedCommand);
+                } else if ($.isSimpleNumberType(param1) && $.isProcType(param2)) {
+                    compilerOutput.add(validatedCommand);
+                } else if ($.isProcType(param1) && $.isProcType(param2)) {
+                    compilerOutput.add(validatedCommand);
                 } else {
-                    compilerOutput.add(validatedCommand);
+                    console.error('Unimplemented.');
                 }
             };
         })
