@@ -1,5 +1,6 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.Label',
@@ -21,9 +22,8 @@
              * to the correct label index...
             **/
             this.updateLabels = function() {
-                var compiler       = this._compiler;
                 var compilerData   = this._compilerData;
-                var outputCommands = compiler.getOutput().getBuffer();
+                var outputCommands = this._compiler.getOutput().getBuffer();
                 var labelList      = compilerData.getLabelList();
 
                 for (var i in labelList) {
@@ -31,16 +31,10 @@
                     var jumps = label.jumps;
                     for (var j = 0; j < jumps.length; j++) {
                         var jump = jumps[j];
-                        if (outputCommands[jump].code === wheel.compiler.command.jmpc.code) {
+                        if (outputCommands[jump].code === $.jmpc.code) {
                             outputCommands[jump].params[0].value = label.index;
                         } else {
-                            outputCommands[jump] = {
-                                code: wheel.compiler.command.set.code,
-                                params: [
-                                    {type: wheel.compiler.command.T_NUM_G,   value: wheel.compiler.command.REG_CODE},
-                                    {type: wheel.compiler.command.T_NUM_C, value: label.index}
-                                ]
-                            };
+                            outputCommands[jump] = {code: $.set.code, params: [$.CODE(), $.CONST(label.index)]};
                         }
                     }
                 }
@@ -51,7 +45,8 @@
              * check if they are unique and create a declaration...
             **/
             this.compile = function(lines) {
-                var compiler     = this._compiler;
+                $ = wheel.compiler.command;
+
                 var compilerData = this._compilerData;
                 for (var i = 0; i < lines.length; i++) {
                     this._lineNumber = i;
@@ -64,7 +59,7 @@
                     if (this.hasLabel(line)) {
                         var j = line.indexOf(':');
                         if (compilerData.declareLabel(line.substr(0, j), location)) {
-                            throw compiler.createError('Duplicate label "' + name + '".');
+                            throw this._compiler.createError('Duplicate label "' + name + '".');
                         }
                     }
                 }

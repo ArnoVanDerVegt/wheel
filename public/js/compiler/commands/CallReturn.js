@@ -1,5 +1,6 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.CallReturn',
@@ -20,8 +21,10 @@
             };
 
             this.compile = function(command) {
-                command.code = wheel.compiler.command.set.code;
-                command.params.unshift({type: wheel.compiler.command.T_NUM_G, value: wheel.compiler.command.REG_RETURN});
+                $ = wheel.compiler.command;
+
+                command.code = $.set.code;
+                command.params.unshift($.RETURN());
 
                 this._setCompiler.compile(command);
                 this._retCompiler.compile(null);
