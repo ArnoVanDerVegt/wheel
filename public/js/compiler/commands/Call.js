@@ -37,9 +37,9 @@
                     compilerOutput.a($.set.code, $.STACK(),       $.DEST());
                     compilerOutput.a($.set.code, $.LOCAL(offset), $.SRC());
                 } else if (paramInfo.metaType === $.T_META_ADDRESS) {
-console.log('Warning!!!');
+                    compilerOutput.a($.set.code, $.SRC(), $.STACK());
+                    paramInfo.value && compilerOutput.a($.add.code, $.SRC(), $.CONST(paramInfo.value));
                     compilerOutput.a($.set.code, $.LOCAL(offset), $.SRC());
-                    paramInfo.value && compilerOutput.a($.set.code, $.LOCAL(offset), $.CONST(paramInfo.value));
                 } else {
                     compilerOutput.a($.set.code, $.LOCAL(offset), paramInfo);
                 }

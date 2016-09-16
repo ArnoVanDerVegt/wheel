@@ -344,6 +344,22 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [338, -782, 24]);
                 });
+
+                it('Should call a procedure with a local address parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc testParam(number *n)',
+                            '    set *n, 13',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number l',
+                            '    testParam(&l)',
+                            '    printN(l)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [13]);
+                });
             }
         );
 
