@@ -13,7 +13,7 @@
     wheel(
         'compiler.commands.StringDeclaration',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, params) {
+            this.compile = function(validatedCommand, params, location) {
                 $ = wheel.compiler.command;
 
                 var compiler       = this._compiler;
@@ -59,7 +59,7 @@
                                 compilerOutput.a($.set.code, $.SRC(), $.CONST(offset));
                                 compilerOutput.a($.set.code, $.DEST(), $.STACK());
                                 (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
-                                console.log('Warning!');
+console.log('Warning!');
                                 compilerOutput.a([{type: $.T_NUM_C, value: size}]);
                             } else {
                                 throw compiler.createError('Type error.');
@@ -78,11 +78,9 @@
                         **/
                         if (global.value) {
                             if (global.type === $.T_NUM_G) { // Like: string n = "abc"
-                                var value = parseFloat(global.value);
-                                if (isNaN(value)) {
-                                    throw compiler.createError('String expected, found "' + value + '".');
-                                }
-                                compilerData.declareConstant(global.offset, [value]);
+                                var value  = global.value;
+                                var offset = compilerData.declareString(value.substr(1, value.length - 2));
+                                compilerData.declareConstant(global.offset, [offset]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
                                 var value = global.value.trim();
                                 var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);

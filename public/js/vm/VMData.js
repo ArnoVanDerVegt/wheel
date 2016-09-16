@@ -34,6 +34,7 @@
             };
 
             this.setStringList = function(stringList) {
+                //console.log('----set', stringList);
                 this._stringList = JSON.parse(JSON.stringify(stringList));
             };
 
