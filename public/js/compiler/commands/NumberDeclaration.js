@@ -44,7 +44,7 @@
                                     throw compiler.createError('Number expected, found "' + value + '".');
                                 }
                                 // Set the the value at the address of the local variable...
-                                compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: local.offset}, {type: $.T_NUM_C, value: value}]);
+                                compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(value));
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var size   = local.size * local.length;
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
@@ -52,14 +52,10 @@
                                 compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseNumberArray(local.value, compiler));
 
                                 // Copy the data from the global offset to the local offset...
-                                compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_C, value: offset}]);
-                                if (local.offset === 0) {
-                                    compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
-                                } else {
-                                    compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: local.offset}]);
-                                    compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
-                                }
-                                compilerOutput.a($.copy.code, [{type: $.T_NUM_C, value: size}]);
+                                compilerOutput.a($.set.code, $.SRC(),  $.CONST(offset));
+                                compilerOutput.a($.set.code, $.DEST(), $.STACK());
+                                (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
+                                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                             } else {
                                 throw compiler.createError('Type error.');
                             }

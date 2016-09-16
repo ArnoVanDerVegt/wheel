@@ -47,7 +47,7 @@
                                 }
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
                                 // Set the the value at the address of the local variable...
-                                compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: local.offset}, {type: $.T_NUM_C, value: offset}]);
+                                compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
                                 var size   = local.size * local.length;
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
@@ -56,13 +56,10 @@
                                 compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseStringArray(local.value, compiler, compilerData));
 
                                 // Copy the data from the global offset to the local offset...
-                                compilerOutput.a($.set.code, [$.SRC(), {type: $.T_NUM_C, value: offset}]);
-                                if (local.offset === 0) {
-                                    compilerOutput.a($.set.code, [$.DEST(), $.STACK()]);
-                                } else {
-                                    compilerOutput.a($.set.code, [$.DEST(), {type: $.T_NUM_C, value: local.offset}]);
-                                    compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
-                                }
+                                compilerOutput.a($.set.code, $.SRC(), $.CONST(offset));
+                                compilerOutput.a($.set.code, $.DEST(), $.STACK());
+                                (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
+                                console.log('Warning!');
                                 compilerOutput.a([{type: $.T_NUM_C, value: size}]);
                             } else {
                                 throw compiler.createError('Type error.');
@@ -87,8 +84,8 @@
                                 }
                                 compilerData.declareConstant(global.offset, [value]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
-                                var value     = global.value.trim(),
-                                    data     = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
+                                var value = global.value.trim();
+                                var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
                                 compilerData.declareConstant(global.offset, data);
                             } else {
                                 throw compiler.createError('Type error.');

@@ -1,16 +1,17 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.commands.ProcedureDeclaration',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compileProcedure = function(params) {
-                var compiler         = this._compiler;
-                var compilerData     = this._compilerData;
-                var outputCommands   = compiler.getOutput().getBuffer();
-                var procStartIndex   = outputCommands.length;
-                var j                = params.indexOf('(');
-                var procedure        = params.substr(0, j);
+                var compiler       = this._compiler;
+                var compilerData   = this._compilerData;
+                var outputCommands = compiler.getOutput().getBuffer();
+                var procStartIndex = outputCommands.length;
+                var j              = params.indexOf('(');
+                var procedure      = params.substr(0, j);
 
                 if (procedure === 'main') {
                     compiler.setMainIndex(procStartIndex);
@@ -27,12 +28,12 @@
                     }
                     switch (param[0]) {
                         case 'number':
-                            compilerData.declareLocal(param[1], wheel.compiler.command.T_NUM_L, wheel.compiler.command.T_NUM_L_ARRAY, false);
+                            compilerData.declareLocal(param[1], $.T_NUM_L, $.T_NUM_L_ARRAY, false);
                             break;
 
                         case 'string':
-                            var local = compilerData.declareLocal(param[1], wheel.compiler.command.T_NUM_L, wheel.compiler.command.T_NUM_L_ARRAY, false);
-                            local.metaType = wheel.compiler.command.T_META_STRING;
+                            var local = compilerData.declareLocal(param[1], $.T_NUM_L, $.T_NUM_L_ARRAY, false);
+                            local.metaType = $.T_META_STRING;
                             break;
 
                         default:
@@ -40,7 +41,7 @@
                             if (struct === null) {
                                 throw compiler.createError('Unknown type "' + param[0] + '".');
                             }
-                            compilerData.declareLocal(param[1], wheel.compiler.command.T_STRUCT_L, wheel.compiler.command.T_STRUCT_L_ARRAY, struct, false);
+                            compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct, false);
                             break;
                     }
                     procedure.paramTypes.push(param[0]);
@@ -50,6 +51,8 @@
             };
 
             this.compile = function(validatedCommand, splitParams, params, location) {
+                $ = wheel.compiler.command;
+
                 var compiler     = this._compiler;
                 var compilerData = this._compilerData;
                 var j            = params.indexOf('(');
@@ -62,15 +65,15 @@
                     }
                     if (compiler.getActiveStruct() !== null) {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareStructField(params[j], wheel.compiler.command.T_PROC_G, wheel.compiler.command.T_PROC_G_ARRAY);
+                            compilerData.declareStructField(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY);
                         }
                     } else if (compiler.getInProc()) {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareLocal(params[j], wheel.compiler.command.T_PROC_L, wheel.compiler.command.T_PROC_L_ARRAY, false);
+                            compilerData.declareLocal(params[j], $.T_PROC_L, $.T_PROC_L_ARRAY, false);
                         }
                     } else {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareGlobal(params[j], wheel.compiler.command.T_PROC_G, wheel.compiler.command.T_PROC_G_ARRAY, null, location, false);
+                            compilerData.declareGlobal(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY, null, location, false);
                         }
                     }
                 }
