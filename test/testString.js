@@ -20,6 +20,22 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, ['Hello world']);
                 });
+
+                it('Should declare a global string array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'string s[2] = ["Hello", "world"]',
+                            '',
+                            'proc main()',
+                            '    string l',
+                            '    arrayr l, s, 1',
+                            '    printS(l)',
+                            '    arrayr l, s, 0',
+                            '    printS(l)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['world', 'Hello']);
+                });
             }
         );
     }
