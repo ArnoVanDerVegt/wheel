@@ -39,10 +39,9 @@
             };
 
             this._parseVariable = function(name) {
-                var value = null,
-                    i;
+                var value = null;
+                var i     = name.indexOf('=');
 
-                i = name.indexOf('=');
                 if (i !== -1) {
                     value = name.substr(i + 1 - name.length).trim();
                     name  = name.substr(0, i).trim();
@@ -52,11 +51,8 @@
                 i = name.indexOf('[');
                 if (i !== -1) {
                     if (name[name.length - 1] === ']') {
-                        length = parseFloat(name.substr(i + 1, name.length - i - 2));
-                        if (isNaN(length)) {
-
-                        }
-                        name = name.substr(0, i);
+                        length = parseInt(name.substr(i + 1, name.length - i - 2));
+                        name   = name.substr(0, i);
                     } else {
                         throw this._compiler.createError('"]" expected.');
                     }
@@ -66,7 +62,7 @@
                     name:   name,
                     value:  value,
                     length: length
-                }
+                };
             }
 
             /* Global constants */
