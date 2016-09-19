@@ -255,5 +255,94 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Nested structs',
+            function () {
+                it('Should nest a struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'struct Triangle',
+                            '    Point p1',
+                            '    Point p2',
+                            '    Point p3',
+                            'ends',
+                            '',
+                            'proc main()',
+                            '    Triangle t',
+                            '    set t.p1.x, 5',
+                            '    set t.p1.y, 2234',
+                            '    set t.p2.x, 45',
+                            '    set t.p2.y, 667',
+                            '',
+                            '    number n',
+                            '',
+                            '    set n, t.p1.x',
+                            '    printN(n)',
+                            '    set n, t.p1.y',
+                            '    printN(n)',
+                            '    set n, t.p2.x',
+                            '    printN(n)',
+                            '    set n, t.p2.y',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [5, 2234, 45, 667]);
+                });
+
+                it('Should nest an array struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'struct Triangle',
+                            '    Point points[3]',
+                            'ends',
+                            '',
+                            'proc main()',
+                            '    Triangle t',
+                            '',
+                            '    Point p',
+                            '',
+                            '    set p.x, 233',
+                            '    set p.y, 768',
+                            '    arrayw t.points, 0, p',
+                            '',
+                            '    set p.x, 78',
+                            '    set p.y, 268',
+                            '    arrayw t.points, 0, p',
+                            '',
+                            '    Point pp',
+                            '',
+                            '    arrayr pp, t.points, 0',
+                            '',
+                            '    number n',
+                            '',
+                            '    set n, pp.x',
+                            '    printN(n)',
+                            '    set n, pp.y',
+                            '    printN(n)',
+                            '',
+                            '    arrayr pp, t.points, 1',
+                            '',
+                            '    set n, pp.x',
+                            '    printN(n)',
+                            '    set n, pp.y',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    console.log(testData.messages);
+                    //assert.deepStrictEqual(testData.messages, [233, 768, 78, 268]);
+                });
+            }
+        );
     }
 );

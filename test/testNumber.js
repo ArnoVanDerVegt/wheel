@@ -109,6 +109,65 @@ describe(
         );
 
         describe(
+            'Declarations',
+            function () {
+                it('Should declare a global constant number', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number n = 2347',
+                            '',
+                            'proc main()',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [2347]);
+                });
+
+                it('Should declare a global contant number array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number a[2] = [356, 257]',
+                            '',
+                            'proc main()',
+                            '    number l',
+                            '    arrayr l, a, 1',
+                            '    printN(l)',
+                            '    arrayr l, a, 0',
+                            '    printN(l)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [257, 356]);
+                });
+
+                it('Should declare a local number contant', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 244',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [244]);
+                });
+
+                it('Should declare a local number array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number la[2] = [6576, 6576]',
+                            '    number l',
+                            '    arrayr l, la, 1',
+                            '    printN(l)',
+                            '    arrayr l, la, 0',
+                            '    printN(l)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [6576, 6576]);
+                });
+            }
+        );
+
+        describe(
             'Pointers to numbers',
             function () {
                 it('Should set a pointer number', function() {

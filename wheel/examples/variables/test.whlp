@@ -2,27 +2,17 @@
 
 #include "/lib/standard.whl"
 
-struct Item
-    number list[5]
+struct Test
+    number n[4]
 ends
-Item item
+
+Test test[3]
 
 proc main()
-    number   value
-
-    number   counter = 0
-writeLoop:
-    set      value, counter
-    mul      value, 2
-    arrayw   item.list, counter, value
-    inc      counter
-    cmp      counter, 5
-    jl       writeLoop
-    set      counter, 0
-readLoop:
-    arrayr   value, item.list, counter
-    printN(value)
-    inc      counter
-    cmp      counter, 5
-    jl       readLoop
+    Test t
+    ;arrayw t.n, 0, 234
+    
+    number n
+    arrayr n, t.n, 0
+    printN(n)
 endp

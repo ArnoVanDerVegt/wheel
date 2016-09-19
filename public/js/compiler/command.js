@@ -479,6 +479,22 @@
                                     {type: T_NUM_G},
                                     {type: T_NUM_L}
                                 ]
+                            },
+                            {
+                                type: T_NUM_L, // In case of a struct, the original type should be T_NUM_L_ARRAY!
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_G, // In case of a struct, the original type should be T_NUM_G_ARRAY!
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
                             }
                         ]
                     },
@@ -500,6 +516,22 @@
                                     {type: T_NUM_G},
                                     {type: T_NUM_L}
                                 ]
+                            },
+                            {
+                                type: T_NUM_L_ARRAY,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_G_ARRAY,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
                             }
                         ]
                     },
@@ -516,6 +548,22 @@
                             },
                             {
                                 type: T_STRUCT_G_ARRAY,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_L_ARRAY,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_G_ARRAY,
                                 args: [
                                     {type: T_NUM_C},
                                     {type: T_NUM_G},
@@ -582,7 +630,9 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
@@ -593,7 +643,9 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
@@ -604,7 +656,53 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: T_NUM_L, // In case of a field, the origType should be T_NUM_L_ARRAY!
+                        args: [
+                            {
+                                type: T_NUM_C,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
+                                    {type: T_PROC},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_G,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
+                                    {type: T_PROC},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
+                                ]
+                            },
+                            {
+                                type: T_NUM_L,
+                                args: [
+                                    {type: T_NUM_C},
+                                    {type: T_NUM_G},
+                                    {type: T_NUM_L},
+                                    {type: T_PROC},
+                                    {type: T_PROC_G},
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             }
                         ]
@@ -620,7 +718,9 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
@@ -631,7 +731,9 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             },
                             {
@@ -642,7 +744,9 @@
                                     {type: T_NUM_L},
                                     {type: T_PROC},
                                     {type: T_PROC_G},
-                                    {type: T_PROC_L}
+                                    {type: T_PROC_L},
+                                    {type: T_STRUCT_G},
+                                    {type: T_STRUCT_L}
                                 ]
                             }
                         ]

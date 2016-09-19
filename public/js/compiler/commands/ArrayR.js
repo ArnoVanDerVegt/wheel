@@ -38,30 +38,33 @@
                     compilerOutput.a($.set.code, $.SRC(),    $.LOCAL(0));
                     compilerOutput.a($.set.code, $.STACK(),  $.DEST());
                     compilerOutput.a($.set.code, valueParam, $.SRC());
-                } else if ($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) {
-                    var size = valueParam.vr.struct.size;
-                    compilerOutput.a($.set.code, $.SRC(), indexParam);
-                    (size > 1) && compilerOutput.a($.mul.code, $.SRC(), $.CONST(size));
-
-                    if ($.isPointerVarMetaType(arrayParam)) {
-                        var type = $.isLocal(arrayParam) ? $.T_NUM_L : $.T_NUM_G;
-                        compilerOutput.a($.add.code, $.SRC(), {type: type, value: arrayParam.value});
-                    } else {
-                        compilerOutput.a($.add.code, $.SRC(), $.CONST(arrayParam.value));
-                        $.isLocal(arrayParam) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
-                    }
-
-                    if ($.isPointerVarMetaType(valueParam)) {
-                        var type = $.isLocal(valueParam) ? $.T_NUM_L : $.T_NUM_G;
-                        compilerOutput.a($.add.code, $.DEST(), {type: type, value: valueParam.value});
-                    } else {
-                        compilerOutput.a($.set.code, $.DEST(), $.CONST(valueParam.value));
-                        $.isLocal(valueParam) && compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
-                    }
-
-                    compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                 } else {
-                    console.error('Unimplemented.');
+                    if (($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) ||
+                        (($.isNumberType(arrayParam) && $.isStructVarType(valueParam)))) {
+                        var size = valueParam.vr.struct.size;
+                        compilerOutput.a($.set.code, $.SRC(), indexParam);
+                        (size > 1) && compilerOutput.a($.mul.code, $.SRC(), $.CONST(size));
+
+                        if ($.isPointerVarMetaType(arrayParam)) {
+                            var type = $.isLocal(arrayParam) ? $.T_NUM_L : $.T_NUM_G;
+                            compilerOutput.a($.add.code, $.SRC(), {type: type, value: arrayParam.value});
+                        } else {
+                            compilerOutput.a($.add.code, $.SRC(), $.CONST(arrayParam.value));
+                            $.isLocal(arrayParam) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
+                        }
+
+                        if ($.isPointerVarMetaType(valueParam)) {
+                            var type = $.isLocal(valueParam) ? $.T_NUM_L : $.T_NUM_G;
+                            compilerOutput.a($.add.code, $.DEST(), {type: type, value: valueParam.value});
+                        } else {
+                            compilerOutput.a($.set.code, $.DEST(), $.CONST(valueParam.value));
+                            $.isLocal(valueParam) && compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
+                        }
+
+                        compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                    } else {
+                        console.error('Unimplemented.');
+                    }
                 }
             };
         })

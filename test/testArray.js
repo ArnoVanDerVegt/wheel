@@ -357,6 +357,51 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, '----', -45, 921, -5, 467]);
                 });
+
+                it('Should write and read a global array of structs with an array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Test',
+                            '    number n[4]',
+                            'ends',
+                            '',
+                            'Test test[3]',
+                            '',
+                            'proc main()',
+                            '    Test t',
+                            '    arrayw t.n, 0, 234',
+                            '    arrayw t.n, 1, 9',
+                            '    arrayw t.n, 2, 3664',
+                            '    arrayw t.n, 3, 46',
+                            '',
+                            '    arrayw test, 0, t',
+                            '    arrayw test, 2, t',
+                            '',
+                            '    arrayw t.n, 0, 98',
+                            '    arrayw t.n, 1, 23',
+                            '    arrayw t.n, 2, 98',
+                            '    arrayw t.n, 3, 458',
+                            '',
+                            '    arrayw test, 1, t',
+                            '',
+                            '    number i = 0',
+                            'loop1:',
+                            '    arrayr t, test, i',
+                            '    inc i',
+                            '    number j = 0',
+                            'loop2:',
+                            '    number n',
+                            '    arrayr n, t.n, j',
+                            '    printN(n)',
+                            '    inc j',
+                            '    cmp j, 4',
+                            '    jl  loop2',
+                            '    cmp i, 3',
+                            '    jl loop1',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [234, 9, 3664, 46, 98, 23, 98, 458, 234, 9, 3664, 46]);
+                });
             }
         );
 

@@ -1,11 +1,14 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.CompilerData',
         wheel.Class(function() {
             this.init = function(opts) {
                 this._compiler = opts.compiler;
+
+                $ = wheel.compiler.command;
 
                 this.reset();
             };
@@ -30,12 +33,12 @@
 
                 this._stringList        = [];
 
-                this.declareGlobal('_____GLOBAL_REG_STACK_____', wheel.compiler.command.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_SRC_____',   wheel.compiler.command.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_DEST_____',  wheel.compiler.command.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_CODE_____',  wheel.compiler.command.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_RETURN_____',       wheel.compiler.command.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',        wheel.compiler.command.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_DEST_____',   $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_CODE_____',   $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_RETURN_____', $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, {}, false);
             };
 
             this._parseVariable = function(name) {
@@ -83,7 +86,7 @@
 
                 if (name[0] === '*') {
                     name     = name.substr(1 - name.length);
-                    metaType = wheel.compiler.command.T_META_POINTER;
+                    metaType = $.T_META_POINTER;
                 }
 
                 var vr         = this._parseVariable(name);
@@ -109,7 +112,7 @@
                     };
                 globalList[vr.name] = global;
 
-                if (metaType === wheel.compiler.command.T_META_POINTER) {
+                if (metaType === $.T_META_POINTER) {
                     size = 1; // Only use 1 number for a pointer, the struct size might differ...
                 }
                 this._globalOffset += vr.length * size;
@@ -138,32 +141,42 @@
                 return offset;
             };
 
-            this.findGlobal = function(name) {
-                var globalList = this._globalList;
-                var field      = null;
-                var i          = name.indexOf('.');
-                if (i !== -1) {
-                    field = name.substr(i + 1 - name.length);
-                    name  = name.substr(0, i);
+            this.findInList = function(list, name, baseType, baseArrayType) {
+                var field = false;
+                var parts = name.trim().split('.');
+                var n     = name;
+
+                if (parts.length > 1) {
+                    field = true;
+                    name  = parts[0];
                 }
-                if (name in globalList) {
-                    var vr = globalList[name];
+
+                if (name in list) {
+                    var vr = list[name];
                     if (field) {
+                        var result = {};
+                        for (var i in vr) {
+                            result[i] = vr[i];
+                        }
+                        result.origOffset = result.offset;
                         if (vr.struct) {
-                            if (field in vr.struct.fields) {
-                                field = vr.struct.fields[field];
-                                var clonedVr = {};
-                                for (var i in vr) {
-                                    clonedVr[i] = vr[i];
+                            var struct = vr.struct;
+                            var i      = 1;
+                            while (struct && (i < parts.length)) {
+                                field = parts[i];
+                                if (field in struct.fields) {
+                                    field           = struct.fields[field];
+                                    result.type     = (field.length > 1) ? baseArrayType : baseType;
+                                    result.origType = field.type;
+                                    result.metaType = field.metaType;
+                                    result.offset += field.offset;
+                                    struct = field.struct;
+                                } else {
+                                    throw this._compiler.createError('Undefined field "' + field + '".');
                                 }
-                                clonedVr.origOffset = clonedVr.offset;
-                                clonedVr.offset += field.offset;
-                                clonedVr.field    = field;
-                                clonedVr.type     = (field.length > 1) ? wheel.compiler.command.T_NUM_G_ARRAY : wheel.compiler.command.T_NUM_G;
-                                clonedVr.metaType = field.metaType;
-                                return clonedVr;
+                                i++;
                             }
-                            throw this._compiler.createError('Undefined field "' + field + '".');
+                            return result;
                         } else {
                             throw this._compiler.createError('Type error.');
                         }
@@ -171,6 +184,10 @@
                     return vr;
                 }
                 return null;
+            };
+
+            this.findGlobal = function(name) {
+                return this.findInList(this._globalList, name, $.T_NUM_G, $.T_NUM_G_ARRAY);
             };
 
             this.getGlobalList = function() {
@@ -186,8 +203,8 @@
                 this._localOffset = 0;
                 this._localList   = {};
 
-                this.declareLocal('_____LOCAL1_____', wheel.compiler.command.T_NUM_L, false, false, false);
-                this.declareLocal('_____LOCAL2_____', wheel.compiler.command.T_NUM_L, false, false, false);
+                this.declareLocal('_____LOCAL1_____', $.T_NUM_L, false, false, false);
+                this.declareLocal('_____LOCAL2_____', $.T_NUM_L, false, false, false);
             };
 
             this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
@@ -195,12 +212,12 @@
 
                 if (name[0] === '*') {
                     name         = name.substr(1 - name.length);
-                    metaType     = wheel.compiler.command.T_META_POINTER;
+                    metaType     = $.T_META_POINTER;
                 }
 
                 var vr        = this._parseVariable(name);
                 var localList = this._localList;
-                var size      = (metaType === wheel.compiler.command.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
+                var size      = (metaType === $.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
 
                 if (vr.name in localList) {
                     throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
@@ -220,7 +237,7 @@
                     };
                 localList[vr.name] = local;
 
-                if (metaType === wheel.compiler.command.T_META_POINTER) {
+                if (metaType === $.T_META_POINTER) {
                     this._localOffset += 1; // Only use 1 number for a pointer, the struct size might differ...
                 } else {
                     this._localOffset += vr.length * size;
@@ -230,38 +247,7 @@
             };
 
             this.findLocal = function(name) {
-                var localList = this._localList;
-                var field     = null;
-                var i         = name.indexOf('.');
-                if (i !== -1) {
-                    field = name.substr(i + 1 - name.length);
-                    name  = name.substr(0, i);
-                }
-
-                if (name in localList) {
-                    var vr = localList[name];
-                    if (field) {
-                        if (vr.struct) {
-                            if (field in vr.struct.fields) {
-                                var clonedVr = {};
-                                for (var i in vr) {
-                                    clonedVr[i] = vr[i];
-                                }
-                                field = vr.struct.fields[field];
-                                clonedVr.origOffset = clonedVr.offset;
-                                clonedVr.offset += field.offset;
-                                clonedVr.type     = wheel.compiler.command.T_NUM_L;
-                                clonedVr.metaType = field.metaType;
-                                return clonedVr;
-                            }
-                            throw this._compiler.createError('Undefined field "' + field + '".');
-                        } else {
-                            throw this._compiler.createError('Type error.');
-                        }
-                    }
-                    return vr;
-                }
-                return null;
+                return this.findInList(this._localList, name, $.T_NUM_L, $.T_NUM_L_ARRAY);
             };
 
             this.getLocalOffset = function() {
@@ -351,12 +337,13 @@
                 return (name in this._structList) ? this._structList[name] : null;
             };
 
-            this.declareStructField = function(name, type, arrayType) {
+            this.declareStructField = function(name, type, arrayType, size, structType) {
+                (size   === undefined) && (size   = 1);
                 var metaType = null;
 
                 if (name[0] === '*') {
                     name      = name.substr(1 - name.length);
-                    metaType  = wheel.compiler.command.T_META_POINTER;
+                    metaType  = $.T_META_POINTER;
                 }
 
                 var struct = this._struct;
@@ -372,14 +359,15 @@
 
                 var structField = {
                         type:     (vr.length === 1) ? type : arrayType,
+                        struct:   structType || false,
                         metaType: metaType,
                         offset:   this._structOffset,
-                        size:     1,
+                        size:     size,
                         length:   vr.length
                     };
                 struct.fields[vr.name] = structField;
 
-                this._structOffset += vr.length;
+                this._structOffset += vr.length * size;
                 struct.size = this._structOffset;
 
                 return structField;
@@ -392,11 +380,17 @@
             this.getStructOffset = function(param) {
                 var offset = 0;
                 if (param.vr.struct) {
-                    // Hacky...
-                    var p     = param.param;
-                    var i     = p.lastIndexOf('.');
-                    var field = p.substr(i + 1 - p.length);
-                    offset = param.vr.struct.fields[field].offset;
+                    var struct = param.vr.struct;
+                    var p      = param.param.split('.');
+                    var i      = 1;
+
+                    while (struct && (i < p.length)) {
+                        var field = p[i];
+                        var field = struct.fields[field];
+                        offset += field.offset;
+                        struct = field.struct;
+                        i++;
+                    }
                 }
                 return offset;
             };
@@ -409,32 +403,32 @@
             this.paramInfo = function(param) {
                 if (param === 'TRUE') {
                     return {
-                        type:  wheel.compiler.command.T_NUM_C,
+                        type:  $.T_NUM_C,
                         value: 1,
                         param: param
                     }
                 } else if (param === 'FALSE') {
                     return {
-                        type:  wheel.compiler.command.T_NUM_C,
+                        type:  $.T_NUM_C,
                         value: 0,
                         param: param
                     }
                 } else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
                     return {
-                        type:     wheel.compiler.command.T_NUM_C,
-                        metaType: wheel.compiler.command.T_META_STRING,
+                        type:     $.T_NUM_C,
+                        metaType: $.T_META_STRING,
                         value:    param.substr(1, param.length - 2),
                         param:    param
                     };
                 } else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
                     return {
-                        type:  wheel.compiler.command.T_NUM_G_ARRAY, // Array constant
+                        type:  $.T_NUM_G_ARRAY, // Array constant
                         value: param,
                         param: param
                     };
                 } else if (!isNaN(parseFloat(param))) {
                     return {
-                        type:  wheel.compiler.command.T_NUM_C,
+                        type:  $.T_NUM_C,
                         value: parseFloat(param),
                         param: param
                     };
@@ -449,10 +443,10 @@
                     if (name.length) {
                         if (name[0] === '&') {
                             name     = name.substr(1 - name.length);
-                            metaType = wheel.compiler.command.T_META_ADDRESS;
+                            metaType = $.T_META_ADDRESS;
                         } else if (name[0] === '*') {
                             name     = name.substr(1 - name.length);
-                            metaType = wheel.compiler.command.T_META_POINTER;
+                            metaType = $.T_META_POINTER;
                         }
                     }
 
@@ -471,14 +465,14 @@
                             var procedure = this.findProcedure(param);
                             if (procedure !== null) {
                                 offset = procedure.index - 1; // Offset of procedure?
-                                type   = wheel.compiler.command.T_PROC;
+                                type   = $.T_PROC;
                                 vr     = procedure;
                             } else {
                                 offset = 0;
                                 label  = this.findLabel(param);
                                 if (label !== null) {
                                     label.jumps.push(this._compiler.getOutput().getLength());
-                                    type = wheel.compiler.command.T_LABEL;
+                                    type = $.T_LABEL;
                                 }
                             }
                         }

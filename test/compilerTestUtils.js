@@ -72,6 +72,15 @@ var createIncludes = function(lines) {
 };
 exports.createIncludes = createIncludes;
 
+exports.compile = function(lines) {
+    var testData       = setup();
+    var compiler       = testData.compiler;
+    var vm             = testData.vm;
+    var includes       = createIncludes(lines);
+
+    compiler.compile(includes);
+};
+
 exports.compileAndRun = function(lines) {
     var testData       = setup();
     var compiler       = testData.compiler;

@@ -1,10 +1,13 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
+    var $;
 
     wheel(
         'compiler.Compiler',
         wheel.Class(function() {
             this.init = function(opts) {
+                $ = wheel.compiler.command;
+
                 this._compilerData   = new wheel.compiler.CompilerData({compiler: this});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
                 this._mainIndex      = -1;
@@ -126,7 +129,6 @@
                             }
                         }
                         if (!found) {
-                            console.log(command, params);
                             throw this.createError('Type mismatch "' + param.param + '".');
                         }
                     }
@@ -223,14 +225,16 @@
                                     if (struct === null) {
                                         throw this.createError('Unknown command "' + command + '".');
                                     } else if (this._activeStruct !== null) {
-                                        throw this.createError('Nested structs are not supported "' + command + '".');
+                                        for (var j = 0; j < splitParams.length; j++) {
+                                            compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
+                                        }
                                     } else if (this.getInProc()) {
                                         for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareLocal(splitParams[j], wheel.compiler.command.T_STRUCT_L, wheel.compiler.command.T_STRUCT_L_ARRAY, struct);
+                                            compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct);
                                         }
                                     } else {
                                         for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareGlobal(splitParams[j], wheel.compiler.command.T_STRUCT_G, wheel.compiler.command.T_STRUCT_G_ARRAY, struct, location);
+                                            compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct, location);
                                         }
                                     }
                                 } else {
