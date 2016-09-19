@@ -317,7 +317,7 @@ describe(
                             '',
                             '    set p.x, 78',
                             '    set p.y, 268',
-                            '    arrayw t.points, 0, p',
+                            '    arrayw t.points, 1, p',
                             '',
                             '    Point pp',
                             '',
@@ -339,8 +339,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    console.log(testData.messages);
-                    //assert.deepStrictEqual(testData.messages, [233, 768, 78, 268]);
+                    assert.deepStrictEqual(testData.messages, [233, 768, 78, 268]);
                 });
             }
         );
