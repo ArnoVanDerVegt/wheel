@@ -16,7 +16,7 @@ describe(
                             '',
                             '    for n = 1 to 10',
                             '        printN(n)',
-                            '    next',
+                            '    end',
                             'end'
                         ])).testData;
 
@@ -30,7 +30,7 @@ describe(
                             '',
                             '    for n = 10 downto 1',
                             '        printN(n)',
-                            '    next',
+                            '    end',
                             'end'
                         ])).testData;
 
@@ -50,8 +50,8 @@ describe(
                             '    for n = 1 to 10',
                             '        if n <= 5',
                             '            printN(n)',
-                            '        endif',
-                            '    next',
+                            '        end',
+                            '    end',
                             'end'
                         ])).testData;
 
@@ -68,8 +68,8 @@ describe(
                             '            printS("-")',
                             '        else',
                             '            printN(n)',
-                            '        endif',
-                            '    next',
+                            '        end',
+                            '    end',
                             'end'
                         ])).testData;
 
@@ -87,11 +87,11 @@ describe(
                             '                printS("-")',
                             '            else',
                             '                printS("/")',
-                            '            endif',
+                            '            end',
                             '        else',
                             '            printN(n)',
-                            '        endif',
-                            '    next',
+                            '        end',
+                            '    end',
                             'end'
                         ])).testData;
 

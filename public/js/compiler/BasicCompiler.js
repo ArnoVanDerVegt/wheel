@@ -2,17 +2,48 @@
     var wheel = require('../utils/base.js').wheel;
     var $;
 
+    forLabelIndex    = 10000;
+    ifLabelIndex     = 10000;
+    selectLabelIndex = 10000;
+
     wheel(
         'compiler.BasicCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
-                this._forStack         = [];
-                this._forLabelIndex    = 10000;
-                this._ifStack          = [];
-                this._ifLabelIndex     = 10000;
-                this._selectStack      = [];
-                this._selectLabelIndex = 10000;
-                this._endStack         = [];
+                this._forStack    = [];
+                this._ifStack     = [];
+                this._selectStack = [];
+                this._endStack    = [];
+            };
+
+            this.hasOperator = function(line) {
+                var commands  = ['add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'set'];
+                var operators = {
+                        add: '+=',
+                        sub: '-=',
+                        mul: '*=',
+                        div: '/=',
+                        mod: '%=',
+                        and: '&=',
+                        or:  '|=',
+                        set: '='
+                    };
+
+                if ((line.indexOf('number') === -1) && (line.indexOf('string') === -1)) {
+                    for (var i = 0; i < commands.length; i++) {
+                        var operator = operators[commands[i]];
+                        var j        = line.indexOf(operator);
+                        if (j !== -1) {
+                            return {
+                                command:  commands[i],
+                                operator: operator,
+                                pos:      j
+                            };
+                        }
+                    }
+                }
+
+                return false;
             };
 
             this.compileProc = function(line) {
@@ -50,7 +81,7 @@
                 var end   = s.substr(j + direction.length - s.length);
                 var start = s.substr(0, j).split('=');
                 var vr    = start[0].trim();
-                var label = '_____' + direction + '_label' + (this._forLabelIndex++);
+                var label = '_____' + direction + '_label' + (forLabelIndex++);
 
                 this._forStack.push({
                     direction: direction,
@@ -58,60 +89,12 @@
                     end:       end,
                     vr:        vr
                 });
+                this._endStack.push('for');
 
                 return [
                     'set ' + vr + ',' + start[1].trim(),
                     label + ':'
                 ];
-            };
-
-            this.hasOperator = function(line) {
-                var commands  = ['add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'set'];
-                var operators = {
-                        add: '+=',
-                        sub: '-=',
-                        mul: '*=',
-                        div: '/=',
-                        mod: '%=',
-                        and: '&=',
-                        or:  '|=',
-                        set: '='
-                    };
-
-                if ((line.indexOf('number') === -1) && (line.indexOf('string') === -1)) {
-                    for (var i = 0; i < commands.length; i++) {
-                        var operator = operators[commands[i]];
-                        var j        = line.indexOf(operator);
-                        if (j !== -1) {
-                            return {
-                                command:  commands[i],
-                                operator: operator,
-                                pos:      j
-                            };
-                        }
-                    }
-                }
-
-                return false;
-            };
-
-            this.compileNext = function() {
-                var forItem = this._forStack.pop();
-                switch (forItem.direction) {
-                    case 'to':
-                        return [
-                            'inc ' + forItem.vr,
-                            'cmp ' + forItem.vr + ',' + forItem.end,
-                            'jle ' + forItem.label
-                        ];
-
-                    case 'downto':
-                        return [
-                            'dec ' + forItem.vr,
-                            'cmp ' + forItem.vr + ',' + forItem.end,
-                            'jge ' + forItem.label
-                        ];
-                }
             };
 
             this.compileIf = function(s, output) {
@@ -140,8 +123,9 @@
 
                 this._ifStack.push({
                     outputOffset: output.length + 1,
-                    label:        '_____if_label' + (this._ifLabelIndex++)
+                    label:        '_____if_label' + (ifLabelIndex++)
                 });
+                this._endStack.push('if');
 
                 return [
                     'cmp ' + start + ',' + end,
@@ -162,18 +146,9 @@
                 ];
             };
 
-            this.compileEndIf = function(output) {
-                var ifItem = this._ifStack.pop();
-                output[ifItem.outputOffset] += ' ' + ifItem.label;
-
-                return [
-                    ifItem.label + ':'
-                ];
-            };
-
             this.compileSelect = function(s) {
                 this._selectStack.push({
-                    label:        '_____select' + (this._selectLabelIndex++),
+                    label:        '_____select' + (selectLabelIndex++),
                     caseIndex:    0,
                     vr:           s.trim(),
                     outputOffset: null
@@ -213,6 +188,11 @@
             this.compileEnd = function(output) {
                 var end = this._endStack.pop();
                 switch (end) {
+                    case 'if':
+                        var ifItem = this._ifStack.pop();
+                        output[ifItem.outputOffset] += ' ' + ifItem.label;
+                        return [ifItem.label + ':'];
+
                     case 'select':
                         var selectItem = this._selectStack.pop();
                         var result     = [];
@@ -222,8 +202,26 @@
                             result.push(label + ':');
                             output[selectItem.outputOffset] += label;
                         }
-
                         return result;
+
+                    case 'for':
+                        var forItem = this._forStack.pop();
+                        switch (forItem.direction) {
+                            case 'to':
+                                return [
+                                    'inc ' + forItem.vr,
+                                    'cmp ' + forItem.vr + ',' + forItem.end,
+                                    'jle ' + forItem.label
+                                ];
+
+                            case 'downto':
+                                return [
+                                    'dec ' + forItem.vr,
+                                    'cmp ' + forItem.vr + ',' + forItem.end,
+                                    'jge ' + forItem.label
+                                ];
+                        }
+                        break;
 
                     case 'struct':
                         return ['ends'];
@@ -265,17 +263,11 @@
                     case 'for':
                         return this.compileFor(line.substr(i - line.length));
 
-                    case 'next':
-                        return this.compileNext();
-
                     case 'if':
                         return this.compileIf(line.substr(i - line.length), output);
 
                     case 'else':
                         return this.compileElse(output);
-
-                    case 'endif':
-                        return this.compileEndIf(output);
 
                     case 'select':
                         return this.compileSelect(line.substr(i - line.length));
@@ -304,13 +296,17 @@
                         lineNumber: 0
                     };
 
+                this._forStack.length    = 0;
+                this._ifStack.length     = 0;
+                this._selectStack.length = 0;
+                this._endStack.length    = 0;
+
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i].trim();
                     if (line === '') {
                         continue;
                     }
 
-                    this._lineNumber    = i;
                     location.lineNumber = i;
 
                     var codeLines = this.compileLineBasic(line, location, output);
