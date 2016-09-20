@@ -163,5 +163,116 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Test case',
+            function () {
+                it('Should select one', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 1',
+                            '',
+                            '    select n',
+                            '        case 1:',
+                            '            printS("one")',
+                            '',
+                            '        case 2:',
+                            '            printS("two")',
+                            '',
+                            '        case 3:',
+                            '            printS("three")',
+                            '',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['one']);
+                });
+
+                it('Should select two', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 2',
+                            '',
+                            '    select n',
+                            '        case 1:',
+                            '            printS("one")',
+                            '',
+                            '        case 2:',
+                            '            printS("two")',
+                            '',
+                            '        case 3:',
+                            '            printS("three")',
+                            '',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['two']);
+                });
+
+                it('Should select three', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 3',
+                            '',
+                            '    select n',
+                            '        case 1:',
+                            '            printS("one")',
+                            '',
+                            '        case 2:',
+                            '            printS("two")',
+                            '',
+                            '        case 3:',
+                            '            printS("three")',
+                            '',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['three']);
+                });
+
+                it('Should nest select', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number i',
+                            '    number j',
+                            '',
+                            '    i = 2',
+                            '    j = 4',
+                            '',
+                            '    select i',
+                            '        case 1:',
+                            '            printS("one")',
+                            '',
+                            '        case 2:',
+                            '            printS("i is two")',
+                            '            select j',
+                            '                case 4:',
+                            '                    printS("j is four")',
+                            '',
+                            '                case 5:',
+                            '                    printS("j is five")',
+                            '',
+                            '            end',
+                            '',
+                            '        case 3:',
+                            '            printS("three")',
+                            '',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, ['i is two', 'j is four']);
+                });
+            }
+        );
     }
 );
