@@ -99,5 +99,69 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Test operator',
+            function () {
+                it('Should assign', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 13',
+                            '',
+                            '    printN(n)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [13]);
+                });
+
+                it('Should assign, add', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 234',
+                            '    n += 5',
+                            '',
+                            '    printN(n)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [239]);
+                });
+
+                it('Should assign, subtract', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 68',
+                            '    n -= 3',
+                            '',
+                            '    printN(n)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [65]);
+                });
+
+                it('Should assign, multiply', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    n = 41',
+                            '    n *= 5',
+                            '',
+                            '    printN(n)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [205]);
+                });
+            }
+        );
     }
 );

@@ -40,6 +40,36 @@
                 ];
             };
 
+            this.hasOperator = function(line) {
+                var commands  = ['add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'set'];
+                var operators = {
+                        add: '+=',
+                        sub: '-=',
+                        mul: '*=',
+                        div: '/=',
+                        mod: '%=',
+                        and: '&=',
+                        or:  '|=',
+                        set: '='
+                    };
+
+                if ((line.indexOf('number') === -1) && (line.indexOf('string') === -1)) {
+                    for (var i = 0; i < commands.length; i++) {
+                        var operator = operators[commands[i]];
+                        var j        = line.indexOf(operator);
+                        if (j !== -1) {
+                            return {
+                                command:  commands[i],
+                                operator: operator,
+                                pos:      j
+                            };
+                        }
+                    }
+                }
+
+                return false;
+            };
+
             this.compileNext = function() {
                 var forItem = this._forStack.pop();
                 switch (forItem.direction) {
@@ -122,6 +152,13 @@
                 ];
             };
 
+            this.compileOperator = function(line, operator) {
+                var parts = line.split(operator.operator);
+                return [
+                    operator.command + ' ' + parts[0].trim() + ',' + parts[1].trim()
+                ];
+            };
+
             this.compileLineBasic = function(line, location, output) {
                 var result  = [line];
                 var command = line.trim();
@@ -146,6 +183,13 @@
 
                     case 'end':
                         return this.compileEnd();
+
+                    default:
+                        var operator = this.hasOperator(line);
+                        if (operator) {
+                            return this.compileOperator(line, operator);
+                        }
+                        break;
                 }
 
                 return result;
