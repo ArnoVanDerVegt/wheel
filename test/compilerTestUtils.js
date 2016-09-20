@@ -20,6 +20,7 @@ require('../public/js/compiler/command.js');
 require('../public/js/compiler/compilerHelper.js');
 require('../public/js/compiler/CompilerOutput.js');
 require('../public/js/compiler/CompilerData.js');
+require('../public/js/compiler/BasicCompiler.js');
 require('../public/js/compiler/Compiler.js');
 
 require('../public/js/vm/Motors.js');

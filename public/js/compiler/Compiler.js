@@ -154,11 +154,89 @@
                 return this.createCommand(command, params);
             };
 
-            this.compileLines = function(lines) {
+            this.compileLine = function(line, location) {
                 var compilerByCommand = this._compilerByCommand;
                 var compilerData      = this._compilerData;
                 var output            = this._output;
                 var command;
+
+                if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
+                    var spacePos = line.indexOf(' ');
+                    command = line.substr(0, spacePos).trim();
+                    if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'cmp'].indexOf(command) === -1) {
+                        this._compilers.Call.compile(line);
+                    } else {
+                        this._compilers.CallFunction.compile(line);
+                    }
+                } else if (this._compilers.Label.hasLabel(line)) {
+                    compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
+                } else {
+                    var spacePos = line.indexOf(' ');
+                    if (spacePos === -1) {
+                        command = line;
+                        params  = '';
+                    } else {
+                        command = line.substr(0, spacePos),
+                        params  = line.substr(spacePos - line.length + 1).trim();
+                    }
+                    var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
+                    var validatedCommand = this.validateCommand(command, splitParams);
+                    validatedCommand && (validatedCommand.command = command);
+                    switch (command) {
+                        case 'endp':
+                            if (this._activeStruct !== null) {
+                                throw this.createError('Invalid command "endp".');
+                            }
+                            this._compilers.Ret.compile(null);
+
+                            output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
+                            this._procStartIndex = -1;
+                            compilerData.resetLocal();
+                            compilerData.removeLocalStructs();
+                            break;
+
+                        case 'struct':
+                            this._activeStruct = compilerData.declareStruct(params, command, location);
+                            break;
+
+                        case 'ends':
+                            this._activeStruct = null;
+                            break;
+
+                        default:
+                            if (command in compilerByCommand) {
+                                compilerByCommand[command].compile(validatedCommand, splitParams, params, location);
+                            } else if (validatedCommand === false) {
+                                var struct = compilerData.findStruct(command);
+                                if (struct === null) {
+                                    throw this.createError('Unknown command "' + command + '".');
+                                } else if (this._activeStruct !== null) {
+                                    for (var j = 0; j < splitParams.length; j++) {
+                                        compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
+                                    }
+                                } else if (this.getInProc()) {
+                                    for (var j = 0; j < splitParams.length; j++) {
+                                        compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct);
+                                    }
+                                } else {
+                                    for (var j = 0; j < splitParams.length; j++) {
+                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct, location);
+                                    }
+                                }
+                            } else {
+                                this.getOutput().add(validatedCommand);
+                            }
+                            break;
+                    }
+                }
+            };
+
+            this.compileLines = function(lines) {
+                var output   = this._output;
+                var location = {
+                        filename:   this._filename,
+                        lineNumber: 0
+                    };
 
                 this._procStartIndex = -1;
                 this._activeStruct   = null;
@@ -168,81 +246,10 @@
                         continue;
                     }
 
-                    this._lineNumber = i;
-                    var location = {
-                            filename:   this._filename,
-                            lineNumber: i
-                        };
+                    this._lineNumber    = i;
+                    location.lineNumber = i;
 
-                    if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
-                        var spacePos = line.indexOf(' ');
-                        command = line.substr(0, spacePos).trim();
-                        if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'cmp'].indexOf(command) === -1) {
-                            this._compilers.Call.compile(line);
-                        } else {
-                            this._compilers.CallFunction.compile(line);
-                        }
-                    } else if (this._compilers.Label.hasLabel(line)) {
-                        compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
-                    } else {
-                        var spacePos = line.indexOf(' ');
-                        if (spacePos === -1) {
-                            command = line;
-                            params  = '';
-                        } else {
-                            command = line.substr(0, spacePos),
-                            params  = line.substr(spacePos - line.length + 1).trim();
-                        }
-                        var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
-                        var validatedCommand = this.validateCommand(command, splitParams);
-                        validatedCommand && (validatedCommand.command = command);
-                        switch (command) {
-                            case 'endp':
-                                if (this._activeStruct !== null) {
-                                    throw this.createError('Invalid command "endp".');
-                                }
-                                this._compilers.Ret.compile(null);
-
-                                output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
-                                this._procStartIndex = -1;
-                                compilerData.resetLocal();
-                                compilerData.removeLocalStructs();
-                                break;
-
-                            case 'struct':
-                                this._activeStruct = compilerData.declareStruct(params, command, location);
-                                break;
-
-                            case 'ends':
-                                this._activeStruct = null;
-                                break;
-
-                            default:
-                                if (command in compilerByCommand) {
-                                    compilerByCommand[command].compile(validatedCommand, splitParams, params, location);
-                                } else if (validatedCommand === false) {
-                                    var struct = compilerData.findStruct(command);
-                                    if (struct === null) {
-                                        throw this.createError('Unknown command "' + command + '".');
-                                    } else if (this._activeStruct !== null) {
-                                        for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
-                                        }
-                                    } else if (this.getInProc()) {
-                                        for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct);
-                                        }
-                                    } else {
-                                        for (var j = 0; j < splitParams.length; j++) {
-                                            compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct, location);
-                                        }
-                                    }
-                                } else {
-                                    this.getOutput().add(validatedCommand);
-                                }
-                                break;
-                        }
-                    }
+                    this.compileLine(line, location);
                 }
 
                 return output.getBuffer();
@@ -257,11 +264,13 @@
                 this._mainIndex = -1;
                 this._includes  = includes;
 
-                var i = includes.length;
+                var basicCompiler = new wheel.compiler.BasicCompiler({});
+                var i             = includes.length;
                 while (i) {
                     i--;
                     this._filename = includes[i].filename;
-                    var lines = includes[i].lines;
+                    var lines = basicCompiler.compile(includes[i].lines);
+
                     this._compilers.Label.compile(lines);
                     this.compileLines(lines);
                     this._compilers.Label.updateLabels();
