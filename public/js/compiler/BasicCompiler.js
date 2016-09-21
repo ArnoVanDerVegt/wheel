@@ -5,6 +5,7 @@
     forLabelIndex    = 10000;
     ifLabelIndex     = 10000;
     selectLabelIndex = 10000;
+    localVarIndex    = 10000;
 
     wheel(
         'compiler.BasicCompiler',
@@ -43,6 +44,18 @@
                     }
                 }
 
+                return false;
+            };
+
+            this.isArrayIndex = function(vr) {
+                var i = vr.indexOf('[');
+                if (i !== -1) {
+                    var j = vr.indexOf(']');
+                    if (j === -1) {
+                        // throw error
+                    }
+                    return {array: vr.substr(0, i), index: vr.substr(i + 1, j - 1 - i).trim()};
+                }
                 return false;
             };
 
@@ -235,10 +248,29 @@
             };
 
             this.compileOperator = function(line, operator) {
-                var parts = line.split(operator.operator);
-                return [
-                    operator.command + ' ' + parts[0].trim() + ',' + parts[1].trim()
-                ];
+                var parts      = line.split(operator.operator);
+                var vr         = parts[0].trim();
+                var vrArray    = this.isArrayIndex(vr);
+                var value      = parts[1].trim();
+                var valueArray = this.isArrayIndex(value);
+                var i          = vr.indexOf('[');
+
+                if (vrArray && valueArray) {
+                    //localVarIndex
+                    //var label = '_____' + direction + '_label' + (forLabelIndex++);
+                } else if (vrArray) {
+                    return [
+                        'arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value
+                    ];
+                } else if (valueArray) {
+                    return [
+                        'arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index
+                    ];
+                } else {
+                    return [
+                        operator.command + ' ' + vr.trim() + ',' + value
+                    ];
+                }
             };
 
             this.compileLineBasic = function(line, location, output) {
