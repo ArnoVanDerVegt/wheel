@@ -11,10 +11,19 @@
         'compiler.BasicCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
-                this._forStack    = [];
-                this._ifStack     = [];
-                this._selectStack = [];
-                this._endStack    = [];
+                this._forStack        = [];
+                this._ifStack         = [];
+                this._selectStack     = [];
+                this._endStack        = [];
+                this._declaredNumbers = {};
+            };
+
+            this.declareNumber = function(result, vr) {
+                if (vr in this._declaredNumbers) {
+                    return;
+                }
+                this._declaredNumbers[vr] = true;
+                result.push('number ' + vr);
             };
 
             this.hasOperator = function(line) {
@@ -298,6 +307,53 @@
                 // throw error!
             };
 
+            this.compileCalculation = function(result, localVr, node, depth, command) {
+                var vr1 = localVr + '_' + depth;
+
+                if (node.left && node.right) {
+                    var vr2 = localVr + '_' + (depth + 1);
+                    var vr3 = localVr + '_' + (depth + 2);
+
+                    this.declareNumber(result, vr1);
+
+                    if (!node.left.left && !node.right.left) {
+                        this.compileCalculation(result, localVr, node.left, depth + 1, 'set');
+                        this.compileCalculation(result, localVr, node.right, depth + 1, node.command);
+                    } else if (!node.left.left) {
+                        this.compileCalculation(result, localVr, node.left, depth, 'set');
+                        this.compileCalculation(result, localVr, node.right, depth + 1, node.command);
+                        result.push(node.command + ' ' + vr1 + ',' + vr3);
+                        result.push('set ' + vr2 + ',' + vr1);
+                    } else if (!node.right.left) {
+                        this.compileCalculation(result, localVr, node.left, depth, 'set');
+                        this.compileCalculation(result, localVr, node.right, depth + 1, node.command);
+                    } else {
+                        this.compileCalculation(result, localVr, node.left, depth, 'set');
+                        this.compileCalculation(result, localVr, node.right, depth + 1, node.command);
+                        result.push(node.command + ' ' + vr2 + ',' + vr3);
+                    }
+                } else {
+                    var vrArray = this.isArrayIndex(node.value);
+                    if (command === 'set') {
+                        this.declareNumber(result, localVr + '_' + depth);
+                        if (vrArray) {
+                            result.push('arrayr ' + vr1 + ',' + vrArray.array + ',' + vrArray.index);
+                        } else {
+                            result.push(command + ' ' + vr1 + ',' + node.value);
+                        }
+                    } else {
+                        if (vrArray) {
+                            var vr2 = localVr + '_' + (depth + 1);
+                            this.declareNumber(result, vr2);
+                            result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
+                            result.push(command + ' ' + vr1 + ',' + vr2);
+                        } else {
+                            result.push(command + ' ' + vr1 + ',' + node.value);
+                        }
+                    }
+                }
+            };
+
             this.compileOperator = function(line, operator) {
                 var result     = [];
                 var parts      = line.split(operator.operator);
@@ -309,75 +365,15 @@
 
                 var calculation = this.isCalculation(value);
                 if (calculation) {
-                    console.log(calculation);
-                    var localVr         = 'local' + (localVarIndex++);
-                    var declaredNumbers = {};
-
-                    function declareNumber(vr) {
-                        if (vr in declaredNumbers) {
-                            return;
-                        }
-                        declaredNumbers[vr] = true;
-                        result.push('number ' + vr);
-                    }
-
-                    var buildCalculation = (function(node, depth, command) {
-                            if (node.left && node.right) {
-                                var vr1 = localVr + '_' + depth;
-                                var vr2 = localVr + '_' + (depth + 1);
-                                var vr3 = localVr + '_' + (depth + 2);
-
-                                declareNumber(vr1);
-
-                                if (!node.left.left && !node.right.left) {
-                                    buildCalculation(node.left, depth + 1, 'set');
-                                    buildCalculation(node.right, depth + 1, node.command);
-                                } else if (!node.left.left) {
-                                    buildCalculation(node.left, depth, 'set');
-                                    buildCalculation(node.right, depth + 1, node.command);
-                                    result.push(node.command + ' ' + vr1 + ',' + vr3);
-                                    result.push('set ' + vr2 + ',' + vr1);
-                                } else if (!node.right.left) {
-                                    buildCalculation(node.left, depth, 'set');
-                                    buildCalculation(node.right, depth + 1, node.command);
-                                } else {
-                                    buildCalculation(node.left, depth, 'set');
-                                    buildCalculation(node.right, depth + 1, node.command);
-                                    result.push(node.command + ' ' + vr2 + ',' + vr3);
-                                }
-                            } else {
-                                var vr1     = localVr + '_' + depth;
-                                var vrArray = this.isArrayIndex(node.value);
-                                if (command === 'set') {
-                                    declareNumber(localVr + '_' + depth);
-                                    if (vrArray) {
-                                        result.push('arrayr ' + vr1 + ',' + vrArray.array + ',' + vrArray.index);
-                                    } else {
-                                        result.push(command + ' ' + vr1 + ',' + node.value);
-                                    }
-                                } else {
-                                    if (vrArray) {
-                                        var vr2 = localVr + '_' + (depth + 1);
-                                        declareNumber(vr2);
-                                        result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
-                                        result.push(command + ' ' + vr1 + ',' + vr2);
-                                    } else {
-                                        result.push(command + ' ' + vr1 + ',' + node.value);
-                                    }
-                                }
-                            }
-                        }).bind(this);
-
-                    buildCalculation(calculation, 0, '');
+                    var localVr = 'local' + (localVarIndex++);
+                    this.compileCalculation(result, localVr, calculation, 0, '');
                     if (vrArray) {
                         result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + localVr + '_0');
                     } else {
                         result.push('set ' + vr + ',' + localVr + '_1');
                     }
-                    console.log(result);
                 } else if (vrArray && valueArray) {
                     var localVr = '_____local' + (localVarIndex++);
-
                     return [
                         '@typeof(' + valueArray.array + ') ' + localVr,
                         'arrayr ' + localVr + ',' + valueArray.array + ',' + valueArray.index,
