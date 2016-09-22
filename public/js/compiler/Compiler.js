@@ -231,6 +231,34 @@
                 }
             };
 
+            this.compileTypeof = function(line) {
+                var i = line.indexOf('@typeof(');
+                if (i === -1) {
+                    return line;
+                }
+                var j            = line.indexOf(')');
+                var vr           = line.substr(i + 8, j - 8 - i).trim();
+                var compilerData = this._compilerData;
+
+                var local = compilerData.findLocal(vr);
+                if (local === null) {
+                    var global = compilerData.findLocal(vr);
+                    if (global === null) {
+                        // throw error...
+                    } else if (global.type === $.T_NUM_G_ARRAY) {
+                        line = 'number ' + line.substr(j + 1 - line.length).trim();
+                    } else if (global.struct) {
+                        line = global.struct.name + ' ' + line.substr(j + 1 - line.length).trim();
+                    }
+                } else if (local.type === $.T_NUM_L_ARRAY) {
+                    line = 'number ' + line.substr(j + 1 - line.length).trim();
+                } else if (local.struct) {
+                    line = local.struct.name + ' ' + line.substr(j + 1 - line.length).trim();
+                }
+
+                return line;
+            };
+
             this.compileLines = function(lines) {
                 var output   = this._output;
                 var location = {
@@ -249,7 +277,7 @@
                     this._lineNumber    = i;
                     location.lineNumber = i;
 
-                    this.compileLine(line, location);
+                    this.compileLine(this.compileTypeof(line), location);
                 }
 
                 return output.getBuffer();

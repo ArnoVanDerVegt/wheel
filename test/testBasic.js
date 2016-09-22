@@ -216,6 +216,25 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [40, 3454, 89]);
                 });
+
+                it('Should read and write an array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[3]',
+                            '    number b[3]',
+                            '',
+                            '    a[3] = 5',
+                            '    b[2] = a[3]',
+                            '',
+                            '    number i',
+                            '    i = b[2]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [5]);
+                });
             }
         );
 
@@ -326,6 +345,89 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, ['i is two', 'j is four']);
+                });
+            }
+        );
+
+        describe(
+            'Test expression',
+            function () {
+                it('Should calculate => a = b + c', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b',
+                            '    number c',
+                            '',
+                            '    b = 2',
+                            '    c = 7',
+
+                            '    a = b + c',
+                            '    printN(a)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [9]);
+                });
+
+                it('Should calculate => a = b * 2 + c', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b',
+                            '    number c',
+                            '',
+                            '    b = 5',
+                            '    c = 7',
+
+                            '    a = b * 2 + c',
+                            '    printN(a)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [17]);
+                });
+
+                it('Should calculate => a = c + b[1] * 8', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b[2]',
+                            '    number c',
+                            '',
+                            '    b[1] = 5',
+                            '    c = 3',
+
+                            '    a = c + b[1] * 8',
+                            '    printN(a)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [43]);
+                });
+
+                it('Should calculate => a = b[1] * 8 - c * b[0]', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b[2]',
+                            '    number c',
+                            '',
+                            '    b[0] = 5',
+                            '    b[1] = 7',
+                            '',
+                            '    c = 3',
+                            '    a = b[1] * 8 - c * b[0]', // 7 * 8 - 3 * 5
+                            '    printN(a)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    console.log(testData.messages);
+                    assert.deepStrictEqual(testData.messages, [41]);
                 });
             }
         );
