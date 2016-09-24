@@ -4,7 +4,7 @@ var wheel             = require('../public/js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 describe(
-    'Test basic',
+    'Test script',
     function() {
         describe(
             'Test for',
@@ -192,7 +192,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [234, 74, 67]);
                 });
 
-                it('Should read array', function() {
+                it('Should read array => i = n[2]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number n[3]',
@@ -217,7 +217,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [40, 3454, 89]);
                 });
 
-                it('Should read and write an array', function() {
+                it('Should read and write an array => b[2] = a[3]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number a[3]',
@@ -236,7 +236,7 @@ describe(
                     assert.deepStrictEqual(testData.messages, [5]);
                 });
 
-                it('Should use array as index', function() {
+                it('Should use array as index => b[a[3]] = 3454', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number a[3]',
@@ -253,6 +253,111 @@ describe(
                         ])).testData;
 
                     assert.deepStrictEqual(testData.messages, [3454]);
+                });
+
+                it('Should use array/calculation as index => b[a[1 + c]] = 33809', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[3]',
+                            '    number b[3]',
+                            '',
+                            '    a[3] = 1',
+                            '    number c = 2,',
+                            '    b[a[1 + c]] = 33809',
+                            '',
+                            '    number i',
+                            '    i = b[1]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [33809]);
+                });
+
+                it('Should use array/array as index => a[b[b[2]]] = 55478', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[3]',
+                            '    number b[3]',
+                            '',
+                            '    b[1] = 0',
+                            '    b[2] = 1',
+                            '    a[b[b[2]]] = 55478',
+                            '',
+                            '    number i',
+                            '    i = a[0]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [55478]);
+                });
+
+                it('Should use array/array/array as index => a[b[b[b[3]]]] = 4896', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[5]',
+                            '    number b[5]',
+                            '',
+                            '    b[1] = 0',
+                            '    b[2] = 1',
+                            '    b[3] = 2',
+                            '    a[b[b[b[3]]]] = 4896',
+                            '',
+                            '    number i',
+                            '    i = a[0]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [4896]);
+                });
+
+                it('Should use array/array/array/calculation as index => a[b[b[b[5 - c]]]] = 349', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[5]',
+                            '    number b[5]',
+                            '',
+                            '    b[1] = 0',
+                            '    b[2] = 1',
+                            '    b[3] = 2',
+                            '    number c = 2',
+                            '    a[b[b[b[5 - c]]]] = 349',
+                            '',
+                            '    number i',
+                            '    i = a[0]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [349]);
+                });
+
+                it('Should use array/array/array/calculation as index => a[b[b[b[5 - c]]]] = 349', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[5]',
+                            '    number b[5]',
+                            '',
+                            '    b[1] = 0',
+                            '    b[2] = 1',
+                            '    b[3] = 4',
+                            '    number c = 2',
+                            '    a[b[b[b[3] - c]]] = 456',
+                            '',
+                            '    number i',
+                            '    i = a[0]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [456]);
                 });
             }
         );
