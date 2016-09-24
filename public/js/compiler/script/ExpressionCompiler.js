@@ -78,31 +78,77 @@
                         return {left: null, operator: null, right: null, value: value};
                     };
 
-                var parseExpression = function(node) {
-                        var s             = node.value;
+                var findOperatorPos = function(s) {
                         var operatorFound = null;
                         var operatorPos   = 0;
 
-                        for (var i = 0; i < operators.length; i++) {
-                            var operator = operators[i];
-                            var j        = s.indexOf(operator);
-                            if (j !== -1) {
-                                operatorFound = operator;
-                                operatorPos   = j;
+                        var i = 0;
+                        while (i < s.length) {
+                            var c = s[i];
+                            switch (c) {
+                                case '[':
+                                case '(':
+                                    var openC  = c;
+                                    var closeC = {'[': ']', '(': ')'}[c];
+                                    var count  = 1;
+                                    var ss =openC;
+                                    i++;
+                                    while ((count > 0) && (i < s.length)) {
+                                        c = s[i++];
+                                        ss+=c;
+                                        if (c === openC) {
+                                            count++;
+                                        } else if (c === closeC) {
+                                            count--;
+                                        }
+                                    }
+                                    break;
+
+                                default:
+                                    for (var j = 0; j < operators.length; j++) {
+                                        var operator = operators[j];
+                                        if (s.substr(i, operator.length) === operator) {
+                                            if ((operatorFound === null) ||
+                                                (operators.indexOf(operator) > operators.indexOf(operatorFound))) {
+                                                operatorFound = operator;
+                                                operatorPos   = i;
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
+                            i++;
                         }
 
-                        if (operatorFound !== null) {
-                            node.left     = createNode(s.substr(0, operatorPos).trim());
-                            node.operator = operatorFound;
-                            node.command  = commands[operatorFound];
-                            node.right    = createNode(s.substr(operatorPos + operatorFound.length - s.length).trim());
+                        if (operatorFound) {
+                            return {found: operatorFound, pos: operatorPos};
+                        }
+                        return null;
+                    };
+
+                var parseExpression = function(node) {
+                        var s   = node.value;
+                        var pos = findOperatorPos(s);
+
+                        if (pos !== null) {
+                            node.left     = createNode(s.substr(0, pos.pos).trim());
+                            node.operator = pos.found;
+                            node.command  = commands[pos.found];
+                            node.right    = createNode(s.substr(pos.pos + pos.found.length - s.length).trim());
                             parseExpression(node.left);
                             parseExpression(node.right);
                         }
                     };
 
 
+                var pos = findOperatorPos(value);
+                if (pos) {
+                    var node = createNode(value);
+                    parseExpression(node);
+                    return node;
+                }
+
+/*
                 for (var i = 0; i < operators.length; i++) {
                     var operator = operators[i];
                     var j        = value.indexOf(operator);
@@ -112,6 +158,7 @@
                         return node;
                     }
                 }
+*/
 
                 return false;
             };

@@ -430,5 +430,65 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Test array index expression',
+            function () {
+                it('Should calculate and set => a[2 * b] = 71', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[8]',
+                            '',
+                            '    number b = 3',
+                            '    a[2 * b] = 71',
+                            '',
+                            '    number i',
+                            '    i = a[6]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [71]);
+                });
+
+                it('Should calculate and get => i = a[b - 3]', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[8]',
+                            '',
+                            '    a[4] = 2370',
+                            '',
+                            '    number b = 7',
+                            '    number i',
+                            '    i = a[b - 3]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [2370]);
+                });
+
+                it('Should calculate and set => a[2 * b] = c * 7', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[8]',
+                            '',
+                            '    number b = 3',
+                            '    number c = 6',
+                            '    a[2 * b] = c * 7',
+                            '',
+                            '    number i',
+                            '    i = a[6]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [42]);
+                });
+            }
+        );
     }
 );

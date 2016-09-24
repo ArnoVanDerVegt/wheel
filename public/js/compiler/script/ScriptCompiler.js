@@ -213,35 +213,47 @@
                 var vrArray            = this._expressionCompiler.isArrayIndex(vr);
                 var value              = parts[1].trim();
                 var valueArray         = this._expressionCompiler.isArrayIndex(value);
-                var i                  = vr.indexOf('[');
+                var tempVar;
 
                 var calculation = expressionCompiler.isCalculation(value);
                 if (calculation) {
-                    var localVr = expressionCompiler.compileToTempVar(result, calculation);
+                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
                     if (vrArray) {
-                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + localVr + '_0');
+                        var indexCalculation = expressionCompiler.isCalculation(vrArray.index);
+                        if (indexCalculation) {
+                            var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
+                            result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
+                        } else {
+                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_0');
+                        }
                     } else {
-                        result.push('set ' + vr + ',' + localVr + '_1');
+                        result.push('set ' + vr + ',' + tempVar + '_1');
                     }
                 } else if (vrArray && valueArray) {
-                    var localVr = expressionCompiler.createTempVarName();
-                    return [
-                        '@typeof(' + valueArray.array + ') ' + localVr,
-                        'arrayr ' + localVr + ',' + valueArray.array + ',' + valueArray.index,
-                        'arrayw ' + vrArray.array + ',' + vrArray.index + ',' + localVr
-                    ];
+                    tempVar = expressionCompiler.createTempVarName();
+                    result.push(
+                        '@typeof(' + valueArray.array + ') ' + tempVar,
+                        'arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index,
+                        'arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar
+                    );
                 } else if (vrArray) {
-                    return [
-                        'arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value
-                    ];
+                    var calculation = expressionCompiler.isCalculation(vrArray.index);
+                    if (calculation) {
+                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                        result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
+                    } else {
+                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
+                    }
                 } else if (valueArray) {
-                    return [
-                        'arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index
-                    ];
+                    var calculation = expressionCompiler.isCalculation(valueArray.index);
+                    if (calculation) {
+                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + tempVar + '_1');
+                    } else {
+                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
+                    }
                 } else {
-                    return [
-                        operator.command + ' ' + vr.trim() + ',' + value
-                    ];
+                    result.push(operator.command + ' ' + vr.trim() + ',' + value);
                 }
 
                 return result;
