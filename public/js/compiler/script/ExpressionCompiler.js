@@ -56,7 +56,7 @@
             this.isArrayIndex = function(vr) {
                 var i = vr.indexOf('[');
                 if (i !== -1) {
-                    var j = vr.indexOf(']');
+                    var j = vr.lastIndexOf(']');
                     if (j === -1) {
                         // throw error
                     }

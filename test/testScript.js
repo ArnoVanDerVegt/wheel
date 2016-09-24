@@ -235,6 +235,25 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [5]);
                 });
+
+                it('Should use array as index', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[3]',
+                            '    number b[3]',
+                            '',
+                            '    a[3] = 1',
+                            '    b[a[3]] = 3454',
+                            '',
+                            '    number i',
+                            '    i = b[1]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [3454]);
+                });
             }
         );
 

@@ -242,7 +242,18 @@
                         tempVar = expressionCompiler.compileToTempVar(result, calculation);
                         result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
                     } else {
-                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
+                        var vrIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
+                        if (vrIndexArray) {
+                            var tempVar = expressionCompiler.createTempVarName();
+                            expressionCompiler.declareNumber(result, tempVar);
+                            function compileVrArray(vrArray) {
+                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
+                            }
+                            compileVrArray(vrIndexArray);
+                            result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
+                        } else {
+                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
+                        }
                     }
                 } else if (valueArray) {
                     var calculation = expressionCompiler.isCalculation(valueArray.index);
