@@ -205,6 +205,79 @@
                 // throw error!
             };
 
+            /**
+             * Compile setting an array index...
+            **/
+            this.compileSetIndex = function(result, vrArray, value) {
+                var expressionCompiler = this._expressionCompiler;
+
+                var calculation = expressionCompiler.isCalculation(vrArray.index);
+                if (calculation) {
+                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                    result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
+                } else {
+                    var vrIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
+                    if (vrIndexArray) {
+                        var tempVar = expressionCompiler.createTempVarName();
+                        expressionCompiler.declareNumber(result, tempVar);
+
+                        function compileVrArray(vrArray) {
+                            var varIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
+                            var calculation   = expressionCompiler.isCalculation(vrArray.index);
+                            if (calculation) {
+                                var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
+                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempIndexVar + '_1');
+                            } else if (varIndexArray) {
+                                compileVrArray(varIndexArray);
+                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempVar);
+                            } else {
+                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
+                            }
+                        }
+
+                        compileVrArray(vrIndexArray);
+                        result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
+                    } else {
+                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
+                    }
+                }
+            };
+
+            this.compileGetIndex = function(result, valueArray, vr) {
+                var expressionCompiler = this._expressionCompiler;
+
+                var calculation = expressionCompiler.isCalculation(valueArray.index);
+                if (calculation) {
+                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                    result.push('arrayr ' + vr + ',' + valueArray.array + ',' + tempVar + '_1');
+                } else {
+                    var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
+                    if (varIndexArray) {
+                        var tempVar = expressionCompiler.createTempVarName();
+                        expressionCompiler.declareNumber(result, tempVar);
+
+                        function compileValueArray(valueArray) {
+                            var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
+                            var calculation   = expressionCompiler.isCalculation(valueArray.index);
+                            if (calculation) {
+                                var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
+                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
+                            } else if (varIndexArray) {
+                                compileValueArray(varIndexArray);
+                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
+                            } else {
+                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
+                            }
+                        }
+
+                        compileValueArray(valueArray);
+                        result.push('set ' + vr + ',' + tempVar);
+                    } else {
+                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
+                    }
+                }
+            };
+
             this.compileOperator = function(line, operator) {
                 var result             = [];
                 var expressionCompiler = this._expressionCompiler;
@@ -230,51 +303,14 @@
                         result.push('set ' + vr + ',' + tempVar + '_1');
                     }
                 } else if (vrArray && valueArray) {
-                    tempVar = expressionCompiler.createTempVarName();
-                    result.push(
-                        '@typeof(' + valueArray.array + ') ' + tempVar,
-                        'arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index,
-                        'arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar
-                    );
+                    var vr = expressionCompiler.createTempVarName();
+                    expressionCompiler.declareNumber(result, vr);
+                    this.compileGetIndex(result, valueArray, vr);
+                    this.compileSetIndex(result, vrArray, vr);
                 } else if (vrArray) {
-                    var calculation = expressionCompiler.isCalculation(vrArray.index);
-                    if (calculation) {
-                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                        result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
-                    } else {
-                        var vrIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                        if (vrIndexArray) {
-                            var tempVar = expressionCompiler.createTempVarName();
-                            expressionCompiler.declareNumber(result, tempVar);
-
-                            function compileVrArray(vrArray) {
-                                var varIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                                var calculation   = expressionCompiler.isCalculation(vrArray.index);
-                                if (calculation) {
-                                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempIndexVar + '_1');
-                                } else if (varIndexArray) {
-                                    compileVrArray(varIndexArray);
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempVar);
-                                } else {
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
-                                }
-                            }
-
-                            compileVrArray(vrIndexArray);
-                            result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
-                        } else {
-                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
-                        }
-                    }
+                    this.compileSetIndex(result, vrArray, value);
                 } else if (valueArray) {
-                    var calculation = expressionCompiler.isCalculation(valueArray.index);
-                    if (calculation) {
-                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + tempVar + '_1');
-                    } else {
-                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
-                    }
+                    this.compileGetIndex(result, valueArray, vr);
                 } else {
                     result.push(operator.command + ' ' + vr.trim() + ',' + value);
                 }
