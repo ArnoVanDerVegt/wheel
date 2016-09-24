@@ -60,7 +60,9 @@
                     if (j === -1) {
                         // throw error
                     }
-                    return {array: vr.substr(0, i), index: vr.substr(i + 1, j - 1 - i).trim()};
+                    if (vr.substr(-1) === ']') {
+                        return {array: vr.substr(0, i), index: vr.substr(i + 1, j - 1 - i).trim()};
+                    }
                 }
                 return false;
             };

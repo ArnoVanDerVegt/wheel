@@ -324,9 +324,6 @@
                 for (var i = 0; i < p.length; i++) {
                     var param = p[i];
                     if (param.arrayIndex) {
-                        console.warn('Array index! ===>', param.value);
-                        console.log(param.arrayIndex);
-
                         var calculation = expressionCompiler.isCalculation(param.arrayIndex.index);
                         var tempVar;
                         if (calculation) {
@@ -348,7 +345,6 @@
 
                 result.push(procCall.name + '(' + outputParams.join(',') + ')');
 
-                console.log(result);
                 return result;
             };
 
