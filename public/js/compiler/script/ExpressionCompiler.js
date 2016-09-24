@@ -65,6 +65,18 @@
                 return false;
             };
 
+            this.isProcCall = function(s) {
+                s = s.trim();
+                var i = s.indexOf('(');
+                if ((i > 0) && (s.substr(-1) === ')') && wheel.compiler.compilerHelper.validateString(s.substr(0, i))) {
+                    return {
+                        name:   s.substr(0, i),
+                        params: s.substr(i + 1, s.length - i - 2)
+                    };
+                }
+                return false;
+            };
+
             this.isCalculation = function(value) {
                 var commands  = {
                         '*': 'mul',
@@ -112,7 +124,8 @@
                                             if ((operatorFound === null) ||
                                                 (operators.indexOf(operator) > operators.indexOf(operatorFound))) {
                                                 // No pointers!
-                                                if (!((i === 0) && (operator === '*'))) {
+                                                if (!((i === 0) && (operator === '*')) &&
+                                                    !((i === 0) && (operator === '-'))) {
                                                     operatorFound = operator;
                                                     operatorPos   = i;
                                                 }

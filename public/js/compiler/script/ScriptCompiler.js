@@ -259,6 +259,67 @@
                 return result;
             };
 
+            this.compileProcCall = function(line, procCall) {
+                var expressionCompiler = this._expressionCompiler;
+                var hasExpression      = false;
+                var params             = procCall.params;
+                var param              = '';
+                var p                  = [];
+                var i                  = 0;
+
+                function addParam(value) {
+                    var calculation = false;
+                    var arrayIndex  = false;
+                    if ((value.substr(0, 1) !== '[') && (value.substr(-1) !== ']')) {
+                        calculation = expressionCompiler.isCalculation(value);
+                        arrayIndex  = expressionCompiler.isArrayIndex(value);
+                        (calculation || arrayIndex) && (hasExpression = true);
+                    }
+
+                    p.push({
+                        value:       value,
+                        calculation: calculation,
+                        arrayIndex:  arrayIndex
+                    });
+                }
+
+                while (i < params.length) {
+                    var c = params[i++];
+                    switch (c) {
+                        case ',':
+                            addParam(param.trim());
+                            param = '';
+                            break;
+
+                        default:
+                            param += c;
+                            break;
+                    }
+                }
+                (param.trim() !== '') && addParam(param);
+
+                if (!hasExpression) {
+                    return [line];
+                }
+
+                var result       = [];
+                var outputParams = [];
+                for (var i = 0; i < p.length; i++) {
+                    var param = p[i];
+                    if (param.arrayIndex) {
+                        console.warn('Array index!');
+                    } else if (param.calculation) {
+                        outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
+                    } else {
+                        outputParams.push(param.value);
+                    }
+                }
+
+                result.push(procCall.name + '(' + outputParams.join(',') + ')');
+
+                return result;
+            };
+
             this.compileLineBasic = function(line, location, output) {
                 var result  = [line];
                 var command = line.trim();
@@ -297,9 +358,14 @@
                         return this.compileEnd(output);
 
                     default:
-                        var operator = this._expressionCompiler.hasOperator(line);
-                        if (operator) {
-                            return this.compileOperator(line, operator);
+                        var procCall = this._expressionCompiler.isProcCall(line);
+                        if (procCall) {
+                            return this.compileProcCall(line, procCall);
+                        } else {
+                            var operator = this._expressionCompiler.hasOperator(line);
+                            if (operator) {
+                                return this.compileOperator(line, operator);
+                            }
                         }
                         break;
                 }

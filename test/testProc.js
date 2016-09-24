@@ -442,7 +442,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1]);
+                    assert.deepStrictEqual(testData.messages, [6]);
                 });
             }
         );
