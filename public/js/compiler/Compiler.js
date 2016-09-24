@@ -292,12 +292,12 @@
                 this._mainIndex = -1;
                 this._includes  = includes;
 
-                var basicCompiler = new wheel.compiler.BasicCompiler({});
-                var i             = includes.length;
+                var scriptCompiler = new wheel.compiler.script.ScriptCompiler({});
+                var i              = includes.length;
                 while (i) {
                     i--;
                     this._filename = includes[i].filename;
-                    var lines = basicCompiler.compile(includes[i].lines);
+                    var lines = scriptCompiler.compile(includes[i].lines);
 
                     this._compilers.Label.compile(lines);
                     this.compileLines(lines);

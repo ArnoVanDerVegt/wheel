@@ -1,5 +1,5 @@
 (function() {
-    var wheel = require('../utils/base.js').wheel;
+    var wheel = require('../../utils/base.js').wheel;
     var $;
 
     forLabelIndex    = 10000;
@@ -8,7 +8,7 @@
     localVarIndex    = 1;//10000;
 
     wheel(
-        'compiler.BasicCompiler',
+        'compiler.script.ScriptCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
                 this._forStack        = [];

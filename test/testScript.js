@@ -426,7 +426,6 @@ describe(
                             'end'
                         ])).testData;
 
-                    console.log(testData.messages);
                     assert.deepStrictEqual(testData.messages, [41]);
                 });
             }
