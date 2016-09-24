@@ -104,11 +104,9 @@
                                     var openC  = c;
                                     var closeC = {'[': ']', '(': ')'}[c];
                                     var count  = 1;
-                                    var ss =openC;
                                     i++;
                                     while ((count > 0) && (i < s.length)) {
                                         c = s[i++];
-                                        ss+=c;
                                         if (c === openC) {
                                             count++;
                                         } else if (c === closeC) {

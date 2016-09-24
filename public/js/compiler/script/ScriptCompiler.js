@@ -270,7 +270,7 @@
                 function addParam(value) {
                     var calculation = false;
                     var arrayIndex  = false;
-                    if ((value.substr(0, 1) !== '[') && (value.substr(-1) !== ']')) {
+                    if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
                         calculation = expressionCompiler.isCalculation(value);
                         arrayIndex  = expressionCompiler.isArrayIndex(value);
                         (calculation || arrayIndex) && (hasExpression = true);
@@ -286,6 +286,23 @@
                 while (i < params.length) {
                     var c = params[i++];
                     switch (c) {
+                        case '[':
+                        case '(':
+                            var openC  = c;
+                            var closeC = {'[': ']', '(': ')'}[c];
+                            var count  = 1;
+                            param += c;
+                            while ((count > 0) && (i < params.length)) {
+                                c = params[i++];
+                                param += c;
+                                if (c === openC) {
+                                    count++;
+                                } else if (c === closeC) {
+                                    count--;
+                                }
+                            }
+                            break;
+
                         case ',':
                             addParam(param.trim());
                             param = '';
@@ -307,7 +324,21 @@
                 for (var i = 0; i < p.length; i++) {
                     var param = p[i];
                     if (param.arrayIndex) {
-                        console.warn('Array index!');
+                        console.warn('Array index! ===>', param.value);
+                        console.log(param.arrayIndex);
+
+                        var calculation = expressionCompiler.isCalculation(param.arrayIndex.index);
+                        var tempVar;
+                        if (calculation) {
+                            tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                            result.push('arrayr ' + tempVar + ',' + param.arrayIndex.array + ',' + tempVar + '_1');
+                            outputParams.push(tempVar + '_1');
+                        } else {
+                            tempVar = expressionCompiler.createTempVarName();
+                            expressionCompiler.declareNumber(result, tempVar);
+                            result.push('arrayr ' + tempVar + ',' + param.arrayIndex.array + ',' + param.arrayIndex.index);
+                            outputParams.push(tempVar);
+                        }
                     } else if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else {
@@ -317,6 +348,7 @@
 
                 result.push(procCall.name + '(' + outputParams.join(',') + ')');
 
+                console.log(result);
                 return result;
             };
 
