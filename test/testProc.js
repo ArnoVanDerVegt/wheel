@@ -458,6 +458,26 @@ describe(
 
                     assert.deepStrictEqual(testData.messages, [2366]);
                 });
+
+                it('Should call with to array index params', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc test(number x, number y)',
+                            '    printN(x)',
+                            '    printN(y)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x[4]',
+                            '',
+                            '    x[2] = 89',
+                            '    x[1] = 569',
+                            '',
+                            '    test(x[1], x[2])',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [569, 89]);
+                });
             }
         );
     }
