@@ -429,6 +429,23 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Call procedure with expression parameter',
+            function () {
+                it('Should call with expression param', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number x = 2',
+                            '',
+                            '    printN(x * 3)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepStrictEqual(testData.messages, [1]);
+                });
+            }
+        );
     }
 );
 

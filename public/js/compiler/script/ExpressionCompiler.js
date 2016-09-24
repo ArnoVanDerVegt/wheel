@@ -88,6 +88,7 @@
                             switch (c) {
                                 case '[':
                                 case '(':
+                                case '"':
                                     var openC  = c;
                                     var closeC = {'[': ']', '(': ')'}[c];
                                     var count  = 1;
@@ -110,8 +111,11 @@
                                         if (s.substr(i, operator.length) === operator) {
                                             if ((operatorFound === null) ||
                                                 (operators.indexOf(operator) > operators.indexOf(operatorFound))) {
-                                                operatorFound = operator;
-                                                operatorPos   = i;
+                                                // No pointers!
+                                                if (!((i === 0) && (operator === '*'))) {
+                                                    operatorFound = operator;
+                                                    operatorPos   = i;
+                                                }
                                             }
                                         }
                                     }
