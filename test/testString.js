@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var wheel             = require('../public/js/utils/base.js').wheel;
+var wheel             = require('../utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 describe(

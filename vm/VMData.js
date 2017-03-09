@@ -5,6 +5,7 @@
         'VMData',
         wheel.Class(function() {
             this.init = function(opts) {
+                this._opts       = opts;
                 this._data       = [];
                 this._stringList = [];
 
