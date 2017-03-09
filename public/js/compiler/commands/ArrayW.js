@@ -21,17 +21,14 @@
     wheel(
         'compiler.commands.ArrayW',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(command) {
+            this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
                 var compilerOutput = this._compiler.getOutput();
                 var compilerData   = this._compilerData;
-                var arrayParam     = command.params[0];
-                var indexParam     = command.params[1];
-                var valueParam     = command.params[2];
-
-                //console.log('a', arrayParam.type);
-                //console.log('v', valueParam.type);
+                var arrayParam     = validatedCommand.params[0];
+                var indexParam     = validatedCommand.params[1];
+                var valueParam     = validatedCommand.params[2];
 
                 if ($.isNumberType(valueParam) && $.isNumberType(arrayParam)) {
                     compilerOutput.a($.set.code,  $.DEST(),   indexParam);

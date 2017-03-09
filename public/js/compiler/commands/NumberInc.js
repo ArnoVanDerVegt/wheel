@@ -5,7 +5,7 @@
     wheel(
         'compiler.commands.NumberInc',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand) {
+            this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
                 validatedCommand.code      = $.add.code;

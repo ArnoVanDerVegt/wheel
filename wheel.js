@@ -81,17 +81,19 @@ if (process.argv.length === 3) {
         process.argv[2],
         function(includes) {
             var outputCommands;
-            //try {
+            try {
                 outputCommands = compiler.compile(includes);
-            /*} catch (error) {
+            } catch (error) {
                 outputCommands = null;
                 console.log(error.toString());
-                console.log(error.lineNumber, error.filename);
-            }*/
+                if (error.location) {
+                    var location = error.location;
+                    console.log(location.filename + ':' + location.lineNumber);
+                    console.log(location.line);
+                }
+            }
 
             if (outputCommands) {
-                console.log(outputCommands.getStringList());
-
                 console.log('Assembly');
                 outputCommands.logLines();
                 console.log('Commands');

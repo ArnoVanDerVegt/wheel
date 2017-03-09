@@ -87,7 +87,6 @@
 
                             case wheel.compiler.command.T_NUM_L:
                                 result = '[stack+' + leadingZero(param.value) + ']';
-                                //result = '[[000' + wheel.compiler.command.REG_STACK + ']+' + leadingZero(param.value) + ']';
                                 break;
 
                             case wheel.compiler.command.T_NUM_G:
@@ -195,7 +194,7 @@
 
                             case wheel.compiler.command.T_PROC_G_ARRAY:
                                 console.error(params);
-                            //    params[j].type = wheel.compiler.command.T_NUM_G_ARRAY;
+                                //    params[j].type = wheel.compiler.command.T_NUM_G_ARRAY;
                                 break;
 
                             case wheel.compiler.command.T_PROC_L:
@@ -204,7 +203,7 @@
 
                             case wheel.compiler.command.T_PROC_L_ARRAY:
                                 console.error(params);
-                            //    params[j].type = wheel.compiler.command.T_NUM_L_ARRAY;
+                                //    params[j].type = wheel.compiler.command.T_NUM_L_ARRAY;
                                 break;
                         }
                     }
@@ -255,6 +254,7 @@
                 var buffer = this._buffer;
 
                 log('#STRINGS');
+                log(this._stringList.length);
                 this._stringList.forEach(function(s) { log('"' + s + '"'); });
 
                 log('#HEAP_SIZE');

@@ -12,7 +12,6 @@
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
                 this._mainIndex      = -1;
                 this._filename       = '';
-                this._lineNumber     = 0;
                 this._includes       = null;
                 this._procStartIndex = -1;
                 this._activeStruct   = null;
@@ -84,10 +83,24 @@
             };
 
             this.createError = function(message) {
-                var error = new Error(message);
+                var error    = new Error(message);
+                var includes = this._includes;
+                var location = this._location;
+                var filename = location.filename;
+                var line     = '';
+
+                for (var i = 0; i < includes.length; i++) {
+                    var include = includes[i];
+                    if (include.filename === filename) {
+                        line = include.lines[location.lineNumber] || '';
+                        break;
+                    }
+                }
+
                 error.location = {
-                    filename:   this._filename,
-                    lineNumber: this._lineNumber
+                    filename:   location.filename,
+                    lineNumber: location.lineNumber,
+                    line:       line
                 };
                 return error;
             };
@@ -136,8 +149,8 @@
                         code:   code,
                         params: params,
                         location: {
-                            filename:   this._filename,
-                            lineNumber: this._lineNumber
+                            filename:   this._location.filename,
+                            lineNumber: this._location.lineNumber
                         }
                     };
                 }
@@ -260,6 +273,7 @@
             };
 
             this.compileLines = function(lines) {
+                var sourceMap = lines.sourceMap;
                 var output   = this._output;
                 var location = {
                         filename:   this._filename,
@@ -268,16 +282,15 @@
 
                 this._procStartIndex = -1;
                 this._activeStruct   = null;
-                for (var i = 0; i < lines.length; i++) {
-                    var line = lines[i].trim();
+                for (var i = 0; i < lines.output.length; i++) {
+                    var line = lines.output[i].trim();
                     if (line === '') {
                         continue;
                     }
 
-                    this._lineNumber    = i;
-                    location.lineNumber = i;
+                    this._location = sourceMap[i];
 
-                    this.compileLine(this.compileTypeof(line), location);
+                    this.compileLine(this.compileTypeof(line));
                 }
 
                 return output.getBuffer();
@@ -296,8 +309,9 @@
                 var i              = includes.length;
                 while (i) {
                     i--;
-                    this._filename = includes[i].filename;
-                    var lines = scriptCompiler.compile(includes[i].lines);
+                    var filename = includes[i].filename;
+                    var lines    = scriptCompiler.compile(filename, includes[i].lines);
+                    this._filename = filename;
 
                     this._compilers.Label.compile(lines);
                     this.compileLines(lines);

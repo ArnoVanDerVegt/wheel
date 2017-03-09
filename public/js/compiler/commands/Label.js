@@ -47,15 +47,14 @@
             this.compile = function(lines) {
                 $ = wheel.compiler.command;
 
+                var sourceMap    = lines.sourceMap;
                 var compilerData = this._compilerData;
-                for (var i = 0; i < lines.length; i++) {
+                for (var i = 0; i < lines.output.length; i++) {
                     this._lineNumber = i;
 
-                    var line     = lines[i].trim();
-                    var location = {
-                            filename:   this._filename,
-                            lineNumber: i
-                        };
+                    var line     = lines.output[i].trim();
+                    var location = sourceMap[i];
+
                     if (this.hasLabel(line)) {
                         var j = line.indexOf(':');
                         if (compilerData.declareLabel(line.substr(0, j), location)) {

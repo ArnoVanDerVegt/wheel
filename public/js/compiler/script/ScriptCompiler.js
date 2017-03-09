@@ -407,7 +407,7 @@
                 return result;
             };
 
-            this.compileLineBasic = function(line, location, output) {
+            this.compileLineBasic = function(line, output) {
                 var result  = [line];
                 var command = line.trim();
                 var i       = line.indexOf(' ');
@@ -460,12 +460,9 @@
                 return result;
             };
 
-            this.compile = function(lines) {
-                var output   = [];
-                var location = {
-                        filename:   this._filename,
-                        lineNumber: 0
-                    };
+            this.compile = function(filename, lines) {
+                var output    = [];
+                var sourceMap = [];
 
                 this._forStack.length    = 0;
                 this._ifStack.length     = 0;
@@ -478,15 +475,22 @@
                         continue;
                     }
 
-                    location.lineNumber = i;
+                    var location = {
+                            filename:   filename,
+                            lineNumber: i
+                        };
 
-                    var codeLines = this.compileLineBasic(line, location, output);
+                    var codeLines = this.compileLineBasic(line, output);
                     for (var j = 0; j < codeLines.length; j++) {
                         output.push(codeLines[j]);
+                        sourceMap.push(location);
                     }
                 }
 
-                return output;
+                return {
+                    output:    output,
+                    sourceMap: sourceMap
+                };
             };
         })
     );

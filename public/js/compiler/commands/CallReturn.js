@@ -20,13 +20,13 @@
                 this._retCompiler = retCompiler;
             };
 
-            this.compile = function(command) {
+            this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
-                command.code = $.set.code;
-                command.params.unshift($.RETURN());
+                validatedCommand.code = $.set.code;
+                validatedCommand.params.unshift($.RETURN());
 
-                this._setCompiler.compile(command);
+                this._setCompiler.compile(validatedCommand);
                 this._retCompiler.compile(null);
             };
         })
