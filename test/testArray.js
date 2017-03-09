@@ -41,7 +41,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             9,      // REG_OFFSET_STACK
@@ -70,7 +70,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             10,     // REG_OFFSET_STACK
@@ -97,7 +97,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             10,     // REG_OFFSET_STACK
@@ -124,7 +124,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             6,      // REG_OFFSET_STACK
@@ -148,7 +148,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             9,      // REG_OFFSET_STACK
@@ -205,7 +205,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, 8]);
+                    assert.deepEqual(testData.messages, [0, 2, 4, 6, 8]);
                 });
 
                 it('Should write and read a struct', function() {
@@ -231,7 +231,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [4, 7, -10]);
+                    assert.deepEqual(testData.messages, [4, 7, -10]);
                 });
 
                 it('Should declare and print local constant array', function() {
@@ -253,7 +253,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [7, 101, 100, 99]);
+                    assert.deepEqual(testData.messages, [7, 101, 100, 99]);
                 });
 
                 it('Should declare and print global constant array', function() {
@@ -276,7 +276,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [437, 348, 72, 345, 457]);
+                    assert.deepEqual(testData.messages, [437, 348, 72, 345, 457]);
                 });
 
                 it('Should pass a global and constant array to a procedure', function() {
@@ -315,7 +315,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [0, 3, 6, '----', 5, 9, -2]);
+                    assert.deepEqual(testData.messages, [0, 3, 6, '----', 5, 9, -2]);
                 });
 
                 it('Should pass a local and constant array to a procedure', function() {
@@ -354,7 +354,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [0, 2, 4, 6, '----', -45, 921, -5, 467]);
+                    assert.deepEqual(testData.messages, [0, 2, 4, 6, '----', -45, 921, -5, 467]);
                 });
 
                 it('Should write and read a global array of structs with an array', function() {
@@ -399,7 +399,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [234, 9, 3664, 46, 98, 23, 98, 458, 234, 9, 3664, 46]);
+                    assert.deepEqual(testData.messages, [234, 9, 3664, 46, 98, 23, 98, 458, 234, 9, 3664, 46]);
                 });
             }
         );
@@ -431,7 +431,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [586, -3232, 90]);
+                    assert.deepEqual(testData.messages, [586, -3232, 90]);
                 });
 
                 it('Should call a procedure with a pointer to array parameter', function() {
@@ -462,7 +462,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [984, 157]);
+                    assert.deepEqual(testData.messages, [984, 157]);
                 });
             }
         );

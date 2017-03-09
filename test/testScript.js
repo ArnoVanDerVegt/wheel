@@ -20,7 +20,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                    assert.deepEqual(testData.messages, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                 });
 
                 it('Should loop down', function() {
@@ -34,7 +34,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+                    assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
                 });
             }
         );
@@ -55,7 +55,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1, 2, 3, 4, 5]);
+                    assert.deepEqual(testData.messages, [1, 2, 3, 4, 5]);
                 });
 
                 it('Should print half two half lists', function() {
@@ -73,7 +73,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['-', '-', '-', '-', '-', 6, 7, 8, 9, 10]);
+                    assert.deepEqual(testData.messages, ['-', '-', '-', '-', '-', 6, 7, 8, 9, 10]);
                 });
 
                 it('Should print nest conditions', function() {
@@ -95,7 +95,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['-', '-', '/', '/', '/', 6, 7, 8, 9, 10]);
+                    assert.deepEqual(testData.messages, ['-', '-', '/', '/', '/', 6, 7, 8, 9, 10]);
                 });
             }
         );
@@ -114,7 +114,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [13]);
+                    assert.deepEqual(testData.messages, [13]);
                 });
 
                 it('Should assign, add', function() {
@@ -129,7 +129,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [239]);
+                    assert.deepEqual(testData.messages, [239]);
                 });
 
                 it('Should assign, subtract', function() {
@@ -144,7 +144,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [65]);
+                    assert.deepEqual(testData.messages, [65]);
                 });
 
                 it('Should assign, multiply', function() {
@@ -159,7 +159,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [205]);
+                    assert.deepEqual(testData.messages, [205]);
                 });
             }
         );
@@ -189,7 +189,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [234, 74, 67]);
+                    assert.deepEqual(testData.messages, [234, 74, 67]);
                 });
 
                 it('Should read array => i = n[2]', function() {
@@ -214,7 +214,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [40, 3454, 89]);
+                    assert.deepEqual(testData.messages, [40, 3454, 89]);
                 });
 
                 it('Should read and write an array => b[2] = a[3]', function() {
@@ -233,7 +233,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [5]);
+                    assert.deepEqual(testData.messages, [5]);
                 });
 
                 it('Should use array as index => b[a[3]] = 3454', function() {
@@ -252,7 +252,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [3454]);
+                    assert.deepEqual(testData.messages, [3454]);
                 });
 
                 it('Should use array/calculation as index => b[a[1 + c]] = 33809', function() {
@@ -272,7 +272,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [33809]);
+                    assert.deepEqual(testData.messages, [33809]);
                 });
 
                 it('Should use array/array as index => a[b[b[2]]] = 55478', function() {
@@ -292,7 +292,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [55478]);
+                    assert.deepEqual(testData.messages, [55478]);
                 });
 
                 it('Should use array/array/array as index => a[b[b[b[3]]]] = 4896', function() {
@@ -313,7 +313,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [4896]);
+                    assert.deepEqual(testData.messages, [4896]);
                 });
 
                 it('Should use array/array/array/calculation as index => a[b[b[b[5 - c]]]] = 349', function() {
@@ -335,7 +335,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [349]);
+                    assert.deepEqual(testData.messages, [349]);
                 });
 
 /////======
@@ -355,7 +355,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [3469]);
+                    assert.deepEqual(testData.messages, [3469]);
                 });
 
 
@@ -383,7 +383,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [3469]);
+                    assert.deepEqual(testData.messages, [3469]);
                 });
 
                 it('Should use array/calculation as index => b[a[1 + c]] = 33809', function() {
@@ -403,7 +403,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [2443]);
+                    assert.deepEqual(testData.messages, [2443]);
                 });
 /*
                 it('Should use array/array as index => a[b[b[2]]] = 55478', function() {
@@ -423,7 +423,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [55478]);
+                    assert.deepEqual(testData.messages, [55478]);
                 });
 
                 it('Should use array/array/array as index => a[b[b[b[3]]]] = 4896', function() {
@@ -444,7 +444,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [4896]);
+                    assert.deepEqual(testData.messages, [4896]);
                 });
 
                 it('Should use array/array/array/calculation as index => a[b[b[b[5 - c]]]] = 349', function() {
@@ -466,7 +466,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [349]);
+                    assert.deepEqual(testData.messages, [349]);
                 });
 */
             }
@@ -496,7 +496,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['one']);
+                    assert.deepEqual(testData.messages, ['one']);
                 });
 
                 it('Should select two', function() {
@@ -520,7 +520,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['two']);
+                    assert.deepEqual(testData.messages, ['two']);
                 });
 
                 it('Should select three', function() {
@@ -544,7 +544,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['three']);
+                    assert.deepEqual(testData.messages, ['three']);
                 });
 
                 it('Should nest select', function() {
@@ -578,7 +578,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['i is two', 'j is four']);
+                    assert.deepEqual(testData.messages, ['i is two', 'j is four']);
                 });
             }
         );
@@ -602,7 +602,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [9]);
+                    assert.deepEqual(testData.messages, [9]);
                 });
 
                 it('Should calculate => a = b * 2 + c', function() {
@@ -621,7 +621,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [17]);
+                    assert.deepEqual(testData.messages, [17]);
                 });
 
                 it('Should calculate => a = c + b[1] * 8', function() {
@@ -640,7 +640,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [43]);
+                    assert.deepEqual(testData.messages, [43]);
                 });
 
                 it('Should calculate => a = b[1] * 8 - c * b[0]', function() {
@@ -660,7 +660,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [41]);
+                    assert.deepEqual(testData.messages, [41]);
                 });
             }
         );
@@ -683,7 +683,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [71]);
+                    assert.deepEqual(testData.messages, [71]);
                 });
 
                 it('Should calculate and get => i = a[b - 3]', function() {
@@ -701,7 +701,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [2370]);
+                    assert.deepEqual(testData.messages, [2370]);
                 });
 
                 it('Should calculate and set => a[2 * b] = c * 7', function() {
@@ -720,7 +720,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [42]);
+                    assert.deepEqual(testData.messages, [42]);
                 });
             }
         );

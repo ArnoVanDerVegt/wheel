@@ -19,7 +19,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             9,      // REG_OFFSET_STACK
@@ -50,7 +50,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             9,      // REG_OFFSET_STACK
@@ -78,7 +78,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             6,      // REG_OFFSET_STACK
@@ -106,7 +106,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             6,      // REG_OFFSET_STACK
@@ -150,7 +150,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [-472, 58]);
+                    assert.deepEqual(testData.messages, [-472, 58]);
                 });
 
                 it('Should get derefferenced local/local struct pointer values', function() {
@@ -175,7 +175,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, [37, -678]);
                 });
 
                 it('Should get derefferenced local/global struct pointer values', function() {
@@ -201,7 +201,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, [37, -678]);
                 });
 
                 it('Should get derefferenced global/global struct pointer values', function() {
@@ -227,7 +227,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, [37, -678]);
                 });
 
                 it('Should pass a struct pointer to a procedure', function() {
@@ -251,7 +251,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [38934, -2978]);
+                    assert.deepEqual(testData.messages, [38934, -2978]);
                 });
             }
         );
@@ -292,7 +292,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [5, 2234, 45, 667]);
+                    assert.deepEqual(testData.messages, [5, 2234, 45, 667]);
                 });
 
                 it('Should nest an array struct', function() {
@@ -339,7 +339,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [233, 768, 78, 268]);
+                    assert.deepEqual(testData.messages, [233, 768, 78, 268]);
                 });
             }
         );

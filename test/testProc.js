@@ -20,7 +20,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [89]);
+                    assert.deepEqual(testData.messages, [89]);
                 });
 
                 it('Should call a global procedure pointer', function() {
@@ -37,7 +37,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [12]);
+                    assert.deepEqual(testData.messages, [12]);
                 });
 
                 it('Should call a local procedure pointer', function() {
@@ -53,7 +53,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [12]);
+                    assert.deepEqual(testData.messages, [12]);
                 });
 
                 it('Should call a struct procedure pointer', function() {
@@ -74,7 +74,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [59]);
+                    assert.deepEqual(testData.messages, [59]);
                 });
 
                 it('Should call a struct procedure pointer with offset', function() {
@@ -96,7 +96,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [97]);
+                    assert.deepEqual(testData.messages, [97]);
                 });
             }
         );
@@ -118,7 +118,7 @@ describe(
                             'endp',
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Point:', 561, 520, 974]);
+                    assert.deepEqual(testData.messages, ['Point:', 561, 520, 974]);
                 });
 
                 it('Should call a procedure with a struct parameter', function() {
@@ -146,7 +146,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Point:', 1656, 98, 75]);
+                    assert.deepEqual(testData.messages, ['Point:', 1656, 98, 75]);
                 });
 
                 it('Should call a procedure with an array parameter, read local', function() {
@@ -174,7 +174,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Point:', 3975, 296, 7013]);
+                    assert.deepEqual(testData.messages, ['Point:', 3975, 296, 7013]);
                 });
 
                 it('Should call a procedure with an array parameter, read global', function() {
@@ -201,7 +201,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Point:', 3975, 296, 7013]);
+                    assert.deepEqual(testData.messages, ['Point:', 3975, 296, 7013]);
                 });
 
                 it('Should call a procedure with a pointer to array parameter', function() {
@@ -230,7 +230,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [32342, 6757]);
+                    assert.deepEqual(testData.messages, [32342, 6757]);
                 });
 
                 it('Should call a procedure and write to a pointer of to global array', function() {
@@ -259,7 +259,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [678, 534]);
+                    assert.deepEqual(testData.messages, [678, 534]);
                 });
 
                 it('Should call a procedure and write to a pointer of to local array', function() {
@@ -288,7 +288,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [6852, -93]);
+                    assert.deepEqual(testData.messages, [6852, -93]);
                 });
 
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
@@ -315,7 +315,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [-5, 9, -3]);
+                    assert.deepEqual(testData.messages, [-5, 9, -3]);
                 });
 
                 it('Should call a procedure with a dereferenced global pointer struct parameter', function() {
@@ -342,7 +342,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [338, -782, 24]);
+                    assert.deepEqual(testData.messages, [338, -782, 24]);
                 });
 
                 it('Should call a procedure with a local address parameter', function() {
@@ -358,7 +358,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [13]);
+                    assert.deepEqual(testData.messages, [13]);
                 });
             }
         );
@@ -380,7 +380,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1]);
+                    assert.deepEqual(testData.messages, [1]);
                 });
 
                 it('Should return a multiplied parameter number', function() {
@@ -398,7 +398,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [26]);
+                    assert.deepEqual(testData.messages, [26]);
                 });
 
                 it('Should call multiple functions, check local stack after return', function() {
@@ -425,7 +425,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [15, 371]);
+                    assert.deepEqual(testData.messages, [15, 371]);
                 });
             }
         );
@@ -442,7 +442,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [6]);
+                    assert.deepEqual(testData.messages, [6]);
                 });
 
                 it('Should call with array index param', function() {
@@ -456,7 +456,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [2366]);
+                    assert.deepEqual(testData.messages, [2366]);
                 });
 
                 it('Should call with two array index params', function() {
@@ -476,7 +476,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [569, 89]);
+                    assert.deepEqual(testData.messages, [569, 89]);
                 });
 
                 it('Should call with array and expression', function() {
@@ -496,7 +496,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [687, 15]);
+                    assert.deepEqual(testData.messages, [687, 15]);
                 });
             }
         );

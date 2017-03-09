@@ -18,7 +18,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Hello world']);
+                    assert.deepEqual(testData.messages, ['Hello world']);
                 });
 
                 it('Should declare a global string array', function() {
@@ -34,7 +34,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['world', 'Hello']);
+                    assert.deepEqual(testData.messages, ['world', 'Hello']);
                 });
 
                 it('Should declare a local string', function() {
@@ -45,7 +45,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Local string']);
+                    assert.deepEqual(testData.messages, ['Local string']);
                 });
 
                 it('Should declare a local string array', function() {
@@ -60,7 +60,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['array', 'Local']);
+                    assert.deepEqual(testData.messages, ['array', 'Local']);
                 });
             }
         );

@@ -89,7 +89,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             7,      // REG_OFFSET_STACK
@@ -120,7 +120,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [2347]);
+                    assert.deepEqual(testData.messages, [2347]);
                 });
 
                 it('Should declare a global contant number array', function() {
@@ -136,7 +136,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [257, 356]);
+                    assert.deepEqual(testData.messages, [257, 356]);
                 });
 
                 it('Should declare a local number contant', function() {
@@ -147,7 +147,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [244]);
+                    assert.deepEqual(testData.messages, [244]);
                 });
 
                 it('Should declare a local number array', function() {
@@ -162,7 +162,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [6576, 6576]);
+                    assert.deepEqual(testData.messages, [6576, 6576]);
                 });
             }
         );
@@ -184,7 +184,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [n]);
+                    assert.deepEqual(testData.messages, [n]);
                 });
             }
         );

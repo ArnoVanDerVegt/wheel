@@ -32,7 +32,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1, 1, 1]);
+                    assert.deepEqual(testData.messages, [1, 1, 1]);
                 });
 
                 it('Should output 3 locals', function() {
@@ -58,7 +58,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(testData.messages, [8, 9, 10]);
+                    assert.deepEqual(testData.messages, [8, 9, 10]);
                 });
             }
         );

@@ -32,7 +32,7 @@ describe(
                                 div: valueA / valueB
                             }[operator];
 
-                        assert.deepStrictEqual(
+                        assert.deepEqual(
                             testData.vm.getVMData().getData(),
                             [
                                 7,      // REG_OFFSET_STACK
@@ -73,7 +73,7 @@ describe(
                                 div: valueA / valueB
                             }[operator];
 
-                        assert.deepStrictEqual(
+                        assert.deepEqual(
                             testData.vm.getVMData().getData(),
                             [
                                 8,      // REG_OFFSET_STACK
@@ -115,7 +115,7 @@ describe(
                                 div: valueA / valueB
                             }[operator];
 
-                        assert.deepStrictEqual(
+                        assert.deepEqual(
                             testData.vm.getVMData().getData(),
                             [
                                 7,      // REG_OFFSET_STACK
@@ -150,7 +150,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [18]);
+                    assert.deepEqual(testData.messages, [18]);
                 });
 
                 it('Decrease a global', function() {
@@ -165,7 +165,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [19304]);
+                    assert.deepEqual(testData.messages, [19304]);
                 });
 
                 it('Increase a local', function() {
@@ -180,7 +180,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [1468]);
+                    assert.deepEqual(testData.messages, [1468]);
                 });
 
                 it('Decrease a local', function() {
@@ -195,7 +195,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepStrictEqual(testData.messages, [2304]);
+                    assert.deepEqual(testData.messages, [2304]);
                 });
             }
         );

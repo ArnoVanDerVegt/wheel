@@ -22,7 +22,7 @@ describe(
                                     wheel.compiler.command.FLAG_LESS |
                                     wheel.compiler.command.FLAG_LESS_EQUAL;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             7,      // REG_OFFSET_STACK
@@ -51,7 +51,7 @@ describe(
                                     wheel.compiler.command.FLAG_LESS_EQUAL |
                                     wheel.compiler.command.FLAG_GREATER_EQUAL;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             7,      // REG_OFFSET_STACK
@@ -80,7 +80,7 @@ describe(
                                     wheel.compiler.command.FLAG_GREATER |
                                     wheel.compiler.command.FLAG_GREATER_EQUAL;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             7,      // REG_OFFSET_STACK

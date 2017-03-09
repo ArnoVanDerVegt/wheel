@@ -26,7 +26,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(testData.messages, [17]);
+                    assert.deepEqual(testData.messages, [17]);
                 });
 
                 it('Should output a string message', function() {
@@ -46,7 +46,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(testData.messages, ['Hello world']);
+                    assert.deepEqual(testData.messages, ['Hello world']);
                 });
             }
         );
