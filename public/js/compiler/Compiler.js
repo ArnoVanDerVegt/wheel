@@ -82,10 +82,11 @@
                 };
             };
 
-            this.createError = function(message) {
+            this.createError = function(message, location) {
+                location || (location = this._location);
+
                 var error    = new Error(message);
                 var includes = this._includes;
-                var location = this._location;
                 var filename = location.filename;
                 var line     = '';
 

@@ -10,11 +10,6 @@
                 this._filename     = '';
                 this._lineNumber   = 0;
             };
-
-            this.setLocation = function(location) {
-                this._filename   = location.filename;
-                this._lineNumber = location.lineNumber;
-            };
         })
     );
 })();
