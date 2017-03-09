@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -16,7 +15,7 @@ describe(
                             'endp'
                         ]).testData;
 
-                    assert.deepStrictEqual(
+                    assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             9,      // REG_OFFSET_STACK
