@@ -26,10 +26,11 @@
 
             this.compileSet = function(line) {
                 var spacePos = line.indexOf(' ');
+                var params   = '';
                 var command;
+
                 if (spacePos === -1) {
                     command = line;
-                    params  = '';
                 } else {
                     command = line.substr(0, spacePos),
                     params  = line.substr(spacePos - line.length + 1).trim();

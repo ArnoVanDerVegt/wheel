@@ -130,7 +130,7 @@
             };
 
             this.getLength = function() {
-            	return this._motors.length;
+                return this._motors.length;
             };
         })
     );

@@ -5,8 +5,9 @@
 		'vm.modules.SensorModule',
 		wheel.Class(wheel.vm.modules.VMModule, function(supr) {
 			this.run = function(commandId) {
-				var vmData = this._vmData;
 	/*
+				var vmData = this._vmData;
+
 				switch (commandId) {
 					case 0:
 						break;

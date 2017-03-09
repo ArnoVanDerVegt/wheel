@@ -1,7 +1,5 @@
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
-    var $;
-
+    var wheel            = require('../../utils/base.js').wheel;
     var forLabelIndex    = 10000;
     var ifLabelIndex     = 10000;
     var selectLabelIndex = 10000;
@@ -221,19 +219,19 @@
                         var tempVar = expressionCompiler.createTempVarName();
                         expressionCompiler.declareNumber(result, tempVar);
 
-                        function compileVrArray(vrArray) {
-                            var varIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                            var calculation   = expressionCompiler.isCalculation(vrArray.index);
-                            if (calculation) {
-                                var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempIndexVar + '_1');
-                            } else if (varIndexArray) {
-                                compileVrArray(varIndexArray);
-                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempVar);
-                            } else {
-                                result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
-                            }
-                        }
+                        var compileVrArray = function(vrArray) {
+                                var varIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
+                                var calculation   = expressionCompiler.isCalculation(vrArray.index);
+                                if (calculation) {
+                                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
+                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempIndexVar + '_1');
+                                } else if (varIndexArray) {
+                                    compileVrArray(varIndexArray);
+                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempVar);
+                                } else {
+                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
+                                }
+                            };
 
                         compileVrArray(vrIndexArray);
                         result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
@@ -256,19 +254,19 @@
                         var tempVar = expressionCompiler.createTempVarName();
                         expressionCompiler.declareNumber(result, tempVar);
 
-                        function compileValueArray(valueArray) {
-                            var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
-                            var calculation   = expressionCompiler.isCalculation(valueArray.index);
-                            if (calculation) {
-                                var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
-                            } else if (varIndexArray) {
-                                compileValueArray(varIndexArray);
-                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
-                            } else {
-                                result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
-                            }
-                        }
+                        var compileValueArray = function(valueArray) {
+                                var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
+                                var calculation   = expressionCompiler.isCalculation(valueArray.index);
+                                if (calculation) {
+                                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
+                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
+                                } else if (varIndexArray) {
+                                    compileValueArray(varIndexArray);
+                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
+                                } else {
+                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
+                                }
+                            };
 
                         compileValueArray(valueArray);
                         result.push('set ' + vr + ',' + tempVar);
@@ -303,7 +301,7 @@
                         result.push('set ' + vr + ',' + tempVar + '_1');
                     }
                 } else if (vrArray && valueArray) {
-                    var vr = expressionCompiler.createTempVarName();
+                    vr = expressionCompiler.createTempVarName();
                     expressionCompiler.declareNumber(result, vr);
                     this.compileGetIndex(result, valueArray, vr);
                     this.compileSetIndex(result, vrArray, vr);
@@ -381,7 +379,7 @@
                 var result       = [];
                 var outputParams = [];
                 for (var i = 0; i < p.length; i++) {
-                    var param = p[i];
+                    param = p[i];
                     if (param.arrayIndex) {
                         var calculation = expressionCompiler.isCalculation(param.arrayIndex.index);
                         var tempVar;

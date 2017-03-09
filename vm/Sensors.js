@@ -59,7 +59,7 @@
             };
 
             this.getLength = function() {
-            	return this._sensors.length;
+                return this._sensors.length;
             };
         })
     );

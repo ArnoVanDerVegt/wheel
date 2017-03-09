@@ -15,7 +15,6 @@
 
             this.compileLocalPoinerParam = function(param, paramInfo, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
-                var compilerData   = this._compilerData;
 
                 compilerOutput.a($.set.code,  $.SRC(),       $.LOCAL(paramInfo.value));
                 compilerOutput.a($.set.code,  $.DEST(),      $.CONST(offset));
@@ -25,7 +24,6 @@
 
             this.compileLocalParam = function(param, paramInfo, offset) {
                 var compilerOutput = this._compiler.getOutput();
-                var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
                 if (vr.metaType === $.T_META_POINTER) {
@@ -47,7 +45,6 @@
 
             this.compileLocalStructParam = function(param, paramInfo, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
-                var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
                 if (paramInfo.metaType === $.T_META_ADDRESS) {
@@ -67,7 +64,6 @@
 
             this.compileGlobalParam = function(param, paramInfo, offset) {
                 var compilerOutput = this._compiler.getOutput();
-                var compilerData   = this._compilerData;
                 var vr             = paramInfo.vr;
 
                 if (vr.metaType === $.T_META_POINTER) {
@@ -84,7 +80,6 @@
             this.compileGlobalStructParam = function(param, paramInfo, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
                 var compilerData   = this._compilerData;
-                var vr             = paramInfo.vr;
 
                 if (paramInfo.value) {
                     if (paramInfo.type === $.T_NUM_G_ARRAY) {
@@ -95,7 +90,7 @@
                             compilerData.declareConstant(paramInfo.value, data);
                         }
                     } else if ((paramInfo.type !== $.T_STRUCT_G) && (paramInfo.type !== $.T_STRUCT_G_ARRAY)) {
-                        throw compiler.createError('Type mismatch.');
+                        throw this._compiler.createError('Type mismatch.');
                     }
                 }
 
@@ -111,8 +106,7 @@
             };
 
             this.compileParams = function(params, currentLocalStackSize) {
-                var compilerOutput = this._compiler.getOutput();
-                var compilerData   = this._compilerData;
+                var compilerData = this._compilerData;
 
                 params = wheel.compiler.compilerHelper.splitParams(params);
 
@@ -121,7 +115,6 @@
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i].trim();
                     if (param !== '') {
-                        var destParam;
                         var paramInfo = compilerData.paramInfo(param);
                         var vr        = paramInfo.vr;
                         var size      = vr ? (vr.size * vr.length) : 1;
@@ -157,7 +150,7 @@
                                 break;
 
                             default:
-                                throw compiler.createError('Type mismatch.');
+                                throw this._compiler.createError('Type mismatch.');
                         }
 
                         offset += size;
@@ -174,7 +167,7 @@
                 var procedure      = line.substr(0, i);
 
                 if (!wheel.compiler.compilerHelper.validateString(procedure, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')) {
-                    throw compiler.createError('Syntax error.');
+                    throw this._compiler.createError('Syntax error.');
                 }
 
                 var callCommand;
@@ -187,7 +180,7 @@
                     var local = compilerData.findLocal(procedure);
                     if (local !== null) {
                         if (local.type !== $.T_PROC_L) {
-                            throw compiler.createError('Type error, can not call "' + procedure + '".');
+                            throw this._compiler.createError('Type error, can not call "' + procedure + '".');
                         }
 
                         // Move the code offset above the stack into the stack of the new procedure...
@@ -195,14 +188,14 @@
                         compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, {type: $.T_NUM_L, value: local.offset}]);
                         callCommand = {code: $.set.code, params: [$.CODE(), $.LOCAL(local.offset)]};
                     } else {
-                        var global = compilerData.findGlobal(procedure)
+                        var global = compilerData.findGlobal(procedure);
                         if (global !== null) {
                             if ((global.type !== $.T_NUM_G) && (global.type !== $.T_PROC_G)) {
-                                throw compiler.createError('Type error, can not call "' + procedure + '".');
+                                throw this._compiler.createError('Type error, can not call "' + procedure + '".');
                             }
                             callCommand = {code: $.set.code, params: [$.CODE(), $.GLOBAL(global.offset)]};
                         } else {
-                            throw compiler.createError('Unknown procedure "' + procedure + '".');
+                            throw this._compiler.createError('Unknown procedure "' + procedure + '".');
                         }
                     }
                 }

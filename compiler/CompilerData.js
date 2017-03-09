@@ -66,7 +66,7 @@
                     value:  value,
                     length: length
                 };
-            }
+            };
 
             /* Global constants */
             this.declareConstant = function(offset, data) {
@@ -144,7 +144,6 @@
             this.findInList = function(list, name, baseType, baseArrayType) {
                 var field = false;
                 var parts = name.trim().split('.');
-                var n     = name;
 
                 if (parts.length > 1) {
                     field = true;
@@ -354,7 +353,7 @@
                 var vr = this._parseVariable(name);
 
                 if (vr.name in struct) {
-                    throw compiler.createError('Duplicate struct field "' + name + '".');
+                    throw this._compiler.createError('Duplicate struct field "' + name + '".');
                 }
 
                 var structField = {
@@ -396,7 +395,6 @@
             };
 
             this.getOffset = function(param) {
-                var vr = param.vr;
                 return ('origOffset' in param.vr) ? param.vr.origOffset : param.vr.offset;
             };
 
@@ -406,13 +404,13 @@
                         type:  $.T_NUM_C,
                         value: 1,
                         param: param
-                    }
+                    };
                 } else if (param === 'FALSE') {
                     return {
                         type:  $.T_NUM_C,
                         value: 0,
                         param: param
-                    }
+                    };
                 } else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
                     return {
                         type:     $.T_NUM_C,
@@ -489,7 +487,7 @@
                         value:    offset,
                         param:    param,
                         label:    label
-                    }
+                    };
                 }
             };
         })

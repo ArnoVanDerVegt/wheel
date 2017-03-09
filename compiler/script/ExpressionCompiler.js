@@ -1,8 +1,6 @@
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
-    var $;
-
-    var localVarIndex = 1;//10000;
+    var wheel         = require('../../utils/base.js').wheel;
+    var localVarIndex = 10000;
 
     wheel(
         'compiler.script.ExpressionCompiler',
@@ -216,7 +214,7 @@
                         }
                     } else {
                         if (vrArray) {
-                            var vr2 = localVr + '_' + (depth + 1);
+                            vr2 = localVr + '_' + (depth + 1);
                             this.declareNumber(result, vr2);
                             result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
                             result.push(command + ' ' + vr1 + ',' + vr2);

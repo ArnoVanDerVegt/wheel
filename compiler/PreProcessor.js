@@ -73,7 +73,7 @@
                 var result = '';
                 for (var i = 0; i < line.length; i++) {
                     var c = line[i];
-                    result += (c === "\t") ? '    ' : c;
+                    result += (c === '\t') ? '    ' : c;
                 }
                 return result;
             };
@@ -88,7 +88,6 @@
 
                         case ';':
                             return line.substr(0, i);
-                            break;
                     }
                 }
 
@@ -101,7 +100,7 @@
                     return line;
                 }
                 line = line.substr(i + 8 - line.length);
-                j    = line.indexOf(' ');
+                var j     = line.indexOf(' ');
                 var cnst  = line.substr(0, j);
                 var value = line.substr(j - line.length).trim();
                 this._replaceTree.add(cnst, value);
@@ -309,9 +308,8 @@
                 this.getFileData(
                     filename,
                     function(data) {
-                        var lines        = data.split("\n");
-                        var includes     = this._fileProcessor.processIncludes(lines);
-                        var allFilesDone = false;
+                        var lines    = data.split('\n');
+                        var includes = this._fileProcessor.processIncludes(lines);
 
                         for (var i = 0; i < includes.length; i++) {
                             var include = includes[i];
@@ -329,7 +327,7 @@
                         this._fileCount--;
                         (this._fileCount === 0) && finishedCallback();
                     }.bind(this)
-                )
+                );
             };
 
             this.process = function(path, filename, finishedCallback) {
@@ -346,7 +344,7 @@
                         var includes  = [];
                         for (var filename in filesDone) {
                             var fileDone = filesDone[filename];
-                            var lines    = this.getFileData(filename).split("\n");
+                            var lines    = this.getFileData(filename).split('\n');
                             includes.push({
                                 filename: filename,
                                 depth:    fileDone.depth,
@@ -362,7 +360,7 @@
                         includes.sort();
                         for (var i = includes.length - 1; i >= 0; i--) {
                             var include = includes[i];
-                            var lines   = this.getFileData(include.filename).split("\n");
+                            var lines   = this.getFileData(include.filename).split('\n');
                             include.lines = this._fileProcessor.process(lines);
                         }
 

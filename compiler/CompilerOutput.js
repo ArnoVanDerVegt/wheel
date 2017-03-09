@@ -65,12 +65,6 @@
             };
 
             this.getLines = function() {
-                var singleParam = [
-                        'log',
-                        'call',
-                        'copy',
-                        'loop'
-                    ];
                 var leadingZero = function(value) {
                         value += '';
                         while (value.length < 4) {
@@ -218,6 +212,7 @@
             };
 
             this.logCommands = function() {
+                /*
                 var colorReset = "\x1b[0m"
                 var colorBright = "\x1b[1m"
                 var colorDim = "\x1b[2m"
@@ -243,9 +238,10 @@
                 var colorBgMagenta = "\x1b[45m"
                 var colorBgCyan = "\x1b[46m"
                 var colorBgWhite = "\x1b[47m"
+                */
 
                 function log(line, color) {
-                    color || (color = colorReset);
+                    //color || (color = colorReset);
                     console.log('            ' + line);
                     //console.log('\x1b[36m%s\x1b[0m', 'hhjkh');  //cyan
                     //console.log('\x1b[33m%s\x1b[0m: ', 'jgjgjgh');  //yellow
@@ -284,8 +280,8 @@
 
                 result += '#STRINGS' + separator;
 
-                result += this._stringList.length + separator;
-                result += this._stringList.join(separator) + separator;
+                result += stringList.length + separator;
+                result += stringList.join(separator) + separator;
 
                 result += '#HEAP_SIZE'           + separator;
                 result += 1024                   + separator;

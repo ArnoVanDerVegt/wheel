@@ -67,7 +67,7 @@ var files    = {
                     getMeta: function() {
                         return {};
                     }
-                }
+                };
             }
             return null;
         }

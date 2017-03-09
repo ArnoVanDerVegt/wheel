@@ -18,6 +18,8 @@
             "always"
         ],
         "no-console": 0,
-        "no-unused-vars": ["error", { "vars": "local", "args": "none" }]
+        "no-empty": 0,
+        "no-redeclare": 0,
+        "no-unused-vars": ["error", { "vars": "local", "args": "none", "ignoreRestSiblings": true }]
     }
 }

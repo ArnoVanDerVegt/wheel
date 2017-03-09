@@ -86,7 +86,7 @@ app.get('/api/file', function(req, res) {
                 while ((offset & 7) !== 0) {
                     offset++;
                 }
-                file += line + "\n";
+                file += line + '\n';
             }
 
             res.send(file);

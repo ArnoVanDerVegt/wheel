@@ -23,7 +23,6 @@
         if (!proto) {
             proto = parent; parent = null;
         } else {
-            if (parent == Error && ErrorParentClass) { parent = ErrorParentClass; }
             proto.prototype = parent.prototype;
         }
 
@@ -31,8 +30,8 @@
                 if (this.init) {
                     return this.init.apply(this, arguments);
                 }
-            },
-            supr = parent ? function(context, method, args) {
+            };
+        var supr = parent ? function(context, method, args) {
                 if (typeof method === 'function') {
                     var s = method + '';
                     method = s.substr(8, s.indexOf('(') - 8).trim();
@@ -46,37 +45,7 @@
         cls.prototype.constructor  = cls;
         cls.prototype._parentClass = parent;
         return cls;
-    }
-
-    wheel.bind = function(context, method) {
-        if (typeof method === 'string') {
-            var args0 = Array.prototype.slice.call(arguments, 2);
-            if (args0.length) {
-                return function _bound() {
-                    if (context[method]) {
-                        var args1 = Array.prototype.slice.call(arguments);
-                        return context[method].apply(context, args0.concat(args1));
-                    } else {
-                        throw new Error('No method: "' + method + '" for ctx: ' + context);
-                    }
-                };
-            } else {
-                return function _bound() {
-                    if (context[method]) {
-                        return context[method].apply(context, arguments);
-                    } else {
-                        throw new Error('No method: "' + method + '" for ctx: ' + context);
-                    }
-                };
-            }
-        }
-
-        var args0 = Array.prototype.slice.call(arguments, 2);
-        return function _bound() {
-            var args1 = Array.prototype.slice.call(arguments);
-            return method.apply(context, args0.concat(args1));
-        };
-    }
+    };
 
     wheel.Emitter = wheel.Class(function() {
         this.init = function init() {
@@ -96,8 +65,8 @@
         };
 
         this.once = function once(signal, ctx, method) {
-            var id                 = 'listener' + this._listenerId++,
-                deleteCallback     = bind(this, function() { delete this._listeners[id]; });
+            var id             = 'listener' + this._listenerId++;
+            var deleteCallback = (function() { delete this._listeners[id]; }).bind(this);
             this._listeners[id] = {
                 signal: signal,
                 ctx: ctx,
@@ -108,8 +77,8 @@
         };
 
         this.emit = function emit(signal) {
-            var listeners     = this._listeners,
-                args         = Array.prototype.slice.call(arguments, 1);
+            var listeners     = this._listeners;
+            var args         = Array.prototype.slice.call(arguments, 1);
 
             this._hasTriggered[signal] = true;
 
@@ -151,5 +120,5 @@
         window.require = function() {
             return {wheel: wheel};
         };
-    };
+    }
 })();

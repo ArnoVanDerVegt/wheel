@@ -116,7 +116,6 @@
                         var found = false;
 
                         for (var j = 0; j < args.length; j++) {
-                            var argsType     = args[j].type;
                             var argsMetaType = args[j].metaType || false;
                             var matchType    = false;
 
@@ -173,6 +172,7 @@
                 var compilerData      = this._compilerData;
                 var output            = this._output;
                 var command;
+                var params;
 
                 if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                     var spacePos = line.indexOf(' ');
@@ -275,11 +275,7 @@
 
             this.compileLines = function(lines) {
                 var sourceMap = lines.sourceMap;
-                var output   = this._output;
-                var location = {
-                        filename:   this._filename,
-                        lineNumber: 0
-                    };
+                var output    = this._output;
 
                 this._procStartIndex = -1;
                 this._activeStruct   = null;

@@ -16,7 +16,6 @@
             this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
-                var compilerData   = this._compilerData;
                 var compilerOutput = this._compiler.getOutput();
                 var param          = validatedCommand.params[0];
 
