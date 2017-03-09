@@ -1045,4 +1045,14 @@
             return value.vr && (value.vr.metaType === T_META_STRING);
         }
     );
+
+    wheel(
+        'compiler.command.isStringConstType',
+        function(vr) {
+            return (typeof vr.param === 'string') &&
+                (vr.param.length > 2) &&
+                (vr.param[0] === '"') &&
+                (vr.param[vr.param.length - 1] === '"');
+        }
+    );
 })();

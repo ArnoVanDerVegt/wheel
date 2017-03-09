@@ -8,6 +8,7 @@
                 this._buffer       = [];
                 this._mainIndex    = 0;
                 this._globalOffset = 0;
+                this._stringList   = [];
             };
 
             this.add = function(outputCommand) {
@@ -45,6 +46,14 @@
 
             this.setMainIndex = function(mainIndex) {
                 this._mainIndex = mainIndex;
+            };
+
+            this.getStringList = function(stringList) {
+                return this._stringList;
+            };
+
+            this.setStringList = function(stringList) {
+                this._stringList = stringList;
             };
 
             this.getGlobalOffset = function() {
@@ -207,6 +216,97 @@
                 for (var i = 0; i < lines.length; i++) {
                     console.log('            ' + lines[i]);
                 }
+            };
+
+            this.logCommands = function() {
+                var colorReset = "\x1b[0m"
+                var colorBright = "\x1b[1m"
+                var colorDim = "\x1b[2m"
+                var colorUnderscore = "\x1b[4m"
+                var colorBlink = "\x1b[5m"
+                var colorReverse = "\x1b[7m"
+                var colorHidden = "\x1b[8m"
+
+                var colorFgBlack = "\x1b[30m"
+                var colorFgRed = "\x1b[31m"
+                var colorFgGreen = "\x1b[32m"
+                var colorFgYellow = "\x1b[33m"
+                var colorFgBlue = "\x1b[34m"
+                var colorFgMagenta = "\x1b[35m"
+                var colorFgCyan = "\x1b[36m"
+                var colorFgWhite = "\x1b[37m"
+
+                var colorBgBlack = "\x1b[40m"
+                var colorBgRed = "\x1b[41m"
+                var colorBgGreen = "\x1b[42m"
+                var colorBgYellow = "\x1b[43m"
+                var colorBgBlue = "\x1b[44m"
+                var colorBgMagenta = "\x1b[45m"
+                var colorBgCyan = "\x1b[46m"
+                var colorBgWhite = "\x1b[47m"
+
+                function log(line, color) {
+                    color || (color = colorReset);
+                    console.log('            ' + line);
+                    //console.log('\x1b[36m%s\x1b[0m', 'hhjkh');  //cyan
+                    //console.log('\x1b[33m%s\x1b[0m: ', 'jgjgjgh');  //yellow
+                    //console.log('\x1b[36m%s' + color, '            ' + line);
+                }
+                var buffer = this._buffer;
+
+                log('#STRINGS');
+                this._stringList.forEach(function(s) { log('"' + s + '"'); });
+
+                log('#HEAP_SIZE');
+                log(1024);
+                log('#REG_CODE');
+                log(this.getMainIndex());
+                log('#REG_STACK');
+                log(this.getGlobalOffset());
+                log('#COMMANDS_SIZE');
+                log(buffer.length * 5);
+
+                log('#COMMANDS');
+                for (var i = 0; i < buffer.length; i++) {
+                    var command = buffer[i];
+                    var line    = command.code + ' ' +
+                            command.params[0].type + ' ' + command.params[0].value + ' ' +
+                            command.params[1].type + ' ' + command.params[1].value;
+                    log(line);
+                }
+            };
+
+            this.outputCommands = function() {
+                var buffer     = this._buffer;
+                var result     = '';
+                var separator  = String.fromCharCode(13);
+                var stringList = this._stringList;
+
+                result += '#STRINGS' + separator;
+
+                result += this._stringList.length + separator;
+                result += this._stringList.join(separator) + separator;
+
+                result += '#HEAP_SIZE'           + separator;
+                result += 1024                   + separator;
+                result += '#REG_CODE'            + separator;
+                result += this.getMainIndex()    + separator;
+                result += '#REG_STACK'           + separator;
+                result += this.getGlobalOffset() + separator;
+                result += '#COMMANDS_SIZE'       + separator;
+                result += (buffer.length * 5)    + separator;
+                result += '#COMMANDS'            + separator;
+
+                for (var i = 0; i < buffer.length; i++) {
+                    var command = buffer[i];
+                    result += command.code + separator;
+                    result += command.params[0].type  + separator;
+                    result += command.params[0].value + separator;
+                    result += command.params[1].type  + separator;
+                    result += command.params[1].value + separator;
+                }
+
+                return result;
             };
         })
     );

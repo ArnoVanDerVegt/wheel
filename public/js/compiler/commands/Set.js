@@ -17,7 +17,10 @@
                 var param2         = validatedCommand.params[1];
                 var offset;
 
-                if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
+                if ($.isStringConstType(param2)) {
+                    $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
+                    compilerOutput.add(validatedCommand);
+                } else if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
                     compilerOutput.a($.set.code, $.DEST(), $.CONST(param2.value));
                     $.isLocal(param2) && compilerOutput.a($.add.code, $.DEST(), $.STACK());
                     param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;

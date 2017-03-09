@@ -64,9 +64,9 @@
 
     var FileProcessor = wheel.Class(function() {
             this.init = function(opts) {
-                this._preProcessor     = opts.preProcessor;
-                this._files         = opts.files;
-                this._replaceTree     = opts.replaceTree;
+                this._preProcessor = opts.preProcessor;
+                this._files        = opts.files;
+                this._replaceTree  = opts.replaceTree;
             };
 
             this.checkTabs = function(line) {
@@ -249,9 +249,9 @@
                 this._resourceCount = 0;
                 this._replaceTree   = new ReplaceTree({});
                 this._fileProcessor = new FileProcessor({
-                    preProcessor:     this,
-                    files:             this._files,
-                    replaceTree:     this._replaceTree
+                    preProcessor: this,
+                    files:        this._files,
+                    replaceTree:  this._replaceTree
                 });
             };
 

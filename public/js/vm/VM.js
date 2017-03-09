@@ -35,15 +35,15 @@
                 var regOffsetStack = data[wheel.compiler.command.REG_STACK];
                 switch (command.params[0].type) {
                     case wheel.compiler.command.T_NUM_C: v1 = p1;                         break;
-                    case wheel.compiler.command.T_NUM_G:   v1 = data[p1];                   break;
-                    case wheel.compiler.command.T_NUM_L:    v1 = data[p1 + regOffsetStack];  break;
+                    case wheel.compiler.command.T_NUM_G: v1 = data[p1];                   break;
+                    case wheel.compiler.command.T_NUM_L: v1 = data[p1 + regOffsetStack];  break;
                 }
                 var p2 = command.params[1].value;
                 var v2;
                 switch (command.params[1].type) {
                     case wheel.compiler.command.T_NUM_C: v2 = p2;                         break;
-                    case wheel.compiler.command.T_NUM_G:   v2 = data[p2];                   break;
-                    case wheel.compiler.command.T_NUM_L:    v2 = data[p2 + regOffsetStack];  break;
+                    case wheel.compiler.command.T_NUM_G: v2 = data[p2];                   break;
+                    case wheel.compiler.command.T_NUM_L: v2 = data[p2 + regOffsetStack];  break;
                 }
 /*
     var regOffsetSrc  = data[wheel.compiler.command.REG_SRC];
@@ -139,7 +139,7 @@
 
                         switch (command.params[0].type) {
                             case wheel.compiler.command.T_NUM_G: data[p1]                  = result; break;
-                            case wheel.compiler.command.T_NUM_L:  data[p1 + regOffsetStack] = result; break;
+                            case wheel.compiler.command.T_NUM_L: data[p1 + regOffsetStack] = result; break;
                         }
                 }
             };
