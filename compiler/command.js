@@ -299,69 +299,6 @@
                     }
                 ]
             },
-            and: {
-                code: 10,
-                args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
-                ]
-            },
-            or: {
-                code: 11,
-                args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
-                ]
-            },
-            xor: {
-                code: 12,
-                args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
-                ]
-            },
 
             // The following commands are compiled into smaller commands with less parameters...
             inc: {
