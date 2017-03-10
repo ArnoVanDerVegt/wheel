@@ -13,7 +13,6 @@
 
                 switch (commandId) {
                     case 0: // READ BUTTON
-                        vmData.setNumberAtRegOffset(this._ev3Buttons.getButton());
                         break;
 
                     default:

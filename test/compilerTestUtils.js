@@ -25,8 +25,6 @@ require('../compiler/script/ExpressionCompiler.js');
 require('../compiler/script/ScriptCompiler.js');
 require('../compiler/Compiler.js');
 
-require('../vm/Motors.js');
-require('../vm/Sensors.js');
 require('../vm/VMData.js');
 require('../vm/VM.js');
 require('../vm/modules/VMModule.js');
@@ -42,9 +40,7 @@ var wheel = require('../utils/base.js').wheel;
 
 var setup = function() {
     var compiler = new wheel.compiler.Compiler({});
-    var motors   = new wheel.vm.Motors({});
-    var sensors  = new wheel.vm.Sensors({});
-    var vm       = new wheel.vm.VM({motors: motors, sensors: sensors});
+    var vm       = new wheel.vm.VM({});
     var messages = [];
 
     vm.on(
@@ -57,8 +53,6 @@ var setup = function() {
 
     return {
         compiler: compiler,
-        motors:   motors,
-        sensors:  sensors,
         vm:       vm,
         messages: messages
     };
