@@ -68,6 +68,14 @@
                 };
             };
 
+            this.getPointerVar = function(name) {
+                return (name[0] === '*');
+            };
+
+            this.getNameWithoutPointer = function(name) {
+                return this.getPointerVar(name) ? name.substr(1 - name.length) : name;
+            };
+
             /* Global constants */
             this.declareConstant = function(offset, data) {
                 this._globalConstants.push({
@@ -82,14 +90,8 @@
 
             /* Global */
             this.declareGlobal = function(name, type, arrayType, struct, location, allowConstant) {
-                var metaType = null;
-
-                if (name[0] === '*') {
-                    name     = name.substr(1 - name.length);
-                    metaType = $.T_META_POINTER;
-                }
-
-                var vr         = this._parseVariable(name);
+                var metaType   = this.getPointerVar(name) ? $.T_META_POINTER : null;
+                var vr         = this._parseVariable(this.getNameWithoutPointer(name));
                 var globalList = this._globalList;
                 var size       = struct ? struct.size : 1;
 
@@ -207,14 +209,8 @@
             };
 
             this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
-                var metaType = null;
-
-                if (name[0] === '*') {
-                    name         = name.substr(1 - name.length);
-                    metaType     = $.T_META_POINTER;
-                }
-
-                var vr        = this._parseVariable(name);
+                var metaType  = this.getPointerVar(name) ? $.T_META_POINTER : null;
+                var vr        = this._parseVariable(this.getNameWithoutPointer(name));
                 var localList = this._localList;
                 var size      = (metaType === $.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
 
@@ -338,12 +334,9 @@
 
             this.declareStructField = function(name, type, arrayType, size, structType) {
                 (size   === undefined) && (size   = 1);
-                var metaType = null;
+                var metaType = this.getPointerVar(name) ? $.T_META_POINTER : null;
 
-                if (name[0] === '*') {
-                    name      = name.substr(1 - name.length);
-                    metaType  = $.T_META_POINTER;
-                }
+                name = this.getNameWithoutPointer(name);
 
                 var struct = this._struct;
                 if (!struct) {
@@ -442,8 +435,8 @@
                         if (name[0] === '&') {
                             name     = name.substr(1 - name.length);
                             metaType = $.T_META_ADDRESS;
-                        } else if (name[0] === '*') {
-                            name     = name.substr(1 - name.length);
+                        } else if (this.getPointerVar(name)) {
+                            name     = this.getNameWithoutPointer(name);
                             metaType = $.T_META_POINTER;
                         }
                     }
