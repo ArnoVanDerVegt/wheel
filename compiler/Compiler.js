@@ -185,18 +185,11 @@
                 } else if (this._compilers.Label.hasLabel(line)) {
                     compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
                 } else {
-                    var spacePos = line.indexOf(' ');
-                    if (spacePos === -1) {
-                        command = line;
-                        params  = '';
-                    } else {
-                        command = line.substr(0, spacePos),
-                        params  = line.substr(spacePos - line.length + 1).trim();
-                    }
-                    var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
-                    var validatedCommand = this.validateCommand(command, splitParams);
-                    validatedCommand && (validatedCommand.command = command);
-                    switch (command) {
+                    var commandAndParams = this.getCommandAndParams(line);
+                    var splitParams      = wheel.compiler.compilerHelper.splitParams(commandAndParams.params);
+                    var validatedCommand = this.validateCommand(commandAndParams.command, splitParams);
+                    validatedCommand && (validatedCommand.command = commandAndParams.command);
+                    switch (commandAndParams.command) {
                         case 'endp':
                             if (this._activeStruct !== null) {
                                 throw this.createError('Invalid command "endp".');
@@ -210,7 +203,7 @@
                             break;
 
                         case 'struct':
-                            this._activeStruct = compilerData.declareStruct(params, command, location);
+                            this._activeStruct = compilerData.declareStruct(commandAndParams.params, commandAndParams.command, location);
                             break;
 
                         case 'ends':
@@ -218,12 +211,12 @@
                             break;
 
                         default:
-                            if (command in compilerByCommand) {
-                                compilerByCommand[command].compile(validatedCommand, splitParams, params, location);
+                            if (commandAndParams.command in compilerByCommand) {
+                                compilerByCommand[commandAndParams.command].compile(validatedCommand, splitParams, commandAndParams.params, location);
                             } else if (validatedCommand === false) {
-                                var struct = compilerData.findStruct(command);
+                                var struct = compilerData.findStruct(commandAndParams.command);
                                 if (struct === null) {
-                                    throw this.createError('Unknown command "' + command + '".');
+                                    throw this.createError('Unknown command "' + commandAndParams.command + '".');
                                 } else if (this._activeStruct !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
@@ -357,6 +350,21 @@
 
             this.getInProc = function() {
                 return (this._procStartIndex !== -1);
+            };
+
+            this.getCommandAndParams = function(line) {
+                var command = line;
+                var params  = '';
+                var i       = line.indexOf(' ');
+
+                if (i !== -1) {
+                    command = line.substr(0, i),
+                    params  = line.substr(i - line.length + 1).trim();
+                }
+                return {
+                    command: command,
+                    params:  params
+                };
             };
         })
     );
