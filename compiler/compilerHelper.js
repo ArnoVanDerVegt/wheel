@@ -4,6 +4,22 @@
 	wheel(
 		'compiler.compilerHelper',
 		{
+            getWrappedInChars: function(s, open, close) {
+                return (s.length > 2) && (s[0] === open) && (s.substr(-1) === close);
+            },
+
+            checkDuplicateIdentifier: function(compiler, name, list) {
+                if (name in list) {
+                    throw compiler.createError('Duplicate int identifier "' + name + '".');
+                }
+            },
+
+            checkInvalidConstant: function(compiler, vr, allowConstant) {
+                if ((vr.value !== null) && !allowConstant) {
+                    throw compiler.createError('Invalid constant value "' + vr.value + '".');
+                }
+            },
+
 			validateString: function(s, valid) {
 				if (!valid) {
 					valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';

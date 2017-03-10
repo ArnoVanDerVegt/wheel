@@ -69,6 +69,11 @@
                 this._replaceTree  = opts.replaceTree;
             };
 
+            this.removeMeta = function(line, meta) {
+                var i = line.indexOf(meta);
+                return (i === -1) ? line : line.substr(0, i);;
+            };
+
             this.checkTabs = function(line) {
                 var result = '';
                 for (var i = 0; i < line.length; i++) {
@@ -113,21 +118,11 @@
             };
 
             this.checkInclude = function(line) {
-                var i = line.indexOf('#include');
-                if (i === -1) {
-                    return line;
-                }
-
-                return line.substr(0, i);
+                return this.removeMeta(line, '#include');
             };
 
             this.checkProject = function(line) {
-                var i = line.indexOf('#project');
-                if (i === -1) {
-                    return line;
-                }
-
-                return line.substr(0, i);
+                return this.removeMeta(line, '#project');
             };
 
             this.checkResource = function(line) {
