@@ -95,12 +95,8 @@
                 var globalList = this._globalList;
                 var size       = struct ? struct.size : 1;
 
-                if (vr.name in globalList) {
-                    throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
-                }
-                if ((vr.value !== null) && !allowConstant) {
-                    throw this._compiler.createError('Invalid constant value "' + vr.value + '".');
-                }
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, globalList);
+                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
 
                 var global = {
                         type:     (vr.length === 1) ? type : arrayType,
@@ -214,12 +210,8 @@
                 var localList = this._localList;
                 var size      = (metaType === $.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
 
-                if (vr.name in localList) {
-                    throw this._compiler.createError('Duplicate int identifier "' + vr.name + '".');
-                }
-                if ((vr.value !== null) && !allowConstant) {
-                    throw this._compiler.createError('Invalid constant value "' + vr.value + '".');
-                }
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, localList);
+                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
 
                 var local = {
                         type:     (vr.length === 1) ? type : arrayType,
@@ -277,9 +269,9 @@
             /* Procedure */
             this.declareProcedure = function(name, index) {
                 var procedureList = this._procedureList;
-                if (name in procedureList) {
-                    throw this._compiler.createError('Duplicate procedure "' + name + '".');
-                }
+
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, procedureList);
+
                 this.resetLocal();
                 this._procedure = {
                     index:      index,
@@ -307,9 +299,9 @@
                 if (!wheel.compiler.compilerHelper.validateString(name)) {
                     throw compiler.createError('Syntax error.');
                 }
-                if (name in structList) {
-                    throw compiler.createError('Duplicate struct "' + name + '".');
-                }
+
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, structList);
+
                 structList[name]   = result;
                 this._struct       = result;
                 this._structOffset = 0;
@@ -343,12 +335,9 @@
                     return null;
                 }
 
-                var vr = this._parseVariable(name);
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, struct);
 
-                if (vr.name in struct) {
-                    throw this._compiler.createError('Duplicate struct field "' + name + '".');
-                }
-
+                var vr          = this._parseVariable(name);
                 var structField = {
                         type:     (vr.length === 1) ? type : arrayType,
                         struct:   structType || false,
