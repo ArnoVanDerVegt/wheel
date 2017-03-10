@@ -71,7 +71,7 @@
 
             this.removeMeta = function(line, meta) {
                 var i = line.indexOf(meta);
-                return (i === -1) ? line : line.substr(0, i);;
+                return (i === -1) ? line : line.substr(0, i);
             };
 
             this.checkTabs = function(line) {
