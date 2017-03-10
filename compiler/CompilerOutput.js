@@ -172,34 +172,19 @@
             };
 
             this.optimizeTypes = function() {
-                var buffer = this._buffer;
+                var buffer       = this._buffer;
+                var convertTypes = {};
+
+                convertTypes[wheel.compiler.command.T_PROC]   = wheel.compiler.command.T_NUM_C;
+                convertTypes[wheel.compiler.command.T_PROC_G] = wheel.compiler.command.T_NUM_G;
+                convertTypes[wheel.compiler.command.T_PROC_L] = wheel.compiler.command.T_NUM_L;
+
                 for (var i = 0; i < buffer.length; i++) {
                     var outputCommand = buffer[i];
                     var params        = outputCommand.params;
                     for (var j = 0; j < params.length; j++) {
-                        switch (params[j].type) {
-                            case wheel.compiler.command.T_PROC:
-                                params[j].type = wheel.compiler.command.T_NUM_C;
-                                break;
-
-                            case wheel.compiler.command.T_PROC_G:
-                                params[j].type = wheel.compiler.command.T_NUM_G;
-                                break;
-
-                            case wheel.compiler.command.T_PROC_G_ARRAY:
-                                console.error(params);
-                                //    params[j].type = wheel.compiler.command.T_NUM_G_ARRAY;
-                                break;
-
-                            case wheel.compiler.command.T_PROC_L:
-                                params[j].type = wheel.compiler.command.T_NUM_L;
-                                break;
-
-                            case wheel.compiler.command.T_PROC_L_ARRAY:
-                                console.error(params);
-                                //    params[j].type = wheel.compiler.command.T_NUM_L_ARRAY;
-                                break;
-                        }
+                        var type = params[j].type;
+                        (type in convertTypes) && (params[j].type = convertTypes[type]);
                     }
                 }
             };
