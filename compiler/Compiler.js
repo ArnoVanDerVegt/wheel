@@ -171,13 +171,11 @@
                 var compilerByCommand = this._compilerByCommand;
                 var compilerData      = this._compilerData;
                 var output            = this._output;
-                var command;
-                var params;
 
                 if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                     var spacePos = line.indexOf(' ');
-                    command = line.substr(0, spacePos).trim();
-                    if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'and', 'or', 'cmp'].indexOf(command) === -1) {
+                    var command  = line.substr(0, spacePos).trim();
+                    if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'cmp'].indexOf(command) === -1) {
                         this._compilers.Call.compile(line);
                     } else {
                         this._compilers.CallFunction.compile(line);
