@@ -25,23 +25,14 @@
             };
 
             this.compileSet = function(line) {
-                var spacePos = line.indexOf(' ');
-                var params   = '';
-                var command;
+                var commandAndParams = this._compiler.getCommandAndParams(line);
+                var splitParams      = wheel.compiler.compilerHelper.splitParams(commandAndParams.params);
+                var validatedCommand = this._compiler.validateCommand(commandAndParams.command, splitParams);
 
-                if (spacePos === -1) {
-                    command = line;
+                if (commandAndParams.command === 'set') {
+                    this._setCompiler.compile(validatedCommand, splitParams, commandAndParams.params);
                 } else {
-                    command = line.substr(0, spacePos),
-                    params  = line.substr(spacePos - line.length + 1).trim();
-                }
-                var splitParams      = wheel.compiler.compilerHelper.splitParams(params);
-                var validatedCommand = this._compiler.validateCommand(command, splitParams);
-
-                if (command === 'set') {
-                    this._setCompiler.compile(validatedCommand, splitParams, params);
-                } else {
-                    this._numberOperatorCompiler.compile(validatedCommand, splitParams, params);
+                    this._numberOperatorCompiler.compile(validatedCommand, splitParams, commandAndParams.params);
                 }
             };
 

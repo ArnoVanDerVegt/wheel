@@ -5,10 +5,10 @@
     wheel(
         'compiler.commands.Array',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-        	this.getBothNumberType = function(valueParam, arrayParam) {
+            this.getBothNumberType = function(valueParam, arrayParam) {
                 $ = wheel.compiler.command;
-        		return $.isNumberType(valueParam) && $.isNumberType(arrayParam);
-        	};
+                return $.isNumberType(valueParam) && $.isNumberType(arrayParam);
+            };
         })
     );
 })();
