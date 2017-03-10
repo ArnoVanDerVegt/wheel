@@ -404,14 +404,14 @@
                         value: 0,
                         param: param
                     };
-                } else if ((param.length > 2) && (param[0] === '"') && (param.substr(-1) === '"')) {
+                } else if (wheel.compiler.compilerHelper.getWrappedInChars(param, '"', '"')) {
                     return {
                         type:     $.T_NUM_C,
                         metaType: $.T_META_STRING,
                         value:    param.substr(1, param.length - 2),
                         param:    param
                     };
-                } else if ((param.length > 2) && (param[0] === '[') && (param.substr(-1) === ']')) {
+                } else if (wheel.compiler.compilerHelper.getWrappedInChars(param, '[', ']')) {
                     return {
                         type:  $.T_NUM_G_ARRAY, // Array constant
                         value: param,
