@@ -20,7 +20,7 @@
 
     wheel(
         'compiler.commands.ArrayR',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.Array, function(supr) {
             this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
@@ -29,7 +29,7 @@
                 var arrayParam     = validatedCommand.params[1];
                 var indexParam     = validatedCommand.params[2];
 
-                if ($.isNumberType(valueParam) && $.isNumberType(arrayParam)) {
+                if (this.getBothNumberType(valueParam, arrayParam)) {
                     compilerOutput.a($.set.code, $.DEST(),   $.STACK());
                     compilerOutput.a($.set.code, $.SRC(),    indexParam);
                     compilerOutput.a($.add.code, $.SRC(),    $.CONST(arrayParam.value));
@@ -38,33 +38,31 @@
                     compilerOutput.a($.set.code, $.SRC(),    $.LOCAL(0));
                     compilerOutput.a($.set.code, $.STACK(),  $.DEST());
                     compilerOutput.a($.set.code, valueParam, $.SRC());
-                } else {
-                    if (($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) ||
-                        (($.isNumberType(arrayParam) && $.isStructVarType(valueParam)))) {
-                        var size = valueParam.vr.struct.size;
-                        compilerOutput.a($.set.code, $.SRC(), indexParam);
-                        (size > 1) && compilerOutput.a($.mul.code, $.SRC(), $.CONST(size));
+                } else if (($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) ||
+                    (($.isNumberType(arrayParam) && $.isStructVarType(valueParam)))) {
+                    var size = valueParam.vr.struct.size;
+                    compilerOutput.a($.set.code, $.SRC(), indexParam);
+                    (size > 1) && compilerOutput.a($.mul.code, $.SRC(), $.CONST(size));
 
-                        if ($.isPointerVarMetaType(arrayParam)) {
-                            var type = $.isLocal(arrayParam) ? $.T_NUM_L : $.T_NUM_G;
-                            compilerOutput.a($.add.code, $.SRC(), {type: type, value: arrayParam.value});
-                        } else {
-                            compilerOutput.a($.add.code, $.SRC(), $.CONST(arrayParam.value));
-                            $.isLocal(arrayParam) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
-                        }
-
-                        if ($.isPointerVarMetaType(valueParam)) {
-                            var type = $.isLocal(valueParam) ? $.T_NUM_L : $.T_NUM_G;
-                            compilerOutput.a($.add.code, $.DEST(), {type: type, value: valueParam.value});
-                        } else {
-                            compilerOutput.a($.set.code, $.DEST(), $.CONST(valueParam.value));
-                            $.isLocal(valueParam) && compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
-                        }
-
-                        compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                    if ($.isPointerVarMetaType(arrayParam)) {
+                        var type = $.isLocal(arrayParam) ? $.T_NUM_L : $.T_NUM_G;
+                        compilerOutput.a($.add.code, $.SRC(), {type: type, value: arrayParam.value});
                     } else {
-                        console.error('Unimplemented.');
+                        compilerOutput.a($.add.code, $.SRC(), $.CONST(arrayParam.value));
+                        $.isLocal(arrayParam) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
                     }
+
+                    if ($.isPointerVarMetaType(valueParam)) {
+                        var type = $.isLocal(valueParam) ? $.T_NUM_L : $.T_NUM_G;
+                        compilerOutput.a($.add.code, $.DEST(), {type: type, value: valueParam.value});
+                    } else {
+                        compilerOutput.a($.set.code, $.DEST(), $.CONST(valueParam.value));
+                        $.isLocal(valueParam) && compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
+                    }
+
+                    compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                } else {
+                    console.error('Unimplemented.');
                 }
             };
         })

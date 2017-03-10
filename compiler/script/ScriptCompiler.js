@@ -175,20 +175,17 @@
 
                     case 'for':
                         var forItem = this._forStack.pop();
-                        switch (forItem.direction) {
-                            case 'to':
-                                return [
-                                    'inc ' + forItem.vr,
-                                    'cmp ' + forItem.vr + ',' + forItem.end,
-                                    'jle ' + forItem.label
-                                ];
+                        var loop = {
+                                to:     {operator: 'inc', condition: 'jle'},
+                                downto: {operator: 'dec', condition: 'jge'}
+                            }[forItem.direction];
 
-                            case 'downto':
-                                return [
-                                    'dec ' + forItem.vr,
-                                    'cmp ' + forItem.vr + ',' + forItem.end,
-                                    'jge ' + forItem.label
-                                ];
+                        if (loop) {
+                            return [
+                                loop.operator  + ' ' + forItem.vr,
+                                'cmp '               + forItem.vr + ',' + forItem.end,
+                                loop.condition + ' ' + forItem.label
+                            ];
                         }
                         break;
 
@@ -201,6 +198,21 @@
 
                 return [];
                 // throw error!
+            };
+
+            this.compileValueArray = function(result, tempVar, valueArray) {
+                var expressionCompiler = this._expressionCompiler;
+                var varIndexArray      = expressionCompiler.isArrayIndex(valueArray.index);
+                var calculation        = expressionCompiler.isCalculation(valueArray.index);
+                if (calculation) {
+                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
+                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
+                } else if (varIndexArray) {
+                    this.compileValueArray(result, tempVar, varIndexArray);
+                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
+                } else {
+                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
+                }
             };
 
             /**
@@ -218,22 +230,8 @@
                     if (vrIndexArray) {
                         var tempVar = expressionCompiler.createTempVarName();
                         expressionCompiler.declareNumber(result, tempVar);
+                        this.compileValueArray(result, tempVar, vrIndexArray);
 
-                        var compileVrArray = function(vrArray) {
-                                var varIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                                var calculation   = expressionCompiler.isCalculation(vrArray.index);
-                                if (calculation) {
-                                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempIndexVar + '_1');
-                                } else if (varIndexArray) {
-                                    compileVrArray(varIndexArray);
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + tempVar);
-                                } else {
-                                    result.push('arrayr ' + tempVar + ',' + vrArray.array + ',' + vrArray.index);
-                                }
-                            };
-
-                        compileVrArray(vrIndexArray);
                         result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
                     } else {
                         result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
@@ -253,22 +251,8 @@
                     if (varIndexArray) {
                         var tempVar = expressionCompiler.createTempVarName();
                         expressionCompiler.declareNumber(result, tempVar);
+                        this.compileValueArray(result, tempVar, valueArray);
 
-                        var compileValueArray = function(valueArray) {
-                                var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
-                                var calculation   = expressionCompiler.isCalculation(valueArray.index);
-                                if (calculation) {
-                                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
-                                } else if (varIndexArray) {
-                                    compileValueArray(varIndexArray);
-                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
-                                } else {
-                                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
-                                }
-                            };
-
-                        compileValueArray(valueArray);
                         result.push('set ' + vr + ',' + tempVar);
                     } else {
                         result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
