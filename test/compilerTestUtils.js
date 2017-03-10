@@ -12,6 +12,7 @@ require('../compiler/commands/CallFunction.js');
 require('../compiler/commands/CallReturn.js');
 require('../compiler/commands/Ret.js');
 require('../compiler/commands/Label.js');
+require('../compiler/commands/Array.js');
 require('../compiler/commands/ArrayR.js');
 require('../compiler/commands/ArrayW.js');
 require('../compiler/commands/Addr.js');
