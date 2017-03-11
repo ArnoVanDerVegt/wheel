@@ -1,14 +1,15 @@
 {
-  "name": "ev3",
+  "name": "Wheel",
   "version": "0.0.0",
-  "description": "Wheel IDE server and client.",
+  "description": "Wheel compiler and VM.",
   "main": "server.js",
   "dependencies": {
     "mocha": "^3.2.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha",
+    "cover": "istanbul cover node_modules/.bin/_mocha"
   },
   "keywords": [
     "wheel",
