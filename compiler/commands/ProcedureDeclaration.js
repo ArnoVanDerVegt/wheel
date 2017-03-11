@@ -24,8 +24,10 @@
                 for (var j = 0; j < params.length; j++) {
                     var param = params[j].trim().split(' ');
                     if (param.length !== 2) {
-                        throw compiler.createError('Syntax error in procedure parameter "' + params[j] + '".');
+                        throw compiler.createError(15, 'Syntax error in procedure parameter "' + params[j] + '".');
                     }
+
+                    var struct = null;
                     switch (param[0]) {
                         case 'number':
                             compilerData.declareLocal(param[1], $.T_NUM_L, $.T_NUM_L_ARRAY, false);
@@ -37,14 +39,14 @@
                             break;
 
                         default:
-                            var struct = compilerData.findStruct(param[0]);
+                            struct = compilerData.findStruct(param[0]);
                             if (struct === null) {
-                                throw compiler.createError('Unknown type "' + param[0] + '".');
+                                throw compiler.createError(14, 'Unknown type "' + param[0] + '".');
                             }
                             compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct, false);
                             break;
                     }
-                    procedure.paramTypes.push(param[0]);
+                    procedure.paramTypes.push({type: param[0], struct: struct});
                 }
 
                 return procStartIndex;

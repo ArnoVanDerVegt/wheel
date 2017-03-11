@@ -1,8 +1,8 @@
 #project "Pixel drawing demo"
-    
+
 #include "/lib/screen.whl"
-    
+
 proc main()
-	; Draw a pixel at (155, 10)
-	drawPixel(155, 10) 
+    ; Draw a pixel at (155, 10)
+    drawPixel(155, 10)
 endp

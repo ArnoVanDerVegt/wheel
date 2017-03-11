@@ -5,6 +5,7 @@
     <meta charset="utf-8"/>
     <title>Wheel</title>
 
+    <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
@@ -16,7 +17,7 @@
         <div class="container">
             <ul>
                 <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
-                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/examples/index.html" class="active">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
             </ul>
@@ -27,65 +28,104 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-circle"></span> Wheel</h1>
+            <h1 class="yellow"><span class="icon-play"></span> Examples</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="two blue">
-                <h3>Text based</h3>
-                Wheel is a small text based language. The code can be compiled to a .rtf file which can
-                be run from an EV3 brick.
-            </div>
-            <div class="three blue">
-                <h3>Code</h3>
-<pre>proc main()
-    number n
+            <!-- ================== Screen ================== -->
+            <div class="three right blue">
+                <h3>Screen</h3>
+                <ul>
+                    <li>Circle</li>
+                    <li>Draw text</li>
+                    <li>Image</li>
+                    <li>Line</li>
+                    <li>Pixel</li>
+                    <li>Rect</li>
+                </ul>
 
-    for n = 10 downto 1
-        printN(n)
-    end
-end</pre>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="two blue">
-                <h3>Standard firmware</h3>
-                You can use wheel addition to the existing blocks.
-                Wheel can be easily connected to existing blocks.
-            </div>
-            <div class="three img">
-                <img src="site/images/ev3.png"/>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="three blue">
+                <br />
                 <h3>Examples</h3>
                 <a href="site/docs/screen.html">Screen</a><br />
             </div>
-            <div class="three blue">
-                <h3>Documentation</h3>
-                <a href="site/docs/keywords.html">Keywords</a><br />
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
+
+            <!-- ================== Circle ================== -->
+            <div class="two blue">
+                <h3>Circle</h3>
+<pre>#project "Circle drawing demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    ; Draw a circle at (60, 50) with a radius of 40
+    drawCircle(60, 50, 40)
+endp</pre>
             </div>
-            <div class="three blue">
-                <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+
+            <!-- ================= DrawText ================= -->
+            <div class="two blue">
+                <h3>Draw text</h3>
+<pre>#project "Draw text demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    drawText(0, 0, "Hello")
+endp</pre>
+            </div>
+
+            <!-- =================== Image ================== -->
+            <div class="two blue">
+                <h3>Image</h3>
+<pre>#project "Image demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    drawImage(0, 0, "image.rgf")
+endp</pre>
+            </div>
+
+            <!-- =================== Line =================== -->
+            <div class="two blue">
+                <h3>Line</h3>
+<pre>#project "Line drawing demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    ; Draw a line from (5, 10) to (25, 35)
+    drawLine(5, 10, 125, 105)
+endp</pre>
+            </div>
+
+            <!-- =================== Pixel ================== -->
+            <div class="two blue">
+                <h3>Pixel</h3>
+<pre>#project "Pixel drawing demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    ; Draw a pixel at (155, 10)
+    drawPixel(155, 10)
+endp</pre>
+            </div>
+
+            <!-- =================== Rect =================== -->
+            <div class="two blue">
+                <h3>Rect</h3>
+<pre>#project "Rectangle drawing demo"
+
+#include "/lib/screen.whl"
+
+proc main()
+    ; Draw a rectangle at (10, 40) with a size of (90, 70)
+    drawRect(10, 40, 90, 70)
+endp</div>
             </div>
 
             <div style="float:left;clear:both;"></div>

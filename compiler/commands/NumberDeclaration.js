@@ -35,7 +35,7 @@
                             if (local.type === $.T_NUM_L) { // Like: number n = 1
                                 var value = parseFloat(local.value);
                                 if (isNaN(value)) {
-                                    throw compiler.createError('Number expected, found "' + value + '".');
+                                    throw compiler.createError(20, 'Number expected, found "' + local.value + '".');
                                 }
                                 // Set the the value at the address of the local variable...
                                 compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(value));
@@ -51,7 +51,7 @@
                                 (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
                                 compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                             } else {
-                                throw compiler.createError('Type error.');
+                                throw compiler.createError(6, 'Type error.');
                             }
                         }
                     }
@@ -65,14 +65,14 @@
                             if (global.type === $.T_NUM_G) { // Like: number n = 1
                                 var value = parseFloat(global.value);
                                 if (isNaN(value)) {
-                                    throw compiler.createError('Number expected, found "' + value + '".');
+                                    throw compiler.createError(21, 'Number expected, found "' + global.value + '".');
                                 }
                                 compilerData.declareConstant(global.offset, [value]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var value = global.value.trim();
                                 compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseNumberArray(value, compiler));
                             } else {
-                                throw compiler.createError('Type error.');
+                                throw compiler.createError(7, 'Type error.');
                             }
                         }
                     }

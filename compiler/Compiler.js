@@ -82,9 +82,10 @@
                 };
             };
 
-            this.createError = function(message, location) {
-                location || (location = this._location);
+            this.createError = function(errorNumber, message, location) {
+                location || (location = this._location || {});
 
+                //console.log('errorNumber:', errorNumber);
                 var error    = new Error(message);
                 var includes = this._includes;
                 var filename = location.filename;
@@ -142,7 +143,7 @@
                             }
                         }
                         if (!found) {
-                            throw this.createError('Type mismatch "' + param.param + '".');
+                            throw this.createError(16, 'Type mismatch "' + param.param + '".');
                         }
                     }
                     return {
@@ -190,7 +191,7 @@
                     switch (commandAndParams.command) {
                         case 'endp':
                             if (this._activeStruct !== null) {
-                                throw this.createError('Invalid command "endp".');
+                                throw this.createError(50, 'Invalid command "endp".');
                             }
                             this._compilers.Ret.compile(null);
 
@@ -214,7 +215,7 @@
                             } else if (validatedCommand === false) {
                                 var struct = compilerData.findStruct(commandAndParams.command);
                                 if (struct === null) {
-                                    throw this.createError('Unknown command "' + commandAndParams.command + '".');
+                                    throw this.createError(24, 'Unknown command "' + commandAndParams.command + '".');
                                 } else if (this._activeStruct !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
@@ -249,7 +250,7 @@
                 if (local === null) {
                     var global = compilerData.findLocal(vr);
                     if (global === null) {
-                        throw this.createError('Undefined identifier "' + vr + '".');
+                        throw this.createError(22, 'Undefined identifier "' + vr + '".');
                     } else if (global.type === $.T_NUM_G_ARRAY) {
                         line = 'number ' + line.substr(j + 1 - line.length).trim();
                     } else if (global.struct) {
@@ -307,7 +308,7 @@
                 }
 
                 if (this._mainIndex === -1) {
-                    throw this.createError('No main procedure found.');
+                    throw this.createError(23, 'No main procedure found.');
                 }
 
                 output.optimizeTypes();

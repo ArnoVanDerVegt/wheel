@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Variables</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+
+    <script src="utils/syntax.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+            </ul>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three right blue">
+                <h3>Variables</h3>
+                <ul>
+                    <li>Globals</li>
+                    <li>Locals</li>
+                    <li>Parameters</li>
+                    <li>Strings</li>
+                </ul>
+
+                <br />
+                <h3>Documentation</h3>
+                <a href="site/docs/keywords.html">Keywords</a><br />
+                <a href="site/docs/variables.html">Variables</a><br />
+                <a href="site/docs/operators.html">Operators</a><br />
+                <a href="site/docs/procedures.html">Procedures</a><br />
+                <a href="site/docs/modules.html">Modules</a><br />
+                <a href="site/docs/structs.html">Structs</a><br />
+                <a href="site/docs/pointers.html">Pointers</a><br />
+            </div>
+
+            <div class="two blue">
+                <h3>Variables</h3>
+                The wheel VM only uses one primitive data type: number.<br />
+                <br />
+                Wheel supports three other data types: string, struct, array and pointers.
+                These types are all based on the primitive number type.<br />
+                <br />
+                A variable is declared by the type followed by the name of the variable.
+            </div>
+
+            <div class="two blue">
+                <h3>Globals</h3>
+                When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+
+<pre>#project "Global variable demo"
+
+number n
+
+proc main()
+    set n, 10
+endp</pre>
+            </div>
+
+            <div class="two blue">
+                <h3>Locals</h3>
+
+                A variable declared inside a procedure can only be accesed inside that procedure.
+
+<pre>#project "Local variable demo"
+
+proc main()
+    number n
+    set n, 10
+endp</pre>
+            </div>
+
+            <div class="two blue">
+                <h3>Parameters</h3>
+            </div>
+
+            <div class="two blue">
+                <h3>Parameters</h3>
+
+                All procedures except the main procedure can have one or more parameters.
+
+<pre>#project "Parameter demo"
+
+proc first(number n)
+endp
+
+proc second(number n)
+endp
+
+proc main()
+    first(15)
+    second(17)
+endp</pre>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="three">
+                <h3 class="light-green">Tests</h3>
+                <ul>
+                    <li>
+                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+                    </li>
+                    <li>
+                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+                    </li>
+                </ul>
+            </div>
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>

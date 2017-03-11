@@ -10,20 +10,20 @@
 
             checkWrapChars: function(compiler, s, open, close) {
                 if (s.length && (s[0] === open) && (s[s.length - 1] !== close)) {
-                    throw compiler.createError('Syntax error.');
+                    throw compiler.createError(3, 'Syntax error.');
                 }
                 return s.substr(1, s.length - 2);
             },
 
             checkDuplicateIdentifier: function(compiler, name, list) {
                 if (name in list) {
-                    throw compiler.createError('Duplicate int identifier "' + name + '".');
+                    throw compiler.createError(27, 'Duplicate int identifier "' + name + '".');
                 }
             },
 
             checkInvalidConstant: function(compiler, vr, allowConstant) {
                 if ((vr.value !== null) && !allowConstant) {
-                    throw compiler.createError('Invalid constant value "' + vr.value + '".');
+                    throw compiler.createError(28, 'Invalid constant value "' + vr.value + '".');
                 }
             },
 
@@ -46,7 +46,7 @@
                 for (var j = 0; j < values.length; j++) {
                     var v = parseFloat(values[j].trim());
                     if (isNaN(v)) {
-                        throw compiler.createError('Number expected, found "' + values[j] + '".');
+                        throw compiler.createError(29, 'Number expected, found "' + values[j] + '".');
                     }
                     data.push(v);
                 }
