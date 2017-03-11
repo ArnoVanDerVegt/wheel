@@ -283,7 +283,7 @@
             };
 
             this.findProcedure = function(name) {
-                return (name in this._procedureList) ? this._procedureList[name] : null;
+                return this._procedureList[name] || null;
             };
 
             /* Struct */
