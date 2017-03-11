@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel</title>
+    <title>Wheel - Variables</title>
 
+    <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
@@ -17,7 +18,7 @@
             <ul>
                 <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
-                <li><a href="site/docs/index.html">Documentation</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
@@ -27,47 +28,26 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-circle"></span> Wheel</h1>
+            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="two blue">
-                <h3>Text based</h3>
-                Wheel is a small text based language. The code can be compiled to a .rtf file which can
-                be run from an EV3 brick.
-            </div>
-            <div class="three blue">
-                <h3>Code</h3>
-<pre>proc main()
-    number n
+            <div class="three right blue">
+                <h3>Opertators</h3>
+                <ul>
+                    <li>Add</li>
+                    <li>Subtract</li>
+                    <li>Multiply</li>
+                    <li>Divide</li>
+                    <li>Modulo</li>
+                    <li>Increase</li>
+                    <li>Decrease</li>
+                </ul>
 
-    for n = 10 downto 1
-        printN(n)
-    end
-end</pre>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="two blue">
-                <h3>Standard firmware</h3>
-                You can use wheel addition to the existing blocks.
-                Wheel can be easily connected to existing blocks.
-            </div>
-            <div class="three img">
-                <img src="site/images/ev3.png"/>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="three blue">
-                <h3>Examples</h3>
-                <a href="site/docs/screen.html">Screen</a><br />
-            </div>
-            <div class="three blue">
+                <br />
                 <h3>Documentation</h3>
                 <a href="site/docs/keywords.html">Keywords</a><br />
                 <a href="site/docs/variables.html">Variables</a><br />
@@ -77,15 +57,41 @@ end</pre>
                 <a href="site/docs/structs.html">Structs</a><br />
                 <a href="site/docs/pointers.html">Pointers</a><br />
             </div>
-            <div class="three blue">
-                <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+
+            <div class="two blue">
+                <h3>Operators</h3>
+                The wheel VM supports 5 primitive operators and two derived operators.
+                Increase and decrease are compiled to subtract and add.<br />
+                <br />
+            </div>
+
+            <div class="two blue">
+                <h3>Add</h3>
+                <pre>add var, value</pre>
+            </div>
+            <div class="two blue">
+                <h3>Subtract</h3>
+                <pre>sub var, value</pre>
+            </div>
+            <div class="two blue">
+                <h3>Multiply</h3>
+                <pre>mul var, value</pre>
+            </div>
+            <div class="two blue">
+                <h3>Divide</h3>
+                <pre>div var, value</pre>
+            </div>
+            <div class="two blue">
+                <h3>Modulo</h3>
+                <pre>mod var, value</pre>
+            </div>
+            <div class="two blue">
+                <h3>Increase</h3>
+                <pre>inc var</pre>
+            </div>
+            <div class="two blue">
+                <h3>Decrease</h3>
+                <pre>dec var</pre>
             </div>
 
             <div style="float:left;clear:both;"></div>

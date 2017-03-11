@@ -2,8 +2,6 @@
 
 #include "/lib/screen.whl"
 
-#resource "test", "/resources/Accept 1.rgf"
-
 proc main()
-	drawImage(0, 0, "test")
+    drawImage(0, 0, "image.rgf")
 endp

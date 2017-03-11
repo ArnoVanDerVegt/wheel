@@ -43,7 +43,7 @@
                             if (local.type === $.T_NUM_L) { // Like: string s = "abc"
                                 var value = local.value;
                                 if ((value.length < 2) || (value[0] !== '"') || (value.substr(-1) !== '"')) {
-                                    throw compiler.createError('String expected, found "' + value + '".');
+                                    throw compiler.createError(40, 'String expected, found "' + value + '".');
                                 }
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
                                 // Set the the value at the address of the local variable...
@@ -62,7 +62,7 @@
 
                                 compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                             } else {
-                                throw compiler.createError('Type error.');
+                                throw compiler.createError(8, 'Type error.');
                             }
                         }
                     }
@@ -86,7 +86,7 @@
                                 var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
                                 compilerData.declareConstant(global.offset, data);
                             } else {
-                                throw compiler.createError('Type error.');
+                                throw compiler.createError(9, 'Type error.');
                             }
                         }
                     }

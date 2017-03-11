@@ -1,8 +1,9 @@
-#define MODULE_STANDARD     0
-    
+#define MODULE_STANDARD       0
+
 #define STANDARD_PRINT_NUMBER 0
 #define STANDARD_PRINT_STRING 1
-    
+#define STANDARD_SLEEP        2
+
 proc printN(number n)
     struct PrintNumber
         number   n
@@ -12,7 +13,7 @@ proc printN(number n)
     addr     printNumber
     module   MODULE_STANDARD,        STANDARD_PRINT_NUMBER
 endp
-    
+
 proc printS(string s)
     struct PrintString
         string   s
@@ -21,4 +22,14 @@ proc printS(string s)
     set      printString.s,          s
     addr     printString
     module   MODULE_STANDARD,        STANDARD_PRINT_STRING
+endp
+
+proc sleep(number milliseconds)
+    struct Sleep
+        number milliseconds
+    ends
+    Sleep sleep
+    set      sleep.milliseconds,     milliseconds
+    addr     sleep
+    module   MODULE_STANDARD,        STANDARD_SLEEP
 endp

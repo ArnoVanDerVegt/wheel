@@ -57,7 +57,7 @@
                         length = parseInt(name.substr(i + 1, name.length - i - 2));
                         name   = name.substr(0, i);
                     } else {
-                        throw this._compiler.createError('"]" expected.');
+                        throw this._compiler.createError(25, '"]" expected.');
                     }
                 }
 
@@ -169,13 +169,13 @@
                                     result.offset += field.offset;
                                     struct = field.struct;
                                 } else {
-                                    throw this._compiler.createError('Undefined field "' + field + '".');
+                                    throw this._compiler.createError(26, 'Undefined field "' + field + '".');
                                 }
                                 i++;
                             }
                             return result;
                         } else {
-                            throw this._compiler.createError('Type error.');
+                            throw this._compiler.createError(10, 'Type error.');
                         }
                     }
                     return vr;
@@ -297,7 +297,7 @@
                 var compiler   = this._compiler;
                 var structList = this._structList;
                 if (!wheel.compiler.compilerHelper.validateString(name)) {
-                    throw compiler.createError('Syntax error.');
+                    throw compiler.createError(2, 'Syntax error.');
                 }
 
                 wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, structList);
@@ -459,7 +459,7 @@
                     }
 
                     if (type === null) {
-                        throw this._compiler.createError('Undefined identifier "' + param + '".');
+                        throw this._compiler.createError(17, 'Undefined identifier "' + param + '".');
                     }
 
                     return {
