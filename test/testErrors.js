@@ -20,7 +20,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Syntax error.');
+                            return (error.toString() === 'Error: #1 Syntax error.');
                         }
                     );
                 });
@@ -37,7 +37,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Syntax error.');
+                            return (error.toString() === 'Error: #2 Syntax error.');
                         }
                     );
                 });
@@ -53,7 +53,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Syntax error.');
+                            return (error.toString() === 'Error: #3 Syntax error.');
                         }
                     );
                 });
@@ -75,7 +75,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Type mismatch "1".');
+                            return (error.toString() === 'Error: #16 Type mismatch "1".');
                         }
                     );
                 });
@@ -96,7 +96,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Undefined identifier "n".');
+                            return (error.toString() === 'Error: #17 Undefined identifier "n".');
                         }
                     );
                 });
@@ -118,7 +118,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Duplicate label "label:".');
+                            return (error.toString() === 'Error: #19 Duplicate label "label:".');
                         }
                     );
                 });
@@ -139,7 +139,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Number expected, found "\'x\'".');
+                            return (error.toString() === 'Error: #20 Number expected, found "\'x\'".');
                         }
                     );
                 });
@@ -155,7 +155,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Number expected, found "\'y\'".');
+                            return (error.toString() === 'Error: #21 Number expected, found "\'y\'".');
                         }
                     );
                 });
@@ -176,7 +176,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: Number expected, found " \'x\'".');
+                            return (error.toString() === 'Error: #29 Number expected, found " \'x\'".');
                         }
                     );
                 });
