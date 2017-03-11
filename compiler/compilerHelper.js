@@ -1,11 +1,18 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
 
-	wheel(
-		'compiler.compilerHelper',
-		{
+    wheel(
+        'compiler.compilerHelper',
+        {
             getWrappedInChars: function(s, open, close) {
                 return (s.length > 2) && (s[0] === open) && (s.substr(-1) === close);
+            },
+
+            checkWrapChars: function(s, open, close) {
+                if (s.length && (s[0] === open) && (s[s.length - 1] !== close)) {
+                    throw compiler.createError('Syntax error.');
+                }
+                return s.substr(1, s.length - 2);
             },
 
             checkDuplicateIdentifier: function(compiler, name, list) {
@@ -20,103 +27,89 @@
                 }
             },
 
-			validateString: function(s, valid) {
-				if (!valid) {
-					valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
-				}
-				for (var i = 0; i < s.length; i++) {
-					if (valid.indexOf(s[i]) === -1) {
-						return false;
-					}
-				}
-				return true;
-			},
+            validateString: function(s, valid) {
+                if (!valid) {
+                    valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+                }
+                for (var i = 0; i < s.length; i++) {
+                    if (valid.indexOf(s[i]) === -1) {
+                        return false;
+                    }
+                }
+                return true;
+            },
 
-			parseNumberArray: function(value, compiler) {
-				var value = value.trim();
-				if (value.length && (value[0] === '[') && (value[value.length - 1] !== ']')) {
-					throw compiler.createError('Syntax error.');
-				}
+            parseNumberArray: function(value, compiler) {
+                var value  = this.checkWrapChars(value.trim(), '[', ']');
+                var values = value.split(',');
+                var data   = [];
+                for (var j = 0; j < values.length; j++) {
+                    var v = parseFloat(values[j].trim());
+                    if (isNaN(v)) {
+                        throw compiler.createError('Number expected, found "' + values[j] + '".');
+                    }
+                    data.push(v);
+                }
+                return data;
+            },
 
-				value = value.substr(1, value.length - 2);
-				var values 	= value.split(','),
-					data 	= [];
-				for (var j = 0; j < values.length; j++) {
-					var v = parseFloat(values[j].trim());
-					if (isNaN(v)) {
-						throw compiler.createError('Number expected, found "' + values[j] + '".');
-					}
-					data.push(v);
-				}
-				return data;
-			},
+            parseStringArray: function(value, compiler, compilerData) {
+                var value  = this.checkWrapChars(value.trim(), '[', ']');
+                var values = value.split(',');
+                var data   = [];
+                for (var j = 0; j < values.length; j++) {
+                    data.push(compilerData.declareString(this.checkWrapChars(values[j].trim(), '"', '"')));
+                }
+                return data;
+            },
 
-			parseStringArray: function(value, compiler, compilerData) {
-				var value = value.trim();
-				if (value.length && (value[0] === '[') && (value[value.length - 1] !== ']')) {
-					throw compiler.createError('Syntax error.');
-				}
+            splitParams: function(params) {
+                var result     = [],
+                    param     = '',
+                    j         = 0;
 
-				value = value.substr(1, value.length - 2);
-				var values 	= value.split(','),
-					data 	= [];
-				for (var j = 0; j < values.length; j++) {
-					var v = values[j].trim();
-					if ((v.length < 2) || (v[0] !== '"') || (v.substr(-1) !== '"')) {
-						throw compiler.createError('String expected, found "' + values[j] + '".');
-					}
-					data.push(compilerData.declareString(v.substr(1, v.length - 2)));
-				}
-				return data;
-			},
+                while (j < params.length) {
+                    var c = params[j];
+                    switch (c) {
+                        case ',':
+                            param = param.trim();
+                            (param !== '') && result.push(param);
+                            param = '';
+                            break;
 
-			splitParams: function(params) {
-				var result 	= [],
-					param 	= '',
-					j 		= 0;
+                        case '[':
+                            while (j < params.length) {
+                                var c = params[j++];
+                                param += c;
+                                if (c === ']') {
+                                    break;
+                                }
+                            }
+                            break;
 
-				while (j < params.length) {
-					var c = params[j];
-					switch (c) {
-						case ',':
-							param = param.trim();
-							(param !== '') && result.push(param);
-							param = '';
-							break;
+                        case '"':
+                            j++;
+                            param += '"';
+                            while (j < params.length) {
+                                var c = params[j++];
+                                param += c;
+                                if (c === '"') {
+                                    break;
+                                }
+                            }
+                            break;
 
-						case '[':
-							while (j < params.length) {
-								var c = params[j++];
-								param += c;
-								if (c === ']') {
-									break;
-								}
-							}
-							break;
+                        default:
+                            param += c;
+                            break;
+                    }
+                    j++;
+                }
+                param = param.trim();
+                (param !== '') && result.push(param);
 
-						case '"':
-							j++;
-							param += '"';
-							while (j < params.length) {
-								var c = params[j++];
-								param += c;
-								if (c === '"') {
-									break;
-								}
-							}
-							break;
-
-						default:
-							param += c;
-							break;
-					}
-					j++;
-				}
-				param = param.trim();
-				(param !== '') && result.push(param);
-
-				return result;
-			}
-		}
-	);
+                return result;
+            }
+        }
+    );
 })();
