@@ -85,8 +85,7 @@
             this.createError = function(errorNumber, message, location) {
                 location || (location = this._location || {});
 
-                //console.log('errorNumber:', errorNumber);
-                var error    = new Error(message);
+                var error    = new Error('#' + errorNumber + ' ' + message);
                 var includes = this._includes;
                 var filename = location.filename;
                 var line     = '';
