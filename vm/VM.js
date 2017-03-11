@@ -7,7 +7,6 @@
             this.init = function(opts) {
                 supr(this, 'init', arguments);
 
-                this._motors      = opts.motors;
                 this._vmData      = new wheel.VMData({});
                 this._commands    = null;
                 this._runInterval = null;
@@ -26,38 +25,22 @@
                 this._modules[6] = new wheel.vm.modules.ButtonsModule ({vm: this, vmData: this._vmData});
             };
 
-            this.runCommand = function(command) {
-                var vmData = this._vmData;
-                var data   = vmData.getData();
+            this.getParamValue = function(data, regOffsetStack, param) {
+                var p = param.value;
+                switch (param.type) {
+                    case wheel.compiler.command.T_NUM_G: return data[p];
+                    case wheel.compiler.command.T_NUM_L: return data[p + regOffsetStack];
+                }
+                return p;
+            };
 
-                var p1 = command.params[0].value;
-                var v1;
+            this.runCommand = function(command) {
+                var data           = this._vmData.getData();
                 var regOffsetStack = data[wheel.compiler.command.REG_STACK];
-                switch (command.params[0].type) {
-                    case wheel.compiler.command.T_NUM_C: v1 = p1;                         break;
-                    case wheel.compiler.command.T_NUM_G: v1 = data[p1];                   break;
-                    case wheel.compiler.command.T_NUM_L: v1 = data[p1 + regOffsetStack];  break;
-                }
-                var p2 = command.params[1].value;
-                var v2;
-                switch (command.params[1].type) {
-                    case wheel.compiler.command.T_NUM_C: v2 = p2;                         break;
-                    case wheel.compiler.command.T_NUM_G: v2 = data[p2];                   break;
-                    case wheel.compiler.command.T_NUM_L: v2 = data[p2 + regOffsetStack];  break;
-                }
-/*
-    var regOffsetSrc  = data[wheel.compiler.command.REG_SRC];
-    var regOffsetDest = data[wheel.compiler.command.REG_DEST];
-    var regOffsetCode = data[wheel.compiler.command.REG_CODE];
-    console.log(
-        regOffsetCode, '>', command.command
-    );
-    console.log(
-        regOffsetCode, '>',
-        'v1:', v1, 'p1:', p1, 'v2:', v2, 'p2:', p2,
-        'src:', regOffsetSrc, 'dest:', regOffsetDest, 'stack:', regOffsetStack
-    );
-*/
+                var params         = command.params;
+                var v1             = this.getParamValue(data, regOffsetStack, params[0]);
+                var v2             = this.getParamValue(data, regOffsetStack, params[1]);
+
                 switch (command.code) {
                     case 0: // copy
                         var size          = v1;
@@ -70,7 +53,7 @@
 
                     case 1: // jmpc
                         var regFlags = data[wheel.compiler.command.REG_FLAGS];
-                        ((regFlags & v2) === v2) && (data[wheel.compiler.command.REG_CODE] = p1);
+                        ((regFlags & v2) === v2) && (data[wheel.compiler.command.REG_CODE] = params[0].value);
                         break;
 
                     case 2: // cmp
@@ -137,9 +120,11 @@
                                 throw new Error('Unknown command "' + command.command + '"');
                         }
 
-                        switch (command.params[0].type) {
-                            case wheel.compiler.command.T_NUM_G: data[p1]                  = result; break;
-                            case wheel.compiler.command.T_NUM_L: data[p1 + regOffsetStack] = result; break;
+                        var param = params[0];
+                        var p     = param.value;
+                        switch (param.type) {
+                            case wheel.compiler.command.T_NUM_G: data[p]                  = result; break;
+                            case wheel.compiler.command.T_NUM_L: data[p + regOffsetStack] = result; break;
                         }
                 }
             };
@@ -170,20 +155,13 @@
                 if (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) >= commands.length) {
                     this.stop();
                 }
-                this._motors.update();
             };
 
-            this.run = function(commands, stringList, globalConstants, stackOffset, resources) {
+            this.run = function(commands, stringList, globalConstants, stackOffset) {
                 this.stop();
-
-                var modules = this._modules;
-                for (var i = 0; i < modules.length; i++) {
-                    modules[i].setResources(resources);
-                }
 
                 var vmData = this._vmData;
 
-                this._motors.reset();
                 vmData.reset(stackOffset);
                 vmData.setStringList(stringList);
                 vmData.setGlobalConstants(globalConstants, stackOffset);
@@ -193,17 +171,11 @@
                 this._runInterval = setInterval(this.onInterval.bind(this), 20);
             };
 
-            this.runAll = function(commands, stringList, globalConstants, stackOffset, resources) {
+            this.runAll = function(commands, stringList, globalConstants, stackOffset) {
                 this.stop();
-
-                var modules = this._modules;
-                for (var i = 0; i < modules.length; i++) {
-                    modules[i].setResources(resources);
-                }
 
                 var vmData = this._vmData;
 
-                this._motors.reset();
                 vmData.reset(stackOffset);
                 vmData.setStringList(stringList);
                 vmData.setGlobalConstants(globalConstants, stackOffset);

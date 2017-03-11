@@ -91,8 +91,7 @@ exports.compileAndRun = function(lines) {
         outputCommands,
         compilerData.getStringList(),
         compilerData.getGlobalConstants(),
-        compilerData.getGlobalOffset(),
-        null
+        compilerData.getGlobalOffset()
     );
 
     return {testData: testData, outputCommands: outputCommands};
