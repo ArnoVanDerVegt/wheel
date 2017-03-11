@@ -68,14 +68,12 @@ describe(
 
                     var outputCommands = compiler.compile(includes);
                     var compilerData   = compiler.getCompilerData();
-                    var vmData         = vm.getVMData();
 
                     vm.runAll(
                         outputCommands,
                         compilerData.getStringList(),
                         compilerData.getGlobalConstants(),
-                        compilerData.getGlobalOffset(),
-                        null
+                        compilerData.getGlobalOffset()
                     );
                 });
 
