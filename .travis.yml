@@ -9,8 +9,7 @@ addons:
 
 before_script:
   - npm install -g istanbul
-  - npm install -g codeclimate-test-reporter
 
 after_success:
-  - istanbul cover _mocha -- -R spec ./test/*.js
-  - codeclimate < ./coverage/lcov.info
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < lcov.info
