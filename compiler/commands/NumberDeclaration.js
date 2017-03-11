@@ -21,22 +21,16 @@
                 var compilerData   = this._compilerData;
 
                 if (compiler.getActiveStruct() !== null) {
-                    /**
-                     * Declare a number of array of numbers field in a struct...
-                    **/
+                    // Declare a number of array of numbers field in a struct...
                     for (var i = 0; i < params.length; i++) {
                         compilerData.declareStructField(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY);
                     }
                 } else if (compiler.getInProc()) {
-                    /**
-                     * Declare a local number constant...
-                    **/
+                    // Declare a local number constant...
                     for (var j = 0; j < params.length; j++) {
                         var local = compilerData.declareLocal(params[j], $.T_NUM_L, $.T_NUM_L_ARRAY, null, true);
 
-                        /**
-                         * Check if the number declaration had a constant value assigned to it...
-                        **/
+                        // Check if the number declaration had a constant value assigned to it...
                         if (local.value) {
                             if (local.type === $.T_NUM_L) { // Like: number n = 1
                                 var value = parseFloat(local.value);
@@ -62,15 +56,11 @@
                         }
                     }
                 } else {
-                    /**
-                     * Declare a global number or array of numbers...
-                    **/
+                    // Declare a global number or array of numbers...
                     for (var i = 0; i < params.length; i++) {
                         var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, location, true);
 
-                        /**
-                         * Check if the number declaration had a constant value assigned to it...
-                        **/
+                        // Check if the number declaration had a constant value assigned to it...
                         if (global.value) {
                             if (global.type === $.T_NUM_G) { // Like: number n = 1
                                 var value = parseFloat(global.value);
