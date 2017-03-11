@@ -321,7 +321,7 @@
             };
 
             this.findStruct = function(name) {
-                return (name in this._structList) ? this._structList[name] : null;
+                return this._structList[name] || null;
             };
 
             this.declareStructField = function(name, type, arrayType, size, structType) {
