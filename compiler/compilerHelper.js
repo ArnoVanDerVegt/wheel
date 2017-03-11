@@ -8,7 +8,7 @@
                 return (s.length > 2) && (s[0] === open) && (s.substr(-1) === close);
             },
 
-            checkWrapChars: function(s, open, close) {
+            checkWrapChars: function(compiler, s, open, close) {
                 if (s.length && (s[0] === open) && (s[s.length - 1] !== close)) {
                     throw compiler.createError('Syntax error.');
                 }
@@ -40,7 +40,7 @@
             },
 
             parseNumberArray: function(value, compiler) {
-                var value  = this.checkWrapChars(value.trim(), '[', ']');
+                var value  = this.checkWrapChars(compiler, value.trim(), '[', ']');
                 var values = value.split(',');
                 var data   = [];
                 for (var j = 0; j < values.length; j++) {
@@ -54,22 +54,32 @@
             },
 
             parseStringArray: function(value, compiler, compilerData) {
-                var value  = this.checkWrapChars(value.trim(), '[', ']');
+                var value  = this.checkWrapChars(compiler, value.trim(), '[', ']');
                 var values = value.split(',');
                 var data   = [];
                 for (var j = 0; j < values.length; j++) {
-                    data.push(compilerData.declareString(this.checkWrapChars(values[j].trim(), '"', '"')));
+                    data.push(compilerData.declareString(this.checkWrapChars(compiler, values[j].trim(), '"', '"')));
                 }
                 return data;
             },
 
             splitParams: function(params) {
-                var result     = [],
-                    param     = '',
-                    j         = 0;
+                var result = [];
+                var param  = '';
+                var i      = 0;
 
-                while (j < params.length) {
-                    var c = params[j];
+                var findEndChar = function(endChar) {
+                        while (i < params.length) {
+                            var c = params[i++];
+                            param += c;
+                            if (c === endChar) {
+                                break;
+                            }
+                        }
+                    };
+
+                while (i < params.length) {
+                    var c = params[i];
                     switch (c) {
                         case ',':
                             param = param.trim();
@@ -78,32 +88,20 @@
                             break;
 
                         case '[':
-                            while (j < params.length) {
-                                var c = params[j++];
-                                param += c;
-                                if (c === ']') {
-                                    break;
-                                }
-                            }
+                            findEndChar(']');
                             break;
 
                         case '"':
-                            j++;
+                            i++;
                             param += '"';
-                            while (j < params.length) {
-                                var c = params[j++];
-                                param += c;
-                                if (c === '"') {
-                                    break;
-                                }
-                            }
+                            findEndChar('"');
                             break;
 
                         default:
                             param += c;
                             break;
                     }
-                    j++;
+                    i++;
                 }
                 param = param.trim();
                 (param !== '') && result.push(param);
