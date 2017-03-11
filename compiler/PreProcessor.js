@@ -125,62 +125,6 @@
                 return this.removeMeta(line, '#project');
             };
 
-            this.checkResource = function(line) {
-                var i = line.indexOf('#resource');
-                if (i === -1) {
-                    return line;
-                }
-
-                var parts = [];
-                var part  = '';
-
-                line = line.trim().substr(9 - line.length);
-                i = 0;
-
-                while (i < line.length) {
-                    var c = line[i++];
-                    switch (c) {
-                        case ',':
-                            (part !== '') && parts.push(part.trim());
-                            part = '';
-                            break;
-
-                        case '"':
-                            part += c;
-                            while (i < line.length) {
-                                c = line[i++];
-                                part += c;
-                                if (c === '"') {
-                                    break;
-                                }
-                            }
-                            break;
-
-                        default:
-                            part += c;
-                            break;
-                    }
-                }
-                (part !== '') && parts.push(part.trim());
-                if (parts.length === 2) {
-                    var name     = parts[0];
-                    var value     = parts[1];
-                    if ((name[0] !== '"') || (name.substr(-1) !== '"')) {
-                        // Error
-                    } else if ((value[0] !== '"') || (value.substr(-1) !== '"')) {
-                        // Error
-                    } else {
-                        name     = name.substr(1, name.length - 2);
-                        value     = value.substr(1, value.length - 2);
-                        this._preProcessor.addResource(name, value);
-                    }
-                } else {
-                    // Error
-                }
-
-                return '';
-            };
-
             this.process = function(lines) {
                 var result = [];
                 for (var i = 0; i < lines.length; i++) {
@@ -191,7 +135,6 @@
                     line = this.checkDefine(line);
                     line = this.checkDefines(line);
                     line = this.checkInclude(line);
-                    line = this.checkResource(line);
                     result.push(line);
                 }
 
@@ -239,8 +182,6 @@
                 this._files         = opts.files;
                 this._filesDone     = {};
                 this._fileCount     = 0;
-                this._resources     = {};
-                this._resourceCount = 0;
                 this._replaceTree   = new ReplaceTree({});
                 this._fileProcessor = new FileProcessor({
                     preProcessor: this,
@@ -266,33 +207,6 @@
                     }
                 }
                 callback();
-            };
-
-            this.getResourceCount = function() {
-                return this._resourceCount;
-            };
-
-            this.getResources = function() {
-                return this._resources;
-            };
-
-            this.addResource = function(name, file) {
-                var resources = this._resources;
-                if (name in resources) {
-                    return;
-                }
-                this._resourceCount++;
-                resources[name] = true;
-                new wheel.File({
-                    name:  file,
-                    local: true
-                }).getData(
-                    (function(data) {
-                        resources[name] = data;
-                        this._resourceCount--;
-                        this._resourceCount || this.emit('ResourcesLoaded');
-                    }).bind(this)
-                );
             };
 
             this.processFile = function(filename, depth, finishedCallback) {

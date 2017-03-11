@@ -49,9 +49,8 @@
 
     wheel.Emitter = wheel.Class(function() {
         this.init = function init() {
-            this._listeners     = {};
-            this._listenerId     = 0;
-            this._hasTriggered     = {}; // Object containing triggered events(unique, every event gets only stored once)
+            this._listeners  = {};
+            this._listenerId = 0;
         };
 
         this.on = function on(signal, ctx, method) {
@@ -64,23 +63,9 @@
             return wheel.bind(this, function() { delete this._listeners[id]; });
         };
 
-        this.once = function once(signal, ctx, method) {
-            var id             = 'listener' + this._listenerId++;
-            var deleteCallback = (function() { delete this._listeners[id]; }).bind(this);
-            this._listeners[id] = {
-                signal: signal,
-                ctx: ctx,
-                method: method,
-                once: deleteCallback
-            };
-            return deleteCallback;
-        };
-
         this.emit = function emit(signal) {
-            var listeners     = this._listeners;
-            var args         = Array.prototype.slice.call(arguments, 1);
-
-            this._hasTriggered[signal] = true;
+            var listeners = this._listeners;
+            var args      = Array.prototype.slice.call(arguments, 1);
 
             for (var i in listeners) {
                 var listener = listeners[i];
@@ -102,23 +87,7 @@
                 }
             }
         };
-
-        this.getHasTriggered = function(signal) {
-            return (signal === undefined) ? this._hasTriggered : !!this._hasTriggered[signal];
-        };
-
-        this.emitOnce = function emitOnce(signal) {
-            this._hasTriggered[signal] || this.emit(signal);
-        };
     });
 
-    // http://stackoverflow.com/questions/4224606/how-to-check-whether-a-script-is-running-under-node-js
-    var isNode = ((typeof module !== 'undefined') && module.exports);
-    if (isNode) {
-        exports.wheel = wheel;
-    } else {
-        window.require = function() {
-            return {wheel: wheel};
-        };
-    }
+    exports.wheel = wheel;
 })();
