@@ -18,3 +18,7 @@ exclude_paths:
 - node_modules/*
 - test/*
 - whl/*
+ratings:
+   paths:
+   - "compiler/*"
+   - "vm/*"
