@@ -1,1 +1,11 @@
 language: node_js
+
+env:
+  CODECLIMATE_REPO_TOKEN: bf670fe192fdc64141c8e6c29042ee4e7337753465252d73f78e27a59cbc037d
+
+before_script:
+  - npm install -g istanbul
+
+after_success:
+  - istanbul cover _mocha -- -R spec ./test/*.js
+  - codeclimate < ./coverage/lcov.info
