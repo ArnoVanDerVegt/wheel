@@ -104,18 +104,6 @@
                                 result = v1 % v2;
                                 break;
 
-                            case 10: // and
-                                result = v1 & v2;
-                                break;
-
-                            case 11: // or
-                                result = v1 | v2;
-                                break;
-
-                            case 12: // xor
-                                result = v1 ^ v2;
-                                break;
-
                             default:
                                 throw new Error('Unknown command "' + command.command + '"');
                         }

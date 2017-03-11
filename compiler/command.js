@@ -867,31 +867,6 @@
     wheel('compiler.command.REGISTER_COUNT',        REGISTER_COUNT);
 
     wheel(
-        'compiler.command.typeToLocation',
-        function(type) {
-            var result = '';
-            switch (type) {
-                case T_NUM_C:           result = 'const';    break;
-                case T_NUM_G:           result = 'global';   break;
-                case T_NUM_G_ARRAY:     result = 'global';   break;
-                case T_NUM_L:           result = 'local';    break;
-                case T_NUM_L_ARRAY:     result = 'local';    break;
-
-                case T_STRUCT_G:        result = 'global';   break;
-                case T_STRUCT_G_ARRAY:  result = 'global';   break;
-                case T_STRUCT_L:        result = 'local';    break;
-                case T_STRUCT_L_ARRAY:  result = 'local';    break;
-
-                case T_PROC_G:          result = 'global';   break;
-                case T_PROC_G_ARRAY:    result = 'global';   break;
-                case T_PROC_L:          result = 'local';    break;
-                case T_PROC_L_ARRAY:    result = 'local';    break;
-            }
-            return result;
-        }
-    );
-
-    wheel(
         'compiler.command.isLocal',
         function(value) {
             if (value.vr) {
