@@ -103,9 +103,6 @@
                             case 9: // mod
                                 result = v1 % v2;
                                 break;
-
-                            default:
-                                throw new Error('Unknown command "' + command.command + '"');
                         }
 
                         var param = params[0];
