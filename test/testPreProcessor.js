@@ -463,10 +463,8 @@ describe(
                 );
             },
             function(error) {
-                console.log('-->', error.toString());
                 return (error.toString() === 'Error: End without begin.');
             }
         );
-
     }
 );
