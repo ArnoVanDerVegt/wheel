@@ -72,10 +72,7 @@
 
             this.setNumberAtRegOffset = function(value) {
                 var data = this._data;
-                console.log('------------->', value);
-                console.log('prev:'+data[data[wheel.compiler.command.REG_SRC]]);
                 data[data[wheel.compiler.command.REG_SRC]] = value;
-                console.log('new:'+data[data[wheel.compiler.command.REG_SRC]]);
             };
         })
     );

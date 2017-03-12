@@ -130,8 +130,8 @@
                                 matchType = true;
                             }
                         // Check the var types...
-                        } else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
-                            matchType = true;
+                        //} else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+                        //    matchType = true;
                         }
 
                         if (matchType) {
@@ -234,34 +234,6 @@
                 }
             };
 
-            this.compileTypeof = function(line) {
-                var i = line.indexOf('@typeof(');
-                if (i === -1) {
-                    return line;
-                }
-                var j            = line.indexOf(')');
-                var vr           = line.substr(i + 8, j - 8 - i).trim();
-                var compilerData = this._compilerData;
-
-                var local = compilerData.findLocal(vr);
-                if (local === null) {
-                    var global = compilerData.findLocal(vr);
-                    if (global === null) {
-                        throw this.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER_IN_TYPEOF, 'Undefined identifier "' + vr + '".');
-                    } else if (global.type === $.T_NUM_G_ARRAY) {
-                        line = 'number ' + line.substr(j + 1 - line.length).trim();
-                    } else if (global.struct) {
-                        line = global.struct.name + ' ' + line.substr(j + 1 - line.length).trim();
-                    }
-                } else if (local.type === $.T_NUM_L_ARRAY) {
-                    line = 'number ' + line.substr(j + 1 - line.length).trim();
-                } else if (local.struct) {
-                    line = local.struct.name + ' ' + line.substr(j + 1 - line.length).trim();
-                }
-
-                return line;
-            };
-
             this.compileLines = function(lines) {
                 var sourceMap = lines.sourceMap;
                 var output    = this._output;
@@ -271,7 +243,7 @@
                 for (var i = 0; i < lines.output.length; i++) {
                     var line = lines.output[i].trim();
                     this._location = sourceMap[i];
-                    this.compileLine(this.compileTypeof(line));
+                    this.compileLine(line);
                 }
 
                 return output.getBuffer();

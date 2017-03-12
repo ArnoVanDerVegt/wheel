@@ -137,6 +137,51 @@ describe(
             );
         });
 
+        it('Should add ends', function() {
+            var files = createFiles(
+                    [
+                        'struct S',
+                        '    number n',
+                        'end',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                '',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                            [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '1024',
+                            '#REG_CODE',
+                            '0',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '15',
+                            '#COMMANDS',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
         it('Should create a file with test function', function() {
             var files = createFiles(
                     [
@@ -392,5 +437,36 @@ describe(
                 }
             );
         });
+
+        assert.throws(
+            function() {
+                var files = createFiles(
+                        [
+                            'struct S',
+                            '    number n',
+                            'end',
+                            'end',
+                            '',
+                            'proc main()',
+                            'endp'
+                        ]
+                    );
+                var compiler     = new wheel.compiler.Compiler({});
+                var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+                preProcessor.process(
+                    '',
+                    'main.whl',
+                    function(includes) {
+                        compiler.compile(includes);
+                    }
+                );
+            },
+            function(error) {
+                console.log('-->', error.toString());
+                return (error.toString() === 'Error: End without begin.');
+            }
+        );
+
     }
 );
