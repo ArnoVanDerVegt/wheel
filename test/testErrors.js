@@ -410,7 +410,7 @@ describe(
         );
 
         describe(
-            'Invalid constant',
+            'Invalid',
             function() {
                 it('Should throw INVALID_CONSTANT', function() {
                     assert.throws(
@@ -423,6 +423,22 @@ describe(
                         },
                         function(error) {
                             return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_CONSTANT + ' Invalid constant value "1".');
+                        }
+                    );
+                });
+                it('Should throw INVALID_OPERATION', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                    'number n',
+                                    'number *pn',
+                                    'mul n, &n',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation "&n".');
                         }
                     );
                 });
