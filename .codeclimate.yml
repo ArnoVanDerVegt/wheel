@@ -14,6 +14,9 @@ engines:
       languages:
       - javascript
 exclude_paths:
+- css/*
+- site/*
+- fonts/*
 - ev3/*
 - node_modules/*
 - test/*
