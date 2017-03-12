@@ -465,7 +465,7 @@ describe(
                     assert.deepEqual(testData.messages, [984, 157]);
                 });
 
-                it('Should read from pointer array to pointer struct', function() {
+                it('Should read from pointer array to global pointer struct', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -478,17 +478,49 @@ describe(
                             'Point pp[10]',
                             '',
                             'proc testPointer()',
-                            '    set p, &point',
                             '    arrayr p, *points, 1',
-                            //'    arrayr point, *points, 1',
                             '    printN(point.x)',
                             '    printN(point.y)',
                             'endp',
                             '',
                             'proc main()',
                             '    Point local',
-                            '    set local.x, 984',
-                            '    set local.y, 157',
+                            '    set local.x, 3489',
+                            '    set local.y, 309',
+                            '    arrayw   pp, 1, local',
+                            '    set points, &pp',
+                            '    set p, &point',
+                            '',
+                            '    testPointer()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [3489, 309]);
+                });
+
+                it('Should read from pointer array to local pointer struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point point',
+                            'Point *points[0]',
+                            'Point pp[10]',
+                            '',
+                            'proc testPointer()',
+                            '    Point *p',
+                            '    set p, &point',
+                            '    arrayr p, *points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point local',
+                            '    set local.x, 3489',
+                            '    set local.y, 309',
                             '    arrayw   pp, 1, local',
                             '    set points, &pp',
                             '',
@@ -496,7 +528,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [984, 157]);
+                    assert.deepEqual(testData.messages, [3489, 309]);
                 });
             }
         );
