@@ -35,24 +35,11 @@
             };
 
             this.setStringList = function(stringList) {
-                //console.log('----set', stringList);
                 this._stringList = JSON.parse(JSON.stringify(stringList));
             };
 
             this.getStringList = function() {
                 return this._stringList;
-            };
-
-            /* Local */
-            this.setLocalNumber = function(offset, value) {
-                var offsetStack = this._data[wheel.compiler.command.REG_STACK];
-                //console.log('set local', offsetStack + offset, value);
-                this._data[offsetStack + offset] = value;
-            };
-
-            this.getLocalNumber = function(offset) {
-                var offsetStack = this._data[wheel.compiler.command.REG_STACK];
-                return this._data[offsetStack + offset];
             };
 
             this.setGlobalConstants = function(globalConstants, stackOffset) {
