@@ -4,8 +4,8 @@
     wheel(
         'vm.modules.ButtonsModule',
         wheel.Class(wheel.vm.modules.VMModule, function(supr) {
-            this.run = function(commandId) {
 /*
+            this.run = function(commandId) {
                 switch (commandId) {
                     case 0: // READ BUTTON
                         break;
@@ -14,8 +14,8 @@
                         console.error('Unknown button command "' + commandId + '".');
                         break;
                 }
-*/
             };
+*/
         })
     );
 })();
