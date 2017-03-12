@@ -308,6 +308,47 @@ describe(
                 }
             );
         });
+
+        it('Should remove remarks', function() {
+            var files = createFiles(
+                    [
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends ; This should be no problem.',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp',
+                        '',
+                        'proc main()',
+                        '    printN(8993) ; This should be no problem.',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                '',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [8993]);
+                }
+            );
+        });
     }
 );
 
