@@ -438,7 +438,38 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation "&n".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation "&n".');
+                        }
+                    );
+                });
+                it('Should throw INVALID_OPERATION', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                    'number n',
+                                    'mul n, "a"',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation ""a"".');
+                        }
+                    );
+                });
+                it('Should throw INVALID_OPERATION_WITH_STRING', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                    'string s',
+                                    'number n',
+                                    'mul s, n',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation "s".');
                         }
                     );
                 });
