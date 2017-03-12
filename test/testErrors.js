@@ -457,6 +457,22 @@ describe(
                         }
                     );
                 });
+                it('Should throw INVALID_OPERATION', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    number n',
+                                '    number *pn',
+                                '    add pn, &n',
+                               'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation "pn".');
+                        }
+                    );
+                });
                 it('Should throw INVALID_OPERATION_WITH_STRING', function() {
                     assert.throws(
                         function() {

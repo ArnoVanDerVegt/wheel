@@ -19,12 +19,7 @@
                 var offset;
 
                 if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
-                    compilerOutput.a($.set.code, $.DEST(), $.CONST(param2.value));
-                    $.isLocal(param2) && compilerOutput.a($.add.code, $.DEST(), $.STACK());
-                    param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;
-                    param2.type  = $.T_NUM_G;
-                    param2.value = $.REG_DEST;
-                    compilerOutput.add(validatedCommand);
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param1.param + '".');
                 } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
                     $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
                     compilerOutput.add(validatedCommand);
