@@ -155,6 +155,9 @@
             };
 
             this.compileEnd = function(output) {
+                if (!this._endStack.length) {
+                    throw new Error('End without begin.');
+                }
                 var end = this._endStack.pop();
                 switch (end) {
                     case 'if':
@@ -180,14 +183,11 @@
                                 downto: {operator: 'dec', condition: 'jge'}
                             }[forItem.direction];
 
-                        if (loop) {
-                            return [
-                                loop.operator  + ' ' + forItem.vr,
-                                'cmp '               + forItem.vr + ',' + forItem.end,
-                                loop.condition + ' ' + forItem.label
-                            ];
-                        }
-                        break;
+                        return [
+                            loop.operator  + ' ' + forItem.vr,
+                            'cmp '               + forItem.vr + ',' + forItem.end,
+                            loop.condition + ' ' + forItem.label
+                        ];
 
                     case 'struct':
                         return ['ends'];
@@ -195,9 +195,6 @@
                     case 'proc':
                         return ['endp'];
                 }
-
-                return [];
-                // throw error!
             };
 
             this.compileValueArray = function(result, tempVar, valueArray) {

@@ -859,7 +859,6 @@
     wheel('compiler.command.DEST',                  function()       { return {type: T_NUM_G, value: REG_DEST   }; });
     wheel('compiler.command.CODE',                  function()       { return {type: T_NUM_G, value: REG_CODE   }; });
     wheel('compiler.command.RETURN',                function()       { return {type: T_NUM_G, value: REG_RETURN }; });
-    wheel('compiler.command.FLAGS',                 function()       { return {type: T_NUM_G, value: REG_FLAGS  }; });
     wheel('compiler.command.CONST',                 function(v)      { return {type: T_NUM_C, value: v }; });
     wheel('compiler.command.LOCAL',                 function(offset) { return {type: T_NUM_L, value: offset }; });
     wheel('compiler.command.GLOBAL',                function(offset) { return {type: T_NUM_G, value: offset }; });

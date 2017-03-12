@@ -249,20 +249,6 @@ describe(
                         }
                     );
                 });
-                it('Should throw undefined identifier', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                '@typeof(s)',
-                                'proc main()',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNDEFINED_IDENTIFIER_IN_TYPEOF + ' Undefined identifier "s".');
-                        }
-                    );
-                });
             }
         );
 
