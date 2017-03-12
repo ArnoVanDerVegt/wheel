@@ -113,7 +113,7 @@
                 if (metaType === $.T_META_POINTER) {
                     size = 1; // Only use 1 number for a pointer, the struct size might differ...
                 }
-                this._globalOffset += vr.length * size;
+                this._globalOffset += (vr.length || 1) * size;
 
                 return global;
             };

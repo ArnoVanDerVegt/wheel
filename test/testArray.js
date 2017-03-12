@@ -464,6 +464,40 @@ describe(
 
                     assert.deepEqual(testData.messages, [984, 157]);
                 });
+
+                it('Should read from pointer array to pointer struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point point',
+                            'Point *points[0]',
+                            'Point *p',
+                            'Point pp[10]',
+                            '',
+                            'proc testPointer()',
+                            '    set p, &point',
+                            '    arrayr p, *points, 1',
+                            //'    arrayr point, *points, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point local',
+                            '    set local.x, 984',
+                            '    set local.y, 157',
+                            '    arrayw   pp, 1, local',
+                            '    set points, &pp',
+                            '',
+                            '    testPointer()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [984, 157]);
+                });
             }
         );
     }

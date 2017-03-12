@@ -142,6 +142,7 @@
                             }
                         }
                         if (!found) {
+                            console.log(command, params);
                             throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
                         }
                     }

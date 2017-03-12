@@ -22,6 +22,7 @@ require('./compiler/commands/ArrayW.js');
 require('./compiler/commands/Addr.js');
 require('./compiler/commands/JmpC.js');
 require('./compiler/command.js');
+require('./compiler/error.js');
 require('./compiler/compilerHelper.js');
 require('./compiler/CompilerOutput.js');
 require('./compiler/CompilerData.js');
@@ -84,9 +85,9 @@ if (process.argv.length === 3) {
         process.argv[2],
         function(includes) {
             var outputCommands;
-            try {
+            //try {
                 outputCommands = compiler.compile(includes);
-            } catch (error) {
+            /*} catch (error) {
                 outputCommands = null;
                 console.log(error.toString());
                 if (error.location) {
@@ -94,7 +95,7 @@ if (process.argv.length === 3) {
                     console.log(location.filename + ':' + location.lineNumber);
                     console.log(location.line);
                 }
-            }
+            }*/
 
             if (outputCommands) {
                 console.log('Assembly');

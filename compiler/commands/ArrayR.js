@@ -54,7 +54,7 @@
 
                     if ($.isPointerVarMetaType(valueParam)) {
                         var type = $.isLocal(valueParam) ? $.T_NUM_L : $.T_NUM_G;
-                        compilerOutput.a($.add.code, $.DEST(), {type: type, value: valueParam.value});
+                        compilerOutput.a($.set.code, $.DEST(), {type: type, value: valueParam.value});
                     } else {
                         compilerOutput.a($.set.code, $.DEST(), $.CONST(valueParam.value));
                         $.isLocal(valueParam) && compilerOutput.a($.add.code, [$.DEST(), $.STACK()]);
