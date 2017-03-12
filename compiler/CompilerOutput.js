@@ -12,9 +12,6 @@
             };
 
             this.add = function(outputCommand) {
-                if (!outputCommand.params) {
-                    outputCommand.params = [];
-                }
                 while (outputCommand.params.length < 2) {
                     outputCommand.params.push({type: '', value: 0});
                 }
@@ -117,11 +114,6 @@
 
                             case wheel.compiler.command.T_LABEL:
                                 result = leadingZero(param.value + 1);
-                                break;
-
-                            default:
-                                result = 'Unsup. type ' + param.type + ' ' + command;
-                                console.error('Unsupported type:', param.type, 'command:', command);
                                 break;
                         }
                         return result;
