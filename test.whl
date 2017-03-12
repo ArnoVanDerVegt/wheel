@@ -1,8 +1,0 @@
-proc main()
-    number n
-    number *pn
-
-    set n, 11
-    set pn, &n
-    mul *pn, 13
-endp
