@@ -220,6 +220,94 @@ describe(
                 }
             );
         });
+
+        it('Should replace defines', function() {
+            var files = createFiles(
+                    [
+                        '#define TEST_DEFINITION 989834',
+                        '',
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp',
+                        '',
+                        'proc main()',
+                        '    printN(TEST_DEFINITION)',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                '',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [989834]);
+                }
+            );
+        });
+
+        it('Should replace multiple defines', function() {
+            var files = createFiles(
+                    [
+                        '#define TEST_DEFINITION1 873',
+                        '#define TEST_DEFINITION2 129',
+                        '',
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp',
+                        '',
+                        'proc main()',
+                        '    printN(TEST_DEFINITION1)',
+                        '    printN(TEST_DEFINITION2)',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                '',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [873, 129]);
+                }
+            );
+        });
     }
 );
 
