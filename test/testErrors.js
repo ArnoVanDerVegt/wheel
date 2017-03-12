@@ -231,6 +231,20 @@ describe(
                         }
                     );
                 });
+                it('Should throw undefined identifier', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                '@typeof(s)',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #15 Undefined identifier "s".');
+                        }
+                    );
+                });
             }
         );
 
@@ -248,7 +262,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #15 Duplicate label "label:".');
+                            return (error.toString() === 'Error: #16 Duplicate label "label:".');
                         }
                     );
                 });
@@ -268,7 +282,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #16 Number expected, found "\'x\'".');
+                            return (error.toString() === 'Error: #17 Number expected, found "\'x\'".');
                         }
                     );
                 });
@@ -282,7 +296,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #17 Number expected, found "\'y\'".');
+                            return (error.toString() === 'Error: #18 Number expected, found "\'y\'".');
                         }
                     );
                 });

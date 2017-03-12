@@ -249,7 +249,7 @@
                 if (local === null) {
                     var global = compilerData.findLocal(vr);
                     if (global === null) {
-                        throw this.createError(22, 'Undefined identifier "' + vr + '".');
+                        throw this.createError(15, 'Undefined identifier "' + vr + '".');
                     } else if (global.type === $.T_NUM_G_ARRAY) {
                         line = 'number ' + line.substr(j + 1 - line.length).trim();
                     } else if (global.struct) {
