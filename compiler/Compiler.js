@@ -214,7 +214,7 @@
                             } else if (validatedCommand === false) {
                                 var struct = compilerData.findStruct(commandAndParams.command);
                                 if (struct === null) {
-                                    throw this.createError(24, 'Unknown command "' + commandAndParams.command + '".');
+                                    throw this.createError(20, 'Unknown command "' + commandAndParams.command + '".');
                                 } else if (this._activeStruct !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
@@ -307,7 +307,7 @@
                 }
 
                 if (this._mainIndex === -1) {
-                    throw this.createError(23, 'No main procedure found.');
+                    throw this.createError(19, 'No main procedure found.');
                 }
 
                 output.optimizeTypes();

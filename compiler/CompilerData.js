@@ -57,7 +57,7 @@
                         length = parseInt(name.substr(i + 1, name.length - i - 2));
                         name   = name.substr(0, i);
                     } else {
-                        throw this._compiler.createError(25, '"]" expected.');
+                        throw this._compiler.createError(21, '"]" expected.');
                     }
                 }
 
@@ -169,7 +169,7 @@
                                     result.offset += field.offset;
                                     struct = field.struct;
                                 } else {
-                                    throw this._compiler.createError(26, 'Undefined field "' + field + '".');
+                                    throw this._compiler.createError(22, 'Undefined field "' + field + '".');
                                 }
                                 i++;
                             }

@@ -302,5 +302,83 @@ describe(
                 });
             }
         );
-    }
+
+        describe(
+            'No main procedure',
+            function() {
+                it('Should throw (local) number expected', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc noMain()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #19 No main procedure found.');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Unknown command',
+            function() {
+                it('Should throw (local) number expected', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'wrong',
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #20 Unknown command "wrong".');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Unknown command',
+            function() {
+                it('Should throw (local) number expected', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number a[1)',
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #21 "]" expected.');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Unknown command',
+            function() {
+                it('Should throw undefined field', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'struct S',
+                                '   number n',
+                                'ends',
+                                'S s',
+                                'proc main()',
+                                '   set s.wrong, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #22 Undefined field "wrong".');
+                        }
+                    );
+                });
+            }
+        );    }
 );
