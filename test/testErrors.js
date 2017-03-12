@@ -380,5 +380,87 @@ describe(
                     );
                 });
             }
-        );    }
+        );
+
+        describe(
+            'Duplicate identifier',
+            function() {
+                it('Should throw (local) number expected', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number a',
+                                'number a'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #23 Duplicate int identifier "a".');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Invalid constant',
+            function() {
+                it('Should throw invalid constant', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc p = 1',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #24 Invalid constant value "1".');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Unknown procedure',
+            function() {
+                it('Should throw invalid constant', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    wrong()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #25 Unknown procedure "wrong".');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Unknown procedure',
+            function() {
+                it('Should throw invalid constant', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'struct S',
+                                '   number n',
+                                'endp',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #26 Invalid command "endp".');
+                        }
+                    );
+                });
+            }
+        );
+    }
 );

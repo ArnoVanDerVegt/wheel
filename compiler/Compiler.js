@@ -190,7 +190,7 @@
                     switch (commandAndParams.command) {
                         case 'endp':
                             if (this._activeStruct !== null) {
-                                throw this.createError(50, 'Invalid command "endp".');
+                                throw this.createError(26, 'Invalid command "endp".');
                             }
                             this._compilers.Ret.compile(null);
 

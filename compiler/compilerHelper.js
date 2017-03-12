@@ -17,13 +17,13 @@
 
             checkDuplicateIdentifier: function(compiler, name, list) {
                 if (name in list) {
-                    throw compiler.createError(27, 'Duplicate int identifier "' + name + '".');
+                    throw compiler.createError(23, 'Duplicate int identifier "' + name + '".');
                 }
             },
 
             checkInvalidConstant: function(compiler, vr, allowConstant) {
                 if ((vr.value !== null) && !allowConstant) {
-                    throw compiler.createError(28, 'Invalid constant value "' + vr.value + '".');
+                    throw compiler.createError(24, 'Invalid constant value "' + vr.value + '".');
                 }
             },
 

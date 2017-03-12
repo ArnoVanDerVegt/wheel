@@ -187,7 +187,7 @@
                             }
                             callCommand = {code: $.set.code, params: [$.CODE(), $.GLOBAL(global.offset)]};
                         } else {
-                            throw this._compiler.createError(50, 'Unknown procedure "' + procedure + '".');
+                            throw this._compiler.createError(25, 'Unknown procedure "' + procedure + '".');
                         }
                     }
                 }
