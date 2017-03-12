@@ -64,6 +64,24 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Set global string',
+            function () {
+                it('Should set a global string', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'string s',
+                            '',
+                            'proc main()',
+                            '    set s, "Hello world!!"',
+                            '    printS(s)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ['Hello world!!']);
+                });
+            }
+        );
     }
 );
 
