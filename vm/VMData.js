@@ -55,16 +55,6 @@
                 globalData[wheel.compiler.command.REG_STACK] = stackOffset;
             };
 
-            this.getDataAtRegOffset = function(count) {
-                var regOffsetSrc = this._data[wheel.compiler.command.REG_SRC];
-                var result       = [];
-
-                for (var i = 0; i < count; i++) {
-                    result[i] = this._data(regOffsetSrc + i);
-                }
-                return result;
-            };
-
             this.getRecordFromAtOffset = function(recordFields) {
                 var regOffsetSrc = this._data[wheel.compiler.command.REG_SRC];
                 var result       = {};
@@ -75,16 +65,15 @@
                 return result;
             };
 
-            this.getNumberAtRegOffset = function() {
-                var data = this._data;
-                return data[data[wheel.compiler.command.REG_SRC]];
-            };
+            /*
+
+            Could be used from modules later...
 
             this.setNumberAtRegOffset = function(value) {
                 var data = this._data;
-                console.log('set number', wheel.compiler.command.REG_SRC, data[wheel.compiler.command.REG_SRC], value);
                 data[data[wheel.compiler.command.REG_SRC]] = value;
             };
+            */
         })
     );
 })();
