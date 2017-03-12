@@ -50,8 +50,6 @@
                     compilerOutput.add(validatedCommand);
                 } else if ($.isSimpleNumberType(param1) && $.isProcType(param2)) {
                     compilerOutput.add(validatedCommand);
-                } else if ($.isProcType(param1) && $.isProcType(param2)) {
-                    compilerOutput.add(validatedCommand);
                 } else {
                     console.error('Unimplemented.');
                 }
