@@ -102,10 +102,6 @@
                                         result = 'return';
                                         break;
 
-                                    case wheel.compiler.command.REG_FLAGS:
-                                        result = 'flags';
-                                        break;
-
                                     default:
                                         result = '[' + leadingZero(param.value) + ']';
                                         break;
@@ -144,19 +140,15 @@
                         line += ' ';
                     }
 
-                    if (command.code <= wheel.compiler.command.NO_PARAM_COMMANDS) {
-                        // No parameters...
+                    line += paramToString(command, command.params[0]);
+                    if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
+                        // Single parameter...
                     } else {
-                        line += paramToString(command, command.params[0]);
-                        if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
-                            // Single parameter...
-                        } else {
-                            line += ',';
-                            while (line.length < 28) {
-                                line += ' ';
-                            }
-                            line += paramToString(command, command.params[1]);
+                        line += ',';
+                        while (line.length < 28) {
+                            line += ' ';
                         }
+                        line += paramToString(command, command.params[1]);
                     }
                     lines.push(line);
                 }
