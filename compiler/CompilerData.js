@@ -187,10 +187,6 @@
                 return this.findInList(this._globalList, name, $.T_NUM_G, $.T_NUM_G_ARRAY);
             };
 
-            this.getGlobalList = function() {
-                return this._globalList;
-            };
-
             this.getGlobalOffset = function() {
                 return this._globalOffset;
             };
@@ -327,13 +323,9 @@
             this.declareStructField = function(name, type, arrayType, size, structType) {
                 (size   === undefined) && (size   = 1);
                 var metaType = this.getPointerVar(name) ? $.T_META_POINTER : null;
+                var struct   = this._struct;
 
                 name = this.getNameWithoutPointer(name);
-
-                var struct = this._struct;
-                if (!struct) {
-                    return null;
-                }
 
                 wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, struct);
 
@@ -352,10 +344,6 @@
                 struct.size = this._structOffset;
 
                 return structField;
-            };
-
-            this.getStructList = function() {
-                return this._structList;
             };
 
             this.getStructOffset = function(param) {
@@ -381,19 +369,7 @@
             };
 
             this.paramInfo = function(param) {
-                if (param === 'TRUE') {
-                    return {
-                        type:  $.T_NUM_C,
-                        value: 1,
-                        param: param
-                    };
-                } else if (param === 'FALSE') {
-                    return {
-                        type:  $.T_NUM_C,
-                        value: 0,
-                        param: param
-                    };
-                } else if (wheel.compiler.compilerHelper.getWrappedInChars(param, '"', '"')) {
+                if (wheel.compiler.compilerHelper.getWrappedInChars(param, '"', '"')) {
                     return {
                         type:     $.T_NUM_C,
                         metaType: $.T_META_STRING,
@@ -418,16 +394,14 @@
                     var type     = null;
                     var metaType = null;
                     var label    = null;
+                    var name     = param;
 
-                    var name = param;
-                    if (name.length) {
-                        if (name[0] === '&') {
-                            name     = name.substr(1 - name.length);
-                            metaType = $.T_META_ADDRESS;
-                        } else if (this.getPointerVar(name)) {
-                            name     = this.getNameWithoutPointer(name);
-                            metaType = $.T_META_POINTER;
-                        }
+                    if (name[0] === '&') {
+                        name     = name.substr(1 - name.length);
+                        metaType = $.T_META_ADDRESS;
+                    } else if (this.getPointerVar(name)) {
+                        name     = this.getNameWithoutPointer(name);
+                        metaType = $.T_META_POINTER;
                     }
 
                     var local = this.findLocal(name);
