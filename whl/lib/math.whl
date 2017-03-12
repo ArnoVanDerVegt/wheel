@@ -1,31 +1,31 @@
 #define MODULE_MATH     4
-    
+
 #define MATH_ROUND 0
 #define MATH_FLOOR 1
 #define MATH_CEIL  2
 #define MATH_ABS   3
 #define MATH_NEG   4
-    
+
 proc round(number *n)
     set      REG_OFFSET_SRC,         n
     module   MODULE_MATH,            MATH_ROUND
 endp
-    
+
 proc floor(number *n)
     set      REG_OFFSET_SRC,         n
     module   MODULE_MATH,            MATH_FLOOR
 endp
-    
+
 proc ceil(number *n)
     set      REG_OFFSET_SRC,         n
     module   MODULE_MATH,            MATH_CEIL
 endp
-    
+
 proc abs(number *n)
     set      REG_OFFSET_SRC,         n
     module   MODULE_MATH,            MATH_ABS
 endp
-    
+
 proc neg(number *n)
     set      REG_OFFSET_SRC,         n
     module   MODULE_MATH,            MATH_NEG

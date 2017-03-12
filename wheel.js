@@ -99,7 +99,9 @@ if (process.argv.length === 3) {
                 console.log('Assembly');
                 outputCommands.logLines();
                 console.log('Commands');
-                outputCommands.logCommands();
+                outputCommands.outputCommands().split('\n').forEach(function(line) {
+                    console.log(line);
+                });
 
                 fs.writeFileSync('test.rtf', outputCommands.outputCommands());
             }
