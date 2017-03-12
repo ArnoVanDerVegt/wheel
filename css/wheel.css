@@ -104,6 +104,23 @@ div.three a:hover {
     text-decoration:    underline;
 }
 
+div.one table,
+div.two table,
+div.three table {
+    border-collapse:    collapse;
+    border:             1px solid #000000;
+}
+div.one table th,
+div.two table th,
+div.three table th,
+div.one table td,
+div.two table td,
+div.three table td {
+    border:             1px solid #000000;
+    padding:            4px 8px 4px 4px;
+    text-align:         left;
+}
+
 .container {
     margin:             0 auto 0 auto;
     width:              960px;

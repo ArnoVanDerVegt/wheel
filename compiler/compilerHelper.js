@@ -5,11 +5,11 @@
         'compiler.compilerHelper',
         {
             getWrappedInChars: function(s, open, close) {
-                return (s.length > 2) && (s[0] === open) && (s.substr(-1) === close);
+                return (s.length >= 2) && (s[0] === open) && (s.substr(-1) === close);
             },
 
             checkWrapChars: function(compiler, s, open, close) {
-                if (s.length && (s[0] === open) && (s[s.length - 1] !== close)) {
+                if (s.length && ((s.length < 2) || ((s[0] === open) && (s[s.length - 1] !== close)))) {
                     throw compiler.createError(3, 'Syntax error.');
                 }
                 return s.substr(1, s.length - 2);
@@ -17,13 +17,13 @@
 
             checkDuplicateIdentifier: function(compiler, name, list) {
                 if (name in list) {
-                    throw compiler.createError(27, 'Duplicate int identifier "' + name + '".');
+                    throw compiler.createError(23, 'Duplicate int identifier "' + name + '".');
                 }
             },
 
             checkInvalidConstant: function(compiler, vr, allowConstant) {
                 if ((vr.value !== null) && !allowConstant) {
-                    throw compiler.createError(28, 'Invalid constant value "' + vr.value + '".');
+                    throw compiler.createError(24, 'Invalid constant value "' + vr.value + '".');
                 }
             },
 
@@ -46,7 +46,7 @@
                 for (var j = 0; j < values.length; j++) {
                     var v = parseFloat(values[j].trim());
                     if (isNaN(v)) {
-                        throw compiler.createError(29, 'Number expected, found "' + values[j] + '".');
+                        throw compiler.createError(10, 'Number expected, found "' + values[j] + '".');
                     }
                     data.push(v);
                 }

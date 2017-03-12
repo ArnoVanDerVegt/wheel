@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Variables</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+
+    <script src="utils/syntax.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+            </ul>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three right blue">
+                <h3>Compiler errors</h3>
+                <ul>
+                </ul>
+
+                <br />
+                <h3>Documentation</h3>
+                <a href="site/docs/keywords.html">Keywords</a><br />
+                <a href="site/docs/variables.html">Variables</a><br />
+                <a href="site/docs/operators.html">Operators</a><br />
+                <a href="site/docs/procedures.html">Procedures</a><br />
+                <a href="site/docs/modules.html">Modules</a><br />
+                <a href="site/docs/structs.html">Structs</a><br />
+                <a href="site/docs/pointers.html">Pointers</a><br />
+                <a href="site/docs/errors.html">Compiler errors</a><br />
+            </div>
+
+            <div class="two blue">
+                <h3>Compiler errors</h3>
+                <br />
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Message</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>Syntax error</th>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <th>Syntax error</th>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <th>Syntax error</th>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <th>String expected error</th>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <th>String expected error</th>
+                    </tr>
+                    <tr>
+                        <th>6</th>
+                        <th>Type error</th>
+                    </tr>
+                    <tr>
+                        <th>7</th>
+                        <th>Type error</th>
+                    </tr>
+                    <tr>
+                        <th>8</th>
+                        <th>Type mismatch</th>
+                    </tr>
+                    <tr>
+                        <th>9</th>
+                        <th>Type error</th>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <th>Type error</th>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <th>Unknown type error</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="two blue">
+                <h3>#1 Syntax error</h3>
+                <pre>
+                    proc main()
+                        ~wrong()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#2 Syntax error</h3>
+                <pre>
+                    struct ~bad
+                    ends
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#3 Syntax error</h3>
+                <pre>
+                    number n[3] = [1, 2, 3}
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#4 String expected error</h3>
+                <pre>
+                    proc main()
+                        string s = 1
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#5 String expected error</h3>
+                <pre>
+                    string s = 1
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#6 Type error</h3>
+                <pre>
+                    number n
+                    proc main()
+                        n.a = 1
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#7 Type error</h3>
+                <pre>
+                    number a[3] = [1, 'x', 3]
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#8 Type mismatch</h3>
+                <pre>
+                    proc main()
+                        number n
+                        set 1, n
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#9 Type error</h3>
+                <pre>
+                    proc main()
+                        number l
+                        l()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#10 Type error</h3>
+                <pre>
+                    number g
+                    proc main()
+                        g()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two blue">
+                <h3>#11 Unknown type error</h3>
+                <pre>
+                    proc error(Wrong w)
+                    endp
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="three">
+                <h3 class="light-green">Tests</h3>
+                <ul>
+                    <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
+                    <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>
+                </ul>
+            </div>
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>

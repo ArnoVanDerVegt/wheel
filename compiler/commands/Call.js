@@ -81,16 +81,12 @@
                 var compilerOutput = this._compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                if (paramInfo.value) {
-                    if (paramInfo.type === $.T_NUM_G_ARRAY) {
-                        if (typeof paramInfo.value === 'string') {
-                            var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
-                            size            = data.length;
-                            paramInfo.value = compilerData.allocateGlobal(size);
-                            compilerData.declareConstant(paramInfo.value, data);
-                        }
-                    } else if ((paramInfo.type !== $.T_STRUCT_G) && (paramInfo.type !== $.T_STRUCT_G_ARRAY)) {
-                        throw this._compiler.createError(4, 'Type mismatch.');
+                if (paramInfo.value && (paramInfo.type === $.T_NUM_G_ARRAY)) {
+                    if (typeof paramInfo.value === 'string') {
+                        var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
+                        size            = data.length;
+                        paramInfo.value = compilerData.allocateGlobal(size);
+                        compilerData.declareConstant(paramInfo.value, data);
                     }
                 }
 
@@ -147,9 +143,6 @@
                             case $.T_STRUCT_G:
                                 this.compileGlobalStructParam(param, paramInfo, offset, size);
                                 break;
-
-                            default:
-                                throw this._compiler.createError(5, 'Type mismatch.');
                         }
 
                         offset += size;
@@ -179,7 +172,7 @@
                     var local = compilerData.findLocal(procedure);
                     if (local !== null) {
                         if (local.type !== $.T_PROC_L) {
-                            throw this._compiler.createError(12, 'Type error, can not call "' + procedure + '".');
+                            throw this._compiler.createError(11, 'Type error, can not call "' + procedure + '".');
                         }
 
                         // Move the code offset above the stack into the stack of the new procedure...
@@ -189,12 +182,12 @@
                     } else {
                         var global = compilerData.findGlobal(procedure);
                         if (global !== null) {
-                            if ((global.type !== $.T_NUM_G) && (global.type !== $.T_PROC_G)) {
-                                throw this._compiler.createError(13, 'Type error, can not call "' + procedure + '".');
+                            if ((global.type !== $.T_PROC_G) && ((global.struct === null) || (global.origType !== $.T_PROC_G))) {
+                                throw this._compiler.createError(12, 'Type error, can not call "' + procedure + '".');
                             }
                             callCommand = {code: $.set.code, params: [$.CODE(), $.GLOBAL(global.offset)]};
                         } else {
-                            throw this._compiler.createError(18, 'Unknown procedure "' + procedure + '".');
+                            throw this._compiler.createError(25, 'Unknown procedure "' + procedure + '".');
                         }
                     }
                 }

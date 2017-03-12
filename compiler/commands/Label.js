@@ -58,7 +58,7 @@
                     if (this.hasLabel(line)) {
                         var j = line.indexOf(':');
                         if (compilerData.declareLabel(line.substr(0, j), location)) {
-                            throw this._compiler.createError(19, 'Duplicate label "' + line + '".');
+                            throw this._compiler.createError(16, 'Duplicate label "' + line + '".');
                         }
                     }
                 }

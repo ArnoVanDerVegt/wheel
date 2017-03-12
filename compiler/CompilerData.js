@@ -57,7 +57,7 @@
                         length = parseInt(name.substr(i + 1, name.length - i - 2));
                         name   = name.substr(0, i);
                     } else {
-                        throw this._compiler.createError(25, '"]" expected.');
+                        throw this._compiler.createError(21, '"]" expected.');
                     }
                 }
 
@@ -169,13 +169,13 @@
                                     result.offset += field.offset;
                                     struct = field.struct;
                                 } else {
-                                    throw this._compiler.createError(26, 'Undefined field "' + field + '".');
+                                    throw this._compiler.createError(22, 'Undefined field "' + field + '".');
                                 }
                                 i++;
                             }
                             return result;
                         } else {
-                            throw this._compiler.createError(10, 'Type error.');
+                            throw this._compiler.createError(8, 'Type error.');
                         }
                     }
                     return vr;
@@ -459,7 +459,7 @@
                     }
 
                     if (type === null) {
-                        throw this._compiler.createError(17, 'Undefined identifier "' + param + '".');
+                        throw this._compiler.createError(14, 'Undefined identifier "' + param + '".');
                     }
 
                     return {
