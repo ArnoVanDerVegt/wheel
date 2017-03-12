@@ -21,29 +21,23 @@
                 var compilerData   = this._compilerData;
 
                 if (compiler.getActiveStruct() !== null) {
-                    /**
-                     * Declare a string of array of strings field in a struct...
-                    **/
+                    // Declare a string of array of strings field in a struct...
                     for (var i = 0; i < params.length; i++) {
                         var structField = compilerData.declareStructField(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY);
                         structField && (structField.metaType = $.T_META_STRING);
                     }
                 } else if (compiler.getInProc()) {
-                    /**
-                     * Declare a local string constant...
-                    **/
+                    // Declare a local string constant...
                     for (var j = 0; j < params.length; j++) {
                         var local = compilerData.declareLocal(params[j], $.T_NUM_L, $.T_NUM_L_ARRAY, null, true);
                         local.metaType = $.T_META_STRING;
 
-                        /**
-                         * Check if the string declaration had a constant value assigned to it...
-                        **/
+                        // Check if the string declaration had a constant value assigned to it...
                         if (local.value) {
                             if (local.type === $.T_NUM_L) { // Like: string s = "abc"
                                 var value = local.value;
                                 if ((value.length < 2) || (value[0] !== '"') || (value.substr(-1) !== '"')) {
-                                    throw compiler.createError(40, 'String expected, found "' + value + '".');
+                                    throw compiler.createError(5, 'String expected, found "' + value + '".');
                                 }
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
                                 // Set the the value at the address of the local variable...
@@ -61,22 +55,20 @@
                                 (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
 
                                 compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
-                            } else {
-                                throw compiler.createError(8, 'Type error.');
                             }
                         }
                     }
                 } else {
-                    /**
-                     * Declare a global string or array of strings...
-                    **/
+                    // Declare a global string or array of strings...
                     for (var i = 0; i < params.length; i++) {
                         var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, location, true);
                         global.metaType = $.T_META_STRING;
-                        /**
-                         * Check if the string declaration had a constant value assigned to it...
-                        **/
+                        // Check if the string declaration had a constant value assigned to it...
                         if (global.value) {
+                            if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '"', '"')) {
+                                throw compiler.createError(6, 'String expected, found "' + global.value + '".');
+                            }
+
                             if (global.type === $.T_NUM_G) { // Like: string n = "abc"
                                 var value  = global.value;
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
@@ -85,8 +77,6 @@
                                 var value = global.value.trim();
                                 var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
                                 compilerData.declareConstant(global.offset, data);
-                            } else {
-                                throw compiler.createError(9, 'Type error.');
                             }
                         }
                     }

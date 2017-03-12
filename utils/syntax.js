@@ -1,5 +1,5 @@
 (function() {
-    var keywords = ['proc', 'number', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod'];
+    var keywords = ['proc', 'number', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'struct'];
     var sign     = ['=', '(', ')', ','];
     var meta     = ['#project', '#define'];
 
@@ -62,8 +62,26 @@
     }
 
     function parseLines(lines) {
-        var result = '';
+        var result    = '';
+        var minLength = 256;
+
         lines.forEach(function(line) {
+            if (line[0] === ' ') {
+                var i = 0;
+                while (line[i] === ' ') {
+                    i++;
+                }
+                if (i < line.length) {
+                    minLength = Math.min(minLength, i);
+                }
+            }
+        });
+
+        lines.pop();
+        lines.forEach(function(line) {
+            if (minLength !== 256) {
+                line = line.substr(minLength - line.length);
+            }
             result += parseLine(line) + '\n';
         });
         return result;

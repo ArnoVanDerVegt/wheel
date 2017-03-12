@@ -175,7 +175,7 @@
                             }
                             return result;
                         } else {
-                            throw this._compiler.createError(10, 'Type error.');
+                            throw this._compiler.createError(7, 'Type error.');
                         }
                     }
                     return vr;
@@ -459,7 +459,7 @@
                     }
 
                     if (type === null) {
-                        throw this._compiler.createError(17, 'Undefined identifier "' + param + '".');
+                        throw this._compiler.createError(13, 'Undefined identifier "' + param + '".');
                     }
 
                     return {

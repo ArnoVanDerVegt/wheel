@@ -24,7 +24,7 @@
                 for (var j = 0; j < params.length; j++) {
                     var param = params[j].trim().split(' ');
                     if (param.length !== 2) {
-                        throw compiler.createError(15, 'Syntax error in procedure parameter "' + params[j] + '".');
+                        throw compiler.createError(4, 'Syntax error in procedure parameter "' + params[j] + '".');
                     }
 
                     var struct = null;
@@ -41,7 +41,7 @@
                         default:
                             struct = compilerData.findStruct(param[0]);
                             if (struct === null) {
-                                throw compiler.createError(14, 'Unknown type "' + param[0] + '".');
+                                throw compiler.createError(12, 'Unknown type "' + param[0] + '".');
                             }
                             compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct, false);
                             break;
