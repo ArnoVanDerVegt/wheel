@@ -201,7 +201,6 @@ describe(
 
                     assert.deepEqual(testData.messages, [n * 11]);
                 });
-
                 it('Should mul a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -219,6 +218,23 @@ describe(
 
                     assert.deepEqual(testData.messages, [13 * 13]);
                 });
+/*
+                it('Should mul a pointer number', function() {
+                    var n = 10 + ~~(Math.random() * 100);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                                'number n',
+                                'number *pn',
+                                '',
+                                'mul n, &n',
+                                '',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [13 * 13]);
+                });
+*/
             }
         );
     }
