@@ -17,9 +17,6 @@
     }
 
     wheel.Class = function(parent, proto) {
-        if (!parent) {
-            throw new Error('No parent/prototype');
-        }
         if (!proto) {
             proto = parent; parent = null;
         } else {
@@ -37,8 +34,7 @@
                     method = s.substr(8, s.indexOf('(') - 8).trim();
                 }
                 var f = parent.prototype[method];
-                if (!f) { throw new Error('No method ' + method); }
-                return f.apply(context, args || []);
+                return f.apply(context, args);
             } : null;
 
         cls.prototype              = new proto(supr, supr);
@@ -60,7 +56,6 @@
                 ctx: ctx,
                 method: method
             };
-            return wheel.bind(this, function() { delete this._listeners[id]; });
         };
 
         this.emit = function emit(signal) {
@@ -70,20 +65,7 @@
             for (var i in listeners) {
                 var listener = listeners[i];
                 if (listener.signal === signal) {
-                    if (typeof listener.ctx === 'function') {
-                        listener.ctx.apply(listener.ctx, args);
-                    } else if (typeof listener.method === 'string') {
-                        if (listener.ctx[listener.method]) {
-                            listener.ctx[listener.method].apply(listener.ctx, args);
-                        } else {
-                            throw new Error('No emitter cb: "' + listener.method + '"' + (typeof listener.method));
-                        }
-                    } else if (typeof listener.method === 'function') {
-                        listener.method.apply(listener.ctx, args);
-                    } else {
-                        throw new Error('No emitter cb: "' + listener.method + '"' + (typeof listener.method));
-                    }
-                    listener.once && listener.once();
+                    listener.method.apply(listener.ctx, args);
                 }
             }
         };
