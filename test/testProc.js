@@ -427,6 +427,24 @@ describe(
 
                     assert.deepEqual(testData.messages, [15, 371]);
                 });
+
+                it('Should multiply with return value', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc five()',
+                            '    return 5',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    number x',
+                            '    set x, 3',
+                            '    mul x, five()',
+                            '',
+                            '    printN(x)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [15]);
+                });
             }
         );
 

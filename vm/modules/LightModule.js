@@ -9,6 +9,7 @@
             };
 
             this.run = function(commandId) {
+/*
                 switch (commandId) {
                     case 0: // SET LIGHT
                         break;
@@ -17,6 +18,7 @@
                         console.error('Unknown light command "' + commandId + '".');
                         break;
                 }
+*/
             };
         })
     );

@@ -93,7 +93,7 @@
                 for (var i = 0; i < includes.length; i++) {
                     var include = includes[i];
                     if (include.filename === filename) {
-                        line = include.lines[location.lineNumber] || '';
+                        line = include.lines[location.lineNumber];
                         break;
                     }
                 }
@@ -110,50 +110,48 @@
                 var args = wheel.compiler.command[command].args;
                 var code = wheel.compiler.command[command].code;
 
-                if (params.length) {
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i];
-                        var found = false;
+                for (var i = 0; i < params.length; i++) {
+                    var param = params[i];
+                    var found = false;
 
-                        for (var j = 0; j < args.length; j++) {
-                            var argsMetaType = args[j].metaType || false;
-                            var matchType    = false;
+                    for (var j = 0; j < args.length; j++) {
+                        var argsMetaType = args[j].metaType || false;
+                        var matchType    = false;
 
-                            // Check the primitive types...
-                            if (param.type === args[j].type) {
-                                if (argsMetaType) {
-                                    if (param.metaType === argsMetaType) {
-                                        matchType = true;
-                                    } else if (param.vr && (param.vr.metaType === argsMetaType)) {
-                                        matchType = true;
-                                    }
-                                } else {
+                        // Check the primitive types...
+                        if (param.type === args[j].type) {
+                            if (argsMetaType) {
+                                if (param.metaType === argsMetaType) {
+                                    matchType = true;
+                                } else if (param.vr && (param.vr.metaType === argsMetaType)) {
                                     matchType = true;
                                 }
-                            // Check the var types...
-                            } else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+                            } else {
                                 matchType = true;
                             }
-
-                            if (matchType) {
-                                args  = ('args' in args[j]) ? args[j].args : args[j];
-                                found = true;
-                                break;
-                            }
+                        // Check the var types...
+                        } else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+                            matchType = true;
                         }
-                        if (!found) {
-                            throw this.createError(9, 'Type mismatch "' + param.param + '".');
+
+                        if (matchType) {
+                            args  = ('args' in args[j]) ? args[j].args : args[j];
+                            found = true;
+                            break;
                         }
                     }
-                    return {
-                        code:   code,
-                        params: params,
-                        location: {
-                            filename:   this._location.filename,
-                            lineNumber: this._location.lineNumber
-                        }
-                    };
+                    if (!found) {
+                        throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
+                    }
                 }
+                return {
+                    code:   code,
+                    params: params,
+                    location: {
+                        filename:   this._location.filename,
+                        lineNumber: this._location.lineNumber
+                    }
+                };
             };
 
             this.validateCommand = function(command, params) {
@@ -190,7 +188,7 @@
                     switch (commandAndParams.command) {
                         case 'endp':
                             if (this._activeStruct !== null) {
-                                throw this.createError(26, 'Invalid command "endp".');
+                                throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
                             }
                             this._compilers.Ret.compile(null);
 
@@ -214,7 +212,7 @@
                             } else if (validatedCommand === false) {
                                 var struct = compilerData.findStruct(commandAndParams.command);
                                 if (struct === null) {
-                                    throw this.createError(20, 'Unknown command "' + commandAndParams.command + '".');
+                                    throw this.createError(wheel.compiler.error.UNKNOWN_COMMAND, 'Unknown command "' + commandAndParams.command + '".');
                                 } else if (this._activeStruct !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
@@ -249,7 +247,7 @@
                 if (local === null) {
                     var global = compilerData.findLocal(vr);
                     if (global === null) {
-                        throw this.createError(15, 'Undefined identifier "' + vr + '".');
+                        throw this.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER_IN_TYPEOF, 'Undefined identifier "' + vr + '".');
                     } else if (global.type === $.T_NUM_G_ARRAY) {
                         line = 'number ' + line.substr(j + 1 - line.length).trim();
                     } else if (global.struct) {
@@ -272,12 +270,7 @@
                 this._activeStruct   = null;
                 for (var i = 0; i < lines.output.length; i++) {
                     var line = lines.output[i].trim();
-                    if (line === '') {
-                        continue;
-                    }
-
                     this._location = sourceMap[i];
-
                     this.compileLine(this.compileTypeof(line));
                 }
 
@@ -307,7 +300,7 @@
                 }
 
                 if (this._mainIndex === -1) {
-                    throw this.createError(19, 'No main procedure found.');
+                    throw this.createError(wheel.compiler.error.NO_MAIN_PROCEDURE, 'No main procedure found.');
                 }
 
                 output.optimizeTypes();

@@ -18,6 +18,7 @@ require('../compiler/commands/ArrayW.js');
 require('../compiler/commands/Addr.js');
 require('../compiler/commands/JmpC.js');
 require('../compiler/command.js');
+require('../compiler/error.js');
 require('../compiler/compilerHelper.js');
 require('../compiler/CompilerOutput.js');
 require('../compiler/CompilerData.js');
@@ -94,7 +95,7 @@ exports.compileAndRun = function(lines) {
         compilerData.getGlobalOffset()
     );
 
-    return {testData: testData, outputCommands: outputCommands};
+    return {testData: testData, outputCommands: outputCommands, compilerData: compilerData};
 };
 
 exports.standardLines = [

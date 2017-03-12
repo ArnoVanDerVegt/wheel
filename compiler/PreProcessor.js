@@ -20,10 +20,10 @@
                         node = node.children[c];
                     } else {
                         var child = {
-                                children:     {}
+                                children: {}
                             };
-                        node.children[c]     = child;
-                        node                 = child;
+                        node.children[c] = child;
+                        node             = child;
                     }
                 }
                 node.value = value;
@@ -34,8 +34,8 @@
                 while (i < line.length) {
                     var c = line[i++];
                     if (c in this._root.children) {
-                        var node     = this._root.children[c],
-                            j         = i;
+                        var node     = this._root.children[c];
+                        var j         = i;
 
                         while (j < line.length) {
                             c = line[j++];
@@ -45,14 +45,12 @@
                                 break;
                             }
                         }
-                        if (node.value) {
-                            if (j - 1 - line.length < 0) {
-                                line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
-                                i    = i + node.value.length;
-                            } else {
-                                line = line.substr(0, i - 1) + node.value;
-                                i    = line.length;
-                            }
+                        if (j - 1 - line.length < 0) {
+                            line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
+                            i    = i + node.value.length;
+                        } else {
+                            line = line.substr(0, i - 1) + node.value;
+                            i    = line.length;
                         }
                     }
                 }

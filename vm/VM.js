@@ -103,9 +103,6 @@
                             case 9: // mod
                                 result = v1 % v2;
                                 break;
-
-                            default:
-                                throw new Error('Unknown command "' + command.command + '"');
                         }
 
                         var param = params[0];
@@ -140,28 +137,9 @@
                     vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) + 1);
                     count++;
                 }
-                if (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) >= commands.length) {
-                    this.stop();
-                }
-            };
-
-            this.run = function(commands, stringList, globalConstants, stackOffset) {
-                this.stop();
-
-                var vmData = this._vmData;
-
-                vmData.reset(stackOffset);
-                vmData.setStringList(stringList);
-                vmData.setGlobalConstants(globalConstants, stackOffset);
-                this._commands = commands.getBuffer();
-
-                vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, commands.getMainIndex());
-                this._runInterval = setInterval(this.onInterval.bind(this), 20);
             };
 
             this.runAll = function(commands, stringList, globalConstants, stackOffset) {
-                this.stop();
-
                 var vmData = this._vmData;
 
                 vmData.reset(stackOffset);
@@ -178,16 +156,14 @@
                 this.onInterval();
             };
 
-            this.stop = function() {
-                if (this._runInterval !== null) {
-                    clearInterval(this._runInterval);
-                    this._runInterval = null;
-                }
-            };
+            /*
+
+            Maybe for testing later...
 
             this.getModule = function(index) {
                 return this._modules[index];
             };
+            */
 
             this.getVMData = function() {
                 return this._vmData;

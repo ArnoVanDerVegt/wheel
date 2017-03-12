@@ -19,22 +19,16 @@
                 var offset;
 
                 if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
-                    compilerOutput.a($.set.code, $.DEST(), $.CONST(param2.value));
-                    $.isLocal(param2) && compilerOutput.a($.add.code, $.DEST(), $.STACK());
-                    param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;
-                    param2.type  = $.T_NUM_G;
-                    param2.value = $.REG_DEST;
-                    compilerOutput.add(validatedCommand);
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param1.param + '".');
                 } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
-                    $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
-                    compilerOutput.add(validatedCommand);
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param1.param + '".');
                 } else if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);
                     compilerOutput.a($.set.code, $.SRC(),         $.STACK());
                     compilerOutput.a($.set.code, $.STACK(),       $.isLocal(param1) ? $.LOCAL(compilerData.getOffset(param1)) : $.GLOBAL(param1.value));
-                    compilerOutput.a($.set.code, $.LOCAL(offset), $.DEST());
-                    compilerOutput.a(code,       $.STACK(),       $.SRC());
+                    compilerOutput.a(code,       $.LOCAL(offset), $.DEST());
+                    compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isSimpleNumberType(param1) && $.isPointerMetaType(param2)) {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     offset = compilerData.getOffset(param2);
@@ -45,12 +39,18 @@
                     compilerOutput.a($.set.code, $.STACK(), $.SRC());
                     compilerOutput.a(code,       param1,    $.DEST());
                 } else if ($.isSimpleNumberType(param1) && $.isConst(param2)) {
-                    compilerOutput.add(validatedCommand);
+                    if ($.isStringConstType(param2)) {
+                        throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param2.param + '".');
+                    } else {
+                        compilerOutput.add(validatedCommand);
+                    }
                 } else if ($.isSimpleNumberType(param1) && $.isSimpleNumberType(param2)) {
-                    compilerOutput.add(validatedCommand);
-                } else if ($.isSimpleNumberType(param1) && $.isProcType(param2)) {
-                    compilerOutput.add(validatedCommand);
-                } else if ($.isProcType(param1) && $.isProcType(param2)) {
+                    if (wheel.compiler.command.isAddressMetaType(param2)) {
+                        throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param2.param + '".');
+                    }
+                    if (wheel.compiler.command.isStringVarMetaType(param1)) {
+                        throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param1.param + '".');
+                    }
                     compilerOutput.add(validatedCommand);
                 } else {
                     console.error('Unimplemented.');

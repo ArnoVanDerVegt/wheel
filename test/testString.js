@@ -64,6 +64,40 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Set global string',
+            function () {
+                it('Should set a global string', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'string s',
+                            '',
+                            'proc main()',
+                            '    set s, "Hello world!!"',
+                            '    printS(s)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ['Hello world!!']);
+                });
+                it('Should set a global string, use constant once', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'string s1',
+                            'string s2',
+                            '',
+                            'proc main()',
+                            '    set s1, "Same"',
+                            '    set s2, "Same"',
+                            '    printS(s1)',
+                            '    printS(s2)',
+                            'endp'
+                        ]));
+
+                    assert.deepEqual(testData.testData.messages, ['Same', 'Same']);
+                    assert.deepEqual(testData.compilerData.getStringList(), ['Same']);
+                });
+            }
+        );
     }
 );
 

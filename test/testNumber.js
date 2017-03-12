@@ -103,6 +103,20 @@ describe(
                         ]
                     );
                 });
+
+                it('Should mod a number', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    set n, 10',
+                            '    mod n, 7, ',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [3]);
+                });
             }
         );
 
@@ -183,6 +197,40 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [n]);
+                });
+                it('Should mul a pointer number', function() {
+                    var n = 10 + ~~(Math.random() * 100);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                                'number n',
+                                'number *pn',
+                                '',
+                                'set n, 11',
+                                'set pn, &n',
+                                'mul *pn, ' + n,
+                                '',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [n * 11]);
+                });
+                it('Should mul a pointer number', function() {
+                    var n = 10 + ~~(Math.random() * 100);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                                'number n',
+                                'number *pn',
+                                '',
+                                'set n, 13',
+                                'set pn, &n',
+                                'mul n, *pn',
+                                '',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [13 * 13]);
                 });
             }
         );
