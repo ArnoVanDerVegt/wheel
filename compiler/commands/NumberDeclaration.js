@@ -35,7 +35,7 @@
                             if (local.type === $.T_NUM_L) { // Like: number n = 1
                                 var value = parseFloat(local.value);
                                 if (isNaN(value)) {
-                                    throw compiler.createError(17, 'Number expected, found "' + local.value + '".');
+                                    throw compiler.createError(wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED, 'Number expected, found "' + local.value + '".');
                                 }
                                 // Set the the value at the address of the local variable...
                                 compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(value));
@@ -63,7 +63,7 @@
                             if (global.type === $.T_NUM_G) { // Like: number n = 1
                                 var value = parseFloat(global.value);
                                 if (isNaN(value)) {
-                                    throw compiler.createError(18, 'Number expected, found "' + global.value + '".');
+                                    throw compiler.createError(wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED, 'Number expected, found "' + global.value + '".');
                                 }
                                 compilerData.declareConstant(global.offset, [value]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: number arr[3] = [0, 1, 2]

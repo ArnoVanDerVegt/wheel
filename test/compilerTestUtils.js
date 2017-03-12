@@ -18,6 +18,7 @@ require('../compiler/commands/ArrayW.js');
 require('../compiler/commands/Addr.js');
 require('../compiler/commands/JmpC.js');
 require('../compiler/command.js');
+require('../compiler/error.js');
 require('../compiler/compilerHelper.js');
 require('../compiler/CompilerOutput.js');
 require('../compiler/CompilerData.js');

@@ -57,7 +57,7 @@
                         length = parseInt(name.substr(i + 1, name.length - i - 2));
                         name   = name.substr(0, i);
                     } else {
-                        throw this._compiler.createError(21, '"]" expected.');
+                        throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED, '"]" expected.');
                     }
                 }
 
@@ -169,13 +169,13 @@
                                     result.offset += field.offset;
                                     struct = field.struct;
                                 } else {
-                                    throw this._compiler.createError(22, 'Undefined field "' + field + '".');
+                                    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_FIELD, 'Undefined field "' + field + '".');
                                 }
                                 i++;
                             }
                             return result;
                         } else {
-                            throw this._compiler.createError(8, 'Type error.');
+                            throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
                         }
                     }
                     return vr;
@@ -297,7 +297,7 @@
                 var compiler   = this._compiler;
                 var structList = this._structList;
                 if (!wheel.compiler.compilerHelper.validateString(name)) {
-                    throw compiler.createError(2, 'Syntax error.');
+                    throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
                 }
 
                 wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, structList);
@@ -459,7 +459,7 @@
                     }
 
                     if (type === null) {
-                        throw this._compiler.createError(14, 'Undefined identifier "' + param + '".');
+                        throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
                     }
 
                     return {

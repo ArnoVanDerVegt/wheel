@@ -9,7 +9,7 @@ describe(
         describe(
             'Syntax error',
             function() {
-                it('Should throw syntax error on invalid procedure name', function() {
+                it('Should throw SYNTAX_ERROR_INVALID_PROC_CHAR', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -19,40 +19,11 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #1 Syntax error.');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_INVALID_PROC_CHAR + ' Syntax error.');
                         }
                     );
                 });
-                it('Should throw syntax error on invalid struct name', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'struct ~bad',
-                                'ends',
-                                'proc main()',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #2 Syntax error.');
-                        }
-                    );
-                });
-                it('Should throw syntax error on invalid number array', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'number n[3] = [1, 2, 3}',
-                                'proc main()',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #3 Syntax error.');
-                        }
-                    );
-                });
-                it('Should throw parameter error', function() {
+                it('Should throw SYNTAX_ERROR_INVALID_PROC_PARAM', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -63,7 +34,48 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #4 Syntax error in procedure parameter "wrong".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_INVALID_PROC_PARAM + ' Syntax error in procedure parameter "wrong".');
+                        }
+                    );
+                });
+                it('Should throw syntax SYNTAX_ERROR_INVALID_STRUCS_CHAR', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'struct ~bad',
+                                'ends',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR + ' Syntax error.');
+                        }
+                    );
+                });
+                it('Should throw SYNTAX_ERROR_INVALID_CHAR', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number n[3] = [1, 2, 3}',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_INVALID_CHAR + ' Syntax error.');
+                        }
+                    );
+                });
+                it('Should throw SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number a[1)',
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED + ' "]" expected.');
                         }
                     );
                 });
@@ -74,7 +86,7 @@ describe(
         describe(
             'String expected error',
             function() {
-                it('Should throw string expected error', function() {
+                it('Should throw STRING_EXPECTED_IN_CONSTANT', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -84,11 +96,11 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #5 String expected, found "1".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.STRING_EXPECTED_IN_CONSTANT + ' String expected, found "1".');
                         }
                     );
                 });
-                it('Should throw string expected error', function() {
+                it('Should throw STRING_EXPECTED_FOUND_NUMBER', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -98,11 +110,17 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #6 String expected, found "1".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.STRING_EXPECTED_FOUND_NUMBER + ' String expected, found "1".');
                         }
                     );
                 });
-                it('Should throw string array expected error', function() {
+            }
+        );
+
+        describe(
+            'Array expected error',
+            function() {
+                it('Should throw STRING_ARRAY_EXPECTED', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -112,7 +130,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #7 String array expected, found "1".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.STRING_ARRAY_EXPECTED + ' String array expected, found "1".');
                         }
                     );
                 });
@@ -122,22 +140,7 @@ describe(
         describe(
             'Type error',
             function() {
-                it('Should throw type error', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'number n',
-                                'proc main()',
-                                '    n.a = 1',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #8 Type error.');
-                        }
-                    );
-                });
-                it('Should throw type mismatch', function() {
+                it('Should throw TYPE_MISMATCH', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -148,11 +151,26 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #9 Type mismatch "1".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_MISMATCH + ' Type mismatch "1".');
                         }
                     );
                 });
-                it('Should throw type error', function() {
+                it('Should throw TYPE_ERROR_STRUCT_EXPECTED', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number n',
+                                'proc main()',
+                                '    n.a = 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED + ' Type error.');
+                        }
+                    );
+                });
+                it('Should throw TYPE_ERROR_NUMBER_EXPECTED', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -162,11 +180,11 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #10 Number expected, found " \'x\'".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED + ' Number expected, found " \'x\'".');
                         }
                     );
                 });
-                it('Should throw type error', function() {
+                it('Should throw TYPE_ERROR_CAN_NOT_CALL_LOCAL', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -177,11 +195,11 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #11 Type error, can not call "l".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_CAN_NOT_CALL_LOCAL + ' Type error, can not call "l".');
                         }
                     );
                 });
-                it('Should throw type error', function() {
+                it('Should throw TYPE_ERROR_CAN_NOT_CALL_GLOBAL', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -192,11 +210,11 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #12 Type error, can not call "g".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_CAN_NOT_CALL_GLOBAL + ' Type error, can not call "g".');
                         }
                     );
                 });
-                it('Should throw unknown type', function() {
+                it('Should throw TYPE_ERROR_UNKNOWN_PARAM_TYPE', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -207,7 +225,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #13 Unknown type "Wrong".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_UNKNOWN_PARAM_TYPE + ' Unknown type "Wrong".');
                         }
                     );
                 });
@@ -217,7 +235,7 @@ describe(
         describe(
             'Undefined identifier',
             function () {
-                it('Should throw undefined identifier', function() {
+                it('Should throw UNDEFINED_IDENTIFIER', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -227,7 +245,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #14 Undefined identifier "n".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNDEFINED_IDENTIFIER + ' Undefined identifier "n".');
                         }
                     );
                 });
@@ -241,7 +259,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #15 Undefined identifier "s".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNDEFINED_IDENTIFIER_IN_TYPEOF + ' Undefined identifier "s".');
                         }
                     );
                 });
@@ -249,9 +267,9 @@ describe(
         );
 
         describe(
-            'Duplicate label',
+            'Duplicate identifier',
             function () {
-                it('Should throw type mismatch', function() {
+                it('Should throw DUPLICATE_IDENTIFIER_LABEL', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -262,7 +280,20 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #16 Duplicate label "label:".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.DUPLICATE_IDENTIFIER_LABEL + ' Duplicate label "label:".');
+                        }
+                    );
+                });
+                it('Should throw DUPLICATE_IDENTIFIER', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number a',
+                                'number a'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.DUPLICATE_IDENTIFIER + ' Duplicate identifier "a".');
                         }
                     );
                 });
@@ -282,7 +313,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #17 Number expected, found "\'x\'".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED + ' Number expected, found "\'x\'".');
                         }
                     );
                 });
@@ -296,7 +327,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #18 Number expected, found "\'y\'".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED + ' Number expected, found "\'y\'".');
                         }
                     );
                 });
@@ -306,7 +337,7 @@ describe(
         describe(
             'No main procedure',
             function() {
-                it('Should throw (local) number expected', function() {
+                it('Should throw NO_MAIN_PROCEDURE', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -315,7 +346,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #19 No main procedure found.');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.NO_MAIN_PROCEDURE + ' No main procedure found.');
                         }
                     );
                 });
@@ -323,9 +354,9 @@ describe(
         );
 
         describe(
-            'Unknown command',
+            'Unknown',
             function() {
-                it('Should throw (local) number expected', function() {
+                it('Should throw UNKNOWN_COMMAND', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -333,25 +364,21 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #20 Unknown command "wrong".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNKNOWN_COMMAND + ' Unknown command "wrong".');
                         }
                     );
                 });
-            }
-        );
-
-        describe(
-            'Unknown command',
-            function() {
-                it('Should throw (local) number expected', function() {
+                it('Should throw UNKNOWN_PROCEDURE', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
-                                'number a[1)',
+                                'proc main()',
+                                '    wrong()',
+                                'endp'
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #21 "]" expected.');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNKNOWN_PROCEDURE + ' Unknown procedure "wrong".');
                         }
                     );
                 });
@@ -359,9 +386,9 @@ describe(
         );
 
         describe(
-            'Unknown command',
+            'Undefined field',
             function() {
-                it('Should throw undefined field', function() {
+                it('Should throw UNDEFINED_FIELD', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -375,26 +402,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #22 Undefined field "wrong".');
-                        }
-                    );
-                });
-            }
-        );
-
-        describe(
-            'Duplicate identifier',
-            function() {
-                it('Should throw (local) number expected', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'number a',
-                                'number a'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #23 Duplicate int identifier "a".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.UNDEFINED_FIELD + ' Undefined field "wrong".');
                         }
                     );
                 });
@@ -404,7 +412,7 @@ describe(
         describe(
             'Invalid constant',
             function() {
-                it('Should throw invalid constant', function() {
+                it('Should throw INVALID_CONSTANT', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -414,7 +422,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #24 Invalid constant value "1".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_CONSTANT + ' Invalid constant value "1".');
                         }
                     );
                 });
@@ -424,27 +432,7 @@ describe(
         describe(
             'Unknown procedure',
             function() {
-                it('Should throw invalid constant', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'proc main()',
-                                '    wrong()',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #25 Unknown procedure "wrong".');
-                        }
-                    );
-                });
-            }
-        );
-
-        describe(
-            'Unknown procedure',
-            function() {
-                it('Should throw invalid constant', function() {
+                it('Should throw INVALID_BLOCK_CLOSE', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
@@ -456,7 +444,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #26 Invalid command "endp".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_BLOCK_CLOSE + ' Invalid command "endp".');
                         }
                     );
                 });

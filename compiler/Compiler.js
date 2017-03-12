@@ -142,7 +142,7 @@
                             }
                         }
                         if (!found) {
-                            throw this.createError(9, 'Type mismatch "' + param.param + '".');
+                            throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
                         }
                     }
                     return {
@@ -190,7 +190,7 @@
                     switch (commandAndParams.command) {
                         case 'endp':
                             if (this._activeStruct !== null) {
-                                throw this.createError(26, 'Invalid command "endp".');
+                                throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
                             }
                             this._compilers.Ret.compile(null);
 
@@ -214,7 +214,7 @@
                             } else if (validatedCommand === false) {
                                 var struct = compilerData.findStruct(commandAndParams.command);
                                 if (struct === null) {
-                                    throw this.createError(20, 'Unknown command "' + commandAndParams.command + '".');
+                                    throw this.createError(wheel.compiler.error.UNKNOWN_COMMAND, 'Unknown command "' + commandAndParams.command + '".');
                                 } else if (this._activeStruct !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
@@ -249,7 +249,7 @@
                 if (local === null) {
                     var global = compilerData.findLocal(vr);
                     if (global === null) {
-                        throw this.createError(15, 'Undefined identifier "' + vr + '".');
+                        throw this.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER_IN_TYPEOF, 'Undefined identifier "' + vr + '".');
                     } else if (global.type === $.T_NUM_G_ARRAY) {
                         line = 'number ' + line.substr(j + 1 - line.length).trim();
                     } else if (global.struct) {
@@ -307,7 +307,7 @@
                 }
 
                 if (this._mainIndex === -1) {
-                    throw this.createError(19, 'No main procedure found.');
+                    throw this.createError(wheel.compiler.error.NO_MAIN_PROCEDURE, 'No main procedure found.');
                 }
 
                 output.optimizeTypes();
