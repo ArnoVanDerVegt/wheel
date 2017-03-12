@@ -42,6 +42,20 @@ describe(
         describe(
             'Test if',
             function () {
+                it('Should use jump equal', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 4',
+                            '',
+                            '    if n != 5',
+                            '        printN(n)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [4]);
+                });
+
                 it('Should print half of list', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
