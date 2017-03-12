@@ -4,8 +4,8 @@
     wheel(
         'vm.modules.ScreenModule',
         wheel.Class(wheel.vm.modules.VMModule, function(supr) {
-            this.run = function(commandId) {
 /*
+            this.run = function(commandId) {
                 switch (commandId) {
                     case 0: // SCREEN_CLEAR
                         break;
@@ -35,8 +35,8 @@
                         console.error('Unknown drawing command "' + commandId + '".');
                         break;
                 }
-*/
             };
+*/
         })
     );
 })();
