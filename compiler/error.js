@@ -29,7 +29,8 @@
             UNKNOWN_PROCEDURE:                 23,
             UNDEFINED_FIELD:                   24,
             INVALID_CONSTANT:                  25,
-            INVALID_BLOCK_CLOSE:               26
+            INVALID_BLOCK_CLOSE:               26,
+            INVALID_OPERATION:                 27
         }
     );
 })();
