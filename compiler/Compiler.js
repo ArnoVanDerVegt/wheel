@@ -311,20 +311,12 @@
                 return output;
             };
 
-            this.getIncludes = function() {
-                return this._includes;
-            };
-
             this.getOutput = function() {
                 return this._output;
             };
 
             this.getCompilerData = function() {
                 return this._compilerData;
-            };
-
-            this.getProcStartIndex = function() {
-                return this._procStartIndex;
             };
 
             this.setProcStartIndex = function(procStartIndex) {
