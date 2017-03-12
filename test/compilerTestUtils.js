@@ -95,7 +95,7 @@ exports.compileAndRun = function(lines) {
         compilerData.getGlobalOffset()
     );
 
-    return {testData: testData, outputCommands: outputCommands};
+    return {testData: testData, outputCommands: outputCommands, compilerData: compilerData};
 };
 
 exports.standardLines = [

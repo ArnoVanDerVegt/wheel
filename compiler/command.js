@@ -869,12 +869,9 @@
     wheel(
         'compiler.command.isLocal',
         function(value) {
-            if (value.vr) {
-                return (value.vr.type === T_NUM_L) || (value.vr.type === T_NUM_L_ARRAY) ||
-                    (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_L_ARRAY) ||
-                    (value.vr.type === T_PROC_L) || (value.vr.type === T_PROC_L_ARRAY);
-            }
-            return false;
+            return (value.vr.type === T_NUM_L) || (value.vr.type === T_NUM_L_ARRAY) ||
+                (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_L_ARRAY) ||
+                (value.vr.type === T_PROC_L) || (value.vr.type === T_PROC_L_ARRAY);
         }
     );
 
@@ -888,11 +885,8 @@
     wheel(
         'compiler.command.isStructVarType',
         function(value) {
-            if (value.vr) {
-                return (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_G) ||
-                    (value.vr.type === T_STRUCT_L_ARRAY) || (value.vr.type === T_STRUCT_G_ARRAY);
-            }
-            return false;
+            return (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_G) ||
+                (value.vr.type === T_STRUCT_L_ARRAY) || (value.vr.type === T_STRUCT_G_ARRAY);
         }
     );
 
