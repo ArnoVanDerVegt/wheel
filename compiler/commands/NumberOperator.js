@@ -33,8 +33,8 @@
                     compilerOutput.a($.set.code, $.DEST(),        param2);
                     compilerOutput.a($.set.code, $.SRC(),         $.STACK());
                     compilerOutput.a($.set.code, $.STACK(),       $.isLocal(param1) ? $.LOCAL(compilerData.getOffset(param1)) : $.GLOBAL(param1.value));
-                    compilerOutput.a($.set.code, $.LOCAL(offset), $.DEST());
-                    compilerOutput.a(code,       $.STACK(),       $.SRC());
+                    compilerOutput.a(code,       $.LOCAL(offset), $.DEST());
+                    compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isSimpleNumberType(param1) && $.isPointerMetaType(param2)) {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     offset = compilerData.getOffset(param2);
