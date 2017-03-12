@@ -93,7 +93,7 @@
                 for (var i = 0; i < includes.length; i++) {
                     var include = includes[i];
                     if (include.filename === filename) {
-                        line = include.lines[location.lineNumber] || '';
+                        line = include.lines[location.lineNumber];
                         break;
                     }
                 }
@@ -110,50 +110,48 @@
                 var args = wheel.compiler.command[command].args;
                 var code = wheel.compiler.command[command].code;
 
-                if (params.length) {
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i];
-                        var found = false;
+                for (var i = 0; i < params.length; i++) {
+                    var param = params[i];
+                    var found = false;
 
-                        for (var j = 0; j < args.length; j++) {
-                            var argsMetaType = args[j].metaType || false;
-                            var matchType    = false;
+                    for (var j = 0; j < args.length; j++) {
+                        var argsMetaType = args[j].metaType || false;
+                        var matchType    = false;
 
-                            // Check the primitive types...
-                            if (param.type === args[j].type) {
-                                if (argsMetaType) {
-                                    if (param.metaType === argsMetaType) {
-                                        matchType = true;
-                                    } else if (param.vr && (param.vr.metaType === argsMetaType)) {
-                                        matchType = true;
-                                    }
-                                } else {
+                        // Check the primitive types...
+                        if (param.type === args[j].type) {
+                            if (argsMetaType) {
+                                if (param.metaType === argsMetaType) {
+                                    matchType = true;
+                                } else if (param.vr && (param.vr.metaType === argsMetaType)) {
                                     matchType = true;
                                 }
-                            // Check the var types...
-                            } else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+                            } else {
                                 matchType = true;
                             }
-
-                            if (matchType) {
-                                args  = ('args' in args[j]) ? args[j].args : args[j];
-                                found = true;
-                                break;
-                            }
+                        // Check the var types...
+                        } else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
+                            matchType = true;
                         }
-                        if (!found) {
-                            throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
+
+                        if (matchType) {
+                            args  = ('args' in args[j]) ? args[j].args : args[j];
+                            found = true;
+                            break;
                         }
                     }
-                    return {
-                        code:   code,
-                        params: params,
-                        location: {
-                            filename:   this._location.filename,
-                            lineNumber: this._location.lineNumber
-                        }
-                    };
+                    if (!found) {
+                        throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
+                    }
                 }
+                return {
+                    code:   code,
+                    params: params,
+                    location: {
+                        filename:   this._location.filename,
+                        lineNumber: this._location.lineNumber
+                    }
+                };
             };
 
             this.validateCommand = function(command, params) {
@@ -272,12 +270,7 @@
                 this._activeStruct   = null;
                 for (var i = 0; i < lines.output.length; i++) {
                     var line = lines.output[i].trim();
-                    if (line === '') {
-                        continue;
-                    }
-
                     this._location = sourceMap[i];
-
                     this.compileLine(this.compileTypeof(line));
                 }
 
