@@ -21,8 +21,7 @@
                 if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
                     throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param1.param + '".');
                 } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
-                    $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
-                    compilerOutput.add(validatedCommand);
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param1.param + '".');
                 } else if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);

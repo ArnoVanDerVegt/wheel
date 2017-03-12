@@ -489,6 +489,22 @@ describe(
                         }
                     );
                 });
+                it('Should throw INVALID_OPERATION_WITH_STRING', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    string s1',
+                                '    string s2',
+                                '    sub s1, s2',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation "s1".');
+                        }
+                    );
+                });
             }
         );
 
