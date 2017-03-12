@@ -201,6 +201,24 @@ describe(
 
                     assert.deepEqual(testData.messages, [n * 11]);
                 });
+
+                it('Should mul a pointer number', function() {
+                    var n = 10 + ~~(Math.random() * 100);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                                'number n',
+                                'number *pn',
+                                '',
+                                'set n, 13',
+                                'set pn, &n',
+                                'mul n, *pn',
+                                '',
+                                'printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [13 * 13]);
+                });
             }
         );
     }
