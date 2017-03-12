@@ -172,7 +172,7 @@
                     var local = compilerData.findLocal(procedure);
                     if (local !== null) {
                         if (local.type !== $.T_PROC_L) {
-                            throw this._compiler.createError(10, 'Type error, can not call "' + procedure + '".');
+                            throw this._compiler.createError(11, 'Type error, can not call "' + procedure + '".');
                         }
 
                         // Move the code offset above the stack into the stack of the new procedure...
@@ -182,9 +182,8 @@
                     } else {
                         var global = compilerData.findGlobal(procedure);
                         if (global !== null) {
-                            //if ((global.type !== $.T_NUM_G) && (global.type !== $.T_PROC_G)) {
-                            if (global.type !== $.T_PROC_G) {
-                                throw this._compiler.createError(11, 'Type error, can not call "' + procedure + '".');
+                            if ((global.type !== $.T_PROC_G) && ((global.struct === null) || (global.origType !== $.T_PROC_G))) {
+                                throw this._compiler.createError(12, 'Type error, can not call "' + procedure + '".');
                             }
                             callCommand = {code: $.set.code, params: [$.CODE(), $.GLOBAL(global.offset)]};
                         } else {

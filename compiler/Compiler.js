@@ -142,7 +142,7 @@
                             }
                         }
                         if (!found) {
-                            throw this.createError(8, 'Type mismatch "' + param.param + '".');
+                            throw this.createError(9, 'Type mismatch "' + param.param + '".');
                         }
                     }
                     return {

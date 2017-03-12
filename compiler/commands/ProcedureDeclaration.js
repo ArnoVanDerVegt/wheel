@@ -41,7 +41,7 @@
                         default:
                             struct = compilerData.findStruct(param[0]);
                             if (struct === null) {
-                                throw compiler.createError(12, 'Unknown type "' + param[0] + '".');
+                                throw compiler.createError(13, 'Unknown type "' + param[0] + '".');
                             }
                             compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct, false);
                             break;

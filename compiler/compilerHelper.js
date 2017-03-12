@@ -46,7 +46,7 @@
                 for (var j = 0; j < values.length; j++) {
                     var v = parseFloat(values[j].trim());
                     if (isNaN(v)) {
-                        throw compiler.createError(9, 'Number expected, found "' + values[j] + '".');
+                        throw compiler.createError(10, 'Number expected, found "' + values[j] + '".');
                     }
                     data.push(v);
                 }

@@ -65,15 +65,19 @@
                         global.metaType = $.T_META_STRING;
                         // Check if the string declaration had a constant value assigned to it...
                         if (global.value) {
-                            if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '"', '"')) {
-                                throw compiler.createError(6, 'String expected, found "' + global.value + '".');
-                            }
-
                             if (global.type === $.T_NUM_G) { // Like: string n = "abc"
+                                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '"', '"')) {
+                                    throw compiler.createError(6, 'String expected, found "' + global.value + '".');
+                                }
+
                                 var value  = global.value;
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
                                 compilerData.declareConstant(global.offset, [offset]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
+                                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '[', ']')) {
+                                    throw compiler.createError(7, 'String array expected, found "' + global.value + '".');
+                                }
+
                                 var value = global.value.trim();
                                 var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
                                 compilerData.declareConstant(global.offset, data);

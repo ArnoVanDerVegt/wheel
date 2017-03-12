@@ -102,6 +102,20 @@ describe(
                         }
                     );
                 });
+                it('Should throw string array expected error', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'string s[2] = 1',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #7 String array expected, found "1".');
+                        }
+                    );
+                });
             }
         );
 
@@ -119,7 +133,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #7 Type error.');
+                            return (error.toString() === 'Error: #8 Type error.');
                         }
                     );
                 });
@@ -134,7 +148,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #8 Type mismatch "1".');
+                            return (error.toString() === 'Error: #9 Type mismatch "1".');
                         }
                     );
                 });
@@ -148,7 +162,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #9 Number expected, found " \'x\'".');
+                            return (error.toString() === 'Error: #10 Number expected, found " \'x\'".');
                         }
                     );
                 });
@@ -163,7 +177,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #10 Type error, can not call "l".');
+                            return (error.toString() === 'Error: #11 Type error, can not call "l".');
                         }
                     );
                 });
@@ -178,7 +192,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #11 Type error, can not call "g".');
+                            return (error.toString() === 'Error: #12 Type error, can not call "g".');
                         }
                     );
                 });
@@ -193,7 +207,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #12 Unknown type "Wrong".');
+                            return (error.toString() === 'Error: #13 Unknown type "Wrong".');
                         }
                     );
                 });
@@ -213,7 +227,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #13 Undefined identifier "n".');
+                            return (error.toString() === 'Error: #14 Undefined identifier "n".');
                         }
                     );
                 });
@@ -234,7 +248,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #14 Duplicate label "label:".');
+                            return (error.toString() === 'Error: #15 Duplicate label "label:".');
                         }
                     );
                 });
@@ -254,7 +268,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #15 Number expected, found "\'x\'".');
+                            return (error.toString() === 'Error: #16 Number expected, found "\'x\'".');
                         }
                     );
                 });
@@ -268,7 +282,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #16 Number expected, found "\'y\'".');
+                            return (error.toString() === 'Error: #17 Number expected, found "\'y\'".');
                         }
                     );
                 });
