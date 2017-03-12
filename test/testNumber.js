@@ -103,6 +103,20 @@ describe(
                         ]
                     );
                 });
+
+                it('Should mod a number', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    set n, 10',
+                            '    mod n, 7, ',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [3]);
+                });
             }
         );
 

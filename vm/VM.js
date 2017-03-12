@@ -156,9 +156,14 @@
                 this.onInterval();
             };
 
+            /*
+
+            Maybe for testing later...
+
             this.getModule = function(index) {
                 return this._modules[index];
             };
+            */
 
             this.getVMData = function() {
                 return this._vmData;
