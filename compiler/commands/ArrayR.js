@@ -61,8 +61,6 @@
                     }
 
                     compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
-                } else {
-                    console.error('Unimplemented.');
                 }
             };
         })
