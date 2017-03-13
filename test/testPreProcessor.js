@@ -3,7 +3,7 @@ var assert = require('assert');
 var wheel             = require('../utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
-function createFiles(content1, content2) {
+function createFiles(content1, content2, content3) {
 
     function createFile(lines) {
         return {
@@ -19,10 +19,11 @@ function createFiles(content1, content2) {
     }
 
     return {
-        _list: [0, 1],
+        _list: [0, 1, 2],
         _files: {
             'main.whl': 0,
-            'include.whl': 1
+            'include.whl': 1,
+            'test.whl': 2
         },
         exists: function(filename) {
             return this._files[filename];
@@ -34,6 +35,9 @@ function createFiles(content1, content2) {
 
                 case 1:
                     return createFile(content2);
+
+                case 2:
+                    return createFile(content3);
             }
         }
     };
@@ -262,6 +266,58 @@ describe(
                     );
 
                     assert.deepEqual(testData.messages, [3223]);
+                }
+            );
+        });
+
+        it('Should create two include files with test functions', function() {
+            var files = createFiles(
+                    [
+                        '#include "test.whl"',
+                        '',
+                        'proc main()',
+                        '    testInclude()',
+                        '    printN(354)',
+                        'endp'
+                    ],
+                    [ // include.whl
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp'
+                    ],
+                    [ // test.whl
+                        '#include "include.whl"',
+                        '',
+                        'proc testInclude()',
+                        '    printN(687)',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                '',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [687, 354]);
                 }
             );
         });
