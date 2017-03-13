@@ -11,9 +11,6 @@ function createFiles(content1, content2, content3, content4) {
                 var data = lines.join('\n');
                 callback && callback(data);
                 return data;
-            },
-            getMeta: function() {
-                return {};
             }
         };
     }
@@ -51,6 +48,49 @@ function createFiles(content1, content2, content3, content4) {
 describe(
     'PreProcessor',
     function() {
+        it('Should throw file not found', function() {
+            assert.throws(
+                function() {
+                    var files = createFiles(
+                            [
+                                '#include "error.whl"',
+                                'proc main()',
+                                'endp'
+                            ]
+                        );
+                    var compiler     = new wheel.compiler.Compiler({});
+                    var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+                    preProcessor.process('', 'main.whl', function(includes) {});
+                },
+                function(error) {
+                    return (error.toString() === 'Error: File not found "error.whl".');
+                }
+            );
+        });
+
+        it('Should throw include file error', function() {
+            assert.throws(
+                function() {
+                    var files = createFiles(
+                            [
+                                '#include ""',
+                                'proc main()',
+                                'endp'
+                            ]
+                        );
+                    var compiler     = new wheel.compiler.Compiler({});
+                    var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+                    preProcessor.process('', 'main.whl', function(includes) {});
+                },
+                function(error) {
+                    console.log(error.toString());
+                    return (error.toString() === 'Error: Include file error.');
+                }
+            );
+        });
+
         it('Should create basic program', function() {
             var files = createFiles(
                     [

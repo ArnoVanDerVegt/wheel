@@ -159,7 +159,7 @@
                                 }
                             }
                         } else {
-                            throw new Error('Include file error "' + filename + '".');
+                            throw new Error('Include file error.');
                         }
                     }
                 }
@@ -192,17 +192,13 @@
 
             this.getFileData = function(filename, callback) {
                 var index = this._files.exists(this._path, filename);
-                if (index !== false) {
-                    var file = this._files.getFile(index);
-                    file.getMeta().highlightLines = {};
-                    if (file) {
-                        if (callback) {
-                            return file.getData(callback);
-                        }
-                        return file.getData();
+                var file  = this._files.getFile(index);
+                if (file) {
+                    if (callback) {
+                        return file.getData(callback);
                     }
+                    return file.getData();
                 }
-                callback();
             };
 
             this.processFile = function(filename, depth, finishedCallback) {
