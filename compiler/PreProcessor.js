@@ -149,19 +149,17 @@
                         if ((filename.length > 2) && (filename[0] === '"') && (filename[filename.length - 1] === '"')) {
                             filename = filename.substr(1, filename.length - 2);
                             if (result.indexOf(filename) === -1) {
-                                if (this._files.exists(filename) === false) {
-                                    var path = this._preProcessor.getPath() + '/';
-                                    if (this._files.exists(path + filename) !== false) {
-                                        result.push(path + filename);
-                                    } else {
-                                        throw new Error('File not found "' + filename + '".');
-                                    }
-                                } else {
+                                var path = this._preProcessor.getPath();
+                                if (this._files.exists('', filename) !== false) {
                                     result.push(filename);
+                                } else if (this._files.exists(path, filename) !== false) {
+                                    result.push(path + filename);
+                                } else {
+                                    throw new Error('File not found "' + filename + '".');
                                 }
                             }
                         } else {
-                            throw new Error('Include file error "' + filename + '".');
+                            throw new Error('Include file error.');
                         }
                     }
                 }
@@ -193,23 +191,20 @@
             };
 
             this.getFileData = function(filename, callback) {
-                var index = this._files.exists(filename);
-                if (index !== false) {
-                    var file = this._files.getFile(index);
-                    file.getMeta().highlightLines = {};
-                    if (file) {
-                        if (callback) {
-                            return file.getData(callback);
-                        }
-                        return file.getData();
+                var index = this._files.exists(this._path, filename);
+                var file  = this._files.getFile(index);
+                if (file) {
+                    if (callback) {
+                        return file.getData(callback);
                     }
+                    return file.getData();
                 }
-                callback();
             };
 
             this.processFile = function(filename, depth, finishedCallback) {
                 var filesDone = this._filesDone;
-                filesDone[filename] = {depth: depth, index: 0};
+
+                (filename in filesDone) || (filesDone[filename] = {depth: depth, index: 0});
 
                 this._fileCount++;
                 this.getFileData(
@@ -221,11 +216,9 @@
                         for (var i = 0; i < includes.length; i++) {
                             var include = includes[i];
                             if (include in filesDone) {
-                                var fileDone = filesDone[filename];
-                                if (depth > fileDone[filename].depth) {
-                                    fileDone[filename].depth = depth;
-                                    fileDone[filename].index = i;
-                                }
+                                var fileDone = filesDone[include];
+                                fileDone.depth += depth;
+                                fileDone.index += i;
                             } else {
                                 this.processFile(include, depth + 1, finishedCallback);
                             }
