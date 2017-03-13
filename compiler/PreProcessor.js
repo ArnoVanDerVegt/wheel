@@ -149,15 +149,13 @@
                         if ((filename.length > 2) && (filename[0] === '"') && (filename[filename.length - 1] === '"')) {
                             filename = filename.substr(1, filename.length - 2);
                             if (result.indexOf(filename) === -1) {
-                                if (this._files.exists(filename) === false) {
-                                    var path = this._preProcessor.getPath() + '/';
-                                    if (this._files.exists(path + filename) !== false) {
-                                        result.push(path + filename);
-                                    } else {
-                                        throw new Error('File not found "' + filename + '".');
-                                    }
-                                } else {
+                                var path = this._preProcessor.getPath();
+                                if (this._files.exists('', filename) !== false) {
                                     result.push(filename);
+                                } else if (this._files.exists(path, filename) !== false) {
+                                    result.push(path + filename);
+                                } else {
+                                    throw new Error('File not found "' + filename + '".');
                                 }
                             }
                         } else {
@@ -193,7 +191,7 @@
             };
 
             this.getFileData = function(filename, callback) {
-                var index = this._files.exists(filename);
+                var index = this._files.exists(this._path, filename);
                 if (index !== false) {
                     var file = this._files.getFile(index);
                     file.getMeta().highlightLines = {};
