@@ -24,7 +24,7 @@ function createFiles(content1, content2) {
             'main.whl': 0,
             'include.whl': 1
         },
-        exists: function(filename) {
+        exists: function(path, filename) {
             return this._files[filename];
         },
         getFile: function(index) {
