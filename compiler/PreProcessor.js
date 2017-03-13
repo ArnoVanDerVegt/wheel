@@ -207,7 +207,8 @@
 
             this.processFile = function(filename, depth, finishedCallback) {
                 var filesDone = this._filesDone;
-                filesDone[filename] = {depth: depth, index: 0};
+
+                (filename in filesDone) || (filesDone[filename] = {depth: depth, index: 0});
 
                 this._fileCount++;
                 this.getFileData(
@@ -219,11 +220,9 @@
                         for (var i = 0; i < includes.length; i++) {
                             var include = includes[i];
                             if (include in filesDone) {
-                                var fileDone = filesDone[filename];
-                                if (depth > fileDone[filename].depth) {
-                                    fileDone[filename].depth = depth;
-                                    fileDone[filename].index = i;
-                                }
+                                var fileDone = filesDone[include];
+                                fileDone.depth += depth;
+                                fileDone.index += i;
                             } else {
                                 this.processFile(include, depth + 1, finishedCallback);
                             }

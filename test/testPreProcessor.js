@@ -3,7 +3,7 @@ var assert = require('assert');
 var wheel             = require('../utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
-function createFiles(content1, content2, content3) {
+function createFiles(content1, content2, content3, content4) {
 
     function createFile(lines) {
         return {
@@ -21,9 +21,10 @@ function createFiles(content1, content2, content3) {
     return {
         _list: [0, 1, 2],
         _files: {
-            'main.whl': 0,
-            'include.whl': 1,
-            'test/test.whl': 2
+            'main.whl':       0,
+            'include.whl':    1,
+            'test/test1.whl': 2,
+            'test/test2.whl': 3
         },
         exists: function(path, filename) {
             var files = this._files;
@@ -38,14 +39,10 @@ function createFiles(content1, content2, content3) {
         },
         getFile: function(index) {
             switch (index) {
-                case 0:
-                    return createFile(content1);
-
-                case 1:
-                    return createFile(content2);
-
-                case 2:
-                    return createFile(content3);
+                case 0: return createFile(content1);
+                case 1: return createFile(content2);
+                case 2: return createFile(content3);
+                case 3: return createFile(content4);
             }
         }
     };
@@ -54,7 +51,6 @@ function createFiles(content1, content2, content3) {
 describe(
     'PreProcessor',
     function() {
-/*
         it('Should create basic program', function() {
             var files = createFiles(
                     [
@@ -278,11 +274,11 @@ describe(
                 }
             );
         });
-*/
+
         it('Should create two include files with test functions', function() {
             var files = createFiles(
                     [
-                        '#include "test.whl"',
+                        '#include "test1.whl"',
                         '',
                         'proc main()',
                         '    testInclude()',
@@ -330,7 +326,68 @@ describe(
                 }
             );
         });
-/*
+
+        it('Should create three include files with test functions', function() {
+            var files = createFiles(
+                    [
+                        '#include "test1.whl"',
+                        '',
+                        'proc main()',
+                        '    testInclude1()',
+                        '    printN(354)',
+                        'endp'
+                    ],
+                    [ // include.whl
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp'
+                    ],
+                    [ // test/test1.whl
+                        '#include "include.whl"',
+                        '#include "test2.whl"',
+                        '',
+                        'proc testInclude1()',
+                        '    testInclude2()',
+                        '    printN(687)',
+                        'endp'
+                    ],
+                    [ // test/test2.whl
+                        '#include "include.whl"',
+                        '',
+                        'proc testInclude2()',
+                        '    printN(9897)',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                'test/',
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [9897, 687, 354]);
+                }
+            );
+        });
+
         it('Should replace defines', function() {
             var files = createFiles(
                     [
@@ -531,6 +588,5 @@ describe(
                 return (error.toString() === 'Error: End without begin.');
             }
         );
-*/
     }
 );
