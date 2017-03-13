@@ -126,15 +126,12 @@
                         'sub',
                         'mul',
                         'div',
-                        'mod',
-                        'and',
-                        'or',
-                        'xor'
+                        'mod'
                     ];
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var line    = leadingZero(i) + '  ' + (cmd[command.code] || command.code);
+                    var line    = leadingZero(i) + '  ' + cmd[command.code];
 
                     while (line.length < 13) {
                         line += ' ';
