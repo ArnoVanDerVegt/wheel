@@ -6,7 +6,7 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="utils/syntax.js"></script>
@@ -16,7 +16,7 @@
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html" class="active">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
@@ -28,14 +28,14 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
+            <h1><span class="icon-document"></span> Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
+            <div class="three right">
                 <h3>Variables</h3>
                 <ul>
                     <li>Globals</li>
@@ -56,7 +56,7 @@
                 <a href="site/docs/errors.html">Compiler errors</a><br />
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Variables</h3>
                 The wheel VM only uses one primitive data type: number.<br />
                 <br />
@@ -66,7 +66,7 @@
                 A variable is declared by the type followed by the name of the variable.
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Globals</h3>
                 When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
 
@@ -79,7 +79,7 @@ proc main()
 endp</pre>
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Locals</h3>
 
                 A variable declared inside a procedure can only be accesed inside that procedure.
@@ -92,11 +92,11 @@ proc main()
 endp</pre>
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Parameters</h3>
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Parameters</h3>
 
                 All procedures except the main procedure can have one or more parameters.
@@ -122,7 +122,7 @@ endp</pre>
     <div class="footer">
         <div class="container">
             <div class="three">
-                <h3 class="light-green">Tests</h3>
+                <h3>Tests</h3>
                 <ul>
                     <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
                     <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>

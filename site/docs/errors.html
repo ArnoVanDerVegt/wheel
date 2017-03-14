@@ -6,7 +6,7 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="utils/syntax.js"></script>
@@ -16,7 +16,7 @@
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html" class="active">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
@@ -28,14 +28,14 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
+            <h1><span class="icon-document"></span> Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
+            <div class="three right">
                 <h3>Compiler errors</h3>
                 <ul>
                 </ul>
@@ -52,7 +52,7 @@
                 <a href="site/docs/errors.html">Compiler errors</a><br />
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>Compiler errors</h3>
                 <br />
                 <table>
@@ -61,54 +61,118 @@
                         <th>Message</th>
                     </tr>
                     <tr>
-                        <th>1</th>
-                        <th>Syntax error</th>
+                        <td>1</td>
+                        <td>SYNTAX_ERROR_INVALID_PROC_CHAR</td>
                     </tr>
                     <tr>
-                        <th>2</th>
-                        <th>Syntax error</th>
+                        <td>2</td>
+                        <td>SYNTAX_ERROR_INVALID_PROC_PARAM</td>
                     </tr>
                     <tr>
-                        <th>3</th>
-                        <th>Syntax error</th>
+                        <td>3</td>
+                        <td>SYNTAX_ERROR_INVALID_STRUCS_CHAR</td>
                     </tr>
                     <tr>
-                        <th>4</th>
-                        <th>String expected error</th>
+                        <td>4</td>
+                        <td>SYNTAX_ERROR_INVALID_CHAR</td>
                     </tr>
                     <tr>
-                        <th>5</th>
-                        <th>String expected error</th>
+                        <td>5</td>
+                        <td>SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED</td>
                     </tr>
                     <tr>
-                        <th>6</th>
-                        <th>Type error</th>
+                        <td>6</td>
+                        <td>STRING_EXPECTED_IN_CONSTANT</td>
                     </tr>
                     <tr>
-                        <th>7</th>
-                        <th>Type error</th>
+                        <td>7</td>
+                        <td>STRING_EXPECTED_FOUND_NUMBER</td>
                     </tr>
                     <tr>
-                        <th>8</th>
-                        <th>Type mismatch</th>
+                        <td>8</td>
+                        <td>STRING_ARRAY_EXPECTED</td>
                     </tr>
                     <tr>
-                        <th>9</th>
-                        <th>Type error</th>
+                        <td>9</td>
+                        <td>TYPE_MISMATCH</td>
                     </tr>
                     <tr>
-                        <th>10</th>
-                        <th>Type error</th>
+                        <td>10</td>
+                        <td>TYPE_ERROR_STRUCT_EXPECTED</td>
                     </tr>
                     <tr>
-                        <th>11</th>
-                        <th>Unknown type error</th>
+                        <td>11</td>
+                        <td>TYPE_ERROR_NUMBER_EXPECTED</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>TYPE_ERROR_CAN_NOT_CALL_LOCAL</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>TYPE_ERROR_CAN_NOT_CALL_GLOBAL</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>TYPE_ERROR_UNKNOWN_PARAM_TYPE</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>UNDEFINED_IDENTIFIER</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>DUPLICATE_IDENTIFIER</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>DUPLICATE_IDENTIFIER_LABEL</td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>NUMBER_LOCAL_CONSTANT_EXPECTED</td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>NUMBER_GLOBAL_CONSTANT_EXPECTED</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>NO_MAIN_PROCEDURE</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td>UNKNOWN_COMMAND</td>
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td>UNKNOWN_PROCEDURE</td>
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td>UNDEFINED_FIELD</td>
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td>INVALID_CONSTANT</td>
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td>INVALID_BLOCK_CLOSE</td>
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td>INVALID_OPERATION</td>
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>INVALID_OPERATION_WITH_STRING</td>
                     </tr>
                 </table>
             </div>
 
-            <div class="two blue">
-                <h3>#1 Syntax error</h3>
+            <div class="two first">
+                <h3>#1 SYNTAX_ERROR_INVALID_PROC_CHAR</h3>
                 <pre>
                     proc main()
                         ~wrong()
@@ -116,18 +180,28 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#2 Syntax error</h3>
+            <div class="two first">
+                <h3>#2 SYNTAX_ERROR_INVALID_PROC_PARAM</h3>
                 <pre>
-                    struct ~bad
-                    ends
+                    proc error(wrong)
+                    endp
                     proc main()
                     endp
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#3 Syntax error</h3>
+            <div class="two first">
+                <h3>#3 SYNTAX_ERROR_INVALID_STRUCS_CHAR</h3>
+                <pre>
+                    struct ~bad
+                    ends
+                    proc main()'
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#4 SYNTAX_ERROR_INVALID_CHAR</h3>
                 <pre>
                     number n[3] = [1, 2, 3}
                     proc main()
@@ -135,8 +209,15 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#4 String expected error</h3>
+            <div class="two first">
+                <h3>#5 SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED</h3>
+                <pre>
+                    number a[1)
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#6 STRING_EXPECTED_IN_CONSTANT</h3>
                 <pre>
                     proc main()
                         string s = 1
@@ -144,8 +225,8 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#5 String expected error</h3>
+            <div class="two first">
+                <h3>#7 STRING_EXPECTED_FOUND_NUMBER</h3>
                 <pre>
                     string s = 1
                     proc main()
@@ -153,27 +234,17 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#6 Type error</h3>
+            <div class="two first">
+                <h3>#8 STRING_ARRAY_EXPECTED</h3>
                 <pre>
-                    number n
-                    proc main()
-                        n.a = 1
-                    endp
-                </pre>
-            </div>
-
-            <div class="two blue">
-                <h3>#7 Type error</h3>
-                <pre>
-                    number a[3] = [1, 'x', 3]
+                    string s[2] = 1
                     proc main()
                     endp
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#8 Type mismatch</h3>
+            <div class="two first">
+                <h3>#9 TYPE_MISMATCH</h3>
                 <pre>
                     proc main()
                         number n
@@ -182,8 +253,27 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#9 Type error</h3>
+            <div class="two first">
+                <h3>#10 TYPE_ERROR_STRUCT_EXPECTED</h3>
+                <pre>
+                    number n
+                    proc main()
+                        n.a = 1
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#11 TYPE_ERROR_NUMBER_EXPECTED</h3>
+                <pre>
+                    number a[3] = [1, 'x', 3]
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#12 TYPE_ERROR_CAN_NOT_CALL_LOCAL</h3>
                 <pre>
                     proc main()
                         number l
@@ -192,8 +282,8 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#10 Type error</h3>
+            <div class="two first">
+                <h3>#13 TYPE_ERROR_CAN_NOT_CALL_GLOBAL</h3>
                 <pre>
                     number g
                     proc main()
@@ -202,8 +292,8 @@
                 </pre>
             </div>
 
-            <div class="two blue">
-                <h3>#11 Unknown type error</h3>
+            <div class="two first">
+                <h3>#14 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h3>
                 <pre>
                     proc error(Wrong w)
                     endp
@@ -212,6 +302,130 @@
                 </pre>
             </div>
 
+            <div class="two first">
+                <h3>#15 UNDEFINED_IDENTIFIER</h3>
+                <pre>
+                    proc main()
+                        set n, 1
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#16 DUPLICATE_IDENTIFIER</h3>
+                <pre>
+                    number a
+                    number a
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#17 DUPLICATE_IDENTIFIER_LABEL</h3>
+                <pre>
+                    label:
+                    label:
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#18 NUMBER_LOCAL_CONSTANT_EXPECTED</h3>
+                <pre>
+                    proc main()
+                       number n = 'x'
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#19 NUMBER_GLOBAL_CONSTANT_EXPECTED</h3>
+                <pre>
+                    number n = 'y'
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#20 NO_MAIN_PROCEDURE</h3>
+                <pre>
+                    proc noMain()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#21 UNKNOWN_COMMAND</h3>
+                <pre>
+
+                    wrong
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#22 UNKNOWN_PROCEDURE</h3>
+                <pre>
+                    proc main()
+                        wrong()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#23 UNDEFINED_FIELD</h3>
+                <pre>
+                    struct S
+                       number n
+                    ends
+                    S s
+                    proc main()
+                       set s.wrong, 1
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#24 INVALID_CONSTANT</h3>
+                <pre>
+                    proc p = 1
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#25 INVALID_BLOCK_CLOSE</h3>
+                <pre>
+                    struct S
+                       number n
+                    endp
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#26 INVALID_OPERATION</h3>
+                <pre>
+                    proc main()
+                        number n
+                        number *pn
+                        mul n, &amp;n
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h3>#27 INVALID_OPERATION_WITH_STRING</h3>
+                <pre>
+                    proc main()
+                        string s
+                        number n
+                        mul s, n
+                    endp
+                </pre>
+            </div>
             <div style="float:left;clear:both;"></div>
         </div>
     </div>
@@ -219,7 +433,7 @@
     <div class="footer">
         <div class="container">
             <div class="three">
-                <h3 class="light-green">Tests</h3>
+                <h3>Tests</h3>
                 <ul>
                     <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
                     <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>

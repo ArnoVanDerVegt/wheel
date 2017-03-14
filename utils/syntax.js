@@ -1,12 +1,19 @@
 (function() {
-    var keywords = ['proc', 'number', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'struct'];
+    var keywords = ['proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret'];
+    var types    = ['number', 'string'];
     var sign     = ['=', '(', ')', ','];
-    var meta     = ['#project', '#define'];
+    var meta     = ['#project', '#define', '#include'];
 
     function parseLine(line) {
-        var result = '';
-        var i      = 0;
-        var word   = '';
+        var result  = '';
+        var word    = '';
+        var comment = '';
+
+        var i = line.indexOf(';');
+        if (i !== -1) {
+            comment = line.substr(i - line.length);
+            line    = line.substr(0, i);
+        }
 
         var addWord = function(w) {
                 w = w || word;
@@ -14,19 +21,22 @@
                     if (keywords.indexOf(w) !== -1) {
                         result += '<span class="orange">' + w + '</span>';
                     } else if (sign.indexOf(w) !== -1) {
-                        result += '<span class="blue">' + w + '</span>';
+                        result += '<span class="black">' + w + '</span>';
+                    } else if (types.indexOf(w) !== -1) {
+                        result += '<span class="purple italic bold">' + w + '</span>';
                     } else if (meta.indexOf(w) !== -1) {
-                        result += '<span class="light-green bold">' + w + '</span>';
+                        result += '<span class="light-blue italic">' + w + '</span>';
                     } else {
-                        result += '<span class="green">' + w + '</span>';
+                        result += '<span class="blue">' + w + '</span>';
                     }
                 } else {
-                    result += '<span class="dark-green">' + w + '</span>';
+                    result += '<span class="dark-blue">' + w + '</span>';
                 }
 
                 word = '';
             };
 
+        var i = 0;
         while (i < line.length) {
             var c = line[i];
 
@@ -58,6 +68,11 @@
             i++;
         }
         (word === '') || addWord(word);
+
+        if (comment !== '') {
+            result += '<span class="purple italic">' + comment + '</span>';
+        }
+
         return result;
     }
 
@@ -65,8 +80,8 @@
         var result    = '';
         var minLength = 256;
 
-        lines.forEach(function(line) {
-            if (line[0] === ' ') {
+        lines.forEach(function(line, index) {
+            if ((index !== 0) && (index !== line.length - 1) && (line[0] === ' ')) {
                 var i = 0;
                 while (line[i] === ' ') {
                     i++;
@@ -77,12 +92,15 @@
             }
         });
 
-        lines.pop();
-        lines.forEach(function(line) {
-            if (minLength !== 256) {
+        minLength = Math.max(minLength - 4, 0);
+
+        lines.forEach(function(line, index) {
+            if ((minLength !== 256) && (line[0] === ' ')) {
                 line = line.substr(minLength - line.length);
             }
-            result += parseLine(line) + '\n';
+            if (!((index === lines.length - 1) && (line.trim() === ''))) {
+                result += parseLine(line) + '\n';
+            }
         });
         return result;
     }

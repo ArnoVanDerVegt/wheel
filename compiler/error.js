@@ -19,19 +19,18 @@
             TYPE_ERROR_CAN_NOT_CALL_GLOBAL:    13,
             TYPE_ERROR_UNKNOWN_PARAM_TYPE:     14,
             UNDEFINED_IDENTIFIER:              15,
-            UNDEFINED_IDENTIFIER_IN_TYPEOF:    16,
-            DUPLICATE_IDENTIFIER:              17,
-            DUPLICATE_IDENTIFIER_LABEL:        18,
-            NUMBER_LOCAL_CONSTANT_EXPECTED:    19,
-            NUMBER_GLOBAL_CONSTANT_EXPECTED:   20,
-            NO_MAIN_PROCEDURE:                 21,
-            UNKNOWN_COMMAND:                   22,
-            UNKNOWN_PROCEDURE:                 23,
-            UNDEFINED_FIELD:                   24,
-            INVALID_CONSTANT:                  25,
-            INVALID_BLOCK_CLOSE:               26,
-            INVALID_OPERATION:                 27,
-            INVALID_OPERATION_WITH_STRING:     28
+            DUPLICATE_IDENTIFIER:              16,
+            DUPLICATE_IDENTIFIER_LABEL:        17,
+            NUMBER_LOCAL_CONSTANT_EXPECTED:    18,
+            NUMBER_GLOBAL_CONSTANT_EXPECTED:   19,
+            NO_MAIN_PROCEDURE:                 20,
+            UNKNOWN_COMMAND:                   21,
+            UNKNOWN_PROCEDURE:                 22,
+            UNDEFINED_FIELD:                   23,
+            INVALID_CONSTANT:                  24,
+            INVALID_BLOCK_CLOSE:               25,
+            INVALID_OPERATION:                 26,
+            INVALID_OPERATION_WITH_STRING:     27
         }
     );
 })();

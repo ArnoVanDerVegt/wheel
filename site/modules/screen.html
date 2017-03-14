@@ -6,7 +6,7 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="utils/syntax.js"></script>
@@ -16,7 +16,7 @@
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html" class="active">Modules</a></li>
@@ -28,14 +28,14 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-puzzle-piece"></span> Modules</h1>
+            <h1><span class="icon-puzzle-piece"></span> Modules</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
+            <div class="three right">
                 <h3>Screen module</h3>
                 <ul>
                     <li>drawCircle</li>
@@ -59,35 +59,35 @@
                 <a href="site/modules/buttons.html">Buttons module</a><br />
             </div>
 
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawCircle</h3>
                 <pre>proc drawCircle(number x, number y, number radius)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawImage</h3>
                 <pre>proc drawImage(number x, number y, string filename)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawNumber</h3>
                 <pre>proc drawNumber(number x, number y, number n)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawLine</h3>
                 <pre>proc drawLine(number x1, number y1, number x2, number y2)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawPixel</h3>
                 <pre>proc drawPixel(number x, number y)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawRect</h3>
                 <pre>proc drawRect(number x, number y, number width, number height)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>drawText</h3>
                 <pre>proc drawText(number x, number y, string s)</pre>
             </div>
-            <div class="two blue">
+            <div class="two first">
                 <h3>clearScreen</h3>
                 <pre>proc clearScreen()</pre>
             </div>
@@ -99,7 +99,7 @@
     <div class="footer">
         <div class="container">
             <div class="three">
-                <h3 class="light-green">Tests</h3>
+                <h3>Tests</h3>
                 <ul>
                     <li>
                         <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
