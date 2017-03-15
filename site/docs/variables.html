@@ -36,24 +36,32 @@
     <div class="content">
         <div class="container">
             <div class="three right">
-                <h3>Variables</h3>
+                <h3 class="main">Data types</h3>
                 <ul>
-                    <li>Globals</li>
-                    <li>Locals</li>
-                    <li>Parameters</li>
-                    <li>Strings</li>
+                    <li><a href="site/docs/variables.html#number">Number</a></li>
+                    <li><a href="site/docs/variables.html#string">String</a></li>
+                </ul>
+                <h3 class="main">Compound data types</h3>
+                <ul>
+                    <li><a href="site/docs/variables.html#array">Array</a></li>
+                    <li><a href="site/docs/variables.html#struct">Struct</a></li>
+                </ul>
+                <h3 class="main">Scope</h3>
+                <ul>
+                    <li><a href="site/docs/variables.html#global">Global</a></li>
+                    <li><a href="site/docs/variables.html#local">Local</a></li>
+                    <li><a href="site/docs/variables.html#parameters">Parameters</a></li>
                 </ul>
 
                 <br />
                 <h3>Documentation</h3>
-                <a href="site/docs/keywords.html">Keywords</a><br />
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
-                <a href="site/docs/errors.html">Compiler errors</a><br />
+                <div class="index">
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/operators.html">Operators</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
+                </div>
             </div>
 
             <div class="two first">
@@ -66,53 +74,113 @@
                 A variable is declared by the type followed by the name of the variable.
             </div>
 
+
+            <a id="number"></a>
             <div class="two first">
-                <h3>Globals</h3>
-                When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+                <h4>Number type</h4>
 
-<pre>#project "Global variable demo"
+                A number variable can be used for integers and floating point values.
 
-number n
+                <pre>
 
-proc main()
-    set n, 10
-endp</pre>
+                    number n
+                </pre>
+            </div>
+            <a id="string"></a>
+            <div class="two first">
+                <h4>String type</h4>
+                Strings are read only. A string value is a number representing the index in a string list contained in the program file.
+
+                <pre>
+
+                    string n
+                </pre>
             </div>
 
+
+            <a id="array"></a>
             <div class="two first">
-                <h3>Locals</h3>
+                <h4>Array</h4>
+                An array represents a list. Arrays can be declared by defining the size between brackets after the variable name.
+                The size must be 0 or a positive number. A size of 0 can be used to create pointer types.
+
+                <pre>
+
+                    number n[10]
+                </pre>
+            </div>
+            <a id="array"></a>
+            <div class="two first">
+                <h4>Struct</h4>
+                A struct is a representation of a group of variables. At the moment the compiler does not allow struct types in structs.
+                Array fields are allowed.
+
+                <pre>
+                    struct Point
+                        number x
+                        number y
+                    ends
+
+                    Point p
+
+                    proc main()
+                        set p.x, 10
+                        set p.y, 5
+                    endp
+                </pre>
+            </div>
+
+
+            <a id="global"></a>
+            <div class="two first">
+                <h4>Global scope</h4>
+                When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+
+                <pre>
+                    #project "Global variable demo"
+
+                    number n
+
+                    proc main()
+                        set n, 10
+                    endp
+                </pre>
+            </div>
+            <a id="local"></a>
+            <div class="two first">
+                <h4>Local scope</h4>
 
                 A variable declared inside a procedure can only be accesed inside that procedure.
 
-<pre>#project "Local variable demo"
+                <pre>
+                    #project "Local variable demo"
 
-proc main()
-    number n
-    set n, 10
-endp</pre>
+                    proc main()
+                        number n
+                        set n, 10
+                    endp
+                </pre>
             </div>
-
+            <a id="parameters"></a>
             <div class="two first">
-                <h3>Parameters</h3>
-            </div>
-
-            <div class="two first">
-                <h3>Parameters</h3>
+                <h4>Parameters</h4>
 
                 All procedures except the main procedure can have one or more parameters.
 
-<pre>#project "Parameter demo"
+                <pre>
+                    #project "Parameter demo"
 
-proc first(number n)
-endp
+                    proc first(number n)
+                    endp
 
-proc second(number n)
-endp
+                    proc second(number n)
+                    endp
 
-proc main()
-    first(15)
-    second(17)
-endp</pre>
+                    proc main()
+                        first(15)
+                        second(17)
+                    endp
+                </pre>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -121,13 +189,6 @@ endp</pre>
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3>Tests</h3>
-                <ul>
-                    <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
-                    <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

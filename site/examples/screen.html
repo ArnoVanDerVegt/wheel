@@ -37,14 +37,14 @@
         <div class="container">
             <!-- ================== Screen ================== -->
             <div class="three last right">
-                <h3>Screen</h3>
+                <h3 class="main">Screen</h3>
                 <ul>
-                    <li>Circle</li>
-                    <li>Draw text</li>
-                    <li>Image</li>
-                    <li>Line</li>
-                    <li>Pixel</li>
-                    <li>Rect</li>
+                    <li><a href="site/examples/screen.html#circle">Circle</li>
+                    <li><a href="site/examples/screen.html#drawtext">Draw text</li>
+                    <li><a href="site/examples/screen.html#image">Image</li>
+                    <li><a href="site/examples/screen.html#line">Line</li>
+                    <li><a href="site/examples/screen.html#pixel">Pixel</li>
+                    <li><a href="site/examples/screen.html#rect">Rect</li>
                 </ul>
 
                 <br />
@@ -52,80 +52,92 @@
                 <a href="site/examples/screen.html">Screen</a><br />
             </div>
 
-            <!-- ================== Circle ================== -->
+            <a id="circle"></a>
             <div class="two first">
-                <h3>Circle</h3>
-<pre>#project "Circle drawing demo"
+                <h4>Circle</h4>
+                <pre>
+                    #project "Circle drawing demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    ; Draw a circle at (60, 50) with a radius of 40
-    drawCircle(60, 50, 40)
-endp</pre>
+                    proc main()
+                        ; Draw a circle at (60, 50) with a radius of 40
+                        drawCircle(60, 50, 40)
+                    endp
+                </pre>
             </div>
 
-            <!-- ================= DrawText ================= -->
+            <a id="drawtext"></a>
             <div class="two first">
-                <h3>Draw text</h3>
-<pre>#project "Draw text demo"
+                <h4>Draw text</h4>
+                <pre>
+                    #project "Draw text demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    drawText(0, 0, "Hello")
-endp</pre>
+                    proc main()
+                        drawText(0, 0, "Hello")
+                    endp
+                </pre>
             </div>
 
-            <!-- =================== Image ================== -->
+            <a id="image"></a>
             <div class="two first">
-                <h3>Image</h3>
-<pre>#project "Image demo"
+                <h4>Image</h4>
+                <pre>
+                    #project "Image demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    drawImage(0, 0, "image.rgf")
-endp</pre>
+                    proc main()
+                        drawImage(0, 0, "image.rgf")
+                    endp
+                </pre>
             </div>
 
-            <!-- =================== Line =================== -->
+            <a id="line"></a>
             <div class="two first">
-                <h3>Line</h3>
-<pre>#project "Line drawing demo"
+                <h4>Line</h4>
+                <pre>
+                    #project "Line drawing demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    ; Draw a line from (5, 10) to (25, 35)
-    drawLine(5, 10, 125, 105)
-endp</pre>
+                    proc main()
+                        ; Draw a line from (5, 10) to (25, 35)
+                        drawLine(5, 10, 125, 105)
+                    endp
+                </pre>
             </div>
 
-            <!-- =================== Pixel ================== -->
+            <a id="pixel"></a>
             <div class="two first">
-                <h3>Pixel</h3>
-<pre>#project "Pixel drawing demo"
+                <h4>Pixel</h4>
+                <pre>
+                    #project "Pixel drawing demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    ; Draw a pixel at (155, 10)
-    drawPixel(155, 10)
-endp</pre>
+                    proc main()
+                        ; Draw a pixel at (155, 10)
+                        drawPixel(155, 10)
+                    endp
+                </pre>
             </div>
 
-            <!-- =================== Rect =================== -->
+            <a id="rect"></a>
             <div class="two first">
-                <h3>Rect</h3>
-<pre>#project "Rectangle drawing demo"
+                <h4>Rect</h4>
+                <pre>
+                    #project "Rectangle drawing demo"
 
-#include "/lib/screen.whl"
+                    #include "/lib/screen.whl"
 
-proc main()
-    ; Draw a rectangle at (10, 40) with a size of (90, 70)
-    drawRect(10, 40, 90, 70)
-endp</div>
+                    proc main()
+                        ; Draw a rectangle at (10, 40) with a size of (90, 70)
+                        drawRect(10, 40, 90, 70)
+                    endp
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -134,17 +146,6 @@ endp</div>
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3>Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

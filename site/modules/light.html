@@ -36,37 +36,44 @@
     <div class="content">
         <div class="container">
             <div class="three right">
-                <h3>Light module</h3>
+                <h3 class="main">Light module</h3>
                 <ul>
-                    <li>light</li>
+                    <li><a href="site/modules/light.html#constants">constants</a></li>
+                    <li><a href="site/modules/light.html#light">light</a></li>
                 </ul>
 
                 <br />
                 <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+                <div class="index">
+                    <a href="site/modules/standard.html">Standard module</a><br />
+                    <a href="site/modules/screen.html">Screen module</a><br />
+                    <a href="site/modules/motor.html">Motor module</a><br />
+                    <a href="site/modules/sensor.html">Sensor module</a><br />
+                    <a href="site/modules/math.html">Math module</a><br />
+                    <a href="site/modules/light.html">Light module</a><br />
+                    <a href="site/modules/buttons.html">Buttons module</a><br />
+                </div>
             </div>
 
+            <a id="constants"></a>
             <div class="two first">
-                <h3>Constants</h3>
-<pre>
-#define LIGHT_UPDATE      0
+                <h4>Constants</h4>
+                <pre>
+                    #define LIGHT_UPDATE      0
 
-#define LIGHT_OFF         0
-#define LIGHT_RED         1
-#define LIGHT_YELLOW      2
-#define LIGHT_GREEN       3
+                    #define LIGHT_OFF         0
+                    #define LIGHT_RED         1
+                    #define LIGHT_YELLOW      2
+                    #define LIGHT_GREEN       3
 
-#define LIGHT_FLASH_OFF   0
-#define LIGHT_FLASH_ON    1</pre>
+                    #define LIGHT_FLASH_OFF   0
+                    #define LIGHT_FLASH_ON    1
+                </pre>
             </div>
+
+            <a id="light"></a>
             <div class="two first">
-                <h3>light</h3>
+                <h4>light</h4>
                 <pre>proc light(number color, number flash)</pre>
             </div>
 
@@ -76,17 +83,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3>Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

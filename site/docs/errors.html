@@ -36,20 +36,19 @@
     <div class="content">
         <div class="container">
             <div class="three right">
-                <h3>Compiler errors</h3>
+                <h3 class="main">Compiler errors</h3>
                 <ul>
                 </ul>
 
                 <br />
                 <h3>Documentation</h3>
-                <a href="site/docs/keywords.html">Keywords</a><br />
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
-                <a href="site/docs/errors.html">Compiler errors</a><br />
+                <div class="index">
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/operators.html">Operators</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
+                </div>
             </div>
 
             <div class="two first">
@@ -172,7 +171,7 @@
             </div>
 
             <div class="two first">
-                <h3>#1 SYNTAX_ERROR_INVALID_PROC_CHAR</h3>
+                <h4>#1 SYNTAX_ERROR_INVALID_PROC_CHAR</h4>
                 <pre>
                     proc main()
                         ~wrong()
@@ -181,7 +180,7 @@
             </div>
 
             <div class="two first">
-                <h3>#2 SYNTAX_ERROR_INVALID_PROC_PARAM</h3>
+                <h4>#2 SYNTAX_ERROR_INVALID_PROC_PARAM</h4>
                 <pre>
                     proc error(wrong)
                     endp
@@ -191,7 +190,7 @@
             </div>
 
             <div class="two first">
-                <h3>#3 SYNTAX_ERROR_INVALID_STRUCS_CHAR</h3>
+                <h4>#3 SYNTAX_ERROR_INVALID_STRUCS_CHAR</h4>
                 <pre>
                     struct ~bad
                     ends
@@ -201,7 +200,7 @@
             </div>
 
             <div class="two first">
-                <h3>#4 SYNTAX_ERROR_INVALID_CHAR</h3>
+                <h4>#4 SYNTAX_ERROR_INVALID_CHAR</h4>
                 <pre>
                     number n[3] = [1, 2, 3}
                     proc main()
@@ -210,14 +209,15 @@
             </div>
 
             <div class="two first">
-                <h3>#5 SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED</h3>
+                <h4>#5 SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED</h4>
                 <pre>
+
                     number a[1)
                 </pre>
             </div>
 
             <div class="two first">
-                <h3>#6 STRING_EXPECTED_IN_CONSTANT</h3>
+                <h4>#6 STRING_EXPECTED_IN_CONSTANT</h4>
                 <pre>
                     proc main()
                         string s = 1
@@ -226,7 +226,7 @@
             </div>
 
             <div class="two first">
-                <h3>#7 STRING_EXPECTED_FOUND_NUMBER</h3>
+                <h4>#7 STRING_EXPECTED_FOUND_NUMBER</h4>
                 <pre>
                     string s = 1
                     proc main()
@@ -235,7 +235,7 @@
             </div>
 
             <div class="two first">
-                <h3>#8 STRING_ARRAY_EXPECTED</h3>
+                <h4>#8 STRING_ARRAY_EXPECTED</h4>
                 <pre>
                     string s[2] = 1
                     proc main()
@@ -244,7 +244,7 @@
             </div>
 
             <div class="two first">
-                <h3>#9 TYPE_MISMATCH</h3>
+                <h4>#9 TYPE_MISMATCH</h4>
                 <pre>
                     proc main()
                         number n
@@ -254,7 +254,7 @@
             </div>
 
             <div class="two first">
-                <h3>#10 TYPE_ERROR_STRUCT_EXPECTED</h3>
+                <h4>#10 TYPE_ERROR_STRUCT_EXPECTED</h4>
                 <pre>
                     number n
                     proc main()
@@ -264,7 +264,7 @@
             </div>
 
             <div class="two first">
-                <h3>#11 TYPE_ERROR_NUMBER_EXPECTED</h3>
+                <h4>#11 TYPE_ERROR_NUMBER_EXPECTED</h4>
                 <pre>
                     number a[3] = [1, 'x', 3]
                     proc main()
@@ -273,7 +273,7 @@
             </div>
 
             <div class="two first">
-                <h3>#12 TYPE_ERROR_CAN_NOT_CALL_LOCAL</h3>
+                <h4>#12 TYPE_ERROR_CAN_NOT_CALL_LOCAL</h4>
                 <pre>
                     proc main()
                         number l
@@ -283,7 +283,7 @@
             </div>
 
             <div class="two first">
-                <h3>#13 TYPE_ERROR_CAN_NOT_CALL_GLOBAL</h3>
+                <h4>#13 TYPE_ERROR_CAN_NOT_CALL_GLOBAL</h4>
                 <pre>
                     number g
                     proc main()
@@ -293,7 +293,7 @@
             </div>
 
             <div class="two first">
-                <h3>#14 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h3>
+                <h4>#14 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h4>
                 <pre>
                     proc error(Wrong w)
                     endp
@@ -303,7 +303,7 @@
             </div>
 
             <div class="two first">
-                <h3>#15 UNDEFINED_IDENTIFIER</h3>
+                <h4>#15 UNDEFINED_IDENTIFIER</h4>
                 <pre>
                     proc main()
                         set n, 1
@@ -312,7 +312,7 @@
             </div>
 
             <div class="two first">
-                <h3>#16 DUPLICATE_IDENTIFIER</h3>
+                <h4>#16 DUPLICATE_IDENTIFIER</h4>
                 <pre>
                     number a
                     number a
@@ -320,7 +320,7 @@
             </div>
 
             <div class="two first">
-                <h3>#17 DUPLICATE_IDENTIFIER_LABEL</h3>
+                <h4>#17 DUPLICATE_IDENTIFIER_LABEL</h4>
                 <pre>
                     label:
                     label:
@@ -330,7 +330,7 @@
             </div>
 
             <div class="two first">
-                <h3>#18 NUMBER_LOCAL_CONSTANT_EXPECTED</h3>
+                <h4>#18 NUMBER_LOCAL_CONSTANT_EXPECTED</h4>
                 <pre>
                     proc main()
                        number n = 'x'
@@ -339,7 +339,7 @@
             </div>
 
             <div class="two first">
-                <h3>#19 NUMBER_GLOBAL_CONSTANT_EXPECTED</h3>
+                <h4>#19 NUMBER_GLOBAL_CONSTANT_EXPECTED</h4>
                 <pre>
                     number n = 'y'
                     proc main()
@@ -348,7 +348,7 @@
             </div>
 
             <div class="two first">
-                <h3>#20 NO_MAIN_PROCEDURE</h3>
+                <h4>#20 NO_MAIN_PROCEDURE</h4>
                 <pre>
                     proc noMain()
                     endp
@@ -356,7 +356,7 @@
             </div>
 
             <div class="two first">
-                <h3>#21 UNKNOWN_COMMAND</h3>
+                <h4>#21 UNKNOWN_COMMAND</h4>
                 <pre>
 
                     wrong
@@ -364,7 +364,7 @@
             </div>
 
             <div class="two first">
-                <h3>#22 UNKNOWN_PROCEDURE</h3>
+                <h4>#22 UNKNOWN_PROCEDURE</h4>
                 <pre>
                     proc main()
                         wrong()
@@ -373,7 +373,7 @@
             </div>
 
             <div class="two first">
-                <h3>#23 UNDEFINED_FIELD</h3>
+                <h4>#23 UNDEFINED_FIELD</h4>
                 <pre>
                     struct S
                        number n
@@ -386,7 +386,7 @@
             </div>
 
             <div class="two first">
-                <h3>#24 INVALID_CONSTANT</h3>
+                <h4>#24 INVALID_CONSTANT</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -395,7 +395,7 @@
             </div>
 
             <div class="two first">
-                <h3>#25 INVALID_BLOCK_CLOSE</h3>
+                <h4>#25 INVALID_BLOCK_CLOSE</h4>
                 <pre>
                     struct S
                        number n
@@ -406,7 +406,7 @@
             </div>
 
             <div class="two first">
-                <h3>#26 INVALID_OPERATION</h3>
+                <h4>#26 INVALID_OPERATION</h4>
                 <pre>
                     proc main()
                         number n
@@ -417,7 +417,7 @@
             </div>
 
             <div class="two first">
-                <h3>#27 INVALID_OPERATION_WITH_STRING</h3>
+                <h4>#27 INVALID_OPERATION_WITH_STRING</h4>
                 <pre>
                     proc main()
                         string s
@@ -432,13 +432,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3>Tests</h3>
-                <ul>
-                    <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
-                    <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

@@ -21,7 +21,8 @@ html {
     padding:                    0;
     margin:                     0;
     position:                   relative;
-    font-family:                'Inconsolata', sans-serif;
+    font-family:                'Open Sans', sans-serif;
+    color:                      #383838;
 }
 body {
     background-color:           #FFFFFF;
@@ -35,8 +36,14 @@ h4 {
     font-size:                  20px;
     margin:                     0 0 8px 0;
 }
-div {
-    color:                      #383838;
+h4 {
+    font-size:                  17px;
+}
+div,
+a,
+span,
+li {
+    font-family:                'Open Sans', sans-serif;
 }
 .bold {
     font-weight:                bold;
@@ -65,6 +72,33 @@ div.three.last {
 div.one {
     width:                      100%;
 }
+div.one h3 {
+    margin:                     0 0 24px 0;
+}
+div.one .index-row {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 24px 0;
+}
+div.one .index-row img,
+div.one .index-row a,
+div.one .index-row span {
+    float:                      left;
+    height:                     32px;
+}
+div.one .index-row a,
+div.one .index-row span {
+    line-height:                32px;
+}
+div.one .index-row img {
+    width:                      48px;
+    height:                     48px;
+    border:                     3px solid #E0E8EF;
+    border-radius:              24px;
+    padding:                    4px;
+    margin:                     -8px 32px 0 0;
+}
+
 div.two {
     width:                      640px;
 }
@@ -77,13 +111,32 @@ div.three.right {
 }
 div.three.right h3 {
     color:                      #808890;
-    border:                     1px dotted #E36209;
-    border-width:               0 0 1px 0;
+    border:                     4px solid #E36209;
+    border-width:               0 0 4px 0;
     padding:                    0 0 4px 0;
     letter-spacing:             0.08em;
     text-transform:             uppercase;
     font-size:                  17px;
     font-weight:                normal;
+}
+div.three.right h3.main {
+    border:                     4px solid #6F42C1;
+    border-width:               0 0 4px 0;
+}
+div.three.right li {
+    margin:                     0 0 4px 0;
+}
+div.three.right li:last-child {
+    margin:                     0 0 16px 0;
+}
+div.three.right .index {
+    float:                      left;
+    width:                      100%;
+}
+div.three.right .index a {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 4px 0;
 }
 
 div.two h3 .icon,
@@ -184,6 +237,9 @@ div.three table th {
     line-height:                48px;
     height:                     48px;
 }
+.header .container ul li span.icon-cirle {
+    color:                      #FFFFFF;
+}
 .header ul li:first-child a {
     padding:                    0 8px 0 0;
 }
@@ -223,19 +279,22 @@ div.three table th {
     margin:                     14px 0 0 8px;
 }
 
-pre {
-    background-color:           #FAFBFC;
-    padding:                    16px;
+pre,
+pre span {
     font-family:                Courier;
     font-size:                  15px;
+    font-family:                'Inconsolata', monospace;
+}
+pre {
+    padding:                    16px;
     border:                     1px solid #E0E0E0;
     border-radius:              2px;
+    background-color:           #FAFBFC;
 }
-
 .content {
     float:                      left;
     width:                      100%;
-    min-height:                 calc(100% - 272px);
+    min-height:                 calc(100% - 180px);
 }
 .content .container {
     height:                     100%;
@@ -290,7 +349,7 @@ pre {
     float:                      left;
     position:                   relative;
     width:                      100%;
-    height:                     128px;
+    height:                     32px;
     margin:                     0;
     padding:                    8px 0 0 0;
     background-color:           #FAFBFC;
@@ -348,15 +407,12 @@ pre {
 div.one a.list-link,
 div.three a.list-link {
     float:                      left;
-    position:                   relative;
     width:                      192px;
-    color:                      #383838;
-    padding:                    0 0 0 16px;
+    color:                      #0366d6;
+    padding:                    0;
+    font-weight:                bold;
 }
-.list-link:before {
-    position:                   absolute;
-    left:                       -4px;
-    top:                        -1px;
+.list-link .icon-right {
     color:                      #808890;
     text-align:                 left;
 }

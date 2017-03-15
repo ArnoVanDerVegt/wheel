@@ -1,5 +1,5 @@
 (function() {
-    var keywords = ['proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret'];
+    var keywords = ['proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret', 'set'];
     var types    = ['number', 'string'];
     var sign     = ['=', '(', ')', ','];
     var meta     = ['#project', '#define', '#include'];
@@ -25,7 +25,7 @@
                     } else if (types.indexOf(w) !== -1) {
                         result += '<span class="purple italic bold">' + w + '</span>';
                     } else if (meta.indexOf(w) !== -1) {
-                        result += '<span class="light-blue italic">' + w + '</span>';
+                        result += '<span class="purple bold">' + w + '</span>';
                     } else {
                         result += '<span class="blue">' + w + '</span>';
                     }
