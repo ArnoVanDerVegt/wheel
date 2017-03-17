@@ -156,6 +156,9 @@
                 this.onInterval();
             };
 
+            this.stop = function() {
+            };
+
             /*
 
             Maybe for testing later...

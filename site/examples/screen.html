@@ -52,6 +52,7 @@
     <script src="vm/modules/LightModule.js"></script>
     <script src="vm/modules/ButtonsModule.js"></script>
 
+    <script src="simulator/includes/standard.js"></script>
     <script src="simulator/includes/screen.js"></script>
 
     <script src="simulator/Text.js"></script>
@@ -60,6 +61,7 @@
     <script src="simulator/TextLarge.js"></script>
     <script src="simulator/Display.js"></script>
     <script src="simulator/Buttons.js"></script>
+    <script src="simulator/Sound.js"></script>
     <script src="simulator/Light.js"></script>
     <script src="simulator/Simulator.js"></script>
 
@@ -125,11 +127,20 @@
                 <pre id="circle">
                     #project "Circle drawing demo"
 
+                    #include "lib/standard.whl"
                     #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a circle at (60, 50) with a radius of 40
-                        drawCircle(60, 50, 40)
+                        drawCircle(60, 50, 20)
+
+                        ; Draw black a filled circle
+                        setFill(1)
+                        drawCircle(70, 60, 20)
+
+                        ; Draw a white filled circle
+                        setFillColor(1)
+                        drawCircle(80, 60, 10)
                     endp
                 </pre>
             </div>

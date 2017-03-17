@@ -1,16 +1,43 @@
+#include "lib/standard.whl"
+
 #define MODULE_SCREEN      1
 
 #define SCREEN_CLEAR       0
-#define SCREEN_DRAW_PIXEL  1
-#define SCREEN_DRAW_NUMBER 2
-#define SCREEN_DRAW_TEXT   3
-#define SCREEN_DRAW_LINE   4
-#define SCREEN_DRAW_RECT   5
-#define SCREEN_DRAW_CIRCLE 6
-#define SCREEN_DRAW_IMAGE  7
+#define SCREEN_FILL        1
+#define SCREEN_FILL_COLOR  2
+#define SCREEN_DRAW_PIXEL  3
+#define SCREEN_DRAW_NUMBER 4
+#define SCREEN_DRAW_TEXT   5
+#define SCREEN_DRAW_LINE   6
+#define SCREEN_DRAW_RECT   7
+#define SCREEN_DRAW_CIRCLE 8
+#define SCREEN_DRAW_IMAGE  9
+
+#define WHITE              0
+#define BLACK              1
 
 proc clearScreen()
     module   MODULE_SCREEN,          SCREEN_CLEAR
+endp
+
+proc setFill(number fill)
+    struct SetFill
+        number fill
+    ends
+    SetFill setFill
+    set      setFill.fill,           fill
+    addr     setFill
+    module   MODULE_SCREEN,          SCREEN_FILL
+endp
+
+proc setFillColor(number fillColor)
+    struct SetFillColor
+        number fillColor
+    ends
+    SetFillColor setFillColor
+    set      setFillColor.fillColor, fillColorColor
+    addr     setFillColor
+    module   MODULE_SCREEN,          SCREEN_FILL_COLOR
 endp
 
 proc drawPixel(number x, number y)

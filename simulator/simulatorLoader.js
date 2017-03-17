@@ -45,15 +45,20 @@
     var simulator;
     var vm;
     var compiler;
+    var outputTitle    = null;
     var outputCommands = null;
     var compilerData   = null;
 
-    var compileAndRun = function(src) {
+    var compileAndRun = function(title, src) {
             var files = createFiles(
                     [
                         {
                             name:    'main.whl',
                             content: src.split("\n")
+                        },
+                        {
+                            name:    'lib/standard.whl',
+                            content: wheel.simulator.includes.standard
                         },
                         {
                             name:    'lib/screen.whl',
@@ -71,14 +76,20 @@
                 '',
                 'main.whl',
                 function(includes) {
-                    outputCommands = compiler.compile(includes);
-                    compilerData   = compiler.getCompilerData();
+                    try {
+                        outputTitle    = title;
+                        outputCommands = compiler.compile(includes);
+                        compilerData   = compiler.getCompilerData();
+                        simulator.getDisplay().drawLoaded(title);
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
             );
         };
 
     var run = function() {
-            if (!outputCommands || !compilerData) {
+            if (!outputCommands || !compilerData || !vm) {
                 return;
             }
             simulator.getDisplay().clearScreen();
@@ -88,6 +99,14 @@
                 compilerData.getGlobalConstants(),
                 compilerData.getGlobalOffset()
             );
+        };
+
+    var stop = function() {
+            if (!outputCommands || !compilerData || !vm) {
+                return;
+            }
+            vm.stop();
+            simulator.getDisplay().drawLoaded(outputTitle);
         };
 
     function loadPre() {
@@ -100,9 +119,10 @@
                         var programId  = a.getAttribute('data-program');
                         var wheelDemos = window.wheelDemos;
                         if (programId in wheelDemos) {
-                            document.querySelector('.active-program').innerHTML = 'Program: <span>' + a.getAttribute('data-title') + '</span>';
+                            var title = a.getAttribute('data-title') || '?';
+                            document.querySelector('.active-program').innerHTML = 'Program: <span>' + title + '</span>';
                             document.querySelector('#runProgram').className = 'button';
-                            compileAndRun(wheelDemos[programId]);
+                            compileAndRun(title, wheelDemos[programId]);
                         }
                     }
                 );
@@ -115,7 +135,10 @@
 
         document.querySelector('#runProgram').addEventListener('click', run);
 
-        simulator = new wheel.simulator.Simulator({parentNode: document.querySelector('.ev3-background')});
+        simulator = new wheel.simulator.Simulator({
+            parentNode: document.querySelector('.ev3-background'),
+            onStop:     stop
+        });
     }
 
     window.addEventListener(

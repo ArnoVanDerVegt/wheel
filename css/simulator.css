@@ -17,9 +17,11 @@
 }
 .ev3 .ev3-left {
     border-width:       1px 0 1px 1px;
+    border-radius:      2px 0 0 2px;
 }
 .ev3 .ev3-right {
     border-width:       1px 1px 1px 0;
+    border-radius:      0 2px 2px 0;
 }
 .ev3 .ev3-body {
     float:              left;
@@ -49,6 +51,7 @@
 }
 .ev3 .ev3-panel {
     float:              left;
+    position:           relative;
     width:              240px;
     height:             130px;
     background-color:   #FFFFFF;
@@ -75,7 +78,8 @@
 .ev3 .ev3-panel .ev3-buttons .ev3-button-down,
 .ev3 .ev3-panel .ev3-buttons .ev3-button-left,
 .ev3 .ev3-panel .ev3-buttons .ev3-button-right,
-.ev3 .ev3-panel .ev3-buttons .ev3-button-center {
+.ev3 .ev3-panel .ev3-buttons .ev3-button-center,
+.ev3 .ev3-panel .ev3-button-stop {
     position:           absolute;
     left:               50px;
     width:              40px;
@@ -83,6 +87,18 @@
     background-color:   #D0D4D8;
     border:             1px solid rgba(0, 0, 0, 0.5);
     border-radius:      2px;
+    cursor:             pointer;
+}
+.ev3 .ev3-panel div.pressed,
+.ev3 .ev3-panel .ev3-buttons div.pressed {
+    background-color:   #C0C4C8;
+}
+.ev3 .ev3-panel .ev3-button-stop {
+    left:               24px;
+    top:                0;
+    width:              48px;
+    height:             22px;
+    border-radius:      0 0 12px 2px;
 }
 .ev3 .ev3-panel .ev3-buttons .ev3-button-up {
     width:              44px;
@@ -120,11 +136,21 @@
 }
 .ev3 .ev3-bottom .ev3-logo {
     float:              right;
-    width:              32px;
-    height:             32px;
+    width:              28px;
+    height:             28px;
     background-color:   #DD0000;
     border:             1px solid rgba(0, 0, 0, 0.5);
-    margin:             8px 8px 0 0;
+    margin:             10px 10px 0 0;
+}
+
+.ev3 .ev3-bottom .ev3-log-text {
+    float:              left;
+    line-height:        48px;
+    color:              #FFFFFF;
+    font-size:          26px;
+    font-weight:        bold;
+    padding:            2px 0 0 20px;
+    transform:          scale(1.4, 1);
 }
 .ev3-wrapper {
     float:              left;

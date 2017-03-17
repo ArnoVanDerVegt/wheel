@@ -158,6 +158,8 @@ div.three.right .active-program {
 }
 div.three.right .active-program span {
     color:                      #0366D6;
+    text-transform:             uppercase;
+    font-size:                  14px;
 }
 div.three.right li {
     margin:                     0 0 4px 0;
@@ -251,6 +253,7 @@ div.three table th {
     font-family:                'Open Sans', sans-serif;
     font-size:                  15px;
     line-height:                15px;
+    cursor:                     pointer;
 }
 .button.disabled {
     opacity:                    0.5;
