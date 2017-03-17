@@ -34,8 +34,8 @@
                 while (i < line.length) {
                     var c = line[i++];
                     if (c in this._root.children) {
-                        var node     = this._root.children[c];
-                        var j         = i;
+                        var node = this._root.children[c];
+                        var j    = i;
 
                         while (j < line.length) {
                             c = line[j++];
@@ -46,6 +46,9 @@
                             }
                         }
                         if (j - 1 - line.length < 0) {
+                            if (!node.value) {
+                                return line;
+                            }
                             line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
                             i    = i + node.value.length;
                         } else {

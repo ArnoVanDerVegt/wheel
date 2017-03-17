@@ -21,6 +21,7 @@ exclude_paths:
 - node_modules/*
 - test/*
 - whl/*
+- simulator/*
 ratings:
    paths:
    - "compiler/*"

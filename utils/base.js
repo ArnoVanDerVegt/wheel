@@ -71,5 +71,9 @@
         };
     });
 
-    exports.wheel = wheel;
+    try {
+        window.wheel = wheel;
+    } catch (error) {
+        exports.wheel = wheel;
+    }
 })();

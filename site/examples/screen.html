@@ -8,8 +8,64 @@
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
+    <link href="css/simulator.css" rel="stylesheet">
+
+    <script src="utils/require.js"></script>
+    <script src="utils/base.js"></script>
+
+    <script src="compiler/PreProcessor.js"></script>
+    <script src="compiler/commands/CommandCompiler.js"></script>
+    <script src="compiler/commands/StringDeclaration.js"></script>
+    <script src="compiler/commands/NumberDeclaration.js"></script>
+    <script src="compiler/commands/NumberInc.js"></script>
+    <script src="compiler/commands/NumberDec.js"></script>
+    <script src="compiler/commands/NumberOperator.js"></script>
+    <script src="compiler/commands/ProcedureDeclaration.js"></script>
+    <script src="compiler/commands/Set.js"></script>
+    <script src="compiler/commands/Call.js"></script>
+    <script src="compiler/commands/CallFunction.js"></script>
+    <script src="compiler/commands/CallReturn.js"></script>
+    <script src="compiler/commands/Ret.js"></script>
+    <script src="compiler/commands/Label.js"></script>
+    <script src="compiler/commands/Array.js"></script>
+    <script src="compiler/commands/ArrayR.js"></script>
+    <script src="compiler/commands/ArrayW.js"></script>
+    <script src="compiler/commands/Addr.js"></script>
+    <script src="compiler/commands/JmpC.js"></script>
+    <script src="compiler/command.js"></script>
+    <script src="compiler/error.js"></script>
+    <script src="compiler/compilerHelper.js"></script>
+    <script src="compiler/CompilerOutput.js"></script>
+    <script src="compiler/CompilerData.js"></script>
+    <script src="compiler/script/ExpressionCompiler.js"></script>
+    <script src="compiler/script/ScriptCompiler.js"></script>
+    <script src="compiler/Compiler.js"></script>
+
+    <script src="vm/VMData.js"></script>
+    <script src="vm/VM.js"></script>
+    <script src="vm/modules/VMModule.js"></script>
+    <script src="vm/modules/StandardModule.js"></script>
+    <script src="simulator/modules/ScreenModule.js"></script>
+    <script src="vm/modules/MotorModule.js"></script>
+    <script src="vm/modules/SensorModule.js"></script>
+    <script src="vm/modules/MathModule.js"></script>
+    <script src="vm/modules/LightModule.js"></script>
+    <script src="vm/modules/ButtonsModule.js"></script>
+
+    <script src="simulator/includes/screen.js"></script>
+
+    <script src="simulator/Text.js"></script>
+    <script src="simulator/TextSmall.js"></script>
+    <script src="simulator/TextMedium.js"></script>
+    <script src="simulator/TextLarge.js"></script>
+    <script src="simulator/Display.js"></script>
+    <script src="simulator/Buttons.js"></script>
+    <script src="simulator/Light.js"></script>
+    <script src="simulator/Simulator.js"></script>
 
     <script src="utils/syntax.js"></script>
+
+    <script src="simulator/simulatorLoader.js"></script>
 </head>
 
 <body>
@@ -50,15 +106,26 @@
                 <br />
                 <h3>Examples</h3>
                 <a href="site/examples/screen.html">Screen</a><br />
+
+                <a id="simulator"></a>
+                <h3 class="simulator">Simulator</h3>
+                <div class="active-program">No program selected.</div>
+                <div class="ev3-wrapper">
+                    <div class="ev3-background">
+                        <div class="simulator-options">
+                            <input type="button" class="button disabled" id="runProgram" value="Run"/>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <a id="circle"></a>
             <div class="two first">
-                <h4>Circle</h4>
-                <pre>
+                <h4>Circle<a data-program="circle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="circle">
                     #project "Circle drawing demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a circle at (60, 50) with a radius of 40
@@ -69,11 +136,11 @@
 
             <a id="drawtext"></a>
             <div class="two first">
-                <h4>Draw text</h4>
-                <pre>
-                    #project "Draw text demo"
+                <h4>Draw text<a data-program="drawtext" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawtext">
+                    #project "Text drawing demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         drawText(0, 0, "Hello")
@@ -83,11 +150,11 @@
 
             <a id="image"></a>
             <div class="two first">
-                <h4>Image</h4>
-                <pre>
+                <h4>Image<a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="image">
                     #project "Image demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         drawImage(0, 0, "image.rgf")
@@ -97,11 +164,11 @@
 
             <a id="line"></a>
             <div class="two first">
-                <h4>Line</h4>
-                <pre>
+                <h4>Line<a data-program="line" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="line">
                     #project "Line drawing demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a line from (5, 10) to (25, 35)
@@ -112,11 +179,11 @@
 
             <a id="pixel"></a>
             <div class="two first">
-                <h4>Pixel</h4>
-                <pre>
+                <h4>Pixel<a data-program="pixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="pixel">
                     #project "Pixel drawing demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a pixel at (155, 10)
@@ -127,11 +194,11 @@
 
             <a id="rect"></a>
             <div class="two first">
-                <h4>Rect</h4>
-                <pre>
+                <h4>Rect<a data-program="rect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="rect">
                     #project "Rectangle drawing demo"
 
-                    #include "/lib/screen.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a rectangle at (10, 40) with a size of (90, 70)

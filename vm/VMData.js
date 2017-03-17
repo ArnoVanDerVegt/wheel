@@ -65,7 +65,7 @@
                 return result;
             };
 
-            this.getNumberAtRegOffset = function(value) {
+            this.getNumberAtRegOffset = function() {
                 var data = this._data;
                 return data[data[wheel.compiler.command.REG_SRC]];
             };

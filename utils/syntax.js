@@ -106,13 +106,17 @@
     }
 
     function updateElement(element) {
-        var lines = element.innerHTML.split('\n');
-        element.innerHTML = parseLines(lines);
+        var source = element.innerHTML;
+        var lines  = source.split('\n');
+
+        window.wheelDemos[element.id] = source;
+        element.innerHTML             = parseLines(lines);
     }
 
     window.addEventListener(
         'DOMContentLoaded',
         function() {
+            window.wheelDemos = {};
             var list = document.querySelectorAll('pre');
             for (var i = 0; i < list.length; i++) {
                 updateElement(list[i]);
