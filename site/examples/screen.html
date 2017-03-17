@@ -125,22 +125,19 @@
             <div class="two first">
                 <h4>Circle<a data-program="circle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="circle">
-                    #project "Circle drawing demo"
-
-                    #include "lib/standard.whl"
                     #include "lib/screen.whl"
 
                     proc main()
                         ; Draw a circle at (60, 50) with a radius of 40
-                        drawCircle(60, 50, 20)
+                        drawCircle(69, 64, 25)
 
                         ; Draw black a filled circle
                         setFill(1)
-                        drawCircle(70, 60, 20)
+                        drawCircle(89, 64, 20)
 
                         ; Draw a white filled circle
                         setFillColor(1)
-                        drawCircle(80, 60, 10)
+                        drawCircle(109, 64, 15)
                     endp
                 </pre>
             </div>
@@ -149,22 +146,31 @@
             <div class="two first">
                 <h4>Draw text<a data-program="drawtext" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="drawtext">
-                    #project "Text drawing demo"
-
                     #include "lib/screen.whl"
 
                     proc main()
-                        drawText(0, 0, "Hello")
+                        drawText(10, 10, "The quick brown")
+
+                        setTextSize(1)
+                        drawText(10, 25, "fox jumped over")
+
+                        setTextSize(2)
+                        drawText(10, 40, "Lazy dogs")
+
+                        setTextSize(0)
+                        setFill(1)
+                        drawText(10, 60, "The quick brown")
+
+                        setTextSize(1)
+                        drawText(10, 70, "fox jumped over")
                     endp
                 </pre>
             </div>
 
             <a id="image"></a>
             <div class="two first">
-                <h4>Image<a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>Image<!--a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a--></h4>
                 <pre id="image">
-                    #project "Image demo"
-
                     #include "lib/screen.whl"
 
                     proc main()
@@ -177,13 +183,16 @@
             <div class="two first">
                 <h4>Line<a data-program="line" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="line">
-                    #project "Line drawing demo"
-
                     #include "lib/screen.whl"
 
                     proc main()
-                        ; Draw a line from (5, 10) to (25, 35)
-                        drawLine(5, 10, 125, 105)
+                        number n
+                        number x = 0
+                        for n = 0 to 18
+                            drawLine(x, 0, 0, 128)
+
+                            x += 10
+                        end
                     endp
                 </pre>
             </div>
@@ -192,13 +201,23 @@
             <div class="two first">
                 <h4>Pixel<a data-program="pixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="pixel">
-                    #project "Pixel drawing demo"
-
                     #include "lib/screen.whl"
 
                     proc main()
-                        ; Draw a pixel at (155, 10)
-                        drawPixel(155, 10)
+                        number i, j
+                        number x, y
+
+                        y = 0
+                        for i = 0 to 10
+                            x = 0
+                            for j = 0 to 10
+                                drawPixel(x, y)
+
+                                x += 10
+                            end
+
+                            y += 10
+                        end
                     endp
                 </pre>
             </div>
@@ -207,13 +226,16 @@
             <div class="two first">
                 <h4>Rect<a data-program="rect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="rect">
-                    #project "Rectangle drawing demo"
-
                     #include "lib/screen.whl"
 
                     proc main()
-                        ; Draw a rectangle at (10, 40) with a size of (90, 70)
-                        drawRect(10, 40, 90, 70)
+                        drawRect(10, 20, 90, 70)
+
+                        setFill(1)
+                        drawRect(20, 30, 90, 70)
+
+                        setFillColor(1)
+                        drawRect(30, 40, 70, 50)
                     endp
                 </div>
             </div>

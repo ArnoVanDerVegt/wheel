@@ -15,13 +15,11 @@
 
                 canvas.width      = WIDTH;
                 canvas.height     = HEIGHT;
-
-                this._fill        = false;
-                this._fillColor   = 0;
                 this._canvas      = canvas;
                 this._context     = context;
-
                 this._loadedCount = 3;
+
+                this.reset();
 
                 var onLoad = this.onLoad.bind(this);
 
@@ -34,12 +32,18 @@
                 this.clearScreen();
             };
 
+            this.reset = function() {
+                this._textSize  = 0;
+                this._fill      = false;
+                this._fillColor = 0;
+            };
+
             this.onLoad = function() {
                 this._loadedCount--;
                 if (this._loadedCount) {
                     return;
                 }
-                this._text[1].drawText(24, 56, 'Simulator ready.');
+                this.drawCenterText(56, 1, 'Simulator ready.');
                 this.render();
             };
 
@@ -52,21 +56,23 @@
                 this._imageData = context.getImageData(0, 0, WIDTH, HEIGHT);
             };
 
-            this.drawText = function(x, y, size, text) {
-                this._text[size].drawText(x, y, text);
+            this.drawText = function(x, y, text) {
+                this._text[this._textSize].drawText(x, y, this._fill, text);
             };
 
             this.drawCenterText = function(y, size, text) {
-                this._text[size].drawText(~~((178 - text.length * 8) * 0.5), y, text);
+                this._text[size].drawText(~~((178 - text.length * 8) * 0.5), y, 0, text);
             };
 
             this.drawReady = function() {
+                this.reset();
                 this.clearScreen();
                 this.drawCenterText(1, 56, 'Simulator ready.');
                 this.render();
             };
 
             this.drawLoaded = function(title) {
+                this.reset();
                 this.clearScreen();
                 this.drawCenterText(51, 0, 'Loaded');
                 this.drawCenterText(68, 1, title);
@@ -304,6 +310,10 @@
 
             this.setFillColor = function(fillColor) {
                 this._fillColor = fillColor;
+            };
+
+            this.setTextSize = function(textSize) {
+                this._textSize = textSize % 3;
             };
         })
     );

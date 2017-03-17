@@ -47,7 +47,7 @@
                 this._onLoad && this._onLoad();
             };
 
-            this.drawChar = function(x, y, index) {
+            this.drawChar = function(x, y, fill, index) {
                 var chr          = this._char;
                 var width        = chr.width;
                 var height       = chr.height;
@@ -83,10 +83,12 @@
                 var destOffset   = (y * destWidth + x) * 4;
                 var sourceOffset = index * chr.dataSize + startOffset;
                 var sourceData   = chr.data;
+                var colorDark    = fill ? 128 : 0;
+                var colorLight   = fill ? 0 : 128;
 
                 for (var j = 0; j < height; j++) {
                     for (var i = 0; i < width; i++) {
-                        var color = sourceData[sourceOffset] ? 0 : 128;
+                        var color = sourceData[sourceOffset] ? colorDark : colorLight;
                         imageData.data[destOffset++] = color;
                         imageData.data[destOffset++] = color;
                         imageData.data[destOffset++] = color;
@@ -100,7 +102,7 @@
                 }
             };
 
-            this.drawText = function(x, y, text) {
+            this.drawText = function(x, y, fill, text) {
                 if (!text.length) {
                     return;
                 }
@@ -111,7 +113,7 @@
                     if (c === 32) {
                         x += chr.width;
                     } else if ((c > 32) && (c <= 126)) {
-                        this.drawChar(x, y, c - 33);
+                        this.drawChar(x, y, fill, c - 33);
                         x += chr.width;
                     }
                 }

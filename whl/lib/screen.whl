@@ -1,20 +1,21 @@
 #include "lib/standard.whl"
 
-#define MODULE_SCREEN      1
+#define MODULE_SCREEN        1
 
-#define SCREEN_CLEAR       0
-#define SCREEN_FILL        1
-#define SCREEN_FILL_COLOR  2
-#define SCREEN_DRAW_PIXEL  3
-#define SCREEN_DRAW_NUMBER 4
-#define SCREEN_DRAW_TEXT   5
-#define SCREEN_DRAW_LINE   6
-#define SCREEN_DRAW_RECT   7
-#define SCREEN_DRAW_CIRCLE 8
-#define SCREEN_DRAW_IMAGE  9
+#define SCREEN_CLEAR         0
+#define SCREEN_FILL          1
+#define SCREEN_FILL_COLOR    2
+#define SCREEN_SET_TEXT_SIZE 3
+#define SCREEN_DRAW_PIXEL    4
+#define SCREEN_DRAW_NUMBER   5
+#define SCREEN_DRAW_TEXT     6
+#define SCREEN_DRAW_LINE     7
+#define SCREEN_DRAW_RECT     8
+#define SCREEN_DRAW_CIRCLE   9
+#define SCREEN_DRAW_IMAGE    10
 
-#define WHITE              0
-#define BLACK              1
+#define WHITE                0
+#define BLACK                1
 
 proc clearScreen()
     module   MODULE_SCREEN,          SCREEN_CLEAR
