@@ -97,12 +97,15 @@
             <div class="three last right">
                 <h3 class="main">Screen</h3>
                 <ul>
-                    <li><a href="site/examples/screen.html#circle">Circle</li>
-                    <li><a href="site/examples/screen.html#drawtext">Draw text</li>
-                    <li><a href="site/examples/screen.html#image">Image</li>
-                    <li><a href="site/examples/screen.html#line">Line</li>
-                    <li><a href="site/examples/screen.html#pixel">Pixel</li>
-                    <li><a href="site/examples/screen.html#rect">Rect</li>
+                    <li><a href="site/examples/screen.html#setfill">Fill</a></li>
+                    <li><a href="site/examples/screen.html#setfillcolor">FillColor</a></li>
+                    <li><a href="site/examples/screen.html#settextsize">TextSize</a></li>
+                    <li><a href="site/examples/screen.html#circle">Circle</a></li>
+                    <li><a href="site/examples/screen.html#drawtext">Draw text</a></li>
+                    <li><a href="site/examples/screen.html#image">Image</a></li>
+                    <li><a href="site/examples/screen.html#line">Line</a></li>
+                    <li><a href="site/examples/screen.html#pixel">Pixel</a></li>
+                    <li><a href="site/examples/screen.html#rect">Rect</a></li>
                 </ul>
 
                 <br />
@@ -121,10 +124,39 @@
                 </div>
             </div>
 
-            <a id="circle"></a>
-            <div class="two first">
-                <h4>Circle<a data-program="circle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="circle">
+            <div class="two first" id="setfill">
+                <h4>Fill</h4>
+                Set the fill, if 1 then circles and rectangles are filled. If 0 then only lines the outline is drawn.<br />
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
+            </div>
+
+            <div class="two first" id="setfillcolor">
+                <h4>FillColor</h4>
+                Set the fill color.
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
+            </div>
+
+            <div class="two first" id="settextsize">
+                <h4>TextSize</h4>
+                Set the text size.
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
+            </div>
+
+            <div class="two first" id="circle">
+                <h4>Circle<a data-program="drawCircle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawCircle">
                     #include "lib/screen.whl"
 
                     proc main()
@@ -142,10 +174,9 @@
                 </pre>
             </div>
 
-            <a id="drawtext"></a>
-            <div class="two first">
-                <h4>Draw text<a data-program="drawtext" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="drawtext">
+            <div class="two first" id="drawtext">
+                <h4>Draw text<a data-program="drawText" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawText">
                     #include "lib/screen.whl"
 
                     proc main()
@@ -167,8 +198,7 @@
                 </pre>
             </div>
 
-            <a id="image"></a>
-            <div class="two first">
+            <div class="two first" id="image">
                 <h4>Image<!--a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a--></h4>
                 <pre id="image">
                     #include "lib/screen.whl"
@@ -179,10 +209,9 @@
                 </pre>
             </div>
 
-            <a id="line"></a>
-            <div class="two first">
-                <h4>Line<a data-program="line" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="line">
+            <div class="two first" id="line">
+                <h4>Line<a data-program="drawLine" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawLine">
                     #include "lib/screen.whl"
 
                     proc main()
@@ -197,10 +226,9 @@
                 </pre>
             </div>
 
-            <a id="pixel"></a>
-            <div class="two first">
-                <h4>Pixel<a data-program="pixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="pixel">
+            <div class="two first" id="pixel">
+                <h4>Pixel<a data-program="drawPixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawPixel">
                     #include "lib/screen.whl"
 
                     proc main()
@@ -222,10 +250,9 @@
                 </pre>
             </div>
 
-            <a id="rect"></a>
-            <div class="two first">
-                <h4>Rect<a data-program="rect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="rect">
+            <div class="two first" id="rect">
+                <h4>Rect<a data-program="drawRect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="drawRect">
                     #include "lib/screen.whl"
 
                     proc main()

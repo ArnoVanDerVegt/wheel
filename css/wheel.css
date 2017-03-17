@@ -92,6 +92,17 @@ div.three.last {
     padding-right:              0;
 }
 
+div.one .see-also,
+div.two .see-also,
+div.three  .see-also {
+    float:                      left;
+    width:                      100%;
+    text-align:                 right;
+    font-size:                  14px;
+    margin:                     4px 0 4px 0;
+    opacity:                    0.8;
+}
+
 div.one {
     width:                      100%;
 }
