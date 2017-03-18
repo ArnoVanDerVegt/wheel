@@ -38,7 +38,7 @@ describe(
                                 7,      // REG_OFFSET_STACK
                                 0,      // REG_OFFSET_SRC
                                 65535,  // REG_OFFSET_DEST
-                                4,      // REG_OFFSET_CODE
+                                65536,  // REG_OFFSET_CODE
                                 0,      // REG_RETURN
                                 0,      // REG_FLAGS
                                 result, // number a - start of globals
@@ -79,7 +79,7 @@ describe(
                                 8,      // REG_OFFSET_STACK
                                 0,      // REG_OFFSET_SRC
                                 65535,  // REG_OFFSET_DEST
-                                5,      // REG_OFFSET_CODE
+                                65536,  // REG_OFFSET_CODE
                                 0,      // REG_RETURN
                                 0,      // REG_FLAGS
                                 result, // valueA [set|add|sub|mul|div] valueB; number a - start of globals
@@ -121,7 +121,7 @@ describe(
                                 7,      // REG_OFFSET_STACK
                                 0,      // REG_OFFSET_SRC
                                 65535,  // REG_OFFSET_DEST
-                                5,      // REG_OFFSET_CODE
+                                65536,  // REG_OFFSET_CODE
                                 0,      // REG_RETURN
                                 0,      // REG_FLAGS
                                 result, // valueA [set|add|sub|mul|div] valueB; number a - start of globals
