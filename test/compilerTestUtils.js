@@ -36,6 +36,7 @@ require('../vm/modules/SensorModule.js');
 require('../vm/modules/MathModule.js');
 require('../vm/modules/LightModule.js');
 require('../vm/modules/ButtonsModule.js');
+require('../vm/modules/SoundModule.js');
 
 var wheel = require('../utils/base.js').wheel;
 

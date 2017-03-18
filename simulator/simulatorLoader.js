@@ -63,6 +63,10 @@
                         {
                             name:    'lib/screen.whl',
                             content: wheel.simulator.includes.screen
+                        },
+                        {
+                            name:    'lib/sound.whl',
+                            content: wheel.simulator.includes.sound
                         }
                     ]
                 );

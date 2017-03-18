@@ -38,6 +38,9 @@
             <div class="three right">
                 <h3 class="main">Screen module</h3>
                 <ul>
+                    <li><a href="site/modules/screen.html#setfill">Fill</a></li>
+                    <li><a href="site/modules/screen.html#setfillcolor">FillColor</a></li>
+                    <li><a href="site/modules/screen.html#settextsize">TextSize</a></li>
                     <li><a href="site/modules/screen.html#circle">drawCircle</a></li>
                     <li><a href="site/modules/screen.html#image">drawImage</a></li>
                     <li><a href="site/modules/screen.html#number">drawNumber</a></li>
@@ -61,50 +64,57 @@
                 </div>
             </div>
 
-            <a id="circle"></a>
-            <div class="two first">
+            <div class="two first" id="setfill">
+                <h4>setFill</h4>
+                <pre>proc setFill(number fill)</pre>
+            </div>
+
+            <div class="two first" id="settextsize">
+                <h4>setTextSize</h4>
+                <pre>proc setTextSize(number textSize)</pre>
+            </div>
+
+            <div class="two first" id="setfillcolor">
+                <h4>setFillColor</h4>
+                <pre>proc setFillColor(number fillColor)</pre>
+            </div>
+
+            <div class="two first" id="circle">
                 <h4>drawCircle</h4>
                 <pre>proc drawCircle(number x, number y, number radius)</pre>
             </div>
 
-            <a id="image"></a>
-            <div class="two first">
+            <div class="two first" id="image">
                 <h4>drawImage</h4>
                 <pre>proc drawImage(number x, number y, string filename)</pre>
             </div>
 
-            <a id="number"></a>
-            <div class="two first">
+            <div class="two first" id="number">
                 <h4>drawNumber</h4>
                 <pre>proc drawNumber(number x, number y, number n)</pre>
             </div>
 
-            <a id="line"></a>
-            <div class="two first">
+            <div class="two first" id="line">
                 <h4>drawLine</h4>
                 <pre>proc drawLine(number x1, number y1, number x2, number y2)</pre>
             </div>
 
-            <a id="pixel"></a>
-            <div class="two first">
+            <div class="two first" id="pixel">
                 <h4>drawPixel</h4>
                 <pre>proc drawPixel(number x, number y)</pre>
             </div>
 
-            <a id="rect"></a>
-            <div class="two first">
+            <div class="two first" id="rect">
                 <h4>drawRect</h4>
                 <pre>proc drawRect(number x, number y, number width, number height)</pre>
             </div>
 
-            <a id="text"></a>
-            <div class="two first">
+            <div class="two first" id="text">
                 <h4>drawText</h4>
                 <pre>proc drawText(number x, number y, string s)</pre>
             </div>
 
-            <a id="screen"></a>
-            <div class="two first">
+            <div class="two first" id="screen">
                 <h4>clearScreen</h4>
                 <pre>proc clearScreen()</pre>
             </div>

@@ -10,6 +10,7 @@
                 this._vmData      = new wheel.VMData({});
                 this._commands    = null;
                 this._runInterval = null;
+                this._pause       = 0;
 
                 this.initModules();
             };
@@ -23,6 +24,7 @@
                 this._modules[4] = new wheel.vm.modules.MathModule    ({vm: this, vmData: this._vmData});
                 this._modules[5] = new wheel.vm.modules.LightModule   ({vm: this, vmData: this._vmData});
                 this._modules[6] = new wheel.vm.modules.ButtonsModule ({vm: this, vmData: this._vmData});
+                this._modules[7] = new wheel.vm.modules.SoundModule   ({vm: this, vmData: this._vmData});
             };
 
             this.getParamValue = function(data, regOffsetStack, param) {
@@ -115,27 +117,24 @@
             };
 
             this.onInterval = function() {
-                var vmData   = this._vmData;
-                var data     = vmData.getData();
-                var commands = this._commands;
-                var count    = 0;
-                while ((vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) < commands.length - 1) && (count < 1000)) {
-                    //console.log(vmData.getGlobalNumber(wheel.compiler.command.REG_CODE), JSON.parse(JSON.stringify(vmData.getData())));
-                    this.emit(
-                        'RunLine',
-                        vmData.getGlobalNumber(wheel.compiler.command.REG_CODE),
-                        {
-                            stack: data[wheel.compiler.command.REG_STACK],
-                            src:   data[wheel.compiler.command.REG_SRC],
-                            dest:  data[wheel.compiler.command.REG_DEST],
-                            code:  data[wheel.compiler.command.REG_CODE],
-                            ret:   data[wheel.compiler.command.REG_RETURN],
-                            flags: data[wheel.compiler.command.REG_FLAGS]
-                        }
-                    );
+                var vmData     = this._vmData;
+                var data       = vmData.getData();
+                var commands   = this._commands;
+                var count      = 0;
+                var isFinished = function() {
+                        return (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) >= commands.length);
+                    };
+
+                while (!isFinished() && (count < 100) && (this._pause === 0)) {
+
                     this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_CODE)]);
                     vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) + 1);
                     count++;
+                }
+
+                if (isFinished()) {
+                    clearInterval(this._runInterval);
+                    this._runInterval = null;
                 }
             };
 
@@ -153,20 +152,22 @@
                 vmData.setGlobalNumber(stackOffset,     stackOffset); // Stack offset
                 vmData.setGlobalNumber(stackOffset + 1, 65535);       // Code execution position...
 
-                this.onInterval();
+                this._runInterval = setInterval(this.onInterval.bind(this), 10);
             };
 
             this.stop = function() {
+                clearInterval(this._runInterval);
+                this._runInterval = null;
+                this._pause       = 0;
             };
 
-            /*
-
-            Maybe for testing later...
-
-            this.getModule = function(index) {
-                return this._modules[index];
+            this.pause = function() {
+                this._pause++;
             };
-            */
+
+            this.resume = function() {
+                this._pause--;
+            };
 
             this.getVMData = function() {
                 return this._vmData;
