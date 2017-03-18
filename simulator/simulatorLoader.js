@@ -101,7 +101,7 @@
                 return;
             }
             simulator.getDisplay().clearScreen();
-            vm.runAll(
+            vm.run(
                 outputCommands,
                 compilerData.getStringList(),
                 compilerData.getGlobalConstants(),
