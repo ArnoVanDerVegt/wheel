@@ -16,11 +16,14 @@
                         var oscillator = audioCtx.createOscillator();
                         var gainNode   = audioCtx.createGain();
 
-                        gainNode.gain.value = 100;
-
                         oscillator.type = 'square';
                         oscillator.frequency.value = playTone.frequency;
                         oscillator.connect(audioCtx.destination);
+
+                        gainNode.gain.setValueAtTime(0, 0);
+                        gainNode.connect(audioCtx.destination);
+                        oscillator.connect(gainNode);
+
                         oscillator.start();
 
                         setTimeout(

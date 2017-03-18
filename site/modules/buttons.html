@@ -52,22 +52,55 @@
                     <a href="site/modules/math.html">Math module</a><br />
                     <a href="site/modules/light.html">Light module</a><br />
                     <a href="site/modules/buttons.html">Buttons module</a><br />
+                    <a href="site/modules/sound.html">Sound module</a><br />
                 </div>
             </div>
 
-            <a id="constants"></a>
             <div class="two first">
-                <h4>Constants</h4>
+                <h3>Buttons module</h3>
+                <br />
+                <table>
+                    <tr><td>MODULE_BUTTONS</td><td>6</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>BUTTON_READ</td><td>result</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h4>button</h4>
+                An implementation of a call to the button read api.
                 <pre>
+                    #define MODULE_BUTTONS 6
                     #define BUTTON_READ    0
 
-                    #define BUTTON_NONE    0
-                    #define BUTTON_LEFT    1
-                    #define BUTTON_CENTER  2
-                    #define BUTTON_RIGHT   3
-                    #define BUTTON_UP      4
-                    #define BUTTON_DOWN    5
+                    proc button()
+                        struct Button
+                            number result
+                        ends
+                        Button button
+                        addr     button
+                        module   MODULE_BUTTONS, BUTTON_READ
+
+                        return button.result
+                    endp
                 </pre>
+            </div>
+
+            <div class="two first" id="constants">
+                <h4>Constants</h4>
+
+                <table>
+                    <tr><th>Name</th><th>Value</th></tr>
+                    <tr><td>BUTTON_NONE</td><td>0</td></tr>
+                    <tr><td>BUTTON_LEFT</td><td>1</td></tr>
+                    <tr><td>BUTTON_CENTER</td><td>2</td></tr>
+                    <tr><td>BUTTON_RIGHT</td><td>3</td></tr>
+                    <tr><td>BUTTON_UP</td><td>4</td></tr>
+                    <tr><td>BUTTON_DOWN</td><td>5</td></tr>
+                </table>
             </div>
 
             <a id="button"></a>

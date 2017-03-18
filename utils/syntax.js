@@ -1,8 +1,12 @@
 (function() {
-    var keywords = ['proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub', 'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret', 'set'];
+    var keywords = [
+            'proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub',
+            'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret', 'set', 'module', 'addr', 'return', 'jmp'];
     var types    = ['number', 'string'];
     var sign     = ['=', '(', ')', ','];
     var meta     = ['#project', '#define', '#include'];
+    var defines  = [];
+    var structs  = [];
 
     function parseLine(line) {
         var result  = '';
@@ -15,28 +19,53 @@
             line    = line.substr(0, i);
         }
 
+        var i = 0;
+
         var addWord = function(w) {
                 w = w || word;
+
+                var grabNextWord = function() {
+                        var j = i;
+                        while ((j < line.length) && (line[j] === ' ')) {
+                            j++;
+                        }
+                        while ((j < line.length) && (line[j] !== ' ')) {
+                            j++;
+                        }
+                        return line.substr(i, j - i).trim();
+                    };
+
                 if (isNaN(w)) {
-                    if (keywords.indexOf(w) !== -1) {
+                    if (defines.indexOf(w) !== -1) {
+                        result += '<span class="green italic">' + w + '</span>';
+                    } else if (structs.indexOf(w) !== -1) {
+                        result += '<span class="purple">' + w + '</span>';
+                    } else if (keywords.indexOf(w) !== -1) {
+                        if (w === 'struct') {
+                            var nextWord = grabNextWord();
+                            (nextWord === '') || structs.push(nextWord);
+                        }
                         result += '<span class="orange">' + w + '</span>';
                     } else if (sign.indexOf(w) !== -1) {
                         result += '<span class="black">' + w + '</span>';
                     } else if (types.indexOf(w) !== -1) {
-                        result += '<span class="purple italic bold">' + w + '</span>';
-                    } else if (meta.indexOf(w) !== -1) {
                         result += '<span class="purple bold">' + w + '</span>';
+                    } else if (meta.indexOf(w) !== -1) {
+                        if (w === '#define') {
+                            var nextWord = grabNextWord();
+                            (nextWord === '') || defines.push(nextWord);
+                        }
+                        result += '<span class="orange italic">' + w + '</span>';
                     } else {
                         result += '<span class="blue">' + w + '</span>';
                     }
                 } else {
-                    result += '<span class="dark-blue">' + w + '</span>';
+                    result += '<span class="green">' + w + '</span>';
                 }
 
                 word = '';
             };
 
-        var i = 0;
         while (i < line.length) {
             var c = line[i];
 
@@ -44,6 +73,16 @@
                 case ' ':
                     (word === '') || addWord(word);
                     result += ' ';
+                    break;
+
+                case '"':
+                    var s = c;
+                    i++;
+                    while ((i < line.length) && (line[i] !== '"')) {
+                        s += line[i++];
+                    }
+                    s += c;
+                    result += '<span class="green italic">' + s + '</span>';
                     break;
 
                 case ',':
@@ -70,7 +109,7 @@
         (word === '') || addWord(word);
 
         if (comment !== '') {
-            result += '<span class="purple italic">' + comment + '</span>';
+            result += '<span class="comment">' + comment + '</span>';
         }
 
         return result;

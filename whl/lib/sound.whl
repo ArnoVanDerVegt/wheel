@@ -1,4 +1,4 @@
-#define MODULE_SOUND      0
+#define MODULE_SOUND      7
 
 #define SOUND_PLAY_TONE   0
 #define SOUND_PLAY_SAMPLE 1

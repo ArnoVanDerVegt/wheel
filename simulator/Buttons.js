@@ -14,6 +14,10 @@
                 element.addEventListener('mouseout',  this.onMouseOut.bind(this));
             };
 
+            this.getDown = function() {
+                return this._down;
+            };
+
             this.onMouseDown = function() {
                 this._down              = true;
                 this._element.className = this._className.down;
@@ -21,12 +25,12 @@
             };
 
             this.onMouseUp = function() {
-                this._up                = false;
+                this._down              = false;
                 this._element.className = this._className.up;
             };
 
             this.onMouseOut = function() {
-                this._out               = false;
+                this._down              = false;
                 this._element.className = this._className.up;
             };
         });
@@ -36,6 +40,8 @@
         wheel.Class(function() {
             this.init = function(opts) {
                 var nodesById = opts.nodesById;
+
+                wheel.vm.modules.ButtonsModule.setButtons(this);
 
                 this._buttonStop = new Button({
                     element: nodesById.buttonStop,
@@ -80,6 +86,25 @@
                         down: 'ev3-button-down pressed'
                     }
                 });
+            };
+
+            this.readButton = function(button) {
+                if (this._buttonLeft.getDown()) {
+                    return 1;
+                }
+                if (this._buttonCenter.getDown()) {
+                    return 2;
+                }
+                if (this._buttonRight.getDown()) {
+                    return 3;
+                }
+                if (this._buttonUp.getDown()) {
+                    return 4;
+                }
+                if (this._buttonDown.getDown()) {
+                    return 5;
+                }
+                return 0;
             };
         })
     );

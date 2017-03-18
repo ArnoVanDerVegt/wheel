@@ -53,24 +53,59 @@
                     <a href="site/modules/math.html">Math module</a><br />
                     <a href="site/modules/light.html">Light module</a><br />
                     <a href="site/modules/buttons.html">Buttons module</a><br />
+                    <a href="site/modules/sound.html">Sound module</a><br />
                 </div>
             </div>
 
-            <a id="printn"></a>
             <div class="two first">
+                <h3>Standard module</h3>
+                <br />
+                <table>
+                    <tr><td>MODULE_STANDARD</td><td>0</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>STANDARD_PRINT_NUMBER</td><td>n</td></tr>
+                    <tr><td>1</td><td>STANDARD_PRINT_STRING</td><td>s</td></tr>
+                    <tr><td>2</td><td>STANDARD_SLEEP</td><td>time (milliseconds)</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h4>sleep</h4>
+                An implementation of a call to the sleep api.
+                <pre>
+                    #define MODULE_STANDARD 1
+                    #define STANDARD_SLEEP  2
+
+                    proc sleep(number milliseconds)
+                        struct Sleep
+                            number milliseconds
+                        ends
+                        Sleep sleep
+                        set    sleep.milliseconds, milliseconds
+                        addr   sleep
+                        module MODULE_STANDARD, STANDARD_SLEEP
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="printn">
                 <h4>printN</h4>
+                This function is used for unit testing the compiler and vm.
                 <pre>proc printN(number n)</pre>
             </div>
 
-            <a id="prints"></a>
-            <div class="two first">
+            <div class="two first" id="prints">
                 <h4>printS</h4>
+                This function is used for unit testing the compiler and vm.
                 <pre>proc printS(string s)</pre>
             </div>
 
-            <a id="sleep"></a>
-            <div class="two first">
+            <div class="two first" id="sleep">
                 <h4>sleep</h4>
+                Halts the execution of VM commands for a given number of milliseconds.
                 <pre>proc sleep(number milliseconds)</pre>
             </div>
 

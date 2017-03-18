@@ -44,13 +44,14 @@
     <script src="vm/VMData.js"></script>
     <script src="vm/VM.js"></script>
     <script src="vm/modules/VMModule.js"></script>
-    <script src="vm/modules/StandardModule.js"></script>
+    <script src="simulator/modules/StandardModule.js"></script>
     <script src="simulator/modules/ScreenModule.js"></script>
+    <script src="simulator/modules/SoundModule.js"></script>
+    <script src="simulator/modules/ButtonsModule.js"></script>
     <script src="vm/modules/MotorModule.js"></script>
     <script src="vm/modules/SensorModule.js"></script>
     <script src="vm/modules/MathModule.js"></script>
     <script src="vm/modules/LightModule.js"></script>
-    <script src="vm/modules/ButtonsModule.js"></script>
     <script src="vm/modules/SoundModule.js"></script>
 
     <script src="simulator/includes/standard.js"></script>
@@ -63,7 +64,6 @@
     <script src="simulator/TextLarge.js"></script>
     <script src="simulator/Display.js"></script>
     <script src="simulator/Buttons.js"></script>
-    <script src="simulator/Sound.js"></script>
     <script src="simulator/Light.js"></script>
     <script src="simulator/Simulator.js"></script>
 
@@ -99,20 +99,22 @@
             <div class="three last right">
                 <h3 class="main">Screen</h3>
                 <ul>
-                    <li><a href="site/examples/screen.html#setfill">Fill</a></li>
-                    <li><a href="site/examples/screen.html#setfillcolor">FillColor</a></li>
-                    <li><a href="site/examples/screen.html#settextsize">TextSize</a></li>
-                    <li><a href="site/examples/screen.html#circle">Circle</a></li>
-                    <li><a href="site/examples/screen.html#drawtext">Draw text</a></li>
-                    <li><a href="site/examples/screen.html#image">Image</a></li>
-                    <li><a href="site/examples/screen.html#line">Line</a></li>
-                    <li><a href="site/examples/screen.html#pixel">Pixel</a></li>
-                    <li><a href="site/examples/screen.html#rect">Rect</a></li>
+                    <li><a href="site/examples/screen.html#setfill">setFill</a></li>
+                    <li><a href="site/examples/screen.html#setfillcolor">setFillColor</a></li>
+                    <li><a href="site/examples/screen.html#settextsize">setTextSize</a></li>
+                    <li><a href="site/examples/screen.html#circle">drawCircle</a></li>
+                    <li><a href="site/examples/screen.html#drawnumber">drawNumber</a></li>
+                    <li><a href="site/examples/screen.html#drawtext">drawText</a></li>
+                    <li><a href="site/examples/screen.html#image">drawImage</a></li>
+                    <li><a href="site/examples/screen.html#line">drawLine</a></li>
+                    <li><a href="site/examples/screen.html#pixel">drawPixel</a></li>
+                    <li><a href="site/examples/screen.html#rect">drawRect</a></li>
                 </ul>
 
                 <br />
                 <h3>Examples</h3>
                 <a href="site/examples/screen.html">Screen</a><br />
+                <a href="site/examples/buttons.html">Buttons</a><br />
                 <a href="site/examples/sound.html">Sound</a><br />
 
                 <a id="simulator"></a>
@@ -133,17 +135,18 @@
             </div>
 
             <div class="two first" id="setfill">
-                <h4>Fill</h4>
+                <h4>setFill</h4>
                 Set the fill, if 1 then circles and rectangles are filled. If 0 then only lines the outline is drawn.<br />
                 <span class="see-also">
                     See:
                     <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/buttons.html">Buttons</a>,
                     <a href="site/examples/screen.html#rect">Rect</a>.
                 </span>
             </div>
 
             <div class="two first" id="setfillcolor">
-                <h4>FillColor</h4>
+                <h4>setFillColor</h4>
                 Set the fill color.
                 <span class="see-also">
                     See:
@@ -153,7 +156,7 @@
             </div>
 
             <div class="two first" id="settextsize">
-                <h4>TextSize</h4>
+                <h4>setTextSize</h4>
                 Set the text size.
                 <span class="see-also">
                     See:
@@ -163,7 +166,7 @@
             </div>
 
             <div class="two first" id="circle">
-                <h4>Circle<a data-program="drawCircle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>drawCircle<a data-program="drawCircle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="drawCircle">
                     #include "lib/screen.whl"
 
@@ -182,32 +185,61 @@
                 </pre>
             </div>
 
+            <div class="two first" id="drawNumberber">
+                <h4>drawNumber<a data-program="drawNumberber" data-title="Number drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Draw a text with the active fill and color settings.
+                <pre id="drawNumberber">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number n
+
+                        for n = 0 to 10
+                            number x
+                            number y
+
+                            x = n
+                            x *= 10
+                            y = n
+                            y *= 4
+                            y += 10
+
+                            drawNumber(x, y, n)
+                        end
+                    endp
+                </pre>
+            </div>
+
             <div class="two first" id="drawtext">
-                <h4>Draw text<a data-program="drawText" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>drawText<a data-program="drawText" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Draw a text with the active fill and color settings.
                 <pre id="drawText">
                     #include "lib/screen.whl"
 
                     proc main()
+                        ; Draw a small black text at the left top of the screen...
                         drawText(10, 10, "The quick brown")
 
+                        ; Set the text size to small bold:
                         setTextSize(1)
                         drawText(10, 25, "fox jumped over")
 
+                        ; Set the text size to large:
                         setTextSize(2)
                         drawText(10, 40, "Lazy dogs")
 
+                        ; Set the text size back to small:
                         setTextSize(0)
+                        ; Set the fill:
                         setFill(1)
+                        ; This draws small text with black bagkround...
                         drawText(10, 60, "The quick brown")
-
-                        setTextSize(1)
-                        drawText(10, 70, "fox jumped over")
                     endp
                 </pre>
             </div>
 
             <div class="two first" id="image">
-                <h4>Image<!--a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a--></h4>
+                <h4>drawImage<!--a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a--></h4>
                 <pre id="image">
                     #include "lib/screen.whl"
 
@@ -218,7 +250,7 @@
             </div>
 
             <div class="two first" id="line">
-                <h4>Line<a data-program="drawLine" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>drawLine<a data-program="drawLine" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="drawLine">
                     #include "lib/screen.whl"
 
@@ -235,7 +267,8 @@
             </div>
 
             <div class="two first" id="pixel">
-                <h4>Pixel<a data-program="drawPixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>drawPixel<a data-program="drawPixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                The following demo draws a 100 pixels in a grid:
                 <pre id="drawPixel">
                     #include "lib/screen.whl"
 
@@ -259,7 +292,7 @@
             </div>
 
             <div class="two first" id="rect">
-                <h4>Rect<a data-program="drawRect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <h4>drawRect<a data-program="drawRect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
                 <pre id="drawRect">
                     #include "lib/screen.whl"
 

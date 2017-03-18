@@ -52,23 +52,55 @@
                     <a href="site/modules/math.html">Math module</a><br />
                     <a href="site/modules/light.html">Light module</a><br />
                     <a href="site/modules/buttons.html">Buttons module</a><br />
+                    <a href="site/modules/sound.html">Sound module</a><br />
                 </div>
             </div>
 
-            <a id="constants"></a>
             <div class="two first">
-                <h4>Constants</h4>
+                <h3>Light module</h3>
+                <br />
+                <table>
+                    <tr><td>MODULE_LIGHT</td><td>5</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>MODULE_LIGHT</td><td>color, flash</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h4>light</h4>
+                An implementation of a call to the light api.
                 <pre>
-                    #define LIGHT_UPDATE      0
+                    #define MODULE_LIGHT 5
+                    #define LIGHT_UPDATE 0
 
-                    #define LIGHT_OFF         0
-                    #define LIGHT_RED         1
-                    #define LIGHT_YELLOW      2
-                    #define LIGHT_GREEN       3
-
-                    #define LIGHT_FLASH_OFF   0
-                    #define LIGHT_FLASH_ON    1
+                    proc light(number color, number flash)
+                        struct Light
+                            number color, flash
+                        ends
+                        Light light
+                        set      light.color,  color
+                        set      light.flash,  flash
+                        addr     light
+                        module   MODULE_LIGHT, LIGHT_UPDATE
+                    endp
                 </pre>
+            </div>
+
+            <div class="two first" id="constants">
+                <h4>Constants</h4>
+
+                <table>
+                    <tr><th>Name</th><th>Value</th></tr>
+                    <tr><td>LIGHT_OFF</td><td>0</td></tr>
+                    <tr><td>LIGHT_RED</td><td>1</td></tr>
+                    <tr><td>LIGHT_YELLOW</td><td>2</td></tr>
+                    <tr><td>LIGHT_GREEN</td><td>3</td></tr>
+                    <tr><td>LIGHT_FLASH_OFF</td><td>0</td></tr>
+                    <tr><td>LIGHT_FLASH_ON</td><td>1</td></tr>
+                </table>
             </div>
 
             <a id="light"></a>

@@ -64,6 +64,51 @@
                 </div>
             </div>
 
+            <div class="two first">
+                <h3>Screen module</h3>
+                <br />
+                <table>
+                    <tr><td>MODULE_SCREEN</td><td>1</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>SCREEN_CLEAR</td><td></td></tr>
+                    <tr><td>1</td><td>SCREEN_FILL</td><td>fill</td></tr>
+                    <tr><td>2</td><td>SCREEN_FILL_COLOR</td><td>color</td></tr>
+                    <tr><td>3</td><td>SCREEN_SET_TEXT_SIZE</td><td>size</td></tr>
+                    <tr><td>4</td><td>SCREEN_DRAW_PIXEL</td><td>x, y</td></tr>
+                    <tr><td>5</td><td>SCREEN_DRAW_NUMBER</td><td>x, y, n</td></tr>
+                    <tr><td>6</td><td>SCREEN_DRAW_TEXT</td><td>x, y, text</td></tr>
+                    <tr><td>7</td><td>SCREEN_DRAW_LINE</td><td>x1, y1, x2, y2</td></tr>
+                    <tr><td>8</td><td>SCREEN_DRAW_RECT</td><td>x, y, width, height</td></tr>
+                    <tr><td>9</td><td>SCREEN_DRAW_CIRCLE</td><td>x, y, radius</td></tr>
+                    <tr><td>10</td><td>SCREEN_DRAW_IMAGE</td><td>x, y, filename</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h4>drawPixel</h4>
+                An implementation of a call to the pixel drawing api.
+                <pre>
+                    #define MODULE_SCREEN     1
+                    #define SCREEN_DRAW_PIXEL 4
+
+                    proc drawPixel(number x, number y)
+                        struct DrawPixel ; Declare a struct for the parameters
+                            number x, y
+                        ends
+                        DrawPixel drawPixel
+                        ; Set the parameter values:
+                        set    drawPixel.x, x
+                        set    drawPixel.y, y
+                        ; Set the source register to the address of the drawPixel record:
+                        addr   drawPixel
+                        module MODULE_SCREEN, SCREEN_DRAW_PIXEL
+                    endp
+                </pre>
+            </div>
+
             <div class="two first" id="setfill">
                 <h4>setFill</h4>
                 <pre>proc setFill(number fill)</pre>

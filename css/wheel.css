@@ -339,6 +339,9 @@ div.three table th {
 .purple {
     color:                      #6F42C1;
 }
+.green {
+    color:                      #6FC142;
+}
 .black {
     color:                      #383838;
 }
@@ -362,6 +365,14 @@ pre {
     border:                     1px solid #E0E0E0;
     border-radius:              2px;
     background-color:           #FAFBFC;
+}
+pre .comment {
+    background-color:           #FFFFFF;
+    height:                     24px;
+    padding:                    0 12px 0 12px;
+    border-radius:              12px;
+    line-height:                24px;
+    font-size:                  14px;
 }
 .content {
     float:                      left;

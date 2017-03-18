@@ -65,6 +65,10 @@
                             content: wheel.simulator.includes.screen
                         },
                         {
+                            name:    'lib/buttons.whl',
+                            content: wheel.simulator.includes.buttons
+                        },
+                        {
                             name:    'lib/sound.whl',
                             content: wheel.simulator.includes.sound
                         }

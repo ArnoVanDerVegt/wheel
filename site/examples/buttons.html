@@ -56,6 +56,7 @@
     <script src="simulator/includes/standard.js"></script>
     <script src="simulator/includes/screen.js"></script>
     <script src="simulator/includes/sound.js"></script>
+    <script src="simulator/includes/buttons.js"></script>
 
     <script src="simulator/Text.js"></script>
     <script src="simulator/TextSmall.js"></script>
@@ -95,9 +96,9 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="main">Sound</h3>
+                <h3 class="main">Buttons</h3>
                 <ul>
-                    <li><a href="site/examples/sound.html#playtone">playTone</a></li>
+                    <li><a href="site/examples/buttons.html#button">button</a></li>
                 </ul>
 
                 <br />
@@ -119,17 +120,23 @@
             </div>
 
             <div class="two first" id="setfill">
-                <h3>Sound</h3>
-                With the sound module you can play tones and samples.
+                <h3>Buttons</h3>
+                With the buttons module you can read the state of the EV3 buttons.
             </div>
 
             <div class="two first" id="circle">
-                <h4>PlayTone<a data-program="playTone" data-title="Play tone demo" href="site/examples/sound.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="playTone">
-                    #include "lib/sound.whl"
+                <h4>button<a data-program="buttons" data-title="Buttons demo" href="site/examples/buttons.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="buttons">
+                    #include "lib/buttons.whl"
+                    #include "lib/screen.whl"
 
                     proc main()
-                        playTone(440, 1000, 100)
+                        number b
+                        setTextSize(2)
+                    loop:
+                        set b, button()
+                        drawNumber(73, 56, b)
+                        jmp loop
                     endp
                 </pre>
             </div>
