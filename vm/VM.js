@@ -124,10 +124,22 @@
                 var commands   = this._commands;
                 var count      = 0;
                 var isFinished = function() {
-                        return (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) >= commands.length);
+                        return (vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) > commands.length);
                     };
 
                 while (!isFinished() && (count < total) && (this._pause === 0)) {
+                    this.emit(
+                        'RunLine',
+                        vmData.getGlobalNumber(wheel.compiler.command.REG_CODE),
+                        {
+                            stack: data[wheel.compiler.command.REG_STACK],
+                            src:   data[wheel.compiler.command.REG_SRC],
+                            dest:  data[wheel.compiler.command.REG_DEST],
+                            code:  data[wheel.compiler.command.REG_CODE],
+                            ret:   data[wheel.compiler.command.REG_RETURN],
+                            flags: data[wheel.compiler.command.REG_FLAGS]
+                        }
+                    );
 
                     this.runCommand(commands[vmData.getGlobalNumber(wheel.compiler.command.REG_CODE)]);
                     vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, vmData.getGlobalNumber(wheel.compiler.command.REG_CODE) + 1);
@@ -151,8 +163,14 @@
                 vmData.setGlobalNumber(wheel.compiler.command.REG_CODE, commands.getMainIndex());
 
                 // Return pointers...
-                vmData.setGlobalNumber(stackOffset,     stackOffset); // Stack offset
-                vmData.setGlobalNumber(stackOffset + 1, 65535);       // Code execution position...
+                // Stack offset:
+                vmData.setGlobalNumber(stackOffset, stackOffset);
+
+                // Code execution position...
+                // When the main procedure is executed it gets the return data from the stack which
+                // will return 65535, the VM increases the value and stops the program when.
+                // After stopping REG_CODE will have a value of 65536.
+                vmData.setGlobalNumber(stackOffset + 1, 65535);
             };
 
             this.runAll = function(commands, stringList, globalConstants, stackOffset) {

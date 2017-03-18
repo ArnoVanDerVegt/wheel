@@ -21,7 +21,7 @@ describe(
                             9,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            2,      // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             0,      // number a[0] - start of globals
@@ -47,7 +47,7 @@ describe(
                             9,      // REG_OFFSET_STACK
                             11,     // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            8,      // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             0,      // number a[0] - start of globals
@@ -76,7 +76,7 @@ describe(
                             10,     // REG_OFFSET_STACK
                             41,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            15,     // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             41,     // number i - start of globals
@@ -103,7 +103,7 @@ describe(
                             10,     // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            2,      // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             45,     // number a[0] - start of globals
@@ -130,7 +130,7 @@ describe(
                             6,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            5,      // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             6,      // stack pointer
@@ -154,7 +154,7 @@ describe(
                             9,      // REG_OFFSET_STACK
                             9,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            16,     // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             34,     // global constant [0]
