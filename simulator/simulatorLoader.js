@@ -65,6 +65,14 @@
                             content: wheel.simulator.includes.screen
                         },
                         {
+                            name:    'lib/math.whl',
+                            content: wheel.simulator.includes.math
+                        },
+                        {
+                            name:    'lib/light.whl',
+                            content: wheel.simulator.includes.buttons
+                        },
+                        {
                             name:    'lib/buttons.whl',
                             content: wheel.simulator.includes.buttons
                         },
@@ -114,6 +122,7 @@
                 return;
             }
             vm.stop();
+            simulator.getLight().off();
             simulator.getDisplay().drawLoaded(outputTitle);
         };
 

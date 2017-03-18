@@ -56,6 +56,7 @@
     <script src="simulator/includes/standard.js"></script>
     <script src="simulator/includes/screen.js"></script>
     <script src="simulator/includes/sound.js"></script>
+    <script src="simulator/includes/math.js"></script>
     <script src="simulator/includes/buttons.js"></script>
     <script src="simulator/includes/light.js"></script>
 
@@ -97,16 +98,20 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="main img"><img src="site/images/buttons.png" width="32" height="32"/> <span>Buttons</span></h3>
+                <h3 class="main img"><img src="site/images/numeric.png" width="32" height="32"/> <span>Math</span></h3>
                 <ul>
-                    <li><a href="site/examples/buttons.html#button">button</a></li>
+                    <li><a href="site/examples/math.html#round">round</a></li>
+                    <li><a href="site/examples/math.html#floor">floor</a></li>
+                    <li><a href="site/examples/math.html#ceil">ceil</a></li>
+                    <li><a href="site/examples/math.html#abs">abs</a></li>
+                    <li><a href="site/examples/math.html#neg">neg</a></li>
                 </ul>
 
                 <br />
                 <h3>Examples</h3>
                 <a href="site/examples/screen.html">Screen</a><br />
-                <a href="site/examples/math.html">Math</a><br />
                 <a href="site/examples/light.html">Light</a><br />
+                <a href="site/examples/buttons.html">Buttons</a><br />
                 <a href="site/examples/sound.html">Sound</a><br />
 
                 <a id="simulator"></a>
@@ -122,23 +127,141 @@
             </div>
 
             <div class="two first" id="setfill">
-                <h3>Buttons</h3>
-                With the buttons module you can read the state of the EV3 buttons.
+                <h3>Math</h3>
+                Math operations other than the 5 VM operator commands (add, sub, mul, div, mod).
             </div>
 
-            <div class="two first" id="circle">
-                <h4>button<a data-program="buttons" data-title="Buttons demo" href="site/examples/buttons.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="buttons">
-                    #include "lib/buttons.whl"
+            <div class="two first" id="round">
+                <h4>round<a data-program="round" data-title="Round demo" href="site/examples/math.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Round a value to the closest integer value.
+                <pre id="round">
+                    #include "lib/math.whl"
                     #include "lib/screen.whl"
 
                     proc main()
+                        number a
                         number b
-                        setTextSize(2)
-                    loop:
-                        set b, button()
-                        drawNumber(73, 56, b)
-                        jmp loop
+
+                        a = 0.6
+                        ; b will be a rounded up to 1
+                        b = round(a)
+
+                        drawNumber(10, 10, a)
+                        drawNumber(10, 30, b)
+
+                        a = 2.4
+                        ; b will be a rounded down to 2
+                        b = round(a)
+                        drawNumber(10, 60, a)
+                        drawNumber(10, 80, b)
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="floor">
+                <h4>floor<a data-program="floor" data-title="Floor demo" href="site/examples/math.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Round a value down to the closest integer value.
+                <pre id="floor">
+                    #include "lib/math.whl"
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number a
+                        number b
+
+                        a = 6.99
+                        ; b will be a rounded down to 6
+                        b = floor(a)
+
+                        drawNumber(10, 10, a)
+                        drawNumber(10, 30, b)
+
+                        a = -2.4
+                        ; b will be a rounded down to -3
+                        b = floor(a)
+                        drawNumber(10, 60, a)
+                        drawNumber(10, 80, b)
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="ceil">
+                <h4>ceil<a data-program="ceil" data-title="Floor demo" href="site/examples/math.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Round a value up to the closest integer value.
+                <pre id="ceil">
+                    #include "lib/math.whl"
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number a
+                        number b
+
+                        a = 15.01
+                        ; b will be a rounded up to 16
+                        b = ceil(a)
+
+                        drawNumber(10, 10, a)
+                        drawNumber(10, 30, b)
+
+                        a = -19.4
+                        ; b will be a rounded up to -19
+                        b = ceil(a)
+                        drawNumber(10, 60, a)
+                        drawNumber(10, 80, b)
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="abs">
+                <h4>abs<a data-program="abs" data-title="Floor demo" href="site/examples/math.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Get the absolute value.
+                <pre id="abs">
+                    #include "lib/math.whl"
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number a
+                        number b
+
+                        a = -9
+                        ; b will be the positive value of a (9)
+                        b = abs(a)
+
+                        drawNumber(10, 10, a)
+                        drawNumber(10, 30, b)
+
+                        a = 67
+                        ; b will be the same value as a (67)
+                        b = abs(a)
+                        drawNumber(10, 60, a)
+                        drawNumber(10, 80, b)
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="neg">
+                <h4>neg<a data-program="neg" data-title="Floor demo" href="site/examples/math.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                Get the negative value.
+                <pre id="neg">
+                    #include "lib/math.whl"
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number a
+                        number b
+
+                        a = -72
+                        ; b will be the positive value of a (72)
+                        b = neg(a)
+
+                        drawNumber(10, 10, a)
+                        drawNumber(10, 30, b)
+
+                        a = 13
+                        ; b will be the negative value of a (-13)
+                        b = neg(a)
+                        drawNumber(10, 60, a)
+                        drawNumber(10, 80, b)
                     endp
                 </pre>
             </div>

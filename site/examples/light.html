@@ -97,16 +97,16 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="main img"><img src="site/images/buttons.png" width="32" height="32"/> <span>Buttons</span></h3>
+                <h3 class="main img"><img src="site/images/light.png" width="32" height="32"/> <span>Light</span></h3>
                 <ul>
-                    <li><a href="site/examples/buttons.html#button">button</a></li>
+                    <li><a href="site/examples/light.html#light">light</a></li>
                 </ul>
 
                 <br />
                 <h3>Examples</h3>
                 <a href="site/examples/screen.html">Screen</a><br />
                 <a href="site/examples/math.html">Math</a><br />
-                <a href="site/examples/light.html">Light</a><br />
+                <a href="site/examples/buttons.html">Buttons</a><br />
                 <a href="site/examples/sound.html">Sound</a><br />
 
                 <a id="simulator"></a>
@@ -122,23 +122,31 @@
             </div>
 
             <div class="two first" id="setfill">
-                <h3>Buttons</h3>
-                With the buttons module you can read the state of the EV3 buttons.
+                <h3>Light</h3>
+                With the light module you can control the EV3 light.
             </div>
 
             <div class="two first" id="circle">
-                <h4>button<a data-program="buttons" data-title="Buttons demo" href="site/examples/buttons.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
-                <pre id="buttons">
-                    #include "lib/buttons.whl"
-                    #include "lib/screen.whl"
+                <h4>light<a data-program="light" data-title="Light demo" href="site/examples/light.html#simulator">Load simulator <span class="icon-right"></span></a></h4>
+                <pre id="light">
+                    #include "lib/standard.whl"
+                    #include "lib/light.whl"
 
                     proc main()
-                        number b
-                        setTextSize(2)
-                    loop:
-                        set b, button()
-                        drawNumber(73, 56, b)
-                        jmp loop
+                        ; Turn the red light on and wait 1 second...
+                        light(LIGHT_RED, LIGHT_FLASH_OFF)
+                        sleep(1000)
+
+                        ; Turn the yellow light on and wait 3 seconds...
+                        light(LIGHT_YELLOW, LIGHT_FLASH_ON)
+                        sleep(3000)
+
+                        ; Turn the green light on and wait 1 second...
+                        light(LIGHT_GREEN, LIGHT_FLASH_OFF)
+                        sleep(1000)
+
+                        ; Turn the light off.
+                        light(LIGHT_OFF, LIGHT_FLASH_OFF)
                     endp
                 </pre>
             </div>

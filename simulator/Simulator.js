@@ -10,10 +10,15 @@
 
                 this._display = new wheel.simulator.Display({canvas: this._nodesById.display});
                 this._buttons = new wheel.simulator.Buttons({nodesById: this._nodesById, onStop: opts.onStop});
+                this._light   = new wheel.simulator.Light({nodesById: this._nodesById});
             };
 
             this.getDisplay = function() {
                 return this._display;
+            };
+
+            this.getLight = function() {
+                return this._light;
             };
 
             this._initDom = function(domNode) {

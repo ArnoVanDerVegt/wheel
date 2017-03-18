@@ -63,16 +63,62 @@
     height:             96px;
     margin:             17px 0 0 48px;
 }
+
+@keyframes flash-red {
+    0%   {background-color: #E0E4E8; }
+    40%  {background-color: #440000; }
+    50%  {background-color: #FF0000; }
+    60%  {background-color: #440000; }
+    100% {background-color: #E0E4E8; }
+}
+@keyframes flash-yellow {
+    0%   {background-color: #E0E4E8; }
+    40%  {background-color: #884400; }
+    50%  {background-color: #FFAA00; }
+    60%  {background-color: #884400; }
+    100% {background-color: #E0E4E8; }
+}
+@keyframes flash-green {
+    0%   {background-color: #E0E4E8; }
+    40%  {background-color: #004400; }
+    50%  {background-color: #00AA00; }
+    60%  {background-color: #004400; }
+    100% {background-color: #E0E4E8; }
+}
+
 .ev3 .ev3-panel .ev3-buttons .ev3-light {
     position:           absolute;
     left:               32px;
     top:                12px;
     width:              80px;
     height:             72px;
-    /*background-color:   #44AA22;*/
     background-color:   #E0E4E8;
     border-radius:      12px;
     border:             1px solid rgba(0, 0, 0, 0.5);
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.red {
+    background-color:   #FF0000;
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.red.flash {
+    animation-name:             flash-red;
+    animation-duration:         0.5s;
+    animation-iteration-count:  infinite;
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.yellow {
+    background-color:           #FFAA00;
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.yellow.flash {
+    animation-name:             flash-yellow;
+    animation-duration:         0.5s;
+    animation-iteration-count:  infinite;
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.green {
+    background-color:           #00AA00;
+}
+.ev3 .ev3-panel .ev3-buttons .ev3-light.green.flash {
+    animation-name:             flash-green;
+    animation-duration:         0.5s;
+    animation-iteration-count:  infinite;
 }
 .ev3 .ev3-panel .ev3-buttons .ev3-button-up,
 .ev3 .ev3-panel .ev3-buttons .ev3-button-down,
