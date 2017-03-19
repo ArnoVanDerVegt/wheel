@@ -199,6 +199,13 @@ h3.blue {
 h3.blue img {
     border-color:               #2980b9;
 }
+h3.dark-blue {
+    border-color:               #2c3e50;
+    background-color:           #34495e;
+}
+h3.dark-blue img {
+    border-color:               #2c3e50;
+}
 h3.yellow {
     border-color:               #f39c12;
     background-color:           #f1c40f;
@@ -219,6 +226,13 @@ h3.orange {
 }
 h3.orange img {
     border-color:               #d35400;
+}
+h3.gray {
+    border-color:               #7f8c8d;
+    background-color:           #95a5a6;
+}
+h3.gray img {
+    border-color:               #7f8c8d;
 }
 h3.with-icon {
     height:                     52px;
