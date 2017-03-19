@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var wheel             = require('../utils/base.js').wheel;
+var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 function createFiles(content1, content2) {
