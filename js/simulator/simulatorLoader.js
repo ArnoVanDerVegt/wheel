@@ -140,7 +140,7 @@
         };
 
     function loadPre() {
-        var aList = document.querySelectorAll('h4 a');
+        var aList = document.querySelectorAll('h5 a');
         for (var i = 0; i < aList.length; i++) {
             (function(a) {
                 a.addEventListener(

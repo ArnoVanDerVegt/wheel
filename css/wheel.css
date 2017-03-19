@@ -172,6 +172,9 @@ h3 {
     font-size:                  17px;
     font-weight:                normal;
 }
+h3.margin-top {
+    margin-top:                 16px;
+}
 h3.index {
     margin-bottom:              20px;
 }
@@ -381,7 +384,7 @@ div.three li {
 div.one a,
 div.two a,
 div.three a {
-    color:                      #2980b9;
+    color:                      #34495e;
     text-decoration:            none;
     outline:                    none;
 }
@@ -549,7 +552,7 @@ div.one a.list-link,
 div.three a.list-link {
     float:                      left;
     width:                      192px;
-    color:                      #2980b9;
+    color:                      #34495e;
     padding:                    0;
     font-weight:                bold;
 }
