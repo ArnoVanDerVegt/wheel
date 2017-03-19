@@ -35,8 +35,8 @@
 
     <div class="content">
         <div class="container">
-            <div class="three right">
-                <h3 class="main">Math module</h3>
+            <div class="three last right">
+                <h3 class="red with-icon"><img src="site/images/numeric.png" width="32" height="32"/> <span>Math module</span></h3>
                 <ul>
                     <li><a href="site/modules/math.html#abs">abs</a></li>
                     <li><a href="site/modules/math.html#ceil">ceil</a></li>
@@ -46,7 +46,7 @@
                 </ul>
 
                 <br />
-                <h3>Modules</h3>
+                <h3 class="yellow">Modules</h3>
                 <div class="index">
                     <a href="site/modules/standard.html">Standard module</a><br />
                     <a href="site/modules/screen.html">Screen module</a><br />
@@ -59,34 +59,76 @@
                 </div>
             </div>
 
+            <div class="two first">
+                <h4>Math module</h4>
+                <br />
+                <table>
+                    <tr><td>MODULE_MATH</td><td>4</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>MATH_ROUND</td><td>n</td></tr>
+                    <tr><td>1</td><td>MATH_FLOOR</td><td>n</td></tr>
+                    <tr><td>2</td><td>MATH_CEIL</td><td>n</td></tr>
+                    <tr><td>3</td><td>MATH_ABS</td><td>n</td></tr>
+                    <tr><td>4</td><td>MATH_NEG</td><td>n</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h5>round</h5>
+                An implementation of a call to the round api.
+                <pre>
+                    #define MODULE_MATH 4
+                    #define MATH_ROUND  0
+
+                    proc round(number n)
+                        struct Round
+                            number result
+                        ends
+                        Round round
+                        set      round.result, n
+                        addr     round
+                        module   MODULE_MATH,  MATH_ROUND
+                        return   round.result
+                    endp
+                </pre>
+            </div>
+
             <a id="abs"></a>
             <div class="two first">
-                <h4>abs</h4>
-                <pre>proc abs(number *n)</pre>
+                <h5>abs</h5>
+                Return the absolute value.
+                <pre>proc abs(number n)</pre>
             </div>
 
             <a id="ceil"></a>
             <div class="two first">
-                <h4>ceil</h4>
-                <pre>proc ceil(number *n)</pre>
+                <h5>ceil</h5>
+                Return the value rounded up to an integer.
+                <pre>proc ceil(number n)</pre>
             </div>
 
             <a id="floor"></a>
             <div class="two first">
-                <h4>floor</h4>
-                <pre>proc floor(number *n)</pre>
+                <h5>floor</h5>
+                Return the value rounded down to an integer.
+                <pre>proc floor(number n)</pre>
             </div>
 
             <a id="neg"></a>
             <div class="two first">
-                <h4>neg</h4>
-                <pre>proc neg(number *n)</pre>
+                <h5>neg</h5>
+                Return the negative value.
+                <pre>proc neg(number n)</pre>
             </div>
 
             <a id="round"></a>
             <div class="two first">
-                <h4>round</h4>
-                <pre>proc round(number *n)</pre>
+                <h5>round</h5>
+                Return the value to the closest integer.
+                <pre>proc round(number n)</pre>
             </div>
 
             <div style="float:left;clear:both;"></div>

@@ -35,18 +35,20 @@
 
     <div class="content">
         <div class="container">
-            <div class="three right">
-                <h3 class="main">Data types</h3>
+            <div class="three last right">
+                <h3 class="red with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Variables</span></h3>
+
+                <h3 class="green">Data types</h3>
                 <ul>
                     <li><a href="site/docs/variables.html#number">Number</a></li>
                     <li><a href="site/docs/variables.html#string">String</a></li>
                 </ul>
-                <h3 class="main">Compound data types</h3>
+                <h3 class="green">Compound data types</h3>
                 <ul>
                     <li><a href="site/docs/variables.html#array">Array</a></li>
                     <li><a href="site/docs/variables.html#struct">Struct</a></li>
                 </ul>
-                <h3 class="main">Scope</h3>
+                <h3 class="green">Scope</h3>
                 <ul>
                     <li><a href="site/docs/variables.html#global">Global</a></li>
                     <li><a href="site/docs/variables.html#local">Local</a></li>
@@ -54,9 +56,8 @@
                 </ul>
 
                 <br />
-                <h3>Documentation</h3>
+                <h3 class="yellow">Documentation</h3>
                 <div class="index">
-                    <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/operators.html">Operators</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
@@ -65,7 +66,7 @@
             </div>
 
             <div class="two first">
-                <h3>Variables</h3>
+                <h4>Variables</h4>
                 The wheel VM only uses one primitive data type: number.<br />
                 <br />
                 Wheel supports three other data types: string, struct, array and pointers.
@@ -76,7 +77,7 @@
 
 
             <div class="two first" id="number">
-                <h4>Number type</h4>
+                <h5>Number type</h5>
 
                 A number variable can be used for integers and floating point values.
 
@@ -87,7 +88,7 @@
             </div>
 
             <div class="two first" id="string">
-                <h4>String type</h4>
+                <h5>String type</h5>
                 Strings are read only. A string value is a number representing the index in a string list contained in the program file.
 
                 <pre>
@@ -98,7 +99,7 @@
 
 
             <div class="two first" id="array">
-                <h4>Array</h4>
+                <h5>Array</h5>
                 An array represents a list. Arrays can be declared by defining the size between brackets after the variable name.
                 The size must be 0 or a positive number. A size of 0 can be used to create pointer types.
 
@@ -109,7 +110,7 @@
             </div>
 
             <div class="two first" id="struct">
-                <h4>Struct</h4>
+                <h5>Struct</h5>
                 A struct is a representation of a group of variables. At the moment the compiler does not allow struct types in structs.
                 Array fields are allowed.
 
@@ -130,7 +131,7 @@
 
 
             <div class="two first" id="global">
-                <h4>Global scope</h4>
+                <h5>Global scope</h5>
                 When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
 
                 <pre>
@@ -145,7 +146,7 @@
             </div>
 
             <div class="two first" id="local">
-                <h4>Local scope</h4>
+                <h5>Local scope</h5>
 
                 A variable declared inside a procedure can only be accesed inside that procedure.
 
@@ -160,7 +161,7 @@
             </div>
 
             <div class="two first" id="parameters">
-                <h4>Parameters</h4>
+                <h5>Parameters</h5>
 
                 All procedures except the main procedure can have one or more parameters.
 

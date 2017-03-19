@@ -184,8 +184,7 @@
     float:              right;
     width:              28px;
     height:             28px;
-    background-color:   #DD0000;
-    border:             1px solid rgba(0, 0, 0, 0.5);
+    border:             1px solid rgba(0, 0, 0, 0.2);
     margin:             10px 10px 0 0;
 }
 

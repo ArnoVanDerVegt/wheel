@@ -35,13 +35,13 @@
 
     <div class="content">
         <div class="container">
-            <div class="three right">
-                <h3 class="main">Motor module</h3>
+            <div class="three last right">
+                <h3 class="red with-icon"><img src="site/images/motorMedium.png" width="32" height="32"/> <span>Motor module</span></h3>
                 <ul>
                 </ul>
 
                 <br />
-                <h3>Modules</h3>
+                <h3 class="yellow">Modules</h3>
                 <div class="index">
                     <a href="site/modules/standard.html">Standard module</a><br />
                     <a href="site/modules/screen.html">Screen module</a><br />
@@ -52,6 +52,22 @@
                     <a href="site/modules/buttons.html">Buttons module</a><br />
                     <a href="site/modules/sound.html">Sound module</a><br />
                 </div>
+            </div>
+
+            <div class="two first">
+                <h4>Motor module</h4>
+                <br />
+                <table>
+                    <tr><td>MODULE_MOTORS</td><td>2</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>MOTOR_RESET</td><td>layer, index</td></tr>
+                    <tr><td>1</td><td>MOTOR_MOVE_TO</td><td>layer, index, angle, speed</td></tr>
+                    <tr><td>2</td><td>MOTOR_MOVE</td><td>layer, index, speed</td></tr>
+                    <tr><td>3</td><td>MOTOR_STOP</td><td>layer, index</td></tr>
+                </table>
             </div>
 
             <div style="float:left;clear:both;"></div>

@@ -108,19 +108,32 @@
             if (!outputCommands || !compilerData || !vm) {
                 return;
             }
-            simulator.getDisplay().clearScreen();
-            vm.run(
-                outputCommands,
-                compilerData.getStringList(),
-                compilerData.getGlobalConstants(),
-                compilerData.getGlobalOffset()
-            );
+
+            if (vm.getRunning()) {
+                stop();
+            } else {
+                document.querySelector('#runProgram').value = 'Stop';
+
+                simulator.getDisplay().clearScreen();
+                vm.run(
+                    outputCommands,
+                    compilerData.getStringList(),
+                    compilerData.getGlobalConstants(),
+                    compilerData.getGlobalOffset(),
+                    function() {
+                        document.querySelector('#runProgram').value = 'Run';
+                    }
+                );
+            }
         };
 
     var stop = function() {
             if (!outputCommands || !compilerData || !vm) {
                 return;
             }
+
+            document.querySelector('#runProgram').value = 'Run';
+
             vm.stop();
             simulator.getLight().off();
             simulator.getDisplay().drawLoaded(outputTitle);

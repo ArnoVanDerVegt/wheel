@@ -11,6 +11,7 @@
                 this._commands    = null;
                 this._runInterval = null;
                 this._pause       = 0;
+                this._onFinished  = null;
 
                 this.initModules();
             };
@@ -34,6 +35,10 @@
                     case wheel.compiler.command.T_NUM_L: return data[p + regOffsetStack];
                 }
                 return p;
+            };
+
+            this.getRunning = function() {
+                return (this._runInterval !== null);
             };
 
             this.runCommand = function(command) {
@@ -148,6 +153,8 @@
 
                 if (isFinished()) {
                     clearInterval(this._runInterval);
+                    this._onFinished && this._onFinished();
+                    this._onFinished  = null;
                     this._runInterval = null;
                 }
             };
@@ -179,14 +186,17 @@
                 this.onInterval(false, 1000);
             };
 
-            this.run = function(commands, stringList, globalConstants, stackOffset) {
+            this.run = function(commands, stringList, globalConstants, stackOffset, onFinished) {
                 this.runSetup(commands, stringList, globalConstants, stackOffset);
 
+                this._onFinished  = onFinished;
                 this._runInterval = setInterval(this.onInterval.bind(this), 10);
             };
 
             this.stop = function() {
                 clearInterval(this._runInterval);
+                this._onFinished && this._onFinished();
+                this._onFinished  = null;
                 this._runInterval = null;
                 this._pause       = 0;
             };

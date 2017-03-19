@@ -25,43 +25,21 @@ html {
     color:                      #383838;
 }
 body {
-    background-color:           #FFFFFF;
+    background-color:           #FAFBFC;
     color:                      #383838;
 }
 h1 {
     margin:                     0;
 }
 h3,
-h4 {
+h4,
+h5 {
     font-size:                  20px;
     margin:                     0 0 8px 0;
 }
-h4 {
+h5 {
     font-size:                  17px;
 }
-h4 a {
-    float:                      right;
-    height:                     24px;
-    font-weight:                normal;
-    font-size:                  15px;
-    line-height:                24px;
-    padding:                    0 4px 0 8px;
-    border:                     1px solid #E0E0E0;
-    border-radius:              2px;
-    background-color:           #FAFBFC;
-    color:                      #0366D6;
-    cursor:                     pointer;
-    text-decoration:            none;
-    opacity:                    0.3;
-    transition:                 opacity 0.3s;
-}
-div.two h4 a:hover {
-    text-decoration:            none;
-}
-div.two h4:hover a {
-    opacity:                    1;
-}
-
 div,
 a,
 span,
@@ -74,243 +52,19 @@ li {
 .italic {
     font-style:                 italic;
 }
-div.one,
-div.two,
-div.three {
-    float:                      left;
-    padding:                    16px;
-    font-size:                  17px;
-}
-div.one.first,
-div.two.first,
-div.three.first {
-    padding-left:               0;
-}
-div.one.last,
-div.two.last,
-div.three.last {
-    padding-right:              0;
-}
 
-div.one .see-also,
-div.two .see-also,
-div.three  .see-also {
+/* Content */
+.content {
     float:                      left;
     width:                      100%;
-    text-align:                 right;
-    font-size:                  14px;
-    margin:                     4px 0 4px 0;
-    opacity:                    0.8;
-}
-
-div.one {
-    width:                      100%;
-}
-div.one h3 {
-    margin:                     0 0 24px 0;
-}
-div.one .index-row {
-    float:                      left;
-    width:                      100%;
-    margin:                     0 0 24px 0;
-}
-div.one .index-row img,
-div.one .index-row a,
-div.one .index-row span {
-    float:                      left;
-    height:                     32px;
-}
-div.one .index-row a,
-div.one .index-row span {
-    line-height:                32px;
-}
-div.one .index-row img {
-    width:                      48px;
-    height:                     48px;
-    border:                     3px solid #E0E8EF;
-    border-radius:              24px;
-    padding:                    4px;
-    margin:                     -8px 32px 0 0;
-}
-
-div.two {
-    width:                      640px;
-}
-div.three {
-    width:                      320px;
-    position:                   relative;
-}
-div.three.right {
-    float:                      right;
-}
-div.three.right h3 {
-    color:                      #808890;
-    border:                     4px solid #E36209;
-    border-width:               0 0 4px 0;
-    padding:                    0 0 4px 0;
-    letter-spacing:             0.08em;
-    text-transform:             uppercase;
-    font-size:                  17px;
-    font-weight:                normal;
-}
-div.three.right h3.main {
-    border:                     4px solid #6F42C1;
-    border-width:               0 0 4px 0;
-}
-div.three.right h3.main.img {
-    border-width:               1px 1px 4px 1px;
-    border-color:               #E0E0E0 #E0E0E0 #6F42C1 #E0E0E0;
-    background-color:           #FAFBFC;
-    height:                     54px;
-    padding:                    4px;
-}
-div.three.right h3.main.img img,
-div.three.right h3.main.img span {
-    float:                      left;
-    color:                      #383838;
-}
-div.three.right h3.main.img img {
-    width:                      40px;
-    height:                     40px;
-    border:                     3px solid #6F42C1;
-    border-radius:              24px;
-    padding:                    4px;
-    margin:                     0 4px 0 0;
     background-color:           #FFFFFF;
 }
-div.three.right h3.main.img span {
-    height:                     40px;
-    line-height:                40px;
+.content .container {
+    height:                     100%;
 }
 
-div.three.right h3.simulator {
-    border:                     4px solid #F1E05A;
-    border-width:               0 0 4px 0;
-    margin:                     16px 0 8px 0;
-}
-div.three.right .active-program {
-    float:                      left;
-    width:                      100%;
-    margin:                     0 0 16px 0;
-}
-div.three.right .active-program span {
-    color:                      #0366D6;
-    text-transform:             uppercase;
-    font-size:                  14px;
-}
-div.three.right li {
-    margin:                     0 0 4px 0;
-}
-div.three.right li:last-child {
-    margin:                     0 0 16px 0;
-}
-div.three.right .index {
-    float:                      left;
-    width:                      100%;
-}
-div.three.right .index a {
-    float:                      left;
-    width:                      100%;
-    margin:                     0 0 4px 0;
-}
-
-div.two h3 .icon,
-div.three h3 .icon {
-    color:                      #004358;
-    font-size:                  19px;
-    text-align:                 center;
-    opacity:                    0.6;
-}
-div.two.img img,
-div.three.img img {
-    background-color:           #FFFFFF;
-    border:                     1px solid #E0E0E0;
-    border-radius:              2px;
-    padding:                    16px;
-}
-div.two.img img,
-div.three.img img {
-    width:                      100%;
-}
-div.two ul,
-div.three ul {
-    padding:                    0 0 0 21px;
-    margin:                     8px 0 0 0;
-}
-div.two li,
-div.three li {
-    padding:                    0;
-    margin:                     0;
-}
-div.one a,
-div.two a,
-div.three a {
-    color:                      #0366D6;
-    text-decoration:            none;
-    outline:                    none;
-}
-div.one a:hover,
-div.two a:hover,
-div.three a:hover {
-    color:                      #383838;
-    text-decoration:            underline;
-}
-
-div.one table,
-div.two table,
-div.three table {
-    border-collapse:            collapse;
-    border:                     1px solid #E0E0E0;
-    background-color:           #FFFFFF;
-}
-div.one table th,
-div.two table th,
-div.three table th,
-div.one table td,
-div.two table td,
-div.three table td {
-    border:                     1px solid #E0E0E0;
-    padding:                    8px 16px 8px 16px;
-    text-align:                 left;
-}
-div.one table th,
-div.two table th,
-div.three table th {
-    background-color:           #FAFBFC;
-}
-
-.button {
-    color:                      #FFFFFF;
-    background-color:           #28A745;
-    background-image:           -webkit-linear-gradient(270deg, #34d058 0%, #28a745 90%);
-    background-image:           linear-gradient(-180deg, #34d058 0%, #28a745 90%);
-    border:                     1px solid rgba(27, 31, 35, 0.2);
-    border-radius:              2px;
-    padding:                    6px 12px 6px 12px;
-    font-family:                'Open Sans', sans-serif;
-    font-size:                  15px;
-    line-height:                15px;
-    cursor:                     pointer;
-}
-.button.disabled {
-    opacity:                    0.5;
-}
-
-.simulator-options {
-    float:                      left;
-    width:                      100%;
-    margin:                     0 0 16px 0;
-}
-
-.container {
-    margin:                     0 auto 0 auto;
-    width:                      960px;
-}
-
+/* Header */
 .header {
-    position:                   fixed;
-    top:                        0;
-    left:                       0;
     width:                      100%;
     height:                     48px;
     background-color:           #101010;
@@ -347,31 +101,6 @@ div.three table th {
 .header ul li.wheel a {
     color:                      #FFFFFF;
 }
-.blue {
-    color:                      #0366d6;
-}
-.dark-blue {
-    color:                      #000070;
-}
-.light-blue {
-    color:                      #0366D6;
-}
-.yellow {
-    color:                      #F4FF02;
-}
-.orange {
-    color:                      #E36209;
-}
-.purple {
-    color:                      #6F42C1;
-}
-.green {
-    color:                      #6FC142;
-}
-.black {
-    color:                      #383838;
-}
-
 .header .container {
     color:                      #FFFFFF;
 }
@@ -380,42 +109,14 @@ div.three table th {
     margin:                     14px 0 0 8px;
 }
 
-pre,
-pre span {
-    font-family:                Courier;
-    font-size:                  15px;
-    font-family:                'Inconsolata', monospace;
-}
-pre {
-    padding:                    16px;
-    border:                     1px solid #E0E0E0;
-    border-radius:              2px;
-    background-color:           #FAFBFC;
-}
-pre .comment {
-    background-color:           #FFFFFF;
-    height:                     24px;
-    padding:                    0 12px 0 12px;
-    border-radius:              12px;
-    line-height:                24px;
-    font-size:                  14px;
-}
-.content {
-    float:                      left;
-    width:                      100%;
-    min-height:                 calc(100% - 180px);
-}
-.content .container {
-    height:                     100%;
-}
-
+/* Sub header */
 .sub-header {
     float:                      left;
     width:                      100%;
     height:                     80px;
-    margin:                     48px 0 16px 0;
+    margin:                     0;
     background-color:           #FAFBFC;
-    border:                     1px solid #D8D8D8;
+    border:                     1px solid #E0E0E0;
     border-width:               0 0 1px 0;
 }
 .sub-header h1 {
@@ -434,8 +135,7 @@ pre .comment {
     color:                      #808890;
 }
 
-.sub-header h2,
-.footer h3 {
+.sub-header h2 {
     float:                      left;
     width:                      100%;
     height:                     16px;
@@ -454,6 +154,342 @@ pre .comment {
     text-transform:             uppercase;
     letter-spacing:             0.04em;
 }
+
+/* Titles */
+h3 {
+    float:                      left;
+    width:                      100%;
+    color:                      #FFFFFF;
+    background-color:           #ecf0f1;
+    border:                     4px solid #000000;
+    border-width:               1px 1px 4px 1px;
+    border-radius:              2px;
+    height:                     34px;
+    line-height:                34px;
+    padding:                    0 0 0 4px;
+    letter-spacing:             0.08em;
+    text-transform:             uppercase;
+    font-size:                  17px;
+    font-weight:                normal;
+}
+h3.index {
+    margin-bottom:              20px;
+}
+h3.red {
+    border-color:               #c0392b;
+    background-color:           #e74c3c;
+}
+h3.red img {
+    border-color:               #c0392b;
+}
+h3.green {
+    border-color:               #27ae60;
+    background-color:           #2ecc71;
+}
+h3.green img {
+    border-color:               #27ae60;
+}
+h3.blue {
+    border-color:               #2980b9;
+    background-color:           #3498db;
+}
+h3.blue img {
+    border-color:               #2980b9;
+}
+h3.yellow {
+    border-color:               #f39c12;
+    background-color:           #f1c40f;
+}
+h3.yellow img {
+    border-color:               #f39c12;
+}
+h3.purple {
+    border-color:               #8e44ad;
+    background-color:           #9b59b6;
+}
+h3.purple img {
+    border-color:               #8e44ad;
+}
+h3.orange {
+    border-color:               #d35400;
+    background-color:           #e67e22;
+}
+h3.orange img {
+    border-color:               #d35400;
+}
+h3.with-icon {
+    height:                     52px;
+    padding:                    4px;
+}
+h3 img,
+h3 span {
+    float:                      left;
+    color:                      #FFFFFF;
+    height:                     40px;
+    line-height:                40px;
+}
+h3 span {
+    margin:                     0 0 0 4px;
+}
+h3 img {
+    width:                      40px;
+    border:                     3px solid #000000;
+    border-radius:              24px;
+    padding:                    4px;
+    margin:                     0 4px 0 0;
+    background-color:           #FFFFFF;
+}
+h5 a {
+    float:                      right;
+    height:                     24px;
+    font-weight:                normal;
+    font-size:                  15px;
+    line-height:                24px;
+    padding:                    0 4px 0 8px;
+    border:                     1px solid #E0E0E0;
+    border-radius:              2px;
+    background-color:           #FAFBFC;
+    color:                      #2980b9;
+    cursor:                     pointer;
+    text-decoration:            none;
+    opacity:                    0.3;
+    transition:                 opacity 0.3s;
+}
+div.two h5 a:hover {
+    text-decoration:            none;
+}
+div.two h5:hover a {
+    opacity:                    1;
+}
+
+/* Blocks */
+div.one,
+div.two,
+div.three {
+    float:                      left;
+    padding:                    16px;
+    font-size:                  17px;
+}
+div.one.first,
+div.two.first,
+div.three.first {
+    padding-left:               0;
+}
+div.three.center {
+    padding-left:               8px;
+    padding-right:              8px;
+}
+div.one.last,
+div.two.last,
+div.three.last {
+    padding-right:              0;
+}
+
+div.one .see-also,
+div.two .see-also,
+div.three  .see-also {
+    float:                      left;
+    width:                      100%;
+    text-align:                 right;
+    font-size:                  14px;
+    margin:                     4px 0 4px 0;
+    opacity:                    0.8;
+}
+
+div.one {
+    width:                      100%;
+}
+div.one .index-row {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 24px 0;
+}
+div.one .index-row img,
+div.one .index-row a,
+div.one .index-row span {
+    float:                      left;
+    height:                     32px;
+}
+div.one .index-row a,
+div.one .index-row span {
+    line-height:                32px;
+}
+div.one .index-row img {
+    width:                      48px;
+    height:                     48px;
+    border:                     3px solid #E0E8EF;
+    border-radius:              24px;
+    padding:                    4px;
+    margin:                     -8px 32px 0 0;
+}
+div.two {
+    width:                      640px;
+}
+div.three {
+    width:                      320px;
+    position:                   relative;
+}
+div.three.right {
+    float:                      right;
+}
+div.three.right .active-program {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 16px 0;
+}
+div.three.right .active-program span {
+    color:                      #2980b9;
+    text-transform:             uppercase;
+    font-size:                  14px;
+}
+div.three.right li {
+    margin:                     0 0 4px 0;
+}
+div.three.right li:last-child {
+    margin:                     0 0 16px 0;
+}
+div.three.right .index {
+    float:                      left;
+    width:                      100%;
+}
+div.three.right .index a {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 4px 0;
+}
+div.two.img img,
+div.three.img img {
+    background-color:           #FFFFFF;
+    border:                     1px solid #E0E0E0;
+    border-radius:              2px;
+    padding:                    16px;
+}
+div.two.img img,
+div.three.img img {
+    width:                      100%;
+}
+div.two ul,
+div.three ul {
+    padding:                    0 0 0 21px;
+    margin:                     8px 0 0 0;
+}
+div.two li,
+div.three li {
+    padding:                    0;
+    margin:                     0;
+}
+div.one a,
+div.two a,
+div.three a {
+    color:                      #2980b9;
+    text-decoration:            none;
+    outline:                    none;
+}
+div.one a:hover,
+div.two a:hover,
+div.three a:hover {
+    color:                      #383838;
+    text-decoration:            underline;
+}
+
+div.one table,
+div.two table,
+div.three table {
+    border-collapse:            collapse;
+    border:                     1px solid #E0E0E0;
+    background-color:           #FFFFFF;
+}
+div.one table th,
+div.two table th,
+div.three table th,
+div.one table td,
+div.two table td,
+div.three table td {
+    border:                     1px solid #E0E0E0;
+    padding:                    8px 16px 8px 16px;
+    text-align:                 left;
+}
+div.one table th,
+div.two table th,
+div.three table th {
+    background-color:           #FAFBFC;
+}
+
+.button {
+    color:                      #FFFFFF;
+    background-color:           #9b59b6;
+    border:                     1px solid #8e44ad;
+    border-radius:              2px;
+    padding:                    6px 12px 6px 12px;
+    font-family:                'Open Sans', sans-serif;
+    font-size:                  15px;
+    line-height:                15px;
+    cursor:                     pointer;
+}
+.button.disabled {
+    opacity:                    0.5;
+}
+
+.simulator-options {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 16px 0;
+}
+
+.container {
+    margin:                     0 auto 0 auto;
+    width:                      960px;
+}
+
+/* Source */
+pre,
+pre span {
+    font-family:                Courier;
+    font-size:                  15px;
+    font-family:                'Inconsolata', monospace;
+}
+pre {
+    float:                      left;
+    width:                      100%;
+    padding:                    16px;
+    border:                     1px solid #E0E0E0;
+    border-radius:              2px;
+    background-color:           #FAFBFC;
+}
+pre .comment {
+    background-color:           #FFFFFF;
+    height:                     24px;
+    padding:                    0 12px 0 12px;
+    border-radius:              12px;
+    line-height:                24px;
+    font-size:                  14px;
+}
+pre .blue {
+    color:                      #2980b9;
+}
+pre .dark-blue {
+    color:                      #2980b9;
+}
+pre .light-blue {
+    color:                      #3498db;
+}
+pre .yellow {
+    color:                      #f1c40f;
+}
+pre .orange {
+    color:                      #e67e22;
+}
+pre .purple {
+    color:                      #9b59b6;
+}
+pre .green {
+    color:                      #2ecc71;
+}
+pre .black {
+    color:                      #383838;
+}
+
+/* Footer */
 .footer {
     float:                      left;
     position:                   relative;
@@ -461,7 +497,6 @@ pre .comment {
     height:                     32px;
     margin:                     0;
     padding:                    8px 0 0 0;
-    background-color:           #FAFBFC;
     border:                     1px solid #D0D0D0;
     border-width:               1px 0 0 0;
 }
@@ -476,9 +511,6 @@ pre .comment {
     width:                      960px;
     text-align:                 right;
     bottom:                     10px;
-}
-.footer h3 {
-    text-align:                 left;
 }
 .footer ul,
 .footer li {
@@ -517,7 +549,7 @@ div.one a.list-link,
 div.three a.list-link {
     float:                      left;
     width:                      192px;
-    color:                      #0366d6;
+    color:                      #2980b9;
     padding:                    0;
     font-weight:                bold;
 }

@@ -35,15 +35,15 @@
 
     <div class="content">
         <div class="container">
-            <div class="three right">
-                <h3 class="main">Buttons module</h3>
+            <div class="three last right">
+                <h3 class="red with-icon"><img src="site/images/buttons.png" width="32" height="32"/> <span>Buttons module</span></h3>
                 <ul>
                     <li><a href="site/modules/buttons.html#constants">constants</a></li>
                     <li><a href="site/modules/buttons.html#button">button</a></li>
                 </ul>
 
                 <br />
-                <h3>Modules</h3>
+                <h3 class="yellow">Modules</h3>
                 <div class="index">
                     <a href="site/modules/standard.html">Standard module</a><br />
                     <a href="site/modules/screen.html">Screen module</a><br />
@@ -57,7 +57,7 @@
             </div>
 
             <div class="two first">
-                <h3>Buttons module</h3>
+                <h4>Buttons module</h4>
                 <br />
                 <table>
                     <tr><td>MODULE_BUTTONS</td><td>6</td></tr>
@@ -69,8 +69,22 @@
                 </table>
             </div>
 
+            <div class="two first" id="constants">
+                <h5>Constants</h5>
+
+                <table>
+                    <tr><th>Name</th><th>Value</th></tr>
+                    <tr><td>BUTTON_NONE</td><td>0</td></tr>
+                    <tr><td>BUTTON_LEFT</td><td>1</td></tr>
+                    <tr><td>BUTTON_CENTER</td><td>2</td></tr>
+                    <tr><td>BUTTON_RIGHT</td><td>3</td></tr>
+                    <tr><td>BUTTON_UP</td><td>4</td></tr>
+                    <tr><td>BUTTON_DOWN</td><td>5</td></tr>
+                </table>
+            </div>
+
             <div class="two first">
-                <h4>button</h4>
+                <h5>button</h5>
                 An implementation of a call to the button read api.
                 <pre>
                     #define MODULE_BUTTONS 6
@@ -89,23 +103,10 @@
                 </pre>
             </div>
 
-            <div class="two first" id="constants">
-                <h4>Constants</h4>
-
-                <table>
-                    <tr><th>Name</th><th>Value</th></tr>
-                    <tr><td>BUTTON_NONE</td><td>0</td></tr>
-                    <tr><td>BUTTON_LEFT</td><td>1</td></tr>
-                    <tr><td>BUTTON_CENTER</td><td>2</td></tr>
-                    <tr><td>BUTTON_RIGHT</td><td>3</td></tr>
-                    <tr><td>BUTTON_UP</td><td>4</td></tr>
-                    <tr><td>BUTTON_DOWN</td><td>5</td></tr>
-                </table>
-            </div>
-
             <a id="button"></a>
             <div class="two first">
-                <h4>button</h4>
+                <h5>button</h5>
+                Read the currently pressed button (if any).
                 <pre>proc button()</pre>
             </div>
 
