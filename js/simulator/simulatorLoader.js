@@ -89,7 +89,6 @@
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     try {
