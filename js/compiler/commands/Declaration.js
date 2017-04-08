@@ -20,6 +20,13 @@
                 $ = wheel.compiler.command;
 				this._compiler.getOutput().a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
             };
+
+            this.declareStructFields = function(params, type, arrayType) {
+                $ = wheel.compiler.command;
+                for (var j = 0; j < params.length; j++) {
+                    this._compilerData.declareStructField(params[j], type, arrayType);
+                }
+            };
         })
     );
 })();

@@ -4,7 +4,7 @@
 
     wheel(
         'compiler.commands.ProcedureDeclaration',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.compileProcedure = function(params) {
                 var compiler       = this._compiler;
                 var compilerData   = this._compilerData;
@@ -66,9 +66,7 @@
                         params[j] = params[j].trim();
                     }
                     if (compiler.getActiveStruct() !== null) {
-                        for (var j = 0; j < params.length; j++) {
-                            compilerData.declareStructField(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY);
-                        }
+                        this.declareStructFields(params, $.T_PROC_G, $.T_PROC_G_ARRAY);
                     } else if (compiler.getInProc()) {
                         for (var j = 0; j < params.length; j++) {
                             compilerData.declareLocal(params[j], $.T_PROC_L, $.T_PROC_L_ARRAY, false);
