@@ -50,9 +50,30 @@
     var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
     var ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
     var ARGS_LABEL              = [{type: T_LABEL}];
-    var ARGS_ALL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L},
-                                    {type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L},
-                                    {type: T_STRUCT_G}, {type: T_STRUCT_L}];
+    var ARGS_ALL                = [
+            {type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L},
+            {type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L},
+            {type: T_STRUCT_G}, {type: T_STRUCT_L}
+        ];
+    var ARGS_CGL_ALL            = [
+            {type: T_NUM_C, args: ARGS_ALL},
+            {type: T_NUM_G, args: ARGS_ALL},
+            {type: T_NUM_L, args: ARGS_ALL}
+        ];
+    var ARGS_CGL_SGSL           = [
+            {type: T_NUM_C, args: ARGS_SGSL},
+            {type: T_NUM_G, args: ARGS_SGSL},
+            {type: T_NUM_L, args: ARGS_SGSL}
+        ];
+    var ARGS_CGL_PPGPL          = [
+            {type: T_NUM_C, args: ARGS_PPGPL},
+            {type: T_NUM_G, args: ARGS_PPGPL},
+            {type: T_NUM_L, args: ARGS_PPGPL}
+        ];
+    var ARGS_GL_CGL             = [
+            {type: T_NUM_G, args: ARGS_CGL},
+            {type: T_NUM_L, args: ARGS_CGL}
+        ];
 
     wheel(
         'compiler.command',
@@ -64,13 +85,7 @@
                     {type: T_LABEL, args: ARGS_C}
                 ]
             },
-            cmp: {
-                code: 2,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
+            cmp: {code: 2, args: ARGS_GL_CGL},
             module: {
                 code: 3,
                 args: [
@@ -130,41 +145,11 @@
                     }
                 ]
             },
-            add: {
-                code: 5,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
-            sub: {
-                code: 6,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
-            mul: {
-                code: 7,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
-            div: {
-                code: 8,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
-            mod: {
-                code: 9,
-                args: [
-                    {type: T_NUM_G, args: ARGS_CGL},
-                    {type: T_NUM_L, args: ARGS_CGL}
-                ]
-            },
+            add: {code: 5, args: ARGS_GL_CGL},
+            sub: {code: 6, args: ARGS_GL_CGL},
+            mul: {code: 7, args: ARGS_GL_CGL},
+            div: {code: 8, args: ARGS_GL_CGL},
+            mod: {code: 9, args: ARGS_GL_CGL},
 
             // The following commands are compiled into smaller commands with less parameters...
             inc: {code: 1024, args: ARGS_GL},
@@ -249,62 +234,13 @@
             arrayw: { // Array write...
                 code: 1039,
                 args: [
-                    {
-                        type: T_NUM_L_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_ALL},
-                            {type: T_NUM_G, args: ARGS_ALL},
-                            {type: T_NUM_L, args: ARGS_ALL}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L, // In case of a field, the origType should be T_NUM_L_ARRAY!
-                        args: [
-                            {type: T_NUM_C, args: ARGS_ALL},
-                            {type: T_NUM_G, args: ARGS_ALL},
-                            {type: T_NUM_L, args: ARGS_ALL}
-                        ]
-                    },
-                    {
-                        type: T_NUM_G_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_ALL},
-                            {type: T_NUM_G, args: ARGS_ALL},
-                            {type: T_NUM_L, args: ARGS_ALL}
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_G_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_SGSL},
-                            {type: T_NUM_G, args: ARGS_SGSL},
-                            {type: T_NUM_L, args: ARGS_SGSL}
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_L_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_SGSL},
-                            {type: T_NUM_G, args: ARGS_SGSL},
-                            {type: T_NUM_L, args: ARGS_SGSL}
-                        ]
-                    },
-                    {
-                        type: T_PROC_G_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_PPGPL},
-                            {type: T_NUM_G, args: ARGS_PPGPL},
-                            {type: T_NUM_L, args: ARGS_PPGPL}
-                        ]
-                    },
-                    {
-                        type: T_PROC_L_ARRAY,
-                        args: [
-                            {type: T_NUM_C, args: ARGS_PPGPL},
-                            {type: T_NUM_G, args: ARGS_PPGPL},
-                            {type: T_NUM_L, args: ARGS_PPGPL}
-                        ]
-                    }
+                    {type: T_NUM_L_ARRAY,    args: ARGS_CGL_ALL},
+                    {type: T_NUM_L,          args: ARGS_CGL_ALL}, // In case of a field, the origType should be T_NUM_L_ARRAY!
+                    {type: T_NUM_G_ARRAY,    args: ARGS_CGL_ALL},
+                    {type: T_STRUCT_G_ARRAY, args: ARGS_CGL_SGSL},
+                    {type: T_STRUCT_L_ARRAY, args: ARGS_CGL_SGSL},
+                    {type: T_PROC_G_ARRAY,   args: ARGS_CGL_PPGPL},
+                    {type: T_PROC_L_ARRAY,   args: ARGS_CGL_PPGPL}
                 ]
             },
             // Loops...
