@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var wheel             = require('../utils/base.js').wheel;
+var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 describe(
@@ -93,7 +93,7 @@ describe(
                             7,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
-                            4,      // REG_OFFSET_CODE
+                            65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
                             71,     // number a - start of globals

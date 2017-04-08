@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+    <link href="css/simulator.css" rel="stylesheet">
+
+    <script src="js/utils/require.js"></script>
+    <script src="js/utils/base.js"></script>
+
+    <script src="js/compiler/PreProcessor.js"></script>
+    <script src="js/compiler/commands/CommandCompiler.js"></script>
+    <script src="js/compiler/commands/StringDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberInc.js"></script>
+    <script src="js/compiler/commands/NumberDec.js"></script>
+    <script src="js/compiler/commands/NumberOperator.js"></script>
+    <script src="js/compiler/commands/ProcedureDeclaration.js"></script>
+    <script src="js/compiler/commands/Set.js"></script>
+    <script src="js/compiler/commands/Call.js"></script>
+    <script src="js/compiler/commands/CallFunction.js"></script>
+    <script src="js/compiler/commands/CallReturn.js"></script>
+    <script src="js/compiler/commands/Ret.js"></script>
+    <script src="js/compiler/commands/Label.js"></script>
+    <script src="js/compiler/commands/Array.js"></script>
+    <script src="js/compiler/commands/ArrayR.js"></script>
+    <script src="js/compiler/commands/ArrayW.js"></script>
+    <script src="js/compiler/commands/Addr.js"></script>
+    <script src="js/compiler/commands/JmpC.js"></script>
+    <script src="js/compiler/command.js"></script>
+    <script src="js/compiler/error.js"></script>
+    <script src="js/compiler/compilerHelper.js"></script>
+    <script src="js/compiler/CompilerOutput.js"></script>
+    <script src="js/compiler/CompilerData.js"></script>
+    <script src="js/compiler/script/ExpressionCompiler.js"></script>
+    <script src="js/compiler/script/ScriptCompiler.js"></script>
+    <script src="js/compiler/Compiler.js"></script>
+
+    <script src="js/vm/VMData.js"></script>
+    <script src="js/vm/VM.js"></script>
+    <script src="js/vm/modules/VMModule.js"></script>
+    <script src="js/simulator/modules/StandardModule.js"></script>
+    <script src="js/simulator/modules/ScreenModule.js"></script>
+    <script src="js/simulator/modules/SoundModule.js"></script>
+    <script src="js/simulator/modules/ButtonsModule.js"></script>
+    <script src="js/simulator/modules/LightModule.js"></script>
+    <script src="js/vm/modules/MotorModule.js"></script>
+    <script src="js/vm/modules/SensorModule.js"></script>
+    <script src="js/vm/modules/MathModule.js"></script>
+
+    <script src="js/simulator/includes/standard.js"></script>
+    <script src="js/simulator/includes/screen.js"></script>
+    <script src="js/simulator/includes/sound.js"></script>
+    <script src="js/simulator/includes/buttons.js"></script>
+    <script src="js/simulator/includes/light.js"></script>
+
+    <script src="js/simulator/Text.js"></script>
+    <script src="js/simulator/TextSmall.js"></script>
+    <script src="js/simulator/TextMedium.js"></script>
+    <script src="js/simulator/TextLarge.js"></script>
+    <script src="js/simulator/Display.js"></script>
+    <script src="js/simulator/Buttons.js"></script>
+    <script src="js/simulator/Light.js"></script>
+    <script src="js/simulator/Simulator.js"></script>
+
+    <script src="js/utils/syntax.js"></script>
+
+    <script src="js/simulator/simulatorLoader.js"></script>
+</head>
+
+<body class="simulator">
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html" class="active">Simulator</a></li>
+            </ul>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <h1><span class="icon-play"></span> Simulator</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three last right">
+                <h3 class="gray with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Simulator</span></h3>
+
+                <div class="ev3-wrapper">
+                    <div class="ev3-background">
+                        <div class="simulator-options">
+                            <input type="button" class="button disabled" id="runProgram" value="Run"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two first">
+                <h3 class="gray with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <div class="editor">
+                    <div class="toolbar">
+                        <ul>
+                            <li class="active">Source</li>
+                            <li>VM Code</li>
+                            <li>Include files</li>
+                            <li class="compile">Compile</li>
+                        </ul>
+                    </div>
+                    <textarea id="source" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+#include "lib/screen.whl"
+
+proc main()
+    ; Draw a circle at (60, 50) with a radius of 40
+    drawCircle(69, 64, 25)
+
+    ; Draw black a filled circle
+    setFill(1)
+    drawCircle(89, 64, 20)
+
+    ; Draw a white filled circle
+    setFillColor(1)
+    drawCircle(109, 64, 15)
+endp
+                    </textarea>
+                </div>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>

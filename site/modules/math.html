@@ -6,20 +6,21 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/syntax.js"></script>
 </head>
 
 <body>
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html" class="active">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -28,57 +29,106 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-puzzle-piece"></span> Modules</h1>
+            <h1><span class="icon-puzzle-piece"></span> Modules</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
-                <h3>Math module</h3>
+            <div class="three last right">
+                <h3 class="dark-blue with-icon"><img src="site/images/numeric.png" width="32" height="32"/> <span>Math module</span></h3>
                 <ul>
-                    <li>abs</li>
-                    <li>ceil</li>
-                    <li>floor</li>
-                    <li>neg</li>
-                    <li>round</li>
+                    <li><a href="site/modules/math.html#abs">abs</a></li>
+                    <li><a href="site/modules/math.html#ceil">ceil</a></li>
+                    <li><a href="site/modules/math.html#floor">floor</a></li>
+                    <li><a href="site/modules/math.html#neg">neg</a></li>
+                    <li><a href="site/modules/math.html#round">round</a></li>
                 </ul>
 
+                <h3 class="gray margin-top">Modules</h3>
+                <div class="index">
+                    <a href="site/modules/standard.html">Standard module</a><br />
+                    <a href="site/modules/math.html">Math module</a><br />
+                    <a href="site/modules/screen.html">Screen module</a><br />
+                    <a href="site/modules/buttons.html">Buttons module</a><br />
+                    <a href="site/modules/sound.html">Sound module</a><br />
+                    <a href="site/modules/light.html">Light module</a><br />
+                    <a href="site/modules/motor.html">Motor module</a><br />
+                    <a href="site/modules/sensor.html">Sensor module</a><br />
+                </div>
+            </div>
+
+            <div class="two first">
+                <h4>Math module</h4>
                 <br />
-                <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+                <table>
+                    <tr><td>MODULE_MATH</td><td>1</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>MATH_ROUND</td><td>n</td></tr>
+                    <tr><td>1</td><td>MATH_FLOOR</td><td>n</td></tr>
+                    <tr><td>2</td><td>MATH_CEIL</td><td>n</td></tr>
+                    <tr><td>3</td><td>MATH_ABS</td><td>n</td></tr>
+                    <tr><td>4</td><td>MATH_NEG</td><td>n</td></tr>
+                </table>
             </div>
 
-            <div class="two blue">
-                <h3>abs</h3>
-                <pre>proc abs(number *n)</pre>
+            <div class="two first">
+                <h5>round</h5>
+                An implementation of a call to the round api.
+                <pre>
+                    #define MODULE_MATH 4
+                    #define MATH_ROUND  0
+
+                    proc round(number n)
+                        struct Round
+                            number result
+                        ends
+                        Round round
+                        set      round.result, n
+                        addr     round
+                        module   MODULE_MATH,  MATH_ROUND
+                        return   round.result
+                    endp
+                </pre>
             </div>
 
-            <div class="two blue">
-                <h3>ceil</h3>
-                <pre>proc ceil(number *n)</pre>
+            <a id="abs"></a>
+            <div class="two first">
+                <h5>abs</h5>
+                Return the absolute value.
+                <pre>proc abs(number n)</pre>
             </div>
 
-            <div class="two blue">
-                <h3>floor</h3>
-                <pre>proc floor(number *n)</pre>
+            <a id="ceil"></a>
+            <div class="two first">
+                <h5>ceil</h5>
+                Return the value rounded up to an integer.
+                <pre>proc ceil(number n)</pre>
             </div>
 
-            <div class="two blue">
-                <h3>neg</h3>
-                <pre>proc neg(number *n)</pre>
+            <a id="floor"></a>
+            <div class="two first">
+                <h5>floor</h5>
+                Return the value rounded down to an integer.
+                <pre>proc floor(number n)</pre>
             </div>
 
-            <div class="two blue">
-                <h3>round</h3>
-                <pre>proc round(number *n)</pre>
+            <a id="neg"></a>
+            <div class="two first">
+                <h5>neg</h5>
+                Return the negative value.
+                <pre>proc neg(number n)</pre>
+            </div>
+
+            <a id="round"></a>
+            <div class="two first">
+                <h5>round</h5>
+                Return the value to the closest integer.
+                <pre>proc round(number n)</pre>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -87,13 +137,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
-                    <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

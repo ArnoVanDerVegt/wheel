@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+    <link href="css/simulator.css" rel="stylesheet">
+
+    <script src="js/utils/require.js"></script>
+    <script src="js/utils/base.js"></script>
+
+    <script src="js/compiler/PreProcessor.js"></script>
+    <script src="js/compiler/commands/CommandCompiler.js"></script>
+    <script src="js/compiler/commands/StringDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberInc.js"></script>
+    <script src="js/compiler/commands/NumberDec.js"></script>
+    <script src="js/compiler/commands/NumberOperator.js"></script>
+    <script src="js/compiler/commands/ProcedureDeclaration.js"></script>
+    <script src="js/compiler/commands/Set.js"></script>
+    <script src="js/compiler/commands/Call.js"></script>
+    <script src="js/compiler/commands/CallFunction.js"></script>
+    <script src="js/compiler/commands/CallReturn.js"></script>
+    <script src="js/compiler/commands/Ret.js"></script>
+    <script src="js/compiler/commands/Label.js"></script>
+    <script src="js/compiler/commands/Array.js"></script>
+    <script src="js/compiler/commands/ArrayR.js"></script>
+    <script src="js/compiler/commands/ArrayW.js"></script>
+    <script src="js/compiler/commands/Addr.js"></script>
+    <script src="js/compiler/commands/JmpC.js"></script>
+    <script src="js/compiler/command.js"></script>
+    <script src="js/compiler/error.js"></script>
+    <script src="js/compiler/compilerHelper.js"></script>
+    <script src="js/compiler/CompilerOutput.js"></script>
+    <script src="js/compiler/CompilerData.js"></script>
+    <script src="js/compiler/script/ExpressionCompiler.js"></script>
+    <script src="js/compiler/script/ScriptCompiler.js"></script>
+    <script src="js/compiler/Compiler.js"></script>
+
+    <script src="js/vm/VMData.js"></script>
+    <script src="js/vm/VM.js"></script>
+    <script src="js/vm/modules/VMModule.js"></script>
+    <script src="js/simulator/modules/StandardModule.js"></script>
+    <script src="js/simulator/modules/ScreenModule.js"></script>
+    <script src="js/simulator/modules/SoundModule.js"></script>
+    <script src="js/simulator/modules/ButtonsModule.js"></script>
+    <script src="js/simulator/modules/LightModule.js"></script>
+    <script src="js/vm/modules/MotorModule.js"></script>
+    <script src="js/vm/modules/SensorModule.js"></script>
+    <script src="js/vm/modules/MathModule.js"></script>
+
+    <script src="js/simulator/includes/standard.js"></script>
+    <script src="js/simulator/includes/screen.js"></script>
+    <script src="js/simulator/includes/sound.js"></script>
+    <script src="js/simulator/includes/buttons.js"></script>
+    <script src="js/simulator/includes/light.js"></script>
+
+    <script src="js/simulator/Text.js"></script>
+    <script src="js/simulator/TextSmall.js"></script>
+    <script src="js/simulator/TextMedium.js"></script>
+    <script src="js/simulator/TextLarge.js"></script>
+    <script src="js/simulator/Display.js"></script>
+    <script src="js/simulator/Buttons.js"></script>
+    <script src="js/simulator/Light.js"></script>
+    <script src="js/simulator/Simulator.js"></script>
+
+    <script src="js/utils/syntax.js"></script>
+
+    <script src="js/simulator/simulatorLoader.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li><a href="site/examples/index.html" class="active">Examples</a></li>
+                <li><a href="site/docs/index.html">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
+            </ul>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <h1><span class="icon-play"></span> Examples</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three last right">
+                <h3 class="dark-blue with-icon"><img src="site/images/light.png" width="32" height="32"/> <span>Light</span></h3>
+                <ul>
+                    <li><a href="site/examples/light.html#light">light</a></li>
+                </ul>
+
+                <h3 class="gray">Examples</h3>
+                <a href="site/examples/screen.html">Screen</a><br />
+                <a href="site/examples/math.html">Math</a><br />
+                <a href="site/examples/buttons.html">Buttons</a><br />
+                <a href="site/examples/sound.html">Sound</a><br />
+
+                <h3 class="light-gray margin-top" id="simulator">Simulator</h3>
+                <div class="active-program">No program selected.</div>
+                <div class="ev3-wrapper">
+                    <div class="ev3-background">
+                        <div class="simulator-options">
+                            <input type="button" class="button disabled" id="runProgram" value="Run"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two first" id="setfill">
+                <h4>Light</h4>
+                With the light module you can control the EV3 light.
+            </div>
+
+            <div class="two first" id="circle">
+                <h5>light<a data-program="light" data-title="Light demo" href="site/examples/light.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                <pre id="light">
+                    #include "lib/standard.whl"
+                    #include "lib/light.whl"
+
+                    proc main()
+                        ; Turn the red light on and wait 1 second...
+                        light(LIGHT_RED, LIGHT_FLASH_OFF)
+                        sleep(1000)
+
+                        ; Turn the yellow light on and wait 3 seconds...
+                        light(LIGHT_YELLOW, LIGHT_FLASH_ON)
+                        sleep(3000)
+
+                        ; Turn the green light on and wait 1 second...
+                        light(LIGHT_GREEN, LIGHT_FLASH_OFF)
+                        sleep(1000)
+
+                        ; Turn the light off.
+                        light(LIGHT_OFF, LIGHT_FLASH_OFF)
+                    endp
+                </pre>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>

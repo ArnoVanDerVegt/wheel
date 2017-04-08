@@ -6,20 +6,21 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/syntax.js"></script>
 </head>
 
 <body>
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html" class="active">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -28,71 +29,82 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-document"></span> Documentation</h1>
+            <h1><span class="icon-document"></span> Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
-                <h3>Opertators</h3>
+            <div class="three last right">
+                <h3 class="dark-blue with-icon"><img src="site/images/operators.png" width="32" height="32"/> <span>Operators</span></h3>
+
+                <h3 class="gray">Set</h3>
                 <ul>
-                    <li>Add</li>
-                    <li>Subtract</li>
-                    <li>Multiply</li>
-                    <li>Divide</li>
-                    <li>Modulo</li>
-                    <li>Increase</li>
-                    <li>Decrease</li>
+                    <li><a href="site/docs/operators.html#set">Set</a></li>
+                </ul>
+                <h3 class="gray">Math operators</h3>
+                <ul>
+                    <li><a href="site/docs/operators.html#addSubMulDiv">Add</a></li>
+                    <li><a href="site/docs/operators.html#addSubMulDiv">Subtract</a></li>
+                    <li><a href="site/docs/operators.html#addSubMulDiv">Multiply</a></li>
+                    <li><a href="site/docs/operators.html#addSubMulDiv">Divide</a></li>
+                    <li><a href="site/docs/operators.html#addSubMulDiv">Modulo</a></li>
+                </ul>
+                <h3 class="gray">Count</h3>
+                <ul>
+                    <li><a href="site/docs/operators.html#incDec">Increase</li>
+                    <li><a href="site/docs/operators.html#incDec">Decrease</li>
                 </ul>
 
-                <br />
-                <h3>Documentation</h3>
-                <a href="site/docs/keywords.html">Keywords</a><br />
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
-                <a href="site/docs/errors.html">Compiler errors</a><br />
+                <h3 class="light-gray margin-top">Documentation</h3>
+                <div class="index">
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
+                </div>
             </div>
 
-            <div class="two blue">
-                <h3>Operators</h3>
-                The wheel VM supports 5 primitive operators and two derived operators.
-                Increase and decrease are compiled to subtract and add.<br />
+            <div class="two first">
+                <h4>Operators</h4>
                 <br />
             </div>
 
-            <div class="two blue">
-                <h3>Add</h3>
-                <pre>add var, value</pre>
+            <a id="set"></a>
+            <div class="two first">
+                <h5>Set</h5>
+                Set the value of a variable.
+                <pre>
+
+                    set var, n ; var = n
+                </pre>
             </div>
-            <div class="two blue">
-                <h3>Subtract</h3>
-                <pre>sub var, value</pre>
+            <a id="addSubMulDiv"></a>
+            <div class="two first">
+                <h5>Add, Subtract, Multiply, Divide, Modulo</h5>
+                These operators change the value of var by applying the value of n.
+                <pre>
+                    add var, n ; var = var + n
+                    sub var, n ; var = var - n
+                    mul var, n ; var = var * n
+                    div var, n ; var = var / n
+                    mod var, n ; var = var % n
+                </pre>
             </div>
-            <div class="two blue">
-                <h3>Multiply</h3>
-                <pre>mul var, value</pre>
-            </div>
-            <div class="two blue">
-                <h3>Divide</h3>
-                <pre>div var, value</pre>
-            </div>
-            <div class="two blue">
-                <h3>Modulo</h3>
-                <pre>mod var, value</pre>
-            </div>
-            <div class="two blue">
-                <h3>Increase</h3>
-                <pre>inc var</pre>
-            </div>
-            <div class="two blue">
-                <h3>Decrease</h3>
-                <pre>dec var</pre>
+            <a id="incDec"></a>
+            <div class="two first">
+                <h5>Increase, Decrease</h5>
+                Increase or decrease the value of a variable.
+                <pre>
+                    inc var ; var = var + 1
+                    dec var ; var = var - 1
+                </pre>
+                The compiler compiles this operarors to:
+                <pre>
+                    add var, 1 ; var = var + 1
+                    sub var, 1 ; var = var - 1
+                </pre>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -101,13 +113,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li><img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/></li>
-                    <li><a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a></li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

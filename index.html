@@ -5,20 +5,22 @@
     <meta charset="utf-8"/>
     <title>Wheel</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="home">
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -27,65 +29,82 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-circle"></span> Wheel</h1>
+            <h1><span class="icon-circle"></span> Wheel</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="two blue">
-                <h3>Text based</h3>
+            <div class="three first">
+                <h3 class="dark-blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Text based</span></h3>
                 Wheel is a small text based language. The code can be compiled to a .rtf file which can
                 be run from an EV3 brick.
             </div>
-            <div class="three blue">
-                <h3>Code</h3>
-<pre>proc main()
-    number n
-
-    for n = 10 downto 1
-        printN(n)
-    end
-end</pre>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="two blue">
-                <h3>Standard firmware</h3>
-                You can use wheel addition to the existing blocks.
+            <div class="three center">
+                <h3 class="dark-blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Standard firmware</span></h3>
                 Wheel can be easily connected to existing blocks.
             </div>
-            <div class="three img">
-                <img src="site/images/ev3.png"/>
+            <div class="three last">
+                <h3 class="dark-blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <pre>
+                    proc main()
+                        number n
+
+                        for n = 10 downto 1
+                            printN(n)
+                        end
+                    end
+                </pre>
             </div>
 
             <div style="float:left;clear:both;"></div>
 
-            <div class="three blue">
-                <h3>Examples</h3>
-                <a href="site/docs/screen.html">Screen</a><br />
+            <div class="three first">
+                <h3 class="gray with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Examples</span></h3>
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/examples/screen.html">Screen</a>
+                        <a href="site/examples/math.html">Math</a>
+                        <a href="site/examples/light.html">Light</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/examples/buttons.html">Buttons</a>
+                        <a href="site/examples/sound.html">Sound</a>
+                    </div>
+                </div>
             </div>
-            <div class="three blue">
-                <h3>Documentation</h3>
-                <a href="site/docs/keywords.html">Keywords</a><br />
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
+            <div class="three center">
+                <h3 class="gray with-icon"><img src="site/images/test.png" width="32" height="32"/> <span>Documentation</span></h3>
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/docs/variables.html">Variables</a>
+                        <a href="site/docs/operators.html">Operators</a>
+                        <a href="site/docs/procedures.html">Procedures</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/docs/modules.html">Modules</a>
+                        <a href="site/docs/structs.html">Structs</a>
+                        <a href="site/docs/pointers.html">Pointers</a>
+                    </div>
+                </div>
             </div>
-            <div class="three blue">
-                <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+            <div class="three last">
+                <h3 class="gray with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/modules/standard.html">Standard</a>
+                        <a href="site/modules/screen.html">Screen</a>
+                        <a href="site/modules/motor.html">Motor</a>
+                        <a href="site/modules/sensor.html">Sensor</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/modules/math.html">Math</a>
+                        <a href="site/modules/light.html">Light</a>
+                        <a href="site/modules/buttons.html">Buttons</a>
+                        <a href="site/modules/sound.html">Sound</a>
+                    </div>
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -94,17 +113,6 @@ end</pre>
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

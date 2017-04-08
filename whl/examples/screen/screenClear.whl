@@ -1,0 +1,8 @@
+#include "whl/lib/screen.whl"
+
+proc main()
+    clearScreen()
+
+label:
+    jmp label
+endp

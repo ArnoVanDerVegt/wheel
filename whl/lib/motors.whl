@@ -1,10 +1,10 @@
-#define MODULE_MOTORS      2
-    
+#define MODULE_MOTORS 6
+
 #define MOTOR_RESET   0
 #define MOTOR_MOVE_TO 1
 #define MOTOR_MOVE    2
 #define MOTOR_STOP    3
-    
+
 proc motorReset(number id)
     struct MotorReset
         number   id
@@ -14,7 +14,7 @@ proc motorReset(number id)
     addr     motorReset
     module   MODULE_MOTORS,          MOTOR_RESET
 endp
-    
+
 proc motorMoveTo(number id, number target, number power)
     struct MotorMoveTo
         number   id
@@ -28,7 +28,7 @@ proc motorMoveTo(number id, number target, number power)
     addr     motorMoveTo
     module   MODULE_MOTORS,          MOTOR_MOVE_TO
 endp
-    
+
 proc motorMove(number id, number power)
     struct MotorMove
         number   id
@@ -40,7 +40,7 @@ proc motorMove(number id, number power)
     addr     motorMove
     module   MODULE_MOTORS,          MOTOR_MOVE
 endp
-    
+
 proc motorStop(number id)
     struct MotorStop
         number   id

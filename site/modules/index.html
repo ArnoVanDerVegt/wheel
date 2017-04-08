@@ -6,20 +6,21 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="modules">
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html" class="active">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -28,44 +29,54 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-puzzle-piece"></span> Modules</h1>
+            <h1><span class="icon-puzzle-piece"></span> Modules</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="one right blue">
-                <h3>Modules</h3>
+            <div class="one first last right">
+                <h3 class="index gray with-icon"><img src="site/images/delay.png" width="32" height="32"/> <span>Core modules</span></h3>
 
-                <br />
-                <a href="site/modules/standard.html" class="list-link icon-right">Standard module</a>
-                Standard functions for debugging, sleep.<br />
-                <br />
+                <div class="index-row">
+                    <a href="site/modules/standard.html" class="list-link">Standard module</a>
+                    <span>Standard functions for debugging, sleep.</span>
+                </div>
+                <div class="index-row">
+                    <a href="site/modules/math.html" class="list-link">Math module</a>
+                    <span>Math functions for rounding.</span>
+                </div>
 
-                <a href="site/modules/screen.html" class="list-link icon-right">Screen module</a>
-                Drawing functions for shapes and text, clearing the screen.<br />
-                <br />
+                <h3 class="index gray with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Brick modules</span></h3>
 
-                <a href="site/modules/motor.html" class="list-link icon-right">Motor module</a>
-                Control motors<br />
-                <br />
+                <div class="index-row">
+                    <a href="site/modules/screen.html" class="list-link">Screen module</a>
+                    <span>Drawing functions for shapes and text, clearing the screen.</span>
+                </div>
+                <div class="index-row">
+                    <a href="site/modules/buttons.html" class="list-link">Buttons module</a>
+                    <span>Read the brick buttons.</span>
+                </div>
+                <div class="index-row">
+                    <a href="site/modules/sound.html" class="list-link">Sound module</a>
+                    <span>Play tones or samples.</span>
+                </div>
+                <div class="index-row">
+                    <a href="site/modules/light.html" class="list-link">Light module</a>
+                    <span>Control the light on the brick.</span>
+                </div>
 
-                <a href="site/modules/sensor.html" class="list-link icon-right">Sensor module</a>
-                Read sensors.<br />
-                <br />
+                <h3 class="index gray with-icon"><img src="site/images/motorMedium.png" width="32" height="32"/> <span>Motor and sensor modules</span></h3>
 
-                <a href="site/modules/math.html" class="list-link icon-right">Math module</a>
-                Math functions for rounding.<br />
-                <br />
-
-                <a href="site/modules/light.html" class="list-link icon-right">Light module</a>
-                Control the light on the brick.<br />
-                <br />
-
-                <a href="site/modules/buttons.html" class="list-link icon-right">Buttons module</a>
-                Read the brick buttons.<br />
-                <br />
+                <div class="index-row">
+                    <a href="site/modules/motor.html" class="list-link">Motor module</a>
+                    <span>Control motors</span>
+                </div>
+                <div class="index-row">
+                    <a href="site/modules/sensor.html" class="list-link">Sensor module</a>
+                    <span>Read sensors.</span>
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -74,17 +85,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

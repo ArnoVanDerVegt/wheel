@@ -1,0 +1,9 @@
+#include "whl/lib/screen.whl"
+
+proc main()
+    clearScreen()
+    drawCircle(50, 50, 25)
+
+label:
+    jmp label
+endp

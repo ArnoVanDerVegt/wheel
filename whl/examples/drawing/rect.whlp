@@ -1,8 +1,0 @@
-#project "Rectangle drawing demo"
-    
-#include "/lib/screen.whl"
-    
-proc main()
-	; Draw a rectangle at (10, 40) with a size of (90, 70)
-	drawRect(10, 40, 90, 70)
-endp

@@ -1,32 +1,62 @@
-#define MODULE_MATH     4
+#define MODULE_MATH 1
 
-#define MATH_ROUND 0
-#define MATH_FLOOR 1
-#define MATH_CEIL  2
-#define MATH_ABS   3
-#define MATH_NEG   4
+#define MATH_ROUND  0
+#define MATH_FLOOR  1
+#define MATH_CEIL   2
+#define MATH_ABS    3
+#define MATH_NEG    4
 
-proc round(number *n)
-    set      REG_OFFSET_SRC,         n
-    module   MODULE_MATH,            MATH_ROUND
+proc round(number n)
+    struct Round
+        number result
+    ends
+    Round round
+    set      round.result, n
+    addr     round
+    module   MODULE_MATH,  MATH_ROUND
+    return   round.result
 endp
 
-proc floor(number *n)
-    set      REG_OFFSET_SRC,         n
-    module   MODULE_MATH,            MATH_FLOOR
+proc floor(number n)
+    struct Floor
+        number result
+    ends
+    Floor floor
+    set      floor.result, n
+    addr     floor
+    module   MODULE_MATH,  MATH_FLOOR
+    return   floor.result
 endp
 
-proc ceil(number *n)
-    set      REG_OFFSET_SRC,         n
-    module   MODULE_MATH,            MATH_CEIL
+proc ceil(number n)
+    struct Ceil
+        number result
+    ends
+    Ceil ceil
+    set      ceil.result, n
+    addr     ceil
+    module   MODULE_MATH, MATH_CEIL
+    return   ceil.result
 endp
 
-proc abs(number *n)
-    set      REG_OFFSET_SRC,         n
-    module   MODULE_MATH,            MATH_ABS
+proc abs(number n)
+    struct Abs
+        number result
+    ends
+    Abs abs
+    set      abs.result, n
+    addr     abs
+    module   MODULE_MATH, MATH_ABS
+    return   abs.result
 endp
 
-proc neg(number *n)
-    set      REG_OFFSET_SRC,         n
-    module   MODULE_MATH,            MATH_NEG
+proc neg(number n)
+    struct Neg
+        number result
+    ends
+    Neg neg
+    set      neg.result, n
+    addr     neg
+    module   MODULE_MATH, MATH_NEG
+    return   neg.result
 endp

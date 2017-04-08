@@ -6,20 +6,82 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
+    <link href="css/simulator.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/require.js"></script>
+    <script src="js/utils/base.js"></script>
+
+    <script src="js/compiler/PreProcessor.js"></script>
+    <script src="js/compiler/commands/CommandCompiler.js"></script>
+    <script src="js/compiler/commands/StringDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberDeclaration.js"></script>
+    <script src="js/compiler/commands/NumberInc.js"></script>
+    <script src="js/compiler/commands/NumberDec.js"></script>
+    <script src="js/compiler/commands/NumberOperator.js"></script>
+    <script src="js/compiler/commands/ProcedureDeclaration.js"></script>
+    <script src="js/compiler/commands/Set.js"></script>
+    <script src="js/compiler/commands/Call.js"></script>
+    <script src="js/compiler/commands/CallFunction.js"></script>
+    <script src="js/compiler/commands/CallReturn.js"></script>
+    <script src="js/compiler/commands/Ret.js"></script>
+    <script src="js/compiler/commands/Label.js"></script>
+    <script src="js/compiler/commands/Array.js"></script>
+    <script src="js/compiler/commands/ArrayR.js"></script>
+    <script src="js/compiler/commands/ArrayW.js"></script>
+    <script src="js/compiler/commands/Addr.js"></script>
+    <script src="js/compiler/commands/JmpC.js"></script>
+    <script src="js/compiler/command.js"></script>
+    <script src="js/compiler/error.js"></script>
+    <script src="js/compiler/compilerHelper.js"></script>
+    <script src="js/compiler/CompilerOutput.js"></script>
+    <script src="js/compiler/CompilerData.js"></script>
+    <script src="js/compiler/script/ExpressionCompiler.js"></script>
+    <script src="js/compiler/script/ScriptCompiler.js"></script>
+    <script src="js/compiler/Compiler.js"></script>
+
+    <script src="js/vm/VMData.js"></script>
+    <script src="js/vm/VM.js"></script>
+    <script src="js/vm/modules/VMModule.js"></script>
+    <script src="js/simulator/modules/StandardModule.js"></script>
+    <script src="js/simulator/modules/ScreenModule.js"></script>
+    <script src="js/simulator/modules/SoundModule.js"></script>
+    <script src="js/simulator/modules/ButtonsModule.js"></script>
+    <script src="js/simulator/modules/LightModule.js"></script>
+    <script src="js/vm/modules/MotorModule.js"></script>
+    <script src="js/vm/modules/SensorModule.js"></script>
+    <script src="js/vm/modules/MathModule.js"></script>
+    <script src="js/vm/modules/SoundModule.js"></script>
+
+    <script src="js/simulator/includes/standard.js"></script>
+    <script src="js/simulator/includes/screen.js"></script>
+    <script src="js/simulator/includes/sound.js"></script>
+    <script src="js/simulator/includes/light.js"></script>
+
+    <script src="js/simulator/Text.js"></script>
+    <script src="js/simulator/TextSmall.js"></script>
+    <script src="js/simulator/TextMedium.js"></script>
+    <script src="js/simulator/TextLarge.js"></script>
+    <script src="js/simulator/Display.js"></script>
+    <script src="js/simulator/Buttons.js"></script>
+    <script src="js/simulator/Light.js"></script>
+    <script src="js/simulator/Simulator.js"></script>
+
+    <script src="js/utils/syntax.js"></script>
+
+    <script src="js/simulator/simulatorLoader.js"></script>
 </head>
 
 <body>
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html" class="active">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -28,7 +90,7 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-play"></span> Examples</h1>
+            <h1><span class="icon-play"></span> Examples</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
@@ -36,96 +98,215 @@
     <div class="content">
         <div class="container">
             <!-- ================== Screen ================== -->
-            <div class="three right blue">
-                <h3>Screen</h3>
+            <div class="three last right">
+                <h3 class="dark-blue with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Screen</span></h3>
                 <ul>
-                    <li>Circle</li>
-                    <li>Draw text</li>
-                    <li>Image</li>
-                    <li>Line</li>
-                    <li>Pixel</li>
-                    <li>Rect</li>
+                    <li><a href="site/examples/screen.html#setfill">setFill</a></li>
+                    <li><a href="site/examples/screen.html#setfillcolor">setFillColor</a></li>
+                    <li><a href="site/examples/screen.html#settextsize">setTextSize</a></li>
+                    <li><a href="site/examples/screen.html#circle">drawCircle</a></li>
+                    <li><a href="site/examples/screen.html#drawnumber">drawNumber</a></li>
+                    <li><a href="site/examples/screen.html#drawtext">drawText</a></li>
+                    <li><a href="site/examples/screen.html#image">drawImage</a></li>
+                    <li><a href="site/examples/screen.html#line">drawLine</a></li>
+                    <li><a href="site/examples/screen.html#pixel">drawPixel</a></li>
+                    <li><a href="site/examples/screen.html#rect">drawRect</a></li>
                 </ul>
 
-                <br />
-                <h3>Examples</h3>
-                <a href="site/docs/screen.html">Screen</a><br />
+                <h3 class="gray">Examples</h3>
+                <a href="site/examples/math.html">Math</a><br />
+                <a href="site/examples/light.html">Light</a><br />
+                <a href="site/examples/buttons.html">Buttons</a><br />
+                <a href="site/examples/sound.html">Sound</a><br />
+
+                <h3 class="light-gray margin-top" id="simulator">Simulator</h3>
+                <div class="active-program">No program selected.</div>
+                <div class="ev3-wrapper">
+                    <div class="ev3-background">
+                        <div class="simulator-options">
+                            <input type="button" class="button disabled" id="runProgram" value="Run"/>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- ================== Circle ================== -->
-            <div class="two blue">
-                <h3>Circle</h3>
-<pre>#project "Circle drawing demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-    ; Draw a circle at (60, 50) with a radius of 40
-    drawCircle(60, 50, 40)
-endp</pre>
+            <div class="two first" id="setfill">
+                <h4>Screen</h4>
+                The screen module provides access to screen drawing functions.
             </div>
 
-            <!-- ================= DrawText ================= -->
-            <div class="two blue">
-                <h3>Draw text</h3>
-<pre>#project "Draw text demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-    drawText(0, 0, "Hello")
-endp</pre>
+            <div class="two first" id="setfill">
+                <h5>setFill</h5>
+                Set the fill, if 1 then circles and rectangles are filled. If 0 then only lines the outline is drawn.<br />
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/buttons.html">Buttons</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
             </div>
 
-            <!-- =================== Image ================== -->
-            <div class="two blue">
-                <h3>Image</h3>
-<pre>#project "Image demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-    drawImage(0, 0, "image.rgf")
-endp</pre>
+            <div class="two first" id="setfillcolor">
+                <h5>setFillColor</h5>
+                Set the fill color.
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
             </div>
 
-            <!-- =================== Line =================== -->
-            <div class="two blue">
-                <h3>Line</h3>
-<pre>#project "Line drawing demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-    ; Draw a line from (5, 10) to (25, 35)
-    drawLine(5, 10, 125, 105)
-endp</pre>
+            <div class="two first" id="settextsize">
+                <h5>setTextSize</h5>
+                Set the text size.
+                <span class="see-also">
+                    See:
+                    <a href="site/examples/screen.html#circle">Circle</a>,
+                    <a href="site/examples/screen.html#rect">Rect</a>.
+                </span>
             </div>
 
-            <!-- =================== Pixel ================== -->
-            <div class="two blue">
-                <h3>Pixel</h3>
-<pre>#project "Pixel drawing demo"
+            <div class="two first" id="circle">
+                <h5>drawCircle<a data-program="drawCircle" data-title="Circle drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                <pre id="drawCircle">
+                    #include "lib/screen.whl"
 
-#include "/lib/screen.whl"
+                    proc main()
+                        ; Draw a circle at (60, 50) with a radius of 40
+                        drawCircle(69, 64, 25)
 
-proc main()
-    ; Draw a pixel at (155, 10)
-    drawPixel(155, 10)
-endp</pre>
+                        ; Draw black a filled circle
+                        setFill(1)
+                        drawCircle(89, 64, 20)
+
+                        ; Draw a white filled circle
+                        setFillColor(1)
+                        drawCircle(109, 64, 15)
+                    endp
+                </pre>
             </div>
 
-            <!-- =================== Rect =================== -->
-            <div class="two blue">
-                <h3>Rect</h3>
-<pre>#project "Rectangle drawing demo"
+            <div class="two first" id="drawNumberber">
+                <h5>drawNumber<a data-program="drawNumberber" data-title="Number drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                Draw a text with the active fill and color settings.
+                <pre id="drawNumberber">
+                    #include "lib/screen.whl"
 
-#include "/lib/screen.whl"
+                    proc main()
+                        number n
 
-proc main()
-    ; Draw a rectangle at (10, 40) with a size of (90, 70)
-    drawRect(10, 40, 90, 70)
-endp</div>
+                        for n = 0 to 10
+                            number x
+                            number y
+
+                            x = n
+                            x *= 10
+                            y = n
+                            y *= 4
+                            y += 10
+
+                            drawNumber(x, y, n)
+                        end
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="drawtext">
+                <h5>drawText<a data-program="drawText" data-title="Text drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                Draw a text with the active fill and color settings.
+                <pre id="drawText">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        ; Draw a small black text at the left top of the screen...
+                        drawText(10, 10, "The quick brown")
+
+                        ; Set the text size to small bold:
+                        setTextSize(1)
+                        drawText(10, 25, "fox jumped over")
+
+                        ; Set the text size to large:
+                        setTextSize(2)
+                        drawText(10, 40, "Lazy dogs")
+
+                        ; Set the text size back to small:
+                        setTextSize(0)
+                        ; Set the fill:
+                        setFill(1)
+                        ; This draws small text with black bagkround...
+                        drawText(10, 60, "The quick brown")
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="image">
+                <h5>drawImage<!--a data-program="image" data-title="Image demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a--></h5>
+                <pre id="image">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawImage(0, 0, "image.rgf")
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="line">
+                <h5>drawLine<a data-program="drawLine" data-title="Line drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                <pre id="drawLine">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number n
+                        number x = 0
+                        for n = 0 to 18
+                            drawLine(x, 0, 0, 128)
+
+                            x += 10
+                        end
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="pixel">
+                <h5>drawPixel<a data-program="drawPixel" data-title="Pixel drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                The following demo draws a 100 pixels in a grid:
+                <pre id="drawPixel">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        number i, j
+                        number x, y
+
+                        y = 0
+                        for i = 0 to 10
+                            x = 0
+                            for j = 0 to 10
+                                drawPixel(x, y)
+
+                                x += 10
+                            end
+
+                            y += 10
+                        end
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="rect">
+                <h5>drawRect<a data-program="drawRect" data-title="Rect drawing demo" href="site/examples/screen.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
+                <pre id="drawRect">
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawRect(10, 20, 90, 70)
+
+                        setFill(1)
+                        drawRect(20, 30, 90, 70)
+
+                        setFillColor(1)
+                        drawRect(30, 40, 70, 50)
+                    endp
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -134,17 +315,6 @@ endp</div>
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.

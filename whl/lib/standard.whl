@@ -4,6 +4,9 @@
 #define STANDARD_PRINT_STRING 1
 #define STANDARD_SLEEP        2
 
+#define TRUE                  1
+#define FALSE                 0
+
 proc printN(number n)
     struct PrintNumber
         number   n

@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var wheel             = require('../utils/base.js').wheel;
+var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 function createFiles(content1, content2) {
@@ -56,7 +56,6 @@ describe(
                     var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
                     preProcessor.process(
-                        '',
                         'main.whl',
                         function(includes) {
                             var outputCommands = testData.compiler.compile(includes);

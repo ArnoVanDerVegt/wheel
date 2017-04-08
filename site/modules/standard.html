@@ -6,20 +6,21 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Roboto+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
-    <script src="utils/syntax.js"></script>
+    <script src="js/utils/syntax.js"></script>
 </head>
 
 <body>
     <div class="header">
         <div class="container">
             <ul>
-                <li class="yellow"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
+                <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html" class="active">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -28,42 +29,93 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1 class="yellow"><span class="icon-puzzle-piece"></span> Modules</h1>
+            <h1><span class="icon-puzzle-piece"></span> Modules</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="three right blue">
-                <h3>Standard module</h3>
+            <div class="three last right">
+                <h3 class="dark-blue with-icon"><img src="site/images/delay.png" width="32" height="32"/> <span>Standard module</span></h3>
                 <ul>
-                    <li>printN</li>
-                    <li>printS</li>
-                    <li>sleep</li>
+                    <li><a href="site/modules/standard.html#printn">printN</a></li>
+                    <li><a href="site/modules/standard.html#prints">printS</a></li>
+                    <li><a href="site/modules/standard.html#sleep">sleep</a></li>
                 </ul>
 
-                <br />
-                <h3>Modules</h3>
-                <a href="site/modules/standard.html">Standard module</a><br />
-                <a href="site/modules/screen.html">Screen module</a><br />
-                <a href="site/modules/motor.html">Motor module</a><br />
-                <a href="site/modules/sensor.html">Sensor module</a><br />
-                <a href="site/modules/math.html">Math module</a><br />
-                <a href="site/modules/light.html">Light module</a><br />
-                <a href="site/modules/buttons.html">Buttons module</a><br />
+                <h3 class="gray margin-top">Modules</h3>
+                <div class="index">
+                    <a href="site/modules/standard.html">Standard module</a><br />
+                    <a href="site/modules/math.html">Math module</a><br />
+                    <a href="site/modules/screen.html">Screen module</a><br />
+                    <a href="site/modules/buttons.html">Buttons module</a><br />
+                    <a href="site/modules/sound.html">Sound module</a><br />
+                    <a href="site/modules/light.html">Light module</a><br />
+                    <a href="site/modules/motor.html">Motor module</a><br />
+                    <a href="site/modules/sensor.html">Sensor module</a><br />
+                </div>
             </div>
 
-            <div class="two blue">
-                <h3>printN</h3>
+            <div class="two first">
+                <h4>Standard module</h4>
+                <br />
+                <table>
+                    <tr><td>MODULE_STANDARD</td><td>0</td></tr>
+                </table>
+                <br/>
+                <table>
+                    <tr><th>#</th><th>Api</th><th>Params</th></tr>
+                    <tr><td>0</td><td>STANDARD_PRINT_NUMBER</td><td>n</td></tr>
+                    <tr><td>1</td><td>STANDARD_PRINT_STRING</td><td>s</td></tr>
+                    <tr><td>2</td><td>STANDARD_SLEEP</td><td>time (milliseconds)</td></tr>
+                </table>
+            </div>
+
+            <div class="two first" id="constants">
+                <h4>Constants</h4>
+
+                <table>
+                    <tr><th>Name</th><th>Value</th></tr>
+                    <tr><td>FALSE</td><td>0</td></tr>
+                    <tr><td>TRUE</td><td>1</td></tr>
+                </table>
+            </div>
+
+            <div class="two first">
+                <h4>sleep</h4>
+                An implementation of a call to the sleep api.
+                <pre>
+                    #define MODULE_STANDARD 1
+                    #define STANDARD_SLEEP  2
+
+                    proc sleep(number milliseconds)
+                        struct Sleep
+                            number milliseconds
+                        ends
+                        Sleep sleep
+                        set    sleep.milliseconds, milliseconds
+                        addr   sleep
+                        module MODULE_STANDARD, STANDARD_SLEEP
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first" id="printn">
+                <h4>printN</h4>
+                This function is used for unit testing the compiler and vm.
                 <pre>proc printN(number n)</pre>
             </div>
-            <div class="two blue">
-                <h3>printS</h3>
+
+            <div class="two first" id="prints">
+                <h4>printS</h4>
+                This function is used for unit testing the compiler and vm.
                 <pre>proc printS(string s)</pre>
             </div>
-            <div class="two blue">
-                <h3>sleep</h3>
+
+            <div class="two first" id="sleep">
+                <h4>sleep</h4>
+                Halts the execution of VM commands for a given number of milliseconds.
                 <pre>proc sleep(number milliseconds)</pre>
             </div>
 
@@ -73,17 +125,6 @@
 
     <div class="footer">
         <div class="container">
-            <div class="three">
-                <h3 class="light-green">Tests</h3>
-                <ul>
-                    <li>
-                        <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-                    </li>
-                    <li>
-                        <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
-                    </li>
-                </ul>
-            </div>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
