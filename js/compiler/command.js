@@ -43,74 +43,40 @@
 
     var REGISTER_COUNT          =  6;
 
+    var ARGS_C                  = [{type: T_NUM_C}];
+    var ARGS_GL                 = [{type: T_NUM_G}, {type: T_NUM_L}];
+    var ARGS_CGL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}];
+    var ARGS_PPGPL              = [{type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L}];
+    var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
+    var ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
+    var ARGS_LABEL              = [{type: T_LABEL}];
+    var ARGS_ALL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L},
+                                    {type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L},
+                                    {type: T_STRUCT_G}, {type: T_STRUCT_L}];
+
     wheel(
         'compiler.command',
         {
-            copy: {
-                code: 0,
-                args: [
-                    {type: T_NUM_C}
-                ]
-            },
+            copy: {code: 0, args: ARGS_C},
             jmpc: {
                 code: 1,
                 args: [
-                    {
-                        type: T_LABEL,
-                        args: [
-                            {type: T_NUM_C}
-                        ]
-                    }
+                    {type: T_LABEL, args: ARGS_C}
                 ]
             },
             cmp: {
                 code: 2,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
             module: {
                 code: 3,
                 args: [
-                    {
-                        type: T_NUM_C,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_C, args: ARGS_CGL},
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
 
@@ -118,40 +84,10 @@
             set: {
                 code: 4,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L},
-                            {type: T_PROC}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L},
-                            {type: T_PROC}
-                        ]
-                    },
-                    {
-                        type: T_PROC_G,
-                        args: [
-                            {type: T_PROC_G},
-                            {type: T_PROC_L},
-                            {type: T_PROC}
-                        ]
-                    },
-                    {
-                        type: T_PROC_L,
-                        args: [
-                            {type: T_PROC_G},
-                            {type: T_PROC_L},
-                            {type: T_PROC}
-                        ]
-                    },
+                    {type: T_NUM_G,  args: ARGS_CGLP},
+                    {type: T_NUM_L,  args: ARGS_CGLP},
+                    {type: T_PROC_G, args: ARGS_PPGPL},
+                    {type: T_PROC_L, args: ARGS_PPGPL},
                     {
                         type:     T_STRUCT_L,
                         metaType: T_META_POINTER,
@@ -197,168 +133,51 @@
             add: {
                 code: 5,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
             sub: {
                 code: 6,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
             mul: {
                 code: 7,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
             div: {
                 code: 8,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
             mod: {
                 code: 9,
                 args: [
-                    {
-                        type: T_NUM_G,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    },
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_C},
-                            {type: T_NUM_G},
-                            {type: T_NUM_L}
-                        ]
-                    }
+                    {type: T_NUM_G, args: ARGS_CGL},
+                    {type: T_NUM_L, args: ARGS_CGL}
                 ]
             },
 
             // The following commands are compiled into smaller commands with less parameters...
-            inc: {
-                code: 1024,
-                args: [
-                    {type: T_NUM_G},
-                    {type: T_NUM_L}
-                ]
-            },
-            dec: {
-                code: 1025,
-                args: [
-                    {type: T_NUM_G},
-                    {type: T_NUM_L}
-                ]
-            },
+            inc: {code: 1024, args: ARGS_GL},
+            dec: {code: 1025, args: ARGS_GL},
             // Jump...
-            jmp: {
-                code: 1026,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
+            jmp: {code: 1026, args: ARGS_LABEL},
             // Contitional jumps...
-            je: {
-                code: 1031,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
-            jne: {
-                cde: 1032,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
-            jl: {
-                code: 1033,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
-            jle: {
-                code: 1034,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
-            jg: {
-                code: 1035,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
-            jge: {
-                code: 1036,
-                args: [
-                    {type: T_LABEL}
-                ]
-            },
+            je:  {code: 1031, args: ARGS_LABEL},
+            jne: {code: 1032, args: ARGS_LABEL},
+            jl:  {code: 1033, args: ARGS_LABEL},
+            jle: {code: 1034, args: ARGS_LABEL},
+            jg:  {code: 1035, args: ARGS_LABEL},
+            jge: {code: 1036, args: ARGS_LABEL},
             // Address...
             addr: {
                 code: 1037,
@@ -380,175 +199,49 @@
                     {
                         type: T_NUM_G,
                         args: [
-                            {
-                                type: T_NUM_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
                         ]
                     },
                     {
                         type: T_NUM_L,
                         args: [
-                            {
-                                type: T_NUM_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L, // In case of a struct, the original type should be T_NUM_L_ARRAY!
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G, // In case of a struct, the original type should be T_NUM_G_ARRAY!
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_L, args: ARGS_CGL}, // In case of a struct, the original type should be T_NUM_L_ARRAY!
+                            {type: T_NUM_G, args: ARGS_CGL} // In case of a struct, the original type should be T_NUM_G_ARRAY!
                         ]
                     },
                     {
                         type: T_STRUCT_G,
                         args: [
-                            {
-                                type: T_STRUCT_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_STRUCT_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
+                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
                         ]
                     },
                     {
                         type: T_STRUCT_L,
                         args: [
-                            {
-                                type: T_STRUCT_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_STRUCT_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
+                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
                         ]
                     },
                     {
                         type: T_PROC_G,
                         args: [
-                            {
-                                type: T_PROC_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_PROC_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_PROC_L_ARRAY, args: ARGS_CGL},
+                            {type: T_PROC_G_ARRAY, args: ARGS_CGL}
                         ]
                     },
                     {
                         type: T_PROC_L,
                         args: [
-                            {
-                                type: T_PROC_L_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            },
-                            {
-                                type: T_PROC_G_ARRAY,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L}
-                                ]
-                            }
+                            {type: T_PROC_L_ARRAY, args: ARGS_CGL},
+                            {type: T_PROC_G_ARRAY, args: ARGS_CGL}
                         ]
                     }
                 ]
@@ -559,243 +252,57 @@
                     {
                         type: T_NUM_L_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_ALL},
+                            {type: T_NUM_G, args: ARGS_ALL},
+                            {type: T_NUM_L, args: ARGS_ALL}
                         ]
                     },
                     {
                         type: T_NUM_L, // In case of a field, the origType should be T_NUM_L_ARRAY!
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_ALL},
+                            {type: T_NUM_G, args: ARGS_ALL},
+                            {type: T_NUM_L, args: ARGS_ALL}
                         ]
                     },
                     {
                         type: T_NUM_G_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_NUM_C},
-                                    {type: T_NUM_G},
-                                    {type: T_NUM_L},
-                                    {type: T_PROC},
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_ALL},
+                            {type: T_NUM_G, args: ARGS_ALL},
+                            {type: T_NUM_L, args: ARGS_ALL}
                         ]
                     },
                     {
                         type: T_STRUCT_G_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_SGSL},
+                            {type: T_NUM_G, args: ARGS_SGSL},
+                            {type: T_NUM_L, args: ARGS_SGSL}
                         ]
                     },
                     {
                         type: T_STRUCT_L_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_STRUCT_G},
-                                    {type: T_STRUCT_L}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_SGSL},
+                            {type: T_NUM_G, args: ARGS_SGSL},
+                            {type: T_NUM_L, args: ARGS_SGSL}
                         ]
                     },
                     {
                         type: T_PROC_G_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_PPGPL},
+                            {type: T_NUM_G, args: ARGS_PPGPL},
+                            {type: T_NUM_L, args: ARGS_PPGPL}
                         ]
                     },
                     {
                         type: T_PROC_L_ARRAY,
                         args: [
-                            {
-                                type: T_NUM_C,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            },
-                            {
-                                type: T_NUM_G,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            },
-                            {
-                                type: T_NUM_L,
-                                args: [
-                                    {type: T_PROC_G},
-                                    {type: T_PROC_L},
-                                    {type: T_PROC}
-                                ]
-                            }
+                            {type: T_NUM_C, args: ARGS_PPGPL},
+                            {type: T_NUM_G, args: ARGS_PPGPL},
+                            {type: T_NUM_L, args: ARGS_PPGPL}
                         ]
                     }
                 ]
