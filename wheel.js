@@ -1,6 +1,6 @@
 require('./js/compiler/PreProcessor.js');
 require('./js/compiler/commands/CommandCompiler.js');
-require('./js/compiler/commands/StringDeclaration.js');
+require('./js/compiler/commands/Declaration.js');
 require('./js/compiler/commands/NumberDeclaration.js');
 require('./js/compiler/commands/NumberInc.js');
 require('./js/compiler/commands/NumberDec.js');

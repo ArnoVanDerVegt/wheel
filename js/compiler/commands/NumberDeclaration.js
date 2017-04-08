@@ -12,7 +12,7 @@
 
     wheel(
         'compiler.commands.NumberDeclaration',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.compile = function(validatedCommand, params, origParams, location) {
                 $ = wheel.compiler.command;
 
@@ -38,7 +38,7 @@
                                     throw compiler.createError(wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED, 'Number expected, found "' + local.value + '".');
                                 }
                                 // Set the the value at the address of the local variable...
-                                compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(value));
+                                this.addSetLocal(local, value);
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var size   = local.size * local.length;
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
