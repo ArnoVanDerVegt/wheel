@@ -10,7 +10,7 @@ window.require = function(filename) {
 				}
 				return a + '/' + b;
 			}
-		}
+		};
 	}
 	return {wheel: window.wheel};
 };
