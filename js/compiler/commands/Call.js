@@ -163,11 +163,12 @@
                 }
 
                 var callCommand;
+                var createCallCommand     = function(offset) { return {code: $.set.code, params: [$.CODE(), offset]}; };
                 var p                     = compilerData.findProcedure(procedure);
                 var currentLocalStackSize = compilerData.getLocalOffset();
 
                 if (p !== null) {
-                    callCommand = {code: $.set.code, params: [$.CODE(), $.CONST(p.index - 1)]};
+                    callCommand = createCallCommand($.CONST(p.index - 1));
                 } else {
                     var local = compilerData.findLocal(procedure);
                     if (local !== null) {
@@ -178,14 +179,14 @@
                         // Move the code offset above the stack into the stack of the new procedure...
                         var offset = local.offset + currentLocalStackSize;
                         compilerOutput.a($.set.code, [{type: $.T_NUM_L, value: offset}, {type: $.T_NUM_L, value: local.offset}]);
-                        callCommand = {code: $.set.code, params: [$.CODE(), $.LOCAL(local.offset)]};
+                        callCommand = createCallCommand($.LOCAL(local.offset));
                     } else {
                         var global = compilerData.findGlobal(procedure);
                         if (global !== null) {
                             if ((global.type !== $.T_PROC_G) && ((global.struct === null) || (global.origType !== $.T_PROC_G))) {
                                 throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_CAN_NOT_CALL_GLOBAL, 'Type error, can not call "' + procedure + '".');
                             }
-                            callCommand = {code: $.set.code, params: [$.CODE(), $.GLOBAL(global.offset)]};
+                            callCommand = createCallCommand($.GLOBAL(global.offset));
                         } else {
                             throw this._compiler.createError(wheel.compiler.error.UNKNOWN_PROCEDURE, 'Unknown procedure "' + procedure + '".');
                         }
