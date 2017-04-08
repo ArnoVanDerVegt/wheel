@@ -1,7 +1,0 @@
-#project "Image demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-    drawImage(0, 0, "image.rgf")
-endp

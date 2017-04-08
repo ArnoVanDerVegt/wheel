@@ -25,14 +25,18 @@ function createFiles(content1, content2, content3, content4) {
         },
         exists: function(path, filename) {
             var files = this._files;
-            if (filename in files) {
-                return files[filename];
-            }
-            var f = path + filename;
-            if (f in files) {
-                return files[f];
-            }
-            return false;
+            var p     = [''].concat(path);
+            var found = false;
+
+            p.forEach(function(p) {
+                if (found === false) {
+                    var f = p + filename;
+                    if (f in files) {
+                        found = files[f];
+                    }
+                }
+            });
+            return found;
         },
         getFile: function(index) {
             switch (index) {
@@ -61,7 +65,7 @@ describe(
                     var compiler     = new wheel.compiler.Compiler({});
                     var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
-                    preProcessor.process('', 'main.whl', function(includes) {});
+                    preProcessor.process('main.whl', function(includes) {});
                 },
                 function(error) {
                     return (error.toString() === 'Error: File not found "error.whl".');
@@ -82,7 +86,7 @@ describe(
                     var compiler     = new wheel.compiler.Compiler({});
                     var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
-                    preProcessor.process('', 'main.whl', function(includes) {});
+                    preProcessor.process('main.whl', function(includes) {});
                 },
                 function(error) {
                     console.log(error.toString());
@@ -106,7 +110,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = compiler.compile(includes);
@@ -153,7 +156,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = compiler.compile(includes);
@@ -201,7 +203,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = compiler.compile(includes);
@@ -252,7 +253,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -296,7 +296,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -345,10 +344,9 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.PreProcessor({files: files, config: {path: ['test/']}});
 
             preProcessor.process(
-                'test/',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -406,10 +404,9 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.PreProcessor({files: files, config: {path: ['test/']}});
 
             preProcessor.process(
-                'test/',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -452,7 +449,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -497,7 +493,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -540,7 +535,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -581,7 +575,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -617,7 +610,6 @@ describe(
                 var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
                 preProcessor.process(
-                    '',
                     'main.whl',
                     function(includes) {
                         compiler.compile(includes);

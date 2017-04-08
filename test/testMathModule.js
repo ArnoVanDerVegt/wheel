@@ -72,7 +72,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -121,7 +120,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -170,7 +168,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -219,7 +216,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);
@@ -268,7 +264,6 @@ describe(
             var preProcessor = new wheel.compiler.PreProcessor({files: files});
 
             preProcessor.process(
-                '',
                 'main.whl',
                 function(includes) {
                     var outputCommands = testData.compiler.compile(includes);

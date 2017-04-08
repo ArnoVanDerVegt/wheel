@@ -2,11 +2,11 @@
 
 @font-face {
     font-family: "icons";
-    src:url("../fonts/icons.eot?r=3");
-    src:url("../fonts/icons.eot?r=3#iefix") format("embedded-opentype"),
-    url("../fonts/icons.woff?r=3") format("woff"),
-    url("../fonts/icons.ttf?r=3") format("truetype"),
-    url("../fonts/icons.svg#icons?r=3") format("svg");
+    src:url("/fonts/icons.eot?r=4");
+    src:url("/fonts/icons.eot?r=4#iefix") format("embedded-opentype"),
+    url("/fonts/icons.woff?r=4") format("woff"),
+    url("/fonts/icons.ttf?r=4") format("truetype"),
+    url("/fonts/icons.svg#icons?r=4") format("svg");
     font-weight:                normal;
     font-style:                 normal;
 }
@@ -66,9 +66,9 @@ li {
 /* Header */
 .header {
     width:                      100%;
-    height:                     48px;
+    height:                     56px;
     background-color:           #101010;
-    z-index:                    100;
+    padding:                    8px 0 0 0;
 }
 .header ul,
 .header li {
@@ -96,7 +96,9 @@ li {
     padding:                    0 8px 0 0;
 }
 .header ul li a.active {
-    text-decoration:            underline;
+    background-color:           #FAFBFC;
+    color:                      #383838;
+    border-radius:              2px 2px 0 0;
 }
 .header ul li.wheel a {
     color:                      #FFFFFF;
@@ -132,7 +134,7 @@ li {
 }
 .sub-header h1 span {
     font-size:                  28px;
-    color:                      #808890;
+    color:                      #95a5a6;
 }
 
 .sub-header h2 {
@@ -149,7 +151,7 @@ li {
 }
 .sub-header h2 {
     margin:                     -24px 0 0;
-    color:                      #808890;
+    color:                      #95a5a6;
     font-size:                  12px;
     text-transform:             uppercase;
     letter-spacing:             0.04em;
@@ -234,6 +236,16 @@ h3.gray {
 h3.gray img {
     border-color:               #7f8c8d;
 }
+h3.light-gray {
+    border-color:               #bdc3c7;
+    background-color:           #ecf0f1;
+}
+h3.light-gray img {
+    border-color:               #bdc3c7;
+}
+h3.light-gray {
+    color:                      #34495e;
+}
 h3.with-icon {
     height:                     52px;
     padding:                    4px;
@@ -311,6 +323,21 @@ div.three  .see-also {
     font-size:                  14px;
     margin:                     4px 0 4px 0;
     opacity:                    0.8;
+}
+
+.index-links {
+    float:                      left;
+    width:                      100%;
+}
+.index-links .half {
+    float:                      left;
+    width:                      50%;
+}
+.index-links a {
+    float:                      left;
+    width:                      100%;
+    height:                     24px;
+    line-height:                24px;
 }
 
 div.one {
@@ -434,8 +461,8 @@ div.three table th {
 
 .button {
     color:                      #FFFFFF;
-    background-color:           #9b59b6;
-    border:                     1px solid #8e44ad;
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
     border-radius:              2px;
     padding:                    6px 12px 6px 12px;
     font-family:                'Open Sans', sans-serif;
@@ -506,6 +533,69 @@ pre .black {
     color:                      #383838;
 }
 
+/* Editor */
+.editor {
+    float:                      left;
+    width:                      100%;
+    height:                     417px;
+    border:                     1px solid #E0E0E0;
+    border-radius:              2px;
+}
+.editor .toolbar {
+    float:                      left;
+    width:                      100%;
+    height:                     41px;
+    border-radius:              2px 2px 0 0;
+    border:                     1px solid #E0E0E0;
+    border-width:               0 0 1px 0;
+    background-color:           #FAFBFC;
+    margin:                     0;
+}
+.editor .toolbar ul {
+    float:                      left;
+    width:                      100%;
+    height:                     24px;
+    line-height:                24px;
+    list-style:                 none;
+    margin:                     8px 0 0 0;
+    padding:                    0;
+}
+.editor .toolbar li {
+    float:                      left;
+    height:                     24px;
+    line-height:                24px;
+    list-style:                 none;
+    margin:                     0 0 0 8px;
+    padding:                    0 8px 0 8px;
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+    border-radius:              2px;
+    color:                      #FFFFFF;
+    font-size:                  15px;
+    opacity:                    0.5;
+    cursor:                     pointer;
+}
+.editor .toolbar li.active {
+    opacity:                    1
+}
+.editor .toolbar li.compile {
+    float:                      right;
+    margin:                     0 8px 0 0;
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
+    border-radius:              2px;
+    opacity:                    1;
+}
+.editor textarea {
+    float:                      left;
+    width:                      100%;
+    height:                     374px;
+    border:                     0;
+    border-radius:              0 0 2px 2px;
+    padding:                    8px;
+    margin:                     0;
+}
+
 /* Footer */
 .footer {
     float:                      left;
@@ -517,12 +607,29 @@ pre .black {
     border:                     1px solid #D0D0D0;
     border-width:               1px 0 0 0;
 }
+
+@media screen and (min-height: 680px) {
+    body.home,
+    body.examples,
+    body.docs,
+    body.simulator {
+        background-color:       #FFFFFF;
+    }
+    body.home .footer,
+    body.examples .footer,
+    body.docs .footer,
+    body.simulator .footer {
+        position:               fixed;
+        bottom:                 0;
+    }
+}
+
 .footer .container {
     height:                     100%;
 }
 .footer .container .small-print {
     position:                   absolute;
-    color:                      #404040;
+    color:                      #95a5a6;
     font-size:                  8px;
     left:                       0px;
     width:                      960px;

@@ -1,6 +1,4 @@
-#include "lib/standard.whl"
-
-#define MODULE_SCREEN        1
+#define MODULE_SCREEN        2
 
 #define SCREEN_CLEAR         0
 #define SCREEN_FILL          1
@@ -36,7 +34,7 @@ proc setFillColor(number fillColor)
         number fillColor
     ends
     SetFillColor setFillColor
-    set      setFillColor.fillColor, fillColorColor
+    set      setFillColor.fillColor, fillColor
     addr     setFillColor
     module   MODULE_SCREEN,          SCREEN_FILL_COLOR
 endp

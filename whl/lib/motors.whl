@@ -1,4 +1,4 @@
-#define MODULE_MOTORS 2
+#define MODULE_MOTORS 6
 
 #define MOTOR_RESET   0
 #define MOTOR_MOVE_TO 1

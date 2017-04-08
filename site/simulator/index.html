@@ -73,15 +73,15 @@
     <script src="js/simulator/simulatorLoader.js"></script>
 </head>
 
-<body>
+<body class="simulator">
     <div class="header">
         <div class="container">
             <ul>
                 <li class="wheel"><a href="index.html"><span class="icon-circle"></span> Wheel</a></li>
-                <li><a href="site/examples/index.html" class="active">Examples</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
-                <li><a href="site/simulator/index.html">Simulator</a></li>
+                <li><a href="site/simulator/index.html" class="active">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -90,7 +90,7 @@
 
     <div class="sub-header">
         <div class="container">
-            <h1><span class="icon-play"></span> Examples</h1>
+            <h1><span class="icon-play"></span> Simulator</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
@@ -98,19 +98,8 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="dark-blue with-icon"><img src="site/images/buttons.png" width="32" height="32"/> <span>Buttons</span></h3>
-                <ul>
-                    <li><a href="site/examples/buttons.html#button">button</a></li>
-                </ul>
+                <h3 class="gray with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Simulator</span></h3>
 
-                <h3 class="gray">Examples</h3>
-                <a href="site/examples/screen.html">Screen</a><br />
-                <a href="site/examples/math.html">Math</a><br />
-                <a href="site/examples/light.html">Light</a><br />
-                <a href="site/examples/sound.html">Sound</a><br />
-
-                <h3 class="light-gray margin-top" id="simulator">Simulator</h3>
-                <div class="active-program">No program selected.</div>
                 <div class="ev3-wrapper">
                     <div class="ev3-background">
                         <div class="simulator-options">
@@ -120,26 +109,34 @@
                 </div>
             </div>
 
-            <div class="two first" id="setfill">
-                <h4>Buttons</h4>
-                With the buttons module you can read the state of the EV3 buttons.
-            </div>
+            <div class="two first">
+                <h3 class="gray with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <div class="editor">
+                    <div class="toolbar">
+                        <ul>
+                            <li class="active">Source</li>
+                            <li>VM Code</li>
+                            <li>Include files</li>
+                            <li class="compile">Compile</li>
+                        </ul>
+                    </div>
+                    <textarea id="source" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+#include "lib/screen.whl"
 
-            <div class="two first" id="circle">
-                <h5>button<a data-program="buttons" data-title="Buttons demo" href="site/examples/buttons.html#simulator">Load simulator <span class="icon-right"></span></a></h5>
-                <pre id="buttons">
-                    #include "lib/buttons.whl"
-                    #include "lib/screen.whl"
+proc main()
+    ; Draw a circle at (60, 50) with a radius of 40
+    drawCircle(69, 64, 25)
 
-                    proc main()
-                        number b
-                        setTextSize(2)
-                    loop:
-                        set b, button()
-                        drawNumber(73, 56, b)
-                        jmp loop
-                    endp
-                </pre>
+    ; Draw black a filled circle
+    setFill(1)
+    drawCircle(89, 64, 20)
+
+    ; Draw a white filled circle
+    setFillColor(1)
+    drawCircle(109, 64, 15)
+endp
+                    </textarea>
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>

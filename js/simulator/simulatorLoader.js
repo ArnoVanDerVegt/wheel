@@ -139,6 +139,12 @@
             simulator.getDisplay().drawLoaded(outputTitle);
         };
 
+    var compile = function() {
+            var source = document.querySelector('#source').value;
+            compileAndRun(false, source);
+            document.querySelector('#runProgram').className = 'button';
+        };
+
     function loadPre() {
         var aList = document.querySelectorAll('h5 a');
         for (var i = 0; i < aList.length; i++) {
@@ -149,8 +155,9 @@
                         var programId  = a.getAttribute('data-program');
                         var wheelDemos = window.wheelDemos;
                         if (programId in wheelDemos) {
-                            var title = a.getAttribute('data-title') || '?';
-                            document.querySelector('.active-program').innerHTML = 'Program: <span>' + title + '</span>';
+                            var title         = a.getAttribute('data-title') || '?';
+                            var activeProgram = document.querySelector('.active-program');
+                            activeProgram && (activeProgram.innerHTML = 'Program: <span>' + title + '</span>');
                             document.querySelector('#runProgram').className = 'button';
                             compileAndRun(title, wheelDemos[programId]);
                         }
@@ -163,7 +170,11 @@
     function start() {
         loadPre();
 
-        document.querySelector('#runProgram').addEventListener('click', run);
+        var runButton = document.querySelector('#runProgram');
+        runButton && runButton.addEventListener('click', run);
+
+        var compileButton = document.querySelector('.compile');
+        compileButton && compileButton.addEventListener('click', compile);
 
         simulator = new wheel.simulator.Simulator({
             parentNode: document.querySelector('.ev3-background'),

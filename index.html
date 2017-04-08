@@ -12,7 +12,7 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="home">
     <div class="header">
         <div class="container">
             <ul>
@@ -20,6 +20,7 @@
                 <li><a href="site/examples/index.html">Examples</a></li>
                 <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
@@ -36,16 +37,16 @@
     <div class="content">
         <div class="container">
             <div class="three first">
-                <h3 class="red with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Text based</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Text based</span></h3>
                 Wheel is a small text based language. The code can be compiled to a .rtf file which can
                 be run from an EV3 brick.
             </div>
             <div class="three center">
-                <h3 class="blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Standard firmware</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Standard firmware</span></h3>
                 Wheel can be easily connected to existing blocks.
             </div>
             <div class="three last">
-                <h3 class="yellow with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
                 <pre>
                     proc main()
                         number n
@@ -61,31 +62,49 @@
 
             <div class="three first">
                 <h3 class="gray with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Examples</span></h3>
-                <a href="site/examples/screen.html">Screen</a><br />
-                <a href="site/examples/math.html">Math</a><br />
-                <a href="site/examples/light.html">Light</a><br />
-                <a href="site/examples/buttons.html">Buttons</a><br />
-                <a href="site/examples/sound.html">Sound</a><br />
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/examples/screen.html">Screen</a>
+                        <a href="site/examples/math.html">Math</a>
+                        <a href="site/examples/light.html">Light</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/examples/buttons.html">Buttons</a>
+                        <a href="site/examples/sound.html">Sound</a>
+                    </div>
+                </div>
             </div>
             <div class="three center">
                 <h3 class="gray with-icon"><img src="site/images/test.png" width="32" height="32"/> <span>Documentation</span></h3>
-                <a href="site/docs/variables.html">Variables</a><br />
-                <a href="site/docs/operators.html">Operators</a><br />
-                <a href="site/docs/procedures.html">Procedures</a><br />
-                <a href="site/docs/modules.html">Modules</a><br />
-                <a href="site/docs/structs.html">Structs</a><br />
-                <a href="site/docs/pointers.html">Pointers</a><br />
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/docs/variables.html">Variables</a>
+                        <a href="site/docs/operators.html">Operators</a>
+                        <a href="site/docs/procedures.html">Procedures</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/docs/modules.html">Modules</a>
+                        <a href="site/docs/structs.html">Structs</a>
+                        <a href="site/docs/pointers.html">Pointers</a>
+                    </div>
+                </div>
             </div>
             <div class="three last">
                 <h3 class="gray with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
-                <a href="site/modules/standard.html">Standard</a><br />
-                <a href="site/modules/screen.html">Screen</a><br />
-                <a href="site/modules/motor.html">Motor</a><br />
-                <a href="site/modules/sensor.html">Sensor</a><br />
-                <a href="site/modules/math.html">Math</a><br />
-                <a href="site/modules/light.html">Light</a><br />
-                <a href="site/modules/buttons.html">Buttons</a><br />
-                <a href="site/modules/sound.html">Sound</a><br />
+                <div class="index-links">
+                    <div class="half">
+                        <a href="site/modules/standard.html">Standard</a>
+                        <a href="site/modules/screen.html">Screen</a>
+                        <a href="site/modules/motor.html">Motor</a>
+                        <a href="site/modules/sensor.html">Sensor</a>
+                    </div>
+                    <div class="half">
+                        <a href="site/modules/math.html">Math</a>
+                        <a href="site/modules/light.html">Light</a>
+                        <a href="site/modules/buttons.html">Buttons</a>
+                        <a href="site/modules/sound.html">Sound</a>
+                    </div>
+                </div>
             </div>
 
             <div style="float:left;clear:both;"></div>

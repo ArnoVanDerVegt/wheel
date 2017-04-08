@@ -119,7 +119,7 @@
                         parentNode.appendChild(domNode);
 
                         children.forEach(function(child) {
-                            createNode(domNode, child)
+                            createNode(domNode, child);
                         });
                     }).bind(this);
 

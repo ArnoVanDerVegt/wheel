@@ -32,7 +32,7 @@
                                 oscillator.stop();
                             },
                             playTone.duration
-                        )
+                        );
 
                         break;
                 }

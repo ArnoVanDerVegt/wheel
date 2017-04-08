@@ -1,5 +1,6 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
+    var path  = require('path');
 
     var ReplaceTree = wheel.Class(function() {
             this.init = function(opts) {
@@ -144,6 +145,7 @@
 
             this.processIncludes = function(lines) {
                 var result = [];
+                var path   = this._preProcessor.getPath();
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
                     var j    = line.indexOf('#include');
@@ -152,11 +154,10 @@
                         if ((filename.length > 2) && (filename[0] === '"') && (filename[filename.length - 1] === '"')) {
                             filename = filename.substr(1, filename.length - 2);
                             if (result.indexOf(filename) === -1) {
-                                var path = this._preProcessor.getPath();
-                                if (this._files.exists('', filename) !== false) {
+                                if (this._files.exists(path, filename) !== false) {
                                     result.push(filename);
                                 } else if (this._files.exists(path, filename) !== false) {
-                                    result.push(path + filename);
+                                    result.push(filename);
                                 } else {
                                     throw new Error('File not found "' + filename + '".');
                                 }
@@ -177,7 +178,19 @@
             this.init = function init(opts) {
                 supr(this, this.init, arguments);
 
-                this._path          = '';
+                var config = opts.config || {};
+
+                this._basePath = opts.basePath || '';
+                this._path     = [];
+
+                var p = [''].concat(config.path || []);
+                p.forEach(
+                    function(p) {
+                        this._path.push(path.join(this._basePath, p));
+                    },
+                    this
+                );
+
                 this._files         = opts.files;
                 this._filesDone     = {};
                 this._fileCount     = 0;
@@ -194,7 +207,7 @@
             };
 
             this.getFileData = function(filename, callback) {
-                var index = this._files.exists(this._path, filename);
+                var index = this._files.exists(this.getPath(), filename);
                 var file  = this._files.getFile(index);
                 if (file) {
                     if (callback) {
@@ -233,8 +246,7 @@
                 );
             };
 
-            this.process = function(path, filename, finishedCallback) {
-                this._path = path;
+            this.process = function(filename, finishedCallback) {
                 this._replaceTree.reset();
 
                 this._filesDone = {};

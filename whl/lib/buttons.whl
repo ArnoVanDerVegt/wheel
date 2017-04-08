@@ -1,4 +1,4 @@
-#define MODULE_BUTTONS 6
+#define MODULE_BUTTONS 3
 
 #define BUTTON_READ    0
 

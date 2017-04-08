@@ -1,7 +1,0 @@
-#project "Print demo"
-
-#include "/lib/screen.whl"
-
-proc main()
-	drawText(0, 0, "Hello")
-endp
