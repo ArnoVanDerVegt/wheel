@@ -170,10 +170,10 @@
                     {
                         type: T_NUM_L,
                         args: [
-                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L, args: ARGS_CGL}, // In case of a struct, the original type should be T_NUM_L_ARRAY!
-                            {type: T_NUM_G, args: ARGS_CGL} // In case of a struct, the original type should be T_NUM_G_ARRAY!
+                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL},
+                            {type: T_NUM_L,          args: ARGS_CGL}, // In case of a struct, the original type should be T_NUM_L_ARRAY!
+                            {type: T_NUM_G,          args: ARGS_CGL} // In case of a struct, the original type should be T_NUM_G_ARRAY!
                         ]
                     },
                     {
@@ -181,8 +181,8 @@
                         args: [
                             {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
                             {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
+                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
                         ]
                     },
                     {
@@ -190,8 +190,8 @@
                         args: [
                             {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
                             {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
+                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
+                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
                         ]
                     },
                     {type: T_PROC_G, args: ARGS_GL_ARRAY_CGL},
