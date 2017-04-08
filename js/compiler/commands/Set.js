@@ -17,7 +17,8 @@
                 var param2         = validatedCommand.params[1];
                 var offset;
 
-                if ($.isStringConstType(param2)) {
+                if ($.isStringConstType(param2) ||
+                    (($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)))) {
                     $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
                     compilerOutput.add(validatedCommand);
                 } else if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
@@ -26,9 +27,6 @@
                     param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;
                     param2.type  = $.T_NUM_G;
                     param2.value = $.REG_DEST;
-                    compilerOutput.add(validatedCommand);
-                } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
-                    $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
                     compilerOutput.add(validatedCommand);
                 } else if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
