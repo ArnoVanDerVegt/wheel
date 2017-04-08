@@ -27,6 +27,12 @@
                 }
             },
 
+            checkNumber: function(compiler, number, string, error) {
+                if (isNaN(number)) {
+                    throw compiler.createError(error, 'Number expected, found "' + string + '".');
+                }
+            },
+
             validateString: function(s, valid) {
                 if (!valid) {
                     valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
@@ -45,9 +51,10 @@
                 var data   = [];
                 for (var j = 0; j < values.length; j++) {
                     var v = parseFloat(values[j].trim());
-                    if (isNaN(v)) {
-                        throw compiler.createError(wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED, 'Number expected, found "' + values[j] + '".');
-                    }
+                    this.checkNumber(compiler, v, values[j], wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED);
+                    //if (isNaN(v)) {
+                    //    throw compiler.createError(wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED, 'Number expected, found "' + values[j] + '".');
+                    //}
                     data.push(v);
                 }
                 return data;
