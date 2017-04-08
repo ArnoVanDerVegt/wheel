@@ -37,11 +37,9 @@
                     compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isSimpleNumberType(param1) && $.isPointerMetaType(param2)) {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
-                    offset = compilerData.getOffset(param2);
-                    compilerOutput.a($.isLocal(param2) ? $.add.code : $.set.code, $.STACK(), $.CONST(offset));
+                    this.addAddStackParam2(param2, compilerData.getOffset(param2));
                     compilerOutput.a($.set.code, $.STACK(), $.LOCAL(0));
-                    offset = compilerData.getStructOffset(param2);
-                    compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(offset));
+                    compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(compilerData.getStructOffset(param2)));
                     compilerOutput.a($.set.code, $.STACK(), $.SRC());
                     compilerOutput.a($.set.code, param1,    $.DEST());
                 } else if ($.isSimpleNumberType(param1) && $.isConst(param2)) {
