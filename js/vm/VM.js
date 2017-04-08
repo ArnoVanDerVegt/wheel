@@ -17,15 +17,24 @@
             };
 
             this.initModules = function() {
+                var modules = [
+                        'StandardModule', // 0
+                        'ScreenModule',   // 1
+                        'MotorModule',    // 2
+                        'SensorModule',   // 3
+                        'MathModule',     // 4
+                        'LightModule',    // 5
+                        'ButtonsModule',  // 6
+                        'SoundModule'     // 7
+                    ];
+
                 this._modules    = [];
-                this._modules[0] = new wheel.vm.modules.StandardModule({vm: this, vmData: this._vmData});
-                this._modules[1] = new wheel.vm.modules.ScreenModule  ({vm: this, vmData: this._vmData});
-                this._modules[2] = new wheel.vm.modules.MotorModule   ({vm: this, vmData: this._vmData});
-                this._modules[3] = new wheel.vm.modules.SensorModule  ({vm: this, vmData: this._vmData});
-                this._modules[4] = new wheel.vm.modules.MathModule    ({vm: this, vmData: this._vmData});
-                this._modules[5] = new wheel.vm.modules.LightModule   ({vm: this, vmData: this._vmData});
-                this._modules[6] = new wheel.vm.modules.ButtonsModule ({vm: this, vmData: this._vmData});
-                this._modules[7] = new wheel.vm.modules.SoundModule   ({vm: this, vmData: this._vmData});
+                modules.forEach(
+                    function(module) {
+                        this._modules.push(new wheel.vm.modules[module]({vm: this, vmData: this._vmData}));
+                    },
+                    this
+                );
             };
 
             this.getParamValue = function(data, regOffsetStack, param) {
