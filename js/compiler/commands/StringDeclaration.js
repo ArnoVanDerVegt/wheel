@@ -12,7 +12,7 @@
 
     wheel(
         'compiler.commands.StringDeclaration',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.compile = function(validatedCommand, params, location) {
                 $ = wheel.compiler.command;
 
@@ -40,8 +40,9 @@
                                     throw compiler.createError(wheel.compiler.error.STRING_EXPECTED_IN_CONSTANT, 'String expected, found "' + value + '".');
                                 }
                                 var offset = compilerData.declareString(value.substr(1, value.length - 2));
+
                                 // Set the the value at the address of the local variable...
-                                compilerOutput.a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
+                                this.addSetLocal(local, offset);
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
                                 var size   = local.size * local.length;
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
