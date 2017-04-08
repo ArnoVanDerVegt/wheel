@@ -8,6 +8,14 @@
     wheel(
         'compiler.commands.NumberOperator',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+            this.addSetStackParam1 = function(param1) {
+                this._compiler.getOutput().a(
+                    $.set.code,
+                    $.STACK(),
+                    $.isLocal(param1) ? $.LOCAL(this._compilerData.getOffset(param1)) : $.GLOBAL(param1.value)
+                );
+            };
+
             this.compile = function(validatedCommand, splitParams, params, location) {
                 $ = wheel.compiler.command;
 
@@ -26,7 +34,7 @@
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);
                     compilerOutput.a($.set.code, $.SRC(),         $.STACK());
-                    compilerOutput.a($.set.code, $.STACK(),       $.isLocal(param1) ? $.LOCAL(compilerData.getOffset(param1)) : $.GLOBAL(param1.value));
+                    this.addSetStackParam1(param1);
                     compilerOutput.a(code,       $.LOCAL(offset), $.DEST());
                     compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isSimpleNumberType(param1) && $.isPointerMetaType(param2)) {
