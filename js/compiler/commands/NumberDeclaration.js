@@ -22,9 +22,7 @@
 
                 if (compiler.getActiveStruct() !== null) {
                     // Declare a number of array of numbers field in a struct...
-                    for (var i = 0; i < params.length; i++) {
-                        compilerData.declareStructField(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY);
-                    }
+                    this.declareStructFields(params, $.T_NUM_G, $.T_NUM_G_ARRAY);
                 } else if (compiler.getInProc()) {
                     // Declare a local number constant...
                     for (var j = 0; j < params.length; j++) {
