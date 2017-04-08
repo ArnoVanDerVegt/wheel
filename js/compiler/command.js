@@ -1,56 +1,56 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
 
-    const T_NUM_C                 =  0;
-    const T_NUM_G                 =  1;
-    const T_NUM_L                 =  2;
+    var T_NUM_C                 =  0;
+    var T_NUM_G                 =  1;
+    var T_NUM_L                 =  2;
 
-    const T_LABEL                 =  4;
-    const T_PROC                  =  5;
+    var T_LABEL                 =  4;
+    var T_PROC                  =  5;
 
-    const T_NUM_G_ARRAY           =  6;
-    const T_NUM_L_ARRAY           =  7;
+    var T_NUM_G_ARRAY           =  6;
+    var T_NUM_L_ARRAY           =  7;
 
-    const T_STRUCT_G              =  8;
-    const T_STRUCT_G_ARRAY        =  9;
-    const T_STRUCT_L              = 10;
-    const T_STRUCT_L_ARRAY        = 11;
+    var T_STRUCT_G              =  8;
+    var T_STRUCT_G_ARRAY        =  9;
+    var T_STRUCT_L              = 10;
+    var T_STRUCT_L_ARRAY        = 11;
 
-    const T_PROC_G                = 12;
-    const T_PROC_G_ARRAY          = 13;
-    const T_PROC_L                = 14;
-    const T_PROC_L_ARRAY          = 15;
+    var T_PROC_G                = 12;
+    var T_PROC_G_ARRAY          = 13;
+    var T_PROC_L                = 14;
+    var T_PROC_L_ARRAY          = 15;
 
-    const T_META_STRING           =  1;
-    const T_META_POINTER          =  2;
-    const T_META_ADDRESS          =  3;
+    var T_META_STRING           =  1;
+    var T_META_POINTER          =  2;
+    var T_META_ADDRESS          =  3;
 
-    const SINGLE_PARAM_COMMANDS   =  0;
+    var SINGLE_PARAM_COMMANDS   =  0;
 
-    const FLAG_EQUAL              =  1;
-    const FLAG_NOT_EQUAL          =  2;
-    const FLAG_LESS               =  4;
-    const FLAG_LESS_EQUAL         =  8;
-    const FLAG_GREATER            = 16;
-    const FLAG_GREATER_EQUAL      = 32;
+    var FLAG_EQUAL              =  1;
+    var FLAG_NOT_EQUAL          =  2;
+    var FLAG_LESS               =  4;
+    var FLAG_LESS_EQUAL         =  8;
+    var FLAG_GREATER            = 16;
+    var FLAG_GREATER_EQUAL      = 32;
 
-    const REG_STACK               =  0;
-    const REG_SRC                 =  1;
-    const REG_DEST                =  2;
-    const REG_CODE                =  3;
-    const REG_RETURN              =  4;
-    const REG_FLAGS               =  5;
+    var REG_STACK               =  0;
+    var REG_SRC                 =  1;
+    var REG_DEST                =  2;
+    var REG_CODE                =  3;
+    var REG_RETURN              =  4;
+    var REG_FLAGS               =  5;
 
-    const REGISTER_COUNT          =  6;
+    var REGISTER_COUNT          =  6;
 
-    const ARGS_C                  = [{type: T_NUM_C}];
-    const ARGS_GL                 = [{type: T_NUM_G}, {type: T_NUM_L}];
-    const ARGS_CGL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}];
-    const ARGS_PPGPL              = [{type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L}];
-    const ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
-    const ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
-    const ARGS_LABEL              = [{type: T_LABEL}];
-    const ARGS_ALL                = [
+    var ARGS_C                  = [{type: T_NUM_C}];
+    var ARGS_GL                 = [{type: T_NUM_G}, {type: T_NUM_L}];
+    var ARGS_CGL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}];
+    var ARGS_PPGPL              = [{type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L}];
+    var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
+    var ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
+    var ARGS_LABEL              = [{type: T_LABEL}];
+    var ARGS_ALL                = [
             {type: T_NUM_C},
             {type: T_NUM_G},
             {type: T_NUM_L},
@@ -60,38 +60,38 @@
             {type: T_STRUCT_G},
             {type: T_STRUCT_L}
         ];
-    const ARGS_CGL_ALL            = [
+    var ARGS_CGL_ALL            = [
             {type: T_NUM_C, args: ARGS_ALL},
             {type: T_NUM_G, args: ARGS_ALL},
             {type: T_NUM_L, args: ARGS_ALL}
         ];
-    const ARGS_CGL_SGSL           = [
+    var ARGS_CGL_SGSL           = [
             {type: T_NUM_C, args: ARGS_SGSL},
             {type: T_NUM_G, args: ARGS_SGSL},
             {type: T_NUM_L, args: ARGS_SGSL}
         ];
-    const ARGS_CGL_PPGPL          = [
+    var ARGS_CGL_PPGPL          = [
             {type: T_NUM_C, args: ARGS_PPGPL},
             {type: T_NUM_G, args: ARGS_PPGPL},
             {type: T_NUM_L, args: ARGS_PPGPL}
         ];
-    const ARGS_GL_CGL             = [
+    var ARGS_GL_CGL             = [
             {type: T_NUM_G, args: ARGS_CGL},
             {type: T_NUM_L, args: ARGS_CGL}
         ];
-    const ARGS_SGSL_MPMA          = [
+    var ARGS_SGSL_MPMA          = [
             {type: T_STRUCT_G, metaType: T_META_POINTER},
             {type: T_STRUCT_G, metaType: T_META_ADDRESS},
             {type: T_STRUCT_L, metaType: T_META_POINTER},
             {type: T_STRUCT_L, metaType: T_META_ADDRESS}
         ];
-    const ARGS_SGSL_ARRAY_MPMA    = [
+    var ARGS_SGSL_ARRAY_MPMA    = [
             {type: T_STRUCT_G_ARRAY, metaType: T_META_POINTER},
             {type: T_STRUCT_G_ARRAY, metaType: T_META_ADDRESS},
             {type: T_STRUCT_L_ARRAY, metaType: T_META_POINTER},
             {type: T_STRUCT_L_ARRAY, metaType: T_META_ADDRESS},
         ];
-    const ARGS_GL_ARRAY_CGL       = [
+    var ARGS_GL_ARRAY_CGL       = [
             {type: T_NUM_L_ARRAY, args: ARGS_CGL},
             {type: T_NUM_G_ARRAY, args: ARGS_CGL}
         ];
