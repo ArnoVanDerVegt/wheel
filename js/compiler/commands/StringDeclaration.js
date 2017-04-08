@@ -13,6 +13,12 @@
     wheel(
         'compiler.commands.StringDeclaration',
         wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
+            this.checkWrappedString = function(global, openChar, closeChar, message, error) {
+                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, openChar, closeChar)) {
+                    throw this._compiler.createError(error, message + ' "' + global.value + '".');
+                }
+            };
+
             this.compile = function(validatedCommand, params, location) {
                 $ = wheel.compiler.command;
 
@@ -66,22 +72,14 @@
                         global.metaType = $.T_META_STRING;
                         // Check if the string declaration had a constant value assigned to it...
                         if (global.value) {
+                            var value = global.value.trim();
+
                             if (global.type === $.T_NUM_G) { // Like: string n = "abc"
-                                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '"', '"')) {
-                                    throw compiler.createError(wheel.compiler.error.STRING_EXPECTED_FOUND_NUMBER, 'String expected, found "' + global.value + '".');
-                                }
-
-                                var value  = global.value;
-                                var offset = compilerData.declareString(value.substr(1, value.length - 2));
-                                compilerData.declareConstant(global.offset, [offset]);
+                                this.checkWrappedString(global, '"', '"', 'String expected, found', wheel.compiler.error.STRING_EXPECTED_FOUND_NUMBER);
+                                compilerData.declareConstant(global.offset, [compilerData.declareString(value.substr(1, value.length - 2))]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
-                                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, '[', ']')) {
-                                    throw compiler.createError(wheel.compiler.error.STRING_ARRAY_EXPECTED, 'String array expected, found "' + global.value + '".');
-                                }
-
-                                var value = global.value.trim();
-                                var data  = wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData);
-                                compilerData.declareConstant(global.offset, data);
+                                this.checkWrappedString(global, '[', ']', 'String array expected, found', wheel.compiler.error.STRING_ARRAY_EXPECTED);
+                                compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData));
                             }
                         }
                     }
