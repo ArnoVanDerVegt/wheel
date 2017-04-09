@@ -812,6 +812,23 @@ describe(
 
                     assert.deepEqual(testData.messages, [41]);
                 });
+
+                it('Should use nested array parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[4]',
+                            '    number b[4]',
+                            '',
+                            '    a[3] = 1',
+                            '    b[a[3]] = 43498',
+                            '',
+                            '    printN(b[a[3]])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [43498]);
+                });
             }
         );
     }
