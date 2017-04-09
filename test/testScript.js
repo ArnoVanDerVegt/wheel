@@ -276,7 +276,7 @@ describe(
                             '    number b[3]',
                             '',
                             '    a[3] = 1',
-                            '    number c = 2,',
+                            '    number c = 2',
                             '    b[a[1 + c]] = 33809',
                             '',
                             '    number i',
@@ -372,14 +372,6 @@ describe(
                     assert.deepEqual(testData.messages, [3469]);
                 });
 
-
-
-
-
-
-
-
-
                 it('Should use array as index => a[0] = b[a[3]]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -408,7 +400,7 @@ describe(
                             '',
                             '    b[1] = 2443',
                             '    a[3] = 1',
-                            '    number c = 2,',
+                            '    number c = 2',
                             '    number i',
                             '    i = b[a[1 + c]]',
                             '',
