@@ -531,7 +531,7 @@ describe(
                             'proc main()',
                             '    x = &n',
                             '    x = 23',
-                            '    printN(n)',
+                            '    printN(x)',
                             'endp'
                         ])).testData;
 
@@ -546,7 +546,7 @@ describe(
                             '    x = &n',
                             '    x = 13',
                             '',
-                            '    printN(n)',
+                            '    printN(x)',
                             'endp'
                         ])).testData;
 
