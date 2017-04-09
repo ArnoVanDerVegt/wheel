@@ -28,6 +28,12 @@
                     param2.type  = $.T_NUM_G;
                     param2.value = $.REG_DEST;
                     compilerOutput.add(validatedCommand);
+                } else if ($.isSimpleNumberType(param1) && $.isPointerVarMetaType(param1)) {
+                    compilerOutput.a($.set.code, $.DEST(),        param2);
+                    compilerOutput.a($.set.code, $.SRC(),         $.STACK());
+                    this.addSetStackParam1(param1);
+                    compilerOutput.a($.set.code, $.LOCAL(0),      $.DEST());
+                    compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);
