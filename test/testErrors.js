@@ -266,7 +266,7 @@ describe(
 
         describe(
             'Undefined identifier',
-            function () {
+            function() {
                 it('Should throw UNDEFINED_IDENTIFIER', function() {
                     assert.throws(
                         function() {
@@ -286,7 +286,7 @@ describe(
 
         describe(
             'Duplicate identifier',
-            function () {
+            function() {
                 it('Should throw DUPLICATE_IDENTIFIER_LABEL', function() {
                     assert.throws(
                         function() {

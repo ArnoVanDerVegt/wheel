@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Declare struct',
-            function () {
+            function() {
                 it('Should declare global a struct', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'struct S',
@@ -128,7 +128,7 @@ describe(
 
         describe(
             'Structs and pointers',
-            function () {
+            function() {
                 it('Should set values of a struct pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
@@ -258,7 +258,7 @@ describe(
 
         describe(
             'Nested structs',
-            function () {
+            function() {
                 it('Should nest a struct', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',

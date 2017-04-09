@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Declare global and local number variables',
-            function () {
+            function() {
                 it('Should compile a number', function() {
                     var testData = compilerTestUtils.setup();
                     var compiler = testData.compiler;
@@ -122,7 +122,7 @@ describe(
 
         describe(
             'Declarations',
-            function () {
+            function() {
                 it('Should declare a global constant number', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number n = 2347',
@@ -181,7 +181,7 @@ describe(
 
         describe(
             'Pointers to numbers',
-            function () {
+            function() {
                 it('Should set a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([

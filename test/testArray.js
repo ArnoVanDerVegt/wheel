@@ -7,7 +7,7 @@ describe(
     function() {
         describe(
             'Declare global array variable',
-            function () {
+            function() {
                 it('Should declare a global array', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a[3]',
@@ -175,7 +175,7 @@ describe(
 
         describe(
             'Write and read arrays',
-            function () {
+            function() {
                 it('Should write and read 5 numbers', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Item',
@@ -406,7 +406,7 @@ describe(
 
         describe(
             'Arrays and pointers',
-            function () {
+            function() {
                 it('Should pass a pointer to a procedure and set values', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc testArray(number *n[3])',

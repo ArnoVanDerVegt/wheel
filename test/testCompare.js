@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Compare global and constant',
-            function () {
+            function() {
                 it('Should have less/less equal/not equal flag', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number n',

@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Call a procedure',
-            function () {
+            function() {
                 it('Should call a procedure', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
@@ -103,7 +103,7 @@ describe(
 
         describe(
             'Call a with parameters',
-            function () {
+            function() {
                 it('Should call a procedure with number parameters', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc printPoint(number x, number y, number z)',
@@ -365,7 +365,7 @@ describe(
 
         describe(
             'Return values',
-            function () {
+            function() {
                 it('Should return a constant number', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc one()',
@@ -450,7 +450,7 @@ describe(
 
         describe(
             'Call procedure with expression parameter',
-            function () {
+            function() {
                 it('Should call with expression param', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -521,7 +521,7 @@ describe(
 
         describe(
             'Call procedure with pointer param',
-            function () {
+            function() {
                 it('Should call with global pointer param', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number *x',

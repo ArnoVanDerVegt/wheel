@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Test operators',
-            function () {
+            function() {
                 var operators = ['set', 'add', 'sub', 'mul', 'div'];
                 for (var i = 0; i < operators.length; i++) {
                     var operator = operators[i];
@@ -137,7 +137,7 @@ describe(
 
         describe(
             'Inc, dec',
-            function () {
+            function() {
                 it('Increase a global', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number n',

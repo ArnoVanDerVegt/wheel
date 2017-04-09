@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Test for',
-            function () {
+            function() {
                 it('Should loop up', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -41,7 +41,7 @@ describe(
 
         describe(
             'Test if',
-            function () {
+            function() {
                 it('Should use jump equal', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -116,7 +116,7 @@ describe(
 
         describe(
             'Test operator',
-            function () {
+            function() {
                 it('Should assign', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -180,7 +180,7 @@ describe(
 
         describe(
             'Test array',
-            function () {
+            function() {
                 it('Should write array', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -478,7 +478,7 @@ describe(
 
         describe(
             'Test case',
-            function () {
+            function() {
                 it('Should select one', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -589,7 +589,7 @@ describe(
 
         describe(
             'Test expression',
-            function () {
+            function() {
                 it('Should calculate => a = b + c', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -671,7 +671,7 @@ describe(
 
         describe(
             'Test array index expression',
-            function () {
+            function() {
                 it('Should calculate and set => a[2 * b] = 71', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -725,6 +725,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [21]);
                 });
+
                 it('Should calculate and set => a[2 * b] = c * 7', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
