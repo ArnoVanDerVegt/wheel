@@ -708,6 +708,23 @@ describe(
                     assert.deepEqual(testData.messages, [2370]);
                 });
 
+                it('Should calculate and set => a[3] = b * 7', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[8]',
+                            '',
+                            '    number b = 3',
+                            '    a[3] = b * 7',
+                            '',
+                            '    number i',
+                            '    i = a[3]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [21]);
+                });
                 it('Should calculate and set => a[2 * b] = c * 7', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',

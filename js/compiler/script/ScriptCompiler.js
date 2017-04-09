@@ -276,7 +276,7 @@
                             var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
                             result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
                         } else {
-                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_0');
+                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
                         }
                     } else {
                         result.push('set ' + vr + ',' + tempVar + '_1');
