@@ -23,6 +23,22 @@ describe(
                         }
                     );
                 });
+
+                it('Should throw SYNTAX_ERROR_PARAM_EXPECTED', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number n,)',
+                                'endp',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED + ' Syntax error parameter expected.');
+                        }
+                    );
+                });
                 it('Should throw SYNTAX_ERROR_INVALID_PROC_PARAM', function() {
                     assert.throws(
                         function() {
@@ -81,7 +97,6 @@ describe(
                 });
             }
         );
-
 
         describe(
             'String expected error',

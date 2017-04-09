@@ -70,7 +70,7 @@
                 return data;
             },
 
-            splitParams: function(params) {
+            splitParams: function(compiler, params) {
                 var result = [];
                 var param  = '';
                 var i      = 0;
@@ -85,13 +85,15 @@
                         }
                     };
 
+                var expectParam = false;
                 while (i < params.length) {
                     var c = params[i];
                     switch (c) {
                         case ',':
                             param = param.trim();
                             (param !== '') && result.push(param);
-                            param = '';
+                            expectParam = true;
+                            param       = '';
                             break;
 
                         case '[':
@@ -111,7 +113,13 @@
                     i++;
                 }
                 param = param.trim();
-                (param !== '') && result.push(param);
+                if (param === '') {
+                    if (expectParam) {
+                        throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED, 'Syntax error parameter expected.');
+                    }
+                } else {
+                    result.push(param);
+                }
 
                 return result;
             }

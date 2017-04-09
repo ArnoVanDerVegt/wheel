@@ -100,7 +100,7 @@
             this.compileParams = function(proc, params, currentLocalStackSize) {
                 var compilerData = this._compilerData;
 
-                params = wheel.compiler.compilerHelper.splitParams(params);
+                params = wheel.compiler.compilerHelper.splitParams(this._compiler, params);
 
                 // The local offset is the stack size used in the current procedure...
                 var offset = currentLocalStackSize + 2;
