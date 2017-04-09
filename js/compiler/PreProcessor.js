@@ -9,6 +9,7 @@
 
             this.reset = function() {
                 this._root = {
+                    value:    '',
                     children: {}
                 };
             };
@@ -46,16 +47,8 @@
                                 break;
                             }
                         }
-                        if (j - 1 - line.length < 0) {
-                            if (!node.value) {
-                                return line;
-                            }
-                            line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
-                            i    = i + node.value.length;
-                        } else {
-                            line = line.substr(0, i - 1) + node.value;
-                            i    = line.length;
-                        }
+                        line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
+                        i    = i + node.value.length;
                     }
                 }
 

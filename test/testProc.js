@@ -40,6 +40,25 @@ describe(
                     assert.deepEqual(testData.messages, [12]);
                 });
 
+                it('Should call a global procedure array pointer', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc ptr[2]',
+                            '',
+                            'proc test()',
+                            '    printN(7790)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '   arrayw ptr, 1, test',
+                            '   proc p',
+                            '   arrayr p, ptr, 1',
+                            '   p()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [7790]);
+                });
+
                 it('Should call a local procedure pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
