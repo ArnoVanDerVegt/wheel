@@ -188,6 +188,62 @@ describe(
             );
         });
 
+        it('Should create basic program with include file and string list', function() {
+            var files = createFiles(
+                    [
+                        '#include "include.whl"',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ],
+                    [
+                        'proc incld()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    outputCommands.setStringList(['Hello', 'world']);
+
+                    assert.deepEqual(
+                        outputCommands.getStringList(),
+                        ['Hello', 'world']
+                    );
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '2',
+                            'Hello',
+                            'world',
+                            '#HEAP_SIZE',
+                            '1024',
+                            '#REG_CODE',
+                            '3',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '30',
+                            '#COMMANDS',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
         it('Should add ends', function() {
             var files = createFiles(
                     [
