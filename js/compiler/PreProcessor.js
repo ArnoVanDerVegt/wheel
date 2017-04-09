@@ -156,8 +156,6 @@
                             if (result.indexOf(filename) === -1) {
                                 if (this._files.exists(path, filename) !== false) {
                                     result.push(filename);
-                                } else if (this._files.exists(path, filename) !== false) {
-                                    result.push(filename);
                                 } else {
                                     throw new Error('File not found "' + filename + '".');
                                 }
@@ -209,12 +207,8 @@
             this.getFileData = function(filename, callback) {
                 var index = this._files.exists(this.getPath(), filename);
                 var file  = this._files.getFile(index);
-                if (file) {
-                    if (callback) {
-                        return file.getData(callback);
-                    }
-                    return file.getData();
-                }
+
+                return callback ? file.getData(callback) : file.getData();
             };
 
             this.processFile = function(filename, depth, finishedCallback) {
