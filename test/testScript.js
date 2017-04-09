@@ -748,8 +748,38 @@ describe(
         );
 
         describe(
-            'Test array procedure parameters',
+            'Test procedure parameters',
             function() {
+                it('Should print a * b - 3 = 32', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 7',
+                            '    number b = 5',
+                            '    printN(a * b - 3)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [32]);
+                });
+
+                it('Should call test proc with a * b + 6 and 359 parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc test(number a, number b)',
+                            '    printN(a)',
+                            '    printN(b)',
+                            'end',
+                            'proc main()',
+                            '    number a = 3',
+                            '    number b = 5',
+                            '    test(a * b + 6, 359)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [21, 359]);
+                });
+
                 it('Should calculate and print a[15] = 39', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
