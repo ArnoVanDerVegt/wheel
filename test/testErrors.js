@@ -461,6 +461,21 @@ describe(
                         }
                     );
                 });
+                it('Should throw INVALID_OPERATION_WITH_STRING', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                    'number n',
+                                    'mul n, "a"',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation ""a"".');
+                        }
+                    );
+                });
                 it('Should throw INVALID_OPERATION', function() {
                     assert.throws(
                         function() {
@@ -473,22 +488,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation "&n".');
-                        }
-                    );
-                });
-                it('Should throw INVALID_OPERATION', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'proc main()',
-                                    'number n',
-                                    'mul n, "a"',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation ""a"".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation "&n".');
                         }
                     );
                 });
