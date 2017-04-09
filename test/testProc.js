@@ -521,9 +521,24 @@ describe(
         );
 
         describe(
-            'Call procedure with local pointer',
+            'Call procedure with pointer param',
             function () {
-                it('Should call with expression param', function() {
+                it('Should call with global pointer param', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number *x',
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    x = &n',
+                            '    x = 23',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [23]);
+                });
+
+                it('Should call with local pointer param', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number *x',
