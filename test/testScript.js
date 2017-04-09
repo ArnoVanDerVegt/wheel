@@ -746,5 +746,43 @@ describe(
                 });
             }
         );
+
+        describe(
+            'Test array procedure parameters',
+            function() {
+                it('Should calculate and print a[15] = 39', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[20]',
+                            '',
+                            '    number b = 5',
+                            '    a[3 * b] = 39',
+                            '',
+                            '    number i',
+                            '    printN(a[15])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [39]);
+                });
+
+                it('Should calculate and print a[3 * b] = 41', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[20]',
+                            '',
+                            '    number b = 4',
+                            '    a[12] = 41',
+                            '',
+                            '    printN(a[3 * b])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [41]);
+                });
+            }
+        );
     }
 );

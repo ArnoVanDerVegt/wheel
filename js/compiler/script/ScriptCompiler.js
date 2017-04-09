@@ -366,7 +366,7 @@
                         var tempVar;
                         if (calculation) {
                             tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                            result.push('arrayr ' + tempVar + ',' + param.arrayIndex.array + ',' + tempVar + '_1');
+                            result.push('arrayr ' + tempVar + '_1,' + param.arrayIndex.array + ',' + tempVar + '_1');
                             outputParams.push(tempVar + '_1');
                         } else {
                             tempVar = expressionCompiler.createTempVarName();
