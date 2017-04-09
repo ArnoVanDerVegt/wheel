@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Output messages',
-            function () {
+            function() {
                 it('Should output 3 constant numbers', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printN(number n)',

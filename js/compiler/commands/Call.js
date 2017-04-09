@@ -26,14 +26,10 @@
                 var compilerOutput = this._compiler.getOutput();
                 var vr             = paramInfo.vr;
 
-                if (vr.metaType === $.T_META_POINTER) {
+                if (paramInfo.metaType === $.T_META_POINTER) {
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_POINTER, 'Invalid pointer "' + param + '".');
+                } else if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
-                } else if (paramInfo.metaType === $.T_META_POINTER) {
-                    compilerOutput.a($.set.code, $.DEST(),        $.STACK());
-                    compilerOutput.a($.isLocal(paramInfo) ? $.add.code : $.set.code, $.STACK(), $.CONST(paramInfo.vr.origOffset));
-                    compilerOutput.a($.set.code, $.SRC(),         $.LOCAL(offset));
-                    compilerOutput.a($.set.code, $.STACK(),       $.DEST());
-                    compilerOutput.a($.set.code, $.LOCAL(offset), $.SRC());
                 } else if (paramInfo.metaType === $.T_META_ADDRESS) {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     paramInfo.value && compilerOutput.a($.add.code, $.SRC(), $.CONST(paramInfo.value));
@@ -104,49 +100,47 @@
             this.compileParams = function(proc, params, currentLocalStackSize) {
                 var compilerData = this._compilerData;
 
-                params = wheel.compiler.compilerHelper.splitParams(params);
+                params = wheel.compiler.compilerHelper.splitParams(this._compiler, params);
 
                 // The local offset is the stack size used in the current procedure...
                 var offset = currentLocalStackSize + 2;
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i].trim();
-                    if (param !== '') {
-                        var paramInfo = compilerData.paramInfo(param);
-                        var vr        = paramInfo.vr;
-                        var size      = vr ? (vr.size * vr.length) : 1;
+                    var paramInfo = compilerData.paramInfo(param);
+                    var vr        = paramInfo.vr;
+                    var size      = vr ? (vr.size * vr.length) : 1;
 
-                        // If the var is declared as a pointer and passed as *varname...
-                        if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
-                            size = vr.struct.size;
-                        }
-                        switch (paramInfo.type) {
-                            case $.T_NUM_C:
-                                this.compileConstantParameter(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_L:
-                                this.compileLocalParam(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_L_ARRAY:
-                            case $.T_STRUCT_L_ARRAY:
-                            case $.T_STRUCT_L:
-                                this.compileLocalStructParam(param, paramInfo, offset, size);
-                                break;
-
-                            case $.T_NUM_G:
-                                this.compileGlobalParam(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_G_ARRAY:
-                            case $.T_STRUCT_G_ARRAY:
-                            case $.T_STRUCT_G:
-                                this.compileGlobalStructParam(param, paramInfo, offset, size);
-                                break;
-                        }
-
-                        offset += size;
+                    // If the var is declared as a pointer and passed as *varname...
+                    if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
+                        size = vr.struct.size;
                     }
+                    switch (paramInfo.type) {
+                        case $.T_NUM_C:
+                            this.compileConstantParameter(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_L:
+                            this.compileLocalParam(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_L_ARRAY:
+                        case $.T_STRUCT_L_ARRAY:
+                        case $.T_STRUCT_L:
+                            this.compileLocalStructParam(param, paramInfo, offset, size);
+                            break;
+
+                        case $.T_NUM_G:
+                            this.compileGlobalParam(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_G_ARRAY:
+                        case $.T_STRUCT_G_ARRAY:
+                        case $.T_STRUCT_G:
+                            this.compileGlobalStructParam(param, paramInfo, offset, size);
+                            break;
+                    }
+
+                    offset += size;
                 }
             };
 

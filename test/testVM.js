@@ -62,7 +62,6 @@ describe(
                             var compilerData   = testData.compiler.getCompilerData();
                             var vmData         = testData.vm.getVMData();
 
-
                             testData.vm.runAll(
                                 outputCommands,
                                 compilerData.getStringList(),
@@ -74,6 +73,195 @@ describe(
                 },
                 function(error) {
                     return (error.toString() === 'Error: Unknown module "255"');
+                }
+            );
+        });
+
+        it('Should run in loop', function(done) {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        'label:',
+                        '    jmp label',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+                    assert.equal(vm.getRunning(), true);
+                    vm.stop();
+                    assert.equal(vm.getRunning(), false);
+
+                    done();
+                }
+            );
+        });
+
+        it('Should run and stop after 50ms', function(done) {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        'label:',
+                        '    jmp label',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset(),
+                        function() {
+                            done();
+                        }
+                    );
+                }
+            );
+            setTimeout(
+                function() {
+                    assert.equal(vm.getPaused(),  false);
+                    assert.equal(vm.getRunning(), true);
+                    vm.stop();
+                    assert.equal(vm.getRunning(), false);
+                },
+                50
+            );
+        });
+
+        it('Should run, pause and stop after 50ms', function(done) {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        'label:',
+                        '    jmp label',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+                    vm.pause();
+                    assert.equal(vm.getPaused(), true);
+                }
+            );
+            setTimeout(
+                function() {
+                    assert.equal(vm.getPaused(),  true);
+                    vm.resume();
+                    assert.equal(vm.getPaused(),  false);
+                    assert.equal(vm.getRunning(), true);
+                    vm.stop();
+                    assert.equal(vm.getRunning(), false);
+                    done();
+                },
+                50
+            );
+        });
+
+        it('Should run', function() {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        '    number n = 1',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+                    assert.equal(vm.getRunning(), true);
+                }
+            );
+        });
+
+        it('Should run and finish', function(done) {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        '    number n = 1',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset(),
+                        function() {
+                            assert.equal(vm.getRunning(), false);
+                            done();
+                        }
+                    );
                 }
             );
         });

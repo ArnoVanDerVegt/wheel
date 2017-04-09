@@ -46,10 +46,6 @@
                 return p;
             };
 
-            this.getRunning = function() {
-                return (this._runInterval !== null);
-            };
-
             this.runCommand = function(command) {
                 var data           = this._vmData.getData();
                 var regOffsetStack = data[wheel.compiler.command.REG_STACK];
@@ -162,9 +158,9 @@
 
                 if (isFinished()) {
                     clearInterval(this._runInterval);
+                    this._runInterval = null; // Set before calling the callback!
                     this._onFinished && this._onFinished();
                     this._onFinished  = null;
-                    this._runInterval = null;
                 }
             };
 
@@ -216,6 +212,14 @@
 
             this.resume = function() {
                 this._pause--;
+            };
+
+            this.getPaused = function() {
+                return (this._pause > 0);
+            };
+
+            this.getRunning = function() {
+                return (this._runInterval !== null);
             };
 
             this.getVMData = function() {

@@ -5,6 +5,7 @@ require('./js/compiler/commands/NumberDeclaration.js');
 require('./js/compiler/commands/NumberInc.js');
 require('./js/compiler/commands/NumberDec.js');
 require('./js/compiler/commands/NumberOperator.js');
+require('./js/compiler/commands/StringDeclaration.js');
 require('./js/compiler/commands/ProcedureDeclaration.js');
 require('./js/compiler/commands/Set.js');
 require('./js/compiler/commands/Call.js');

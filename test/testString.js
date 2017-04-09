@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Declarations',
-            function () {
+            function() {
                 it('Should declare a global string', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'string s = "Hello world"',
@@ -67,7 +67,7 @@ describe(
 
         describe(
             'Set global string',
-            function () {
+            function() {
                 it('Should set a global string', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'string s',

@@ -23,6 +23,39 @@ describe(
                         }
                     );
                 });
+
+                it('Should throw SYNTAX_ERROR_PARAM_EXPECTED for declaration', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number n,)',
+                                'endp',
+                                'proc main()',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED + ' Syntax error parameter expected.');
+                        }
+                    );
+                });
+                it('Should throw SYNTAX_ERROR_PARAM_EXPECTED for call', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number a, number b)',
+                                'endp',
+                                'proc main()',
+                                '   test(1,)',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED + ' Syntax error parameter expected.');
+                        }
+                    );
+                });
+
                 it('Should throw SYNTAX_ERROR_INVALID_PROC_PARAM', function() {
                     assert.throws(
                         function() {
@@ -81,7 +114,6 @@ describe(
                 });
             }
         );
-
 
         describe(
             'String expected error',
@@ -234,7 +266,7 @@ describe(
 
         describe(
             'Undefined identifier',
-            function () {
+            function() {
                 it('Should throw UNDEFINED_IDENTIFIER', function() {
                     assert.throws(
                         function() {
@@ -254,7 +286,7 @@ describe(
 
         describe(
             'Duplicate identifier',
-            function () {
+            function() {
                 it('Should throw DUPLICATE_IDENTIFIER_LABEL', function() {
                     assert.throws(
                         function() {
@@ -412,6 +444,38 @@ describe(
                         }
                     );
                 });
+                it('Should throw INVALID_POINTER', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number n)',
+                                'endp',
+                                'proc main()',
+                                '    number *x',
+                                '    test(*x)',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_POINTER + ' Invalid pointer "*x".');
+                        }
+                    );
+                });
+                it('Should throw INVALID_OPERATION_WITH_STRING', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                    'number n',
+                                    'mul n, "a"',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation ""a"".');
+                        }
+                    );
+                });
                 it('Should throw INVALID_OPERATION', function() {
                     assert.throws(
                         function() {
@@ -424,22 +488,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION_WITH_STRING + ' Invalid operation "&n".');
-                        }
-                    );
-                });
-                it('Should throw INVALID_OPERATION', function() {
-                    assert.throws(
-                        function() {
-                            compilerTestUtils.compile([
-                                'proc main()',
-                                    'number n',
-                                    'mul n, "a"',
-                                'endp'
-                            ]);
-                        },
-                        function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation ""a"".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_OPERATION + ' Invalid operation "&n".');
                         }
                     );
                 });
