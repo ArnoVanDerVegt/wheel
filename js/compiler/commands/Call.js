@@ -106,43 +106,41 @@
                 var offset = currentLocalStackSize + 2;
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i].trim();
-                    if (param !== '') {
-                        var paramInfo = compilerData.paramInfo(param);
-                        var vr        = paramInfo.vr;
-                        var size      = vr ? (vr.size * vr.length) : 1;
+                    var paramInfo = compilerData.paramInfo(param);
+                    var vr        = paramInfo.vr;
+                    var size      = vr ? (vr.size * vr.length) : 1;
 
-                        // If the var is declared as a pointer and passed as *varname...
-                        if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
-                            size = vr.struct.size;
-                        }
-                        switch (paramInfo.type) {
-                            case $.T_NUM_C:
-                                this.compileConstantParameter(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_L:
-                                this.compileLocalParam(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_L_ARRAY:
-                            case $.T_STRUCT_L_ARRAY:
-                            case $.T_STRUCT_L:
-                                this.compileLocalStructParam(param, paramInfo, offset, size);
-                                break;
-
-                            case $.T_NUM_G:
-                                this.compileGlobalParam(param, paramInfo, offset);
-                                break;
-
-                            case $.T_NUM_G_ARRAY:
-                            case $.T_STRUCT_G_ARRAY:
-                            case $.T_STRUCT_G:
-                                this.compileGlobalStructParam(param, paramInfo, offset, size);
-                                break;
-                        }
-
-                        offset += size;
+                    // If the var is declared as a pointer and passed as *varname...
+                    if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
+                        size = vr.struct.size;
                     }
+                    switch (paramInfo.type) {
+                        case $.T_NUM_C:
+                            this.compileConstantParameter(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_L:
+                            this.compileLocalParam(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_L_ARRAY:
+                        case $.T_STRUCT_L_ARRAY:
+                        case $.T_STRUCT_L:
+                            this.compileLocalStructParam(param, paramInfo, offset, size);
+                            break;
+
+                        case $.T_NUM_G:
+                            this.compileGlobalParam(param, paramInfo, offset);
+                            break;
+
+                        case $.T_NUM_G_ARRAY:
+                        case $.T_STRUCT_G_ARRAY:
+                        case $.T_STRUCT_G:
+                            this.compileGlobalStructParam(param, paramInfo, offset, size);
+                            break;
+                    }
+
+                    offset += size;
                 }
             };
 
