@@ -62,7 +62,7 @@
                         throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param2.param + '".');
                     }
                     compilerOutput.add(validatedCommand);
-                } else if ($.isSimpleNumberType(param1) && $.isSimpleNumberType(param2)) {
+                } else {
                     if (wheel.compiler.command.isAddressMetaType(param2)) {
                         throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param2.param + '".');
                     }
