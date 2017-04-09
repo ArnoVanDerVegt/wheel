@@ -6,6 +6,7 @@ var compilerTestUtils = require('./compilerTestUtils.js');
 describe(
     'Test proc',
     function() {
+
         describe(
             'Call a procedure',
             function () {
@@ -515,6 +516,26 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [687, 15]);
+                });
+            }
+        );
+
+        describe(
+            'Call procedure with local pointer',
+            function () {
+                it('Should call with expression param', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number *x',
+                            '    number n',
+                            '    x = &n',
+                            '    x = 13',
+                            '',
+                            '    printN(n)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [13]);
                 });
             }
         );

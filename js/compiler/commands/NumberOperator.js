@@ -9,6 +9,7 @@
         'compiler.commands.NumberOperator',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.addSetStackParam1 = function(param1) {
+                $ = wheel.compiler.command;
                 this._compiler.getOutput().a(
                     $.set.code,
                     $.STACK(),
@@ -17,6 +18,7 @@
             };
 
             this.addAddStackParam2 = function(param2, offset) {
+                $ = wheel.compiler.command;
                 this._compiler.getOutput().a(
                     $.isLocal(param2) ? $.add.code : $.set.code,
                     $.STACK(),
