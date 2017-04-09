@@ -36,15 +36,14 @@
                 var param2         = validatedCommand.params[1];
                 var offset;
 
-                if (wheel.compiler.command.isStringVarMetaType(param1)) {
+                if ($.isStringVarMetaType(param1) || $.isStringVarMetaType(param2)) {
                     throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param1.param + '".');
                 }
-
                 if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
                     throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param1.param + '".');
-                } else if ($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)) {
-                    throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION_WITH_STRING, 'Invalid operation "' + param1.param + '".');
-                } else if ($.isPointerMetaType(param1)) {
+                }
+
+                if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);
                     compilerOutput.a($.set.code, $.SRC(),         $.STACK());
@@ -68,8 +67,6 @@
                         throw this._compiler.createError(wheel.compiler.error.INVALID_OPERATION, 'Invalid operation "' + param2.param + '".');
                     }
                     compilerOutput.add(validatedCommand);
-                } else {
-                    console.error('Unimplemented.');
                 }
             };
         })
