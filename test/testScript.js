@@ -352,7 +352,6 @@ describe(
                     assert.deepEqual(testData.messages, [349]);
                 });
 
-/////======
                 it('Should use array as index => i = b[a[3]]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -411,7 +410,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [2443]);
                 });
-/*
+
                 it('Should use array/array as index => a[b[b[2]]] = 55478', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -474,7 +473,6 @@ describe(
 
                     assert.deepEqual(testData.messages, [349]);
                 });
-*/
             }
         );
 
