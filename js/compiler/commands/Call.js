@@ -26,14 +26,10 @@
                 var compilerOutput = this._compiler.getOutput();
                 var vr             = paramInfo.vr;
 
-                if (vr.metaType === $.T_META_POINTER) {
+                if (paramInfo.metaType === $.T_META_POINTER) {
+                    throw this._compiler.createError(wheel.compiler.error.INVALID_POINTER, 'Invalid pointer "' + param + '".');
+                } else if (vr.metaType === $.T_META_POINTER) {
                     this.compileLocalPoinerParam(param, paramInfo, offset, 1);
-                } else if (paramInfo.metaType === $.T_META_POINTER) {
-                    compilerOutput.a($.set.code, $.DEST(),        $.STACK());
-                    compilerOutput.a($.isLocal(paramInfo) ? $.add.code : $.set.code, $.STACK(), $.CONST(paramInfo.vr.origOffset));
-                    compilerOutput.a($.set.code, $.SRC(),         $.LOCAL(offset));
-                    compilerOutput.a($.set.code, $.STACK(),       $.DEST());
-                    compilerOutput.a($.set.code, $.LOCAL(offset), $.SRC());
                 } else if (paramInfo.metaType === $.T_META_ADDRESS) {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     paramInfo.value && compilerOutput.a($.add.code, $.SRC(), $.CONST(paramInfo.value));

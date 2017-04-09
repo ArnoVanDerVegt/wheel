@@ -412,6 +412,23 @@ describe(
                         }
                     );
                 });
+                it('Should throw INVALID_POINTER', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number n)',
+                                'endp',
+                                'proc main()',
+                                '    number *x',
+                                '    test(*x)',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_POINTER + ' Invalid pointer "*x".');
+                        }
+                    );
+                });
                 it('Should throw INVALID_OPERATION', function() {
                     assert.throws(
                         function() {

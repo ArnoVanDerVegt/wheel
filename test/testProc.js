@@ -551,21 +551,6 @@ describe(
 
                     assert.deepEqual(testData.messages, [13]);
                 });
-
-                it('Should call with local pointer param', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number *x',
-                            '    number n',
-                            '    x = &n',
-                            '    x = 43',
-                            '',
-                            '    printN(*x)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [43]);
-                });
             }
         );
     }

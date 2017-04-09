@@ -159,14 +159,18 @@
                     </tr>
                     <tr>
                         <td>25</td>
-                        <td>INVALID_BLOCK_CLOSE</td>
+                        <td>INVALID_POINTER</td>
                     </tr>
                     <tr>
                         <td>26</td>
-                        <td>INVALID_OPERATION</td>
+                        <td>INVALID_BLOCK_CLOSE</td>
                     </tr>
                     <tr>
                         <td>27</td>
+                        <td>INVALID_OPERATION</td>
+                    </tr>
+                    <tr>
+                        <td>28</td>
                         <td>INVALID_OPERATION_WITH_STRING</td>
                     </tr>
                 </table>
@@ -397,7 +401,17 @@
             </div>
 
             <div class="two first">
-                <h4>#25 INVALID_BLOCK_CLOSE</h4>
+                <h4>#25 INVALID_POINTER</h4>
+                <pre>
+                    proc p = 1
+                    proc main()
+                        printN(*p)
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#26 INVALID_BLOCK_CLOSE</h4>
                 <pre>
                     struct S
                        number n
@@ -408,7 +422,7 @@
             </div>
 
             <div class="two first">
-                <h4>#26 INVALID_OPERATION</h4>
+                <h4>#27 INVALID_OPERATION</h4>
                 <pre>
                     proc main()
                         number n
@@ -419,7 +433,7 @@
             </div>
 
             <div class="two first">
-                <h4>#27 INVALID_OPERATION_WITH_STRING</h4>
+                <h4>#28 INVALID_OPERATION_WITH_STRING</h4>
                 <pre>
                     proc main()
                         string s
