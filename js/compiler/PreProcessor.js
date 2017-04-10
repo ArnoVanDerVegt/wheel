@@ -9,6 +9,7 @@
 
             this.reset = function() {
                 this._root = {
+                    value:    '',
                     children: {}
                 };
             };
@@ -46,16 +47,8 @@
                                 break;
                             }
                         }
-                        if (j - 1 - line.length < 0) {
-                            if (!node.value) {
-                                return line;
-                            }
-                            line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
-                            i    = i + node.value.length;
-                        } else {
-                            line = line.substr(0, i - 1) + node.value;
-                            i    = line.length;
-                        }
+                        line = line.substr(0, i - 1) + node.value + line.substr(j - 1 - line.length);
+                        i    = i + node.value.length;
                     }
                 }
 
@@ -156,8 +149,6 @@
                             if (result.indexOf(filename) === -1) {
                                 if (this._files.exists(path, filename) !== false) {
                                     result.push(filename);
-                                } else if (this._files.exists(path, filename) !== false) {
-                                    result.push(filename);
                                 } else {
                                     throw new Error('File not found "' + filename + '".');
                                 }
@@ -209,12 +200,8 @@
             this.getFileData = function(filename, callback) {
                 var index = this._files.exists(this.getPath(), filename);
                 var file  = this._files.getFile(index);
-                if (file) {
-                    if (callback) {
-                        return file.getData(callback);
-                    }
-                    return file.getData();
-                }
+
+                return callback ? file.getData(callback) : file.getData();
             };
 
             this.processFile = function(filename, depth, finishedCallback) {

@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Output a message',
-            function () {
+            function() {
                 it('Should output a number message', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printN(number n)',

@@ -276,7 +276,7 @@
                             var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
                             result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
                         } else {
-                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_0');
+                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
                         }
                     } else {
                         result.push('set ' + vr + ',' + tempVar + '_1');
@@ -362,18 +362,10 @@
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.arrayIndex) {
-                        var calculation = expressionCompiler.isCalculation(param.arrayIndex.index);
-                        var tempVar;
-                        if (calculation) {
-                            tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                            result.push('arrayr ' + tempVar + ',' + param.arrayIndex.array + ',' + tempVar + '_1');
-                            outputParams.push(tempVar + '_1');
-                        } else {
-                            tempVar = expressionCompiler.createTempVarName();
-                            expressionCompiler.declareNumber(result, tempVar);
-                            result.push('arrayr ' + tempVar + ',' + param.arrayIndex.array + ',' + param.arrayIndex.index);
-                            outputParams.push(tempVar);
-                        }
+                        var tempVar = expressionCompiler.createTempVarName();
+                        expressionCompiler.declareNumber(result, tempVar);
+                        this.compileValueArray(result, tempVar, param.arrayIndex);
+                        outputParams.push(tempVar);
                     } else if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else {

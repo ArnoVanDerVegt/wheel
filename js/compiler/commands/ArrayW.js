@@ -37,7 +37,9 @@
                     compilerOutput.a($.set.code,  $.SRC(),    $.CONST(valueParam.value));
                     $.isLocal(valueParam) && compilerOutput.a($.add.code, $.SRC(), $.STACK());
                     compilerOutput.a($.copy.code, $.CONST(1), $.CONST(0));
-                } else if ($.isConst(valueParam) && $.isNumberType(arrayParam)) {
+
+                } else if (($.isProcType(valueParam) && $.isProcType(arrayParam.vr)) ||
+                            ($.isConst(valueParam) && $.isNumberType(arrayParam))) {
                     compilerOutput.a($.set.code, $.DEST(), indexParam);
 
                     if ($.isPointerVarMetaType(arrayParam)) {
@@ -49,12 +51,17 @@
                     }
 
                     var localOffset = compilerData.getLocalOffset();
-                    compilerOutput.a($.set.code,  $.LOCAL(localOffset), valueParam);
+
+                    if ($.isConst(valueParam) && $.isNumberType(arrayParam)) {
+                        compilerOutput.a($.set.code,  $.LOCAL(localOffset), $.CONST(valueParam.value));
+                    } else {
+                        compilerOutput.a($.set.code,  $.LOCAL(localOffset), valueParam);
+                    }
+
                     compilerOutput.a($.set.code,  $.SRC(),              $.CONST(localOffset));
                     compilerOutput.a($.add.code,  $.SRC(),              $.STACK());
                     compilerOutput.a($.copy.code, $.CONST(1),           $.CONST(0));
-                } else if (($.isStructVarType(valueParam) && $.isStructVarType(arrayParam)) ||
-                    ($.isNumberType(arrayParam) && $.isStructVarType(valueParam))) {
+                } else {
                     var size = valueParam.vr.struct.size;
                     compilerOutput.a($.set.code, $.DEST(), indexParam);
                     (size > 1) && compilerOutput.a($.mul.code, $.DEST(), $.CONST(size));

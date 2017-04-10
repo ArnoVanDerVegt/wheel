@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Test for',
-            function () {
+            function() {
                 it('Should loop up', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -41,7 +41,7 @@ describe(
 
         describe(
             'Test if',
-            function () {
+            function() {
                 it('Should use jump equal', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -116,7 +116,7 @@ describe(
 
         describe(
             'Test operator',
-            function () {
+            function() {
                 it('Should assign', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -180,7 +180,7 @@ describe(
 
         describe(
             'Test array',
-            function () {
+            function() {
                 it('Should write array', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -276,7 +276,7 @@ describe(
                             '    number b[3]',
                             '',
                             '    a[3] = 1',
-                            '    number c = 2,',
+                            '    number c = 2',
                             '    b[a[1 + c]] = 33809',
                             '',
                             '    number i',
@@ -352,7 +352,6 @@ describe(
                     assert.deepEqual(testData.messages, [349]);
                 });
 
-/////======
                 it('Should use array as index => i = b[a[3]]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -371,14 +370,6 @@ describe(
 
                     assert.deepEqual(testData.messages, [3469]);
                 });
-
-
-
-
-
-
-
-
 
                 it('Should use array as index => a[0] = b[a[3]]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -408,7 +399,7 @@ describe(
                             '',
                             '    b[1] = 2443',
                             '    a[3] = 1',
-                            '    number c = 2,',
+                            '    number c = 2',
                             '    number i',
                             '    i = b[a[1 + c]]',
                             '',
@@ -419,7 +410,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [2443]);
                 });
-/*
+
                 it('Should use array/array as index => a[b[b[2]]] = 55478', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -482,13 +473,12 @@ describe(
 
                     assert.deepEqual(testData.messages, [349]);
                 });
-*/
             }
         );
 
         describe(
             'Test case',
-            function () {
+            function() {
                 it('Should select one', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -599,7 +589,7 @@ describe(
 
         describe(
             'Test expression',
-            function () {
+            function() {
                 it('Should calculate => a = b + c', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -681,7 +671,7 @@ describe(
 
         describe(
             'Test array index expression',
-            function () {
+            function() {
                 it('Should calculate and set => a[2 * b] = 71', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -718,6 +708,24 @@ describe(
                     assert.deepEqual(testData.messages, [2370]);
                 });
 
+                it('Should calculate and set => a[3] = b * 7', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[8]',
+                            '',
+                            '    number b = 3',
+                            '    a[3] = b * 7',
+                            '',
+                            '    number i',
+                            '    i = a[3]',
+                            '    printN(i)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [21]);
+                });
+
                 it('Should calculate and set => a[2 * b] = c * 7', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -735,6 +743,91 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [42]);
+                });
+            }
+        );
+
+        describe(
+            'Test procedure parameters',
+            function() {
+                it('Should print a * b - 3 = 32', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 7',
+                            '    number b = 5',
+                            '    printN(a * b - 3)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [32]);
+                });
+
+                it('Should call test proc with a * b + 6 and 359 parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc test(number a, number b)',
+                            '    printN(a)',
+                            '    printN(b)',
+                            'end',
+                            'proc main()',
+                            '    number a = 3',
+                            '    number b = 5',
+                            '    test(a * b + 6, 359)',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [21, 359]);
+                });
+
+                it('Should calculate and print a[15] = 39', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[20]',
+                            '',
+                            '    number b = 5',
+                            '    a[3 * b] = 39',
+                            '',
+                            '    number i',
+                            '    printN(a[15])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [39]);
+                });
+
+                it('Should calculate and print a[3 * b] = 41', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[20]',
+                            '',
+                            '    number b = 4',
+                            '    a[12] = 41',
+                            '',
+                            '    printN(a[3 * b])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [41]);
+                });
+
+                it('Should use nested array parameter', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a[4]',
+                            '    number b[4]',
+                            '',
+                            '    a[3] = 1',
+                            '    b[a[3]] = 43498',
+                            '',
+                            '    printN(b[a[3]])',
+                            '',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [43498]);
                 });
             }
         );

@@ -98,12 +98,12 @@ describe(
         it('Should create basic program', function() {
             var files = createFiles(
                     [
-                        'proc main()',
-                        'endp'
+                        '\tproc main()',
+                        '\tendp'
                     ],
                     [
-                        'proc incld()',
-                        'endp'
+                        '\t\tproc incld()',
+                        '\t\t\tendp'
                     ]
                 );
             var compiler     = new wheel.compiler.Compiler({});
@@ -166,6 +166,62 @@ describe(
                             '#STRINGS',
                             '0',
                             '',
+                            '#HEAP_SIZE',
+                            '1024',
+                            '#REG_CODE',
+                            '3',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '30',
+                            '#COMMANDS',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should create basic program with include file and string list', function() {
+            var files = createFiles(
+                    [
+                        '#include "include.whl"',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ],
+                    [
+                        'proc incld()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    outputCommands.setStringList(['Hello', 'world']);
+
+                    assert.deepEqual(
+                        outputCommands.getStringList(),
+                        ['Hello', 'world']
+                    );
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '2',
+                            'Hello',
+                            'world',
                             '#HEAP_SIZE',
                             '1024',
                             '#REG_CODE',
@@ -310,6 +366,51 @@ describe(
                     );
 
                     assert.deepEqual(testData.messages, [3223]);
+                }
+            );
+        });
+
+        it('Should allow same include twice', function() {
+            var files = createFiles(
+                    [
+                        '#include "include.whl"',
+                        '',
+                        '#include "include.whl"',
+                        '',
+                        'proc main()',
+                        '    printN(687)',
+                        'endp'
+                    ],
+                    [
+                        'proc printN(number n)',
+                        '    struct PrintNumber',
+                        '        number n',
+                        '    ends',
+                        '    PrintNumber printNumber',
+                        '    set      printNumber.n,n',
+                        '    addr     printNumber',
+                        '    module   0,0',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    testData.vm.runAll(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+
+                    assert.deepEqual(testData.messages, [687]);
                 }
             );
         });

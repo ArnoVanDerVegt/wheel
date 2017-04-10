@@ -7,7 +7,7 @@ describe(
     function() {
         describe(
             'Declare global array variable',
-            function () {
+            function() {
                 it('Should declare a global array', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a[3]',
@@ -175,7 +175,7 @@ describe(
 
         describe(
             'Write and read arrays',
-            function () {
+            function() {
                 it('Should write and read 5 numbers', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Item',
@@ -406,7 +406,7 @@ describe(
 
         describe(
             'Arrays and pointers',
-            function () {
+            function() {
                 it('Should pass a pointer to a procedure and set values', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc testArray(number *n[3])',
@@ -529,6 +529,60 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [3489, 309]);
+                });
+
+                it('Should write pointer struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point p',
+                            'Point *point',
+                            'Point pp[10]',
+                            '',
+                            'proc main()',
+                            '    set p.x, 344',
+                            '    set p.y, 9454',
+                            '    set point, &p',
+                            '    arrayw pp, 2, point',
+                            '    Point local',
+                            '    arrayr local, pp, 2',
+                            '',
+                            '    printN(local.x)',
+                            '    printN(local.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [344, 9454]);
+                });
+
+                it('Should write local pointer struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            '    Point pp[10]',
+                            '',
+                            'proc main()',
+                            '    Point p',
+                            '    Point *point',
+                            '    set p.x, 344',
+                            '    set p.y, 9454',
+                            '    set point, &p',
+                            '    arrayw pp, 2, point',
+                            '    Point local',
+                            '    arrayr local, pp, 2',
+                            '',
+                            '    printN(local.x)',
+                            '    printN(local.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [344, 9454]);
                 });
             }
         );

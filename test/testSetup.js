@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'No main proc',
-            function () {
+            function() {
                 it('Should throw no main', function() {
                     var testData = compilerTestUtils.setup();
                     var includes = compilerTestUtils.createIncludes([

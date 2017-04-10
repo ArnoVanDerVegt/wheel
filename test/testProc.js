@@ -8,7 +8,7 @@ describe(
     function() {
         describe(
             'Call a procedure',
-            function () {
+            function() {
                 it('Should call a procedure', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
@@ -38,6 +38,25 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [12]);
+                });
+
+                it('Should call a global procedure array pointer', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc ptr[2]',
+                            '',
+                            'proc test()',
+                            '    printN(7790)',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '   arrayw ptr, 1, test',
+                            '   proc p',
+                            '   arrayr p, ptr, 1',
+                            '   p()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [7790]);
                 });
 
                 it('Should call a local procedure pointer', function() {
@@ -103,7 +122,7 @@ describe(
 
         describe(
             'Call a with parameters',
-            function () {
+            function() {
                 it('Should call a procedure with number parameters', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc printPoint(number x, number y, number z)',
@@ -291,6 +310,38 @@ describe(
                     assert.deepEqual(testData.messages, [6852, -93]);
                 });
 
+                it('Should call a procedure and write to a pointer of to local array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point *points[0]',
+                            '',
+                            'proc testPointer()',
+                            '    Point p',
+                            '    set p.x, 6852',
+                            '    set p.y, -93',
+                            '    arrayw *points, 1, p',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point p[10]',
+                            '',
+                            '    set points, &p',
+                            '    testPointer()',
+                            '',
+                            '    Point point',
+                            '    arrayr point, p, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [6852, -93]);
+                });
+
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
@@ -365,7 +416,7 @@ describe(
 
         describe(
             'Return values',
-            function () {
+            function() {
                 it('Should return a constant number', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc one()',
@@ -450,7 +501,7 @@ describe(
 
         describe(
             'Call procedure with expression parameter',
-            function () {
+            function() {
                 it('Should call with expression param', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -515,6 +566,41 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [687, 15]);
+                });
+            }
+        );
+
+        describe(
+            'Call procedure with pointer param',
+            function() {
+                it('Should call with global pointer param', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'number *x',
+                            'number n',
+                            '',
+                            'proc main()',
+                            '    x = &n',
+                            '    x = 23',
+                            '    printN(x)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [23]);
+                });
+
+                it('Should call with local pointer param', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number *x',
+                            '    number n',
+                            '    x = &n',
+                            '    x = 13',
+                            '',
+                            '    printN(x)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [13]);
                 });
             }
         );

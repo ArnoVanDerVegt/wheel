@@ -95,6 +95,12 @@
             {type: T_NUM_L_ARRAY, args: ARGS_CGL},
             {type: T_NUM_G_ARRAY, args: ARGS_CGL}
         ];
+    var ARGS_GLPGPL_ARRAY_CGL   = [
+            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
+            {type: T_NUM_G_ARRAY, args: ARGS_CGL},
+            {type: T_PROC_L_ARRAY, args: ARGS_CGL},
+            {type: T_PROC_G_ARRAY, args: ARGS_CGL}
+        ];
 
     wheel(
         'compiler.command',
@@ -194,8 +200,8 @@
                             {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
                         ]
                     },
-                    {type: T_PROC_G, args: ARGS_GL_ARRAY_CGL},
-                    {type: T_PROC_L, args: ARGS_GL_ARRAY_CGL}
+                    {type: T_PROC_G, args: ARGS_GLPGPL_ARRAY_CGL},
+                    {type: T_PROC_L, args: ARGS_GLPGPL_ARRAY_CGL}
                 ]
             },
             arrayw: { // Array write...
