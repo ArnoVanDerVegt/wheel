@@ -310,6 +310,38 @@ describe(
                     assert.deepEqual(testData.messages, [6852, -93]);
                 });
 
+                it('Should call a procedure and write to a pointer of to local array', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point *points[0]',
+                            '',
+                            'proc testPointer()',
+                            '    Point p',
+                            '    set p.x, 6852',
+                            '    set p.y, -93',
+                            '    arrayw *points, 1, p',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '    Point p[10]',
+                            '',
+                            '    set points, &p',
+                            '    testPointer()',
+                            '',
+                            '    Point point',
+                            '    arrayr point, p, 1',
+                            '    printN(point.x)',
+                            '    printN(point.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [6852, -93]);
+                });
+
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
