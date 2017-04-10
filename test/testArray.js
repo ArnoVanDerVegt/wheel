@@ -530,6 +530,33 @@ describe(
 
                     assert.deepEqual(testData.messages, [3489, 309]);
                 });
+
+                it('Should write pointer struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct Point',
+                            '    number x',
+                            '    number y',
+                            'ends',
+                            '',
+                            'Point p',
+                            'Point *point',
+                            'Point pp[10]',
+                            '',
+                            'proc main()',
+                            '    set p.x, 344',
+                            '    set p.y, 9454',
+                            '    set point, &p',
+                            '    arrayw pp, 2, point',
+                            '    Point local',
+                            '    arrayr local, pp, 2',
+                            '',
+                            '    printN(local.x)',
+                            '    printN(local.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [344, 9454]);
+                });
             }
         );
     }
