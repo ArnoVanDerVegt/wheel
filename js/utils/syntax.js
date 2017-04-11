@@ -1,12 +1,63 @@
 (function() {
     var keywords = [
-            'proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub',
-            'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret', 'set', 'module', 'addr', 'return', 'jmp'];
-    var types    = ['number', 'string'];
-    var sign     = ['=', '(', ')', ','];
-    var meta     = ['#project', '#define', '#include'];
-    var defines  = [];
-    var structs  = [];
+            'proc',
+            'for',
+            'to',
+            'downto',
+            'end',
+            'endp',
+            'ends',
+            'add',
+            'sub',
+            'mul',
+            'div',
+            'mod',
+            'inc',
+            'dec',
+            'struct',
+            'ret',
+            'set',
+            'module',
+            'addr',
+            'return',
+            'jmp'
+        ];
+
+    var registers = [
+            'stack',
+            'src',
+            'dest',
+            'code'
+        ];
+
+    var types = [
+            'number',
+            'string'
+        ];
+
+    var sign = [
+            '=',
+            '(',
+            ')',
+            ',',
+            '+',
+            '-',
+            '*',
+            '/',
+            '%',
+            '[',
+            '|',
+            ']'
+        ];
+
+    var meta = [
+            '#project',
+            '#define',
+            '#include'
+        ];
+
+    var defines = [];
+    var structs = [];
 
     function parseLine(line) {
         var result  = '';
@@ -36,7 +87,9 @@
                     };
 
                 if (isNaN(w)) {
-                    if (defines.indexOf(w) !== -1) {
+                    if (registers.indexOf(w) !== -1) {
+                        result += '<span class="purple">' + w + '</span>';
+                    } else if (defines.indexOf(w) !== -1) {
                         result += '<span class="green italic">' + w + '</span>';
                     } else if (structs.indexOf(w) !== -1) {
                         result += '<span class="purple">' + w + '</span>';
@@ -149,8 +202,11 @@
         var lines  = source.split('\n');
 
         window.wheelDemos[element.id] = source;
+        console.log(lines);
         element.innerHTML             = parseLines(lines);
     }
+
+    window._wheel = {updateElement: updateElement};
 
     window.addEventListener(
         'DOMContentLoaded',
