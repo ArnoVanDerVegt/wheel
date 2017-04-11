@@ -115,9 +115,9 @@
                 <div class="editor">
                     <div class="toolbar">
                         <ul>
-                            <li class="active">Source</li>
-                            <li>VM Code</li>
-                            <li>Include files</li>
+                            <li id="sourceButton" class="active">Source</li>
+                            <li id="vmCodeButton">VM Code</li>
+                            <!--li>Include files</li-->
                             <li class="compile">Compile</li>
                         </ul>
                     </div>
@@ -137,6 +137,7 @@ proc main()
     drawCircle(109, 64, 15)
 endp
                     </textarea>
+                    <pre id="output"></pre>
                 </div>
             </div>
 
