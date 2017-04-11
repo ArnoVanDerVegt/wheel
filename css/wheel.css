@@ -575,7 +575,8 @@ pre .black {
     border-radius:              2px;
     opacity:                    1;
 }
-.editor textarea {
+.editor textarea,
+.editor pre {
     float:                      left;
     width:                      100%;
     height:                     374px;
@@ -583,6 +584,12 @@ pre .black {
     border-radius:              0 0 2px 2px;
     padding:                    8px;
     margin:                     0;
+}
+.editor pre {
+    display:                    none;
+    overflow:                   hidden;
+    overflow-y:                 scroll;
+    background-color:           #FFFFFF;
 }
 
 /* Footer */

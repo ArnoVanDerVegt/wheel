@@ -103,6 +103,46 @@
             );
         };
 
+    var setRunProgramTitle = function(title) {
+            document.querySelector('#runProgram').value = title;
+        };
+
+    var getOutputCommands = function() {
+            function leadingChar(s, c, length) {
+                s += '';
+                while (s.length < length) {
+                    s = c + s;
+                }
+                return s;
+            }
+
+            var items  = outputCommands.outputCommands().split('\r');
+            var lines  = outputCommands.getLines();
+            var result = [];
+
+            var i = 0;
+            while (i < items.length) {
+                var line = items[i++];
+                if (line === '#COMMANDS') {
+                    var offset = 0;
+                    while (i + 1 < items.length) {
+                        var ret = ((items[i] === '4') && (items[i + 1] === '1') && (items[i + 2] === '3'));
+
+                        line = (items[i++] || '') + ' ';
+                        for (var j = 0; j < 4; j++) {
+                            line += leadingChar(items[i++] || '', ' ', 3) + ' ';
+                        }
+                        result.push(line + '    |    ' + lines[offset++]);
+
+                        if (ret) {
+                            result.push('----------------------+---------------------------------------------');
+                        }
+                    }
+                }
+            }
+            return result;
+        };
+
     var run = function() {
             if (!outputCommands || !compilerData || !vm) {
                 return;
@@ -110,20 +150,21 @@
 
             if (vm.getRunning()) {
                 stop();
-            } else {
-                document.querySelector('#runProgram').value = 'Stop';
-
-                simulator.getDisplay().clearScreen();
-                vm.run(
-                    outputCommands,
-                    compilerData.getStringList(),
-                    compilerData.getGlobalConstants(),
-                    compilerData.getGlobalOffset(),
-                    function() {
-                        document.querySelector('#runProgram').value = 'Run';
-                    }
-                );
             }
+            setRunProgramTitle('Stop');
+
+            simulator.getDisplay().clearScreen();
+            simulator.getDisplay().reset();
+
+            vm.run(
+                outputCommands,
+                compilerData.getStringList(),
+                compilerData.getGlobalConstants(),
+                compilerData.getGlobalOffset(),
+                function() {
+                    setRunProgramTitle('Run');
+                }
+            );
         };
 
     var stop = function() {
@@ -131,7 +172,7 @@
                 return;
             }
 
-            document.querySelector('#runProgram').value = 'Run';
+            setRunProgramTitle('Run');
 
             vm.stop();
             simulator.getLight().off();
@@ -142,6 +183,9 @@
             var source = document.querySelector('#source').value;
             compileAndRun(false, source);
             document.querySelector('#runProgram').className = 'button';
+            var element = document.querySelector('.editor pre');
+            element.innerHTML = getOutputCommands().join('\n');
+            window._wheel.updateElement(element);
         };
 
     function loadPre() {
@@ -166,7 +210,39 @@
         }
     }
 
+    function initButtons() {
+        var buttons = [
+                {
+                    element: document.getElementById('sourceButton'),
+                    target:  document.querySelector('.editor textarea')
+                },
+                {
+                    element: document.getElementById('vmCodeButton'),
+                    target:  document.querySelector('.editor pre')
+                }
+            ];
+        var activeButton = 0;
+        var onClick      = function(index) {
+                activeButton = index;
+                buttons.forEach(function(button, index) {
+                    button.element.className    = (index === activeButton) ? 'active' : '';
+                    button.target.style.display = (index === activeButton) ? 'block' : 'none';
+                });
+            };
+
+        buttons.forEach(function(button, index) {
+            button.element.addEventListener(
+                'click',
+                function() {
+                    onClick(index);
+                }
+            );
+
+        });
+    }
+
     function start() {
+         initButtons();
         loadPre();
 
         var runButton = document.querySelector('#runProgram');
