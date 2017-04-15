@@ -32,7 +32,7 @@ describe(
                         ]
                     );
                 });
-
+/*
                 it('Should write a value in a global array', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a[3]',
@@ -89,7 +89,7 @@ describe(
                         ]
                     );
                 });
-
+*/
                 it('Should declare a global array constant', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'number a[4] = [45,46,47,48]',
@@ -172,7 +172,7 @@ describe(
                 });
             }
         );
-
+/*
         describe(
             'Write and read arrays',
             function() {
@@ -585,6 +585,6 @@ describe(
                     assert.deepEqual(testData.messages, [344, 9454]);
                 });
             }
-        );
+        );*/
     }
 );

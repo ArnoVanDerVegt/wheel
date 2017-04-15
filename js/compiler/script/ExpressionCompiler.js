@@ -267,7 +267,7 @@
 
                                     default:
                                         index += c;
-                                        break
+                                        break;
                                 }
                             }
 

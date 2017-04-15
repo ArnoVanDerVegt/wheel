@@ -201,6 +201,7 @@
                 var expressionCompiler = this._expressionCompiler;
                 var varIndexArray      = expressionCompiler.isArrayIndex(valueArray.index);
                 var calculation        = expressionCompiler.isCalculation(valueArray.index);
+console.log('here.......');
                 if (calculation) {
                     var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
                     result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
@@ -212,106 +213,52 @@
                 }
             };
 
-            /**
-             * Compile setting an array index...
-            **/
-            this.compileSetIndex = function(result, vrArray, value) {
-                var expressionCompiler = this._expressionCompiler;
-
-                var calculation = expressionCompiler.isCalculation(vrArray.index);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
-                } else {
-                    var vrIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                    if (vrIndexArray) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, vrIndexArray);
-
-                        result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
-                    } else {
-                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
-                    }
-                }
-            };
-
-            this.compileGetIndex = function(result, valueArray, vr) {
-                var expressionCompiler = this._expressionCompiler;
-
-                var calculation = expressionCompiler.isCalculation(valueArray.index);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayr ' + vr + ',' + valueArray.array + ',' + tempVar + '_1');
-                } else {
-                    var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
-                    if (varIndexArray) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, valueArray);
-
-                        result.push('set ' + vr + ',' + tempVar);
-                    } else {
-                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
-                    }
-                }
-            };
-
             this.compileOperator = function(line, operator) {
                 var result             = [];
                 var expressionCompiler = this._expressionCompiler;
                 var parts              = line.split(operator.operator);
                 var vr                 = parts[0].trim();
-                var vrArray            = expressionCompiler.isArrayIndex(vr);
                 var value              = parts[1].trim();
-                var valueArray         = expressionCompiler.isArrayIndex(value);
-                var calculation        = expressionCompiler.isCalculation(value);
+                var valueCalculation   = expressionCompiler.isCalculation(value);
                 var tempVar;
 
-                if (expressionCompiler.isStruct(vr)) {
+                if (expressionCompiler.isComposite(vr)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, vr);
-                    result.push('set REG_SRC,REG_STACK');
-                    result.push('set REG_STACK,' + structVar.result);
-                    result.push('set %REG_STACK,' + value);
-                    result.push('set REG_STACK,REG_SRC');
-                } else {
-                    if (calculation) {
-                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                        if (vrArray) {
-                            var indexCalculation = expressionCompiler.isCalculation(vrArray.index);
-                            if (indexCalculation) {
-                                var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
-                                result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
-                            } else {
-                                result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
-                            }
-                        } else {
-                            result.push('set ' + vr + ',' + tempVar + '_1');
-                        }
-                    } else if (expressionCompiler.isStruct(value)) {
-                    //} else if (expressionCompiler.isComposite(value)) {
-                        var structVar = expressionCompiler.compileCompositeVar(result, value);
+
+                    if (valueCalculation) {
+                        tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                        result.push('set REG_DEST,' + tempVar + '_1');
+                    } else if (expressionCompiler.isComposite(value)) {
+                        var tempStructVar = expressionCompiler.compileCompositeVar(result, value);
+                        tempVar = tempStructVar.result;
+
                         result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + structVar.result);
+                        result.push('set REG_STACK,' + tempVar);
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
-                        result.push(operator.command + ' ' + vr.trim() + ',REG_DEST');
-                    } else if (vrArray && valueArray) {
-                        vr = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, vr);
-                        this.compileGetIndex(result, valueArray, vr);
-                        this.compileSetIndex(result, vrArray, vr);
-                    } else if (vrArray) {
-                        var structVar = expressionCompiler.compileCompositeVar(result, vr);
-                        result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + structVar.result);
-                        result.push(operator.command + ' %REG_STACK,' + value);
-                        result.push('set REG_STACK,REG_SRC');
-                    } else if (valueArray) {
-                        this.compileGetIndex(result, valueArray, vr);
                     } else {
-                        result.push(operator.command + ' ' + vr.trim() + ',' + value);
+                        result.push('set REG_DEST,' + value);
                     }
+
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('set REG_STACK,' + structVar.result);
+                    result.push('set %REG_STACK,REG_DEST');
+                    result.push('set REG_STACK,REG_SRC');
+                } else if (valueCalculation) {
+                    tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                    result.push('set ' + vr + ',' + tempVar + '_1');
+                } else if (expressionCompiler.isComposite(value)) {
+                    var structVar = expressionCompiler.compileCompositeVar(result, value);
+                    var tempVar = structVar.result;
+
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('set REG_STACK,' + tempVar);
+                    result.push('set REG_DEST,%REG_STACK');
+                    result.push('set REG_STACK,REG_SRC');
+                    result.push('set ' + tempVar + ',REG_DEST');
+                    result.push('set ' + vr + ',' + tempVar);
+                } else {
+                    result.push(operator.command + ' ' + vr.trim() + ',' + value);
                 }
 
                 return result;
@@ -382,17 +329,30 @@
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.arrayIndex) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, param.arrayIndex);
-                        outputParams.push(tempVar);
+                        if (false) {
+                            var tempVar = expressionCompiler.createTempVarName();
+                            expressionCompiler.declareNumber(result, tempVar);
+                            this.compileValueArray(result, tempVar, param.arrayIndex);
+                            outputParams.push(tempVar);
+                        } else {
+                            result.push('%rem ----> ');
+                            var structVar = expressionCompiler.compileCompositeVar(result, param.value);
+                            tempVar = structVar.result;
+                            result.push('%rem <---- '+ tempVar);
+                            result.push('set REG_SRC,REG_STACK');
+                            result.push('set REG_STACK,' + tempVar);
+                            result.push('set REG_DEST,%REG_STACK');
+                            result.push('set REG_STACK,REG_SRC');
+                            result.push('set ' + tempVar + ',REG_DEST');
+                            outputParams.push(tempVar);
+console.log(result);
+                        }
                     } else if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else {
                         outputParams.push(param.value);
                     }
                 }
-
                 result.push(procCall.name + '(' + outputParams.join(',') + ')');
 
                 return result;

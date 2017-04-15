@@ -39,7 +39,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [12]);
                 });
-
+/*
                 it('Should call a global procedure array pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc ptr[2]',
@@ -58,7 +58,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [7790]);
                 });
-
+*/
                 it('Should call a local procedure pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
@@ -167,7 +167,7 @@ describe(
 
                     assert.deepEqual(testData.messages, ['Point:', 1656, 98, 75]);
                 });
-
+/*
                 it('Should call a procedure with an array parameter, read local', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'number p[3]',
@@ -341,7 +341,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [6852, -93]);
                 });
-
+*/
                 it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',

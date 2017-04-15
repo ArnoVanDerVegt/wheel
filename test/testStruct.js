@@ -295,7 +295,7 @@ describe(
                     assert.deepEqual(testData.messages, [5, 2234, 45, 667]);
                 });
 
-                it('Should nest an array struct', function() {
+                /*it('Should nest an array struct', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -340,7 +340,7 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [233, 768, 78, 268]);
-                });
+                });*/
             }
         );
     }
