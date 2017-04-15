@@ -191,7 +191,7 @@
                 return false;
             };
 
-            this.isCompound = function(s) {
+            this.isComposite = function(s) {
                 for (var i = 1; i < s.length; i++) {
                     if ((s[i] === '.') || (s[i] === '[')) {
                         return true;
@@ -203,7 +203,7 @@
                 return false;
             };
 
-            this.compileStructVar = function(result, vr, depth) {
+            this.compileCompositeVar = function(result, vr, depth) {
                 depth || (depth = 0);
 
                 var part      = '';
@@ -283,8 +283,8 @@
                                     result.push('set REG_STACK,REG_SRC');
                                     result.push((first ? 'set' : 'add') + ' ' + resultVar + ',REG_DEST');
                                 }
-                            } else if (this.isCompound(index)) {
-                                var indexVar = this.compileStructVar(result, index, depth + 1);
+                            } else if (this.isComposite(index)) {
+                                var indexVar = this.compileCompositeVar(result, index, depth + 1);
 
                                 if (!indexVar.calculation) {
                                     result.push('set REG_SRC,REG_STACK');
@@ -340,42 +340,19 @@
                         result.push(node.command + ' ' + vr2 + ',' + vr3);
                     }
                 } else {
-                    //if (this.isStruct(node.value)) {
-                    if (this.isCompound(node.value)) {
-                        result.push('%rem ---------------------- >>>' + node.value);
-                        var structVar = this.compileStructVar(result, node.value);
+                    if (this.isComposite(node.value)) {
+                        var structVar = this.compileCompositeVar(result, node.value);
                         this.declareNumber(result, localVr + '_' + depth);
-
-                        //
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + structVar.result);
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
-                        //
-
                         result.push(command + ' ' + vr1 + ',REG_DEST');
-                        //result.push('set ' + vr1 + ',' + structVar.result);//node.value);
-
-                        result.push('%rem ---------------------- <<<' + node.value);
+                    } else if (command === 'set') {
+                        this.declareNumber(result, localVr + '_' + depth);
+                        result.push('set ' + vr1 + ',' + node.value);
                     } else {
-                        var vrArray = this.isArrayIndex(node.value);
-                        if (command === 'set') {
-                            this.declareNumber(result, localVr + '_' + depth);
-                            if (vrArray) {
-                                result.push('arrayr ' + vr1 + ',' + vrArray.array + ',' + vrArray.index);
-                            } else {
-                                result.push('set ' + vr1 + ',' + node.value);
-                            }
-                        } else {
-                            if (vrArray) {
-                                vr2 = localVr + '_' + (depth + 1);
-                                this.declareNumber(result, vr2);
-                                result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
-                                result.push(command + ' ' + vr1 + ',' + vr2);
-                            } else {
-                                result.push(command + ' ' + vr1 + ',' + node.value);
-                            }
-                        }
+                        result.push(command + ' ' + vr1 + ',' + node.value);
                     }
                 }
             };

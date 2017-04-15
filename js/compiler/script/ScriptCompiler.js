@@ -269,7 +269,7 @@
                 var tempVar;
 
                 if (expressionCompiler.isStruct(vr)) {
-                    var structVar = expressionCompiler.compileStructVar(result, vr);
+                    var structVar = expressionCompiler.compileCompositeVar(result, vr);
                     if (calculation) {
                     } else if (vrArray && valueArray) {
                     } else if (vrArray) {
@@ -295,7 +295,7 @@
                             result.push('set ' + vr + ',' + tempVar + '_1');
                         }
                     } else if (expressionCompiler.isStruct(value)) {
-                        var structVar = expressionCompiler.compileStructVar(result, value);
+                        var structVar = expressionCompiler.compileCompositeVar(result, value);
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + structVar.result);
                         result.push('set REG_DEST,%REG_STACK');
@@ -307,7 +307,7 @@
                         this.compileGetIndex(result, valueArray, vr);
                         this.compileSetIndex(result, vrArray, vr);
                     } else if (vrArray) {
-                        var structVar = expressionCompiler.compileStructVar(result, vr);
+                        var structVar = expressionCompiler.compileCompositeVar(result, vr);
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + structVar.result);
                         result.push(operator.command + ' %REG_STACK,' + value);
