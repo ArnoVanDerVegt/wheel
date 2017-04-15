@@ -270,16 +270,10 @@
 
                 if (expressionCompiler.isStruct(vr)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, vr);
-                    if (calculation) {
-                    } else if (vrArray && valueArray) {
-                    } else if (vrArray) {
-                    } else if (valueArray) {
-                    } else {
-                        result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + structVar.result);
-                        result.push('set %REG_STACK,' + value);
-                        result.push('set REG_STACK,REG_SRC');
-                    }
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('set REG_STACK,' + structVar.result);
+                    result.push('set %REG_STACK,' + value);
+                    result.push('set REG_STACK,REG_SRC');
                 } else {
                     if (calculation) {
                         tempVar = expressionCompiler.compileToTempVar(result, calculation);
@@ -295,6 +289,7 @@
                             result.push('set ' + vr + ',' + tempVar + '_1');
                         }
                     } else if (expressionCompiler.isStruct(value)) {
+                    //} else if (expressionCompiler.isComposite(value)) {
                         var structVar = expressionCompiler.compileCompositeVar(result, value);
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + structVar.result);
@@ -312,7 +307,6 @@
                         result.push('set REG_STACK,' + structVar.result);
                         result.push(operator.command + ' %REG_STACK,' + value);
                         result.push('set REG_STACK,REG_SRC');
-                        //this.compileSetIndex(result, vrArray, value);
                     } else if (valueArray) {
                         this.compileGetIndex(result, valueArray, vr);
                     } else {
