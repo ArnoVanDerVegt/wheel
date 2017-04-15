@@ -181,56 +181,6 @@ describe(
         describe(
             'Test array',
             function() {
-                it('Should write array', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n[3]',
-                            '    number i',
-                            '',
-                            '    n[0] = 74',
-                            '    n[1] = 234',
-                            '    n[2] = 67',
-                            '',
-                            '    arrayr i, n, 1',
-                            '    printN(i)',
-                            '',
-                            '    arrayr i, n, 0',
-                            '    printN(i)',
-                            '',
-                            '    arrayr i, n, 2',
-                            '    printN(i)',
-                            '',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [234, 74, 67]);
-                });
-/*
-                it('Should read array => i = n[2]', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n[3]',
-                            '    number i',
-                            '',
-                            '    arrayw n, 0, 3454',
-                            '    arrayw n, 1, 89',
-                            '    arrayw n, 2, 40',
-                            '',
-                            '    i = n[2]',
-                            '    printN(i)',
-                            '',
-                            '    i = n[0]',
-                            '    printN(i)',
-                            '',
-                            '    i = n[1]',
-                            '    printN(i)',
-                            '',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [40, 3454, 89]);
-                });
-*/
                 it('Should read and write an array => b[2] = a[3]', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',

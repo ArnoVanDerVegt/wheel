@@ -197,22 +197,6 @@
                 }
             };
 
-            this.compileValueArray = function(result, tempVar, valueArray) {
-                var expressionCompiler = this._expressionCompiler;
-                var varIndexArray      = expressionCompiler.isArrayIndex(valueArray.index);
-                var calculation        = expressionCompiler.isCalculation(valueArray.index);
-
-                if (calculation) {
-                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
-                } else if (varIndexArray) {
-                    this.compileValueArray(result, tempVar, varIndexArray);
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
-                } else {
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
-                }
-            };
-
             this.compileOperator = function(line, operator) {
                 var result             = [];
                 var expressionCompiler = this._expressionCompiler;
@@ -329,21 +313,14 @@
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.arrayIndex) {
-                        if (false) {
-                            var tempVar = expressionCompiler.createTempVarName();
-                            expressionCompiler.declareNumber(result, tempVar);
-                            this.compileValueArray(result, tempVar, param.arrayIndex);
-                            outputParams.push(tempVar);
-                        } else {
-                            var structVar = expressionCompiler.compileCompositeVar(result, param.value);
-                            tempVar = structVar.result;
-                            result.push('set REG_SRC,REG_STACK');
-                            result.push('set REG_STACK,' + tempVar);
-                            result.push('set REG_DEST,%REG_STACK');
-                            result.push('set REG_STACK,REG_SRC');
-                            result.push('set ' + tempVar + ',REG_DEST');
-                            outputParams.push(tempVar);
-                        }
+                        var structVar = expressionCompiler.compileCompositeVar(result, param.value);
+                        tempVar = structVar.result;
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + tempVar);
+                        result.push('set REG_DEST,%REG_STACK');
+                        result.push('set REG_STACK,REG_SRC');
+                        result.push('set ' + tempVar + ',REG_DEST');
+                        outputParams.push(tempVar);
                     } else if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else {

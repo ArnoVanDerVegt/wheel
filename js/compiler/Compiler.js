@@ -34,8 +34,6 @@
                         'CallReturn',
                         'Ret',
                         'Label',
-                        'ArrayR',
-                        'ArrayW',
                         'Addr',
                         'JmpC'
                     ];
@@ -62,8 +60,6 @@
                     jge:        compilers.JmpC,
                     set:        compilers.Set,
                     addr:       compilers.Addr,
-                    arrayr:     compilers.ArrayR,
-                    arrayw:     compilers.ArrayW,
                     number:     compilers.NumberDeclaration,
                     inc:        compilers.NumberInc,
                     dec:        compilers.NumberDec,

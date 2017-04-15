@@ -141,9 +141,9 @@ describe(
                             '',
                             'proc main()',
                             '    number l',
-                            '    arrayr l, a, 1',
+                            '    l = a[1]',
                             '    printN(l)',
-                            '    arrayr l, a, 0',
+                            '    l = a[0]',
                             '    printN(l)',
                             'endp'
                         ])).testData;
@@ -167,9 +167,9 @@ describe(
                             'proc main()',
                             '    number la[2] = [6576, 6576]',
                             '    number l',
-                            '    arrayr l, la, 1',
+                            '    l = la[1]',
                             '    printN(l)',
-                            '    arrayr l, la, 0',
+                            '    l = la[0]',
                             '    printN(l)',
                             'endp'
                         ])).testData;

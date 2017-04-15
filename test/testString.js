@@ -20,7 +20,7 @@ describe(
 
                     assert.deepEqual(testData.messages, ['Hello world']);
                 });
-
+/*
                 it('Should declare a global string array', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'string s[2] = ["Hello", "world"]',
@@ -36,7 +36,7 @@ describe(
 
                     assert.deepEqual(testData.messages, ['world', 'Hello']);
                 });
-
+*/
                 it('Should declare a local string', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -47,7 +47,7 @@ describe(
 
                     assert.deepEqual(testData.messages, ['Local string']);
                 });
-
+/*
                 it('Should declare a local string array', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
@@ -62,6 +62,7 @@ describe(
 
                     assert.deepEqual(testData.messages, ['array', 'Local']);
                 });
+*/
             }
         );
 

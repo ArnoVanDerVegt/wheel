@@ -176,55 +176,7 @@
                     {type: T_STRUCT_L_ARRAY}
                 ]
             },
-            // Array functions
-            arrayr: { // Array read...
-                code: 1038,
-                args: [
-                    {type: T_NUM_G, args: ARGS_GL_ARRAY_CGL},
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_L,          args: ARGS_CGL}, // In case of a struct, the original type should be T_NUM_L_ARRAY!
-                            {type: T_NUM_G,          args: ARGS_CGL} // In case of a struct, the original type should be T_NUM_G_ARRAY!
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_G,
-                        args: [
-                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
-                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_L,
-                        args: [
-                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
-                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
-                        ]
-                    },
-                    {type: T_PROC_G, args: ARGS_GLPGPL_ARRAY_CGL},
-                    {type: T_PROC_L, args: ARGS_GLPGPL_ARRAY_CGL}
-                ]
-            },
-            arrayw: { // Array write...
-                code: 1039,
-                args: [
-                    {type: T_NUM_L_ARRAY,    args: ARGS_CGL_ALL},
-                    {type: T_NUM_L,          args: ARGS_CGL_ALL}, // In case of a field, the origType should be T_NUM_L_ARRAY!
-                    {type: T_NUM_G_ARRAY,    args: ARGS_CGL_ALL},
-                    {type: T_STRUCT_G_ARRAY, args: ARGS_CGL_SGSL},
-                    {type: T_STRUCT_L_ARRAY, args: ARGS_CGL_SGSL},
-                    {type: T_PROC_G_ARRAY,   args: ARGS_CGL_PPGPL},
-                    {type: T_PROC_L_ARRAY,   args: ARGS_CGL_PPGPL}
-                ]
-            },
-            // Loops...
+            // Return...
             'return': {
                 code: 1042,
                 args: [

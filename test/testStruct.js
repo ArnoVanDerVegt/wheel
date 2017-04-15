@@ -294,53 +294,6 @@ describe(
 
                     assert.deepEqual(testData.messages, [5, 2234, 45, 667]);
                 });
-
-                /*it('Should nest an array struct', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
-                            '    number x',
-                            '    number y',
-                            'ends',
-                            '',
-                            'struct Triangle',
-                            '    Point points[3]',
-                            'ends',
-                            '',
-                            'proc main()',
-                            '    Triangle t',
-                            '',
-                            '    Point p',
-                            '',
-                            '    set p.x, 233',
-                            '    set p.y, 768',
-                            '    arrayw t.points, 0, p',
-                            '',
-                            '    set p.x, 78',
-                            '    set p.y, 268',
-                            '    arrayw t.points, 1, p',
-                            '',
-                            '    Point pp',
-                            '',
-                            '    arrayr pp, t.points, 0',
-                            '',
-                            '    number n',
-                            '',
-                            '    set n, pp.x',
-                            '    printN(n)',
-                            '    set n, pp.y',
-                            '    printN(n)',
-                            '',
-                            '    arrayr pp, t.points, 1',
-                            '',
-                            '    set n, pp.x',
-                            '    printN(n)',
-                            '    set n, pp.y',
-                            '    printN(n)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [233, 768, 78, 268]);
-                });*/
             }
         );
     }
