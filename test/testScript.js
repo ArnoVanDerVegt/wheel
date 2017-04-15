@@ -640,7 +640,6 @@ describe(
 
                             '    a = c + b[1] * 8',
                             '    printN(a)',
-                            '',
                             'end'
                         ])).testData;
 

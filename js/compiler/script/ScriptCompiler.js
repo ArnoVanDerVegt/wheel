@@ -484,9 +484,9 @@
                     }
                 }
 
-                //for (var i = 0; i < output.length; i++) {
-                //    console.log(i + ']', output[i]);
-                //}
+                for (var i = 0; i < output.length; i++) {
+                    console.log(i + ']', output[i]);
+                }
                 return {
                     output:    output,
                     sourceMap: sourceMap
