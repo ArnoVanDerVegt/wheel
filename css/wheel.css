@@ -585,6 +585,9 @@ pre .black {
     padding:                    8px;
     margin:                     0;
 }
+.editor textarea {
+    resize:                     none;
+}
 .editor pre {
     display:                    none;
     overflow:                   hidden;
