@@ -388,6 +388,18 @@
                         value: parseFloat(param),
                         param: param
                     };
+                } else if (wheel.compiler.command.REGS.indexOf(param) !== -1) {
+                    return {
+                        type:  $.T_NUM_G,
+                        value: wheel.compiler.command.REGS.indexOf(param),
+                        param: param
+                    };
+                } else if (param === '%REG_STACK') {
+                    return {
+                        type:  $.T_NUM_L,
+                        value: 0,
+                        param: param
+                    };
                 } else {
                     var offset;
                     var vr       = null;

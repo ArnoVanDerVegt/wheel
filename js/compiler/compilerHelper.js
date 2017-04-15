@@ -34,9 +34,7 @@
             },
 
             validateString: function(s, valid) {
-                if (!valid) {
-                    valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
-                }
+                valid || (valid = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_');
                 for (var i = 0; i < s.length; i++) {
                     if (valid.indexOf(s[i]) === -1) {
                         return false;

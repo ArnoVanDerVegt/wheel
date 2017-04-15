@@ -89,7 +89,6 @@ describe(
                     preProcessor.process('main.whl', function(includes) {});
                 },
                 function(error) {
-                    console.log(error.toString());
                     return (error.toString() === 'Error: Include file error.');
                 }
             );

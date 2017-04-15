@@ -9,6 +9,7 @@
                 $ = wheel.compiler.command;
 
                 this._compilerData   = new wheel.compiler.CompilerData({compiler: this});
+                this._compilerMeta   = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._compilerData});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
                 this._mainIndex      = -1;
                 this._filename       = '';
@@ -170,6 +171,8 @@
                 var compilerData      = this._compilerData;
                 var output            = this._output;
 
+                line = this._compilerMeta.compileParams(line);
+
                 if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                     var spacePos = line.indexOf(' ');
                     var command  = line.substr(0, spacePos).trim();
@@ -241,9 +244,9 @@
                 this._procStartIndex = -1;
                 this._activeStruct   = null;
                 for (var i = 0; i < lines.output.length; i++) {
-                    var line = lines.output[i].trim();
+                    var line = this._compilerMeta.compile(lines.output, lines.output[i].trim(), i);
                     this._location = sourceMap[i];
-                    this.compileLine(line);
+                    (line !== '') && this.compileLine(line);
                 }
 
                 return output.getBuffer();

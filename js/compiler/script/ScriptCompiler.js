@@ -262,36 +262,62 @@
                 var expressionCompiler = this._expressionCompiler;
                 var parts              = line.split(operator.operator);
                 var vr                 = parts[0].trim();
-                var vrArray            = this._expressionCompiler.isArrayIndex(vr);
+                var vrArray            = expressionCompiler.isArrayIndex(vr);
                 var value              = parts[1].trim();
-                var valueArray         = this._expressionCompiler.isArrayIndex(value);
+                var valueArray         = expressionCompiler.isArrayIndex(value);
+                var calculation        = expressionCompiler.isCalculation(value);
                 var tempVar;
 
-                var calculation = expressionCompiler.isCalculation(value);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    if (vrArray) {
-                        var indexCalculation = expressionCompiler.isCalculation(vrArray.index);
-                        if (indexCalculation) {
-                            var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
-                            result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
-                        } else {
-                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
-                        }
+                if (expressionCompiler.isStruct(vr)) {
+                    var structVar = expressionCompiler.compileStructVar(result, vr);
+                    if (calculation) {
+                    } else if (vrArray && valueArray) {
+                    } else if (vrArray) {
+                    } else if (valueArray) {
                     } else {
-                        result.push('set ' + vr + ',' + tempVar + '_1');
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + structVar.result);
+                        result.push('set %REG_STACK,' + value);
+                        result.push('set REG_STACK,REG_SRC');
                     }
-                } else if (vrArray && valueArray) {
-                    vr = expressionCompiler.createTempVarName();
-                    expressionCompiler.declareNumber(result, vr);
-                    this.compileGetIndex(result, valueArray, vr);
-                    this.compileSetIndex(result, vrArray, vr);
-                } else if (vrArray) {
-                    this.compileSetIndex(result, vrArray, value);
-                } else if (valueArray) {
-                    this.compileGetIndex(result, valueArray, vr);
                 } else {
-                    result.push(operator.command + ' ' + vr.trim() + ',' + value);
+                    if (calculation) {
+                        tempVar = expressionCompiler.compileToTempVar(result, calculation);
+                        if (vrArray) {
+                            var indexCalculation = expressionCompiler.isCalculation(vrArray.index);
+                            if (indexCalculation) {
+                                var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
+                                result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
+                            } else {
+                                result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
+                            }
+                        } else {
+                            result.push('set ' + vr + ',' + tempVar + '_1');
+                        }
+                    } else if (expressionCompiler.isStruct(value)) {
+                        var structVar = expressionCompiler.compileStructVar(result, value);
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + structVar.result);
+                        result.push('set REG_DEST,%REG_STACK');
+                        result.push('set REG_STACK,REG_SRC');
+                        result.push(operator.command + ' ' + vr.trim() + ',REG_DEST');
+                    } else if (vrArray && valueArray) {
+                        vr = expressionCompiler.createTempVarName();
+                        expressionCompiler.declareNumber(result, vr);
+                        this.compileGetIndex(result, valueArray, vr);
+                        this.compileSetIndex(result, vrArray, vr);
+                    } else if (vrArray) {
+                        var structVar = expressionCompiler.compileStructVar(result, vr);
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + structVar.result);
+                        result.push(operator.command + ' %REG_STACK,' + value);
+                        result.push('set REG_STACK,REG_SRC');
+                        //this.compileSetIndex(result, vrArray, value);
+                    } else if (valueArray) {
+                        this.compileGetIndex(result, valueArray, vr);
+                    } else {
+                        result.push(operator.command + ' ' + vr.trim() + ',' + value);
+                    }
                 }
 
                 return result;
@@ -458,6 +484,9 @@
                     }
                 }
 
+                //for (var i = 0; i < output.length; i++) {
+                //    console.log(i + ']', output[i]);
+                //}
                 return {
                     output:    output,
                     sourceMap: sourceMap

@@ -40,6 +40,14 @@
     var REG_CODE                =  3;
     var REG_RETURN              =  4;
     var REG_FLAGS               =  5;
+    var REGS                    = [
+            'REG_STACK',
+            'REG_SRC',
+            'REG_DEST',
+            'REG_CODE',
+            'REG_RETURN',
+            'REG_FLAGS'
+        ];
 
     var REGISTER_COUNT          =  6;
 
@@ -269,6 +277,8 @@
     wheel('compiler.command.REG_CODE',              REG_CODE);
     wheel('compiler.command.REG_RETURN',            REG_RETURN);
     wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
+
+    wheel('compiler.command.REGS',                  REGS);
 
     wheel('compiler.command.STACK',                 function()       { return {type: T_NUM_G, value: REG_STACK  }; });
     wheel('compiler.command.SRC',                   function()       { return {type: T_NUM_G, value: REG_SRC    }; });

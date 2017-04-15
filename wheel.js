@@ -23,6 +23,7 @@ require('./js/compiler/error.js');
 require('./js/compiler/compilerHelper.js');
 require('./js/compiler/CompilerOutput.js');
 require('./js/compiler/CompilerData.js');
+require('./js/compiler/CompilerMeta.js');
 require('./js/compiler/script/ExpressionCompiler.js');
 require('./js/compiler/script/ScriptCompiler.js');
 require('./js/compiler/Compiler.js');

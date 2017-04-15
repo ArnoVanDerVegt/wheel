@@ -82,9 +82,10 @@
                         '*': 'mul',
                         '/': 'div',
                         '+': 'add',
-                        '-': 'sub'
+                        '-': 'sub',
+                        '%': 'mod'
                     };
-                var operators = ['*', '/', '+', '-'];
+                var operators = ['*', '/', '+', '-', '%'];
 
                 var createNode = function(value) {
                         return {left: null, operator: null, right: null, value: value};
@@ -178,6 +179,141 @@
                 return false;
             };
 
+            this.isStruct = function(s) {
+                for (var i = 1; i < s.length; i++) {
+                    if (s[i] === '.') {
+                        return true;
+                    }
+                    if (!wheel.compiler.compilerHelper.validateString(s[i])) {
+                        return false;
+                    }
+                }
+                return false;
+            };
+
+            this.isCompound = function(s) {
+                for (var i = 1; i < s.length; i++) {
+                    if ((s[i] === '.') || (s[i] === '[')) {
+                        return true;
+                    }
+                    if (!wheel.compiler.compilerHelper.validateString(s[i])) {
+                        return false;
+                    }
+                }
+                return false;
+            };
+
+            this.compileStructVar = function(result, vr, depth) {
+                depth || (depth = 0);
+
+                var part      = '';
+                var resultVar = this.createTempVarName();
+                var first     = true;
+                var i         = 0;
+
+                this.declareNumber(result, resultVar);
+
+                var calculation = false;
+
+                while (i < vr.length) {
+                    var c = vr[i++];
+                    switch (c) {
+                        case '.':
+                            calculation = false;
+                            result.push('%expect_struct ' + part);
+                            if (first) {
+                                result.push('%ifglobal ' + part);
+                                result.push('set ' + resultVar + ',%offset(' + part + ')');
+                                result.push('%else');
+                                result.push('set ' + resultVar + ',REG_STACK');
+                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                result.push('%end');
+                            } else {
+                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                            }
+
+                            first = false;
+                            part += c;
+                            break;
+
+                        case '[':
+                            calculation = false;
+                            result.push('%expect_array ' + part);
+                            if (first) {
+                                result.push('%ifglobal ' + part);
+                                result.push('set ' + resultVar + ',%offset(' + part + ')');
+                                result.push('%else');
+                                result.push('set ' + resultVar + ',REG_STACK');
+                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                result.push('%end');
+                            } else {
+                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                            }
+
+                            var index = '';
+                            var open  = 1;
+                            while (open && (i < vr.length)) {
+                                c = vr[i++];
+                                switch (c) {
+                                    case '[':
+                                        index += c;
+                                        open++;
+                                        break;
+
+                                    case ']':
+                                        open--;
+                                        open && (index += c);
+                                        break;
+
+                                    default:
+                                        index += c;
+                                        break
+                                }
+                            }
+
+                            calculation = this.isCalculation(index);
+                            if (calculation) {
+                                var indexVar = this.compileToTempVar(result, calculation);
+                                result.push('add ' + resultVar + ',' + indexVar + '_1');
+
+                                if (depth > 0) {
+                                    result.push('set REG_SRC,REG_STACK');
+                                    result.push('set REG_STACK,' + resultVar);
+                                    result.push('set REG_DEST,%REG_STACK');
+                                    result.push('set REG_STACK,REG_SRC');
+                                    result.push((first ? 'set' : 'add') + ' ' + resultVar + ',REG_DEST');
+                                }
+                            } else if (this.isCompound(index)) {
+                                var indexVar = this.compileStructVar(result, index, depth + 1);
+
+                                if (!indexVar.calculation) {
+                                    result.push('set REG_SRC,REG_STACK');
+                                    result.push('set REG_STACK,' + indexVar.result);
+                                    result.push('set REG_DEST,%REG_STACK');
+                                    result.push('set REG_STACK,REG_SRC');
+                                    result.push('set ' + indexVar.result + ',REG_DEST');
+                                }
+                                result.push('add ' + resultVar + ',' + indexVar.result);
+                            } else {
+                                result.push('add ' + resultVar + ',' + index);
+                            }
+
+                            first = false;
+                            break;
+
+                        default:
+                            part += c;
+                            break;
+                    }
+                }
+                (part.indexOf('.') === -1) || result.push('add ' + resultVar + ',%offset(' + part + ')');
+
+                return {
+                    result:      resultVar,
+                    calculation: calculation
+                };
+            };
+
             this.compileCalculation = function(result, localVr, node, depth, command) {
                 var vr1 = localVr + '_' + depth;
 
@@ -204,22 +340,28 @@
                         result.push(node.command + ' ' + vr2 + ',' + vr3);
                     }
                 } else {
-                    var vrArray = this.isArrayIndex(node.value);
-                    if (command === 'set') {
+                    if (this.isStruct(node.value)) {
+                        var structVar = this.compileStructVar(result, node.value);
                         this.declareNumber(result, localVr + '_' + depth);
-                        if (vrArray) {
-                            result.push('arrayr ' + vr1 + ',' + vrArray.array + ',' + vrArray.index);
-                        } else {
-                            result.push(command + ' ' + vr1 + ',' + node.value);
-                        }
+                        result.push('set ' + vr1 + ',' + node.value);
                     } else {
-                        if (vrArray) {
-                            vr2 = localVr + '_' + (depth + 1);
-                            this.declareNumber(result, vr2);
-                            result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
-                            result.push(command + ' ' + vr1 + ',' + vr2);
+                        var vrArray = this.isArrayIndex(node.value);
+                        if (command === 'set') {
+                            this.declareNumber(result, localVr + '_' + depth);
+                            if (vrArray) {
+                                result.push('arrayr ' + vr1 + ',' + vrArray.array + ',' + vrArray.index);
+                            } else {
+                                result.push('set ' + vr1 + ',' + node.value);
+                            }
                         } else {
-                            result.push(command + ' ' + vr1 + ',' + node.value);
+                            if (vrArray) {
+                                vr2 = localVr + '_' + (depth + 1);
+                                this.declareNumber(result, vr2);
+                                result.push('arrayr ' + vr2 + ',' + vrArray.array + ',' + vrArray.index);
+                                result.push(command + ' ' + vr1 + ',' + vr2);
+                            } else {
+                                result.push(command + ' ' + vr1 + ',' + node.value);
+                            }
                         }
                     }
                 }
