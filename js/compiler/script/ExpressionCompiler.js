@@ -220,7 +220,7 @@
                     switch (c) {
                         case '.':
                             calculation = false;
-                            result.push('%expect_struct ' + part);
+                            result.push('%expect_struct ' + part.trim());
                             if (first) {
                                 result.push('%ifglobal ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
@@ -238,7 +238,7 @@
 
                         case '[':
                             calculation = false;
-                            result.push('%expect_array ' + part);
+                            result.push('%expect_array ' + part.trim());
                             if (first) {
                                 result.push('%ifglobal ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');

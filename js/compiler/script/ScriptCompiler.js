@@ -201,7 +201,7 @@
                 var expressionCompiler = this._expressionCompiler;
                 var varIndexArray      = expressionCompiler.isArrayIndex(valueArray.index);
                 var calculation        = expressionCompiler.isCalculation(valueArray.index);
-console.log('here.......');
+
                 if (calculation) {
                     var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
                     result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
@@ -282,7 +282,7 @@ console.log('here.......');
                     }
 
                     p.push({
-                        value:       value,
+                        value:       value.trim(),
                         calculation: calculation,
                         arrayIndex:  arrayIndex
                     });
@@ -335,17 +335,14 @@ console.log('here.......');
                             this.compileValueArray(result, tempVar, param.arrayIndex);
                             outputParams.push(tempVar);
                         } else {
-                            result.push('%rem ----> ');
                             var structVar = expressionCompiler.compileCompositeVar(result, param.value);
                             tempVar = structVar.result;
-                            result.push('%rem <---- '+ tempVar);
                             result.push('set REG_SRC,REG_STACK');
                             result.push('set REG_STACK,' + tempVar);
                             result.push('set REG_DEST,%REG_STACK');
                             result.push('set REG_STACK,REG_SRC');
                             result.push('set ' + tempVar + ',REG_DEST');
                             outputParams.push(tempVar);
-console.log(result);
                         }
                     } else if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
