@@ -124,13 +124,6 @@
                                     index++;
                                 }
                                 while (index < lines.length) {
-                                    if (lines[index] === '%else') {
-                                        lines[index] = '';
-                                        break;
-                                    }
-                                    index++;
-                                }
-                                while (index < lines.length) {
                                     if (lines[index] === '%end') {
                                         lines[index] = '';
                                         break;
