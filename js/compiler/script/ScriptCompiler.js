@@ -242,7 +242,30 @@
                     result.push('set ' + tempVar + ',REG_DEST');
                     result.push('set ' + vr + ',' + tempVar);
                 } else {
-                    result.push(operator.command + ' ' + vr.trim() + ',' + value);
+                    vr = vr.trim();
+
+                    result.push('%if_struct ' + vr);
+
+                    result.push('%if_global ' + vr);
+                    result.push('set REG_DEST,%offset(' + vr + ')');
+                    result.push('%else');
+                    result.push('set REG_DEST,REG_STACK');
+                    result.push('add REG_DEST,%offset(' + vr + ')');
+                    result.push('%end');
+
+                    result.push('%if_global ' + value);
+                    result.push('set REG_SRC,%offset(' + value + ')');
+                    result.push('%else');
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('add REG_SRC,%offset(' + value + ')');
+                    result.push('%end');
+
+                    result.push('copy %sizeof(' + vr + ')');
+
+                    result.push('%else');
+
+                    result.push(operator.command + ' ' + vr + ',' + value);
+                    result.push('%end');
                 }
 
                 return result;
@@ -413,7 +436,7 @@
                 }
 
                 for (var i = 0; i < output.length; i++) {
-                    //console.log(i + ']', output[i]);
+                    console.log(i + ']', output[i]);
                 }
                 return {
                     output:    output,

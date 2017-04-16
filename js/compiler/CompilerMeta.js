@@ -54,36 +54,125 @@
                 }
             };
 
-            this.compileParams = function(line) {
-                var compilerData = this._compilerData;
-                var i            = line.indexOf('%offset(');
-                while (i !== -1) {
-                    var j          = line.indexOf(')', i);
-                    var identifier = line.substr(i + 8, j - i - 8);
-                    var offset     = 0;
-                    var vr         = compilerData.findGlobal(identifier) || compilerData.findLocal(identifier);
+            this.updateConditionalLines = function(lines, index, conditionTrue) {
+                    var commandFromLine = function(line) {
+                            var i = line.indexOf(' ');
+                            return (i === -1) ? line : line.substr(0, i);
+                        };
+                    var updateLines = function(endCommand, clear) {
+                            var count = 1;
+                            var done  = false;
+                            while (!done && (index < lines.length)) {
+                                var command = commandFromLine(lines[index].trim());
+                                switch (command) {
+                                    case '%if_global':
+                                        count++;
+                                        break;
 
-                    if (vr) {
-                        offset = vr.offset;
-                        var struct = vr.struct;
-                        var parts  = identifier.split('.');
-                        var k      = 1;
-                        while (k < parts.length) {
-                            var field = struct.fields[parts[k]];
+                                    case '%if_struct':
+                                        count++;
+                                        break;
+
+                                    default:
+                                        if (command === endCommand) {
+                                            count--;
+                                            done = !count;
+                                            done && (lines[index] = '');
+                                        }
+                                        break;
+                                }
+                                if (!done) {
+                                    clear && (lines[index] = '');
+                                    index++;
+                                }
+                            }
+                        };
+
+                updateLines('%else', !conditionTrue);
+                updateLines('%end',  conditionTrue);
+            };
+
+            /**
+             * Get the last type of a composite type...
+             *
+             * a     --> return type info about "a"
+             * a.b.c --> return type info about "c"
+            **/
+            this.findLastType = function(identifier) {
+                var vr     = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
+                var result = null;
+
+                if (vr) {
+                    result = vr;
+                    var parts = identifier.split('.');
+                    if (parts.length > 1) {
+                        var struct = result.struct;
+                        var i = 1;
+                        while (i < parts.length) {
+                            var field = struct.fields[parts[i]];
                             if (field) {
-                                offset = field.offset;
+                                result = field;
                                 struct = field.struct;
                             } else {
-                                // todo: Error
+                                result = null;
+                                break;
                             }
-                            k++;
+                            i++;
                         }
-                    } else {
-                        // todo: Error
                     }
+                }
+                return result;
+            };
 
-                    line = line.substr(0, i) + offset + line.substr(j, j - line.length);
-                    i    = line.indexOf('%offset(');
+            this.findMetaParam = function(line, param) {
+                param = param + '(';
+                var i = line.indexOf(param);
+                if (i === -1) {
+                    return false;
+                }
+
+                var j = line.indexOf(')', i);
+                var k = param.length;
+
+                return line.substr(i + k, j - i - k);
+            };
+
+            this.replaceMetaParam = function(line, param, value) {
+                param = param + '(';
+                var i = line.indexOf(param);
+                var j = line.indexOf(')', i);
+
+                return line.substr(0, i) + value + line.substr(j, j - line.length);
+            };
+
+            this.compileParams = function(line) {
+                var replacers = {
+                        '%offset': (function(line, param) {
+                            var type = this.findLastType(param);
+                            if (type === null) {
+                                // todo: error
+                            } else {
+                                line = this.replaceMetaParam(line, '%offset', type.offset);
+                            }
+                            return line;
+                        }).bind(this),
+                        '%sizeof': (function(line, param) {
+                            var type = this.findLastType(param);
+                            if (type === null) {
+                                // todo: error
+                            } else {
+                                line = this.replaceMetaParam(line, '%sizeof', type.size);
+                            }
+                            return line;
+                        }).bind(this)
+                    };
+
+                for (var replacer in replacers) {
+                    var param = this.findMetaParam(line, replacer);
+                    while (param) {
+                        line  = replacers[replacer](line, param);
+                        param = this.findMetaParam(line, replacer);
+                    }
                 }
 
                 return line;
@@ -113,40 +202,20 @@
                             result = '';
                             break;
 
-                        case '%ifglobal':
+                        case '%if_global':
+                            result       = '';
+                            lines[index] = '';
+                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(param));
+                            break;
+
+                        case '%if_struct':
                             result = '';
-                            if (this._compilerData.findGlobal(param)) {
-                                while (index < lines.length) {
-                                    if (lines[index] === '%else') {
-                                        lines[index] = '';
-                                        break;
-                                    }
-                                    index++;
-                                }
-                                while (index < lines.length) {
-                                    if (lines[index] === '%end') {
-                                        lines[index] = '';
-                                        break;
-                                    }
-                                    lines[index] = '';
-                                    index++;
-                                }
+                            var vr = this._compilerData.findGlobal(param) || this._compilerData.findLocal(param);
+                            if (vr) {
+                                lines[index] = '';
+                                this.updateConditionalLines(lines, index, !!vr.struct);
                             } else {
-                                while (index < lines.length) {
-                                    if (lines[index] === '%else') {
-                                        lines[index] = '';
-                                        break;
-                                    }
-                                    lines[index] = '';
-                                    index++;
-                                }
-                                while (index < lines.length) {
-                                    if (lines[index] === '%end') {
-                                        lines[index] = '';
-                                        break;
-                                    }
-                                    index++;
-                                }
+                                // todo: error
                             }
                             break;
                     }

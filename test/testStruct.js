@@ -274,25 +274,51 @@ describe(
                             '',
                             'proc main()',
                             '    Triangle t',
-                            '    set t.p1.x, 5',
-                            '    set t.p1.y, 2234',
-                            '    set t.p2.x, 45',
-                            '    set t.p2.y, 667',
+                            '    t.p1.x = 5',
+                            '    t.p1.y = 2234',
+                            '    t.p2.x = 45',
+                            '    t.p2.y = 667',
                             '',
                             '    number n',
                             '',
-                            '    set n, t.p1.x',
+                            '    n = t.p1.x',
                             '    printN(n)',
-                            '    set n, t.p1.y',
+                            '    n = t.p1.y',
                             '    printN(n)',
-                            '    set n, t.p2.x',
+                            '    n = t.p2.x',
                             '    printN(n)',
-                            '    set n, t.p2.y',
+                            '    n = t.p2.y',
                             '    printN(n)',
                             'endp'
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [5, 2234, 45, 667]);
+                });
+            }
+        );
+
+        describe(
+            'Struct assignment',
+            function() {
+                it('Should assign a local struct to a local struct', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A b',
+                            '    A c',
+                            '    c.x = 5',
+                            '    c.y = 157',
+                            '    b = c',
+                            '    printN(b.x)',
+                            '    printN(b.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [5, 157]);
                 });
             }
         );

@@ -179,18 +179,6 @@
                 return false;
             };
 
-            this.isStruct = function(s) {
-                for (var i = 1; i < s.length; i++) {
-                    if (s[i] === '.') {
-                        return true;
-                    }
-                    if (!wheel.compiler.compilerHelper.validateString(s[i])) {
-                        return false;
-                    }
-                }
-                return false;
-            };
-
             this.isComposite = function(s) {
                 for (var i = 1; i < s.length; i++) {
                     if ((s[i] === '.') || (s[i] === '[')) {
@@ -222,7 +210,7 @@
                             calculation = false;
                             result.push('%expect_struct ' + part.trim());
                             if (first) {
-                                result.push('%ifglobal ' + part);
+                                result.push('%if_global ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
                                 result.push('set ' + resultVar + ',REG_STACK');
@@ -240,7 +228,7 @@
                             calculation = false;
                             result.push('%expect_array ' + part.trim());
                             if (first) {
-                                result.push('%ifglobal ' + part);
+                                result.push('%if_global ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
                                 result.push('set ' + resultVar + ',REG_STACK');
@@ -339,21 +327,19 @@
                         this.compileCalculation(result, localVr, node.right, depth + 1, node.command);
                         result.push(node.command + ' ' + vr2 + ',' + vr3);
                     }
+                } else if (this.isComposite(node.value)) {
+                    var structVar = this.compileCompositeVar(result, node.value);
+                    this.declareNumber(result, localVr + '_' + depth);
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('set REG_STACK,' + structVar.result);
+                    result.push('set REG_DEST,%REG_STACK');
+                    result.push('set REG_STACK,REG_SRC');
+                    result.push(command + ' ' + vr1 + ',REG_DEST');
+                } else if (command === 'set') {
+                    this.declareNumber(result, localVr + '_' + depth);
+                    result.push('set ' + vr1 + ',' + node.value);
                 } else {
-                    if (this.isComposite(node.value)) {
-                        var structVar = this.compileCompositeVar(result, node.value);
-                        this.declareNumber(result, localVr + '_' + depth);
-                        result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + structVar.result);
-                        result.push('set REG_DEST,%REG_STACK');
-                        result.push('set REG_STACK,REG_SRC');
-                        result.push(command + ' ' + vr1 + ',REG_DEST');
-                    } else if (command === 'set') {
-                        this.declareNumber(result, localVr + '_' + depth);
-                        result.push('set ' + vr1 + ',' + node.value);
-                    } else {
-                        result.push(command + ' ' + vr1 + ',' + node.value);
-                    }
+                    result.push(command + ' ' + vr1 + ',' + node.value);
                 }
             };
 
