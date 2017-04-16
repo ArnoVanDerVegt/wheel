@@ -205,7 +205,7 @@
                 var value              = parts[1].trim();
                 var valueCalculation   = expressionCompiler.isCalculation(value);
                 var tempVar;
-
+//console.log('===>', line);
                 if (expressionCompiler.isComposite(vr)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, vr);
 
@@ -221,13 +221,36 @@
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
                     } else {
+//console.log('--->', value);
+                        result.push('%if_struct ' + vr);
+
+                        result.push('%if_global ' + vr);
+                        result.push('set REG_DEST,%offset(' + vr + ')');
+                        result.push('%else');
+                        result.push('set REG_DEST,REG_STACK');
+                        result.push('add REG_DEST,%offset(' + vr + ')');
+                        result.push('%end');
+
+                        result.push('%else');
+
                         result.push('set REG_DEST,' + value);
+
+                        result.push('%end');
                     }
+
+                    result.push('%if_struct ' + vr);
+
+                    result.push('set REG_SRC,' + structVar.result);
+                    result.push('copy %sizeof(' + vr + ')');
+
+                    result.push('%else');
 
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + structVar.result);
                     result.push('set %REG_STACK,REG_DEST');
                     result.push('set REG_STACK,REG_SRC');
+
+                    result.push('%end');
                 } else if (valueCalculation) {
                     tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
                     result.push('set ' + vr + ',' + tempVar + '_1');
@@ -436,7 +459,7 @@
                 }
 
                 for (var i = 0; i < output.length; i++) {
-                    console.log(i + ']', output[i]);
+                    //console.log(i + ']', output[i]);
                 }
                 return {
                     output:    output,
