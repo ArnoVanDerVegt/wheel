@@ -92,6 +92,37 @@
                 updateLines('%end',  conditionTrue);
             };
 
+            this.cleanIdentifier = function(identifier) {
+                var s = '';
+                var i = 0;
+
+                while (i < identifier.length) {
+                    var c = identifier[i++];
+                    switch (c) {
+                        case '[':
+                            open = 1;
+                            while (open) {
+                                c = identifier[i++];
+                                switch (c) {
+                                    case '[':
+                                        open++;
+                                        break;
+
+                                    case ']':
+                                        open--;
+                                        break;
+                                }
+                            }
+                            break;
+
+                        default:
+                            s += c;
+                            break;
+                    }
+                }
+                return s;
+            };
+
             /**
              * Get the last type of a composite type...
              *
@@ -99,6 +130,8 @@
              * a.b.c --> return type info about "c"
             **/
             this.findLastType = function(identifier) {
+                identifier = this.cleanIdentifier(identifier);
+
                 var vr     = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
                 var result = null;
 
@@ -150,6 +183,7 @@
                         '%offset': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
+                                console.error('offset Param', param, 'not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%offset', type.offset);
@@ -159,6 +193,7 @@
                         '%sizeof': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
+                                console.error('sizeof Param', param, 'not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%sizeof', type.size);
@@ -210,7 +245,8 @@
 
                         case '%if_struct':
                             result = '';
-                            var vr = this._compilerData.findGlobal(param) || this._compilerData.findLocal(param);
+                            var identifier = this.cleanIdentifier(param);
+                            var vr = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
                             if (vr) {
                                 lines[index] = '';
                                 this.updateConditionalLines(lines, index, !!vr.struct);

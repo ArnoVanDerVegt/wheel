@@ -221,7 +221,6 @@
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
                     } else {
-//console.log('--->', value);
                         result.push('%if_struct ' + vr);
 
                         result.push('%if_global ' + vr);
