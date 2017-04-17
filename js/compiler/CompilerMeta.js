@@ -245,8 +245,7 @@
 
                         case '%if_struct':
                             result = '';
-                            var identifier = this.cleanIdentifier(param);
-                            var vr = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
+                            var vr = this.findLastType(this.cleanIdentifier(param));
                             if (vr) {
                                 lines[index] = '';
                                 this.updateConditionalLines(lines, index, !!vr.struct);
