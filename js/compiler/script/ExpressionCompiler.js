@@ -194,10 +194,18 @@
             this.compileCompositeVar = function(result, vr, depth) {
                 depth || (depth = 0);
 
-                var part      = '';
-                var resultVar = this.createTempVarName();
-                var first     = true;
-                var i         = 0;
+                var part       = '';
+                var partsAdded = {};
+                var addPart = function(resultVar, part) {
+                        if (part in partsAdded) {
+                            return;
+                        }
+                        partsAdded[part] = true;
+                        result.push('add ' + resultVar + ',%offset(' + part + ')');
+                    };
+                var resultVar  = this.createTempVarName();
+                var first      = true;
+                var i          = 0;
 
                 this.declareNumber(result, resultVar);
 
@@ -208,16 +216,17 @@
                     switch (c) {
                         case '.':
                             calculation = false;
+                            result.push('%rem (1) ' + first + ' part:'+part);
                             result.push('%expect_struct ' + part.trim());
                             if (first) {
                                 result.push('%if_global ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
                                 result.push('set ' + resultVar + ',REG_STACK');
-                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                addPart(resultVar, part);
                                 result.push('%end');
                             } else {
-                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                addPart(resultVar, part);
                             }
 
                             first = false;
@@ -227,15 +236,16 @@
                         case '[':
                             calculation = false;
                             result.push('%expect_array ' + part.trim());
+                            result.push('%rem (2a) ' + first + ' part:'+part);
                             if (first) {
                                 result.push('%if_global ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
                                 result.push('set ' + resultVar + ',REG_STACK');
-                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                addPart(resultVar, part);
                                 result.push('%end');
                             } else {
-                                result.push('add ' + resultVar + ',%offset(' + part + ')');
+                                addPart(resultVar, part);
                             }
 
                             var index = '';
@@ -285,6 +295,7 @@
                             } else {
                                 result.push('add ' + resultVar + ',' + index);
                             }
+                            result.push('%rem (2b) ' + first + ' part:'+part);
 
                             first = false;
                             break;
@@ -294,7 +305,7 @@
                             break;
                     }
                 }
-                (part.indexOf('.') === -1) || result.push('add ' + resultVar + ',%offset(' + part + ')');
+                (part.indexOf('.') === -1) || addPart(resultVar, part);
 
                 return {
                     result:      resultVar,
