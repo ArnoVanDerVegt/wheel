@@ -237,6 +237,17 @@
                             result = '';
                             break;
 
+                        case '%if_size_1':
+                            result       = '';
+                            lines[index] = '';
+                            var vr = this.findLastType(this.cleanIdentifier(param));
+                            if (vr) {
+                                this.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
+                            } else {
+                                // todo: error
+                            }
+                            break;
+
                         case '%if_global':
                             result       = '';
                             lines[index] = '';

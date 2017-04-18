@@ -216,7 +216,6 @@
                     switch (c) {
                         case '.':
                             calculation = false;
-                            result.push('%rem (1) ' + first + ' part:'+part);
                             result.push('%expect_struct ' + part.trim());
                             if (first) {
                                 result.push('%if_global ' + part);
@@ -236,7 +235,6 @@
                         case '[':
                             calculation = false;
                             result.push('%expect_array ' + part.trim());
-                            result.push('%rem (2a) ' + first + ' part:'+part);
                             if (first) {
                                 result.push('%if_global ' + part);
                                 result.push('set ' + resultVar + ',%offset(' + part + ')');
@@ -291,11 +289,22 @@
                                     result.push('set REG_STACK,REG_SRC');
                                     result.push('set ' + indexVar.result + ',REG_DEST');
                                 }
+                                result.push('%if_size_1 ' + part);
                                 result.push('add ' + resultVar + ',' + indexVar.result);
+                                result.push('%else');
+                                result.push('set REG_SRC,' + indexVar.result);
+                                result.push('mul REG_SRC,%sizeof(' + part + ')');
+                                result.push('add ' + resultVar + ',REG_SRC');
+                                result.push('%end');
                             } else {
+                                result.push('%if_size_1 ' + part);
                                 result.push('add ' + resultVar + ',' + index);
+                                result.push('%else');
+                                result.push('set REG_SRC,' + index);
+                                result.push('mul REG_SRC,%sizeof(' + part + ')');
+                                result.push('add ' + resultVar + ',REG_SRC');
+                                result.push('%end');
                             }
-                            result.push('%rem (2b) ' + first + ' part:'+part);
 
                             first = false;
                             break;

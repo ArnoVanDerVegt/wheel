@@ -205,7 +205,7 @@
                 var value              = parts[1].trim();
                 var valueCalculation   = expressionCompiler.isCalculation(value);
                 var tempVar;
-//console.log('===>', line);
+
                 if (expressionCompiler.isComposite(vr)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, vr);
 
