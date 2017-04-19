@@ -344,7 +344,7 @@ describe(
                     assert.deepEqual(testData.messages, [456, 46, 567]);
                 });
 
-                it('Should assign a local struct with array field to a local struct', function() {
+                it('Should assign local array struct fields', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct A',
                             '    number x',
@@ -357,8 +357,8 @@ describe(
                             '    c[0].y = 51',
                             '    c[1].x = 900',
                             '    c[1].y = 34',
+                            '',
                             '    number n',
-
                             '    n = c[0].x',
                             '    printN(n)',
                             '    n = c[0].y',
@@ -371,6 +371,29 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [561, 51, 900, 34]);
+                });
+
+                it('Should use local array struct field params', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A c[2]',
+                            '    c[0].x = 56',
+                            '    c[0].y = 294',
+                            '    c[1].x = 540',
+                            '    c[1].y = 234',
+                            '    printN(c[0].x)',
+                            '    printN(c[0].y)',
+                            '    printN(c[1].x)',
+                            '    printN(c[1].y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [56, 294, 540, 234]);
                 });
             }
         );

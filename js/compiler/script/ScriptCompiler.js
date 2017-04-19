@@ -304,16 +304,20 @@
                 function addParam(value) {
                     var calculation = false;
                     var arrayIndex  = false;
+                    var composite   = false;
+
                     if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
-                        calculation = expressionCompiler.isCalculation(value);
-                        arrayIndex  = expressionCompiler.isArrayIndex(value);
-                        (calculation || arrayIndex) && (hasExpression = true);
+                        calculation   = expressionCompiler.isCalculation(value);
+                        arrayIndex    = expressionCompiler.isArrayIndex(value);
+                        composite     = expressionCompiler.isComposite(value);
+                        hasExpression = calculation || arrayIndex || composite;
                     }
 
                     p.push({
                         value:       value.trim(),
                         calculation: calculation,
-                        arrayIndex:  arrayIndex
+                        arrayIndex:  arrayIndex,
+                        composite:   composite
                     });
                 }
 
@@ -357,7 +361,7 @@
                 var outputParams = [];
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
-                    if (param.arrayIndex) {
+                    if (param.composite || param.arrayIndex) {
                         var structVar = expressionCompiler.compileCompositeVar(result, param.value);
                         tempVar = structVar.result;
                         result.push('set REG_SRC,REG_STACK');
