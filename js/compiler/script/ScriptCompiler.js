@@ -310,8 +310,8 @@
                         calculation   = expressionCompiler.isCalculation(value);
                         arrayIndex    = expressionCompiler.isArrayIndex(value);
                         composite     = expressionCompiler.isComposite(value);
-                        hasExpression = calculation || arrayIndex || composite;
                     }
+                    hasExpression = hasExpression || !!calculation || !!arrayIndex || composite;
 
                     p.push({
                         value:       value.trim(),
@@ -361,7 +361,9 @@
                 var outputParams = [];
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
-                    if (param.composite || param.arrayIndex) {
+                    if (param.calculation) {
+                        outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
+                    } else if (param.composite || param.arrayIndex) {
                         var structVar = expressionCompiler.compileCompositeVar(result, param.value);
                         tempVar = structVar.result;
                         result.push('set REG_SRC,REG_STACK');
@@ -370,8 +372,6 @@
                         result.push('set REG_STACK,REG_SRC');
                         result.push('set ' + tempVar + ',REG_DEST');
                         outputParams.push(tempVar);
-                    } else if (param.calculation) {
-                        outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else {
                         outputParams.push(param.value);
                     }
