@@ -459,6 +459,35 @@ describe(
 
                     assert.deepEqual(testData.messages, [78, 219, 494, 2232]);
                 });
+
+                it('Should assign local array struct with array, array fields', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'struct B',
+                            '    A a[2]',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    B c[2]',
+                            '    c[0].a[0].x = ' + ints[2],
+                            '    c[0].a[0].y = ' + ints[3],
+                            '    c[1].a[1].x = ' + ints[0],
+                            '    c[1].a[1].y = ' + ints[1],
+                            '',
+                            '    printN(c[1].a[1].x)',
+                            '    printN(c[1].a[1].y)',
+                            '    printN(c[0].a[0].x)',
+                            '    printN(c[0].a[0].y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ints);
+                });
             }
         );
     }
