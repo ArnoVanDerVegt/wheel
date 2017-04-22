@@ -60,11 +60,19 @@
                             return (i === -1) ? line : line.substr(0, i);
                         };
                     var updateLines = function(endCommand, clear) {
+                            var clearLine = function(index) {
+                                    lines[index] = '';
+                                };
+
                             var count = 1;
                             var done  = false;
                             while (!done && (index < lines.length)) {
                                 var command = commandFromLine(lines[index].trim());
                                 switch (command) {
+                                    case '%if_size_1':
+                                        count++;
+                                        break;
+
                                     case '%if_global':
                                         count++;
                                         break;
@@ -73,16 +81,20 @@
                                         count++;
                                         break;
 
+                                    case '%if_pointer':
+                                        count++;
+                                        break;
+
                                     default:
                                         if (command === endCommand) {
                                             count--;
                                             done = !count;
-                                            done && (lines[index] = '');
+                                            done && clearLine(index);
                                         }
                                         break;
                                 }
                                 if (!done) {
-                                    clear && (lines[index] = '');
+                                    clear && clearLine(index);
                                     index++;
                                 }
                             }
@@ -115,6 +127,9 @@
                             }
                             break;
 
+                        case '&':
+                            break;
+
                         default:
                             s += c;
                             break;
@@ -131,10 +146,8 @@
             **/
             this.findLastType = function(identifier) {
                 identifier = this.cleanIdentifier(identifier);
-
                 var vr     = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
                 var result = null;
-
                 if (vr) {
                     result = vr;
                     var parts = identifier.split('.');
@@ -183,7 +196,7 @@
                         '%offset': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
-                                console.error('offset Param', param, 'not found');
+                                throw new Error('offset Param', param, 'not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%offset', type.offset);
@@ -193,7 +206,7 @@
                         '%sizeof': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
-                                console.error('sizeof Param', param, 'not found');
+                                throw new Error('sizeof Param', param, 'not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%sizeof', type.size);
@@ -260,6 +273,17 @@
                             if (vr) {
                                 lines[index] = '';
                                 this.updateConditionalLines(lines, index, !!vr.struct);
+                            } else {
+                                // todo: error
+                            }
+                            break;
+
+                        case '%if_pointer':
+                            result = '';
+                            var vr = this.findLastType(this.cleanIdentifier(param));
+                            if (vr) {
+                                lines[index] = '';
+                                this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
                             } else {
                                 // todo: error
                             }

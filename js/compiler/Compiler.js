@@ -239,8 +239,10 @@
 
                 this._procStartIndex = -1;
                 this._activeStruct   = null;
+                var n=0;
                 for (var i = 0; i < lines.output.length; i++) {
                     var line = this._compilerMeta.compile(lines.output, lines.output[i].trim(), i);
+                    //(line === '') || console.log(n++, line);
                     this._location = sourceMap[i];
                     (line !== '') && this.compileLine(line);
                 }

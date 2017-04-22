@@ -56,6 +56,9 @@
                     compilerOutput.add(validatedCommand);
                 } else if ($.isProcType(param1) && $.isProcType(param2)) {
                     compilerOutput.add(validatedCommand);
+                } else if (param1.type === $.T_STRUCT_L) {
+                    param1.type = $.T_NUM_L;
+                    compilerOutput.add(validatedCommand);
                 }
             };
         })

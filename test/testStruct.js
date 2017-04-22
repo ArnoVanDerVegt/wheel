@@ -304,6 +304,7 @@ describe(
                 });
             }
         );
+
         describe(
             'Struct assignment',
             function() {
@@ -483,6 +484,59 @@ describe(
                             '    printN(c[1].a[1].y)',
                             '    printN(c[0].a[0].x)',
                             '    printN(c[0].a[0].y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ints);
+                });
+            }
+        );
+
+        describe(
+            'Composite struct pointers',
+            function() {
+                it('Should print pointer struct fields', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A *ptr',
+                            '    A a',
+                            '    ptr = &a',
+                            '    a.x = ' + ints[0],
+                            '    a.y = ' + ints[1],
+                            '    printN(ptr.x)',
+                            '    printN(ptr.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ints);
+                });
+
+                it('Should assign a local struct to a local struct', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'struct B',
+                            '    A *a',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A a',
+                            '    B b',
+                            '    b.a = &a',
+                            '    a.x = ' + ints[0],
+                            '    a.y = ' + ints[1],
+                            '    printN(b.a.x)',
+                            '    printN(b.a.y)',
                             'endp'
                         ])).testData;
 

@@ -56,6 +56,7 @@
     var ARGS_CGL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}];
     var ARGS_PPGPL              = [{type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L}];
     var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
+    var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
     var ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
     var ARGS_LABEL              = [{type: T_LABEL}];
     var ARGS_ALL                = [
@@ -66,7 +67,8 @@
             {type: T_PROC_G},
             {type: T_PROC_L},
             {type: T_STRUCT_G},
-            {type: T_STRUCT_L}
+            {type: T_STRUCT_L},
+            {type: T_STRUCT_L, metaType: T_META_ADDRESS}
         ];
     var ARGS_CGL_ALL            = [
             {type: T_NUM_C, args: ARGS_ALL},
@@ -134,11 +136,13 @@
             set: {
                 code: 4,
                 args: [
-                    {type: T_NUM_G,          args: ARGS_CGLP},
-                    {type: T_NUM_L,          args: ARGS_CGLP},
+                    {type: T_NUM_G,          args: ARGS_ALL},  // ARGS_CGLP},
+                    {type: T_NUM_L,          args: ARGS_ALL},  // ARGS_CGLP},
                     {type: T_PROC_G,         args: ARGS_PPGPL},
                     {type: T_PROC_L,         args: ARGS_PPGPL},
+                    {type: T_STRUCT_L,       args: ARGS_ALL},  //
                     {type: T_STRUCT_L,       args: ARGS_SGSL_MPMA,       metaType: T_META_POINTER},
+                    {type: T_STRUCT_G,       args: ARGS_ALL},  //
                     {type: T_STRUCT_G,       args: ARGS_SGSL_MPMA,       metaType: T_META_POINTER},
                     {type: T_STRUCT_G_ARRAY, args: ARGS_SGSL_ARRAY_MPMA, metaType: T_META_POINTER},
                     {type: T_STRUCT_L_ARRAY, args: ARGS_SGSL_ARRAY_MPMA, metaType: T_META_POINTER}

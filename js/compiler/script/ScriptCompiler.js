@@ -207,7 +207,7 @@
                 var tempVar;
 
                 if (expressionCompiler.isComposite(vr)) {
-                    var structVar = expressionCompiler.compileCompositeVar(result, vr);
+                    var structVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
 
                     if (valueCalculation) {
                         tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
@@ -221,34 +221,56 @@
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
                     } else {
-                        result.push('%if_struct ' + vr);
-
-                        result.push('%if_global ' + vr);
-                        result.push('set REG_DEST,%offset(' + vr + ')');
+                        var tempPointerVar = expressionCompiler.createTempVarName();
+                        result.push('%if_pointer ' + vr);
+                        if (value.substr(0, 1) === '&') {
+                            result.push('        %if_global ' + value);
+                            result.push('            set REG_DEST,%offset(' + value + ')');
+                            result.push('        %else');
+                            result.push('            set REG_DEST,REG_STACK');
+                            result.push('            add REG_DEST,%offset(' + value + ')');
+                            result.push('        %end');
+                        } else {
+                            result.push('    set REG_DEST,' + value);
+                        }
                         result.push('%else');
-                        result.push('set REG_DEST,REG_STACK');
-                        result.push('add REG_DEST,%offset(' + vr + ')');
-                        result.push('%end');
-
-                        result.push('%else');
-
-                        result.push('set REG_DEST,' + value);
-
+                        result.push('    %if_struct ' + vr);
+                        result.push('        %if_global ' + vr);
+                        result.push('            set REG_DEST,%offset(' + vr + ')');
+                        result.push('        %else');
+                        result.push('            set REG_DEST,REG_STACK');
+                        result.push('            add REG_DEST,%offset(' + vr + ')');
+                        result.push('        %end');
+                        result.push('    %else');
+                        if (value.substr(0, 1) === '&') {
+                            result.push('        %if_global ' + value);
+                            result.push('            set REG_DEST,%offset(' + value + ')');
+                            result.push('        %else');
+                            result.push('            set REG_DEST,REG_STACK');
+                            result.push('            add REG_DEST,%offset(' + value + ')');
+                            result.push('        %end');
+                        } else {
+                            result.push('    set REG_DEST,' + value);
+                        }
+                        result.push('    %end');
                         result.push('%end');
                     }
 
-                    result.push('%if_struct ' + vr);
-
-                    result.push('set REG_SRC,' + structVar.result);
-                    result.push('copy %sizeof(' + vr + ')');
-
+                    result.push('%if_pointer ' + vr);
+                    result.push('    set REG_SRC,REG_STACK');
+                    result.push('    set REG_STACK,' + structVar.result);
+                    result.push('    set %REG_STACK,REG_DEST');
+                    result.push('    set REG_STACK,REG_SRC');
                     result.push('%else');
-
-                    result.push('set REG_SRC,REG_STACK');
-                    result.push('set REG_STACK,' + structVar.result);
-                    result.push('set %REG_STACK,REG_DEST');
-                    result.push('set REG_STACK,REG_SRC');
-
+                    result.push('    %if_struct ' + vr);
+                    result.push('        set REG_SRC,' + structVar.result);
+                    result.push('        copy %sizeof(' + vr + ')');
+                    result.push('    %else');
+                    result.push('        set REG_SRC,REG_STACK');
+                    result.push('        set REG_STACK,' + structVar.result);
+                    result.push('        set %REG_STACK,REG_DEST');
+                    result.push('        set REG_STACK,REG_SRC');
+                    result.push('    %end');
                     result.push('%end');
                 } else if (valueCalculation) {
                     tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
@@ -256,7 +278,6 @@
                 } else if (expressionCompiler.isComposite(value)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, value);
                     var tempVar = structVar.result;
-
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + tempVar);
                     result.push('set REG_DEST,%REG_STACK');
@@ -265,28 +286,38 @@
                     result.push('set ' + vr + ',' + tempVar);
                 } else {
                     vr = vr.trim();
+                    result.push('%if_pointer ' + vr);
 
-                    result.push('%if_struct ' + vr);
-
-                    result.push('%if_global ' + vr);
-                    result.push('set REG_DEST,%offset(' + vr + ')');
-                    result.push('%else');
-                    result.push('set REG_DEST,REG_STACK');
-                    result.push('add REG_DEST,%offset(' + vr + ')');
-                    result.push('%end');
-
-                    result.push('%if_global ' + value);
-                    result.push('set REG_SRC,%offset(' + value + ')');
-                    result.push('%else');
-                    result.push('set REG_SRC,REG_STACK');
-                    result.push('add REG_SRC,%offset(' + value + ')');
-                    result.push('%end');
-
-                    result.push('copy %sizeof(' + vr + ')');
+                    if (value.substr(0, 1) === '&') {
+                        result.push('    %if_global ' + value);
+                        result.push('        set REG_DEST,%offset(' + value + ')');
+                        result.push('    %else');
+                        result.push('        set REG_DEST,REG_STACK');
+                        result.push('        add REG_DEST,%offset(' + value + ')');
+                        result.push('    %end');
+                        result.push('    ' + operator.command + ' ' + vr + ',REG_DEST');
+                    } else {
+                        result.push('    ' + operator.command + ' ' + vr + ',' + value);
+                    }
 
                     result.push('%else');
-
-                    result.push(operator.command + ' ' + vr + ',' + value);
+                    result.push('    %if_struct ' + vr);
+                    result.push('        %if_global ' + vr);
+                    result.push('            set REG_DEST,%offset(' + vr + ')');
+                    result.push('        %else');
+                    result.push('            set REG_DEST,REG_STACK');
+                    result.push('            add REG_DEST,%offset(' + vr + ')');
+                    result.push('        %end');
+                    result.push('        %if_global ' + value);
+                    result.push('            set REG_SRC,%offset(' + value + ')');
+                    result.push('        %else');
+                    result.push('            set REG_SRC,REG_STACK');
+                    result.push('            add REG_SRC,%offset(' + value + ')');
+                    result.push('        %end');
+                    result.push('        copy %sizeof(' + vr + ')');
+                    result.push('    %else');
+                    //result.push('        ' + operator.command + ' ' + vr + ',' + value);
+                    result.push('    %end');
                     result.push('%end');
                 }
 

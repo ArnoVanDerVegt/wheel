@@ -88,6 +88,8 @@ exports.compileAndRun = function(lines) {
     var compilerData   = compiler.getCompilerData();
     var vmData         = vm.getVMData();
 
+    //console.log(outputCommands.getLines());
+
     vm.runAll(
         outputCommands,
         compilerData.getStringList(),

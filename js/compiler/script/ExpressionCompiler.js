@@ -191,17 +191,35 @@
                 return false;
             };
 
-            this.compileCompositeVar = function(result, vr, depth) {
+            this.compileCompositeVar = function(result, vr, depth, forWriting) {
                 depth || (depth = 0);
 
-                var part       = '';
-                var partsAdded = {};
-                var addPart = function(resultVar, part) {
+                var part        = '';
+                var partsAdded  = {};
+                var lastOffset1 = false;
+                var lastOffset2 = false;
+                var lastCommand = '';
+
+                var addPart = function(resultVar, part, indent) {
+                        indent || (indent = '');
                         if (part in partsAdded) {
                             return;
                         }
                         partsAdded[part] = true;
-                        result.push('add ' + resultVar + ',%offset(' + part + ')');
+                        lastOffset1 = result.length;
+                        result.push(indent + '%if_pointer ' + part);
+                        result.push(indent + '    add ' + resultVar + ',%offset(' + part + ')');
+                        result.push(indent + '    set REG_SRC,REG_STACK');
+                        result.push(indent + '    set REG_STACK,' + resultVar);
+                        result.push(indent + '    set REG_DEST,%REG_STACK');
+                        result.push(indent + '    set REG_STACK,REG_SRC');
+                        result.push(indent + '    set ' + resultVar + ',REG_DEST');
+                        result.push(indent + '%else');
+                        result.push(indent + '    add ' + resultVar + ',%offset(' + part + ')');
+                        result.push(indent + '%end');
+
+                        lastCommand = indent + '    add ' + resultVar + ',%offset(' + part + ')';
+                        lastOffset2 = result.length;
                     };
                 var resultVar  = this.createTempVarName();
                 var first      = true;
@@ -219,11 +237,24 @@
                             result.push('%expect_struct ' + part.trim());
                             if (first) {
                                 result.push('%if_global ' + part);
-                                result.push('set ' + resultVar + ',%offset(' + part + ')');
+                                result.push('    set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
-                                result.push('set ' + resultVar + ',REG_STACK');
-                                addPart(resultVar, part);
+                                result.push('    set ' + resultVar + ',REG_STACK');
+                                addPart(resultVar, part, '    ');
                                 result.push('%end');
+
+                                /*lastOffset1 = result.length;
+                                result.push('%rem ' + part + ' ---> ' + vr);
+                                result.push('%if_pointer ' + part);
+                                result.push('    set REG_SRC,REG_STACK');
+                                result.push('    set REG_STACK,' + resultVar);
+                                result.push('    set REG_DEST,%REG_STACK');
+                                result.push('    set REG_STACK,REG_SRC');
+                                result.push('    set ' + resultVar + ',REG_DEST');
+                                result.push('%else');
+                                result.push('%end');
+                                lastOffset2 = result.length;
+                                lastCommand = '';*/
                             } else {
                                 addPart(resultVar, part);
                             }
@@ -237,10 +268,10 @@
                             result.push('%expect_array ' + part.trim());
                             if (first) {
                                 result.push('%if_global ' + part);
-                                result.push('set ' + resultVar + ',%offset(' + part + ')');
+                                result.push('    set ' + resultVar + ',%offset(' + part + ')');
                                 result.push('%else');
-                                result.push('set ' + resultVar + ',REG_STACK');
-                                addPart(resultVar, part);
+                                result.push('    set ' + resultVar + ',REG_STACK');
+                                addPart(resultVar, part, '    ');
                                 result.push('%end');
                             } else {
                                 addPart(resultVar, part);
@@ -290,19 +321,19 @@
                                     result.push('set ' + indexVar.result + ',REG_DEST');
                                 }
                                 result.push('%if_size_1 ' + part);
-                                result.push('add ' + resultVar + ',' + indexVar.result);
+                                result.push('    add ' + resultVar + ',' + indexVar.result);
                                 result.push('%else');
-                                result.push('set REG_SRC,' + indexVar.result);
-                                result.push('mul REG_SRC,%sizeof(' + part + ')');
-                                result.push('add ' + resultVar + ',REG_SRC');
+                                result.push('    set REG_SRC,' + indexVar.result);
+                                result.push('    mul REG_SRC,%sizeof(' + part + ')');
+                                result.push('    add ' + resultVar + ',REG_SRC');
                                 result.push('%end');
                             } else {
                                 result.push('%if_size_1 ' + part);
-                                result.push('add ' + resultVar + ',' + index);
+                                result.push('    add ' + resultVar + ',' + index);
                                 result.push('%else');
-                                result.push('set REG_SRC,' + index);
-                                result.push('mul REG_SRC,%sizeof(' + part + ')');
-                                result.push('add ' + resultVar + ',REG_SRC');
+                                result.push('    set REG_SRC,' + index);
+                                result.push('    mul REG_SRC,%sizeof(' + part + ')');
+                                result.push('    add ' + resultVar + ',REG_SRC');
                                 result.push('%end');
                             }
 
@@ -315,6 +346,11 @@
                     }
                 }
                 (part.indexOf('.') === -1) || addPart(resultVar, part);
+
+                if (forWriting && (lastOffset1 !== false) && (lastOffset2 !== false)) {
+                    result.splice(lastOffset1, lastOffset2 - lastOffset1 - 1);
+                    result[lastOffset1] = lastCommand;
+                }
 
                 return {
                     result:      resultVar,
