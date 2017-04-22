@@ -98,6 +98,17 @@ exports.compileAndRun = function(lines) {
     return {testData: testData, outputCommands: outputCommands, compilerData: compilerData};
 };
 
+exports.randomInts = function(count) {
+    if (count === undefined) {
+        return Math.round(Math.random() * 65536 - 32768);
+    }
+    var result = [];
+    while (result.length < count) {
+        result.push(Math.round(Math.random() * 65536 - 32768));
+    }
+    return result;
+}
+
 exports.standardLines = [
     'proc printN(number n)',
     '    struct PrintNumber',

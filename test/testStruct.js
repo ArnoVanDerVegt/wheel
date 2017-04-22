@@ -38,32 +38,33 @@ describe(
                 });
 
                 it('Should set global struct fields', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun([
                             'struct S',
                             '    number x, y, z',
                             'ends',
                             'S s',
                             'proc main()',
-                            '    set s.x, 7',
-                            '    set s.y, 13',
-                            '    set s.z, 19',
+                            '    set s.x, ' + ints[0],
+                            '    set s.y, ' + ints[1],
+                            '    set s.z, ' + ints[2],
                             'endp'
                         ]).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
-                            9,      // REG_OFFSET_STACK
-                            0,      // REG_OFFSET_SRC
-                            65535,  // REG_OFFSET_DEST
-                            65536,  // REG_OFFSET_CODE
-                            0,      // REG_RETURN
-                            0,      // REG_FLAGS
-                            7,      // global struct offset
-                            13,
-                            19,
-                            9,      // stack pointer
-                            65535,  // return code offset
+                            9,       // REG_OFFSET_STACK
+                            0,       // REG_OFFSET_SRC
+                            65535,   // REG_OFFSET_DEST
+                            65536,   // REG_OFFSET_CODE
+                            0,       // REG_RETURN
+                            0,       // REG_FLAGS
+                            ints[0], // global struct offset
+                            ints[1],
+                            ints[2],
+                            9,       // stack pointer
+                            65535,   // return code offset
                         ]
                     );
                 });
@@ -94,15 +95,16 @@ describe(
                 });
 
                 it('Should set local struct fields', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun([
                             'struct S',
                             '    number x, y, z',
                             'ends',
                             'proc main()',
                             '   S s',
-                            '   set s.x, 56',
-                            '   set s.y, 90',
-                            '   set s.z, 45',
+                            '   set s.x, ' + ints[0],
+                            '   set s.y, ' + ints[1],
+                            '   set s.z, ' + ints[2],
                             'endp'
                         ]).testData;
 
@@ -117,9 +119,9 @@ describe(
                             0,      // REG_FLAGS
                             6,      // stack pointer
                             65535,  // return code offset
-                            56,
-                            90,
-                            45
+                            ints[0],
+                            ints[1],
+                            ints[2]
                         ]
                     );
                 });
@@ -130,6 +132,7 @@ describe(
             'Structs and pointers',
             function() {
                 it('Should set values of a struct pointer', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -142,18 +145,19 @@ describe(
                             '    Point *pp',
                             '    set pp, &p',
                             '',
-                            '    set *pp.x, -472',
-                            '    set *pp.y, 58',
+                            '    set *pp.x, ' + ints[0],
+                            '    set *pp.y, ' + ints[1],
                             '',
                             '    printN(p.x)',
                             '    printN(p.y)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [-472, 58]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should get derefferenced local/local struct pointer values', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -162,8 +166,8 @@ describe(
                             '',
                             'proc main()',
                                 'Point p1',
-                                'set p1.x, -678',
-                                'set p1.y, 37',
+                                'set p1.x, ' + ints[1],
+                                'set p1.y, ' + ints[0],
                                 'Point *p2',
                                 'set p2, &p1',
                                 '',
@@ -175,10 +179,11 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should get derefferenced local/global struct pointer values', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -189,8 +194,8 @@ describe(
                             '',
                             'proc main()',
                                 'Point p1',
-                                'set p1.x, -678',
-                                'set p1.y, 37',
+                                'set p1.x, ' + ints[1],
+                                'set p1.y, ' + ints[0],
                                 'set p2, &p1',
                                 '',
                                 'number n',
@@ -201,10 +206,11 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should get derefferenced global/global struct pointer values', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -215,8 +221,8 @@ describe(
                             'Point p1',
                             '',
                             'proc main()',
-                                'set p1.x, -678',
-                                'set p1.y, 37',
+                                'set p1.x, ' + ints[1],
+                                'set p1.y, ' + ints[0],
                                 'set p2, &p1',
                                 '',
                                 'number n',
@@ -227,10 +233,11 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [37, -678]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should pass a struct pointer to a procedure', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -238,8 +245,8 @@ describe(
                             'ends',
                             '',
                             'proc testPointer(Point *p)',
-                            '    set *p.x, 38934',
-                            '    set *p.y, -2978',
+                            '    set *p.x, ' + ints[0],
+                            '    set *p.y, ' + ints[1],
                             'endp',
                             '',
                             'proc main()',
@@ -251,7 +258,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [38934, -2978]);
+                    assert.deepEqual(testData.messages, ints);
                 });
             }
         );
@@ -260,6 +267,7 @@ describe(
             'Nested structs',
             function() {
                 it('Should nest a struct', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct Point',
                             '    number x',
@@ -274,10 +282,10 @@ describe(
                             '',
                             'proc main()',
                             '    Triangle t',
-                            '    t.p1.x = 5',
-                            '    t.p1.y = 2234',
-                            '    t.p2.x = 45',
-                            '    t.p2.y = 667',
+                            '    t.p1.x = ' + ints[0],
+                            '    t.p1.y = ' + ints[1],
+                            '    t.p2.x = ' + ints[2],
+                            '    t.p2.y = ' + ints[3],
                             '',
                             '    number n',
                             '',
@@ -292,7 +300,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [5, 2234, 45, 667]);
+                    assert.deepEqual(testData.messages, ints);
                 });
             }
         );
@@ -300,6 +308,7 @@ describe(
             'Struct assignment',
             function() {
                 it('Should assign a local struct to a local struct', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct A',
                             '    number x',
@@ -309,18 +318,19 @@ describe(
                             'proc main()',
                             '    A b',
                             '    A c',
-                            '    c.x = 5',
-                            '    c.y = 157',
+                            '    c.x = ' + ints[0],
+                            '    c.y = ' + ints[1],
                             '    b = c',
                             '    printN(b.x)',
                             '    printN(b.y)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [5, 157]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should assign a local struct with array field to a local struct', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct A',
                             '    number x',
@@ -330,9 +340,9 @@ describe(
                             'proc main()',
                             '    A b',
                             '    A c',
-                            '    c.x = 456',
-                            '    c.y[0] = 567',
-                            '    c.y[1] = 46',
+                            '    c.x = ' + ints[0],
+                            '    c.y[0] = ' + ints[2],
+                            '    c.y[1] = ' + ints[1],
                             '    b = c',
                             '    printN(b.x)',
                             '    printN(b.y[1])',
@@ -340,10 +350,11 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [456, 46, 567]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should assign local array struct fields', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct A',
                             '    number x',
@@ -352,10 +363,10 @@ describe(
                             '',
                             'proc main()',
                             '    A c[2]',
-                            '    c[0].x = 561',
-                            '    c[0].y = 51',
-                            '    c[1].x = 900',
-                            '    c[1].y = 34',
+                            '    c[0].x = ' + ints[0],
+                            '    c[0].y = ' + ints[1],
+                            '    c[1].x = ' + ints[2],
+                            '    c[1].y = ' + ints[3],
                             '',
                             '    number n',
                             '    n = c[0].x',
@@ -369,10 +380,11 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [561, 51, 900, 34]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should use local array struct field params', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'struct A',
                             '    number x',
@@ -381,10 +393,10 @@ describe(
                             '',
                             'proc main()',
                             '    A c[2]',
-                            '    c[0].x = 56',
-                            '    c[0].y = 294',
-                            '    c[1].x = 540',
-                            '    c[1].y = 234',
+                            '    c[0].x = ' + ints[0],
+                            '    c[0].y = ' + ints[1],
+                            '    c[1].x = ' + ints[2],
+                            '    c[1].y = ' + ints[3],
                             '    printN(c[0].x)',
                             '    printN(c[0].y)',
                             '    printN(c[1].x)',
@@ -392,7 +404,7 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [56, 294, 540, 234]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should assign local array struct with array fields', function() {
@@ -404,10 +416,10 @@ describe(
                             '',
                             'proc main()',
                             '    A c[2]',
-                            '    c[0].x[0] = 561',
-                            '    c[0].y[1] = 51',
-                            '    c[1].x[1] = 900',
-                            '    c[1].y[0] = 34',
+                            '    c[0].x[0] = 67',
+                            '    c[0].y[1] = 678',
+                            '    c[1].x[1] = 43',
+                            '    c[1].y[0] = 1614',
                             '',
                             '    number n',
                             '    n = c[0].x[0]',
@@ -421,7 +433,31 @@ describe(
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [561, 51, 900, 34]);
+                    assert.deepEqual(testData.messages, [67, 678, 43, 1614]);
+                });
+
+                it('Should assign local array struct with array field params', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x[2]',
+                            '    number y[2]',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A c[2]',
+                            '    c[0].x[0] = 78',
+                            '    c[0].y[1] = 219',
+                            '    c[1].x[1] = 494',
+                            '    c[1].y[0] = 2232',
+                            '',
+                            '    printN(c[0].x[0])',
+                            '    printN(c[0].y[1])',
+                            '    printN(c[1].x[1])',
+                            '    printN(c[1].y[0])',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [78, 219, 494, 2232]);
                 });
             }
         );
