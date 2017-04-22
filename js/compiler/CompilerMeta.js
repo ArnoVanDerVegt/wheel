@@ -61,6 +61,7 @@
                         };
                     var updateLines = function(endCommand, clear) {
                             var clearLine = function(index) {
+                                    //console.log(index, '>'+lines[index]);
                                     lines[index] = '';
                                 };
 
@@ -284,6 +285,9 @@
                             if (vr) {
                                 lines[index] = '';
                                 this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
+                            } else if (!isNaN(vr)) {
+                                lines[index] = '';
+                                this.updateConditionalLines(lines, index, false);
                             } else {
                                 // todo: error
                             }

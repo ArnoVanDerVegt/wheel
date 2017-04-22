@@ -297,7 +297,10 @@
                         result.push('    %end');
                         result.push('    ' + operator.command + ' ' + vr + ',REG_DEST');
                     } else {
-                        result.push('    ' + operator.command + ' ' + vr + ',' + value);
+                        result.push('    set REG_SRC,REG_STACK');
+                        result.push('    set REG_STACK,' + vr);
+                        result.push('    ' + operator.command + ' %REG_STACK,' + value);
+                        result.push('    set REG_STACK,REG_SRC');
                     }
 
                     result.push('%else');
@@ -384,9 +387,9 @@
                 }
                 (param.trim() !== '') && addParam(param);
 
-                if (!hasExpression) {
-                    return [line];
-                }
+                //if (!hasExpression) {
+                //    return [line];
+                //}
 
                 var result       = [];
                 var outputParams = [];
@@ -404,6 +407,21 @@
                         result.push('set ' + tempVar + ',REG_DEST');
                         outputParams.push(tempVar);
                     } else {
+                        /*var tempParamVar = expressionCompiler.createTempVarName();
+                        result.push('number ' + tempParamVar);
+                        result.push('%if_pointer ' + param.value);
+                        result.push('    set  REG_SRC, REG_STACK');
+                        result.push('    set  REG_STACK,' + param.value);
+                        result.push('    set  REG_DEST, %REG_STACK');
+                        result.push('    set  REG_STACK,REG_SRC');
+                        result.push('    set  ' + tempParamVar + ',REG_DEST');
+                        result.push('%else');
+                        result.push('    %if_struct ' + param.value);
+                        result.push('        number ' + tempParamVar);
+                        result.push('    %else');
+                        result.push('        set  ' + tempParamVar + ',' + param.value);
+                        result.push('    %end');
+                        result.push('%end');*/
                         outputParams.push(param.value);
                     }
                 }

@@ -139,9 +139,9 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set p.x, 1656',
-                            '    set p.y, 98',
-                            '    set p.z, 75',
+                            '    p.x = 1656',
+                            '    p.y = 98',
+                            '    p.z = 75',
                             '    printPoint(p)',
                             'endp'
                         ])).testData;

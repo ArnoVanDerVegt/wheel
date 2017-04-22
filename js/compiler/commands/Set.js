@@ -22,6 +22,7 @@
                     $.isStringMetaType(param2) && (param2.value = compilerData.declareString(param2.value));
                     compilerOutput.add(validatedCommand);
                 } else if ($.isPointerVarMetaType(param1) && $.isAddressMetaType(param2)) {
+                    //console.log('--------2')
                     compilerOutput.a($.set.code, $.DEST(), $.CONST(param2.value));
                     $.isLocal(param2) && compilerOutput.a($.add.code, $.DEST(), $.STACK());
                     param1.type  = $.isLocal(param1) ? $.T_NUM_L : $.T_NUM_G;
@@ -29,11 +30,15 @@
                     param2.value = $.REG_DEST;
                     compilerOutput.add(validatedCommand);
                 } else if ($.isSimpleNumberType(param1) && $.isPointerVarMetaType(param1)) {
-                    compilerOutput.a($.set.code, $.DEST(),        param2);
-                    compilerOutput.a($.set.code, $.SRC(),         $.STACK());
-                    this.addSetStackParam1(param1);
-                    compilerOutput.a($.set.code, $.LOCAL(0),      $.DEST());
-                    compilerOutput.a($.set.code, $.STACK(),       $.SRC());
+                    //console.log('--------3', param1, param2);
+
+                    compilerOutput.add(validatedCommand);
+
+                    //compilerOutput.a($.set.code, $.DEST(),        param2);
+                    //compilerOutput.a($.set.code, $.SRC(),         $.STACK());
+                    //this.addSetStackParam1(param1);
+                    //compilerOutput.a($.set.code, $.LOCAL(0),      $.DEST());
+                    //compilerOutput.a($.set.code, $.STACK(),       $.SRC());
                 } else if ($.isPointerMetaType(param1)) {
                     offset = compilerData.getStructOffset(param1);
                     compilerOutput.a($.set.code, $.DEST(),        param2);
