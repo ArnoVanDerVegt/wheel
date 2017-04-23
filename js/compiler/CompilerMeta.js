@@ -46,6 +46,18 @@
                 var parts = param.split('.');
                 var vr    = this.findVar(parts[0]);
                 if (vr) {
+                    var i = 1;
+                    if (parts.length > 1) {
+                        var struct = vr.struct;
+                        for (var i = 1; i < parts.length; i++) {
+                            var field = struct.fields[parts[i]];
+                            if (!field) {
+                                // todo: error
+                            }
+                            field.struct && (struct = field.struct);
+                        }
+                        vr = struct;
+                    }
                     if (vr.length <= 1) {
                         throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_ARRAY_EXPECTED, 'Type error.');
                     }
