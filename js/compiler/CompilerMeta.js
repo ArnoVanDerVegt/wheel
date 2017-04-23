@@ -197,7 +197,7 @@
                         '%offset': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
-                                throw new Error('offset Param', param, 'not found');
+                                throw new Error('offset Param "' + param + '" not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%offset', type.offset);
@@ -207,7 +207,7 @@
                         '%sizeof': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
-                                throw new Error('sizeof Param', param, 'not found');
+                                throw new Error('sizeof Param "' + param + '" not found');
                                 // todo: error
                             } else {
                                 line = this.replaceMetaParam(line, '%sizeof', type.size);

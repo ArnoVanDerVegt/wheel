@@ -60,7 +60,7 @@ describe(
                         '',
                         'proc main()',
                         '    number n',
-                        '    set n, 6.3',
+                        '    n = 6.3',
                         '    number *pn',
                         '    addr n',
                         '    module   MODULE_MATH, MATH_ROUND',

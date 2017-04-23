@@ -164,24 +164,15 @@
                     return node;
                 }
 
-/*
-                for (var i = 0; i < operators.length; i++) {
-                    var operator = operators[i];
-                    var j        = value.indexOf(operator);
-                    if (j !== -1) {
-                        var node = createNode(value);
-                        parseExpression(node);
-                        return node;
-                    }
-                }
-*/
-
                 return false;
             };
 
             this.isComposite = function(s) {
                 for (var i = 1; i < s.length; i++) {
-                    if ((s[i] === '.') || (s[i] === '[')) {
+                    if (s[i] === '[') {
+                        return true;
+                    }
+                    if ((s[i] === '.') && ('0123456789'.indexOf(s[i - 1]) === -1)) {
                         return true;
                     }
                     if (!wheel.compiler.compilerHelper.validateString(s[i])) {
