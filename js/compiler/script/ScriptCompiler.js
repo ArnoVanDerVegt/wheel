@@ -256,9 +256,10 @@
                     }
 
                     result.push('%if_pointer ' + vr);
+                    result.push('    %rem operator ' + operator.command); // Rem test, should be ignored...
                     result.push('    set REG_SRC,REG_STACK');
                     result.push('    set REG_STACK,' + structVar.result);
-                    result.push('    set %REG_STACK,REG_DEST');
+                    result.push('    ' + operator.command + ' %REG_STACK,REG_DEST');
                     result.push('    set REG_STACK,REG_SRC');
                     result.push('%else');
                     result.push('    %if_struct ' + vr);
@@ -267,7 +268,7 @@
                     result.push('    %else');
                     result.push('        set REG_SRC,REG_STACK');
                     result.push('        set REG_STACK,' + structVar.result);
-                    result.push('        set %REG_STACK,REG_DEST');
+                    result.push('        ' + operator.command + ' %REG_STACK,REG_DEST');
                     result.push('        set REG_STACK,REG_SRC');
                     result.push('    %end');
                     result.push('%end');

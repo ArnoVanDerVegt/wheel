@@ -548,6 +548,61 @@ describe(
 
                     assert.deepEqual(testData.messages, ints);
                 });
+
+                it('Should assign a local struct to a local struct, multiply params', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'struct B',
+                            '    A *a',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A a',
+                            '    B b',
+                            '    b.a = &a',
+                            '    a.x = ' + ints[0],
+                            '    a.y = ' + ints[1],
+                            '    printN(b.a.x * ' + Math.abs(ints[2]) + ')', // todo: -
+                            '    printN(b.a.y * ' + Math.abs(ints[3]) + ')', // todo: -
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [ints[0] * Math.abs(ints[2]), ints[1] * Math.abs(ints[3])]);
+                });
+
+                it('Should assign a local struct to a local struct, multiply fields', function() {
+                    var ints     = compilerTestUtils.randomInts(4);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'struct A',
+                            '    number x',
+                            '    number y',
+                            'end',
+                            '',
+                            'struct B',
+                            '    A *a',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A a',
+                            '    B b',
+                            '    b.a = &a',
+                            '    number n',
+                            '    a.x = ' + ints[0],
+                            '    a.y = ' + ints[1],
+                            '    b.a.x *= ' + ints[2],
+                            '    printN(b.a.x)',
+                            '    b.a.y *= ' + ints[3],
+                            '    printN(b.a.y)',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [ints[0] * ints[2], ints[1] * ints[3]]);
+                });
             }
         );
     }
