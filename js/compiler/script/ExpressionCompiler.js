@@ -172,7 +172,7 @@
                     if (s[i] === '[') {
                         return true;
                     }
-                    if ((s[i] === '.') && ('0123456789'.indexOf(s[i - 1]) === -1)) {
+                    if ((s[i] === '.') && ('0123456789'.indexOf(s[i + 1]) === -1)) {
                         return true;
                     }
                     if (!wheel.compiler.compilerHelper.validateString(s[i])) {

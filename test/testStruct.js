@@ -45,9 +45,9 @@ describe(
                             'ends',
                             'S s',
                             'proc main()',
-                            '    set s.x, ' + ints[0],
-                            '    set s.y, ' + ints[1],
-                            '    set s.z, ' + ints[2],
+                            '    s.x = ' + ints[0],
+                            '    s.y = ' + ints[1],
+                            '    s.z = ' + ints[2],
                             'endp'
                         ]).testData;
 
@@ -55,7 +55,7 @@ describe(
                         testData.vm.getVMData().getData(),
                         [
                             9,       // REG_OFFSET_STACK
-                            0,       // REG_OFFSET_SRC
+                            9,       // REG_OFFSET_SRC
                             65535,   // REG_OFFSET_DEST
                             65536,   // REG_OFFSET_CODE
                             0,       // REG_RETURN
@@ -65,6 +65,9 @@ describe(
                             ints[2],
                             9,       // stack pointer
                             65535,   // return code offset
+                            6,
+                            7,
+                            8
                         ]
                     );
                 });
@@ -102,9 +105,9 @@ describe(
                             'ends',
                             'proc main()',
                             '   S s',
-                            '   set s.x, ' + ints[0],
-                            '   set s.y, ' + ints[1],
-                            '   set s.z, ' + ints[2],
+                            '   s.x = ' + ints[0],
+                            '   s.y = ' + ints[1],
+                            '   s.z = ' + ints[2],
                             'endp'
                         ]).testData;
 
@@ -112,7 +115,7 @@ describe(
                         testData.vm.getVMData().getData(),
                         [
                             6,      // REG_OFFSET_STACK
-                            0,      // REG_OFFSET_SRC
+                            6,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
@@ -121,7 +124,10 @@ describe(
                             65535,  // return code offset
                             ints[0],
                             ints[1],
-                            ints[2]
+                            ints[2],
+                            8,
+                            9,
+                            10
                         ]
                     );
                 });
@@ -145,8 +151,8 @@ describe(
                             '    Point *pp',
                             '    set pp, &p',
                             '',
-                            '    set *pp.x, ' + ints[0],
-                            '    set *pp.y, ' + ints[1],
+                            '    pp.x = ' + ints[0],
+                            '    pp.y = ' + ints[1],
                             '',
                             '    printN(p.x)',
                             '    printN(p.y)',
@@ -166,15 +172,15 @@ describe(
                             '',
                             'proc main()',
                                 'Point p1',
-                                'set p1.x, ' + ints[1],
-                                'set p1.y, ' + ints[0],
+                                'p1.x = ' + ints[1],
+                                'p1.y = ' + ints[0],
                                 'Point *p2',
                                 'set p2, &p1',
                                 '',
                                 'number n',
-                                'set n, *p2.y',
+                                'n = p2.y',
                                 'printN(n)',
-                                'set n, *p2.x',
+                                'n = p2.x',
                                 'printN(n)',
                             'endp'
                         ])).testData;

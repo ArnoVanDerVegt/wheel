@@ -208,7 +208,6 @@
 
                 if (expressionCompiler.isComposite(vr)) {
                     var structVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
-
                     if (valueCalculation) {
                         tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
                         result.push('set REG_DEST,' + tempVar + '_1');
