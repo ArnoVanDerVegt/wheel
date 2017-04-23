@@ -178,7 +178,7 @@ describe(
                             compilerTestUtils.compile([
                                 'proc main()',
                                 '    number n',
-                                '    set 1, n',
+                                '    1 = n',
                                 'endp'
                             ]);
                         },
@@ -272,7 +272,7 @@ describe(
                         function() {
                             compilerTestUtils.compile([
                                 'proc main()',
-                                '    set n, 1',
+                                '    n = 1',
                                 'endp'
                             ]);
                         },
@@ -415,7 +415,7 @@ describe(
                                 'ends',
                                 'S s',
                                 'proc main()',
-                                '   set s.wrong, 1',
+                                '   s.wrong = 1',
                                 'endp'
                             ]);
                         },
@@ -492,7 +492,7 @@ describe(
                         }
                     );
                 });
-/*
+
                 it('Should throw INVALID_OPERATION', function() {
                     assert.throws(
                         function() {
@@ -509,7 +509,7 @@ describe(
                         }
                     );
                 });
-*/
+
                 it('Should throw INVALID_OPERATION_WITH_STRING', function() {
                     assert.throws(
                         function() {

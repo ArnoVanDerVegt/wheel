@@ -61,7 +61,6 @@
                         };
                     var updateLines = function(endCommand, clear) {
                             var clearLine = function(index) {
-                                    //console.log(index, '>'+lines[index]);
                                     lines[index] = '';
                                 };
 
@@ -197,8 +196,11 @@
                         '%offset': (function(line, param) {
                             var type = this.findLastType(param);
                             if (type === null) {
-                                throw new Error('offset Param "' + param + '" not found');
-                                // todo: error
+                                if (isNaN(param)) {
+                                    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
+                                } else {
+                                    throw this._compiler.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param + '".');
+                                }
                             } else {
                                 line = this.replaceMetaParam(line, '%offset', type.offset);
                             }
