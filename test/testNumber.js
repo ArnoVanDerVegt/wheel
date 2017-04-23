@@ -189,8 +189,8 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set pn, &n',
-                                'set *pn, ' + n,
+                                'pn = &n',
+                                'pn = ' + n,
                                 '',
                                 'printN(n)',
                             'endp'
@@ -198,6 +198,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [n]);
                 });
+
                 it('Should mul a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
