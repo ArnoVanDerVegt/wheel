@@ -248,7 +248,7 @@ describe(
                 it('Should return a multiplied parameter number', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc timesTwo(number n)',
-                            '    mul n, 2',
+                            '    n *= 2',
                             '    return n',
                             'endp',
                             '',
@@ -271,7 +271,7 @@ describe(
                             'endp',
                             '',
                             'proc timesTwoPlusThree(number n)',
-                            '    mul n, 2',
+                            '    n *= 2',
                             '    n = plusThree(n)',
                             '    return n',
                             'endp',
@@ -299,7 +299,7 @@ describe(
                             'proc main()',
                             '    number x',
                             '    x = 3',
-                            '    mul x, five()',
+                            '    x *= five()',
                             '',
                             '    printN(x)',
                             'endp'
