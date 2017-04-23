@@ -266,7 +266,7 @@ describe(
                 it('Should call multiple functions, check local stack after return', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc plusThree(number n)',
-                            '    add n, 3',
+                            '    n += 3',
                             '    return n',
                             'endp',
                             '',

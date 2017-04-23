@@ -467,7 +467,7 @@ describe(
                             compilerTestUtils.compile([
                                 'proc main()',
                                     'number n',
-                                    'mul n, "a"',
+                                    'n *= "a"',
                                 'endp'
                             ]);
                         },
@@ -483,7 +483,7 @@ describe(
                                 'proc main()',
                                     'number n',
                                     'number *pn',
-                                    'mul n, &n',
+                                    'n *= &n',
                                 'endp'
                             ]);
                         },
@@ -492,6 +492,7 @@ describe(
                         }
                     );
                 });
+/*
                 it('Should throw INVALID_OPERATION', function() {
                     assert.throws(
                         function() {
@@ -499,7 +500,7 @@ describe(
                                 'proc main()',
                                 '    number n',
                                 '    number *pn',
-                                '    add pn, &n',
+                                '    pn += &n',
                                'endp'
                             ]);
                         },
@@ -508,6 +509,7 @@ describe(
                         }
                     );
                 });
+*/
                 it('Should throw INVALID_OPERATION_WITH_STRING', function() {
                     assert.throws(
                         function() {
@@ -515,7 +517,7 @@ describe(
                                 'proc main()',
                                     'string s',
                                     'number n',
-                                    'mul s, n',
+                                    's *= n',
                                 'endp'
                             ]);
                         },
@@ -531,7 +533,7 @@ describe(
                                 'proc main()',
                                 '    string s1',
                                 '    string s2',
-                                '    sub s1, s2',
+                                '    s1 -= s2',
                                 'endp'
                             ]);
                         },

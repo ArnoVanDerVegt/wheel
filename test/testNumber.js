@@ -110,7 +110,7 @@ describe(
                             '',
                             'proc main()',
                             '    n = 10',
-                            '    mod n, 7 ',
+                            '    n %= 7 ',
                             '    printN(n)',
                             'endp'
                         ])).testData;
