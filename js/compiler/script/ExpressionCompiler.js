@@ -348,7 +348,6 @@
                 var vr1 = localVr + '_' + depth;
 
                 if (node.left && node.right) {
-                    console.log('left:', node.left.value, 'right:', node.right.value);
                     var vr2 = localVr + '_' + (depth + 1);
                     var vr3 = localVr + '_' + (depth + 2);
 
@@ -371,7 +370,6 @@
                         result.push(node.command + ' ' + vr2 + ',' + vr3);
                     }
                 } else if (this.isComposite(node.value)) {
-                    console.log('node:', node.value);
                     var structVar = this.compileCompositeVar(result, node.value);
                     this.declareNumber(result, localVr + '_' + depth);
                     result.push('set REG_SRC,REG_STACK');
@@ -380,11 +378,9 @@
                     result.push('set REG_STACK,REG_SRC');
                     result.push(command + ' ' + vr1 + ',REG_DEST');
                 } else if (command === 'set') {
-                    console.log('set', vr1, node.value);
                     this.declareNumber(result, localVr + '_' + depth);
                     result.push('set ' + vr1 + ',' + node.value);
                 } else {
-                    console.log(command, vr1, node.value);
                     result.push(command + ' ' + vr1 + ',' + node.value);
                 }
             };
