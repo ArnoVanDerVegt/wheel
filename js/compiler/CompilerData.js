@@ -346,28 +346,6 @@
                 return structField;
             };
 
-            this.getStructOffset = function(param) {
-                var offset = 0;
-                if (param.vr.struct) {
-                    var struct = param.vr.struct;
-                    var p      = param.param.split('.');
-                    var i      = 1;
-
-                    while (struct && (i < p.length)) {
-                        var field = p[i];
-                        var field = struct.fields[field];
-                        offset += field.offset;
-                        struct = field.struct;
-                        i++;
-                    }
-                }
-                return offset;
-            };
-
-            this.getOffset = function(param) {
-                return ('origOffset' in param.vr) ? param.vr.origOffset : param.vr.offset;
-            };
-
             this.paramInfo = function(param) {
                 if (wheel.compiler.compilerHelper.getWrappedInChars(param, '"', '"')) {
                     return {
@@ -444,9 +422,9 @@
                         }
                     }
 
-                    if (type === null) {
-                        throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
-                    }
+                    //if (type === null) {
+                    //    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
+                    //}
 
                     return {
                         type:     type,

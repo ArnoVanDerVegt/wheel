@@ -46,7 +46,7 @@
                 var parts = param.split('.');
                 var vr    = this.findVar(parts[0]);
                 if (vr) {
-                    if (vr.length <= 0) {
+                    if (vr.length <= 1) {
                         throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_ARRAY_EXPECTED, 'Type error.');
                     }
                 } else {

@@ -166,6 +166,21 @@ describe(
                         }
                     );
                 });
+                it('Should throw TYPE_ERROR_ARRAY_EXPECTED', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'number n',
+                                'proc main()',
+                                '    n[3] = 0',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_ARRAY_EXPECTED + ' Type error.');
+                        }
+                    );
+                });
             }
         );
 
