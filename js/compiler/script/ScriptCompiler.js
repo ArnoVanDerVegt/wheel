@@ -362,6 +362,7 @@
                     });
                 }
 
+                var expectParam = false;
                 while (i < params.length) {
                     var c = params[i++];
                     switch (c) {
@@ -384,7 +385,8 @@
 
                         case ',':
                             addParam(param.trim());
-                            param = '';
+                            expectParam = true;
+                            param       = '';
                             break;
 
                         default:
@@ -392,7 +394,16 @@
                             break;
                     }
                 }
-                (param.trim() !== '') && addParam(param);
+
+                param = param.trim();
+                if (param === '') {
+                    if (expectParam) {
+                        // todo: add location information...
+                        throw new Error('#' + wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED + ' Syntax error parameter expected.');
+                    }
+                } else {
+                    addParam(param);
+                }
 
                 //if (!hasExpression) {
                 //    return [line];
