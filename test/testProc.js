@@ -196,10 +196,10 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set point.x, ' + ints[0],
-                            '    set point.y, ' + ints[1],
-                            '    set point.z, ' + ints[2],
-                            '    set p, &point',
+                            '    point.x = ' + ints[0],
+                            '    point.y = ' + ints[1],
+                            '    point.z = ' + ints[2],
+                            '    p = &point',
                             '    printPoint(*p)',
                             'endp'
                         ])).testData;
