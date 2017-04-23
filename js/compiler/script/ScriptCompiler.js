@@ -319,7 +319,7 @@
                     result.push('        %end');
                     result.push('        copy %sizeof(' + vr + ')');
                     result.push('    %else');
-                    //result.push('        ' + operator.command + ' ' + vr + ',' + value);
+                    result.push('        ' + operator.command + ' ' + vr + ',' + value);
                     result.push('    %end');
                     result.push('%end');
                 }
