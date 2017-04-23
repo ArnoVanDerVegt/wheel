@@ -229,23 +229,18 @@
                             if (first) {
                                 result.push('%if_global ' + part);
                                 result.push('    set ' + resultVar + ',%offset(' + part + ')');
+                                result.push('    %if_pointer ' + part);
+                                result.push('        set REG_SRC,REG_STACK');
+                                result.push('        set REG_STACK,' + resultVar);
+                                result.push('        set REG_DEST,%REG_STACK');
+                                result.push('        set REG_STACK,REG_SRC');
+                                result.push('        set ' + resultVar + ',REG_DEST');
+                                result.push('    %else');
+                                result.push('    %end');
                                 result.push('%else');
                                 result.push('    set ' + resultVar + ',REG_STACK');
                                 addPart(resultVar, part, '    ');
                                 result.push('%end');
-
-                                /*lastOffset1 = result.length;
-                                result.push('%rem ' + part + ' ---> ' + vr);
-                                result.push('%if_pointer ' + part);
-                                result.push('    set REG_SRC,REG_STACK');
-                                result.push('    set REG_STACK,' + resultVar);
-                                result.push('    set REG_DEST,%REG_STACK');
-                                result.push('    set REG_STACK,REG_SRC');
-                                result.push('    set ' + resultVar + ',REG_DEST');
-                                result.push('%else');
-                                result.push('%end');
-                                lastOffset2 = result.length;
-                                lastCommand = '';*/
                             } else {
                                 addPart(resultVar, part);
                             }
