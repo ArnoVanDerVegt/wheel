@@ -105,7 +105,7 @@
                 // The local offset is the stack size used in the current procedure...
                 var offset = currentLocalStackSize + 2;
                 for (var i = 0; i < params.length; i++) {
-                    var param = params[i].trim();
+                    var param     = params[i].trim();
                     var paramInfo = compilerData.paramInfo(param);
                     var vr        = paramInfo.vr;
                     var size      = vr ? (vr.size * vr.length) : 1;
@@ -114,6 +114,7 @@
                     if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
                         size = vr.struct.size;
                     }
+
                     switch (paramInfo.type) {
                         case $.T_NUM_C:
                             this.compileConstantParameter(param, paramInfo, offset);

@@ -265,7 +265,7 @@
                         case '%if_global':
                             result       = '';
                             lines[index] = '';
-                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(param));
+                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(this.cleanIdentifier(param)));
                             break;
 
                         case '%if_struct':
