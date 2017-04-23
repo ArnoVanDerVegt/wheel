@@ -16,7 +16,7 @@ describe(
                             '        number n',
                             '    ends',
                             '    PrintNumber printNumber',
-                            '    set      printNumber.n,n',
+                            '    printNumber.n = n',
                             '    addr     printNumber',
                             '    module   0,0',
                             'endp',

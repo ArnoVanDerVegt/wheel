@@ -62,7 +62,7 @@ describe(
                     var includes = compilerTestUtils.createIncludes([
                             'number a',
                             'proc main()',
-                            '    set a, 1',
+                            '    a = 1',
                             'endp'
                         ]);
 
@@ -81,9 +81,9 @@ describe(
                     var testData = compilerTestUtils.compileAndRun([
                             'number a',
                             'proc main()',
-                            '    set a, 71',
+                            '    a = 71',
                             '    number b',
-                            '    set b, 2',
+                            '    b = 2',
                             'endp'
                         ]).testData;
 
@@ -109,7 +109,7 @@ describe(
                             'number n',
                             '',
                             'proc main()',
-                            '    set n, 10',
+                            '    n = 10',
                             '    mod n, 7 ',
                             '    printN(n)',
                             'endp'
@@ -206,8 +206,8 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set n, 11',
-                                'set pn, &n',
+                                'n = 11',
+                                'pn = &n',
                                 'mul *pn, ' + n,
                                 '',
                                 'printN(n)',
@@ -223,8 +223,8 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set n, 13',
-                                'set pn, &n',
+                                'n = 13',
+                                'pn = &n',
                                 'mul n, *pn',
                                 '',
                                 'printN(n)',

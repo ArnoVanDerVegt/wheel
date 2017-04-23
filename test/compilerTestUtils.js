@@ -117,7 +117,7 @@ exports.standardLines = [
     '        number n',
     '    ends',
     '    PrintNumber printNumber',
-    '    set      printNumber.n,n',
+    '    printNumber.n = n',
     '    addr     printNumber',
     '    module   0,0',
     'endp',
@@ -126,7 +126,7 @@ exports.standardLines = [
     '        string s',
     '    ends',
     '    PrintString printString',
-    '    set      printString.s,s',
+    '    printString.s = s',
     '    addr     printString',
     '    module   0,1',
     'endp'
