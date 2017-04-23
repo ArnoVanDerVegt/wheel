@@ -73,7 +73,7 @@ describe(
                             'string s',
                             '',
                             'proc main()',
-                            '    set s, "Hello world!!"',
+                            '    s = "Hello world!!"',
                             '    printS(s)',
                             'endp'
                         ])).testData;
@@ -86,8 +86,8 @@ describe(
                             'string s2',
                             '',
                             'proc main()',
-                            '    set s1, "Same"',
-                            '    set s2, "Same"',
+                            '    s1 = "Same"',
+                            '    s2 = "Same"',
                             '    printS(s1)',
                             '    printS(s2)',
                             'endp'
