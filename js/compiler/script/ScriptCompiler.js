@@ -169,11 +169,11 @@
                         var selectItem = this._selectStack.pop();
                         var result     = [];
 
-                        if (selectItem.outputOffset !== null) {
+                        //if (selectItem.outputOffset !== null) {
                             var label = selectItem.label + '_' + selectItem.caseIndex;
                             result.push(label + ':');
                             output[selectItem.outputOffset] += label;
-                        }
+                        //}
                         return result;
 
                     case 'for':

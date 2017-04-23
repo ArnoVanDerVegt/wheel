@@ -264,28 +264,9 @@
     );
 
     wheel(
-        'compiler.command.isStructVarType',
-        function(value) {
-            return (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_G) ||
-                (value.vr.type === T_STRUCT_L_ARRAY) || (value.vr.type === T_STRUCT_G_ARRAY);
-        }
-    );
-
-    wheel(
         'compiler.command.isSimpleNumberType',
         function(value) {
             return (value.type === T_NUM_L) || (value.type === T_NUM_G);
-        }
-    );
-
-    wheel(
-        'compiler.command.isNumberType',
-        function(value) {
-            if (value.vr) {
-                return (value.type === T_NUM_L) || (value.type === T_NUM_G) ||
-                    (value.type === T_NUM_G_ARRAY) || (value.type === T_NUM_L_ARRAY);
-            }
-            return false;
         }
     );
 
@@ -295,13 +276,6 @@
             return (value.type === T_PROC) ||
                 (value.type === T_PROC_G) || (value.type === T_PROC_L) ||
                 (value.type === T_PROC_G_ARRAY) || (value.type === T_PROC_L_ARRAY);
-        }
-    );
-
-    wheel(
-        'compiler.command.isPointerMetaType',
-        function(value) {
-            return value && (value.metaType === T_META_POINTER);
         }
     );
 

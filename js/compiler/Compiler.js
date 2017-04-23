@@ -117,15 +117,15 @@
 
                         // Check the primitive types...
                         if (param.type === args[j].type) {
-                            if (argsMetaType) {
-                                if (param.metaType === argsMetaType) {
-                                    matchType = true;
-                                } else if (param.vr && (param.vr.metaType === argsMetaType)) {
-                                    matchType = true;
-                                }
-                            } else {
+                            //if (argsMetaType) {
+                            //    if (param.metaType === argsMetaType) {
+                            //        matchType = true;
+                            //    } else if (param.vr && (param.vr.metaType === argsMetaType)) {
+                            //        matchType = true;
+                            //    }
+                            //} else {
                                 matchType = true;
-                            }
+                            //}
                         // Check the var types...
                         //} else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
                         //    matchType = true;
@@ -137,9 +137,9 @@
                             break;
                         }
                     }
-                    if (!found) {
-                        throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
-                    }
+                    //if (!found) {
+                    //    throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
+                    //}
                 }
                 return {
                     code:   code,

@@ -113,7 +113,7 @@
                 if (metaType === $.T_META_POINTER) {
                     size = 1; // Only use 1 number for a pointer, the struct size might differ...
                 }
-                this._globalOffset += (vr.length || 1) * size;
+                this._globalOffset += vr.length * size;
 
                 return global;
             };
@@ -156,7 +156,7 @@
                             result[i] = vr[i];
                         }
                         result.origOffset = result.offset;
-                        if (vr.struct) {
+                        //if (vr.struct) {
                             var struct = vr.struct;
                             var i      = 1;
                             while (struct && (i < parts.length)) {
@@ -174,9 +174,9 @@
                                 i++;
                             }
                             return result;
-                        } else {
-                            throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
-                        }
+                        //} else {
+                        //    throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
+                        //}
                     }
                     return vr;
                 }
@@ -252,10 +252,7 @@
             };
 
             this.findLabel = function(name) {
-                if (name in this._labelList) {
-                    return this._labelList[name];
-                }
-                return null;
+                return this._labelList[name];
             };
 
             this.getLabelList = function() {
@@ -414,10 +411,8 @@
                             } else {
                                 offset = 0;
                                 label  = this.findLabel(param);
-                                if (label !== null) {
-                                    label.jumps.push(this._compiler.getOutput().getLength());
-                                    type = $.T_LABEL;
-                                }
+                                label.jumps.push(this._compiler.getOutput().getLength());
+                               type = $.T_LABEL;
                             }
                         }
                     }
