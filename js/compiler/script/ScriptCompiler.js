@@ -303,22 +303,30 @@
                     }
 
                     result.push('%else');
-                    result.push('    %if_struct ' + vr);
-                    result.push('        %if_global ' + vr);
-                    result.push('            set REG_DEST,%offset(' + vr + ')');
-                    result.push('        %else');
-                    result.push('            set REG_DEST,REG_STACK');
-                    result.push('            add REG_DEST,%offset(' + vr + ')');
-                    result.push('        %end');
-                    result.push('        %if_global ' + value);
-                    result.push('            set REG_SRC,%offset(' + value + ')');
-                    result.push('        %else');
-                    result.push('            set REG_SRC,REG_STACK');
-                    result.push('            add REG_SRC,%offset(' + value + ')');
-                    result.push('        %end');
-                    result.push('        copy %sizeof(' + vr + ')');
+                    result.push('    %if_pointer ' + value);
+                    result.push('        set REG_SRC,REG_STACK');
+                    result.push('        set REG_STACK,' + value);
+                    result.push('        set REG_DEST,%REG_STACK');
+                    result.push('        set REG_STACK,REG_SRC');
+                    result.push('        ' + operator.command + ' ' + vr + ',REG_DEST');
                     result.push('    %else');
+                    result.push('        %if_struct ' + vr);
+                    result.push('            %if_global ' + vr);
+                    result.push('                set REG_DEST,%offset(' + vr + ')');
+                    result.push('            %else');
+                    result.push('                set REG_DEST,REG_STACK');
+                    result.push('                add REG_DEST,%offset(' + vr + ')');
+                    result.push('            %end');
+                    result.push('            %if_global ' + value);
+                    result.push('                set REG_SRC,%offset(' + value + ')');
+                    result.push('            %else');
+                    result.push('                set REG_SRC,REG_STACK');
+                    result.push('                add REG_SRC,%offset(' + value + ')');
+                    result.push('            %end');
+                    result.push('            copy %sizeof(' + vr + ')');
+                    result.push('        %else');
                     result.push('        ' + operator.command + ' ' + vr + ',' + value);
+                    result.push('        %end');
                     result.push('    %end');
                     result.push('%end');
                 }

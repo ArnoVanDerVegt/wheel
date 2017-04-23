@@ -182,6 +182,7 @@ describe(
         describe(
             'Pointers to numbers',
             function() {
+
                 it('Should set a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -208,7 +209,7 @@ describe(
                                 '',
                                 'n = 11',
                                 'pn = &n',
-                                'mul *pn, ' + n,
+                                'pn *= ' + n,
                                 '',
                                 'printN(n)',
                             'endp'
@@ -216,6 +217,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [n * 11]);
                 });
+
                 it('Should mul a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -225,7 +227,7 @@ describe(
                                 '',
                                 'n = 13',
                                 'pn = &n',
-                                'mul n, *pn',
+                                'n *= pn',
                                 '',
                                 'printN(n)',
                             'endp'
