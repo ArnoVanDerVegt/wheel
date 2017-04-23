@@ -466,6 +466,10 @@
                     case 'end':
                         return this.compileEnd(output);
 
+                    case 'set':
+                        console.log('!!!!!!');
+                        break;
+
                     default:
                         var procCall = this._expressionCompiler.isProcCall(line);
                         if (procCall) {

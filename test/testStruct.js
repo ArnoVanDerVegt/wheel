@@ -207,7 +207,7 @@ describe(
                                 'number n',
                                 'n = p2.y',
                                 'printN(n)',
-                                'set n, *p2.x',
+                                'n = p2.x',
                                 'printN(n)',
                             'endp'
                         ])).testData;
@@ -229,12 +229,12 @@ describe(
                             'proc main()',
                                 'p1.x = ' + ints[1],
                                 'p1.y = ' + ints[0],
-                                'set p2, &p1',
+                                'p2 = &p1',
                                 '',
                                 'number n',
-                                'set n, *p2.y',
+                                'n = p2.y',
                                 'printN(n)',
-                                'set n, *p2.x',
+                                'n = p2.x',
                                 'printN(n)',
                             'endp'
                         ])).testData;
@@ -251,8 +251,8 @@ describe(
                             'ends',
                             '',
                             'proc testPointer(Point *p)',
-                            '    set *p.x, ' + ints[0],
-                            '    set *p.y, ' + ints[1],
+                            '    p.x = ' + ints[0],
+                            '    p.y = ' + ints[1],
                             'endp',
                             '',
                             'proc main()',
