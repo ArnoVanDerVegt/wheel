@@ -202,7 +202,6 @@
         var lines  = source.split('\n');
 
         window.wheelDemos[element.id] = source;
-        console.log(lines);
         element.innerHTML             = parseLines(lines);
     }
 

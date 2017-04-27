@@ -1,5 +1,5 @@
 wheel(
-    'simulator.includes.buttons',
+    'simulator.includes.light',
     [
         '#define MODULE_LIGHT      5',
         '',

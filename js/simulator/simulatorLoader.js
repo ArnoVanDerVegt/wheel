@@ -93,6 +93,7 @@
                 function(includes) {
                     try {
                         outputTitle    = title;
+                        console.log(includes);
                         outputCommands = compiler.compile(includes);
                         compilerData   = compiler.getCompilerData();
                         simulator.getDisplay().drawLoaded(title);
@@ -231,13 +232,12 @@
             };
 
         buttons.forEach(function(button, index) {
-            button.element.addEventListener(
+            button.element && button.element.addEventListener(
                 'click',
                 function() {
                     onClick(index);
                 }
             );
-
         });
     }
 

@@ -22,6 +22,7 @@
                 <li><a href="site/modules/index.html">Modules</a></li>
                 <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">Download</a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
         </div>
@@ -36,23 +37,53 @@
 
     <div class="content">
         <div class="container">
+            <div class="one sub-title">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/blob/master/ev3/vm.ev3" target="_blank">
+                    <img src="site/images/vm.png"/>
+                </a>
+                <span class="title">Wheel is a small language with a tiny VM in a EV3 block.</span>
+            </div>
+
             <div class="three first">
-                <h3 class="dark-blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Text based</span></h3>
-                Wheel is a small text based language. The code can be compiled to a .rtf file which can
-                be run from an EV3 brick.
+                <h3 class="dark-blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>About Wheel</span></h3>
+                <p>
+                    Wheel is a small text based language. The code can be compiled to a .rtf file which can
+                    be executed with an EV3 block.
+                </p>
+                <p>
+                    Wheel can be easily connected to existing blocks.
+                </p>
+                <p>
+                    Features:
+                    <ul>
+                        <li>Text based</li>
+                        <li>Array, struct, pointer types</li>
+                        <li>Include files</li>
+                    </ul>
+                </p>
             </div>
             <div class="three center">
-                <h3 class="dark-blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>Standard firmware</span></h3>
-                Wheel can be easily connected to existing blocks.
+                <h3 class="dark-blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Getting started</span></h3>
+                <p>
+                </p>
             </div>
             <div class="three last">
                 <h3 class="dark-blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
                 <pre>
-                    proc main()
-                        number n
+                    #include "lib/screen.whl"
 
-                        for n = 10 downto 1
-                            printN(n)
+                    proc main()
+                        clearScreen()
+
+                        number i
+
+                        for i = 0 to 10
+                            number x
+                            number y
+
+                            x = i * 20
+                            y = i * 12
+                            drawNumber(x, y, i)
                         end
                     end
                 </pre>
@@ -64,13 +95,17 @@
                 <h3 class="gray with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Examples</span></h3>
                 <div class="index-links">
                     <div class="half">
-                        <a href="site/examples/screen.html">Screen</a>
-                        <a href="site/examples/math.html">Math</a>
-                        <a href="site/examples/light.html">Light</a>
+                        <p>
+                            <a href="site/examples/screen.html">Screen</a>
+                            <a href="site/examples/math.html">Math</a>
+                            <a href="site/examples/light.html">Light</a>
+                        </p>
                     </div>
                     <div class="half">
-                        <a href="site/examples/buttons.html">Buttons</a>
-                        <a href="site/examples/sound.html">Sound</a>
+                        <p>
+                            <a href="site/examples/buttons.html">Buttons</a>
+                            <a href="site/examples/sound.html">Sound</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -78,14 +113,18 @@
                 <h3 class="gray with-icon"><img src="site/images/test.png" width="32" height="32"/> <span>Documentation</span></h3>
                 <div class="index-links">
                     <div class="half">
-                        <a href="site/docs/variables.html">Variables</a>
-                        <a href="site/docs/operators.html">Operators</a>
-                        <a href="site/docs/procedures.html">Procedures</a>
+                        <p>
+                            <a href="site/docs/variables.html">Variables</a>
+                            <a href="site/docs/operators.html">Operators</a>
+                            <a href="site/docs/procedures.html">Procedures</a>
+                        </p>
                     </div>
                     <div class="half">
-                        <a href="site/docs/modules.html">Modules</a>
-                        <a href="site/docs/structs.html">Structs</a>
-                        <a href="site/docs/pointers.html">Pointers</a>
+                        <p>
+                            <a href="site/docs/modules.html">Modules</a>
+                            <a href="site/docs/structs.html">Structs</a>
+                            <a href="site/docs/pointers.html">Pointers</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -93,16 +132,20 @@
                 <h3 class="gray with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
                 <div class="index-links">
                     <div class="half">
-                        <a href="site/modules/standard.html">Standard</a>
-                        <a href="site/modules/screen.html">Screen</a>
-                        <a href="site/modules/motor.html">Motor</a>
-                        <a href="site/modules/sensor.html">Sensor</a>
+                        <p>
+                            <a href="site/modules/standard.html">Standard</a>
+                            <a href="site/modules/screen.html">Screen</a>
+                            <a href="site/modules/motor.html">Motor</a>
+                            <a href="site/modules/sensor.html">Sensor</a>
+                        </p>
                     </div>
                     <div class="half">
-                        <a href="site/modules/math.html">Math</a>
-                        <a href="site/modules/light.html">Light</a>
-                        <a href="site/modules/buttons.html">Buttons</a>
-                        <a href="site/modules/sound.html">Sound</a>
+                        <p>
+                            <a href="site/modules/math.html">Math</a>
+                            <a href="site/modules/light.html">Light</a>
+                            <a href="site/modules/buttons.html">Buttons</a>
+                            <a href="site/modules/sound.html">Sound</a>
+                        </p>
                     </div>
                 </div>
             </div>
