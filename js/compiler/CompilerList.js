@@ -77,8 +77,9 @@
                             var i      = 1;
                             while (record && (i < parts.length)) {
                                 field = parts[i];
-                                if (field in record.fields) {
-                                    field           = record.fields[field];
+                                var fields = record.list.getList();
+                                if (field in fields) {
+                                    field           = fields[field];
                                     result.type     = (field.length > 1) ? baseArrayType : baseType;
                                     result.origType = field.type;
                                     result.metaType = field.metaType;
@@ -97,6 +98,10 @@
                     return vr;
                 }
                 return null;
+            };
+
+            this.getList = function() {
+                return this._list;
             };
 
             this.getOffset = function() {

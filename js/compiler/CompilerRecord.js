@@ -14,30 +14,27 @@
             };
 
             this.reset = function() {
-                this._recordOffset      = 0;
-                this._recordList        = {};
-                this._record            = null;
-                this._recordLocal       = {};
+                this._list         = {};
+                this._activeRecord = null;
+                this._recordLocal  = {};
             };
 
-            this.declareRecord = function(name, command, location) {
+            this.declareRecord = function(name, command) {
                 var result = {
-                        name:     name,
-                        size:     0,
-                        fields:   {},
-                        location: location
+                        name: name,
+                        list: new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this._compilerData}),
+                        size: 0
                     };
-                var compiler   = this._compiler;
-                var recordList = this._recordList;
+                var compiler = this._compiler;
+                var list     = this._list;
                 if (!wheel.compiler.compilerHelper.validateString(name)) {
                     throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
                 }
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(compiler, name, recordList);
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(compiler, name, list);
 
-                recordList[name]   = result;
-                this._record       = result;
-                this._recordOffset = 0;
+                list[name]         = result;
+                this._activeRecord = result;
 
                 if (compiler.getInProc()) {
                     this._recordLocal[name] = true;
@@ -47,43 +44,20 @@
             };
 
             this.declareRecordField = function(name, type, arrayType, size, recordType) {
-                (size   === undefined) && (size   = 1);
-                var compilerData = this._compilerData;
-                var metaType     = compilerData.getPointerVar(name) ? $.T_META_POINTER : null;
-                var record       = this._record;
-
-                name = compilerData.getNameWithoutPointer(name);
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, record);
-
-                var vr          = compilerData._parseVariable(name);
-                var recordField = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        record:   recordType || false,
-                        metaType: metaType,
-                        offset:   this._recordOffset,
-                        size:     size,
-                        length:   vr.length
-                    };
-                record.fields[vr.name] = recordField;
-
-                this._recordOffset += vr.length * size;
-                record.size = this._recordOffset;
+                var record      = this._activeRecord;
+                var recordField = record.list.declareItem(name, type, arrayType, recordType, false);
+                record.size = record.list.getOffset();
 
                 return recordField;
             };
 
-            this.getOffset = function() {
-                return this._offset;
-            };
-
             this.findRecord = function(name) {
-                return this._recordList[name] || null;
+                return this._list[name] || null;
             };
 
             this.removeLocalRecords = function() {
                 for (var name in this._recordLocal) {
-                    delete this._recordList[name];
+                    delete this._list[name];
                 }
                 this._recordLocal = {};
             };
