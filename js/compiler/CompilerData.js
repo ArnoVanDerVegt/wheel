@@ -14,12 +14,10 @@
             };
 
             this.reset = function() {
-                this._globalOffset      = 0;
-                this._globalList        = {};
                 this._globalConstants   = [];
 
-                this._localOffset       = 0;
-                this._localList         = {};
+                this._global            = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
+                this._local             = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
 
                 this._labelList         = {};
 
@@ -33,12 +31,12 @@
 
                 this._stringList        = [];
 
-                this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_DEST_____',   $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_CODE_____',   $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_RETURN_____', $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, {}, false);
+                this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_DEST_____',   $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_CODE_____',   $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_RETURN_____', $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, false);
             };
 
             this._parseVariable = function(name) {
@@ -89,33 +87,8 @@
             };
 
             /* Global */
-            this.declareGlobal = function(name, type, arrayType, record, location, allowConstant) {
-                var metaType   = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var vr         = this._parseVariable(this.getNameWithoutPointer(name));
-                var globalList = this._globalList;
-                var size       = record ? record.size : 1;
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, globalList);
-                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
-
-                var global = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        metaType: metaType,
-                        offset:   this._globalOffset,
-                        size:     size,
-                        length:   vr.length,
-                        record:   record ? record : null,
-                        value:    vr.value,
-                        location: location
-                    };
-                globalList[vr.name] = global;
-
-                if (metaType === $.T_META_POINTER) {
-                    size = 1; // Only use 1 number for a pointer, the record size might differ...
-                }
-                this._globalOffset += vr.length * size;
-
-                return global;
+            this.declareGlobal = function(name, type, arrayType, record, allowConstant) {
+                return this._global.declareItem(name, type, arrayType, record, allowConstant);
             };
 
             this.declareString = function(value) {
@@ -134,107 +107,35 @@
             };
 
             this.allocateGlobal = function(size) {
-                var offset = this._globalOffset;
-                this._globalOffset += size;
-                return offset;
-            };
-
-            this.findInList = function(list, name, baseType, baseArrayType) {
-                var field = false;
-                var parts = name.trim().split('.');
-
-                if (parts.length > 1) {
-                    field = true;
-                    name  = parts[0];
-                }
-
-                if (name in list) {
-                    var vr = list[name];
-                    if (field) {
-                        var result = {};
-                        for (var i in vr) {
-                            result[i] = vr[i];
-                        }
-                        result.origOffset = result.offset;
-                        //if (vr.record) {
-                            var record = vr.record;
-                            var i      = 1;
-                            while (record && (i < parts.length)) {
-                                field = parts[i];
-                                if (field in record.fields) {
-                                    field           = record.fields[field];
-                                    result.type     = (field.length > 1) ? baseArrayType : baseType;
-                                    result.origType = field.type;
-                                    result.metaType = field.metaType;
-                                    result.offset += field.offset;
-                                    record = field.record;
-                                } else {
-                                    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_FIELD, 'Undefined field "' + field + '".');
-                                }
-                                i++;
-                            }
-                            return result;
-                        //} else {
-                        //    throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
-                        //}
-                    }
-                    return vr;
-                }
-                return null;
+                return this._global.allocate(size);
             };
 
             this.findGlobal = function(name) {
-                return this.findInList(this._globalList, name, $.T_NUM_G, $.T_NUM_G_ARRAY);
+                return this._global.find(name, $.T_NUM_G, $.T_NUM_G_ARRAY);
             };
 
             this.getGlobalOffset = function() {
-                return this._globalOffset;
+                return this._global.getOffset();
             };
 
             /* Local */
             this.resetLocal = function() {
-                this._localOffset = 0;
-                this._localList   = {};
+                this._local.reset();
 
                 this.declareLocal('_____LOCAL1_____', $.T_NUM_L, false, false, false);
                 this.declareLocal('_____LOCAL2_____', $.T_NUM_L, false, false, false);
             };
 
             this.declareLocal = function(name, type, arrayType, record, allowConstant) {
-                var metaType  = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var vr        = this._parseVariable(this.getNameWithoutPointer(name));
-                var localList = this._localList;
-                var size      = (metaType === $.T_META_POINTER) ? 1 : (record ? record.size : 1);
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, localList);
-                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
-
-                var local = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        metaType: metaType,
-                        offset:   this._localOffset,
-                        size:     size,
-                        length:   vr.length,
-                        value:    vr.value,
-                        record:   record ? record : null
-                    };
-                localList[vr.name] = local;
-
-                if (metaType === $.T_META_POINTER) {
-                    this._localOffset += 1; // Only use 1 number for a pointer, the record size might differ...
-                } else {
-                    this._localOffset += vr.length * size;
-                }
-
-                return local;
+                return this._local.declareItem(name, type, arrayType, record, allowConstant);
             };
 
             this.findLocal = function(name) {
-                return this.findInList(this._localList, name, $.T_NUM_L, $.T_NUM_L_ARRAY);
+                return this._local.find(name, $.T_NUM_L, $.T_NUM_L_ARRAY);
             };
 
             this.getLocalOffset = function() {
-                return this._localOffset;
+                return this._local.getOffset();
             };
 
             /* Label */

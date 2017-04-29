@@ -73,7 +73,7 @@
                         }
                     } else {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareGlobal(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY, null, location, false);
+                            compilerData.declareGlobal(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY, null, false);
                         }
                     }
                 }

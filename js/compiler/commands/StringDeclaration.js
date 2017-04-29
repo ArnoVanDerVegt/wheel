@@ -68,7 +68,7 @@
                 } else {
                     // Declare a global string or array of strings...
                     for (var i = 0; i < params.length; i++) {
-                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, location, true);
+                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
                         global.metaType = $.T_META_STRING;
                         // Check if the string declaration had a constant value assigned to it...
                         if (global.value) {

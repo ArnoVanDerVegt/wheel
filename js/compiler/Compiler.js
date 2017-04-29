@@ -222,7 +222,7 @@
                                     }
                                 } else {
                                     for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record, location);
+                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record);
                                     }
                                 }
                             } else {

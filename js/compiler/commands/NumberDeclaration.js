@@ -52,7 +52,7 @@
                 } else {
                     // Declare a global number or array of numbers...
                     for (var i = 0; i < params.length; i++) {
-                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, location, true);
+                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
 
                         // Check if the number declaration had a constant value assigned to it...
                         if (global.value) {
