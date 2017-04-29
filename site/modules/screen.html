@@ -97,9 +97,9 @@
                     #define SCREEN_DRAW_PIXEL 4
 
                     proc drawPixel(number x, number y)
-                        struct DrawPixel ; Declare a struct for the parameters
+                        record DrawPixel ; Declare a record for the parameters
                             number x, y
-                        ends
+                        endr
                         DrawPixel drawPixel
                         ; Set the parameter values:
                         set    drawPixel.x, x

@@ -46,9 +46,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -94,9 +94,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -142,9 +142,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -190,9 +190,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -238,9 +238,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',

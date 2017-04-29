@@ -1,12 +1,12 @@
 #project "Address demo"
-    
+
 #include "/lib/screen.whl"
-    
+
 proc draw(number x, number y, number width, number height)
-    struct DDrawRect
+    record DDrawRect
         number   x, y
         number   width, height
-    ends
+    endr
     DrawRect drawRect
     set      drawRect.x,             x
     set      drawRect.y,             y
@@ -15,7 +15,7 @@ proc draw(number x, number y, number width, number height)
     addr     drawRect
     module   MODULE_SCREEN,          SCREEN_DRAW_RECT
 endp
-    
+
 proc main()
     draw(20, 13, 57, 23)
 endp

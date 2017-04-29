@@ -1,18 +1,18 @@
-#project "Struct demo"
-    
+#project "Record demo"
+
 #include "/lib/standard.whl"
-    
-struct Point
+
+record Point
     number   x, y, z
-ends
-    
+endr
+
 Point    point
-    
+
 proc main()
     set      point.x,                7
     set      point.y,                13
     set      point.z,                19
-    
+
     printN(point.x)
     printN(point.y)
     printN(point.z)

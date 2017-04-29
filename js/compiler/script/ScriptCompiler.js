@@ -25,12 +25,12 @@
                 return [line];
             };
 
-            this.compileStruct = function(line) {
-                this._endStack.push('struct');
+            this.compileRecord = function(line) {
+                this._endStack.push('record');
                 return [line];
             };
 
-            this.compileEndStruct = function(line) {
+            this.compileEndRecord = function(line) {
                 this._endStack.pop();
                 return [line];
             };
@@ -189,8 +189,8 @@
                             loop.condition + ' ' + forItem.label
                         ];
 
-                    case 'struct':
-                        return ['ends'];
+                    case 'record':
+                        return ['endr'];
 
                     case 'proc':
                         return ['endp'];
@@ -207,13 +207,13 @@
                 var tempVar;
 
                 if (expressionCompiler.isComposite(vr)) {
-                    var structVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
+                    var recordVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
                     if (valueCalculation) {
                         tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
                         result.push('set REG_DEST,' + tempVar + '_1');
                     } else if (expressionCompiler.isComposite(value)) {
-                        var tempStructVar = expressionCompiler.compileCompositeVar(result, value);
-                        tempVar = tempStructVar.result;
+                        var tempRecordVar = expressionCompiler.compileCompositeVar(result, value);
+                        tempVar = tempRecordVar.result;
 
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + tempVar);
@@ -233,7 +233,7 @@
                             result.push('    set REG_DEST,' + value);
                         }
                         result.push('%else');
-                        result.push('    %if_struct ' + vr);
+                        result.push('    %if_record ' + vr);
                         result.push('        %if_global ' + vr);
                         result.push('            set REG_DEST,%offset(' + vr + ')');
                         result.push('        %else');
@@ -258,16 +258,16 @@
                     result.push('%if_pointer ' + vr);
                     result.push('    %rem operator ' + operator.command); // Rem test, should be ignored...
                     result.push('    set REG_SRC,REG_STACK');
-                    result.push('    set REG_STACK,' + structVar.result);
+                    result.push('    set REG_STACK,' + recordVar.result);
                     result.push('    ' + operator.command + ' %REG_STACK,REG_DEST');
                     result.push('    set REG_STACK,REG_SRC');
                     result.push('%else');
-                    result.push('    %if_struct ' + vr);
-                    result.push('        set REG_SRC,' + structVar.result);
+                    result.push('    %if_record ' + vr);
+                    result.push('        set REG_SRC,' + recordVar.result);
                     result.push('        copy %sizeof(' + vr + ')');
                     result.push('    %else');
                     result.push('        set REG_SRC,REG_STACK');
-                    result.push('        set REG_STACK,' + structVar.result);
+                    result.push('        set REG_STACK,' + recordVar.result);
                     result.push('        ' + operator.command + ' %REG_STACK,REG_DEST');
                     result.push('        set REG_STACK,REG_SRC');
                     result.push('    %end');
@@ -276,8 +276,8 @@
                     tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
                     result.push('set ' + vr + ',' + tempVar + '_1');
                 } else if (expressionCompiler.isComposite(value)) {
-                    var structVar = expressionCompiler.compileCompositeVar(result, value);
-                    var tempVar = structVar.result;
+                    var recordVar = expressionCompiler.compileCompositeVar(result, value);
+                    var tempVar = recordVar.result;
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + tempVar);
                     result.push('set REG_DEST,%REG_STACK');
@@ -311,7 +311,7 @@
                     result.push('        set REG_STACK,REG_SRC');
                     result.push('        ' + operator.command + ' ' + vr + ',REG_DEST');
                     result.push('    %else');
-                    result.push('        %if_struct ' + vr);
+                    result.push('        %if_record ' + vr);
                     result.push('            %if_global ' + vr);
                     result.push('                set REG_DEST,%offset(' + vr + ')');
                     result.push('            %else');
@@ -417,8 +417,8 @@
                     if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else if (param.composite || param.arrayIndex) {
-                        var structVar = expressionCompiler.compileCompositeVar(result, param.value);
-                        tempVar = structVar.result;
+                        var recordVar = expressionCompiler.compileCompositeVar(result, param.value);
+                        tempVar = recordVar.result;
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + tempVar);
                         result.push('set REG_DEST,%REG_STACK');
@@ -435,7 +435,7 @@
                         result.push('    set  REG_STACK,REG_SRC');
                         result.push('    set  ' + tempParamVar + ',REG_DEST');
                         result.push('%else');
-                        result.push('    %if_struct ' + param.value);
+                        result.push('    %if_record ' + param.value);
                         result.push('        number ' + tempParamVar);
                         result.push('    %else');
                         result.push('        set  ' + tempParamVar + ',' + param.value);
@@ -462,11 +462,11 @@
                     case 'endp':
                         return this.compileEndProc(line);
 
-                    case 'struct':
-                        return this.compileStruct(line);
+                    case 'record':
+                        return this.compileRecord(line);
 
-                    case 'ends':
-                        return this.compileEndStruct(line);
+                    case 'endr':
+                        return this.compileEndRecord(line);
 
                     case 'for':
                         return this.compileFor(line.substr(i - line.length));

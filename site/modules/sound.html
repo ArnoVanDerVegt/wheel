@@ -77,11 +77,11 @@
                     #define SOUND_PLAY_TONE 0
 
                     proc playTone(number frequency, number duration, number volume)
-                        struct PlayTone
+                        record PlayTone
                             number frequency
                             number duration
                             number volume
-                        ends
+                        endr
                         PlayTone playTone
                         set      playTone.frequency, frequency
                         set      playTone.duration,  duration

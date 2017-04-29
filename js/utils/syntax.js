@@ -6,7 +6,7 @@
             'downto',
             'end',
             'endp',
-            'ends',
+            'endr',
             'add',
             'sub',
             'mul',
@@ -14,7 +14,7 @@
             'mod',
             'inc',
             'dec',
-            'struct',
+            'record',
             'ret',
             'set',
             'module',
@@ -57,7 +57,7 @@
         ];
 
     var defines = [];
-    var structs = [];
+    var records = [];
 
     function parseLine(line) {
         var result  = '';
@@ -91,12 +91,12 @@
                         result += '<span class="purple">' + w + '</span>';
                     } else if (defines.indexOf(w) !== -1) {
                         result += '<span class="green italic">' + w + '</span>';
-                    } else if (structs.indexOf(w) !== -1) {
+                    } else if (records.indexOf(w) !== -1) {
                         result += '<span class="purple">' + w + '</span>';
                     } else if (keywords.indexOf(w) !== -1) {
-                        if (w === 'struct') {
+                        if (w === 'record') {
                             var nextWord = grabNextWord();
-                            (nextWord === '') || structs.push(nextWord);
+                            (nextWord === '') || records.push(nextWord);
                         }
                         result += '<span class="orange">' + w + '</span>';
                     } else if (sign.indexOf(w) !== -1) {

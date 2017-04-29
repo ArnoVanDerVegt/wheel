@@ -56,43 +56,43 @@ describe(
                     assert.deepEqual(testData.messages, [12]);
                 });
 
-                it('Should call a struct procedure pointer', function() {
+                it('Should call a record procedure pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(59)',
                             'endp',
                             '',
-                            'struct TestStruct',
+                            'record TestRecord',
                             '    proc p',
-                            'ends',
+                            'endr',
                             '',
-                            'TestStruct testStruct',
+                            'TestRecord testRecord',
                             '',
                             'proc main()',
-                            '   testStruct.p = test',
-                            '   testStruct.p()',
+                            '   testRecord.p = test',
+                            '   testRecord.p()',
                             'endp'
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [59]);
                 });
 
-                it('Should call a struct procedure pointer with offset', function() {
+                it('Should call a record procedure pointer with offset', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(97)',
                             'endp',
                             '',
-                            'struct TestStruct',
+                            'record TestRecord',
                             '    number n',
                             '    proc p',
-                            'ends',
+                            'endr',
                             '',
-                            'TestStruct testStruct',
+                            'TestRecord testRecord',
                             '',
                             'proc main()',
-                            '   testStruct.p = test',
-                            '   testStruct.p()',
+                            '   testRecord.p = test',
+                            '   testRecord.p()',
                             'endp'
                         ])).testData;
 
@@ -122,14 +122,14 @@ describe(
                     assert.deepEqual(testData.messages, ['Point:', ints[0], ints[1], ints[2]]);
                 });
 
-                it('Should call a procedure with a struct parameter', function() {
+                it('Should call a procedure with a record parameter', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
                             '    number z',
-                            'ends',
+                            'endr',
                             '',
                             'Point p',
                             '',
@@ -151,12 +151,12 @@ describe(
                     assert.deepEqual(testData.messages, ['Point:', ints[0], ints[1], ints[2]]);
                 });
 
-                it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
+                it('Should call a procedure with a dereferenced local pointer record parameter', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             '',
                             'Point point',
                             '',
@@ -179,12 +179,12 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should call a procedure with a dereferenced global pointer struct parameter', function() {
+                it('Should call a procedure with a dereferenced global pointer record parameter', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             '',
                             'Point point',
                             'Point *p',

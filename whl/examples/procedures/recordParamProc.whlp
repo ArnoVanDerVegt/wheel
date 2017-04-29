@@ -1,12 +1,12 @@
-#project "Struct parameter demo"
+#project "Record parameter demo"
 
 #include "/lib/standard.whl"
 
-struct Point
+record Point
     number x
     number y
     number z
-ends
+endr
 
 proc printPoint(Point point)
     printS("Point:")

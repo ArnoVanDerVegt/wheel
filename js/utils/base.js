@@ -38,7 +38,7 @@
             } : null;
 
         cls.prototype              = new proto(supr, supr);
-        cls.prototype.constructor  = cls;
+        cls.prototype.conrecordor  = cls;
         cls.prototype._parentClass = parent;
         return cls;
     };

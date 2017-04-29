@@ -4,16 +4,16 @@ var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
 describe(
-    'Test struct',
+    'Test record',
     function() {
         describe(
-            'Declare struct',
+            'Declare record',
             function() {
-                it('Should declare global a struct', function() {
+                it('Should declare global a record', function() {
                     var testData = compilerTestUtils.compileAndRun([
-                            'struct S',
+                            'record S',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             'S s',
                             'proc main()',
                             'endp'
@@ -28,7 +28,7 @@ describe(
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
-                            0,      // global struct offset
+                            0,      // global record offset
                             0,
                             0,
                             9,      // stack pointer
@@ -37,12 +37,12 @@ describe(
                     );
                 });
 
-                it('Should set global struct fields', function() {
+                it('Should set global record fields', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun([
-                            'struct S',
+                            'record S',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             'S s',
                             'proc main()',
                             '    s.x = ' + ints[0],
@@ -60,7 +60,7 @@ describe(
                             65536,   // REG_OFFSET_CODE
                             0,       // REG_RETURN
                             0,       // REG_FLAGS
-                            ints[0], // global struct offset
+                            ints[0], // global record offset
                             ints[1],
                             ints[2],
                             9,       // stack pointer
@@ -72,11 +72,11 @@ describe(
                     );
                 });
 
-                it('Should declare local a struct', function() {
+                it('Should declare local a record', function() {
                     var testData = compilerTestUtils.compileAndRun([
-                            'struct S',
+                            'record S',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             'proc main()',
                             '   S s',
                             'endp'
@@ -97,12 +97,12 @@ describe(
                     );
                 });
 
-                it('Should set local struct fields', function() {
+                it('Should set local record fields', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun([
-                            'struct S',
+                            'record S',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             'proc main()',
                             '   S s',
                             '   s.x = ' + ints[0],
@@ -135,15 +135,15 @@ describe(
         );
 
         describe(
-            'Structs and pointers',
+            'Records and pointers',
             function() {
-                it('Should set values of a struct pointer', function() {
+                it('Should set values of a record pointer', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
                             'proc main()',
                             '    Point p',
@@ -162,13 +162,13 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should get derefferenced local/local struct pointer values', function() {
+                it('Should get derefferenced local/local record pointer values', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
                             'proc main()',
                                 'Point p1',
@@ -188,13 +188,13 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should get derefferenced local/global struct pointer values', function() {
+                it('Should get derefferenced local/global record pointer values', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
                             'Point *p2',
                             '',
@@ -215,13 +215,13 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should get derefferenced global/global struct pointer values', function() {
+                it('Should get derefferenced global/global record pointer values', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
                             'Point *p2',
                             'Point p1',
@@ -242,13 +242,13 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should pass a struct pointer to a procedure', function() {
+                it('Should pass a record pointer to a procedure', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
                             'proc testPointer(Point *p)',
                             '    p.x = ' + ints[0],
@@ -270,21 +270,21 @@ describe(
         );
 
         describe(
-            'Nested structs',
+            'Nested records',
             function() {
-                it('Should nest a struct', function() {
+                it('Should nest a record', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
-                            'ends',
+                            'endr',
                             '',
-                            'struct Triangle',
+                            'record Triangle',
                             '    Point p1',
                             '    Point p2',
                             '    Point p3',
-                            'ends',
+                            'endr',
                             '',
                             'proc main()',
                             '    Triangle t',
@@ -312,12 +312,12 @@ describe(
         );
 
         describe(
-            'Struct assignment',
+            'Record assignment',
             function() {
-                it('Should assign a local struct to a local struct', function() {
+                it('Should assign a local record to a local record', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
@@ -336,10 +336,10 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should assign a local struct with array field to a local struct', function() {
+                it('Should assign a local record with array field to a local record', function() {
                     var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y[2]',
                             'end',
@@ -360,10 +360,10 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should assign local array struct fields', function() {
+                it('Should assign local array record fields', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
@@ -390,10 +390,10 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should use local array struct field params', function() {
+                it('Should use local array record field params', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
@@ -414,9 +414,9 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should assign local array struct with array fields', function() {
+                it('Should assign local array record with array fields', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x[2]',
                             '    number y[2]',
                             'end',
@@ -443,9 +443,9 @@ describe(
                     assert.deepEqual(testData.messages, [67, 678, 43, 1614]);
                 });
 
-                it('Should assign local array struct with array field params', function() {
+                it('Should assign local array record with array field params', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x[2]',
                             '    number y[2]',
                             'end',
@@ -467,15 +467,15 @@ describe(
                     assert.deepEqual(testData.messages, [78, 219, 494, 2232]);
                 });
 
-                it('Should assign local array struct with array, array fields', function() {
+                it('Should assign local array record with array, array fields', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
                             '',
-                            'struct B',
+                            'record B',
                             '    A a[2]',
                             'end',
                             '',
@@ -499,12 +499,12 @@ describe(
         );
 
         describe(
-            'Composite struct pointers',
+            'Composite record pointers',
             function() {
-                it('Should print pointer struct fields', function() {
+                it('Should print pointer record fields', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
@@ -523,15 +523,15 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should assign a local struct to a local struct', function() {
+                it('Should assign a local record to a local record', function() {
                     var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
                             '',
-                            'struct B',
+                            'record B',
                             '    A *a',
                             'end',
                             '',
@@ -549,15 +549,15 @@ describe(
                     assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should assign a local struct to a local struct, multiply params', function() {
+                it('Should assign a local record to a local record, multiply params', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
                             '',
-                            'struct B',
+                            'record B',
                             '    A *a',
                             'end',
                             '',
@@ -575,15 +575,15 @@ describe(
                     assert.deepEqual(testData.messages, [ints[0] * Math.abs(ints[2]), ints[1] * Math.abs(ints[3])]);
                 });
 
-                it('Should assign a local struct to a local struct, multiply fields', function() {
+                it('Should assign a local record to a local record, multiply fields', function() {
                     var ints     = compilerTestUtils.randomInts(4);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct A',
+                            'record A',
                             '    number x',
                             '    number y',
                             'end',
                             '',
-                            'struct B',
+                            'record B',
                             '    A *a',
                             'end',
                             '',

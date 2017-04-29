@@ -39,7 +39,7 @@
                 }
             };
 
-            this.compileLocalStructParam = function(param, paramInfo, offset, size) {
+            this.compileLocalRecordParam = function(param, paramInfo, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
                 var vr             = paramInfo.vr;
 
@@ -73,7 +73,7 @@
                 }
             };
 
-            this.compileGlobalStructParam = function(param, paramInfo, offset, size) {
+            this.compileGlobalRecordParam = function(param, paramInfo, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
                 var compilerData   = this._compilerData;
 
@@ -111,8 +111,8 @@
                     var size      = vr ? (vr.size * vr.length) : 1;
 
                     // If the var is declared as a pointer and passed as *varname...
-                    if ((vr && vr.struct && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
-                        size = vr.struct.size;
+                    if ((vr && vr.record && (vr.metaType === $.T_META_POINTER)) && (paramInfo.metaType === $.T_META_POINTER)) {
+                        size = vr.record.size;
                     }
 
                     switch (paramInfo.type) {
@@ -127,7 +127,7 @@
                         case $.T_NUM_L_ARRAY:
                         case $.T_STRUCT_L_ARRAY:
                         case $.T_STRUCT_L:
-                            this.compileLocalStructParam(param, paramInfo, offset, size);
+                            this.compileLocalRecordParam(param, paramInfo, offset, size);
                             break;
 
                         case $.T_NUM_G:
@@ -137,7 +137,7 @@
                         case $.T_NUM_G_ARRAY:
                         case $.T_STRUCT_G_ARRAY:
                         case $.T_STRUCT_G:
-                            this.compileGlobalStructParam(param, paramInfo, offset, size);
+                            this.compileGlobalRecordParam(param, paramInfo, offset, size);
                             break;
                     }
 
@@ -178,7 +178,7 @@
                     } else {
                         var global = compilerData.findGlobal(procedure);
                         if (global !== null) {
-                            if ((global.type !== $.T_PROC_G) && ((global.struct === null) || (global.origType !== $.T_PROC_G))) {
+                            if ((global.type !== $.T_PROC_G) && ((global.record === null) || (global.origType !== $.T_PROC_G))) {
                                 throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_CAN_NOT_CALL_GLOBAL, 'Type error, can not call "' + procedure + '".');
                             }
                             callCommand = createCallCommand($.GLOBAL(global.offset));

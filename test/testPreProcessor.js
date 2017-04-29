@@ -243,10 +243,10 @@ describe(
             );
         });
 
-        it('Should add ends', function() {
+        it('Should add endr', function() {
             var files = createFiles(
                     [
-                        'struct S',
+                        'record S',
                         '    number n',
                         'end',
                         '',
@@ -291,9 +291,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -337,9 +337,9 @@ describe(
                     ],
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -382,9 +382,9 @@ describe(
                     ],
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -426,9 +426,9 @@ describe(
                     ],
                     [ // include.whl
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -477,9 +477,9 @@ describe(
                     ],
                     [ // include.whl
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -531,9 +531,9 @@ describe(
                         '#define TEST_DEFINITION 989834',
                         '',
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -574,9 +574,9 @@ describe(
                         '#define TEST_DEFINITION2 129',
                         '',
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -617,9 +617,9 @@ describe(
                         '#define TEST_DEFINITION printN(123)',
                         '',
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends',
+                        '    endr',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -657,9 +657,9 @@ describe(
             var files = createFiles(
                     [
                         'proc printN(number n)',
-                        '    struct PrintNumber',
+                        '    record PrintNumber',
                         '        number n',
-                        '    ends ; This should be no problem.',
+                        '    endr ; This should be no problem.',
                         '    PrintNumber printNumber',
                         '    printNumber.n = n',
                         '    addr     printNumber',
@@ -697,7 +697,7 @@ describe(
             function() {
                 var files = createFiles(
                         [
-                            'struct S',
+                            'record S',
                             '    number n',
                             'end',
                             'end',

@@ -26,10 +26,10 @@
                 this._procedureList     = {};
                 this._procedure         = null;
 
-                this._structOffset      = 0;
-                this._structList        = {};
-                this._struct            = null;
-                this._structLocal       = {};
+                this._recordOffset      = 0;
+                this._recordList        = {};
+                this._record            = null;
+                this._recordLocal       = {};
 
                 this._stringList        = [];
 
@@ -89,11 +89,11 @@
             };
 
             /* Global */
-            this.declareGlobal = function(name, type, arrayType, struct, location, allowConstant) {
+            this.declareGlobal = function(name, type, arrayType, record, location, allowConstant) {
                 var metaType   = this.getPointerVar(name) ? $.T_META_POINTER : null;
                 var vr         = this._parseVariable(this.getNameWithoutPointer(name));
                 var globalList = this._globalList;
-                var size       = struct ? struct.size : 1;
+                var size       = record ? record.size : 1;
 
                 wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, globalList);
                 wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
@@ -104,14 +104,14 @@
                         offset:   this._globalOffset,
                         size:     size,
                         length:   vr.length,
-                        struct:   struct ? struct : null,
+                        record:   record ? record : null,
                         value:    vr.value,
                         location: location
                     };
                 globalList[vr.name] = global;
 
                 if (metaType === $.T_META_POINTER) {
-                    size = 1; // Only use 1 number for a pointer, the struct size might differ...
+                    size = 1; // Only use 1 number for a pointer, the record size might differ...
                 }
                 this._globalOffset += vr.length * size;
 
@@ -156,18 +156,18 @@
                             result[i] = vr[i];
                         }
                         result.origOffset = result.offset;
-                        //if (vr.struct) {
-                            var struct = vr.struct;
+                        //if (vr.record) {
+                            var record = vr.record;
                             var i      = 1;
-                            while (struct && (i < parts.length)) {
+                            while (record && (i < parts.length)) {
                                 field = parts[i];
-                                if (field in struct.fields) {
-                                    field           = struct.fields[field];
+                                if (field in record.fields) {
+                                    field           = record.fields[field];
                                     result.type     = (field.length > 1) ? baseArrayType : baseType;
                                     result.origType = field.type;
                                     result.metaType = field.metaType;
                                     result.offset += field.offset;
-                                    struct = field.struct;
+                                    record = field.record;
                                 } else {
                                     throw this._compiler.createError(wheel.compiler.error.UNDEFINED_FIELD, 'Undefined field "' + field + '".');
                                 }
@@ -200,11 +200,11 @@
                 this.declareLocal('_____LOCAL2_____', $.T_NUM_L, false, false, false);
             };
 
-            this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
+            this.declareLocal = function(name, type, arrayType, record, allowConstant) {
                 var metaType  = this.getPointerVar(name) ? $.T_META_POINTER : null;
                 var vr        = this._parseVariable(this.getNameWithoutPointer(name));
                 var localList = this._localList;
-                var size      = (metaType === $.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
+                var size      = (metaType === $.T_META_POINTER) ? 1 : (record ? record.size : 1);
 
                 wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, localList);
                 wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
@@ -216,12 +216,12 @@
                         size:     size,
                         length:   vr.length,
                         value:    vr.value,
-                        struct:   struct ? struct : null
+                        record:   record ? record : null
                     };
                 localList[vr.name] = local;
 
                 if (metaType === $.T_META_POINTER) {
-                    this._localOffset += 1; // Only use 1 number for a pointer, the struct size might differ...
+                    this._localOffset += 1; // Only use 1 number for a pointer, the record size might differ...
                 } else {
                     this._localOffset += vr.length * size;
                 }
@@ -279,8 +279,8 @@
                 return this._procedureList[name] || null;
             };
 
-            /* Struct */
-            this.declareStruct = function(name, command, location) {
+            /* Record */
+            this.declareRecord = function(name, command, location) {
                 var result = {
                         name:     name,
                         size:     0,
@@ -288,59 +288,59 @@
                         location: location
                     };
                 var compiler   = this._compiler;
-                var structList = this._structList;
+                var recordList = this._recordList;
                 if (!wheel.compiler.compilerHelper.validateString(name)) {
                     throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
                 }
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, structList);
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, recordList);
 
-                structList[name]   = result;
-                this._struct       = result;
-                this._structOffset = 0;
+                recordList[name]   = result;
+                this._record       = result;
+                this._recordOffset = 0;
 
                 if (compiler.getInProc()) {
-                    this._structLocal[name] = true;
+                    this._recordLocal[name] = true;
                 }
 
                 return result;
             };
 
-            this.removeLocalStructs = function() {
-                for (var name in this._structLocal) {
-                    delete this._structList[name];
+            this.removeLocalRecords = function() {
+                for (var name in this._recordLocal) {
+                    delete this._recordList[name];
                 }
-                this._structLocal = {};
+                this._recordLocal = {};
             };
 
-            this.findStruct = function(name) {
-                return this._structList[name] || null;
+            this.findRecord = function(name) {
+                return this._recordList[name] || null;
             };
 
-            this.declareStructField = function(name, type, arrayType, size, structType) {
+            this.declareRecordField = function(name, type, arrayType, size, recordType) {
                 (size   === undefined) && (size   = 1);
                 var metaType = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var struct   = this._struct;
+                var record   = this._record;
 
                 name = this.getNameWithoutPointer(name);
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, struct);
+                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, record);
 
                 var vr          = this._parseVariable(name);
-                var structField = {
+                var recordField = {
                         type:     (vr.length === 1) ? type : arrayType,
-                        struct:   structType || false,
+                        record:   recordType || false,
                         metaType: metaType,
-                        offset:   this._structOffset,
+                        offset:   this._recordOffset,
                         size:     size,
                         length:   vr.length
                     };
-                struct.fields[vr.name] = structField;
+                record.fields[vr.name] = recordField;
 
-                this._structOffset += vr.length * size;
-                struct.size = this._structOffset;
+                this._recordOffset += vr.length * size;
+                record.size = this._recordOffset;
 
-                return structField;
+                return recordField;
             };
 
             this.paramInfo = function(param) {

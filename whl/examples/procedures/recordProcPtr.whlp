@@ -8,13 +8,13 @@ proc demoProc()
     printS("Demo procedure")
 endp
 
-struct TestStruct
+record TestRecord
     proc p
-ends
+endr
 
-TestStruct testStruct
+TestRecord testRecord
 
 proc main()
-    set testStruct.p, demoProc
-    testStruct.p()
+    set testRecord.p, demoProc
+    testRecord.p()
 endp

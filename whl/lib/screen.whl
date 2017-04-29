@@ -20,9 +20,9 @@ proc clearScreen()
 endp
 
 proc setFill(number fill)
-    struct SetFill
+    record SetFill
         number fill
-    ends
+    endr
     SetFill setFill
     set      setFill.fill,           fill
     addr     setFill
@@ -30,9 +30,9 @@ proc setFill(number fill)
 endp
 
 proc setFillColor(number fillColor)
-    struct SetFillColor
+    record SetFillColor
         number fillColor
-    ends
+    endr
     SetFillColor setFillColor
     set      setFillColor.fillColor, fillColor
     addr     setFillColor
@@ -40,9 +40,9 @@ proc setFillColor(number fillColor)
 endp
 
 proc drawPixel(number x, number y)
-    struct DrawPixel
+    record DrawPixel
         number   x, y
-    ends
+    endr
     DrawPixel drawPixel
     set      drawPixel.x,            x
     set      drawPixel.y,            y
@@ -51,9 +51,9 @@ proc drawPixel(number x, number y)
 endp
 
 proc drawNumber(number x, number y, number n)
-    struct DrawNumber
+    record DrawNumber
         number   x, y, n
-    ends
+    endr
     DrawNumber drawNumber
     set      drawNumber.x,           x
     set      drawNumber.y,           y
@@ -63,10 +63,10 @@ proc drawNumber(number x, number y, number n)
 endp
 
 proc drawText(number x, number y, string s)
-    struct DrawText
+    record DrawText
         number   x, y
         string   s
-    ends
+    endr
     DrawText drawText
     set      drawText.x,             x
     set      drawText.y,             y
@@ -76,9 +76,9 @@ proc drawText(number x, number y, string s)
 endp
 
 proc drawLine(number x1, number y1, number x2, number y2)
-    struct DrawLine
+    record DrawLine
         number   x1, y1, x2, y2
-    ends
+    endr
     DrawLine drawLine
     set      drawLine.x1,            x1
     set      drawLine.y1,            y1
@@ -89,9 +89,9 @@ proc drawLine(number x1, number y1, number x2, number y2)
 endp
 
 proc drawRect(number x, number y, number width, number height)
-    struct DrawRect
+    record DrawRect
         number   x, y, width, height
-    ends
+    endr
     DrawRect drawRect
     set      drawRect.x,             x
     set      drawRect.y,             y
@@ -102,9 +102,9 @@ proc drawRect(number x, number y, number width, number height)
 endp
 
 proc drawCircle(number x, number y, number radius)
-    struct DrawCircle
+    record DrawCircle
         number   x, y, radius
-    ends
+    endr
     DrawCircle drawCircle
     set      drawCircle.x,           x
     set      drawCircle.y,           y
@@ -114,10 +114,10 @@ proc drawCircle(number x, number y, number radius)
 endp
 
 proc drawImage(number x, number y, string filename)
-    struct DrawImage
+    record DrawImage
         number   x, y
         string   filename
-    ends
+    endr
     DrawImage drawImage
     set      drawImage.x,            x
     set      drawImage.y,            y

@@ -12,9 +12,9 @@ describe(
                 it('Should output a number message', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printN(number n)',
-                            '    struct PrintNumber',
+                            '    record PrintNumber',
                             '        number n',
-                            '    ends',
+                            '    endr',
                             '    PrintNumber printNumber',
                             '    printNumber.n = n',
                             '    addr     printNumber',
@@ -32,9 +32,9 @@ describe(
                 it('Should output a string message', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printS(string s)',
-                            '    struct PrintString',
+                            '    record PrintString',
                             '        string s',
-                            '    ends',
+                            '    endr',
                             '    PrintString printString',
                             '    printString.s = s',
                             '    addr     printString',

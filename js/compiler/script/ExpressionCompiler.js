@@ -225,7 +225,7 @@
                     switch (c) {
                         case '.':
                             calculation = false;
-                            result.push('%expect_struct ' + part.trim());
+                            result.push('%expect_record ' + part.trim());
                             if (first) {
                                 result.push('%if_global ' + part);
                                 result.push('    set ' + resultVar + ',%offset(' + part + ')');
@@ -370,10 +370,10 @@
                         result.push(node.command + ' ' + vr2 + ',' + vr3);
                     }
                 } else if (this.isComposite(node.value)) {
-                    var structVar = this.compileCompositeVar(result, node.value);
+                    var recordVar = this.compileCompositeVar(result, node.value);
                     this.declareNumber(result, localVr + '_' + depth);
                     result.push('set REG_SRC,REG_STACK');
-                    result.push('set REG_STACK,' + structVar.result);
+                    result.push('set REG_STACK,' + recordVar.result);
                     result.push('set REG_DEST,%REG_STACK');
                     result.push('set REG_STACK,REG_SRC');
                     result.push(command + ' ' + vr1 + ',REG_DEST');

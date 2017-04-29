@@ -91,9 +91,9 @@
                     #define STANDARD_SLEEP  2
 
                     proc sleep(number milliseconds)
-                        struct Sleep
+                        record Sleep
                             number milliseconds
-                        ends
+                        endr
                         Sleep sleep
                         set    sleep.milliseconds, milliseconds
                         addr   sleep

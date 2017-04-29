@@ -14,18 +14,18 @@
                 return compilerData.findGlobal(vr) || compilerData.findLocal(vr);
             };
 
-            this.expectStruct = function(param) {
+            this.expectRecord = function(param) {
                 var parts = param.split('.');
                 var vr    = this.findVar(parts[0]);
                 if (vr) {
-                    var struct = vr.struct;
-                    if (struct) {
+                    var record = vr.record;
+                    if (record) {
                         var k = 1;
                         while (k < parts.length) {
-                            var field = struct.fields[parts[k]];
+                            var field = record.fields[parts[k]];
                             if (field) {
-                                struct = field.struct;
-                                if (!struct) {
+                                record = field.record;
+                                if (!record) {
                                     break;
                                 }
                             } else {
@@ -34,7 +34,7 @@
                             k++;
                         }
                     }
-                    if (!struct) {
+                    if (!record) {
                         throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
                     }
                 } else {
@@ -48,15 +48,15 @@
                 if (vr) {
                     var i = 1;
                     if (parts.length > 1) {
-                        var struct = vr.struct;
+                        var record = vr.record;
                         for (var i = 1; i < parts.length; i++) {
-                            var field = struct.fields[parts[i]];
+                            var field = record.fields[parts[i]];
                             if (!field) {
                                 // todo: error
                             }
-                            field.struct && (struct = field.struct);
+                            field.record && (record = field.record);
                         }
-                        vr = struct;
+                        vr = record;
                     }
                     if (vr.length <= 1) {
                         throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_ARRAY_EXPECTED, 'Type error.');
@@ -89,7 +89,7 @@
                                         count++;
                                         break;
 
-                                    case '%if_struct':
+                                    case '%if_record':
                                         count++;
                                         break;
 
@@ -164,13 +164,13 @@
                     result = vr;
                     var parts = identifier.split('.');
                     if (parts.length > 1) {
-                        var struct = result.struct;
+                        var record = result.record;
                         var i = 1;
                         while (i < parts.length) {
-                            var field = struct.fields[parts[i]];
+                            var field = record.fields[parts[i]];
                             if (field) {
                                 result = field;
-                                struct = field.struct;
+                                record = field.record;
                             } else {
                                 result = null;
                                 break;
@@ -255,8 +255,8 @@
                             result = '';
                             break;
 
-                        case '%expect_struct':
-                            this.expectStruct(param);
+                        case '%expect_record':
+                            this.expectRecord(param);
                             result = '';
                             break;
 
@@ -282,12 +282,12 @@
                             this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(this.cleanIdentifier(param)));
                             break;
 
-                        case '%if_struct':
+                        case '%if_record':
                             result = '';
                             var vr = this.findLastType(this.cleanIdentifier(param));
                             if (vr) {
                                 lines[index] = '';
-                                this.updateConditionalLines(lines, index, !!vr.struct);
+                                this.updateConditionalLines(lines, index, !!vr.record);
                             } else {
                                 // todo: error
                             }

@@ -202,8 +202,8 @@
             <div class="two first">
                 <h4>#3 SYNTAX_ERROR_INVALID_STRUCS_CHAR</h4>
                 <pre>
-                    struct ~bad
-                    ends
+                    record ~bad
+                    endr
                     proc main()'
                     endp
                 </pre>
@@ -395,9 +395,9 @@
             <div class="two first">
                 <h4>#24 UNDEFINED_FIELD</h4>
                 <pre>
-                    struct S
+                    record S
                        number n
-                    ends
+                    endr
                     S s
                     proc main()
                        set s.wrong, 1
@@ -427,7 +427,7 @@
             <div class="two first">
                 <h4>#27 INVALID_BLOCK_CLOSE</h4>
                 <pre>
-                    struct S
+                    record S
                        number n
                     endp
                     proc main()

@@ -8,9 +8,9 @@
 #define FALSE                 0
 
 proc printN(number n)
-    struct PrintNumber
+    record PrintNumber
         number   n
-    ends
+    endr
     PrintNumber printNumber
     set      printNumber.n,          n
     addr     printNumber
@@ -18,9 +18,9 @@ proc printN(number n)
 endp
 
 proc printS(string s)
-    struct PrintString
+    record PrintString
         string   s
-    ends
+    endr
     PrintString printString
     set      printString.s,          s
     addr     printString
@@ -28,9 +28,9 @@ proc printS(string s)
 endp
 
 proc sleep(number milliseconds)
-    struct Sleep
+    record Sleep
         number milliseconds
-    ends
+    endr
     Sleep sleep
     set      sleep.milliseconds,     milliseconds
     addr     sleep

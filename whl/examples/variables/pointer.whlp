@@ -1,40 +1,40 @@
 #project "Number demo"
-    
+
 ;include "/lib/standard.whl"
-        
-;struct Point
+
+;record Point
 ;    number   x
 ;    number   y
-;ends
-    
+;endr
+
 ;Point points[10]
-    
+
 ;proc testPointer(Point *points[0])
 ;	Point point
 ;    arrayr point, *points, 1
 ;    printN(point.x)
 ;    printN(point.y)
 ;endp
-    
+
 ;proc main()
 ;	Point p
 ;    set p.x, 10
 ;    set p.y, 11
 ;    arrayw   points,              1, p
-;    
+;
 ;	testPointer(&points)
 ;endp
 
 ;proc testPointer(Point *points[0])
-;	Point p    
+;	Point p
 ;    set p.x, 678
 ;    set p.y, 534
 ;    arrayw *points, 1, p
 ;endp
-    
+
 ;proc main()
 ;	Point points[10]
-    
+
 ;	testPointer(&points)
 
 ;	Point point
@@ -44,17 +44,17 @@
 ;endp
 
 ;proc testPointer(Point *point)
-;	Point p    
+;	Point p
 ;    set *p.x, 678
 ;    set *p.y, 534
 ;endp
-    
+
 proc main()
 	number n
     number *pn
- 
+
     ;set pn, &n
     set *pn, 34
-    
+
     ;printN(n)
 endp

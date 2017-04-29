@@ -12,9 +12,9 @@ describe(
                 it('Should output 3 constant numbers', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printN(number n)',
-                            '    struct PrintNumber',
+                            '    record PrintNumber',
                             '        number n',
-                            '    ends',
+                            '    endr',
                             '    PrintNumber printNumber',
                             '    printNumber.n = n',
                             '    addr     printNumber',
@@ -38,9 +38,9 @@ describe(
                 it('Should output 3 locals', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'proc printN(number n)',
-                            '    struct PrintNumber',
+                            '    record PrintNumber',
                             '        number n',
-                            '    ends',
+                            '    endr',
                             '    PrintNumber printNumber',
                             '    printNumber.n = n',
                             '    addr     printNumber',

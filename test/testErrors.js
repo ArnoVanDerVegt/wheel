@@ -75,8 +75,8 @@ describe(
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
-                                'struct ~bad',
-                                'ends',
+                                'record ~bad',
+                                'endr',
                                 'proc main()',
                                 'endp'
                             ]);
@@ -425,9 +425,9 @@ describe(
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
-                                'struct S',
+                                'record S',
                                 '   number n',
-                                'ends',
+                                'endr',
                                 'S s',
                                 'proc main()',
                                 '   s.wrong = 1',
@@ -568,7 +568,7 @@ describe(
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
-                                'struct S',
+                                'record S',
                                 '   number n',
                                 'endp',
                                 'proc main()',

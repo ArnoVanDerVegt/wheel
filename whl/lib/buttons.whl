@@ -10,9 +10,9 @@
 #define BUTTON_DOWN    5
 
 proc button()
-    struct Button
+    record Button
         number result
-    ends
+    endr
     Button button
     addr     button
     module   MODULE_BUTTONS,           BUTTON_READ

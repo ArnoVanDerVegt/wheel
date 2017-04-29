@@ -3,7 +3,7 @@
  *
  *         string n1 [, n2[, n3[, ...]]]
  *
- * This code compiles string declarations in three scopes: global, local and struct.
+ * This code compiles string declarations in three scopes: global, local and record.
  *
 **/
 (function() {
@@ -26,11 +26,11 @@
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                if (compiler.getActiveStruct() !== null) {
-                    // Declare a string of array of strings field in a struct...
+                if (compiler.getActiveRecord() !== null) {
+                    // Declare a string of array of strings field in a record...
                     for (var i = 0; i < params.length; i++) {
-                        var structField = compilerData.declareStructField(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY);
-                        structField && (structField.metaType = $.T_META_STRING);
+                        var recordField = compilerData.declareRecordField(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY);
+                        recordField && (recordField.metaType = $.T_META_STRING);
                     }
                 } else if (compiler.getInProc()) {
                     // Declare a local string constant...

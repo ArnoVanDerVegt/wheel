@@ -3,7 +3,7 @@
  *
  *         number n1 [, n2[, n3[, ...]]]
  *
- * This code compiles number declarations in three scopes: global, local and struct.
+ * This code compiles number declarations in three scopes: global, local and record.
  *
 **/
 (function() {
@@ -21,10 +21,10 @@
 				this._compiler.getOutput().a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
             };
 
-            this.declareStructFields = function(params, type, arrayType) {
+            this.declareRecordFields = function(params, type, arrayType) {
                 $ = wheel.compiler.command;
                 for (var j = 0; j < params.length; j++) {
-                    this._compilerData.declareStructField(params[j], type, arrayType);
+                    this._compilerData.declareRecordField(params[j], type, arrayType);
                 }
             };
         })
