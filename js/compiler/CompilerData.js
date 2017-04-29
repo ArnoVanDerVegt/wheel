@@ -14,22 +14,14 @@
             };
 
             this.reset = function() {
-                this._globalConstants   = [];
-
-                this._global            = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
-                this._local             = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
-
-                this._labelList         = {};
-
-                this._procedureList     = {};
-                this._procedure         = null;
-
-                this._recordOffset      = 0;
-                this._recordList        = {};
-                this._record            = null;
-                this._recordLocal       = {};
-
-                this._stringList        = [];
+                this._globalConstants = [];
+                this._global          = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
+                this._local           = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
+                this._labelList       = {};
+                this._procedureList   = {};
+                this._procedure       = null;
+                this._record          = new wheel.compiler.CompilerRecord({compiler: this._compiler, compilerData: this});
+                this._stringList      = [];
 
                 this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, false);
                 this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, false);
@@ -182,66 +174,19 @@
 
             /* Record */
             this.declareRecord = function(name, command, location) {
-                var result = {
-                        name:     name,
-                        size:     0,
-                        fields:   {},
-                        location: location
-                    };
-                var compiler   = this._compiler;
-                var recordList = this._recordList;
-                if (!wheel.compiler.compilerHelper.validateString(name)) {
-                    throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
-                }
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, recordList);
-
-                recordList[name]   = result;
-                this._record       = result;
-                this._recordOffset = 0;
-
-                if (compiler.getInProc()) {
-                    this._recordLocal[name] = true;
-                }
-
-                return result;
+                return this._record.declareRecord(name, command, location);
             };
 
             this.removeLocalRecords = function() {
-                for (var name in this._recordLocal) {
-                    delete this._recordList[name];
-                }
-                this._recordLocal = {};
+                this._record.removeLocalRecords();
             };
 
             this.findRecord = function(name) {
-                return this._recordList[name] || null;
+                return this._record.findRecord(name);
             };
 
             this.declareRecordField = function(name, type, arrayType, size, recordType) {
-                (size   === undefined) && (size   = 1);
-                var metaType = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var record   = this._record;
-
-                name = this.getNameWithoutPointer(name);
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, record);
-
-                var vr          = this._parseVariable(name);
-                var recordField = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        record:   recordType || false,
-                        metaType: metaType,
-                        offset:   this._recordOffset,
-                        size:     size,
-                        length:   vr.length
-                    };
-                record.fields[vr.name] = recordField;
-
-                this._recordOffset += vr.length * size;
-                record.size = this._recordOffset;
-
-                return recordField;
+                return this._record.declareRecordField(name, type, arrayType, size, recordType);
             };
 
             this.paramInfo = function(param) {
