@@ -16,7 +16,12 @@
             },
 
             checkDuplicateIdentifier: function(compiler, name, list) {
-                if (name in list) {
+                if ('filter' in list) {
+                    var vr = list.filter(function(item) { return (item.name === name); })[0];
+                    if (vr) {
+                        throw compiler.createError(wheel.compiler.error.DUPLICATE_IDENTIFIER, 'Duplicate identifier "' + name + '".');
+                    }
+                } else if (name in list) {
                     throw compiler.createError(wheel.compiler.error.DUPLICATE_IDENTIFIER, 'Duplicate identifier "' + name + '".');
                 }
             },

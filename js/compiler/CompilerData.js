@@ -31,33 +31,6 @@
                 this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, false);
             };
 
-            this._parseVariable = function(name) {
-                var value = null;
-                var i     = name.indexOf('=');
-
-                if (i !== -1) {
-                    value = name.substr(i + 1 - name.length).trim();
-                    name  = name.substr(0, i).trim();
-                }
-
-                var length = 1;
-                i = name.indexOf('[');
-                if (i !== -1) {
-                    if (name[name.length - 1] === ']') {
-                        length = parseInt(name.substr(i + 1, name.length - i - 2));
-                        name   = name.substr(0, i);
-                    } else {
-                        throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED, '"]" expected.');
-                    }
-                }
-
-                return {
-                    name:   name,
-                    value:  value,
-                    length: length
-                };
-            };
-
             this.getPointerVar = function(name) {
                 return (name[0] === '*');
             };

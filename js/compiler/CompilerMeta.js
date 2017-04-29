@@ -22,7 +22,7 @@
                     if (record) {
                         var k = 1;
                         while (k < parts.length) {
-                            var field = record.list.getList()[parts[k]];
+                            var field = record.list.getByName(parts[k]);
                             if (field) {
                                 record = field.record;
                                 if (!record) {
@@ -50,7 +50,7 @@
                     if (parts.length > 1) {
                         var record = vr.record;
                         for (var i = 1; i < parts.length; i++) {
-                            var field = record.list.getList()[parts[i]];
+                            var field = record.list.getByName(parts[i]);
                             if (!field) {
                                 // todo: error
                             }
@@ -167,7 +167,7 @@
                         var record = result.record;
                         var i = 1;
                         while (i < parts.length) {
-                            var field = record.list.getList()[parts[i]];
+                            var field = record.list.getByName(parts[i]);
                             if (field) {
                                 result = field;
                                 record = field.record;
