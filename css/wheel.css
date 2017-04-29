@@ -336,9 +336,13 @@ div.half p {
     padding:                    0 8px 0 8px;
     float:                      left;
 }
+/*
+    border-color:               #2980b9;
+    background-color:           #3498db;
+*/
 div.one.sub-title {
     float:                      left;
-    border:                     2px solid #2ECC71;
+    border:                     2px solid #3498db;
     border-radius:              8px;
     margin:                     32px 0 16px 0;
 }
@@ -349,20 +353,21 @@ div.one.sub-title img {
 div.one.sub-title span {
     width:                      510px;
 }
-div.one.sub-title span.title {
+div.one.sub-title span.title,
+div.one.sub-title span.text {
     float:                      left;
+    color:                      #2980b9;
+}
+div.one.sub-title span.title {
     height:                     104px;
     line-height:                104px;
     font-size:                  20px;
-    color:                      #2ECC71;
 }
 div.one.sub-title span.text {
-    float:                      left;
     height:                     104px;
-    line-height:                21px;
-    font-size:                  17px;
-    color:                      #2ECC71;
-    padding:                    10px 0 0 0;
+    line-height:                18px;
+    font-size:                  15px;
+    padding:                    16px 0 0 0;
 }
 
 .index-links {
