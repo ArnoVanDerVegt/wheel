@@ -15,7 +15,6 @@
                 var compilerOutput = this._compiler.getOutput();
                 var param1         = validatedCommand.params[0];
                 var param2         = validatedCommand.params[1];
-                var offset;
 
                 if ($.isStringConstType(param2) ||
                     (($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)))) {

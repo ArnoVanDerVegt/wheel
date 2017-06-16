@@ -109,11 +109,9 @@
 
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i];
-                    var found = false;
 
                     for (var j = 0; j < args.length; j++) {
-                        var argsMetaType = args[j].metaType || false;
-                        var matchType    = false;
+                        var matchType = false;
 
                         // Check the primitive types...
                         if (param.type === args[j].type) {
@@ -132,8 +130,7 @@
                         }
 
                         if (matchType) {
-                            args  = ('args' in args[j]) ? args[j].args : args[j];
-                            found = true;
+                            args = ('args' in args[j]) ? args[j].args : args[j];
                             break;
                         }
                     }

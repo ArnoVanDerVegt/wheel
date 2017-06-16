@@ -1,13 +1,10 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.CompilerRecord',
         wheel.Class(function() {
             this.init = function(opts) {
-                $ = wheel.compiler.command;
-
                 this._compiler     = opts.compiler;
                 this._compilerData = opts.compilerData;
                 this.reset();

@@ -220,7 +220,6 @@
                         result.push('set REG_DEST,%REG_STACK');
                         result.push('set REG_STACK,REG_SRC');
                     } else {
-                        var tempPointerVar = expressionCompiler.createTempVarName();
                         result.push('%if_pointer ' + vr);
                         if (value.substr(0, 1) === '&') {
                             result.push('        %if_global ' + value);
@@ -412,6 +411,7 @@
 
                 var result       = [];
                 var outputParams = [];
+                var tempVar;
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.calculation) {

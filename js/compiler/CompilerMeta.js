@@ -124,7 +124,7 @@
                     var c = identifier[i++];
                     switch (c) {
                         case '[':
-                            open = 1;
+                            var open = 1;
                             while (open) {
                                 c = identifier[i++];
                                 switch (c) {
