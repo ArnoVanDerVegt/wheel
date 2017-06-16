@@ -27,7 +27,7 @@
                         throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_PROC_PARAM, 'Syntax error in procedure parameter "' + params[j] + '".');
                     }
 
-                    var struct = null;
+                    var record = null;
                     switch (param[0]) {
                         case 'number':
                             compilerData.declareLocal(param[1], $.T_NUM_L, $.T_NUM_L_ARRAY, false);
@@ -39,14 +39,14 @@
                             break;
 
                         default:
-                            struct = compilerData.findStruct(param[0]);
-                            if (struct === null) {
+                            record = compilerData.findRecord(param[0]);
+                            if (record === null) {
                                 throw compiler.createError(wheel.compiler.error.TYPE_ERROR_UNKNOWN_PARAM_TYPE, 'Unknown type "' + param[0] + '".');
                             }
-                            compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct, false);
+                            compilerData.declareLocal(param[1], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, record, false);
                             break;
                     }
-                    procedure.paramTypes.push({type: param[0], struct: struct});
+                    procedure.paramTypes.push({type: param[0], record: record});
                 }
 
                 return procStartIndex;
@@ -65,15 +65,15 @@
                     for (var j = 0; j < params.length; j++) {
                         params[j] = params[j].trim();
                     }
-                    if (compiler.getActiveStruct() !== null) {
-                        this.declareStructFields(params, $.T_PROC_G, $.T_PROC_G_ARRAY);
+                    if (compiler.getActiveRecord() !== null) {
+                        this.declareRecordFields(params, $.T_PROC_G, $.T_PROC_G_ARRAY);
                     } else if (compiler.getInProc()) {
                         for (var j = 0; j < params.length; j++) {
                             compilerData.declareLocal(params[j], $.T_PROC_L, $.T_PROC_L_ARRAY, false);
                         }
                     } else {
                         for (var j = 0; j < params.length; j++) {
-                            compilerData.declareGlobal(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY, null, location, false);
+                            compilerData.declareGlobal(params[j], $.T_PROC_G, $.T_PROC_G_ARRAY, null, false);
                         }
                     }
                 }

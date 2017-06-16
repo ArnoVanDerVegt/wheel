@@ -6,9 +6,9 @@
 #define MOTOR_STOP    3
 
 proc motorReset(number id)
-    struct MotorReset
+    record MotorReset
         number   id
-    ends
+    endr
     MotorReset motorReset
     set      motorReset.id,          id
     addr     motorReset
@@ -16,11 +16,11 @@ proc motorReset(number id)
 endp
 
 proc motorMoveTo(number id, number target, number power)
-    struct MotorMoveTo
+    record MotorMoveTo
         number   id
         number   target
         number   power
-    ends
+    endr
     MotorMoveTo motorMoveTo
     set      motorMoveTo.id,         id
     set      motorMoveTo.target,     target
@@ -30,10 +30,10 @@ proc motorMoveTo(number id, number target, number power)
 endp
 
 proc motorMove(number id, number power)
-    struct MotorMove
+    record MotorMove
         number   id
         number   power
-    ends
+    endr
     MotorMove motorMove
     set      motorMove.id,           id
     set      motorMove.power,        power
@@ -42,9 +42,9 @@ proc motorMove(number id, number power)
 endp
 
 proc motorStop(number id)
-    struct MotorStop
+    record MotorStop
         number   id
-    ends
+    endr
     MotorStop motorStop
     set      motorStop.id,          id
     addr     motorStop

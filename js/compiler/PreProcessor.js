@@ -22,7 +22,8 @@
                         node = node.children[c];
                     } else {
                         var child = {
-                                children: {}
+                                children: {},
+                                value:    ''
                             };
                         node.children[c] = child;
                         node             = child;

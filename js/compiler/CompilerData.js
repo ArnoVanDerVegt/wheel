@@ -14,58 +14,21 @@
             };
 
             this.reset = function() {
-                this._globalOffset      = 0;
-                this._globalList        = {};
-                this._globalConstants   = [];
+                this._globalConstants = [];
+                this._global          = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
+                this._local           = new wheel.compiler.CompilerList({compiler: this._compiler, compilerData: this});
+                this._labelList       = {};
+                this._procedureList   = {};
+                this._procedure       = null;
+                this._record          = new wheel.compiler.CompilerRecord({compiler: this._compiler, compilerData: this});
+                this._stringList      = [];
 
-                this._localOffset       = 0;
-                this._localList         = {};
-
-                this._labelList         = {};
-
-                this._procedureList     = {};
-                this._procedure         = null;
-
-                this._structOffset      = 0;
-                this._structList        = {};
-                this._struct            = null;
-                this._structLocal       = {};
-
-                this._stringList        = [];
-
-                this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_DEST_____',   $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_CODE_____',   $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_RETURN_____', $.T_NUM_G, 0, null, {}, false);
-                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, {}, false);
-            };
-
-            this._parseVariable = function(name) {
-                var value = null;
-                var i     = name.indexOf('=');
-
-                if (i !== -1) {
-                    value = name.substr(i + 1 - name.length).trim();
-                    name  = name.substr(0, i).trim();
-                }
-
-                var length = 1;
-                i = name.indexOf('[');
-                if (i !== -1) {
-                    if (name[name.length - 1] === ']') {
-                        length = parseInt(name.substr(i + 1, name.length - i - 2));
-                        name   = name.substr(0, i);
-                    } else {
-                        throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_ARRAY_CLOSE_EXPECTED, '"]" expected.');
-                    }
-                }
-
-                return {
-                    name:   name,
-                    value:  value,
-                    length: length
-                };
+                this.declareGlobal('_____GLOBAL_REG_STACK_____',  $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_SRC_____',    $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_DEST_____',   $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_CODE_____',   $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_RETURN_____', $.T_NUM_G, 0, null, false);
+                this.declareGlobal('_____GLOBAL_REG_FLAGS_____',  $.T_NUM_G, 0, null, false);
             };
 
             this.getPointerVar = function(name) {
@@ -89,33 +52,8 @@
             };
 
             /* Global */
-            this.declareGlobal = function(name, type, arrayType, struct, location, allowConstant) {
-                var metaType   = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var vr         = this._parseVariable(this.getNameWithoutPointer(name));
-                var globalList = this._globalList;
-                var size       = struct ? struct.size : 1;
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, globalList);
-                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
-
-                var global = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        metaType: metaType,
-                        offset:   this._globalOffset,
-                        size:     size,
-                        length:   vr.length,
-                        struct:   struct ? struct : null,
-                        value:    vr.value,
-                        location: location
-                    };
-                globalList[vr.name] = global;
-
-                if (metaType === $.T_META_POINTER) {
-                    size = 1; // Only use 1 number for a pointer, the struct size might differ...
-                }
-                this._globalOffset += (vr.length || 1) * size;
-
-                return global;
+            this.declareGlobal = function(name, type, arrayType, record, allowConstant) {
+                return this._global.declareItem(name, type, arrayType, record, allowConstant);
             };
 
             this.declareString = function(value) {
@@ -134,107 +72,35 @@
             };
 
             this.allocateGlobal = function(size) {
-                var offset = this._globalOffset;
-                this._globalOffset += size;
-                return offset;
-            };
-
-            this.findInList = function(list, name, baseType, baseArrayType) {
-                var field = false;
-                var parts = name.trim().split('.');
-
-                if (parts.length > 1) {
-                    field = true;
-                    name  = parts[0];
-                }
-
-                if (name in list) {
-                    var vr = list[name];
-                    if (field) {
-                        var result = {};
-                        for (var i in vr) {
-                            result[i] = vr[i];
-                        }
-                        result.origOffset = result.offset;
-                        if (vr.struct) {
-                            var struct = vr.struct;
-                            var i      = 1;
-                            while (struct && (i < parts.length)) {
-                                field = parts[i];
-                                if (field in struct.fields) {
-                                    field           = struct.fields[field];
-                                    result.type     = (field.length > 1) ? baseArrayType : baseType;
-                                    result.origType = field.type;
-                                    result.metaType = field.metaType;
-                                    result.offset += field.offset;
-                                    struct = field.struct;
-                                } else {
-                                    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_FIELD, 'Undefined field "' + field + '".');
-                                }
-                                i++;
-                            }
-                            return result;
-                        } else {
-                            throw this._compiler.createError(wheel.compiler.error.TYPE_ERROR_STRUCT_EXPECTED, 'Type error.');
-                        }
-                    }
-                    return vr;
-                }
-                return null;
+                return this._global.allocate(size);
             };
 
             this.findGlobal = function(name) {
-                return this.findInList(this._globalList, name, $.T_NUM_G, $.T_NUM_G_ARRAY);
+                return this._global.find(name, $.T_NUM_G, $.T_NUM_G_ARRAY);
             };
 
             this.getGlobalOffset = function() {
-                return this._globalOffset;
+                return this._global.getOffset();
             };
 
             /* Local */
             this.resetLocal = function() {
-                this._localOffset = 0;
-                this._localList   = {};
+                this._local.reset();
 
                 this.declareLocal('_____LOCAL1_____', $.T_NUM_L, false, false, false);
                 this.declareLocal('_____LOCAL2_____', $.T_NUM_L, false, false, false);
             };
 
-            this.declareLocal = function(name, type, arrayType, struct, allowConstant) {
-                var metaType  = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var vr        = this._parseVariable(this.getNameWithoutPointer(name));
-                var localList = this._localList;
-                var size      = (metaType === $.T_META_POINTER) ? 1 : (struct ? struct.size : 1);
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, vr.name, localList);
-                wheel.compiler.compilerHelper.checkInvalidConstant(this._compiler, vr, allowConstant);
-
-                var local = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        metaType: metaType,
-                        offset:   this._localOffset,
-                        size:     size,
-                        length:   vr.length,
-                        value:    vr.value,
-                        struct:   struct ? struct : null
-                    };
-                localList[vr.name] = local;
-
-                if (metaType === $.T_META_POINTER) {
-                    this._localOffset += 1; // Only use 1 number for a pointer, the struct size might differ...
-                } else {
-                    this._localOffset += vr.length * size;
-                }
-
-                return local;
+            this.declareLocal = function(name, type, arrayType, record, allowConstant) {
+                return this._local.declareItem(name, type, arrayType, record, allowConstant);
             };
 
             this.findLocal = function(name) {
-                return this.findInList(this._localList, name, $.T_NUM_L, $.T_NUM_L_ARRAY);
+                return this._local.find(name, $.T_NUM_L, $.T_NUM_L_ARRAY);
             };
 
             this.getLocalOffset = function() {
-                return this._localOffset;
+                return this._local.getOffset();
             };
 
             /* Label */
@@ -252,10 +118,7 @@
             };
 
             this.findLabel = function(name) {
-                if (name in this._labelList) {
-                    return this._labelList[name];
-                }
-                return null;
+                return this._labelList[name];
             };
 
             this.getLabelList = function() {
@@ -282,90 +145,21 @@
                 return this._procedureList[name] || null;
             };
 
-            /* Struct */
-            this.declareStruct = function(name, command, location) {
-                var result = {
-                        name:     name,
-                        size:     0,
-                        fields:   {},
-                        location: location
-                    };
-                var compiler   = this._compiler;
-                var structList = this._structList;
-                if (!wheel.compiler.compilerHelper.validateString(name)) {
-                    throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
-                }
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, structList);
-
-                structList[name]   = result;
-                this._struct       = result;
-                this._structOffset = 0;
-
-                if (compiler.getInProc()) {
-                    this._structLocal[name] = true;
-                }
-
-                return result;
+            /* Record */
+            this.declareRecord = function(name, command, location) {
+                return this._record.declareRecord(name, command, location);
             };
 
-            this.removeLocalStructs = function() {
-                for (var name in this._structLocal) {
-                    delete this._structList[name];
-                }
-                this._structLocal = {};
+            this.removeLocalRecords = function() {
+                this._record.removeLocalRecords();
             };
 
-            this.findStruct = function(name) {
-                return this._structList[name] || null;
+            this.findRecord = function(name) {
+                return this._record.findRecord(name);
             };
 
-            this.declareStructField = function(name, type, arrayType, size, structType) {
-                (size   === undefined) && (size   = 1);
-                var metaType = this.getPointerVar(name) ? $.T_META_POINTER : null;
-                var struct   = this._struct;
-
-                name = this.getNameWithoutPointer(name);
-
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, struct);
-
-                var vr          = this._parseVariable(name);
-                var structField = {
-                        type:     (vr.length === 1) ? type : arrayType,
-                        struct:   structType || false,
-                        metaType: metaType,
-                        offset:   this._structOffset,
-                        size:     size,
-                        length:   vr.length
-                    };
-                struct.fields[vr.name] = structField;
-
-                this._structOffset += vr.length * size;
-                struct.size = this._structOffset;
-
-                return structField;
-            };
-
-            this.getStructOffset = function(param) {
-                var offset = 0;
-                if (param.vr.struct) {
-                    var struct = param.vr.struct;
-                    var p      = param.param.split('.');
-                    var i      = 1;
-
-                    while (struct && (i < p.length)) {
-                        var field = p[i];
-                        var field = struct.fields[field];
-                        offset += field.offset;
-                        struct = field.struct;
-                        i++;
-                    }
-                }
-                return offset;
-            };
-
-            this.getOffset = function(param) {
-                return ('origOffset' in param.vr) ? param.vr.origOffset : param.vr.offset;
+            this.declareRecordField = function(name, type, arrayType, size, recordType) {
+                return this._record.declareRecordField(name, type, arrayType, size, recordType);
             };
 
             this.paramInfo = function(param) {
@@ -386,6 +180,18 @@
                     return {
                         type:  $.T_NUM_C,
                         value: parseFloat(param),
+                        param: param
+                    };
+                } else if (wheel.compiler.command.REGS.indexOf(param) !== -1) {
+                    return {
+                        type:  $.T_NUM_G,
+                        value: wheel.compiler.command.REGS.indexOf(param),
+                        param: param
+                    };
+                } else if (param === '%REG_STACK') {
+                    return {
+                        type:  $.T_NUM_L,
+                        value: 0,
                         param: param
                     };
                 } else {
@@ -424,17 +230,15 @@
                             } else {
                                 offset = 0;
                                 label  = this.findLabel(param);
-                                if (label !== null) {
-                                    label.jumps.push(this._compiler.getOutput().getLength());
-                                    type = $.T_LABEL;
-                                }
+                                label.jumps.push(this._compiler.getOutput().getLength());
+                               type = $.T_LABEL;
                             }
                         }
                     }
 
-                    if (type === null) {
-                        throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
-                    }
+                    //if (type === null) {
+                    //    throw this._compiler.createError(wheel.compiler.error.UNDEFINED_IDENTIFIER, 'Undefined identifier "' + param + '".');
+                    //}
 
                     return {
                         type:     type,

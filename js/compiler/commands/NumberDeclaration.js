@@ -3,7 +3,7 @@
  *
  *         number n1 [, n2[, n3[, ...]]]
  *
- * This code compiles number declarations in three scopes: global, local and struct.
+ * This code compiles number declarations in three scopes: global, local and record.
  *
 **/
 (function() {
@@ -20,9 +20,9 @@
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
 
-                if (compiler.getActiveStruct() !== null) {
-                    // Declare a number of array of numbers field in a struct...
-                    this.declareStructFields(params, $.T_NUM_G, $.T_NUM_G_ARRAY);
+                if (compiler.getActiveRecord() !== null) {
+                    // Declare a number of array of numbers field in a record...
+                    this.declareRecordFields(params, $.T_NUM_G, $.T_NUM_G_ARRAY);
                 } else if (compiler.getInProc()) {
                     // Declare a local number constant...
                     for (var j = 0; j < params.length; j++) {
@@ -52,7 +52,7 @@
                 } else {
                     // Declare a global number or array of numbers...
                     for (var i = 0; i < params.length; i++) {
-                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, location, true);
+                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
 
                         // Check if the number declaration had a constant value assigned to it...
                         if (global.value) {

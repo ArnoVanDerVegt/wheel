@@ -6,14 +6,14 @@ proc test
 
 proc tests[2]
 
-struct TestStruct
+record TestRecord
 	number i, j, k
-    proc testStructProc
+    proc testRecordProc
     number x, y, z
     proc moreProc[3]
-ends
+endr
 
-TestStruct testStruct
+TestRecord testRecord
 
 proc padding()
 	log "First proc"
@@ -28,17 +28,17 @@ proc bla()
 endp
 
 proc main()
-	arrayw testStruct.moreProc, 2, bla
+	arrayw testRecord.moreProc, 2, bla
 
 	arrayw tests, 0, testProc
-    set testStruct.testStructProc, padding
+    set testRecord.testRecordProc, padding
 	set test, testProc
     test()
-    set test, testStruct.testStructProc
+    set test, testRecord.testRecordProc
     test()
     arrayr test, tests, 0
     test()
 
-    arrayr test, testStruct.moreProc, 2
+    arrayr test, testRecord.moreProc, 2
     test()
 endp

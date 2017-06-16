@@ -22,9 +22,9 @@
                 <li><a href="site/modules/index.html">Modules</a></li>
                 <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">Download</a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
-            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                 <h3 class="gray">Compound data types</h3>
                 <ul>
                     <li><a href="site/docs/variables.html#array">Array</a></li>
-                    <li><a href="site/docs/variables.html#struct">Struct</a></li>
+                    <li><a href="site/docs/variables.html#record">Record</a></li>
                 </ul>
                 <h3 class="gray">Scope</h3>
                 <ul>
@@ -70,7 +70,7 @@
                 <h4>Variables</h4>
                 The wheel VM only uses one primitive data type: number.<br />
                 <br />
-                Wheel supports three other data types: string, struct, array and pointers.
+                Wheel supports three other data types: string, record, array and pointers.
                 These types are all based on the primitive number type.<br />
                 <br />
                 A variable is declared by the type followed by the name of the variable.
@@ -110,16 +110,16 @@
                 </pre>
             </div>
 
-            <div class="two first" id="struct">
-                <h5>Struct</h5>
-                A struct is a representation of a group of variables. At the moment the compiler does not allow struct types in structs.
+            <div class="two first" id="record">
+                <h5>Record</h5>
+                A record is a representation of a group of variables. At the moment the compiler does not allow record types in records.
                 Array fields are allowed.
 
                 <pre>
-                    struct Point
+                    record Point
                         number x
                         number y
-                    ends
+                    endr
 
                     Point p
 

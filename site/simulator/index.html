@@ -36,7 +36,10 @@
     <script src="js/compiler/command.js"></script>
     <script src="js/compiler/error.js"></script>
     <script src="js/compiler/compilerHelper.js"></script>
+    <script src="js/compiler/CompilerMeta.js"></script>
     <script src="js/compiler/CompilerOutput.js"></script>
+    <script src="js/compiler/CompilerList.js"></script>
+    <script src="js/compiler/CompilerRecord.js"></script>
     <script src="js/compiler/CompilerData.js"></script>
     <script src="js/compiler/script/ExpressionCompiler.js"></script>
     <script src="js/compiler/script/ScriptCompiler.js"></script>
@@ -84,8 +87,9 @@
                 <li><a href="site/modules/index.html">Modules</a></li>
                 <li><a href="site/simulator/index.html" class="active">Simulator</a></li>
             </ul>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">Download</a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
         </div>
     </div>
 
@@ -111,13 +115,13 @@
             </div>
 
             <div class="two first">
-                <h3 class="gray with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
                 <div class="editor">
                     <div class="toolbar">
                         <ul>
-                            <li class="active">Source</li>
-                            <li>VM Code</li>
-                            <li>Include files</li>
+                            <li id="sourceButton" class="active">Source</li>
+                            <li id="vmCodeButton">VM Code</li>
+                            <!--li>Include files</li-->
                             <li class="compile">Compile</li>
                         </ul>
                     </div>
@@ -137,6 +141,7 @@ proc main()
     drawCircle(109, 64, 15)
 endp
                     </textarea>
+                    <pre id="output"></pre>
                 </div>
             </div>
 

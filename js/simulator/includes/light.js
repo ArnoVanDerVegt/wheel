@@ -1,5 +1,5 @@
 wheel(
-    'simulator.includes.buttons',
+    'simulator.includes.light',
     [
         '#define MODULE_LIGHT      5',
         '',
@@ -14,9 +14,9 @@ wheel(
         '#define LIGHT_FLASH_ON    1',
         '',
         'proc light(number color, number flash)',
-        '    struct Light',
+        '    record Light',
         '        number color, flash',
-        '    ends',
+        '    endr',
         '    Light light',
         '    set      light.color,  color',
         '    set      light.flash,  flash',

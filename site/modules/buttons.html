@@ -24,13 +24,12 @@
             </ul>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
-            <a href="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://lima.codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg?r=1" /></a>
         </div>
     </div>
 
     <div class="sub-header">
         <div class="container">
-            <h1><span class="icon-puzzle-piece"></span> Modules</h1>
+            <h1>Modules</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
@@ -92,9 +91,9 @@
                     #define BUTTON_READ    0
 
                     proc button()
-                        struct Button
+                        record Button
                             number result
-                        ends
+                        endr
                         Button button
                         addr     button
                         module   MODULE_BUTTONS, BUTTON_READ

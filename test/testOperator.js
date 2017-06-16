@@ -19,7 +19,7 @@ describe(
                         var testData = compilerTestUtils.compileAndRun([
                                 'number a',
                                 'proc main()',
-                                '    set a, ' + valueA,
+                                '    a = ' + valueA,
                                 '    ' + operator + ' a, ' + valueB,
                                 'endp'
                             ]).testData;
@@ -59,8 +59,8 @@ describe(
                                 'number a',
                                 'number b',
                                 'proc main()',
-                                '    set a, ' + valueA,
-                                '    set b, ' + valueB,
+                                '    a = ' + valueA,
+                                '    b = ' + valueB,
                                 '    ' + operator + ' a, b',
                                 'endp'
                             ]).testData;
@@ -101,8 +101,8 @@ describe(
                                 'number a',
                                 'proc main()',
                                     'number b',
-                                '    set a, ' + valueA,
-                                '    set b, ' + valueB,
+                                '    a = ' + valueA,
+                                '    b = ' + valueB,
                                 '    ' + operator + ' a, b',
                                 'endp'
                             ]).testData;
@@ -143,7 +143,7 @@ describe(
                             'number n',
                             '',
                             'proc main()',
-                            '    set n, 17',
+                            '    n = 17',
                             '    inc n',
                             '',
                             '    printN(n)',
@@ -158,7 +158,7 @@ describe(
                             'number n',
                             '',
                             'proc main()',
-                            '    set n, 19305',
+                            '    n = 19305',
                             '    dec n',
                             '',
                             '    printN(n)',
@@ -173,7 +173,7 @@ describe(
                             'proc main()',
                             '    number n',
                             '',
-                            '    set n, 1467',
+                            '    n = 1467',
                             '    inc n',
                             '',
                             '    printN(n)',
@@ -188,7 +188,7 @@ describe(
                             'proc main()',
                             '    number n',
                             '',
-                            '    set n, 2305',
+                            '    n = 2305',
                             '    dec n',
                             '',
                             '    printN(n)',

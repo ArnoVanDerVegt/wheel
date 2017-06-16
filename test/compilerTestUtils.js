@@ -13,16 +13,16 @@ require('../js/compiler/commands/CallFunction.js');
 require('../js/compiler/commands/CallReturn.js');
 require('../js/compiler/commands/Ret.js');
 require('../js/compiler/commands/Label.js');
-require('../js/compiler/commands/Array.js');
-require('../js/compiler/commands/ArrayR.js');
-require('../js/compiler/commands/ArrayW.js');
 require('../js/compiler/commands/Addr.js');
 require('../js/compiler/commands/JmpC.js');
 require('../js/compiler/command.js');
 require('../js/compiler/error.js');
 require('../js/compiler/compilerHelper.js');
 require('../js/compiler/CompilerOutput.js');
+require('../js/compiler/CompilerList.js');
+require('../js/compiler/CompilerRecord.js');
 require('../js/compiler/CompilerData.js');
+require('../js/compiler/CompilerMeta.js');
 require('../js/compiler/script/ExpressionCompiler.js');
 require('../js/compiler/script/ScriptCompiler.js');
 require('../js/compiler/Compiler.js');
@@ -90,6 +90,8 @@ exports.compileAndRun = function(lines) {
     var compilerData   = compiler.getCompilerData();
     var vmData         = vm.getVMData();
 
+    //console.log(outputCommands.getLines());
+
     vm.runAll(
         outputCommands,
         compilerData.getStringList(),
@@ -100,22 +102,33 @@ exports.compileAndRun = function(lines) {
     return {testData: testData, outputCommands: outputCommands, compilerData: compilerData};
 };
 
+exports.randomInts = function(count) {
+    if (count === undefined) {
+        return Math.round(Math.random() * 65536 - 32768);
+    }
+    var result = [];
+    while (result.length < count) {
+        result.push(Math.round(Math.random() * 65536 - 32768));
+    }
+    return result;
+}
+
 exports.standardLines = [
     'proc printN(number n)',
-    '    struct PrintNumber',
+    '    record PrintNumber',
     '        number n',
-    '    ends',
+    '    endr',
     '    PrintNumber printNumber',
-    '    set      printNumber.n,n',
+    '    printNumber.n = n',
     '    addr     printNumber',
     '    module   0,0',
     'endp',
     'proc printS(string s)',
-    '    struct PrintString',
+    '    record PrintString',
     '        string s',
-    '    ends',
+    '    endr',
     '    PrintString printString',
-    '    set      printString.s,s',
+    '    printString.s = s',
     '    addr     printString',
     '    module   0,1',
     'endp'

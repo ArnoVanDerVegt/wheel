@@ -25,12 +25,12 @@
                 return [line];
             };
 
-            this.compileStruct = function(line) {
-                this._endStack.push('struct');
+            this.compileRecord = function(line) {
+                this._endStack.push('record');
                 return [line];
             };
 
-            this.compileEndStruct = function(line) {
+            this.compileEndRecord = function(line) {
                 this._endStack.pop();
                 return [line];
             };
@@ -169,11 +169,11 @@
                         var selectItem = this._selectStack.pop();
                         var result     = [];
 
-                        if (selectItem.outputOffset !== null) {
+                        //if (selectItem.outputOffset !== null) {
                             var label = selectItem.label + '_' + selectItem.caseIndex;
                             result.push(label + ':');
                             output[selectItem.outputOffset] += label;
-                        }
+                        //}
                         return result;
 
                     case 'for':
@@ -189,71 +189,11 @@
                             loop.condition + ' ' + forItem.label
                         ];
 
-                    case 'struct':
-                        return ['ends'];
+                    case 'record':
+                        return ['endr'];
 
                     case 'proc':
                         return ['endp'];
-                }
-            };
-
-            this.compileValueArray = function(result, tempVar, valueArray) {
-                var expressionCompiler = this._expressionCompiler;
-                var varIndexArray      = expressionCompiler.isArrayIndex(valueArray.index);
-                var calculation        = expressionCompiler.isCalculation(valueArray.index);
-                if (calculation) {
-                    var tempIndexVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempIndexVar + '_1');
-                } else if (varIndexArray) {
-                    this.compileValueArray(result, tempVar, varIndexArray);
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + tempVar);
-                } else {
-                    result.push('arrayr ' + tempVar + ',' + valueArray.array + ',' + valueArray.index);
-                }
-            };
-
-            /**
-             * Compile setting an array index...
-            **/
-            this.compileSetIndex = function(result, vrArray, value) {
-                var expressionCompiler = this._expressionCompiler;
-
-                var calculation = expressionCompiler.isCalculation(vrArray.index);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayw ' + vrArray.array + ',' + tempVar + '_1,' + value);
-                } else {
-                    var vrIndexArray = expressionCompiler.isArrayIndex(vrArray.index);
-                    if (vrIndexArray) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, vrIndexArray);
-
-                        result.push('arrayw ' + vrArray.array + ',' + tempVar + ',' + value);
-                    } else {
-                        result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + value);
-                    }
-                }
-            };
-
-            this.compileGetIndex = function(result, valueArray, vr) {
-                var expressionCompiler = this._expressionCompiler;
-
-                var calculation = expressionCompiler.isCalculation(valueArray.index);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    result.push('arrayr ' + vr + ',' + valueArray.array + ',' + tempVar + '_1');
-                } else {
-                    var varIndexArray = expressionCompiler.isArrayIndex(valueArray.index);
-                    if (varIndexArray) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, valueArray);
-
-                        result.push('set ' + vr + ',' + tempVar);
-                    } else {
-                        result.push('arrayr ' + vr + ',' + valueArray.array + ',' + valueArray.index);
-                    }
                 }
             };
 
@@ -262,36 +202,133 @@
                 var expressionCompiler = this._expressionCompiler;
                 var parts              = line.split(operator.operator);
                 var vr                 = parts[0].trim();
-                var vrArray            = this._expressionCompiler.isArrayIndex(vr);
                 var value              = parts[1].trim();
-                var valueArray         = this._expressionCompiler.isArrayIndex(value);
+                var valueCalculation   = expressionCompiler.isCalculation(value);
                 var tempVar;
 
-                var calculation = expressionCompiler.isCalculation(value);
-                if (calculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, calculation);
-                    if (vrArray) {
-                        var indexCalculation = expressionCompiler.isCalculation(vrArray.index);
-                        if (indexCalculation) {
-                            var indexTempVar = expressionCompiler.compileToTempVar(result, indexCalculation);
-                            result.push('arrayw ' + vrArray.array + ',' + indexTempVar + '_1,' + tempVar + '_1');
-                        } else {
-                            result.push('arrayw ' + vrArray.array + ',' + vrArray.index + ',' + tempVar + '_1');
-                        }
+                if (expressionCompiler.isComposite(vr)) {
+                    var recordVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
+                    if (valueCalculation) {
+                        tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                        result.push('set REG_DEST,' + tempVar + '_1');
+                    } else if (expressionCompiler.isComposite(value)) {
+                        var tempRecordVar = expressionCompiler.compileCompositeVar(result, value);
+                        tempVar = tempRecordVar.result;
+
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + tempVar);
+                        result.push('set REG_DEST,%REG_STACK');
+                        result.push('set REG_STACK,REG_SRC');
                     } else {
-                        result.push('set ' + vr + ',' + tempVar + '_1');
+                        result.push('%if_pointer ' + vr);
+                        if (value.substr(0, 1) === '&') {
+                            result.push('        %if_global ' + value);
+                            result.push('            set REG_DEST,%offset(' + value + ')');
+                            result.push('        %else');
+                            result.push('            set REG_DEST,REG_STACK');
+                            result.push('            add REG_DEST,%offset(' + value + ')');
+                            result.push('        %end');
+                        } else {
+                            result.push('    set REG_DEST,' + value);
+                        }
+                        result.push('%else');
+                        result.push('    %if_record ' + vr);
+                        result.push('        %if_global ' + vr);
+                        result.push('            set REG_DEST,%offset(' + vr + ')');
+                        result.push('        %else');
+                        result.push('            set REG_DEST,REG_STACK');
+                        result.push('            add REG_DEST,%offset(' + vr + ')');
+                        result.push('        %end');
+                        result.push('    %else');
+                        if (value.substr(0, 1) === '&') {
+                            result.push('        %if_global ' + value);
+                            result.push('            set REG_DEST,%offset(' + value + ')');
+                            result.push('        %else');
+                            result.push('            set REG_DEST,REG_STACK');
+                            result.push('            add REG_DEST,%offset(' + value + ')');
+                            result.push('        %end');
+                        } else {
+                            result.push('    set REG_DEST,' + value);
+                        }
+                        result.push('    %end');
+                        result.push('%end');
                     }
-                } else if (vrArray && valueArray) {
-                    vr = expressionCompiler.createTempVarName();
-                    expressionCompiler.declareNumber(result, vr);
-                    this.compileGetIndex(result, valueArray, vr);
-                    this.compileSetIndex(result, vrArray, vr);
-                } else if (vrArray) {
-                    this.compileSetIndex(result, vrArray, value);
-                } else if (valueArray) {
-                    this.compileGetIndex(result, valueArray, vr);
+
+                    result.push('%if_pointer ' + vr);
+                    result.push('    %rem operator ' + operator.command); // Rem test, should be ignored...
+                    result.push('    set REG_SRC,REG_STACK');
+                    result.push('    set REG_STACK,' + recordVar.result);
+                    result.push('    ' + operator.command + ' %REG_STACK,REG_DEST');
+                    result.push('    set REG_STACK,REG_SRC');
+                    result.push('%else');
+                    result.push('    %if_record ' + vr);
+                    result.push('        set REG_SRC,' + recordVar.result);
+                    result.push('        copy %sizeof(' + vr + ')');
+                    result.push('    %else');
+                    result.push('        set REG_SRC,REG_STACK');
+                    result.push('        set REG_STACK,' + recordVar.result);
+                    result.push('        ' + operator.command + ' %REG_STACK,REG_DEST');
+                    result.push('        set REG_STACK,REG_SRC');
+                    result.push('    %end');
+                    result.push('%end');
+                } else if (valueCalculation) {
+                    tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                    result.push('set ' + vr + ',' + tempVar + '_1');
+                } else if (expressionCompiler.isComposite(value)) {
+                    var recordVar = expressionCompiler.compileCompositeVar(result, value);
+                    var tempVar = recordVar.result;
+                    result.push('set REG_SRC,REG_STACK');
+                    result.push('set REG_STACK,' + tempVar);
+                    result.push('set REG_DEST,%REG_STACK');
+                    result.push('set REG_STACK,REG_SRC');
+                    result.push('set ' + tempVar + ',REG_DEST');
+                    result.push('set ' + vr + ',' + tempVar);
                 } else {
-                    result.push(operator.command + ' ' + vr.trim() + ',' + value);
+                    vr = vr.trim();
+                    result.push('%if_pointer ' + vr);
+
+                    if (value.substr(0, 1) === '&') {
+                        result.push('    %if_global ' + value);
+                        result.push('        set REG_DEST,%offset(' + value + ')');
+                        result.push('    %else');
+                        result.push('        set REG_DEST,REG_STACK');
+                        result.push('        add REG_DEST,%offset(' + value + ')');
+                        result.push('    %end');
+                        result.push('    ' + operator.command + ' ' + vr + ',REG_DEST');
+                    } else {
+                        result.push('    set REG_SRC,REG_STACK');
+                        result.push('    set REG_STACK,' + vr);
+                        result.push('    ' + operator.command + ' %REG_STACK,' + value);
+                        result.push('    set REG_STACK,REG_SRC');
+                    }
+
+                    result.push('%else');
+                    result.push('    %if_pointer ' + value);
+                    result.push('        set REG_SRC,REG_STACK');
+                    result.push('        set REG_STACK,' + value);
+                    result.push('        set REG_DEST,%REG_STACK');
+                    result.push('        set REG_STACK,REG_SRC');
+                    result.push('        ' + operator.command + ' ' + vr + ',REG_DEST');
+                    result.push('    %else');
+                    result.push('        %if_record ' + vr);
+                    result.push('            %if_global ' + vr);
+                    result.push('                set REG_DEST,%offset(' + vr + ')');
+                    result.push('            %else');
+                    result.push('                set REG_DEST,REG_STACK');
+                    result.push('                add REG_DEST,%offset(' + vr + ')');
+                    result.push('            %end');
+                    result.push('            %if_global ' + value);
+                    result.push('                set REG_SRC,%offset(' + value + ')');
+                    result.push('            %else');
+                    result.push('                set REG_SRC,REG_STACK');
+                    result.push('                add REG_SRC,%offset(' + value + ')');
+                    result.push('            %end');
+                    result.push('            copy %sizeof(' + vr + ')');
+                    result.push('        %else');
+                    result.push('        ' + operator.command + ' ' + vr + ',' + value);
+                    result.push('        %end');
+                    result.push('    %end');
+                    result.push('%end');
                 }
 
                 return result;
@@ -308,19 +345,24 @@
                 function addParam(value) {
                     var calculation = false;
                     var arrayIndex  = false;
+                    var composite   = false;
+
                     if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
-                        calculation = expressionCompiler.isCalculation(value);
-                        arrayIndex  = expressionCompiler.isArrayIndex(value);
-                        (calculation || arrayIndex) && (hasExpression = true);
+                        calculation   = expressionCompiler.isCalculation(value);
+                        arrayIndex    = expressionCompiler.isArrayIndex(value);
+                        composite     = expressionCompiler.isComposite(value);
                     }
+                    hasExpression = hasExpression || !!calculation || !!arrayIndex || composite;
 
                     p.push({
-                        value:       value,
+                        value:       value.trim(),
                         calculation: calculation,
-                        arrayIndex:  arrayIndex
+                        arrayIndex:  arrayIndex,
+                        composite:   composite
                     });
                 }
 
+                var expectParam = false;
                 while (i < params.length) {
                     var c = params[i++];
                     switch (c) {
@@ -343,7 +385,8 @@
 
                         case ',':
                             addParam(param.trim());
-                            param = '';
+                            expectParam = true;
+                            param       = '';
                             break;
 
                         default:
@@ -351,28 +394,56 @@
                             break;
                     }
                 }
-                (param.trim() !== '') && addParam(param);
 
-                if (!hasExpression) {
-                    return [line];
+                param = param.trim();
+                if (param === '') {
+                    if (expectParam) {
+                        // todo: add location information...
+                        throw new Error('#' + wheel.compiler.error.SYNTAX_ERROR_PARAM_EXPECTED + ' Syntax error parameter expected.');
+                    }
+                } else {
+                    addParam(param);
                 }
+
+                //if (!hasExpression) {
+                //    return [line];
+                //}
 
                 var result       = [];
                 var outputParams = [];
+                var tempVar;
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
-                    if (param.arrayIndex) {
-                        var tempVar = expressionCompiler.createTempVarName();
-                        expressionCompiler.declareNumber(result, tempVar);
-                        this.compileValueArray(result, tempVar, param.arrayIndex);
-                        outputParams.push(tempVar);
-                    } else if (param.calculation) {
+                    if (param.calculation) {
                         outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
+                    } else if (param.composite || param.arrayIndex) {
+                        var recordVar = expressionCompiler.compileCompositeVar(result, param.value);
+                        tempVar = recordVar.result;
+                        result.push('set REG_SRC,REG_STACK');
+                        result.push('set REG_STACK,' + tempVar);
+                        result.push('set REG_DEST,%REG_STACK');
+                        result.push('set REG_STACK,REG_SRC');
+                        result.push('set ' + tempVar + ',REG_DEST');
+                        outputParams.push(tempVar);
                     } else {
+                        /*var tempParamVar = expressionCompiler.createTempVarName();
+                        result.push('number ' + tempParamVar);
+                        result.push('%if_pointer ' + param.value);
+                        result.push('    set  REG_SRC, REG_STACK');
+                        result.push('    set  REG_STACK,' + param.value);
+                        result.push('    set  REG_DEST, %REG_STACK');
+                        result.push('    set  REG_STACK,REG_SRC');
+                        result.push('    set  ' + tempParamVar + ',REG_DEST');
+                        result.push('%else');
+                        result.push('    %if_record ' + param.value);
+                        result.push('        number ' + tempParamVar);
+                        result.push('    %else');
+                        result.push('        set  ' + tempParamVar + ',' + param.value);
+                        result.push('    %end');
+                        result.push('%end');*/
                         outputParams.push(param.value);
                     }
                 }
-
                 result.push(procCall.name + '(' + outputParams.join(',') + ')');
 
                 return result;
@@ -391,11 +462,11 @@
                     case 'endp':
                         return this.compileEndProc(line);
 
-                    case 'struct':
-                        return this.compileStruct(line);
+                    case 'record':
+                        return this.compileRecord(line);
 
-                    case 'ends':
-                        return this.compileEndStruct(line);
+                    case 'endr':
+                        return this.compileEndRecord(line);
 
                     case 'for':
                         return this.compileFor(line.substr(i - line.length));
@@ -414,6 +485,10 @@
 
                     case 'end':
                         return this.compileEnd(output);
+
+                    case 'set':
+                        console.log('!!!!!!');
+                        break;
 
                     default:
                         var procCall = this._expressionCompiler.isProcCall(line);
@@ -458,6 +533,9 @@
                     }
                 }
 
+                for (var i = 0; i < output.length; i++) {
+                    //console.log(i + ']', output[i]);
+                }
                 return {
                     output:    output,
                     sourceMap: sourceMap

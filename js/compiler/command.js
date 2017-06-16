@@ -40,6 +40,14 @@
     var REG_CODE                =  3;
     var REG_RETURN              =  4;
     var REG_FLAGS               =  5;
+    var REGS                    = [
+            'REG_STACK',
+            'REG_SRC',
+            'REG_DEST',
+            'REG_CODE',
+            'REG_RETURN',
+            'REG_FLAGS'
+        ];
 
     var REGISTER_COUNT          =  6;
 
@@ -47,8 +55,6 @@
     var ARGS_GL                 = [{type: T_NUM_G}, {type: T_NUM_L}];
     var ARGS_CGL                = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}];
     var ARGS_PPGPL              = [{type: T_PROC}, {type: T_PROC_G}, {type: T_PROC_L}];
-    var ARGS_CGLP               = [{type: T_NUM_C}, {type: T_NUM_G}, {type: T_NUM_L}, {type: T_PROC}];
-    var ARGS_SGSL               = [{type: T_STRUCT_G}, {type: T_STRUCT_L}];
     var ARGS_LABEL              = [{type: T_LABEL}];
     var ARGS_ALL                = [
             {type: T_NUM_C},
@@ -58,22 +64,8 @@
             {type: T_PROC_G},
             {type: T_PROC_L},
             {type: T_STRUCT_G},
-            {type: T_STRUCT_L}
-        ];
-    var ARGS_CGL_ALL            = [
-            {type: T_NUM_C, args: ARGS_ALL},
-            {type: T_NUM_G, args: ARGS_ALL},
-            {type: T_NUM_L, args: ARGS_ALL}
-        ];
-    var ARGS_CGL_SGSL           = [
-            {type: T_NUM_C, args: ARGS_SGSL},
-            {type: T_NUM_G, args: ARGS_SGSL},
-            {type: T_NUM_L, args: ARGS_SGSL}
-        ];
-    var ARGS_CGL_PPGPL          = [
-            {type: T_NUM_C, args: ARGS_PPGPL},
-            {type: T_NUM_G, args: ARGS_PPGPL},
-            {type: T_NUM_L, args: ARGS_PPGPL}
+            {type: T_STRUCT_L},
+            {type: T_STRUCT_L, metaType: T_META_ADDRESS}
         ];
     var ARGS_GL_CGL             = [
             {type: T_NUM_G, args: ARGS_CGL},
@@ -90,16 +82,6 @@
             {type: T_STRUCT_G_ARRAY, metaType: T_META_ADDRESS},
             {type: T_STRUCT_L_ARRAY, metaType: T_META_POINTER},
             {type: T_STRUCT_L_ARRAY, metaType: T_META_ADDRESS},
-        ];
-    var ARGS_GL_ARRAY_CGL       = [
-            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
-            {type: T_NUM_G_ARRAY, args: ARGS_CGL}
-        ];
-    var ARGS_GLPGPL_ARRAY_CGL   = [
-            {type: T_NUM_L_ARRAY, args: ARGS_CGL},
-            {type: T_NUM_G_ARRAY, args: ARGS_CGL},
-            {type: T_PROC_L_ARRAY, args: ARGS_CGL},
-            {type: T_PROC_G_ARRAY, args: ARGS_CGL}
         ];
 
     wheel(
@@ -126,11 +108,13 @@
             set: {
                 code: 4,
                 args: [
-                    {type: T_NUM_G,          args: ARGS_CGLP},
-                    {type: T_NUM_L,          args: ARGS_CGLP},
+                    {type: T_NUM_G,          args: ARGS_ALL},  // ARGS_CGLP},
+                    {type: T_NUM_L,          args: ARGS_ALL},  // ARGS_CGLP},
                     {type: T_PROC_G,         args: ARGS_PPGPL},
                     {type: T_PROC_L,         args: ARGS_PPGPL},
+                    {type: T_STRUCT_L,       args: ARGS_ALL},  //
                     {type: T_STRUCT_L,       args: ARGS_SGSL_MPMA,       metaType: T_META_POINTER},
+                    {type: T_STRUCT_G,       args: ARGS_ALL},  //
                     {type: T_STRUCT_G,       args: ARGS_SGSL_MPMA,       metaType: T_META_POINTER},
                     {type: T_STRUCT_G_ARRAY, args: ARGS_SGSL_ARRAY_MPMA, metaType: T_META_POINTER},
                     {type: T_STRUCT_L_ARRAY, args: ARGS_SGSL_ARRAY_MPMA, metaType: T_META_POINTER}
@@ -168,55 +152,7 @@
                     {type: T_STRUCT_L_ARRAY}
                 ]
             },
-            // Array functions
-            arrayr: { // Array read...
-                code: 1038,
-                args: [
-                    {type: T_NUM_G, args: ARGS_GL_ARRAY_CGL},
-                    {
-                        type: T_NUM_L,
-                        args: [
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_L,          args: ARGS_CGL}, // In case of a struct, the original type should be T_NUM_L_ARRAY!
-                            {type: T_NUM_G,          args: ARGS_CGL} // In case of a struct, the original type should be T_NUM_G_ARRAY!
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_G,
-                        args: [
-                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
-                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
-                        ]
-                    },
-                    {
-                        type: T_STRUCT_L,
-                        args: [
-                            {type: T_STRUCT_L_ARRAY, args: ARGS_CGL},
-                            {type: T_STRUCT_G_ARRAY, args: ARGS_CGL},
-                            {type: T_NUM_L_ARRAY,    args: ARGS_CGL},
-                            {type: T_NUM_G_ARRAY,    args: ARGS_CGL}
-                        ]
-                    },
-                    {type: T_PROC_G, args: ARGS_GLPGPL_ARRAY_CGL},
-                    {type: T_PROC_L, args: ARGS_GLPGPL_ARRAY_CGL}
-                ]
-            },
-            arrayw: { // Array write...
-                code: 1039,
-                args: [
-                    {type: T_NUM_L_ARRAY,    args: ARGS_CGL_ALL},
-                    {type: T_NUM_L,          args: ARGS_CGL_ALL}, // In case of a field, the origType should be T_NUM_L_ARRAY!
-                    {type: T_NUM_G_ARRAY,    args: ARGS_CGL_ALL},
-                    {type: T_STRUCT_G_ARRAY, args: ARGS_CGL_SGSL},
-                    {type: T_STRUCT_L_ARRAY, args: ARGS_CGL_SGSL},
-                    {type: T_PROC_G_ARRAY,   args: ARGS_CGL_PPGPL},
-                    {type: T_PROC_L_ARRAY,   args: ARGS_CGL_PPGPL}
-                ]
-            },
-            // Loops...
+            // Return...
             'return': {
                 code: 1042,
                 args: [
@@ -270,6 +206,8 @@
     wheel('compiler.command.REG_RETURN',            REG_RETURN);
     wheel('compiler.command.REG_FLAGS',             REG_FLAGS);
 
+    wheel('compiler.command.REGS',                  REGS);
+
     wheel('compiler.command.STACK',                 function()       { return {type: T_NUM_G, value: REG_STACK  }; });
     wheel('compiler.command.SRC',                   function()       { return {type: T_NUM_G, value: REG_SRC    }; });
     wheel('compiler.command.DEST',                  function()       { return {type: T_NUM_G, value: REG_DEST   }; });
@@ -298,28 +236,9 @@
     );
 
     wheel(
-        'compiler.command.isStructVarType',
-        function(value) {
-            return (value.vr.type === T_STRUCT_L) || (value.vr.type === T_STRUCT_G) ||
-                (value.vr.type === T_STRUCT_L_ARRAY) || (value.vr.type === T_STRUCT_G_ARRAY);
-        }
-    );
-
-    wheel(
         'compiler.command.isSimpleNumberType',
         function(value) {
             return (value.type === T_NUM_L) || (value.type === T_NUM_G);
-        }
-    );
-
-    wheel(
-        'compiler.command.isNumberType',
-        function(value) {
-            if (value.vr) {
-                return (value.type === T_NUM_L) || (value.type === T_NUM_G) ||
-                    (value.type === T_NUM_G_ARRAY) || (value.type === T_NUM_L_ARRAY);
-            }
-            return false;
         }
     );
 
@@ -329,13 +248,6 @@
             return (value.type === T_PROC) ||
                 (value.type === T_PROC_G) || (value.type === T_PROC_L) ||
                 (value.type === T_PROC_G_ARRAY) || (value.type === T_PROC_L_ARRAY);
-        }
-    );
-
-    wheel(
-        'compiler.command.isPointerMetaType',
-        function(value) {
-            return value && (value.metaType === T_META_POINTER);
         }
     );
 

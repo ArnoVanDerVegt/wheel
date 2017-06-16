@@ -1,10 +1,10 @@
-#project "Array struct demo"
+#project "Array record demo"
 
 #include "/lib/standard.whl"
 
-struct Point
+record Point
 	number x, y, z
-ends
+endr
 
 Point srcPoint
 Point points[3]

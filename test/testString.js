@@ -27,9 +27,9 @@ describe(
                             '',
                             'proc main()',
                             '    string l',
-                            '    arrayr l, s, 1',
+                            '    l = s[1]',
                             '    printS(l)',
-                            '    arrayr l, s, 0',
+                            '    l = s[0]',
                             '    printS(l)',
                             'endp'
                         ])).testData;
@@ -53,9 +53,9 @@ describe(
                             'proc main()',
                             '    string la[2] = ["Local", "array"]',
                             '    string l',
-                            '    arrayr l, la, 1',
+                            '    l = la[1]',
                             '    printS(l)',
-                            '    arrayr l, la, 0',
+                            '    l = la[0]',
                             '    printS(l)',
                             'endp'
                         ])).testData;
@@ -73,7 +73,7 @@ describe(
                             'string s',
                             '',
                             'proc main()',
-                            '    set s, "Hello world!!"',
+                            '    s = "Hello world!!"',
                             '    printS(s)',
                             'endp'
                         ])).testData;
@@ -86,8 +86,8 @@ describe(
                             'string s2',
                             '',
                             'proc main()',
-                            '    set s1, "Same"',
-                            '    set s2, "Same"',
+                            '    s1 = "Same"',
+                            '    s2 = "Same"',
                             '    printS(s1)',
                             '    printS(s2)',
                             'endp'

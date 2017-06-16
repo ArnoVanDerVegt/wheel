@@ -2,16 +2,16 @@
 
 #include "/lib/standard.whl"
 
-struct Test
+record Test
     number n[4]
-ends
+endr
 
 Test test[3]
 
 proc main()
     Test t
     ;arrayw t.n, 0, 234
-    
+
     number n
     arrayr n, t.n, 0
     printN(n)

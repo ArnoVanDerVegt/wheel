@@ -1,16 +1,16 @@
-#project "Struct array demo"
-    
+#project "Record array demo"
+
 #include "/lib/standard.whl"
-    
-struct Item
+
+record Item
     number   list[5]
-ends
-    
+endr
+
 Item     item
-    
+
 proc main()
     number   value
-    
+
     ; declare a local variable with the initial value of 2...
     number   counter = 0
 writeLoop:
@@ -23,7 +23,7 @@ writeLoop:
     ; Loop until the counter equals 5...
     cmp      counter,                5
     jl       writeLoop
-    
+
     set      counter,                0
 readLoop:
     ; read the value from item.list at the index counter...

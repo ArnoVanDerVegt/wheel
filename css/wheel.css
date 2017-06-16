@@ -99,6 +99,20 @@ li {
     float:                      right;
     margin:                     14px 0 0 8px;
 }
+.header .container .download {
+    float:                      right;
+    margin:                     12px 0 0 20px;
+    background-color:           #585858;
+    color:                      #FFFFFF;
+    padding:                    4px 16px 4px 16px;
+    border-radius:              4px;
+    text-decoration:            none;
+    font-size:                  14px;
+    font-weight:                bold;
+    letter-spacing:             0.03em;
+    line-height:                18px;
+    height:                     24px;
+}
 
 /* Sub header */
 .sub-header {
@@ -286,7 +300,8 @@ div.two,
 div.three {
     float:                      left;
     padding:                    16px;
-    font-size:                  17px;
+    font-size:                  15px;
+    line-height:                23px;
 }
 div.one.first,
 div.two.first,
@@ -312,6 +327,47 @@ div.three  .see-also {
     font-size:                  14px;
     margin:                     4px 0 4px 0;
     opacity:                    0.8;
+}
+div p {
+    padding:                    8px 8px 0 8px;
+}
+div.half p {
+    margin:                     0;
+    padding:                    0 8px 0 8px;
+    float:                      left;
+}
+/*
+    border-color:               #2980b9;
+    background-color:           #3498db;
+*/
+div.one.sub-title {
+    float:                      left;
+    border:                     2px solid #3498db;
+    border-radius:              8px;
+    margin:                     32px 0 16px 0;
+}
+div.one.sub-title img {
+    float:                      left;
+    margin:                     0 16px 0 90px;
+}
+div.one.sub-title span {
+    width:                      510px;
+}
+div.one.sub-title span.title,
+div.one.sub-title span.text {
+    float:                      left;
+    color:                      #2980b9;
+}
+div.one.sub-title span.title {
+    height:                     104px;
+    line-height:                104px;
+    font-size:                  20px;
+}
+div.one.sub-title span.text {
+    height:                     104px;
+    line-height:                18px;
+    font-size:                  15px;
+    padding:                    16px 0 0 0;
 }
 
 .index-links {
@@ -480,6 +536,7 @@ pre span {
     font-family:                Courier;
     font-size:                  15px;
     font-family:                'Inconsolata', monospace;
+    line-height:                18px;
 }
 pre {
     float:                      left;
@@ -575,7 +632,8 @@ pre .black {
     border-radius:              2px;
     opacity:                    1;
 }
-.editor textarea {
+.editor textarea,
+.editor pre {
     float:                      left;
     width:                      100%;
     height:                     374px;
@@ -583,6 +641,15 @@ pre .black {
     border-radius:              0 0 2px 2px;
     padding:                    8px;
     margin:                     0;
+}
+.editor textarea {
+    resize:                     none;
+}
+.editor pre {
+    display:                    none;
+    overflow:                   hidden;
+    overflow-y:                 scroll;
+    background-color:           #FFFFFF;
 }
 
 /* Footer */
@@ -596,23 +663,6 @@ pre .black {
     border:                     1px solid #D0D0D0;
     border-width:               1px 0 0 0;
 }
-
-@media screen and (min-height: 680px) {
-    body.home,
-    body.examples,
-    body.docs,
-    body.simulator {
-        background-color:       #FFFFFF;
-    }
-    body.home .footer,
-    body.examples .footer,
-    body.docs .footer,
-    body.simulator .footer {
-        position:               fixed;
-        bottom:                 0;
-    }
-}
-
 .footer .container {
     height:                     100%;
 }

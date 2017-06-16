@@ -62,7 +62,7 @@ describe(
                     var includes = compilerTestUtils.createIncludes([
                             'number a',
                             'proc main()',
-                            '    set a, 1',
+                            '    a = 1',
                             'endp'
                         ]);
 
@@ -81,9 +81,9 @@ describe(
                     var testData = compilerTestUtils.compileAndRun([
                             'number a',
                             'proc main()',
-                            '    set a, 71',
+                            '    a = 71',
                             '    number b',
-                            '    set b, 2',
+                            '    b = 2',
                             'endp'
                         ]).testData;
 
@@ -109,8 +109,8 @@ describe(
                             'number n',
                             '',
                             'proc main()',
-                            '    set n, 10',
-                            '    mod n, 7 ',
+                            '    n = 10',
+                            '    n %= 7 ',
                             '    printN(n)',
                             'endp'
                         ])).testData;
@@ -141,9 +141,9 @@ describe(
                             '',
                             'proc main()',
                             '    number l',
-                            '    arrayr l, a, 1',
+                            '    l = a[1]',
                             '    printN(l)',
-                            '    arrayr l, a, 0',
+                            '    l = a[0]',
                             '    printN(l)',
                             'endp'
                         ])).testData;
@@ -167,9 +167,9 @@ describe(
                             'proc main()',
                             '    number la[2] = [6576, 6576]',
                             '    number l',
-                            '    arrayr l, la, 1',
+                            '    l = la[1]',
                             '    printN(l)',
-                            '    arrayr l, la, 0',
+                            '    l = la[0]',
                             '    printN(l)',
                             'endp'
                         ])).testData;
@@ -182,6 +182,7 @@ describe(
         describe(
             'Pointers to numbers',
             function() {
+
                 it('Should set a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -189,8 +190,8 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set pn, &n',
-                                'set *pn, ' + n,
+                                'pn = &n',
+                                'pn = ' + n,
                                 '',
                                 'printN(n)',
                             'endp'
@@ -198,6 +199,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [n]);
                 });
+
                 it('Should mul a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -205,9 +207,9 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set n, 11',
-                                'set pn, &n',
-                                'mul *pn, ' + n,
+                                'n = 11',
+                                'pn = &n',
+                                'pn *= ' + n,
                                 '',
                                 'printN(n)',
                             'endp'
@@ -215,6 +217,7 @@ describe(
 
                     assert.deepEqual(testData.messages, [n * 11]);
                 });
+
                 it('Should mul a pointer number', function() {
                     var n = 10 + ~~(Math.random() * 100);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
@@ -222,9 +225,9 @@ describe(
                                 'number n',
                                 'number *pn',
                                 '',
-                                'set n, 13',
-                                'set pn, &n',
-                                'mul n, *pn',
+                                'n = 13',
+                                'pn = &n',
+                                'n *= pn',
                                 '',
                                 'printN(n)',
                             'endp'

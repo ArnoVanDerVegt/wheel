@@ -13,7 +13,7 @@ describe(
                     var testData = compilerTestUtils.compileAndRun([
                             'number n',
                             'proc main()',
-                            '    set n, 10',
+                            '    n = 10',
                             '    cmp n, 11',
                             'endp'
                         ]).testData;
@@ -42,7 +42,7 @@ describe(
                     var testData = compilerTestUtils.compileAndRun([
                             'number n',
                             'proc main()',
-                            '    set n, 45',
+                            '    n = 45',
                             '    cmp n, 45',
                             'endp'
                         ]).testData;
@@ -71,7 +71,7 @@ describe(
                     var testData = compilerTestUtils.compileAndRun([
                             'number n',
                             'proc main()',
-                            '    set n, 87',
+                            '    n = 87',
                             '    cmp n, 31',
                             'endp'
                         ]).testData;

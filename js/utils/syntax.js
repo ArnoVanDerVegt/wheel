@@ -1,12 +1,63 @@
 (function() {
     var keywords = [
-            'proc', 'for', 'to', 'downto', 'end', 'endp', 'ends', 'add', 'sub',
-            'mul', 'div', 'mod', 'inc', 'dec', 'struct', 'ret', 'set', 'module', 'addr', 'return', 'jmp'];
-    var types    = ['number', 'string'];
-    var sign     = ['=', '(', ')', ','];
-    var meta     = ['#project', '#define', '#include'];
-    var defines  = [];
-    var structs  = [];
+            'proc',
+            'for',
+            'to',
+            'downto',
+            'end',
+            'endp',
+            'endr',
+            'add',
+            'sub',
+            'mul',
+            'div',
+            'mod',
+            'inc',
+            'dec',
+            'record',
+            'ret',
+            'set',
+            'module',
+            'addr',
+            'return',
+            'jmp'
+        ];
+
+    var registers = [
+            'stack',
+            'src',
+            'dest',
+            'code'
+        ];
+
+    var types = [
+            'number',
+            'string'
+        ];
+
+    var sign = [
+            '=',
+            '(',
+            ')',
+            ',',
+            '+',
+            '-',
+            '*',
+            '/',
+            '%',
+            '[',
+            '|',
+            ']'
+        ];
+
+    var meta = [
+            '#project',
+            '#define',
+            '#include'
+        ];
+
+    var defines = [];
+    var records = [];
 
     function parseLine(line) {
         var result  = '';
@@ -36,14 +87,16 @@
                     };
 
                 if (isNaN(w)) {
-                    if (defines.indexOf(w) !== -1) {
+                    if (registers.indexOf(w) !== -1) {
+                        result += '<span class="purple">' + w + '</span>';
+                    } else if (defines.indexOf(w) !== -1) {
                         result += '<span class="green italic">' + w + '</span>';
-                    } else if (structs.indexOf(w) !== -1) {
+                    } else if (records.indexOf(w) !== -1) {
                         result += '<span class="purple">' + w + '</span>';
                     } else if (keywords.indexOf(w) !== -1) {
-                        if (w === 'struct') {
+                        if (w === 'record') {
                             var nextWord = grabNextWord();
-                            (nextWord === '') || structs.push(nextWord);
+                            (nextWord === '') || records.push(nextWord);
                         }
                         result += '<span class="orange">' + w + '</span>';
                     } else if (sign.indexOf(w) !== -1) {
@@ -151,6 +204,8 @@
         window.wheelDemos[element.id] = source;
         element.innerHTML             = parseLines(lines);
     }
+
+    window._wheel = {updateElement: updateElement};
 
     window.addEventListener(
         'DOMContentLoaded',

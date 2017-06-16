@@ -138,6 +138,10 @@
                     };
 
                 while (!isFinished() && (count < total) && (this._pause === 0)) {
+                    /*console.log(data[wheel.compiler.command.REG_CODE],
+                        'stack:', data[wheel.compiler.command.REG_STACK],
+                        'src:', data[wheel.compiler.command.REG_SRC],
+                        'dest:', data[wheel.compiler.command.REG_DEST]);*/
                     this.emit(
                         'RunLine',
                         vmData.getGlobalNumber(wheel.compiler.command.REG_CODE),

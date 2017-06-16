@@ -32,31 +32,12 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '   set ptr, test',
+                            '   ptr = test',
                             '   ptr()',
                             'endp'
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [12]);
-                });
-
-                it('Should call a global procedure array pointer', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc ptr[2]',
-                            '',
-                            'proc test()',
-                            '    printN(7790)',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '   arrayw ptr, 1, test',
-                            '   proc p',
-                            '   arrayr p, ptr, 1',
-                            '   p()',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [7790]);
                 });
 
                 it('Should call a local procedure pointer', function() {
@@ -67,7 +48,7 @@ describe(
                             '',
                             'proc main()',
                             '   proc ptr',
-                            '   set ptr, test',
+                            '   ptr = test',
                             '   ptr()',
                             'endp'
                         ])).testData;
@@ -75,43 +56,43 @@ describe(
                     assert.deepEqual(testData.messages, [12]);
                 });
 
-                it('Should call a struct procedure pointer', function() {
+                it('Should call a record procedure pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(59)',
                             'endp',
                             '',
-                            'struct TestStruct',
+                            'record TestRecord',
                             '    proc p',
-                            'ends',
+                            'endr',
                             '',
-                            'TestStruct testStruct',
+                            'TestRecord testRecord',
                             '',
                             'proc main()',
-                            '   set testStruct.p, test',
-                            '   testStruct.p()',
+                            '   testRecord.p = test',
+                            '   testRecord.p()',
                             'endp'
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [59]);
                 });
 
-                it('Should call a struct procedure pointer with offset', function() {
+                it('Should call a record procedure pointer with offset', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
                             '    printN(97)',
                             'endp',
                             '',
-                            'struct TestStruct',
+                            'record TestRecord',
                             '    number n',
                             '    proc p',
-                            'ends',
+                            'endr',
                             '',
-                            'TestStruct testStruct',
+                            'TestRecord testRecord',
                             '',
                             'proc main()',
-                            '   set testStruct.p, test',
-                            '   testStruct.p()',
+                            '   testRecord.p = test',
+                            '   testRecord.p()',
                             'endp'
                         ])).testData;
 
@@ -124,6 +105,7 @@ describe(
             'Call a with parameters',
             function() {
                 it('Should call a procedure with number parameters', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc printPoint(number x, number y, number z)',
                             '    printS("Point:")',
@@ -133,20 +115,21 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    printPoint(561, 520, 974)',
+                            '    printPoint(' + ints.join(',') + ')',
                             'endp',
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, ['Point:', 561, 520, 974]);
+                    assert.deepEqual(testData.messages, ['Point:', ints[0], ints[1], ints[2]]);
                 });
 
-                it('Should call a procedure with a struct parameter', function() {
+                it('Should call a procedure with a record parameter', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x',
                             '    number y',
                             '    number z',
-                            'ends',
+                            'endr',
                             '',
                             'Point p',
                             '',
@@ -158,195 +141,22 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set p.x, 1656',
-                            '    set p.y, 98',
-                            '    set p.z, 75',
+                            '    p.x = ' + ints[0],
+                            '    p.y = ' + ints[1],
+                            '    p.z = ' + ints[2],
                             '    printPoint(p)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, ['Point:', 1656, 98, 75]);
+                    assert.deepEqual(testData.messages, ['Point:', ints[0], ints[1], ints[2]]);
                 });
 
-                it('Should call a procedure with an array parameter, read local', function() {
+                it('Should call a procedure with a dereferenced local pointer record parameter', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'number p[3]',
-                            '',
-                            'proc printPoint(number point[3])',
-                            '    printS("Point:")',
-                            '',
-                            '    number n',
-                            '',
-                            '    arrayr n, point, 0',
-                            '    printN(n)',
-                            '    arrayr n, point, 1',
-                            '    printN(n)',
-                            '    arrayr n, point, 2',
-                            '    printN(n)',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    arrayw  p, 0, 3975',
-                            '    arrayw  p, 1, 296',
-                            '    arrayw  p, 2, 7013',
-                            '    printPoint(p)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, ['Point:', 3975, 296, 7013]);
-                });
-
-                it('Should call a procedure with an array parameter, read global', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'number p[3]',
-                            'number n',
-                            '',
-                            'proc printPoint(number point[3])',
-                            '    printS("Point:")',
-                            '',
-                            '    arrayr n, point, 0',
-                            '    printN(n)',
-                            '    arrayr n, point, 1',
-                            '    printN(n)',
-                            '    arrayr n, point, 2',
-                            '    printN(n)',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    arrayw  p, 0, 3975',
-                            '    arrayw  p, 1, 296',
-                            '    arrayw  p, 2, 7013',
-                            '    printPoint(p)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, ['Point:', 3975, 296, 7013]);
-                });
-
-                it('Should call a procedure with a pointer to array parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
-                            '    number x',
-                            '    number y',
-                            'ends',
-                            '',
-                            'Point pp[10]',
-                            '',
-                            'proc testPointer(Point *points[0])',
-                            '    Point point',
-                            '    arrayr point, points, 1',
-                            '    printN(point.x)',
-                            '    printN(point.y)',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    Point p',
-                            '    set p.x, 32342',
-                            '    set p.y, 6757',
-                            '    arrayw   pp, 1, p',
-                            '',
-                            '    testPointer(&pp)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [32342, 6757]);
-                });
-
-                it('Should call a procedure and write to a pointer of to global array', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
-                            '    number x',
-                            '    number y',
-                            'ends',
-                            '',
-                            'Point points[10]',
-                            '',
-                            'proc testPointer(Point *points[0])',
-                            '    Point p',
-                            '    set p.x, 678',
-                            '    set p.y, 534',
-                            '    arrayw *points, 1, &p',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    testPointer(&points)',
-                            '',
-                            '    Point point',
-                            '    arrayr point, points, 1',
-                            '    printN(point.x)',
-                            '    printN(point.y)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [678, 534]);
-                });
-
-                it('Should call a procedure and write to a pointer of to local array', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
-                            '    number x',
-                            '    number y',
-                            'ends',
-                            '',
-                            'proc testPointer(Point *points[0])',
-                            '    Point p',
-                            '    set p.x, 6852',
-                            '    set p.y, -93',
-                            '    arrayw *points, 1, p',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    Point points[10]',
-                            '',
-                            '    testPointer(&points)',
-                            '',
-                            '    Point point',
-                            '    arrayr point, points, 1',
-                            '    printN(point.x)',
-                            '    printN(point.y)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [6852, -93]);
-                });
-
-                it('Should call a procedure and write to a pointer of to local array', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
-                            '    number x',
-                            '    number y',
-                            'ends',
-                            '',
-                            'Point *points[0]',
-                            '',
-                            'proc testPointer()',
-                            '    Point p',
-                            '    set p.x, 6852',
-                            '    set p.y, -93',
-                            '    arrayw *points, 1, p',
-                            'endp',
-                            '',
-                            'proc main()',
-                            '    Point p[10]',
-                            '',
-                            '    set points, &p',
-                            '    testPointer()',
-                            '',
-                            '    Point point',
-                            '    arrayr point, p, 1',
-                            '    printN(point.x)',
-                            '    printN(point.y)',
-                            'endp'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [6852, -93]);
-                });
-
-                it('Should call a procedure with a dereferenced local pointer struct parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             '',
                             'Point point',
                             '',
@@ -357,23 +167,24 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set point.x, -5',
-                            '    set point.y, 9',
-                            '    set point.z, -3',
+                            '    point.x = ' + ints[0],
+                            '    point.y = ' + ints[1],
+                            '    point.z = ' + ints[2],
                             '    Point *p',
-                            '    set p, &point',
+                            '    p = &point',
                             '    printPoint(*p)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [-5, 9, -3]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
-                it('Should call a procedure with a dereferenced global pointer struct parameter', function() {
+                it('Should call a procedure with a dereferenced global pointer record parameter', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'struct Point',
+                            'record Point',
                             '    number x, y, z',
-                            'ends',
+                            'endr',
                             '',
                             'Point point',
                             'Point *p',
@@ -385,21 +196,21 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '    set point.x, 338',
-                            '    set point.y, -782',
-                            '    set point.z, 24',
-                            '    set p, &point',
+                            '    point.x = ' + ints[0],
+                            '    point.y = ' + ints[1],
+                            '    point.z = ' + ints[2],
+                            '    p = &point',
                             '    printPoint(*p)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [338, -782, 24]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should call a procedure with a local address parameter', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc testParam(number *n)',
-                            '    set *n, 13',
+                            '    n = 13',
                             'endp',
                             '',
                             'proc main()',
@@ -425,7 +236,7 @@ describe(
                             '',
                             'proc main()',
                             '    number x',
-                            '    set x, one()',
+                            '    x = one()',
                             '',
                             '    printN(x)',
                             'endp'
@@ -437,13 +248,13 @@ describe(
                 it('Should return a multiplied parameter number', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc timesTwo(number n)',
-                            '    mul n, 2',
+                            '    n *= 2',
                             '    return n',
                             'endp',
                             '',
                             'proc main()',
                             '    number x',
-                            '    set x, timesTwo(13)',
+                            '    x = timesTwo(13)',
                             '',
                             '    printN(x)',
                             'endp'
@@ -455,21 +266,21 @@ describe(
                 it('Should call multiple functions, check local stack after return', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc plusThree(number n)',
-                            '    add n, 3',
+                            '    n += 3',
                             '    return n',
                             'endp',
                             '',
                             'proc timesTwoPlusThree(number n)',
-                            '    mul n, 2',
-                            '    set n, plusThree(n)',
+                            '    n *= 2',
+                            '    n = plusThree(n)',
                             '    return n',
                             'endp',
                             '',
                             'proc main()',
                             '    number x',
                             '    number y',
-                            '    set y, 371',
-                            '    set x, timesTwoPlusThree(6)',
+                            '    y = 371',
+                            '    x = timesTwoPlusThree(6)',
                             '',
                             '    printN(x)',
                             '    printN(y)',
@@ -487,8 +298,8 @@ describe(
                             '',
                             'proc main()',
                             '    number x',
-                            '    set x, 3',
-                            '    mul x, five()',
+                            '    x = 3',
+                            '    x *= five()',
                             '',
                             '    printN(x)',
                             'endp'
@@ -529,6 +340,7 @@ describe(
                 });
 
                 it('Should call with two array index params', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test(number x, number y)',
                             '    printN(x)',
@@ -538,17 +350,18 @@ describe(
                             'proc main()',
                             '    number x[4]',
                             '',
-                            '    x[2] = 89',
-                            '    x[1] = 569',
+                            '    x[2] = ' + ints[1],
+                            '    x[1] = ' + ints[0],
                             '',
                             '    test(x[1], x[2])',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [569, 89]);
+                    assert.deepEqual(testData.messages, ints);
                 });
 
                 it('Should call with array and expression', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test(number x, number y)',
                             '    printN(x)',
@@ -558,14 +371,14 @@ describe(
                             'proc main()',
                             '    number x[4]',
                             '',
-                            '    x[2] = 5',
-                            '    x[1] = 687',
+                            '    x[2] = ' + ints[1],
+                            '    x[1] = ' + ints[0],
                             '',
                             '    test(x[1], x[2] * 3)',
                             'endp'
                         ])).testData;
 
-                    assert.deepEqual(testData.messages, [687, 15]);
+                    assert.deepEqual(testData.messages, [ints[0], ints[1] * 3]);
                 });
             }
         );

@@ -7,9 +7,9 @@
 #define MATH_NEG    4
 
 proc round(number n)
-    struct Round
+    record Round
         number result
-    ends
+    endr
     Round round
     set      round.result, n
     addr     round
@@ -18,9 +18,9 @@ proc round(number n)
 endp
 
 proc floor(number n)
-    struct Floor
+    record Floor
         number result
-    ends
+    endr
     Floor floor
     set      floor.result, n
     addr     floor
@@ -29,9 +29,9 @@ proc floor(number n)
 endp
 
 proc ceil(number n)
-    struct Ceil
+    record Ceil
         number result
-    ends
+    endr
     Ceil ceil
     set      ceil.result, n
     addr     ceil
@@ -40,9 +40,9 @@ proc ceil(number n)
 endp
 
 proc abs(number n)
-    struct Abs
+    record Abs
         number result
-    ends
+    endr
     Abs abs
     set      abs.result, n
     addr     abs
@@ -51,9 +51,9 @@ proc abs(number n)
 endp
 
 proc neg(number n)
-    struct Neg
+    record Neg
         number result
-    ends
+    endr
     Neg neg
     set      neg.result, n
     addr     neg

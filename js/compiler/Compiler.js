@@ -9,18 +9,19 @@
                 $ = wheel.compiler.command;
 
                 this._compilerData   = new wheel.compiler.CompilerData({compiler: this});
+                this._compilerMeta   = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._compilerData});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
                 this._mainIndex      = -1;
                 this._filename       = '';
                 this._includes       = null;
                 this._procStartIndex = -1;
-                this._activeStruct   = null;
+                this._activeRecord   = null;
 
                 var compilerOpts = {
                         compiler:     this,
                         compilerData: this._compilerData
                     };
-                var constructors = [
+                var conrecordors = [
                         'NumberDeclaration',
                         'NumberInc',
                         'NumberDec',
@@ -33,15 +34,13 @@
                         'CallReturn',
                         'Ret',
                         'Label',
-                        'ArrayR',
-                        'ArrayW',
                         'Addr',
                         'JmpC'
                     ];
                 var compilers = {};
 
-                for (var i = 0; i < constructors.length; i++) {
-                    compilers[constructors[i]] = new wheel.compiler.commands[constructors[i]](compilerOpts); // Needs namespace!
+                for (var i = 0; i < conrecordors.length; i++) {
+                    compilers[conrecordors[i]] = new wheel.compiler.commands[conrecordors[i]](compilerOpts); // Needs namespace!
                 }
                 this._compilers = compilers;
 
@@ -61,8 +60,6 @@
                     jge:        compilers.JmpC,
                     set:        compilers.Set,
                     addr:       compilers.Addr,
-                    arrayr:     compilers.ArrayR,
-                    arrayw:     compilers.ArrayW,
                     number:     compilers.NumberDeclaration,
                     inc:        compilers.NumberInc,
                     dec:        compilers.NumberDec,
@@ -112,37 +109,34 @@
 
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i];
-                    var found = false;
 
                     for (var j = 0; j < args.length; j++) {
-                        var argsMetaType = args[j].metaType || false;
-                        var matchType    = false;
+                        var matchType = false;
 
                         // Check the primitive types...
                         if (param.type === args[j].type) {
-                            if (argsMetaType) {
-                                if (param.metaType === argsMetaType) {
-                                    matchType = true;
-                                } else if (param.vr && (param.vr.metaType === argsMetaType)) {
-                                    matchType = true;
-                                }
-                            } else {
+                            //if (argsMetaType) {
+                            //    if (param.metaType === argsMetaType) {
+                            //        matchType = true;
+                            //    } else if (param.vr && (param.vr.metaType === argsMetaType)) {
+                            //        matchType = true;
+                            //    }
+                            //} else {
                                 matchType = true;
-                            }
+                            //}
                         // Check the var types...
                         //} else if (param.vr && param.vr.field && (param.vr.field.type === args[j].type)) {
                         //    matchType = true;
                         }
 
                         if (matchType) {
-                            args  = ('args' in args[j]) ? args[j].args : args[j];
-                            found = true;
+                            args = ('args' in args[j]) ? args[j].args : args[j];
                             break;
                         }
                     }
-                    if (!found) {
-                        throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
-                    }
+                    //if (!found) {
+                    //    throw this.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param.param + '".');
+                    //}
                 }
                 return {
                     code:   code,
@@ -170,6 +164,8 @@
                 var compilerData      = this._compilerData;
                 var output            = this._output;
 
+                line = this._compilerMeta.compileParams(line);
+
                 if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                     var spacePos = line.indexOf(' ');
                     var command  = line.substr(0, spacePos).trim();
@@ -187,7 +183,7 @@
                     validatedCommand && (validatedCommand.command = commandAndParams.command);
                     switch (commandAndParams.command) {
                         case 'endp':
-                            if (this._activeStruct !== null) {
+                            if (this._activeRecord !== null) {
                                 throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
                             }
                             this._compilers.Ret.compile(null);
@@ -195,35 +191,35 @@
                             output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
                             this._procStartIndex = -1;
                             compilerData.resetLocal();
-                            compilerData.removeLocalStructs();
+                            compilerData.removeLocalRecords();
                             break;
 
-                        case 'struct':
-                            this._activeStruct = compilerData.declareStruct(commandAndParams.params, commandAndParams.command, location);
+                        case 'record':
+                            this._activeRecord = compilerData.declareRecord(commandAndParams.params, commandAndParams.command, location);
                             break;
 
-                        case 'ends':
-                            this._activeStruct = null;
+                        case 'endr':
+                            this._activeRecord = null;
                             break;
 
                         default:
                             if (commandAndParams.command in compilerByCommand) {
                                 compilerByCommand[commandAndParams.command].compile(validatedCommand, splitParams, commandAndParams.params, location);
                             } else if (validatedCommand === false) {
-                                var struct = compilerData.findStruct(commandAndParams.command);
-                                if (struct === null) {
+                                var record = compilerData.findRecord(commandAndParams.command);
+                                if (record === null) {
                                     throw this.createError(wheel.compiler.error.UNKNOWN_COMMAND, 'Unknown command "' + commandAndParams.command + '".');
-                                } else if (this._activeStruct !== null) {
+                                } else if (this._activeRecord !== null) {
                                     for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareStructField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct.size, struct);
+                                        compilerData.declareRecordField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record.size, record);
                                     }
                                 } else if (this.getInProc()) {
                                     for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, struct);
+                                        compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, record);
                                     }
                                 } else {
                                     for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, struct, location);
+                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record);
                                     }
                                 }
                             } else {
@@ -239,11 +235,12 @@
                 var output    = this._output;
 
                 this._procStartIndex = -1;
-                this._activeStruct   = null;
+                this._activeRecord   = null;
                 for (var i = 0; i < lines.output.length; i++) {
-                    var line = lines.output[i].trim();
+                    var line = this._compilerMeta.compile(lines.output, lines.output[i].trim(), i);
+                    //(line === '') || console.log(i, line);
                     this._location = sourceMap[i];
-                    this.compileLine(line);
+                    (line !== '') && this.compileLine(line);
                 }
 
                 return output.getBuffer();
@@ -295,8 +292,8 @@
                 this._procStartIndex = procStartIndex;
             };
 
-            this.getActiveStruct = function() {
-                return this._activeStruct;
+            this.getActiveRecord = function() {
+                return this._activeRecord;
             };
 
             this.setMainIndex = function(mainIndex) {
