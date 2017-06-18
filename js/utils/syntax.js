@@ -20,7 +20,10 @@
             'module',
             'addr',
             'return',
-            'jmp'
+            'jmp',
+            'if',
+            'select',
+            'case'
         ];
 
     var registers = [

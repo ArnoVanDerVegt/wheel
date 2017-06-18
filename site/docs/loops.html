@@ -39,15 +39,12 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Procedures</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Loops</span></h3>
 
-                <h3 class="blue">Procedures</h3>
+                <h3 class="blue">Loops</h3>
                 <ul class="last">
-                    <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
-                </ul>
-                <h3 class="blue">Functions</h3>
-                <ul class="last">
-                    <li><a href="site/docs/procedures.html#function">Functions</a></li>
+                    <li><a href="site/docs/loops.html#forto">for..to</a></li>
+                    <li><a href="site/docs/loops.html#fordownto">for..downto</a></li>
                 </ul>
 
                 <h3 class="light-gray margin-top margin-bottom">Documentation</h3>
@@ -63,32 +60,20 @@
             </div>
 
             <div class="two first">
-                <h4>Procedures</h4>
+                <h4>Loops</h4>
             </div>
 
-            <div class="two first" id="main">
-                <h5>The main procedure</h5>
-                A procedure declaration starts with the proc keyword followed by the name of the procedure followed by a
-                round open and close bracket. Every program has at least one procedure which must be called "main".
+            <div class="two first" id="forto">
+                <h5>For..to</h5>
+                Repeat a block of code.
                 <pre>
-                    proc main()
-                        ; your commands go here...
-                    endp
                 </pre>
             </div>
 
-            <div class="two first" id="function">
-                <h5>Functions</h5>
-                A procedure can return a value.
+            <div class="two first" id="fordownto">
+                <h5>For..downto</h5>
+                Repeat a block of code.
                 <pre>
-                    proc myFunc()
-                        ret 15
-                    endp
-
-                    proc main()
-                        number n
-                        set n, myFunc()
-                    endp
                 </pre>
             </div>
 
