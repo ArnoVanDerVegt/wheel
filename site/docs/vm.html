@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - VM</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+
+    <script src="js/utils/syntax.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="wheel"><a href="index.html">Wheel</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
+            </ul>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">
+                <span>Download</span><img src="site/images/github.svg"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <img src="site/images/vm.png" class="header-image"/>
+            <h1>Documentation</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three last right">
+                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>VM</span></h3>
+
+                <h3 class="blue">VM</h3>
+                <ul class="last">
+                    <li><a href="site/docs/vm.html#registers">Registers</a></li>
+                    <li><a href="site/docs/vm.html#callstack">Call stack</a></li>
+                </ul>
+
+                <h3 class="light-gray margin-top margin-bottom">Documentation</h3>
+                <div class="index">
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
+                    <a href="site/docs/conditions.html">Conditions</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/compiler.html">Compiler</a><br />
+                    <a href="site/docs/vm.html" class="active">VM</a><br />
+                    <a href="site/docs/operators.html">Operators</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
+                </div>
+            </div>
+
+            <div class="two first">
+                <h4>VM</h4>
+                Since the virtual machine had to be implemented in the EV3 software it should be as simple as possible.
+                The VM uses only 10 commands: <i>copy</i>, <i>jmpc</i>, <i>cmp</i>, <i>module</i>, <i>set</i>,
+                <i>add</i>, <i>sub</i>, <i>mul</i>, <i>div</i> and <i>mod</i>.
+            </div>
+
+            <div class="two first" id="registers">
+                <h5>Registers</h5>
+                The VM uses 6 registers: <i>stack</i>, <i>src</i>, <i>dest</i>, <i>code</i>, <i>return</i> and <i>flags</i>.<br/>
+                <br/>
+                A register in the Wheel VM is basicaly a reserved memory address with a special purpose. The first (<i>stack</i>)
+                register is located at offset 0, the last (<i>flags</i>) is located at offset 5.<br/>
+                <br/>
+                The <i>stack</i> register points to the top of the stack and is increased when a call is made. The <i>src</i> and <i>dest</i>
+                are used in combibation with the <i>copy</i> command and are also used as general purpose registers. The <i>code</i> register
+                contains the pointer to the current execution position. The <i>return</i> register is used to return a value from a function
+                call.
+            </div>
+
+            <div class="two first" id="callstack">
+                <h5>Call stack</h5>
+                The VM does not have a call command. A call is made by changing the value of the <i>code</i> register.
+                The following table shows the local memory layout in a procedure, these values are relative to the <i>stack</i>
+                pointer.<br/>
+                <br/>
+                <table>
+                    <tr>
+                        <th>Offset</th>
+                        <th>Size</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            0
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Caller stack pointer
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Code return pointer
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2..2 + paramSize
+                        </td>
+                        <td>
+                            paramSize
+                        </td>
+                        <td>
+                            Parameter values
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2 + paramSize..2 + paramSize + localSize
+                        </td>
+                        <td>
+                            localSize
+                        </td>
+                        <td>
+                            Local values
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                The total memory use of a procudure is equal to the sum of the parameter variables size,
+                the local variables size and 2 numbers for the stack and code return values.<br/>
+                <br/>
+                When a call is made the value of the stack pointer will be increased with the size of
+                the local data, the sum of the sizes in the table.<br/>
+                <br/>
+                The following example shows how the call to <i>drawCircle</i> is compiled.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawCircle(109, 64, 15)
+                    endp
+                </pre>
+
+                First the parameter values are set. The offset of the first parameter is equal to the local stack
+                size + 2. The local stack size is 2, a stack and code return value.<br/>
+                <br/>
+                The call is made from the main function which does not have local or parameter values,
+                otherwise the size of the parameter and local variables should be added to the offset.<br/>
+                <pre>
+                    set    [stack+0004],  109
+                    set    [stack+0005],  64
+                    set    [stack+0006],  15
+                </pre>
+
+                The <i>code</i> value is moved to the <i>dest</i> register and 6 is added for the folliwing 6
+                commands.<br/>
+
+                <pre>
+                    set    dest,          code
+                    add    dest,          6
+                </pre>
+
+                Save the <i>stack</i> value in the <i>src</i> register.<br/>
+
+                <pre>
+                    set    src,           stack
+                </pre>
+
+                Increase the <i>stack</i> pointer with the size of the current local size:<br/>
+
+                <pre>
+                    add    stack,         2
+                </pre>
+
+                Set the return pointers:<br/>
+
+                <pre>
+                    set    [stack+0000],  src
+                    set    [stack+0001],  dest
+                </pre>
+
+                And jump to the procedure offset:<br/>
+
+                <pre>
+                    set    code,          70
+                </pre>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>
