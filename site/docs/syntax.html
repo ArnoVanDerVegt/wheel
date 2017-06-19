@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Variables</title>
+    <title>Wheel - Syntax</title>
 
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
@@ -39,20 +39,21 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Conditions</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Syntax</span></h3>
 
-                <h3 class="blue">Conditions</h3>
+                <h3 class="blue">Loops</h3>
                 <ul class="last">
-                    <li><a href="site/docs/conditions.html#if">If</a></li>
-                    <li><a href="site/docs/conditions.html#select">Select</a></li>
+                    <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
+                    <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
                 </ul>
 
                 <h3 class="light-gray margin-top margin-bottom">Documentation</h3>
                 <div class="index">
-                    <a href="site/docs/syntax.html">Syntax</a><br />
+                    <a href="site/docs/syntax.html" class="active">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
-                    <a href="site/docs/conditions.html" class="active">Conditions</a><br />
+                    <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
@@ -61,97 +62,57 @@
                 </div>
             </div>
 
-            <!--div class="two first">
-                <h4>If</h4>
-                <br />
-            </div-->
+            <div class="two first">
+                <h4>Syntax</h4>
+            </div>
 
-            <div class="two first" id="if">
-                <h5>If</h5>
-
-                Execute a block of code based on a condition.<br/>
-                The operator is the oposite of the condition,
-                if the condition evaluates to <i>true</i> then the code is skipped with a jump.<br/>
-                <br/>
-
-                <table>
-                    <tr>
-                        <th>Condition</th>
-                        <th>Sign</th>
-                        <th>Operator</th>
-                    </tr>
-                    <tr>
-                        <td>Not equal</td>
-                        <td>!=</td>
-                        <td>je</td>
-                    </tr>
-                    <tr>
-                        <td>Equal</td>
-                        <td>-=</td>
-                        <td>jne</td>
-                    </tr>
-                    <tr>
-                        <td>Greater or equal</td>
-                        <td>&gt;=</td>
-                        <td>jl</td>
-                    </tr>
-                    <tr>
-                        <td>Less or equal</td>
-                        <td>&lt;=</td>
-                        <td>jg</td>
-                    </tr>
-                    <tr>
-                        <td>Greater</td>
-                        <td>&gt;</td>
-                        <td>jle</td>
-                    </tr>
-                    <tr>
-                        <td>Less</td>
-                        <td>&lt;</td>
-                        <td>jge</td>
-                    </tr>
-                </table>
-
+            <div class="two first" id="onecommand">
+                <h5>One command per line</h5>
+                Wheel only allows a single command per line.<br/>
                 <pre>
                     proc main()
-                        number n
-
-                        for n = 1 to 10
-                            if n == 5
-                                printS("-")
-                            else
-                                printN(n)
-                            end
-                        end
+                        number n = 1 ; Very simple...
                     end
                 </pre>
             </div>
 
-            <div class="two first" id="select">
-                <h5>Select</h5>
-
-                Select a block of code to execute.<br/>
-                The code is executed until another case is reached.<br/>
-
+            <div class="two first" id="blocks">
+                <h5>Code blocks</h5>
+                Wheel uses a block structure which begins with the declaration of the type or command followed by an
+                expression end closes with and <i>end</i> statement.<br/>
+                <br/>
                 <pre>
-                    proc printMessage(number n)
-                        number n
-
-                        select n
-                            case 1:
-                                printS("one")
-
-                            case 2:
-                                printS("two")
-
-                            case 3:
-                                printS("three")
-
-                        end
+                    struct MyStruct
+                        number
                     end
 
                     proc main()
-                        printMessage(2)
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="forto">
+                <h5>Meta commands</h5>
+                Meta commands are parsed by the precompiler.<br/>
+                <br/>
+                <h6>#include</h6>
+                With the <i>include</i> command you can import an existing file like a library.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
+                    end
+                </pre>
+                <br/>
+                <h6>#define</h6>
+                With the <i>define</i> command you can create constants, the constants are replaced
+                with the <i>define</i> value by the precompiler.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
                     end
                 </pre>
             </div>

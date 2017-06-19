@@ -27,7 +27,8 @@
             'cmp',
             'jmpc',
             'copy',
-            'else'
+            'else',
+            'struct'
         ];
 
     var registers = [

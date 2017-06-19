@@ -44,6 +44,7 @@
                 <h3 class="blue">Procedures</h3>
                 <ul class="last">
                     <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
+                    <li><a href="site/docs/procedures.html#parameters">Parameters</a></li>
                 </ul>
                 <h3 class="blue">Functions</h3>
                 <ul class="last">
@@ -52,6 +53,7 @@
 
                 <h3 class="light-gray margin-top margin-bottom">Documentation</h3>
                 <div class="index">
+                    <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html" class="active">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
@@ -69,12 +71,44 @@
 
             <div class="two first" id="main">
                 <h5>The main procedure</h5>
-                A procedure declaration starts with the proc keyword followed by the name of the procedure followed by a
+                A procedure declaration starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
                 round open and close bracket. Every program has at least one procedure which must be called "main".
                 <pre>
                     proc main()
                         ; your commands go here...
-                    endp
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="parameters">
+                <h5>Parameters</h5>
+                A procedure can have parameters which can be declared after the procedure name.<br/>
+                The parameter type is followed by the name of the parameter.<br/>
+                <pre>
+                    proc myProc(number n)
+                        printS("The number is:")
+                        printN(n)
+                    end
+
+                    proc main()
+                        myProc(10)
+                    end
+                </pre>
+
+                Multiple parameters are comma separated:<br/>
+                <pre>
+                    proc myProc(number a, number b)
+                        printS("Number A is:")
+                        printN(a)
+                        printS("Number B is:")
+                        printN(b)
+                    end
+
+                    proc main()
+                        number a = 5
+                        number b = 6
+                        myProc(a, b)
+                    end
                 </pre>
             </div>
 
@@ -84,12 +118,12 @@
                 <pre>
                     proc myFunc()
                         ret 15
-                    endp
+                    end
 
                     proc main()
                         number n
-                        set n, myFunc()
-                    endp
+                        n = myFunc()
+                    end
                 </pre>
             </div>
 

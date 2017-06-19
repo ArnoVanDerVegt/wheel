@@ -48,6 +48,7 @@
                 <h3 class="light-gray margin-top margin-bottom">Documentation</h3>
                 <div class="index">
                 <div class="index">
+                    <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
@@ -196,7 +197,7 @@
                 <pre>
                     proc main()
                         ~wrong()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -204,9 +205,9 @@
                 <h4>#2 SYNTAX_ERROR_INVALID_PROC_PARAM</h4>
                 <pre>
                     proc error(wrong)
-                    endp
+                    end
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -216,7 +217,7 @@
                     record ~bad
                     endr
                     proc main()'
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -225,7 +226,7 @@
                 <pre>
                     number n[3] = [1, 2, 3}
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -241,9 +242,9 @@
                 <h4>#6 SYNTAX_ERROR_PARAM_EXPECTED</h4>
                 <pre>
                     proc test(number n,)
-                    endp
+                    end
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -252,7 +253,7 @@
                 <pre>
                     proc main()
                         string s = 1
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -261,7 +262,7 @@
                 <pre>
                     string s = 1
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -270,7 +271,7 @@
                 <pre>
                     string s[2] = 1
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -280,7 +281,7 @@
                     proc main()
                         number n
                         set 1, n
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -289,7 +290,7 @@
                 <pre>
                     number a[3] = [1, 'x', 3]
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -299,7 +300,7 @@
                     number n
                     proc main()
                         n[3] = 0
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -309,7 +310,7 @@
                     number n
                     proc main()
                         n.a = 1
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -319,7 +320,7 @@
                     proc main()
                         number l
                         l()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -329,7 +330,7 @@
                     number g
                     proc main()
                         g()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -337,9 +338,9 @@
                 <h4>#16 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h4>
                 <pre>
                     proc error(Wrong w)
-                    endp
+                    end
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -348,7 +349,7 @@
                 <pre>
                     proc main()
                         set n, 1
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -366,7 +367,7 @@
                     label:
                     label:
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -375,7 +376,7 @@
                 <pre>
                     proc main()
                        number n = 'x'
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -384,7 +385,7 @@
                 <pre>
                     number n = 'y'
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -392,7 +393,7 @@
                 <h4>#22 NO_MAIN_PROCEDURE</h4>
                 <pre>
                     proc noMain()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -409,7 +410,7 @@
                 <pre>
                     proc main()
                         wrong()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -422,7 +423,7 @@
                     S s
                     proc main()
                        set s.wrong, 1
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -431,7 +432,7 @@
                 <pre>
                     proc p = 1
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -441,7 +442,7 @@
                     proc p = 1
                     proc main()
                         printN(*p)
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -450,9 +451,9 @@
                 <pre>
                     record S
                        number n
-                    endp
+                    end
                     proc main()
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -463,7 +464,7 @@
                         number n
                         number *pn
                         mul n, &amp;n
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -474,7 +475,7 @@
                         string s
                         number n
                         mul s, n
-                    endp
+                    end
                 </pre>
             </div>
             <div style="float:left;clear:both;"></div>
