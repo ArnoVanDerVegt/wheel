@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - File format</title>
+
+    <base href="../../">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="css/wheel.css" rel="stylesheet">
+
+    <script src="js/utils/syntax.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <ul>
+                <li class="wheel"><a href="index.html">Wheel</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
+                <li><a href="site/modules/index.html">Modules</a></li>
+                <li><a href="site/simulator/index.html">Simulator</a></li>
+            </ul>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">
+                <span>Download</span><img src="site/images/github.svg"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="sub-header">
+        <div class="container">
+            <img src="site/images/vm.png" class="header-image"/>
+            <h1>Documentation</h1>
+            <h2>A text based language to run in an EV3 block.</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="three last right">
+                <h3 class="blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>File format</span></h3>
+
+                <h3 class="blue">File format</h3>
+                <ul class="last">
+                    <li><a href="site/docs/fileformat.html#rtf">Rtf</a></li>
+                </ul>
+
+                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <div class="index">
+                    <a href="site/docs/syntax.html">Syntax</a><br />
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
+                    <a href="site/docs/conditions.html">Conditions</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/compiler.html">Compiler</a><br />
+                    <a href="site/docs/vm.html">VM</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/fileformat.html" class="active">File format</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
+                </div>
+            </div>
+
+            <div class="two first">
+                <h4>File format</h4>
+            </div>
+
+            <div class="two first" id="forto">
+                <h5>Rtf</h5>
+                The standard EV3™ File block can read data from a .rft file.
+                The Wheel VM read code from a .rtf file with the following structure:<br/>
+                <br/>
+                <table>
+                    <tr>
+                        <th>Line</th>
+                        <th>Size</th>
+                        <th>Expected value</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>#STRINGS</td>
+                        <td>String marker</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>stringCount</td>
+                        <td>String value</td>
+                        <td>Sring values</td>
+                    </tr>
+                    <tr>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                    </tr>
+                    <tr>
+                        <td>3+stringCount</td>
+                        <td>1</td>
+                        <td>#HEAP_SIZE</td>
+                        <td>Heap marker</td>
+                    </tr>
+                    <tr>
+                        <td>4+stringCount</td>
+                        <td>1</td>
+                        <td>Number value</td>
+                        <td>Heap size value</td>
+                    </tr>
+                    <tr>
+                        <td>5+stringCount</td>
+                        <td>1</td>
+                        <td>#REG_CODE</td>
+                        <td>Code register value marker</td>
+                    </tr>
+                    <tr>
+                        <td>6+stringCount</td>
+                        <td>1</td>
+                        <td>Number value</td>
+                        <td>Initial code register value</td>
+                    </tr>
+                    <tr>
+                        <td>7+stringCount</td>
+                        <td>1</td>
+                        <td>#REG_STACK</td>
+                        <td>Stack register value marker</td>
+                    </tr>
+                    <tr>
+                        <td>8+stringCount</td>
+                        <td>1</td>
+                        <td>Number value</td>
+                        <td>Initial stack register value</td>
+                    </tr>
+                    <tr>
+                        <td>9+stringCount</td>
+                        <td>1</td>
+                        <td>#COMMANDS_SIZE</td>
+                        <td>Command size value marker</td>
+                    </tr>
+                    <tr>
+                        <td>10+stringCount</td>
+                        <td>1</td>
+                        <td>Number value</td>
+                        <td>Number of parts</td>
+                    </tr>
+                    <tr>
+                        <td>11+stringCount</td>
+                        <td>1</td>
+                        <td>#COMMANDS</td>
+                        <td>Command values marker</td>
+                    </tr>
+                    <tr>
+                        <td>12+stringCount</td>
+                        <td>commandCount</td>
+                        <td>Number value</td>
+                        <td>Command parts</td>
+                    </tr>
+                    <tr>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                    </tr>
+                </table>
+                <br/>
+                A single command is stored as 5 numbers:<br/>
+                <ul class="clear">
+                    <li>The command</li>
+                    <li>The first parameter type</li>
+                    <li>The first parameter value</li>
+                    <li>The second parameter type</li>
+                    <li>The second parameter value</li>
+                </ul>
+            </div>
+
+            <div style="float:left;clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <span class="small-print">
+                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
+                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>
