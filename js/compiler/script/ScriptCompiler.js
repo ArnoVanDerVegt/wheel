@@ -206,6 +206,19 @@
                 var valueCalculation   = expressionCompiler.isCalculation(value);
                 var tempVar;
 
+                var addOffsetToDest = function(value) {
+                        if (value.substr(0, 1) === '&') {
+                            result.push('        %if_global ' + value);
+                            result.push('            set REG_DEST,%offset(' + value + ')');
+                            result.push('        %else');
+                            result.push('            set REG_DEST,REG_STACK');
+                            result.push('            add REG_DEST,%offset(' + value + ')');
+                            result.push('        %end');
+                        } else {
+                            result.push('    set REG_DEST,' + value);
+                        }
+                    };
+
                 if (expressionCompiler.isComposite(vr)) {
                     var recordVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
                     if (valueCalculation) {
@@ -221,16 +234,7 @@
                         result.push('set REG_STACK,REG_SRC');
                     } else {
                         result.push('%if_pointer ' + vr);
-                        if (value.substr(0, 1) === '&') {
-                            result.push('        %if_global ' + value);
-                            result.push('            set REG_DEST,%offset(' + value + ')');
-                            result.push('        %else');
-                            result.push('            set REG_DEST,REG_STACK');
-                            result.push('            add REG_DEST,%offset(' + value + ')');
-                            result.push('        %end');
-                        } else {
-                            result.push('    set REG_DEST,' + value);
-                        }
+                        addOffsetToDest(value);
                         result.push('%else');
                         result.push('    %if_record ' + vr);
                         result.push('        %if_global ' + vr);
@@ -240,16 +244,7 @@
                         result.push('            add REG_DEST,%offset(' + vr + ')');
                         result.push('        %end');
                         result.push('    %else');
-                        if (value.substr(0, 1) === '&') {
-                            result.push('        %if_global ' + value);
-                            result.push('            set REG_DEST,%offset(' + value + ')');
-                            result.push('        %else');
-                            result.push('            set REG_DEST,REG_STACK');
-                            result.push('            add REG_DEST,%offset(' + value + ')');
-                            result.push('        %end');
-                        } else {
-                            result.push('    set REG_DEST,' + value);
-                        }
+                        addOffsetToDest(value);
                         result.push('    %end');
                         result.push('%end');
                     }

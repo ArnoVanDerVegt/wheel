@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel</title>
+    <title>Wheel - Compiler</title>
 
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
@@ -12,13 +12,13 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body class="examples">
+<body>
     <div class="header">
         <div class="container">
             <ul>
                 <li class="wheel"><a href="index.html">Wheel</a></li>
-                <li><a href="site/examples/index.html" class="active">Examples</a></li>
-                <li><a href="site/docs/index.html">Documentation</a></li>
+                <li><a href="site/examples/index.html">Examples</a></li>
+                <li><a href="site/docs/index.html" class="active">Documentation</a></li>
                 <li><a href="site/modules/index.html">Modules</a></li>
                 <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
@@ -31,42 +31,45 @@
     <div class="sub-header">
         <div class="container">
             <img src="site/images/vm.png" class="header-image"/>
-            <h1>Examples</h1>
+            <h1>Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
     </div>
 
     <div class="content">
         <div class="container">
-            <div class="one first last right">
-                <h3 class="index blue with-icon"><img src="site/images/numeric.png" width="32" height="32"/> <span>Core functions</span></h3>
+            <div class="three last right">
+                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Compiler</span></h3>
 
-                <div class="index-row last">
-                    <a href="site/examples/math.html" class="list-link">Math module</a>
-                    <span>Math functions for rounding.</span>
+                <h3 class="blue">Procedures</h3>
+                <ul class="last">
+                    <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
+                </ul>
+                <h3 class="blue">Functions</h3>
+                <ul class="last">
+                    <li><a href="site/docs/procedures.html#function">Functions</a></li>
+                </ul>
+
+                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <div class="index">
+                    <a href="site/docs/variables.html">Variables</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
+                    <a href="site/docs/conditions.html">Conditions</a><br />
+                    <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/compiler.html" class="active">Compiler</a><br />
+                    <a href="site/docs/vm.html">VM</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/fileformat.html">File format</a><br />
+                    <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
+            </div>
 
-                <h3 class="index blue with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Brick functions</span></h3>
+            <div class="two first">
+                <h4>Compiler</h4>
+            </div>
 
-                <div class="index-row">
-                    <a href="site/examples/screen.html" class="list-link">Screen</a>
-                    <span>Drawing functions.</span>
-                </div>
-
-                <div class="index-row">
-                    <a href="site/examples/light.html" class="list-link">Light module</a>
-                    <span>Control the light on the brick.</span>
-                </div>
-
-                <div class="index-row">
-                    <a href="site/examples/buttons.html" class="list-link">Buttons</a>
-                    <span>Read the brick buttons.</span>
-                </div>
-
-                <div class="index-row last">
-                    <a href="site/examples/sound.html" class="list-link">Sound</a>
-                    <span>Play tones or samples.</span>
-                </div>
+            <div class="two first" id="main">
+                <h5></h5>
             </div>
 
             <div style="float:left;clear:both;"></div>

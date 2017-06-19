@@ -39,24 +39,20 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Procedures</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Conditions</span></h3>
 
-                <h3 class="blue">Procedures</h3>
+                <h3 class="blue">Conditions</h3>
                 <ul class="last">
-                    <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
-                    <li><a href="site/docs/procedures.html#parameters">Parameters</a></li>
-                </ul>
-                <h3 class="blue">Functions</h3>
-                <ul class="last">
-                    <li><a href="site/docs/procedures.html#function">Functions</a></li>
+                    <li><a href="site/docs/conditions.html#if">If</a></li>
+                    <li><a href="site/docs/conditions.html#select">Select</a></li>
                 </ul>
 
                 <h3 class="green margin-top margin-bottom">Documentation</h3>
                 <div class="index">
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
-                    <a href="site/docs/loops.html" class="active">Loops</a><br />
-                    <a href="site/docs/conditions.html">Conditions</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
+                    <a href="site/docs/conditions.html" class="active">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
@@ -66,64 +62,97 @@
                 </div>
             </div>
 
-            <div class="two first">
-                <h4>Procedures</h4>
-            </div>
+            <!--div class="two first">
+                <h4>If</h4>
+                <br />
+            </div-->
 
-            <div class="two first" id="main">
-                <h5>The main procedure</h5>
-                A procedure declaration starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
-                round open and close bracket. Every program has at least one procedure which must be called "main".
+            <div class="two first" id="if">
+                <h5>If</h5>
+
+                Execute a block of code based on a condition.<br/>
+                The operator is the oposite of the condition,
+                if the condition evaluates to <i>true</i> then the code is skipped with a jump.<br/>
+                <br/>
+
+                <table>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Sign</th>
+                        <th>Operator</th>
+                    </tr>
+                    <tr>
+                        <td>Not equal</td>
+                        <td>!=</td>
+                        <td>je</td>
+                    </tr>
+                    <tr>
+                        <td>Equal</td>
+                        <td>-=</td>
+                        <td>jne</td>
+                    </tr>
+                    <tr>
+                        <td>Greater or equal</td>
+                        <td>&gt;=</td>
+                        <td>jl</td>
+                    </tr>
+                    <tr>
+                        <td>Less or equal</td>
+                        <td>&lt;=</td>
+                        <td>jg</td>
+                    </tr>
+                    <tr>
+                        <td>Greater</td>
+                        <td>&gt;</td>
+                        <td>jle</td>
+                    </tr>
+                    <tr>
+                        <td>Less</td>
+                        <td>&lt;</td>
+                        <td>jge</td>
+                    </tr>
+                </table>
+
                 <pre>
-                    proc main()
-                        ; your commands go here...
-                    end
-                </pre>
-            </div>
-
-            <div class="two first" id="parameters">
-                <h5>Parameters</h5>
-                A procedure can have parameters which can be declared after the procedure name.<br/>
-                The parameter type is followed by the name of the parameter.<br/>
-                <pre>
-                    proc myProc(number n)
-                        printS("The number is:")
-                        printN(n)
-                    end
-
-                    proc main()
-                        myProc(10)
-                    end
-                </pre>
-
-                Multiple parameters are comma separated:<br/>
-                <pre>
-                    proc myProc(number a, number b)
-                        printS("Number A is:")
-                        printN(a)
-                        printS("Number B is:")
-                        printN(b)
-                    end
-
-                    proc main()
-                        number a = 5
-                        number b = 6
-                        myProc(a, b)
-                    end
-                </pre>
-            </div>
-
-            <div class="two first" id="function">
-                <h5>Functions</h5>
-                A procedure can return a value.
-                <pre>
-                    proc myFunc()
-                        ret 15
-                    end
-
                     proc main()
                         number n
-                        n = myFunc()
+
+                        for n = 1 to 10
+                            if n == 5
+                                printS("-")
+                            else
+                                printN(n)
+                            end
+                        end
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="select">
+                <h5>Select</h5>
+
+                Select a block of code to execute.<br/>
+                The code is executed until another case is reached.<br/>
+
+                <pre>
+                    proc printMessage(number n)
+                        number n
+
+                        select n
+                            case 1:
+                                printS("one")
+
+                            case 2:
+                                printS("two")
+
+                            case 3:
+                                printS("three")
+
+                        end
+                    end
+
+                    proc main()
+                        printMessage(2)
                     end
                 </pre>
             </div>

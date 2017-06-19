@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Variables</title>
+    <title>Wheel - Syntax</title>
 
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
@@ -39,38 +39,102 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Syntax</span></h3>
 
-                <!--h3 class="gray">Modules</h3>
-                <ul>
-                </ul-->
+                <h3 class="blue">Loops</h3>
+                <ul class="last">
+                    <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
+                    <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
+                </ul>
 
                 <h3 class="green margin-top margin-bottom">Documentation</h3>
                 <div class="index">
-                    <a href="site/docs/syntax.html">Syntax</a><br />
+                    <a href="site/docs/syntax.html" class="active">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
-                    <a href="site/docs/modules.html" class="active">Modules</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
             </div>
 
             <div class="two first">
-                <h4>Modules</h4>
-                Modules provide a way to access standard functions from the brick like motors, sensors and the screen.<br />
-                <br />
-                The module command can be used to call blocks from your wheel code.<br />
-                <br />
-                Each module has a unique numeric id. The VM calls the module based on the id passed.
+                <h4>Syntax</h4>
             </div>
 
-            <div class="two img">
-                <img src="site/images/module.png"/>
+            <div class="two first" id="onecommand">
+                <h5>One command per line</h5>
+                Wheel only allows a single command per line.<br/>
+                <pre>
+                    proc main()
+                        number n = 1 ; Very simple...
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="blocks">
+                <h5>Code blocks</h5>
+                Wheel uses a block structure which begins with the declaration of the type or command followed by an
+                expression end closes with and <i>end</i> statement.<br/>
+                <pre>
+                    struct MyStruct
+                        number
+                    end
+
+                    proc main()
+                    end
+                </pre>
+
+                Some statements can be nested:<br/>
+                <pre>
+                    struct MyStruct
+                        number
+                    end
+
+                    proc main()
+                        number a = 1
+                        number b = 0
+
+                        if a == 1
+                            if (b == 1) ; Parentheses are optional here...
+                                printS("A and B are 1")
+                            end
+                        else
+                            printS("A is not 1")
+                        end
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="forto">
+                <h5>Meta commands</h5>
+                Meta commands are parsed by the precompiler.<br/>
+                <br/>
+                <h6>#include</h6>
+                With the <i>include</i> command you can import an existing file like a library.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
+                    end
+                </pre>
+                <br/>
+                <h6>#define</h6>
+                With the <i>define</i> command you can create constants, the constants are replaced
+                with the <i>define</i> value by the precompiler.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
+                    end
+                </pre>
             </div>
 
             <div style="float:left;clear:both;"></div>

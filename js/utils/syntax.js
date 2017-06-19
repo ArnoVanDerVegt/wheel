@@ -20,7 +20,15 @@
             'module',
             'addr',
             'return',
-            'jmp'
+            'jmp',
+            'if',
+            'select',
+            'case',
+            'cmp',
+            'jmpc',
+            'copy',
+            'else',
+            'struct'
         ];
 
     var registers = [
@@ -172,8 +180,12 @@
         var result    = '';
         var minLength = 256;
 
+        while (lines.length && (lines[lines.length - 1].trim() === '')) {
+            lines.pop();
+        }
+
         lines.forEach(function(line, index) {
-            if ((index !== 0) && (index !== line.length - 1) && (line[0] === ' ')) {
+            if ((index !== 0) && (index !== line.length - 1) && (line[0] === ' ') && line.trim().length) {
                 var i = 0;
                 while (line[i] === ' ') {
                     i++;
@@ -184,7 +196,11 @@
             }
         });
 
-        minLength = Math.max(minLength - 4, 0);
+        if (minLength === 256) {
+            minLength = lines[0].length - lines[0].trim().length - 4;
+        } else {
+            minLength = Math.max(minLength - 4, 0);
+        }
 
         lines.forEach(function(line, index) {
             if ((minLength !== 256) && (line[0] === ' ')) {

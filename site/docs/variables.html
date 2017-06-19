@@ -22,14 +22,15 @@
                 <li><a href="site/modules/index.html">Modules</a></li>
                 <li><a href="site/simulator/index.html">Simulator</a></li>
             </ul>
-            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">Download</a>
-            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">
+                <span>Download</span><img src="site/images/github.svg"/>
+            </a>
         </div>
     </div>
 
     <div class="sub-header">
         <div class="container">
+            <img src="site/images/vm.png" class="header-image"/>
             <h1>Documentation</h1>
             <h2>A text based language to run in an EV3 block.</h2>
         </div>
@@ -38,40 +39,46 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="dark-blue with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Variables</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Variables</span></h3>
 
-                <h3 class="gray">Data types</h3>
-                <ul>
+                <h3 class="blue">Data types</h3>
+                <ul class="last">
                     <li><a href="site/docs/variables.html#number">Number</a></li>
                     <li><a href="site/docs/variables.html#string">String</a></li>
                 </ul>
-                <h3 class="gray">Compound data types</h3>
-                <ul>
+                <h3 class="blue">Compound data types</h3>
+                <ul class="last">
                     <li><a href="site/docs/variables.html#array">Array</a></li>
                     <li><a href="site/docs/variables.html#record">Record</a></li>
                 </ul>
-                <h3 class="gray">Scope</h3>
-                <ul>
+                <h3 class="blue">Scope</h3>
+                <ul class="last">
                     <li><a href="site/docs/variables.html#global">Global</a></li>
                     <li><a href="site/docs/variables.html#local">Local</a></li>
                     <li><a href="site/docs/variables.html#parameters">Parameters</a></li>
                 </ul>
 
-                <h3 class="light-gray margin-top">Documentation</h3>
+                <h3 class="green margin-top margin-bottom">Documentation</h3>
                 <div class="index">
-                    <a href="site/docs/operators.html">Operators</a><br />
+                    <a href="site/docs/syntax.html">Syntax</a><br />
+                    <a href="site/docs/variables.html" class="active">Variables</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
+                    <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/compiler.html">Compiler</a><br />
+                    <a href="site/docs/vm.html">VM</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
+                    <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
             </div>
 
             <div class="two first">
                 <h4>Variables</h4>
-                The wheel VM only uses one primitive data type: number.<br />
+                The wheel VM only uses one primitive data type: <i>number</i>.<br />
                 <br />
                 Wheel supports three other data types: string, record, array and pointers.
-                These types are all based on the primitive number type.<br />
+                These types are all based on the primitive <i>number</i> type.<br />
                 <br />
                 A variable is declared by the type followed by the name of the variable.
             </div>
@@ -79,11 +86,8 @@
 
             <div class="two first" id="number">
                 <h5>Number type</h5>
-
                 A number variable can be used for integers and floating point values.
-
                 <pre>
-
                     number n
                 </pre>
             </div>
@@ -91,9 +95,7 @@
             <div class="two first" id="string">
                 <h5>String type</h5>
                 Strings are read only. A string value is a number representing the index in a string list contained in the program file.
-
                 <pre>
-
                     string n
                 </pre>
             </div>
@@ -103,9 +105,7 @@
                 <h5>Array</h5>
                 An array represents a list. Arrays can be declared by defining the size between brackets after the variable name.
                 The size must be 0 or a positive number. A size of 0 can be used to create pointer types.
-
                 <pre>
-
                     number n[10]
                 </pre>
             </div>
@@ -114,7 +114,6 @@
                 <h5>Record</h5>
                 A record is a representation of a group of variables. At the moment the compiler does not allow record types in records.
                 Array fields are allowed.
-
                 <pre>
                     record Point
                         number x
@@ -126,7 +125,7 @@
                     proc main()
                         set p.x, 10
                         set p.y, 5
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -134,7 +133,6 @@
             <div class="two first" id="global">
                 <h5>Global scope</h5>
                 When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
-
                 <pre>
                     #project "Global variable demo"
 
@@ -142,43 +140,39 @@
 
                     proc main()
                         set n, 10
-                    endp
+                    end
                 </pre>
             </div>
 
             <div class="two first" id="local">
                 <h5>Local scope</h5>
-
                 A variable declared inside a procedure can only be accesed inside that procedure.
-
                 <pre>
                     #project "Local variable demo"
 
                     proc main()
                         number n
                         set n, 10
-                    endp
+                    end
                 </pre>
             </div>
 
             <div class="two first" id="parameters">
                 <h5>Parameters</h5>
-
                 All procedures except the main procedure can have one or more parameters.
-
                 <pre>
                     #project "Parameter demo"
 
                     proc first(number n)
-                    endp
+                    end
 
                     proc second(number n)
-                    endp
+                    end
 
                     proc main()
                         first(15)
                         second(17)
-                    endp
+                    end
                 </pre>
             </div>
 
@@ -188,6 +182,9 @@
 
     <div class="footer">
         <div class="container">
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
+            <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
+            <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
             <span class="small-print">
                 LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
                 wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
