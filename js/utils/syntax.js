@@ -23,7 +23,11 @@
             'jmp',
             'if',
             'select',
-            'case'
+            'case',
+            'cmp',
+            'jmpc',
+            'copy',
+            'else'
         ];
 
     var registers = [

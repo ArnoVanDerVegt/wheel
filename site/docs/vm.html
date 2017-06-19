@@ -43,7 +43,9 @@
 
                 <h3 class="blue">VM</h3>
                 <ul class="last">
+                    <li><a href="site/docs/vm.html#data">Data</a></li>
                     <li><a href="site/docs/vm.html#registers">Registers</a></li>
+                    <li><a href="site/docs/vm.html#commands">Commands</a></li>
                     <li><a href="site/docs/vm.html#callstack">Call stack</a></li>
                 </ul>
 
@@ -55,7 +57,6 @@
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html" class="active">VM</a><br />
-                    <a href="site/docs/operators.html">Operators</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
@@ -63,9 +64,11 @@
 
             <div class="two first">
                 <h4>VM</h4>
-                Since the virtual machine had to be implemented in the EV3 software it should be as simple as possible.
-                The VM uses only 10 commands: <i>copy</i>, <i>jmpc</i>, <i>cmp</i>, <i>module</i>, <i>set</i>,
-                <i>add</i>, <i>sub</i>, <i>mul</i>, <i>div</i> and <i>mod</i>.
+            </div>
+
+            <div class="two first" id="data">
+                <h5>Data</h5>
+                There is only one data type: <i>number</i>. Strings are handled as number references.
             </div>
 
             <div class="two first" id="registers">
@@ -81,6 +84,158 @@
                 call.
             </div>
 
+            <div class="two first" id="commands">
+                <h5>Commands</h5>
+
+                Since the virtual machine had to be implemented in the EV3 software it should be as simple as possible.
+                The VM uses only 10 commands:<br/>
+                <br/>
+
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>copy</td>
+                        <td>size</td>
+                        <td>Copy <i>size</i> from <i>src</i> to <i>dest</i>.
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>jmpc</td>
+                        <td>offset, flag</td>
+                        <td>Set <i>code</i> if the given flag is true.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>cmp</td>
+                        <td>a, b</td>
+                        <td>Compare <i>a</i> with <i>b</i> and set flags.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>module</td>
+                        <td>moduleId, procId</td>
+                        <td>Call the procedure <i>procId</i> of module <i>module</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>set</td>
+                        <td>var, value</td>
+                        <td>Set <i>var</i> to <i>value</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>add</td>
+                        <td>var, value</td>
+                        <td>Add <i>value</i> to <i>var</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>sub</td>
+                        <td>var, value</td>
+                        <td>Subtract <i>value</i> to <i>var</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>mul</td>
+                        <td>var, value</td>
+                        <td>Multiply <i>value</i> to <i>var</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>div</td>
+                        <td>var, value</td>
+                        <td>Divide <i>value</i> to <i>var</i>.</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>mod</td>
+                        <td>var, value</td>
+                        <td>Module <i>var</i> with <i>value</i>.</td>
+                    </tr>
+                </table>
+                <br/>
+
+                <h6>copy</h6>
+                Copy <i>size</i> values from the <i>src</i> pointer to the <i>dest</i> pointer.<br/>
+                <pre>
+                    copy 10 ; copy 10 numbers from src to dest
+                </pre>
+
+                <h6>jmpc</h6>
+                Conditional jump, based on the flag paramer.<br/>
+                The flags are set with the <i>cmp</i> command.<br/>
+                <br/>
+
+                <table>
+                    <tr>
+                        <th>Flag</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Equal</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Not equal</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Less</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Less equal</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Greater</td>
+                        <td>16</td>
+                    </tr>
+                    <tr>
+                        <td>Greater equal</td>
+                        <td>32</td>
+                    </tr>
+                </table>
+
+                <pre>
+                    jmpc 45, 1 ; Jump to 45 if equal...
+                </pre>
+
+                <h6>cmp</h6>
+                Compare one value to another and set the flags.<br/>
+                <pre>
+                    cmp a, 3 ; Compare a with 3...
+                </pre>
+
+                <h6>module</h6>
+                Call a module procedure.<br/>
+                <pre>
+                    module 1, 5 ; Call procudure 5 from module 1
+                </pre>
+
+                <h6>set</h6>
+                Set the value of a variable.<br/>
+                <pre>
+                    set var, n ; var = n
+                </pre>
+
+                <h6>add, sub, mul, div, mod</h6>
+                These operators change the value of <i>var</i> by applying the value of <i>n</i>.<br/>
+                <pre>
+                    add var, n ; var = var + n
+                    sub var, n ; var = var - n
+                    mul var, n ; var = var * n
+                    div var, n ; var = var / n
+                    mod var, n ; var = var % n
+                </pre>
+            </div>
+
             <div class="two first" id="callstack">
                 <h5>Call stack</h5>
                 The VM does not have a call command. A call is made by changing the value of the <i>code</i> register.
@@ -94,48 +249,24 @@
                         <th>Description</th>
                     </tr>
                     <tr>
-                        <td>
-                            0
-                        </td>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            Caller stack pointer
-                        </td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>Caller stack pointer</td>
                     </tr>
                     <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            Code return pointer
-                        </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Code return pointer</td>
                     </tr>
                     <tr>
-                        <td>
-                            2..2 + paramSize
-                        </td>
-                        <td>
-                            paramSize
-                        </td>
-                        <td>
-                            Parameter values
-                        </td>
+                        <td>2..2 + paramSize</td>
+                        <td>paramSize</td>
+                        <td>Parameter values</td>
                     </tr>
                     <tr>
-                        <td>
-                            2 + paramSize..2 + paramSize + localSize
-                        </td>
-                        <td>
-                            localSize
-                        </td>
-                        <td>
-                            Local values
-                        </td>
+                        <td>2 + paramSize..2 + paramSize + localSize</td>
+                        <td>localSize</td>
+                        <td>Local values</td>
                     </tr>
                 </table>
                 <br/>
@@ -154,49 +285,52 @@
                     endp
                 </pre>
 
-                First the parameter values are set. The offset of the first parameter is equal to the local stack
-                size + 2. The local stack size is 2, a stack and code return value.<br/>
-                <br/>
-                The call is made from the main function which does not have local or parameter values,
-                otherwise the size of the parameter and local variables should be added to the offset.<br/>
+                Which results in the following code:<br/>
                 <pre>
-                    set    [stack+0004],  109
-                    set    [stack+0005],  64
-                    set    [stack+0006],  15
+                    01: set    [stack+0004],  109
+                    02: set    [stack+0005],  64
+                    03: set    [stack+0006],  15
+                    04: set    dest,          code
+                    05: add    dest,          6
+                    06: set    src,           stack
+                    07: add    stack,         2
+                    08: set    [stack+0000],  src
+                    09: set    [stack+0001],  dest
+                    10: set    code,          70
                 </pre>
 
-                The <i>code</i> value is moved to the <i>dest</i> register and 6 is added for the folliwing 6
-                commands.<br/>
+                &nbsp;<br/>
 
-                <pre>
-                    set    dest,          code
-                    add    dest,          6
-                </pre>
-
-                Save the <i>stack</i> value in the <i>src</i> register.<br/>
-
-                <pre>
-                    set    src,           stack
-                </pre>
-
-                Increase the <i>stack</i> pointer with the size of the current local size:<br/>
-
-                <pre>
-                    add    stack,         2
-                </pre>
-
-                Set the return pointers:<br/>
-
-                <pre>
-                    set    [stack+0000],  src
-                    set    [stack+0001],  dest
-                </pre>
-
-                And jump to the procedure offset:<br/>
-
-                <pre>
-                    set    code,          70
-                </pre>
+                <ul class="clear">
+                    <li>
+                        On lines 1, 2 and 3 parameter values are set.
+                        The offset of the first parameter is equal to the local stack
+                        size + 2. The local stack size is 2, a stack and code return value.<br/>
+                    </li>
+                    <li>
+                        On lines 4 and 5 the <i>code</i> value is moved to the <i>dest</i> register and
+                        6 is added for the folliwing 6 commands.<br/>
+                        The call is made from the main function which does not have local or parameter values,
+                        otherwise the size of the parameter and local variables should be added to the offset.<br/>
+                    </li>
+                    <li>
+                        At line 6 the <i>stack</i> value is saved in the <i>src</i> register.<br/>
+                    </li>
+                    <li>
+                        At line 7 the <i>stack</i> pointer is increased with the size of the current local size.<br/>
+                    </li>
+                    <li>
+                        At line 8 the stack pointer is stored on the stack, the value of the stack pointer was copied to the
+                        <i>src</i> register at line 6.<br/>
+                    </li>
+                    <li>
+                        At line 9 the code return value is stored on the stack, the value of the code pointer was
+                        calculated in lines 4 and 5 and was stored in <i>dest</i>.
+                    </li>
+                    <li>
+                        At line 10 the jump is executed by assinging a new value to the <i>code</i> register.
+                    </li>
+                </ul>
             </div>
 
             <div style="float:left;clear:both;"></div>

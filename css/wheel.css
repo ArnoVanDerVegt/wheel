@@ -22,12 +22,16 @@ h1 {
 }
 h3,
 h4,
-h5 {
+h5,
+h6 {
     font-size:                  20px;
     margin:                     0 0 8px 0;
 }
 h5 {
     font-size:                  17px;
+}
+h6 {
+    font-size:                  15px;
 }
 div,
 a,
@@ -521,6 +525,12 @@ div.three ul {
     border-width:               0 1px 0 1px;
     background-color:           #FAFBFC;
 }
+div.two ul.clear,
+div.three ul.clear {
+    background-color:           transparent;
+    border:                     0;
+    margin:                     0;
+}
 div.two ul.last,
 div.three ul.last {
     border-width:               0 1px 1px 1px;
@@ -528,11 +538,15 @@ div.three ul.last {
     float:                      left;
     width:                      100%;
 }
-
 div.two li,
 div.three li {
     padding:                    0;
     margin:                     0;
+}
+div.two ul.clear li,
+div.three ul.clear li {
+    padding:                    0;
+    margin:                     0 0 12px 0;
 }
 div.one a,
 div.two a,

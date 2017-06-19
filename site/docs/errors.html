@@ -54,7 +54,6 @@
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
-                    <a href="site/docs/operators.html">Operators</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/errors.html" class="active">Compiler errors</a><br />
                 </div>
@@ -111,78 +110,82 @@
                     </tr>
                     <tr>
                         <td>11</td>
-                        <td>TYPE_ERROR_STRUCT_EXPECTED</td>
-                    </tr>
-                    <tr>
-                        <td>12</td>
                         <td>TYPE_ERROR_NUMBER_EXPECTED</td>
                     </tr>
                     <tr>
+                        <td>12</td>
+                        <td>TYPE_ERROR_ARRAY_EXPECTED</td>
+                    </tr>
+                    <tr>
                         <td>13</td>
-                        <td>TYPE_ERROR_CAN_NOT_CALL_LOCAL</td>
+                        <td>TYPE_ERROR_STRUCT_EXPECTED</td>
                     </tr>
                     <tr>
                         <td>14</td>
-                        <td>TYPE_ERROR_CAN_NOT_CALL_GLOBAL</td>
+                        <td>TYPE_ERROR_CAN_NOT_CALL_LOCAL</td>
                     </tr>
                     <tr>
                         <td>15</td>
-                        <td>TYPE_ERROR_UNKNOWN_PARAM_TYPE</td>
+                        <td>TYPE_ERROR_CAN_NOT_CALL_GLOBAL</td>
                     </tr>
                     <tr>
                         <td>16</td>
-                        <td>UNDEFINED_IDENTIFIER</td>
+                        <td>TYPE_ERROR_UNKNOWN_PARAM_TYPE</td>
                     </tr>
                     <tr>
                         <td>17</td>
-                        <td>DUPLICATE_IDENTIFIER</td>
+                        <td>UNDEFINED_IDENTIFIER</td>
                     </tr>
                     <tr>
                         <td>18</td>
-                        <td>DUPLICATE_IDENTIFIER_LABEL</td>
+                        <td>DUPLICATE_IDENTIFIER</td>
                     </tr>
                     <tr>
                         <td>19</td>
-                        <td>NUMBER_LOCAL_CONSTANT_EXPECTED</td>
+                        <td>DUPLICATE_IDENTIFIER_LABEL</td>
                     </tr>
                     <tr>
                         <td>20</td>
-                        <td>NUMBER_GLOBAL_CONSTANT_EXPECTED</td>
+                        <td>NUMBER_LOCAL_CONSTANT_EXPECTED</td>
                     </tr>
                     <tr>
                         <td>21</td>
-                        <td>NO_MAIN_PROCEDURE</td>
+                        <td>NUMBER_GLOBAL_CONSTANT_EXPECTED</td>
                     </tr>
                     <tr>
                         <td>22</td>
-                        <td>UNKNOWN_COMMAND</td>
+                        <td>NO_MAIN_PROCEDURE</td>
                     </tr>
                     <tr>
                         <td>23</td>
-                        <td>UNKNOWN_PROCEDURE</td>
+                        <td>UNKNOWN_COMMAND</td>
                     </tr>
                     <tr>
                         <td>24</td>
-                        <td>UNDEFINED_FIELD</td>
+                        <td>UNKNOWN_PROCEDURE</td>
                     </tr>
                     <tr>
                         <td>25</td>
-                        <td>INVALID_CONSTANT</td>
+                        <td>UNDEFINED_FIELD</td>
                     </tr>
                     <tr>
                         <td>26</td>
-                        <td>INVALID_POINTER</td>
+                        <td>INVALID_CONSTANT</td>
                     </tr>
                     <tr>
                         <td>27</td>
-                        <td>INVALID_BLOCK_CLOSE</td>
+                        <td>INVALID_POINTER</td>
                     </tr>
                     <tr>
                         <td>28</td>
-                        <td>INVALID_OPERATION</td>
+                        <td>INVALID_BLOCK_CLOSE</td>
                     </tr>
                     <tr>
                         <td>29</td>
+                        <td>INVALID_OPERATION</td>
+                    </tr>
+                    <tr>
+                        <td>30</td>
                         <td>INVALID_OPERATION_WITH_STRING</td>
                     </tr>
                 </table>
@@ -282,7 +285,26 @@
             </div>
 
             <div class="two first">
-                <h4>#11 TYPE_ERROR_STRUCT_EXPECTED</h4>
+                <h4>#11 TYPE_ERROR_NUMBER_EXPECTED</h4>
+                <pre>
+                    number a[3] = [1, 'x', 3]
+                    proc main()
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#12 TYPE_ERROR_ARRAY_EXPECTED</h4>
+                <pre>
+                    number n
+                    proc main()
+                        n[3] = 0
+                    endp
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#13 TYPE_ERROR_STRUCT_EXPECTED</h4>
                 <pre>
                     number n
                     proc main()
@@ -292,16 +314,7 @@
             </div>
 
             <div class="two first">
-                <h4>#12 TYPE_ERROR_NUMBER_EXPECTED</h4>
-                <pre>
-                    number a[3] = [1, 'x', 3]
-                    proc main()
-                    endp
-                </pre>
-            </div>
-
-            <div class="two first">
-                <h4>#13 TYPE_ERROR_CAN_NOT_CALL_LOCAL</h4>
+                <h4>#14 TYPE_ERROR_CAN_NOT_CALL_LOCAL</h4>
                 <pre>
                     proc main()
                         number l
@@ -311,7 +324,7 @@
             </div>
 
             <div class="two first">
-                <h4>#14 TYPE_ERROR_CAN_NOT_CALL_GLOBAL</h4>
+                <h4>#15 TYPE_ERROR_CAN_NOT_CALL_GLOBAL</h4>
                 <pre>
                     number g
                     proc main()
@@ -321,7 +334,7 @@
             </div>
 
             <div class="two first">
-                <h4>#15 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h4>
+                <h4>#16 TYPE_ERROR_UNKNOWN_PARAM_TYPE</h4>
                 <pre>
                     proc error(Wrong w)
                     endp
@@ -331,7 +344,7 @@
             </div>
 
             <div class="two first">
-                <h4>#16 UNDEFINED_IDENTIFIER</h4>
+                <h4>#17 UNDEFINED_IDENTIFIER</h4>
                 <pre>
                     proc main()
                         set n, 1
@@ -340,7 +353,7 @@
             </div>
 
             <div class="two first">
-                <h4>#17 DUPLICATE_IDENTIFIER</h4>
+                <h4>#18 DUPLICATE_IDENTIFIER</h4>
                 <pre>
                     number a
                     number a
@@ -348,7 +361,7 @@
             </div>
 
             <div class="two first">
-                <h4>#18 DUPLICATE_IDENTIFIER_LABEL</h4>
+                <h4>#19 DUPLICATE_IDENTIFIER_LABEL</h4>
                 <pre>
                     label:
                     label:
@@ -358,7 +371,7 @@
             </div>
 
             <div class="two first">
-                <h4>#19 NUMBER_LOCAL_CONSTANT_EXPECTED</h4>
+                <h4>#20 NUMBER_LOCAL_CONSTANT_EXPECTED</h4>
                 <pre>
                     proc main()
                        number n = 'x'
@@ -367,7 +380,7 @@
             </div>
 
             <div class="two first">
-                <h4>#20 NUMBER_GLOBAL_CONSTANT_EXPECTED</h4>
+                <h4>#21 NUMBER_GLOBAL_CONSTANT_EXPECTED</h4>
                 <pre>
                     number n = 'y'
                     proc main()
@@ -376,7 +389,7 @@
             </div>
 
             <div class="two first">
-                <h4>#21 NO_MAIN_PROCEDURE</h4>
+                <h4>#22 NO_MAIN_PROCEDURE</h4>
                 <pre>
                     proc noMain()
                     endp
@@ -384,7 +397,7 @@
             </div>
 
             <div class="two first">
-                <h4>#22 UNKNOWN_COMMAND</h4>
+                <h4>#23 UNKNOWN_COMMAND</h4>
                 <pre>
 
                     wrong
@@ -392,7 +405,7 @@
             </div>
 
             <div class="two first">
-                <h4>#23 UNKNOWN_PROCEDURE</h4>
+                <h4>#24 UNKNOWN_PROCEDURE</h4>
                 <pre>
                     proc main()
                         wrong()
@@ -401,7 +414,7 @@
             </div>
 
             <div class="two first">
-                <h4>#24 UNDEFINED_FIELD</h4>
+                <h4>#25 UNDEFINED_FIELD</h4>
                 <pre>
                     record S
                        number n
@@ -414,7 +427,7 @@
             </div>
 
             <div class="two first">
-                <h4>#25 INVALID_CONSTANT</h4>
+                <h4>#26 INVALID_CONSTANT</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -423,7 +436,7 @@
             </div>
 
             <div class="two first">
-                <h4>#26 INVALID_POINTER</h4>
+                <h4>#27 INVALID_POINTER</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -433,7 +446,7 @@
             </div>
 
             <div class="two first">
-                <h4>#27 INVALID_BLOCK_CLOSE</h4>
+                <h4>#28 INVALID_BLOCK_CLOSE</h4>
                 <pre>
                     record S
                        number n
@@ -444,7 +457,7 @@
             </div>
 
             <div class="two first">
-                <h4>#28 INVALID_OPERATION</h4>
+                <h4>#29 INVALID_OPERATION</h4>
                 <pre>
                     proc main()
                         number n
@@ -455,7 +468,7 @@
             </div>
 
             <div class="two first">
-                <h4>#29 INVALID_OPERATION_WITH_STRING</h4>
+                <h4>#30 INVALID_OPERATION_WITH_STRING</h4>
                 <pre>
                     proc main()
                         string s

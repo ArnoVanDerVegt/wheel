@@ -70,7 +70,7 @@
                         },
                         {
                             name:    'lib/light.whl',
-                            content: wheel.simulator.includes.buttons
+                            content: wheel.simulator.includes.light
                         },
                         {
                             name:    'lib/buttons.whl',
