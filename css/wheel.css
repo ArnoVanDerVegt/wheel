@@ -552,14 +552,14 @@ div.three ul.clear li {
 div.one a,
 div.two a,
 div.three a {
-    color:                      #9b59b6;
+    color:                      #2980b9;
     text-decoration:            none;
     outline:                    none;
 }
 div.one a:hover,
 div.two a:hover,
 div.three a:hover {
-    color:                      #8e44ad;
+    color:                      #3498db;
     text-decoration:            underline;
 }
 
