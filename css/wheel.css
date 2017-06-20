@@ -131,7 +131,7 @@ li {
 /* Sub header */
 .sub-header {
     position:                   relative;
-    z-index: 5;
+    z-index:                    5;
     float:                      left;
     width:                      100%;
     height:                     80px;
@@ -745,24 +745,28 @@ pre .black {
     width:                      100%;
     height:                     32px;
     margin:                     0;
-    padding:                    8px 0 0 0;
+    padding:                    0;
     border:                     1px solid #F0F0F0;
     border-width:               1px 0 0 0;
 }
 .footer .container {
     height:                     100%;
+    margin-top:                 0;
 }
 .footer .container .badge {
     float:                      right;
-    margin:                     14px 0 0 8px;
+    margin:                     20px 0 0 8px;
 }
-.footer .container .small-print {
+.footer .copyright {
     float:                      left;
+    height:                     64px;
     color:                      #95a5a6;
-    font-size:                  8px;
-    width:                      960px;
-    text-align:                 right;
-    margin:                     8px 0 0 0;
+    font-size:                  10px;
+    text-transform:             uppercase;
+    letter-spacing:             0.03em;
+    margin:                     0;
+    line-height:                64px;
+    opacity:                    0.8;
 }
 .footer ul,
 .footer li {
