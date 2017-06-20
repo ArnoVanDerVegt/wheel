@@ -14,3 +14,7 @@ combine a scripting language with the existing EV3 blocks.
 
 ## Documentation
 You can find more information about this project in the documentation: http://arnovandervegt.github.io/wheel
+
+### License
+
+Wheel is [MIT licensed](./LICENSE).
