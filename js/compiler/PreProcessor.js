@@ -1,6 +1,7 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
     var path  = require('path');
+    var fs    = require('fs');
 
     var ReplaceTree = wheel.Class(function() {
             this.init = function(opts) {
@@ -161,6 +162,66 @@
                 }
 
                 return result;
+            };
+        });
+
+    var RgfBuilder = wheel.Class(function() {
+            this.init = function(opts) {
+                this._image = null;
+            };
+
+            /**
+             * The image parameter is expected to be an array of strings, all with the same length,
+             * filled with 0 or 1 to indicate the pixel value.
+            **/
+            this.build = function(image) {
+                if (!image.length) {
+                    throw new Error('Image has no size.');
+                }
+
+                var width = image[0].length;
+                for (var y = 0; y < image.length; y++) {
+                    var line = image[y].trim();
+                    if (image[y].length !== width) {
+                        throw new Error('All image lines should be the same width.');
+                    }
+                }
+
+                var bytesPerLine = Math.ceil(width / 8);
+                var bytes        = [];
+
+                for (var y = 0; y < image.length; y++) {
+                    bytes[y] = [];
+                    for (var x = 0; x < bytesPerLine; x++) {
+                        bytes[y][x] = 0;
+                    }
+                    var line   = image[y];
+                    var value  = 1;
+                    var offset = 0;
+                    for (var x = 0; x < line.length; x++) {
+                        (line[x] === '1') && (bytes[y][offset] |= value);
+                        value <<= 1;
+                        if (value === 256) {
+                            offset++;
+                            value = 1;
+                        }
+                    }
+                }
+
+                this._image = [width, image.length].concat(bytes);
+
+                return this;
+            };
+
+            this.writeFile = function(filename) {
+                var image  = this._image;
+                var buffer = new Buffer(image.length);
+
+                image.forEach(function(value, index) {
+                    buffer[index] = value;
+                });
+
+                fs.writeFileSync(filename, buffer, 'binary');
             };
         });
 
