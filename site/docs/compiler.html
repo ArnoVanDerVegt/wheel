@@ -39,15 +39,12 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Compiler</span></h3>
+                <h3 class="blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Compiler</span></h3>
 
-                <h3 class="blue">Procedures</h3>
+                <h3 class="blue">Compiler</h3>
                 <ul class="last">
-                    <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
-                </ul>
-                <h3 class="blue">Functions</h3>
-                <ul class="last">
-                    <li><a href="site/docs/procedures.html#function">Functions</a></li>
+                    <li><a href="site/docs/compiler.html#precompiler">Precompiler</a></li>
+                    <li><a href="site/docs/compiler.html#compiler">Compiler</a></li>
                 </ul>
 
                 <h3 class="green margin-top margin-bottom">Documentation</h3>
@@ -68,8 +65,19 @@
                 <h4>Compiler</h4>
             </div>
 
-            <div class="two first" id="main">
-                <h5></h5>
+            <div class="two first" id="precompiler">
+                <h5>Precompiler</h5>
+                The compiler consists of several components. First, there's the precompiler.
+                The precompiler reads all files in your project and includes all files into a single file
+                and replaces all de definitions declared with your <i>#define</i> statements.<br/>
+            </div>
+
+            <div class="two first" id="compiler">
+                <h5>Compiler</h5>
+                After the precompiler the script compiler compiles the structure of the code to intermediate
+                code which is annotated with type information.<br/>
+                <br/>
+                In the final step the compiler uses the relevant code based on the data types and annotations.
             </div>
 
             <div style="float:left;clear:both;"></div>
