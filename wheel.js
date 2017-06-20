@@ -19,6 +19,8 @@ require('./js/compiler/command.js');
 require('./js/compiler/error.js');
 require('./js/compiler/compilerHelper.js');
 require('./js/compiler/CompilerOutput.js');
+require('./js/compiler/CompilerList.js');
+require('./js/compiler/CompilerRecord.js');
 require('./js/compiler/CompilerData.js');
 require('./js/compiler/CompilerMeta.js');
 require('./js/compiler/script/ExpressionCompiler.js');
@@ -148,7 +150,8 @@ function compile(filename) {
 
                 if (outputCommands) {
                     logOutputCommands(outputCommands);
-                    fs.writeFileSync('test.rtf', outputCommands.outputCommands());
+                    var outputFilename = path.basename(filename, '.whl');
+                    fs.writeFileSync(outputFilename + '.rtf', outputCommands.outputCommands());
                 }
             }
         );
