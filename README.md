@@ -1,10 +1,9 @@
 # Wheel
 EV3 VM and compiler
 
-[![Code Climate](https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/gpa.svg)](https://codeclimate.com/github/ArnoVanDerVegt/wheel)
+[![Build Status](https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master)](https://travis-ci.org/ArnoVanDerVegt/wheel)
 [![Test Coverage](https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg)](https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage)
 [![Issue Count](https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg)](https://codeclimate.com/github/ArnoVanDerVegt/wheel)
-[![Build Status](https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master)](https://travis-ci.org/ArnoVanDerVegt/wheel)
 
 This project contains a compiler and virtual machine.
 The compiler is written in Javascript and compiles code which can be executed on an EV3 block on your EV3.
