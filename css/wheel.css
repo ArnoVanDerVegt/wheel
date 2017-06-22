@@ -537,6 +537,178 @@ div.five .tile {
     margin:                     0;
     padding:                    0;
 }
+div.five .tile .details {
+    position:                   absolute;
+    z-index:                    40;
+    width:                      256px;
+    left:                       88px;
+    top:                        88px;
+    margin:                     100px 0 0 -128px;
+    opacity:                    0;
+    transition:                 opacity 0.5s 0.2s ease, margin-top 0.2s 0.2s ease;
+    pointer-events:             none;
+}
+div.five .tile:hover .details {
+    opacity:                    0.9;
+    margin:                     0px 0 0 -128px;
+}
+
+div.five .tile .details .details-triangle,
+div.five .tile .details .details-inner-triangle {
+    position:                   absolute;
+    left:                       102px;
+    width:                      0;
+    height:                     0;
+}
+div.five .tile .details .details-inner-triangle {
+    position:                   absolute;
+    left:                       102px;
+    top:                        2px;
+    z-index:                    10;
+}
+
+/* Orange */
+div.five .tile .details.orange .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #d35400;
+}
+div.five .tile .details.orange .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #e67e22;
+}
+div.five .tile .details.orange .details-header {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+}
+div.five .tile .details.orange .details-content {
+    border:                     1px solid #d35400;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.orange .details-content .details-footer {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+}
+
+/* Red */
+div.five .tile .details.red .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #c0392b;
+}
+div.five .tile .details.red .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #e74c3c;
+}
+div.five .tile .details.red .details-header {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+}
+div.five .tile .details.red .details-content {
+    border:                     1px solid #c0392b;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.red .details-content .details-footer {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+}
+
+/* Blue */
+div.five .tile .details.blue .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #2980b9;
+}
+div.five .tile .details.blue .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #3498db;
+}
+div.five .tile .details.blue .details-header {
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+}
+div.five .tile .details.blue .details-content {
+    border:                     1px solid #2980b9;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.blue .details-content .details-footer {
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+}
+
+/* Green */
+div.five .tile .details.green .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #27ae60;
+}
+div.five .tile .details.green .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #2ecc71;
+}
+div.five .tile .details.green .details-header {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+}
+div.five .tile .details.green .details-content {
+    border:                     1px solid #27ae60;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.green .details-content .details-footer {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+}
+
+div.five .tile .details .details-header {
+    position:                   absolute;
+    left:                       0;
+    top:                        24px;
+    width:                      256px;
+    height:                     32px;
+    border-radius:              4px 4px 0 0;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content {
+    position:                   absolute;
+    left:                       0;
+    top:                        56px;
+    width:                      256px;
+    background-color:           #FFFFFF;
+    padding:                    8px;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content h4 {
+    float:                      left;
+    width:                      100%;
+    font-size:                  16px;
+    line-height:                24px;
+}
+div.five .tile .details .details-content .details-footer {
+    position:                   absolute;
+    left:                       -1px;
+    bottom:                     -32px;
+    width:                      256px;
+    height:                     32px;
+    border-radius:              0 0 4px 4px;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content .details-footer a {
+    float:                      right;
+    height:                     32px;
+    line-height:                32px;
+    outline:                    none;
+    font-size:                  12px;
+    text-transform:             uppercase;
+    letter-spacing:             0.03em;
+    color:                      #FFFFFF;
+    text-decoration:            none;
+    padding:                    0 8px 0 0;
+}
+
 div.five .tile .tile-title {
     position:                   absolute;
     left:                       0px;
@@ -548,6 +720,26 @@ div.five .tile .tile-title {
 div.five .tile .tile-title.blue {
     background-color:           #3498db;
     border:                     1px solid #2980b9;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.red {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.orange {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.green {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.yellow {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
     border-width:               1px 1px 4px 1px;
 }
 div.five .tile .tile-content {
@@ -624,6 +816,17 @@ div.three ul.last {
     margin:                     0 0 12px 0;
     float:                      left;
     width:                      100%;
+    position:                   relative;
+}
+div.three ul.last li {
+    height:                     20px;
+    line-height:                20px;
+}
+div.three ul.last li img {
+    position:                   absolute;
+    right:                      16px;
+    bottom:                     16px;
+    opacity:                    0.5;
 }
 div.two li,
 div.three li {
@@ -703,7 +906,7 @@ pre,
 pre span {
     font-family:                Courier;
     font-size:                  15px;
-    font-family:                'Inconsolata', monospace;
+    font-family:                monospace;
     line-height:                18px;
 }
 pre {

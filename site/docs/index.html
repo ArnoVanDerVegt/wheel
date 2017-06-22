@@ -6,7 +6,6 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -43,8 +42,27 @@
                     <div class="tile-content">
                         <a href="site/docs/syntax.html" class="image-link"><img src="site/images/blocks/syntax.png" width="60" height="65"/></a>
                     </div>
-                    <div class="tile-title blue">
+                    <div class="tile-title red">
                         <a href="site/docs/syntax.html" class="title-link">Syntax</a>
+                    </div>
+                    <div class="details red">
+                        <div class="details-triangle"></div>
+                        <div class="details-inner-triangle"></div>
+                        <div class="details-header"></div>
+                        <div class="details-content">
+                            <h4>Syntax</h4>
+                            Wheel uses a block structure which begins with the declaration of the type or command followed by an
+                            expression end closes with and <i>end</i> statement.<br/>
+                            <pre>
+                                struct MyStruct
+                                    number
+                                end
+
+                                proc main()
+                                end
+                            </pre>
+                            <div class="details-footer"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,8 +71,23 @@
                     <div class="tile-content">
                         <a href="site/docs/variables.html" class="image-link"><img src="site/images/blocks/vars.png" width="60" height="65"/></a>
                     </div>
-                    <div class="tile-title blue">
+                    <div class="tile-title red">
                         <a href="site/docs/variables.html" class="title-link">Variables</a>
+                    </div>
+                    <div class="details red">
+                        <div class="details-triangle"></div>
+                        <div class="details-inner-triangle"></div>
+                        <div class="details-header"></div>
+                        <div class="details-content">
+                            <h4>Variables</h4>
+                            The wheel VM only uses one primitive data type: <i>number</i>.<br />
+                            <br />
+                            Wheel supports three other data types: string, record, array and pointers.
+                            These types are all based on the primitive <i>number</i> type.<br />
+                            <br />
+                            A variable is declared by the type followed by the name of the variable.
+                            <div class="details-footer"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,8 +96,20 @@
                     <div class="tile-content">
                         <a href="site/docs/loops.html" class="image-link for-loop"><img src="site/images/blocks/loop.png" width="108" height="82"/></a>
                     </div>
-                    <div class="tile-title blue">
+                    <div class="tile-title orange">
                         <a href="site/docs/loops.html" class="title-link">Loops</a>
+                    </div>
+                    <div class="details orange">
+                        <div class="details-triangle"></div>
+                        <div class="details-inner-triangle"></div>
+                        <div class="details-header"></div>
+                        <div class="details-content">
+                            <h4>Loops</h4>
+                            With a for loop you can repeat a block of code a number of times.
+                            There are two types of for loops, one counts up from a given start number and the other counts
+                            down from the start number.
+                            <div class="details-footer"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,8 +118,21 @@
                     <div class="tile-content">
                         <a href="site/docs/conditions.html" class="image-link for-condition"><img src="site/images/blocks/condition.png" width="107" height="78"/></a>
                     </div>
-                    <div class="tile-title blue">
+                    <div class="tile-title orange">
                         <a href="site/docs/conditions.html" class="title-link">Conditions</a>
+                    </div>
+                    <div class="details orange">
+                        <div class="details-triangle"></div>
+                        <div class="details-inner-triangle"></div>
+                        <div class="details-header"></div>
+                        <div class="details-content">
+                            <h4>If</h4>
+                            Execute a block of code based on a condition.<br/>
+                            The operator is the oposite of the condition,
+                            if the condition evaluates to <i>true</i> then the code is skipped with a jump.<br/>
+                            <br/>
+                            <div class="details-footer"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,11 +144,22 @@
                     <div class="tile-title blue">
                         <a href="site/docs/procedures.html" class="title-link">Procedures</a>
                     </div>
+                    <div class="details blue">
+                        <div class="details-triangle"></div>
+                        <div class="details-inner-triangle"></div>
+                        <div class="details-header"></div>
+                        <div class="details-content">
+                            <h4>The main procedure</h4>
+                            A procedure declaration starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
+                            round open and close bracket. Every program has at least one procedure which must be called "main".
+                            <div class="details-footer"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="one first last">
-                <h3 class="index green with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Script</span></h3>
+                <h3 class="index dark-blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Script</span></h3>
 
                 <div class="index-row">
                     <a href="site/docs/syntax.html" class="list-link">Syntax</a>
@@ -117,7 +186,7 @@
                     <span>Declare, call functions or procedures.</span>
                 </div>
 
-                <h3 class="index green with-icon"><img src="site/images/operators.png" width="32" height="32"/> <span>Compiler and VM</span></h3>
+                <h3 class="index dark-blue with-icon"><img src="site/images/operators.png" width="32" height="32"/> <span>Compiler and VM</span></h3>
 
                 <div class="index-row">
                     <a href="site/docs/compiler.html" class="list-link">Compiler</a>
@@ -139,7 +208,7 @@
                     <span>Information about the structure of the compiled rtf file.</span>
                 </div>
 
-                <h3 class="index green with-icon"><img src="site/images/error.png" width="32" height="32"/> <span>Error messages</span></h3>
+                <h3 class="index dark-blue with-icon"><img src="site/images/error.png" width="32" height="32"/> <span>Error messages</span></h3>
 
                 <div class="index-row last">
                     <a href="site/docs/errors.html" class="list-link">Compiler errors</a>
