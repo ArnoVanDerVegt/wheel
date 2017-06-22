@@ -445,10 +445,12 @@ div.two .index-row {
     width:                      100%;
     padding:                    12px 0 12px 12px;
     margin:                     0px;
-    /*border: 1px solid red;*/
     border:                     1px solid #E0E0E0;
     border-width:               0 1px 0 1px;
     background-color:           #FAFBFC;
+}
+div.two .index-row.padding {
+    padding:                    12px;
 }
 div.one .index-row.last,
 div.two .index-row.last {
