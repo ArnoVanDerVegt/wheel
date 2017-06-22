@@ -669,7 +669,6 @@ div.five .tile .details .details-header {
     top:                        24px;
     width:                      256px;
     height:                     32px;
-    border-radius:              4px 4px 0 0;
     box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
 }
 div.five .tile .details .details-content {
@@ -693,7 +692,6 @@ div.five .tile .details .details-content .details-footer {
     bottom:                     -32px;
     width:                      256px;
     height:                     32px;
-    border-radius:              0 0 4px 4px;
     box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
 }
 div.five .tile .details .details-content .details-footer a {
