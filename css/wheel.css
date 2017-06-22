@@ -439,7 +439,8 @@ div.one.sub-title span.text {
 div.one {
     width:                      100%;
 }
-div.one .index-row {
+div.one .index-row,
+div.two .index-row {
     float:                      left;
     width:                      100%;
     padding:                    12px 0 12px 12px;
@@ -449,18 +450,24 @@ div.one .index-row {
     border-width:               0 1px 0 1px;
     background-color:           #FAFBFC;
 }
-div.one .index-row.last {
+div.one .index-row.last,
+div.two .index-row.last {
     border-width:               0 1px 1px 1px;
     margin:                     0 0 12px 0;
 }
 div.one .index-row img,
 div.one .index-row a,
-div.one .index-row span {
+div.one .index-row span,
+div.two .index-row img,
+div.two .index-row a,
+div.two .index-row span {
     float:                      left;
     height:                     32px;
 }
 div.one .index-row a,
-div.one .index-row span {
+div.one .index-row span,
+div.two .index-row a,
+div.two .index-row span {
     line-height:                32px;
 }
 div.one .index-row img {
@@ -511,11 +518,16 @@ div.three.right .index.margin-bottom {
 div.three.right .index a {
     float:                      left;
     width:                      100%;
+    height:                     24px;
+    line-height:                24px;
     margin:                     0 0 4px 0;
-    padding:                    0 0 0 8px;
+    padding:                    0 0 0 24px;
 }
 div.three.right .index a.active {
     font-weight:                bold;
+    background-color:           #FAFBFC;
+    line-height:                26px;
+    padding:                    0 0 0 12px;
 }
 
 /* Five */
@@ -673,6 +685,30 @@ div.five .tile .details.green .details-content {
 div.five .tile .details.green .details-content .details-footer {
     background-color:           #2ecc71;
     border:                     1px solid #27ae60;
+}
+
+/* Yellow */
+div.five .tile .details.yellow .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #f39c12;
+}
+div.five .tile .details.yellow .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #f1c40f;
+}
+div.five .tile .details.yellow .details-header {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
+}
+div.five .tile .details.yellow .details-content {
+    border:                     1px solid #f39c12;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.yellow .details-content .details-footer {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
 }
 
 div.five .tile .details .details-header {
@@ -1056,8 +1092,31 @@ pre .black {
     float:                      right;
     margin:                     20px 0 0 8px;
 }
+.footer .links-wrapper {
+    float:                      left;
+    clear:                      both;
+    width:                      500px;
+    padding:                    8px 0 0 0;
+}
+.footer .links-wrapper .links {
+    float:                      left;
+    width:                      304px;
+    padding:                    16px;
+    background-color:           #FFFFFF;
+    border:                     1px solid #ecf0f1;
+}
+.footer .links-wrapper a {
+    text-decoration:            none;
+    font-size:                  14px;
+    color:                      #34495e;
+    margin:                     0 8px 0 0;
+}
+.footer .links-wrapper a:hover {
+    text-decoration:            underline;
+}
 .footer .copyright {
     float:                      left;
+    clear:                      both;
     height:                     64px;
     color:                      #95a5a6;
     font-size:                  10px;
