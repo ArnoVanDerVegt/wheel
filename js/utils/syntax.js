@@ -208,7 +208,11 @@
             }
             if (!((index === lines.length - 1) && (line.trim() === ''))) {
                 var l = parseLine(line);
-                result += l.substr(4 - l.length) + '\n';
+                if (l.substr(0, 4) === '    ') {
+                    result += l.substr(4 - l.length) + '\n';
+                } else {
+                    result += l + '\n';
+                }
             }
         });
         return result;
