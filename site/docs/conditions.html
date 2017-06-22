@@ -40,12 +40,6 @@
             <div class="three last right">
                 <h3 class="orange with-icon"><img src="site/images/var.png" width="32" height="32"/> <span>Conditions</span></h3>
 
-                <h3 class="dark-blue">Conditions</h3>
-                <ul class="last">
-                    <li><a href="site/docs/conditions.html#if">If</a></li>
-                    <li><a href="site/docs/conditions.html#select">Select</a></li>
-                </ul>
-
                 <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
                     <a href="site/docs/syntax.html">Syntax</a><br />
@@ -59,6 +53,12 @@
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
+
+                <h3 class="dark-blue">Conditions</h3>
+                <ul class="last">
+                    <li><a href="site/docs/conditions.html#if">If</a></li>
+                    <li><a href="site/docs/conditions.html#select">Select</a></li>
+                </ul>
             </div>
 
             <div class="two first">
@@ -66,12 +66,25 @@
             </div>
 
             <div class="two first" id="if">
+                With a condition you can execute a block of code if an expression
+                evaluates as true.<br/>
+                The <i>if</i> statement lets you compare two values,
+                with a <i>select</i> you can compare a value to one or more values.<br/>
+                <br/>
                 <h5>If</h5>
                 Execute a block of code based on a condition.<br/>
+                <pre>
+                    proc main()
+                        number n = 5
+
+                        if n == 5
+                            printS("Five")
+                        end
+                    end
+                </pre>
                 The operator is the oposite of the condition,
                 if the condition evaluates to <i>true</i> then the code is skipped with a jump.<br/>
                 <br/>
-
                 <table>
                     <tr>
                         <th>Condition</th>

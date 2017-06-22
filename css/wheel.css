@@ -505,6 +505,9 @@ div.three.right .index {
     float:                      left;
     width:                      100%;
 }
+div.three.right .index.margin-bottom {
+    margin-bottom:              16px;
+}
 div.three.right .index a {
     float:                      left;
     width:                      100%;
