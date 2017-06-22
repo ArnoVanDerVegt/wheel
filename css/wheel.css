@@ -547,9 +547,18 @@ div.five .tile .details {
     opacity:                    0;
     transition:                 opacity 0.5s 0.2s ease, margin-top 0.2s 0.2s ease;
     pointer-events:             none;
+    font-size:                  14px;
+    line-height:                20px;
+}
+div.five .tile .details pre span {
+    font-size:                  12px;
+    line-height:                14px;
+}
+div.five .tile .details pre {
+    padding:                    4px 8px 4px 8px;
 }
 div.five .tile:hover .details {
-    opacity:                    0.9;
+    opacity:                    0.95;
     margin:                     0px 0 0 -128px;
 }
 

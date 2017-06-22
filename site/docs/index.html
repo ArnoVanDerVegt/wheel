@@ -55,7 +55,7 @@
                             expression end closes with and <i>end</i> statement.<br/>
                             <pre>
                                 struct MyStruct
-                                    number
+                                    number x, y ; Position
                                 end
 
                                 proc main()
@@ -149,9 +149,21 @@
                         <div class="details-inner-triangle"></div>
                         <div class="details-header"></div>
                         <div class="details-content">
-                            <h4>The main procedure</h4>
-                            A procedure declaration starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
-                            round open and close bracket. Every program has at least one procedure which must be called "main".
+                            <h4>Procedures</h4>
+                            A procedure allows you to execute a group of commands multiple times.<br/>
+                            <br/>
+                            The declaration of a procedure starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
+                            round open and close bracket.<br/>
+                            <pre>
+                                proc myProcedure()
+                                end
+                            </pre>
+                            Once you've declared your procedure you can call it like this:<br/>
+                            <pre>
+                                proc main()
+                                    myProcedure()
+                                end
+                            </pre>
                             <div class="details-footer"></div>
                         </div>
                     </div>

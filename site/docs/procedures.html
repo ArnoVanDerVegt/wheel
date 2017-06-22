@@ -42,11 +42,9 @@
 
                 <h3 class="dark-blue">Procedures</h3>
                 <ul class="last">
+                    <li><a href="site/docs/procedures.html#procedures">Procedures</a></li>
                     <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
                     <li><a href="site/docs/procedures.html#parameters">Parameters</a></li>
-                </ul>
-                <h3 class="dark-blue">Functions</h3>
-                <ul class="last">
                     <li><a href="site/docs/procedures.html#function">Functions</a></li>
                 </ul>
 
@@ -69,10 +67,28 @@
                 <h4>Procedures</h4>
             </div>
 
+            <div class="two first" id="procedures">
+                A procedure allows you to execute a group of commands multiple times.<br/>
+                <br/>
+                The declaration of a procedure starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
+                round open and close bracket.<br/>
+                <pre>
+                    proc myProcedure()
+                        ; your commands go here...
+                    end
+                </pre>
+                Once you've declared your procedure you can call it like this:<br/>
+                <pre>
+                    proc main()
+                        myProcedure()
+                    end
+                </pre>
+            </div>
+
             <div class="two first" id="main">
                 <h5>The main procedure</h5>
-                A procedure declaration starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
-                round open and close bracket. Every program has at least one procedure which must be called "main".
+                Every program has to have at least one procedure which must be called "main".<br/>
+                The <i>main</i> procedure is called when the program starts.
                 <pre>
                     proc main()
                         ; your commands go here...

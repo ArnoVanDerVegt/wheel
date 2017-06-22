@@ -38,17 +38,17 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>VM</span></h3>
+                <h3 class="purple with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>VM</span></h3>
 
-                <h3 class="blue">VM</h3>
+                <h3 class="dark-blue">VM</h3>
                 <ul class="last">
                     <li><a href="site/docs/vm.html#data">Data</a></li>
-                    <li><a href="site/docs/vm.html#registers">Registers</a></li>
                     <li><a href="site/docs/vm.html#commands">Commands</a></li>
+                    <li><a href="site/docs/vm.html#registers">Registers</a></li>
                     <li><a href="site/docs/vm.html#callstack">Call stack</a></li>
                 </ul>
 
-                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
@@ -69,20 +69,10 @@
 
             <div class="two first" id="data">
                 <h5>Data</h5>
-                There is only one data type: <i>number</i>. Strings are handled as number references.
-            </div>
-
-            <div class="two first" id="registers">
-                <h5>Registers</h5>
-                The VM uses 6 registers: <i>stack</i>, <i>src</i>, <i>dest</i>, <i>code</i>, <i>return</i> and <i>flags</i>.<br/>
+                There is only one data type: <i>number</i>. Strings are handled as number references.<br/>
                 <br/>
-                A register in the Wheel VM is basicaly a reserved memory address with a special purpose. The first (<i>stack</i>)
-                register is located at offset 0, the last (<i>flags</i>) is located at offset 5.<br/>
-                <br/>
-                The <i>stack</i> register points to the top of the stack and is increased when a call is made. The <i>src</i> and <i>dest</i>
-                are used in combibation with the <i>copy</i> command and are also used as general purpose registers. The <i>code</i> register
-                contains the pointer to the current execution position. The <i>return</i> register is used to return a value from a function
-                call.
+                The memory is a single list of numbers. The first part of the memory is used for globals,
+                the second is used as call stack for parameter and local variables.<br/>
             </div>
 
             <div class="two first" id="commands">
@@ -235,6 +225,62 @@
                     div var, n ; var = var / n
                     mod var, n ; var = var % n
                 </pre>
+            </div>
+
+            <div class="two first" id="registers">
+                <h5>Registers</h5>
+                The VM uses 6 registers: <i>stack</i>, <i>src</i>, <i>dest</i>, <i>code</i>, <i>return</i> and <i>flags</i>.<br/>
+                <br/>
+                A register in the Wheel VM is basicaly a reserved memory address with a special purpose. The first (<i>stack</i>)
+                register is located at offset 0, the last (<i>flags</i>) is located at offset 5.<br/>
+                <br/>
+                <table>
+                    <tr>
+                        <th>Offset</th>
+                        <th>Register</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>stack</td>
+                        <td>Stack pointer.</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>src</td>
+                        <td>Source pointer for copy command/general purpose.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>dest</td>
+                        <td>Destination pointer for copy command/general purpose.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>code</td>
+                        <td>Code execution offset.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>return</td>
+                        <td>Function return value.</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>flags</td>
+                        <td>Compater flags, unused in EV3 VM.</td>
+                    </tr>
+                </table>
+                <br/>
+                The <i>stack</i> register points to the top of the stack and is increased when a call is made. The <i>src</i> and <i>dest</i>
+                are used in combibation with the <i>copy</i> command and are also used as general purpose registers. The <i>code</i> register
+                contains the pointer to the current execution position. The <i>return</i> register is used to return a value from a function
+                call.<br/>
+                <br/>
+                <h6>The <i>code</i> register</h6>
+                After each command which is executed the value of the <i>code</i> register is increased with 1.
+                When a call is executed then the offset of the <i>code</i> register is set to the procedure offset minus 1, since the
+                value will be increased immediately after setting it.
             </div>
 
             <div class="two first" id="callstack">

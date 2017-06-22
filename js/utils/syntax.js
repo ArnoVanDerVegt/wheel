@@ -207,7 +207,8 @@
                 line = line.substr(minLength - line.length);
             }
             if (!((index === lines.length - 1) && (line.trim() === ''))) {
-                result += parseLine(line) + '\n';
+                var l = parseLine(line);
+                result += l.substr(4 - l.length) + '\n';
             }
         });
         return result;
