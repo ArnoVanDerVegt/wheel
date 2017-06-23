@@ -10,8 +10,8 @@ html {
     padding:                    0;
     margin:                     0;
     position:                   relative;
-    font-family:                'Open Sans', sans-serif;
     color:                      #383838;
+    font-family:                'Lato', sans-serif;
 }
 body {
     background-color:           #FAFBFC;
@@ -19,6 +19,7 @@ body {
 }
 h1 {
     margin:                     0;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h3,
 h4,
@@ -26,6 +27,7 @@ h5,
 h6 {
     font-size:                  20px;
     margin:                     0 0 8px 0;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h5 {
     font-size:                  17px;
@@ -38,7 +40,7 @@ div,
 a,
 span,
 li {
-    font-family:                'Open Sans', sans-serif;
+    font-family:                'Lato', sans-serif;
 }
 .bold {
     font-weight:                bold;
@@ -112,10 +114,11 @@ li {
     padding:                    4px 10px 4px 10px;
     border-radius:              4px;
     text-decoration:            none;
+    font-family:                Helvetica, Arial, sans-serif;
     font-size:                  14px;
     font-weight:                bold;
     letter-spacing:             0.03em;
-    line-height:                22px;
+    line-height:                18px;
     height:                     28px;
 }
 .header .container .download span {
@@ -196,6 +199,7 @@ h3 {
     padding:                    0 0 0 4px;
     letter-spacing:             0.08em;
     text-transform:             uppercase;
+    font-family:                Helvetica, Arial, sans-serif;
     font-size:                  17px;
     font-weight:                normal;
     margin:                     8px 0 0 0;
@@ -292,6 +296,7 @@ h3 span {
     color:                      #FFFFFF;
     height:                     40px;
     line-height:                40px;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h3 span {
     margin:                     0 0 0 4px;
@@ -345,8 +350,8 @@ div.three,
 div.five {
     float:                      left;
     padding:                    16px;
-    font-size:                  15px;
-    line-height:                23px;
+    font-size:                  17px;
+    line-height:                25px;
 }
 div.one.first,
 div.two.first,
@@ -840,6 +845,7 @@ div.five .tile .tile-title a.title-link {
     margin:                     0;
     color:                      #FFFFFF;
     padding:                    0;
+    font-family:                Helvetica, Arial, sans-serif;
     font-weight:                bold;
     text-decoration:            none;
     cursor:                     pointer;
