@@ -955,6 +955,7 @@ div.three table th {
     border:                     1px solid #27ae60;
     border-radius:              2px;
     padding:                    6px 12px 6px 12px;
+    font-family:                Helvetica, Arial, sans-serif;
     font-family:                'Open Sans', sans-serif;
     font-size:                  15px;
     line-height:                15px;
@@ -1070,9 +1071,11 @@ pre .black {
     border-radius:              2px;
     color:                      #FFFFFF;
     font-size:                  15px;
+    font-family:                Helvetica, Arial, sans-serif;
     opacity:                    0.5;
     cursor:                     pointer;
 }
+
 .editor .toolbar li.active {
     opacity:                    1
 }
