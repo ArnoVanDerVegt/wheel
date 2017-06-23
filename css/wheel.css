@@ -1012,6 +1012,9 @@ pre .yellow {
 pre .orange {
     color:                      #e67e22;
 }
+pre .red {
+    color:                      #c0392b;
+}
 pre .purple {
     color:                      #9b59b6;
 }

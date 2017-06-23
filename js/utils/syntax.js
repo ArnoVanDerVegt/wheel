@@ -2,6 +2,7 @@
     var keywords = [
             'proc',
             'for',
+            'repeat',
             'to',
             'downto',
             'end',
@@ -116,7 +117,7 @@
                             var nextWord = grabNextWord();
                             (nextWord === '') || defines.push(nextWord);
                         }
-                        result += '<span class="orange italic">' + w + '</span>';
+                        result += '<span class="red italic">' + w + '</span>';
                     } else {
                         result += '<span class="blue">' + w + '</span>';
                     }

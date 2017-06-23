@@ -3,6 +3,6 @@
 proc main()
     clearScreen()
 
-label:
-    jmp label
+    repeat
+    end
 endp

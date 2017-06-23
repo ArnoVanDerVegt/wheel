@@ -143,10 +143,10 @@
                     proc main()
                         number b
                         setTextSize(2)
-                    loop:
-                        b = button()
-                        drawNumber(73, 56, b)
-                        jmp loop
+                        repeat
+                            b = button()
+                            drawNumber(73, 56, b)
+                        end
                     end
                 </pre>
             </div>

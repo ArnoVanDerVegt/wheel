@@ -1,6 +1,7 @@
 (function() {
     var wheel            = require('../../utils/base.js').wheel;
     var forLabelIndex    = 10000;
+    var repeatLabelIndex = 10000;
     var ifLabelIndex     = 10000;
     var selectLabelIndex = 10000;
 
@@ -9,6 +10,7 @@
         wheel.Class(function() {
             this.init = function(opts) {
                 this._forStack           = [];
+                this._repeatStack        = [];
                 this._ifStack            = [];
                 this._selectStack        = [];
                 this._endStack           = [];
@@ -62,6 +64,19 @@
 
                 return [
                     'set ' + vr + ',' + start[1].trim(),
+                    label + ':'
+                ];
+            };
+
+            this.compileRepeat = function(s) {
+                var label = '_____repeat_label' + (repeatLabelIndex++);
+
+                this._repeatStack.push({
+                    label: label
+                });
+                this._endStack.push('repeat');
+
+                return [
                     label + ':'
                 ];
             };
@@ -187,6 +202,12 @@
                             loop.operator  + ' ' + forItem.vr,
                             'cmp '               + forItem.vr + ',' + forItem.end,
                             loop.condition + ' ' + forItem.label
+                        ];
+
+                    case 'repeat':
+                        var repeatItem = this._repeatStack.pop();
+                        return [
+                            'jmp ' + repeatItem.label
                         ];
 
                     case 'record':
@@ -465,6 +486,9 @@
 
                     case 'for':
                         return this.compileFor(line.substr(i - line.length));
+
+                    case 'repeat':
+                        return this.compileRepeat(line);
 
                     case 'if':
                         return this.compileIf(line.substr(i - line.length), output);

@@ -164,16 +164,16 @@
                 return result;
             };
         });
-
+/*
     var RgfBuilder = wheel.Class(function() {
             this.init = function(opts) {
                 this._image = null;
             };
 
-            /**
+            ***
              * The image parameter is expected to be an array of strings, all with the same length,
              * filled with 0 or 1 to indicate the pixel value.
-            **/
+            ***
             this.build = function(image) {
                 if (!image.length) {
                     throw new Error('Image has no size.');
@@ -224,7 +224,7 @@
                 fs.writeFileSync(filename, buffer, 'binary');
             };
         });
-
+*/
     wheel(
         'compiler.PreProcessor',
         wheel.Class(wheel.Emitter, function(supr) {
