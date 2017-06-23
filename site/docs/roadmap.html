@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Variables</title>
+    <title>Wheel - Setup guide</title>
 
     <base href="../../">
     <link href="css/wheel.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="examples">
     <div class="header">
         <div class="container">
             <ul>
@@ -38,13 +38,13 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="purple with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
+                <h3 class="purple with-icon"><span>Roadmap</span></h3>
 
-                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Docs</h3>
                 <div class="index">
                     <a href="site/docs/about.html">About Wheel</a><br />
                     <a href="site/docs/setupguide.html">Setup guide</a><br />
-                    <a href="site/docs/roadmap.html">Roadmap</a><br />
+                    <a href="site/docs/roadmap.html" class="active">Roadmap</a><br />
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
@@ -52,23 +52,26 @@
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
-                    <a href="site/docs/modules.html" class="active">Modules</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
             </div>
 
             <div class="two first">
-                <h4>Modules</h4>
-                Modules provide a way to access standard functions from the brick like motors, sensors and the screen.<br />
-                <br />
-                The module command can be used to call blocks from your wheel code.<br />
-                <br />
-                Each module has a unique numeric id. The VM calls the module based on the id passed.
-            </div>
-
-            <div class="two img">
-                <img src="site/images/module.png"/>
+                <h4>Roadmap</h4>
+                <ul class="clear">
+                    <li>Improve setup guide</li>
+                    <li>Boolean evaluation</li>
+                    <li>asm Blocks</li>
+                    <li>and/or in if</li>
+                    <li>Default in select</li>
+                    <li>Repeat loop</li>
+                    <li>While loop</li>
+                    <li>Image meta command</li>
+                    <li>Sensor module</li>
+                    <li>Motor module</li>
+                </li>
             </div>
 
             <div style="float:left;clear:both;"></div>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Variables</title>
+    <title>Wheel - About</title>
 
     <base href="../../">
     <link href="css/wheel.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="examples">
     <div class="header">
         <div class="container">
             <ul>
@@ -38,11 +38,11 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="purple with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
+                <h3 class="purple with-icon"><span>About Wheel</span></h3>
 
-                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Docs</h3>
                 <div class="index">
-                    <a href="site/docs/about.html">About Wheel</a><br />
+                    <a href="site/docs/about.html" class="active">About Wheel</a><br />
                     <a href="site/docs/setupguide.html">Setup guide</a><br />
                     <a href="site/docs/roadmap.html">Roadmap</a><br />
                     <a href="site/docs/syntax.html">Syntax</a><br />
@@ -52,23 +52,71 @@
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
-                    <a href="site/docs/modules.html" class="active">Modules</a><br />
+                    <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
             </div>
 
             <div class="two first">
-                <h4>Modules</h4>
-                Modules provide a way to access standard functions from the brick like motors, sensors and the screen.<br />
-                <br />
-                The module command can be used to call blocks from your wheel code.<br />
-                <br />
-                Each module has a unique numeric id. The VM calls the module based on the id passed.
+                <h4>About Wheel</h4>
+                The Wheel compiler and VM are my little side project, the goal of this project is to create a tool which allows you to
+                combine a scripting language with the existing EV3 blocks.<br/>
+                <br/>
+                Wheel is a small text based language. The code can be compiled to a .rtf file which can
+                be executed with an EV3 block.
+                <br/>
+                Wheel can be easily connected to existing blocks.<br/>
+                <br/>
+                Features:<br/>
+                <ul class="clear">
+                    <li>Text based</li>
+                    <li>Array, record, pointer types</li>
+                    <li>Include files</li>
+                </ul>
             </div>
 
-            <div class="two img">
-                <img src="site/images/module.png"/>
+            <div class="two first">
+                <h5>Colors</h5>
+                This website and documentation uses the same color scheme as the EV3 software:<br/>
+                <br />
+                <table>
+                    <tr>
+                        <th>Color</th>
+                        <th>Example block</th>
+                        <th>Group</th>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box red">Red</span></td>
+                        <td><img src="site/images/blocks/vars.png"/></td>
+                        <td>Standard functions, math functons, variables.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box green">Green</span></td>
+                        <td><img src="site/images/blocks/light.png"/></td>
+                        <td>Output: Screen, light, sound, actuators.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box yellow">Yellow</span></td>
+                        <td><img src="site/images/blocks/buttons.png"/></td>
+                        <td>Butons, sensors.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box blue">Blue</span></td>
+                        <td><img src="site/images/blocks/procedure.png"/></td>
+                        <td>Procedures.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box orange">Orange</span></td>
+                        <td><img src="site/images/blocks/loop.png"/></td>
+                        <td>Program control flow: if, select, loops.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box purple">Purple</span></td>
+                        <td></td>
+                        <td>Compiler and VM specific documentation.</td>
+                    </tr>
+                </table>
             </div>
 
             <div style="float:left;clear:both;"></div>
