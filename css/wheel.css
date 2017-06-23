@@ -350,7 +350,7 @@ div.three,
 div.five {
     float:                      left;
     padding:                    16px;
-    font-size:                  17px;
+    font-size:                  18px;
     line-height:                25px;
 }
 div.one.first,
@@ -586,7 +586,7 @@ div.five .tile .details {
     opacity:                    0;
     transition:                 opacity 0.3s 0.2s ease, transform 0.3s 0.2s ease;
     pointer-events:             none;
-    font-size:                  14px;
+    font-size:                  16px;
     line-height:                20px;
     transform:                  translateY(0);
 }
@@ -905,7 +905,7 @@ div.three ul.last li img {
 div.two li,
 div.three li {
     padding:                    0;
-    margin:                     0;
+    margin:                     0 0 0 8px;
 }
 div.two ul.clear li,
 div.three ul.clear li {
