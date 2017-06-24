@@ -12,69 +12,7 @@
     <script src="js/utils/require.js"></script>
     <script src="js/utils/base.js"></script>
 
-    <script src="js/WheelClass.js"></script>
-    <script src="js/compiler/PreProcessor.js"></script>
-    <script src="js/compiler/commands/CommandCompiler.js"></script>
-    <script src="js/compiler/commands/Declaration.js"></script>
-    <script src="js/compiler/commands/StringDeclaration.js"></script>
-    <script src="js/compiler/commands/NumberDeclaration.js"></script>
-    <script src="js/compiler/commands/NumberInc.js"></script>
-    <script src="js/compiler/commands/NumberDec.js"></script>
-    <script src="js/compiler/commands/NumberOperator.js"></script>
-    <script src="js/compiler/commands/ProcedureDeclaration.js"></script>
-    <script src="js/compiler/commands/Set.js"></script>
-    <script src="js/compiler/commands/Call.js"></script>
-    <script src="js/compiler/commands/CallFunction.js"></script>
-    <script src="js/compiler/commands/CallReturn.js"></script>
-    <script src="js/compiler/commands/Ret.js"></script>
-    <script src="js/compiler/commands/Label.js"></script>
-    <script src="js/compiler/commands/Array.js"></script>
-    <script src="js/compiler/commands/ArrayR.js"></script>
-    <script src="js/compiler/commands/ArrayW.js"></script>
-    <script src="js/compiler/commands/Addr.js"></script>
-    <script src="js/compiler/commands/JmpC.js"></script>
-    <script src="js/compiler/command.js"></script>
-    <script src="js/compiler/error.js"></script>
-    <script src="js/compiler/compilerHelper.js"></script>
-    <script src="js/compiler/CompilerOutput.js"></script>
-    <script src="js/compiler/CompilerList.js"></script>
-    <script src="js/compiler/CompilerRecord.js"></script>
-    <script src="js/compiler/CompilerData.js"></script>
-    <script src="js/compiler/CompilerMeta.js"></script>
-    <script src="js/compiler/script/ExpressionCompiler.js"></script>
-    <script src="js/compiler/script/ScriptCompiler.js"></script>
-    <script src="js/compiler/Compiler.js"></script>
-
-    <script src="js/vm/VMData.js"></script>
-    <script src="js/vm/VM.js"></script>
-    <script src="js/vm/modules/VMModule.js"></script>
-    <script src="js/simulator/modules/StandardModule.js"></script>
-    <script src="js/simulator/modules/ScreenModule.js"></script>
-    <script src="js/simulator/modules/SoundModule.js"></script>
-    <script src="js/simulator/modules/ButtonsModule.js"></script>
-    <script src="js/simulator/modules/LightModule.js"></script>
-    <script src="js/vm/modules/MotorModule.js"></script>
-    <script src="js/vm/modules/SensorModule.js"></script>
-    <script src="js/vm/modules/MathModule.js"></script>
-
-    <script src="js/simulator/includes/standard.js"></script>
-    <script src="js/simulator/includes/screen.js"></script>
-    <script src="js/simulator/includes/sound.js"></script>
-    <script src="js/simulator/includes/buttons.js"></script>
-    <script src="js/simulator/includes/light.js"></script>
-
-    <script src="js/simulator/Text.js"></script>
-    <script src="js/simulator/TextSmall.js"></script>
-    <script src="js/simulator/TextMedium.js"></script>
-    <script src="js/simulator/TextLarge.js"></script>
-    <script src="js/simulator/Display.js"></script>
-    <script src="js/simulator/Buttons.js"></script>
-    <script src="js/simulator/Light.js"></script>
-    <script src="js/simulator/Simulator.js"></script>
-
     <script src="js/utils/syntax.js"></script>
-
-    <script src="js/simulator/simulatorLoader.js"></script>
 </head>
 
 <body class="home">
@@ -104,52 +42,33 @@
     <div class="content">
         <div class="container">
             <div class="three first">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/brick.png" width="32" height="32"/> <span>About Wheel</span></h3>
-                <p>
+                <h2>About Wheel</h2>
+                <p class="clear">
                     The Wheel compiler and VM are my little side project, the goal of this project is to create a tool which allows you to
                     combine a scripting language with the existing EV3 blocks.<br/>
                     <br/>
                 </p>
-                <p>
+                <p class="clear">
                     Wheel is a small text based language. The code can be compiled to a .rtf file which can
                     be executed with an EV3 block.
                 </p>
-                <p>
+                <p class="clear">
                     Wheel can be easily connected to existing blocks.<br/>
-                    <img src="site/images/blocks/screen.png" width="60" height="65" style="float:right;margin-right:10px;"/>
+                    <br/>
                 </p>
-                <p>
-                    Features:
-                </p>
-                <ul>
+                <h3 class="clear">Features:</h3>
+                <ul class="clear">
                     <li>Text based</li>
                     <li>Array, record, pointer types</li>
                     <li>Include files</li>
                 </ul>
-                <p class="last">
+                <p class="clear">
                     <br/>
                 </p>
             </div>
             <div class="three center">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/text.png" width="32" height="32"/> <span>Getting started</span></h3>
-                <p>
-                    To get started you need the following software installed:
-                </p>
-                <ul>
-                    <li><a href="https://nodejs.org/en/">nodejs</a></li>
-                    <li><a href="https://www.lego.com/en-us/mindstorms/downloads/download-software">Mindstorms EV3 software</a></li>
-                </ul>
-                <p class="last">
-                    When you've downloaded and installed the application you can compile a file with the following command:<br/>
-                    <br/>
-                    <b>node wheel.js filename.whl</b><br/>
-                    <br/>
-                </p>
-                <img src="site/images/ev3.png" style="float:left;width:100%;margin-top:32px;"/>
-            </div>
-            <div class="three last">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/code.png" width="32" height="32"/> <span>Code</span></h3>
-                <pre class="top">
+                <h2>Code</h2>
+                <pre class="top clear">
                     #include "lib/screen.whl"
 
                     proc main()
@@ -167,16 +86,24 @@
                         end
                     end
                 </pre>
-
-                <h3 class="dark-blue margin-top margin-bottom" id="simulator">Simulator</h3>
-                <div class="active-program">No program selected.</div>
-                <div class="ev3-wrapper">
-                    <div class="ev3-background">
-                        <div class="simulator-options">
-                            <input type="button" class="button disabled" id="runProgram" value="Run"/>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="three last">
+                <h2>Getting started</h2>
+                <p class="clear">
+                    To get started you need the following software installed:<br/>
+                    <br/>
+                </p>
+                <ul class="clear">
+                    <li><a href="https://nodejs.org/en/">nodejs</a></li>
+                    <li><a href="https://www.lego.com/en-us/mindstorms/downloads/download-software">Mindstorms EV3 software</a></li>
+                </ul>
+                <p class="clear">
+                    When you've downloaded and installed the application you can compile a file with the following command:<br/>
+                    <br/>
+                    <b>node wheel.js filename.whl</b><br/>
+                    <br/>
+                </p>
+                <img src="site/images/ev3.png" style="float:left;width:100%;margin-top:32px;"/>
             </div>
 
             <div style="float:left;clear:both;"></div>
