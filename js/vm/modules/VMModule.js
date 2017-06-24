@@ -3,12 +3,7 @@
 
     wheel(
         'vm.modules.VMModule',
-        wheel.Class(function() {
-            this.init = function(opts) {
-                this._vm     = opts.vm;
-                this._vmData = opts.vmData;
-            };
-
+        wheel.Class(wheel.WheelClass, function(supr) {
             this.run = function(commandId) {
             };
         })

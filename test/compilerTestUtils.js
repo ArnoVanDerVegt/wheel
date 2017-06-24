@@ -1,3 +1,4 @@
+require('../js/WheelClass.js');
 require('../js/compiler/PreProcessor.js');
 require('../js/compiler/commands/CommandCompiler.js');
 require('../js/compiler/commands/Declaration.js');

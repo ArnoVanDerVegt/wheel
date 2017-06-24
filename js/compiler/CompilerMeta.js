@@ -3,12 +3,7 @@
 
     wheel(
         'compiler.CompilerMeta',
-        wheel.Class(function() {
-            this.init = function(opts) {
-                this._compiler     = opts.compiler;
-                this._compilerData = opts.compilerData;
-            };
-
+        wheel.Class(wheel.WheelClass, function(supr) {
             this.findVar = function(vr) {
                 var compilerData = this._compilerData;
                 return compilerData.findGlobal(vr) || compilerData.findLocal(vr);
