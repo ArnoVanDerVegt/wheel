@@ -39,7 +39,13 @@
             'stack',
             'src',
             'dest',
-            'code'
+            'code',
+            'REG_STACK',
+            'REG_SRC',
+            'REG_DEST',
+            'REG_CODE',
+            'REG_RETURN',
+            'REG_FLAGS'
         ];
 
     var types = [
@@ -100,7 +106,7 @@
 
                 if (isNaN(w)) {
                     if (registers.indexOf(w) !== -1) {
-                        result += '<span class="purple">' + w + '</span>';
+                        result += '<span class="purple italic">' + w + '</span>';
                     } else if (defines.indexOf(w) !== -1) {
                         result += '<span class="green italic">' + w + '</span>';
                     } else if (records.indexOf(w) !== -1) {
