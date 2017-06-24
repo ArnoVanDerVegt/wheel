@@ -35,7 +35,8 @@
             INVALID_POINTER:                   29,
             INVALID_BLOCK_CLOSE:               30,
             INVALID_OPERATION:                 31,
-            INVALID_OPERATION_WITH_STRING:     32
+            INVALID_OPERATION_WITH_STRING:     32,
+            BREAK_WITHOUT_LOOP:                33
         }
     );
 })();

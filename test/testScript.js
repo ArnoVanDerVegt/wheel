@@ -6,6 +6,7 @@ var compilerTestUtils = require('./compilerTestUtils.js');
 describe(
     'Test script',
     function() {
+/*
         describe(
             'Test asm',
             function() {
@@ -92,6 +93,28 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+                });
+            }
+        );
+*/
+        describe(
+            'Test break',
+            function() {
+                it('Should break for', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '',
+                            '    for n = 1 to 10',
+                            '        if n > 5',
+                            '            break',
+                            '        end',
+                            '        printN(n)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [1, 2, 3, 4, 5]);
                 });
             }
         );

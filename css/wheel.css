@@ -332,6 +332,86 @@ div.two h5:hover a {
     opacity:                    1;
 }
 
+div.two .step {
+    float:                      left;
+    width:                      100%;
+    margin:                     0 0 40px 0;
+}
+div.two .step .step-count {
+    float:                      left;
+    width:                      52px;
+    height:                     52px;
+    line-height:                56px;
+    font-size:                  32px;
+    font-family:                Helvetica, Arial, sans-serif;
+    text-align:                 center;
+    border:                     4px solid #8e44ad;
+    border-width:               0 0 4px 0;
+    background-color:           #9b59b6;
+    color:                      #FFFFFF;
+}
+div.two .step .step-text {
+    float:                      left;
+    width:                      calc(100% - 52px);
+    padding:                    0 0 0 32px;
+}
+
+/* Mindstorms */
+div.two .step .mindstorms {
+    float:                      left;
+    margin:                     0 0 0 16px;
+}
+div.two .step .mindstorms span {
+    background-image:           url('../site/images/mindstorms.png');
+    float:                      left;
+    width:                      192px;
+    height:                     124px;
+    color:                      #FFFFFF;
+    text-align:                 center;
+    font-weight:                bold;
+    font-size:                  22px;
+    padding:                    30px 0 0 0;
+}
+
+/* Nodejs */
+div.two .step .nodejs {
+    float:                      left;
+    margin:                     0;
+}
+div.two .step .nodejs img {
+    background-color:           black;
+    padding:                    8px;
+    width:                      192px;
+    height:                     124px;
+    margin:                     0 16px 0 32px;
+}
+/* Github */
+div.two .step .github .github-content {
+    float:                      left;
+    width:                      192px;
+    height:                     124px;
+    background-color:           #24292e;
+    margin:                     0 0 0 32px;
+}
+div.two .step .github .github-content img {
+    float:                      left;
+    width:                      48px;
+    margin:                     22px 0 8px 72px;
+}
+div.two .step .github .github-content .github-title {
+    float:                      left;
+    width:                      calc(100% - 20px);
+    height:                     24px;
+    line-height:                24px;
+    text-align:                 center;
+    font-size:                  14px;
+    font-weight:                bold;
+    background-color:           #FFFFFF;
+    border-radius:              12px;
+    margin:                     0 0 0 10px;
+    color:                      #000000;
+}
+
 span.color-box {
     float:                      left;
     width:                      96px;
@@ -401,10 +481,6 @@ div.half p {
     padding:                    0 8px 0 8px;
     float:                      left;
 }
-/*
-    border-color:               #2980b9;
-    background-color:           #3498db;
-*/
 div.one.sub-title {
     float:                      left;
     border:                     2px solid #3498db;
