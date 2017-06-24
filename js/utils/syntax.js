@@ -199,7 +199,9 @@
         });
 
         if (minLength === 256) {
-            minLength = lines[0].length - lines[0].trim().length - 4;
+            if (lines.length) {
+                minLength = lines[0].length - lines[0].trim().length - 4;
+            }
         } else {
             minLength = Math.max(minLength - 4, 0);
         }

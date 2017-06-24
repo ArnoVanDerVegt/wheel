@@ -44,7 +44,7 @@
                                 // Copy the data from the global offset to the local offset...
                                 compilerOutput.a($.set.code, $.SRC(),  $.CONST(offset));
                                 compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                                (local.offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(local.offset));
+                                this.addToDestIfValue(local.offset);
                                 compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                             }
                         }

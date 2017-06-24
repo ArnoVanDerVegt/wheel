@@ -24,9 +24,11 @@ proc setFill(number fill)
         number fill
     endr
     SetFill setFill
-    set      setFill.fill,           fill
-    addr     setFill
-    module   MODULE_SCREEN,          SCREEN_FILL
+    asm
+        set      setFill.fill,           fill
+        addr     setFill
+        module   MODULE_SCREEN,          SCREEN_FILL
+    end
 endp
 
 proc setFillColor(number fillColor)
@@ -34,9 +36,11 @@ proc setFillColor(number fillColor)
         number fillColor
     endr
     SetFillColor setFillColor
-    set      setFillColor.fillColor, fillColor
-    addr     setFillColor
-    module   MODULE_SCREEN,          SCREEN_FILL_COLOR
+    asm
+        set      setFillColor.fillColor, fillColor
+        addr     setFillColor
+        module   MODULE_SCREEN,          SCREEN_FILL_COLOR
+    end
 endp
 
 proc drawPixel(number x, number y)
@@ -44,10 +48,12 @@ proc drawPixel(number x, number y)
         number   x, y
     endr
     DrawPixel drawPixel
-    set      drawPixel.x,            x
-    set      drawPixel.y,            y
-    addr     drawPixel
-    module   MODULE_SCREEN,          SCREEN_DRAW_PIXEL
+    asm
+        set      drawPixel.x,            x
+        set      drawPixel.y,            y
+        addr     drawPixel
+        module   MODULE_SCREEN,          SCREEN_DRAW_PIXEL
+    end
 endp
 
 proc drawNumber(number x, number y, number n)
@@ -55,11 +61,13 @@ proc drawNumber(number x, number y, number n)
         number   x, y, n
     endr
     DrawNumber drawNumber
-    set      drawNumber.x,           x
-    set      drawNumber.y,           y
-    set      drawNumber.n,           n
-    addr     drawNumber
-    module   MODULE_SCREEN,          SCREEN_DRAW_NUMBER
+    asm
+        set      drawNumber.x,           x
+        set      drawNumber.y,           y
+        set      drawNumber.n,           n
+        addr     drawNumber
+        module   MODULE_SCREEN,          SCREEN_DRAW_NUMBER
+    end
 endp
 
 proc drawText(number x, number y, string s)
@@ -68,11 +76,13 @@ proc drawText(number x, number y, string s)
         string   s
     endr
     DrawText drawText
-    set      drawText.x,             x
-    set      drawText.y,             y
-    set      drawText.s,             s
-    addr     drawText
-    module   MODULE_SCREEN,          SCREEN_DRAW_TEXT
+    asm
+        set      drawText.x,             x
+        set      drawText.y,             y
+        set      drawText.s,             s
+        addr     drawText
+        module   MODULE_SCREEN,          SCREEN_DRAW_TEXT
+    end
 endp
 
 proc drawLine(number x1, number y1, number x2, number y2)
@@ -80,12 +90,14 @@ proc drawLine(number x1, number y1, number x2, number y2)
         number   x1, y1, x2, y2
     endr
     DrawLine drawLine
-    set      drawLine.x1,            x1
-    set      drawLine.y1,            y1
-    set      drawLine.x2,            x2
-    set      drawLine.y2,            y2
-    addr     drawLine
-    module   MODULE_SCREEN,          SCREEN_DRAW_LINE
+    asm
+        set      drawLine.x1,            x1
+        set      drawLine.y1,            y1
+        set      drawLine.x2,            x2
+        set      drawLine.y2,            y2
+        addr     drawLine
+        module   MODULE_SCREEN,          SCREEN_DRAW_LINE
+    end
 endp
 
 proc drawRect(number x, number y, number width, number height)
@@ -93,12 +105,14 @@ proc drawRect(number x, number y, number width, number height)
         number   x, y, width, height
     endr
     DrawRect drawRect
-    set      drawRect.x,             x
-    set      drawRect.y,             y
-    set      drawRect.width,         width
-    set      drawRect.height,        height
-    addr     drawRect
-    module   MODULE_SCREEN,          SCREEN_DRAW_RECT
+    asm
+        set      drawRect.x,             x
+        set      drawRect.y,             y
+        set      drawRect.width,         width
+        set      drawRect.height,        height
+        addr     drawRect
+        module   MODULE_SCREEN,          SCREEN_DRAW_RECT
+    end
 endp
 
 proc drawCircle(number x, number y, number radius)
@@ -106,11 +120,13 @@ proc drawCircle(number x, number y, number radius)
         number   x, y, radius
     endr
     DrawCircle drawCircle
-    set      drawCircle.x,           x
-    set      drawCircle.y,           y
-    set      drawCircle.radius,      radius
-    addr     drawCircle
-    module   MODULE_SCREEN,          SCREEN_DRAW_CIRCLE
+    asm
+        set      drawCircle.x,           x
+        set      drawCircle.y,           y
+        set      drawCircle.radius,      radius
+        addr     drawCircle
+        module   MODULE_SCREEN,          SCREEN_DRAW_CIRCLE
+    end
 endp
 
 proc drawImage(number x, number y, string filename)
@@ -119,9 +135,11 @@ proc drawImage(number x, number y, string filename)
         string   filename
     endr
     DrawImage drawImage
-    set      drawImage.x,            x
-    set      drawImage.y,            y
-    set      drawImage.filename,     filename
-    addr     drawImage
-    module   MODULE_SCREEN,          SCREEN_DRAW_IMAGE
+    asm
+        set      drawImage.x,            x
+        set      drawImage.y,            y
+        set      drawImage.filename,     filename
+        addr     drawImage
+        module   MODULE_SCREEN,          SCREEN_DRAW_IMAGE
+    end
 endp

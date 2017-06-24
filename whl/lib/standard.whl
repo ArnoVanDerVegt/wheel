@@ -12,9 +12,11 @@ proc printN(number n)
         number   n
     endr
     PrintNumber printNumber
-    set      printNumber.n,          n
-    addr     printNumber
-    module   MODULE_STANDARD,        STANDARD_PRINT_NUMBER
+    asm
+        set      printNumber.n,          n
+        addr     printNumber
+        module   MODULE_STANDARD,        STANDARD_PRINT_NUMBER
+    end
 endp
 
 proc printS(string s)
@@ -22,9 +24,11 @@ proc printS(string s)
         string   s
     endr
     PrintString printString
-    set      printString.s,          s
-    addr     printString
-    module   MODULE_STANDARD,        STANDARD_PRINT_STRING
+    asm
+        set      printString.s,          s
+        addr     printString
+        module   MODULE_STANDARD,        STANDARD_PRINT_STRING
+    end
 endp
 
 proc sleep(number milliseconds)
@@ -32,7 +36,9 @@ proc sleep(number milliseconds)
         number milliseconds
     endr
     Sleep sleep
-    set      sleep.milliseconds,     milliseconds
-    addr     sleep
-    module   MODULE_STANDARD,        STANDARD_SLEEP
+    asm
+        set      sleep.milliseconds,     milliseconds
+        addr     sleep
+        module   MODULE_STANDARD,        STANDARD_SLEEP
+    end
 endp

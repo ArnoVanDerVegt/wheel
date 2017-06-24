@@ -11,9 +11,11 @@ proc round(number n)
         number result
     endr
     Round round
-    set      round.result, n
-    addr     round
-    module   MODULE_MATH,  MATH_ROUND
+    asm
+        set      round.result, n
+        addr     round
+        module   MODULE_MATH,  MATH_ROUND
+    end
     return   round.result
 endp
 
@@ -22,9 +24,11 @@ proc floor(number n)
         number result
     endr
     Floor floor
-    set      floor.result, n
-    addr     floor
-    module   MODULE_MATH,  MATH_FLOOR
+    asm
+        set      floor.result, n
+        addr     floor
+        module   MODULE_MATH,  MATH_FLOOR
+    end
     return   floor.result
 endp
 
@@ -33,9 +37,11 @@ proc ceil(number n)
         number result
     endr
     Ceil ceil
-    set      ceil.result, n
-    addr     ceil
-    module   MODULE_MATH, MATH_CEIL
+    asm
+        set      ceil.result, n
+        addr     ceil
+        module   MODULE_MATH, MATH_CEIL
+    end
     return   ceil.result
 endp
 
@@ -44,9 +50,11 @@ proc abs(number n)
         number result
     endr
     Abs abs
-    set      abs.result, n
-    addr     abs
-    module   MODULE_MATH, MATH_ABS
+    asm
+        set      abs.result, n
+        addr     abs
+        module   MODULE_MATH, MATH_ABS
+    end
     return   abs.result
 endp
 
@@ -55,8 +63,10 @@ proc neg(number n)
         number result
     endr
     Neg neg
-    set      neg.result, n
-    addr     neg
-    module   MODULE_MATH, MATH_NEG
+    asm
+        set      neg.result, n
+        addr     neg
+        module   MODULE_MATH, MATH_NEG
+    end
     return   neg.result
 endp

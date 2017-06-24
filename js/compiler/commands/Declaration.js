@@ -21,6 +21,10 @@
 				this._compiler.getOutput().a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
             };
 
+            this.addToDestIfValue = function(value) {
+                (value === 0) || this._compiler.getOutput().a($.add.code, $.DEST(), $.CONST(value));
+            };
+
             this.declareRecordFields = function(params, type, arrayType) {
                 $ = wheel.compiler.command;
                 for (var j = 0; j < params.length; j++) {

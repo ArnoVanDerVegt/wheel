@@ -715,6 +715,36 @@ describe(
                     );
                 });
 
+                it('Should throw INVALID_SCRIPT_COMMAND - addr', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    addr 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - module', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    module 1, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
                 it('Should throw INVALID_CONSTANT', function() {
                     assert.throws(
                         function() {
