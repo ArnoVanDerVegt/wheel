@@ -93,7 +93,6 @@
                 function(includes) {
                     try {
                         outputTitle    = title;
-                        console.log(includes);
                         outputCommands = compiler.compile(includes);
                         compilerData   = compiler.getCompilerData();
                         simulator.getDisplay().drawLoaded(title);

@@ -9,8 +9,10 @@ wheel(
         '        number result',
         '    endr',
         '    Button button',
-        '    addr   button',
-        '    module MODULE_BUTTONS, BUTTON_READ',
+        '    asm',
+        '        addr   button',
+        '        module MODULE_BUTTONS, BUTTON_READ',
+        '    end',
         '',
         '    return button.result',
         'endp'

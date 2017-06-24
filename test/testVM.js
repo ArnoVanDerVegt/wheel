@@ -48,7 +48,9 @@ describe(
                     var files = createFiles(
                             [
                                 'proc main()',
-                                '    module 255,0',
+                                '    asm',
+                                '        module 255,0',
+                                '    end',
                                 'endp'
                             ]
                         );

@@ -10,9 +10,11 @@ proc motorReset(number id)
         number   id
     endr
     MotorReset motorReset
-    set      motorReset.id,          id
-    addr     motorReset
-    module   MODULE_MOTORS,          MOTOR_RESET
+    asm
+        set      motorReset.id,          id
+        addr     motorReset
+        module   MODULE_MOTORS,          MOTOR_RESET
+    end
 endp
 
 proc motorMoveTo(number id, number target, number power)
@@ -22,11 +24,13 @@ proc motorMoveTo(number id, number target, number power)
         number   power
     endr
     MotorMoveTo motorMoveTo
-    set      motorMoveTo.id,         id
-    set      motorMoveTo.target,     target
-    set      motorMoveTo.power,      power
-    addr     motorMoveTo
-    module   MODULE_MOTORS,          MOTOR_MOVE_TO
+    asm
+        set      motorMoveTo.id,         id
+        set      motorMoveTo.target,     target
+        set      motorMoveTo.power,      power
+        addr     motorMoveTo
+        module   MODULE_MOTORS,          MOTOR_MOVE_TO
+    end
 endp
 
 proc motorMove(number id, number power)
@@ -35,10 +39,12 @@ proc motorMove(number id, number power)
         number   power
     endr
     MotorMove motorMove
-    set      motorMove.id,           id
-    set      motorMove.power,        power
-    addr     motorMove
-    module   MODULE_MOTORS,          MOTOR_MOVE
+    asm
+        set      motorMove.id,           id
+        set      motorMove.power,        power
+        addr     motorMove
+        module   MODULE_MOTORS,          MOTOR_MOVE
+    end
 endp
 
 proc motorStop(number id)
@@ -46,7 +52,9 @@ proc motorStop(number id)
         number   id
     endr
     MotorStop motorStop
-    set      motorStop.id,          id
-    addr     motorStop
-    module   MODULE_MOTORS,          MOTOR_STOP
+    asm
+        set      motorStop.id,          id
+        addr     motorStop
+        module   MODULE_MOTORS,          MOTOR_STOP
+    end
 endp

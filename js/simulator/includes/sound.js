@@ -13,11 +13,13 @@ wheel(
         '        number volume',
         '    endr',
         '    PlayTone playTone',
-        '    set      playTone.frequency, frequency',
-        '    set      playTone.duration,  duration',
-        '    set      playTone.volume,    volume',
-        '    addr     playTone',
-        '    module   MODULE_SOUND,       SOUND_PLAY_TONE',
+        '    asm',
+        '        set      playTone.frequency, frequency',
+        '        set      playTone.duration,  duration',
+        '        set      playTone.volume,    volume',
+        '        addr     playTone',
+        '        module   MODULE_SOUND,       SOUND_PLAY_TONE',
+        '    end',
         'endp'
     ]
 );

@@ -589,6 +589,14 @@
                         this.throwErrorIfScriptMode();
                         break;
 
+                    case 'module':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'addr':
+                        this.throwErrorIfScriptMode();
+                        break;
+
                     default:
                         var procCall = this._expressionCompiler.isProcCall(line);
                         if (procCall) {

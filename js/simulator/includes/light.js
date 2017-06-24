@@ -18,10 +18,12 @@ wheel(
         '        number color, flash',
         '    endr',
         '    Light light',
-        '    set      light.color,  color',
-        '    set      light.flash,  flash',
-        '    addr     light',
-        '    module   MODULE_LIGHT, LIGHT_UPDATE',
+        '    asm',
+        '        set      light.color,  color',
+        '        set      light.flash,  flash',
+        '        addr     light',
+        '        module   MODULE_LIGHT, LIGHT_UPDATE',
+        '    end',
         'endp'
     ]
 );
