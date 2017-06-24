@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Loops</title>
+    <title>Wheel - About</title>
 
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
@@ -12,7 +12,7 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body>
+<body class="examples">
     <div class="header">
         <div class="container">
             <ul>
@@ -39,16 +39,16 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="orange with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Loops</span></h3>
+                <h3 class="purple with-icon"><span>About Wheel</span></h3>
 
-                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Docs</h3>
                 <div class="index">
-                    <a href="site/docs/about.html">About Wheel</a><br />
+                    <a href="site/docs/about.html" class="active">About Wheel</a><br />
                     <a href="site/docs/setupguide.html">Setup guide</a><br />
                     <a href="site/docs/roadmap.html">Roadmap</a><br />
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
-                    <a href="site/docs/loops.html" class="active">Loops</a><br />
+                    <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
@@ -57,54 +57,67 @@
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
+            </div>
 
-                <h3 class="dark-blue">Loops</h3>
-                <ul class="last">
-                    <li><a href="site/docs/loops.html#forto">for..to</a></li>
-                    <li><a href="site/docs/loops.html#fordownto">for..downto</a></li>
-                    <li><a href="site/docs/loops.html#repeat">repeat</a></li>
+            <div class="two first">
+                <h4>About Wheel</h4>
+                The Wheel compiler and VM are my little side project, the goal of this project is to create a tool which allows you to
+                combine a scripting language with the existing EV3 blocks.<br/>
+                <br/>
+                Wheel is a small text based language. The code can be compiled to a .rtf file which can
+                be executed with an EV3 block.
+                <br/>
+                Wheel can be easily connected to existing blocks.<br/>
+                <br/>
+                Features:<br/>
+                <ul class="clear">
+                    <li>Text based</li>
+                    <li>Array, record, pointer types</li>
+                    <li>Include files</li>
                 </ul>
             </div>
 
             <div class="two first">
-                <h4>Loops</h4>
-                With a for loop you can repeat a block of code a number of times.
-                There are two types of for loops, one counts up from a given start number and the other counts
-                down from the start number.
-            </div>
-
-            <div class="two first" id="forto">
-                <h5>For..to</h5>
-                With the <i>to</i> command, the counter is <i>increased</i> while the counter value is <i>less</i> than the <i>to</i> value.
-                <pre>
-                    number i
-
-                    for i = 0 to 10
-                        ; This code block will be executed 10 times...
-                    end
-                </pre>
-            </div>
-
-            <div class="two first" id="fordownto">
-                <h5>For..downto</h5>
-                With the <i>downto</i> command, the counter is <i>decreased</i> while the counter value is <i>greater</i> than the <i>downto</i> value.
-                <pre>
-                    number i
-
-                    for i = 7 downto 2
-                        ; This code block will be executed 5 times...
-                    end
-                </pre>
-            </div>
-
-            <div class="two first" id="repeat">
-                <h5>Repeat</h5>
-                Repeat a block of code endless.
-                <pre>
-                    repeat
-                        ; This code block will be repeated endless
-                    end
-                </pre>
+                <h5>Colors</h5>
+                This website and documentation uses the same color scheme as the EV3 software:<br/>
+                <br />
+                <table>
+                    <tr>
+                        <th>Color</th>
+                        <th>Example block</th>
+                        <th>Group</th>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box red">Red</span></td>
+                        <td><img src="site/images/blocks/vars.png"/></td>
+                        <td>Standard functions, math functons, variables.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box green">Green</span></td>
+                        <td><img src="site/images/blocks/light.png"/></td>
+                        <td>Output: Screen, light, sound, actuators.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box yellow">Yellow</span></td>
+                        <td><img src="site/images/blocks/buttons.png"/></td>
+                        <td>Butons, sensors.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box blue">Blue</span></td>
+                        <td><img src="site/images/blocks/procedure.png"/></td>
+                        <td>Procedures.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box orange">Orange</span></td>
+                        <td><img src="site/images/blocks/loop.png"/></td>
+                        <td>Program control flow: if, select, loops.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-box purple">Purple</span></td>
+                        <td></td>
+                        <td>Compiler and VM specific documentation.</td>
+                    </tr>
+                </table>
             </div>
 
             <div style="float:left;clear:both;"></div>

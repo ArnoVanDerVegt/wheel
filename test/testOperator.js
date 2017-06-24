@@ -20,7 +20,9 @@ describe(
                                 'number a',
                                 'proc main()',
                                 '    a = ' + valueA,
-                                '    ' + operator + ' a, ' + valueB,
+                                '    asm',
+                                '        ' + operator + ' a, ' + valueB,
+                                '    end',
                                 'endp'
                             ]).testData;
 
@@ -61,7 +63,9 @@ describe(
                                 'proc main()',
                                 '    a = ' + valueA,
                                 '    b = ' + valueB,
-                                '    ' + operator + ' a, b',
+                                '    asm',
+                                '       ' + operator + ' a, b',
+                                '    end',
                                 'endp'
                             ]).testData;
 
@@ -103,7 +107,9 @@ describe(
                                     'number b',
                                 '    a = ' + valueA,
                                 '    b = ' + valueB,
-                                '    ' + operator + ' a, b',
+                                '    asm',
+                                '        ' + operator + ' a, b',
+                                '    end',
                                 'endp'
                             ]).testData;
 
@@ -144,7 +150,9 @@ describe(
                             '',
                             'proc main()',
                             '    n = 17',
-                            '    inc n',
+                            '    asm',
+                            '        inc n',
+                            '    end',
                             '',
                             '    printN(n)',
                             'endp'
@@ -159,7 +167,9 @@ describe(
                             '',
                             'proc main()',
                             '    n = 19305',
-                            '    dec n',
+                            '    asm',
+                            '        dec n',
+                            '    end',
                             '',
                             '    printN(n)',
                             'endp'
@@ -174,7 +184,9 @@ describe(
                             '    number n',
                             '',
                             '    n = 1467',
-                            '    inc n',
+                            '    asm',
+                            '        inc n',
+                            '    end',
                             '',
                             '    printN(n)',
                             'endp'
@@ -189,7 +201,9 @@ describe(
                             '    number n',
                             '',
                             '    n = 2305',
-                            '    dec n',
+                            '    asm',
+                            '        dec n',
+                            '    end',
                             '',
                             '    printN(n)',
                             'endp'

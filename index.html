@@ -5,8 +5,7 @@
     <meta charset="utf-8"/>
     <title>Wheel</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -39,25 +38,34 @@
     <div class="content">
         <div class="container">
             <div class="three first">
-                <h3 class="blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>About Wheel</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/brick.png" width="32" height="32"/> <span>About Wheel</span></h3>
+                <p>
+                    The Wheel compiler and VM are my little side project, the goal of this project is to create a tool which allows you to
+                    combine a scripting language with the existing EV3 blocks.<br/>
+                    <br/>
+                </p>
                 <p>
                     Wheel is a small text based language. The code can be compiled to a .rtf file which can
                     be executed with an EV3 block.
                 </p>
                 <p>
-                    Wheel can be easily connected to existing blocks.
+                    Wheel can be easily connected to existing blocks.<br/>
+                    <img src="site/images/blocks/screen.png" width="60" height="65" style="float:right;margin-right:10px;"/>
                 </p>
                 <p>
                     Features:
                 </p>
-                <ul class="last">
+                <ul>
                     <li>Text based</li>
                     <li>Array, record, pointer types</li>
                     <li>Include files</li>
                 </ul>
+                <p class="last">
+                    <br/>
+                </p>
             </div>
             <div class="three center">
-                <h3 class="blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Getting started</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/text.png" width="32" height="32"/> <span>Getting started</span></h3>
                 <p>
                     To get started you need the following software installed:
                 </p>
@@ -66,12 +74,15 @@
                     <li><a href="https://www.lego.com/en-us/mindstorms/downloads/download-software">Mindstorms EV3 software</a></li>
                 </ul>
                 <p class="last">
-                    Here...
+                    When you've downloaded and installed the application you can compile a file with the following command:<br/>
+                    <br/>
+                    <b>node wheel.js filename.whl</b><br/>
+                    <br/>
                 </p>
-                <img src="site/images/ev3.png" style="float:left;width:100%;"/>
+                <img src="site/images/ev3.png" style="float:left;width:100%;margin-top:32px;"/>
             </div>
             <div class="three last">
-                <h3 class="blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Code</span></h3>
                 <pre class="top">
                     #include "lib/screen.whl"
 
@@ -95,7 +106,7 @@
             <div style="float:left;clear:both;"></div>
 
             <div class="three first">
-                <h3 class="green with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Examples</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/display.png" width="32" height="32"/> <span>Examples</span></h3>
                 <div class="index-links">
                     <div class="half">
                         <p>
@@ -109,7 +120,7 @@
                 </div>
             </div>
             <div class="three center">
-                <h3 class="green with-icon"><img src="site/images/test.png" width="32" height="32"/> <span>Documentation</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/test.png" width="32" height="32"/> <span>Documentation</span></h3>
                 <div class="index-links">
                     <div class="half">
                         <p>
@@ -132,7 +143,7 @@
                 </div>
             </div>
             <div class="three last">
-                <h3 class="green with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
+                <h3 class="dark-blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Modules</span></h3>
                 <div class="index-links">
                     <div class="half">
                         <p>
@@ -161,13 +172,16 @@
 
     <div class="footer">
         <div class="container">
+            <div class="links-wrapper">
+                <div class="links">
+                    <a href="site/license.html">License</a>
+                    <a href="site/disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <span class="small-print">
-                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
-                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
-            </span>
         </div>
     </div>
 </body>

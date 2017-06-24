@@ -6,7 +6,7 @@
     <title>Wheel</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
     <link href="css/simulator.css" rel="stylesheet">
 
@@ -104,21 +104,21 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/light.png" width="32" height="32"/> <span>Light</span></h3>
+                <h3 class="green with-icon"><img src="site/images/light.png" width="32" height="32"/> <span>Light</span></h3>
+                <h3 class="dark-blue margin-top margin-bottom">Examples</h3>
+                <div class="index">
+                    <a href="site/examples/math.html">Math</a><br />
+                    <a href="site/examples/screen.html">Screen</a><br />
+                    <a href="site/examples/light.html" class="active">Light</a><br />
+                    <a href="site/examples/sound.html">Sound</a><br />
+                    <a href="site/examples/buttons.html">Buttons</a><br />
+                </div>
+                <h3 class="dark-blue margin-top">Light</h3>
                 <ul class="last">
                     <li><a href="site/examples/light.html#light">light</a></li>
                 </ul>
 
-                <h3 class="green margin-top margin-bottom">Examples</h3>
-                <div class="index">
-                    <a href="site/examples/math.html">Math</a><br />
-                    <a href="site/examples/screen.html">Screen</a><br />
-                    <a href="site/examples/light.html" class="active">Math</a><br />
-                    <a href="site/examples/buttons.html">Buttons</a><br />
-                    <a href="site/examples/sound.html">Sound</a><br />
-                </div>
-
-                <h3 class="green margin-top margin-bottom" id="simulator">Simulator</h3>
+                <h3 class="dark-blue margin-top margin-bottom" id="simulator">Simulator</h3>
                 <div class="active-program">No program selected.</div>
                 <div class="ev3-wrapper">
                     <div class="ev3-background">
@@ -149,8 +149,8 @@
                         light(LIGHT_YELLOW, LIGHT_FLASH_ON)
                         sleep(3000)
 
-                        ; Turn the green light on and wait 1 second...
-                        light(LIGHT_GREEN, LIGHT_FLASH_OFF)
+                        ; Turn the dark-blue light on and wait 1 second...
+                        light(LIGHT_dark-blue, LIGHT_FLASH_OFF)
                         sleep(1000)
 
                         ; Turn the light off.
@@ -165,13 +165,16 @@
 
     <div class="footer">
         <div class="container">
+            <div class="links-wrapper">
+                <div class="links">
+                    <a href="site/license.html">License</a>
+                    <a href="site/disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <span class="small-print">
-                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
-                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
-            </span>
         </div>
     </div>
 </body>

@@ -1,7 +1,9 @@
 (function() {
     var keywords = [
+            'asm',
             'proc',
             'for',
+            'repeat',
             'to',
             'downto',
             'end',
@@ -116,7 +118,7 @@
                             var nextWord = grabNextWord();
                             (nextWord === '') || defines.push(nextWord);
                         }
-                        result += '<span class="orange italic">' + w + '</span>';
+                        result += '<span class="red italic">' + w + '</span>';
                     } else {
                         result += '<span class="blue">' + w + '</span>';
                     }
@@ -207,7 +209,12 @@
                 line = line.substr(minLength - line.length);
             }
             if (!((index === lines.length - 1) && (line.trim() === ''))) {
-                result += parseLine(line) + '\n';
+                var l = parseLine(line);
+                if (l.substr(0, 4) === '    ') {
+                    result += l.substr(4 - l.length) + '\n';
+                } else {
+                    result += l + '\n';
+                }
             }
         });
         return result;

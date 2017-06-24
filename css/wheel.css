@@ -10,8 +10,8 @@ html {
     padding:                    0;
     margin:                     0;
     position:                   relative;
-    font-family:                'Open Sans', sans-serif;
     color:                      #383838;
+    font-family:                'Fira Sans', sans-serif;
 }
 body {
     background-color:           #FAFBFC;
@@ -19,6 +19,7 @@ body {
 }
 h1 {
     margin:                     0;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h3,
 h4,
@@ -26,6 +27,7 @@ h5,
 h6 {
     font-size:                  20px;
     margin:                     0 0 8px 0;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h5 {
     font-size:                  17px;
@@ -38,7 +40,7 @@ div,
 a,
 span,
 li {
-    font-family:                'Open Sans', sans-serif;
+    font-family:                'Fira Sans', sans-serif;
 }
 .bold {
     font-weight:                bold;
@@ -112,10 +114,11 @@ li {
     padding:                    4px 10px 4px 10px;
     border-radius:              4px;
     text-decoration:            none;
+    font-family:                Helvetica, Arial, sans-serif;
     font-size:                  14px;
     font-weight:                bold;
     letter-spacing:             0.03em;
-    line-height:                22px;
+    line-height:                18px;
     height:                     28px;
 }
 .header .container .download span {
@@ -131,7 +134,7 @@ li {
 /* Sub header */
 .sub-header {
     position:                   relative;
-    z-index: 5;
+    z-index:                    5;
     float:                      left;
     width:                      100%;
     height:                     80px;
@@ -196,6 +199,7 @@ h3 {
     padding:                    0 0 0 4px;
     letter-spacing:             0.08em;
     text-transform:             uppercase;
+    font-family:                Helvetica, Arial, sans-serif;
     font-size:                  17px;
     font-weight:                normal;
     margin:                     8px 0 0 0;
@@ -209,21 +213,24 @@ h3.margin-bottom {
 h3.index {
     margin-bottom:              20px;
 }
-h3.red {
+h3.red,
+span.color-box.red {
     border-color:               #c0392b;
     background-color:           #e74c3c;
 }
 h3.red img {
     border-color:               #c0392b;
 }
-h3.green {
+h3.green,
+span.color-box.green {
     border-color:               #27ae60;
     background-color:           #2ecc71;
 }
 h3.green img {
     border-color:               #27ae60;
 }
-h3.blue {
+h3.blue,
+span.color-box.blue {
     border-color:               #2980b9;
     background-color:           #3498db;
 }
@@ -237,21 +244,24 @@ h3.dark-blue {
 h3.dark-blue img {
     border-color:               #2c3e50;
 }
-h3.yellow {
+h3.yellow,
+span.color-box.yellow {
     border-color:               #f39c12;
     background-color:           #f1c40f;
 }
 h3.yellow img {
     border-color:               #f39c12;
 }
-h3.purple {
+h3.purple,
+span.color-box.purple {
     border-color:               #8e44ad;
     background-color:           #9b59b6;
 }
 h3.purple img {
     border-color:               #8e44ad;
 }
-h3.orange {
+h3.orange,
+span.color-box.orange {
     border-color:               #d35400;
     background-color:           #e67e22;
 }
@@ -286,6 +296,7 @@ h3 span {
     color:                      #FFFFFF;
     height:                     40px;
     line-height:                40px;
+    font-family:                Helvetica, Arial, sans-serif;
 }
 h3 span {
     margin:                     0 0 0 4px;
@@ -321,18 +332,31 @@ div.two h5:hover a {
     opacity:                    1;
 }
 
+span.color-box {
+    float:                      left;
+    width:                      96px;
+    height:                     48px;
+    line-height:                48px;
+    text-align:                 center;
+    border-width:               2px;
+    color:                      #FFFFFF;
+    font-weight:                bold;
+}
+
 /* Blocks */
 div.one,
 div.two,
-div.three {
+div.three,
+div.five {
     float:                      left;
     padding:                    16px;
-    font-size:                  15px;
-    line-height:                23px;
+    font-size:                  18px;
+    line-height:                25px;
 }
 div.one.first,
 div.two.first,
-div.three.first {
+div.three.first,
+div.five.first {
     padding-left:               0;
 }
 div.three.center {
@@ -341,7 +365,8 @@ div.three.center {
 }
 div.one.last,
 div.two.last,
-div.three.last {
+div.three.last,
+div.five.last {
     padding-right:              0;
 }
 
@@ -432,31 +457,41 @@ div.one.sub-title span.text {
     line-height:                24px;
 }
 
+/* One */
 div.one {
     width:                      100%;
 }
-div.one .index-row {
+div.one .index-row,
+div.two .index-row {
     float:                      left;
     width:                      100%;
     padding:                    12px 0 12px 12px;
     margin:                     0px;
-    /*border: 1px solid red;*/
     border:                     1px solid #E0E0E0;
     border-width:               0 1px 0 1px;
     background-color:           #FAFBFC;
 }
-div.one .index-row.last {
+div.two .index-row.padding {
+    padding:                    12px;
+}
+div.one .index-row.last,
+div.two .index-row.last {
     border-width:               0 1px 1px 1px;
     margin:                     0 0 12px 0;
 }
 div.one .index-row img,
 div.one .index-row a,
-div.one .index-row span {
+div.one .index-row span,
+div.two .index-row img,
+div.two .index-row a,
+div.two .index-row span {
     float:                      left;
     height:                     32px;
 }
 div.one .index-row a,
-div.one .index-row span {
+div.one .index-row span,
+div.two .index-row a,
+div.two .index-row span {
     line-height:                32px;
 }
 div.one .index-row img {
@@ -467,9 +502,13 @@ div.one .index-row img {
     padding:                    4px;
     margin:                     -8px 32px 0 0;
 }
+
+/* Two */
 div.two {
     width:                      640px;
 }
+
+/* Three */
 div.three {
     width:                      320px;
     position:                   relative;
@@ -497,15 +536,326 @@ div.three.right .index {
     float:                      left;
     width:                      100%;
 }
+div.three.right .index.margin-bottom {
+    margin-bottom:              16px;
+}
 div.three.right .index a {
     float:                      left;
     width:                      100%;
+    height:                     24px;
+    line-height:                24px;
     margin:                     0 0 4px 0;
-    padding:                    0 0 0 8px;
+    padding:                    0 0 0 24px;
 }
 div.three.right .index a.active {
     font-weight:                bold;
+    background-color:           #FAFBFC;
+    line-height:                26px;
+    padding:                    0 0 0 12px;
 }
+
+/* Five */
+div.five {
+    width:                      196px;
+    margin:                     32px 0 0 0;
+    padding:                    0 10px 0 10px;
+    height:                     176px;
+}
+div.five.margin-bottom {
+    margin-bottom:              32px;
+}
+div.five.first,
+div.five.last {
+    width:                      186px;
+}
+div.five .tile {
+    float:                      left;
+    position:                   relative;
+    width:                      176px;
+    height:                     176px;
+    margin:                     0;
+    padding:                    0;
+}
+div.five .tile .details {
+    position:                   absolute;
+    z-index:                    40;
+    width:                      256px;
+    left:                       88px;
+    top:                        88px;
+    margin:                     128px 0 0 -128px;
+    opacity:                    0;
+    transition:                 opacity 0.3s 0.2s ease, transform 0.3s 0.2s ease;
+    pointer-events:             none;
+    font-size:                  16px;
+    line-height:                20px;
+    transform:                  translateY(0);
+}
+div.five .tile .details pre span {
+    font-size:                  12px;
+    line-height:                14px;
+}
+div.five .tile .details pre {
+    padding:                    4px 8px 4px 8px;
+}
+div.five .tile:hover .details {
+    opacity:                    0.95;
+    transform:                  translateY(-128px);
+}
+
+div.five .tile .details .details-triangle,
+div.five .tile .details .details-inner-triangle {
+    position:                   absolute;
+    left:                       102px;
+    width:                      0;
+    height:                     0;
+}
+div.five .tile .details .details-inner-triangle {
+    position:                   absolute;
+    left:                       102px;
+    top:                        2px;
+    z-index:                    10;
+}
+
+/* Orange */
+div.five .tile .details.orange .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #d35400;
+}
+div.five .tile .details.orange .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #e67e22;
+}
+div.five .tile .details.orange .details-header {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+}
+div.five .tile .details.orange .details-content {
+    border:                     1px solid #d35400;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.orange .details-content .details-footer {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+}
+
+/* Red */
+div.five .tile .details.red .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #c0392b;
+}
+div.five .tile .details.red .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #e74c3c;
+}
+div.five .tile .details.red .details-header {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+}
+div.five .tile .details.red .details-content {
+    border:                     1px solid #c0392b;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.red .details-content .details-footer {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+}
+
+/* Blue */
+div.five .tile .details.blue .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #2980b9;
+}
+div.five .tile .details.blue .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #3498db;
+}
+div.five .tile .details.blue .details-header {
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+}
+div.five .tile .details.blue .details-content {
+    border:                     1px solid #2980b9;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.blue .details-content .details-footer {
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+}
+
+/* Green */
+div.five .tile .details.green .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #27ae60;
+}
+div.five .tile .details.green .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #2ecc71;
+}
+div.five .tile .details.green .details-header {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+}
+div.five .tile .details.green .details-content {
+    border:                     1px solid #27ae60;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.green .details-content .details-footer {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+}
+
+/* Yellow */
+div.five .tile .details.yellow .details-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #f39c12;
+}
+div.five .tile .details.yellow .details-inner-triangle {
+    border-left:                24px solid transparent;
+    border-right:               24px solid transparent;
+    border-bottom:              24px solid #f1c40f;
+}
+div.five .tile .details.yellow .details-header {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
+}
+div.five .tile .details.yellow .details-content {
+    border:                     1px solid #f39c12;
+    border-width:               0 1px 0 1px;
+}
+div.five .tile .details.yellow .details-content .details-footer {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
+}
+
+div.five .tile .details .details-header {
+    position:                   absolute;
+    left:                       0;
+    top:                        24px;
+    width:                      256px;
+    height:                     32px;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content {
+    position:                   absolute;
+    left:                       0;
+    top:                        56px;
+    width:                      256px;
+    background-color:           #FFFFFF;
+    padding:                    8px;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content h4 {
+    float:                      left;
+    width:                      100%;
+    font-size:                  16px;
+    line-height:                24px;
+}
+div.five .tile .details .details-content .details-footer {
+    position:                   absolute;
+    left:                       -1px;
+    bottom:                     -32px;
+    width:                      256px;
+    height:                     32px;
+    box-shadow:                 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+div.five .tile .details .details-content .details-footer a {
+    float:                      right;
+    height:                     32px;
+    line-height:                32px;
+    outline:                    none;
+    font-size:                  12px;
+    text-transform:             uppercase;
+    letter-spacing:             0.03em;
+    color:                      #FFFFFF;
+    text-decoration:            none;
+    padding:                    0 8px 0 0;
+}
+
+div.five .tile .tile-title {
+    position:                   absolute;
+    left:                       0px;
+    bottom:                     0px;
+    width:                      176px;
+    height:                     40px;
+    text-align:                 center;
+}
+div.five .tile .tile-title.blue {
+    background-color:           #3498db;
+    border:                     1px solid #2980b9;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.red {
+    background-color:           #e74c3c;
+    border:                     1px solid #c0392b;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.orange {
+    background-color:           #e67e22;
+    border:                     1px solid #d35400;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.green {
+    background-color:           #2ecc71;
+    border:                     1px solid #27ae60;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-title.yellow {
+    background-color:           #f1c40f;
+    border:                     1px solid #f39c12;
+    border-width:               1px 1px 4px 1px;
+}
+div.five .tile .tile-content {
+    position:                   absolute;
+    left:                       0px;
+    top:                        0px;
+    width:                      176px;
+    height:                     136px;
+    text-align:                 center;
+    background-color:           #FAFBFC;
+    border:                     1px solid #E0E0E0;
+    border-width:               1px 1px 0 1px;
+}
+div.five .tile a.image-link {
+    position:                   absolute;
+    left:                       58px;
+    top:                        36px;
+    outline:                    none;
+    cursor:                     pointer;
+}
+div.five .tile a.image-link.for-loop {
+    left:                       38px;
+    top:                        26px;
+}
+div.five .tile a.image-link.for-condition {
+    left:                       35px;
+    top:                        29px;
+}
+div.five .tile .tile-title a.title-link {
+    line-height:                40px;
+    padding:                    0;
+    margin:                     0;
+    color:                      #FFFFFF;
+    padding:                    0;
+    font-family:                Helvetica, Arial, sans-serif;
+    font-weight:                bold;
+    text-decoration:            none;
+    cursor:                     pointer;
+    outline:                    none;
+}
+div.five .tile .tile-title a.title-link:hover {
+    text-decoration:            underline;
+}
+
+/* Two, three */
 div.two.img img,
 div.three.img img {
     background-color:           #FFFFFF;
@@ -534,15 +884,28 @@ div.three ul.clear {
 }
 div.two ul.last,
 div.three ul.last {
+    float:                      left;
+    position:                   relative;
+    width:                      100%;
     border-width:               0 1px 1px 1px;
     margin:                     0 0 12px 0;
+}
+div.three ul.last li {
     float:                      left;
     width:                      100%;
+    height:                     20px;
+    line-height:                20px;
+}
+div.three ul.last li img {
+    position:                   absolute;
+    right:                      16px;
+    bottom:                     16px;
+    opacity:                    0.5;
 }
 div.two li,
 div.three li {
     padding:                    0;
-    margin:                     0;
+    margin:                     0 0 0 8px;
 }
 div.two ul.clear li,
 div.three ul.clear li {
@@ -552,14 +915,14 @@ div.three ul.clear li {
 div.one a,
 div.two a,
 div.three a {
-    color:                      #9b59b6;
+    color:                      #2980b9;
     text-decoration:            none;
     outline:                    none;
 }
 div.one a:hover,
 div.two a:hover,
 div.three a:hover {
-    color:                      #8e44ad;
+    color:                      #3498db;
     text-decoration:            underline;
 }
 
@@ -579,6 +942,8 @@ div.three table td {
     border:                     1px solid #E0E0E0;
     padding:                    8px 16px 8px 16px;
     text-align:                 left;
+    font-family:                Helvetica, Arial, sans-serif;
+    font-size:                  15px;
 }
 div.one table th,
 div.two table th,
@@ -592,6 +957,7 @@ div.three table th {
     border:                     1px solid #27ae60;
     border-radius:              2px;
     padding:                    6px 12px 6px 12px;
+    font-family:                Helvetica, Arial, sans-serif;
     font-family:                'Open Sans', sans-serif;
     font-size:                  15px;
     line-height:                15px;
@@ -617,7 +983,7 @@ pre,
 pre span {
     font-family:                Courier;
     font-size:                  15px;
-    font-family:                'Inconsolata', monospace;
+    font-family:                monospace;
     line-height:                18px;
 }
 pre {
@@ -654,6 +1020,9 @@ pre .yellow {
 }
 pre .orange {
     color:                      #e67e22;
+}
+pre .red {
+    color:                      #c0392b;
 }
 pre .purple {
     color:                      #9b59b6;
@@ -704,9 +1073,11 @@ pre .black {
     border-radius:              2px;
     color:                      #FFFFFF;
     font-size:                  15px;
+    font-family:                Helvetica, Arial, sans-serif;
     opacity:                    0.5;
     cursor:                     pointer;
 }
+
 .editor .toolbar li.active {
     opacity:                    1
 }
@@ -745,24 +1116,51 @@ pre .black {
     width:                      100%;
     height:                     32px;
     margin:                     0;
-    padding:                    8px 0 0 0;
+    padding:                    0;
     border:                     1px solid #F0F0F0;
     border-width:               1px 0 0 0;
 }
 .footer .container {
     height:                     100%;
+    margin-top:                 0;
 }
 .footer .container .badge {
     float:                      right;
-    margin:                     14px 0 0 8px;
+    margin:                     20px 0 0 8px;
 }
-.footer .container .small-print {
+.footer .links-wrapper {
     float:                      left;
+    clear:                      both;
+    width:                      500px;
+    padding:                    8px 0 0 0;
+}
+.footer .links-wrapper .links {
+    float:                      left;
+    width:                      304px;
+    padding:                    16px;
+    background-color:           #FFFFFF;
+    border:                     1px solid #ecf0f1;
+}
+.footer .links-wrapper a {
+    text-decoration:            none;
+    font-size:                  14px;
+    color:                      #34495e;
+    margin:                     0 8px 0 0;
+}
+.footer .links-wrapper a:hover {
+    text-decoration:            underline;
+}
+.footer .copyright {
+    float:                      left;
+    clear:                      both;
+    height:                     64px;
     color:                      #95a5a6;
-    font-size:                  8px;
-    width:                      960px;
-    text-align:                 right;
-    margin:                     8px 0 0 0;
+    font-size:                  10px;
+    text-transform:             uppercase;
+    letter-spacing:             0.03em;
+    margin:                     0;
+    line-height:                64px;
+    opacity:                    0.8;
 }
 .footer ul,
 .footer li {

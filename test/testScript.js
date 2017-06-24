@@ -7,6 +7,63 @@ describe(
     'Test script',
     function() {
         describe(
+            'Test asm',
+            function() {
+                it('Should create asm block', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    asm',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, []);
+                });
+
+                it('Should set registers', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n',
+                            '    asm',
+                            '        set n, REG_STACK',
+                            '        set n, REG_SRC',
+                            '        set n, REG_DEST',
+                            '        set n, REG_CODE',
+                            '        set n, REG_RETURN',
+                            '        set n, REG_FLAGS',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, []);
+                });
+
+                it('Should set registers', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number stack',
+                            '    number src',
+                            '    number dest',
+                            '    number code',
+                            '    number return',
+                            '    number flags',
+                            '    asm',
+                            '        set stack, REG_STACK',
+                            '        set src, REG_SRC',
+                            '        set dest, REG_DEST',
+                            '        set code, REG_CODE',
+                            '        set return, REG_RETURN',
+                            '        set flags, REG_FLAGS',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.vm.getVMData().getData(), [6, 0, 65535, 65536, 0, 0, 6, 65535, 6, 0, 0, 31, 0, 0]);
+                });
+            }
+        );
+
+        describe(
             'Test for',
             function() {
                 it('Should loop up', function() {

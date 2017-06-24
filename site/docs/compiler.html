@@ -6,7 +6,7 @@
     <title>Wheel - Compiler</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -39,19 +39,14 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Compiler</span></h3>
+                <h3 class="purple with-icon"><img src="site/images/code.png" width="32" height="32"/> <span>Compiler</span></h3>
 
-                <h3 class="blue">Procedures</h3>
-                <ul class="last">
-                    <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
-                </ul>
-                <h3 class="blue">Functions</h3>
-                <ul class="last">
-                    <li><a href="site/docs/procedures.html#function">Functions</a></li>
-                </ul>
-
-                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
+                    <a href="site/docs/about.html">About Wheel</a><br />
+                    <a href="site/docs/setupguide.html">Setup guide</a><br />
+                    <a href="site/docs/roadmap.html">Roadmap</a><br />
+                    <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
@@ -62,14 +57,28 @@
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
+
+                <h3 class="dark-blue">Compiler</h3>
+                <ul class="last">
+                    <li><a href="site/docs/compiler.html#precompiler">Precompiler</a></li>
+                    <li><a href="site/docs/compiler.html#compiler">Compiler</a></li>
+                </ul>
             </div>
 
-            <div class="two first">
+            <div class="two first" id="precompiler">
                 <h4>Compiler</h4>
+                <h5>Precompiler</h5>
+                The compiler consists of several components. First, there's the precompiler.
+                The precompiler reads all files in your project and includes all files into a single file
+                and replaces all de definitions declared with your <i>#define</i> statements.<br/>
             </div>
 
-            <div class="two first" id="main">
-                <h5></h5>
+            <div class="two first" id="compiler">
+                <h5>Compiler</h5>
+                After the precompiler the script compiler compiles the structure of the code to intermediate
+                code which is annotated with type information.<br/>
+                <br/>
+                In the final step the compiler uses the relevant code based on the data types and annotations.
             </div>
 
             <div style="float:left;clear:both;"></div>
@@ -78,13 +87,16 @@
 
     <div class="footer">
         <div class="container">
+            <div class="links-wrapper">
+                <div class="links">
+                    <a href="site/license.html">License</a>
+                    <a href="site/disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <span class="small-print">
-                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
-                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
-            </span>
         </div>
     </div>
 </body>

@@ -113,6 +113,42 @@ describe(
             );
         });
 
+        it('Should run in repeat loop', function(done) {
+            var files = createFiles(
+                    [
+                        'proc main()',
+                        '    repeat',
+                        '    end',
+                        'endp'
+                    ]
+                );
+            var testData = compilerTestUtils.setup();
+            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var vm;
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = testData.compiler.compile(includes);
+                    var compilerData   = testData.compiler.getCompilerData();
+                    var vmData         = testData.vm.getVMData();
+
+                    vm = testData.vm;
+                    vm.run(
+                        outputCommands,
+                        compilerData.getStringList(),
+                        compilerData.getGlobalConstants(),
+                        compilerData.getGlobalOffset()
+                    );
+                    assert.equal(vm.getRunning(), true);
+                    vm.stop();
+                    assert.equal(vm.getRunning(), false);
+
+                    done();
+                }
+            );
+        });
+
         it('Should run and stop after 50ms', function(done) {
             var files = createFiles(
                     [

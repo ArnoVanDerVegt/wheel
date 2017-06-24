@@ -6,7 +6,7 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -39,15 +39,13 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/playWithNumber.png" width="32" height="32"/> <span>Errors</span></h3>
+                <h3 class="red with-icon"><img src="site/images/playWithNumber.png" width="32" height="32"/> <span>Errors</span></h3>
 
-                <h3 class="blue">Compiler errors</h3>
-                <ul class="last">
-                </ul>
-
-                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
-                <div class="index">
+                    <a href="site/docs/about.html">About Wheel</a><br />
+                    <a href="site/docs/setupguide.html">Setup guide</a><br />
+                    <a href="site/docs/roadmap.html">Roadmap</a><br />
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
@@ -59,7 +57,10 @@
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html" class="active">Compiler errors</a><br />
                 </div>
-                </div>
+
+                <h3 class="dark-blue">Compiler errors</h3>
+                <ul class="last">
+                </ul>
             </div>
 
             <div class="two first">
@@ -170,24 +171,33 @@
                         <td>25</td>
                         <td>UNDEFINED_FIELD</td>
                     </tr>
+
                     <tr>
                         <td>26</td>
-                        <td>INVALID_CONSTANT</td>
+                        <td>INVALID_ASM_COMMAND</td>
                     </tr>
                     <tr>
                         <td>27</td>
-                        <td>INVALID_POINTER</td>
+                        <td>INVALID_SCRIPT_COMMAND</td>
                     </tr>
                     <tr>
                         <td>28</td>
-                        <td>INVALID_BLOCK_CLOSE</td>
+                        <td>INVALID_CONSTANT</td>
                     </tr>
                     <tr>
                         <td>29</td>
-                        <td>INVALID_OPERATION</td>
+                        <td>INVALID_POINTER</td>
                     </tr>
                     <tr>
                         <td>30</td>
+                        <td>INVALID_BLOCK_CLOSE</td>
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td>INVALID_OPERATION</td>
+                    </tr>
+                    <tr>
+                        <td>32</td>
                         <td>INVALID_OPERATION_WITH_STRING</td>
                     </tr>
                 </table>
@@ -429,7 +439,28 @@
             </div>
 
             <div class="two first">
-                <h4>#26 INVALID_CONSTANT</h4>
+                <h4>#26 INVALID_ASM_COMMAND</h4>
+                <pre>
+                    proc main()
+                        asm
+                            for i = 0 to 10
+                            end
+                        end
+                    end
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#27 INVALID_SCRIPT_COMMAND</h4>
+                <pre>
+                    proc main()
+                        set a, 1
+                    end
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#28 INVALID_CONSTANT</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -438,7 +469,7 @@
             </div>
 
             <div class="two first">
-                <h4>#27 INVALID_POINTER</h4>
+                <h4>#29 INVALID_POINTER</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -448,7 +479,7 @@
             </div>
 
             <div class="two first">
-                <h4>#28 INVALID_BLOCK_CLOSE</h4>
+                <h4>#30 INVALID_BLOCK_CLOSE</h4>
                 <pre>
                     record S
                        number n
@@ -459,7 +490,7 @@
             </div>
 
             <div class="two first">
-                <h4>#29 INVALID_OPERATION</h4>
+                <h4>#31 INVALID_OPERATION</h4>
                 <pre>
                     proc main()
                         number n
@@ -470,7 +501,7 @@
             </div>
 
             <div class="two first">
-                <h4>#30 INVALID_OPERATION_WITH_STRING</h4>
+                <h4>#32 INVALID_OPERATION_WITH_STRING</h4>
                 <pre>
                     proc main()
                         string s
@@ -485,13 +516,16 @@
 
     <div class="footer">
         <div class="container">
+            <div class="links-wrapper">
+                <div class="links">
+                    <a href="site/license.html">License</a>
+                    <a href="site/disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <span class="small-print">
-                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
-                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
-            </span>
         </div>
     </div>
 </body>

@@ -15,6 +15,6 @@ proc main()
         drawNumber(x, y, i)
     end
 
-label:
-    jmp label
+    repeat
+    end
 endp

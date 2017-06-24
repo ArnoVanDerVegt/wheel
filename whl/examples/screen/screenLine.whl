@@ -4,6 +4,6 @@ proc main()
     clearScreen()
     drawLine(0, 0, 178, 128)
 
-label:
-    jmp label
+    repeat
+    end
 endp

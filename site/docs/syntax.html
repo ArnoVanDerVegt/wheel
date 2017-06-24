@@ -6,7 +6,7 @@
     <title>Wheel - Syntax</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -39,17 +39,13 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="blue with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Syntax</span></h3>
+                <h3 class="red with-icon"><img src="site/images/play.png" width="32" height="32"/> <span>Syntax</span></h3>
 
-                <h3 class="blue">Loops</h3>
-                <ul class="last">
-                    <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
-                    <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
-                    <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
-                </ul>
-
-                <h3 class="green margin-top margin-bottom">Documentation</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
+                    <a href="site/docs/about.html">About Wheel</a><br />
+                    <a href="site/docs/setupguide.html">Setup guide</a><br />
+                    <a href="site/docs/roadmap.html">Roadmap</a><br />
                     <a href="site/docs/syntax.html" class="active">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
@@ -61,13 +57,18 @@
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
-            </div>
 
-            <div class="two first">
-                <h4>Syntax</h4>
+                <h3 class="dark-blue">Syntax</h3>
+                <ul class="last">
+                    <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
+                    <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
+                    <li><a href="site/docs/syntax.html#asm">Assembly commands</a></li>
+                </ul>
             </div>
 
             <div class="two first" id="onecommand">
+                <h4>Syntax</h4>
                 <h5>One command per line</h5>
                 Wheel only allows a single command per line.<br/>
                 <pre>
@@ -75,6 +76,7 @@
                         number n = 1 ; Very simple...
                     end
                 </pre>
+                Comments start with a semicolon ";" and should be placed after the command or expression.
             </div>
 
             <div class="two first" id="blocks">
@@ -137,19 +139,39 @@
                 </pre>
             </div>
 
+            <div class="two first" id="asm">
+                <h5>Assembly commands</h5>
+                To use assembly commands you can open a block with the <i>asm</i> statement.<br/>
+                The assembly commands allow you to access register values and use a different set of commands.
+                Script commands can not be used in an assembly block.
+                <pre>
+                    proc main()
+                        number n
+                        asm
+                            set n, REG_SRC
+                        end
+                    end
+                </pre>
+                <br/>
+                There are six registers: REG_STACK, REG_SRC, REG_DEST, REG_CODE, REG_RETURN, REG_FLAGS.
+            </div>
+
             <div style="float:left;clear:both;"></div>
         </div>
     </div>
 
     <div class="footer">
         <div class="container">
+            <div class="links-wrapper">
+                <div class="links">
+                    <a href="site/license.html">License</a>
+                    <a href="site/disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/issue_count.svg" /></a>
             <a href="https://codeclimate.com/github/ArnoVanDerVegt/wheel/coverage" class="badge"><img src="https://codeclimate.com/github/ArnoVanDerVegt/wheel/badges/coverage.svg" /></a>
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
-            <span class="small-print">
-                LEGO is a protected trademark of the LEGO Group of companies which does not in any way sponsor, authorise or endorse wheel.
-                wheel is not affiliated with, endorsed by or licenced by any of the LEGO Group of companies.
-            </span>
         </div>
     </div>
 </body>
