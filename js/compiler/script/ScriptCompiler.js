@@ -2,6 +2,7 @@
     var wheel            = require('../../utils/base.js').wheel;
     var forLabelIndex    = 10000;
     var repeatLabelIndex = 10000;
+    var whileLabelIndex  = 10000;
     var breakLabelIndex  = 10000;
     var ifLabelIndex     = 10000;
     var selectLabelIndex = 10000;
@@ -13,6 +14,7 @@
                 this._asmMode            = false;
                 this._forStack           = [];
                 this._repeatStack        = [];
+                this._whileStack         = [];
                 this._ifStack            = [];
                 this._selectStack        = [];
                 this._endStack           = [];
@@ -106,6 +108,48 @@
                 ];
             };
 
+            this.compileWhile = function(s, output) {
+                this.throwErrorIfAsmMode();
+
+                var compare = {
+                        je:  '!=',
+                        jne: '==',
+                        jl:  '>=',
+                        jg:  '<=',
+                        jle: '>',
+                        jge: '<'
+                    };
+                var jumps   = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
+
+                var j;
+                var jump;
+                for (j = 0; j < jumps.length; j++) {
+                    jump = jumps[j];
+                    var k = s.indexOf(compare[jump]);
+                    if (k !== -1) {
+                        break;
+                    }
+                }
+                var parts      = s.split(compare[jump]);
+                var start      = parts[0].trim();
+                var end        = parts[1].trim();
+                var label      = '_____while_label' + (whileLabelIndex++);
+                var whileLabel = '_____while_label' + (whileLabelIndex++);
+
+                this._whileStack.push({
+                    outputOffset: output.length + 2,
+                    label:        label,
+                    whileLabel:   whileLabel
+                });
+                this._endStack.push('while');
+
+                return [
+                    whileLabel + ':',
+                    'cmp ' + start + ',' + end,
+                    jump
+                ];
+            };
+
             this.compileBreak = function(s, outputOffset) {
                 this.throwErrorIfAsmMode();
 
@@ -125,6 +169,11 @@
 
                             case 'repeat':
                                 loopList = this._repeatStack;
+                                found    = true;
+                                break;
+
+                            case 'while':
+                                loopList = this._whileStack;
                                 found    = true;
                                 break;
                         }
@@ -263,6 +312,14 @@
                         var ifItem = this._ifStack.pop();
                         output[ifItem.outputOffset] += ' ' + ifItem.label;
                         return [ifItem.label + ':'];
+
+                    case 'while':
+                        var whileItem = this._whileStack.pop();
+                        output[whileItem.outputOffset] += ' ' + whileItem.label;
+                        return [
+                            'jmp ' + whileItem.whileLabel,
+                            whileItem.label + ':'
+                        ];
 
                     case 'select':
                         var selectItem = this._selectStack.pop();
@@ -577,6 +634,9 @@
 
                     case 'repeat':
                         return this.compileRepeat(line);
+
+                    case 'while':
+                        return this.compileWhile(line.substr(i - line.length), output);
 
                     case 'break':
                         return this.compileBreak(line, output.length);

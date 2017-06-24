@@ -481,6 +481,24 @@ describe(
                     );
                 });
 
+                it('Should throw INVALID_ASM_COMMAND - while', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        while n = 1',
+                                '        end',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
                 it('Should throw INVALID_ASM_COMMAND - if', function() {
                     assert.throws(
                         function() {

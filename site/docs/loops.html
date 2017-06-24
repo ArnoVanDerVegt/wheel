@@ -63,6 +63,7 @@
                     <li><a href="site/docs/loops.html#forto">for..to</a></li>
                     <li><a href="site/docs/loops.html#fordownto">for..downto</a></li>
                     <li><a href="site/docs/loops.html#repeat">repeat</a></li>
+                    <li><a href="site/docs/loops.html#while">while</a></li>
                     <li><a href="site/docs/loops.html#break">break</a></li>
                 </ul>
             </div>
@@ -108,9 +109,22 @@
                 </pre>
             </div>
 
+            <div class="two first" id="while">
+                <h5>While</h5>
+                Repeat a block of code while a condition evaluates as true.
+                <pre>
+                    number n = 10
+
+                    while n != 0
+                        n -= 1
+                    end
+                </pre>
+            </div>
+
             <div class="two first" id="repeat">
                 <h5>Break</h5>
-                With the <i>break</i> command you can jump out of the inner most loop.
+                With the <i>break</i> command you can jump out of the inner most loop.<br/>
+                You can use the <i>break</i> statement in combination with <i>for</i>, <i>repeat</i> and <i>while</i> loops.
                 <pre>
                     number n = 0
 
