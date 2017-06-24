@@ -10,6 +10,11 @@
                 this._filename     = '';
                 this._lineNumber   = 0;
             };
+
+            this.addToDestIfValue = function(value) {
+                var $ = wheel.compiler.command;
+                (value === 0) || this._compiler.getOutput().a($.add.code, $.DEST(), $.CONST(value));
+            };
         })
     );
 })();
