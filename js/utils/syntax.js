@@ -4,6 +4,7 @@
             'proc',
             'for',
             'repeat',
+            'while',
             'break',
             'to',
             'downto',

@@ -97,6 +97,26 @@ describe(
         );
 
         describe(
+            'Test while',
+            function() {
+                it('Should loop up', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 10',
+                            '',
+                            '    while n != 0',
+                            '        printN(n)',
+                            '        n -= 1',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+                });
+            }
+        );
+
+        describe(
             'Test break',
             function() {
                 it('Should break for', function() {
