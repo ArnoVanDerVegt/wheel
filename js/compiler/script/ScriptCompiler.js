@@ -2,6 +2,7 @@
     var wheel            = require('../../utils/base.js').wheel;
     var forLabelIndex    = 10000;
     var repeatLabelIndex = 10000;
+    var breakLabelIndex  = 10000;
     var ifLabelIndex     = 10000;
     var selectLabelIndex = 10000;
 
@@ -111,11 +112,22 @@
                 var endStack = this._endStack;
                 var loopItem = null;
                 if (endStack.length) {
-                    var type     = endStack[endStack.length - 1];
                     var loopList = null;
-                    switch (type) {
-                        case 'for':    loopList = this._forStack;    break;
-                        case 'repeat': loopList = this._repeatStack; break;
+                    var found    = false;
+                    var index    = endStack.length;
+                    while (!found && (index > 0)) {
+                        var type = endStack[--index];
+                        switch (type) {
+                            case 'for':
+                                loopList = this._forStack;
+                                found    = true;
+                                break;
+
+                            case 'repeat':
+                                loopList = this._repeatStack;
+                                found    = true;
+                                break;
+                        }
                     }
 
                     if (loopList && loopList.length) {
@@ -125,7 +137,6 @@
                 if (loopItem === null) {
                     throw new Error('#' + wheel.compiler.error.BREAK_WITHOUT_LOOP + ' Break without loop.');
                 }
-                console.log('loopItem', loopItem);
                 loopItem.breaks.push(outputOffset);
 
                 return [
@@ -238,7 +249,15 @@
                 if (!this._endStack.length) {
                     throw new Error('End without begin.');
                 }
-                var end = this._endStack.pop();
+                var end       = this._endStack.pop();
+                var addBreaks = function(loopItem) {
+                        var label = '_____break' + (breakLabelIndex++);
+                        loopItem.breaks.forEach(function(item) {
+                            output[item] = 'jmp ' + label;
+                        });
+                        return label;
+                    };
+
                 switch (end) {
                     case 'if':
                         var ifItem = this._ifStack.pop();
@@ -260,27 +279,18 @@
                                 downto: {operator: 'dec', condition: 'jge'}
                             }[forItem.direction];
 
-                        console.log('-----');
-                        forItem.breaks.forEach(function(item) {
-                            console.log(output[item]);
-                        });
-
                         return [
                             loop.operator  + ' ' + forItem.vr,
                             'cmp '               + forItem.vr + ',' + forItem.end,
-                            loop.condition + ' ' + forItem.label
+                            loop.condition + ' ' + forItem.label,
+                            addBreaks(forItem) + ':'
                         ];
 
                     case 'repeat':
                         var repeatItem = this._repeatStack.pop();
-
-                        console.log('-----');
-                        repeatItem.breaks.forEach(function(item) {
-                            console.log(output[item]);
-                        });
-
                         return [
-                            'jmp ' + repeatItem.label
+                            'jmp ' + repeatItem.label,
+                            addBreaks(repeatItem) + ':'
                         ];
 
                     case 'record':
@@ -681,9 +691,9 @@
                     }
                 }
 
-                for (var i = 0; i < output.length; i++) {
-                    //console.log(i + ']', output[i]);
-                }
+                //for (var i = 0; i < output.length; i++) {
+                //    console.log(i + ']', output[i]);
+                //}
                 return {
                     output:    output,
                     sourceMap: sourceMap

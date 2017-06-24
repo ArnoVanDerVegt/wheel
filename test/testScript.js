@@ -6,7 +6,6 @@ var compilerTestUtils = require('./compilerTestUtils.js');
 describe(
     'Test script',
     function() {
-/*
         describe(
             'Test asm',
             function() {
@@ -96,7 +95,7 @@ describe(
                 });
             }
         );
-*/
+
         describe(
             'Test break',
             function() {
@@ -115,6 +114,46 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [1, 2, 3, 4, 5]);
+                });
+
+                it('Should break repeat', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 0',
+                            '',
+                            '    repeat',
+                            '        if n > 5',
+                            '            break',
+                            '        end',
+                            '        printN(n)',
+                            '        n += 1',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [0, 1, 2, 3, 4, 5]);
+                });
+
+                it('Should break for', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number x, y',
+                            '',
+                            '    for x = 1 to 10',
+                            '        for y = 1 to 10',
+                            '            if y > 3',
+                            '                break',
+                            '            end',
+                            '            printN(y)',
+                            '        end',
+                            '        if x > 3',
+                            '            break',
+                            '        end',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]);
                 });
             }
         );
