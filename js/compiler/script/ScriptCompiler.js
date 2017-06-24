@@ -43,15 +43,22 @@
                         jge: '<'
                     };
                 var jumps = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
-                var jump;
+                var jump  = null;
+                var k;
                 for (var j = 0; j < jumps.length; j++) {
                     jump = jumps[j];
-                    var k = s.indexOf(compare[jump]);
+                    k    = s.indexOf(compare[jump]);
                     if (k !== -1) {
                         break;
                     }
                 }
-                var parts = s.split(compare[jump]);
+                var parts;
+                if (k === -1) {
+                    parts = [s, '0'];
+                    jump  = 'je';
+                } else {
+                    parts = s.split(compare[jump]);
+                }
                 return {
                     start: parts[0].trim(),
                     end:   parts[1].trim(),
