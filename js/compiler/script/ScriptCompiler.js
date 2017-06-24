@@ -33,6 +33,32 @@
                 }
             };
 
+            this.compileJumpParts = function(s) {
+                var compare = {
+                        je:  '!=',
+                        jne: '==',
+                        jl:  '>=',
+                        jg:  '<=',
+                        jle: '>',
+                        jge: '<'
+                    };
+                var jumps = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
+                var jump;
+                for (var j = 0; j < jumps.length; j++) {
+                    jump = jumps[j];
+                    var k = s.indexOf(compare[jump]);
+                    if (k !== -1) {
+                        break;
+                    }
+                }
+                var parts = s.split(compare[jump]);
+                return {
+                    start: parts[0].trim(),
+                    end:   parts[1].trim(),
+                    jump:  jump
+                };
+            };
+
             this.compileAsm = function() {
                 this._asmMode = true;
                 return [];
@@ -111,28 +137,7 @@
             this.compileWhile = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var compare = {
-                        je:  '!=',
-                        jne: '==',
-                        jl:  '>=',
-                        jg:  '<=',
-                        jle: '>',
-                        jge: '<'
-                    };
-                var jumps   = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
-
-                var j;
-                var jump;
-                for (j = 0; j < jumps.length; j++) {
-                    jump = jumps[j];
-                    var k = s.indexOf(compare[jump]);
-                    if (k !== -1) {
-                        break;
-                    }
-                }
-                var parts      = s.split(compare[jump]);
-                var start      = parts[0].trim();
-                var end        = parts[1].trim();
+                var jumpParts  = this.compileJumpParts(s);
                 var label      = '_____while_label' + (whileLabelIndex++);
                 var whileLabel = '_____while_label' + (whileLabelIndex++);
 
@@ -145,8 +150,8 @@
 
                 return [
                     whileLabel + ':',
-                    'cmp ' + start + ',' + end,
-                    jump
+                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
+                    jumpParts.jump
                 ];
             };
 
@@ -196,28 +201,7 @@
             this.compileIf = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var compare = {
-                        je:  '!=',
-                        jne: '==',
-                        jl:  '>=',
-                        jg:  '<=',
-                        jle: '>',
-                        jge: '<'
-                    };
-                var jumps   = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
-
-                var j;
-                var jump;
-                for (j = 0; j < jumps.length; j++) {
-                    jump = jumps[j];
-                    var k = s.indexOf(compare[jump]);
-                    if (k !== -1) {
-                        break;
-                    }
-                }
-                var parts = s.split(compare[jump]);
-                var start = parts[0].trim();
-                var end   = parts[1].trim();
+                var jumpParts = this.compileJumpParts(s);
 
                 this._ifStack.push({
                     outputOffset: output.length + 1,
@@ -226,8 +210,8 @@
                 this._endStack.push('if');
 
                 return [
-                    'cmp ' + start + ',' + end,
-                    jump
+                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
+                    jumpParts.jump
                 ];
             };
 
