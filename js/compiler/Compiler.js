@@ -213,13 +213,13 @@
                                     for (var j = 0; j < splitParams.length; j++) {
                                         compilerData.declareRecordField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record.size, record);
                                     }
-                                } else if (this.getInProc()) {
-                                    for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareLocal(splitParams[j], $.T_STRUCT_L, $.T_STRUCT_L_ARRAY, record);
-                                    }
                                 } else {
+                                    var inProc = this.getInProc();
+                                    var index  = inProc ? 'L' : 'G' ;
+                                    var method = inProc ? 'declareLocal' : 'declareGlobal';
+
                                     for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareGlobal(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record);
+                                        compilerData[method](splitParams[j], $['T_STRUCT_' + index], $['T_STRUCT_' + index + '_ARRAY'], record);
                                     }
                                 }
                             } else {
