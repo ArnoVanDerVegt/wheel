@@ -91,9 +91,11 @@
                             number result
                         endr
                         Round round
-                        set      round.result, n
-                        addr     round
-                        module   MODULE_MATH,  MATH_ROUND
+                        asm
+                            set      round.result, n
+                            addr     round
+                            module   MODULE_MATH,  MATH_ROUND
+                        end
                         return   round.result
                     end
                 </pre>
