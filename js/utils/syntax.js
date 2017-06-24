@@ -4,6 +4,7 @@
             'proc',
             'for',
             'repeat',
+            'break',
             'to',
             'downto',
             'end',

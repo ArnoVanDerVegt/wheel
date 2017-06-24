@@ -63,6 +63,7 @@
                     <li><a href="site/docs/loops.html#forto">for..to</a></li>
                     <li><a href="site/docs/loops.html#fordownto">for..downto</a></li>
                     <li><a href="site/docs/loops.html#repeat">repeat</a></li>
+                    <li><a href="site/docs/loops.html#break">break</a></li>
                 </ul>
             </div>
 
@@ -103,6 +104,21 @@
                 <pre>
                     repeat
                         ; This code block will be repeated endless
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="repeat">
+                <h5>Break</h5>
+                With the <i>break</i> command you can jump out of the inner most loop.
+                <pre>
+                    number n = 0
+
+                    repeat
+                        n += 1
+                        if n == 5
+                            break
+                        end
                     end
                 </pre>
             </div>
