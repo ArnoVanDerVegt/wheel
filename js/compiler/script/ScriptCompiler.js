@@ -2,6 +2,7 @@
     var wheel            = require('../../utils/base.js').wheel;
     var forLabelIndex    = 10000;
     var repeatLabelIndex = 10000;
+    var breakLabelIndex  = 10000;
     var ifLabelIndex     = 10000;
     var selectLabelIndex = 10000;
 
@@ -78,7 +79,8 @@
                     direction: direction,
                     label:     label,
                     end:       end,
-                    vr:        vr
+                    vr:        vr,
+                    breaks:    []
                 });
                 this._endStack.push('for');
 
@@ -94,12 +96,51 @@
                 var label = '_____repeat_label' + (repeatLabelIndex++);
 
                 this._repeatStack.push({
-                    label: label
+                    label:  label,
+                    breaks: []
                 });
                 this._endStack.push('repeat');
 
                 return [
                     label + ':'
+                ];
+            };
+
+            this.compileBreak = function(s, outputOffset) {
+                this.throwErrorIfAsmMode();
+
+                var endStack = this._endStack;
+                var loopItem = null;
+                if (endStack.length) {
+                    var loopList = null;
+                    var found    = false;
+                    var index    = endStack.length;
+                    while (!found && (index > 0)) {
+                        var type = endStack[--index];
+                        switch (type) {
+                            case 'for':
+                                loopList = this._forStack;
+                                found    = true;
+                                break;
+
+                            case 'repeat':
+                                loopList = this._repeatStack;
+                                found    = true;
+                                break;
+                        }
+                    }
+
+                    if (loopList && loopList.length) {
+                        loopItem = loopList[loopList.length - 1];
+                    }
+                }
+                if (loopItem === null) {
+                    throw new Error('#' + wheel.compiler.error.BREAK_WITHOUT_LOOP + ' Break without loop.');
+                }
+                loopItem.breaks.push(outputOffset);
+
+                return [
+                    'jmp'
                 ];
             };
 
@@ -208,7 +249,15 @@
                 if (!this._endStack.length) {
                     throw new Error('End without begin.');
                 }
-                var end = this._endStack.pop();
+                var end       = this._endStack.pop();
+                var addBreaks = function(loopItem) {
+                        var label = '_____break' + (breakLabelIndex++);
+                        loopItem.breaks.forEach(function(item) {
+                            output[item] = 'jmp ' + label;
+                        });
+                        return label;
+                    };
+
                 switch (end) {
                     case 'if':
                         var ifItem = this._ifStack.pop();
@@ -218,12 +267,9 @@
                     case 'select':
                         var selectItem = this._selectStack.pop();
                         var result     = [];
-
-                        //if (selectItem.outputOffset !== null) {
-                            var label = selectItem.label + '_' + selectItem.caseIndex;
-                            result.push(label + ':');
-                            output[selectItem.outputOffset] += label;
-                        //}
+                        var label      = selectItem.label + '_' + selectItem.caseIndex;
+                        result.push(label + ':');
+                        output[selectItem.outputOffset] += label;
                         return result;
 
                     case 'for':
@@ -236,13 +282,15 @@
                         return [
                             loop.operator  + ' ' + forItem.vr,
                             'cmp '               + forItem.vr + ',' + forItem.end,
-                            loop.condition + ' ' + forItem.label
+                            loop.condition + ' ' + forItem.label,
+                            addBreaks(forItem) + ':'
                         ];
 
                     case 'repeat':
                         var repeatItem = this._repeatStack.pop();
                         return [
-                            'jmp ' + repeatItem.label
+                            'jmp ' + repeatItem.label,
+                            addBreaks(repeatItem) + ':'
                         ];
 
                     case 'record':
@@ -530,6 +578,9 @@
                     case 'repeat':
                         return this.compileRepeat(line);
 
+                    case 'break':
+                        return this.compileBreak(line, output.length);
+
                     case 'if':
                         return this.compileIf(line.substr(i - line.length), output);
 
@@ -640,9 +691,9 @@
                     }
                 }
 
-                for (var i = 0; i < output.length; i++) {
-                    //console.log(i + ']', output[i]);
-                }
+                //for (var i = 0; i < output.length; i++) {
+                //    console.log(i + ']', output[i]);
+                //}
                 return {
                     output:    output,
                     sourceMap: sourceMap

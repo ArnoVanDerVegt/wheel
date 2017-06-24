@@ -39,7 +39,7 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="red with-icon"><img src="site/images/playWithNumber.png" width="32" height="32"/> <span>Errors</span></h3>
+                <h3 class="red with-icon"><img src="site/images/icons/playWithNumber.png" width="32" height="32"/> <span>Errors</span></h3>
 
                 <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
@@ -199,6 +199,10 @@
                     <tr>
                         <td>32</td>
                         <td>INVALID_OPERATION_WITH_STRING</td>
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td>BREAK_WITHOUT_LOOP</td>
                     </tr>
                 </table>
             </div>
@@ -510,6 +514,16 @@
                     end
                 </pre>
             </div>
+
+            <div class="two first">
+                <h4>#33 BREAK_WITHOUT_LOOP</h4>
+                <pre>
+                    proc main()
+                        break
+                    end
+                </pre>
+            </div>
+
             <div style="float:left;clear:both;"></div>
         </div>
     </div>

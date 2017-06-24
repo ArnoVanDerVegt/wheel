@@ -533,13 +533,13 @@ describe(
                     );
                 });
 
-                it('Should throw INVALID_ASM_COMMAND - select', function() {
+                it('Should throw INVALID_ASM_COMMAND - break', function() {
                     assert.throws(
                         function() {
                             compilerTestUtils.compile([
                                 'proc main()',
                                 '    asm',
-                                '        select',
+                                '        break',
                                 '    end',
                                 'endp'
                             ]);
@@ -877,6 +877,26 @@ describe(
                         },
                         function(error) {
                             return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_BLOCK_CLOSE + ' Invalid command "endp".');
+                        }
+                    );
+                });
+            }
+        );
+
+        describe(
+            'Break without loop',
+            function() {
+                it('Should throw BREAK_WITHOUT_LOOP', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    break',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.BREAK_WITHOUT_LOOP + ' Break without loop.');
                         }
                     );
                 });
