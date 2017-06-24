@@ -6,7 +6,7 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -64,6 +64,7 @@
                     <li><a href="site/docs/procedures.html#main">The main procedure</a></li>
                     <li><a href="site/docs/procedures.html#parameters">Parameters</a></li>
                     <li><a href="site/docs/procedures.html#function">Functions</a></li>
+                    <li><a href="site/docs/procedures.html#pointers">Procedure pointers</a></li>
                 </ul>
             </div>
 
@@ -84,6 +85,7 @@
                         myProcedure()
                     end
                 </pre>
+                Procedures can not be nested.
             </div>
 
             <div class="two first" id="main">
@@ -141,6 +143,29 @@
                         number n
                         n = myFunc()
                     end
+                </pre>
+            </div>
+
+            <div class="two first" id="pointers">
+                <h5>Procedure pointers</h5>
+                A procedure pointer can also be stored in a variable.
+                <pre>
+                    proc ptr
+
+                    proc one()
+                        printS("One")
+                    endp
+
+                    proc two()
+                        printS("Two")
+                    endp
+
+                    proc main()
+                       ptr = one
+                       ptr()
+                       ptr = two
+                       ptr()
+                    endp
                 </pre>
             </div>
 

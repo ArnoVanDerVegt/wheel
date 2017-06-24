@@ -11,7 +11,7 @@ html {
     margin:                     0;
     position:                   relative;
     color:                      #383838;
-    font-family:                'Lato', sans-serif;
+    font-family:                'Fira Sans', sans-serif;
 }
 body {
     background-color:           #FAFBFC;
@@ -40,7 +40,7 @@ div,
 a,
 span,
 li {
-    font-family:                'Lato', sans-serif;
+    font-family:                'Fira Sans', sans-serif;
 }
 .bold {
     font-weight:                bold;
@@ -942,6 +942,8 @@ div.three table td {
     border:                     1px solid #E0E0E0;
     padding:                    8px 16px 8px 16px;
     text-align:                 left;
+    font-family:                Helvetica, Arial, sans-serif;
+    font-size:                  15px;
 }
 div.one table th,
 div.two table th,

@@ -6,7 +6,7 @@
     <title>Wheel - Variables</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -171,24 +171,33 @@
                         <td>25</td>
                         <td>UNDEFINED_FIELD</td>
                     </tr>
+
                     <tr>
                         <td>26</td>
-                        <td>INVALID_CONSTANT</td>
+                        <td>INVALID_ASM_COMMAND</td>
                     </tr>
                     <tr>
                         <td>27</td>
-                        <td>INVALID_POINTER</td>
+                        <td>INVALID_SCRIPT_COMMAND</td>
                     </tr>
                     <tr>
                         <td>28</td>
-                        <td>INVALID_BLOCK_CLOSE</td>
+                        <td>INVALID_CONSTANT</td>
                     </tr>
                     <tr>
                         <td>29</td>
-                        <td>INVALID_OPERATION</td>
+                        <td>INVALID_POINTER</td>
                     </tr>
                     <tr>
                         <td>30</td>
+                        <td>INVALID_BLOCK_CLOSE</td>
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td>INVALID_OPERATION</td>
+                    </tr>
+                    <tr>
+                        <td>32</td>
                         <td>INVALID_OPERATION_WITH_STRING</td>
                     </tr>
                 </table>
@@ -430,7 +439,28 @@
             </div>
 
             <div class="two first">
-                <h4>#26 INVALID_CONSTANT</h4>
+                <h4>#26 INVALID_ASM_COMMAND</h4>
+                <pre>
+                    proc main()
+                        asm
+                            for i = 0 to 10
+                            end
+                        end
+                    end
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#27 INVALID_SCRIPT_COMMAND</h4>
+                <pre>
+                    proc main()
+                        set a, 1
+                    end
+                </pre>
+            </div>
+
+            <div class="two first">
+                <h4>#28 INVALID_CONSTANT</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -439,7 +469,7 @@
             </div>
 
             <div class="two first">
-                <h4>#27 INVALID_POINTER</h4>
+                <h4>#29 INVALID_POINTER</h4>
                 <pre>
                     proc p = 1
                     proc main()
@@ -449,7 +479,7 @@
             </div>
 
             <div class="two first">
-                <h4>#28 INVALID_BLOCK_CLOSE</h4>
+                <h4>#30 INVALID_BLOCK_CLOSE</h4>
                 <pre>
                     record S
                        number n
@@ -460,7 +490,7 @@
             </div>
 
             <div class="two first">
-                <h4>#29 INVALID_OPERATION</h4>
+                <h4>#31 INVALID_OPERATION</h4>
                 <pre>
                     proc main()
                         number n
@@ -471,7 +501,7 @@
             </div>
 
             <div class="two first">
-                <h4>#30 INVALID_OPERATION_WITH_STRING</h4>
+                <h4>#32 INVALID_OPERATION_WITH_STRING</h4>
                 <pre>
                     proc main()
                         string s

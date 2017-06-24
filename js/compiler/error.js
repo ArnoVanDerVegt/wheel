@@ -29,11 +29,13 @@
             UNKNOWN_COMMAND:                   23,
             UNKNOWN_PROCEDURE:                 24,
             UNDEFINED_FIELD:                   25,
-            INVALID_CONSTANT:                  26,
-            INVALID_POINTER:                   27,
-            INVALID_BLOCK_CLOSE:               28,
-            INVALID_OPERATION:                 29,
-            INVALID_OPERATION_WITH_STRING:     30
+            INVALID_ASM_COMMAND:               26,
+            INVALID_SCRIPT_COMMAND:            27,
+            INVALID_CONSTANT:                  28,
+            INVALID_POINTER:                   29,
+            INVALID_BLOCK_CLOSE:               30,
+            INVALID_OPERATION:                 31,
+            INVALID_OPERATION_WITH_STRING:     32
         }
     );
 })();

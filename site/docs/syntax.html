@@ -6,7 +6,7 @@
     <title>Wheel - Syntax</title>
 
     <base href="../../">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
     <link href="css/wheel.css" rel="stylesheet">
 
     <script src="js/utils/syntax.js"></script>
@@ -63,6 +63,7 @@
                     <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
                     <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
                     <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
+                    <li><a href="site/docs/syntax.html#asm">Assembly commands</a></li>
                 </ul>
             </div>
 
@@ -75,6 +76,7 @@
                         number n = 1 ; Very simple...
                     end
                 </pre>
+                Comments start with a semicolon ";" and should be placed after the command or expression.
             </div>
 
             <div class="two first" id="blocks">
@@ -135,6 +137,23 @@
                         drawNumber(10, 5, 90)
                     end
                 </pre>
+            </div>
+
+            <div class="two first" id="asm">
+                <h5>Assembly commands</h5>
+                To use assembly commands you can open a block with the <i>asm</i> statement.<br/>
+                The assembly commands allow you to access register values and use a different set of commands.
+                Script commands can not be used in an assembly block.
+                <pre>
+                    proc main()
+                        number n
+                        asm
+                            set n, REG_SRC
+                        end
+                    end
+                </pre>
+                <br/>
+                There are six registers: REG_STACK, REG_SRC, REG_DEST, REG_CODE, REG_RETURN, REG_FLAGS.
             </div>
 
             <div style="float:left;clear:both;"></div>

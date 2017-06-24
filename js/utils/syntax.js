@@ -1,5 +1,6 @@
 (function() {
     var keywords = [
+            'asm',
             'proc',
             'for',
             'repeat',

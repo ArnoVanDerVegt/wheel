@@ -445,6 +445,276 @@ describe(
         describe(
             'Invalid',
             function() {
+                it('Should throw INVALID_ASM_COMMAND - for', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        for n = 0 to 10',
+                                '        end',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_ASM_COMMAND - repeat', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        repeat',
+                                '        end',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_ASM_COMMAND - if', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        if a = 1',
+                                '        end',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_ASM_COMMAND - else', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        else',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_ASM_COMMAND - select', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        select',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_ASM_COMMAND - select', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    asm',
+                                '        select',
+                                '    end',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - set', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    set a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - add', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    add a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - sub', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    sub a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - mul', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    mul a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - div', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    div a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - mod', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    mod a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - inc', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    inc a',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - dec', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    dec a',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - cmp', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    cmp a, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - jmpc', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    jmpc 1, 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
+                it('Should throw INVALID_SCRIPT_COMMAND - copy', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc main()',
+                                '    copy 1',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                        }
+                    );
+                });
+
                 it('Should throw INVALID_CONSTANT', function() {
                     assert.throws(
                         function() {

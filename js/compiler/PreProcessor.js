@@ -1,7 +1,7 @@
 (function() {
     var wheel = require('../utils/base.js').wheel;
     var path  = require('path');
-    var fs    = require('fs');
+    // var fs    = require('fs'); // For image converter...
 
     var ReplaceTree = wheel.Class(function() {
             this.init = function(opts) {

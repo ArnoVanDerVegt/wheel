@@ -230,8 +230,10 @@
                             } else {
                                 offset = 0;
                                 label  = this.findLabel(param);
-                                label.jumps.push(this._compiler.getOutput().getLength());
-                               type = $.T_LABEL;
+                                if (label) {
+                                    label.jumps.push(this._compiler.getOutput().getLength());
+                                    type = $.T_LABEL;
+                                }
                             }
                         }
                     }

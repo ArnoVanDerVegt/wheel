@@ -24,11 +24,15 @@ describe(
                             'proc main()',
                             '   number a',
                             '   a = 0',
+                            '   asm',
                             'loop:',
+                            '   end',
                             '   printN(1)',
                             '   a += 1',
-                            '   cmp a, 3',
-                            '   jl loop',
+                            '   asm',
+                            '       cmp a, 3',
+                            '       jl loop',
+                            '   end',
                             'endp'
                         ]).testData;
 
@@ -48,13 +52,17 @@ describe(
                             'endp',
                             '',
                             'proc main()',
-                            '   number a',
-                            '   a = 7',
+                            '    number a',
+                            '    a = 7',
+                            '    asm',
                             'loop:',
-                            '   a += 1',
-                            '   printN(a)',
-                            '   cmp a, 10',
-                            '   jl loop',
+                            '    end',
+                            '    a += 1',
+                            '    printN(a)',
+                            '    asm',
+                            '        cmp a, 10',
+                            '        jl loop',
+                            '    end',
                             'endp'
                         ]).testData;
 

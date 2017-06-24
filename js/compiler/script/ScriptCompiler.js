@@ -9,12 +9,30 @@
         'compiler.script.ScriptCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
+                this._asmMode            = false;
                 this._forStack           = [];
                 this._repeatStack        = [];
                 this._ifStack            = [];
                 this._selectStack        = [];
                 this._endStack           = [];
                 this._expressionCompiler = new wheel.compiler.script.ExpressionCompiler({scriptCompiler: this});
+            };
+
+            this.throwErrorIfScriptMode = function() {
+                if (!this._asmMode) {
+                    throw new Error('#' + wheel.compiler.error.INVALID_SCRIPT_COMMAND + ' Invalid script command.');
+                }
+            };
+
+            this.throwErrorIfAsmMode = function() {
+                if (this._asmMode) {
+                    throw new Error('#' + wheel.compiler.error.INVALID_ASM_COMMAND + ' Invalid asm command.');
+                }
+            };
+
+            this.compileAsm = function() {
+                this._asmMode = true;
+                return [];
             };
 
             this.compileProc = function(line) {
@@ -38,6 +56,8 @@
             };
 
             this.compileFor = function(s) {
+                this.throwErrorIfAsmMode();
+
                 var direction = 'downto';
                 var j         = s.indexOf(direction);
 
@@ -69,6 +89,8 @@
             };
 
             this.compileRepeat = function(s) {
+                this.throwErrorIfAsmMode();
+
                 var label = '_____repeat_label' + (repeatLabelIndex++);
 
                 this._repeatStack.push({
@@ -82,6 +104,8 @@
             };
 
             this.compileIf = function(s, output) {
+                this.throwErrorIfAsmMode();
+
                 var compare = {
                         je:  '!=',
                         jne: '==',
@@ -118,6 +142,8 @@
             };
 
             this.compileElse = function(output) {
+                this.throwErrorIfAsmMode();
+
                 var ifItem = this._ifStack[this._ifStack.length - 1];
                 var label  = ifItem.label;
                 output[ifItem.outputOffset] += ' ' + label;
@@ -131,6 +157,8 @@
             };
 
             this.compileSelect = function(s) {
+                this.throwErrorIfAsmMode();
+
                 this._selectStack.push({
                     label:        '_____select' + (selectLabelIndex++),
                     caseIndex:    0,
@@ -143,6 +171,8 @@
             };
 
             this.compileCase = function(s, output) {
+                this.throwErrorIfAsmMode();
+
                 s = s.trim();
                 s = s.substr(0, s.length - 1); // remove ":"
 
@@ -170,6 +200,11 @@
             };
 
             this.compileEnd = function(output) {
+                if (this._asmMode) {
+                    this._asmMode = false;
+                    return [];
+                }
+
                 if (!this._endStack.length) {
                     throw new Error('End without begin.');
                 }
@@ -219,6 +254,8 @@
             };
 
             this.compileOperator = function(line, operator) {
+                this.throwErrorIfAsmMode();
+
                 var result             = [];
                 var expressionCompiler = this._expressionCompiler;
                 var parts              = line.split(operator.operator);
@@ -472,6 +509,9 @@
                 (i === -1) || (command = line.substr(0, i).trim());
 
                 switch (command) {
+                    case 'asm':
+                        return this.compileAsm();
+
                     case 'proc':
                         return this.compileProc(line);
 
@@ -506,7 +546,47 @@
                         return this.compileEnd(output);
 
                     case 'set':
-                        console.log('!!!!!!');
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'add':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'sub':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'mul':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'div':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'mod':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'inc':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'dec':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'copy':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'cmp':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'jmpc':
+                        this.throwErrorIfScriptMode();
                         break;
 
                     default:

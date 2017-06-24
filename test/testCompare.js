@@ -14,7 +14,9 @@ describe(
                             'number n',
                             'proc main()',
                             '    n = 10',
-                            '    cmp n, 11',
+                            '    asm',
+                            '        cmp n, 11',
+                            '    end',
                             'endp'
                         ]).testData;
 
@@ -43,7 +45,9 @@ describe(
                             'number n',
                             'proc main()',
                             '    n = 45',
-                            '    cmp n, 45',
+                            '    asm',
+                            '        cmp n, 45',
+                            '    end',
                             'endp'
                         ]).testData;
 
@@ -72,7 +76,9 @@ describe(
                             'number n',
                             'proc main()',
                             '    n = 87',
-                            '    cmp n, 31',
+                            '    asm',
+                            '        cmp n, 31',
+                            '    end',
                             'endp'
                         ]).testData;
 

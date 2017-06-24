@@ -40,6 +40,29 @@ describe(
                     assert.deepEqual(testData.messages, [12]);
                 });
 
+                it('Should call two global procedure pointers', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc ptr',
+                            '',
+                            'proc one()',
+                            '    printS("One")',
+                            'endp',
+                            '',
+                            'proc two()',
+                            '    printS("Two")',
+                            'endp',
+                            '',
+                            'proc main()',
+                            '   ptr = one',
+                            '   ptr()',
+                            '   ptr = two',
+                            '   ptr()',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ['One', 'Two']);
+                });
+
                 it('Should call a local procedure pointer', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc test()',
