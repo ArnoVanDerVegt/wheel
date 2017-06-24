@@ -53,7 +53,7 @@
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     (paramInfo.value === 0) || compilerOutput.a($.add.code, $.SRC(), $.CONST(paramInfo.value));
                     compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                    (offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(offset));
+                    this.addToDestIfValue(offset);
                     compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                 }
             };
@@ -92,7 +92,7 @@
                     var ptr = (paramInfo.metaType === $.T_META_POINTER);
                     compilerOutput.a($.set.code, $.SRC(), ptr ? $.GLOBAL(paramInfo.value) : $.CONST(paramInfo.value));
                     compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                    (offset === 0) || compilerOutput.a($.add.code, $.DEST(), $.CONST(offset));
+                    this.addToDestIfValue(offset);
                     compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
                 }
             };
