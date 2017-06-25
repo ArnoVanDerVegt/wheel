@@ -99,7 +99,7 @@ describe(
         describe(
             'Test while',
             function() {
-                it('Should loop up', function() {
+                it('Should repeat while not 0', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number n = 10',
@@ -112,6 +112,21 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+                });
+
+                it('Should repeat with boolean evaluation', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 6',
+                            '',
+                            '    while n',
+                            '        printN(n)',
+                            '        n -= 2',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [6, 4, 2]);
                 });
             }
         );
@@ -193,6 +208,58 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [4]);
+                });
+
+                it('Should use jump equal with expression compare', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 7',
+                            '',
+                            '    number a',
+                            '    a = n * 3',
+                            '    if a == n * 3',
+                            '        printN(n * 2)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [14]);
+                });
+
+                it('Should use jump equal with double expression compare', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b',
+                            '    a = 4',
+                            '    b = 6',
+                            '    if b * 2 == a * 3',
+                            '        printN(a * b * 2)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [48]);
+                });
+
+                it('Should use boolean evaluation', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 3',
+                            '',
+                            '    if n',
+                            '        printN(n)',
+                            '    end',
+                            '    n = 0',
+                            '    if n',
+                            '        printN(n)',
+                            '    else',
+                            '        printN(9)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [3, 9]);
                 });
 
                 it('Should print half of list', function() {

@@ -103,12 +103,15 @@
                             number x, y
                         endr
                         DrawPixel drawPixel
-                        ; Set the parameter values:
-                        set    drawPixel.x, x
-                        set    drawPixel.y, y
-                        ; Set the source register to the address of the drawPixel record:
-                        addr   drawPixel
-                        module MODULE_SCREEN, SCREEN_DRAW_PIXEL
+                        asm
+                            ; Set the parameter values:
+                            set    drawPixel.x, x
+                            set    drawPixel.y, y
+                            ; Set the source register to the
+                            ; address of the drawPixel record:
+                            addr   drawPixel
+                            module MODULE_SCREEN, SCREEN_DRAW_PIXEL
+                        end
                     end
                 </pre>
             </div>

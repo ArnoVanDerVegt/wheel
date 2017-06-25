@@ -43,15 +43,22 @@
                         jge: '<'
                     };
                 var jumps = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
-                var jump;
+                var jump  = null;
+                var k;
                 for (var j = 0; j < jumps.length; j++) {
                     jump = jumps[j];
-                    var k = s.indexOf(compare[jump]);
+                    k    = s.indexOf(compare[jump]);
                     if (k !== -1) {
                         break;
                     }
                 }
-                var parts = s.split(compare[jump]);
+                var parts;
+                if (k === -1) {
+                    parts = [s, '0'];
+                    jump  = 'je';
+                } else {
+                    parts = s.split(compare[jump]);
+                }
                 return {
                     start: parts[0].trim(),
                     end:   parts[1].trim(),
@@ -202,17 +209,22 @@
                 this.throwErrorIfAsmMode();
 
                 var jumpParts = this.compileJumpParts(s);
+                var ifItem    = {
+                        outputOffset: 0,
+                        label:        '_____if_label' + (ifLabelIndex++)
+                    };
 
-                this._ifStack.push({
-                    outputOffset: output.length + 1,
-                    label:        '_____if_label' + (ifLabelIndex++)
-                });
+                this._ifStack.push(ifItem);
                 this._endStack.push('if');
 
-                return [
-                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
-                    jumpParts.jump
-                ];
+                var ifLine   = jumpParts.start + '=' + jumpParts.end;
+                var operator = {command: 'cmp', operator: '=', pos: jumpParts.start.length};
+                var result   = this.compileOperator(ifLine, operator);
+                result.push(jumpParts.jump);
+
+                ifItem.outputOffset = output.length + result.length - 1;
+
+                return result;
             };
 
             this.compileElse = function(output) {
