@@ -209,17 +209,22 @@
                 this.throwErrorIfAsmMode();
 
                 var jumpParts = this.compileJumpParts(s);
+                var ifItem    = {
+                        outputOffset: 0,
+                        label:        '_____if_label' + (ifLabelIndex++)
+                    };
 
-                this._ifStack.push({
-                    outputOffset: output.length + 1,
-                    label:        '_____if_label' + (ifLabelIndex++)
-                });
+                this._ifStack.push(ifItem);
                 this._endStack.push('if');
 
-                return [
-                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
-                    jumpParts.jump
-                ];
+                var ifLine   = jumpParts.start + '=' + jumpParts.end;
+                var operator = {command: 'cmp', operator: '=', pos: jumpParts.start.length};
+                var result   = this.compileOperator(ifLine, operator);
+                result.push(jumpParts.jump);
+
+                ifItem.outputOffset = output.length + result.length - 1;
+
+                return result;
             };
 
             this.compileElse = function(output) {

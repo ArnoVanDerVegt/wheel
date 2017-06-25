@@ -210,6 +210,38 @@ describe(
                     assert.deepEqual(testData.messages, [4]);
                 });
 
+                it('Should use jump equal with expression compare', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 7',
+                            '',
+                            '    number a',
+                            '    a = n * 3',
+                            '    if a == n * 3',
+                            '        printN(n * 2)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [14]);
+                });
+
+                it('Should use jump equal with double expression compare', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b',
+                            '    a = 4',
+                            '    b = 6',
+                            '    if b * 2 == a * 3',
+                            '        printN(a * b * 2)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [48]);
+                });
+
                 it('Should use boolean evaluation', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
