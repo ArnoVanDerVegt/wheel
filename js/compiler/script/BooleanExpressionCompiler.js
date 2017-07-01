@@ -103,6 +103,10 @@
                 return this._index;
             };
 
+            this.getRightSrc = function() {
+                return (this._src === 'right');
+            };
+
             this.getParent = function() {
                 return this._parent;
             };
@@ -112,8 +116,12 @@
                 return this;
             };
 
-            this.getType = function() {
-                return this._type;
+            this.getOrType = function() {
+                return (this._type === 'or');
+            };
+
+            this.getAndType = function() {
+                return (this._type === 'and');
             };
 
             this.getLeft = function() {
@@ -173,10 +181,28 @@
                 this._result.push(line);
             };
 
+            this.addJumpTrue = function() {
+                this.addLine('jmp ' + this._label + '_true');
+            };
+
             this.addExitLabelLine = function(line) {
                 this._labels.push({offset: this._result.length, type: 'exit'});
                 this._result.push(line);
             };
+
+            this.addIndexLabel = function() {
+                this.addLine(this._label + '_' + this._index + ':');
+            };
+
+            this.compile = function() {
+                var jumpParts = this.compileJumpParts(this._value);
+                var ifLine    = jumpParts.start + jumpParts.cmp + jumpParts.end;
+                var operator  = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
+                var result    = this._scriptCompiler.compileOperator(ifLine, operator);
+                this.addLines(result);
+
+                return jumpParts;
+            }
         });
 
     var OrNode = wheel.Class(BooleanNode, function(supr) {
@@ -185,24 +211,31 @@
                 this._type = 'or';
             };
 
+            this.addJumpToParentIndex = function() {
+                this.addLine('jmp ' + this._label + '_' + this._parent.getIndex());
+            };
+
             this.compile = function() {
-                this._left.compile();
-                this._right.compile();
+                var left   = this._left;
+                var right  = this._right;
                 var parent = this._parent;
-                if (parent && this._right.getValue()) {
-                    if (parent.getParent() && (parent.getParent().getType() === 'or')) {
-                        this.addLine('jmp ' + this._label + '_' + this._parent.getIndex());
+
+                left.compile();
+                right.compile();
+                if (parent && right.getValue()) {
+                    if (parent.getParent() && parent.getParent().getOrType()) {
+                        this.addJumpToParentIndex();
                     } else {
                         this.addExitLabelLine('jmp ');
                     }
                 }
                 this.addExitLabelLine('jmp ');
-                this.addLine(this._label + '_' + this._index + ':');
-                if (this._parent) {
-                    if (this._parent._type === 'or') {
-                        this.addLine('jmp ' + this._label + '_' + this._parent.getIndex());
-                    } else if ((this._parent._type === 'and') && (this._src === 'right')) {
-                        this.addLine('jmp ' + this._label + '_true');
+                this.addIndexLabel();
+                if (parent) {
+                    if (parent.getOrType()) {
+                        this.addJumpToParentIndex
+                    } else if (parent.getAndType() && this.getRightSrc()) {
+                        this.addJumpTrue();
                     }
                 }
             };
@@ -215,54 +248,33 @@
             };
 
             this.compile = function() {
-                this._left.compile();
-                if (!this._left.getValue() || !this._right.getValue()) {
-                }
-                this._right.compile();
-                if (this._right.getValue()) {
-                    this.addLine('jmp ' + this._label + '_true');
-                }
-                this.addLine(this._label + '_' + this._index + ':');
-                if (!this._parent) {
-                    this.addExitLabelLine('jmp ');
-                }
+                var left  = this._left;
+                var right = this._right;
+
+                left.compile();
+                right.compile();
+                right.getValue() && this.addJumpTrue();
+                this.addIndexLabel();
+                this._parent || this.addExitLabelLine('jmp ');
             };
         });
 
     var OrValueNode = wheel.Class(BooleanNode, function(supr) {
             this.compile = function() {
-                var jumpParts = this.compileJumpParts(this._value);
-                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
-                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
-                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
-
-                this.addLines(result);
-                var jump = {je: 'jne', jg: 'jle', jl:  'jge', jge: 'jl', jle: 'jg'}[jumpParts.jump];
+                var jump = {je: 'jne', jg: 'jle', jl:  'jge', jge: 'jl', jle: 'jg'}[supr(this, 'compile').jump];
                 this.addLine(jump + ' ' + this._label + '_' + this._parent.getIndex());
             };
         });
 
     var AndValueNode = wheel.Class(BooleanNode, function(supr) {
             this.compile = function() {
-                var jumpParts = this.compileJumpParts(this._value);
-                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
-                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
-                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
-
-                this.addLines(result);
-                this.addLine(jumpParts.jump + ' ' + this._label + '_' + this._parent.getIndex());
+                this.addLine(supr(this, 'compile').jump + ' ' + this._label + '_' + this._parent.getIndex());
             };
         });
 
     var RootNode = wheel.Class(BooleanNode, function(supr) {
             this.compile = function() {
-                var jumpParts = this.compileJumpParts(this._value);
-                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
-                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
-                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
-
-                this.addLines(result);
-                this.addExitLabelLine(jumpParts.jump + ' ');
+                this.addExitLabelLine(supr(this, 'compile').jump + ' ');
             };
         });
 
@@ -291,24 +303,23 @@
                 if (splitInfo) {
                     var left  = removeParentheses(s.substr(0, splitInfo.pos).trim());
                     var right = removeParentheses(s.substr(splitInfo.pos - s.length + splitInfo.operator.length).trim());
+                    var info  = {
+                            or: {
+                                node:      OrNode,
+                                valueNode: OrValueNode
+                            },
+                            and: {
+                                node:      AndNode,
+                                valueNode: AndValueNode
+                            }
+                        }[splitInfo.operator];
 
-                    switch (splitInfo.operator) {
-                        case 'or':
-                            var l    = this.parse(left,  OrValueNode, 'left',  result);
-                            var r    = this.parse(right, OrValueNode, 'right', result);
-                            var node = createNode(OrNode, l, r, false);
-                            l.setParent(node);
-                            r.setParent(node);
-                            return node;
-
-                        case 'and':
-                            var l    = this.parse(left,  AndValueNode, 'left',  result);
-                            var r    = this.parse(right, AndValueNode, 'right', result);
-                            var node = createNode(AndNode, l, r, false);
-                            l.setParent(node);
-                            r.setParent(node);
-                            return node;
-                    }
+                    var l    = this.parse(left,  info.valueNode, 'left',  result);
+                    var r    = this.parse(right, info.valueNode, 'right', result);
+                    var node = createNode(info.node, l, r, false);
+                    l.setParent(node);
+                    r.setParent(node);
+                    return node;
                 } else if (src === 'root') {
                     return createNode(RootNode, false, false, s);
                 } else {
