@@ -202,7 +202,7 @@
                 this.addLines(result);
 
                 return jumpParts;
-            }
+            };
         });
 
     var OrNode = wheel.Class(BooleanNode, function(supr) {
@@ -233,7 +233,7 @@
                 this.addIndexLabel();
                 if (parent) {
                     if (parent.getOrType()) {
-                        this.addJumpToParentIndex
+                        this.addJumpToParentIndex();
                     } else if (parent.getAndType() && this.getRightSrc()) {
                         this.addJumpTrue();
                     }

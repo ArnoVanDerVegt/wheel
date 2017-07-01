@@ -33,6 +33,12 @@
                 }
             };
 
+            this.updateLabelOffsets = function(labels, outputOffset) {
+                for (var i = 0; i < labels.length; i++) {
+                    labels[i].offset += outputOffset;
+                }
+            };
+
             this.compileJumpParts = function(s) {
                 var compare = {
                         je:  '!=',
@@ -164,10 +170,7 @@
 
                 this._whileStack.push(whileItem);
                 this._endStack.push('while');
-
-                for (var i = 0; i < labels.length; i++) {
-                    labels[i].offset += outputOffset;
-                }
+                this.updateLabelOffsets(labels, outputOffset);
 
                 result.push(whileLabel + '_true:');
 
@@ -238,10 +241,7 @@
 
                 this._ifStack.push(ifItem);
                 this._endStack.push('if');
-
-                for (var i = 0; i < labels.length; i++) {
-                    labels[i].offset += outputOffset;
-                }
+                this.updateLabelOffsets(labels, outputOffset);
 
                 result.push(ifLabel + '_true:');
 
@@ -255,7 +255,7 @@
                 var label  = ifItem.label;
 
                 ifItem.labels.forEach(function(ifLabel) {
-                    ifLabel.type = 'else'
+                    ifLabel.type = 'else';
                 });
                 ifItem.labels.push({offset: output.length, type: 'exit'});
 
