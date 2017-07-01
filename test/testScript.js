@@ -95,7 +95,7 @@ describe(
                 });
             }
         );
-/*
+
         describe(
             'Test while',
             function() {
@@ -130,7 +130,7 @@ describe(
                 });
             }
         );
-*/
+
         describe(
             'Test break',
             function() {

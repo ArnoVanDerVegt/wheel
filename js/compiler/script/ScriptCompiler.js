@@ -144,22 +144,34 @@
             this.compileWhile = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var jumpParts  = this.compileJumpParts(s);
-                var label      = '_____while_label' + (whileLabelIndex++);
-                var whileLabel = '_____while_label' + (whileLabelIndex++);
+                var result                    = [];
+                var whileLabel                = '_____while_label' + (whileLabelIndex++);
+                var labels                    = [];
+                var outputOffset              = output.length;
+                var booleanExpressionCompiler = new wheel.compiler.script.BooleanExpressionCompiler({
+                        scriptCompiler: this,
+                        label:          whileLabel
+                    });
 
-                this._whileStack.push({
-                    outputOffset: output.length + 2,
-                    label:        label,
-                    whileLabel:   whileLabel
-                });
+                result.push(whileLabel + ':');
+
+                booleanExpressionCompiler.compile(s, result, whileLabel, labels);
+
+                var whileItem = {
+                       label:  whileLabel,
+                       labels: labels
+                   };
+
+                this._whileStack.push(whileItem);
                 this._endStack.push('while');
 
-                return [
-                    whileLabel + ':',
-                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
-                    jumpParts.jump
-                ];
+                for (var i = 0; i < labels.length; i++) {
+                    labels[i].offset += outputOffset;
+                }
+
+                result.push(whileLabel + '_true:');
+
+                return result;
             };
 
             this.compileBreak = function(s, outputOffset) {
@@ -219,16 +231,13 @@
 
                 booleanExpressionCompiler.compile(s, result, ifLabel, labels);
 
-                var ifItem    = {
-                       outputOffset: 0,
-                       label:        ifLabel,
-                       labels:       labels
+                var ifItem = {
+                       label:  ifLabel,
+                       labels: labels
                    };
 
                 this._ifStack.push(ifItem);
                 this._endStack.push('if');
-
-                ifItem.outputOffset = output.length + result.length - 1;
 
                 for (var i = 0; i < labels.length; i++) {
                     labels[i].offset += outputOffset;
@@ -334,11 +343,18 @@
                         return [ifItem.label + ':'];
 
                     case 'while':
-                        var whileItem = this._whileStack.pop();
-                        output[whileItem.outputOffset] += whileItem.label;
+                        var whileItem      = this._whileStack.pop();
+                        var whileExitLabel = whileItem.label + '_exit';
+                        whileItem.labels.forEach(function(whileLabel) {
+                            switch (whileLabel.type) {
+                                case 'exit':
+                                    output[whileLabel.offset] += whileExitLabel;
+                                    break;
+                            }
+                        });
                         return [
-                            'jmp ' + whileItem.whileLabel,
-                            whileItem.label + ':'
+                            'jmp ' + whileItem.label,
+                            whileExitLabel + ':'
                         ];
 
                     case 'select':
