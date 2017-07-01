@@ -39,39 +39,6 @@
                 }
             };
 
-            this.compileJumpParts = function(s) {
-                var compare = {
-                        je:  '!=',
-                        jne: '==',
-                        jl:  '>=',
-                        jg:  '<=',
-                        jle: '>',
-                        jge: '<'
-                    };
-                var jumps = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
-                var jump  = null;
-                var k;
-                for (var j = 0; j < jumps.length; j++) {
-                    jump = jumps[j];
-                    k    = s.indexOf(compare[jump]);
-                    if (k !== -1) {
-                        break;
-                    }
-                }
-                var parts;
-                if (k === -1) {
-                    parts = [s, '0'];
-                    jump  = 'je';
-                } else {
-                    parts = s.split(compare[jump]);
-                }
-                return {
-                    start: parts[0].trim(),
-                    end:   parts[1].trim(),
-                    jump:  jump
-                };
-            };
-
             this.compileAsm = function() {
                 this._asmMode = true;
                 return [];
