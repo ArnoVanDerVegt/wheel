@@ -208,21 +208,33 @@
             this.compileIf = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var jumpParts = this.compileJumpParts(s);
+                var result                    = [];
+                var ifLabel                   = '_____if_label' + (ifLabelIndex++);
+                var labels                    = [];
+                var outputOffset              = output.length;
+                var booleanExpressionCompiler = new wheel.compiler.script.BooleanExpressionCompiler({
+                        scriptCompiler: this,
+                        label:          ifLabel
+                    });
+
+                booleanExpressionCompiler.compile(s, result, ifLabel, labels);
+
                 var ifItem    = {
-                        outputOffset: 0,
-                        label:        '_____if_label' + (ifLabelIndex++)
-                    };
+                       outputOffset: 0,
+                       label:        ifLabel,
+                       labels:       labels
+                   };
 
                 this._ifStack.push(ifItem);
                 this._endStack.push('if');
 
-                var ifLine   = jumpParts.start + '=' + jumpParts.end;
-                var operator = {command: 'cmp', operator: '=', pos: jumpParts.start.length};
-                var result   = this.compileOperator(ifLine, operator);
-                result.push(jumpParts.jump);
-
                 ifItem.outputOffset = output.length + result.length - 1;
+
+                for (var i = 0; i < labels.length; i++) {
+                    labels[i].offset += outputOffset;
+                }
+
+                result.push(ifLabel + '_true:');
 
                 return result;
             };
@@ -232,13 +244,15 @@
 
                 var ifItem = this._ifStack[this._ifStack.length - 1];
                 var label  = ifItem.label;
-                output[ifItem.outputOffset] += ' ' + label;
-                ifItem.outputOffset = output.length;
-                ifItem.label += '_else';
+
+                ifItem.labels.forEach(function(ifLabel) {
+                    ifLabel.type = 'else'
+                });
+                ifItem.labels.push({offset: output.length, type: 'exit'});
 
                 return [
                     'jmp ',
-                    label + ':'
+                    label + '_else:'
                 ];
             };
 
@@ -306,12 +320,22 @@
                 switch (end) {
                     case 'if':
                         var ifItem = this._ifStack.pop();
-                        output[ifItem.outputOffset] += ' ' + ifItem.label;
+                        ifItem.labels.forEach(function(ifLabel) {
+                            switch (ifLabel.type) {
+                                case 'exit':
+                                    output[ifLabel.offset] += ifItem.label;
+                                    break;
+
+                                case 'else':
+                                    output[ifLabel.offset] += ifItem.label + '_else';
+                                    break;
+                            }
+                        });
                         return [ifItem.label + ':'];
 
                     case 'while':
                         var whileItem = this._whileStack.pop();
-                        output[whileItem.outputOffset] += ' ' + whileItem.label;
+                        output[whileItem.outputOffset] += whileItem.label;
                         return [
                             'jmp ' + whileItem.whileLabel,
                             whileItem.label + ':'
@@ -747,9 +771,9 @@
                     }
                 }
 
-                //for (var i = 0; i < output.length; i++) {
-                //    console.log(i + ']', output[i]);
-                //}
+                // for (var i = 129; i < output.length; i++) {
+                //   console.log(i + ']', output[i]);
+                // }
                 return {
                     output:    output,
                     sourceMap: sourceMap

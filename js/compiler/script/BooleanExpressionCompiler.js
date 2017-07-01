@@ -87,12 +87,16 @@
 
     var BooleanNode = wheel.Class(function() {
             this.init = function(opts) {
-                this._src    = opts.src;
-                this._parent = null;
-                this._index  = labelIndex++;
-                this._left   = opts.left  || false;
-                this._right  = opts.right || false;
-                this._value  = opts.value || false;
+                this._scriptCompiler = opts.scriptCompiler;
+                this._result         = opts.result;
+                this._label          = opts.label;
+                this._labels         = opts.labels;
+                this._src            = opts.src;
+                this._parent         = null;
+                this._index          = labelIndex++;
+                this._left           = opts.left  || false;
+                this._right          = opts.right || false;
+                this._value          = opts.value || false;
             };
 
             this.getIndex = function() {
@@ -123,6 +127,56 @@
             this.getValue = function() {
                 return this._value;
             };
+
+            this.compileJumpParts = function(s) {
+                var compare = {
+                        je:  '!=',
+                        jne: '==',
+                        jl:  '>=',
+                        jg:  '<=',
+                        jle: '>',
+                        jge: '<'
+                    };
+                var jumps = ['je', 'jne', 'jl', 'jg', 'jle', 'jge'];
+                var jump  = null;
+                var cmp;
+                var k;
+                for (var j = 0; j < jumps.length; j++) {
+                    jump = jumps[j];
+                    cmp  = compare[jump];
+                    k    = s.indexOf(cmp);
+                    if (k !== -1) {
+                        break;
+                    }
+                }
+                var parts;
+                if (k === -1) {
+                    parts = [s, '0'];
+                    jump  = 'je';
+                    cmp   = '==';
+                } else {
+                    parts = s.split(compare[jump]);
+                }
+                return {
+                    start: parts[0].trim(),
+                    end:   parts[1].trim(),
+                    jump:  jump,
+                    cmp:   cmp
+                };
+            };
+
+            this.addLines = function(lines) {
+                lines.forEach(function(line) { this.addLine(line); }, this);
+            };
+
+            this.addLine = function(line) {
+                this._result.push(line);
+            };
+
+            this.addExitLabelLine = function(line) {
+                this._labels.push({offset: this._result.length, type: 'exit'});
+                this._result.push(line);
+            };
         });
 
     var OrNode = wheel.Class(BooleanNode, function(supr) {
@@ -131,66 +185,84 @@
                 this._type = 'or';
             };
 
-            this.compile = function(indent) {
-                this._left.compile(indent + '  ');
-                this._right.compile(indent + '  ');
+            this.compile = function() {
+                this._left.compile();
+                this._right.compile();
                 var parent = this._parent;
                 if (parent && this._right.getValue()) {
                     if (parent.getParent() && (parent.getParent().getType() === 'or')) {
-                        console.log(indent + '-> label' + this._parent.getIndex());
+                        this.addLine('jmp ' + this._label + '_' + this._parent.getIndex());
                     } else {
-                        console.log(indent + '-> false');
+                        this.addExitLabelLine('jmp ');
                     }
                 }
-                console.log('-> false');
-                console.log(indent + 'label' + this._index + ':');
+                this.addExitLabelLine('jmp ');
+                this.addLine(this._label + '_' + this._index + ':');
                 if (this._parent) {
                     if (this._parent._type === 'or') {
-                        console.log(indent + '-> label' + this._parent._index);
+                        this.addLine('jmp ' + this._label + '_' + this._parent.getIndex());
                     } else if ((this._parent._type === 'and') && (this._src === 'right')) {
-                        console.log('-> true');
+                        this.addLine('jmp ' + this._label + '_true');
                     }
                 }
             };
         });
 
-    var OrNode = wheel.Class(BooleanNode, function(supr) {
+    var AndNode = wheel.Class(BooleanNode, function(supr) {
             this.init = function(opts) {
                 supr(this, 'init', arguments);
                 this._type = 'and';
             };
 
-            this.compile = function(indent) {
-                this._left.compile(indent + '  ');
+            this.compile = function() {
+                this._left.compile();
                 if (!this._left.getValue() || !this._right.getValue()) {
                 }
-                this._right.compile(indent + '  ');
+                this._right.compile();
                 if (this._right.getValue()) {
-                    console.log(indent + '-> true');
+                    this.addLine('jmp ' + this._label + '_true');
                 }
-                console.log(indent + 'label' + this._index + ':');
+                this.addLine(this._label + '_' + this._index + ':');
                 if (!this._parent) {
-                    console.log('-> false');
+                    this.addExitLabelLine('jmp ');
                 }
             };
         });
-
-    var ValueNode = wheel.Class(BooleanNode, function(supr) {
-            this.compile = function(indent) {
-                console.log(indent + 'value ' + this._value + '-> label' + this._parent._index);
-            };
-        });
-
 
     var OrValueNode = wheel.Class(BooleanNode, function(supr) {
-            this.compile = function(indent) {
-                console.log(indent + 'iftrue ' + this._value + '-> label' + this._parent._index);
+            this.compile = function() {
+                var jumpParts = this.compileJumpParts(this._value);
+                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
+                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
+                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
+
+                this.addLines(result);
+                var jump = {je: 'jne', jg: 'jle', jl:  'jge', jge: 'jl', jle: 'jg'}[jumpParts.jump];
+                this.addLine(jump + ' ' + this._label + '_' + this._parent.getIndex());
             };
         });
 
     var AndValueNode = wheel.Class(BooleanNode, function(supr) {
-            this.compile = function(indent) {
-                console.log(indent + 'iffalse ' + this._value + '-> label' + this._parent._index);
+            this.compile = function() {
+                var jumpParts = this.compileJumpParts(this._value);
+                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
+                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
+                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
+
+                this.addLines(result);
+                this.addLine(jumpParts.jump + ' ' + this._label + '_' + this._parent.getIndex());
+            };
+        });
+
+    var RootNode = wheel.Class(BooleanNode, function(supr) {
+            this.compile = function() {
+                var jumpParts = this.compileJumpParts(this._value);
+                var ifLine   = jumpParts.start + jumpParts.cmp + jumpParts.end;
+                var operator = {command: 'cmp', operator: jumpParts.cmp, pos: jumpParts.start.length};
+                var result   = this._scriptCompiler.compileOperator(ifLine, operator);
+
+                this.addLines(result);
+                this.addExitLabelLine(jumpParts.jump + ' ');
             };
         });
 
@@ -198,9 +270,23 @@
         'compiler.script.BooleanExpressionCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
+                this._scriptCompiler = opts.scriptCompiler;
             };
 
-            this.parse = function(s, ctor, src) {
+            this.parse = function(s, ctor, src, result) {
+                var createNode = (function(ctor, left, right, value) {
+                        return new ctor({
+                            scriptCompiler: this._scriptCompiler,
+                            label:          this._label,
+                            labels:         this._labels,
+                            left:           left,
+                            right:          right,
+                            value:          value,
+                            src:            src,
+                            result:         result,
+                        });
+                    }).bind(this);
+
                 var splitInfo = split(s);
                 if (splitInfo) {
                     var left  = removeParentheses(s.substr(0, splitInfo.pos).trim());
@@ -208,44 +294,33 @@
 
                     switch (splitInfo.operator) {
                         case 'or':
-                            var l    = this.parse(left, OrValueNode, 'left');
-                            var r    = this.parse(right, OrValueNode, 'right');
-                            var node = new OrNode({left: l, right: r, src: src});
+                            var l    = this.parse(left,  OrValueNode, 'left',  result);
+                            var r    = this.parse(right, OrValueNode, 'right', result);
+                            var node = createNode(OrNode, l, r, false);
                             l.setParent(node);
                             r.setParent(node);
                             return node;
 
                         case 'and':
-                            var l    = this.parse(left, AndValueNode, 'left');
-                            var r    = this.parse(right, AndValueNode, 'right');
-                            var node = new AndNode({left: l, right: r, src});
+                            var l    = this.parse(left,  AndValueNode, 'left',  result);
+                            var r    = this.parse(right, AndValueNode, 'right', result);
+                            var node = createNode(AndNode, l, r, false);
                             l.setParent(node);
                             r.setParent(node);
                             return node;
                     }
+                } else if (src === 'root') {
+                    return createNode(RootNode, false, false, s);
                 } else {
-                    return new ctor({value: s, src: src});
+                    return createNode(ctor, false, false, s);
                 }
             };
 
-            this.compile = function(s) {
-                var node = this.parse('a or b');
-                //var node = this.parse('a and b');
-                //var node = this.parse('a and b or c');
-                //var node = this.parse('a and b or c and d');
-                //var node = this.parse('c or a and b');
-                //var node = this.parse('a and b and c and d');
-                //var node = this.parse('a or b and c or d');
-                //var node = this.parse('a or b and c and d or e');
-                //var node = this.parse('a and b and c and d or e and f and g and h');
-                //var node = this.parse('(a or b) and c', CreateValue, 'root');
-                //var node = this.parse('c and (a or b)');
-                //var node = this.parse('(a or b) and (c or d)');
-                //var node = this.parse('a or b and (c or d)');
-                //var node = this.parse('(a or b) and c or d');
-                //var node = this.parse('a and (b or c) or d');
-                //var node = this.parse('(a or b) and (c or d) or e');
-                node.log('  ', 0);
+            this.compile = function(s, result, label, labels) {
+                this._label  = label;
+                this._labels = labels;
+                var node = this.parse(s, null, 'root', result);
+                node.compile(0);
             };
         })
     );
