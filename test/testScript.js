@@ -128,6 +128,24 @@ describe(
 
                     assert.deepEqual(testData.messages, [6, 4, 2]);
                 });
+
+                it('Should break', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 10',
+                            '',
+                            '    while n',
+                            '        printN(n)',
+                            '        n -= 1',
+                            '        if n < 5',
+                            '            break',
+                            '        end',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5]);
+                });
             }
         );
 

@@ -124,14 +124,6 @@
                 return (this._type === 'and');
             };
 
-            this.getLeft = function() {
-                return this._left;
-            };
-
-            this.getRight = function() {
-                return this._right;
-            };
-
             this.getValue = function() {
                 return this._value;
             };
