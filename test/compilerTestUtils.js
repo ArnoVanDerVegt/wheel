@@ -25,6 +25,7 @@ require('../js/compiler/CompilerRecord.js');
 require('../js/compiler/CompilerData.js');
 require('../js/compiler/CompilerMeta.js');
 require('../js/compiler/script/NumericExpressionCompiler.js');
+require('../js/compiler/script/BooleanExpressionCompiler.js');
 require('../js/compiler/script/ScriptCompiler.js');
 require('../js/compiler/Compiler.js');
 
