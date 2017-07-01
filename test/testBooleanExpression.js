@@ -340,36 +340,6 @@ describe(
         );
 
         describe(
-            'Test if or/and/or',
-            function() {
-                for (var a = 0; a < 2; a++) {
-                    for (var b = 0; b < 2; b++) {
-                        for (var c = 0; c < 2; c++) {
-                            for (var d = 0; d < 2; d++) {
-                                it('Should evaluate if a or b and c or d -> a=' + a + ', b=' + b + ', c=' + c + ', d=' + d, function() {
-                                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                                            'proc main()',
-                                            '    number a = ' + a,
-                                            '    number b = ' + b,
-                                            '    number c = ' + c,
-                                            '    number d = ' + d,
-                                            '',
-                                            '    if a or b and c or d',
-                                            '        printS("true")',
-                                            '    end',
-                                            'end'
-                                        ])).testData;
-
-                                    assert.deepEqual(testData.messages, eval(a + '||' + b + '&&' + c + '||' + d) ? ['true'] : []);
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-        );
-
-        describe(
             'Test if or/and/and/or',
             function() {
                 for (var a = 0; a < 2; a++) {
