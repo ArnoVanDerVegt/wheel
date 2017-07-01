@@ -68,6 +68,7 @@
     }
 
     function removeParentheses(s) {
+        s = s.trim();
         if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
             var result = s.substr(1, s.length - 2);
             for (var i = 0; i < result.length; i++) {
@@ -322,7 +323,7 @@
             this.compile = function(s, result, label, labels) {
                 this._label  = label;
                 this._labels = labels;
-                var node = this.parse(s, null, 'root', result);
+                var node = this.parse(removeParentheses(s), null, 'root', result);
                 node.compile(0);
             };
         })

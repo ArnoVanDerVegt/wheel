@@ -23,6 +23,20 @@ describe(
                     assert.deepEqual(testData.messages, [4]);
                 });
 
+                it('Should use jump equal, with ()', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number n = 10',
+                            '',
+                            '    if (n != 5)',
+                            '        printN(n)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [10]);
+                });
+
                 it('Should use jump equal with expression compare', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
