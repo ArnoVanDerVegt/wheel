@@ -95,7 +95,7 @@ describe(
                 });
             }
         );
-
+/*
         describe(
             'Test while',
             function() {
@@ -130,7 +130,7 @@ describe(
                 });
             }
         );
-
+*/
         describe(
             'Test break',
             function() {
@@ -189,133 +189,6 @@ describe(
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]);
-                });
-            }
-        );
-
-        describe(
-            'Test if',
-            function() {
-                it('Should use jump equal', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n = 4',
-                            '',
-                            '    if n != 5',
-                            '        printN(n)',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [4]);
-                });
-
-                it('Should use jump equal with expression compare', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n = 7',
-                            '',
-                            '    number a',
-                            '    a = n * 3',
-                            '    if a == n * 3',
-                            '        printN(n * 2)',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [14]);
-                });
-
-                it('Should use jump equal with double expression compare', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number a',
-                            '    number b',
-                            '    a = 4',
-                            '    b = 6',
-                            '    if b * 2 == a * 3',
-                            '        printN(a * b * 2)',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [48]);
-                });
-
-                it('Should use boolean evaluation', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n = 3',
-                            '',
-                            '    if n',
-                            '        printN(n)',
-                            '    end',
-                            '    n = 0',
-                            '    if n',
-                            '        printN(n)',
-                            '    else',
-                            '        printN(9)',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [3, 9]);
-                });
-
-                it('Should print half of list', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n',
-                            '',
-                            '    for n = 1 to 10',
-                            '        if n <= 5',
-                            '            printN(n)',
-                            '        end',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, [1, 2, 3, 4, 5]);
-                });
-
-                it('Should print half two half lists', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n',
-                            '',
-                            '    for n = 1 to 10',
-                            '        if n <= 5',
-                            '            printS("-")',
-                            '        else',
-                            '            printN(n)',
-                            '        end',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, ['-', '-', '-', '-', '-', 6, 7, 8, 9, 10]);
-                });
-
-                it('Should print nest conditions', function() {
-                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
-                            'proc main()',
-                            '    number n',
-                            '',
-                            '    for n = 1 to 10',
-                            '        if n <= 5',
-                            '            if n <= 2',
-                            '                printS("-")',
-                            '            else',
-                            '                printS("/")',
-                            '            end',
-                            '        else',
-                            '            printN(n)',
-                            '        end',
-                            '    end',
-                            'end'
-                        ])).testData;
-
-                    assert.deepEqual(testData.messages, ['-', '-', '/', '/', '/', 6, 7, 8, 9, 10]);
                 });
             }
         );
