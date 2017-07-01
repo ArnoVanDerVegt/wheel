@@ -132,7 +132,8 @@
 
                 var whileItem = {
                        label:  whileLabel,
-                       labels: labels
+                       labels: labels,
+                       breaks: []
                    };
 
                 this._whileStack.push(whileItem);
@@ -321,7 +322,8 @@
                         });
                         return [
                             'jmp ' + whileItem.label,
-                            whileExitLabel + ':'
+                            whileExitLabel + ':',
+                            addBreaks(whileItem) + ':'
                         ];
 
                     case 'select':
@@ -755,7 +757,7 @@
                 }
 
                 // for (var i = 129; i < output.length; i++) {
-                //   console.log(i + ']', output[i]);
+                //     console.log(i + ']', output[i]);
                 // }
                 return {
                     output:    output,
