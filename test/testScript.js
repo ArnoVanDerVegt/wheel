@@ -20,6 +20,66 @@ describe(
                     assert.deepEqual(testData.messages, []);
                 });
 
+                it('Should create asm block with add', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 2',
+                            '    number b = 3',
+                            '    asm',
+                            '        add a, b',
+                            '    end',
+                            '    printN(a)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [5]);
+                });
+
+                it('Should create asm block with sub', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 2',
+                            '    number b = 3',
+                            '    asm',
+                            '        sub a, b',
+                            '    end',
+                            '    printN(a)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [-1]);
+                });
+
+                it('Should create asm block with mul', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 2',
+                            '    number b = 3',
+                            '    asm',
+                            '        mul a, b',
+                            '    end',
+                            '    printN(a)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [6]);
+                });
+
+                it('Should create asm block with mod', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 8',
+                            '    number b = 3',
+                            '    asm',
+                            '        mod a, b',
+                            '    end',
+                            '    printN(a)',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [2]);
+                });
+
                 it('Should set registers', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
