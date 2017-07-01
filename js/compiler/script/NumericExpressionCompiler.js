@@ -3,7 +3,7 @@
     var localVarIndex = 10000;
 
     wheel(
-        'compiler.script.ExpressionCompiler',
+        'compiler.script.NumericExpressionCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
                 this._declaredNumbers = {};

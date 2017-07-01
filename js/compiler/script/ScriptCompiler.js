@@ -11,14 +11,14 @@
         'compiler.script.ScriptCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
-                this._asmMode            = false;
-                this._forStack           = [];
-                this._repeatStack        = [];
-                this._whileStack         = [];
-                this._ifStack            = [];
-                this._selectStack        = [];
-                this._endStack           = [];
-                this._expressionCompiler = new wheel.compiler.script.ExpressionCompiler({scriptCompiler: this});
+                this._asmMode                   = false;
+                this._forStack                  = [];
+                this._repeatStack               = [];
+                this._whileStack                = [];
+                this._ifStack                   = [];
+                this._selectStack               = [];
+                this._endStack                  = [];
+                this._numericExpressionCompiler = new wheel.compiler.script.NumericExpressionCompiler({scriptCompiler: this});
             };
 
             this.throwErrorIfScriptMode = function() {
@@ -357,12 +357,12 @@
             this.compileOperator = function(line, operator) {
                 this.throwErrorIfAsmMode();
 
-                var result             = [];
-                var expressionCompiler = this._expressionCompiler;
-                var parts              = line.split(operator.operator);
-                var vr                 = parts[0].trim();
-                var value              = parts[1].trim();
-                var valueCalculation   = expressionCompiler.isCalculation(value);
+                var result                    = [];
+                var numericExpressionCompiler = this._numericExpressionCompiler;
+                var parts                     = line.split(operator.operator);
+                var vr                        = parts[0].trim();
+                var value                     = parts[1].trim();
+                var valueCalculation          = numericExpressionCompiler.isCalculation(value);
                 var tempVar;
 
                 var addOffsetToDest = function(value) {
@@ -378,13 +378,13 @@
                         }
                     };
 
-                if (expressionCompiler.isComposite(vr)) {
-                    var recordVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
+                if (numericExpressionCompiler.isComposite(vr)) {
+                    var recordVar = numericExpressionCompiler.compileCompositeVar(result, vr, 0, true);
                     if (valueCalculation) {
-                        tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                        tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                         result.push('set REG_DEST,' + tempVar + '_1');
-                    } else if (expressionCompiler.isComposite(value)) {
-                        var tempRecordVar = expressionCompiler.compileCompositeVar(result, value);
+                    } else if (numericExpressionCompiler.isComposite(value)) {
+                        var tempRecordVar = numericExpressionCompiler.compileCompositeVar(result, value);
                         tempVar = tempRecordVar.result;
 
                         result.push('set REG_SRC,REG_STACK');
@@ -426,10 +426,10 @@
                     result.push('    %end');
                     result.push('%end');
                 } else if (valueCalculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                    tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                     result.push('set ' + vr + ',' + tempVar + '_1');
-                } else if (expressionCompiler.isComposite(value)) {
-                    var recordVar = expressionCompiler.compileCompositeVar(result, value);
+                } else if (numericExpressionCompiler.isComposite(value)) {
+                    var recordVar = numericExpressionCompiler.compileCompositeVar(result, value);
                     var tempVar = recordVar.result;
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + tempVar);
@@ -489,12 +489,12 @@
             };
 
             this.compileProcCall = function(line, procCall) {
-                var expressionCompiler = this._expressionCompiler;
-                var hasExpression      = false;
-                var params             = procCall.params;
-                var param              = '';
-                var p                  = [];
-                var i                  = 0;
+                var numericExpressionCompiler = this._numericExpressionCompiler;
+                var hasExpression             = false;
+                var params                    = procCall.params;
+                var param                     = '';
+                var p                         = [];
+                var i                         = 0;
 
                 function addParam(value) {
                     var calculation = false;
@@ -502,9 +502,9 @@
                     var composite   = false;
 
                     if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
-                        calculation   = expressionCompiler.isCalculation(value);
-                        arrayIndex    = expressionCompiler.isArrayIndex(value);
-                        composite     = expressionCompiler.isComposite(value);
+                        calculation   = numericExpressionCompiler.isCalculation(value);
+                        arrayIndex    = numericExpressionCompiler.isArrayIndex(value);
+                        composite     = numericExpressionCompiler.isComposite(value);
                     }
                     hasExpression = hasExpression || !!calculation || !!arrayIndex || composite;
 
@@ -569,9 +569,9 @@
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.calculation) {
-                        outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
+                        outputParams.push(numericExpressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else if (param.composite || param.arrayIndex) {
-                        var recordVar = expressionCompiler.compileCompositeVar(result, param.value);
+                        var recordVar = numericExpressionCompiler.compileCompositeVar(result, param.value);
                         tempVar = recordVar.result;
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + tempVar);
@@ -580,7 +580,7 @@
                         result.push('set ' + tempVar + ',REG_DEST');
                         outputParams.push(tempVar);
                     } else {
-                        /*var tempParamVar = expressionCompiler.createTempVarName();
+                        /*var tempParamVar = numericExpressionCompiler.createTempVarName();
                         result.push('number ' + tempParamVar);
                         result.push('%if_pointer ' + param.value);
                         result.push('    set  REG_SRC, REG_STACK');
@@ -705,11 +705,11 @@
                         break;
 
                     default:
-                        var procCall = this._expressionCompiler.isProcCall(line);
+                        var procCall = this._numericExpressionCompiler.isProcCall(line);
                         if (procCall) {
                             return this.compileProcCall(line, procCall);
                         } else {
-                            var operator = this._expressionCompiler.hasOperator(line);
+                            var operator = this._numericExpressionCompiler.hasOperator(line);
                             if (operator) {
                                 return this.compileOperator(line, operator);
                             }
