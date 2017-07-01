@@ -11,14 +11,14 @@
         'compiler.script.ScriptCompiler',
         wheel.Class(function() {
             this.init = function(opts) {
-                this._asmMode            = false;
-                this._forStack           = [];
-                this._repeatStack        = [];
-                this._whileStack         = [];
-                this._ifStack            = [];
-                this._selectStack        = [];
-                this._endStack           = [];
-                this._expressionCompiler = new wheel.compiler.script.ExpressionCompiler({scriptCompiler: this});
+                this._asmMode                   = false;
+                this._forStack                  = [];
+                this._repeatStack               = [];
+                this._whileStack                = [];
+                this._ifStack                   = [];
+                this._selectStack               = [];
+                this._endStack                  = [];
+                this._numericExpressionCompiler = new wheel.compiler.script.NumericExpressionCompiler({scriptCompiler: this});
             };
 
             this.throwErrorIfScriptMode = function() {
@@ -144,22 +144,34 @@
             this.compileWhile = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var jumpParts  = this.compileJumpParts(s);
-                var label      = '_____while_label' + (whileLabelIndex++);
-                var whileLabel = '_____while_label' + (whileLabelIndex++);
+                var result                    = [];
+                var whileLabel                = '_____while_label' + (whileLabelIndex++);
+                var labels                    = [];
+                var outputOffset              = output.length;
+                var booleanExpressionCompiler = new wheel.compiler.script.BooleanExpressionCompiler({
+                        scriptCompiler: this,
+                        label:          whileLabel
+                    });
 
-                this._whileStack.push({
-                    outputOffset: output.length + 2,
-                    label:        label,
-                    whileLabel:   whileLabel
-                });
+                result.push(whileLabel + ':');
+
+                booleanExpressionCompiler.compile(s, result, whileLabel, labels);
+
+                var whileItem = {
+                       label:  whileLabel,
+                       labels: labels
+                   };
+
+                this._whileStack.push(whileItem);
                 this._endStack.push('while');
 
-                return [
-                    whileLabel + ':',
-                    'cmp ' + jumpParts.start + ',' + jumpParts.end,
-                    jumpParts.jump
-                ];
+                for (var i = 0; i < labels.length; i++) {
+                    labels[i].offset += outputOffset;
+                }
+
+                result.push(whileLabel + '_true:');
+
+                return result;
             };
 
             this.compileBreak = function(s, outputOffset) {
@@ -208,21 +220,30 @@
             this.compileIf = function(s, output) {
                 this.throwErrorIfAsmMode();
 
-                var jumpParts = this.compileJumpParts(s);
-                var ifItem    = {
-                        outputOffset: 0,
-                        label:        '_____if_label' + (ifLabelIndex++)
-                    };
+                var result                    = [];
+                var ifLabel                   = '_____if_label' + (ifLabelIndex++);
+                var labels                    = [];
+                var outputOffset              = output.length;
+                var booleanExpressionCompiler = new wheel.compiler.script.BooleanExpressionCompiler({
+                        scriptCompiler: this,
+                        label:          ifLabel
+                    });
+
+                booleanExpressionCompiler.compile(s, result, ifLabel, labels);
+
+                var ifItem = {
+                       label:  ifLabel,
+                       labels: labels
+                   };
 
                 this._ifStack.push(ifItem);
                 this._endStack.push('if');
 
-                var ifLine   = jumpParts.start + '=' + jumpParts.end;
-                var operator = {command: 'cmp', operator: '=', pos: jumpParts.start.length};
-                var result   = this.compileOperator(ifLine, operator);
-                result.push(jumpParts.jump);
+                for (var i = 0; i < labels.length; i++) {
+                    labels[i].offset += outputOffset;
+                }
 
-                ifItem.outputOffset = output.length + result.length - 1;
+                result.push(ifLabel + '_true:');
 
                 return result;
             };
@@ -232,13 +253,15 @@
 
                 var ifItem = this._ifStack[this._ifStack.length - 1];
                 var label  = ifItem.label;
-                output[ifItem.outputOffset] += ' ' + label;
-                ifItem.outputOffset = output.length;
-                ifItem.label += '_else';
+
+                ifItem.labels.forEach(function(ifLabel) {
+                    ifLabel.type = 'else'
+                });
+                ifItem.labels.push({offset: output.length, type: 'exit'});
 
                 return [
                     'jmp ',
-                    label + ':'
+                    label + '_else:'
                 ];
             };
 
@@ -306,15 +329,32 @@
                 switch (end) {
                     case 'if':
                         var ifItem = this._ifStack.pop();
-                        output[ifItem.outputOffset] += ' ' + ifItem.label;
+                        ifItem.labels.forEach(function(ifLabel) {
+                            switch (ifLabel.type) {
+                                case 'exit':
+                                    output[ifLabel.offset] += ifItem.label;
+                                    break;
+
+                                case 'else':
+                                    output[ifLabel.offset] += ifItem.label + '_else';
+                                    break;
+                            }
+                        });
                         return [ifItem.label + ':'];
 
                     case 'while':
-                        var whileItem = this._whileStack.pop();
-                        output[whileItem.outputOffset] += ' ' + whileItem.label;
+                        var whileItem      = this._whileStack.pop();
+                        var whileExitLabel = whileItem.label + '_exit';
+                        whileItem.labels.forEach(function(whileLabel) {
+                            switch (whileLabel.type) {
+                                case 'exit':
+                                    output[whileLabel.offset] += whileExitLabel;
+                                    break;
+                            }
+                        });
                         return [
-                            'jmp ' + whileItem.whileLabel,
-                            whileItem.label + ':'
+                            'jmp ' + whileItem.label,
+                            whileExitLabel + ':'
                         ];
 
                     case 'select':
@@ -357,12 +397,12 @@
             this.compileOperator = function(line, operator) {
                 this.throwErrorIfAsmMode();
 
-                var result             = [];
-                var expressionCompiler = this._expressionCompiler;
-                var parts              = line.split(operator.operator);
-                var vr                 = parts[0].trim();
-                var value              = parts[1].trim();
-                var valueCalculation   = expressionCompiler.isCalculation(value);
+                var result                    = [];
+                var numericExpressionCompiler = this._numericExpressionCompiler;
+                var parts                     = line.split(operator.operator);
+                var vr                        = parts[0].trim();
+                var value                     = parts[1].trim();
+                var valueCalculation          = numericExpressionCompiler.isCalculation(value);
                 var tempVar;
 
                 var addOffsetToDest = function(value) {
@@ -378,13 +418,13 @@
                         }
                     };
 
-                if (expressionCompiler.isComposite(vr)) {
-                    var recordVar = expressionCompiler.compileCompositeVar(result, vr, 0, true);
+                if (numericExpressionCompiler.isComposite(vr)) {
+                    var recordVar = numericExpressionCompiler.compileCompositeVar(result, vr, 0, true);
                     if (valueCalculation) {
-                        tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                        tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                         result.push('set REG_DEST,' + tempVar + '_1');
-                    } else if (expressionCompiler.isComposite(value)) {
-                        var tempRecordVar = expressionCompiler.compileCompositeVar(result, value);
+                    } else if (numericExpressionCompiler.isComposite(value)) {
+                        var tempRecordVar = numericExpressionCompiler.compileCompositeVar(result, value);
                         tempVar = tempRecordVar.result;
 
                         result.push('set REG_SRC,REG_STACK');
@@ -426,10 +466,10 @@
                     result.push('    %end');
                     result.push('%end');
                 } else if (valueCalculation) {
-                    tempVar = expressionCompiler.compileToTempVar(result, valueCalculation);
+                    tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                     result.push('set ' + vr + ',' + tempVar + '_1');
-                } else if (expressionCompiler.isComposite(value)) {
-                    var recordVar = expressionCompiler.compileCompositeVar(result, value);
+                } else if (numericExpressionCompiler.isComposite(value)) {
+                    var recordVar = numericExpressionCompiler.compileCompositeVar(result, value);
                     var tempVar = recordVar.result;
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + tempVar);
@@ -489,12 +529,12 @@
             };
 
             this.compileProcCall = function(line, procCall) {
-                var expressionCompiler = this._expressionCompiler;
-                var hasExpression      = false;
-                var params             = procCall.params;
-                var param              = '';
-                var p                  = [];
-                var i                  = 0;
+                var numericExpressionCompiler = this._numericExpressionCompiler;
+                var hasExpression             = false;
+                var params                    = procCall.params;
+                var param                     = '';
+                var p                         = [];
+                var i                         = 0;
 
                 function addParam(value) {
                     var calculation = false;
@@ -502,9 +542,9 @@
                     var composite   = false;
 
                     if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
-                        calculation   = expressionCompiler.isCalculation(value);
-                        arrayIndex    = expressionCompiler.isArrayIndex(value);
-                        composite     = expressionCompiler.isComposite(value);
+                        calculation   = numericExpressionCompiler.isCalculation(value);
+                        arrayIndex    = numericExpressionCompiler.isArrayIndex(value);
+                        composite     = numericExpressionCompiler.isComposite(value);
                     }
                     hasExpression = hasExpression || !!calculation || !!arrayIndex || composite;
 
@@ -569,9 +609,9 @@
                 for (var i = 0; i < p.length; i++) {
                     param = p[i];
                     if (param.calculation) {
-                        outputParams.push(expressionCompiler.compileToTempVar(result, param.calculation) + '_1');
+                        outputParams.push(numericExpressionCompiler.compileToTempVar(result, param.calculation) + '_1');
                     } else if (param.composite || param.arrayIndex) {
-                        var recordVar = expressionCompiler.compileCompositeVar(result, param.value);
+                        var recordVar = numericExpressionCompiler.compileCompositeVar(result, param.value);
                         tempVar = recordVar.result;
                         result.push('set REG_SRC,REG_STACK');
                         result.push('set REG_STACK,' + tempVar);
@@ -580,7 +620,7 @@
                         result.push('set ' + tempVar + ',REG_DEST');
                         outputParams.push(tempVar);
                     } else {
-                        /*var tempParamVar = expressionCompiler.createTempVarName();
+                        /*var tempParamVar = numericExpressionCompiler.createTempVarName();
                         result.push('number ' + tempParamVar);
                         result.push('%if_pointer ' + param.value);
                         result.push('    set  REG_SRC, REG_STACK');
@@ -705,11 +745,11 @@
                         break;
 
                     default:
-                        var procCall = this._expressionCompiler.isProcCall(line);
+                        var procCall = this._numericExpressionCompiler.isProcCall(line);
                         if (procCall) {
                             return this.compileProcCall(line, procCall);
                         } else {
-                            var operator = this._expressionCompiler.hasOperator(line);
+                            var operator = this._numericExpressionCompiler.hasOperator(line);
                             if (operator) {
                                 return this.compileOperator(line, operator);
                             }
@@ -747,9 +787,9 @@
                     }
                 }
 
-                //for (var i = 0; i < output.length; i++) {
-                //    console.log(i + ']', output[i]);
-                //}
+                // for (var i = 129; i < output.length; i++) {
+                //   console.log(i + ']', output[i]);
+                // }
                 return {
                     output:    output,
                     sourceMap: sourceMap
