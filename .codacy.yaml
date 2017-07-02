@@ -14,3 +14,4 @@ exclude_paths:
   - whl/*
   - js/simulator/*.js
   - js/simulator/**/*
+  - '*.json'
