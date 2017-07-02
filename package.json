@@ -4,7 +4,9 @@
   "description": "Wheel compiler and VM.",
   "main": "server.js",
   "dependencies": {
-    "mocha": "^3.2.0"
+    "codacy-coverage": "^2.0.2",
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.3.0"
   },
   "devDependencies": {},
   "scripts": {
