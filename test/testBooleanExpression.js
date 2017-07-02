@@ -350,11 +350,8 @@ describe(
                                     it('Should evaluate if a or b and c and d or e -> a=' + a + ', b=' + b + ', c=' + c + ', d=' + d + ', e=' + e, function() {
                                         var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                                                 'proc main()',
-                                                '    number a = ' + a,
-                                                '    number b = ' + b,
-                                                '    number c = ' + c,
-                                                '    number d = ' + d,
-                                                '    number e = ' + e,
+                                                '    number a = ' + a + ', b = ' + b + ', c = ' + c,
+                                                '    number d = ' + d + ',e = ' + e,
                                                 '',
                                                 '    if a or b and c and d or e',
                                                 '        printS("true")',
