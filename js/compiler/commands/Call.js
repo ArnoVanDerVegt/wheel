@@ -102,6 +102,10 @@
 
                 params = wheel.compiler.compilerHelper.splitParams(this._compiler, params);
 
+                if (proc && (params.length !== proc.paramTypes.length)) {
+                    throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_PARAM_COUNT_MISMATCH, 'Parameter count mismatch.');
+                }
+
                 // The local offset is the stack size used in the current procedure...
                 var offset = currentLocalStackSize + 2;
                 for (var i = 0; i < params.length; i++) {
