@@ -1,0 +1,11 @@
+languages:
+  JavaScript: true
+exclude_paths:
+  - css/*
+  - site/*
+  - fonts/*
+  - ev3/*
+  - node_modules/*
+  - test/*
+  - whl/*
+  - js/simulator/*
