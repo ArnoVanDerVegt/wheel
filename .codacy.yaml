@@ -1,5 +1,9 @@
 languages:
   JavaScript: true
+ratings:
+  paths:
+  - "js/compiler/*"
+  - "js/vm/*"
 exclude_paths:
   - css/*
   - site/*
@@ -8,4 +12,4 @@ exclude_paths:
   - node_modules/*
   - test/*
   - whl/*
-  - js/simulator/*
+  - js/simulator/**/*
