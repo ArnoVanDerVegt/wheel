@@ -123,17 +123,53 @@
                         <td>jge</td>
                     </tr>
                 </table>
+                <br/>
 
+                <h5>Booleans</h5>
+                When there is no condition specified in an <i>if</i> statement then the value is compared to 0.<br/>
+                The condition evaluates as <i>true</i> when the value is not equal to 0.
+                <pre>
+                    proc main()
+                        number b
+
+                        if b
+                            printN("True")
+                        end
+                    end
+                </pre>
+
+
+                <h5>Else</h5>
+                With the <i>else</i> statement you can execute a block of code if the <i>if</i> condition is false.
                 <pre>
                     proc main()
                         number n
 
-                        for n = 1 to 10
-                            if n == 5
-                                printS("-")
-                            else
-                                printN(n)
-                            end
+                        if n == 4
+                            printS("Four")
+                        else
+                            printN("Not four")
+                        end
+                    end
+                </pre>
+                <br/>
+
+                <h5>Logical operators</h5>
+                Whit a logical operator you can compare multiple values, there are two logical operators: <i>and</i> and <i>or</i>.
+
+                <pre>
+                    proc main()
+                        number a
+                        number b
+
+                        ; A and example...
+                        if a == 5 and b == 5
+                            printS("A and B are five")
+                        end
+
+                        ; A or example
+                        if a == 5 or b == 5
+                            printS("A or B is five")
                         end
                     end
                 </pre>

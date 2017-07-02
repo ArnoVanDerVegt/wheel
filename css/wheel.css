@@ -963,6 +963,8 @@ div.three ul {
 }
 div.two ul.clear,
 div.three ul.clear {
+    float:                      left;
+    width:                      100%;
     background-color:           transparent;
     border:                     0;
     margin:                     0;

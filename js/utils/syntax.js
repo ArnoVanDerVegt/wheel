@@ -32,7 +32,9 @@
             'jmpc',
             'copy',
             'else',
-            'struct'
+            'struct',
+            'or',
+            'and'
         ];
 
     var registers = [
@@ -65,7 +67,8 @@
             '%',
             '[',
             '|',
-            ']'
+            ']',
+            ':'
         ];
 
     var meta = [
@@ -131,7 +134,7 @@
                         result += '<span class="blue">' + w + '</span>';
                     }
                 } else {
-                    result += '<span class="green">' + w + '</span>';
+                    result += '<span class="yellow bold">' + w + '</span>';
                 }
 
                 word = '';
@@ -162,6 +165,7 @@
                 case ')':
                 case '[':
                 case ']':
+                case ':':
                 case '+':
                 case '-':
                 case '*':
