@@ -1,13 +1,11 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.Ret',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(validatedCommand, splitParams, params, location) {
-                $ = wheel.compiler.command;
-
+                var $              = wheel.compiler.command;
                 var compilerOutput = this._compiler.getOutput();
 
                 compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(1));
