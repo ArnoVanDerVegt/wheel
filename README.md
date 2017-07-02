@@ -2,6 +2,7 @@
 EV3 VM and compiler
 
 [![Build Status](https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master)](https://travis-ci.org/ArnoVanDerVegt/wheel)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/4466f90ab2274801b7b088c8f661e6a3)](https://www.codacy.com/app/ArnoVanDerVegt/wheel?utm_source=github.com&utm_medium=referral&utm_content=ArnoVanDerVegt/wheel&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4466f90ab2274801b7b088c8f661e6a3)](https://www.codacy.com/app/ArnoVanDerVegt/wheel?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ArnoVanDerVegt/wheel&amp;utm_campaign=Badge_Grade)
 
 This project contains a compiler and virtual machine.
