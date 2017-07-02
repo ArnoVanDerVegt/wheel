@@ -5,7 +5,6 @@ ratings:
   - "js/compiler/*"
   - "js/vm/*"
 exclude_paths:
-  - *.json
   - css/*
   - site/*
   - fonts/*
