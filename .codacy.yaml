@@ -12,5 +12,5 @@ exclude_paths:
   - node_modules/*
   - test/*
   - whl/*
-  - js/simulator/*
+  - js/simulator/*.js
   - js/simulator/**/*
