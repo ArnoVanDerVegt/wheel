@@ -69,19 +69,25 @@
 
     function removeParentheses(s) {
         s = s.trim();
-        if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
-            var result = s.substr(1, s.length - 2);
-            for (var i = 0; i < result.length; i++) {
-                var c = result[i];
-                if (c === '(') {
-                    break;
-                } else if (c === ')') {
-                    return s;
+        var change = true;
+        while (change) {
+            change = false;
+            if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
+                var result = s.substr(1, s.length - 2);
+                for (var i = 0; i < result.length; i++) {
+                    var c = result[i];
+                    if (c === '(') {
+                        break;
+                    } else if (c === ')') {
+                        return s;
+                    }
                 }
+                change = true;
+                s      = result;
+            } else {
+                return s;
             }
-            return result;
         }
-        return s;
     }
 
     var labelIndex = 0;
