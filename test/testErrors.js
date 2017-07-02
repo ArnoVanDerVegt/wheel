@@ -55,6 +55,22 @@ describe(
                         }
                     );
                 });
+                it('Should throw SYNTAX_ERROR_PARAM_COUNT_MISMATCH parameter count mismatch', function() {
+                    assert.throws(
+                        function() {
+                            compilerTestUtils.compile([
+                                'proc test(number a, number b)',
+                                'endp',
+                                'proc main()',
+                                '   test(1)',
+                                'endp'
+                            ]);
+                        },
+                        function(error) {
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.SYNTAX_ERROR_PARAM_COUNT_MISMATCH + ' Parameter count mismatch.');
+                        }
+                    );
+                });
 
                 it('Should throw SYNTAX_ERROR_INVALID_PROC_PARAM', function() {
                     assert.throws(

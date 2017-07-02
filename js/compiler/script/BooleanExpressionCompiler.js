@@ -68,19 +68,26 @@
     }
 
     function removeParentheses(s) {
-        if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
-            var result = s.substr(1, s.length - 2);
-            for (var i = 0; i < result.length; i++) {
-                var c = result[i];
-                if (c === '(') {
-                    break;
-                } else if (c === ')') {
-                    return s;
+        s = s.trim();
+        var change = true;
+        while (change) {
+            change = false;
+            if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
+                var result = s.substr(1, s.length - 2);
+                for (var i = 0; i < result.length; i++) {
+                    var c = result[i];
+                    if (c === '(') {
+                        break;
+                    } else if (c === ')') {
+                        return s;
+                    }
                 }
+                change = true;
+                s      = result;
+            } else {
+                return s;
             }
-            return result;
         }
-        return s;
     }
 
     var labelIndex = 0;
@@ -322,7 +329,7 @@
             this.compile = function(s, result, label, labels) {
                 this._label  = label;
                 this._labels = labels;
-                var node = this.parse(s, null, 'root', result);
+                var node = this.parse(removeParentheses(s), null, 'root', result);
                 node.compile(0);
             };
         })
