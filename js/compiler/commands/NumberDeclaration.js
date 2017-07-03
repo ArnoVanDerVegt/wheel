@@ -14,7 +14,6 @@
         wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.compile = function(validatedCommand, params, origParams, location) {
                 var compiler       = this._compiler;
-                var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
                 var $              = wheel.compiler.command;
 
@@ -36,14 +35,10 @@
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var size   = local.size * local.length;
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
+
                                 // Store the data which should be placed at the just allocated space:
                                 compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseNumberArray(local.value, compiler));
-
-                                // Copy the data from the global offset to the local offset...
-                                compilerOutput.a($.set.code, $.SRC(),  $.CONST(offset));
-                                compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                                this.addToDestIfValue(local.offset);
-                                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                                this.copyData(local, offset, size);
                             }
                         }
                     }
