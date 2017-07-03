@@ -321,10 +321,8 @@
 
                     default:
                         return false;
-
-                    return true;
-                };
-            }
+                }
+            };
         })
     );
 })();
