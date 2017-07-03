@@ -39,6 +39,13 @@
                 return [];
             };
 
+            this.compilePointerDeref = function(result, tempVar) {
+                result.push('set REG_SRC,REG_STACK');
+                result.push('set REG_STACK,' + tempVar);
+                result.push('set REG_DEST,%REG_STACK');
+                result.push('set REG_STACK,REG_SRC');
+            };
+
             this.compileEnd = function(output) {
                 if (this._asmMode) {
                     this._asmMode = false;
@@ -157,12 +164,7 @@
                         result.push('set REG_DEST,' + tempVar + '_1');
                     } else if (numericExpressionCompiler.isComposite(value)) {
                         var tempRecordVar = numericExpressionCompiler.compileCompositeVar(result, value);
-                        tempVar = tempRecordVar.result;
-
-                        result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + tempVar);
-                        result.push('set REG_DEST,%REG_STACK');
-                        result.push('set REG_STACK,REG_SRC');
+                        this.compilePointerDeref(result, tempRecordVar.result);
                     } else {
                         result.push('%if_pointer ' + vr);
                         addOffsetToDest(value);
@@ -202,13 +204,16 @@
                     result.push('set ' + vr + ',' + tempVar + '_1');
                 } else if (numericExpressionCompiler.isComposite(value)) {
                     var recordVar = numericExpressionCompiler.compileCompositeVar(result, value);
-                    var tempVar = recordVar.result;
+
+                    var tempVar   = recordVar.result;
                     result.push('set REG_SRC,REG_STACK');
                     result.push('set REG_STACK,' + tempVar);
                     result.push('set REG_DEST,%REG_STACK');
                     result.push('set REG_STACK,REG_SRC');
+
                     result.push('set ' + tempVar + ',REG_DEST');
                     result.push('set ' + vr + ',' + tempVar);
+
                 } else {
                     vr = vr.trim();
                     result.push('%if_pointer ' + vr);
