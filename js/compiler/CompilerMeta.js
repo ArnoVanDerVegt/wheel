@@ -260,45 +260,45 @@
                             result = '';
                             break;
 
-                        case '%if_size_1':
-                            result       = '';
-                            lines[index] = '';
-                            var vr = this.findLastType(this.cleanIdentifier(param));
-                            if (vr) {
-                                this.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
-                            } else {
-                                // todo: error
-                            }
-                            break;
-
                         case '%if_global':
                             result       = '';
                             lines[index] = '';
                             this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(this.cleanIdentifier(param)));
                             break;
 
-                        case '%if_record':
-                            result = '';
+                        default:
                             var vr = this.findLastType(this.cleanIdentifier(param));
-                            if (vr) {
-                                lines[index] = '';
-                                this.updateConditionalLines(lines, index, !!vr.record);
-                            } else {
-                                // todo: error
-                            }
-                            break;
+                            result = '';
+                            switch (command) {
+                                case '%if_size_1':
+                                    lines[index] = '';
+                                    if (vr) {
+                                        this.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
+                                    } else {
+                                        // todo: error
+                                    }
+                                    break;
 
-                        case '%if_pointer':
-                            result = '';
-                            var vr = this.findLastType(this.cleanIdentifier(param));
-                            if (vr) {
-                                lines[index] = '';
-                                this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
-                            } else if (!isNaN(vr)) {
-                                lines[index] = '';
-                                this.updateConditionalLines(lines, index, false);
-                            } else {
-                                // todo: error
+                                case '%if_record':
+                                    if (vr) {
+                                        lines[index] = '';
+                                        this.updateConditionalLines(lines, index, !!vr.record);
+                                    } else {
+                                        // todo: error
+                                    }
+                                    break;
+
+                                case '%if_pointer':
+                                    if (vr) {
+                                        lines[index] = '';
+                                        this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
+                                    } else if (!isNaN(vr)) {
+                                        lines[index] = '';
+                                        this.updateConditionalLines(lines, index, false);
+                                    } else {
+                                        // todo: error
+                                    }
+                                    break;
                             }
                             break;
                     }
