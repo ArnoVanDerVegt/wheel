@@ -19,7 +19,7 @@
                 this._retCompiler = retCompiler;
             };
 
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(validatedCommand, splitParams, params) {
                 var $ = wheel.compiler.command;
 
                 validatedCommand.code = $.set.code;

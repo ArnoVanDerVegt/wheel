@@ -4,7 +4,7 @@
     wheel(
         'compiler.commands.Ret',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(validatedCommand, splitParams, params) {
                 var compilerOutput = this._compiler.getOutput();
                 var $              = wheel.compiler.command;
 

@@ -4,7 +4,7 @@
     wheel(
         'compiler.commands.JmpC',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(validatedCommand, splitParams, params) {
                 var $    = wheel.compiler.command;
                 var flag = 0;
 
