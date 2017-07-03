@@ -326,10 +326,7 @@
                     } else if (param.composite || param.arrayIndex) {
                         var recordVar = numericExpressionCompiler.compileCompositeVar(result, param.value);
                         tempVar = recordVar.result;
-                        result.push('set REG_SRC,REG_STACK');
-                        result.push('set REG_STACK,' + tempVar);
-                        result.push('set REG_DEST,%REG_STACK');
-                        result.push('set REG_STACK,REG_SRC');
+                        this.compilePointerDeref(result, tempVar);
                         result.push('set ' + tempVar + ',REG_DEST');
                         outputParams.push(tempVar);
                     } else {
