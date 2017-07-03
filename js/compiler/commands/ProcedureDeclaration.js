@@ -20,7 +20,7 @@
                 procedure = compilerData.declareProcedure(procedure, procStartIndex);
 
                 params = params.substr(j + 1, params.length - j - 2).trim();
-                params = params.length ? wheel.compiler.compilerHelper.splitParams(compiler, params) : [];
+                params = params.length ? wheel.compiler.helpers.compilerHelper.splitParams(compiler, params) : [];
                 for (var j = 0; j < params.length; j++) {
                     var param = params[j].trim().split(' ');
                     if (param.length !== 2) {

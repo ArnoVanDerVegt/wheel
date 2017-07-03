@@ -1,5 +1,5 @@
 (function() {
-    var wheel = require('../utils/base.js').wheel;
+    var wheel = require('../../utils/base.js').wheel;
 
     wheel(
         'compiler.helpers.compilerHelper',

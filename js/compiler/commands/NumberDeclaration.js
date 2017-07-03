@@ -29,7 +29,7 @@
                         if (local.value) {
                             if (local.type === $.T_NUM_L) { // Like: number n = 1
                                 var value = parseFloat(local.value);
-                                wheel.compiler.compilerHelper.checkNumber(compiler, value, local.value, wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED);
+                                wheel.compiler.helpers.compilerHelper.checkNumber(compiler, value, local.value, wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED);
                                 // Set the the value at the address of the local variable...
                                 this.addSetLocal(local, value);
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: number arr[3] = [0, 1, 2]
@@ -37,7 +37,7 @@
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
 
                                 // Store the data which should be placed at the just allocated space:
-                                compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseNumberArray(local.value, compiler));
+                                compilerData.declareConstant(offset, wheel.compiler.helpers.compilerHelper.parseNumberArray(local.value, compiler));
                                 this.copyData(local, offset, size);
                             }
                         }
@@ -51,11 +51,11 @@
                         if (global.value) {
                             if (global.type === $.T_NUM_G) { // Like: number n = 1
                                 var value = parseFloat(global.value);
-                                wheel.compiler.compilerHelper.checkNumber(compiler, value, global.value, wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED);
+                                wheel.compiler.helpers.compilerHelper.checkNumber(compiler, value, global.value, wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED);
                                 compilerData.declareConstant(global.offset, [value]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var value = global.value.trim();
-                                compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseNumberArray(value, compiler));
+                                compilerData.declareConstant(global.offset, wheel.compiler.helpers.compilerHelper.parseNumberArray(value, compiler));
                             }
                         }
                     }

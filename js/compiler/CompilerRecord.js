@@ -24,11 +24,11 @@
                     };
                 var compiler = this._compiler;
                 var list     = this._list;
-                if (!wheel.compiler.compilerHelper.validateString(name)) {
+                if (!wheel.compiler.helpers.compilerHelper.validateString(name)) {
                     throw compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_STRUCS_CHAR, 'Syntax error.');
                 }
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(compiler, name, list);
+                wheel.compiler.helpers.compilerHelper.checkDuplicateIdentifier(compiler, name, list);
 
                 list[name]         = result;
                 this._activeRecord = result;

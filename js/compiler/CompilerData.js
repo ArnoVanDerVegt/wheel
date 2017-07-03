@@ -129,7 +129,7 @@
             this.declareProcedure = function(name, index) {
                 var procedureList = this._procedureList;
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(this._compiler, name, procedureList);
+                wheel.compiler.helpers.compilerHelper.checkDuplicateIdentifier(this._compiler, name, procedureList);
 
                 this.resetLocal();
                 this._procedure = {
@@ -163,14 +163,14 @@
             };
 
             this.paramInfo = function(param) {
-                if (wheel.compiler.compilerHelper.getWrappedInChars(param, '"', '"')) {
+                if (wheel.compiler.helpers.compilerHelper.getWrappedInChars(param, '"', '"')) {
                     return {
                         type:     $.T_NUM_C,
                         metaType: $.T_META_STRING,
                         value:    param.substr(1, param.length - 2),
                         param:    param
                     };
-                } else if (wheel.compiler.compilerHelper.getWrappedInChars(param, '[', ']')) {
+                } else if (wheel.compiler.helpers.compilerHelper.getWrappedInChars(param, '[', ']')) {
                     return {
                         type:  $.T_NUM_G_ARRAY, // Array constant
                         value: param,
