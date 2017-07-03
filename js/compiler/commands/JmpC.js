@@ -1,13 +1,11 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.JmpC',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(validatedCommand, splitParams, params, location) {
-                $ = wheel.compiler.command;
-
+                var $    = wheel.compiler.command;
                 var flag = 0;
 
                 switch (validatedCommand.command) {

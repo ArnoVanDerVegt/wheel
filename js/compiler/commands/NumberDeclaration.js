@@ -8,17 +8,15 @@
 **/
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.NumberDeclaration',
         wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.compile = function(validatedCommand, params, origParams, location) {
-                $ = wheel.compiler.command;
-
                 var compiler       = this._compiler;
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
+                var $              = wheel.compiler.command;
 
                 if (compiler.getActiveRecord() !== null) {
                     // Declare a number of array of numbers field in a record...
