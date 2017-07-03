@@ -178,7 +178,7 @@
                     compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
                 } else {
                     var commandAndParams = this.getCommandAndParams(line);
-                    var splitParams      = wheel.compiler.compilerHelper.splitParams(this, commandAndParams.params);
+                    var splitParams      = wheel.compiler.helpers.compilerHelper.splitParams(this, commandAndParams.params);
                     var validatedCommand = this.validateCommand(commandAndParams.command, splitParams);
                     validatedCommand && (validatedCommand.command = commandAndParams.command);
                     switch (commandAndParams.command) {

@@ -53,8 +53,8 @@
                 var list         = this._list;
                 var size         = (metaType === $.T_META_POINTER) ? 1 : (record ? record.size : 1);
 
-                wheel.compiler.compilerHelper.checkDuplicateIdentifier(compiler, vr.name, list);
-                wheel.compiler.compilerHelper.checkInvalidConstant(compiler, vr, allowConstant);
+                wheel.compiler.helpers.compilerHelper.checkDuplicateIdentifier(compiler, vr.name, list);
+                wheel.compiler.helpers.compilerHelper.checkInvalidConstant(compiler, vr, allowConstant);
 
                 var item = {
                         name:     vr.name,

@@ -28,7 +28,7 @@
                 var compiler         = this._compiler;
                 var compilerOutput   = compiler.getOutput();
                 var commandAndParams = compiler.getCommandAndParams(line);
-                var splitParams      = wheel.compiler.compilerHelper.splitParams(this._compiler, commandAndParams.params);
+                var splitParams      = wheel.compiler.helpers.compilerHelper.splitParams(this._compiler, commandAndParams.params);
                 var validatedCommand = compiler.validateCommand(commandAndParams.command, splitParams);
 
                 if (commandAndParams.command === 'set') {

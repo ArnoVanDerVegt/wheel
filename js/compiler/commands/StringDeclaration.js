@@ -13,7 +13,7 @@
         'compiler.commands.StringDeclaration',
         wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.checkWrappedString = function(global, openChar, closeChar, message, error) {
-                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, openChar, closeChar)) {
+                if (!wheel.compiler.helpers.compilerHelper.getWrappedInChars(global.value, openChar, closeChar)) {
                     throw this._compiler.createError(error, message + ' "' + global.value + '".');
                 }
             };
@@ -51,7 +51,7 @@
                                 var offset = compilerData.allocateGlobal(size); // Allocate space...
 
                                 // Store the data which should be placed at the just allocated space:
-                                compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseStringArray(local.value, compiler, compilerData));
+                                compilerData.declareConstant(offset, wheel.compiler.helpers.compilerHelper.parseStringArray(local.value, compiler, compilerData));
                                 this.copyData(local, offset, size);
                             }
                         }
@@ -70,7 +70,7 @@
                                 compilerData.declareConstant(global.offset, [compilerData.declareString(value.substr(1, value.length - 2))]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
                                 this.checkWrappedString(global, '[', ']', 'String array expected, found', wheel.compiler.error.STRING_ARRAY_EXPECTED);
-                                compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData));
+                                compilerData.declareConstant(global.offset, wheel.compiler.helpers.compilerHelper.parseStringArray(value, compiler, compilerData));
                             }
                         }
                     }

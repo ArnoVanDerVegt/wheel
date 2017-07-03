@@ -68,7 +68,7 @@
             this.isProcCall = function(s) {
                 s = s.trim();
                 var i = s.indexOf('(');
-                if ((i > 0) && (s.substr(-1) === ')') && wheel.compiler.compilerHelper.validateString(s.substr(0, i))) {
+                if ((i > 0) && (s.substr(-1) === ')') && wheel.compiler.helpers.compilerHelper.validateString(s.substr(0, i))) {
                     return {
                         name:   s.substr(0, i),
                         params: s.substr(i + 1, s.length - i - 2)
@@ -175,7 +175,7 @@
                     if ((s[i] === '.') && ('0123456789'.indexOf(s[i + 1]) === -1)) {
                         return true;
                     }
-                    if (!wheel.compiler.compilerHelper.validateString(s[i])) {
+                    if (!wheel.compiler.helpers.compilerHelper.validateString(s[i])) {
                         return false;
                     }
                 }

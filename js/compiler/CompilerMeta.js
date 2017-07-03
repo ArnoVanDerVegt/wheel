@@ -1,5 +1,6 @@
 (function() {
-    var wheel = require('../utils/base.js').wheel;
+    var wheel              = require('../utils/base.js').wheel;
+    var compilerMetaHelper = wheel.compiler.helpers.compilerMetaHelper;
 
     wheel(
         'compiler.CompilerMeta',
@@ -111,40 +112,6 @@
                 updateLines('%end',  conditionTrue);
             };
 
-            this.cleanIdentifier = function(identifier) {
-                var s = '';
-                var i = 0;
-
-                while (i < identifier.length) {
-                    var c = identifier[i++];
-                    switch (c) {
-                        case '[':
-                            var open = 1;
-                            while (open) {
-                                c = identifier[i++];
-                                switch (c) {
-                                    case '[':
-                                        open++;
-                                        break;
-
-                                    case ']':
-                                        open--;
-                                        break;
-                                }
-                            }
-                            break;
-
-                        case '&':
-                            break;
-
-                        default:
-                            s += c;
-                            break;
-                    }
-                }
-                return s;
-            };
-
             /**
              * Get the last type of a composite type...
              *
@@ -152,7 +119,7 @@
              * a.b.c --> return type info about "c"
             **/
             this.findLastType = function(identifier) {
-                identifier = this.cleanIdentifier(identifier);
+                identifier = compilerMetaHelper.cleanIdentifier(identifier);
                 var vr     = this._compilerData.findGlobal(identifier) || this._compilerData.findLocal(identifier);
                 var result = null;
                 if (vr) {
@@ -177,27 +144,6 @@
                 return result;
             };
 
-            this.findMetaParam = function(line, param) {
-                param = param + '(';
-                var i = line.indexOf(param);
-                if (i === -1) {
-                    return false;
-                }
-
-                var j = line.indexOf(')', i);
-                var k = param.length;
-
-                return line.substr(i + k, j - i - k);
-            };
-
-            this.replaceMetaParam = function(line, param, value) {
-                param = param + '(';
-                var i = line.indexOf(param);
-                var j = line.indexOf(')', i);
-
-                return line.substr(0, i) + value + line.substr(j, j - line.length);
-            };
-
             this.compileParams = function(line) {
                 var replacers = {
                         '%offset': (function(line, param) {
@@ -209,7 +155,7 @@
                                     throw this._compiler.createError(wheel.compiler.error.TYPE_MISMATCH, 'Type mismatch "' + param + '".');
                                 }
                             } else {
-                                line = this.replaceMetaParam(line, '%offset', type.offset);
+                                line = compilerMetaHelper.replaceMetaParam(line, '%offset', type.offset);
                             }
                             return line;
                         }).bind(this),
@@ -219,17 +165,17 @@
                                 throw new Error('sizeof Param "' + param + '" not found');
                                 // todo: error
                             } else {
-                                line = this.replaceMetaParam(line, '%sizeof', type.size);
+                                line = compilerMetaHelper.replaceMetaParam(line, '%sizeof', type.size);
                             }
                             return line;
                         }).bind(this)
                     };
 
                 for (var replacer in replacers) {
-                    var param = this.findMetaParam(line, replacer);
+                    var param = compilerMetaHelper.findMetaParam(line, replacer);
                     while (param) {
                         line  = replacers[replacer](line, param);
-                        param = this.findMetaParam(line, replacer);
+                        param = compilerMetaHelper.findMetaParam(line, replacer);
                     }
                 }
 
@@ -263,11 +209,11 @@
                         case '%if_global':
                             result       = '';
                             lines[index] = '';
-                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(this.cleanIdentifier(param)));
+                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(compilerMetaHelper.cleanIdentifier(param)));
                             break;
 
                         default:
-                            var vr = this.findLastType(this.cleanIdentifier(param));
+                            var vr = this.findLastType(compilerMetaHelper.cleanIdentifier(param));
                             result       = '';
                             lines[index] = '';
                             switch (command) {

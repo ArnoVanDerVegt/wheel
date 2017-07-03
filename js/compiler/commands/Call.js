@@ -85,7 +85,7 @@
 
                 if (paramInfo.value && (paramInfo.type === $.T_NUM_G_ARRAY)) {
                     if (typeof paramInfo.value === 'string') {
-                        var data = wheel.compiler.compilerHelper.parseNumberArray(paramInfo.value);
+                        var data = wheel.compiler.helpers.compilerHelper.parseNumberArray(paramInfo.value);
                         size            = data.length;
                         paramInfo.value = compilerData.allocateGlobal(size);
                         compilerData.declareConstant(paramInfo.value, data);
@@ -104,7 +104,7 @@
             this.compileParams = function(proc, params, currentLocalStackSize) {
                 var compilerData = this._compilerData;
 
-                params = wheel.compiler.compilerHelper.splitParams(this._compiler, params);
+                params = wheel.compiler.helpers.compilerHelper.splitParams(this._compiler, params);
 
                 if (proc && (params.length !== proc.paramTypes.length)) {
                     throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_PARAM_COUNT_MISMATCH, 'Parameter count mismatch.');
@@ -161,7 +161,7 @@
                 var i              = line.indexOf('(');
                 var procedure      = line.substr(0, i);
 
-                if (!wheel.compiler.compilerHelper.validateString(procedure, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')) {
+                if (!wheel.compiler.helpers.compilerHelper.validateString(procedure, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')) {
                     throw this._compiler.createError(wheel.compiler.error.SYNTAX_ERROR_INVALID_PROC_CHAR, 'Syntax error.');
                 }
 
