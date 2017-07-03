@@ -7,7 +7,8 @@
  *
 **/
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
+    var wheel          = require('../../utils/base.js').wheel;
+    var compilerHelper = wheel.compiler.helpers.compilerHelper;
 
     wheel(
         'compiler.commands.NumberDeclaration',
@@ -29,36 +30,29 @@
                         if (local.value) {
                             if (local.type === $.T_NUM_L) { // Like: number n = 1
                                 var value = parseFloat(local.value);
-                                wheel.compiler.helpers.compilerHelper.checkNumber(compiler, value, local.value, wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED);
+                                compilerHelper.checkNumber(compiler, value, local.value, wheel.compiler.error.NUMBER_LOCAL_CONSTANT_EXPECTED);
                                 // Set the the value at the address of the local variable...
                                 this.addSetLocal(local, value);
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: number arr[3] = [0, 1, 2]
-                                var size   = local.size * local.length;
-                                var offset = compilerData.allocateGlobal(size); // Allocate space...
-
-                                // Store the data which should be placed at the just allocated space:
-                                compilerData.declareConstant(offset, wheel.compiler.helpers.compilerHelper.parseNumberArray(local.value, compiler));
-                                this.copyData(local, offset, size);
+                                this.declareLocalArray(local, compilerHelper.parseNumberArray.bind(compilerHelper));
                             }
                         }
                     }
                 } else {
-                    // Declare a global number or array of numbers...
-                    for (var i = 0; i < params.length; i++) {
-                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
-
-                        // Check if the number declaration had a constant value assigned to it...
-                        if (global.value) {
+                    this.declareGlobalArray(
+                        params,
+                        function(global) {
+                            // Check if the number declaration had a constant value assigned to it...
                             if (global.type === $.T_NUM_G) { // Like: number n = 1
                                 var value = parseFloat(global.value);
-                                wheel.compiler.helpers.compilerHelper.checkNumber(compiler, value, global.value, wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED);
+                                compilerHelper.checkNumber(compiler, value, global.value, wheel.compiler.error.NUMBER_GLOBAL_CONSTANT_EXPECTED);
                                 compilerData.declareConstant(global.offset, [value]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: number arr[3] = [0, 1, 2]
                                 var value = global.value.trim();
-                                compilerData.declareConstant(global.offset, wheel.compiler.helpers.compilerHelper.parseNumberArray(value, compiler));
+                                compilerData.declareConstant(global.offset, compilerHelper.parseNumberArray(value, compiler));
                             }
                         }
-                    }
+                    );
                 }
             };
         })

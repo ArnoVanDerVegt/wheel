@@ -17,6 +17,7 @@
             **/
             this.addSetLocal = function(local, offset) {
                 var $ = wheel.compiler.command;
+
 				this._compiler.getOutput().a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
             };
 
@@ -26,6 +27,7 @@
             this.copyData = function(local, offset, size) {
                 var compilerOutput = this._compiler.getOutput();
                 var $              = wheel.compiler.command;
+
                 compilerOutput.a($.set.code, $.SRC(), $.CONST(offset));
                 compilerOutput.a($.set.code, $.DEST(), $.STACK());
                 this.addToDestIfValue(local.offset);
@@ -36,6 +38,30 @@
                 for (var j = 0; j < params.length; j++) {
                     this._compilerData.declareRecordField(params[j], type, arrayType);
                 }
+            };
+
+            this.declareGlobalArray = function(params, callback) {
+                var compilerData = this._compilerData;
+                var $            = wheel.compiler.command;
+
+                // Declare a global string or array of strings...
+                params.forEach(
+                    function(param) {
+                        var global = compilerData.declareGlobal(param, $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
+                        global.value && callback.call(this, global);
+                    },
+                    this
+                );
+            };
+
+            this.declareLocalArray = function(local, parser) {
+                var compilerData = this._compilerData;
+                var size         = local.size * local.length;
+                var offset       = compilerData.allocateGlobal(size); // Allocate space...
+
+                // Store the data which should be placed at the just allocated space:
+                compilerData.declareConstant(offset, parser(local.value, this._compiler, this._compilerData));
+                this.copyData(local, offset, size);
             };
         })
     );
