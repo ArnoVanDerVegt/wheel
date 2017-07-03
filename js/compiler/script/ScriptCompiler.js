@@ -402,66 +402,16 @@
                     case 'end':
                         return this.compileEnd(output);
 
-                    case 'set':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'add':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'sub':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'mul':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'div':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'mod':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'inc':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'dec':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'copy':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'cmp':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'jmpc':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'module':
-                        this.throwErrorIfScriptMode();
-                        break;
-
-                    case 'addr':
-                        this.throwErrorIfScriptMode();
-                        break;
-
                     default:
-                        var procCall = this._numericExpressionCompiler.isProcCall(line);
-                        if (procCall) {
-                            return this.compileProcCall(line, procCall);
-                        } else {
-                            var operator = this._numericExpressionCompiler.hasOperator(line);
-                            if (operator) {
-                                return this.compileOperator(line, operator);
+                        if (!this.checkAsmCommand(command)) {
+                            var procCall = this._numericExpressionCompiler.isProcCall(line);
+                            if (procCall) {
+                                return this.compileProcCall(line, procCall);
+                            } else {
+                                var operator = this._numericExpressionCompiler.hasOperator(line);
+                                if (operator) {
+                                    return this.compileOperator(line, operator);
+                                }
                             }
                         }
                         break;

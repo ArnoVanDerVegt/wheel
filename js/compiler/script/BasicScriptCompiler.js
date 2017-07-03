@@ -264,6 +264,67 @@
 
                 return result;
             };
+
+            this.checkAsmCommand = function(command) {
+                switch (command) {
+                    case 'set':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'add':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'sub':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'mul':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'div':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'mod':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'inc':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'dec':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'copy':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'cmp':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'jmpc':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'module':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    case 'addr':
+                        this.throwErrorIfScriptMode();
+                        break;
+
+                    default:
+                        return false;
+
+                    return true;
+                };
+            }
         })
     );
 })();
