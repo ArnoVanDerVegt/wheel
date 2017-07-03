@@ -26,6 +26,7 @@ require('./js/compiler/CompilerRecord.js');
 require('./js/compiler/CompilerData.js');
 require('./js/compiler/CompilerMeta.js');
 require('./js/compiler/script/ExpressionCompiler.js');
+require('./js/compiler/script/BasicScriptCompiler.js');
 require('./js/compiler/script/ScriptCompiler.js');
 require('./js/compiler/Compiler.js');
 
