@@ -4,7 +4,7 @@
     wheel(
         'compiler.commands.JmpC',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
                 var $    = wheel.compiler.command;
                 var flag = 0;
 
@@ -19,7 +19,7 @@
 
                 validatedCommand.code      = $.jmpc.code;
                 validatedCommand.params[1] = $.CONST(flag);
-                this._compiler.getOutput().add(validatedCommand);
+                compilerOutput.add(validatedCommand);
             };
         })
     );

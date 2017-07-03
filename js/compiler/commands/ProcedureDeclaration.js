@@ -52,7 +52,7 @@
                 return procStartIndex;
             };
 
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
                 $ = wheel.compiler.command;
 
                 var compiler     = this._compiler;

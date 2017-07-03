@@ -19,14 +19,15 @@
                 this._retCompiler = retCompiler;
             };
 
-            this.compile = function(validatedCommand, splitParams, params, location) {
+            this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
                 var $ = wheel.compiler.command;
 
                 validatedCommand.code = $.set.code;
                 validatedCommand.params.unshift($.RETURN());
 
-                this._setCompiler.compile(validatedCommand);
-                this._retCompiler.compile(null);
+                var compilerOutput = this._compiler.getOutput();
+                this._setCompiler.compile(compilerOutput, validatedCommand);
+                this._retCompiler.compile(compilerOutput, null);
             };
         })
     );

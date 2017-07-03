@@ -186,7 +186,7 @@
                             if (this._activeRecord !== null) {
                                 throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
                             }
-                            this._compilers.Ret.compile(null);
+                            this._compilers.Ret.compile(this.getOutput(), null);
 
                             output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
                             this._procStartIndex = -1;
@@ -204,7 +204,7 @@
 
                         default:
                             if (commandAndParams.command in compilerByCommand) {
-                                compilerByCommand[commandAndParams.command].compile(validatedCommand, splitParams, commandAndParams.params, location);
+                                compilerByCommand[commandAndParams.command].compile(this.getOutput(), validatedCommand, splitParams, commandAndParams.params);
                             } else if (validatedCommand === false) {
                                 var record = compilerData.findRecord(commandAndParams.command);
                                 if (record === null) {

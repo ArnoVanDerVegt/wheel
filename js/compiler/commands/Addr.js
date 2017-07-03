@@ -4,9 +4,8 @@
     wheel(
         'compiler.commands.Addr',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
-            this.compile = function(validatedCommand, splitParams, params, location) {
-                var compilerOutput = this._compiler.getOutput();
-                var param          = validatedCommand.params[0];
+            this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
+                var param = validatedCommand.params[0];
 
                 // set src, param.value
                 var $ = wheel.compiler.command;
