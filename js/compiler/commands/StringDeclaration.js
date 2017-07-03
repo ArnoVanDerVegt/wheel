@@ -18,7 +18,7 @@
                 }
             };
 
-            this.compile = function(validatedCommand, params) {
+            this.compile = function(compilerOutput, validatedCommand, params) {
                 var compiler     = this._compiler;
                 var compilerData = this._compilerData;
                 var $            = wheel.compiler.command;

@@ -25,14 +25,16 @@
             };
 
             this.compileSet = function(line) {
-                var commandAndParams = this._compiler.getCommandAndParams(line);
+                var compiler         = this._compiler;
+                var compilerOutput   = compiler.getOutput();
+                var commandAndParams = compiler.getCommandAndParams(line);
                 var splitParams      = wheel.compiler.compilerHelper.splitParams(this._compiler, commandAndParams.params);
-                var validatedCommand = this._compiler.validateCommand(commandAndParams.command, splitParams);
+                var validatedCommand = compiler.validateCommand(commandAndParams.command, splitParams);
 
                 if (commandAndParams.command === 'set') {
-                    this._setCompiler.compile(validatedCommand, splitParams, commandAndParams.params);
+                    this._setCompiler.compile(compilerOutput, validatedCommand, splitParams, commandAndParams.params);
                 } else {
-                    this._numberOperatorCompiler.compile(validatedCommand, splitParams, commandAndParams.params);
+                    this._numberOperatorCompiler.compile(compilerOutput, validatedCommand, splitParams, commandAndParams.params);
                 }
             };
 
