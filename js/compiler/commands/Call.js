@@ -5,6 +5,14 @@
     wheel(
         'compiler.commands.Call',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+            this.copyDataToStack = function(offset, size) {
+                var compilerOutput = this._compiler.getOutput();
+
+                compilerOutput.a($.set.code, $.DEST(), $.STACK());
+                this.addToDestIfValue(offset);
+                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+            };
+
             this.compileConstantParameter = function(param, paramInfo, offset) {
                 var compilerOutput = this._compiler.getOutput();
                 var compilerData   = this._compilerData;
@@ -52,9 +60,7 @@
                 } else {
                     compilerOutput.a($.set.code, $.SRC(), $.STACK());
                     (paramInfo.value === 0) || compilerOutput.a($.add.code, $.SRC(), $.CONST(paramInfo.value));
-                    compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                    this.addToDestIfValue(offset);
-                    compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                    this.copyDataToStack(offset, size);
                 }
             };
 
@@ -91,9 +97,7 @@
                 } else {
                     var ptr = (paramInfo.metaType === $.T_META_POINTER);
                     compilerOutput.a($.set.code, $.SRC(), ptr ? $.GLOBAL(paramInfo.value) : $.CONST(paramInfo.value));
-                    compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                    this.addToDestIfValue(offset);
-                    compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                    this.copyDataToStack(offset, size);
                 }
             };
 
