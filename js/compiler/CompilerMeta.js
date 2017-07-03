@@ -268,10 +268,10 @@
 
                         default:
                             var vr = this.findLastType(this.cleanIdentifier(param));
-                            result = '';
+                            result       = '';
+                            lines[index] = '';
                             switch (command) {
                                 case '%if_size_1':
-                                    lines[index] = '';
                                     if (vr) {
                                         this.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
                                     } else {
@@ -281,7 +281,6 @@
 
                                 case '%if_record':
                                     if (vr) {
-                                        lines[index] = '';
                                         this.updateConditionalLines(lines, index, !!vr.record);
                                     } else {
                                         // todo: error
@@ -290,10 +289,8 @@
 
                                 case '%if_pointer':
                                     if (vr) {
-                                        lines[index] = '';
                                         this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
                                     } else if (!isNaN(vr)) {
-                                        lines[index] = '';
                                         this.updateConditionalLines(lines, index, false);
                                     } else {
                                         // todo: error
