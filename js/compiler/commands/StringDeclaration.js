@@ -19,10 +19,9 @@
             };
 
             this.compile = function(validatedCommand, params, location) {
-                var compiler       = this._compiler;
-                var compilerOutput = compiler.getOutput();
-                var compilerData   = this._compilerData;
-                var $              = wheel.compiler.command;
+                var compiler     = this._compiler;
+                var compilerData = this._compilerData;
+                var $            = wheel.compiler.command;
 
                 if (compiler.getActiveRecord() !== null) {
                     // Declare a string of array of strings field in a record...
@@ -53,13 +52,7 @@
 
                                 // Store the data which should be placed at the just allocated space:
                                 compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseStringArray(local.value, compiler, compilerData));
-
-                                // Copy the data from the global offset to the local offset...
-                                compilerOutput.a($.set.code, $.SRC(), $.CONST(offset));
-                                compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                                this.addToDestIfValue(local.offset);
-
-                                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                                this.copyData(local, offset, size);
                             }
                         }
                     }
