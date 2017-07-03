@@ -8,7 +8,6 @@
 **/
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.Declaration',
@@ -17,12 +16,11 @@
              * Set the the value at the address of the local variable...
             **/
             this.addSetLocal = function(local, offset) {
-                $ = wheel.compiler.command;
+                var $ = wheel.compiler.command;
 				this._compiler.getOutput().a($.set.code, $.LOCAL(local.offset), $.CONST(offset));
             };
 
             this.declareRecordFields = function(params, type, arrayType) {
-                $ = wheel.compiler.command;
                 for (var j = 0; j < params.length; j++) {
                     this._compilerData.declareRecordField(params[j], type, arrayType);
                 }

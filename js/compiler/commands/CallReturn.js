@@ -1,6 +1,5 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.CallReturn',
@@ -21,7 +20,7 @@
             };
 
             this.compile = function(validatedCommand, splitParams, params, location) {
-                $ = wheel.compiler.command;
+                var $ = wheel.compiler.command;
 
                 validatedCommand.code = $.set.code;
                 validatedCommand.params.unshift($.RETURN());

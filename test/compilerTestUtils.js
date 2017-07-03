@@ -1,5 +1,6 @@
 require('../js/WheelClass.js');
 require('../js/compiler/PreProcessor.js');
+require('../js/compiler/command.js');
 require('../js/compiler/commands/CommandCompiler.js');
 require('../js/compiler/commands/Declaration.js');
 require('../js/compiler/commands/StringDeclaration.js');
@@ -16,7 +17,6 @@ require('../js/compiler/commands/Ret.js');
 require('../js/compiler/commands/Label.js');
 require('../js/compiler/commands/Addr.js');
 require('../js/compiler/commands/JmpC.js');
-require('../js/compiler/command.js');
 require('../js/compiler/error.js');
 require('../js/compiler/compilerHelper.js');
 require('../js/compiler/CompilerOutput.js');

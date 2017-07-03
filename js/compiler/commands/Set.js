@@ -3,18 +3,16 @@
 **/
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.Set',
         wheel.Class(wheel.compiler.commands.NumberOperator, function(supr) {
             this.compile = function(validatedCommand, splitParams, params, location) {
-                $ = wheel.compiler.command;
-
                 var compilerData   = this._compilerData;
                 var compilerOutput = this._compiler.getOutput();
                 var param1         = validatedCommand.params[0];
                 var param2         = validatedCommand.params[1];
+                var $              = wheel.compiler.command;
 
                 if ($.isStringConstType(param2) ||
                     (($.isStringVarMetaType(param1) && $.isStringVarMetaType(param2)))) {

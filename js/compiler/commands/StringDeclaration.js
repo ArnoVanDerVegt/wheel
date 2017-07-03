@@ -8,7 +8,6 @@
 **/
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.StringDeclaration',
@@ -20,11 +19,10 @@
             };
 
             this.compile = function(validatedCommand, params, location) {
-                $ = wheel.compiler.command;
-
                 var compiler       = this._compiler;
                 var compilerOutput = compiler.getOutput();
                 var compilerData   = this._compilerData;
+                var $              = wheel.compiler.command;
 
                 if (compiler.getActiveRecord() !== null) {
                     // Declare a string of array of strings field in a record...
