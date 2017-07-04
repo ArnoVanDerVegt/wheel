@@ -5,10 +5,6 @@
     wheel(
         'compiler.script.statements.ScriptBreak',
         wheel.Class(wheel.compiler.script.statements.Statement, function(supr) {
-            this.init = function(opts) {
-                this._scriptCompiler = opts.scriptCompiler;
-            };
-
             this.getBreakLabelIndex = function() {
                 return breakLabelIndex++;
             };
