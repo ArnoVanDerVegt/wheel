@@ -6,9 +6,8 @@
         'compiler.script.statements.ScriptFor',
         wheel.Class(wheel.compiler.script.statements.Statement, function(supr) {
             this.compile = function(line, params, output) {
-                var scriptCompiler = this._scriptCompiler.throwErrorIfAsmMode();
-                var direction      = 'downto';
-                var j              = params.indexOf(direction);
+                var direction = 'downto';
+                var j         = params.indexOf(direction);
 
                 if (j === -1) {
                     direction = 'to';
@@ -30,7 +29,7 @@
                     vr:        vr,
                     breaks:    []
                 });
-                scriptCompiler.getEndStack().push('for');
+                this._scriptCompiler.throwErrorIfAsmMode().getEndStack().push('for');
 
                 return [
                     'set ' + vr + ',' + start[1].trim(),

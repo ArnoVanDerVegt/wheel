@@ -6,14 +6,13 @@
         'compiler.script.statements.ScriptRepeat',
         wheel.Class(wheel.compiler.script.statements.Statement, function(supr) {
             this.compile = function(line, params, output) {
-                var scriptCompiler = this._scriptCompiler.throwErrorIfAsmMode();
-                var label          = '_____repeat_label' + (repeatLabelIndex++);
+                var label  = '_____repeat_label' + (repeatLabelIndex++);
 
                 this._stack.push({
                     label:  label,
                     breaks: []
                 });
-                scriptCompiler.getEndStack().push('repeat');
+                this._scriptCompiler.throwErrorIfAsmMode().getEndStack().push('repeat');
 
                 return [
                     label + ':'
