@@ -4,10 +4,6 @@
     wheel(
         'compiler.script.statements.ScriptCase',
         wheel.Class(wheel.compiler.script.statements.Statement, function(supr) {
-            this.init = function(opts) {
-                this._scriptCompiler = opts.scriptCompiler;
-            };
-
             this.compile = function(line, params, output) {
                 params = params.trim();
                 params = params.substr(0, params.length - 1); // remove ":"
