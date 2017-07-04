@@ -15,4 +15,5 @@ exclude_paths:
   - js/simulator/*.js
   - js/simulator/**/*
   - 'js/utils/syntax.js'
+  - 'wheel.js'
   - '*.json'
