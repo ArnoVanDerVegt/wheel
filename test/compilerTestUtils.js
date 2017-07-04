@@ -1,6 +1,7 @@
 require('../js/WheelClass.js');
 require('../js/compiler/helpers/compilerHelper.js');
 require('../js/compiler/helpers/compilerMetaHelper.js');
+require('../js/compiler/helpers/scriptHelper.js');
 require('../js/compiler/PreProcessor.js');
 require('../js/compiler/command.js');
 require('../js/compiler/commands/CommandCompiler.js');
@@ -28,7 +29,19 @@ require('../js/compiler/CompilerData.js');
 require('../js/compiler/CompilerMeta.js');
 require('../js/compiler/script/NumericExpressionCompiler.js');
 require('../js/compiler/script/BooleanExpressionCompiler.js');
-require('../js/compiler/script/BasicScriptCompiler.js');
+require('../js/compiler/script/statements/Statement.js');
+require('../js/compiler/script/statements/ScriptAsm.js');
+require('../js/compiler/script/statements/ScriptRecord.js');
+require('../js/compiler/script/statements/ScriptProc.js');
+require('../js/compiler/script/statements/ScriptIf.js');
+require('../js/compiler/script/statements/ScriptElse.js');
+require('../js/compiler/script/statements/ScriptSelect.js');
+require('../js/compiler/script/statements/ScriptCase.js');
+require('../js/compiler/script/statements/ScriptFor.js');
+require('../js/compiler/script/statements/ScriptWhile.js');
+require('../js/compiler/script/statements/ScriptRepeat.js');
+require('../js/compiler/script/statements/ScriptBreak.js');
+require('../js/compiler/script/statements/ScriptEnd.js');
 require('../js/compiler/script/ScriptCompiler.js');
 require('../js/compiler/Compiler.js');
 
