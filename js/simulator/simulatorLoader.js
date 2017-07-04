@@ -86,7 +86,7 @@
             compiler = new wheel.compiler.Compiler({});
             vm       = new wheel.vm.VM({});
 
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
