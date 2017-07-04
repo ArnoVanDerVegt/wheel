@@ -73,7 +73,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -125,7 +125,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -177,7 +177,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -229,7 +229,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -281,7 +281,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
