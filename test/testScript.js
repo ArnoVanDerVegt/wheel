@@ -206,6 +206,24 @@ describe(
 
                     assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5]);
                 });
+
+                it('Should repeat while (a > 5) and (b > 4)', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a = 15',
+                            '    number b = 10',
+                            '',
+                            '    while (a > 5) and (b > 4)',
+                            '        printN(a)',
+                            '        printN(b)',
+                            '        a -= 2',
+                            '        b -= 1',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [15, 10, 13, 9, 11, 8, 9, 7, 7, 6]);
+                });
             }
         );
 

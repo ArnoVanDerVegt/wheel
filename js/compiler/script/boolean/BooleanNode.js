@@ -1,10 +1,10 @@
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
+    var wheel = require('../../../utils/base.js').wheel;
 
     var labelIndex = 0;
 
     wheel(
-        'compiler.script.BooleanNode',
+        'compiler.script.boolean.BooleanNode',
         wheel.Class(function() {
             this.init = function(opts) {
                 this._scriptCompiler = opts.scriptCompiler;
