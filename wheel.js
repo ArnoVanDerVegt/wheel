@@ -21,6 +21,7 @@ require('./js/compiler/commands/JmpC.js');
 require('./js/compiler/command.js');
 require('./js/compiler/error.js');
 require('./js/compiler/helpers/compilerHelper.js');
+require('./js/compiler/helpers/expressionHelper.js');
 require('./js/compiler/helpers/compilerMetaHelper.js');
 require('./js/compiler/CompilerOutput.js');
 require('./js/compiler/CompilerList.js');

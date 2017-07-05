@@ -1,5 +1,6 @@
 require('../js/WheelClass.js');
 require('../js/compiler/helpers/compilerHelper.js');
+require('../js/compiler/helpers/expressionHelper.js');
 require('../js/compiler/helpers/compilerMetaHelper.js');
 require('../js/compiler/helpers/scriptHelper.js');
 require('../js/compiler/preprocessor/ReplaceTree.js');
