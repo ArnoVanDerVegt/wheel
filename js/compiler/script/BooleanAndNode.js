@@ -5,8 +5,8 @@
         'compiler.script.BooleanAndNode',
         wheel.Class(wheel.compiler.script.BooleanNode, function(supr) {
             this.init = function(opts) {
-                supr(this, 'init', arguments);
                 this._type = 'and';
+                supr(this, 'init', arguments);
             };
 
             this.compile = function() {

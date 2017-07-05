@@ -5,8 +5,8 @@
         'compiler.script.BooleanOrNode',
         wheel.Class(wheel.compiler.script.BooleanNode, function(supr) {
             this.init = function(opts) {
-                supr(this, 'init', arguments);
                 this._type = 'or';
+                supr(this, 'init', arguments);
             };
 
             this.addJumpToParentIndex = function() {
