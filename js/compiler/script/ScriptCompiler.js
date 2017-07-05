@@ -50,7 +50,7 @@
                 var parts                     = line.split(operator.operator);
                 var vr                        = parts[0].trim();
                 var value                     = parts[1].trim();
-                var valueCalculation          = numericExpressionCompiler.isCalculation(value);
+                var valueCalculation          = wheel.compiler.helpers.expressionHelper.isCalculation(value);
                 var tempVar;
 
                 var addOffsetToDest = function(value) {
@@ -66,12 +66,12 @@
                         }
                     };
 
-                if (numericExpressionCompiler.isComposite(vr)) {
+                if (wheel.compiler.helpers.expressionHelper.isComposite(vr)) {
                     var recordVar = numericExpressionCompiler.compileCompositeVar(result, vr, 0, true);
                     if (valueCalculation) {
                         tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                         result.push('set REG_DEST,' + tempVar + '_1');
-                    } else if (numericExpressionCompiler.isComposite(value)) {
+                    } else if (wheel.compiler.helpers.expressionHelper.isComposite(value)) {
                         var tempRecordVar = numericExpressionCompiler.compileCompositeVar(result, value);
                         wheel.compiler.helpers.scriptHelper.compilePointerDeref(result, tempRecordVar.result);
                     } else {
@@ -111,7 +111,7 @@
                 } else if (valueCalculation) {
                     tempVar = numericExpressionCompiler.compileToTempVar(result, valueCalculation);
                     result.push('set ' + vr + ',' + tempVar + '_1');
-                } else if (numericExpressionCompiler.isComposite(value)) {
+                } else if (wheel.compiler.helpers.expressionHelper.isComposite(value)) {
                     var recordVar = numericExpressionCompiler.compileCompositeVar(result, value);
 
                     var tempVar   = recordVar.result;
@@ -194,9 +194,9 @@
                     var composite   = false;
 
                     if (!((value.substr(0, 1) === '[') && (value.substr(-1) === ']'))) {
-                        calculation   = numericExpressionCompiler.isCalculation(value);
-                        arrayIndex    = numericExpressionCompiler.isArrayIndex(value);
-                        composite     = numericExpressionCompiler.isComposite(value);
+                        calculation   = wheel.compiler.helpers.expressionHelper.isCalculation(value);
+                        arrayIndex    = wheel.compiler.helpers.expressionHelper.isArrayIndex(value);
+                        composite     = wheel.compiler.helpers.expressionHelper.isComposite(value);
                     }
                     hasExpression = hasExpression || !!calculation || !!arrayIndex || composite;
 
@@ -283,11 +283,11 @@
                     return this._statements[command].compile(line, params, output);
                 } else {
                     if (!this.checkAsmCommand(command)) {
-                        var procCall = this._numericExpressionCompiler.isProcCall(line);
+                        var procCall = wheel.compiler.helpers.expressionHelper.isProcCall(line);
                         if (procCall) {
                             return this.compileProcCall(line, procCall);
                         } else {
-                            var operator = this._numericExpressionCompiler.hasOperator(line);
+                            var operator = wheel.compiler.helpers.expressionHelper.hasOperator(line);
                             if (operator) {
                                 return this.compileOperator(line, operator);
                             }
