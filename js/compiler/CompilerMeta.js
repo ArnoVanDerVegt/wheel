@@ -62,56 +62,6 @@
                 }
             };
 
-            this.updateConditionalLines = function(lines, index, conditionTrue) {
-                    var commandFromLine = function(line) {
-                            var i = line.indexOf(' ');
-                            return (i === -1) ? line : line.substr(0, i);
-                        };
-                    var updateLines = function(endCommand, clear) {
-                            var clearLine = function(index) {
-                                    lines[index] = '';
-                                };
-
-                            var count = 1;
-                            var done  = false;
-                            while (!done && (index < lines.length)) {
-                                var command = commandFromLine(lines[index].trim());
-                                switch (command) {
-                                    case '%if_size_1':
-                                        count++;
-                                        break;
-
-                                    case '%if_global':
-                                        count++;
-                                        break;
-
-                                    case '%if_record':
-                                        count++;
-                                        break;
-
-                                    case '%if_pointer':
-                                        count++;
-                                        break;
-
-                                    default:
-                                        if (command === endCommand) {
-                                            count--;
-                                            done = !count;
-                                            done && clearLine(index);
-                                        }
-                                        break;
-                                }
-                                if (!done) {
-                                    clear && clearLine(index);
-                                    index++;
-                                }
-                            }
-                        };
-
-                updateLines('%else', !conditionTrue);
-                updateLines('%end',  conditionTrue);
-            };
-
             /**
              * Get the last type of a composite type...
              *
@@ -209,7 +159,7 @@
                         case '%if_global':
                             result       = '';
                             lines[index] = '';
-                            this.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(compilerMetaHelper.cleanIdentifier(param)));
+                            compilerMetaHelper.updateConditionalLines(lines, index, !!this._compilerData.findGlobal(compilerMetaHelper.cleanIdentifier(param)));
                             break;
 
                         default:
@@ -219,7 +169,7 @@
                             switch (command) {
                                 case '%if_size_1':
                                     if (vr) {
-                                        this.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
+                                        compilerMetaHelper.updateConditionalLines(lines, index, vr.size * vr.length <= 1);
                                     } else {
                                         // todo: error
                                     }
@@ -227,7 +177,7 @@
 
                                 case '%if_record':
                                     if (vr) {
-                                        this.updateConditionalLines(lines, index, !!vr.record);
+                                        compilerMetaHelper.updateConditionalLines(lines, index, !!vr.record);
                                     } else {
                                         // todo: error
                                     }
@@ -235,9 +185,9 @@
 
                                 case '%if_pointer':
                                     if (vr) {
-                                        this.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
+                                        compilerMetaHelper.updateConditionalLines(lines, index, vr.metaType === wheel.compiler.command.T_META_POINTER);
                                     } else if (!isNaN(vr)) {
-                                        this.updateConditionalLines(lines, index, false);
+                                        compilerMetaHelper.updateConditionalLines(lines, index, false);
                                     } else {
                                         // todo: error
                                     }

@@ -57,6 +57,56 @@
                 var j = line.indexOf(')', i);
 
                 return line.substr(0, i) + value + line.substr(j, j - line.length);
+            },
+
+            updateConditionalLines: function(lines, index, conditionTrue) {
+                    var commandFromLine = function(line) {
+                            var i = line.indexOf(' ');
+                            return (i === -1) ? line : line.substr(0, i);
+                        };
+                    var updateLines = function(endCommand, clear) {
+                            var clearLine = function(index) {
+                                    lines[index] = '';
+                                };
+
+                            var count = 1;
+                            var done  = false;
+                            while (!done && (index < lines.length)) {
+                                var command = commandFromLine(lines[index].trim());
+                                switch (command) {
+                                    case '%if_size_1':
+                                        count++;
+                                        break;
+
+                                    case '%if_global':
+                                        count++;
+                                        break;
+
+                                    case '%if_record':
+                                        count++;
+                                        break;
+
+                                    case '%if_pointer':
+                                        count++;
+                                        break;
+
+                                    default:
+                                        if (command === endCommand) {
+                                            count--;
+                                            done = !count;
+                                            done && clearLine(index);
+                                        }
+                                        break;
+                                }
+                                if (!done) {
+                                    clear && clearLine(index);
+                                    index++;
+                                }
+                            }
+                        };
+
+                updateLines('%else', !conditionTrue);
+                updateLines('%end',  conditionTrue);
             }
         }
     );
