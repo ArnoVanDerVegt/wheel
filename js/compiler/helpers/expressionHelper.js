@@ -169,6 +169,72 @@
                     }
                 }
                 return false;
+            },
+
+            findBooleanOperator: function(s) {
+                var word  = '';
+                var found = null;
+
+                /**
+                 * Skip open and close characters ("(", ")" or "[", "]"),
+                 * count open and close until every open was closed.
+                **/
+                var skipChars = function(openChar, closeChar) {
+                        var open = 1;
+                        while (open && (i < s.length)) {
+                            var c = s[i++];
+                            if (c === openChar) {
+                                open++;
+                            } else if (c === closeChar) {
+                                open--;
+                            }
+                        }
+                    };
+
+                /**
+                 * Add a word, check if it's an operator and the weight of the operator.
+                **/
+                var addWord = function() {
+                        switch (word) {
+                            case 'or':
+                                if ((found === null) || (found.operator === 'and')) {
+                                    found = {operator: 'or', pos: i - 3};
+                                }
+                                break;
+
+                            case 'and':
+                                if (found === null) {
+                                    found = {operator: 'and', pos: i - 4};
+                                }
+                                break;
+                        }
+                        word = '';
+                    };
+
+                var i = 0;
+                while (i < s.length) {
+                    var c = s[i++];
+                    switch (c) {
+                        case ' ':
+                            addWord();
+                            break;
+
+                        case '(':
+                            skipChars('(', ')');
+                            break;
+
+                        case '[':
+                            skipChars('[', ']');
+                            break;
+
+                        default:
+                            word += c;
+                            break;
+                    }
+                }
+                addWord();
+
+                return found;
             }
         }
     );
