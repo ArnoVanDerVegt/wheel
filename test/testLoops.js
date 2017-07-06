@@ -36,22 +36,36 @@ describe(
 
                     assert.deepEqual(testData.messages, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
                 });
-/*
-                it('Should loop with expression', function() {
+
+                it('Should loop to expression', function() {
                     var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
                             'proc main()',
                             '    number a',
                             '    number b = 5',
                             '',
-                            '    for n = 5 to b * 2',
-                            '        printN(n)',
+                            '    for a = 5 to b * 2',
+                            '        printN(a)',
                             '    end',
                             'end'
                         ])).testData;
 
                     assert.deepEqual(testData.messages, [5, 6, 7, 8, 9, 10]);
                 });
-*/
+
+                it('Should loop from expression', function() {
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'proc main()',
+                            '    number a',
+                            '    number b = 5',
+                            '',
+                            '    for a = b * 2 to 20',
+                            '        printN(a)',
+                            '    end',
+                            'end'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+                });
             }
         );
 
