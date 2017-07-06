@@ -1,7 +1,6 @@
 (function() {
     var wheel         = require('../../../utils/base.js').wheel;
     var forLabelIndex = 10000;
-    var tempVarIndex  = 10000;
 
     wheel(
         'compiler.script.statements.ScriptFor',
@@ -33,7 +32,7 @@
                 this._scriptCompiler.throwErrorIfAsmMode().getEndStack().push('for');
 
                 var tempVar  = wheel.compiler.helpers.expressionHelper.createTempVarName();
-                var operator = { command: 'set', operator: '=', pos: tempVar.length }
+                var operator = { command: 'set', operator: '=', pos: tempVar.length };
                 var s        = tempVar + '=' + start[1].trim();
                 var result   = this._scriptCompiler.compileOperator(s, operator);
 
@@ -55,7 +54,7 @@
                     }[forItem.direction];
 
                 var s        = tempVar + '=' + forItem.end;
-                var operator = { command: 'set', operator: '=', pos: tempVar.length }
+                var operator = { command: 'set', operator: '=', pos: tempVar.length };
                 var result   = this._scriptCompiler.compileOperator(s, operator);
 
                 result.unshift('number ' + tempVar);
