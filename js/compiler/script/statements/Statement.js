@@ -18,14 +18,6 @@
                 this._scriptBreak = scriptBreak;
                 return this;
             };
-
-            this.compile = function(line, params, output) {
-                return [];
-            };
-
-            this.compileEnd = function(output) {
-                return [];
-            };
         })
     );
 })();
