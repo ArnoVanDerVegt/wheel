@@ -9,6 +9,34 @@ describe(
         describe(
             'Declare record',
             function() {
+                it('Should declare global a record with single field', function() {
+                    var testData = compilerTestUtils.compileAndRun([
+                            'record S',
+                            '    number x',
+                            'endr',
+                            'S s',
+                            'proc main()',
+                            'endp'
+                        ]).testData;
+
+
+                    //[ 7, 0, 65535, 65536, 0, 0, 0, 7, 65535 ]
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            7,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            65535,  // REG_OFFSET_DEST
+                            65536,  // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            0,      // global record offset
+                            7,      // stack pointer
+                            65535,  // return code offset
+                        ]
+                    );
+                });
+
                 it('Should declare global a record', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'record S',
@@ -354,6 +382,29 @@ describe(
                             '    printN(b.x)',
                             '    printN(b.y[1])',
                             '    printN(b.y[0])',
+                            'endp'
+                        ])).testData;
+
+                    assert.deepEqual(testData.messages, ints);
+                });
+
+                it('Should assign local array record fields, single field record', function() {
+                    var ints     = compilerTestUtils.randomInts(2);
+                    var testData = compilerTestUtils.compileAndRun(compilerTestUtils.standardLines.concat([
+                            'record A',
+                            '    number x',
+                            'end',
+                            '',
+                            'proc main()',
+                            '    A c[2]',
+                            '    c[0].x = ' + ints[0],
+                            '    c[1].x = ' + ints[1],
+                            '',
+                            '    number n',
+                            '    n = c[0].x',
+                            '    printN(n)',
+                            '    n = c[1].x',
+                            '    printN(n)',
                             'endp'
                         ])).testData;
 

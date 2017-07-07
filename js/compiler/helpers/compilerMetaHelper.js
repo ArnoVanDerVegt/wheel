@@ -69,34 +69,19 @@
                                     lines[index] = '';
                                 };
 
-                            var count = 1;
-                            var done  = false;
+                            var count    = 1;
+                            var done     = false;
+                            var commands = ['%if_size_1', '%if_global', '%if_record', '%if_pointer'];
                             while (!done && (index < lines.length)) {
                                 var command = commandFromLine(lines[index].trim());
-                                switch (command) {
-                                    case '%if_size_1':
-                                        count++;
-                                        break;
-
-                                    case '%if_global':
-                                        count++;
-                                        break;
-
-                                    case '%if_record':
-                                        count++;
-                                        break;
-
-                                    case '%if_pointer':
-                                        count++;
-                                        break;
-
-                                    default:
-                                        if (command === endCommand) {
-                                            count--;
-                                            done = !count;
-                                            done && clearLine(index);
-                                        }
-                                        break;
+                                if (commands.indexOf(command) === -1) {
+                                    if (command === endCommand) {
+                                        count--;
+                                        done = !count;
+                                        done && clearLine(index);
+                                    }
+                                } else {
+                                    count++;
                                 }
                                 if (!done) {
                                     clear && clearLine(index);
