@@ -1,9 +1,9 @@
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
+    var wheel = require('../../../utils/base.js').wheel;
 
     wheel(
-        'compiler.script.BooleanAndValueNode',
-        wheel.Class(wheel.compiler.script.BooleanNode, function(supr) {
+        'compiler.script.boolean.BooleanAndValueNode',
+        wheel.Class(wheel.compiler.script.boolean.BooleanNode, function(supr) {
             this.compile = function() {
                 this.addLine(supr(this, 'compile').jump + ' ' + this._label + '_' + this._parent.getIndex());
             };

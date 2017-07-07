@@ -61,6 +61,7 @@
                 <h3 class="dark-blue">Syntax</h3>
                 <ul class="last">
                     <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#comments">Comments</a></li>
                     <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
                     <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
                     <li><a href="site/docs/syntax.html#asm">Assembly commands</a></li>
@@ -73,10 +74,20 @@
                 Wheel only allows a single command per line.<br/>
                 <pre>
                     proc main()
-                        number n = 1 ; Very simple...
+                        number n = 1
                     end
                 </pre>
-                Comments start with a semicolon ";" and should be placed after the command or expression.
+            </div>
+
+            <div class="two first" id="comments">
+                <h5>Comments</h5>
+                A semicolon (";") marks the beginning of a comment.<br/>
+                <pre>
+                    proc main()
+                        ; This is a comment and will not be executed...
+                    end
+                </pre>
+                Comments should be placed after the command or expression.
             </div>
 
             <div class="two first" id="blocks">

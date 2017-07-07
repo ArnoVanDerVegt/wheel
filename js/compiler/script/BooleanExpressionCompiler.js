@@ -51,12 +51,12 @@
                     var right = removeParentheses(s.substr(splitInfo.pos - s.length + splitInfo.operator.length).trim());
                     var info  = {
                             or: {
-                                node:      wheel.compiler.script.BooleanOrNode,
-                                valueNode: wheel.compiler.script.BooleanOrValueNode
+                                node:      wheel.compiler.script.boolean.BooleanOrNode,
+                                valueNode: wheel.compiler.script.boolean.BooleanOrValueNode
                             },
                             and: {
-                                node:      wheel.compiler.script.BooleanAndNode,
-                                valueNode: wheel.compiler.script.BooleanAndValueNode
+                                node:      wheel.compiler.script.boolean.BooleanAndNode,
+                                valueNode: wheel.compiler.script.boolean.BooleanAndValueNode
                             }
                         }[splitInfo.operator];
 
@@ -67,7 +67,7 @@
                     r.setParent(node);
                     return node;
                 } else if (src === 'root') {
-                    return createNode(wheel.compiler.script.BooleanRootNode, false, false, s);
+                    return createNode(wheel.compiler.script.boolean.BooleanRootNode, false, false, s);
                 } else {
                     return createNode(ctor, false, false, s);
                 }

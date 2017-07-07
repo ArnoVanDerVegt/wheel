@@ -33,6 +33,8 @@
                 } else if (param1.type === $.T_STRUCT_G) {
                     param1.type = $.T_NUM_G;
                     compilerOutput.add(validatedCommand);
+                } else {
+                    compilerOutput.add(validatedCommand);
                 }
             };
         })

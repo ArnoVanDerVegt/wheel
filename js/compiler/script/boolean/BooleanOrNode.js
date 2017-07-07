@@ -1,9 +1,9 @@
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
+    var wheel = require('../../../utils/base.js').wheel;
 
     wheel(
-        'compiler.script.BooleanOrNode',
-        wheel.Class(wheel.compiler.script.BooleanNode, function(supr) {
+        'compiler.script.boolean.BooleanOrNode',
+        wheel.Class(wheel.compiler.script.boolean.BooleanNode, function(supr) {
             this.init = function(opts) {
                 this._type = 'or';
                 supr(this, 'init', arguments);
