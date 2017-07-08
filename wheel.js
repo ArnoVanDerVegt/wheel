@@ -1,7 +1,7 @@
 require('./js/compiler/preprocessor/ReplaceTree.js');
 require('./js/compiler/preprocessor/FileProcessor.js');
 require('./js/compiler/preprocessor/PreProcessor.js');
-require('./js/compiler/commands/CommandCompiler.js');
+require('./js/compiler/commands/BasicCommand.js');
 require('./js/compiler/commands/Declaration.js');
 require('./js/compiler/commands/NumberDeclaration.js');
 require('./js/compiler/commands/NumberChange.js');

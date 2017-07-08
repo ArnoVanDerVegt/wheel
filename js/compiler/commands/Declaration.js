@@ -11,7 +11,7 @@
 
     wheel(
         'compiler.commands.Declaration',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             /**
              * Set the the value at the address of the local variable...
             **/

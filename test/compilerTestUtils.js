@@ -7,7 +7,7 @@ require('../js/compiler/preprocessor/ReplaceTree.js');
 require('../js/compiler/preprocessor/FileProcessor.js');
 require('../js/compiler/preprocessor/PreProcessor.js');
 require('../js/compiler/command.js');
-require('../js/compiler/commands/CommandCompiler.js');
+require('../js/compiler/commands/BasicCommand.js');
 require('../js/compiler/commands/Declaration.js');
 require('../js/compiler/commands/StringDeclaration.js');
 require('../js/compiler/commands/NumberDeclaration.js');
@@ -52,7 +52,9 @@ require('../js/compiler/script/statements/ScriptRepeat.js');
 require('../js/compiler/script/statements/ScriptBreak.js');
 require('../js/compiler/script/statements/ScriptEnd.js');
 require('../js/compiler/script/ScriptCompiler.js');
+require('../js/compiler/optimizer/BasicOptimizer.js');
 require('../js/compiler/optimizer/OptimizeSet.js');
+require('../js/compiler/optimizer/OptimizeAdd.js');
 require('../js/compiler/CompilerOptimizer.js');
 require('../js/compiler/Compiler.js');
 
