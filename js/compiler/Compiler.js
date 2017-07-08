@@ -11,7 +11,6 @@
                 this._data           = new wheel.compiler.CompilerData({compiler: this});
                 this._meta           = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._data});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
-                this._optimizer      = new wheel.compiler.CompilerOptimizer({buffer: this._output.getBuffer()});
                 this._mainIndex      = -1;
                 this._filename       = '';
                 this._includes       = null;
@@ -243,10 +242,8 @@
                     this._location = sourceMap[i];
                     if (line !== '') {
                         this.compileLine(line);
-                        this._optimizer.optimize();
                     }
                 }
-
                 return output.getBuffer();
             };
 

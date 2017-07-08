@@ -9,6 +9,7 @@
                 this._mainIndex    = 0;
                 this._globalOffset = 0;
                 this._stringList   = [];
+                this._optimizer    = new wheel.compiler.CompilerOptimizer({buffer: this._buffer});
             };
 
             this.add = function(outputCommand) {
@@ -21,6 +22,7 @@
                     command.params.push({type: param.type, value: param.value});
                 });
                 this._buffer.push(command);
+                this._optimizer.optimize();
             };
 
             this.a = function(code, params, p2) {

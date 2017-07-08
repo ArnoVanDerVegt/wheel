@@ -4,20 +4,42 @@
     wheel(
         'compiler.optimizer.OptimizeSet',
         wheel.Class(wheel.compiler.optimizer.BasicOptimizer, function(supr) {
-            this.optimize = function() {
-                var buffer = this._buffer;
-                var length = buffer.length;
+            this._optimize = function() {
+                var c = this.getCommands();
+                var $ = wheel.compiler.command;
 
-                if (length <= 1) {
-                    return false;
+                /**
+                 * Optimize:
+                 *
+                 *     set var, const
+                 *     set var, const
+                 *
+                 * To:
+                 *
+                 *     set var, const
+                **/
+                if ((c.c1.code === $.CMD_SET) && this.paramsEqual(c.c1.params[0], c.c2.params[0]) &&
+                    (c.c2.code === $.CMD_SET) && this.paramsEqual(c.c1.params[1], c.c2.params[1])) {
+                    this._buffer.pop();
+                    return true;
                 }
-                var command1 = buffer[length - 2];
-                var command2 = buffer[length - 1];
-                var $        = wheel.compiler.command;
 
-                if ((command1.code === $.CMD_SET) && this.paramsEqual(command1.params[0], command2.params[0]) &&
-                    (command2.code === $.CMD_SET) && this.paramsEqual(command1.params[1], command2.params[1])) {
-                    buffer.pop();
+                /**
+                 * Optimize:
+                 *
+                 *     set var1, const
+                 *     set var2, var1
+                 *
+                 * To:
+                 *
+                 *     set var1, const
+                 *     set var2, const
+                **/
+                if ((c.c1.code === $.CMD_SET) && (c.c2.code === $.CMD_SET) &&
+                    this.paramsEqual(c.c1.params[0], c.c2.params[1]) &&
+                    this.paramIsConst(c.c1.params[1])) {
+                    var param = c.c1.params[1];
+                    c.c2.params[1] = {type: param.type, value: param.value};
                     return true;
                 }
 
