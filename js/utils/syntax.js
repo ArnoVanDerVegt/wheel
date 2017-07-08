@@ -134,7 +134,7 @@
                         result += '<span class="blue">' + w + '</span>';
                     }
                 } else {
-                    result += '<span class="yellow bold">' + w + '</span>';
+                    result += '<span class="turquoise">' + w + '</span>';
                 }
 
                 word = '';
