@@ -5,7 +5,6 @@
         'compiler.commands.JmpC',
         wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
             this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
-                var $    = wheel.compiler.command;
                 var flag = 0;
 
                 switch (validatedCommand.command) {
@@ -16,6 +15,8 @@
                     case 'jg':  flag = $.FLAG_GREATER;       break;
                     case 'jge': flag = $.FLAG_GREATER_EQUAL; break;
                 }
+
+                var $ = wheel.compiler.command;
 
                 validatedCommand.code      = $.jmpc.code;
                 validatedCommand.params[1] = $.CONST(flag);

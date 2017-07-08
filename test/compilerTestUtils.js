@@ -52,6 +52,8 @@ require('../js/compiler/script/statements/ScriptRepeat.js');
 require('../js/compiler/script/statements/ScriptBreak.js');
 require('../js/compiler/script/statements/ScriptEnd.js');
 require('../js/compiler/script/ScriptCompiler.js');
+require('../js/compiler/optimizer/OptimizeSet.js');
+require('../js/compiler/CompilerOptimizer.js');
 require('../js/compiler/Compiler.js');
 
 require('../js/vm/VMData.js');

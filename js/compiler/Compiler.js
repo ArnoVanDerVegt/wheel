@@ -8,9 +8,10 @@
             this.init = function(opts) {
                 $ = wheel.compiler.command;
 
-                this._compilerData   = new wheel.compiler.CompilerData({compiler: this});
-                this._compilerMeta   = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._compilerData});
+                this._data           = new wheel.compiler.CompilerData({compiler: this});
+                this._meta           = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._data});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
+                this._optimizer      = new wheel.compiler.CompilerOptimizer({buffer: this._output.getBuffer()});
                 this._mainIndex      = -1;
                 this._filename       = '';
                 this._includes       = null;
@@ -19,7 +20,7 @@
 
                 var compilerOpts = {
                         compiler:     this,
-                        compilerData: this._compilerData
+                        compilerData: this._data
                     };
                 var conrecordors = [
                         'NumberDeclaration',
@@ -154,17 +155,17 @@
                 }
 
                 for (var i = 0; i < params.length; i++) {
-                    params[i] = this._compilerData.paramInfo(params[i]);
+                    params[i] = this._data.paramInfo(params[i]);
                 }
                 return this.createCommand(command, params);
             };
 
             this.compileLine = function(line, location) {
                 var compilerByCommand = this._compilerByCommand;
-                var compilerData      = this._compilerData;
+                var compilerData      = this._data;
                 var output            = this._output;
 
-                line = this._compilerMeta.compileParams(line);
+                line = this._meta.compileParams(line);
 
                 if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                     var spacePos = line.indexOf(' ');
@@ -237,17 +238,20 @@
                 this._procStartIndex = -1;
                 this._activeRecord   = null;
                 for (var i = 0; i < lines.output.length; i++) {
-                    var line = this._compilerMeta.compile(lines.output, lines.output[i].trim(), i);
+                    var line = this._meta.compile(lines.output, lines.output[i].trim(), i);
                     //(line === '') || console.log(i, line);
                     this._location = sourceMap[i];
-                    (line !== '') && this.compileLine(line);
+                    if (line !== '') {
+                        this.compileLine(line);
+                        this._optimizer.optimize();
+                    }
                 }
 
                 return output.getBuffer();
             };
 
             this.compile = function(includes) {
-                var compilerData = this._compilerData;
+                var compilerData = this._data;
                 var output       = this._output;
 
                 compilerData.reset();
@@ -285,7 +289,7 @@
             };
 
             this.getCompilerData = function() {
-                return this._compilerData;
+                return this._data;
             };
 
             this.setProcStartIndex = function(procStartIndex) {

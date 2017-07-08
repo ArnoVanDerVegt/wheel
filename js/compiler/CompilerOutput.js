@@ -12,10 +12,15 @@
             };
 
             this.add = function(outputCommand) {
-                while (outputCommand.params.length < 2) {
-                    outputCommand.params.push({type: '', value: 0});
+                var params = outputCommand.params;
+                while (params.length < 2) {
+                    params.push({type: '', value: 0});
                 }
-                this._buffer.push(outputCommand);
+                var command = {code: outputCommand.code, params: []};
+                params.forEach(function(param) {
+                    command.params.push({type: param.type, value: param.value});
+                });
+                this._buffer.push(command);
             };
 
             this.a = function(code, params, p2) {
