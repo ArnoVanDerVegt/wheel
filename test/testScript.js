@@ -118,7 +118,7 @@ describe(
                             'end'
                         ])).testData;
 
-                    assert.deepEqual(testData.vm.getVMData().getData(), [6, 0, 65535, 65536, 0, 0, 6, 65535, 6, 0, 0, 31, 0, 0]);
+                    assert.deepEqual(testData.vm.getVMData().getData(), [6, 0, 65535, 65536, 0, 0, 6, 65535, 6, 0, 0, 29, 0, 0]);
                 });
             }
         );

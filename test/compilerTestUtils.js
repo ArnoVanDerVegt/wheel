@@ -55,6 +55,7 @@ require('../js/compiler/script/ScriptCompiler.js');
 require('../js/compiler/optimizer/BasicOptimizer.js');
 require('../js/compiler/optimizer/OptimizeSet.js');
 require('../js/compiler/optimizer/OptimizeAdd.js');
+require('../js/compiler/optimizer/OptimizeMul.js');
 require('../js/compiler/CompilerOptimizer.js');
 require('../js/compiler/Compiler.js');
 
