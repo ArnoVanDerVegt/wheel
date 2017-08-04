@@ -11,6 +11,7 @@
                 this._data           = new wheel.compiler.CompilerData({compiler: this});
                 this._meta           = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._data});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
+                this._directive      = new wheel.compiler.CompilerDirective({compiler: this});
                 this._mainIndex      = -1;
                 this._filename       = '';
                 this._includes       = null;
@@ -164,68 +165,72 @@
                 var compilerData      = this._data;
                 var output            = this._output;
 
-                line = this._meta.compileParams(line);
-
-                if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
-                    var spacePos = line.indexOf(' ');
-                    var command  = line.substr(0, spacePos).trim();
-                    if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'cmp'].indexOf(command) === -1) {
-                        this._compilers.Call.compile(line);
-                    } else {
-                        this._compilers.CallFunction.compile(line);
-                    }
-                } else if (this._compilers.Label.hasLabel(line)) {
-                    compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
+                if (line.trim().indexOf('#directive') === 0) {
+                    console.log(line);
                 } else {
-                    var commandAndParams = this.getCommandAndParams(line);
-                    var splitParams      = wheel.compiler.helpers.compilerHelper.splitParams(this, commandAndParams.params);
-                    var validatedCommand = this.validateCommand(commandAndParams.command, splitParams);
-                    validatedCommand && (validatedCommand.command = commandAndParams.command);
-                    switch (commandAndParams.command) {
-                        case 'endp':
-                            if (this._activeRecord !== null) {
-                                throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
-                            }
-                            this._compilers.Ret.compile(this.getOutput(), null);
+                    line = this._meta.compileParams(line);
 
-                            output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
-                            this._procStartIndex = -1;
-                            compilerData.resetLocal();
-                            compilerData.removeLocalRecords();
-                            break;
+                    if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
+                        var spacePos = line.indexOf(' ');
+                        var command  = line.substr(0, spacePos).trim();
+                        if (['set', 'add', 'sub', 'mul', 'div', 'mod', 'cmp'].indexOf(command) === -1) {
+                            this._compilers.Call.compile(line);
+                        } else {
+                            this._compilers.CallFunction.compile(line);
+                        }
+                    } else if (this._compilers.Label.hasLabel(line)) {
+                        compilerData.findLabel(line.substr(0, line.length - 1)).index = output.getLength() - 1;
+                    } else {
+                        var commandAndParams = this.getCommandAndParams(line);
+                        var splitParams      = wheel.compiler.helpers.compilerHelper.splitParams(this, commandAndParams.params);
+                        var validatedCommand = this.validateCommand(commandAndParams.command, splitParams);
+                        validatedCommand && (validatedCommand.command = commandAndParams.command);
+                        switch (commandAndParams.command) {
+                            case 'endp':
+                                if (this._activeRecord !== null) {
+                                    throw this.createError(wheel.compiler.error.INVALID_BLOCK_CLOSE, 'Invalid command "endp".');
+                                }
+                                this._compilers.Ret.compile(this.getOutput(), null);
 
-                        case 'record':
-                            this._activeRecord = compilerData.declareRecord(commandAndParams.params, commandAndParams.command, location);
-                            break;
+                                output.getBuffer()[this._procStartIndex].localCount = compilerData.getLocalOffset();
+                                this._procStartIndex = -1;
+                                compilerData.resetLocal();
+                                compilerData.removeLocalRecords();
+                                break;
 
-                        case 'endr':
-                            this._activeRecord = null;
-                            break;
+                            case 'record':
+                                this._activeRecord = compilerData.declareRecord(commandAndParams.params, commandAndParams.command, location);
+                                break;
 
-                        default:
-                            if (commandAndParams.command in compilerByCommand) {
-                                compilerByCommand[commandAndParams.command].compile(this.getOutput(), validatedCommand, splitParams, commandAndParams.params);
-                            } else if (validatedCommand === false) {
-                                var record = compilerData.findRecord(commandAndParams.command);
-                                if (record === null) {
-                                    throw this.createError(wheel.compiler.error.UNKNOWN_COMMAND, 'Unknown command "' + commandAndParams.command + '".');
-                                } else if (this._activeRecord !== null) {
-                                    for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData.declareRecordField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record.size, record);
+                            case 'endr':
+                                this._activeRecord = null;
+                                break;
+
+                            default:
+                                if (commandAndParams.command in compilerByCommand) {
+                                    compilerByCommand[commandAndParams.command].compile(this.getOutput(), validatedCommand, splitParams, commandAndParams.params);
+                                } else if (validatedCommand === false) {
+                                    var record = compilerData.findRecord(commandAndParams.command);
+                                    if (record === null) {
+                                        throw this.createError(wheel.compiler.error.UNKNOWN_COMMAND, 'Unknown command "' + commandAndParams.command + '".');
+                                    } else if (this._activeRecord !== null) {
+                                        for (var j = 0; j < splitParams.length; j++) {
+                                            compilerData.declareRecordField(splitParams[j], $.T_STRUCT_G, $.T_STRUCT_G_ARRAY, record.size, record);
+                                        }
+                                    } else {
+                                        var inProc = this.getInProc();
+                                        var index  = inProc ? 'L' : 'G' ;
+                                        var method = inProc ? 'declareLocal' : 'declareGlobal';
+
+                                        for (var j = 0; j < splitParams.length; j++) {
+                                            compilerData[method](splitParams[j], $['T_STRUCT_' + index], $['T_STRUCT_' + index + '_ARRAY'], record);
+                                        }
                                     }
                                 } else {
-                                    var inProc = this.getInProc();
-                                    var index  = inProc ? 'L' : 'G' ;
-                                    var method = inProc ? 'declareLocal' : 'declareGlobal';
-
-                                    for (var j = 0; j < splitParams.length; j++) {
-                                        compilerData[method](splitParams[j], $['T_STRUCT_' + index], $['T_STRUCT_' + index + '_ARRAY'], record);
-                                    }
+                                    this.getOutput().add(validatedCommand);
                                 }
-                            } else {
-                                this.getOutput().add(validatedCommand);
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
             };
@@ -279,6 +284,10 @@
                 output.getLines();
 
                 return output;
+            };
+
+            this.getDirective = function() {
+                return this._directive;
             };
 
             this.getOutput = function() {

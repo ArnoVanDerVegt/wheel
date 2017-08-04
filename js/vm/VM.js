@@ -89,6 +89,14 @@
                         }
                         break;
 
+                    case 10: // ret
+                        // compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(1));
+                        // compilerOutput.a($.set.code, $.STACK(), $.LOCAL(0));
+                        // compilerOutput.a($.set.code, $.CODE(),  $.DEST());
+                        data[wheel.compiler.command.REG_STACK] = data[regOffsetStack];
+                        data[wheel.compiler.command.REG_CODE]  = data[regOffsetStack + 1];
+                        break;
+
                     default:
                         var result = null;
                         switch (command.code) {

@@ -120,6 +120,33 @@ describe(
 
                     assert.deepEqual(testData.vm.getVMData().getData(), [6, 0, 65535, 65536, 0, 0, 6, 65535, 6, 0, 0, 29, 0, 0]);
                 });
+
+                it('Should set registers - ret', function() {
+                    var testData = compilerTestUtils.compileAndRun(
+                            compilerTestUtils.standardLines.concat(
+                            [
+                                'proc main()',
+                                '    number stack',
+                                '    number src',
+                                '    number dest',
+                                '    number code',
+                                '    number return',
+                                '    number flags',
+                                '    asm',
+                                '        set stack, REG_STACK',
+                                '        set src, REG_SRC',
+                                '        set dest, REG_DEST',
+                                '        set code, REG_CODE',
+                                '        set return, REG_RETURN',
+                                '        set flags, REG_FLAGS',
+                                '    end',
+                                'end'
+                            ]),
+                            true
+                        ).testData;
+
+                    assert.deepEqual(testData.vm.getVMData().getData(), [6, 0, 0, 65536, 0, 0, 6, 65535, 6, 0, 0, 25, 0, 0]);
+                });
             }
         );
 

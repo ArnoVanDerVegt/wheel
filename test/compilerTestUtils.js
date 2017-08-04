@@ -57,6 +57,7 @@ require('../js/compiler/optimizer/OptimizeSet.js');
 require('../js/compiler/optimizer/OptimizeAdd.js');
 require('../js/compiler/optimizer/OptimizeMul.js');
 require('../js/compiler/CompilerOptimizer.js');
+require('../js/compiler/CompilerDirective.js');
 require('../js/compiler/Compiler.js');
 
 require('../js/vm/VMData.js');
@@ -113,11 +114,14 @@ exports.compile = function(lines) {
     compiler.compile(includes);
 };
 
-exports.compileAndRun = function(lines) {
+exports.compileAndRun = function(lines, ret) {
     var testData       = setup();
     var compiler       = testData.compiler;
     var vm             = testData.vm;
     var includes       = createIncludes(lines);
+
+    ret && compiler.getDirective().setRet(true);
+
     var outputCommands = compiler.compile(includes);
     var compilerData   = compiler.getCompilerData();
     var vmData         = vm.getVMData();

@@ -69,9 +69,9 @@
             };
 
             this.getLines = function() {
-                var leadingZero = function(value) {
+                var leadingZero = function(value, length) {
                         value += '';
-                        while (value.length < 4) {
+                        while (value.length < length) {
                             value = '0' + value;
                         }
                         return value;
@@ -84,7 +84,7 @@
                                 break;
 
                             case wheel.compiler.command.T_NUM_L:
-                                result = '[stack+' + leadingZero(param.value) + ']';
+                                result = '[stack+' + leadingZero(param.value, 4) + ']';
                                 break;
 
                             case wheel.compiler.command.T_NUM_G:
@@ -110,13 +110,13 @@
                                         break;
 
                                     default:
-                                        result = '[' + leadingZero(param.value) + ']';
+                                        result = '[' + leadingZero(param.value, 4) + ']';
                                         break;
                                 }
                                 break;
 
                             case wheel.compiler.command.T_LABEL:
-                                result = leadingZero(param.value + 1);
+                                result = leadingZero(param.value + 1, 4);
                                 break;
                         }
                         return result;
@@ -133,12 +133,13 @@
                         'sub',
                         'mul',
                         'div',
-                        'mod'
+                        'mod',
+                        'ret'
                     ];
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var line    = leadingZero(i) + '  ' + cmd[command.code];
+                    var line    = leadingZero(i, 4) + '  ' + cmd[command.code];
 
                     while (line.length < 13) {
                         line += ' ';

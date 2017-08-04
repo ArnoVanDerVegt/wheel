@@ -19,14 +19,41 @@ describe(
                             'endp'
                         ]).testData;
 
-
-                    //[ 7, 0, 65535, 65536, 0, 0, 0, 7, 65535 ]
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
                         [
                             7,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
+                            65536,  // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            0,      // global record offset
+                            7,      // stack pointer
+                            65535,  // return code offset
+                        ]
+                    );
+                });
+
+                it('Should declare global a record with single field - ret', function() {
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            7,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            0,      // REG_OFFSET_DEST
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
@@ -53,6 +80,37 @@ describe(
                             9,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
+                            65536,  // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            0,      // global record offset
+                            0,
+                            0,
+                            9,      // stack pointer
+                            65535,  // return code offset
+                        ]
+                    );
+                });
+
+                it('Should declare global a record - ret', function() {
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            9,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            0,      // REG_OFFSET_DEST
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
@@ -100,6 +158,44 @@ describe(
                     );
                 });
 
+                it('Should set global record fields - ret', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                '    s.x = ' + ints[0],
+                                '    s.y = ' + ints[1],
+                                '    s.z = ' + ints[2],
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            9,       // REG_OFFSET_STACK
+                            9,       // REG_OFFSET_SRC
+                            ints[2], // REG_OFFSET_DEST
+                            65536,   // REG_OFFSET_CODE
+                            0,       // REG_RETURN
+                            0,       // REG_FLAGS
+                            ints[0], // global record offset
+                            ints[1],
+                            ints[2],
+                            9,       // stack pointer
+                            65535,   // return code offset
+                            6,
+                            7,
+                            8
+                        ]
+                    );
+                });
+
                 it('Should declare local a record', function() {
                     var testData = compilerTestUtils.compileAndRun([
                             'record S',
@@ -116,6 +212,34 @@ describe(
                             6,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
+                            65536,  // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            6,      // stack pointer
+                            65535   // return code offset
+                        ]
+                    );
+                });
+
+                it('Should declare local a record - ret', function() {
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'proc main()',
+                                '   S s',
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            6,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            0,      // REG_OFFSET_DEST
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS
@@ -150,6 +274,44 @@ describe(
                             0,      // REG_FLAGS
                             6,      // stack pointer
                             65535,  // return code offset
+                            ints[0],
+                            ints[1],
+                            ints[2],
+                            8,
+                            9,
+                            10
+                        ]
+                    );
+                });
+
+                it('Should set local record fields - ret', function() {
+                    var ints     = compilerTestUtils.randomInts(3);
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'proc main()',
+                                '   S s',
+                                '   s.x = ' + ints[0],
+                                '   s.y = ' + ints[1],
+                                '   s.z = ' + ints[2],
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            6,       // REG_OFFSET_STACK
+                            6,       // REG_OFFSET_SRC
+                            ints[2], // REG_OFFSET_DEST
+                            65536,   // REG_OFFSET_CODE
+                            0,       // REG_RETURN
+                            0,       // REG_FLAGS
+                            6,       // stack pointer
+                            65535,   // return code offset
                             ints[0],
                             ints[1],
                             ints[2],
