@@ -5,6 +5,7 @@
         'compiler.CompilerOutput',
         wheel.Class(function() {
             this.init = function(opts) {
+                this._compiler     = opts.compiler;
                 this._buffer       = [];
                 this._mainIndex    = 0;
                 this._globalOffset = 0;
@@ -22,7 +23,7 @@
                     command.params.push({type: param.type, value: param.value});
                 });
                 this._buffer.push(command);
-                this._optimizer.optimize();
+                this._compiler.getDirective().getOptimize() && this._optimizer.optimize();
             };
 
             this.a = function(code, params, p2) {
@@ -134,6 +135,7 @@
                         'mul',
                         'div',
                         'mod',
+                        'call',
                         'ret'
                     ];
                 var lines = [];
@@ -145,15 +147,18 @@
                         line += ' ';
                     }
 
-                    line += paramToString(command, command.params[0]);
-                    if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
-                        // Single parameter...
+                    if (command.code === wheel.compiler.command.CMD_RET) {
+
                     } else {
-                        line += ',';
-                        while (line.length < 28) {
-                            line += ' ';
+                        line += paramToString(command, command.params[0]);
+                        if ((command.code !== wheel.compiler.command.CMD_CALL) &&
+                            (command.code > wheel.compiler.command.SINGLE_PARAM_COMMANDS)) {
+                            line += ',';
+                            while (line.length < 28) {
+                                line += ' ';
+                            }
+                            line += paramToString(command, command.params[1]);
                         }
-                        line += paramToString(command, command.params[1]);
                     }
                     lines.push(line);
                 }

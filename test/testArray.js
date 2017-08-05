@@ -9,11 +9,14 @@ describe(
             'Declare global array variable',
             function() {
                 it('Should declare a global array', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number a[3]',
-                            'proc main()',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number a[3]',
+                                'proc main()',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -62,11 +65,14 @@ describe(
                 });
 
                 it('Should declare a global array constant', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number a[4] = [45,46,47,48]',
-                            'proc main()',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number a[4] = [45,46,47,48]',
+                                'proc main()',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -117,12 +123,15 @@ describe(
                 });
 
                 it('Should declare a procedure with an array parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'proc test(number a[3])',
-                            'endp',
-                            'proc main()',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'proc test(number a[3])',
+                                'endp',
+                                'proc main()',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -166,13 +175,17 @@ describe(
                 });
 
                 it('Should call with constant array parameter', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'proc test(number a[3])',
-                            'endp',
-                            'proc main()',
-                            '    test([34,35,36])',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'proc test(number a[3])',
+                                'endp',
+                                'proc main()',
+                                '    test([34,35,36])',
+                                'endp'
+                            ],
+                            false,
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -206,7 +219,8 @@ describe(
                                 '    test([34,35,36])',
                                 'endp'
                             ],
-                            true
+                            true,
+                            false
                         ).testData;
 
                     assert.deepEqual(

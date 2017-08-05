@@ -10,14 +10,17 @@ describe(
             'Declare record',
             function() {
                 it('Should declare global a record with single field', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'record S',
-                            '    number x',
-                            'endr',
-                            'S s',
-                            'proc main()',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -65,14 +68,17 @@ describe(
                 });
 
                 it('Should declare global a record', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'record S',
-                            '    number x, y, z',
-                            'endr',
-                            'S s',
-                            'proc main()',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -125,17 +131,20 @@ describe(
 
                 it('Should set global record fields', function() {
                     var ints     = compilerTestUtils.randomInts(3);
-                    var testData = compilerTestUtils.compileAndRun([
-                            'record S',
-                            '    number x, y, z',
-                            'endr',
-                            'S s',
-                            'proc main()',
-                            '    s.x = ' + ints[0],
-                            '    s.y = ' + ints[1],
-                            '    s.z = ' + ints[2],
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'S s',
+                                'proc main()',
+                                '    s.x = ' + ints[0],
+                                '    s.y = ' + ints[1],
+                                '    s.z = ' + ints[2],
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -197,14 +206,17 @@ describe(
                 });
 
                 it('Should declare local a record', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'record S',
-                            '    number x, y, z',
-                            'endr',
-                            'proc main()',
-                            '   S s',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'proc main()',
+                                '   S s',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -251,17 +263,20 @@ describe(
 
                 it('Should set local record fields', function() {
                     var ints     = compilerTestUtils.randomInts(3);
-                    var testData = compilerTestUtils.compileAndRun([
-                            'record S',
-                            '    number x, y, z',
-                            'endr',
-                            'proc main()',
-                            '   S s',
-                            '   s.x = ' + ints[0],
-                            '   s.y = ' + ints[1],
-                            '   s.z = ' + ints[2],
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'record S',
+                                '    number x, y, z',
+                                'endr',
+                                'proc main()',
+                                '   S s',
+                                '   s.x = ' + ints[0],
+                                '   s.y = ' + ints[1],
+                                '   s.z = ' + ints[2],
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),

@@ -86,7 +86,8 @@ describe(
                                 '    number b',
                                 '    b = 2',
                                 'endp'
-                            ]
+                            ],
+                            false
                         ).testData;
 
                     assert.deepEqual(

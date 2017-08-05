@@ -10,15 +10,18 @@ describe(
             'Compare global and constant',
             function() {
                 it('Should have less/less equal/not equal flag', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number n',
-                            'proc main()',
-                            '    n = 10',
-                            '    asm',
-                            '        cmp n, 11',
-                            '    end',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number n',
+                                'proc main()',
+                                '    n = 10',
+                                '    asm',
+                                '        cmp n, 11',
+                                '    end',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     var result = wheel.compiler.command.FLAG_NOT_EQUAL |
                                     wheel.compiler.command.FLAG_LESS |
@@ -75,15 +78,18 @@ describe(
                 });
 
                 it('Should have equal/less equal/greater equal', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number n',
-                            'proc main()',
-                            '    n = 45',
-                            '    asm',
-                            '        cmp n, 45',
-                            '    end',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number n',
+                                'proc main()',
+                                '    n = 45',
+                                '    asm',
+                                '        cmp n, 45',
+                                '    end',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     var result = wheel.compiler.command.FLAG_EQUAL |
                                     wheel.compiler.command.FLAG_LESS_EQUAL |
@@ -140,15 +146,18 @@ describe(
                 });
 
                 it('Should have not equal/greater/greater equal', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number n',
-                            'proc main()',
-                            '    n = 87',
-                            '    asm',
-                            '        cmp n, 31',
-                            '    end',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number n',
+                                'proc main()',
+                                '    n = 87',
+                                '    asm',
+                                '        cmp n, 31',
+                                '    end',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     var result = wheel.compiler.command.FLAG_NOT_EQUAL |
                                     wheel.compiler.command.FLAG_GREATER |

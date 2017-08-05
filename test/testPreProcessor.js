@@ -108,6 +108,8 @@ describe(
             var compiler     = new wheel.compiler.Compiler({});
             var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
+            compiler.getDirective().setRet(false);
+
             preProcessor.process(
                 'main.whl',
                 function(includes) {
@@ -174,7 +176,7 @@ describe(
                             '#COMMANDS_SIZE',
                             '5',
                             '#COMMANDS',
-                            '10', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -197,6 +199,8 @@ describe(
                 );
             var compiler     = new wheel.compiler.Compiler({});
             var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -269,8 +273,8 @@ describe(
                             '#COMMANDS_SIZE',
                             '10',
                             '#COMMANDS',
-                            '10', '0', '0', '0', '0',
-                            '10', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -293,6 +297,8 @@ describe(
                 );
             var compiler     = new wheel.compiler.Compiler({});
             var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -379,8 +385,8 @@ describe(
                             '#COMMANDS_SIZE',
                             '10',
                             '#COMMANDS',
-                            '10', '0', '0', '0', '0',
-                            '10', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -401,6 +407,8 @@ describe(
                 );
             var compiler     = new wheel.compiler.Compiler({});
             var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -468,7 +476,7 @@ describe(
                             '#COMMANDS_SIZE',
                             '5',
                             '#COMMANDS',
-                            '10', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );

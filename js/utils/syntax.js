@@ -34,7 +34,8 @@
             'else',
             'struct',
             'or',
-            'and'
+            'and',
+            'call'
         ];
 
     var registers = [

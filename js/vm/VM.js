@@ -89,10 +89,13 @@
                         }
                         break;
 
-                    case 10: // ret
-                        // compilerOutput.a($.set.code, $.DEST(),  $.LOCAL(1));
-                        // compilerOutput.a($.set.code, $.STACK(), $.LOCAL(0));
-                        // compilerOutput.a($.set.code, $.CODE(),  $.DEST());
+                    case 10: // call
+                        data[regOffsetStack]                  = data[wheel.compiler.command.REG_SRC];
+                        data[regOffsetStack + 1]              = data[wheel.compiler.command.REG_DEST];
+                        data[wheel.compiler.command.REG_CODE] = v1;
+                        break;
+
+                    case 11: // ret
                         data[wheel.compiler.command.REG_STACK] = data[regOffsetStack];
                         data[wheel.compiler.command.REG_CODE]  = data[regOffsetStack + 1];
                         break;
@@ -146,10 +149,6 @@
                     };
 
                 while (!isFinished() && (count < total) && (this._pause === 0)) {
-                    /*console.log(data[wheel.compiler.command.REG_CODE],
-                        'stack:', data[wheel.compiler.command.REG_STACK],
-                        'src:', data[wheel.compiler.command.REG_SRC],
-                        'dest:', data[wheel.compiler.command.REG_DEST]);*/
                     this.emit(
                         'RunLine',
                         vmData.getGlobalNumber(wheel.compiler.command.REG_CODE),

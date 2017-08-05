@@ -95,7 +95,8 @@
     var CMD_DIV    = 8;
     var CMD_MOD    = 9;
 
-    var CMD_RET    = 10;
+    var CMD_CALL   = 10;
+    var CMD_RET    = 11;
 
     wheel(
         'compiler.command',
@@ -139,7 +140,8 @@
             div: {code: 8, args: ARGS_GL_CGL},
             mod: {code: 9, args: ARGS_GL_CGL},
 
-            ret: {code: 10},
+            call: {code: 10, args: ARGS_PPGPL},
+            ret: {code: 11},
 
             // The following commands are compiled into smaller commands with less parameters...
             inc: {code: 1024, args: ARGS_GL},
@@ -193,6 +195,7 @@
     wheel('compiler.command.CMD_DIV',               CMD_DIV);
     wheel('compiler.command.CMD_MOD',               CMD_MOD);
 
+    wheel('compiler.command.CMD_CALL',              CMD_CALL);
     wheel('compiler.command.CMD_RET',               CMD_RET);
 
     wheel('compiler.command.T_NUM_C',               T_NUM_C);
