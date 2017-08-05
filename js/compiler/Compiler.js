@@ -166,7 +166,7 @@
                 var output            = this._output;
 
                 if (line.trim().indexOf('#directive') === 0) {
-                    console.log(line);
+                    this._directive.compile(line);
                 } else {
                     line = this._meta.compileParams(line);
 

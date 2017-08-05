@@ -34,6 +34,41 @@
             this.setOptimize = function(optimize) {
                 this._optimize = optimize;
             };
+
+            this.compile = function(line) {
+                line = line.trim();
+                var i = line.indexOf('#directive');
+                if (line.indexOf(' ') === -1) {
+                    // throw param error
+                }
+                var params = line.split(' ')[1].split(',');
+                params.forEach(
+                    function(param) {
+                        if (param.indexOf('=') === -1) {
+                            // throw error
+                        } else {
+                            var p = param.split('=');
+                            if (p.length === 2) {
+                                var value;
+                                switch (p[1]) {
+                                    case 'on':  value = true;  break;
+                                    case 'off': value = false; break;
+                                    default: // error
+                                }
+                                switch (p[0]) {
+                                    case 'ret':      this._ret      = value; break;
+                                    case 'call':     this._call     = value; break;
+                                    case 'optimize': this._optimize = value; break;
+                                    default: // error
+                                }
+                            } else {
+                                // error...
+                            }
+                        }
+                    },
+                    this
+                );
+            };
         })
     );
 })();

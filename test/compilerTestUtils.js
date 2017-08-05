@@ -114,14 +114,15 @@ exports.compile = function(lines) {
     compiler.compile(includes);
 };
 
-exports.compileAndRun = function(lines, ret, call) {
+exports.compileAndRun = function(lines, ret, call, optimize) {
     var testData       = setup();
     var compiler       = testData.compiler;
     var vm             = testData.vm;
     var includes       = createIncludes(lines);
 
-    (ret  !== undefined) && compiler.getDirective().setRet(ret);
-    (call !== undefined) && compiler.getDirective().setCall(call);
+    (ret      !== undefined) && compiler.getDirective().setRet(ret);
+    (call     !== undefined) && compiler.getDirective().setCall(call);
+    (optimize !== undefined) && compiler.getDirective().setOptimize(optimize);
 
     var outputCommands = compiler.compile(includes);
     var compilerData   = compiler.getCompilerData();
