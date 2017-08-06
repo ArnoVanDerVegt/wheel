@@ -1,7 +1,12 @@
 {
-	"path": [
-		"whl",
-		"whl/lib",
-		"whl/examples/screen"
-	]
+    "directives": {
+        "ret": "on",
+        "call": "on",
+        "optimize": "on"
+    },
+    "path": [
+        "whl",
+        "whl/lib",
+        "whl/examples/screen"
+    ]
 }

@@ -188,6 +188,7 @@
                 var result     = '';
                 var separator  = String.fromCharCode(13);
                 var stringList = this._stringList;
+                var heap       = this._compiler.getDirective().getHeap();
 
                 result += '#STRINGS' + separator;
 
@@ -195,7 +196,7 @@
                 result += stringList.join(separator) + separator;
 
                 result += '#HEAP_SIZE'           + separator;
-                result += 1024                   + separator;
+                result += heap                   + separator;
                 result += '#REG_CODE'            + separator;
                 result += this.getMainIndex()    + separator;
                 result += '#REG_STACK'           + separator;

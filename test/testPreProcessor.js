@@ -122,7 +122,54 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
+                            '#REG_CODE',
+                            '0',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '15',
+                            '#COMMANDS',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should create basic program, set heap', function() {
+            var files = createFiles(
+                    [
+                        '\tproc main()',
+                        '\tendp'
+                    ],
+                    [
+                        '\t\tproc incld()',
+                        '\t\t\tendp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
+            compiler.getDirective().setHeap(256);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '256',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',
@@ -168,7 +215,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',
@@ -214,7 +261,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '3',
                             '#REG_STACK',
@@ -265,7 +312,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '1',
                             '#REG_STACK',
@@ -319,7 +366,7 @@ describe(
                             'Hello',
                             'world',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '3',
                             '#REG_STACK',
@@ -377,7 +424,7 @@ describe(
                             'Hello',
                             'world',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '1',
                             '#REG_STACK',
@@ -422,7 +469,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',
@@ -468,7 +515,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',

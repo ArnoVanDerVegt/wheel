@@ -8,10 +8,12 @@
             this.init = function(opts) {
                 $ = wheel.compiler.command;
 
+                var config = opts.config || {};
+
                 this._data           = new wheel.compiler.CompilerData({compiler: this});
                 this._meta           = new wheel.compiler.CompilerMeta({compiler: this, compilerData: this._data});
                 this._output         = new wheel.compiler.CompilerOutput({compiler: this});
-                this._directive      = new wheel.compiler.CompilerDirective({compiler: this});
+                this._directive      = new wheel.compiler.CompilerDirective({compiler: this, config: config});
                 this._mainIndex      = -1;
                 this._filename       = '';
                 this._includes       = null;
