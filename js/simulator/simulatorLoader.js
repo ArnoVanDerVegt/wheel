@@ -91,14 +91,14 @@
             preProcessor.process(
                 'main.whl',
                 function(includes) {
-                    //try {
+                    try {
                         outputTitle    = title;
                         outputCommands = compiler.compile(includes);
                         compilerData   = compiler.getCompilerData();
                         simulator.getDisplay().drawLoaded(title);
-                    //} catch (error) {
-                    //    console.log(error);
-                    //}
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
             );
         };
