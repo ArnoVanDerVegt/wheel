@@ -144,7 +144,7 @@ function loadConfig(argv) {
                         if (typeof value === 'object') {
                             if (!('forEach' in value)) {
                                 dest[i] = {};
-                                update(value, {})
+                                update(value, {});
                             }
                         } else {
                             dest[i] = value;

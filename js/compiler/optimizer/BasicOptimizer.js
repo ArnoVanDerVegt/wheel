@@ -24,7 +24,7 @@
                 var buffer = this._buffer;
                 var length = buffer.length;
                 return {c1: buffer[length - 2], c2: buffer[length - 1]};
-            }
+            };
         })
     );
 })();
