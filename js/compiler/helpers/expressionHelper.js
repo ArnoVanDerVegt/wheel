@@ -40,6 +40,29 @@
                 return false;
             },
 
+            removeParentheses: function(s) {
+                s = s.trim();
+                var change = true;
+                while (change) {
+                    change = false;
+                    if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
+                        var result = s.substr(1, s.length - 2);
+                        for (var i = 0; i < result.length; i++) {
+                            var c = result[i];
+                            if (c === '(') {
+                                break;
+                            } else if (c === ')') {
+                                return s;
+                            }
+                        }
+                        change = true;
+                        s      = result;
+                    } else {
+                        return s;
+                    }
+                }
+            },
+
             isProcCall: function(s) {
                 s = s.trim();
                 var i = s.indexOf('(');
@@ -63,7 +86,12 @@
                 var operators = ['*', '/', '+', '-', '%'];
 
                 var createNode = function(value) {
-                        return {left: null, operator: null, right: null, value: value};
+                        return {
+                            left:     null,
+                            operator: null,
+                            right:    null,
+                            value:    wheel.compiler.helpers.expressionHelper.removeParentheses(value)
+                        };
                     };
 
                 var findOperatorPos = function(s) {

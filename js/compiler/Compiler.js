@@ -171,7 +171,6 @@
                     this._directive.compile(line);
                 } else {
                     line = this._meta.compileParams(line);
-
                     if ((line.indexOf('proc ') === -1) && (line.indexOf('(') !== -1)) {
                         var spacePos = line.indexOf(' ');
                         var command  = line.substr(0, spacePos).trim();

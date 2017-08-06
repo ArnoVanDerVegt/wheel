@@ -283,16 +283,14 @@
                     return [line];
                 } else if (command in this._statements) {
                     return this._statements[command].compile(line, params, output);
-                } else {
-                    if (!this.checkAsmCommand(command)) {
-                        var procCall = wheel.compiler.helpers.expressionHelper.isProcCall(line);
-                        if (procCall) {
-                            return this.compileProcCall(line, procCall);
-                        } else {
-                            var operator = wheel.compiler.helpers.expressionHelper.hasOperator(line);
-                            if (operator) {
-                                return this.compileOperator(line, operator);
-                            }
+                } else if (!this.checkAsmCommand(command)) {
+                    var procCall = wheel.compiler.helpers.expressionHelper.isProcCall(line);
+                    if (procCall) {
+                        return this.compileProcCall(line, procCall);
+                    } else {
+                        var operator = wheel.compiler.helpers.expressionHelper.hasOperator(line);
+                        if (operator) {
+                            return this.compileOperator(line, operator);
                         }
                     }
                 }

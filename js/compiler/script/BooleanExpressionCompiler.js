@@ -1,29 +1,6 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
 
-    function removeParentheses(s) {
-        s = s.trim();
-        var change = true;
-        while (change) {
-            change = false;
-            if ((s.length && (s[0] === '(')) && (s[s.length - 1] === ')')) {
-                var result = s.substr(1, s.length - 2);
-                for (var i = 0; i < result.length; i++) {
-                    var c = result[i];
-                    if (c === '(') {
-                        break;
-                    } else if (c === ')') {
-                        return s;
-                    }
-                }
-                change = true;
-                s      = result;
-            } else {
-                return s;
-            }
-        }
-    }
-
     wheel(
         'compiler.script.BooleanExpressionCompiler',
         wheel.Class(function() {
@@ -47,8 +24,8 @@
 
                 var splitInfo = wheel.compiler.helpers.expressionHelper.findBooleanOperator(s);
                 if (splitInfo) {
-                    var left  = removeParentheses(s.substr(0, splitInfo.pos).trim());
-                    var right = removeParentheses(s.substr(splitInfo.pos - s.length + splitInfo.operator.length).trim());
+                    var left  = wheel.compiler.helpers.expressionHelper.removeParentheses(s.substr(0, splitInfo.pos).trim());
+                    var right = wheel.compiler.helpers.expressionHelper.removeParentheses(s.substr(splitInfo.pos - s.length + splitInfo.operator.length).trim());
                     var info  = {
                             or: {
                                 node:      wheel.compiler.script.boolean.BooleanOrNode,
@@ -76,7 +53,7 @@
             this.compile = function(s, result, label, labels) {
                 this._label  = label;
                 this._labels = labels;
-                var node = this.parse(removeParentheses(s), null, 'root', result);
+                var node = this.parse(wheel.compiler.helpers.expressionHelper.removeParentheses(s), null, 'root', result);
                 node.compile(0);
             };
         })

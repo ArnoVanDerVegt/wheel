@@ -71,5 +71,23 @@ describe(
 
             assert.deepEqual(testData.messages, [14]);
         });
+
+        it('Should use two parentheses blocks', function() {
+            var testData = compilerTestUtils.compileAndRun(
+                    printN.concat([
+                        'proc main()',
+                        '    number a',
+                        '    number b',
+                        '',
+                        '    a = 2',
+                        '    b = (a * 6) * (4 + 3)',
+                        '',
+                        '    printN(b)',
+                        'endp'
+                    ])
+                ).testData;
+
+            assert.deepEqual(testData.messages, [84]);
+        });
     }
 );
