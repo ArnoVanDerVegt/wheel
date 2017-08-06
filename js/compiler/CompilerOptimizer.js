@@ -15,7 +15,6 @@
             };
 
             this.optimize = function() {
-                var index      = 0;
                 var optimizers = this._optimizers;
                 var optimized  = false;
 

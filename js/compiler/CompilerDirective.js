@@ -1,6 +1,5 @@
 (function() {
-    var wheel              = require('../utils/base.js').wheel;
-    var compilerMetaHelper = wheel.compiler.helpers.compilerMetaHelper;
+    var wheel = require('../utils/base.js').wheel;
 
     wheel(
         'compiler.CompilerDirective',
@@ -49,7 +48,6 @@
 
             this.compile = function(line) {
                 line = line.trim();
-                var i = line.indexOf('#directive');
                 if (line.indexOf(' ') === -1) {
                     // throw param error
                 }
