@@ -7,24 +7,22 @@
  *
 **/
 (function() {
-    var wheel = require('../../utils/base.js').wheel;
-    var $;
+    var wheel          = require('../../utils/base.js').wheel;
+    var compilerHelper = wheel.compiler.helpers.compilerHelper;
 
     wheel(
         'compiler.commands.StringDeclaration',
         wheel.Class(wheel.compiler.commands.Declaration, function(supr) {
             this.checkWrappedString = function(global, openChar, closeChar, message, error) {
-                if (!wheel.compiler.compilerHelper.getWrappedInChars(global.value, openChar, closeChar)) {
+                if (!compilerHelper.getWrappedInChars(global.value, openChar, closeChar)) {
                     throw this._compiler.createError(error, message + ' "' + global.value + '".');
                 }
             };
 
-            this.compile = function(validatedCommand, params, location) {
-                $ = wheel.compiler.command;
-
-                var compiler       = this._compiler;
-                var compilerOutput = compiler.getOutput();
-                var compilerData   = this._compilerData;
+            this.compile = function(compilerOutput, validatedCommand, params) {
+                var compiler     = this._compiler;
+                var compilerData = this._compilerData;
+                var $            = wheel.compiler.command;
 
                 if (compiler.getActiveRecord() !== null) {
                     // Declare a string of array of strings field in a record...
@@ -45,33 +43,19 @@
                                 if ((value.length < 2) || (value[0] !== '"') || (value.substr(-1) !== '"')) {
                                     throw compiler.createError(wheel.compiler.error.STRING_EXPECTED_IN_CONSTANT, 'String expected, found "' + value + '".');
                                 }
-                                var offset = compilerData.declareString(value.substr(1, value.length - 2));
 
                                 // Set the the value at the address of the local variable...
-                                this.addSetLocal(local, offset);
+                                this.addSetLocal(local, compilerData.declareString(value.substr(1, value.length - 2)));
                             } else if (local.type === $.T_NUM_L_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
-                                var size   = local.size * local.length;
-                                var offset = compilerData.allocateGlobal(size); // Allocate space...
-
-                                // Store the data which should be placed at the just allocated space:
-                                compilerData.declareConstant(offset, wheel.compiler.compilerHelper.parseStringArray(local.value, compiler, compilerData));
-
-                                // Copy the data from the global offset to the local offset...
-                                compilerOutput.a($.set.code, $.SRC(), $.CONST(offset));
-                                compilerOutput.a($.set.code, $.DEST(), $.STACK());
-                                this.addToDestIfValue(local.offset);
-
-                                compilerOutput.a($.copy.code, $.CONST(size), $.CONST(0));
+                                this.declareLocalArray(local, compilerHelper.parseStringArray.bind(compilerHelper));
                             }
                         }
                     }
                 } else {
-                    // Declare a global string or array of strings...
-                    for (var i = 0; i < params.length; i++) {
-                        var global = compilerData.declareGlobal(params[i], $.T_NUM_G, $.T_NUM_G_ARRAY, null, true);
-                        global.metaType = $.T_META_STRING;
-                        // Check if the string declaration had a constant value assigned to it...
-                        if (global.value) {
+                    this.declareGlobalArray(
+                        params,
+                        function(global) {
+                            global.metaType = $.T_META_STRING;
                             var value = global.value.trim();
 
                             if (global.type === $.T_NUM_G) { // Like: string n = "abc"
@@ -79,10 +63,10 @@
                                 compilerData.declareConstant(global.offset, [compilerData.declareString(value.substr(1, value.length - 2))]);
                             } else if (global.type === $.T_NUM_G_ARRAY) { // Like: string arr[3] = ["a", "b", "c"]
                                 this.checkWrappedString(global, '[', ']', 'String array expected, found', wheel.compiler.error.STRING_ARRAY_EXPECTED);
-                                compilerData.declareConstant(global.offset, wheel.compiler.compilerHelper.parseStringArray(value, compiler, compilerData));
+                                compilerData.declareConstant(global.offset, compilerHelper.parseStringArray(value, compiler, compilerData));
                             }
                         }
-                    }
+                    );
                 }
             };
         })

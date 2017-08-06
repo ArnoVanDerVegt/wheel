@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -73,7 +72,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -125,7 +124,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -177,7 +176,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -229,7 +228,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -281,7 +280,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',

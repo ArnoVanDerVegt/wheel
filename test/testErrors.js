@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -243,7 +242,7 @@ describe(
                             ]);
                         },
                         function(error) {
-                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED + ' Number expected, found " \'x\'".');
+                            return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED + ' Number expected, found "\'x\'".');
                         }
                     );
                 });

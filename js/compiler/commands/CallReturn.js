@@ -1,10 +1,9 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.CallReturn',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             this.init = function() {
                 supr(this, 'init', arguments);
 
@@ -20,14 +19,15 @@
                 this._retCompiler = retCompiler;
             };
 
-            this.compile = function(validatedCommand, splitParams, params, location) {
-                $ = wheel.compiler.command;
+            this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
+                var $ = wheel.compiler.command;
 
                 validatedCommand.code = $.set.code;
                 validatedCommand.params.unshift($.RETURN());
 
-                this._setCompiler.compile(validatedCommand);
-                this._retCompiler.compile(null);
+                var compilerOutput = this._compiler.getOutput();
+                this._setCompiler.compile(compilerOutput, validatedCommand);
+                this._retCompiler.compile(compilerOutput, null);
             };
         })
     );

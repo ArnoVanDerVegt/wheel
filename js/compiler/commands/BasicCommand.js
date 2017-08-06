@@ -2,7 +2,7 @@
     var wheel = require('../../utils/base.js').wheel;
 
     wheel(
-        'compiler.commands.CommandCompiler',
+        'compiler.commands.BasicCommand',
         wheel.Class(function() {
             this.init = function(opts) {
                 this._compiler     = opts.compiler;

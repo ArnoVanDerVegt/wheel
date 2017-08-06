@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -92,7 +91,7 @@ describe(
                             '        printN(n)',
                             '    end',
                             '    n = 0',
-                            '    if n',
+                            '    if ((n))',
                             '        printN(n)',
                             '    else',
                             '        printN(9)',

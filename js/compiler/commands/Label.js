@@ -1,17 +1,16 @@
 (function() {
     var wheel = require('../../utils/base.js').wheel;
-    var $;
 
     wheel(
         'compiler.commands.Label',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             /**
              * Check if a line starts with a label...
             **/
             this.hasLabel = function(line) {
                 var i = line.indexOf(':');
                 if ((line.length > 1) && (i !== -1)) {
-                    return wheel.compiler.compilerHelper.validateString(line.substr(0, i));
+                    return wheel.compiler.helpers.compilerHelper.validateString(line.substr(0, i));
                 }
                 return false;
             };
@@ -25,6 +24,7 @@
                 var compilerData   = this._compilerData;
                 var outputCommands = this._compiler.getOutput().getBuffer();
                 var labelList      = compilerData.getLabelList();
+                var $              = wheel.compiler.command;
 
                 for (var i in labelList) {
                     var label = labelList[i];
@@ -45,10 +45,9 @@
              * check if they are unique and create a declaration...
             **/
             this.compile = function(lines) {
-                $ = wheel.compiler.command;
-
                 var sourceMap    = lines.sourceMap;
                 var compilerData = this._compilerData;
+
                 for (var i = 0; i < lines.output.length; i++) {
                     this._lineNumber = i;
 

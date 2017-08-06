@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -63,7 +62,7 @@ describe(
                             ]
                         );
                     var compiler     = new wheel.compiler.Compiler({});
-                    var preProcessor = new wheel.compiler.PreProcessor({files: files});
+                    var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
                     preProcessor.process('main.whl', function(includes) {});
                 },
@@ -84,7 +83,7 @@ describe(
                             ]
                         );
                     var compiler     = new wheel.compiler.Compiler({});
-                    var preProcessor = new wheel.compiler.PreProcessor({files: files});
+                    var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
                     preProcessor.process('main.whl', function(includes) {});
                 },
@@ -106,7 +105,9 @@ describe(
                     ]
                 );
             var compiler     = new wheel.compiler.Compiler({});
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -120,7 +121,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',
@@ -131,6 +132,97 @@ describe(
                             '4', '1', '2', '2', '1',
                             '4', '1', '0', '2', '0',
                             '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should create basic program, set heap', function() {
+            var files = createFiles(
+                    [
+                        '\tproc main()',
+                        '\tendp'
+                    ],
+                    [
+                        '\t\tproc incld()',
+                        '\t\t\tendp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
+            compiler.getDirective().setHeap(256);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '256',
+                            '#REG_CODE',
+                            '0',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '15',
+                            '#COMMANDS',
+                            '4', '1', '2', '2', '1',
+                            '4', '1', '0', '2', '0',
+                            '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should create basic program - ret', function() {
+            var files = createFiles(
+                    [
+                        '\tproc main()',
+                        '\tendp'
+                    ],
+                    [
+                        '\t\tproc incld()',
+                        '\t\t\tendp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(true);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '128',
+                            '#REG_CODE',
+                            '0',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '5',
+                            '#COMMANDS',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -152,7 +244,9 @@ describe(
                     ]
                 );
             var compiler     = new wheel.compiler.Compiler({});
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -166,7 +260,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '3',
                             '#REG_STACK',
@@ -180,6 +274,53 @@ describe(
                             '4', '1', '2', '2', '1',
                             '4', '1', '0', '2', '0',
                             '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should create basic program with include file - ret', function() {
+            var files = createFiles(
+                    [
+                        '#include "include.whl"',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ],
+                    [
+                        'proc incld()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(true);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '128',
+                            '#REG_CODE',
+                            '1',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '10',
+                            '#COMMANDS',
+                            '11', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -201,7 +342,9 @@ describe(
                     ]
                 );
             var compiler     = new wheel.compiler.Compiler({});
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -222,7 +365,7 @@ describe(
                             'Hello',
                             'world',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '3',
                             '#REG_STACK',
@@ -243,6 +386,60 @@ describe(
             );
         });
 
+        it('Should create basic program with include file and string list - ret', function() {
+            var files = createFiles(
+                    [
+                        '#include "include.whl"',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ],
+                    [
+                        'proc incld()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(true);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    outputCommands.setStringList(['Hello', 'world']);
+
+                    assert.deepEqual(
+                        outputCommands.getStringList(),
+                        ['Hello', 'world']
+                    );
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                        [
+                            '#STRINGS',
+                            '2',
+                            'Hello',
+                            'world',
+                            '#HEAP_SIZE',
+                            '128',
+                            '#REG_CODE',
+                            '1',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '10',
+                            '#COMMANDS',
+                            '11', '0', '0', '0', '0',
+                            '11', '0', '0', '0', '0',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
         it('Should add endr', function() {
             var files = createFiles(
                     [
@@ -255,7 +452,9 @@ describe(
                     ]
                 );
             var compiler     = new wheel.compiler.Compiler({});
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(false);
 
             preProcessor.process(
                 'main.whl',
@@ -269,7 +468,7 @@ describe(
                             '0',
                             '',
                             '#HEAP_SIZE',
-                            '1024',
+                            '128',
                             '#REG_CODE',
                             '0',
                             '#REG_STACK',
@@ -280,6 +479,50 @@ describe(
                             '4', '1', '2', '2', '1',
                             '4', '1', '0', '2', '0',
                             '4', '1', '3', '1', '2',
+                            ''
+                        ]
+                    );
+                }
+            );
+        });
+
+        it('Should add endr - ret', function() {
+            var files = createFiles(
+                    [
+                        'record S',
+                        '    number n',
+                        'end',
+                        '',
+                        'proc main()',
+                        'endp'
+                    ]
+                );
+            var compiler     = new wheel.compiler.Compiler({});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
+
+            compiler.getDirective().setRet(true);
+
+            preProcessor.process(
+                'main.whl',
+                function(includes) {
+                    var outputCommands = compiler.compile(includes);
+
+                    assert.deepEqual(
+                        outputCommands.outputCommands().split('\r'),
+                            [
+                            '#STRINGS',
+                            '0',
+                            '',
+                            '#HEAP_SIZE',
+                            '128',
+                            '#REG_CODE',
+                            '0',
+                            '#REG_STACK',
+                            '6',
+                            '#COMMANDS_SIZE',
+                            '5',
+                            '#COMMANDS',
+                            '11', '0', '0', '0', '0',
                             ''
                         ]
                     );
@@ -307,7 +550,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -352,7 +595,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -399,7 +642,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -452,7 +695,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files, config: {path: ['test/']}});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files, config: {path: ['test/']}});
 
             preProcessor.process(
                 'main.whl',
@@ -514,7 +757,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files, config: {path: ['test/']}});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files, config: {path: ['test/']}});
 
             preProcessor.process(
                 'main.whl',
@@ -558,7 +801,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -604,7 +847,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -648,7 +891,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -690,7 +933,7 @@ describe(
                     ]
                 );
             var testData = compilerTestUtils.setup();
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -725,7 +968,7 @@ describe(
                         ]
                     );
                 var compiler     = new wheel.compiler.Compiler({});
-                var preProcessor = new wheel.compiler.PreProcessor({files: files});
+                var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
                 preProcessor.process(
                     'main.whl',

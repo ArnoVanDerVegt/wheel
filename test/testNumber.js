@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+var assert            = require('assert');
 var wheel             = require('../js/utils/base.js').wheel;
 var compilerTestUtils = require('./compilerTestUtils.js');
 
@@ -78,14 +77,17 @@ describe(
                 });
 
                 it('Should set memory global and local', function() {
-                    var testData = compilerTestUtils.compileAndRun([
-                            'number a',
-                            'proc main()',
-                            '    a = 71',
-                            '    number b',
-                            '    b = 2',
-                            'endp'
-                        ]).testData;
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number a',
+                                'proc main()',
+                                '    a = 71',
+                                '    number b',
+                                '    b = 2',
+                                'endp'
+                            ],
+                            false
+                        ).testData;
 
                     assert.deepEqual(
                         testData.vm.getVMData().getData(),
@@ -93,6 +95,35 @@ describe(
                             7,      // REG_OFFSET_STACK
                             0,      // REG_OFFSET_SRC
                             65535,  // REG_OFFSET_DEST
+                            65536,  // REG_OFFSET_CODE
+                            0,      // REG_RETURN
+                            0,      // REG_FLAGS
+                            71,     // number a - start of globals
+                            7,      // stack pointer
+                            65535,  // return code offset
+                            2       // number b - local
+                        ]
+                    );
+                });
+                it('Should set memory global and local - ret', function() {
+                    var testData = compilerTestUtils.compileAndRun(
+                            [
+                                'number a',
+                                'proc main()',
+                                '    a = 71',
+                                '    number b',
+                                '    b = 2',
+                                'endp'
+                            ],
+                            true
+                        ).testData;
+
+                    assert.deepEqual(
+                        testData.vm.getVMData().getData(),
+                        [
+                            7,      // REG_OFFSET_STACK
+                            0,      // REG_OFFSET_SRC
+                            0,      // REG_OFFSET_DEST
                             65536,  // REG_OFFSET_CODE
                             0,      // REG_RETURN
                             0,      // REG_FLAGS

@@ -84,6 +84,20 @@
             {type: T_STRUCT_L_ARRAY, metaType: T_META_ADDRESS},
         ];
 
+    var CMD_COPY   = 0;
+    var CMD_JMPC   = 1;
+    var CMD_CMP    = 2;
+    var CMD_MODULE = 3;
+    var CMD_SET    = 4;
+    var CMD_ADD    = 5;
+    var CMD_SUB    = 6;
+    var CMD_MUL    = 7;
+    var CMD_DIV    = 8;
+    var CMD_MOD    = 9;
+
+    var CMD_CALL   = 10;
+    var CMD_RET    = 11;
+
     wheel(
         'compiler.command',
         {
@@ -126,6 +140,9 @@
             div: {code: 8, args: ARGS_GL_CGL},
             mod: {code: 9, args: ARGS_GL_CGL},
 
+            call: {code: 10, args: ARGS_PPGPL},
+            ret: {code: 11},
+
             // The following commands are compiled into smaller commands with less parameters...
             inc: {code: 1024, args: ARGS_GL},
             dec: {code: 1025, args: ARGS_GL},
@@ -166,6 +183,20 @@
             }
         }
     );
+
+    wheel('compiler.command.CMD_COPY',              CMD_COPY);
+    wheel('compiler.command.CMD_JMPC',              CMD_JMPC);
+    wheel('compiler.command.CMD_CMP',               CMD_CMP);
+    wheel('compiler.command.CMD_MODULE',            CMD_MODULE);
+    wheel('compiler.command.CMD_SET',               CMD_SET);
+    wheel('compiler.command.CMD_ADD',               CMD_ADD);
+    wheel('compiler.command.CMD_SUB',               CMD_SUB);
+    wheel('compiler.command.CMD_MUL',               CMD_MUL);
+    wheel('compiler.command.CMD_DIV',               CMD_DIV);
+    wheel('compiler.command.CMD_MOD',               CMD_MOD);
+
+    wheel('compiler.command.CMD_CALL',              CMD_CALL);
+    wheel('compiler.command.CMD_RET',               CMD_RET);
 
     wheel('compiler.command.T_NUM_C',               T_NUM_C);
     wheel('compiler.command.T_NUM_G',               T_NUM_G);

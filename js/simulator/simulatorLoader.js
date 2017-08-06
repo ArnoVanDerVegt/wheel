@@ -86,7 +86,7 @@
             compiler = new wheel.compiler.Compiler({});
             vm       = new wheel.vm.VM({});
 
-            var preProcessor = new wheel.compiler.PreProcessor({files: files});
+            var preProcessor = new wheel.compiler.preprocessor.PreProcessor({files: files});
 
             preProcessor.process(
                 'main.whl',
@@ -125,10 +125,11 @@
                 var line = items[i++];
                 if (line === '#COMMANDS') {
                     var offset = 0;
+                    var number = 0;
                     while (i + 1 < items.length) {
                         var ret = ((items[i] === '4') && (items[i + 1] === '1') && (items[i + 2] === '3'));
 
-                        line = (items[i++] || '') + ' ';
+                        line = leadingChar(items[i++] || '', '0', 2) + ' ';
                         for (var j = 0; j < 4; j++) {
                             line += leadingChar(items[i++] || '', ' ', 3) + ' ';
                         }

@@ -51,6 +51,7 @@
                     <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
+                    <a href="site/docs/meta.html">Meta commands</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
@@ -61,6 +62,7 @@
                 <h3 class="dark-blue">Syntax</h3>
                 <ul class="last">
                     <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#comments">Comments</a></li>
                     <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
                     <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
                     <li><a href="site/docs/syntax.html#asm">Assembly commands</a></li>
@@ -70,13 +72,26 @@
             <div class="two first" id="onecommand">
                 <h4>Syntax</h4>
                 <h5>One command per line</h5>
-                Wheel only allows a single command per line.<br/>
+                The Wheel syntax look a little bit like <a href="https://en.wikipedia.org/wiki/Pascal_(programming_language)">Pascal</a> or
+                <a href="https://en.wikipedia.org/wiki/QBasic">Basic</a>.<br/>
+                <br/>
+                Wheel only allows a single command or expression per line.<br/>
                 <pre>
                     proc main()
-                        number n = 1 ; Very simple...
+                        number n = 1
                     end
                 </pre>
-                Comments start with a semicolon ";" and should be placed after the command or expression.
+            </div>
+
+            <div class="two first" id="comments">
+                <h5>Comments</h5>
+                A semicolon (";") marks the beginning of a comment.<br/>
+                <pre>
+                    proc main()
+                        ; This is a comment and will not be executed...
+                    end
+                </pre>
+                Comments should be placed after the command or expression.
             </div>
 
             <div class="two first" id="blocks">
@@ -117,7 +132,8 @@
                 <h5>Meta commands</h5>
                 Meta commands are parsed by the precompiler.<br/>
                 <br/>
-                <h6>#include</h6>
+                A meta command starts with the "#" character and must be the first command on the line.<br/>
+                <br/>
                 With the <i>include</i> command you can import an existing file like a library.<br/>
                 <pre>
                     #include "lib/screen.whl"
@@ -127,16 +143,10 @@
                     end
                 </pre>
                 <br/>
-                <h6>#define</h6>
-                With the <i>define</i> command you can create constants, the constants are replaced
-                with the <i>define</i> value by the precompiler.<br/>
-                <pre>
-                    #include "lib/screen.whl"
-
-                    proc main()
-                        drawNumber(10, 5, 90)
-                    end
-                </pre>
+                <span class="see-also">
+                    See:
+                    <a href="site/docs/meta.html">Meta commands</a>
+                </span>
             </div>
 
             <div class="two first" id="asm">

@@ -1069,7 +1069,7 @@ div.three table th {
 pre,
 pre span {
     font-family:                Courier;
-    font-size:                  15px;
+    font-size:                  14px;
     font-family:                monospace;
     line-height:                18px;
 }
@@ -1109,6 +1109,9 @@ pre .light-blue {
 }
 pre .yellow {
     color:                      #f1c40f;
+}
+pre .turquoise {
+    color:                      #1abc9c;
 }
 pre .orange {
     color:                      #e67e22;

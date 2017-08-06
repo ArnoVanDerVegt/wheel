@@ -5,17 +5,25 @@
         'compiler.CompilerOutput',
         wheel.Class(function() {
             this.init = function(opts) {
+                this._compiler     = opts.compiler;
                 this._buffer       = [];
                 this._mainIndex    = 0;
                 this._globalOffset = 0;
                 this._stringList   = [];
+                this._optimizer    = new wheel.compiler.CompilerOptimizer({buffer: this._buffer});
             };
 
             this.add = function(outputCommand) {
-                while (outputCommand.params.length < 2) {
-                    outputCommand.params.push({type: '', value: 0});
+                var params = outputCommand.params;
+                while (params.length < 2) {
+                    params.push({type: '', value: 0});
                 }
-                this._buffer.push(outputCommand);
+                var command = {code: outputCommand.code, params: []};
+                params.forEach(function(param) {
+                    command.params.push({type: param.type, value: param.value});
+                });
+                this._buffer.push(command);
+                this._compiler.getDirective().getOptimize() && this._optimizer.optimize();
             };
 
             this.a = function(code, params, p2) {
@@ -62,9 +70,9 @@
             };
 
             this.getLines = function() {
-                var leadingZero = function(value) {
+                var leadingZero = function(value, length) {
                         value += '';
-                        while (value.length < 4) {
+                        while (value.length < length) {
                             value = '0' + value;
                         }
                         return value;
@@ -77,7 +85,7 @@
                                 break;
 
                             case wheel.compiler.command.T_NUM_L:
-                                result = '[stack+' + leadingZero(param.value) + ']';
+                                result = '[stack+' + leadingZero(param.value, 4) + ']';
                                 break;
 
                             case wheel.compiler.command.T_NUM_G:
@@ -103,13 +111,13 @@
                                         break;
 
                                     default:
-                                        result = '[' + leadingZero(param.value) + ']';
+                                        result = '[' + leadingZero(param.value, 4) + ']';
                                         break;
                                 }
                                 break;
 
                             case wheel.compiler.command.T_LABEL:
-                                result = leadingZero(param.value + 1);
+                                result = leadingZero(param.value + 1, 4);
                                 break;
                         }
                         return result;
@@ -126,26 +134,31 @@
                         'sub',
                         'mul',
                         'div',
-                        'mod'
+                        'mod',
+                        'call',
+                        'ret'
                     ];
                 var lines = [];
                 for (var i = 0; i < buffer.length; i++) {
                     var command = buffer[i];
-                    var line    = leadingZero(i) + '  ' + cmd[command.code];
+                    var line    = leadingZero(i, 4) + '  ' + cmd[command.code];
 
                     while (line.length < 13) {
                         line += ' ';
                     }
 
-                    line += paramToString(command, command.params[0]);
-                    if (command.code <= wheel.compiler.command.SINGLE_PARAM_COMMANDS) {
-                        // Single parameter...
+                    if (command.code === wheel.compiler.command.CMD_RET) {
+
                     } else {
-                        line += ',';
-                        while (line.length < 28) {
-                            line += ' ';
+                        line += paramToString(command, command.params[0]);
+                        if ((command.code !== wheel.compiler.command.CMD_CALL) &&
+                            (command.code > wheel.compiler.command.SINGLE_PARAM_COMMANDS)) {
+                            line += ',';
+                            while (line.length < 28) {
+                                line += ' ';
+                            }
+                            line += paramToString(command, command.params[1]);
                         }
-                        line += paramToString(command, command.params[1]);
                     }
                     lines.push(line);
                 }
@@ -175,6 +188,7 @@
                 var result     = '';
                 var separator  = String.fromCharCode(13);
                 var stringList = this._stringList;
+                var heap       = this._compiler.getDirective().getHeap();
 
                 result += '#STRINGS' + separator;
 
@@ -182,7 +196,7 @@
                 result += stringList.join(separator) + separator;
 
                 result += '#HEAP_SIZE'           + separator;
-                result += 1024                   + separator;
+                result += heap                   + separator;
                 result += '#REG_CODE'            + separator;
                 result += this.getMainIndex()    + separator;
                 result += '#REG_STACK'           + separator;

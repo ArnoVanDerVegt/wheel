@@ -1,8 +1,8 @@
 (function() {
-    var wheel = require('../utils/base.js').wheel;
+    var wheel = require('../../utils/base.js').wheel;
 
     wheel(
-        'compiler.compilerHelper',
+        'compiler.helpers.compilerHelper',
         {
             getWrappedInChars: function(s, open, close) {
                 return (s.length >= 2) && (s[0] === open) && (s.substr(-1) === close);
@@ -48,29 +48,40 @@
                 return true;
             },
 
-            parseNumberArray: function(value, compiler) {
-                var value  = this.checkWrapChars(compiler, value.trim(), '[', ']');
-                var values = value.split(',');
+            parseDataArray: function(value, compiler, callback) {
+                var values = this.checkWrapChars(compiler, value.trim(), '[', ']').split(',');
                 var data   = [];
-                for (var j = 0; j < values.length; j++) {
-                    var v = parseFloat(values[j].trim());
-                    this.checkNumber(compiler, v, values[j], wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED);
-                    //if (isNaN(v)) {
-                    //    throw compiler.createError(wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED, 'Number expected, found "' + values[j] + '".');
-                    //}
-                    data.push(v);
-                }
+
+                values.forEach(
+                    function(v) {
+                        data.push(callback.call(this, v.trim()));
+                    },
+                    this
+                );
+
                 return data;
             },
 
+            parseNumberArray: function(value, compiler) {
+                return this.parseDataArray(
+                    value,
+                    compiler,
+                    function(v) {
+                        var value = parseFloat(v);
+                        this.checkNumber(compiler, value, v.trim(), wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED);
+                        return value;
+                    }
+                );
+            },
+
             parseStringArray: function(value, compiler, compilerData) {
-                var value  = this.checkWrapChars(compiler, value.trim(), '[', ']');
-                var values = value.split(',');
-                var data   = [];
-                for (var j = 0; j < values.length; j++) {
-                    data.push(compilerData.declareString(this.checkWrapChars(compiler, values[j].trim(), '"', '"')));
-                }
-                return data;
+                return this.parseDataArray(
+                    value,
+                    compiler,
+                    function(v) {
+                        return compilerData.declareString(this.checkWrapChars(compiler, v, '"', '"'));
+                    }
+                );
             },
 
             splitParams: function(compiler, params) {
