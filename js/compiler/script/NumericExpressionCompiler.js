@@ -219,7 +219,12 @@
                 }
             };
 
+            /**
+             * Compile
+            **/
             this.compileToTempVar = function(result, calculation) {
+                //console.log(result);
+                //console.log(calculation);
                 var tempVar = wheel.compiler.helpers.expressionHelper.createTempVarName();
                 this.compileCalculation(result, tempVar, calculation, 0, '');
                 return tempVar;
