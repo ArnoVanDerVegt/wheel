@@ -279,7 +279,9 @@
                 (i === -1) || (command = line.substr(0, i).trim());
                 var params  = line.substr(i - line.length);
 
-                if (command in this._statements) {
+                if (command.indexOf('#directive') === 0) {
+                    return [line];
+                } else if (command in this._statements) {
                     return this._statements[command].compile(line, params, output);
                 } else {
                     if (!this.checkAsmCommand(command)) {

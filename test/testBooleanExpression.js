@@ -92,7 +92,7 @@ describe(
                             '        printN(n)',
                             '    end',
                             '    n = 0',
-                            '    if n',
+                            '    if ((n))',
                             '        printN(n)',
                             '    else',
                             '        printN(9)',

@@ -3,7 +3,7 @@
 
     wheel(
         'compiler.commands.Addr',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
                 var param = validatedCommand.params[0];
 

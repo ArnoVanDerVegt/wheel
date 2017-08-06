@@ -3,10 +3,10 @@
 
     wheel(
         'compiler.commands.JmpC',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             this.compile = function(compilerOutput, validatedCommand, splitParams, params) {
-                var $    = wheel.compiler.command;
                 var flag = 0;
+                var $    = wheel.compiler.command;
 
                 switch (validatedCommand.command) {
                     case 'je':  flag = $.FLAG_EQUAL;         break;

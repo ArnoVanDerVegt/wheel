@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Wheel - Setup guide</title>
+    <title>Wheel - Meta commands</title>
 
     <base href="../../">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
@@ -12,7 +12,7 @@
     <script src="js/utils/syntax.js"></script>
 </head>
 
-<body class="examples">
+<body>
     <div class="header">
         <div class="container">
             <ul>
@@ -39,37 +39,102 @@
     <div class="content">
         <div class="container">
             <div class="three last right">
-                <h3 class="purple with-icon"><span>Roadmap</span></h3>
+                <h3 class="red with-icon"><img src="site/images/icons/play.png" width="32" height="32"/> <span>Syntax</span></h3>
 
-                <h3 class="dark-blue margin-top margin-bottom">Docs</h3>
+                <h3 class="dark-blue margin-top margin-bottom">Documentation</h3>
                 <div class="index">
                     <a href="site/docs/about.html">About Wheel</a><br />
                     <a href="site/docs/setupguide.html">Setup guide</a><br />
-                    <a href="site/docs/roadmap.html" class="active">Roadmap</a><br />
+                    <a href="site/docs/roadmap.html">Roadmap</a><br />
                     <a href="site/docs/syntax.html">Syntax</a><br />
                     <a href="site/docs/variables.html">Variables</a><br />
                     <a href="site/docs/loops.html">Loops</a><br />
                     <a href="site/docs/conditions.html">Conditions</a><br />
                     <a href="site/docs/procedures.html">Procedures</a><br />
-                    <a href="site/docs/meta.html">Meta commands</a><br />
+                    <a href="site/docs/meta.html" class="active">Meta commands</a><br />
                     <a href="site/docs/compiler.html">Compiler</a><br />
                     <a href="site/docs/vm.html">VM</a><br />
                     <a href="site/docs/modules.html">Modules</a><br />
                     <a href="site/docs/fileformat.html">File format</a><br />
                     <a href="site/docs/errors.html">Compiler errors</a><br />
                 </div>
+
+                <h3 class="dark-blue">Syntax</h3>
+                <ul class="last">
+                    <li><a href="site/docs/syntax.html#onecommand">One command per line</a></li>
+                    <li><a href="site/docs/syntax.html#comments">Comments</a></li>
+                    <li><a href="site/docs/syntax.html#blocks">Code blocks</a></li>
+                    <li><a href="site/docs/syntax.html#meta">Meta commands</a></li>
+                    <li><a href="site/docs/syntax.html#asm">Assembly commands</a></li>
+                </ul>
             </div>
 
-            <div class="two first">
-                <h4>Roadmap</h4>
-                <ul class="clear">
-                    <li>Improve setup guide</li>
-                    <li>and/or in if</li>
-                    <li>Default in select</li>
-                    <li>Image meta command</li>
-                    <li>Sensor module</li>
-                    <li>Motor module</li>
-                </li>
+            <div class="two first" id="forto">
+                <h5>Meta commands</h5>
+                Meta commands are parsed by the precompiler.<br/>
+            </div>
+
+            <div class="two first" id="include">
+                <h6>#include</h6>
+                With the <i>include</i> command you can import an existing file like a library.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="define">
+                <h5>#define</h5>
+                With the <i>define</i> command you can create constants, the constants are replaced
+                with the <i>define</i> value by the precompiler.<br/>
+                <pre>
+                    #include "lib/screen.whl"
+
+                    proc main()
+                        drawNumber(10, 5, 90)
+                    end
+                </pre>
+            </div>
+
+            <div class="two first" id="include">
+                <h5>#directive</h5>
+                The <i>directive</i> command changes the behaviour of the compiler.<br/>
+                <br/>
+                <table>
+                    <tr>
+                        <th>Directive</th>
+                        <th>Values</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>ret</td>
+                        <td>on, off</td>
+                        <td>on</td>
+                        <td>Use <i>ret</i> command.</td>
+                    </tr>
+                    <tr>
+                        <td>call</td>
+                        <td>on, off</td>
+                        <td>on</td>
+                        <td>Use <i>call</i> command.</td>
+                    </tr>
+                    <tr>
+                        <td>optimize</td>
+                        <td>on, off</td>
+                        <td>on</td>
+                        <td>Turn optizer on or off.</td>
+                    </tr>
+                    <tr>
+                        <td>heap</td>
+                        <td>number</td>
+                        <td>128</td>
+                        <td>Define the heap size.</td>
+                    </tr>
+                </table>
             </div>
 
             <div style="float:left;clear:both;"></div>

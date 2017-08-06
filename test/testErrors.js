@@ -243,7 +243,6 @@ describe(
                             ]);
                         },
                         function(error) {
-                            console.log(error.toString());
                             return (error.toString() === 'Error: #' + wheel.compiler.error.TYPE_ERROR_NUMBER_EXPECTED + ' Number expected, found "\'x\'".');
                         }
                     );

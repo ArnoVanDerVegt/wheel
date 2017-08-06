@@ -3,7 +3,7 @@
 
     wheel(
         'compiler.commands.CallFunction',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             this.init = function() {
                 supr(this, 'init', arguments);
 

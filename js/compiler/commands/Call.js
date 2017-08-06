@@ -4,7 +4,7 @@
 
     wheel(
         'compiler.commands.Call',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             this.copyDataToStack = function(offset, size) {
                 var compilerOutput = this._compiler.getOutput();
 
@@ -199,16 +199,27 @@
 
                 // Move the code offset to the dest register...
                 compilerOutput.a($.set.code, $.DEST(),   $.CODE());
-                // Add 6, these are the call setup commands... (including this one!)
-                compilerOutput.a($.add.code, $.DEST(),   $.CONST(6));
+
+                if (this._compiler.getDirective().getCall()) {
+                    // Add 4, these are the call setup commands... (including this one!)
+                    // Using the call command there are 2 less move commands...
+                    compilerOutput.a($.add.code, $.DEST(),   $.CONST(4));
+                } else {
+                    // Add 6, these are the call setup commands... (including this one!)
+                    compilerOutput.a($.add.code, $.DEST(),   $.CONST(6));
+                }
 
                 compilerOutput.a($.set.code, $.SRC(),    $.STACK());
                 compilerOutput.a($.add.code, $.STACK(),  $.CONST(currentLocalStackSize));
-                compilerOutput.a($.set.code, $.LOCAL(0), $.SRC());
-                // Move the dest register value to the stack, this is the return code offset!
-                compilerOutput.a($.set.code, $.LOCAL(1), $.DEST());
 
-                compilerOutput.add(callCommand);
+                if (this._compiler.getDirective().getCall()) {
+                    compilerOutput.a($.call.code, callCommand.params[1], $.CONST(0));
+                } else {
+                    compilerOutput.a($.set.code, $.LOCAL(0), $.SRC());
+                    // Move the dest register value to the stack, this is the return code offset!
+                    compilerOutput.a($.set.code, $.LOCAL(1), $.DEST());
+                    compilerOutput.add(callCommand);
+                }
             };
         })
     );

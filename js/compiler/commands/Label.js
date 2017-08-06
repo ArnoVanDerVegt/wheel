@@ -3,7 +3,7 @@
 
     wheel(
         'compiler.commands.Label',
-        wheel.Class(wheel.compiler.commands.CommandCompiler, function(supr) {
+        wheel.Class(wheel.compiler.commands.BasicCommand, function(supr) {
             /**
              * Check if a line starts with a label...
             **/
