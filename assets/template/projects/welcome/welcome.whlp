@@ -1,0 +1,63 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Welcome to wheel"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/math.whl"
+
+#define STEPS 80
+
+proc drawSide1(number n, number radius)
+    number angle1, angle2
+    number x1, y1
+    number x2, y2
+
+    angle1 = n * TAU / STEPS
+    x1     = SCREEN_CENTER_X + sin(angle1) * radius
+    y1     = SCREEN_CENTER_Y + cos(angle1) * radius
+    angle2 = (n + 1) * TAU / STEPS
+    x2     = SCREEN_CENTER_X + sin(angle2) * radius
+    y2     = SCREEN_CENTER_Y + cos(angle2) * radius
+    drawLine(x1, y1 - 16, x2, y2 - 16)
+end
+
+proc drawSide2(number n1, number n2)
+    number angle1, angle2
+    number x1, y1
+    number x2, y2
+
+    angle1 = n1 * TAU / STEPS
+    x1     = SCREEN_CENTER_X + sin(angle1) * 40
+    y1     = SCREEN_CENTER_Y + cos(angle1) * 40
+    angle2 = n2 * TAU / STEPS
+    x2     = SCREEN_CENTER_X + sin(angle2) * 34
+    y2     = SCREEN_CENTER_Y + cos(angle2) * 34
+    drawLine(x1, y1 - 16, x2, y2 - 16)
+end
+
+proc drawSegment(number n)
+    drawSide1(n, 40)
+    drawSide1(n + 2, 34)
+    drawSide2(n + 1, n + 2)
+    drawSide2(n, n - 1)
+end
+
+proc main()
+    number n
+
+    for n = 0 to STEPS step 4
+        drawSegment(n)
+    end
+    drawCircle(SCREEN_CENTER_X, SCREEN_CENTER_Y - 16, 30)
+
+    setTextAlign(TEXT_ALIGN_CENTER)
+    setTextSize(TEXT_SIZE_2)
+    setFill(TRUE)
+    drawRect(SCREEN_CENTER_X - 80, 95, 160, 20)
+    setFillColor(WHITE)
+    drawText(SCREEN_CENTER_X, 100, "Welcome to Wheel")
+
+    ; Wait...
+    halt()
+end

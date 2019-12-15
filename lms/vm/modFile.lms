@@ -1,0 +1,209 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modFile {                                                       // 08) FILE
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA8  lIndex_8
+    DATA8  lMode_8
+    DATA16 lStringIndex_16
+    DATAF  lNumber_F
+    DATA32 lFileSize_32
+
+    JR_EQ8(pModCall_8,  0, mod_file_exists)
+    JR_EQ8(pModCall_8,  1, mod_file_open)                               // Open read
+    JR_EQ8(pModCall_8,  2, mod_file_open)                               // Open write
+    JR_EQ8(pModCall_8,  3, mod_file_read_number)
+    JR_EQ8(pModCall_8,  4, mod_file_read_string)
+    JR_EQ8(pModCall_8,  5, mod_file_write_number)
+    JR_EQ8(pModCall_8,  6, mod_file_write_string)
+    JR_EQ8(pModCall_8,  7, mod_file_close)
+    JR_EQ8(pModCall_8,  8, mod_file_delete)
+    JR_EQ8(pModCall_8,  9, mod_file_size)
+    RETURN()
+
+mod_file_exists:                                                        // 00) fileExists
+    FILE(OPEN_READ, @gString_H, gFile_H, lFileSize_32)
+    FILE(CLOSE, gFile_H)
+    JR_NEQ32(lFileSize_32, 0, mod_file_exists_found)
+    CALL(setRet8AndKeep, 0)
+    RETURN()
+mod_file_exists_found:
+    CALL(setRet8AndKeep, 1)
+    RETURN()
+
+mod_file_open:                                                          // 01/02) fileOpen
+    JR_EQ8(pModCall_8, 2, mod_file_open_write)
+    MOVE8_8(1, lMode_8)                                                 // Set read mode: 1
+    JR(mod_file_open_done)
+mod_file_open_write:
+    MOVE8_8(2, lMode_8)                                                 // Set write mode: 2
+mod_file_open_done:
+    CALL(modFileGetFreeIndex, lIndex_8)
+    JR_EQ8(lIndex_8, -1, mod_file_open_no_more_files)
+    CALL(modFileSetMode, lIndex_8, lMode_8)
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+    CALL(readString, lStringIndex_16)
+    CALL(modFileSetFilename, lIndex_8)
+    CALL(setRet8AndKeep, lIndex_8)
+
+    JR_EQ8(pModCall_8, 1, mod_file_open_read)
+    FILE(OPEN_WRITE, @gString_H, gFile_H)
+    RETURN()
+mod_file_open_read:
+    FILE(OPEN_READ, @gString_H, gFile_H, lFileSize_32)
+    RETURN()
+mod_file_open_no_more_files:                                            // There are no more handles available!
+    CALL(setRet8AndKeep, -1)
+    RETURN()
+
+mod_file_read_number:                                                   // 03) fileReadNumber
+    CALL(readMem8, pRegSrc_32, 0, lIndex_8)
+    CALL(modFileGetFilename, lIndex_8)
+    FILE(GET_HANDLE, @gString_H, gFile_H, 0)                            // 0 = Read, 1 = Write
+    FILE(READ_VALUE, gFile_H, 0x03, lNumber_F)
+    CALL(setRetFAndKeep, lNumber_F)
+    RETURN()
+
+mod_file_read_string:                                                   // 04) fileReadString
+    CALL(readMem8, pRegSrc_32, 0, lIndex_8)
+    CALL(readMem16, pRegSrc_32, 1, lStringIndex_16)
+    CALL(modFileGetFilename, lIndex_8)
+    FILE(GET_HANDLE, @gString_H, gFile_H, 0)                            // 0 = Read, 1 = Write
+    FILE(READ_TEXT, gFile_H, 0x03, 64, @gString_H)
+    CALL(writeString, lStringIndex_16)
+    RETURN()
+
+mod_file_write_number:                                                  // 05) fileWriteNumber
+    CALL(readMem8, pRegSrc_32, 0, lIndex_8)
+    CALL(readMemF, pRegSrc_32, 1, lNumber_F)
+    CALL(modFileGetFilename, lIndex_8)
+    FILE(GET_HANDLE, @gString_H, gFile_H, 1)                            // 0 = Read, 1 = Write
+    FILE(WRITE_VALUE, gFile_H, 0x03, lNumber_F, -16, 4)
+    RETURN()
+
+mod_file_write_string:                                                  // 06) fileWriteString
+    CALL(readMem8, pRegSrc_32, 0, lIndex_8)
+    CALL(modFileGetFilename, lIndex_8)
+    FILE(GET_HANDLE, @gString_H, gFile_H, 1)                            // 0 = Read, 1 = Write
+    CALL(readMem16, pRegSrc_32, 1, lStringIndex_16)
+    CALL(readString, lStringIndex_16)
+    FILE(WRITE_TEXT, gFile_H, 0x03, @gString_H)
+    RETURN()
+
+mod_file_close:                                                         // 07) fileClose
+    CALL(readMem8, pRegSrc_32, 0, lIndex_8)
+    CALL(modFileGetMode, lIndex_8, lMode_8)
+    CALL(modFileSetMode, lIndex_8, 0)
+    JR_EQ8(lMode_8, 1, mode_file_close_read)
+    JR_EQ8(lMode_8, 2, mode_file_close_write)
+mode_file_close_read:
+    FILE(GET_HANDLE, @gString_H, gFile_H, 0)                            // 0 = Read, 1 = Write
+    FILE(CLOSE, gFile_H)
+    RETURN()
+mode_file_close_write:
+    FILE(GET_HANDLE, @gString_H, gFile_H, 1)                            // 0 = Read, 1 = Write
+    FILE(CLOSE, gFile_H)
+    RETURN()
+
+mod_file_delete:                                                        // 08) fileDelete
+    FILE(OPEN_READ, @gString_H, gFile_H, lFileSize_32)
+    JR_EQ32(lFileSize_32, 0, mod_file_delete_not_found)
+    FILE(REMOVE, gFile_H)
+mod_file_delete_not_found:
+    RETURN()
+
+mod_file_size:                                                          // 09) fileSize
+    FILE(OPEN_READ, @gString_H, gFile_H, lFileSize_32)
+    FILE(CLOSE, gFile_H)
+    CALL(setRet32AndKeep, lFileSize_32)
+    RETURN()
+}
+
+subcall modFileGetFreeIndex {
+    OUT_8  pFreeIndex_8
+    DATA32 lOffset_32
+    DATA8  lMode_8
+
+    MOVE32_32(0, lOffset_32)
+    MOVE8_8(0, pFreeIndex_8)
+mod_file_get_free_index_loop:
+    ARRAY_READ(gFiles_H, lOffset_32, lMode_8)
+    JR_NEQ8(lMode_8, 0, mod_file_get_free_index_used)                   // Mode is not 0, file is used
+    RETURN()
+mod_file_get_free_index_used:
+    ADD32(lOffset_32, 34, lOffset_32)                                   // lOffset_32 = lOffset_32 + (32 + 2)
+    ADD8(pFreeIndex_8, 1, pFreeIndex_8)
+    JR_LT8(pFreeIndex_8, 16, mod_file_get_free_index_loop)
+    MOVE8_8(-1, pFreeIndex_8)
+}
+
+subcall modFileGetMode {
+    IN_8   pIndex_8
+    OUT_8  pMode_8
+    DATA32 lOffset_32
+
+    MOVE8_32(pIndex_8, lOffset_32)
+    MUL32(lOffset_32, 34, lOffset_32)
+    ARRAY_READ(gFiles_H, lOffset_32, pMode_8)
+}
+
+subcall modFileSetMode {
+    IN_8   pIndex_8
+    IN_8   pMode_8
+    DATA32 lOffset_32
+
+    MOVE8_32(pIndex_8, lOffset_32)
+    MUL32(lOffset_32, 34, lOffset_32)
+    ARRAY_WRITE(gFiles_H, lOffset_32, pMode_8)
+}
+
+subcall modFileSetFilename {
+    IN_8   pIndex_8
+    DATA8  lIndex_8
+    DATA8  lChar_8
+    DATA32 lOffset_32
+    DATA8  lStringLength_8
+    DATA16 lStringLength_16
+
+    MOVE8_32(pIndex_8, lOffset_32)
+    MUL32(lOffset_32, 34, lOffset_32)                                   // lOffset_32 = pIndex_8 * 34
+    ADD32(lOffset_32, 1, lOffset_32)                                    // First value is the mode
+    STRINGS(GET_SIZE, @gString_H, lStringLength_16)
+    MOVE16_8(lStringLength_16, lStringLength_8)
+    ARRAY_WRITE(gFiles_H, lOffset_32, lStringLength_8)                  // Save the string length
+    MOVE8_8(0, lIndex_8)
+mod_file_set_filename_loop:
+    ADD32(lOffset_32, 1, lOffset_32)
+    READ8(@gString_H, lIndex_8, lChar_8)
+    ARRAY_WRITE(gFiles_H, lOffset_32, lChar_8)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lStringLength_8, mod_file_set_filename_loop)
+}
+
+subcall modFileGetFilename {
+    IN_8   pIndex_8
+    DATA8  lIndex_8
+    DATA8  lChar_8
+    DATA32 lOffset_32
+    DATA8  lStringLength_8
+
+    MOVE8_32(pIndex_8, lOffset_32)
+    MUL32(lOffset_32, 34, lOffset_32)                                   // lOffset_32 = pIndex_8 * 34
+    ADD32(lOffset_32, 1, lOffset_32)                                    // First value is the mode
+    ARRAY_READ(gFiles_H, lOffset_32, lStringLength_8)                   // Get the string length
+    MOVE8_8(0, lIndex_8)
+mod_file_get_filename_loop:
+    ADD32(lOffset_32, 1, lOffset_32)
+    ARRAY_READ(gFiles_H, lOffset_32, lChar_8)
+    WRITE8(lChar_8, lIndex_8, @gString_H)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lStringLength_8, mod_file_get_filename_loop)
+    MOVE8_8(0, lChar_8)
+    WRITE8(lChar_8, lIndex_8, @gString_H)
+}

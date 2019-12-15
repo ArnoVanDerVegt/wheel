@@ -1,0 +1,20 @@
+input[type="button"].close-button {
+    float:                          left;
+    width:                          24px;
+    height:                         24px;
+    line-height:                    22px;
+    color:                          var(--ui-text2);
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border3);
+    border-radius:                  12px;
+    outline:                        none;
+    text-align:                     center;
+    font-size:                      14px;
+    outline:                        none;
+    padding:                        0;
+    cursor:                         pointer;
+    -webkit-user-select:            none;
+}
+input[type="button"].close-button.focus {
+    border:                         var(--focus-border-solid);
+}

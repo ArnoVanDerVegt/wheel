@@ -1,0 +1,4 @@
+<svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="8,0 30,0 40,10 40,48 8,48" style="stroke:rgb(127,140,141);stroke-width:1" fill="rgb(149,165,166)" stroke-linejoin="round" />
+    <polygon points="30,0 30,10 40,10" style="stroke:rgba(255,255,255,0.5);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.5)" />
+</svg>

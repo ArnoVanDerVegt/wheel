@@ -1,0 +1,84 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall writeMem8 {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    IN_8  pValue_8
+    DATAF lValue_F
+
+    MOVE8_F(pValue_8, lValue_F)
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_WRITE(gHeap_H, pOffset1_32, lValue_F)
+}
+
+subcall writeMem16 {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    IN_16 pValue_16
+    DATAF lValue_F
+
+    MOVE16_F(pValue_16, lValue_F)
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_WRITE(gHeap_H, pOffset1_32, lValue_F)
+}
+
+subcall writeMem32 {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    IN_32 pValue_32
+    DATAF lValue_F
+
+    MOVE32_F(pValue_32, lValue_F)
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_WRITE(gHeap_H, pOffset1_32, lValue_F)
+}
+
+subcall writeMemF {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    IN_F  pValue_F
+
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_WRITE(gHeap_H, pOffset1_32, pValue_F)
+}
+
+//=================================================================================================//
+
+subcall writeString {
+    IN_16  pIndex_16
+    DATA8  lChar_8
+    DATA8  lIndex_8
+    DATA16 lStringLength_16
+    DATA8  lStringLength_8
+    DATA32 lStringOffset_32
+
+    MOVE16_32(pIndex_16, lStringOffset_32)
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = pIndex_16 * gStringDataSize_32
+
+    STRINGS(GET_SIZE, @gString_H, lStringLength_16)
+    MOVE16_8(lStringLength_16, lStringLength_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset_32, lStringLength_8)          // Save the string length
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+
+    MOVE8_8(0, lIndex_8)
+loop:
+    READ8(@gString_H, lIndex_8, lChar_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset_32, lChar_8)                  // Copy the string chars
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lStringLength_8, loop)
+}
+
+//=================================================================================================//
+
+subcall releaseString {
+    DATA16 lStringCount_16
+    CALL(readMem16, 1, 0, lStringCount_16)                              // Read code src from heap offset 1
+    SUB16(gStringCount_16, lStringCount_16, gStringCount_16)            // gStringCount_16 = gStringCount_16 - LStringCount_16
+}

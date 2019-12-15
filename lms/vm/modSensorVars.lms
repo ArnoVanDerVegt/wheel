@@ -1,0 +1,10 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+HANDLE gModSensorType_H                                                 // Sensor types for all layers/sensors
+HANDLE gModSensorMode_H                                                 // Sensor modes for all layers/sensors

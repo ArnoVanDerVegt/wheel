@@ -1,0 +1,169 @@
+; @module Sensor
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The sensor module.
+#define MODULE_SENSOR                 7
+
+; @const Module calls for reading sensors.
+#define SENSOR_SET_TYPE               0
+#define SENSOR_GET_TYPE               1
+#define SENSOR_SET_MODE               2
+#define SENSOR_RESET                  3
+#define SENSOR_READ                   4
+
+; @const The different sensor types.
+#define SENSOR_TYPE_NXT_TOUCH         1
+#define SENSOR_TYPE_NXT_LIGHT         2
+#define SENSOR_TYPE_NXT_SOUND         3
+#define SENSOR_TYPE_NXT_COLOR         4
+#define SENSOR_TYPE_NXT_ULTRASONIC    5
+#define SENSOR_TYPE_NXT_TEMPERATURE   6
+#define SENSOR_TYPE_TOUCH            16
+#define SENSOR_TYPE_COLOR            29
+#define SENSOR_TYPE_ULTRASONIC       30
+#define SENSOR_TYPE_GYRO             32
+#define SENSOR_TYPE_INFRARED         33
+
+; @const The sensor read value is invalid.
+#define SENSOR_VALUE_INVALID         -1
+
+; @const Sensor input ports.
+#define INPUT_1                       0
+#define INPUT_2                       1
+#define INPUT_3                       2
+#define INPUT_4                       3
+
+; @const Color sensor modes.
+#define COLOR_REFLECTED               0
+#define COLOR_AMBIENT                 1
+#define COLOR_COLOR                   2
+#define COLOR_REFLECTED_RAW           3
+#define COLOR_RGB_RAW                 4
+#define COLOR_CALIBRATION             5
+
+; @const Color values.
+#define COLOR_NONE                    0
+#define COLOR_BLACK                   1
+#define COLOR_BLUE                    2
+#define COLOR_GREEN                   3
+#define COLOR_YELLOW                  4
+#define COLOR_RED                     5
+#define COLOR_WHITE                   6
+#define COLOR_BROWN                   7
+
+; @const Button values, used for the infrared sensor.
+#define BUTTON_0                      0
+#define BUTTON_1                      1
+#define BUTTON_2                      2
+#define BUTTON_3                      3
+#define BUTTON_4                      4
+#define BUTTON_5                      5
+#define BUTTON_6                      6
+#define BUTTON_7                      7
+#define BUTTON_8                      8
+#define BUTTON_9                      9
+#define BUTTON_10                    10
+#define BUTTON_11                    11
+
+; @const Infrared sensor modes.
+#define ULTRASONIC_CM                 0
+#define ULTRASONIC_INCH               1
+#define ULTRASONIC_LISTEN             2
+#define ULTRASONIC_SI_CM              3
+#define ULTRASONIC_SI_INCH            4
+#define ULTRASONIC_DC_CM              5
+#define ULTRASONIC_DC_INCH            6
+
+; @const Gyro sensor modes.
+#define GYRO_ANGLE                    0
+#define GYRO_RATE                     1
+#define GYRO_FAST                     2
+#define GYRO_RATE_AND_ANGLE           3
+#define GYRO_CALIBRATION              4
+
+; @const Infrared sensor modes.
+#define IR_PROXIMITY                  0
+#define IR_SEEKER                     1
+#define IR_REMOTE                     2
+#define IR_REMOTE_ADVANCED            3
+#define IR_NOT_UTILIZED               4
+#define IR_CALIBRATION                5
+
+; @proc             Set the sensor type.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`, `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
+proc sensorLayerSetType(number layer, number port, number type)
+    addr layer
+    mod  MODULE_SENSOR, SENSOR_SET_TYPE
+end
+
+; @proc             get the sensor type.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @return           The type of connected sensor.
+proc sensorLayerGetType(number layer, number port)
+    addr layer
+    mod  MODULE_SENSOR, SENSOR_GET_TYPE
+end
+
+; @proc             Some sensors like the color or infrared sensor can have different modes. With this function you can select the mode.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @param type       The sensor mode.
+proc sensorLayerSetMode(number layer, number port, number mode)
+    addr layer
+    mod  MODULE_SENSOR, SENSOR_SET_MODE
+end
+
+; @proc             Reset the sensor, this function can only be used for the qyro sensor.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+proc sensorLayerReset(number layer, number port)
+    addr layer
+    mod  MODULE_SENSOR, SENSOR_RESET
+end
+
+; @proc             Read the sensor value.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @return           The sensor value.
+proc sensorLayerRead(number layer, number port)
+    addr layer
+    mod  MODULE_SENSOR, SENSOR_READ
+end
+
+; @proc             Set the sensor type.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`, `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
+proc sensorSetType(number port, number type)
+    sensorLayerSetType(0, port, type)
+end
+
+; @proc             Get the sensor type from the primary device.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @return           The type of connected sensor.
+proc sensorGetType(number port)
+    ret sensorLayerGetType(0, port)
+end
+
+; @proc             Some sensors line the color or infrared sensor can have different modes. With this function you can select the mode.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @param type       The sensor mode.
+proc sensorSetMode(number port, number mode)
+    sensorLayerSetMode(0, port, mode)
+end
+
+; @proc             Reset the sensor, this function can only be used for the qyro sensor.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+proc sensorReset(number port)
+    sensorLayerReset(0, port)
+end
+
+; @proc             Read the sensor value.
+; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
+; @return           The sensor value.
+proc sensorRead(number port)
+    ret sensorLayerRead(0, port)
+end

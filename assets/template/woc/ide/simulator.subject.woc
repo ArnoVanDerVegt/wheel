@@ -1,0 +1,53 @@
+@subject IDE:Simulator
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Simulator
+@keyword simumator
+When developing code which interacts with the buttons, light or screen you can use the simulator first.
+
+@image images/misc/ev3.png
+
+@section Motors
+@keyword motor
+The motor section displays information about the motors, the following properties are shown:
+* Motor port: A, B, C or D
+* Motor ready, displayed as a red or green dot in the motor port circle
+* The type of motor represented with an image
+* The motor speed and direction displayed as a red bar
+* The current motor position
+
+When an EV3 is connected then the motor type which is detected will show up, ports which don't have
+a motor connected will be empty.
+
+@image images/misc/motors.png
+
+@section Sensors
+@keyword sensor
+The assigned sensor type is displayed in the sensor block, the following sensor properties are shown:
+* Sensor port: 1, 2, 3 or 4
+* Sensor type represented with an image of the sensor
+* The current sensor value
+
+When an EV3 is connected then the sensor type which is detected will show up, ports which don't have
+a sensor connected will be empty.
+
+
+If there's no EV3 connected then you can change the value of the sensor to test how your program responds.
+
+
+The checkbox below the sensors allows you the make the sensor reset to the 0 value after 1 second.
+
+@image images/misc/sensors.png
+
+@section Layers, daisy chaining
+@keyword layer,daisy,chain
+
+With the menu option `Daisy chain mode` in the `EV3` menu you can turn the layers on and control
+multiple EV3 devices.
+
+
+If there is more than one layer selected then the layer buttons will be shown above the E3V simulator
+on the right side of the screen. Selecting a layer will display the motor and sensor output for the given
+layer on the simulator panel.
+
+@see connecting

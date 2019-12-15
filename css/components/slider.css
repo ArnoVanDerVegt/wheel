@@ -1,0 +1,35 @@
+.slider {
+    float:                          left;
+    position:                       relative;
+    width:                          96px;
+    height:                         32px;
+    cursor:                         pointer;
+    border-radius:                  16px;
+    border:                         1px dotted transparent;
+    outline:                        none;
+    -webkit-user-select:            none;
+}
+.slider.focus {
+    border:                         var(--focus-border-dotted);
+}
+.slider .slider-track {
+    float:                          left;
+    width:                          72px;
+    height:                         8px;
+    margin:                         11px 0 0 11px;
+    background-color:               var(--ui-background5);
+    border-radius:                  4px;
+    pointer-events:                 none;
+
+}
+.slider .slider-button {
+    position:                       absolute;
+    left:                           8px;
+    top:                            7px;
+    width:                          16px;
+    height:                         16px;
+    border-radius:                  16px;
+    border:                         2px solid var(--color-blue);
+    background-color:               var(--color-dark-blue);
+    pointer-events:                 none;
+}

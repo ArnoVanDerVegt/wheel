@@ -1,0 +1,37 @@
+@subject VM:Runtime errors
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Runtime errors
+
+@section #1 Range check error
+
+The program tries to write an index of an array less or greater than the size of the array.
+
+In the following example a number outside of the range of the array is written, this results in a range check error:
+@example
+number i
+proc main()
+    number b[2]
+    i = 4
+    i = b[i]
+end'
+@end
+
+@section #2 Division by zero
+
+The program tries to divide a number by zero.
+
+In the following example a number is divided by a variable conaining 0 which results in a division by zero error:
+@example
+proc main()
+    number i = 5
+    number j = 0
+    i /= j
+end
+@end
+
+@section #3 Heap overflow
+
+The program tries to use more memory than was allocated, the standard number of memory entries available is 1024.
+
+@see heap

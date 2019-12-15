@@ -1,0 +1,32 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "File read example"
+
+#include "lib/standard.whl"
+#include "lib/file.whl"
+#include "lib/screen.whl"
+
+#text "fruit.rtf"
+#line "1"
+#line "Apple"
+#line "2"
+#line "Orange"
+#line "3"
+#line "Grape"
+
+proc main()
+    number handle = fileOpenRead("fruit.rtf")
+    string s
+    number i, j
+    number y = 10
+    for i = 0 to 2
+        j = fileReadNumber(handle)
+        drawNumber(10, y, j)
+        fileReadString(handle, s)
+        drawText(40, y, s)
+        y += 20
+    end
+
+    ; Wait...
+    halt()
+end

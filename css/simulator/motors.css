@@ -1,0 +1,57 @@
+.simulator .motors {
+    margin-bottom:                  8px;
+    -webkit-user-select:            none;
+}
+.simulator .motors .motor {
+    height:                         80px;
+}
+.simulator .motors .motor .speed {
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
+    width:                          100%;
+    height:                         18px;
+}
+.simulator .motors .motor .speed .speed-bar {
+    position:                       absolute;
+    left:                           5px;
+    top:                            5px;
+    width:                          49px;
+    height:                         10px;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    background-color:               var(--sensor-background3);
+}
+.simulator .motors .motor .speed .speed-bar-center {
+    position:                       absolute;
+    left:                           29px;
+    top:                            6px;
+    width:                          1px;
+    height:                         8px;
+    background-color:               rgba(0, 0, 0, 0.5);
+}
+.simulator .motors .motor .speed .speed-bar-value {
+    position:                       absolute;
+    left:                           30px;
+    top:                            6px;
+    width:                          23px;
+    height:                         8px;
+    background-color:               #E84118;
+}
+.simulator .motors .motor .position {
+    bottom:                         0;
+}
+.simulator .motors .title .ready {
+    position:                       absolute;
+    right:                          17px;
+    top:                            3px;
+    width:                          6px;
+    height:                         6px;
+    border-radius:                  3px;
+    background-color:               transparent;
+}
+.simulator .motors .title .ready.yes {
+    background-color:               #4CD137;
+}
+.simulator .motors .title .ready.no {
+    background-color:               #E84118;
+}

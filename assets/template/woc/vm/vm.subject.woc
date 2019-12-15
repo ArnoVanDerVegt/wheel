@@ -1,0 +1,195 @@
+@subject VM:VM
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section VM
+The compiled code is executed on a very simple virtual machine.
+
+@section Data
+There is only one data type: `number`. Strings are handled as number references.
+
+The memory is a single list of numbers. The first part of the memory is used for globals,
+the second is used as call stack for parameter and local variables.
+
+@section Commands
+Since the virtual machine had to be implemented in the EV3 software it should be as simple as possible.
+The VM uses only 16 commands which fit in 4 bits:
+
++----+---------+------------------+-------------------------------------------------------------+
+| #  | Command | Parameters       | Description                                                 |
++----+---------+------------------+-------------------------------------------------------------+
+|  0 | call    | var, stack       | Call the procedure in `var` allocate `stack`.               |
+|  1 | ret     | value            | Return to call point, set the `return` register to `value`. |
+|  2 | copy    | size             | Copy `size` from `src` to `dest`.                           |
+|  3 | jmpc    | offset, flag     | Jump to `offset` if the given flag is true.                 |
+|  4 | mod     | moduleId, procId | Call the procedure `procId` of module `module`.             |
+|  5 | set     | var, value       | Set `var` to `value`.                                       |
+|  6 | add     | var, value       | Add `value` to `var`.                                       |
+|  7 | sub     | var, value       | Subtract `value` to `var`.                                  |
+|  8 | mul     | var, value       | Multiply `value` to `var`.                                  |
+|  9 | div     | var, value       | Divide `value` to `var`.                                    |
+| 10 | and     | var, value       | Boolean and `value` and `var`.                              |
+| 11 | or      | var, value       | Boolean or `value` with `var`.                              |
+| 12 | cmp     | a, b             | Compare `a` with `b` and set flags.                         |
+| 13 | setf    | var, value       | Sets `value` to the compare flag values.                    |
+| 14 | sets    | var, value       | Sets a `string value` to a `string var`.                    |
+| 15 | adds    | var, value       | Add `string value` to `string var`.                         |
++----+---------+------------------+-------------------------------------------------------------+
+
+@section Command `copy`
+Copy `size` values from the `src` pointer to the `dest` pointer.
+
+@example
+copy 10 ; copy 10 numbers from src to dest
+@end
+
+@section Command `jmpc`
+Conditional jump, based on the flag paramer.
+The flags are set with the `cmp` command.
+
++---------------+-------+
+| Flag          | Value |
++---------------+-------+
+| equal         |  1    |
+| Not equal     |  2    |
+| Less          |  4    |
+| Less equal    |  8    |
+| Greater       | 16    |
+| Greater equal | 32    |
++---------------+-------+
+
+@example
+jmpc 45, 1 ; Jump to 45 if equal...
+@end
+
+@section Command `cmp`
+Compare one value to another and set the flags.
+
+@example
+cmp a, 3 ; Compare a with 3...
+@end
+
+@section Command `module`
+Call a module procedure.
+
+@example
+mod 1, 5 ; Call procudure 5 from module 1
+@end
+
+@section Command `set`
+Set the value of a variable.<br/>
+
+@example
+set var, n ; var = n
+@end
+
+@section Command `add`, `sub`, `mul`, `div`
+These operators change the value of `var` by applying the value of `n`.
+
+@example
+add var, n ; var = var + n
+sub var, n ; var = var - n
+mul var, n ; var = var * n
+div var, n ; var = var / n
+@end
+
+@section Registers
+The VM uses 9 registers: `stack`, `src`, `dest`, `ptr`, `code`, `return` and `flags`, `range1` and `range2`.
+
+A register in the Wheel VM is basicaly a reserved memory address with a special purpose.
+The first (`stack`) register is located at offset 0, the last (`flags`) is located at offset 6.
+
++--------+----------+---------------------------------------------------------------------------------+
+| Offset | Register | Description                                                                     |
++--------+----------+---------------------------------------------------------------------------------+
+| 0      | stack    | Stack pointer, this register has a matching parameter type.                     |
+| 1      | src      | Source pointer for copy command/general purpose.                                |
+| 2      | dest     | Destination pointer for copy command/general purpose.                           |
+| 3      | ptr      | A register for pointer operations, this register has a matching parameter type. |
+| 4      | code     | Code execution offset.                                                          |
+| 5      | return   | Function return value.                                                          |
+| 6      | flags    | Compater flags, unused in EV3 VM.                                               |
+| 7      | range0   | Range check register.                                                           |
+| 8      | range1   | Range check register.                                                           |
++--------+----------+---------------------------------------------------------------------------------+
+
+The `stack` register points to the top of the stack and is increased when a call is made.
+The `src` and `dest` are used in combibation with the `copy` command and are also used as general purpose registers.
+The `code` register contains the pointer to the current execution position.
+The `return` register is used to return a value from a procedure call.
+
+@section The `code` register
+After each command which is executed the value of the `code` register is increased with 1.
+When a call is executed then the offset of the `code` register is set to the procedure offset minus 1,
+since the value will be increased immediately after setting it.
+
+@section The `range0` and `range1` register.
+The `range0` and `range1` registers are currently not implemented but are created to be implemented for runtime range checking.
+
+@section Call stack
+The VM does not have a call command.
+A call is made by changing the value of the `code` register.
+The following table shows the local memory layout in a procedure, these values are relative to the `stack` pointer.
+
++------------------------------------------+-----------+----------------------+
+| Offset                                   | Size      | Description          |
++------------------------------------------+-----------+----------------------+
+| 0                                        | 1         | Caller stack pointer |
+| 1                                        | 1         | Code return pointer  |
+| 2..2 + paramSize                         | paramSize | Parameter values     |
+| 2 + paramSize..2 + paramSize + localSize | localSize | Local values         |
++------------------------------------------+-----------+----------------------+
+
+The total memory use of a procedure is equal to the sum of the parameter variables size,
+the local variables size and 2 numbers for the stack and code return values.
+
+When a call is made the value of the stack pointer will be increased with the size of
+the local data, the sum of the sizes in the table.
+
+The following example shows how a call is compiled.
+
+@example
+proc demo(number p1, number p2)
+    addr p1
+    mod  0, 0
+    addr p2
+    mod  0, 0
+end
+proc main()
+    test(26, 78)
+end
+@end
+
+Which results in the following code:
+
+@example
+01 set     src,            2
+02 add     src,            stack
+03 mod     0,              0
+04 set     src,            3
+05 add     src,            stack
+06 mod     0,              0
+07 ret     0
+08 set     [stack + 4],    26
+09 set     [stack + 5],    78
+10 call    0000,           2
+@end
+
+When a call is made then the first two values on the stack are set to the current stack register value
+and the current code register value. These to values are used when the code returns from the procedure.
+
+
+The first parameter of a `call` command is the address, the second parameter is the amount of stack
+which is used in the current procedure scope. When the first parameter is accessed in the `demo` procedure,
+the offset is 2, the `src` register is set to 2 on line 01.
+
+
+When the paramters are set on the stack on lines 08 and 09 they are moved to offset 4 and 5. The offset 4
+is the result of 2 local values used in the `main` procedure and the two return values (`code` and `stack` register).
+
+
+In this example the 2 local values where used to move the two paramters to the stack but where optimized away by the
+peephole optimizer.
+
+
+@see compiler
+

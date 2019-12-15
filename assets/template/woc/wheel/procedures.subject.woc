@@ -1,0 +1,114 @@
+@subject Programming:Procedures
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Procedures
+A procedure allows you to execute a group of commands multiple times.
+
+
+The declaration of a procedure starts with the `proc` keyword followed by the name of the procedure followed by a
+round open and close bracket.
+
+@example
+proc myProcedure()
+    ; your commands go here...
+end
+@end
+
+Once you've declared your procedure you can call it like this:
+
+@example
+proc main()
+    myProcedure()
+end
+@end
+
+Procedures can not be nested.
+
+@section The main procedure
+@keyword main
+Every program has to have at least one procedure which must be called "main".
+The `main` procedure is called when the program starts.
+
+@example
+proc main()
+    ; your commands go here...
+end
+@end
+
+@section Parameters
+@keyword parameter
+A procedure can have parameters which can be declared after the procedure name.
+The parameter type is followed by the name of the parameter.
+
+@example
+proc myProc(number n)
+    printS("The number is:")
+    printN(n)
+end
+
+proc main()
+    myProc(10)
+end
+@end
+
+Multiple parameters are comma separated:
+
+@example
+proc myProc(number a, number b)
+    printS("Number A is:")
+    printN(a)
+    printS("Number B is:")
+    printN(b)
+end
+
+proc main()
+    number a = 5
+    number b = 6
+    myProc(a, b)
+end
+@end
+
+@section Functions
+@keyword function
+A procedure can return a value.
+
+@example
+proc myFunc()
+    ret 15
+end
+
+proc main()
+    number n
+    n = myFunc()
+end
+@end
+
+@section Procedure pointers
+@keyword pointer
+A procedure pointer can also be stored in a variable.
+
+
+Once a procedure has been assigned then the following procedure which is assigned to the same variable must have the
+same profile. The number of parameters and parameter types must be an exact match of the first assignment!
+
+@example
+proc ptr
+
+proc one()
+    printS("One")
+end
+
+proc two()
+    printS("Two")
+end
+
+proc main()
+   ptr = one
+   ptr()
+   ptr = two
+   ptr()
+end
+@end
+
+@see syntax
+

@@ -1,0 +1,104 @@
+/* Source */
+.wheel,
+.wheel span {
+    font-family:                    monospace;
+}
+pre.wheel span {
+    font-size:                      14px;
+    line-height:                    18px;
+}
+pre.wheel {
+    float:                          left;
+    width:                          100%;
+    padding:                        16px;
+    border-radius:                  2px;
+    border:                         var(--ui-border1);
+    background-color:               var(--ui-background2);
+    color:                          var(--source-default-color);
+    font-style:                     var(--source-default-style);
+    font-weight:                    var(--source-default-weight);
+    overflow-x:                     hidden;
+}
+.wheel.top {
+    margin:                         0;
+    border-width:                   0 1px 1px 1px;
+}
+.wheel.top.clear {
+    background-color:               transparent;
+    border:                         0;
+    padding:                        16px 16px 16px 0;
+}
+.wheel .comment {
+    height:                         28px;
+    padding:                        0 12px 0 12px;
+    border-radius:                  14px;
+    line-height:                    28px;
+    font-size:                      14px;
+    background-color:               var(--source-comment-background);
+    color:                          var(--source-comment-color);
+}
+.wheel .keyword {
+    color:                          var(--source-keyword-color);
+    font-style:                     var(--source-keyword-style);
+    font-weight:                    var(--source-keyword-weight);
+}
+.wheel .operator {
+    color:                          var(--source-operator-color);
+    font-style:                     var(--source-operator-style);
+    font-weight:                    var(--source-operator-weight);
+}
+.wheel .register {
+    color:                          var(--source-register-color);
+    font-style:                     var(--source-register-style);
+    font-weight:                    var(--source-register-weight);
+}
+.wheel .define {
+    color:                          var(--source-define-color);
+    font-style:                     var(--source-define-style);
+    font-weight:                    var(--source-define-weight);
+}
+.wheel .meta {
+    color:                          var(--source-meta-color);
+    font-style:                     var(--source-meta-style);
+    font-weight:                    var(--source-meta-weight);
+}
+.wheel .record {
+    color:                          var(--source-record-color);
+    font-style:                     var(--source-record-style);
+    font-weight:                    var(--source-record-weight);
+}
+.wheel .type {
+    color:                          var(--source-type-color);
+    font-style:                     var(--source-type-style);
+    font-weight:                    var(--source-type-weight);
+}
+.wheel .number {
+    color:                          var(--source-number-color);
+    font-style:                     var(--source-number-style);
+    font-weight:                    var(--source-number-weight);
+}
+.wheel .string {
+    color:                          var(--source-string-color);
+    font-style:                     var(--source-string-style);
+    font-weight:                    var(--source-string-weight);
+}
+.wheel .variable {
+    color:                          var(--source-variable-color);
+    font-style:                     var(--source-variable-style);
+    font-weight:                    var(--source-variable-weight);
+}
+.wheel .define {
+    color:                          var(--source-define-color);
+    font-style:                     var(--source-define-style);
+    font-weight:                    var(--source-define-weight);
+}
+.wheel .proc {
+    color:                          var(--source-proc-color);
+    font-style:                     var(--source-proc-style);
+    font-weight:                    var(--source-proc-weight);
+}
+.wheel .default {
+    color:                          var(--source-default-color);
+    font-style:                     var(--source-default-style);
+    font-weight:                    var(--source-default-weight);
+}

@@ -1,0 +1,24 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modSensorInit {
+    DATA32 lIndex_32
+    DATA8  lValue_8
+
+    ARRAY(CREATE8, 16, gModSensorType_H)                                // Sensor types
+    ARRAY(CREATE8, 16, gModSensorMode_H)                                // Sensor modes
+
+    MOVE8_8(0, lIndex_32)
+loop:
+    MOVE8_8(0, lValue_8)
+    ARRAY_WRITE(gModSensorType_H, lIndex_32, lValue_8)
+    MOVE8_8(-1, lValue_8)
+    ARRAY_WRITE(gModSensorMode_H, lIndex_32, lValue_8)
+    ADD8(lIndex_32, 1, lIndex_32)
+    JR_LT32(lIndex_32, 16, loop)
+}

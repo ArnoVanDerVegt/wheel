@@ -1,0 +1,45 @@
+.radio {
+    float:                          left;
+    width:                          160px;
+    outline:                        none;
+    -webkit-user-select:            none;
+}
+.radio .radio-option {
+    float:                          left;
+    width:                          100%;
+    height:                         20px;
+    line-height:                    18px;
+    text-decoration:                none;
+    border:                         1px solid transparent;
+    border-radius:                  10px;
+    margin:                         0 0 4px 0;
+    outline:                        none;
+}
+.radio .radio-option.focus {
+    border:                         var(--focus-border-dotted);
+}
+.radio .radio-option span.dot {
+    float:                          left;
+    width:                          16px;
+    height:                         16px;
+    margin:                         1px 4px 0 1px;
+    border-radius:                  8px;
+    border:                         var(--ui-border2);
+}
+.radio .radio-option span.dot span.dot {
+    display:                        none;
+}
+.radio .radio-option.selected span.dot span.dot {
+    display:                        block;
+    float:                          left;
+    width:                          8px;
+    height:                         8px;
+    margin:                         3px 0 0 3px;
+    border-radius:                  4px;
+    background-color:               var(--ui-text1);
+}
+.radio .radio-option span.title {
+    float:                          left;
+    height:                         16px;
+    color:                          var(--ui-text1);
+}

@@ -1,0 +1,200 @@
+; @module Motor
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The motor module.
+#define MODULE_MOTOR     6
+
+; @const Module calls to control the motors.
+#define MOTOR_SET_TYPE   0
+#define MOTOR_SET_SPEED  1
+#define MOTOR_SET_BRAKE  2
+#define MOTOR_GET_TYPE   3
+#define MOTOR_RESET      4
+#define MOTOR_MOVE_TO    5
+#define MOTOR_ON         6
+#define MOTOR_TIME_ON    7
+#define MOTOR_STOP       8
+#define MOTOR_READ       9
+#define MOTOR_READY     10
+
+; @const Motor types.
+#define MOTOR_MEDIUM     7
+#define MOTOR_LARGE      8
+
+; @const The motor outputs.
+#define OUTPUT_A         0
+#define OUTPUT_B         1
+#define OUTPUT_C         2
+#define OUTPUT_D         3
+
+; @const Brake or coast the motor.
+#define MOTOR_BRAKE      0
+#define MOTOR_COAST      1
+
+; @proc             Set the motor type.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param type       The type of motor: `MOTOR_MEDIUM` or `MOTOR_LARGE`.
+proc motorLayerSetType(number layer, number id, number type)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_SET_TYPE
+end
+
+; @proc             Set the motor speed.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param speed      The speed of the motor. The value must be between -100 and 100 where negative values mean a reverse direction.
+proc motorLayerSetSpeed(number layer, number id, number speed)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_SET_SPEED
+end
+
+; @proc             Set the motor brake or coast: 0 = coast, 1 = brake. The default value is 1 (brake).
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerSetBrake(number layer, number id, number brake)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_SET_BRAKE
+end
+
+; @proc             Get the connected motor type.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerGetType(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_GET_TYPE
+end
+
+; @proc             Reset the tacho count for the motor.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerReset(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_RESET
+end
+
+; @proc             Move the motor to a given target angle.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target     The target angle.
+proc motorLayerMoveTo(number layer, number id, number target)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_MOVE_TO
+end
+
+; @proc             Turn the motor on.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerOn(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_ON
+end
+
+; @proc             Turn the motor on for a given time.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param time       Time in milliseconds.
+proc motorLayerTimeOn(number layer, number id, number time)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_TIME_ON
+end
+
+; @proc             Stop the motor.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerStop(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_STOP
+end
+
+; @proc             Read a motor position.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @return           The current motor position in degrees.
+proc motorLayerRead(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_READ
+end
+
+; @proc             Check if a motor reached its target.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target     0 is the motor has not reached its target position, 1 if its there.
+proc motorLayerReady(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_READY
+end
+
+; @proc             Set the motor type for the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param type       The type of motor: `MOTOR_MEDIUM` or `MOTOR_LARGE`.
+proc motorSetType(number id, number type)
+    motorLayerSetType(0, id, type)
+end
+
+; @proc             Set the motor speed for the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param speed      The speed of the motor. The value must be between -100 and 100 where negative values mean a reverse direction.
+proc motorSetSpeed(number id, number speed)
+    motorLayerSetSpeed(0, id, speed)
+end
+
+; @proc             Set the motor brake or coast for the main device: 0 = coast, 1 = brake. The default value is 1 (brake).
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorSetBrake(number layer, number id, number brake)
+    motorLayerSetBrake(0, id, brake)
+end
+
+; @proc             Get the connected motor type.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @return           The type of motor connected to the primary device.
+proc motorGetType(number id)
+    ret motorLayerGetType(0, id)
+end
+
+; @proc             Reset the tacho count for the motor for the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorReset(number id)
+    motorLayerReset(0, id)
+end
+
+; @proc             Move the motor to a given target angle for the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target     The target angle.
+proc motorMoveTo(number id, number target)
+    motorLayerMoveTo(0, id, target)
+end
+
+; @proc             Turn the motor of the main device on.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorOn(number id)
+    motorLayerOn(0, id)
+end
+
+; @proc             Turn the motor of the main device on for a given time.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param time       Time in milliseconds.
+proc motorTimeOn(number id, number time)
+    motorLayerTimeOn(0, id, time)
+end
+
+; @proc             Stop the motor on the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorStop(number id)
+    motorLayerStop(0, id)
+end
+
+; @proc             Read a motor position on the main device.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @return           The current motor position in degrees.
+proc motorRead(number id)
+    ret motorLayerRead(0, id)
+end
+
+; @proc             Check if a motor on the main device reached its target.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target     0 is the motor has not reached its target position, 1 if its there.
+proc motorReady(number id)
+    ret motorLayerReady(0, id)
+end

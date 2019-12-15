@@ -1,0 +1,42 @@
+@subject Programming:Modules
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Modules
+Modules provide a way to access standard functions from the brick like motors, sensors and the screen.
+
+
+The module command can be used to call blocks from your wheel code.
+
+
+Each module has a unique numeric id. The VM calls the module based on the id passed.
+Within a module procedures can be called. The `addr` command can be used to let the `src` register point to
+a block of data which can then be used by the module.
+
+
+The following example shows a call to the `light` module, the `src` register is pointed to the `color` variable.
+@example
+proc light(number color, number pattern)
+    addr color
+    mod  MODULE_LIGHT, LIGHT_UPDATE
+end
+@end
+
+@section Standard modules
+
+Wheel comes with the following standard modules:
+
++----------+----------------------------+
+| Module   | Function                   |
++----------+----------------------------+
+| Button   | Read the EV3 buttons       |
+| File     | Reading and writing files  |
+| Light    | Control the EV3 light      |
+| Math     | Math functions             |
+| Motor    | Control EV3 motors         |
+| Screen   | Drawing functions          |
+| Sensor   | Read and configure sensors |
+| Sound    | Play tones or samples      |
+| Standard | Core functions             |
++----------+----------------------------+
+
+@see Standard,Screen,Button,Sound,Math,File,Sensor

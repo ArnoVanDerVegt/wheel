@@ -1,0 +1,126 @@
+#project "Read sensors"
+
+#include "lib/button.whl"
+#include "lib/screen.whl"
+#include "lib/sensor.whl"
+#include "lib/standard.whl"
+
+#resource "projects/sensor/images/color.rgf"
+#resource "projects/sensor/images/remote.rgf"
+#resource "projects/sensor/images/touch.rgf"
+#resource "projects/sensor/images/ultrasonic.rgf"
+
+string sensorImages[4] = [
+    "touch.rgf",
+    "color.rgf",
+    "remote.rgf",
+    "ultrasonic.rgf"
+]
+
+record SensorStatus
+    number type
+    number value
+end
+
+SensorStatus sensorStatus[4] = [{0,0}, {0,0}, {0,0}, {0,0}]
+
+proc getValidSensor(number index, number type)
+    select type
+        case SENSOR_TYPE_NXT_TOUCH:
+            ret TRUE
+        case SENSOR_TYPE_NXT_COLOR:
+            sensorSetMode(index, COLOR_COLOR)
+            ret TRUE
+        case SENSOR_TYPE_NXT_ULTRASONIC:
+            sensorSetMode(index, ULTRASONIC_CM)
+            ret TRUE
+        case SENSOR_TYPE_TOUCH:
+            ret TRUE
+        case SENSOR_TYPE_COLOR:
+            sensorSetMode(index, COLOR_COLOR)
+            ret TRUE
+        case SENSOR_TYPE_ULTRASONIC:
+            sensorSetMode(index, ULTRASONIC_CM)
+            ret TRUE
+        case SENSOR_TYPE_INFRARED:
+            sensorSetMode(index, IR_REMOTE)
+            ret TRUE
+    end
+    ret FALSE
+end
+
+proc getSensorImageIndex(number type)
+    select type
+        case SENSOR_TYPE_NXT_COLOR:
+            ret 1
+        case SENSOR_TYPE_NXT_ULTRASONIC:
+            ret 3
+        case SENSOR_TYPE_COLOR:
+            ret 1
+        case SENSOR_TYPE_ULTRASONIC:
+            ret 3
+        case SENSOR_TYPE_INFRARED:
+            ret 2
+    end
+    ret 0
+end
+
+proc drawValue(number index)
+    setFill(TRUE)
+    number x = 2 + index * 44
+    setFillColor(BLACK)
+    drawRect(x, 43, 41, 11)
+    setFillColor(WHITE)
+    drawNumber(22 + index * 44, 44, sensorStatus[index].value)
+    setFill(FALSE)
+    setFillColor(BLACK)
+end
+
+proc drawSensor(number index, number type, number valid)
+    number x = 1 + index * 44
+    setFill(FALSE)
+    drawRect(x, 1, 43, 96)
+    if valid
+        number imageIndex = getSensorImageIndex(type)
+        drawImage(x + 6, 6, sensorImages[imageIndex])
+        drawValue(0)
+    else
+        x = 2 + index * 44
+        setFill(TRUE)
+        setFillColor(WHITE)
+        drawRect(x, 2, 41, 94)
+        setFill(FALSE)
+        setFillColor(BLACK)
+    end
+end
+
+proc drawSensors()
+    number i
+    setTextAlign(TEXT_ALIGN_CENTER)
+    for i = 0 to 3
+        number type  = sensorGetType(i)
+        number valid = getValidSensor(i, type)
+        drawSensor(i, type, valid)
+        sensorStatus[i].type = type
+        if valid
+            sensorStatus[i].value = sensorRead(i)
+            drawValue(i)
+        end
+    end
+end
+
+proc main()
+    drawSensors()
+    repeat
+        number i
+        for i = 0 to 3
+            if sensorStatus[i].type != 0
+                number value = sensorRead(i)
+                if value != sensorStatus[i].value
+                    sensorStatus[i].value = value
+                    drawValue(i)
+                end
+            end
+        end
+    end
+end

@@ -1,0 +1,17 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; "Local vars" console view var demo
+#project "Console string debug demo"
+
+#include "lib/standard.whl"
+
+string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]
+
+proc main()
+    number i
+    for i = 0 to 7
+        printS(@s[i])
+#break
+    end
+end

@@ -1,0 +1,77 @@
+@subject Programming:Variable, initial value
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Initial values
+When declaring a variable you can immediately assign a value to it.
+Constants can be declared in both the `global` and/or `local` scope.
+If a variable is declared in a local scope then the compiler actually creates a global constant and assigns the value of that constant to the local variable once the code of the declaration is executed.
+Constants can also be used as procedure parameters.
+@section Numbers
+The most simple constant declaration is a single number constant.
+@example
+number i = 5 ; This is a global constant...
+proc main()
+    number j = 10 ; This is a local constant...
+    printN(i)
+    printN(j)
+end
+@end
+
+@section Number array
+You can also declare a list of numbers called an `array`.
+The number of values in the constant list has to match the size of the declared `array`.
+The following `array` shows an array declaration of 3 numbers with a matching constant `array`:
+@example
+number a[3] = [724, 3565, 9269] ; This is a global number array...
+proc main()
+    printN(a[0])
+    printN(a[1])
+    printN(a[2])
+end
+@end
+
+@section Constant array paramters
+A constant array can also be passed as a `parameter` to a procedure.
+@example
+#include "lib/standard.whl"
+; This procedure prints the contents of an array with four numbers...
+proc printMyArray(number a[4])
+    number i
+    for i = 0 to 3
+        printN(a[i])
+    end
+end
+proc main()
+    printMyArray([4, 7, 8, 12])
+end
+@end
+
+@section Records
+A record variable can also be assigned an initial value.
+@example
+; Declare a record type
+record Point
+    number x, y
+end
+; Now we can declare a variable and immediately assign a value:
+Point point = {12, 13}
+proc main()
+    printN(point.x)
+    printN(point.y)
+end
+@end
+
+@section Record array
+Of course we can combine records and arrays when declaring variables and constants.
+@example
+; Declare a record type
+record Point
+    number x, y
+end
+proc main()
+    ; A local record array:
+    Point p[2] = [{34, 834}, {45, 167}]
+end
+@end
+
+@see syntax,Variables,Constants

@@ -1,0 +1,56 @@
+.dialog-background.file-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -320px;
+    width:                          800px;
+    height:                         640px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .current-path,
+.dialog-background.file-dialog .dialog-center .dialog-content .label {
+    position:                       absolute;
+    top:                            44px;
+    max-width:                      calc(100% - 128px);
+    height:                         64px;
+    line-height:                    64px;
+    overflow:                       hidden;
+    font-size:                      11px;
+    -webkit-user-select:            none;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .current-path {
+    left:                           32px;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .label {
+    left:                           auto;
+    right:                          88px;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .tool-options {
+    position:                       absolute;
+    top:                            64px;
+    right:                          32px;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .current-file,
+.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input {
+    position:                       absolute;
+    right:                          32px;
+    bottom:                         32px;
+    height:                         32px;
+    line-height:                    32px;
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input {
+    width:                          180px;
+    font-size:                      16px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}
+.dialog-background.file-dialog .files {
+    position:                       absolute;
+    left:                           32px;
+    top:                            96px;
+    width:                          calc(100% - 64px);
+    height:                         calc(464px);
+}

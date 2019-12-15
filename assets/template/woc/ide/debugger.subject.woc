@@ -1,0 +1,9 @@
+@subject IDE:Debugger
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Debugger
+When the program is stopped at a breakpoint then you can select one of the tabs in de console view under
+the editor the inspect the current variable values in your program. You can either view the globals or
+the local variables in the scope in which the breakpoint was placed.
+
+@see breakpoints,Code completion|completion

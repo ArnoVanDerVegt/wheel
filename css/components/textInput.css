@@ -1,0 +1,5 @@
+input[type="text"] {
+    border:                         var(--text-input-border);
+    color:                          var(--text-input-color);
+    background-color:               var(--text-input-background);
+}

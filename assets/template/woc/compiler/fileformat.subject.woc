@@ -1,0 +1,59 @@
+@subject Compiler:File format
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Rtf
+The standard EV3 File block can read data from a `.rft` file.
+The Wheel VM reads code from an `.rtf` file with the following structure:
+
++------+------------------+------------------------------+
+| Size | Expected value   | Description                  |
++------+------------------+------------------------------+
+| 1    | Wheel VM Program | Header                       |
+| 1    | #VERSION         | Version marker               |
+| 1    | 1                | Version value                |
+| 1    | #NAME            | Program name                 |
+| 1    | Name             | Program name value           |
+| 1    | #STRINGS         | String marker                |
+| 1    | Count            | Number of strings            |
+| [String data]                                          |
+| 1    | #CONSTANTS       | Constant marker              |
+| 1    | Count            | Number of constants          |
+| [Constant data]                                        |
+| 1    | #HEAP            | Heap marker                  |
+| 1    | Number value     | Heap size value              |
+| 1    | #REG_CODE        | Code register value marker   |
+| 1    | Number value     | Initial code register value  |
+| 1    | #REG_STACK       | Stack register value marker  |
+| 1    | Number value     | Initial stack register value |
+| 1    | #COMMANDS        | Command values marker        |
+| 1    | Count            | Number of commands           |
+| [Command data]                                         |
++------+------------------+------------------------------+
+
+@section Constants
+Each constant constists of at least three values: the offset, the number of constants followed by the constants.
+
++------+----------------+---------------------------------------------------+
+| Size | Expected value | Description                                       |
++------+----------------+---------------------------------------------------+
+| 1    | Offset         | The absolute memory location of the constant data |
+| 1    | Count          | Number of constants                               |
+| [Constant values]                                                         |
++------+----------------+---------------------------------------------------+
+
+@section Commands
+A single command is stored as 3 numbers:
+
+* The command and parameter types
+* The first parameter value
+* The second parameter value
+
+The first number is 8 bits, the 4 high bits store the command, followed by two bits for the first parameter type
+followed by two bits for the second parameter type. 
+A command and parameter type information can be stored in a single byte.
+
++---+---+---+---+---+---+---+-----+
+| 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1   |
++---+---+---+---+---+---+---+-----+
+|:4 Command |:2 Type1   |:2 Type2 |
++---+---+---+---+---+---+---+-----+

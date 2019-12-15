@@ -1,0 +1,76 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall cmdMod {
+    IN_8   pMod_8
+    IN_8   pModCall_8
+    DATA32 lRegSrc_32
+
+    CALL(readMem32, 1, 0, lRegSrc_32)                                   // Read the src register from heap
+    JR_EQ8(pMod_8,  0, mod_standard)
+    JR_EQ8(pMod_8,  1, mod_math)
+    JR_EQ8(pMod_8,  2, mod_screen)
+    JR_EQ8(pMod_8,  3, mod_light)
+    JR_EQ8(pMod_8,  4, mod_button)
+    JR_EQ8(pMod_8,  5, mod_sound)
+    JR_EQ8(pMod_8,  6, mod_motor)
+    JR_EQ8(pMod_8,  7, mod_sensor)
+    JR_EQ8(pMod_8,  8, mod_file)
+    JR_EQ8(pMod_8,  9, mod_system)
+    JR_EQ8(pMod_8, 10, mod_string)
+    JR_EQ8(pMod_8, 11, mod_bit)
+    RETURN()
+
+mod_standard:
+    CALL(modStandard, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_math:
+    CALL(modMath, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_screen:
+    CALL(modScreen, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_light:
+    CALL(modLight, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_button:
+    CALL(modButton, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_sound:
+    CALL(modSound, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_motor:
+    CALL(modMotor, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_sensor:
+    CALL(modSensor, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_file:
+    CALL(modFile, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_system:
+    CALL(modSystem, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_string:
+    CALL(modString, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_bit:
+    CALL(modBit, pModCall_8, lRegSrc_32)
+    RETURN()
+}

@@ -1,0 +1,25 @@
+div.tool-options {
+    float:                          left;
+    box-shadow:                     var(--button-shadow);
+    border-radius:                  3px;
+    -webkit-user-select:            none;
+}
+div.tool-options .icon-button,
+div.tool-options .button {
+    border-radius:                  0;
+    box-shadow:                     none;
+}
+div.tool-options .icon-button:active,
+div.tool-options .button:active {
+    transform:                      translate(0, 0);
+}
+div.tool-options .button:first-child,
+div.tool-options .icon-button:first-child {
+    border-radius:                  3px 0 0 3px;
+}
+div.tool-options .last.button,
+div.tool-options .last.icon-button,
+div.tool-options .button:last-child,
+div.tool-options .icon-button:last-child {
+    border-radius:                  0 3px 3px 0;
+}

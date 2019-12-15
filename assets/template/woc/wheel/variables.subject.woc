@@ -1,0 +1,103 @@
+@subject Programming:Variables
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Variables
+The wheel VM only uses one primitive data type: `number`.
+
+
+Wheel supports three other data types: `string`, `record`, `array` and `pointer`.
+
+
+These types are all based on the primitive `number` type.
+
+A variable is declared by the type followed by the name of the variable.
+@section Number type
+@keyword var, number, int, byte, float, double
+A `number` variable can be used for integers and floating point values.
+
+@example
+number n
+@end
+
+@section String type
+@keyword string
+A `string` value is a `number` representing the index in a string list contained in the program file.
+
+@example
+string n
+@end
+
+@section Array
+@keyword array
+An `array` represents a list. Arrays can be declared by defining the size between brackets after the variable name.
+The size must a positive number of at least 1 or higher.
+
+@example
+number n[10]
+@end
+
+@section Record
+@keyword record
+A record is a representation of a group of variables.
+
+@example
+record Point
+    number x
+    number y
+endr
+
+Point p
+
+proc main()
+    set p.x, 10
+    set p.y, 5
+end
+@end
+
+@section Global scope
+@keyword global
+When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+
+@example
+#project "Global variable demo"
+
+number n
+
+proc main()
+    set n, 10
+end
+@end
+
+@section Local scope
+@keyword local
+A variable declared inside a procedure can only be accesed inside that procedure.
+
+@example
+#project "Local variable demo"
+
+proc main()
+    number n
+    set n, 10
+end
+@end
+
+@section Parameter variables
+@keyword parameter
+All procedures except the main procedure can have one or more parameters.
+
+@example
+#project "Parameter demo"
+
+proc first(number n)
+end
+
+proc second(number i, number j)
+end
+
+proc main()
+    first(15)
+    second(17, 18)
+end
+@end
+@see syntax,Constants,procedures
+

@@ -1,0 +1,353 @@
+/* Source */
+.editor .source-wrapper,
+.editor .source-wrapper .code-mirror-wrapper,
+.editor .source-wrapper .text-wrapper {
+    width:                          100%;
+    height:                         100%;
+}
+.editor .source-wrapper .code-mirror-wrapper .CodeMirror,
+.editor .source-wrapper .code-mirror-wrapper textarea {
+    height:                         calc(100% - 40px);
+    background-color:               var(--ui-background1);
+}
+.editor .source-wrapper .code-mirror-wrapper textarea {
+    float:                          left;
+    width:                          100%;
+    border:                         0;
+    resize:                         none;
+    font-family:                    monospace;
+    font-size:                      14px;
+    outline:                        none;
+    color:                          var(--source-default-color);
+    padding:                        4px;
+}
+.editor .source-wrapper .code-mirror-wrapper.with-replace .CodeMirror {
+    height:                         calc(100% - 80px);
+}
+.editor .source-wrapper .resource-wrapper {
+    width:                          100%;
+    height:                         calc(100% + 1px);
+}
+.editor .source-wrapper .resource-wrapper .resource-options,
+.editor .code-mirror-wrapper .resource-options {
+    float:                          left;
+    width:                          100%;
+    height:                         40px;
+    border:                         var(--ui-border1);
+    border-width:                   0;
+    background-color:               var(--ui-background1);
+    overflow:                       hidden;
+}
+.editor .source-wrapper .code-mirror-wrapper.with-replace .resource-options.bottom {
+    height:                         80px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top {
+    border-width:                   0 0 1px 0;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top .top-options.right,
+.editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.right {
+    float:                          right;
+    margin-right:                   8px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.bottom,
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom {
+    border-width:                   1px 0 0 0;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top .top-options.hidden,
+.editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.hidden,
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .bottom-options.hidden {
+    display:                        none;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .bottom-options.replace {
+    position:                       absolute;
+    left:                           0;
+    bottom:                         0;
+    height:                         40px;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .find-button {
+    width:                          72px;
+    margin:                         8px 0 0 0;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .label,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .label {
+    float:                          left;
+    margin:                         0 2px 0 6px;
+    height:                         42px;
+    line-height:                    42px;
+    font-size:                      13px;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .label.find {
+    width:                          56px;
+    overflow:                       hidden;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .button {
+    float:                          left;
+    margin:                         8px 0 0 2px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .label.monospace,
+.editor .source-wrapper .resource-wrapper .resource-options .label.case {
+    margin-left:                    14px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .checkbox,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .checkbox {
+    float:                          left;
+    margin:                         9px 0 0 2px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .file-saved,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved {
+    float:                          left;
+    position:                       relative;
+    height:                         24px;
+    color:                          var(--success-color);
+    background-color:               var(--success-background);
+    border:                         var(--success-border);
+    border-radius:                  12px;
+    margin:                         8px 0 0 8px;
+    padding:                        0;
+    line-height:                    22px;
+    font-family:                    monospace;
+    font-size:                      12px;
+    text-align:                     right;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .file-saved .saved-icon,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon {
+    float:                          left;
+    position:                       relative;
+    left:                           1px;
+    top:                            1px;
+    width:                          20px;
+    height:                         20px;
+    line-height:                    20px;
+    text-align:                     center;
+    border-radius:                  10px;
+    border:                         var(--success-border);
+    background-color:               var(--success-icon-background);
+}
+.editor .source-wrapper .resource-wrapper .resource-options .file-saved .saved-icon::after,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    content:                        "\2713";
+    color:                          var(--success-icon-color);
+    width:                          100%;
+    height:                         100%;
+    text-align:                     center;
+    font-size:                      12px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .file-saved span,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved span,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved span {
+    float:                          left;
+    font-family:                    monospace;
+    font-size:                      12px;
+    margin:                         0 10px 0 8px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .cursor-info,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .cursor-info,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .compile-info {
+    float:                          right;
+    width:                          68px;
+    height:                         24px;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  12px;
+    margin:                         8px 8px 0 0;
+    padding:                        0 10px 0 0;
+    line-height:                    22px;
+    font-family:                    monospace;
+    font-size:                      12px;
+    text-align:                     right;
+    -webkit-user-select:            none;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .compile-info {
+    width:                          auto;
+    min-width:                      40px;
+    max-width:                      160px;
+    height:                         24px;
+    padding:                        0 10px 0 10px;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  12px;
+    color:                          var(--iu-text1);
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    direction:                      rtl;
+    cursor:                         pointer;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .compile-info.success {
+    border:                         var(--success-border);
+    background-color:               var(--success-background);
+    color:                          var(--success-color);;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .compile-info.failed {
+    border:                         var(--failed-border);
+    background-color:               var(--failed-background);
+    color:                          var(--failed-color);
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .compile-info.warning {
+    border:                         var(--warning-border);
+    background-color:               var(--warning-background);
+    color:                          var(--warning-color);
+}
+.editor .source-wrapper .resource-wrapper .resource-options .slider {
+    margin-top:                     4px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options input[type="text"],
+.editor .source-wrapper .code-mirror-wrapper .resource-options input[type="text"] {
+    float:                          left;
+    outline:                        none;
+    margin:                         8px 8px 0 4px;
+    height:                         24px;
+    line-height:                    24px;
+    padding:                        1px 0 0 2px;
+    font-size:                      13px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    height:                         calc(100% - 81px);
+    overflow:                       scroll;
+}
+.editor .source-wrapper .resource-wrapper .resource-content.hidden {
+    display:                        none;
+}
+.editor .source-wrapper .resource-wrapper .resource-content pre {
+    float:                          left;
+    width:                          100%;
+    height:                         100%;
+    font-family:                    monospace;
+    font-size:                      11px;
+    line-height:                    11px;
+    display:                        block;
+    overflow:                       scroll;
+    padding:                        0 32px 32px 0;
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-content-wrapper {
+    float:                          left;
+    position:                       relative;
+    min-width:                      100%;
+    min-height:                     100%;
+}
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource {
+    position:                       absolute;
+    left:                           50%;
+    top:                            50%;
+    transform:                      translate(-50%, -50%);
+    border:                         var(--ui-border1);
+    cursor:                         crosshair;
+}
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
+    background-color:               var(--ui-background1);
+}
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow {
+    box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay {
+    position:                       absolute;
+    left:                           50%;
+    top:                            50%;
+    transform:                      translate(-50%, -50%);
+    pointer-events:                 none;
+    overflow:                       hidden;
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .selection,
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay canvas {
+    position:                       absolute;
+    display:                        none;
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .selection.with-border {
+    border:                         var(--image-selection-border);
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .play-position,
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .sound-selection {
+    position:                       absolute;
+    top:                            0;
+    height:                         256px;
+    display:                        none;
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .play-position {
+    background-color:               var(--sound-current-position);
+    width:                          1px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content .resource-overlay .sound-selection {
+    background-color:               var(--sound-selection-background);
+    border:                         var(--sound-selection-border);
+    border-width:                   0 1px 0 1px;
+}
+.editor .source-wrapper .text-wrapper textarea {
+    float:                          left;
+    width:                          100%;
+    height:                         100%;
+    border:                         0;
+    white-space:                    nowrap;
+    overflow:                       auto;
+    font-family:                    monospace;
+    font-size:                      13px;
+    padding:                        4px;
+    resize:                         none;
+    outline:                        none;
+}
+
+/* Buttons */
+input[type="button"].button.run,
+input[type="button"].button.continue {
+    float:                          left;
+    margin:                         8px 0 0 8px;
+}
+input[type="button"].button.compile,
+input[type="button"].button.clear,
+.editor-wrapper input[type="button"].button.run,
+.editor-wrapper input[type="button"].button.continue {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+.editor-wrapper input[type="button"].button.run,
+.editor-wrapper input[type="button"].button.continue,
+.editor-wrapper .continue-button-wrapper {
+    display:                        none;
+}
+/* Show the extra run button if there are no simulator items visible... */
+body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.run,
+body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.continue,
+body.no-motors.no-ev3.no-sensors .editor-wrapper .continue-button-wrapper {
+    display:                        block;
+}
+
+.icon-button.icon-copy,
+.icon-button.icon-copy.in-active,
+.icon-button.icon-play {
+    margin-left:                    6px;
+}
+.icon-button.icon-left {
+    margin:                         8px 2px 0 8px;
+}
+.icon-button.icon-delete,
+.icon-button.icon-volume,
+.icon-button.icon-fade-in,
+.icon-button.icon-fade-out,
+.icon-button.icon-play,
+.icon-button.icon-copy,
+.icon-button.icon-paste,
+.icon-button.icon-add,
+.icon-button.icon-grid,
+.icon-button.icon-binary {
+    margin:                         8px 2px 0 0;
+}
+.resource-options .tool-options {
+    margin:                         8px 2px 0 2px;
+}
+.resource-options.bottom.viewer .tool-options {
+    margin:                         8px 2px 0 8px;
+}
+.resource-options.bottom.viewer .select-and-copy {
+    margin:                         8px 2px 0 8px;
+}
+.simulator .tool-options {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}

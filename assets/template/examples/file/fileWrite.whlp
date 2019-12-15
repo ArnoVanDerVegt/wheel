@@ -1,0 +1,22 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "File write example"
+
+#include "lib/standard.whl"
+#include "lib/file.whl"
+
+proc main()
+    if fileExists("furniture.rtf")
+        printS("The file exists and has a size of:")
+        printN(fileSize("furniture.rtf"))
+        printS("bytes")
+        fileDelete("furniture.rtf")
+    end
+    number handle = fileOpenWrite("furniture.rtf")
+    fileWriteNumber(handle, 1)
+    fileWriteString(handle, "Chair")
+    fileWriteNumber(handle, 2)
+    fileWriteString(handle, "Table")
+    fileWriteNumber(handle, 3)
+    fileWriteString(handle, "Cupboard")
+end

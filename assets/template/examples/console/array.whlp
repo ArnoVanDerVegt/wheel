@@ -1,0 +1,36 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; "Local vars" console view var demo
+#project "Console array debug demo"
+
+#include "lib/standard.whl"
+
+record Demo
+    number x[25], y[25]
+end
+
+proc main()
+    number i, j
+    number a[25]
+    Demo   demo
+
+    for i = 0 to 24
+        a[i] = i
+        demo.x[i] = i
+        demo.y[i] = i + 5
+    end
+
+    for i = 0 to 10
+        for j = 0 to 24
+            a[j] += 1
+            demo.x[j] += 1
+            demo.y[j] += 1
+        end
+        ; At the breakpoint on the following line
+        ; you can view the array data in the "Local vars" tab
+        ; in the console...
+#break
+        printN(i)
+    end
+end

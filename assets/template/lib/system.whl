@@ -1,0 +1,89 @@
+; @module System
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The system module.
+#define MODULE_SYSTEM                  9
+
+; @const System module calls.
+#define SYSTEM_GET_BATTERY_VOLTAGE     0
+#define SYSTEM_GET_BATTERY_CURRENT     1
+#define SYSTEM_GET_BATTERY_LEVEL       2
+#define SYSTEM_GET_VOLUME              3
+#define SYSTEM_SET_VOLUME              4
+#define SYSTEM_GET_POWER_OFF_MINUTES   5
+#define SYSTEM_SET_POWER_OFF_MINUTES   6
+#define SYSTEM_GET_BRICKNAME           7
+#define SYSTEM_SET_BRICKNAME           8
+#define SYSTEM_GET_MEMORY_TOTAL        9
+#define SYSTEM_GET_MEMORY_FREE        10
+
+; @proc             Get the battery voltage.
+; @return           The battery voltage.
+proc getBatteryVoltage()
+    mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_VOLTAGE
+end
+
+; @proc             Get the battery current.
+; @return           The battery current.
+proc getBatteryCurrent()
+    mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_CURRENT
+end
+
+; @proc             Get the battery level.
+; @return           The battery level.
+proc getBatteryLevel()
+    mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_LEVEL
+end
+
+; @proc             Get the sound volume.
+; @return           The sound volume.
+proc getVolume()
+    mod MODULE_SYSTEM, SYSTEM_GET_VOLUME
+end
+
+; @proc             Get the sound volume.
+; @param volume     The sound volume.
+proc setVolume(number volume)
+    addr volume
+    mod  MODULE_SYSTEM, SYSTEM_SET_VOLUME
+end
+
+; @proc             Get the power off time.
+; @return           The time in minutes.
+proc getPowerOffMinutes()
+    mod  MODULE_SYSTEM, SYSTEM_GET_POWER_OFF_MINUTES
+end
+
+; @proc             Set the power off time.
+; @param time       The power off time.
+proc setPowerOffMinutes(number time)
+    addr time
+    mod  MODULE_SYSTEM, SYSTEM_SET_POWER_OFF_MINUTES
+end
+
+; @proc             Get the brick name.
+; @param brickName  The brick name.
+proc getBrickName(string brickName)
+    addr brickName
+    mod  MODULE_SYSTEM, SYSTEM_GET_BRICKNAME
+end
+
+; @proc             Set the brick name.
+; @param brickName  The brick name.
+proc setBrickName(string brickName)
+    addr brickName
+    mod  MODULE_SYSTEM, SYSTEM_SET_BRICKNAME
+end
+
+; @proc             Get the total available memory in KB.
+; @return           The total memory.
+proc getMemoryTotal()
+    mod MODULE_SYSTEM, SYSTEM_GET_MEMORY_TOTAL
+end
+
+; @proc             Get the free available memory in KB.
+; @return           The free memory.
+proc getMemoryFree()
+    mod MODULE_SYSTEM, SYSTEM_GET_MEMORY_FREE
+end

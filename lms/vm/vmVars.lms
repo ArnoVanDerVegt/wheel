@@ -1,0 +1,32 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+HANDLE gFile_H                                                          // Handle to program file
+HANDLE gHeap_H                                                          // Heap memory
+HANDLE gString_H                                                        // A temp string buffer for a single string
+HANDLE gStrings_H                                                       // A buffer to hold all string data
+DATA32 gStringMaxLength_32                                              // The maximum string length
+DATA32 gStringMaxCount_32                                               // The maximum number of strings
+DATA32 gStringDataSize_32                                               // The data size needed to store one string
+DATA16 gStringCount_16                                                  // The current number of strings in use
+DATA8  gLayerCount_8                                                    // Number of connected extra EV3 devices
+DATA32 gCommandCount_32                                                 // The number of commands in the program
+HANDLE gCommandList_H                                                   // 8 Bit commands and parameter type info
+DATA32 gCommandListOffset_32
+HANDLE gCommandParam_H                                                  // Float command parameter values
+DATA32 gCommandParamOffset_32
+DATA8  gCommand_8                                                       // 8 Bit command
+DATA8  gType1_8                                                         // 8 Bit parameter 1 type
+DATA8  gType2_8                                                         // 8 Bit parameter 2 type
+DATAF  gParam1_F                                                        // Float parameter 1 value, constant/local/global/pointer
+DATAF  gParam2_F                                                        // Float parameter 2 value, constant/local/global/pointer
+DATAF  gParam1Value_F                                                   // Float, actual parameter 1 value
+DATAF  gParam2Value_F                                                   // Float, actual parameter 2 value
+DATA8  gKeepRet_8
+HANDLE gFiles_H                                                         // List of file modes and filenames
+HANDLE gDeviceList_H 													// Array with device info

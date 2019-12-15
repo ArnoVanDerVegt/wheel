@@ -1,0 +1,41 @@
+.CodeMirror-hints {
+    position:                       absolute;
+    z-index:                        10;
+    list-style:                     none;
+    margin:                         0;
+    padding:                        0;
+    max-height:                     176px;
+    min-width:                      100px;
+    overflow:                       hidden;
+    overflow-y:                     auto;
+    background-color:               var(--ui-background1);
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.CodeMirror-hint {
+    float:                          left;
+    clear:                          both;
+    width:                          100%;
+    height:                         32px;
+    margin:                         0;
+    padding:                        0 16px 0 16px;
+    color:                          var(--ui-text1);
+    line-height:                    32px;
+    font-size:                      15px;
+    cursor:                         pointer;
+}
+li.CodeMirror-hint-active {
+    background-color:               var(--ui-background5);
+}
+.CodeMirror-hint div.title {
+    float:                          left;
+    width:                          112px;
+}
+.CodeMirror-hint pre.wheel {
+    float:                          left;
+    width:                          auto;
+    margin:                         0;
+    padding:                        0 32px 0 0;
+    border:                         0;
+    line-height:                    32px;
+    background-color:               transparent;
+}

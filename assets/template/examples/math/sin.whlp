@@ -1,0 +1,44 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Math sine example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number n
+    number sx1, sy1
+    number sx2, sy2
+    number cx1, cy1
+    number cx2, cy2
+    number height = SCREEN_HEIGHT / 2
+    number s      = PI * 2 / SCREEN_WIDTH   ; Draw the sine and cosine for a full circle...
+
+    ; Calculate the first sine value:
+    sx1 = 0
+    sy1 = sin(0) * height + height
+    ; Calculate the first cosine value:
+    cx1 = 0
+    cy1 = cos(0) * height + height
+    for n = 1 to SCREEN_WIDTH - 1
+        ; Calculate the next sine value:
+        sx2 = n
+        sy2 = sin(n * s) * height + height
+        drawLine(sx1, sy1, sx2, sy2)
+        sx1 = sx2
+        sy1 = sy2
+
+        ; Calculate the next cosine value:
+        cx2 = n
+        cy2 = cos(n * s) * height + height
+        drawLine(cx1, cy1, cx2, cy2)
+        cx1 = cx2
+        cy1 = cy2
+    end
+
+    drawLine(0, height, SCREEN_WIDTH - 1, height)
+
+    ; Wait...
+    halt()
+end

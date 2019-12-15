@@ -1,0 +1,77 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modSensor {                                                     // 07) SENSOR
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA8  lLayer_8
+    DATA8  lPort_8
+    DATA8  lType_8
+    DATA8  lMode_8
+    DATA8  lResult_8
+    DATAF  lResult_F
+    DATA8  lOffset_8
+    DATA32 lOffset_32
+
+    CALL(readMem8, pRegSrc_32, 0, lLayer_8)
+    CALL(readMem8, pRegSrc_32, 1, lPort_8)
+
+    MUL8(lLayer_8, 4, lOffset_8)
+    ADD8(lOffset_8, lPort_8, lOffset_8)
+    MOVE8_32(lOffset_8, lOffset_32)
+
+    JR_EQ8(pModCall_8,  0, mod_sensor_set_type)
+    JR_EQ8(pModCall_8,  1, mod_sensor_get_type)
+    JR_EQ8(pModCall_8,  2, mod_sensor_set_mode)
+    JR_EQ8(pModCall_8,  3, mod_sensor_reset)
+    JR_EQ8(pModCall_8,  4, mod_sensor_read)
+    RETURN()
+
+mod_sensor_set_type:
+    CALL(readMem8, pRegSrc_32, 2, lType_8)
+    ARRAY_WRITE(gModSensorType_H, lOffset_32, lType_8)
+    RETURN()
+
+mod_sensor_get_type:
+    DATA8 lType_8
+    DATA8 lMode_8
+    INPUT_DEVICE(GET_TYPEMODE, lLayer_8, lPort_8, lType_8, lMode_8)
+    ARRAY_WRITE(gModSensorType_H, lOffset_32, lType_8)
+    CALL(setRet8AndKeep, lType_8)
+    RETURN()
+
+mod_sensor_set_mode:
+    CALL(readMem8, pRegSrc_32, 2, lMode_8)
+    ARRAY_WRITE(gModSensorMode_H, lOffset_32, lMode_8)
+    RETURN()
+
+mod_sensor_reset:
+    RETURN()
+
+mod_sensor_read:
+    ARRAY_READ(gModSensorType_H, lOffset_32, lType_8)
+    JR_EQ8(lType_8,  1, mod_sensor_read_touch)                          // NXT Touch
+    JR_EQ8(lType_8, 16, mod_sensor_read_touch)                          // EV3 Touch
+
+    ARRAY_READ(gModSensorMode_H, lOffset_32, lMode_8)
+    INPUT_READY(lLayer_8, lPort_8)
+    INPUT_READSI(lLayer_8, lPort_8, lType_8, lMode_8, lResult_F)
+    JR_NAN(lResult_F, mod_sensor_read_invalid)
+    CALL(setRetFAndKeep, lResult_F)
+    RETURN()
+mod_sensor_read_invalid:
+    CALL(setRet8AndKeep, -1)
+    RETURN()
+
+mod_sensor_read_touch:
+    MOVE8_8(0, lMode_8)
+    INPUT_READY(lLayer_8, lPort_8)
+    INPUT_READ(lLayer_8, lPort_8, lType_8, lMode_8, lResult_8)
+    CALL(setRet8AndKeep, lResult_8)
+    RETURN()
+}

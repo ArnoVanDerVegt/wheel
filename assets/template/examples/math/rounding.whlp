@@ -1,0 +1,22 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Math rounding example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number n = random(1, 99) / 10
+    drawText(10, 10, "Number:")
+    drawNumber(100, 10, n)
+
+    drawText(10, 30, "Floor:")
+    drawNumber(100, 30, floor(n))
+
+    drawText(10, 50, "Ceil:")
+    drawNumber(100, 50, ceil(n))
+
+    ; Wait...
+    halt()
+end
