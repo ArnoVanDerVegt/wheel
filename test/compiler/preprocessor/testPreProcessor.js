@@ -143,7 +143,7 @@ describe(
                                 entryPoint: program.getEntryPoint(),
                                 globalSize: program.getGlobalSize(),
                                 constants:  program.getConstants(),
-                                strings:    program.getStrings()
+                                stringList: program.getStringList()
                             });
                         assert.notEqual(preProcessor.getDefines(), null);
                         assert.notEqual(preProcessor.getTokens(),  null);
@@ -202,7 +202,7 @@ describe(
                                 entryPoint: program.getEntryPoint(),
                                 globalSize: program.getGlobalSize(),
                                 constants:  program.getConstants(),
-                                strings:    program.getStrings()
+                                stringList: program.getStringList()
                             });
                         assert.notEqual(preProcessor.getDefines(), null);
                         assert.notEqual(preProcessor.getTokens(),  null);
@@ -270,7 +270,7 @@ describe(
                                 entryPoint: program.getEntryPoint(),
                                 globalSize: program.getGlobalSize(),
                                 constants:  program.getConstants(),
-                                strings:    program.getStrings()
+                                stringList: program.getStringList()
                             });
                         assert.notEqual(preProcessor.getDefines(), null);
                         assert.notEqual(preProcessor.getTokens(),  null);
