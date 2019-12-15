@@ -1,0 +1,9 @@
+.toolbar {
+    float:                          left;
+    width:                          100%;
+    height:                         40px;
+    background-color:               var(--ui-background2);
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+}

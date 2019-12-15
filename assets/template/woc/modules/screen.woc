@@ -1,0 +1,223 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@for drawCircle
+The following demo draws black and white circles with and without a border:
+@br
+@image images/display/circle.png
+@example
+#project "Circle demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Draw two black filled rectangles at the left/top and right/bottom...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 64)
+    drawRect(89, 64, 89, 64)
+
+    ; Draw a white line circle at the left/top...
+    setFill(FALSE)
+    setFillColor(WHITE)
+    drawCircle(45, 32, 24)
+
+    ; Draw a white filled circle at the right/bottom...
+    setFill(TRUE)
+    drawCircle(134, 96, 24)
+
+    ; Draw a black filled circle at the right/top...
+    setFillColor(BLACK)
+    drawCircle(134, 32, 24)
+
+    ; Draw a black line circle at the left/bottom...
+    setFill(FALSE)
+    drawCircle(45, 96, 24)
+
+    ; Wait...
+    halt()
+end
+
+@for drawNumber
+Draw a text with the active fill and color settings.
+
+@example
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number n
+    for n = 0 to 10
+        number x
+        number y
+        x = n
+        x *= 10
+        y = n
+        y *= 4
+        y += 10
+        drawNumber(x, y, n)
+    end
+    halt()
+end
+
+@example drawText
+Draw a text with the active fill and color settings.
+
+@example
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Draw a small black text at the left top of the screen...
+    drawText(10, 10, "The quick brown")
+    ; Set the text size to small bold:
+    setTextSize(1)
+    drawText(10, 25, "fox jumped over")
+    ; Set the text size to large:
+    setTextSize(2)
+    drawText(10, 40, "Lazy dogs")
+    ; Set the text size back to small:
+    setTextSize(0)
+    ; Set the fill:
+    setFill(1)
+    ; This draws small text with black bagkround...
+    drawText(10, 60, "The quick brown")
+    halt()
+end
+
+@for drawLine
+The following demo creates black and white lines:
+@br
+@image images/display/line.png
+
+@example
+#project "Line demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Fill half the screen black...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 128)
+
+    number y
+
+    ; Daw white lines from the center of the screen to the left side...
+    setFillColor(WHITE)
+    for y = 0 to 128 step 8
+        drawLine(0, y, 89, 64)
+    end
+
+    ; Daw black lines from the center of the screen to the right side...
+    setFillColor(BLACK)
+    for y = 0 to 128 step 8
+        drawLine(177, y, 90, 64)
+    end
+
+    ; Wait...
+    halt()
+end
+
+@for drawPixel
+The following demo draws black and white pixels:
+@br
+@image images/display/pixel.png
+
+@example
+#project "Pixel demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Fill half the screen black...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 128)
+
+    number s
+    number x, y = 0
+
+    setFillColor(WHITE)
+
+    s = 1
+    while y < 128
+        ; Draw a line with white pixels...
+        setFillColor(WHITE)
+        for x = 0 to 89 step 2
+            drawPixel(x, y)
+        end
+        ; Draw a line with black pixels...
+        setFillColor(BLACK)
+        for x = 90 to 178 step 2
+            drawPixel(x, y)
+        end
+        y += s
+        s += 1
+    end
+
+    ; Wait...
+    halt()
+end
+
+@for drawRect
+The following demo draws black and white rectangles with and without a border:
+@br
+@image images/display/rectangle.png
+
+@example
+#project "Rectangle demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Draw two black filled rectangles at the left/top and right/bottom...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 64)
+    drawRect(89, 64, 89, 64)
+
+    ; Draw a white line rectangle at the left/top...
+    setFill(FALSE)
+    setFillColor(WHITE)
+    drawRect(10, 10, 69, 44)
+
+    ; Draw a white filled rectangle at the right/bottom...
+    setFill(TRUE)
+    drawRect(99, 74, 69, 44)
+
+    ; Draw a black filled rectangle at the right/top...
+    setFillColor(BLACK)
+    drawRect(99, 10, 69, 44)
+
+    ; Draw a black line rectangle at the left/bottom...
+    setFill(FALSE)
+    drawRect(10, 74, 69, 44)
+
+    ; Wait...
+    halt()
+end
+
+@for drawImage
+@example
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+#image "test.rgf"
+#data  "011111110"
+#data  "100000001"
+#data  "101000101"
+#data  "100101001"
+#data  "100010001"
+#data  "100101001"
+#data  "101000101"
+#data  "100000001"
+#data  "011111110"
+
+proc main()
+    drawImage(25, 25, "test.rgf")
+    halt()
+end

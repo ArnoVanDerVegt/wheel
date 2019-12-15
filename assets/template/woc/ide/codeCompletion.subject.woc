@@ -1,0 +1,24 @@
+@subject IDE:Code completion
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Opening a project
+When you open a Wheel project file then the compiler immediately tries to compile the program in the background.
+This process builds up the initial database.
+
+@section Code hints
+@keyword code,hint
+When the compilation was successful you can hover with your mouse over an identifier in the editor and when information
+about the identifier can be found then a hint will show up with details about the identifier.
+Details can be shown about the following types:
+
+* Structs
+* Procedures
+* Variables
+* Defined constants
+
+@section Code completion
+@keyword code,completion
+If you type the beginning of a known identifier and the wait about a second then the editor will auto complete the word.
+When there are more identifiers found which begin with the same characters then a popup is shown from which you can select the identifier.
+
+@see debugger

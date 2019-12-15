@@ -1,0 +1,34 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modButton {                                                     // 04) BUTTON
+    IN_8  pModCall_8
+    IN_32 pRegSrc_32
+
+    JR_EQ8(pModCall_8,  0, mod_button_read)
+    JR_EQ8(pModCall_8,  1, mod_button_wait_for_press)
+    RETURN()
+
+mod_button_read:                                                        // 00) buttonRead
+    DATA8 lButton_8
+    DATA8 lPressed_8
+    MOVE8_8(0, lButton_8)
+mod_button_read_loop:
+    ADD8(lButton_8, 1, lButton_8)
+    UI_BUTTON(PRESSED, lButton_8, lPressed_8)                           // Read button
+    JR_EQ8(lPressed_8, 1, mod_button_pressed)                           // Check if the button is pressed
+    JR_LT8(lButton_8, 6, mod_button_read_loop)                          // More buttons to check?
+    MOVE8_8(0, lButton_8)                                               // No pressed button found
+mod_button_pressed:
+    CALL(setRet8AndKeep, lButton_8)
+    RETURN()
+
+mod_button_wait_for_press:
+    UI_BUTTON(FLUSH)
+    UI_BUTTON(WAIT_FOR_PRESS)                                           // 01) Wait for button press
+}

@@ -1,0 +1,9 @@
+@subject Compiler:Linter
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Linter
+The linter checks if the code style of the source code follows a set of rules.
+
+* Indent: the indentation is expected to be 4 spaces.
+* Constants: Defined constants are expected to contain only uppercases and underscores.
+* Itentifiers: Indentifiers are expected to use camelCase.

@@ -1,9 +1,0 @@
-#include "whl/lib/screen.whl"
-
-proc main()
-    clearScreen()
-    drawRect(0, 0, 100, 100)
-
-    repeat
-    end
-endp

@@ -1,0 +1,93 @@
+; @module File
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The file module.
+#define MODULE_FILE         8
+
+; @const Module calls to handle files.
+#define FILE_EXISTS         0
+#define FILE_OPEN_READ      1
+#define FILE_OPEN_WRITE     2
+#define FILE_READ_NUMBER    3
+#define FILE_READ_STRING    4
+#define FILE_WRITE_NUMBER   5
+#define FILE_WRITE_STRING   6
+#define FILE_CLOSE          7
+#define FILE_DELETE         8
+#define FILE_SIZE           9
+
+; @proc             Check if a file exists
+; @param filename   The filename.
+; @return           1 If the file exists, 0 if not.
+proc fileExists(string filename)
+    addr filename
+    mod  MODULE_FILE, FILE_EXISTS
+end
+
+; @proc             Open a file for reading.
+; @param filename   The filename.
+proc fileOpenRead(string filename)
+    addr filename
+    mod  MODULE_FILE, FILE_OPEN_READ
+end
+
+; @proc             Open a file for writing.
+; @param filename   The filename.
+proc fileOpenWrite(string filename)
+    addr filename
+    mod  MODULE_FILE, FILE_OPEN_WRITE
+end
+
+; @proc             Read a number from a file.
+; @param handle     The handle of the file, the file should be opened first with the `fileOpen` call.
+proc fileReadNumber(number handle)
+    addr handle
+    mod  MODULE_FILE, FILE_READ_NUMBER
+end
+
+; @proc             Read a string from a file.
+; @param handle     The handle of the file, the file should be opened first with the `fileOpen` call.
+; @param result     The string which is read from the file.
+proc fileReadString(number handle, string result)
+    addr handle
+    mod  MODULE_FILE, FILE_READ_STRING
+end
+
+; @proc             Write a number to a file.
+; @param handle     The handle of the file, the file should be opened first with the `fileOpen` call.
+; @param n          The number to write to the file.
+proc fileWriteNumber(number handle, number n)
+    addr handle
+    mod  MODULE_FILE, FILE_WRITE_NUMBER
+end
+
+; @proc             Write a string to a file.
+; @param handle     The handle of the file, the file should be opened first with the `fileOpen` call.
+; @param s          The string to write to the file.
+proc fileWriteString(number handle, string s)
+    addr handle
+    mod  MODULE_FILE, FILE_WRITE_STRING
+end
+
+; @proc             Close a file.
+; @param handle     The handle of the file, the file should be opened first with the `fileOpen` call.
+proc fileClose(number handle)
+    addr handle
+    mod  MODULE_FILE, FILE_CLOSE
+end
+
+; @proc             Delete a file.
+; @param filename   The filename to delete.
+proc fileDelete(string filename)
+    addr filename
+    mod  MODULE_FILE, FILE_DELETE
+end
+
+; @proc             Get the size of a file.
+; @param filename   The filename.
+; @return           The file size in bytes.
+proc fileSize(string filename)
+    addr filename
+    mod  MODULE_FILE, FILE_SIZE
+end

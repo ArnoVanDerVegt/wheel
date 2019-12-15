@@ -1,0 +1,60 @@
+body.ide .context-menu {
+    position:                       absolute;
+    z-index:                        50200;
+    background-color:               var(--ui-background1);
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+body.ide .context-menu.hidden {
+    display:                        none;
+}
+body.ide .context-menu.invisible {
+    visibility:                     hidden;
+}
+body.ide .context-menu .context-menu-item {
+    float:                          left;
+    position:                       relative;
+    clear:                          both;
+    width:                          100%;
+    height:                         32px;
+    line-height:                    32px;
+    font-size:                      15px;
+    margin:                         0;
+    padding:                        0 16px 0 16px;
+    border:                         0;
+    background-color:               transparent;
+    color:                          var(--ui-text1);
+    cursor:                         pointer;
+}
+body.ide .context-menu .context-menu-item.with-check {
+    padding:                        0 16px 0 28px;
+}
+body.ide .context-menu .context-menu-item.with-check.checked:before {
+    position:                       absolute;
+    left:                           8px;
+    top:                            0;
+    line-height:                    32px;
+    color:                          var(--ui-text1);
+    content:                        "\2713";
+}
+body.ide .context-menu .context-menu-item.disabled {
+    pointer-events:                 none;
+    color:                          var(--main-menu-disabled-text);
+    cursor:                         default;
+}
+body.ide .context-menu .context-menu-item:hover {
+    background-color:               var(--ui-background5);
+}
+body.ide .context-menu .context-menu-item-separator {
+    float:                          left;
+    background-color:               var(--ui-background1);
+    width:                          100%;
+    height:                         13px;
+    margin:                         0;
+}
+body.ide .context-menu .context-menu-item-separator .line {
+    margin:                         6px 0 0 0;
+    background-color:               var(--ui-background5);
+    width:                          100%;
+    height:                         1px;
+    pointer-events:                 none;
+}

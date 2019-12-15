@@ -1,0 +1,99 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This demo shows how to turn a motor on or off.
+
+#project "Motor move demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/button.whl"
+#include "lib/motor.whl"
+
+#display "motors"
+
+number active     = 0       ; The last active motor
+number lastActive = 0       ; The last known motor position
+
+; Draw four rectangles and fill the active motor rectangle
+proc drawScreen()
+    number i
+    number x = 3
+    for i = 0 to 3
+        if i == active
+            setFillColor(BLACK)
+        else
+            setFillColor(WHITE)
+        end
+        setFill(TRUE)
+        drawRect(x, 42, 40, 40)
+        setFillColor(BLACK)
+        setFill(FALSE)
+        x += 1
+        drawRect(x, 43, 38, 38)
+        x += 43
+    end
+end
+
+; Draw the active motor position
+proc drawMotorPos()
+    number n = motorRead(active)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(68, 14, 48, 9)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    drawRect(66, 12, 52, 13)
+    drawNumber(68, 14, n)
+end
+
+proc main()
+    drawScreen()
+    drawMotorPos()
+    repeat
+        number b       = button()   ; Read the EV3 button...
+        number pressed = FALSE      ; Save if up or down was pressed...
+
+        select b
+            case BUTTON_LEFT:
+                ; Select the previous motor...
+                if active == 0
+                    active = 3
+                else
+                    active -= 1
+                end
+            case BUTTON_RIGHT:
+                ; Select the next motor...
+                if active == 3
+                    active = 0
+                else
+                    active += 1
+                end
+            case BUTTON_UP:
+                pressed = TRUE
+                ; Select the maximum speed...
+                motorSetSpeed(active, 100)
+            case BUTTON_DOWN:
+                pressed = TRUE
+                ; Select the minimum speed...
+                motorSetSpeed(active, -100)
+        end
+
+        if pressed
+            ; If the up or down button was pressed then turn the active motor on:
+            motorOn(active)
+            drawMotorPos()
+        else
+            ; There was no up or down button pressed, turn the active motor off:
+            motorStop(active)
+        end
+
+        if lastActive != active
+            ; The was a different motor output selected, update the screen...
+            drawScreen()
+            drawMotorPos()
+            sleep(500)
+            lastActive = active
+        end
+    end
+end

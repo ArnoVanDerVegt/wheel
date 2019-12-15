@@ -1,0 +1,78 @@
+/* No file tree */
+body.ide.no-file-tree div.file-tree-wrapper {
+    display:                        none;
+    z-index:                        1;
+    -webkit-user-select:            none;
+}
+.file-tree-wrapper {
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
+    width:                          var(--file-tree-width);
+    bottom:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 1px 0 0;
+    background-color:               var(--ui-background1);
+    overflow:                       hidden;
+}
+.file-tree-wrapper .toolbar .icon-button.icon-delete.green {
+    margin-left:                    8px;
+}
+.file-tree-wrapper .files {
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
+    width:                          256px;
+    bottom:                         0;
+    padding:                        8px;
+    overflow:                       auto;
+    -webkit-user-select:            none;
+}
+.file-tree-wrapper .files .file {
+    float:                          left;
+    position:                       relative;
+    width:                          calc(100% - 40px);
+    height:                         24px;
+    margin:                         0 0 3px 28px;
+    cursor:                         pointer;
+    color:                          var(--ui-text1);
+    border:                         1px solid transparent;
+    -webkit-user-select:            none;
+}
+.file-tree-wrapper .files .file a.name {
+    position:                       absolute;
+    top:                            0;
+    height:                         24px;
+    padding:                        0 12px 0 8px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    text-decoration:                none;
+    white-space:                    nowrap;
+    line-height:                    22px;
+    border-radius:                  12px;
+    color:                          var(--ui-text1);
+    border:                         1px solid transparent;
+    -webkit-user-select:            none;
+}
+.file-tree-wrapper .files .file a.name.focus {
+    border:                         var(--focus-border-dotted);
+    outline:                        none;
+}
+.file-tree-wrapper .files .file a.name:hover {
+    background-color:               var(--files-hover-background);
+    border:                         var(--files-hover-border);
+    color:                          var(--files-hover-color);
+}
+.file-tree-wrapper .files .file a.name.selected {
+    background-color:               var(--files-selected-background);
+    border:                         var(--files-selected-border);
+    color:                          var(--files-selected-color);
+}
+.file-tree-wrapper .files .file a.name.focus.selected {
+    border:                         var(--focus-border-dotted);
+}
+.file-tree-wrapper .files .file.directory .directory-content {
+    float:                          left;
+    clear:                          both;
+    width:                          100%;
+}

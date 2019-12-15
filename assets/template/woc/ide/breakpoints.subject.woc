@@ -1,0 +1,12 @@
+@subject IDE:Breakpoints
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Breakpoints
+By clicking on the gutter on the left side of your source code in the editor you can toggle a breakpoint.
+After compiling and running your code and the first line after the breakpoint is executed then the program
+will stop and the breakpoint line will be focussed.
+
+
+By clicking the `Continue` button the program will continue.
+
+@see debugger

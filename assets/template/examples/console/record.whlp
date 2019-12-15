@@ -1,0 +1,52 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; "Local vars" console view var demo
+#project "Console record debug demo"
+
+#include "lib/standard.whl"
+
+record Demo0
+    number x, y
+end
+
+record Demo1
+    Demo0 demoA, demoB
+end
+
+proc main()
+    number n
+    Demo0 demo0
+    Demo0 demo1[2]
+    Demo1 demo2
+    Demo1 demo3[2]
+    for n = 0 to 10
+        demo0.x          = n
+        demo0.y          = n * n
+
+        demo1[0].x       = n
+        demo1[0].y       = n * n
+        demo1[1].x       = 1 + n
+        demo1[1].y       = 1 + n * n
+
+        demo2.demoA.x    = 1 + n
+        demo2.demoA.y    = 2 + n
+        demo2.demoB.x    = 3 + n
+        demo2.demoB.y    = 4 + n
+
+        demo3[0].demoA.x = 1 + n
+        demo3[0].demoA.y = 2 + n
+        demo3[0].demoB.x = 3 + n
+        demo3[0].demoB.y = 4 + n
+        demo3[1].demoA.x = 5 + n
+        demo3[1].demoA.y = 6 + n
+        demo3[1].demoB.x = 7 + n
+        demo3[1].demoB.y = 8 + n
+
+        ; At the breakpoint on the following line
+        ; you can view the record data in the "Local vars" tab
+        ; in the console...
+#break
+        printN(n)
+    end
+end

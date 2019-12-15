@@ -1,0 +1,100 @@
+body.ide.no-simulator div.simulator {
+    display:                        none;
+    -webkit-user-select:            none;
+}
+.simulator .motors,
+.simulator .sensors {
+    float:                          left;
+}
+.simulator .motors .title,
+.simulator .sensors .title {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    height:                         40px;
+    background-color:               var(--sensor-background2);
+    border-radius:                  2px 2px 0 0;
+}
+.simulator .motors .title span,
+.simulator .sensors .title span {
+    position:                       absolute;
+    top:                            3px;
+    right:                          3px;
+    width:                          18px;
+    height:                         18px;
+    background-color:               var(--sensor-background3);
+    color:                          var(--sensor-text);
+    border-radius:                  9px;
+    text-align:                     center;
+    line-height:                    19px;
+    font-size:                      14px;
+}
+.simulator .motors .motor,
+.simulator .sensors .sensor {
+    float:                          left;
+    position:                       relative;
+    width:                          61px;
+    margin:                         0 8px 0 0;
+    background-color:               var(--sensor-background1);
+    border-radius:                  2px;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.simulator .motors .motor img,
+.simulator .sensors .sensor img {
+    border-radius:                  2px 0 0 0;
+}
+.simulator .motors .motor.hidden,
+.simulator .sensors .sensor.hidden {
+    display:                        none;
+}
+.simulator .motors .motor .position,
+.simulator .sensors .sensor .value {
+    position:                       absolute;
+    left:                           1px;
+    width:                          calc(100% - 2px);
+    height:                         18px;
+    line-height:                    18px;
+    text-align:                     center;
+    font-size:                      15px;
+    font-family:                    monospace;
+}
+.simulator {
+    position:                       absolute;
+    right:                          0;
+    top:                            40px;
+    width:                          304px;
+    height:                         calc(100% - 24px);
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-width:                   0 0 0 1px;
+    z-index:                        1;
+}
+.simulator .simulator-options {
+    float:                          left;
+    width:                          100%;
+    height:                         40px;
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    background-color:               var(--ui-background2);
+}
+.simulator .simulator-options .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+.simulator .ev3-background {
+    float:                          left;
+    width:                          100%;
+    min-height:                     100%;
+    padding:                        16px 0 16px 17px;
+    margin:                         0;
+}
+.simulator .ev3-background.stand-alone .ev3-background {
+    border-radius:                  2px;
+}
+.simulator .ev3-background.stand-alone .simulator-options {
+    border:                         0;
+}
+.simulator .ev3-background.stand-alone .simulator-options .button.run {
+    margin-left:                    0;
+}

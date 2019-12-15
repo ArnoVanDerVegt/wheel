@@ -1,0 +1,104 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall readCommand {
+    DATA32 lRegCode_32
+
+    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
+    MUL32(lRegCode_32, 3, gCommandListOffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gCommand_8)
+    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gType1_8)
+    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gType2_8)
+    MUL32(lRegCode_32, 2, gCommandParamOffset_32)
+    ARRAY_READ(gCommandParam_H, gCommandParamOffset_32, gParam1_F)
+    ADD32(gCommandParamOffset_32, 1, gCommandParamOffset_32)
+    ARRAY_READ(gCommandParam_H, gCommandParamOffset_32, gParam2_F)
+}
+
+//=================================================================================================//
+
+subcall readMem8 {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    OUT_8 pValue_8
+    DATAF lValue_F
+
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_READ(gHeap_H, pOffset1_32, lValue_F)
+    MOVEF_8(lValue_F, pValue_8)
+}
+
+subcall readMem16 {
+    IN_32  pOffset1_32
+    IN_32  pOffset2_32
+    OUT_16 pValue_16
+    DATAF  lValue_F
+
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_READ(gHeap_H, pOffset1_32, lValue_F)
+    MOVEF_32(lValue_F, pValue_16)
+}
+
+subcall readMem32 {
+    IN_32  pOffset1_32
+    IN_32  pOffset2_32
+    OUT_32 pValue_32
+    DATAF  lValue_F
+
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_READ(gHeap_H, pOffset1_32, lValue_F)
+    MOVEF_32(lValue_F, pValue_32)
+}
+
+subcall readMemF {
+    IN_32 pOffset1_32
+    IN_32 pOffset2_32
+    OUT_F pValue_F
+
+    ADD32(pOffset1_32, pOffset2_32, pOffset1_32)
+    ARRAY_READ(gHeap_H, pOffset1_32, pValue_F)
+}
+
+//=================================================================================================//
+
+subcall readString {
+    IN_16  pIndex_16
+    DATA8  lChar_8
+    DATA8  lIndex_8
+    DATA16 lStringLength_16
+    DATA8  lStringLength_8
+    DATA32 lStringOffset_32
+
+    MOVE16_32(pIndex_16, lStringOffset_32)
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = pIndex_16 * gStringDataSize_32
+    ARRAY_READ(gStrings_H, lStringOffset_32, lStringLength_8)           // Read the string length
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+
+    MOVE8_8(0, lIndex_8)
+loop:
+    ARRAY_READ(gStrings_H, lStringOffset_32, lChar_8)
+    WRITE8(lChar_8, lIndex_8, @gString_H)                               // Copy the string chars
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lStringLength_8, loop)
+
+    MOVE8_8(0, lChar_8)
+    WRITE8(lChar_8, lIndex_8, @gString_H)                               // Set the zero char at the end
+}
+
+subcall readStringLength {
+    IN_16  pIndex_16
+    OUT_8  pStringLength_8
+    DATA32 lStringOffset_32
+
+    MOVE16_32(pIndex_16, lStringOffset_32)
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = pIndex_16 * gStringDataSize_32
+    ARRAY_READ(gStrings_H, lStringOffset_32, pStringLength_8)           // Read the string length
+}

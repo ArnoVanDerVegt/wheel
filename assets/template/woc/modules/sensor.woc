@@ -1,0 +1,84 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@for sensorRead
+Touch, color and infrared sensor
+
+@example
+#project "Sensor demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/button.whl"
+#include "lib/sensor.whl"
+
+string colors[8]     = ["non", "blk", "blu", "grn", "yel", "red", "wht", "brn"]
+number touchValue    = FALSE
+number colorValue    = COLOR_NONE
+number infraredValue = BUTTON_0
+
+proc drawTouchValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(27, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(touchValue)
+    drawRect(31, 47, 30, 30)
+end
+
+proc drawColorValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(71, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(72, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_2)
+    drawText(78, 56, colors[colorValue])
+end
+
+proc drawInfraredValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(115, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(116, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_3)
+    drawNumber(124, 55, infraredValue)
+end
+
+proc main()
+    number value
+
+    drawTouchValue()
+    drawColorValue()
+    drawInfraredValue()
+
+    sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
+    sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
+    sensorSetType(INPUT_3, SENSOR_TYPE_INFRARED)
+
+    repeat
+        value = sensorRead(INPUT_1)
+        if value != touchValue
+            touchValue = value
+            drawTouchValue()
+        end
+
+        value = sensorRead(INPUT_2)
+        if value != colorValue
+            colorValue = value
+            drawColorValue()
+        end
+
+        value = sensorRead(INPUT_3)
+        if value != infraredValue
+            infraredValue = value
+            drawInfraredValue()
+        end
+    end
+end

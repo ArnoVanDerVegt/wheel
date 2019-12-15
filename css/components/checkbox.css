@@ -1,0 +1,39 @@
+.checkbox {
+    border:                         1px solid transparent;
+    border-radius:                  3px;
+    padding:                        2px 0 0 2px;
+    width:                          22px;
+    height:                         22px;
+    outline:                        none;
+}
+.checkbox.disabled {
+    pointer-events:                 none;
+    cursor:                         default;
+}
+.checkbox.focus {
+    border:                         var(--focus-border-dotted);
+}
+.checkbox.disabled.focus {
+    border:                         1px solid transparent;
+}
+.checkbox span {
+    float:                          left;
+    position:                       relative;
+    border:                         var(--ui-border2);
+    border-radius:                  2px;
+    width:                          16px;
+    height:                         16px;
+    cursor:                         pointer;
+}
+.checkbox.checked span::after {
+    position:                       absolute;
+    color:                          var(--ui-text1);
+    content:                        "\2713";
+    left:                           0;
+    top:                            0;
+    width:                          16px;
+    height:                         16px;
+    text-align:                     center;
+    font-size:                      16px;
+    line-height:                    16px;
+}

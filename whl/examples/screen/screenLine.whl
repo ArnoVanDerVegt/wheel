@@ -1,9 +1,0 @@
-#include "whl/lib/screen.whl"
-
-proc main()
-    clearScreen()
-    drawLine(0, 0, 178, 128)
-
-    repeat
-    end
-endp

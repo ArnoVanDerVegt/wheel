@@ -1,0 +1,78 @@
+.tabs {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         40px;
+    margin:                         0;
+    padding:                        0;
+    overflow:                       hidden;
+    -webkit-user-select:            none;
+}
+.tabs .tabs-content {
+    position:                       absolute;
+    left:                           8px;
+    top:                            0;
+    min-width:                      2048px;
+    height:                         40px;
+}
+.tabs .tabs-content .tab {
+    float:                          left;
+    position: relative;
+    margin:                         10px 0 0 0;
+    padding:                        0 2px 0 2px;
+    height:                         calc(100% - 10px);
+    line-height:                    24px;
+    cursor:                         pointer;
+    color:                          var(--tab-in-active);
+    border:                         1px solid transparent;
+    border-width:                   1px 1px 0 1px;
+}
+.tabs .tabs-content .tab::after {
+    position:                       absolute;
+    background-color:               var(--tab-active-background);
+    width:                          100%;
+    height:                         1px;
+    bottom:                         -1px;
+    left:                           0;
+    z-index:                        1000;
+    content:                        " ";
+}
+.tabs .tabs-content .tab input[type="button"].title,
+.tabs .tabs-content .tab input[type="button"].close {
+    float:                          left;
+    height:                         calc(100% - 2px);
+    line-height:                    27px;
+    margin:                         2px;
+    font-size:                      14px;
+    text-decoration:                none;
+    outline:                        0;
+    background-color:               transparent;
+    color:                          var(--ui-text2);
+    border:                         1px solid transparent;
+    cursor:                         pointer;
+}
+.tabs .tabs-content .tab input[type="button"].title,
+.tabs .tabs-content .tab input[type="button"].close {
+    padding:                        1px 2px 0 2px;
+}
+.tabs .tabs-content .tab.active {
+    background-color:               var(--tab-active-background);
+    margin:                         8px 0 0 0;
+    height:                         32px;
+    line-height:                    24px;
+    border:                         var(--ui-border1);
+    border-width:                   1px 1px 0 1px;
+}
+.tabs .tabs-content .tab.active input[type="button"].title,
+.tabs .tabs-content .tab.active input[type="button"].close {
+    color:                          var(--tab-active-color);
+}
+.tabs .tabs-content .tab.active input[type="button"].title.focus,
+.tabs .tabs-content .tab.active input[type="button"].close.focus {
+    border:                         var(--tab-active-focus-border);
+}
+.tabs .tabs-content .tab input[type="button"].title.focus,
+.tabs .tabs-content .tab input[type="button"].close.focus {
+    border:                         var(--tab-focus-border);
+}

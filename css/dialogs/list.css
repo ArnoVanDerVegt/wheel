@@ -1,0 +1,86 @@
+.dialog-background.list-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -200px;
+    width:                          500px;
+    height:                         400px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .list-comment {
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+    padding:                        0 32px 0 32px;
+    font-style:                     italic;
+    -webkit-user-select:            none;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+    height:                         256px;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    overflow:                       hidden;
+    overflow-x:                     scroll;
+    outline:                        none;
+}
+.dialog-background.list-dialog.with-comment .dialog-center .dialog-content .item-list {
+    top:                            96px;
+    height:                         224px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item {
+    float:                          left;
+    width:                          100%;
+    height:                         48px;
+    line-height:                    48px;
+    padding:                        0;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    border:                         var(--ui-border3);
+    border-width:                   0 0 1px 0;
+    cursor:                         pointer;
+    outline:                        none;
+    -webkit-user-select:            none;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item a {
+    float:                          left;
+    width:                          100%;
+    height:                         100%;
+    padding:                        0 16px 0 16px;
+    border:                         1px solid transparent;
+    outline:                        none;
+    color:                          var(--ui-text1);
+    text-decoration:                none;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item.focus a {
+    border:                         var(--focus-border-dotted);
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item img,
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item span {
+    float:                          left;
+    pointer-events:                 none;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item img {
+    width:                          32px;
+    height:                         32px;
+    margin:                         7px 8px 0 0;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item span {
+    width:                          calc(100% - 72px);
+    height:                         48px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item:hover {
+    background-color:               var(--ui-background4);
+    color:                          var(--ui-text2);
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item.selected {
+    background-color:               var(--ui-background5);
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item:hover a,
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item.selected a {
+    color:                          var(--ui-text1);
+}

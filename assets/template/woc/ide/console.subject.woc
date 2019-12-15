@@ -1,0 +1,28 @@
+@subject IDE:Console
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Console
+The console displays the program status. The following messages can appear:
+* Compiler succeeded
+* Compiler error with details about the error
+* Compiler data output, information about created resources
+* EV3 Connection status
+
+@section Logging
+You can also log your own messages in the console from your program.
+There are three methods defined in the `Standard` module: `printN`, `printS` and `clearConsole`.
+The `printN` procedure prints a number, the `printS` procedure prints a string and `clearConsole` empties the console.
+
+@example
+#include "lib/standard.whl"
+
+proc main()
+    printS("Hello console") ; Print a string...
+    sleep(2)
+    clearConsole() ; Clear the console...
+    printS("Number of seconds after sleep...")
+    printN(2) ; Print a number
+end
+@end
+
+@see debugger,standard,compiler

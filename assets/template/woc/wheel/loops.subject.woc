@@ -1,0 +1,105 @@
+@subject Programming:Loops
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@secion Loops
+With a for loop you can repeat a block of code a number of times.
+There are two types of for loops, one counts up from a given start number and the other counts
+down from the start number.
+
+@section For..to, step
+@keyword for,to,step
+With the `to` command, the counter is `increased` while the counter value is `less` or `equal` than the `to` value.
+@example
+number i
+
+for i = 1 to 10
+    ; This code block will be executed 10 times...
+end
+@end
+
+When the `step` values is added then the counter will be increased with the `step` value:
+
+@example
+number i
+
+for i = 1 to 10 step 2
+    ; This code block will be executed 5 times...
+end
+@end
+
+@section For..downto, step
+@keyword downto
+With the `downto` command, the counter is `decreased` while the counter value is `greater` or `equal` than the `downto` value.
+
+@example
+number i
+
+for i = 7 downto 2
+    ; This code block will be executed 6 times...
+end
+@end
+
+The `downto` loop can also have a step value:
+
+@example
+number i
+
+for i = 9 downto 0 step 3
+    ; This code block will be executed 4 times...
+end
+@end
+
+@section Repeat
+Repeat a block of code endless.
+
+@example
+repeat
+    ; This code block will be repeated endless
+end
+@end
+
+@section While
+Repeat a block of code while a condition evaluates as true.
+
+@example
+number n = 10
+
+while n != 0
+    n -= 1
+end
+@end
+
+@section Break
+@keyword break
+With the `break` command you can jump out of the inner most loop.
+You can use the `break` statement in combination with `for`, `repeat` and `while` loops.
+
+@example
+number n = 0
+
+repeat
+    n++
+    if n == 5
+        break
+    end
+end
+@end
+
+A `break` command can also refer to a specific loop. The code will continue after the `end` statement which
+belongs to the `repeat` statement.
+
+@example
+number n = 0
+
+repeat main_loop
+    n++
+    repeat
+        n++
+        if n == 10
+            break main_loop
+        end
+    repeat
+end
+@end
+
+@see syntax

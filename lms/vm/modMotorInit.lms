@@ -1,0 +1,171 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modMotorInit {
+    //== LAYER 1 ==================================================================================//
+
+    MOVE8_8(0, gModMotor1AStarted_8);
+    MOVE8_8(0, gModMotor1AMode_8)
+    MOVE8_8(1, gModMotor1AReady_8)
+    MOVE8_8(0, gModMotor1ASpeed_8)
+    MOVE8_8(1, gModMotor1ABrake_8)
+    MOVE32_32(0, gModMotor1ACurrrent_32)
+    MOVE32_32(0, gModMotor1ATarget_32)
+    MOVE32_32(0, gModMotor1ATime_32)
+
+    MOVE8_8(0, gModMotor1BStarted_8);
+    MOVE8_8(0, gModMotor1BMode_8)
+    MOVE8_8(1, gModMotor1BReady_8)
+    MOVE8_8(0, gModMotor1BSpeed_8)
+    MOVE8_8(1, gModMotor1BBrake_8)
+    MOVE32_32(0, gModMotor1BCurrrent_32)
+    MOVE32_32(0, gModMotor1BTarget_32)
+    MOVE32_32(0, gModMotor1BTime_32)
+
+    MOVE8_8(0, gModMotor1CStarted_8);
+    MOVE8_8(0, gModMotor1CMode_8)
+    MOVE8_8(1, gModMotor1CReady_8)
+    MOVE8_8(0, gModMotor1CSpeed_8)
+    MOVE8_8(1, gModMotor1CBrake_8)
+    MOVE32_32(0, gModMotor1CCurrrent_32)
+    MOVE32_32(0, gModMotor1CTarget_32)
+    MOVE32_32(0, gModMotor1CTime_32)
+
+    MOVE8_8(0, gModMotor1DStarted_8);
+    MOVE8_8(0, gModMotor1DMode_8)
+    MOVE8_8(1, gModMotor1DReady_8)
+    MOVE8_8(0, gModMotor1DSpeed_8)
+    MOVE8_8(1, gModMotor1DBrake_8)
+    MOVE32_32(0, gModMotor1DCurrrent_32)
+    MOVE32_32(0, gModMotor1DTarget_32)
+    MOVE32_32(0, gModMotor1DTime_32)
+
+    //== LAYER 2 ==================================================================================//
+
+    MOVE8_8(0, gModMotor2AStarted_8);
+    MOVE8_8(0, gModMotor2AMode_8)
+    MOVE8_8(1, gModMotor2AReady_8)
+    MOVE8_8(0, gModMotor2ASpeed_8)
+    MOVE8_8(1, gModMotor2ABrake_8)
+    MOVE32_32(0, gModMotor2ACurrrent_32)
+    MOVE32_32(0, gModMotor2ATarget_32)
+    MOVE32_32(0, gModMotor2ATime_32)
+
+    MOVE8_8(0, gModMotor2BStarted_8);
+    MOVE8_8(0, gModMotor2BMode_8)
+    MOVE8_8(1, gModMotor2BReady_8)
+    MOVE8_8(0, gModMotor2BSpeed_8)
+    MOVE8_8(1, gModMotor2BBrake_8)
+    MOVE32_32(0, gModMotor2BCurrrent_32)
+    MOVE32_32(0, gModMotor2BTarget_32)
+    MOVE32_32(0, gModMotor2BTime_32)
+
+    MOVE8_8(0, gModMotor2CStarted_8);
+    MOVE8_8(0, gModMotor2CMode_8)
+    MOVE8_8(1, gModMotor2CReady_8)
+    MOVE8_8(0, gModMotor2CSpeed_8)
+    MOVE8_8(1, gModMotor2CBrake_8)
+    MOVE32_32(0, gModMotor2CCurrrent_32)
+    MOVE32_32(0, gModMotor2CTarget_32)
+    MOVE32_32(0, gModMotor2CTime_32)
+
+    MOVE8_8(0, gModMotor2DStarted_8);
+    MOVE8_8(0, gModMotor2DMode_8)
+    MOVE8_8(1, gModMotor2DReady_8)
+    MOVE8_8(0, gModMotor2DSpeed_8)
+    MOVE8_8(1, gModMotor2DBrake_8)
+    MOVE32_32(0, gModMotor2DCurrrent_32)
+    MOVE32_32(0, gModMotor2DTarget_32)
+    MOVE32_32(0, gModMotor2DTime_32)
+
+    //== LAYER 3 ==================================================================================//
+
+    MOVE8_8(0, gModMotor3AStarted_8);
+    MOVE8_8(0, gModMotor3AMode_8)
+    MOVE8_8(1, gModMotor3AReady_8)
+    MOVE8_8(0, gModMotor3ASpeed_8)
+    MOVE8_8(1, gModMotor3ABrake_8)
+    MOVE32_32(0, gModMotor3ACurrrent_32)
+    MOVE32_32(0, gModMotor3ATarget_32)
+    MOVE32_32(0, gModMotor3ATime_32)
+
+    MOVE8_8(0, gModMotor3BStarted_8);
+    MOVE8_8(0, gModMotor3BMode_8)
+    MOVE8_8(1, gModMotor3BReady_8)
+    MOVE8_8(0, gModMotor3BSpeed_8)
+    MOVE8_8(1, gModMotor3BBrake_8)
+    MOVE32_32(0, gModMotor3BCurrrent_32)
+    MOVE32_32(0, gModMotor3BTarget_32)
+    MOVE32_32(0, gModMotor3BTime_32)
+
+    MOVE8_8(0, gModMotor3CStarted_8);
+    MOVE8_8(0, gModMotor3CMode_8)
+    MOVE8_8(1, gModMotor3CReady_8)
+    MOVE8_8(0, gModMotor3CSpeed_8)
+    MOVE8_8(1, gModMotor3CBrake_8)
+    MOVE32_32(0, gModMotor3CCurrrent_32)
+    MOVE32_32(0, gModMotor3CTarget_32)
+    MOVE32_32(0, gModMotor3CTime_32)
+
+    MOVE8_8(0, gModMotor3DStarted_8);
+    MOVE8_8(0, gModMotor3DMode_8)
+    MOVE8_8(1, gModMotor3DReady_8)
+    MOVE8_8(0, gModMotor3DSpeed_8)
+    MOVE8_8(1, gModMotor3DBrake_8)
+    MOVE32_32(0, gModMotor3DCurrrent_32)
+    MOVE32_32(0, gModMotor3DTarget_32)
+    MOVE32_32(0, gModMotor3DTime_32)
+
+    //== LAYER 4 ==================================================================================//
+
+    MOVE8_8(0, gModMotor4AStarted_8);
+    MOVE8_8(0, gModMotor4AMode_8)
+    MOVE8_8(1, gModMotor4AReady_8)
+    MOVE8_8(0, gModMotor4ASpeed_8)
+    MOVE8_8(1, gModMotor4ABrake_8)
+    MOVE32_32(0, gModMotor4ACurrrent_32)
+    MOVE32_32(0, gModMotor4ATarget_32)
+    MOVE32_32(0, gModMotor4ATime_32)
+
+    MOVE8_8(0, gModMotor4BStarted_8);
+    MOVE8_8(0, gModMotor4BMode_8)
+    MOVE8_8(1, gModMotor4BReady_8)
+    MOVE8_8(0, gModMotor4BSpeed_8)
+    MOVE8_8(1, gModMotor4BBrake_8)
+    MOVE32_32(0, gModMotor4BCurrrent_32)
+    MOVE32_32(0, gModMotor4BTarget_32)
+    MOVE32_32(0, gModMotor4BTime_32)
+
+    MOVE8_8(0, gModMotor4CStarted_8);
+    MOVE8_8(0, gModMotor4CMode_8)
+    MOVE8_8(1, gModMotor4CReady_8)
+    MOVE8_8(0, gModMotor4CSpeed_8)
+    MOVE8_8(1, gModMotor4CBrake_8)
+    MOVE32_32(0, gModMotor4CCurrrent_32)
+    MOVE32_32(0, gModMotor4CTarget_32)
+    MOVE32_32(0, gModMotor4CTime_32)
+
+    MOVE8_8(0, gModMotor4DStarted_8);
+    MOVE8_8(0, gModMotor4DMode_8)
+    MOVE8_8(1, gModMotor4DReady_8)
+    MOVE8_8(0, gModMotor4DSpeed_8)
+    MOVE8_8(1, gModMotor4DBrake_8)
+    MOVE32_32(0, gModMotor4DCurrrent_32)
+    MOVE32_32(0, gModMotor4DTarget_32)
+    MOVE32_32(0, gModMotor4DTime_32)
+
+    DATA8 lLayer_8
+    MOVE8_8(0, lLayer_8)
+loop:
+    CALL(modMotorResetMotor, lLayer_8, 101)
+    CALL(modMotorResetMotor, lLayer_8, 102)
+    CALL(modMotorResetMotor, lLayer_8, 103)
+    CALL(modMotorResetMotor, lLayer_8, 104)
+    ADD8(lLayer_8, 1, lLayer_8)
+    JR_LT8(lLayer_8, 4, loop)
+}

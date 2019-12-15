@@ -1,0 +1,17 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@for button
+With the button module you can read the state of the EV3 buttons.
+
+@example
+#include "lib/button.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number b
+    setTextSize(2)
+    repeat
+        b = button()
+        drawNumber(73, 56, b)
+    end
+end

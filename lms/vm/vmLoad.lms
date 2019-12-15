@@ -1,0 +1,208 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall load {
+    DATA32 lFileSize_32
+    FILE(OPEN_READ, 'program.rtf', gFile_H, lFileSize_32)
+
+    CALL(loadS)                                                         // Wheel VM Program
+    CALL(loadS)                                                         // #VERSION
+    CALL(loadS)                                                         // #VERSION, NUMBER
+    CALL(loadS)                                                         // #NAME
+    CALL(loadS)                                                         // #NAME, NAME
+    CALL(loadS)                                                         // #LAYERS
+    CALL(load8, gLayerCount_8, 0x03)                                    // #LAYERS, NUMBER
+
+    DATA32 lHeapSize_32
+    CALL(loadS)                                                         // #HEAP
+    CALL(load32, lHeapSize_32, 0x03)
+    ARRAY(CREATEF, lHeapSize_32, gHeap_H)                               // Allocate the heap
+
+    CALL(loadStrings)
+    CALL(loadConstants)
+
+    DATA32 lRegCode_32
+    CALL(loadS)                                                         // #REG_CODE
+    CALL(load32, lRegCode_32, 0x03)
+    CALL(writeMem32, 4, 0, lRegCode_32)                                 // Write code register at heap offset 4
+
+    DATA32 lRegStack_32
+    CALL(loadS)                                                         // #REG_STACK
+    CALL(load32, lRegStack_32, 0x03)
+    CALL(writeMem32, 0, 0, lRegStack_32)                                // Write stack register at heap offset 0
+
+    CALL(loadCommands)
+
+    FILE(CLOSE, gFile_H)
+}
+
+subcall loadCommands {
+    DATA32 lCommandIndex_32
+    DATA16 lCommand_16
+    DATA16 lType1_16
+    DATA16 lType2_16
+    DATA32 lSize_32
+
+    CALL(loadS)                                                         // #COMMANDS
+    CALL(load32, gCommandCount_32, 0x03)
+
+    MUL32(gCommandCount_32, 3, lSize_32)                                // Command and param info = gCommandCount_32 * 3
+    ARRAY(CREATE8, lSize_32, gCommandList_H)
+    MOVE16_16(0, gCommandListOffset_32)
+
+    MUL32(gCommandCount_32, 2, lSize_32)                                // Command and param values = gCommandCount_32 * 2
+    ARRAY(CREATEF, lSize_32, gCommandParam_H)
+    ARRAY(RESIZE, gCommandParam_H, lSize_32)
+    MOVE32_32(0, gCommandParamOffset_32)
+
+    MOVE32_32(0, lCommandIndex_32)                                      // lCommandIndex_32 = 0
+read_command:
+    CALL(load16, lCommand_16, 0x05)                                     // Read command with comma delimiter, param type1, param type2
+    CALL(loadF, gParam1_F, 0x05)                                        // Read param value1 with comma delimiter
+    CALL(loadF, gParam2_F, 0x03)                                        // Read param value2 with return delimiter
+
+    CALL(storeCommandParam, gParam1_F)
+    CALL(storeCommandParam, gParam2_F)
+
+    MOVE16_16(lCommand_16, lType1_16)
+    MOVE16_16(lCommand_16, lType2_16)
+
+    DIV16(lCommand_16, 0x10, lCommand_16)
+    AND16(lCommand_16, 0x0F, lCommand_16)
+    MOVE16_8(lCommand_16, gCommand_8)                                   // gCommand_8 = (lCommand_16 >> 4) && 15
+
+    AND16(lType2_16, 0x03, lType2_16)
+    MOVE16_8(lType2_16, gType2_8)                                       // gType2_8 = lType2_16 & 3
+
+    DIV16(lType1_16, 0x04, lType1_16)
+    AND16(lType1_16, 0x03, lType1_16)
+    MOVE16_8(lType1_16, gType1_8)                                       // gType1_8 = (lType1_16 >> 2) & 3
+
+    CALL(storeCommandList, gCommand_8)
+    CALL(storeCommandList, gType1_8)
+    CALL(storeCommandList, gType2_8)
+
+    ADD32(lCommandIndex_32, 1, lCommandIndex_32)                        // lCommandIndex_32 = lCommandIndex_32 + 1
+    JR_LT32(lCommandIndex_32, gCommandCount_32, read_command)           // Jump to read_command if there are more...
+}
+
+subcall loadStrings {
+    DATA8  lString_H
+    DATA16 lStringCount_16
+    DATA16 lStingCount_16
+    DATA8  lStingLength_8
+    DATA32 lStringBufferSize_32
+
+    CALL(loadS)                                                         // #STRINGS
+    CALL(load32, gStringMaxLength_32, 0x05)                             // Load the string length, comma delimiter
+    CALL(load32, gStringMaxCount_32, 0x03)                              // Load the string count, return delimiter
+
+    ADD32(gStringMaxLength_32, 1, gStringDataSize_32)
+    MUL32(gStringDataSize_32, gStringMaxCount_32, lStringBufferSize_32)
+
+    ARRAY(CREATE8, lStringBufferSize_32, gStrings_H)
+    ARRAY(CREATE8, 127, gString_H)
+
+    CALL(load16, gStringCount_16, 0x03)                                 // Load the number of strings
+    JR_EQ16(gStringCount_16, 0, strings_done)                           // Jump to strings_done if gStringCount_16 = 0
+    MOVE16_16(0, lStringCount_16)
+load_string:
+    FILE(READ_TEXT, gFile_H, 0x03, 64, @gString_H)
+    CALL(writeString, lStringCount_16)
+    ADD16(lStringCount_16, 1, lStringCount_16)
+    JR_LT16(lStringCount_16, gStringCount_16, load_string)
+strings_done:
+}
+
+subcall loadConstants {
+    DATA16 lConstantCount_16
+    DATA32 lConstantOffset_32
+    DATA16 lConstantSize_16
+    DATA16 lConstantIndex_16
+    DATAF  lConstant_F
+    CALL(loadS)                                                         // #CONSTANTS
+    CALL(load16, lConstantCount_16, 0x03)
+    JR_EQ16(lConstantCount_16, 0, constants_done)                       // Jump to constants_done if constantCount_16 = 0
+load_constant:
+    CALL(load32, lConstantOffset_32, 0x03)                              // Constant offset
+    CALL(load16, lConstantSize_16, 0x03)
+    JR_EQ16(lConstantSize_16, 1, load_one_constant_value)               // Jump if there is only one constant
+    MOVE16_16(1, lConstantIndex_16)                                     // constantIndex16 = 1, Skip one, the last one has a return delimiter
+load_constant_value:
+    CALL(loadF, lConstant_F, 0x05)                                      // Read constant value with comma delimiter
+    CALL(writeMemF, lConstantOffset_32, 0, lConstant_F)
+    ADD32(lConstantOffset_32, 1, lConstantOffset_32)
+    ADD16(lConstantIndex_16, 1, lConstantIndex_16)                      // constantIndex16 = constantIndex16 + 1
+    JR_LT16(lConstantIndex_16, lConstantSize_16, load_constant_value)   // Jump to load_constant_value if there are more...
+    SUB16(lConstantCount_16, 1, lConstantCount_16)                      // constantCount16 = constantCount16 - 1
+    JR_NEQ16(lConstantCount_16, 0, load_constant)
+load_one_constant_value:
+    CALL(loadF, lConstant_F, 0x03)                                      // Read constant value with return delimiter
+    CALL(writeMemF, lConstantOffset_32, 0, lConstant_F)
+constants_done:
+}
+
+subcall storeCommandList {
+    IN_8 pCommand_8
+    ARRAY_WRITE(gCommandList_H, gCommandListOffset_32, pCommand_8)
+    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
+}
+
+subcall storeCommandParam {
+    IN_F pParam_F
+    ARRAY_WRITE(gCommandParam_H, gCommandParamOffset_32, pParam_F)
+    ADD32(gCommandParamOffset_32, 1, gCommandParamOffset_32)
+}
+
+//=================================================================================================//
+
+subcall load8 {
+    OUT_8 pResult_8
+    IN_8  pDelimiter_8
+    DATAF lValue_F
+
+    CALL(loadF, lValue_F, pDelimiter_8)
+    MOVEF_8(lValue_F, pResult_8)
+}
+
+subcall load16 {
+    OUT_16 pResult_16
+    IN_8   pDelimiter_8
+    DATAF  lValue_F
+
+    CALL(loadF, lValue_F, pDelimiter_8)
+    MOVEF_16(lValue_F, pResult_16)
+}
+
+subcall load32 {
+    OUT_32 pResult_32
+    IN_8   pDelimiter_8
+    DATAF  lValue_F
+
+    CALL(loadF, lValue_F, pDelimiter_8)
+    MOVEF_32(lValue_F, pResult_32)
+}
+
+subcall loadF {
+    OUT_F  pResult_F
+    IN_8   pDelimiter_8
+    HANDLE lString_H
+
+    ARRAY(CREATE8, 32, lString_H)
+    FILE(READ_TEXT, gFile_H, pDelimiter_8, 32, @lString_H)
+    STRINGS(STRING_TO_VALUE, @lString_H, pResult_F)
+    ARRAY(DELETE, lString_H)
+}
+
+subcall loadS {
+    HANDLE lString_H
+
+    ARRAY(CREATE8, 127, lString_H)
+    FILE(READ_TEXT, gFile_H, 0x03, 32, @lString_H)
+    ARRAY(DELETE, lString_H)
+}

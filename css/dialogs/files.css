@@ -1,0 +1,115 @@
+.dialog-background .files {
+    position:                       absolute;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    overflow:                       hidden;
+    overflow-x:                     scroll;
+    padding:                        8px;
+}
+.dialog-background .files .files-content {
+    float:                          left;
+    height:                         100%;
+}
+.dialog-background .files .file-box {
+    float:                          left;
+    width:                          180px;
+    height:                         100%;
+    -webkit-user-select:            none;
+}
+.dialog-background .files .file-box.detail {
+    width:                          256px;
+}
+.dialog-background .files .file-box .file {
+    float:                          left;
+    position:                       relative;
+    width:                          144px;
+    height:                         24px;
+    margin:                         0 0 3px 28px;
+    cursor:                         pointer;
+    color:                          var(--ui-text1);
+    border:                         1px solid transparent;
+    border-radius:                  16px;
+    -webkit-user-select:            none;
+}
+.dialog-background .files .file-box .file.focus {
+    border:                         var(--focus-border-dotted);
+}
+.dialog-background .files .file-box .file a.name {
+    position:                       absolute;
+    top:                            0;
+    left:                           10px;
+    width:                          128px;
+    padding:                        0;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    text-decoration:                none;
+    text-align:                     left;
+    font-size:                      15px;
+    white-space:                    nowrap;
+    height:                         24px;
+    line-height:                    22px;
+    border-radius:                  0 16px 16px 0;
+    color:                          var(--ui-text1);
+    outline:                        none;
+    cursor:                         pointer;
+}
+.dialog-background .files .file-box .file span.size,
+.dialog-background .files .file-box .file span.modified {
+    position:                       absolute;
+    left:                           10px;
+    width:                          180px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    font-size:                      9px;
+    color:                          var(--ui-text1);
+    opacity:                        0.75;
+}
+.dialog-background .files .file-box .file span.size {
+    top:                            21px;
+}
+.dialog-background .files .file-box .file span.modified {
+    top:                            31px;
+}
+.dialog-background .files .file-box .file.detail {
+    height:                         48px;
+    border-radius:                  4px;
+    margin:                         0 0 3px 48px;
+}
+.dialog-background .files .file-box .file.detail {
+    width:                          200px;
+}
+.dialog-background .files .file-box .file.detail a.name {
+    width:                          186px;
+}
+.dialog-background .files .file-box .file.detail img.file-icon,
+.dialog-background .files .file-box .file.detail img.folder-icon {
+    left:                           -48px;
+    width:                          44px;
+    height:                         44px;
+}
+/* Redundant? */
+.dialog-background .files .file-box .file.directory a.name {
+    left:                           40px;
+    width:                          132px;
+}
+.dialog-background .files .file-box .file:hover {
+    background-color:               var(--files-hover-background);
+    border:                         var(--files-hover-border);
+    color:                          var(--files-hover-color);
+}
+.dialog-background .files .file-box .file.focus:hover {
+    border:                         var(--focus-border-dotted);
+}
+.dialog-background .files .file-box .file:hover a.name,
+.dialog-background .files .file-box .file.detail:hover span {
+    color:                          var(--files-hover-color);
+}
+.dialog-background .files .file-box .file.selected {
+    background-color:               var(--files-selected-background);
+    border:                         var(--files-selected-border);
+}
+.dialog-background .files .file-box .file.selected span,
+.dialog-background .files .file-box .file.selected a.name {
+    color:                          var(--files-selected-color);
+}

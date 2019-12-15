@@ -1,0 +1,77 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall setRet8AndKeep {
+    IN_8  pValue_8
+    DATAF lValue_F
+    MOVE8_F(pValue_8, lValue_F)
+    ARRAY_WRITE(gHeap_H, 5, lValue_F)
+    MOVE8_8(1, gKeepRet_8)
+}
+
+subcall setRet16AndKeep {
+    IN_16 pValue_16
+    DATAF lValue_F
+    MOVE16_F(pValue_16, lValue_F)
+    ARRAY_WRITE(gHeap_H, 5, lValue_F)
+    MOVE8_8(1, gKeepRet_8)
+}
+
+subcall setRet32AndKeep {
+    IN_32 pValue_32
+    DATAF lValue_F
+    MOVE32_F(pValue_32, lValue_F)
+    ARRAY_WRITE(gHeap_H, 5, lValue_F)
+    MOVE8_8(1, gKeepRet_8)
+}
+
+subcall setRetFAndKeep {
+    IN_F pValue_F
+    ARRAY_WRITE(gHeap_H, 5, pValue_F)
+    MOVE8_8(1, gKeepRet_8)
+}
+
+//=================================================================================================//
+
+subcall print8 {
+    IN_8  pValue_8
+    IN_16 pX_16
+    IN_16 pY_16
+    DATAF lValue_F
+    MOVE8_F(pValue_8, lValue_F)
+    CALL(printF, lValue_F, pX_16, pY_16)
+}
+
+subcall print16 {
+    IN_16 pValue_16
+    IN_16 pX_16
+    IN_16 pY_16
+    DATAF lValue_F
+    MOVE16_F(pValue_16, lValue_F)
+    CALL(printF, lValue_F, pX_16, pY_16)
+}
+
+subcall print32 {
+    IN_32 pValue_32
+    IN_16 pX_16
+    IN_16 pY_16
+    DATAF lValue_F
+    MOVE32_F(pValue_32, lValue_F)
+    CALL(printF, lValue_F, pX_16, pY_16)
+}
+
+subcall printF {
+    IN_F   pValue_F
+    IN_16  pX_16
+    IN_16  pY_16
+    HANDLE lString_H
+    ARRAY(CREATE8, 32, lString_H)
+    STRINGS(VALUE_TO_STRING, pValue_F, -16, 4, @lString_H)
+    UI_DRAW(TEXT, 1, pX_16, pY_16, @lString_H)
+    ARRAY(DELETE, lString_H)
+}

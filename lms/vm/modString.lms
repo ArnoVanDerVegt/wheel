@@ -1,0 +1,399 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modString {                                                     // 10) STRING
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA32 lRegDest_32
+    DATA32 lRegStack_32
+    DATA32 lRegPtr_32
+    DATA32 lStringCount_32
+    DATA16 lStringIndex_16
+    DATA32 lStringIndex_32
+    DATA8  lStringLength_8
+    DATA16 lNumber_16
+    DATAF  lNumber_F
+
+    JR_EQ8(pModCall_8,  0, mod_string_allocate_string)
+    JR_EQ8(pModCall_8,  1, mod_string_allocate_global_string)
+    JR_EQ8(pModCall_8,  2, mod_string_release_string)
+    JR_EQ8(pModCall_8,  3, mod_string_number_to_string)
+    JR_EQ8(pModCall_8,  4, mod_string_string_to_number)
+    JR_EQ8(pModCall_8,  5, mod_string_index_of)
+    JR_EQ8(pModCall_8,  6, mod_string_sub_string)
+    JR_EQ8(pModCall_8,  7, mod_string_length)
+    JR_EQ8(pModCall_8,  8, mod_string_equal)
+    JR_EQ8(pModCall_8,  9, mod_string_upper_case)
+    JR_EQ8(pModCall_8, 10, mod_string_lower_case)
+    JR_EQ8(pModCall_8, 11, mod_string_get_char_code_at)
+    JR_EQ8(pModCall_8, 12, mod_string_set_char_code_at)
+    RETURN()
+
+mod_string_allocate_string:                                             // 00) allocateString
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+    ADD32(lRegPtr_32, lRegStack_32, lRegPtr_32)
+    JR(mod_string_allocate_global_start)
+
+mod_string_allocate_global_string:                                      // 01) allocateGlobalString
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+
+mod_string_allocate_global_start:
+    MOVE32_32(0, lStringCount_32)
+mod_string_allocate_one_string:                                         // pRegSrc_32 = number of strings
+    CALL(writeMem16, lRegPtr_32, 0, gStringCount_16)                    // gHeap_F[lRegPtr_32] = gStringCount_16
+    ADD16(gStringCount_16, 1, gStringCount_16)
+    ADD32(lRegPtr_32, 1, lRegPtr_32)
+    ADD32(lStringCount_32, 1, lStringCount_32)
+    JR_LT32(lStringCount_32, pRegSrc_32, mod_string_allocate_one_string)
+    RETURN()
+
+mod_string_release_string:                                              // 02) releaseString
+    MOVE32_32(0, lStringCount_32)
+mod_string_release_one_string:                                          // pRegSrc_32 = number of strings
+    CALL(releaseString, lStringIndex_32)
+    ADD32(lStringCount_32, 1, lStringCount_32)
+    JR_LT32(lStringCount_32, pRegSrc_32, mod_string_release_one_string)
+    RETURN()
+
+mod_string_number_to_string:                                            // 03) numberToString
+    CALL(readMemF, pRegSrc_32, 0, lNumber_F)
+    CALL(readMem16, pRegSrc_32, 1, lStringIndex_16)
+    STRINGS(VALUE_TO_STRING, lNumber_F, -16, 4, @gString_H)
+    CALL(writeString, lStringIndex_16)
+    RETURN()
+
+mod_string_string_to_number:                                            // 04) stringToNumber
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+    CALL(readString, lStringIndex_16)
+    STRINGS(STRING_TO_VALUE, @gString_H, lNumber_F)
+    CALL(setRetFAndKeep, lNumber_F)
+    RETURN()
+
+mod_string_index_of:                                                    // 05) indexOf
+    CALL(modStringIndexOf, pRegSrc_32)
+    RETURN()
+
+mod_string_sub_string:                                                  // 06) subString
+    CALL(modStringSub, pRegSrc_32)
+    RETURN()
+
+mod_string_length:                                                      // 07) length
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+    CALL(readStringLength, lStringIndex_16, lStringLength_8)
+    CALL(setRet8AndKeep, lStringLength_8)
+    RETURN()
+
+mod_string_equal:                                                       // 08) equal
+    CALL(modStringEqual, pRegSrc_32)
+    RETURN()
+
+mod_string_upper_case:                                                  // 09) toUpperCase
+    CALL(modStringUpperCase, pRegSrc_32)
+    RETURN()
+
+mod_string_lower_case:                                                  // 10) toLowerCase
+    CALL(modStringLowerCase, pRegSrc_32)
+    RETURN()
+
+mod_string_get_char_code_at:                                            // 11) getCharCodeAt
+    CALL(modStringGetCharCodeAt, pRegSrc_32)
+    RETURN()
+
+mod_string_set_char_code_at:                                            // 12) setCharCodeAt
+    CALL(modStringSetCharCodeAt, pRegSrc_32)
+    RETURN()
+}
+
+subcall modStringUpperCase {
+    IN_32  pRegSrc_32
+    DATA16 lStringIndex_16
+    DATA32 lStringOffset_32
+    DATA8  lLength_8
+    DATA8  lIndex_8
+    DATA8  lChar_8
+
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+
+    MOVE16_32(lStringIndex_16, lStringOffset_32)
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = lStringIndex_16 * gStringDataSize_32
+
+    ARRAY_READ(gStrings_H, lStringOffset_32, lLength_8)
+    MOVE8_8(0, lIndex_8)
+mod_string_loop:
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ARRAY_READ(gStrings_H, lStringOffset_32, lChar_8)
+    JR_LT8(lChar_8, 97, mod_string_char_ok)                             // Less than "a" (97)
+    JR_GT8(lChar_8, 122, mod_string_char_ok)                            // Less than "z" (172)
+    SUB8(lChar_8, 32, lChar_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset_32, lChar_8)
+mod_string_char_ok:
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lLength_8, mod_string_loop)
+}
+
+subcall modStringLowerCase {
+    IN_32  pRegSrc_32
+    DATA16 lStringIndex_16
+    DATA32 lStringOffset_32
+    DATA8  lLength_8
+    DATA8  lIndex_8
+    DATA8  lChar_8
+
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+
+    MOVE16_32(lStringIndex_16, lStringOffset_32)
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = lStringIndex_16 * gStringDataSize_32 + 1
+
+    ARRAY_READ(gStrings_H, lStringOffset_32, lLength_8)
+    MOVE8_8(0, lIndex_8)
+mod_string_loop:
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ARRAY_READ(gStrings_H, lStringOffset_32, lChar_8)
+    JR_LT8(lChar_8, 65, mod_string_char_ok)                             // Less than "A" (65)
+    JR_GT8(lChar_8, 90, mod_string_char_ok)                             // Less than "Z" (90)
+    ADD8(lChar_8, 32, lChar_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset_32, lChar_8)
+mod_string_char_ok:
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lLength_8, mod_string_loop)
+}
+
+subcall modStringIndexOf {
+    IN_32  pRegSrc_32
+    DATA16 lStringIndexHaystack_16
+    DATA16 lStringIndexNeedle_16
+    DATA8  lStringLengthHaystack_8
+    DATA8  lStringLengthNeedle_8
+    DATA16 lStringLengthNeedle_16
+    DATA32 lStringOffsetHaystack_32
+    DATA32 lStringOffsetNeedle_32
+    DATA32 lStringOffsetC_32
+    DATA32 lStringOffsetD_32
+    DATA8  lStartIndex_8
+    DATA8  lTempIndex_8
+    DATA8  lMaxCheckCount_8
+    DATA8  lIndexA_8
+    DATA16 lIndexB_16
+    DATA8  lCharA_8
+    DATA8  lCharB_8
+
+    CALL(readMem16, pRegSrc_32, 0, lStringIndexHaystack_16)
+    CALL(readMem16, pRegSrc_32, 1, lStringIndexNeedle_16)
+    CALL(readMem8,  pRegSrc_32, 2, lStartIndex_8)
+
+    CALL(readStringLength, lStringIndexHaystack_16, lStringLengthHaystack_8)
+    CALL(readStringLength, lStringIndexNeedle_16, lStringLengthNeedle_8)
+
+    MOVE8_16(lStringLengthNeedle_8, lStringLengthNeedle_16)
+
+    ADD8(lStartIndex_8, lStringLengthNeedle_8, lTempIndex_8)            // The needle length + startIndex should be less than string length
+    JR_LTEQ8(lTempIndex_8, lStringLengthHaystack_8, mod_string_index_needle_less)
+    CALL(setRet8AndKeep, -1)                                            // Needle is larger than haystack
+    RETURN()
+mod_string_index_needle_less:
+                                                                        // lMaxCheckCount_8 = haystack - needle length
+    SUB8(lStringLengthHaystack_8, lStringLengthNeedle_8, lMaxCheckCount_8)
+    ADD8(lMaxCheckCount_8, 1, lMaxCheckCount_8)
+
+    MOVE16_32(lStringIndexHaystack_16, lStringOffsetHaystack_32)
+    MUL32(lStringOffsetHaystack_32, gStringDataSize_32, lStringOffsetHaystack_32)
+                                                                        // lStringOffsetHaystack_32 = lStringIndexHaystack_16 * gStringDataSize_32 + 1
+    ADD32(lStringOffsetHaystack_32, 1, lStringOffsetHaystack_32)
+
+    MOVE16_32(lStringIndexNeedle_16, lStringOffsetNeedle_32)
+    MUL32(lStringOffsetNeedle_32, gStringDataSize_32, lStringOffsetNeedle_32)
+    ADD32(lStringOffsetNeedle_32, 1, lStringOffsetNeedle_32)            // lStringOffsetHaystack_32 = lStringIndexHaystack_16 * gStringDataSize_32 + 1
+
+    MOVE8_8(0, lIndexA_8)
+mod_string_index_loop1:                                                 // Compare from every index between 0..lMaxCheckCount_8
+
+    MOVE8_8(lIndexA_8, lTempIndex_8)
+    ADD8(lTempIndex_8, lStartIndex_8, lTempIndex_8)
+    MOVE8_32(lTempIndex_8, lStringOffsetC_32)                           // Move the offset in the haystack
+    ADD32(lStringOffsetC_32, lStringOffsetHaystack_32, lStringOffsetC_32)
+    MOVE32_32(lStringOffsetNeedle_32, lStringOffsetD_32)                // Needle offset starts at 0
+
+    MOVE16_16(0, lIndexB_16)
+mod_string_index_loop2:
+    ARRAY_READ(gStrings_H, lStringOffsetC_32, lCharA_8)
+    ARRAY_READ(gStrings_H, lStringOffsetD_32, lCharB_8)
+    JR_NEQ8(lCharA_8, lCharB_8, mod_string_index_different)             // Check if the chars are equal
+
+    ADD32(lStringOffsetC_32, 1, lStringOffsetC_32)
+    ADD32(lStringOffsetD_32, 1, lStringOffsetD_32)
+    ADD16(lIndexB_16, 1, lIndexB_16)                                    // Characters equal, check next or done...
+    JR_LT16(lIndexB_16, lStringLengthNeedle_16, mod_string_index_loop2)
+
+    ADD8(lIndexA_8, lStartIndex_8, lTempIndex_8)
+    CALL(setRet8AndKeep, lTempIndex_8)                                  // Found string!
+    RETURN()
+
+mod_string_index_different:                                             // Different chars, next index
+    ADD8(lIndexA_8, 1, lIndexA_8)
+    JR_LT8(lIndexA_8, lMaxCheckCount_8, mod_string_index_loop1)
+
+    CALL(setRet8AndKeep, -1)                                            // Not found!
+}
+
+subcall modStringSub {
+    IN_32  pRegSrc_32
+    DATA32 lStart_32
+    DATA8  lLength_8
+    DATA8  lEnd_8
+    DATA8  lIndex_8
+    DATA8  lChar_8
+    DATA16 lSrcStringIndex_16
+    DATA8  lSrcStringLength_8
+    DATA32 lSrcStringOffset_32
+    DATA32 lResultStringOffset_32
+    DATA32 lResultStringIndex_32
+
+    CALL(readMem16, pRegSrc_32, 0, lSrcStringIndex_16)
+    CALL(readMem32, pRegSrc_32, 1, lStart_32)
+    CALL(readMem8,  pRegSrc_32, 2, lLength_8)
+    CALL(readMem32, pRegSrc_32, 3, lResultStringIndex_32)
+
+    JR_LT8(lStart_32, 0, mod_sub_string_invalid)                        // Exit is start is less than 0
+
+    CALL(readStringLength, lSrcStringIndex_16, lSrcStringLength_8)      // Get the length on input string
+
+                                                                        // lResultStringOffset_32 = lResultStringOffset_32 * gStringDataSize_32
+    MUL32(lResultStringIndex_32, gStringDataSize_32, lResultStringOffset_32)
+
+                                                                        // Check if the start is less than the string length
+    JR_GT8(lStart_32, lSrcStringLength_8, mod_string_sub_start_too_large)
+
+    ADD8(lStart_32, lLength_8, lEnd_8)
+    JR_LT8(lEnd_8, lSrcStringLength_8, mod_string_sub_in_range)
+    SUB8(lEnd_8, lSrcStringLength_8, lEnd_8)
+    SUB8(lLength_8, lEnd_8, lLength_8)                                  // lLength_8 = lLength_8 - (lEnd_8 - lSrcStringLength_8)
+mod_string_sub_in_range:
+
+    MOVE16_32(lSrcStringIndex_16, lSrcStringOffset_32)
+    MUL32(lSrcStringOffset_32, gStringDataSize_32, lSrcStringOffset_32)
+    ADD32(lSrcStringOffset_32, 1, lSrcStringOffset_32)                  // lSrcStringOffset_32 = lSrcStringIndex_16 * gStringDataSize_32 + 1
+    ADD32(lSrcStringOffset_32, lStart_32, lSrcStringOffset_32)
+
+    ARRAY_WRITE(gStrings_H, lResultStringOffset_32, lLength_8)          // Set the result string length
+    MOVE8_8(0, lIndex_8)
+mod_string_sub_in_loop:
+    ADD32(lResultStringOffset_32, 1, lResultStringOffset_32)
+    ARRAY_READ(gStrings_H, lSrcStringOffset_32, lChar_8)
+    ARRAY_WRITE(gStrings_H, lResultStringOffset_32, lChar_8)
+    ADD32(lSrcStringOffset_32, 1, lSrcStringOffset_32)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lLength_8, mod_string_sub_in_loop)
+    RETURN()
+mod_string_sub_start_too_large:                                         // The start value is larger than the input
+    MOVE8_8(0, lChar_8)
+    ARRAY_WRITE(gStrings_H, lResultStringOffset_32, lChar_8)            // Set result string length to 0
+    RETURN()
+mod_sub_string_invalid:
+}
+
+subcall modStringEqual {
+    IN_32  pRegSrc_32
+    DATA16 lStringIndexA_16
+    DATA16 lStringIndexB_16
+    DATA32 lStringOffsetA_32
+    DATA32 lStringOffsetB_32
+    DATA8  lLengthA_8
+    DATA8  lLengthB_8
+    DATA8  lCharA_8
+    DATA8  lCharB_8
+    DATA8  lIndex_8
+
+    CALL(readMem16, pRegSrc_32, 0, lStringIndexA_16)
+    CALL(readMem16, pRegSrc_32, 1, lStringIndexA_16)
+
+    MOVE16_32(lStringIndexA_16, lStringOffsetA_32)
+    MUL32(lStringOffsetA_32, gStringDataSize_32, lStringOffsetA_32)
+
+    MOVE16_32(lStringIndexB_16, lStringOffsetB_32)
+    MUL32(lStringOffsetB_32, gStringDataSize_32, lStringOffsetB_32)
+
+    ARRAY_READ(gStrings_H, lStringOffsetA_32, lLengthA_8)
+    ARRAY_READ(gStrings_H, lStringOffsetB_32, lLengthB_8)
+    JR_NEQ8(lLengthA_8, lLengthB_8, mod_string_not_equal)               // Check if the lengths are equal
+
+    MOVE8_8(0, lIndex_8)
+mod_string_loop:
+    ADD32(lStringOffsetA_32, 1, lStringOffsetA_32)
+    ADD32(lStringOffsetB_32, 1, lStringOffsetB_32)
+    ARRAY_READ(gStrings_H, lStringOffsetA_32, lCharA_8)
+    ARRAY_READ(gStrings_H, lStringOffsetB_32, lCharB_8)
+    JR_NEQ8(lCharA_8, lCharB_8, mod_string_not_equal)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lLengthA_8, mod_string_loop)                       // Loop over the length of the strings
+    CALL(setRet8AndKeep, 1)                                             // No differences found
+    RETURN()
+mod_string_not_equal:
+    CALL(setRet8AndKeep, 0)
+}
+
+subcall modStringGetCharCodeAt {
+    IN_32  pRegSrc_32
+    DATA32 lStringOffset_32
+    DATA8  lLength_8
+    DATA8  lIndex_8
+    DATA16 lIndex_16
+    DATA32 lIndex_32
+    DATA8  lChar_8
+
+    CALL(readMem32, pRegSrc_32, 0, lStringOffset_32)
+    CALL(readMem16, pRegSrc_32, 1, lIndex_16)
+
+    JR_LT16(lIndex_16, 0, mod_string_get_char_code_at_index_invalid)    // Index less than 0
+
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = lStringIndex_16 * gStringDataSize_32
+
+    ARRAY_READ(gStrings_H, lStringOffset_32, lLength_8)
+    MOVE16_8(lIndex_16, lIndex_8)                                       // Exit if index is larger than length
+    JR_GTEQ8(lIndex_8, lLength_8, mod_string_get_char_code_at_index_invalid)
+
+    MOVE16_32(lIndex_16, lIndex_32)
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ADD32(lStringOffset_32, lIndex_32, lStringOffset_32)
+    ARRAY_READ(gStrings_H, lStringOffset_32, lChar_8)                   // Read the char code
+    CALL(setRet8AndKeep, lChar_8)
+
+    RETURN()
+mod_string_get_char_code_at_index_invalid:
+}
+
+subcall modStringSetCharCodeAt {
+    IN_32  pRegSrc_32
+    DATA32 lStringOffset_32
+    DATA8  lLength_8
+    DATA8  lIndex_8
+    DATA16 lIndex_16
+    DATA32 lIndex_32
+    DATA8  lChar_8
+
+    CALL(readMem32, pRegSrc_32, 0, lStringOffset_32)
+    CALL(readMem16, pRegSrc_32, 1, lIndex_16)
+    CALL(readMem8,  pRegSrc_32, 2, lChar_8)
+
+    JR_LT16(lIndex_16, 0, mod_string_set_char_code_at_index_invalid)    // Index less than 0
+
+    MUL32(lStringOffset_32, gStringDataSize_32, lStringOffset_32)       // lStringOffset_32 = lStringIndex_32 * gStringDataSize_32
+
+    ARRAY_READ(gStrings_H, lStringOffset_32, lLength_8)
+    MOVE16_8(lIndex_16, lIndex_8)                                       // Exit if index is larger than length
+    JR_GTEQ8(lIndex_8, lLength_8, mod_string_set_char_code_at_index_invalid)
+
+    MOVE16_32(lIndex_16, lIndex_32)
+    ADD32(lStringOffset_32, lIndex_32, lStringOffset_32)
+    ADD32(lStringOffset_32, 1, lStringOffset_32)
+    ARRAY_WRITE(gStrings_H, lStringOffset_32, lChar_8)                  // Read the char code
+
+    RETURN()
+mod_string_set_char_code_at_index_invalid:
+}

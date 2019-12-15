@@ -1,0 +1,35 @@
+.hint {
+    position:                       absolute;
+    z-index:                        5000;
+    background-color:               var(--ui-background1);
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+    display:                        none;
+    pointer-events:                 none;
+    margin:                         0;
+    padding:                        8px;
+}
+.hint .title,
+.hint .location {
+    float:                          left;
+    clear:                          both;
+    width:                          100%;
+    color:                          var(--ui-text1);
+}
+.hint .location {
+    margin-top:                     4px;
+    font-style:                     italic;
+    font-size:                      12px;
+    color:                          var(--ui-text1);
+}
+.hint pre.wheel {
+    float:                          left;
+    clear:                          both;
+    width:                          100%;
+    padding:                        0;
+    margin:                         0;
+    border:                         0;
+    background-color:               transparent;
+}
+.hint.visible {
+    display:                        block;
+}

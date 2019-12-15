@@ -1,0 +1,45 @@
+.dialog-background.file-rename-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -108px;
+    width:                          480px;
+    height:                         208px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-text {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row {
+    float:                          left;
+    width:                          100%;
+    padding:                        0 0 8px 0;
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row.name {
+    height:                         32px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row div,
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row input {
+    float:                          left;
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row div {
+    width:                          128px;
+    -webkit-user-select:            none;
+}
+.dialog-background.file-rename-dialog .dialog-center .dialog-content .file-rename-row input {
+    width:                          256px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}

@@ -1,0 +1,112 @@
+.dialog-background {
+    position:                       fixed;
+    top:                            0;
+    left:                           0;
+    right:                          0;
+    bottom:                         0;
+    z-index:                        51000;
+    padding:                        0;
+    margin:                         0;
+    background:                     rgba(0, 0, 0, 0);
+    transition:                     background 0.2s;
+}
+.dialog-background.show {
+    background:                     rgba(0, 0, 0, 0.5);
+}
+.dialog-background .dialog-center {
+    position:                       absolute;
+    left:                           0;
+    right:                          0;
+    top:                            50%;
+    width:                          100%;
+    height:                         50%;
+}
+.dialog-background .dialog-center .dialog-content {
+    overflow:                       hidden;
+    transform:                      scale(0.5, 0.25);
+    opacity:                        0;
+    transition:                     transform 0.2s, opacity 0.2s;
+}
+.dialog-background.show .dialog-center .dialog-content {
+    transform:                      scale(1, 1);
+    opacity:                        1;
+}
+.dialog-background .dialog-center .dialog-content .dialog-content-image {
+    position:                       absolute;
+    right:                          -192px;
+    bottom:                         -256px;
+    -webkit-user-select:            none;
+}
+.dialog-background .dialog-center .dialog-content .buttons {
+    position:                       absolute;
+    left:                           0;
+    bottom:                         0;
+    width:                          100%;
+    height:                         80px;
+    padding:                        16px 32px 0 32px;
+    -webkit-user-select:            none;
+}
+.dialog-background .dialog-center .dialog-content .buttons .dont-show-again {
+    float:                          right;
+}
+.dialog-background .dialog-center .dialog-content .buttons .dont-show-again a.checkbox,
+.dialog-background .dialog-center .dialog-content .buttons .dont-show-again span.dont-show-label {
+    float:                          left;
+}
+.dialog-background .dialog-center .dialog-content .buttons .dont-show-again a.checkbox {
+    margin:                         4px 4px 0 0;
+}
+.dialog-background .dialog-center .dialog-content .buttons .dont-show-again span.dont-show-label {
+    margin:                         4px 0 0 0;
+}
+.dialog-background .dialog-center .dialog-content .buttons input[type="button"].button {
+    float:                          left;
+    margin:                         0 8px 0 0;
+    min-width:                      80px;
+    height:                         32px;
+    text-align:                     center;
+    line-height:                    28px;
+}
+.dialog-background .dialog-center .dialog-content .dialog-title {
+    float:                          left;
+    position:                       relative;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         64px;
+    line-height:                    64px;
+    padding:                        0 0 0 32px;
+    margin:                         0;
+    font-family:                    latolight;
+    -webkit-user-select:            none;
+}
+.dialog-background .dialog-center .dialog-content .dialog-close,
+.dialog-background .dialog-center .dialog-content .dialog-help {
+    position:                       absolute;
+    width:                          32px;
+    height:                         32px;
+    right:                          32px;
+    top:                            16px;
+    border-radius:                  16px;
+    line-height:                    30px;
+    text-align:                     center;
+    font-size:                      24px;
+    cursor:                         pointer;
+    border:                         var(--ui-border3);
+    color:                          var(--ui-text2);
+    background-color:               var(--ui-background2);
+    opacity:                        0.5;
+    -webkit-user-select:            none;
+}
+.dialog-background .dialog-center .dialog-content .dialog-help {
+    right:                          68px;
+    font-family:                    "Arial Black";
+    font-weight:                    bold;
+}
+.dialog-background .dialog-center .dialog-content .dialog-close:hover,
+.dialog-background .dialog-center .dialog-content .dialog-help:hover {
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    transition:                     opacity 0.3s;
+    opacity:                        1;
+}

@@ -1,0 +1,188 @@
+/* Menu */
+body.ide .main-menu {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         40px;
+    background-color:               var(--main-menu-background);
+    padding:                        0 0 0 4px;
+    z-index:                        50010;
+    -webkit-user-select:            none;
+}
+body.ide .main-menu img {
+    float:                          left;
+    width:                          28px;
+    height:                         28px;
+    margin:                         6px 8px 0 8px;
+}
+body.ide .main-menu .main-menu-item {
+    float:                          left;
+    height:                         32px;
+    line-height:                    28px;
+    font-size:                      15px;
+    margin:                         4px 4px 0 0;
+    padding:                        0 4px 0 4px;
+    border:                         0;
+    background-color:               transparent;
+    color:                          var(--ui-text1);
+    cursor:                         pointer;
+}
+body.ide .main-menu .main-menu-item a {
+    border:                         0;
+    line-height:                    32px;
+    font-size:                      15px;
+    padding:                        0;
+    margin:                         0;
+    background-color:               transparent;
+    color:                          var(--main-menu-text);
+    outline:                        none;
+    text-decoration:                none;
+}
+body.ide .main-menu.alt-pressed .main-menu-item a .hotkey {
+    text-decoration:                underline;
+}
+body.ide .main-menu div.main-menu-item.visible {
+    background-color:               var(--ui-background1);
+}
+body.ide .main-menu div.main-menu-item.visible a {
+    color:                          var(--ui-text1);
+}
+
+.main-menu .main-menu-item {
+    position:                       relative;
+}
+.main-menu .main-menu-item.visible .menu {
+    display:                        block;
+}
+.menu::before {
+    position:                       absolute;
+    left:                           0px;
+    top:                            -2px;
+    width:                          100%;
+    height:                         2px;
+    content:                        " ";
+    background-color:               var(--ui-background1);
+}
+.menu {
+    display:                        none;
+    position:                       absolute;
+    min-width:                      128px;
+    top:                            32px;
+    left:                           0px;
+    background-color:               var(--ui-background1);
+    z-index:                        52000;
+    cursor:                         pointer;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.menu .menu-option {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    height:                         32px;
+    color:                          var(--ui-text1);
+    padding:                        2px 16px 2px 16px;
+    white-space:                    nowrap;
+}
+.menu .menu-option .title {
+    float: left;
+}
+.menu .menu-option .hotkey {
+    float: right;
+}
+.menu .menu-option.disabled {
+    color:                          var(--main-menu-disabled-text);
+    cursor:                         default;
+}
+.menu .menu-option.with-check {
+    padding:                        2px 16px 2px 40px;
+}
+.menu .menu-option.active {
+    background-color:               var(--ui-background5);
+}
+.menu .menu-option-separator {
+    float:                          left;
+    background-color:               var(--ui-background1);
+    width:                          100%;
+    height:                         13px;
+    margin:                         0;
+}
+.menu .menu-option-separator .line {
+    margin:                         6px 0 0 0;
+    background-color:               var(--ui-background5);
+    width:                          100%;
+    height:                         1px;
+    pointer-events:                 none;
+}
+.menu .menu-option.with-check.checked::before {
+    position:                       absolute;
+    left:                           16px;
+    top:                            2px;
+    content:                        "\2713";
+}
+
+/* Help */
+.main-menu .help {
+    position:                       relative;
+    float:                          right;
+    height:                         40px;
+    font-size:                      15px;
+}
+.main-menu .help span.label {
+    float:                          left;
+    height:                         40px;
+    margin:                         0 8px 0 0;
+    line-height:                    40px;
+    color:                          var(--color-white);
+    font-size:                      13px;
+}
+.main-menu .help input[type="text"] {
+    float:                          left;
+    outline:                        none;
+    width:                          96px;
+    height:                         24px;
+    font-size:                      15px;
+    margin:                         8px 8px 0 0;
+    padding:                        0 8px 0 8px;
+    border:                         var(--ui-border3);
+    border-radius:                  16px;
+}
+.main-menu .help .help-menu {
+    position:                       absolute;
+    min-width:                      200px;
+    top:                            36px;
+    right:                          8px;
+    max-height:                     512px;
+    background-color:               var(--ui-background1);
+    z-index:                        100;
+    cursor:                         pointer;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+    display:                        none;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.main-menu .help .help-category {
+    float:                          left;
+    width:                          100%;
+    height:                         32px;
+    line-height:                    32px;
+    padding:                        0 0 0 8px;
+    color:                          var(--color-white);
+    background-color:               var(--color-blue);
+    font-weight:                    bold;
+}
+.main-menu .help .help-menu-item {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    height:                         28px;
+    line-height:                    28px;
+    color:                          var(--ui-text1);
+    padding:                        0 16px 0 24px;
+    white-space:                    nowrap;
+    cursor:                         pointer;
+    outline:                        none;
+}
+.main-menu .help .help-menu-item:hover {
+    background-color:               var(--ui-background5);
+}

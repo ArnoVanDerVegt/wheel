@@ -1,0 +1,15 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+DATA8  gModScreenFill_8                                                 // Boolean, use fill for drawing
+DATA8  gModScreenFillColor_8                                            // Fill color, 0=WHITE, 1=BLACK
+DATA8  gModScreenTextSize_8                                             // Text align, 0=SMALL, 1=MEDIUM, 2=LARGE
+DATA8  gModScreenTextAlign_8                                            // Text align, 0=LEFT, 1=CENTER, 2=RIGHT
+DATA16 gModScreenCharSize_16                                            // Character size
+DATA8  gModScreenUpdated_8
+DATA32 gModScreenUpdateTime_32

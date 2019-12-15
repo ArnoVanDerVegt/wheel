@@ -1,0 +1,38 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Dice demo"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/bit.whl"
+#include "lib/screen.whl"
+#include "lib/button.whl"
+
+record Point
+    number x, y
+end
+
+Point points[7] = [{70, 44}, {70, 64}, {70, 84}, {90, 64}, {110, 44}, {110, 64}, {110, 84}]
+number dots[6] = [0b0001000, 0b1000001, 0b1001001, 0b1010101, 0b1011101, 0b1110111]
+
+proc drawDiceNumber(number dots)
+    number bit = 1
+    number bAnd
+    number b
+    setFill(TRUE)
+    for b = 0 to 6
+        setFillColor(toBit(bitAnd(dots, bit)))
+        drawCircle(points[b].x, points[b].y, 6)
+        bit *= 2
+    end
+end
+
+proc main()
+    clearConsole()
+    drawRect(55, 29, 70, 70)
+    repeat
+        drawDiceNumber(dots[random(0, 5)])
+        sleep(500)
+        waitForPress()
+    end
+end

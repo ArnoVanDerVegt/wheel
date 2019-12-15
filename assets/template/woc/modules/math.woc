@@ -1,0 +1,136 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@for round
+Round a value to the closest integer value.
+
+@example
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number a
+    number b
+
+    a = 0.6
+    ; b will be a rounded up to 1
+    b = round(a)
+
+    drawNumber(10, 10, a)
+    drawNumber(10, 30, b)
+
+    a = 2.4
+    ; b will be a rounded down to 2
+    b = round(a)
+    drawNumber(10, 60, a)
+    drawNumber(10, 80, b)
+    halt()
+end
+
+@for floor
+Round a value down to the closest integer value.
+
+@example
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number a
+    number b
+
+    a = 6.99
+    ; b will be a rounded down to 6
+    b = floor(a)
+
+    drawNumber(10, 10, a)
+    drawNumber(10, 30, b)
+
+    a = -2.4
+    ; b will be a rounded down to -3
+    b = floor(a)
+    drawNumber(10, 60, a)
+    drawNumber(10, 80, b)
+    halt()
+end
+
+@for ceil
+Round a value up to the closest integer value.
+
+@example
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number a
+    number b
+
+    a = 15.01
+    ; b will be a rounded up to 16
+    b = ceil(a)
+
+    drawNumber(10, 10, a)
+    drawNumber(10, 30, b)
+
+    a = -19.4
+    ; b will be a rounded up to -19
+    b = ceil(a)
+    drawNumber(10, 60, a)
+    drawNumber(10, 80, b)
+    halt()
+end
+
+@for abs
+Get the absolute value.
+
+@example
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number a
+    number b
+
+    a = -9
+    ; b will be the positive value of a (9)
+    b = abs(a)
+
+    drawNumber(10, 10, a)
+    drawNumber(10, 30, b)
+
+    a = 67
+    ; b will be the same value as a (67)
+    b = abs(a)
+    drawNumber(10, 60, a)
+    drawNumber(10, 80, b)
+    halt()
+end
+
+@for neg
+Get the negative value.
+
+@example
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number a
+    number b
+
+    a = -72
+    ; b will be the positive value of a (72)
+    b = neg(a)
+
+    drawNumber(10, 10, a)
+    drawNumber(10, 30, b)
+
+    a = 13
+    ; b will be the negative value of a (-13)
+    b = neg(a)
+    drawNumber(10, 60, a)
+    drawNumber(10, 80, b)
+    halt()
+end

@@ -1,0 +1,340 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall run {
+    DATA32 lRegCode_32
+loop:
+    CALL(readCommand)
+    CALL(runCommand)
+    CALL(readMem32, 4, 0, lRegCode_32)
+    ADD32(lRegCode_32, 1, lRegCode_32)
+    CALL(writeMem32, 4, 0, lRegCode_32)
+
+    JR_EQ8(gModScreenUpdated_8, 0, screen_not_updated)                  // Check if the screen needs an update
+    DATA32 lTime_32
+    TIMER_READ(lTime_32)
+    JR_LT32(lTime_32, gModScreenUpdateTime_32, screen_not_updated)
+    UI_DRAW(UPDATE)                                                     // Update screen every 100ms
+    MOVE32_32(lTime_32, gModScreenUpdateTime_32)
+    ADD32(gModScreenUpdateTime_32, 100, gModScreenUpdateTime_32)
+    MOVE8_8(0, gModScreenUpdated_8)
+screen_not_updated:
+
+    JR_LT32(lRegCode_32, gCommandCount_32, loop)
+}
+
+subcall runCommand {
+    DATA8  lFlags_8
+    DATA32 lRegCode_32
+    DATA32 lRegStack_32
+    DATA32 lRegPtr_32
+    DATA32 lRegSrc_32
+    DATA32 lRegDest_32
+    DATA32 lRegStackNew_32
+    DATA32 lParam1Offset_32
+    DATA32 lParam2Offset_32
+
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+
+    JR_EQ8(gType2_8, 2, param2_local)                                   // Param2 is local
+    JR_EQ8(gType2_8, 1, param2_global)                                  // Param2 is global
+    JR_EQ8(gType2_8, 3, param2_pointer)                                 // Param2 is pointer
+    MOVEF_F(gParam2_F, gParam2Value_F)                                  // gParam2Value_F = gParam2_F
+    JR(param2_fetched)
+param2_global:
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)               // gParam2Value_F = [#]
+    JR(param2_fetched)
+param2_pointer:
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+    ADD32(lParam2Offset_32, lRegPtr_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)               // gParam2Value_F = [POINTER + #]
+    JR(param2_fetched)
+param2_local:
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)               // gParam2Value_F = [STACK + #]
+param2_fetched:
+
+    JR_GT8(gCommand_8, 4, cmd_operator)                                 // Operator: set, add, sub, mul...
+    JR_LT8(gCommand_8, 2, cmd_call_ret)                                 // Call, ret...
+    JR_EQ8(gCommand_8, 4, cmd_mod)                                      // Module
+    JR_EQ8(gCommand_8, 3, cmd_jmpc)                                     // Jump conditional
+    JR_EQ8(gCommand_8, 2, cmd_copy)                                     // Copy
+    RETURN()
+
+cmd_copy:
+    DATA16 lIndex_16
+    DATA16 lCount_16
+    DATAF  lValue_F
+    CALL(readMem32, 1, 0, lRegSrc_32)
+    CALL(readMem32, 2, 0, lRegDest_32)
+    MOVEF_16(gParam2Value_F, lCount_16)
+    MOVE16_16(0, lIndex_16)
+cmd_copy_loop:
+    ARRAY_READ(gHeap_H, lRegSrc_32, lValue_F)
+    ARRAY_WRITE(gHeap_H, lRegDest_32, lValue_F)
+    ADD32(lRegSrc_32, 1, lRegSrc_32)
+    ADD32(lRegDest_32, 1, lRegDest_32)
+    ADD16(lIndex_16, 1, lIndex_16)
+    JR_LT16(lIndex_16, lCount_16, cmd_copy_loop)
+    RETURN()
+
+cmd_mod:
+    DATA8  lMod_8                                                       // The module to call
+    DATA8  lModCall_8                                                   // The procedure within the module
+
+    MOVEF_8(gParam1_F, lMod_8)
+    MOVEF_8(gParam2_F, lModCall_8)
+    CALL(cmdMod, lMod_8, lModCall_8)
+    RETURN()
+
+cmd_jmpc:
+    DATA8  lFlag_8
+
+    CALL(readMem8, 6, 0, lFlags_8)                                      // Read flags register from heap offset 6
+    MOVEF_8(gParam1_F, lFlag_8)                                         // Get the flag to compare from the first parameter
+    AND8(lFlags_8, lFlag_8, lFlags_8)                                   // lFlags_8 = lFlags_8 or lFlag_8
+    JR_NEQ8(lFlags_8, 0, cmd_jmpc_flag)
+    RETURN()
+cmd_jmpc_flag:
+    MOVEF_32(gParam2Value_F, lRegCode_32)
+    SUB32(lRegCode_32, 1, lRegCode_32)                                  // lRegCode_32 = lRegCode_32 - 1
+    CALL(writeMem32, 4, 0, lRegCode_32)                                 // Set the code register to the jump target
+    RETURN()
+
+cmd_call_ret:
+    JR_EQ8(gType1_8, 0, cmd_call_ret_param1_constant)                   // Param1 is constant
+    JR_EQ8(gType1_8, 2, cmd_call_ret_param1_local)                      // Param1 is local
+    JR_EQ8(gType1_8, 1, cmd_call_ret_param1_global)                     // Param1 is global
+    JR_EQ8(gType1_8, 3, cmd_call_ret_param1_pointer)                    // Param1 is pointer
+    RETURN()                                                            // INVALID!
+cmd_call_ret_param1_constant:
+    MOVEF_F(gParam1_F, gParam1Value_F)
+    JR(cmd_call_ret_param1_done)
+cmd_call_ret_param1_global:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+    JR(cmd_call_ret_param1_done)
+cmd_call_ret_param1_pointer:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+    ADD32(lParam1Offset_32, lRegPtr_32, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+    JR(cmd_call_ret_param1_done)
+cmd_call_ret_param1_local:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+cmd_call_ret_param1_done:
+
+    DATA32 lStackAlloc_32
+
+    JR_EQ8(gCommand_8, 1, cmd_ret)                                      // Ret
+    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
+    MOVEF_32(gParam2_F, lStackAlloc_32)                                 // Convert the needed stack size to int32
+    ADD32(lRegStack_32, lStackAlloc_32, lRegStackNew_32)
+    CALL(writeMem32, lRegStackNew_32, -1, lRegCode_32)                  // Save the code register on the stack
+    CALL(writeMem32, lRegStackNew_32, -2, lRegStack_32)                 // Save the stack register on the stack
+    CALL(writeMem32, 0, 0, lRegStackNew_32)                             // Update the stack register
+    CALL(writeMemF, 4, 0, gParam1Value_F)                               // Write the code register to heap offset 4
+    RETURN()
+
+cmd_ret:
+    CALL(readMem32, lRegStack_32, -2, lRegStackNew_32)
+    CALL(readMem32, lRegStack_32, -1, lRegCode_32)
+    CALL(writeMem32, 0, 0, lRegStackNew_32)                             // Set the return stack register value
+    CALL(writeMem32, 4, 0, lRegCode_32)                                 // Set the return code register value
+
+    JR_EQ8(gKeepRet_8, 1, cmd_ret_keep)
+    CALL(writeMemF, 5, 0, gParam1Value_F)                               // Set the return register
+    RETURN()
+cmd_ret_keep:
+    MOVE8_8(0, gKeepRet_8)
+    RETURN()
+
+cmd_operator:
+    DATA32 lParam1Offset_32
+    JR_EQ8(gType1_8, 2, param1_local)                                   // Param2 is local
+    JR_EQ8(gType1_8, 1, param1_global)                                  // Param2 is global
+    JR_EQ8(gType1_8, 3, param1_pointer)                                 // Param2 is pointer
+    RETURN()                                                            // INVALID!
+param1_global:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    JR(param1_done)
+param1_pointer:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+    ADD32(lParam1Offset_32, lRegPtr_32, lParam1Offset_32)
+    JR(param1_done)
+param1_local:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+param1_done:
+    JR_EQ8(gCommand_8, 5, cmd_set)                                      // Set, we don't read gParam1Value_F
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+    JR_EQ8(gCommand_8,  6, cmd_add)
+    JR_EQ8(gCommand_8,  7, cmd_sub)
+    JR_EQ8(gCommand_8,  8, cmd_mul)
+    JR_EQ8(gCommand_8,  9, cmd_div)
+    JR_EQ8(gCommand_8, 10, cmd_and)
+    JR_EQ8(gCommand_8, 11, cmd_or)
+    JR_EQ8(gCommand_8, 12, cmd_cmp)
+    JR_EQ8(gCommand_8, 13, cmd_setf)
+    JR_EQ8(gCommand_8, 14, cmd_sets)
+    JR_EQ8(gCommand_8, 15, cmd_adds)
+    RETURN()                                                            // INVALID!
+
+cmd_add:
+    ADDF(gParam1Value_F, gParam2Value_F, gParam2Value_F)
+    JR(param1_write)
+
+cmd_sub:
+    SUBF(gParam1Value_F, gParam2Value_F, gParam2Value_F)
+    JR(param1_write)
+
+cmd_mul:
+    MULF(gParam1Value_F, gParam2Value_F, gParam2Value_F)
+    JR(param1_write)
+
+cmd_div:
+    DIVF(gParam1Value_F, gParam2Value_F, gParam2Value_F)
+    JR(param1_write)
+
+cmd_and:
+    JR_EQF(gParam1Value_F, 0, cmd_and_not_true)
+    JR_EQF(gParam2Value_F, 0, cmd_and_not_true)
+    MOVEF_F(1, gParam2Value_F)
+    JR(param1_write)
+cmd_and_not_true:
+    MOVEF_F(0, gParam2Value_F)
+    JR(param1_write)
+
+cmd_or:
+    JR_NEQF(gParam1Value_F, 0, cmd_or_true)
+    JR_NEQF(gParam2Value_F, 0, cmd_or_true)
+    MOVEF_F(0, gParam2Value_F)
+    JR(param1_write)
+cmd_or_true:
+    MOVEF_F(1, gParam2Value_F)
+    JR(param1_write)
+
+cmd_cmp:
+    MOVE8_8(0, lFlags_8)                                                // Set the flags to 0
+    JR_EQF(gParam1Value_F, gParam2Value_F, cmd_cmp_eq)
+    OR8(lFlags_8,  2, lFlags_8)                                         // Set not equal flag
+    JR_LTF(gParam1Value_F, gParam2Value_F, cmd_cmp_lt)
+    OR8(lFlags_8, 48, lFlags_8)                                         // Set greater/greater_equal flag
+    JR(cmd_cmp_eq_done)
+cmd_cmp_lt:
+    OR8(lFlags_8, 12, lFlags_8)                                         // Set less/less_equal flag
+    JR(cmd_cmp_eq_done)
+cmd_cmp_eq:
+    OR8(lFlags_8, 41, lFlags_8)                                         // Set equal/greater_equal/less_equal flag
+cmd_cmp_eq_done:
+    CALL(writeMem8, 6, 0, lFlags_8)                                     // Write the flags register to the heap
+    RETURN()
+
+cmd_setf:
+    CALL(readMem8, 6, 0, lFlags_8)                                      // Read flags register from heap offset 6
+    DATA8 lFlag_8
+    MOVEF_8(gParam2_F, lFlag_8)
+    AND8(lFlags_8, lFlag_8, lFlag_8)                                    // lFlag_8 = lFlags_8 & lFlag_8
+    MOVE8_F(lFlag_8, gParam2Value_F)
+    JR(param1_write)
+
+cmd_sets:
+    JR_EQ8(gType1_8, 0, cmd_sets_param1_constant)                       // Param1 is constant
+    JR_EQ8(gType1_8, 2, cmd_sets_param1_local)                          // Param1 is local
+    JR_EQ8(gType1_8, 1, cmd_sets_param1_global)                         // Param1 is global
+    JR_EQ8(gType1_8, 3, cmd_sets_param1_pointer)                        // Param1 is pointer
+    RETURN()                                                            // INVALID!
+cmd_sets_param1_constant:
+    MOVEF_F(gParam1_F, gParam1Value_F)
+    JR(cmd_sets_param1_done)
+cmd_sets_param1_global:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+    JR(cmd_sets_param1_done)
+cmd_sets_param1_pointer:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    CALL(readMem32, 3, 0, lRegPtr_32)                                   // Read pointer register from heap offset 3
+    ADD32(lParam1Offset_32, lRegPtr_32, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+    JR(cmd_sets_param1_done)
+cmd_sets_param1_local:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
+cmd_sets_param1_done:
+    DATA32 lStringOffset1_32
+    DATA32 lStringOffset2_32
+    DATA8  lStringLength_8
+    DATA8  lStringIndex_8
+    DATA8  lChar_8
+    MOVEF_32(gParam1Value_F, lStringOffset1_32)
+    MOVEF_32(gParam2Value_F, lStringOffset2_32)
+
+    MUL32(lStringOffset1_32, gStringDataSize_32, lStringOffset1_32)
+    MUL32(lStringOffset2_32, gStringDataSize_32, lStringOffset2_32)
+    ARRAY_READ(gStrings_H, lStringOffset2_32, lStringLength_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset1_32, lStringLength_8)
+    MOVE8_8(0, lStringIndex_8)
+cmd_sets_loop:
+    ADD32(lStringOffset1_32, 1, lStringOffset1_32)
+    ADD32(lStringOffset2_32, 1, lStringOffset2_32)
+    ARRAY_READ(gStrings_H, lStringOffset2_32, lChar_8)
+    ARRAY_WRITE(gStrings_H, lStringOffset1_32, lChar_8)
+    ADD8(lStringIndex_8, 1, lStringIndex_8)
+    JR_LT8(lStringIndex_8, lStringLength_8, cmd_sets_loop)
+    RETURN()
+
+cmd_adds:
+    CALL(cmdAddS)
+    RETURN()
+cmd_set:
+param1_write:
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam2Value_F)
+}
+
+subcall cmdAddS {                                                       // Todo: max string length check!!!
+    DATA32 lSrcStringOffset_32
+    DATA8  lSrcStringLength_8
+    DATA32 lDestStringOffset_32
+    DATA8  lDestStringLength_8
+    DATA8  lStringLength_8
+    DATA32 lOffset_32
+    DATA8  lChar_8
+    DATA8  lIndex_8
+
+    MOVEF_32(gParam2Value_F, lSrcStringOffset_32)
+    MUL32(lSrcStringOffset_32, gStringDataSize_32, lSrcStringOffset_32)
+    ARRAY_READ(gStrings_H, lSrcStringOffset_32, lSrcStringLength_8)
+
+    MOVEF_32(gParam1Value_F, lDestStringOffset_32)
+    MUL32(lDestStringOffset_32, gStringDataSize_32, lDestStringOffset_32)
+    ARRAY_READ(gStrings_H, lDestStringOffset_32, lDestStringLength_8)
+
+    ADD8(lSrcStringLength_8, lDestStringLength_8, lStringLength_8)      ; New string length = src length + dest length
+    ARRAY_WRITE(gStrings_H, lDestStringOffset_32, lStringLength_8)
+
+    MOVE8_32(lDestStringLength_8, lOffset_32)
+    ADD32(lDestStringOffset_32, lOffset_32, lDestStringOffset_32)       ; Dest offset = dest offset + src length
+
+    MOVE8_8(0, lIndex_8)
+loop:
+    ADD32(lSrcStringOffset_32, 1, lSrcStringOffset_32)
+    ADD32(lDestStringOffset_32, 1, lDestStringOffset_32)
+
+    ARRAY_READ(gStrings_H, lSrcStringOffset_32, lChar_8)
+    ARRAY_WRITE(gStrings_H, lDestStringOffset_32, lChar_8)
+
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, lSrcStringLength_8, loop)
+}

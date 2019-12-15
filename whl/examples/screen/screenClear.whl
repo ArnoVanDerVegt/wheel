@@ -1,8 +1,0 @@
-#include "whl/lib/screen.whl"
-
-proc main()
-    clearScreen()
-
-    repeat
-    end
-endp

@@ -1,0 +1,6 @@
+<svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="8,0 30,0 40,10 40,48 8,48" style="stroke:rgb(142,68,173);stroke-width:1" stroke-linejoin="round" fill="rgb(155,89,182)" />
+    <polygon points="30,0 30,10 40,10" style="stroke:rgba(255,255,255,0.5);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.5)" />
+    <polygon points="20,18 24,18 28,14 28,28 24,24 20,24" style="stroke:rgb(255,255,255);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.6)" />
+    <text x="24" y="39" text-anchor="middle" font-family="latolight, Arial" style="font-size:11px;stroke:rgb(255,255,255);fill:rgb(255,255,255);">RSF</text>
+</svg>

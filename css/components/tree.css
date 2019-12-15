@@ -1,0 +1,33 @@
+.tree {
+    float:                          left;
+}
+.tree .node {
+    float:                          left;
+    clear:                          both;
+}
+.tree .node .node-title,
+.tree .node .node-content {
+    float:                          left;
+    clear:                          both;
+    -webkit-user-select:            none;
+}
+.tree .node .node-title.with-children {
+    cursor:                         pointer;
+}
+.tree .node .node-title .node-option,
+.tree .node .node-title .node-title-text {
+    float:                          left;
+    height:                         20px;
+    line-height:                    20px;
+    font-size:                      13px;
+    -webkit-user-select:            none;
+}
+.tree .node .node-title .node-title-text span {
+    float:                          left;
+}
+.tree .node .node-title .node-option {
+    font-size:                      9px;
+    margin:                         0 4px 0 0;
+    width:                          16px;
+    text-align:                     center;
+}

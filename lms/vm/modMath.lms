@@ -1,0 +1,166 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modMath {                                                       // 01) MATH
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATAF  lI_F
+    DATAF  lJ_F
+    DATAF  lK_F
+    DATA16 lX_16
+    DATA16 lY_16
+    DATA16 lZ_16
+    DATA32 lQ_32
+    DATA32 lR_32
+    DATA32 lS_32
+
+    JR_EQ8(pModCall_8,  0, mod_math_round)
+    JR_EQ8(pModCall_8,  1, mod_math_floor)
+    JR_EQ8(pModCall_8,  2, mod_math_ceil)
+    JR_EQ8(pModCall_8,  3, mod_math_abs)
+    JR_EQ8(pModCall_8,  4, mod_math_neg)
+    JR_EQ8(pModCall_8,  5, mod_math_random)
+    JR_EQ8(pModCall_8,  6, mod_math_sin)
+    JR_EQ8(pModCall_8,  7, mod_math_cos)
+    JR_EQ8(pModCall_8,  8, mod_math_tan)
+    JR_EQ8(pModCall_8,  9, mod_math_asin)
+    JR_EQ8(pModCall_8, 10, mod_math_acos)
+    JR_EQ8(pModCall_8, 11, mod_math_atan)
+    JR_EQ8(pModCall_8, 12, mod_math_remainder)
+    JR_EQ8(pModCall_8, 13, mod_math_exp)
+    JR_EQ8(pModCall_8, 14, mod_math_sqrt)
+    JR_EQ8(pModCall_8, 15, mod_math_log)
+    JR_EQ8(pModCall_8, 16, mod_math_pow)
+    JR_EQ8(pModCall_8, 17, mod_math_odd)
+    JR_EQ8(pModCall_8, 18, mod_math_even)
+    RETURN()
+
+mod_math_round:                                                         // 00) mathRound
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(ROUND, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_floor:                                                         // 01) mathFloor
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(FLOOR, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_ceil:                                                          // 02) mathCeil
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(CEIL, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_abs:                                                           // 03) mathAbs
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(ABS, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_neg:                                                           // 04) mathNeg
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(NEGATE, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_random:                                                        // 05) mathRandom
+    CALL(readMem16, pRegSrc_32, 0, lX_16)
+    CALL(readMem16, pRegSrc_32, 1, lY_16)
+    RANDOM(lX_16, lY_16, lZ_16)
+    CALL(setRet16AndKeep, lZ_16)
+    RETURN()
+
+mod_math_sin:                                                           // 06) mathSin
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MULF(lI_F, 57.29577951308232F, lI_F)
+    MATH(SIN, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_cos:                                                           // 07) mathCos
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MULF(lI_F, 57.29577951308232F, lI_F)
+    MATH(COS, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_tan:                                                           // 08) mathTan
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MULF(lI_F, 57.29577951308232F, lI_F)
+    MATH(TAN, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_asin:                                                          // 09) mathASin
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(ASIN, lI_F, lI_F)
+    DIVF(lI_F, 57.29577951308232F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_acos:                                                          // 10) mathACos
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(ACOS, lI_F, lI_F)
+    DIVF(lI_F, 57.29577951308232F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_atan:                                                          // 11) mathATan
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(ATAN, lI_F, lI_F)
+    DIVF(lI_F, 57.29577951308232F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_remainder:                                                     // 12) mathRemainder
+    CALL(readMem32, pRegSrc_32, 0, lQ_32)
+    CALL(readMem32, pRegSrc_32, 1, lR_32)
+    MATH(MOD32, lQ_32, lR_32, lS_32)
+    CALL(setRet32AndKeep, lS_32)
+    RETURN()
+
+mod_math_exp:                                                           // 13) mathExp
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(EXP, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_sqrt:                                                          // 14) mathSqrt
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(SQRT, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_log:                                                           // 15) mathLog
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    MATH(LOG, lI_F, lI_F)
+    CALL(setRetFAndKeep, lI_F)
+    RETURN()
+
+mod_math_pow:                                                           // 16) mathPow
+    CALL(readMemF, pRegSrc_32, 0, lI_F)
+    CALL(readMemF, pRegSrc_32, 1, lJ_F)
+    MATH(POW, lI_F, lJ_F, lK_F)
+    CALL(setRetFAndKeep, lK_F)
+    RETURN()
+
+mod_math_odd:                                                           // 19) odd
+    CALL(readMem32, pRegSrc_32, 0, lQ_32)
+    AND16(lQ_32, 1, lR_32)
+    CALL(setRet32AndKeep, lR_32)
+    RETURN()
+
+mod_math_even:                                                          // 20) even
+    CALL(readMem32, pRegSrc_32, 0, lQ_32)
+    ADD16(lQ_32, 1, lQ_32)
+    AND16(lQ_32, 1, lQ_32)
+    CALL(setRet32AndKeep, lQ_32)
+    RETURN()
+}

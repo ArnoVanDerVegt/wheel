@@ -1,0 +1,33 @@
+; @module Light
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The light module.
+#define MODULE_LIGHT      	3
+
+; @const Module call to control the light.
+#define LIGHT_UPDATE      	0
+
+; @const Light colors.
+#define LIGHT_OFF         	0
+#define LIGHT_GREEN       	1
+#define LIGHT_RED         	2
+#define LIGHT_ORANGE      	3
+
+#define LIGHT_OFF          	0
+#define LIGHT_GREEN        	1
+#define LIGHT_RED          	2
+#define LIGHT_ORANGE       	3
+#define LIGHT_GREEN_FLASH  	4
+#define LIGHT_RED_FLASH    	5
+#define LIGHT_ORANGE_FLASH 	6
+#define LIGHT_GREEN_PULSE  	7
+#define LIGHT_RED_PULSE    	8
+#define LIGHT_ORANGE_PULSE 	9
+
+; @proc          Turn the light on or off.
+; @param mode    The color and pattern.
+proc light(number mode)
+    addr mode
+    mod  MODULE_LIGHT, LIGHT_UPDATE
+end

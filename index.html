@@ -4,187 +4,103 @@
 <head>
     <meta charset="utf-8"/>
     <title>Wheel</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
-    <link href="css/wheel.css" rel="stylesheet">
-    <link href="css/simulator.css" rel="stylesheet">
-
-    <script src="js/utils/require.js"></script>
-    <script src="js/utils/base.js"></script>
-
-    <script src="js/utils/syntax.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="css/fonts.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
 </head>
 
-<body class="home">
+<body>
     <div class="header">
-        <div class="container">
+        <div class="header-center">
+            <h2>
+                <img src="/assets/images/logos/wheelSite.svg" width="40"/>
+                <span>Wheel IDE</span>
+            </h2>
+            <a href="site/ide/ide.html" class="start">Online demo &raquo;</a>
             <ul>
-                <li class="wheel"><a href="index.html">Wheel</a></li>
-                <li><a href="site/examples/index.html">Examples</a></li>
-                <li><a href="site/docs/index.html">Documentation</a></li>
-                <li><a href="site/modules/index.html">Modules</a></li>
-                <li><a href="site/simulator/index.html">Simulator</a></li>
+                <li><a href="site/source.html">Source</a></li>
+                <li><a href="site/screenshots.html">Screenshots</a></li>
+                <li><a href="site/install.html">Install</a></li>
             </ul>
-            <a href="https://github.com/ArnoVanDerVegt/wheel" class="download">
-                <span>Download</span><img src="site/images/github.svg"/>
-            </a>
         </div>
     </div>
-
-    <div class="sub-header">
-        <div class="container">
-            <img src="site/images/vm.png" class="header-image"/>
+    <div class="content-center">
+        <div class="content">
             <h1>Wheel</h1>
-            <h2>A text based language to run in an EV3 block.</h2>
+            <div class="two-thirds">
+                <p>
+                    Wheel is an IDE to build applications for the EV3.
+                    With Wheel you can create text based programs in a simple Pascal/Basic like language,
+                    compile them and run on your EV3 brick. You don't have to install different firmware or use a micro SD card.
+                </p>
+                <p>
+                    When you install Wheel you don't have to install the LabView or Scratch applications to compile and upload programs.
+                </p>
+                <p>
+                    Wheel is open source. The IDE and compiler are written in JavaScript.
+                </p>
+            </div>
+            <div class="third">
+                <img src="images/ev3.png" width="100%"/>
+            </div>
+            <div class="breaker"></div>
+            <div class="full">
+                <a href="site/install.html" class="start green">Install Wheel for MacOS or Windows &raquo;</a>
+            </div>
+            <div class="full screenshot">
+                <img src="images/screenshot03.png"/>
+            </div>
+            <div class="breaker"></div>
+            <div class="third first">
+                <div class="box-content fixed-height">
+                    <h2>IDE Features</h2>
+                    <ul>
+                        <li>Works with standard firmware!</li>
+                        <li>Highlight source code editor</li>
+                        <li>Code completion</li>
+                        <li>Code hints</li>
+                        <li>Breakpoints</li>
+                        <li>Debugger, variable inspector</li>
+                        <li>Image editor</li>
+                        <li>Sound editor</li>
+                        <li>Direct motor control</li>
+                        <li>EV3 File browser</li>
+                        <li>Help files</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="third">
+                <div class="box-content fixed-height">
+                    <h2>Language Features</h2>
+                    <ul>
+                        <li>Text based language</li>
+                        <li>Procedural</li>
+                        <li>Number, struct, string and pointer types</li>
+                        <li>Include files</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="third last">
+                <div class="box-content fixed-height">
+                    <h2>Simulator Features</h2>
+                    <ul>
+                        <li>Direct motor control</li>
+                        <li>Display</li>
+                        <li>View motor status</li>
+                        <li>View sensor status</li>
+                        <li>Simulate sensor input</li>
+                        <li>Read button input</li>
+                        <li>Connect to brick</li>
+                        <li>Supports daisy chaining</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="breaker"></div>
         </div>
-    </div>
-
-    <div class="content">
-        <div class="container">
-            <div class="three first">
-                <h2>About Wheel</h2>
-                <p class="clear">
-                    The Wheel compiler and VM are my little side project, the goal of this project is to create a tool which allows you to
-                    combine a scripting language with the existing EV3 blocks.<br/>
-                    <br/>
-                </p>
-                <p class="clear">
-                    Wheel is a small procedural text based language. The code can be compiled to a .rtf file which can
-                    be executed with an EV3 block.
-                </p>
-                <p class="clear">
-                    Wheel can be easily connected to existing blocks.<br/>
-                    <br/>
-                </p>
-                <h3 class="clear">Features:</h3>
-                <ul class="clear">
-                    <li>Text based</li>
-                    <li>Array, record, pointer types</li>
-                    <li>Include files</li>
-                </ul>
-                <p class="clear">
-                    <br/>
-                </p>
-            </div>
-            <div class="three center">
-                <h2>Code</h2>
-                <pre class="top clear">
-                    #include "lib/screen.whl"
-
-                    proc main()
-                        clearScreen()
-
-                        number i
-
-                        for i = 0 to 10
-                            number x
-                            number y
-
-                            x = i * 20
-                            y = i * 12
-                            drawNumber(x, y, i)
-                        end
-                    end
-                </pre>
-            </div>
-            <div class="three last">
-                <h2>Getting started</h2>
-                <p class="clear">
-                    To get started you need the following software installed:<br/>
-                    <br/>
-                </p>
-                <ul class="clear">
-                    <li><a href="https://nodejs.org/en/">nodejs</a></li>
-                    <li><a href="https://www.lego.com/en-us/mindstorms/downloads/download-software">Mindstorms EV3 software</a></li>
-                </ul>
-                <p class="clear">
-                    When you've downloaded and installed the application you can compile a file with the following command:<br/>
-                    <br/>
-                    <b>node wheel.js filename.whl</b><br/>
-                    <br/>
-                </p>
-                <img src="site/images/ev3.png" style="float:left;width:100%;margin-top:32px;"/>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-
-            <div class="three first">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/display.png" width="32" height="32"/> <span>Examples</span></h3>
-                <div class="index-links">
-                    <div class="half">
-                        <p>
-                            <a href="site/examples/screen.html">Screen</a>
-                            <a href="site/examples/math.html">Math</a>
-                            <a href="site/examples/light.html">Light</a>
-                            <a href="site/examples/buttons.html">Buttons</a>
-                            <a href="site/examples/sound.html">Sound</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="three center">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/test.png" width="32" height="32"/> <span>Documentation</span></h3>
-                <div class="index-links">
-                    <div class="half">
-                        <p>
-                            <a href="site/docs/syntax.html">Syntax</a>
-                            <a href="site/docs/variables.html">Variables</a>
-                            <a href="site/docs/loops.html">Loops</a>
-                            <a href="site/docs/conditions.html">Conditions</a>
-                            <a href="site/docs/procedures.html">Procedures</a>
-                        </p>
-                    </div>
-                    <div class="half">
-                        <p>
-                            <a href="site/docs/compiler.html">Compiler</a>
-                            <a href="site/docs/vm.html">VM</a>
-                            <a href="site/docs/modules.html">Modules</a>
-                            <a href="site/docs/fileformat.html">File format</a>
-                            <a href="site/docs/errors.html">Compiler errors</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="three last">
-                <h3 class="dark-blue with-icon"><img src="site/images/icons/play.png" width="32" height="32"/> <span>Modules</span></h3>
-                <div class="index-links">
-                    <div class="half">
-                        <p>
-                            <a href="site/modules/standard.html">Standard</a>
-                            <a href="site/modules/screen.html">Screen</a>
-                            <a href="site/modules/motor.html">Motor</a>
-                            <a href="site/modules/sensor.html">Sensor</a>
-                            <a href="site/modules/math.html">Math</a>
-                        </p>
-                    </div>
-                    <div class="half">
-                        <p>
-                            <a href="site/modules/light.html">Light</a>
-                            <a href="site/modules/buttons.html">Buttons</a>
-                            <a href="site/modules/sound.html">Sound</a>
-                            &nbsp;<br/>
-                            &nbsp;<br/>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div style="float:left;clear:both;"></div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <div class="links-wrapper">
-                <div class="links">
-                    <a href="site/license.html">License</a>
-                    <a href="site/disclaimer.html">Disclaimer</a>
-                </div>
-            </div>
-            <span class="copyright">Copyright Ⓒ 2017 Arno van der Vegt</span>
-            <a href="https://www.codacy.com/app/ArnoVanDerVegt/wheel?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ArnoVanDerVegt/wheel&amp;utm_campaign=Badge_Coverage"><img src="https://api.codacy.com/project/badge/Coverage/4466f90ab2274801b7b088c8f661e6a3" class="badge"/></a>
-            <a href="https://www.codacy.com/app/ArnoVanDerVegt/wheel?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ArnoVanDerVegt/wheel&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/4466f90ab2274801b7b088c8f661e6a3" class="badge"/></a>
+        <div class="footer">
             <img src="https://api.travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" class="badge"/>
+            <a href="site/license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
         </div>
     </div>
 </body>
