@@ -58,7 +58,9 @@ const createWindow = function() {
                         ]
                     }
                 ]);
-            Menu.setApplicationMenu(menu);
+            if (app.isPackaged) {
+                Menu.setApplicationMenu(menu);
+            }
         } else {
             mainWindow.setMenu(null);
         }

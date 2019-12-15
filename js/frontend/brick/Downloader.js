@@ -88,18 +88,18 @@ exports.Downloader = class {
         );
     }
 
-    _createRemoteDirectory(opts, callback) {
+    _createRemoteDirectory(opts) {
         opts.brick.createDir(
             path.join(opts.remotePath, opts.remoteDirectory),
-            function() {
+            (function() {
                 opts.onCreatedDirectory();
-                callback();
-            }
+                this._downloadVM(opts);
+            }).bind(this)
         );
     }
 
     _waitAfterStopPolling(opts) {
-        setTimeout(this._downloadVM.bind(this, opts), 250);
+        setTimeout(this._createRemoteDirectory.bind(this, opts), 250);
     }
 
     download(opts) {
