@@ -225,7 +225,6 @@ exports.ev3Routes = {
     },
     setMode(req, res) {
         let body = req.body;
-        console.log(body.layer, body.port, body.mode);
         getBrick().setMode(body.layer, body.port, body.mode);
         res.send(JSON.stringify({success: true}));
     }

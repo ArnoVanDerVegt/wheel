@@ -28,7 +28,6 @@ exports.StandardModule = class extends VMModule {
                 break;
             case standardModuleConstants.STANDARD_PRINT_STRING:
                 let printString = vmData.getRecordFromAtOffset(['s']);
-                console.log(utils.sanitizeString(vmData.getStringList()[printString.s]));
                 this.emit(
                     'Console.Log',
                     {

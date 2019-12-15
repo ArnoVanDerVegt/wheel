@@ -154,10 +154,10 @@ describe(
                             ];
                         let info = testCompile(source);
                         let m    = false;
-                        dispatcher.on('Console.Log', this, function(message) {
-                            m = message;
+                        info.modules[0].on('Console.Log', this, function(opts) {
+                            m = opts.message;
                         });
-                        dispatcher.on('Breakpoint', this, function(breakpoint) {
+                        dispatcher.on('VM.Breakpoint', this, function(vm, breakpoint) {
                             assert.equal(breakpoint.test, true);
                             info.vm.continueAfterBreakpoint(breakpoint);
                         });
