@@ -221,7 +221,7 @@ describe(
         );
         it(
             'Should include',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
                             function() {
@@ -279,25 +279,28 @@ describe(
                         sortedFiles.forEach(function(sortedFile) {
                             files.push(sortedFile.filename);
                         });
-                        assert.deepEqual(files, ['test2.whl', 'test1.whl', 'main.whl']);
-                        let logs = [];
-                        dispatcher.on(
-                            'Log',
+                        assert.deepEqual(files, ['/test1.whl', '/test2.whl', '/main.whl']);
+                        let logs    = [];
+                        let modules = createModules(vm);
+                        vm.setModules(modules);
+                        modules[0].on(
+                            'Console.Log',
                             this,
-                            function(message) {
-                                logs.push(message);
+                            function(opts) {
+                                logs.push(opts.message);
                             }
                         );
-                        vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
+                        console.log('logs:', logs);
                         assert.deepEqual(logs, [456, 789]);
+                        done();
                     };
                 preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
             }
         );
         it(
             'Should create image',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         callback([
                             '#image "image.rgf"',
@@ -334,6 +337,7 @@ describe(
                             });
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
+                        done();
                     };
                 preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
             }
