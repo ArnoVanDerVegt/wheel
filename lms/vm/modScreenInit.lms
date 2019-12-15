@@ -1,0 +1,18 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modScreenInit {
+    UI_DRAW(FILLWINDOW, 0x00, 0, 0)                                     //  Clear screen
+    UI_DRAW(UPDATE)                                                     //  Update the screen
+
+    MOVE8_8(0, gModScreenUpdated_8)
+    MOVE32_32(0, gModScreenUpdateTime_32)
+    MOVE8_8(0, gModScreenFill_8)
+    MOVE8_8(1, gModScreenFillColor_8)
+    MOVE16_16(8, gModScreenCharSize_16)
+}

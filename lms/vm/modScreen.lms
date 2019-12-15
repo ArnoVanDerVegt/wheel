@@ -1,0 +1,152 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modScreen {                                                     // 02) SCREEN
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA16 lX1_16
+    DATA16 lY1_16
+    DATA16 lX2_16
+    DATA16 lY2_16
+    DATAF  lN_F
+    DATA16 lWidth_16
+    DATA16 lHeight_16
+    DATA16 lRadius_16
+    DATA8  lString_H
+    DATA16 lStringIndex_16
+    DATA8  lStringLength_8
+    DATA16 lStringLength_16
+
+    MOVE8_8(1, gModScreenUpdated_8)
+
+    JR_EQ8(pModCall_8,  0, mod_screen_clear)
+    JR_EQ8(pModCall_8,  1, mod_screen_fill)
+    JR_EQ8(pModCall_8,  2, mod_screen_fill_color)
+    JR_EQ8(pModCall_8,  3, mod_screen_text_size)
+    JR_EQ8(pModCall_8,  4, mod_screen_text_align)
+    JR_EQ8(pModCall_8,  5, mod_screen_draw_pixel)
+    JR_EQ8(pModCall_8,  6, mod_screen_draw_number)
+    JR_EQ8(pModCall_8,  7, mod_screen_draw_text)
+    JR_EQ8(pModCall_8,  8, mod_screen_draw_line)
+    JR_EQ8(pModCall_8,  9, mod_screen_draw_rect)
+    JR_EQ8(pModCall_8, 10, mod_screen_draw_circle)
+    JR_EQ8(pModCall_8, 11, mod_screen_draw_image)
+    RETURN()
+
+mod_screen_clear:                                                       // 00) screenClear
+    UI_DRAW(FILLWINDOW, 0x00, 0, 0)
+    RETURN()
+
+mod_screen_fill:                                                        // 01) screenFill
+    CALL(readMem8, pRegSrc_32, 0, gModScreenFill_8)
+    RETURN()
+
+mod_screen_fill_color:                                                  // 02) screenFillColor
+    CALL(readMem8, pRegSrc_32, 0, gModScreenFillColor_8)
+    UI_DRAW(UPDATE)
+    RETURN()
+
+mod_screen_text_size:                                                   // 03) screenTextSize
+    CALL(readMem8, pRegSrc_32, 0, gModScreenTextSize_8)
+    JR_EQ8(gModScreenTextSize_8, 2, mod_screen_text_size2)
+    MOVE16_16(8, gModScreenCharSize_16)
+    RETURN()
+mod_screen_text_size2:
+    MOVE16_16(16, gModScreenCharSize_16)
+    RETURN()
+
+mod_screen_text_align:                                                  // 04) screenTextAlign
+    CALL(readMem8, pRegSrc_32, 0, gModScreenTextAlign_8)
+    RETURN()
+
+mod_screen_draw_pixel:                                                  // 05) screenDrawPixel
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    UI_DRAW(PIXEL, gModScreenFillColor_8, lX1_16, lY1_16)
+    RETURN()
+
+mod_screen_draw_number:                                                 // 06) screenDrawNumber
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMemF, pRegSrc_32, 2, lN_F)
+
+    STRINGS(VALUE_TO_STRING, lN_F, -16, 4, @gString_H)
+
+    JR_EQ8(gModScreenTextAlign_8, 0, mod_screen_draw_number_align_done) // Align the text...
+    STRINGS(GET_SIZE, @gString_H, lStringLength_16)
+    MUL16(lStringLength_16, gModScreenCharSize_16, lStringLength_16)
+    JR_EQ8(gModScreenTextAlign_8, 2, mod_screen_draw_number_align_right)
+    DIV16(lStringLength_16, 2, lStringLength_16)                        // Align center
+mod_screen_draw_number_align_right:
+    SUB16(lX1_16, lStringLength_16, lX1_16)                             // Align right
+mod_screen_draw_number_align_done:
+
+    UI_DRAW(SELECT_FONT, gModScreenTextSize_8)
+    UI_DRAW(TEXT, gModScreenFillColor_8, lX1_16, lY1_16, @gString_H)
+    RETURN()
+
+mod_screen_draw_text:                                                   // 07) screenDrawNumber
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMem16, pRegSrc_32, 2, lStringIndex_16)                     // Read the pointer to string
+
+    JR_EQ8(gModScreenTextAlign_8, 0, mod_screen_draw_text_align_done)   // Align the text...
+    CALL(readStringLength, lStringIndex_16, lStringLength_8)
+    MOVE8_16(lStringLength_8, lStringLength_16)
+    MUL16(lStringLength_16, gModScreenCharSize_16, lStringLength_16)
+    JR_EQ8(gModScreenTextAlign_8, 2, mod_screen_draw_text_align_right)
+    DIV16(lStringLength_16, 2, lStringLength_16)                        // Align center
+mod_screen_draw_text_align_right:
+    SUB16(lX1_16, lStringLength_16, lX1_16)                             // Align right
+mod_screen_draw_text_align_done:
+
+    CALL(readString, lStringIndex_16)                                   // Read the string
+    UI_DRAW(SELECT_FONT, gModScreenTextSize_8)
+    UI_DRAW(TEXT, gModScreenFillColor_8, lX1_16, lY1_16, @gString_H)
+    RETURN()
+
+mod_screen_draw_line:                                                   // 08) screenDrawLine
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMem16, pRegSrc_32, 2, lX2_16)
+    CALL(readMem16, pRegSrc_32, 3, lY2_16)
+    UI_DRAW(LINE, gModScreenFillColor_8, lX1_16, lY1_16, lX2_16, lY2_16)
+    RETURN()
+
+mod_screen_draw_rect:                                                   // 09) screenDrawRect
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMem16, pRegSrc_32, 2, lWidth_16)
+    CALL(readMem16, pRegSrc_32, 3, lHeight_16)
+    JR_NEQ8(gModScreenFill_8, 0, mod_screen_draw_fillrect)
+    UI_DRAW(RECT, gModScreenFillColor_8, lX1_16, lY1_16, lWidth_16, lHeight_16)
+    RETURN()
+
+mod_screen_draw_fillrect:
+    UI_DRAW(FILLRECT, gModScreenFillColor_8, lX1_16, lY1_16, lWidth_16, lHeight_16)
+    RETURN()
+
+mod_screen_draw_circle:                                                 // 10) screenDrawCircle
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMem16, pRegSrc_32, 2, lRadius_16)
+    JR_NEQ8(gModScreenFill_8, 0, mod_screen_draw_fillcircle)
+    UI_DRAW(CIRCLE, gModScreenFillColor_8, lX1_16, lY1_16, lRadius_16)
+    RETURN()
+
+mod_screen_draw_fillcircle:
+    UI_DRAW(FILLCIRCLE, gModScreenFillColor_8, lX1_16, lY1_16, lRadius_16)
+    RETURN()
+
+mod_screen_draw_image:                                                  // 11) screenDrawImage
+    CALL(readMem16, pRegSrc_32, 0, lX1_16)
+    CALL(readMem16, pRegSrc_32, 1, lY1_16)
+    CALL(readMem16, pRegSrc_32, 2, lStringIndex_16)
+    CALL(readString, lStringIndex_16)
+    UI_DRAW(BMPFILE, gModScreenFillColor_8, lX1_16, lY1_16, @gString_H)
+}

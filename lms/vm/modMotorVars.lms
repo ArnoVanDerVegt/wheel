@@ -1,0 +1,160 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+
+//== LAYER 1 ======================================================================================//
+
+DATA8  gModMotor1AStarted_8
+DATA8  gModMotor1AMode_8
+DATA8  gModMotor1AReady_8
+DATA8  gModMotor1ASpeed_8
+DATA8  gModMotor1ABrake_8
+DATA32 gModMotor1ACurrrent_32
+DATA32 gModMotor1ATarget_32
+DATA32 gModMotor1ATime_32
+
+DATA8  gModMotor1BStarted_8
+DATA8  gModMotor1BMode_8
+DATA8  gModMotor1BReady_8
+DATA8  gModMotor1BSpeed_8
+DATA8  gModMotor1BBrake_8
+DATA32 gModMotor1BCurrrent_32
+DATA32 gModMotor1BTarget_32
+DATA32 gModMotor1BTime_32
+
+DATA8  gModMotor1CStarted_8
+DATA8  gModMotor1CMode_8
+DATA8  gModMotor1CReady_8
+DATA8  gModMotor1CSpeed_8
+DATA8  gModMotor1CBrake_8
+DATA32 gModMotor1CCurrrent_32
+DATA32 gModMotor1CTarget_32
+DATA32 gModMotor1CTime_32
+
+DATA8  gModMotor1DStarted_8
+DATA8  gModMotor1DMode_8
+DATA8  gModMotor1DReady_8
+DATA8  gModMotor1DSpeed_8
+DATA8  gModMotor1DBrake_8
+DATA32 gModMotor1DCurrrent_32
+DATA32 gModMotor1DTarget_32
+DATA32 gModMotor1DTime_32
+
+//== LAYER 2 ======================================================================================//
+
+DATA8  gModMotor2AStarted_8
+DATA8  gModMotor2AMode_8
+DATA8  gModMotor2AReady_8
+DATA8  gModMotor2ASpeed_8
+DATA8  gModMotor2ABrake_8
+DATA32 gModMotor2ACurrrent_32
+DATA32 gModMotor2ATarget_32
+DATA32 gModMotor2ATime_32
+
+DATA8  gModMotor2BStarted_8
+DATA8  gModMotor2BMode_8
+DATA8  gModMotor2BReady_8
+DATA8  gModMotor2BSpeed_8
+DATA8  gModMotor2BBrake_8
+DATA32 gModMotor2BCurrrent_32
+DATA32 gModMotor2BTarget_32
+DATA32 gModMotor2BTime_32
+
+DATA8  gModMotor2CStarted_8
+DATA8  gModMotor2CMode_8
+DATA8  gModMotor2CReady_8
+DATA8  gModMotor2CSpeed_8
+DATA8  gModMotor2CBrake_8
+DATA32 gModMotor2CCurrrent_32
+DATA32 gModMotor2CTarget_32
+DATA32 gModMotor2CTime_32
+
+DATA8  gModMotor2DStarted_8
+DATA8  gModMotor2DMode_8
+DATA8  gModMotor2DReady_8
+DATA8  gModMotor2DSpeed_8
+DATA8  gModMotor2DBrake_8
+DATA32 gModMotor2DCurrrent_32
+DATA32 gModMotor2DTarget_32
+DATA32 gModMotor2DTime_32
+
+//== LAYER 3 ======================================================================================//
+
+DATA8  gModMotor3AStarted_8
+DATA8  gModMotor3AMode_8
+DATA8  gModMotor3AReady_8
+DATA8  gModMotor3ASpeed_8
+DATA8  gModMotor3ABrake_8
+DATA32 gModMotor3ACurrrent_32
+DATA32 gModMotor3ATarget_32
+DATA32 gModMotor3ATime_32
+
+DATA8  gModMotor3BStarted_8
+DATA8  gModMotor3BMode_8
+DATA8  gModMotor3BReady_8
+DATA8  gModMotor3BSpeed_8
+DATA8  gModMotor3BBrake_8
+DATA32 gModMotor3BCurrrent_32
+DATA32 gModMotor3BTarget_32
+DATA32 gModMotor3BTime_32
+
+DATA8  gModMotor3CStarted_8
+DATA8  gModMotor3CMode_8
+DATA8  gModMotor3CReady_8
+DATA8  gModMotor3CSpeed_8
+DATA8  gModMotor3CBrake_8
+DATA32 gModMotor3CCurrrent_32
+DATA32 gModMotor3CTarget_32
+DATA32 gModMotor3CTime_32
+
+DATA8  gModMotor3DStarted_8
+DATA8  gModMotor3DMode_8
+DATA8  gModMotor3DReady_8
+DATA8  gModMotor3DSpeed_8
+DATA8  gModMotor3DBrake_8
+DATA32 gModMotor3DCurrrent_32
+DATA32 gModMotor3DTarget_32
+DATA32 gModMotor3DTime_32
+
+//== LAYER 4 ======================================================================================//
+
+DATA8  gModMotor4AStarted_8
+DATA8  gModMotor4AMode_8
+DATA8  gModMotor4AReady_8
+DATA8  gModMotor4ASpeed_8
+DATA8  gModMotor4ABrake_8
+DATA32 gModMotor4ACurrrent_32
+DATA32 gModMotor4ATarget_32
+DATA32 gModMotor4ATime_32
+
+DATA8  gModMotor4BStarted_8
+DATA8  gModMotor4BMode_8
+DATA8  gModMotor4BReady_8
+DATA8  gModMotor4BSpeed_8
+DATA8  gModMotor4BBrake_8
+DATA32 gModMotor4BCurrrent_32
+DATA32 gModMotor4BTarget_32
+DATA32 gModMotor4BTime_32
+
+DATA8  gModMotor4CStarted_8
+DATA8  gModMotor4CMode_8
+DATA8  gModMotor4CReady_8
+DATA8  gModMotor4CSpeed_8
+DATA8  gModMotor4CBrake_8
+DATA32 gModMotor4CCurrrent_32
+DATA32 gModMotor4CTarget_32
+DATA32 gModMotor4CTime_32
+
+DATA8  gModMotor4DStarted_8
+DATA8  gModMotor4DMode_8
+DATA8  gModMotor4DReady_8
+DATA8  gModMotor4DSpeed_8
+DATA8  gModMotor4DBrake_8
+DATA32 gModMotor4DCurrrent_32
+DATA32 gModMotor4DTarget_32
+DATA32 gModMotor4DTime_32

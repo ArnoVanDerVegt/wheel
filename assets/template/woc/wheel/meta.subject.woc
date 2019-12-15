@@ -1,0 +1,186 @@
+@subject Programming:Meta commands
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Meta commands
+Meta commands are parsed by the preprocessor.
+
+@section #include
+@keyword include,metacommands
+With the `#include` command you can import an existing file like a library.
+
+@example
+#include "lib/screen.whl"
+
+proc main()
+    drawNumber(10, 5, 90)
+end
+@end
+
+@section #define
+@keyword define,constant
+With the `#define` command you can create constants, the constants are replaced with the defined value by the preprocessor.
+
+@example
+#include "lib/screen.whl"
+
+#define MY_NUMBER 55
+
+proc main()
+    ; Draw the number 55:
+    drawNumber(10, 5, MY_NUMBER)
+end
+@end
+
+@section #project
+@keyword project
+With the `#project` command you can set the name of the program.
+The name should be given as string value.
+
+@example
+#define "This is my project"
+
+proc main()
+end
+@end
+
+@section #optimizer
+@keyword optimizer
+The `#optimizer` command turns the optimizer on or off, valid values are "on" or "off" strings.
+The optimizer is turned on by default.
+
+@example
+#optimizer "off" ; Turn the optimizer off...
+
+proc main()
+end
+@end
+
+@section #heap
+@keyword heap
+With the `#heap` command the amount of allocated memory for the virtual machine can be set.
+The default setting is 1024 memory entries (floats). The heap value should be given as a positive number.
+In the following example the amount of heap is increased to 4096 memory entries, this equals 16 kBytes.
+
+@example
+#heap 4096 ; Set the heap size to 4096 floats...
+
+proc main()
+end
+@end
+
+@section #stringcount
+@keyword string,stringcount
+The `#stringcount` command sets the maximum number of strings which can be allocated.
+The default setting is 64.
+
+@example
+#stringcount 64 ; Set the number of strings to 64...
+
+proc main()
+end
+@end
+
+@section #stringlength
+@keyword string,stringlength
+The `#stringlength` command sets the maximum string length which can be allocated.
+This value should be larger than 0 and less than 128.
+The default setting is 64.
+
+@example
+#stringlength 64 ; Set the maximum string lenght to 64...
+
+proc main()
+end
+@end
+
+@section #rangecheck
+@keyword rangecheck,range,check
+The `#rangecheck` command turns the runtime range checking on or off, valid values are "on" or "off" strings.
+The range checking is turned on by default. Turning range checking off improves the performance of you application,
+this can be helpfull when deploying your application on the EV3.
+
+@example
+#rangecheck "off" ; Turn range checking off...
+
+proc main()
+end
+@end
+
+@section #image
+@keyword image,data
+The `#image` command can be used to create images, with the `#image` command the filename can be declared.
+The filename should have an `.rgf` extension.
+The `#image` command should be followed by one or more `#data` commands, these contain the image data.
+Each `#data` command expects a string parameter with the same length as the first `data` command.
+The data string may only contain "0" or "1" characters.
+
+@example
+#image "myImage.rgf"
+#data "0100010"
+#data "1001001"
+#data "0100010"
+
+proc main()
+end
+@end
+
+@section #text
+@keyword text,line
+The `#text` command can be used to create text files, with the `#text` command the filename can be declared.
+The filename should have an `.rtf` extension.
+The `#text` command should be followed by one or more `#line` commands, these contain the text lines.
+Each `#line` command expects a string parameter.
+
+@example
+#text "myText.rtf"
+#line "The quick brown fox..."
+#line "jumped over the lazy dogs back."
+
+proc main()
+end
+@end
+
+@section #break
+@keyword break,breakpoint
+The `#break` command sets a breakpoint on a line, difference between this command and a breakpoint in the gutter
+is that the breakpoint set with the `#break` command is saved in the file.
+
+@example
+number n
+
+proc main()
+    n = 11
+    ; Set a breakpoint...
+#break
+end
+@end
+
+@section #resource
+@keyword resource,rgf,rtf,rbf,rsf
+
+With the `#resource` command you can declare a resource which will be downloaded to the EV3 when you
+install your compiled program. There are four valid resource file extensions: `.rtf`, `.rgf`, `.rsf`, `.rbf`.
+
+The resource file should exist within the Wheel path.
+
+@example
+#resource "resources/images/expressions/Smile.rgf"
+
+proc main()
+end
+@end
+
+@section #display
+@keyword display,motors,sensors
+The `#display` command allows you to show the sensors and/or motors in the simulator.
+
+The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
+simulator sensors and motors will be shown:
+@example
+#display "sensors,motors"
+
+proc main()
+end
+@end
+
+@see syntax

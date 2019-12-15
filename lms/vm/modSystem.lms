@@ -1,0 +1,95 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modSystem {                                                     // 09) SYSTEM
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATAF  lVoltage_F
+    DATAF  lCurrent_F
+    DATA8  lLevel_8
+    DATA8  lVolume_8
+    DATA8  lMinutes_8
+    DATA8  lMaxLength_8
+    DATA16 lBrickname_16
+    HANDLE lBrickname_H
+    DATA32 lTotal_32
+    DATA32 lFree_32
+
+    JR_EQ8(pModCall_8,  0, mod_system_battery_voltage)
+    JR_EQ8(pModCall_8,  1, mod_system_battery_current)
+    JR_EQ8(pModCall_8,  2, mod_system_battery_level)
+    JR_EQ8(pModCall_8,  3, mod_system_get_volume)
+    JR_EQ8(pModCall_8,  4, mod_system_set_volume)
+    JR_EQ8(pModCall_8,  5, mod_system_get_power_off_minutes)
+    JR_EQ8(pModCall_8,  6, mod_system_set_power_off_minutes)
+    JR_EQ8(pModCall_8,  7, mod_system_get_brickname)
+    JR_EQ8(pModCall_8,  8, mod_system_set_brickname)
+    JR_EQ8(pModCall_8,  9, mod_system_memory_total)
+    JR_EQ8(pModCall_8, 10, mod_system_memory_free)
+    RETURN()
+
+mod_system_battery_voltage:                                             // 00) getBatteryVoltage
+    UI_READ(GET_VBATT, lVoltage_F)
+    CALL(setRetFAndKeep, lVoltage_F)
+    RETURN()
+
+mod_system_battery_current:                                             // 01) getBatteryCurrent
+    UI_READ(GET_IBATT, lCurrent_F)
+    CALL(setRetFAndKeep, lCurrent_F)
+    RETURN()
+
+mod_system_battery_level:                                               // 02) getBatteryLevel
+    UI_READ(GET_LBATT, lLevel_8)
+    CALL(setRet8AndKeep, lLevel_8)
+    RETURN()
+
+mod_system_get_volume:                                                  // 03) getVolume
+    INFO(GET_VOLUME, lVolume_8)
+    CALL(setRet8AndKeep, lVolume_8)
+    RETURN()
+
+mod_system_set_volume:                                                  // 04) setVolume
+    CALL(readMem8, pRegSrc_32, 0, lVolume_8)
+    INFO(SET_VOLUME, lVolume_8)
+    RETURN()
+
+mod_system_get_power_off_minutes:                                       // 05) getPowerOffMinutes
+    INFO(GET_MINUTES, lMinutes_8)
+    CALL(setRet8AndKeep, lMinutes_8)
+    RETURN()
+
+mod_system_set_power_off_minutes:                                       // 06) setPowerOffMinutes
+    CALL(readMem8, pRegSrc_32, 0, lMinutes_8)
+    INFO(SET_MINUTES, lMinutes_8)
+    RETURN()
+
+mod_system_get_brickname:                                               // 07) getBrickName
+    CALL(readMem16, pRegSrc_32, 0, lBrickname_16)
+    ARRAY(CREATE8, 24, lBrickname_H)
+    MOVE8_8(24, lMaxLength_8)
+    COM_GET(GET_BRICKNAME, lMaxLength_8, lBrickname_H)
+    ARRAY(DELETE, lBrickname_H)
+    RETURN()
+
+mod_system_set_brickname:                                               // 08) setBrickName
+    CALL(readMem16, pRegSrc_32, 0, lBrickname_16)
+    CALL(readString, lBrickname_16)
+    COM_SET(SET_BRICKNAME, gString_H)
+    ARRAY(DELETE, lBrickname_H)
+    RETURN()
+
+mod_system_memory_total:                                                // 09) getMemoryTotal
+    MEMORY_USAGE(lTotal_32, lFree_32)
+    CALL(setRet32AndKeep, lTotal_32)
+    RETURN()
+
+mod_system_memory_free:                                                 // 10) getMemoryFree
+    MEMORY_USAGE(lTotal_32, lFree_32)
+    CALL(setRet32AndKeep, lFree_32)
+    RETURN()
+}

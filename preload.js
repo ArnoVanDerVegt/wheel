@@ -1,0 +1,355 @@
+/**
+ * Wheel, copyright (c) 2017 - present by Arno van der Vegt
+ * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+**/
+require('./js/shared/vm/modules/buttonModuleConstants');
+require('./js/shared/vm/modules/fileModuleConstants');
+require('./js/shared/vm/modules/lightModuleConstants');
+require('./js/shared/vm/modules/mathModuleConstants');
+require('./js/shared/vm/modules/motorModuleConstants');
+require('./js/shared/vm/modules/screenModuleConstants');
+require('./js/shared/vm/modules/sensorModuleConstants');
+require('./js/shared/vm/modules/soundModuleConstants');
+require('./js/shared/vm/modules/standardModuleConstants');
+require('./js/shared/vm/modules/systemModuleConstants');
+require('./js/shared/vm/modules/stringModuleConstants');
+require('./js/shared/vm/modules/bitModuleConstants');
+require('./js/shared/lib/RgfImage');
+require('./js/shared/lib/Sound');
+require('./js/shared/brick/modules/BrickModule');
+require('./js/shared/brick/modules/ButtonModule');
+require('./js/shared/brick/modules/FileModule');
+require('./js/shared/brick/modules/LightModule');
+require('./js/shared/brick/modules/MathModule');
+require('./js/shared/brick/modules/MotorModule');
+require('./js/shared/brick/modules/ScreenModule');
+require('./js/shared/brick/modules/SensorModule');
+require('./js/shared/brick/modules/SoundModule');
+require('./js/shared/brick/modules/StandardModule');
+require('./js/shared/brick/modules/SystemModule');
+require('./js/shared/brick/modules/StringModule');
+require('./js/shared/brick/modules/BitModule');
+require('./js/shared/brick/messageEncoder');
+require('./js/shared/brick/CommandQueue');
+require('./js/shared/brick/Brick');
+require('./js/shared/brick/constants');
+require('./js/backend/routes/settings');
+require('./js/backend/routes/ev3');
+require('./js/backend/routes/ide');
+require('./js/frontend/brick/Downloader');
+require('./js/frontend/lib/utils');
+const dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
+require('./js/frontend/lib/Emitter');
+require('./js/frontend/lib/path');
+require('./js/frontend/lib/dom');
+require('./js/frontend/lib/Http');
+require('./js/frontend/program/commands');
+require('./js/frontend/program/Program');
+require('./js/frontend/program/output/Rtf');
+require('./js/frontend/program/output/Text');
+require('./js/frontend/compiler/errors');
+require('./js/frontend/compiler/tokenizer/tokenizer');
+require('./js/frontend/compiler/tokenizer/tokenUtils');
+require('./js/frontend/compiler/tokenizer/TokenIterator');
+require('./js/frontend/compiler/syntax/utils');
+require('./js/frontend/compiler/syntax/syntaxRoot');
+require('./js/frontend/compiler/syntax/syntaxProc');
+require('./js/frontend/compiler/syntax/syntaxProcName');
+require('./js/frontend/compiler/syntax/syntaxProcParams');
+require('./js/frontend/compiler/syntax/syntaxRecord');
+require('./js/frontend/compiler/syntax/syntaxAddr');
+require('./js/frontend/compiler/syntax/syntaxModule');
+require('./js/frontend/compiler/syntax/syntaxBreak');
+require('./js/frontend/compiler/syntax/syntaxSelect');
+require('./js/frontend/compiler/syntax/syntaxSelectValue');
+require('./js/frontend/compiler/syntax/syntaxSelectCaseValue');
+require('./js/frontend/compiler/syntax/syntaxSelectDefault');
+require('./js/frontend/compiler/syntax/syntaxForTo');
+require('./js/frontend/compiler/syntax/syntaxForToAssignment');
+require('./js/frontend/compiler/syntax/syntaxNumericAssignment');
+require('./js/frontend/compiler/syntax/syntaxBoolean');
+require('./js/frontend/compiler/syntax/syntaxAssignment');
+require('./js/frontend/compiler/syntax/syntaxBlock');
+require('./js/frontend/compiler/syntax/SyntaxValidator');
+require('./js/frontend/compiler/types/Var');
+require('./js/frontend/compiler/types/Scope');
+require('./js/frontend/compiler/types/Record');
+require('./js/frontend/compiler/types/Proc');
+require('./js/frontend/compiler/compiler/CompileData');
+require('./js/frontend/compiler/expression/MathExpression');
+require('./js/frontend/compiler/expression/VarExpression');
+require('./js/frontend/compiler/expression/AssignmentExpression');
+require('./js/frontend/compiler/expression/BooleanExpression');
+require('./js/frontend/compiler/compiler/CompileScope');
+require('./js/frontend/compiler/compiler/CompileCall');
+require('./js/frontend/compiler/compiler/CompileVars');
+require('./js/frontend/compiler/compiler/CompileBlock');
+require('./js/frontend/compiler/compiler/CompileLoop');
+require('./js/frontend/compiler/linter/Linter');
+require('./js/frontend/compiler/resources/ProjectResource');
+require('./js/frontend/compiler/resources/ImageResource');
+require('./js/frontend/compiler/resources/TextResource');
+require('./js/frontend/compiler/resources/ProjectResources');
+require('./js/frontend/compiler/preprocessor/Defines');
+require('./js/frontend/compiler/preprocessor/MetaCompiler');
+require('./js/frontend/compiler/preprocessor/PreProcessor');
+require('./js/frontend/compiler/keyword/CompileAddr');
+require('./js/frontend/compiler/keyword/CompileBreak');
+require('./js/frontend/compiler/keyword/CompileFor');
+require('./js/frontend/compiler/keyword/CompileIf');
+require('./js/frontend/compiler/keyword/CompileModule');
+require('./js/frontend/compiler/keyword/CompileProc');
+require('./js/frontend/compiler/keyword/CompileRecord');
+require('./js/frontend/compiler/keyword/CompileRepeat');
+require('./js/frontend/compiler/keyword/CompileRet');
+require('./js/frontend/compiler/keyword/CompileSelect');
+require('./js/frontend/compiler/keyword/CompileWhile');
+require('./js/frontend/compiler/Compiler');
+require('./js/frontend/vm/modules/VMModule');
+require('./js/frontend/vm/modules/local/FileSystem');
+require('./js/frontend/vm/modules/local/ButtonModule');
+require('./js/frontend/vm/modules/local/FileModule');
+require('./js/frontend/vm/modules/local/LightModule');
+require('./js/frontend/vm/modules/local/MathModule');
+require('./js/frontend/vm/modules/local/MotorModule');
+require('./js/frontend/vm/modules/local/ScreenModule');
+require('./js/frontend/vm/modules/local/SensorModule');
+require('./js/frontend/vm/modules/local/SoundModule');
+require('./js/frontend/vm/modules/local/StandardModule');
+require('./js/frontend/vm/modules/local/SystemModule');
+require('./js/frontend/vm/modules/local/StringModule');
+require('./js/frontend/vm/modules/local/BitModule');
+require('./js/frontend/vm/brick/LayerState');
+require('./js/frontend/vm/modules/remote/ButtonModule');
+require('./js/frontend/vm/modules/remote/FileModule');
+require('./js/frontend/vm/modules/remote/LightModule');
+require('./js/frontend/vm/modules/remote/MathModule');
+require('./js/frontend/vm/modules/remote/MotorModule');
+require('./js/frontend/vm/modules/remote/ScreenModule');
+require('./js/frontend/vm/modules/remote/SensorModule');
+require('./js/frontend/vm/modules/remote/SoundModule');
+require('./js/frontend/vm/modules/remote/StandardModule');
+require('./js/frontend/vm/modules/remote/SystemModule');
+require('./js/frontend/vm/modules/remote/StringModule');
+require('./js/frontend/vm/modules/remote/BitModule');
+require('./js/frontend/vm/VMData');
+require('./js/frontend/vm/VM');
+require('./js/frontend/lib/dataprovider/HttpDataProvider');
+require('./js/frontend/lib/dataprovider/ElectronDataProvider');
+require('./js/frontend/lib/dataprovider/dataProvider');
+require('./js/frontend/lib/components/Component');
+require('./js/frontend/lib/components/ComponentContainer');
+require('./js/frontend/lib/components/ContextMenu');
+require('./js/frontend/lib/components/Tabs');
+require('./js/frontend/lib/components/Dialog');
+require('./js/frontend/lib/components/MainMenuItem');
+require('./js/frontend/lib/components/MainMenu');
+require('./js/frontend/lib/components/Menu');
+require('./js/frontend/lib/components/Button');
+require('./js/frontend/lib/components/Resizer');
+require('./js/frontend/lib/components/CloseButton');
+require('./js/frontend/lib/components/IconSelect');
+require('./js/frontend/lib/components/TextInput');
+require('./js/frontend/lib/components/Checkbox');
+require('./js/frontend/lib/components/Radio');
+require('./js/frontend/lib/components/Slider');
+require('./js/frontend/lib/components/Toolbar');
+require('./js/frontend/lib/components/ToolOptions');
+require('./js/frontend/lib/components/Hint');
+require('./js/frontend/lib/components/files/File');
+require('./js/frontend/lib/components/files/FileDetail');
+require('./js/frontend/lib/components/files/Files');
+require('./js/frontend/lib/components/filetree/Item');
+require('./js/frontend/lib/components/filetree/File');
+require('./js/frontend/lib/components/filetree/Directory');
+require('./js/frontend/lib/components/filetree/FileTree');
+require('./js/frontend/lib/components/tree/TreeNode');
+require('./js/frontend/lib/components/tree/Tree');
+require('./js/frontend/lib/components/basic/A');
+require('./js/frontend/lib/components/basic/H');
+require('./js/frontend/lib/components/basic/P');
+require('./js/frontend/lib/components/basic/Hr');
+require('./js/frontend/lib/components/basic/Pre');
+require('./js/frontend/lib/components/basic/Table');
+require('./js/frontend/lib/components/basic/Ul');
+require('./js/frontend/lib/components/basic/Img');
+require('./js/frontend/lib/directoryWatcher');
+require('./js/frontend/lib/fileDropHandler');
+require('./js/frontend/ide/data/images');
+// Don't load, only loaded in setup when needed: require('./js/frontend/ide/data/templates');
+require('./js/frontend/ide/data/texts');
+require('./js/frontend/ide/tabIndex');
+require('./js/frontend/ide/help/components/IndexList');
+require('./js/frontend/ide/help/woc/FileProcessor');
+require('./js/frontend/ide/help/woc/SubjectFileProcessor');
+require('./js/frontend/ide/help/woc/WhlFileProcessor');
+require('./js/frontend/ide/help/woc/WocFileProcessor');
+require('./js/frontend/ide/help/woc/Woc');
+require('./js/frontend/ide/help/woc/WheelSyntax');
+require('./js/frontend/ide/help/helpData');
+require('./js/frontend/ide/help/HelpBuilder');
+require('./js/frontend/ide/dialogs/AlertDialog');
+require('./js/frontend/ide/dialogs/hint/HintDialog');
+require('./js/frontend/ide/dialogs/hint/WelcomeHintDialog');
+require('./js/frontend/ide/dialogs/ConfirmDialog');
+require('./js/frontend/ide/dialogs/ExploreDialog');
+require('./js/frontend/ide/dialogs/list/components/ListItem');
+require('./js/frontend/ide/dialogs/list/ListDialog');
+require('./js/frontend/ide/dialogs/list/ConnectListDialog');
+require('./js/frontend/ide/dialogs/YesNoCancelDialog');
+require('./js/frontend/ide/dialogs/file/components/IncludeFiles');
+require('./js/frontend/ide/dialogs/file/FileDialog');
+require('./js/frontend/ide/dialogs/file/FileNewDialog');
+require('./js/frontend/ide/dialogs/file/FileRenameDialog');
+require('./js/frontend/ide/dialogs/image/components/ImagePreview');
+require('./js/frontend/ide/dialogs/image/components/Step');
+require('./js/frontend/ide/dialogs/image/components/StepSelect');
+require('./js/frontend/ide/dialogs/image/components/StepScale');
+require('./js/frontend/ide/dialogs/image/components/StepContrast');
+require('./js/frontend/ide/dialogs/image/components/StepFilename');
+require('./js/frontend/ide/dialogs/image/ImageDialog');
+require('./js/frontend/ide/dialogs/image/ImageNewDialog');
+require('./js/frontend/ide/dialogs/image/ImageResizeDialog');
+require('./js/frontend/ide/dialogs/image/ImageLoadDialog');
+require('./js/frontend/ide/dialogs/VolumeDialog');
+require('./js/frontend/ide/dialogs/help/components/WocFileLoader');
+require('./js/frontend/ide/dialogs/help/HelpDialog');
+require('./js/frontend/ide/dialogs/directcontrol/components/Motor');
+require('./js/frontend/ide/dialogs/directcontrol/components/Motors');
+require('./js/frontend/ide/dialogs/directcontrol/components/PianoKey');
+require('./js/frontend/ide/dialogs/directcontrol/components/Piano');
+require('./js/frontend/ide/dialogs/directcontrol/DirectControlDialog');
+require('./js/frontend/ide/dialogs/DaisyChainDialog');
+require('./js/frontend/ide/dialogs/LicenseDialog');
+require('./js/frontend/ide/dialogs/directory/DirectoryNewDialog');
+require('./js/frontend/ide/dialogs/ReplaceDialog');
+require('./js/frontend/ide/dialogs/download/components/ResourceLine');
+require('./js/frontend/ide/dialogs/download/DownloadDialog');
+require('./js/frontend/ide/menu/HelpOption');
+require('./js/frontend/ide/menu/MainMenu');
+require('./js/frontend/ide/editor/editors/Clipboard');
+require('./js/frontend/ide/editor/editors/Editor');
+require('./js/frontend/ide/editor/editors/home/HomeScreenTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenConnectTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenThemeTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreen');
+require('./js/frontend/ide/editor/editors/text/toolbar/ToolbarBottom');
+require('./js/frontend/ide/editor/editors/text/toolbar/ToolbarBottomViewer');
+require('./js/frontend/ide/editor/editors/text/VMViewer');
+require('./js/frontend/ide/editor/editors/text/WheelEditorState');
+require('./js/frontend/ide/editor/editors/text/WheelEditor');
+require('./js/frontend/ide/editor/editors/text/TextEditor');
+require('./js/frontend/ide/editor/editors/image/text/Text');
+require('./js/frontend/ide/editor/editors/image/text/TextLarge');
+require('./js/frontend/ide/editor/editors/image/text/TextMedium');
+require('./js/frontend/ide/editor/editors/image/text/TextSmall');
+require('./js/frontend/ide/editor/editors/image/toolbar/ToolbarTop');
+require('./js/frontend/ide/editor/editors/image/toolbar/ToolbarBottom');
+require('./js/frontend/ide/editor/editors/image/Image');
+require('./js/frontend/ide/editor/editors/image/Grid');
+require('./js/frontend/ide/editor/editors/image/selection/Selection');
+require('./js/frontend/ide/editor/editors/image/selection/SelectionCopy');
+require('./js/frontend/ide/editor/editors/image/selection/SelectionText');
+require('./js/frontend/ide/editor/editors/image/ImageLoader');
+require('./js/frontend/ide/editor/editors/image/ImageEditorState');
+require('./js/frontend/ide/editor/editors/image/ImageEditor');
+require('./js/frontend/ide/editor/editors/sound/toolbar/ToolbarTop');
+require('./js/frontend/ide/editor/editors/sound/toolbar/ToolbarBottom');
+require('./js/frontend/ide/editor/editors/sound/SoundLoader');
+require('./js/frontend/ide/editor/editors/sound/SoundEditorState');
+require('./js/frontend/ide/editor/editors/sound/SoundEditor');
+require('./js/frontend/ide/editor/Editors');
+require('./js/frontend/ide/editor/EditorsState');
+require('./js/frontend/ide/editor/Editor');
+require('./js/frontend/ide/console/spans');
+require('./js/frontend/ide/console/components/VarView');
+require('./js/frontend/ide/console/components/VarViewNumber');
+require('./js/frontend/ide/console/components/VarViewString');
+require('./js/frontend/ide/console/components/VarViewRecord');
+require('./js/frontend/ide/console/tree/ArrayTreeBuilder');
+require('./js/frontend/ide/console/tree/RecordTreeBuilder');
+require('./js/frontend/ide/console/Vars');
+require('./js/frontend/ide/console/Registers');
+require('./js/frontend/ide/console/Log');
+require('./js/frontend/ide/console/Terminal');
+require('./js/frontend/ide/console/NewVersion');
+require('./js/frontend/ide/console/Console');
+require('./js/frontend/ide/simulator/io/text/Text');
+require('./js/frontend/ide/simulator/io/text/TextLarge');
+require('./js/frontend/ide/simulator/io/text/TextMedium');
+require('./js/frontend/ide/simulator/io/text/TextSmall');
+require('./js/frontend/ide/simulator/io/Light');
+require('./js/frontend/ide/simulator/io/Button');
+require('./js/frontend/ide/simulator/io/Buttons');
+require('./js/frontend/ide/simulator/io/Display');
+require('./js/frontend/ide/simulator/io/Sound');
+require('./js/frontend/ide/simulator/io/MotorState');
+require('./js/frontend/ide/simulator/io/Motor');
+require('./js/frontend/ide/simulator/io/Sensor');
+require('./js/frontend/ide/simulator/SimulatorToolbar');
+require('./js/frontend/ide/simulator/SimulatorModules');
+require('./js/frontend/ide/simulator/SimulatorMotors');
+require('./js/frontend/ide/simulator/SimulatorSensors');
+require('./js/frontend/ide/simulator/SimulatorConnection');
+require('./js/frontend/ide/simulator/Simulator');
+require('./js/frontend/ide/CompileAndRun');
+const Setup         = require('./js/frontend/ide/Setup').Setup;
+const IDE           = require('./js/frontend/ide/IDE').IDE;
+const SettingsState = require('./js/frontend/ide/SettingsState').SettingsState;
+const UIState       = require('./js/frontend/lib/UIState').UIState;
+const BrickState    = require('./js/frontend/vm/brick/BrickState').BrickState;
+
+(function() {
+    let settings;
+    let ui;
+    let ide = null;
+
+    const onFinishedSetup = function() {
+            if (ide) {
+                return;
+            }
+            ide = new IDE({
+                ui:       ui,
+                settings: settings,
+                brick:    new BrickState()
+            });
+        };
+
+    const onLoadedSettings = function() {
+            require('./js/frontend/lib/path').setSep(settings.getOS().pathSep);
+            new Setup({
+                ui:         ui,
+                settings:   settings,
+                onFinished: onFinishedSetup
+            });
+        };
+
+    const loadDocumentPath = function() {
+            const ipcRenderer = require('electron').ipcRenderer;
+            ipcRenderer.on(
+                'postMessage',
+                function(event, arg) {
+                    let data;
+                    try {
+                        data = JSON.parse(arg);
+                    } catch (error) {
+                        data = {};
+                    }
+                    if (data.message === 'documentPath') {
+                        const getDataProvider = require('./js/frontend/lib/dataprovider/dataProvider').getDataProvider;
+                        ui       = new UIState();
+                        settings = new SettingsState({getDataProvider: getDataProvider, userDocumentPath: data.data});
+                        settings.load(onLoadedSettings);
+                    }
+                }
+            );
+            ipcRenderer.send('postMessage', {command: 'documentPath'});
+        };
+
+    const onDOMContentLoaded = function() {
+            loadDocumentPath();
+        };
+
+    document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+})();

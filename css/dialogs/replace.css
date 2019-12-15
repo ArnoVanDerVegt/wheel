@@ -1,0 +1,47 @@
+.dialog-background.replace-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -124px;
+    height:                         248px;
+    width:                          544px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.replace-dialog.new-image .dialog-center .dialog-content {
+    margin-top:                     -128px;
+    height:                         256px;
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-text {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row {
+    float:                          left;
+    width:                          100%;
+    padding:                        0 0 8px 0;
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row div,
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row input {
+    float:                          left;
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row div {
+    width:                          128px;
+    -webkit-user-select:            none;
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row a.checkbox {
+    float:                          left;
+    margin-top:                     5px;
+}
+.dialog-background.replace-dialog .dialog-center .dialog-content .replace-dialog-row input {
+    width:                          320px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}

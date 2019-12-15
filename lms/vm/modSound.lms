@@ -1,0 +1,44 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modSound {                                                      // 05) SOUND
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA8  lVolume_8
+    DATA16 lFrequency_16
+    DATA16 lDuration_16
+    DATA16 lStringIndex_16
+
+    JR_EQ8(pModCall_8, 0, mod_sound_tone)
+    JR_EQ8(pModCall_8, 1, mod_sound_sample)
+    RETURN()
+
+mod_sound_tone:                                                         // 00) soundPlayTone
+    CALL(readMem16, pRegSrc_32, 0, lFrequency_16)
+    CALL(readMem16, pRegSrc_32, 1, lDuration_16)
+    CALL(readMem8,  pRegSrc_32, 2, lVolume_8)
+
+    SOUND(TONE, lVolume_8, lFrequency_16, lDuration_16)
+    RETURN()
+
+mod_sound_sample:
+    CALL(readMem16, pRegSrc_32, 0, lStringIndex_16)
+    CALL(readString, lStringIndex_16)
+    CALL(readMem8,  pRegSrc_32, 1, lVolume_8)
+
+    DATA16 lStringLength_16                                             // The play command does not accept .rtf extensions...
+    DATA32 lStringLength_32
+    DATA8  lChar_8
+    MOVE8_8(0, lChar_8)
+    STRINGS(GET_SIZE, @gString_H, lStringLength_16)                     // Get the string length
+    MOVE32_16(lStringLength_16, lStringLength_32)
+    SUB16(lStringLength_32, 4, lStringLength_32)                        // Remove 4 characters for the .rtf extension
+    ARRAY_WRITE(gString_H, lStringLength_32, lChar_8)                   // Set a new zero char to remove the extension!
+
+    SOUND(PLAY, lVolume_8, @gString_H)
+}

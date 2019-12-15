@@ -1,0 +1,25 @@
+{
+    "version": "0.9.0",
+    "download": "https://arnovandervegt.github.io/wheel/",
+    "info": {
+        "children": [
+            {
+                "type": "h2",
+                "innerHTML": "Version 0.9.1"
+            },
+            {
+                "type": "ul",
+                "children": [
+                    {
+                        "type": "li",
+                        "innerHTML": "New feature"
+                    },
+                    {
+                        "type": "li",
+                        "innerHTML": "Another feature"
+                    }
+                ]
+            }
+        ]
+    }
+}

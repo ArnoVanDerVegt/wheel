@@ -1,0 +1,21 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "String charCode example"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/string.whl"
+
+string fruit[5] = ["Banana", "Apple", "Orange", "Pear", "Melon"]
+
+proc main()
+    number n
+    for n = 0 to 4
+        number y = 10 + 20 * n
+        drawText(10, y, fruit[n])
+        drawNumber(120, y, length(fruit[n]))
+    end
+
+    halt()
+end
+

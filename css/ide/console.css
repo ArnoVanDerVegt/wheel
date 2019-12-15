@@ -1,0 +1,225 @@
+body.ide div.console-wrapper {
+    position:                       absolute;
+    left:                           var(--file-tree-width);
+    right:                          304px;
+    bottom:                         0;
+    height:                         var(--console-height);
+    margin:                         0;
+    padding:                        0;
+    z-index:                        1;
+    background-color:               var(--ui-background1);
+}
+/* No simulator */
+body.ide.no-simulator div.console-wrapper {
+    right:                          0;
+}
+/* No console */
+body.ide.no-console div.console-wrapper {
+    display:                        none;
+}
+/* No file tree */
+body.ide.no-file-tree div.console-wrapper {
+    left:                           0;
+}
+body.ide div.console-wrapper div.toolbar {
+    border-width:                   1px 0 1px 0;
+}
+body.ide div.console-wrapper div.toolbar .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+body.ide .console-content {
+    position:                       absolute;
+    top:                            40px;
+    left:                           0;
+    right:                          0;
+    bottom:                         0;
+}
+.console-content .console-lines,
+.console-content .vars,
+.console-content .registers,
+.console-content .terminal {
+    float:                          left;
+    width:                          100%;
+    height:                         100%;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.console-content .console-lines,
+.console-content .vars,
+.console-content .registers {
+    -webkit-user-select:            none;
+}
+.console-content .vars,
+.console-content .registers,
+.console-content .terminal {
+    display:                        none;
+}
+.console-content .console-lines .console-line {
+    float:                          left;
+    position:                       relative;
+    font-family:                    monospace;
+    font-size:                      13px;
+    width:                          100%;
+    height:                         24px;
+    line-height:                    24px;
+    padding:                        0 8px 0 8px;
+    border:                         var(--ui-border4);
+    border-width:                   0 0 1px 0;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    cursor:                         default;
+}
+.console-content .console-lines .console-line.closed,
+.console-content .console-lines .console-line.open {
+    padding-left:                   24px;
+}
+.console-content .console-lines .console-line.closed:before,
+.console-content .console-lines .console-line.open:before {
+    position:                       absolute;
+    top:                            6px;
+    left:                           8px;
+    content:                        '+';
+    width:                          10px;
+    height:                         10px;
+    line-height:                    10.5px;
+    text-align:                     center;
+    font-family:                    Arial;
+    font-size:                      15px;
+    font-style:                     normal;
+    border:                         1px solid var(--ui-text1);
+    color:                          var(--ui-text1);
+    cursor:                         pointer;
+}
+.console-content .console-lines .console-line.open:before {
+    content:                        '-';
+}
+.console-content .console-lines .console-line.with-info {
+    cursor:                         pointer;
+}
+.console-content .console-lines .console-line.error {
+    color:                          var(--console-error);
+}
+.console-content .console-lines .console-line.ok {
+    color:                          var(--console-success);
+}
+.console-content .console-lines .console-line.vm {
+    color:                          var(--console-vm);
+}
+.console-content .console-lines .console-line i.error {
+    color:                          var(--console-error);
+}
+.console-content .console-lines .console-line i.error b {
+    text-decoration:                underline;
+}
+.console-content table {
+    border:                         var(--console-table-border);
+    border-width:                   1px 0 0 1px;
+    border-collapse:                collapse;
+    margin:                         4px 0 8px 8px;
+}
+.console-content tr th {
+    text-align:                     left;
+    background-color:               var(--console-table-header);
+    color:                          var(--console-table-header-color);
+}
+.console-content tr th,
+.console-content tr td {
+    border:                         var(--console-table-border);
+    border-width:                   0 1px 1px 0;
+    text-align:                     left;
+    vertical-align:                 top;
+    padding:                        2px 4px 2px 4px;
+}
+.console-content tr td.offset {
+    text-align:                     right;
+}
+.console-content tr th,
+.console-content tr td,
+.console-content tr td div,
+.console-content tr td div span {
+    font-family:                    monospace;
+}
+.console-content tr td .node-line {
+    float:                          left;
+    clear:                          both;
+}
+.console-content tr td div span {
+    float:                          left;
+}
+/* Terminal */
+.console-content .output,
+.console-content .terminal pre.output-line,
+.console-content .terminal .input-line,
+.console-content .terminal input[type="text"].input {
+    float:                          left;
+    width:                          100%;
+}
+.console-content .terminal pre.output-line,
+.console-content .terminal .input-line {
+    margin:                         0;
+    padding:                        0 0 0 8px;
+    float:                          left;
+}
+.console-content .terminal .input-line {
+    display:                        flex;
+    -webkit-user-select:            text;
+    user-select:                    text;
+    cursor:                         pointer;
+}
+.console-content .terminal pre.output-line,
+.console-content .terminal .input-line,
+.console-content .terminal input[type="text"].input,
+.console-content .terminal .input-line .user-info {
+    max-width:                      calc(100% - 10px);
+    height:                         20px;
+    line-height:                    20px;
+    font-family:                    monospace;
+    font-size:                      13px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+}
+.console-content .terminal input[type="text"].input {
+    outline:                        none;
+    border:                         0;
+    display:                        flex;
+    flex-direction:                 column;
+    background-color:               var(--ui-background1);
+}
+.console-content .terminal .input-line .user-info {
+    display:                        flex;
+    flex-direction:                 column;
+}
+.console-content .terminal pre.error {
+    color:                          var(--color-red);
+}
+/* New version */
+.console-content .new-version {
+    float:                          left;
+    width:                          100%;
+    height:                         100%;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.console-content .new-version .new-version-logo {
+    float:                          left;
+    width:                          152px;
+    margin:                         8px 0 0 16px;
+}
+.console-content .new-version .new-version-content {
+    float:                          left;
+    width:                          calc(100% - 168px);
+    padding:                        16px 8px 16px 0;
+}
+.console-content .new-version .new-version-content h2 {
+    margin:                         0;
+    opacity:                        0.75;
+}
+.console-content .new-version .new-version-content .button.green {
+    height:                         32px;
+    line-height:                    30px;
+    padding-left:                   32px;
+    padding-right:                  32px;
+    margin-left:                    32px;
+}

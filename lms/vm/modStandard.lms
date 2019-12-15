@@ -1,0 +1,44 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modStandard {                                                   // 00) STANDARD
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATA32 lTime1_32
+    DATA32 lTime2_32
+
+    JR_EQ8(pModCall_8, 4, mod_standard_sleep)
+    JR_EQ8(pModCall_8, 5, mod_standard_stop_vm)
+    JR_EQ8(pModCall_8, 6, mod_standard_stop_program)
+    JR_EQ8(pModCall_8, 7, mod_standard_get_time)
+    RETURN()
+
+mod_standard_sleep:                                                     // 05) standardSleep
+    UI_DRAW(UPDATE)
+    CALL(readMem32, pRegSrc_32, 0, lTime1_32)
+    DATA32 lCurrentTime_32
+    DATA32 lEndTime_32
+    TIMER_READ(lCurrentTime_32)
+    ADD32(lCurrentTime_32, lTime1_32, lEndTime_32)
+mod_standard_sleep_wait:
+    TIMER_READ(lCurrentTime_32)
+    SLEEP()
+    JR_LT32(lCurrentTime_32, lEndTime_32, mod_standard_sleep_wait)
+    RETURN()
+
+mod_standard_stop_vm:                                                   // 06) standardStopVM
+    RETURN()
+
+mod_standard_stop_program:                                              // 07) standardStopProgram
+    RETURN()
+
+mod_standard_get_time:                                                  // 08) standardGetTime
+    TIMER_READ(lTime1_32)
+    CALL(setRet32AndKeep, lTime1_32)
+    RETURN()
+}

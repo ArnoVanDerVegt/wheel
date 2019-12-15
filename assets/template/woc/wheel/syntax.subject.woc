@@ -1,0 +1,103 @@
+@subject Programming:Syntax
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Syntax
+The Wheel syntax looks a little bit like `Pascal` or `Basic`.
+
+@section One command per line
+Wheel only allows a single command or expression per line, the only exception is an assignment of a record or array.
+
+@example
+proc main()
+    number n = 1
+end
+@end
+
+An example of a multi line variable assignment:
+@example
+proc main()
+    number p[2][3] = [
+               [90, 100, 110],
+               [220, 230, 240]
+           ]
+end
+@end
+
+@section Comments
+@keyword comment
+A semicolon (";") marks the beginning of a comment.
+
+@example
+proc main()
+    ; This is a comment and will not be executed...
+end
+@end
+
+Comments should be placed after the command or expression.
+Wheel only supports single line comments, everything after the simicolon is seen as a comment text.
+
+@section Code blocks
+@keyword block
+Wheel uses a block structure which begins with the declaration of the type or command followed by an
+expression and closed with an `end` statement.
+
+@example
+struct MyStruct
+    number
+end
+
+proc main()
+end
+@end
+
+Some statements can be nested:
+
+@example
+struct MyStruct
+    number
+end
+
+proc main()
+    number a = 1
+    number b = 0
+
+    if a == 1
+        if (b == 1) ; Parentheses are optional here...
+            printS("A and B are 1")
+        end
+    else
+        printS("A is not 1")
+    end
+end
+@end
+
+@see if,for,while,repeat
+
+@section Numbers
+Number values can be declared as decimal, binary or hexadecimal.
+
+@example
+proc main()
+    number n = 10
+    number b = 0b01001
+    number h = 0x2AE
+end
+@end
+
+@section Meta commands
+@keyword meta
+Meta commands are parsed by the preprocessor.
+
+A meta command starts with the "#" character and must be the first command on the line.
+
+With the `include` command you can import an existing file like a library.
+
+@example
+#include "lib/screen.whl"
+
+proc main()
+    drawNumber(10, 5, 90)
+end
+@end
+
+@see Meta commands|metacommands

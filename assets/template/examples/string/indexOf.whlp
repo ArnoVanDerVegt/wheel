@@ -1,0 +1,25 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "String indexOf example"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/string.whl"
+
+proc main()
+    string haystack = "Hello, Hello, world"
+    string needle   = "Hello"
+    drawText(10, 10, haystack)
+
+    number n = indexOf(haystack, needle, 0)
+    drawText(10, 30, "Index of:")
+    drawNumber(140, 30, n)
+
+    n += 5
+    n = indexOf(haystack, needle, n)
+    drawText(10, 50, "Next index of:")
+    drawNumber(140, 50, n)
+
+    halt()
+end
+

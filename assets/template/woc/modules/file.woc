@@ -1,0 +1,79 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@for fileOpen
+The openFile procedure returns a file handle which can be used to access a file.
+
+@example
+#include "lib/standard.whl"
+#include "lib/file.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number handle
+    string filename = "test.rtf"
+    handle = fileOpen(@filename)
+    drawNumber(10, 10, handle)
+    halt()
+end
+
+@for fileReadNumber, fileWriteNumber
+The simulator contains a `test.rtf` file with the following values:
+45, 99, "Hello world", 15
+
+@example
+#include "lib/standard.whl"
+#include "lib/file.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Open the file:
+    number handle
+    string filename = "test.rtf"
+    handle = fileOpen(@filename)
+
+    ; Read two numbers form the opened file...
+    drawNumber(10, 10, fileReadNumber(handle))
+    drawNumber(10, 30, fileReadNumber(handle))
+
+    ; Read a string from the opened file:
+    string s
+    fileReadString(handle, @s)
+    drawText(10, 50, s)
+
+    ; Read the final number:
+    drawNumber(10, 70, fileReadNumber(handle))
+
+    halt()
+end
+
+@for fileWriteNumber, fileWriteString
+This demo shows how to write values to a file and read them back.
+
+@example
+#include "lib/standard.whl"
+#include "lib/file.whl"
+#include "lib/screen.whl"
+
+proc main()
+    ; Open the file:
+    number handle
+    string filename = "new.rtf"
+    handle = fileOpen(@filename)
+
+    ; Write two numbers to the file:
+    fileWriteNumber(handle, 1546)
+    fileWriteNumber(handle, 94)
+
+    ; Close the file...
+    fileClose(handle)
+    handle = fileOpen(@filename)
+
+    ; Read two numbers form the opened file...
+    drawNumber(10, 10, fileReadNumber(handle))
+    drawNumber(10, 30, fileReadNumber(handle))
+
+    ; And delete the file...
+    fileDelete(handle)
+
+    halt()
+end

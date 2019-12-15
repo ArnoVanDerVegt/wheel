@@ -1,0 +1,130 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This demo shows how to move a motor to a given target position.
+
+#project "Motor target demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/button.whl"
+#include "lib/motor.whl"
+#include "lib/sound.whl"
+
+#display "motors"
+
+number active     = 0               ; Which motor is active
+number lastActive = 0               ; The last active motor
+number lastPos    = 0               ; The last known motor position
+number target[4]  = [0, 0, 0, 0]    ; A target position for every motor
+
+; Draw four rectangles and fill the active motor rectangle
+proc drawScreen()
+    number i
+    number x = 3
+    for i = 0 to 3
+        if i == active
+            setFillColor(BLACK)
+        else
+            setFillColor(WHITE)
+        end
+        setFill(TRUE)
+        drawRect(x, 42, 40, 40)
+        setFillColor(BLACK)
+        setFill(FALSE)
+        x += 1
+        drawRect(x, 43, 38, 38)
+        x += 43
+    end
+end
+
+proc drawLabels()
+    drawText(0, 14, "Current:")
+    drawText(0, 30, "Target:")
+end
+
+; Draw the active motor position
+proc drawMotorPos(number pos)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(68, 14, 48, 9)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    drawRect(66, 12, 52, 13)
+    drawNumber(SCREEN_CENTER_X, 14, pos)
+end
+
+; Draw the motor target position
+proc drawMotorTarget(number target)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(68, 30, 48, 9)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    drawRect(66, 28, 52, 13)
+    drawNumber(SCREEN_CENTER_X, 30, target)
+end
+
+proc main()
+    drawScreen()
+    drawLabels()
+    drawMotorPos(0)
+    drawMotorTarget(0)
+
+    setTextAlign(TEXT_ALIGN_CENTER)
+
+    repeat
+        number b       = button()           ; Read the EV3 button...
+        number pressed = FALSE              ; Save if up or down was pressed...
+        number ready   = motorReady(active) ; Check if the active motor reached its target...
+
+        select b
+            case BUTTON_LEFT:
+                ; Select the previous motor...
+                if active == 0
+                    active = 3
+                else
+                    active -= 1
+                end
+            case BUTTON_RIGHT:
+                ; Select the next motor...
+                if active == 3
+                    active = 0
+                else
+                    active += 1
+                end
+            case BUTTON_UP:
+                ; If the motor has reached its previous target then increase the target:
+                if ready
+                    pressed = TRUE
+                    target[active] += 180
+                    drawMotorTarget(target[active])
+                    motorSetSpeed(active, 25)
+                    motorMoveTo(active, target[active])
+                end
+            case BUTTON_DOWN:
+                ; If the motor has reached its previous target then decrease the target:
+                if ready
+                    pressed = TRUE
+                    target[active] -= 180
+                    drawMotorTarget(target[active])
+                    motorSetSpeed(active, 25)
+                    motorMoveTo(active, target[active])
+                end
+        end
+
+        number pos = motorRead(active)
+        if pos != lastPos
+            ; The motor position was changed, update the screen:
+            lastPos = pos
+            drawMotorPos(pos)
+        end
+
+        if lastActive != active
+            ; The was a different motor output selected, update the screen...
+            drawScreen()
+            sleep(500)
+            lastActive = active
+        end
+    end
+end

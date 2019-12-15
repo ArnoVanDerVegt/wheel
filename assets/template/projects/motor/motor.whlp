@@ -1,0 +1,168 @@
+#project "Control motors"
+
+#include "lib/button.whl"
+#include "lib/motor.whl"
+#include "lib/screen.whl"
+#include "lib/standard.whl"
+#include "lib/math.whl"
+
+#resource "projects/motor/images/arrowUpDot.rgf"
+#resource "projects/motor/images/arrowUpFill.rgf"
+#resource "projects/motor/images/arrowUpLine.rgf"
+#resource "projects/motor/images/arrowDownDot.rgf"
+#resource "projects/motor/images/arrowDownFill.rgf"
+#resource "projects/motor/images/arrowDownLine.rgf"
+
+#define ARROW_UP_DOT    0
+#define ARROW_UP_FILL   1
+#define ARROW_UP_LINE   2
+#define ARROW_DOWN_DOT  3
+#define ARROW_DOWN_FILL 4
+#define ARROW_DOWN_LINE 5
+
+string arrowImages[6] = [
+    "arrowUpDot.rgf",
+    "arrowUpFill.rgf",
+    "arrowUpLine.rgf",
+    "arrowDownDot.rgf",
+    "arrowDownFill.rgf",
+    "arrowDownLine.rgf"
+]
+
+record MotorStatus
+    number type
+    number position
+end
+
+number activeMotor = 0
+number activeSpeed = 0
+MotorStatus motorStatus[4] = [{0,0}, {0,0}, {0,0}, {0,0}]
+
+proc getValidMotor(number type)
+    if type == MOTOR_MEDIUM or type == MOTOR_LARGE
+        ret TRUE
+    end
+    ret FALSE
+end
+
+proc drawArrow(number x, number y, number image)
+    drawImage(x, y, arrowImages[image])
+end
+
+proc drawMotor(number index, number arrowUp, number arrowDown, number valid)
+    number x = 1 + index * 44
+    setFill(FALSE)
+    drawRect(x, 1, 43, 96)
+    if valid
+        drawArrow(x + 6, 6, arrowUp)
+        drawArrow(x + 6, 59, arrowDown)
+    else
+        x = 2 + index * 44
+        setFill(TRUE)
+        setFillColor(WHITE)
+        drawRect(x, 2, 41, 94)
+        setFill(FALSE)
+        setFillColor(BLACK)
+    end
+end
+
+proc drawPosition(number index)
+    setFill(TRUE)
+    number x = 2 + index * 44
+    setFillColor(BLACK)
+    drawRect(x, 43, 41, 11)
+    setFillColor(WHITE)
+    drawNumber(22 + index * 44, 44, motorStatus[index].position)
+    setFill(FALSE)
+    setFillColor(BLACK)
+end
+
+proc drawMotors()
+    number i
+    setTextAlign(TEXT_ALIGN_CENTER)
+    for i = 0 to 3
+        number type  = motorGetType(i)
+        number valid = getValidMotor(type)
+        if i == activeMotor
+            drawMotor(i, ARROW_UP_DOT, ARROW_DOWN_DOT, valid)
+        else
+            drawMotor(i, ARROW_UP_LINE, ARROW_DOWN_LINE, valid)
+        end
+        motorStatus[i].type = type
+        if valid
+            motorStatus[i].position = motorRead(i)
+            drawPosition(i)
+        end
+    end
+end
+
+proc updatePosition()
+    number position = motorRead(activeMotor)
+    if position != motorStatus[activeMotor].position
+        motorStatus[activeMotor].position = position
+        drawPosition(activeMotor)
+    end
+end
+
+proc updateActiveMotor(number lastActiveMotor)
+    drawMotor(lastActiveMotor, ARROW_UP_LINE, ARROW_DOWN_LINE, getValidMotor(motorStatus[lastActiveMotor].type))
+    drawMotor(activeMotor, ARROW_UP_DOT, ARROW_DOWN_DOT, getValidMotor(motorStatus[activeMotor].type))
+end
+
+proc updateSpeed(number lastSpeed)
+    if activeSpeed != lastSpeed
+        if activeSpeed < 0
+            drawMotor(activeMotor, ARROW_UP_DOT, ARROW_DOWN_FILL, TRUE)
+        end
+        if activeSpeed == 0
+            drawMotor(activeMotor, ARROW_UP_DOT, ARROW_DOWN_DOT, TRUE)
+        end
+        if activeSpeed > 0
+            drawMotor(activeMotor, ARROW_UP_FILL, ARROW_DOWN_DOT, TRUE)
+        end
+    end
+end
+
+proc readButtons()
+    activeSpeed = 0
+    select button()
+        case BUTTON_LEFT:
+            activeMotor = remainder(activeMotor + 3, 4)
+            while button() != 0
+            end
+        case BUTTON_RIGHT:
+            activeMotor = remainder(activeMotor + 1, 4)
+            while button() != 0
+            end
+        case BUTTON_UP:
+            activeSpeed = 100
+        case BUTTON_DOWN:
+            activeSpeed = -100
+    end
+end
+
+proc main()
+    drawMotors()
+    repeat
+        number lastActiveMotor = activeMotor
+        number lastSpeed       = activeSpeed
+        number type            = motorStatus[activeMotor].type
+
+        readButtons()
+
+        if activeMotor != lastActiveMotor
+            updateActiveMotor(lastActiveMotor)
+        end
+        if getValidMotor(type)
+            if activeSpeed == 0
+                motorStop(activeMotor)
+            else
+                motorSetSpeed(activeMotor, activeSpeed)
+                motorOn(activeMotor)
+            end
+            updatePosition()
+            updateSpeed(lastSpeed)
+            lastSpeed = activeSpeed
+        end
+    end
+end

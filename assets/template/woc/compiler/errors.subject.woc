@@ -1,0 +1,896 @@
+@subject Compiler:Errors
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Errors
+This page contains a list of compiler errors.
+This page more work to provide more details.
+
+@section FILE_NOT_FOUND
+@example
+#include "notfound.whl"
+proc main()
+end
+@end
+@error
+Error #1 File not found: "notfound.whl".
+@end
+
+@section FILENAME_EXPECTED
+@example
+#include
+proc main()
+end
+@end
+@error
+Error #2 Filename expected.
+@end
+
+@section FILENAME_EXPECTED
+@example
+#include
+proc main()
+end
+@end
+@error
+Error #2 Filename expected.
+@end
+
+@section FILENAME_EXPECTED
+@example
+#include 1
+proc main()
+end
+@end
+@error
+Error #2 Filename expected.
+@end
+
+@section FILENAME_EXPECTED
+@example
+#image
+proc main()
+end
+@end
+@error
+Error #2 Filename expected.
+@end
+
+@section RGF_EXTENSION_EXPECTED
+@example
+#image "test.bmp"
+proc main()
+end
+@end
+@error
+Error #3 ".rgf" Extension expected.
+@end
+
+@section DATA_EXPECTED
+@example
+#image "test.rgf"
+proc main()
+end
+@end
+@error
+Error #4 "#data" Expected.
+@end
+
+@section DATA_STRING_EXPECTED
+@example
+#image "test.rgf"
+#data
+proc main()
+end
+@end
+@error
+Error #5 Data string expected.
+@end
+
+@section DATA_STRING_EMPTY
+@example
+#image "test.rgf"
+#data ""
+proc main()
+end
+@end
+@error
+Error #6 Data string is empty.
+@end
+
+@section DATA_STRING_INVALID_CHARACTER
+@example
+#image "test.rgf"
+#data "020"
+proc main()
+end
+@end
+@error
+Error #7 Data string can only contain "0" or "1".
+@end
+
+@section DATA_STRING_LENGTH_MISMATCH
+@example
+#image "test.rgf"
+#data "010"
+#data "0100"
+proc main()
+end
+@end
+@error
+Error #8 Data string length mismatch.
+@end
+
+<!--
+RTF_EXTENSION_EXPECTED
+LINE_EXPECTED
+LINE_STRING_EXPECTED
+-->
+
+@section UNDEFINED_META_COMMAND
+@example
+#wrong 1
+proc main()
+end
+@end
+@error
+Error #12 Undefined meta command.
+@end
+
+@section ON_OR_OFF_EXPECTED
+@example
+#optimizer "wrong"
+proc main()
+end
+@end
+Error 13 "on" or "off" expected.
+
+@section SYNTAX_ERROR_DOT_EXPECTED
+@example
+record Rec
+    number n
+end
+proc main()
+    Rec r
+    r() = 1
+end
+@end
+@error
+Error #15 "." Expected got "(".
+@end
+
+@section SYNTAX_ERROR_BRACKET_OPEN_EXPECTED
+@example
+record Point
+    number x, y
+end
+proc main()
+    Point p[2] = {1, 2}
+end
+@end
+@error
+Error #16 "[" Expected.
+@end
+
+@section SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED
+@example
+proc test(number n[3])
+end
+proc main()
+    test([1, 2, 3, 4])
+end
+@end
+@error
+Error #17 "]" Expected.
+@end
+
+@example
+proc test(number n[3])
+end
+proc main()
+    test([1, 2, 3)
+end
+@end
+@error
+Error #17 "]" Expected.
+@end
+
+@section SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED
+@example
+proc test(number n[3])
+end
+proc main()
+    test([1, x, 3])
+end
+@end
+@error
+Error #18 Number constant expected, got "x".
+@end
+
+@example
+record Rec
+    number n
+end
+proc test(Rec r)
+end
+proc main()
+    test({"wrong"})
+end
+@end
+@error
+Error #18 Number constant expected, got ""wrong"".
+@end
+
+@example
+number n[2] = [a,1]
+proc main()
+end
+@end
+@error
+Error #18 Number constant expected, got "a".
+@end
+
+@section SYNTAX_ERROR_STRING_CONSTANT_EXPECTED
+@example
+proc test(string s[2])
+end
+proc main()
+    test([1, 2])
+end
+@end
+@error
+Error #19 String constant expected, got "1".
+@end
+
+<!--
+SYNTAX_ERROR_MAIN_PROC_PARAMS
+-->
+
+@example
+record Rec
+    string s
+end
+proc test(Rec r)
+end
+proc main()
+    test({1})
+end
+@end
+@error
+Error #19 String constant expected, got "1".
+@end
+
+@example
+string s[2] = [0,1]
+proc main()
+end
+@end
+@error
+Error #19 String constant expected, got "0".
+@end
+
+@section UNDEFINED_IDENTIFIER
+@example
+proc main()
+    x = 12
+end
+@end
+@error
+Error #21 Undefined identifier "x".
+@end
+
+@example
+proc test()
+    ret y
+end
+proc main()
+end
+@end
+@error
+Error #21 Undefined identifier "y".
+@end
+
+@example
+proc main()
+    addr line.p[1].x
+end
+@end
+@error
+Error #21 Undefined identifier "line".
+@end
+
+@example
+proc test(x n)
+end
+proc main()
+end
+@end
+@error
+Error #21 Undefined identifier "x".
+@end
+
+@example
+proc main()
+    number a[10]
+    a[b] = 1
+end
+@end
+@error
+Error #21 Undefined identifier "b".
+@end
+
+@example
+record Rec
+    x n
+end
+proc main()
+end
+@end
+@error
+Error #21 Undefined identifier "x".
+@end
+
+@section UNDEFINED_FIELD
+@example
+record Rec
+    number f
+end
+proc main()
+    Rec r
+    r.g = 1
+end
+@end
+@error
+Error #22 Undefined field "g".
+@end
+
+@section UNEXPECTED_END_OF_FILE
+@example
+proc main()
+@end
+@error
+Error #23 Unexpected end of file.
+@end
+
+@section UNEXPECTED_CODE_AFTER_META
+@example
+#include "standard.whl" Wrong
+proc main()
+end
+@end
+@error
+Error #24 Unexpected code after "#include".
+@end
+
+@example
+#define CONST 1 Wrong
+proc main()
+end
+@end
+@error
+Error #24 Unexpected code after "#define".
+@end
+
+@example
+#heap 456, 1
+proc main()
+end
+@end
+@error
+Error #24 Unexpected code after "#heap".
+@end
+
+@example
+#optimizer "on", 1
+proc main()
+end
+@end
+@error
+Error #24 Unexpected code after "#optimizer".
+@end
+
+@section DUPLICATE_IDENTIFIER
+@example
+proc test(number n, number n)
+end
+proc main()
+end
+@end
+@error
+Error #25 Duplicate identifier "n".
+@end
+
+@example
+proc test()
+end
+proc test()
+end
+proc main()
+end
+@end
+@error
+Error #25 Duplicate identifier.
+@end
+
+@section TYPE_MISMATCH
+@example
+proc test(number n)
+end
+proc main()
+    test([1])
+end
+@end
+@error
+Error #26 Type mismatch.
+@end
+
+@example
+proc test(number n)
+end
+proc main()
+    test({1})
+end
+@end
+@error
+Error #26 Type mismatch.
+@end
+
+@example
+record Rec
+    number i
+end
+proc main()
+    Rec r
+    number i
+    i = r * 2
+end
+@end
+@error
+Error 26 Type mismatch.
+@end
+
+@example
+proc main()
+    number n
+    string p
+    n = p
+end
+@end
+@error
+Error #26 Type mismatch.
+@end
+
+@example
+proc main()
+    string a
+    string ^b
+    a = b
+end
+@end
+@error
+Error #26 Type mismatch.
+@end
+
+@example
+proc main()
+    string a
+    string b
+    a = @b
+end
+@end
+@error
+Error #26 Type mismatch.
+@end
+
+@section RECORD_TYPE_EXPECTED
+@example
+proc main()
+    number n
+    n.a = 10
+end
+@end
+@error
+Error #27 Record type expected.
+@end
+
+@section ARRAY_TYPE_EXPECTED
+@example
+proc test(number n[2])
+end
+proc main()
+    number x
+    test(x)
+end
+@end
+@error
+Error #28 Array type expected.
+@end
+
+@example
+proc main()
+    number n
+    n[5] = 10
+end
+@end
+@error
+Error #28 Array type expected.
+@end
+
+@section ARRAY_SIZE_MISMATCH
+@example
+proc test(number n[2])
+end
+proc main()
+    number x[3]
+    test(x)
+end
+@end
+@error
+Error #29 Array size mismatch.
+@end
+
+@example
+proc main()
+    number a[3]
+    number b[2]
+    a = b
+end
+@end
+@error
+Error #29 Array size mismatch.
+@end
+
+@section ARRAY_INDEX_OUT_OF_RANGE
+@example
+proc main()
+    number n[4]
+    n[5] = 1
+end
+@end
+@error
+Error #30 Array index out of range.
+@end
+
+@section STRING_CONSTANT_EXPECTED
+@example
+string s = 10
+proc main()
+end
+@end
+@error
+Error #31 String constant expected.
+@end
+
+@example
+#project 1
+proc main()
+end
+@end
+@error
+Error #31 String constant expected.
+@end
+
+@example
+#optimizer 1
+proc main()
+end
+@end
+@error
+Error #31 String constant expected.
+@end
+
+@section NUMBER_OR_STRING_CONSTANT_EXPECTED
+@example
+#define CONST end
+proc main()
+end
+@end
+@error
+Error #32 Number or string constant expected.
+@end
+
+@section NUMBER_CONSTANT_EXPECTED
+@example
+proc main()
+    number n[a]
+end
+@end
+@error
+Error #33 Number constant expected.
+@end
+
+@example
+number n = "string"
+proc main()
+end
+@end
+@error
+Error #33 Number constant expected.
+@end
+
+@example
+#heap "off"
+proc main()
+end
+@end
+@error
+Error #33 Number constant expected.
+@end
+
+@section NUMBER_TYPE_EXPECTED
+@example
+proc main()
+    proc p
+    select p
+    end
+end
+@end
+@error
+Error #34 Number type expected.
+@end
+
+@section POINTER_TYPE_EXPECTED
+@example
+proc test(number n)
+end
+proc main()
+    number x
+    test(@x)
+end
+@end
+@error
+Error #35 Pointer type expected.
+@end
+
+@example
+proc main()
+    number n
+    number p
+    n = @p
+end
+@end
+@error
+Error #35 Pointer type expected.
+@end
+
+@example
+proc main()
+    string ^a
+    string b
+    a = b
+end
+@end
+@error
+Error #35 Pointer type expected.
+@end
+
+@example
+record Point
+    number n
+end
+proc main()
+    Point a
+    Point b
+    a = @b
+end
+@end
+@error
+Error #35 Pointer type expected.
+@end
+
+@section IDENTIFIER_EXPECTED
+@example
+#define end 0
+proc main()
+end
+@end
+@error
+Error #36 Identifier expected.
+@end
+
+@section BREAK_WITHOUT_LOOP
+@example
+proc main()
+    break
+end
+@end
+@error
+Error #37 Break without loop.
+@end
+
+@section MISSING_MAIN_PROC
+@example
+proc test()
+end
+@end
+@error
+Error #38 Missing main proc.
+@end
+
+@section MAIN_PROC_ALREADY_DEFINED
+@example
+proc main()
+end
+proc main()
+end
+@end
+@error
+Error #39 Main proc already defined.
+@end
+
+@section NO_LOCAL_PROC_SUPPORTED
+@example
+proc main()
+    proc test()
+    end
+end
+@end
+@error
+Error #40 No local proc allowed.
+@end
+
+@section PARAM_COUNT_MISMATCH
+@example
+proc test(number n)
+end
+proc main()
+    test()
+end
+@end
+@error
+Error #41 Parameter count mismatch.
+@end
+
+@example
+proc test(number n)
+end
+proc main()
+    test(1, 2)
+end
+@end
+@error
+Error #41 Parameter count mismatch.
+@end
+
+@section PARAM_TYPE_MISMATCH
+@example
+record Point
+    number x
+end
+proc test(number p)
+end
+Point p
+proc main()
+    test(p)
+end
+@end
+@error
+Error #42 Parameter type mismatch.
+@end
+
+@example
+record Point
+    number x
+    number y
+end
+proc test(Point p)
+end
+Point p
+proc main()
+    test(1)
+end
+@end
+@error
+Error #42 Parameter type mismatch.
+@end
+
+@section ITEM_COUNT_MISMATCH
+@example
+number n[3] = [0,1]
+proc main()
+end
+@end
+@error
+Error #43 Item count mismatch.
+@end
+
+@section INVALID_CONSTANT
+@example
+record R
+    number n
+end
+R n = 1
+proc main()
+end
+@end
+@error
+Error #44 Invalid constant.
+@end
+
+@section INVALID_ARRAY_SIZE
+@example
+record Rec
+    number n[0]
+end
+proc main()
+end
+@end
+@error
+Error #45 Invalid array size.
+@end
+
+@section INVALID_ARRAY_INDEX
+@example
+proc main()
+    number n[4]
+    n[-1] = 1
+end
+@end
+@error
+Error #46 Invalid array index.
+@end
+
+@section INVALID_OPERATION
+@example
+proc main()
+    string s
+    s *= s
+end
+@end
+@error
+Error #47 Invalid operation.
+@end
+
+@example
+proc main()
+    string a, b
+    a = b * 2
+end
+@end
+@error
+Error #47 Invalid operation.
+@end
+
+@section INVALID_STATEMENT_IN_SCOPE
+@example
+ret
+@end
+@error
+Error #49 Invalid statement in scope.
+@end
+
+@example
+break
+@end
+@error
+Error #48 Invalid statement in scope.
+@end
+
+@section INVALID_CONSTANT_IN_SCOPE
+@example
+proc test()
+end
+number i = test()
+proc main()
+end
+@end
+@error
+Error #49 Invalid constant value in scope.
+@end
+
+@example
+number n = a
+proc main()
+end
+@end
+@error
+Error #49 Invalid constant value in scope.
+@end
+
+<!--
+INVALID_RESOURCE
+INVALID_STRING_LENGTH
+INVALID_STRING_COUNT
+DEFAULT_ALREADY_DEFINED
+DEFAULT_LAST_EXPECTED
+DUPLICATE_RESOURCE
+-->

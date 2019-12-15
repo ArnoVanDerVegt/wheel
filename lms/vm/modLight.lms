@@ -1,0 +1,20 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modLight {                                                      // 03) LIGHT
+    IN_8  pModCall_8
+    IN_32 pRegSrc_32
+    DATA8 lColor_8
+
+    JR_EQ8(pModCall_8,  0, mod_light_update)
+    RETURN()
+mod_light_update:                                                       // 01) lightUpdate
+    CALL(readMem8, pRegSrc_32, 0, lColor_8)
+    UI_WRITE(LED, lColor_8)
+    RETURN()
+}

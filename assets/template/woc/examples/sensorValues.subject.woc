@@ -1,0 +1,109 @@
+@subject Example:Sensor, values
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Sensor value name example
+This demo shows how to read and display sensor values, the following sensors are displayed:
+
+* Touch
+* Color, the color value</li>
+* Ultrasonic
+
+@see sensor,Modules
+
+@section Code
+@example
+#project "Sensor value demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/sensor.whl"
+
+#display "sensors"
+
+number touchValue      = FALSE
+number colorValue      = 0
+number ultrasonicValue = 0
+
+; Draw the touch value
+proc drawTouchValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(27, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(touchValue)
+    drawRect(31, 47, 30, 30)
+end
+
+; Draw the reflected color value
+proc drawColorValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(71, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(72, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_2)
+    drawNumber(78, 56, colorValue)
+end
+
+; Draw a the ultrasonic sensor value
+proc drawUltrasonicValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(115, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(116, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_2)
+    number x = 124
+    if infraredValue >= 10
+        x -= 5
+    end
+    if infraredValue >= 100
+        x -= 5
+    end
+    drawNumber(x, 55, ultrasonicValue)
+end
+
+proc main()
+    number value
+
+    drawTouchValue()
+    drawColorValue()
+    drawUltrasonicValue()
+
+    sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
+    sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
+    sensorSetMode(INPUT_2, COLOR_REFLECTED_INTENSITY)
+    sensorSetType(INPUT_3, SENSOR_TYPE_ULTRASONIC)
+
+    repeat
+        value = sensorRead(INPUT_1)
+        if value != touchValue
+            touchValue = value
+            drawTouchValue()
+        end
+
+        value = sensorRead(INPUT_2)
+        if value != colorValue
+            colorValue = value
+            drawColorValue()
+        end
+
+        value = sensorRead(INPUT_3)
+        if value != ultrasonicValue
+            ultrasonicValue = value
+            drawUltrasonicValue()
+        end
+    end
+end
+@end
+
+@load Open sensor values example|examples/sensor/values.whlp
+
+@see screen,standard,sensor
+

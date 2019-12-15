@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+/*.my-ui-text { -webkit-user-select:none; }*/
+
+* {
+    box-sizing:                     border-box;
+}
+body,
+html {
+    width:                          100%;
+    height:                         100%;
+    padding:                        0;
+    margin:                         0;
+    position:                       relative;
+    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
+    overflow:                       hidden;
+    background-color:               var(--ui-background2);
+    color:                          var(--ui-text1);
+}
+body {
+    color:                          var(--ui-text1);
+}
+div,
+a,
+span,
+li,
+input {
+    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
+}
+.bold {
+    font-weight:                    bold;
+}
+.italic {
+    font-style:                     italic;
+}
+h1,
+h2,
+h3,
+h4 {
+    font-family:                    latolight;
+    -webkit-user-select:            none;
+}
+
+/* Editor */
+body.ide div.editor-wrapper {
+    position:                       absolute;
+    top:                            40px;
+    /*bottom:                         256px;*/
+    bottom:                         var(--console-height);
+    /*left:                           256px;*/
+    left:                           var(--file-tree-width);
+    right:                          304px;
+    margin:                         0;
+    padding:                        0;
+    z-index:                        1;
+}
+/* Tabs */
+body.ide div.editor-wrapper .toolbar .tabs {
+    width:                          calc(100% - 96px);
+}
+/* Hidden/showing */
+body.ide.no-motors .simulator .motors {
+    display:                        none;
+}
+body.ide.no-ev3 .simulator .ev3 {
+    display:                        none;
+}
+body.ide.no-sensors .simulator .sensors {
+    display:                        none;
+}
+/* No console */
+body.ide.no-console div.editor-wrapper {
+    bottom:                         0;
+}
+/* No simulator */
+body.ide.no-simulator div.editor-wrapper {
+    right:                          0;
+}
+/* No file tree */
+body.ide.no-file-tree div.editor-wrapper {
+    left:                           0;
+}
+body.ide div.editor-wrapper .editor {
+    float:                          left;
+    width:                          100%;
+    height:                         calc(100% - 40px);
+}
+
+.console-wrapper .toolbar .tabs {
+    width:                          calc(100% - 100px);
+}
+
+/* File tree close button */
+.file-tree-wrapper .toolbar .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+
+/* Auto reset sensors */
+.auto-reset,
+.connection {
+    float:                          left;
+    margin:                         16px 0 0 0;
+    width:                          100%;
+}
+.connection {
+    display:                        none;
+}
+.connection .device-info {
+    font-size:                      11px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    width:                          268px;
+}
+.auto-reset .label {
+    float:                          left;
+    margin:                         2.5px 0 0 8px;
+    line-height:                    16px;
+}
+.auto-reset .checkbox {
+    float:                          left;
+}
+/* Storage in title bar */
+.main-menu .storage {
+    float:                          right;
+    opacity:                        0.3;
+    transition:                     opacity 0.3s;
+    margin:                         0 16px 0 0;
+}
+.main-menu .storage .progress-bar {
+    width:                          0;
+    opacity:                        0;
+    transition:                     width 0.3s, opacity 0.3s;
+}
+.main-menu .storage:hover {
+    opacity:                        1;
+}
+.main-menu .storage:hover .progress-bar {
+    opacity:                        1;
+    width:                          64px;
+}
+.main-menu .storage-label {
+    float:                          left;
+    height:                         40px;
+    line-height:                    40px;
+    margin:                         0 4px 0 0;
+    color:                          var(--color-white);
+    font-size:                      13px;
+}

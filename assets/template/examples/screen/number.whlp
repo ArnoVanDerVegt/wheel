@@ -1,0 +1,28 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Screen number demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+
+proc main()
+    number textSize
+    number y = 0
+    number n = 100
+    for textSize = 0 to 2
+        setTextSize(textSize)
+        setTextAlign(TEXT_ALIGN_LEFT)
+        drawNumber(0, y, n)
+        n++
+        setTextAlign(TEXT_ALIGN_CENTER)
+        drawNumber(SCREEN_CENTER_X, y + 18, n)
+        n++
+        setTextAlign(TEXT_ALIGN_RIGHT)
+        drawNumber(177, y + 36, n)
+        n++
+        y += 36
+    end
+
+    ; Wait...
+    halt()
+end

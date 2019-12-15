@@ -1,0 +1,125 @@
+@subject Programming:Conditions
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Conditions
+With a `condition` statement you can execute a block of code if an expression evaluates as true.
+
+@section If
+The `if` statement lets you compare two values,
+when the condition is `true` then the code between `if`...`end` will be executed.
+
+@example
+proc main()
+    number n = 5
+
+    if n == 5
+        printS("Five")
+    end
+end
+@end
+
+@section Booleans
+@keyword boolean
+When there is no condition specified in an `if` statement then the value is compared to 0.
+The condition evaluates as `true` when the value is not equal to 0.
+
+@example
+proc main()
+    number b
+
+    if b
+        printN("True")
+    end
+end
+@end
+
+@section Not
+It's also possible to execute a block if an expression evaluates to `false`, this can be done with the `not` keyword.
+@example
+proc main()
+    number b
+
+    if not b
+        printN("False")
+    end
+end
+@end
+
+@section Else
+With the `else` statement you can execute a block of code if the `if` condition is false.
+
+@example
+proc main()
+    number n
+
+    if n == 4
+        printS("Four")
+    else
+        printN("Not four")
+    end
+end
+@end
+
+@section Logical operators
+@keyword operator
+With a `logical` operator you can compare multiple values, there are two `logical` operators: `and` and `or`.
+
+@example
+proc main()
+    number a
+    number b
+
+    ; A and example...
+    if a == 5 and b == 5
+        printS("A and B are five")
+    end
+
+    ; A or example
+    if a == 5 or b == 5
+        printS("A or B is five")
+    end
+end
+@end
+
+@section Select
+With a `select` you can compare a value to one or more values to select a block of code to execute.
+The code is executed until another case or the end of the `select` block is reached.
+
+@example
+proc printMessage(number n)
+    number n
+
+    select n
+        case 1:
+            printS("one")
+
+        case 2:
+            printS("two")
+
+        case 3:
+            printS("three")
+
+    end
+end
+
+proc main()
+    printMessage(2)
+end
+@end
+
+@section Assembly operator commands
+The operator is the oposite of the condition,
+if the condition evaluates to `true` then the code is skipped with a jump.
+
++------------------+-------+----------+
+| Condition        | Sign  | Operator |
++------------------+-------+----------+
+| Not equal        | !=    | je       |
+| Equal            | ==    | jne      |
+| Greater or equal | &gt;= | jl       |
+| Less or equal    | &lt;= | jg       |
+| Greater          | &gt;  | jle      |
+| Less             | &lt;  | jge      |
++------------------+-------+----------+
+
+@see syntax,operator

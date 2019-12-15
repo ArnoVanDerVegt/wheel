@@ -1,0 +1,53 @@
+@subject IDE:Supported files
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Supported files
+With `Wheel` you can open and edit the following files:
+
+@section Wheel source files
++------------------------------+-----------+--------------------------------------------+
+| Icon                         | Extension | Description                                |
++------------------------------+-----------+--------------------------------------------+
+| @image images/files/whlp.svg | whlp      | Wheel project files.                       |
+| @image images/files/whl.svg  | whl       | Wheel source files.                        |
++------------------------------+-----------+--------------------------------------------+
+
+@section Assembly file
+The virtual machine which can be executed on the EV3 brick is written in assembly.
++------------------------------+-----------+--------------------------------------------+
+| Icon                         | Extension | Description                                |
++------------------------------+-----------+--------------------------------------------+
+| @image images/files/lms.svg  | lms       | Lego assembly file.                        |
++------------------------------+-----------+--------------------------------------------+
+
+@section Image files
+When you open an image file with the `.png`, `.gif`, `.jpg`, `.jpeg` or `.bmp` extension then an import wizard will be
+started to convert the color image to a black and white image.
++------------------------------+-----------+--------------------------------------------+
+| Icon                         | Extension | Description                                |
++------------------------------+-----------+--------------------------------------------+
+| @image images/files/rgf.svg  | rgf       | Robot graphic file, momochrome image file. |
+| @image images/files/png.svg  | png       | Image file.                                |
+| @image images/files/gif.svg  | gif       | Image file.                                |
+| @image images/files/jpg.svg  | jpg/jpeg  | Image file.                                |
+| @image images/files/bmp.svg  | bmp       | Image file.                                |
++------------------------------+-----------+--------------------------------------------+
+
+@section Sound files
+When you open a sound file with the `.mp3`, `.wav` or `.ogg` extension then an import wizard will be
+started to convert the sound file to a 8kHz file. Unfortunately the conversion leads to a large loss of sound quality.
++------------------------------+-----------+--------------------------------------------+
+| Icon                         | Extension | Description                                |
++------------------------------+-----------+--------------------------------------------+
+| @image images/files/rsf.svg  | rsf       | Robot sound file, 8kHz sound sample.       |
+| @image images/files/mp3.svg  | mp3       | Sound file.                                |
+| @image images/files/wav.svg  | wav       | Sound file.                                |
+| @image images/files/ogg.svg  | ogg       | Sound file.                                |
++------------------------------+-----------+--------------------------------------------+
+
+@section Text file
++------------------------------+-----------+--------------------------------------------+
+| Icon                         | Extension | Description                                |
++------------------------------+-----------+--------------------------------------------+
+| @image images/files/rtf.svg  | rtf       | Robot text file.                           |
++------------------------------+-----------+--------------------------------------------+

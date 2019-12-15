@@ -1,0 +1,24 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modFileInit {
+    DATA8  lIndex_8
+    DATA32 lOffset_32
+    DATA8  lMode_8
+
+    ARRAY(CREATE8, 544, gFiles_H)                                       // 16 * (2 + 32), 16 files: mode, length, name
+
+    MOVE8_8(0, lMode_8)
+    MOVE32_32(0, lOffset_32)
+    MOVE8_8(0, lIndex_8)
+mod_file_init_loop:
+    ARRAY_WRITE(gFiles_H, lOffset_32, lMode_8)                          // Set used to 0
+    ADD32(lOffset_32, 34, lOffset_32)                                   // lOffset_32 = lOffset_32 + (32 + 3)
+    ADD8(lIndex_8, 1, lIndex_8)
+    JR_LT8(lIndex_8, 16, mod_file_init_loop)
+}

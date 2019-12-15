@@ -1,0 +1,29 @@
+; @module Button
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The button module.
+#define MODULE_BUTTON  			4
+
+; @const Module call to read a button.
+#define BUTTON_READ    			0
+#define BUTTON_WAIT_FOR_PRESS 	1
+
+; @const The possible button values.
+#define BUTTON_NONE    			0
+#define BUTTON_UP      			1
+#define BUTTON_CENTER  			2
+#define BUTTON_DOWN    			3
+#define BUTTON_RIGHT   			4
+#define BUTTON_LEFT    			5
+
+; @proc             Read a button value.
+; @return           The button presses -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`, `BUTTON_UP` or `BUTTON_DOWN`.
+proc button()
+    mod MODULE_BUTTON, BUTTON_READ
+end
+
+; @proc             Wait until a button is pressed.
+proc waitForPress()
+    mod MODULE_BUTTON, BUTTON_WAIT_FOR_PRESS
+end

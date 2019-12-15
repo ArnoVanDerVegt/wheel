@@ -1,0 +1,6 @@
+<svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="8,0 30,0 40,10 40,48 8,48" style="stroke:rgb(68,189,50);stroke-width:1" stroke-linejoin="round" fill="rgb(76,209,55)" />
+    <polygon points="30,0 30,10 40,10" style="stroke:rgba(255,255,255,0.5);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.5)" />
+    <polygon points="24,25 29.290067270632257,28.281152949374526 27.804226065180615,22.23606797749979 32.55950864665638,18.218847050625474 26.351141009169893,17.76393202250021 24,12 21.648858990830107,17.76393202250021 15.440491353343619,18.21884705062547 20.195773934819385,22.23606797749979 18.70993272936774,28.281152949374526" style="stroke:rgba(255,255,255,0.5);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.7)" />
+    <text x="24" y="39" text-anchor="middle" font-family="latolight, Arial" style="font-size:9px;stroke:rgb(255,255,255);fill:rgb(255,255,255);">WHL</text>
+</svg>

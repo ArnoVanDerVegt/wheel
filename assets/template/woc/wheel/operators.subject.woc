@@ -1,0 +1,92 @@
+@subject Programming:Operators
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Operators
+With an operator you can tell the compiler to perform a mathematical or string operation to preduce a new value.
+
+The operators are applied in a specific order, the operator precedence.
+
++----------+------+------------+
+| Operator | Sign | Precedence |
++----------+------+------------+
+| Multiply | "*"  | 1          |
+| Divide   | "/"  | 2          |
+| Add      | "+"  | 3          |
+| Subtract | "-"  | 4          |
++----------+------+------------+
+
+A multiplication is executed before a division, a division is executed before an addition, etc.
+
+@section Assignment
+With the assignment operator "=" you can assign a value, this operator is applicable to `numeric`, `string`, `record` and `array` types. 
+
+@example
+proc main()
+  number n
+  n = 15 ; Assign the value 15 to the number n
+end
+@end
+
+@section Addition
+With the addition operator "+" you can multiply a value, this operator is applicable to `numeric` and `string` types. 
+
+@example
+proc main()
+  number n
+  n = n + 15 ; Add the value 15 to the number n
+end
+@end
+
+@section Subtraction
+With the subtraction operator "-" you can subtract a value, this operator is only applicable to `numeric` types. 
+
+@example
+proc main()
+  number n
+  n = n - 15 ; Subtract 15 from the number n
+end
+@end
+
+@section Multiplication
+With the multiplication operator "*" you can multiply a value, this operator is only applicable to `numeric` types. 
+
+@example
+proc main()
+  number n
+  n = n * 15 ; Multiply n with 15
+end
+@end
+
+@section Division
+With the division operator "/" you can divide a value, this operator is only applicable to `numeric` types. 
+
+@example
+proc main()
+  number n
+  n = n / 15 ; Divide n with 15
+end
+@end
+
+@section Short notation
+When the operation is applied to the same number as the source value then an operator can be written is a shorter manner.
+
+The following example shows the same operations as the examples above but in a shorter notation:
+@example
+proc main()
+  number n
+  n += 15 ; Add the value 15 to the number n
+  n -= 15 ; Subtract 15 from the number n
+  n *= 15 ; Multiply n with 15
+  n /= 15 ; Divide n with 15
+end
+@end
+
+@section Short increase and decrease
+When increasing or decreasing with one there's an even shorter notation possible:
+@example
+proc main()
+  number n
+  n++ ; Increase n with 1
+  n-- ; Decrease n with 1
+end
+@end

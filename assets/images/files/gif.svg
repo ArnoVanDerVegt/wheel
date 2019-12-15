@@ -1,0 +1,6 @@
+<svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="8,0 30,0 40,10 40,48 8,48" style="stroke:rgb(194,54,22);stroke-width:1" stroke-linejoin="round" fill="rgb(232,65,24)" />
+    <polygon points="30,0 30,10 40,10" style="stroke:rgba(255,255,255,0.5);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.5)" />
+    <polygon points="24,15 18,25 30,25" style="stroke:rgb(255,255,255);stroke-width:1" stroke-linejoin="round" fill="rgba(255,255,255,0.6)" />
+    <text x="24" y="39" text-anchor="middle" font-family="latolight, Arial" style="font-size:11px;stroke:rgb(255,255,255);fill:rgb(255,255,255);">GIF</text>
+</svg>

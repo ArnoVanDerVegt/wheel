@@ -1,0 +1,190 @@
+/**
+ * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+**/
+const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
+const dispatcher = require('../../lib/dispatcher').dispatcher;
+const DOMNode    = require('../../lib/dom').DOMNode;
+const path       = require('../../lib/path');
+const utils      = require('../../lib/utils');
+
+class LogMessage extends DOMNode {
+    constructor(opts) {
+        super(opts);
+        this._open            = false;
+        this._className       = opts.className;
+        this._log             = opts.log;
+        this._lineInfo        = opts.lineInfo;
+        this._parentMessageId = opts.parentMessageId;
+        this._messageId       = opts.messageId;
+        this._message         = opts.message;
+        this._className       = opts.className || '';
+        this.initDOM(opts.parentNode);
+    }
+
+    initDOM(parentNode) {
+        this.create(
+            parentNode,
+            {
+                type:      'span',
+                id:        this.setElement.bind(this),
+                className: this.getClassName(),
+                innerHTML: this._message,
+                style: {
+                    display: this._parentMessageId ? 'none' : 'block'
+                }
+            }
+        );
+    }
+
+    getParentMessageId() {
+        return this._parentMessageId;
+    }
+
+    getMessageId() {
+        return this._messageId;
+    }
+
+    getClassName() {
+        return this._className +
+            (this._messageId ? ' ' + (this._open ? 'open' : 'closed') : '') +
+            (this._lineInfo  ? ' with-info' : '');
+    }
+
+    setElement(element) {
+        this._element = element;
+        if (this._lineInfo) {
+            element.addEventListener('click', this.onClickLineInfo.bind(this));
+        }
+        if (this._messageId) {
+            element.addEventListener('click', this.onClickParentMessage.bind(this));
+        }
+    }
+
+    setVisible(visible) {
+        this._element.style.display = visible ? 'block' : 'none';
+    }
+
+    onClickLineInfo() {
+        let lineInfo = this._lineInfo;
+        dispatcher.dispatch('Dialog.File.Open', lineInfo.filename, lineInfo);
+    }
+
+    onClickParentMessage() {
+        this._open = !this._open;
+        let open      = this._open;
+        let messageId = this._messageId;
+        let messages  = this._log.getMessages();
+        this._element.className = this.getClassName();
+        messages.forEach(function(message) {
+            if (message.getParentMessageId() === messageId) {
+                message.setVisible(open);
+            }
+        });
+    }
+}
+
+let messageId = 1;
+
+exports.getMessageId = function() {
+    return messageId++;
+};
+
+exports.Log = class extends DOMNode {
+    constructor(opts) {
+        super(opts);
+        this._messages     = [];
+        this._preProcessor = null;
+        dispatcher
+            .on('Console.Clear',        this, this.onClear)
+            .on('Console.Log',          this, this.onLog)
+            .on('Console.Error',        this, this.onError)
+            .on('Console.PreProcessor', this, this.onPreProcessor);
+        this.initDOM(opts.parentNode);
+        opts.id && opts.id(this);
+    }
+
+    getMessages() {
+        return this._messages;
+    }
+
+    setElement(element) {
+        this._element = element;
+    }
+
+    initDOM(parentNode) {
+        this.create(
+            parentNode,
+            {
+                id:        this.setElement.bind(this),
+                className: 'console-lines'
+            }
+        );
+    }
+
+    onClear() {
+        let element = this._element;
+        if (element) {
+            element.scrollTop = 0;
+            element.innerHTML = '';
+        }
+        this._messages.length = 0;
+    }
+
+    onLog(opts) {
+        if (!this._element) {
+            return;
+        }
+        this._messages.push(
+            new LogMessage({
+                parentNode:      this._element,
+                log:             this,
+                message:         opts.message,
+                messageId:       opts.messageId,
+                parentMessageId: opts.parentMessageId,
+                lineInfo:        opts.lineInfo,
+                className:       'console-line ' + (opts.className || '')
+            })
+        );
+        this.scrollToLast();
+    }
+
+    onError(opts) {
+        let error = opts;
+        if (error.token) {
+            let token       = error.token;
+            let sortedFiles = this._preProcessor.getSortedFiles();
+            let filename    = token.filename || sortedFiles[token.fileIndex].filename;
+            let line        = tokenUtils.getLineFromToken(token, opts.tokens);
+            let text        = '<i class="error">' + line.left + '<b>' + line.lexeme + '</b>' + line.right + '<i>';
+            let pathAndFilename = path.getPathAndFilename(filename);
+            this.onLog({
+                message:  pathAndFilename.filename + '(line:' + token.lineNum + ',' + line.left.length + ') ' + text,
+                lineInfo: {filename: filename, lineNum: token.lineNum, ch: line.left.length}
+            });
+        }
+        this.onLog({
+            message:   (error.type || 'Error') + ': <b>' + error.message + '</b>',
+            className: 'error'
+        });
+    }
+
+    onPreProcessor(preProcessor) {
+        this._preProcessor = preProcessor;
+    }
+
+    scrollToLast() {
+        let element    = this._element;
+        let childNodes = element.childNodes;
+        if (!childNodes.length) {
+            return;
+        }
+        let lineHeight  = childNodes[0].offsetHeight;
+        let lineCount   = childNodes.length;
+        let linesHeight = lineCount * lineHeight;
+        let viewHeight  = element.offsetHeight;
+        if (linesHeight > viewHeight) {
+            element.scrollTop = linesHeight - viewHeight;
+        }
+    }
+};

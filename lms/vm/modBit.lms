@@ -1,0 +1,61 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+subcall modBit {
+    IN_8   pModCall_8
+    IN_32  pRegSrc_32
+    DATAF  lValue_F
+    DATA32 lX_32
+    DATA32 lY_32
+
+    JR_EQ8(pModCall_8, 0, mod_bit_bit_or)
+    JR_EQ8(pModCall_8, 1, mod_bit_bit_and)
+    JR_EQ8(pModCall_8, 2, mod_bit_to_bit)
+    JR_EQ8(pModCall_8, 3, mod_bit_to_bit_not)
+    JR_EQ8(pModCall_8, 4, mod_bit_shl)
+    JR_EQ8(pModCall_8, 5, mod_bit_shr)
+    RETURN()
+
+mod_bit_bit_or:                                                         // 00) bitOr
+    CALL(readMem32, pRegSrc_32, 0, lX_32)
+    CALL(readMem32, pRegSrc_32, 1, lY_32)
+    OR32(lX_32, lY_32, lX_32)
+    CALL(setRet32AndKeep, lX_32)
+    RETURN()
+
+mod_bit_bit_and:                                                        // 01) bitAnd
+    CALL(readMem32, pRegSrc_32, 0, lX_32)
+    CALL(readMem32, pRegSrc_32, 1, lY_32)
+    AND32(lX_32, lY_32, lX_32)
+    CALL(setRet32AndKeep, lX_32)
+    RETURN()
+
+mod_bit_to_bit:
+    CALL(readMemF, pRegSrc_32, 0, lValue_F)
+    JR_EQF(lValue_F, 0, mod_bit_to_bit_0)
+    CALL(setRet8AndKeep, 1)
+    RETURN()
+mod_bit_to_bit_0:
+    CALL(setRet8AndKeep, 0)
+    RETURN()
+
+mod_bit_to_bit_not:
+    CALL(readMemF, pRegSrc_32, 0, lValue_F)
+    JR_EQF(lValue_F, 0, mod_bit_to_bit_not_0)
+    CALL(setRet8AndKeep, 0)
+    RETURN()
+mod_bit_to_bit_not_0:
+    CALL(setRet8AndKeep, 1)
+    RETURN()
+
+mod_bit_shl:
+    RETURN()
+
+mod_bit_shr:
+    RETURN()
+}
