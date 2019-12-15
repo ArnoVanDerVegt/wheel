@@ -43,7 +43,6 @@ exports.AlertDialog = class extends Dialog {
         refs.text.innerHTML  = (opts.lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
         if (opts.image) {
             refs.image.setSrc(getImage(opts.image));
-            console.log('this._dialogElement:', this._dialogElement);
             dialogElement.className = this.addClassName(dialogElement.className, 'with-image');
         } else {
             dialogElement.className = this.removeClassName(dialogElement.className, 'with-image');
