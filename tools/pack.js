@@ -434,7 +434,8 @@ output += 'let settings;\n' +
 
 output += '})();';
 
-fs.writeFileSync('dist.js', output);
+let distName = 'dist' + Math.abs(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER));
+fs.writeFileSync(distName + '.js', output);
 
 output = '';
 
@@ -444,31 +445,64 @@ cssFiles.forEach(function(filename) {
     output += fs.readFileSync(filename).toString() + '\n';
 });
 
-fs.writeFileSync('dist.css', output);
+fs.writeFileSync(distName + '.css', output);
+
+function removeOldIncludes() {
+    console.log('Removing old files.');
+    let html = fs.readFileSync('../site/ide/ide.html').toString();
+    const getDistName = function(html, key) {
+            let i = html.indexOf(key);
+            let j = html.indexOf('.', i);
+            return html.substr(i + key.length, j - key.length - i);
+        };
+    let oldCss = getDistName(html, 'id="distCss" href="') + '.min.css';
+    let oldJs  = getDistName(html, 'id="distJs" src="') + '.min.js';
+    console.log('    - ' + oldCss);
+    console.log('    - ' + oldJs);
+    fs.unlinkSync('../site/ide/' + oldCss);
+    fs.unlinkSync('../site/ide/' + oldJs);
+}
+
+function updateIncludes() {
+    console.log('Updating include files.');
+    let html = fs.readFileSync('../site/ide/ide.html').toString();
+    const replaceAfterKey = function(html, key) {
+            let i = html.indexOf(key);
+            let j = html.indexOf('.', i);
+            return html.substr(0, i + key.length) + distName + html.substr(j - html.length);
+        };
+    console.log('    - ' + distName + '.min.css');
+    console.log('    - ' + distName + '.min.js');
+    html = replaceAfterKey(html, 'id="distCss" href="');
+    html = replaceAfterKey(html, 'id="distJs" src="');
+    fs.writeFileSync('../site/ide/ide.html', html);
+}
 
 function removeFiles() {
+    removeOldIncludes();
     console.log('Deleting temp js and css...');
-    exec('rm dist.min.css', function() {});
-    exec('rm dist.css', function() {});
-    exec('rm dist.min.js', function() {});
-    exec('rm dist.js', function() {});
+    exec('rm ' + distName + '.min.css', function() {});
+    exec('rm ' + distName + '.css', function() {});
+    exec('rm ' + distName + '.min.js', function() {});
+    exec('rm ' + distName + '.js', function() {});
+    updateIncludes();
 }
 
 function copyDistCss() {
     console.log('Moving css...');
-    exec('cp dist.min.css ../site/ide/dist.min.css', removeFiles);
+    exec('cp ' + distName + '.min.css ../site/ide/' + distName + '.min.css', removeFiles);
 }
 
 function copyDistJs() {
     console.log('Moving js...');
-    exec('cp dist.min.js ../site/ide/dist.min.js', copyDistCss);
+    exec('cp ' + distName + '.min.js ../site/ide/' + distName + '.min.js', copyDistCss);
 }
 
 function terser() {
     console.log('Minifying js...');
-    exec('terser dist.js --compress --mangle > dist.min.js', copyDistJs);
+    exec('terser ' + distName + '.js --compress --mangle > ' + distName + '.min.js', copyDistJs);
 }
 
 console.log('Minifying css...');
-exec('uglifycss dist.css > dist.min.css', terser);
+exec('uglifycss ' + distName + '.css > ' + distName + '.min.css', terser);
 
