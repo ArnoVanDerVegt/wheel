@@ -27,6 +27,15 @@ exports.Console = class extends DOMNode {
     }
 
     initDOM(parentNode) {
+        let tabs = [
+                {title: 'Console',     onClick: this.onClickConsoleTab.bind(this)},
+                {title: 'Registers',   onClick: this.onClickRegistersTab.bind(this)},
+                {title: 'Global vars', onClick: this.onClickGlobalVarsTab.bind(this)},
+                {title: 'Local vars',  onClick: this.onClickLocalVarsTab.bind(this)}
+            ];
+        if ('electron' in window) {
+            tabs.push({title: 'Terminal', onClick: this.onClickTerminalTab.bind(this)});
+        }
         this.create(
             parentNode,
             {
@@ -42,13 +51,7 @@ exports.Console = class extends DOMNode {
                                 uiId:     1,
                                 active:   {title: 'Console', meta: ''},
                                 tabIndex: tabIndex.CONSOLE_TABS,
-                                tabs: [
-                                    {title: 'Console',     onClick: this.onClickConsoleTab.bind(this)},
-                                    {title: 'Registers',   onClick: this.onClickRegistersTab.bind(this)},
-                                    {title: 'Global vars', onClick: this.onClickGlobalVarsTab.bind(this)},
-                                    {title: 'Local vars',  onClick: this.onClickLocalVarsTab.bind(this)},
-                                    {title: 'Terminal',    onClick: this.onClickTerminalTab.bind(this)}
-                                ]
+                                tabs:     tabs
                             },
                             {
                                 type:     CloseButton,
