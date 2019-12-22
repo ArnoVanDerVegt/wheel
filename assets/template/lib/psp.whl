@@ -37,6 +37,7 @@ end
 PSPData pspData
 
 ; @proc             Set the write data offset and start the PSP update thread.
+; @param port       The port to which the receiver is connected, the first port is 0, the second 1, etc...
 proc pspStart(number port)
     addr pspData
     mod  MODULE_PSP, MODULE_PSP_SET_WRITE_OFFSET
