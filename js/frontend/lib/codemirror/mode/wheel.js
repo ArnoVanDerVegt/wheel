@@ -39,7 +39,7 @@
                     stream.skipToEnd();
                     return 'comment';
                 }
-                if ('!:@^{}()[]+-/*<>=,'.indexOf(ch) !== -1) {
+                if ('!:@^{}()[]+-/*<>=,.'.indexOf(ch) !== -1) {
                     return 'operator';
                 }
                 stream.eatWhile(/[\w\$_]/);

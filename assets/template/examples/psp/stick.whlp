@@ -1,0 +1,52 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "PSP stick demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/psp.whl"
+
+proc drawLeftPosition(number x, number y)
+    drawCircle(50 + x / 10, 64 + y / 10, 10)
+end
+
+proc drawRightPosition(number x, number y)
+    drawCircle(128 + x / 10, 64 + y / 10, 10)
+end
+
+proc main()
+    pspStart(0)
+    drawLeftPosition(0, 0)
+    drawCircle(50, 64, 32)
+    drawRightPosition(0, 0)
+    drawCircle(128, 64, 32)
+
+    number lastLeftX  = 0
+    number lastLeftY  = 0
+    number lastRightX = 0
+    number lastRightY = 0
+
+    repeat
+        number leftX  = pspData.stickLeftX
+        number leftY  = pspData.stickLeftY
+        number rightX = pspData.stickRightX
+        number rightY = pspData.stickRightY
+
+        if leftX != lastLeftX or leftY != lastLeftY
+            setFillColor(WHITE)
+            drawLeftPosition(lastLeftX, lastLeftY)
+            setFillColor(BLACK)
+            drawLeftPosition(leftX, leftY)
+            lastLeftX = leftX
+            lastLeftY = leftY
+        end
+        if rightX != lastRightX or rightY != lastRightY
+            setFillColor(WHITE)
+            drawRightPosition(lastRightX, lastRightY)
+            setFillColor(BLACK)
+            drawRightPosition(rightX, rightY)
+            lastRightX = rightX
+            lastRightY = rightY
+        end
+    end
+end

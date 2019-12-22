@@ -34,6 +34,7 @@ const files = [
         'vm/modScreenVars.lms',
         'vm/modMotorVars.lms',
         'vm/modSensorVars.lms',
+        'vm/modPSPVars.lms',
         'vm/vm.lms',
         'vm/vmLoad.lms',
         'vm/vmRun.lms',
@@ -59,6 +60,8 @@ const files = [
         'vm/modBit.lms',
         'vm/modString.lms',
         'vm/modSystem.lms',
+        'vm/modPSPInit.lms',
+        'vm/modPSP.lms'
     ];
 
 console.log('Building Wheel VM...');

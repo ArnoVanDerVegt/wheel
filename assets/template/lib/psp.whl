@@ -1,0 +1,50 @@
+; @module PSP
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This module adds support for connecting a PSP wireless controller from Mindsensors.
+; http://www.mindsensors.com/ev3-and-nxt/31-psp-nx-v4-ref-combo-with-wireless-controller
+
+; @const The PSP controller module.
+#define MODULE_PSP     32
+
+; @const Module calls for bit functions.
+#define MODULE_PSP_SET_WRITE_OFFSET 0
+#define MODULE_PSP_START  			1
+#define MODULE_PSP_STOP 			2
+
+record PSPData
+    number buttonCircle
+    number buttonCross
+    number buttonTriangle
+    number buttonSquare
+    number buttonR1
+    number buttonR2
+    number buttonL1
+    number buttonL2
+    number buttonLeft
+    number buttonRight
+    number buttonUp
+    number buttonDown
+    number buttonStart
+    number buttonSelect
+    number stickLeftX
+    number stickLeftY
+    number stickRightX
+    number stickRightY
+end
+
+PSPData pspData
+
+; @proc             Set the write data offset and start the PSP update thread.
+proc pspStart(number port)
+    addr pspData
+    mod  MODULE_PSP, MODULE_PSP_SET_WRITE_OFFSET
+    addr port
+    mod  MODULE_PSP, MODULE_PSP_START
+end
+
+; @proc             Stop the PSP update thread.
+proc pspStop()
+    mod  MODULE_PSP, MODULE_PSP_STOP
+end
