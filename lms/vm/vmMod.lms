@@ -25,6 +25,7 @@ subcall cmdMod {
     JR_EQ8(pMod_8, 10, mod_string)
     JR_EQ8(pMod_8, 11, mod_bit)
     JR_EQ8(pMod_8, 32, mod_psp)
+    JR_EQ8(pMod_8, 33, mod_sensor_multi)
     RETURN()
 
 mod_standard:
@@ -77,4 +78,8 @@ mod_bit:
 
 mod_psp:
     CALL(modPSP, pModCall_8, lRegSrc_32)
+    RETURN()
+
+mod_sensor_multi:
+    CALL(modSensorMulti, pModCall_8, lRegSrc_32)
 }
