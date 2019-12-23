@@ -61,7 +61,7 @@ exports.ev3Routes = {
         let result = {error: false, connected: true};
         let brick  = getBrick();
         if (brick.getConnected()) {
-                brick.setLayerCount(req.body.layerCount);
+            brick.setLayerCount(req.body.layerCount);
             // Try {
                 let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
                 queue.forEach(function(params) {

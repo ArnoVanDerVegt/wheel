@@ -45,7 +45,9 @@ exports.DaisyChainDialog = class extends Dialog {
 
     onApply() {
         this.hide();
-        dispatcher.dispatch('Settings.Set.DaisyChainMode', this._refs.radio.getValue());
+        let daisyChainMode = this._refs.radio.getValue();
+        dispatcher.dispatch('Brick.LayerCount', daisyChainMode);
+        dispatcher.dispatch('Settings.Set.DaisyChainMode', daisyChainMode);
     }
 
     onShow(daisyChainMode) {

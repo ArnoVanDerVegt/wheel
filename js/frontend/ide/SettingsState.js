@@ -433,7 +433,7 @@ exports.SettingsState = class extends Emitter {
         this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize        : 192;
         this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
         this._updateViewSettings();
-        this.emit('Brick.LayerCount', this._brick.daisyChainMode);
+        dispatcher.dispatch('Brick.LayerCount', this._brick.daisyChainMode);
         this._onLoad();
     }
 };

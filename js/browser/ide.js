@@ -284,7 +284,7 @@
             new IDE({
                 ui:       ui,
                 settings: settings,
-                brick:    new BrickState()
+                brick:    new BrickState({layerCount: settings.getDaisyChainMode()})
             });
         };
         const getDataProvider = loadedFiles['./js/frontend/lib/dataprovider/dataProvider'].getDataProvider;
