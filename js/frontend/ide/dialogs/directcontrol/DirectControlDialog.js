@@ -156,9 +156,9 @@ exports.DirectControlDialog = class extends Dialog {
     getLayer() {
         let tabToLayer = {
                 'Layer 1': 0,
-                'Layer 2': 0,
-                'Layer 3': 0,
-                'Layer 4': 0
+                'Layer 2': 1,
+                'Layer 3': 2,
+                'Layer 4': 3
             };
         return tabToLayer[this._refs.tabs.getActiveTab().title];
     }
