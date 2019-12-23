@@ -184,7 +184,7 @@ exports.Brick = class {
                     }
                     break;
             }
-            poll.main = (poll.main + 1) % 250;
+            poll.main = (poll.main + 1) % 128;
         }
         let time;
         if (this._stopPolling) {

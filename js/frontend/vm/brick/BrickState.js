@@ -8,14 +8,14 @@ const Emitter         = require('../../lib/Emitter').Emitter;
 const LayerState      = require('./LayerState').LayerState;
 
 exports.BrickState = class extends Emitter {
-    constructor() {
+    constructor(opts) {
         super();
         this._battery    = null;
         this._connecting = false;
         this._connected  = false;
         this._queue      = [];
         this._deviceName = 'EV3';
-        this._layerCount = 0;
+        this._layerCount = opts.layerCount || 0;
         this._layerState = [
             new LayerState({layer: 0, brick: this}),
             new LayerState({layer: 1, brick: this}),
