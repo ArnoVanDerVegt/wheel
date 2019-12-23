@@ -12,6 +12,7 @@ const Sound               = require('./io/Sound').Sound;
 const SimulatorToolbar    = require('./SimulatorToolbar').SimulatorToolbar;
 const SimulatorMotors     = require('./SimulatorMotors').SimulatorMotors;
 const SimulatorSensors    = require('./SimulatorSensors').SimulatorSensors;
+const SimulatorEV3        = require('./SimulatorEV3').SimulatorEV3;
 const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection;
 
 exports.Simulator = class extends DOMNode {
@@ -54,74 +55,12 @@ exports.Simulator = class extends DOMNode {
                                 simulator: this
                             },
                             {
-                                className: 'ev3',
-                                children: [
-                                    {
-                                        className: 'ev3-left'
-                                    },
-                                    {
-                                        className: 'ev3-body',
-                                        children: [
-                                            {
-                                                className: 'ev3-display',
-                                                children: [
-                                                    {
-                                                        className: 'display-border',
-                                                        children: [
-                                                            {
-                                                                id:   this.setDisplayElement.bind(this),
-                                                                type: 'canvas',
-                                                                ui:   this._ui
-                                                            },
-                                                            ('electron' in window) ?
-                                                                {
-                                                                    type:     Button,
-                                                                    ui:       this._ui,
-                                                                    color:    'blue',
-                                                                    value:    'Copy',
-                                                                    onClick:  this.onCopyDisplay.bind(this)
-                                                                } :
-                                                                null
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                className: 'ev3-panel',
-                                                children: [
-                                                    {
-                                                        id:   this.setButtons.bind(this),
-                                                        type: Buttons,
-                                                        ui:   this._ui
-                                                    },
-                                                    {
-                                                        type:      EV3Button,
-                                                        ui:        this._ui,
-                                                        className: 'ev3-button-stop',
-                                                        up:        'ev3-button-stop',
-                                                        down:      'ev3-button-stop pressed',
-                                                        onClick:   this._opts.onStop
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                className: 'ev3-bottom',
-                                                children: [
-                                                    {
-                                                        className: 'ev3-log-text',
-                                                        innerHTML: 'WHL'
-                                                    },
-                                                    {
-                                                        className: 'ev3-logo'
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        className: 'ev3-right'
-                                    }
-                                ]
+                                id:        this.setEV3.bind(this),
+                                type:      SimulatorEV3,
+                                ui:        this._ui,
+                                brick:     this._brick,
+                                onStop:    this._opts.onStop,
+                                simulator: this
                             },
                             {
                                 id:        this.setSensors.bind(this),
@@ -143,30 +82,6 @@ exports.Simulator = class extends DOMNode {
         dispatcher.dispatch('Settings.UpdateViewSettings');
     }
 
-    getVM() {
-        return this._vm;
-    }
-
-    setVM(vm) {
-        this._vm = vm;
-    }
-
-    getDisplay() {
-        return this._display;
-    }
-
-    getLight() {
-        return require('./io/Light').light;
-    }
-
-    getButtons() {
-        return this._buttons;
-    }
-
-    getSound() {
-        return this._sound;
-    }
-
     getMotors() {
         return this._motors;
     }
@@ -183,13 +98,36 @@ exports.Simulator = class extends DOMNode {
         this._sensors = sensors;
     }
 
-    setButtons(buttons) {
-        this._buttons = buttons;
+    getEV3() {
+        return this._ev3;
     }
 
-    setDisplayElement(element) {
-        this._canvas  = element;
-        this._display = new Display({canvas: element});
+    setEV3(ev3) {
+        this._ev3 = ev3;
+    }
+
+    getVM() {
+        return this._vm;
+    }
+
+    setVM(vm) {
+        this._vm = vm;
+    }
+
+    getDisplay() {
+        return this._ev3.getDisplay();
+    }
+
+    getLight() {
+        return require('./io/Light').light;
+    }
+
+    getButtons() {
+        return this._ev3.getButtons();
+    }
+
+    getSound() {
+        return this._sound;
     }
 
     getLayer() {
@@ -200,12 +138,5 @@ exports.Simulator = class extends DOMNode {
         this._layer = layer;
         this._motors.showLayer(layer);
         this._sensors.showLayer(layer);
-    }
-
-    onCopyDisplay() {
-        const clipboard   = require('electron').clipboard;
-        const nativeImage = require('electron').nativeImage;
-        clipboard.writeImage(nativeImage.createFromDataURL(this._canvas.toDataURL('image/png')));
-        dispatcher.dispatch('Console.Log', {message: 'Copied display to clipboard.'});
     }
 };
