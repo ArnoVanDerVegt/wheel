@@ -289,6 +289,7 @@ require('./js/frontend/ide/simulator/io/Motor');
 require('./js/frontend/ide/simulator/io/Sensor');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
+require('./js/frontend/ide/simulator/SimulatorEV3');
 require('./js/frontend/ide/simulator/SimulatorMotors');
 require('./js/frontend/ide/simulator/SimulatorSensors');
 require('./js/frontend/ide/simulator/SimulatorConnection');
@@ -312,7 +313,7 @@ const BrickState    = require('./js/frontend/vm/brick/BrickState').BrickState;
             ide = new IDE({
                 ui:       ui,
                 settings: settings,
-                brick:    new BrickState()
+                brick:    new BrickState({layerCount: settings.getDaisyChainMode()})
             });
         };
 
