@@ -142,7 +142,7 @@ exports.testError = function(it, message, source, err) {
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
                     };
-                preProcessor.processFile({filename: '<main>', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: '<main>', token: null}, 0, 0, preProcessed);
             },
             function(error) {
                 return (error.toString() === err);
@@ -217,7 +217,7 @@ exports.testPreProcessor = function(source, callback) {
     let preProcessed = function() {
             callback(preProcessor);
         };
-    preProcessor.processFile({filename: '<main>', token: null}, 0, preProcessed);
+    preProcessor.processFile({filename: '<main>', token: null}, 0, 0, preProcessed);
 };
 
 exports.testRangeCheckError = function(it, message, source) {
