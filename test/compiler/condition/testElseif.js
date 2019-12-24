@@ -15,18 +15,18 @@ describe(
                 '    number i = 2',
                 '    number j = 0',
                 '    if i == 2',
-                '        j = 1',
+                '        j = 100',
                 '    elseif i == 3',
-                '        j = 2',
+                '        j = 200',
                 '    else',
-                '        j = 3',
+                '        j = 300',
                 '    end',
                 '    addr j',
                 '    mod 0, 1',
                 'end'
             ],
             [
-                1
+                100
             ]
         );
         testLogs(
@@ -37,18 +37,42 @@ describe(
                 '    number i = 3',
                 '    number j = 0',
                 '    if i == 2',
-                '        j = 1',
+                '        j = 14',
                 '    elseif i == 3',
-                '        j = 2',
+                '        j = 24',
                 '    else',
-                '        j = 3',
+                '        j = 34',
                 '    end',
                 '    addr j',
                 '    mod 0, 1',
                 'end'
             ],
             [
-                2
+                24
+            ]
+        );
+        testLogs(
+            it,
+            'Should evaluate if..elseif..elseif',
+            [
+                'proc main()',
+                '    number i = 4',
+                '    number j = 0',
+                '    if i == 2',
+                '        j = 19',
+                '    elseif i == 3',
+                '        j = 27',
+                '    elseif i == 4',
+                '        j = 25',
+                '    else',
+                '        j = 356',
+                '    end',
+                '    addr j',
+                '    mod 0, 1',
+                'end'
+            ],
+            [
+                25
             ]
         );
         testLogs(

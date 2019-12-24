@@ -64,7 +64,7 @@ exports.CompileIf = class extends CompileBlock {
         while (!done) {
             if (lastToken.is(t.LEXEME_ELSEIF)) {
                 elseIndex.push(program.getLength());
-                if (program.getCodeUsed()) {
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
                     program
                         .addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0)
                         .setCommandParamValue2(jmpIndex, program.getLength());
@@ -74,19 +74,21 @@ exports.CompileIf = class extends CompileBlock {
                 lastToken = this.compileBlock(iterator, [t.LEXEME_ELSE, t.LEXEME_ELSEIF]);
             } else if (lastToken.is(t.LEXEME_ELSE)) {
                 elseIndex.push(program.getLength());
-                if (program.getCodeUsed()) {
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
                     program
                         .addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0)
                         .setCommandParamValue2(jmpIndex, program.getLength());
                 }
                 this.compileBlock(iterator, null);
                 done = true;
-            } else if (program.getCodeUsed()) {
+            } else {
                 done = true;
-                program.setCommandParamValue2(jmpIndex, program.getLength());
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                    program.setCommandParamValue2(jmpIndex, program.getLength());
+                }
             }
         }
-        if (program.getCodeUsed()) {
+        if (program.getCodeUsed()) { // Check if code is removed by optimizer...
             elseIndex.forEach(function(index) {
                 program.setCommandParamValue2(index, program.getLength() - 1);
             });
