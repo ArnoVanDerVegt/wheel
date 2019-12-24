@@ -22,16 +22,16 @@ CodeMirror.defineMode(
                 state.tokenize = tokenString(ch);
                 return state.tokenize(stream, state);
             }
-            if (/\d/.test(ch)) {
+            if (',[]+-.:'.indexOf(ch) !== -1) {
+                return 'operator';
+            }
+            if (/\d|\-/.test(ch)) {
                 stream.eatWhile(/[\w\.]/);
                 return 'number';
             }
             if (ch === ';') {
                 stream.skipToEnd();
                 return 'comment';
-            }
-            if (',[]+.'.indexOf(ch) !== -1) {
-                return 'operator';
             }
             stream.eatWhile(/[\w\$_]/);
             let cur = stream.current();
