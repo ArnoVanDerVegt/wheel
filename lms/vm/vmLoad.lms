@@ -69,6 +69,15 @@ read_command:
     CALL(storeCommandParam, gParam1_F)
     CALL(storeCommandParam, gParam2_F)
 
+    JR_EQ16(lCommand_16,  88, optimize_set_local_constant)
+    JR_EQ16(lCommand_16,  84, optimize_set_global_constant)
+    JR_EQ16(lCommand_16,   0, optimize_call_constant_constant)
+    JR_EQ16(lCommand_16,  64, optimize_mod_constant_constant)
+    JR_EQ16(lCommand_16,  16, optimize_ret_constant_constant)
+    JR_EQ16(lCommand_16, 101, optimize_add_global_global)
+    JR_EQ16(lCommand_16,  90, optimize_set_local_local)
+    JR_EQ16(lCommand_16,  48, optimize_jmpc_constant_constant)
+
     MOVE16_16(lCommand_16, lType1_16)
     MOVE16_16(lCommand_16, lType2_16)
 
@@ -82,6 +91,34 @@ read_command:
     DIV16(lType1_16, 0x04, lType1_16)
     AND16(lType1_16, 0x03, lType1_16)
     MOVE16_8(lType1_16, gType1_8)                                       // gType1_8 = (lType1_16 >> 2) & 3
+
+    JR(read_command_done)
+
+optimize_set_local_constant:                                            // optimize: set [stack + #], #
+    MOVE8_8(32, gCommand_8)
+    JR(read_command_done)
+optimize_set_global_constant:                                           // optimize: set [#], #
+    MOVE8_8(33, gCommand_8)
+    JR(read_command_done)
+optimize_call_constant_constant:                                        // optimize call #, #
+    MOVE8_8(34, gCommand_8)
+    JR(read_command_done)
+optimize_mod_constant_constant:                                         // optimize mod #, #
+    MOVE8_8(35, gCommand_8)
+    JR(read_command_done)
+optimize_ret_constant_constant:                                         // optimize ret #, #
+    MOVE8_8(36, gCommand_8)
+    JR(read_command_done)
+optimize_add_global_global:                                             // optimize add [#], [#]
+    MOVE8_8(37, gCommand_8)
+    JR(read_command_done)
+optimize_set_local_local:                                               // optimize set [stack + #], [stack + #]
+    MOVE8_8(38, gCommand_8)
+    JR(read_command_done)
+optimize_jmpc_constant_constant:                                        // optimize jmpc #, #
+    MOVE8_8(39, gCommand_8)
+
+read_command_done:
 
     CALL(storeCommandList, gCommand_8)
     CALL(storeCommandList, gType1_8)
