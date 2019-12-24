@@ -56,11 +56,16 @@ exports.CompileIf = class extends CompileBlock {
         let lastToken = this.compileBlock(iterator, [t.LEXEME_ELSE]);
         if (lastToken.is(t.LEXEME_ELSE)) {
             let elseIndex = program.getLength();
-            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0);
-            program.setCommandParamValue2(jmpIndex, program.getLength());
+            if (program.getCodeUsed()) {
+                program
+                    .addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0)
+                    .setCommandParamValue2(jmpIndex, program.getLength());
+            }
             this.compileBlock(iterator, null);
-            program.setCommandParamValue2(elseIndex, program.getLength() - 1);
-        } else {
+            if (program.getCodeUsed()) {
+                program.setCommandParamValue2(elseIndex, program.getLength() - 1);
+            }
+        } else if (program.getCodeUsed()) {
             program.setCommandParamValue2(jmpIndex, program.getLength());
         }
     }
