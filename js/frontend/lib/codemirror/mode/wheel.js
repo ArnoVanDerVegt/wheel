@@ -14,7 +14,7 @@
                 return obj;
             }
             let keywords = words(
-                    'proc record and select case to downto else end for if not or repeat until while break default mod addr step ret ' +
+                    'proc record and select case to downto else elseif end for if not or repeat until while break default mod addr step ret ' +
                     'static with object public private protected super namespace'
                 );
             let types    = words('number string');

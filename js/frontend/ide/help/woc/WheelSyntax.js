@@ -35,6 +35,7 @@ const keywords = [
         'jmpc',
         'copy',
         'else',
+        'elseif',
         'struct',
         'or',
         'and',

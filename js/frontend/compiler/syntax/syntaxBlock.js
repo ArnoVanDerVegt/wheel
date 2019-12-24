@@ -53,7 +53,7 @@ exports.blockScopeTokens = function() {
         ];
     tokens[t.TOKEN_BRACKET_OPEN][t.LEXEME_BRACKET_OPEN] = follow03;
 
-    // "proc" | "record" | "addr" | "for" | "." | "^" | "@" -> IDENTIFIER
+    // "proc" | "record" | "addr" | "for" | "elseif" | "." | "^" | "@" -> IDENTIFIER
     let follow04 = [
             {token: t.TOKEN_IDENTIFIER}
         ];
@@ -61,6 +61,7 @@ exports.blockScopeTokens = function() {
     tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ADDR   ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_FOR    ] = follow04;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSEIF ] = follow04;
     tokens[t.TOKEN_DOT    ][t.LEXEME_DOT    ] = follow04;
     tokens[t.TOKEN_POINTER][t.LEXEME_POINTER] = follow04;
     tokens[t.TOKEN_ADDRESS][t.LEXEME_ADDRESS] = follow04;
