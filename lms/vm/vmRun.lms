@@ -55,7 +55,8 @@ subcall runCommand {
     JR_EQ8(gCommand_8, 36, optimized_ret_constant_constant)
     JR_EQ8(gCommand_8, 37, optimized_add_global_global)
     JR_EQ8(gCommand_8, 38, optimized_set_local_local)
-    JR_EQ8(gCommand_8, 39, optimized_jmpc_constant_constant)
+    JR_EQ8(gCommand_8, 39, optimized_add_local_local)
+    JR_EQ8(gCommand_8, 40, optimized_sub_local_local)
     RETURN()
 
 optimized_set_local_constant:
@@ -119,15 +120,28 @@ optimized_set_local_local:
     ARRAY_WRITE(gHeap_H, lParam1Offset_32, lValue_F)
     RETURN()
 
-optimized_jmpc_constant_constant:
-    CALL(readMem8, 6, 0, lFlags_8)                                      // Read flags register from heap offset 6
-    MOVEF_8(gParam1_F, lFlag_8)                                         // Get the flag to compare from the first parameter
-    AND8(lFlags_8, lFlag_8, lFlags_8)                                   // lFlags_8 = lFlags_8 or lFlag_8
-    JR_NEQ8(lFlags_8, 0, optimized_jmpc_constant_constant_flag)
+optimized_add_local_local:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)
+    ADDF(gParam1Value_F, gParam2Value_F, gParam1Value_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam1Value_F)
     RETURN()
-optimized_jmpc_constant_constant_flag:
-    SUBF(gParam2_F, 1, gParam2_F)
-    ARRAY_WRITE(gHeap_H, 4, gParam2_F)                                  // Set the code register to the jump target
+
+optimized_sub_local_local:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)
+    SUBF(gParam1Value_F, gParam2Value_F, gParam1Value_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam1Value_F)
     RETURN()
 
 un_optimized_command:

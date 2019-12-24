@@ -76,7 +76,8 @@ read_command:
     JR_EQ16(lCommand_16,  16, optimize_ret_constant_constant)
     JR_EQ16(lCommand_16, 101, optimize_add_global_global)
     JR_EQ16(lCommand_16,  90, optimize_set_local_local)
-    JR_EQ16(lCommand_16,  48, optimize_jmpc_constant_constant)
+    JR_EQ16(lCommand_16, 106, optimize_add_local_local)
+    JR_EQ16(lCommand_16, 122, optimize_sub_local_local)
 
     MOVE16_16(lCommand_16, lType1_16)
     MOVE16_16(lCommand_16, lType2_16)
@@ -115,8 +116,12 @@ optimize_add_global_global:                                             // optim
 optimize_set_local_local:                                               // optimize set [stack + #], [stack + #]
     MOVE8_8(38, gCommand_8)
     JR(read_command_done)
-optimize_jmpc_constant_constant:                                        // optimize jmpc #, #
+optimize_add_local_local:                                               // optimize add [stack + #], [stack + #]
     MOVE8_8(39, gCommand_8)
+    JR(read_command_done)
+optimize_sub_local_local:                                               // optimize sub [stack + #], [stack + #]
+    MOVE8_8(40, gCommand_8)
+    JR(read_command_done)
 
 read_command_done:
 
@@ -167,7 +172,7 @@ subcall loadConstants {
     JR_EQ16(lConstantCount_16, 0, constants_done)                       // Jump to constants_done if constantCount_16 = 0
 load_constant:
     CALL(load32, lConstantOffset_32, 0x03)                              // Constant offset
-    CALL(load16, lConstantSize_16, 0x03)
+    CALL(load16, lConstantSize_16, 0x03)                                // Number count
     JR_EQ16(lConstantSize_16, 1, load_one_constant_value)               // Jump if there is only one constant
     MOVE16_16(1, lConstantIndex_16)                                     // constantIndex16 = 1, Skip one, the last one has a return delimiter
 load_constant_value:
@@ -176,11 +181,12 @@ load_constant_value:
     ADD32(lConstantOffset_32, 1, lConstantOffset_32)
     ADD16(lConstantIndex_16, 1, lConstantIndex_16)                      // constantIndex16 = constantIndex16 + 1
     JR_LT16(lConstantIndex_16, lConstantSize_16, load_constant_value)   // Jump to load_constant_value if there are more...
-    SUB16(lConstantCount_16, 1, lConstantCount_16)                      // constantCount16 = constantCount16 - 1
-    JR_NEQ16(lConstantCount_16, 0, load_constant)
 load_one_constant_value:
     CALL(loadF, lConstant_F, 0x03)                                      // Read constant value with return delimiter
     CALL(writeMemF, lConstantOffset_32, 0, lConstant_F)
+constant_done:
+    SUB16(lConstantCount_16, 1, lConstantCount_16)                      // constantCount16 = constantCount16 - 1
+    JR_NEQ16(lConstantCount_16, 0, load_constant)
 constants_done:
 }
 
