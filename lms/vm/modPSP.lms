@@ -28,65 +28,98 @@ mod_psp_stopped:
     RETURN()
 }
 
+subcall modPSPUpdateWriteMemSet {
+    IO_32 pOffset_32
+    IO_8  pAnyButton_8
+    IN_8  pAnyButtonValue_8
+    IN_8  pValue_8
+    DATAF lValue_F
+
+    JR_EQ8(pValue_8, 0, button_no_pressed)
+    MOVE8_8(pAnyButtonValue_8, pAnyButton_8)
+button_no_pressed:
+    MOVE8_F(pValue_8, lValue_F)
+    ARRAY_WRITE(gHeap_H, pOffset_32, lValue_F)
+    ADD32(pOffset_32, 1, pOffset_32)
+}
+
+subcall modPSPUpdateWriteMemGreater {
+    IO_32 pOffset_32
+    IO_8  pAnyButton_8
+    IN_8  pAnyButtonValue_8
+    IN_8  pValue_8
+    DATAF lValue_F
+
+    JR_GT8(pValue_8, 16, button_pressed)
+    JR_GT8(pValue_8, -16, button_not_pressed)
+button_pressed:
+    MOVE8_8(pAnyButtonValue_8, pAnyButton_8)
+button_not_pressed:
+
+    MOVE8_F(pValue_8, lValue_F)
+    ARRAY_WRITE(gHeap_H, pOffset_32, lValue_F)
+    ADD32(pOffset_32, 1, pOffset_32)
+}
+
 subcall modPSPUpdate {
     DATA32 lTime_32
-
+    DATA32 lPSPWriteOffset_32
     DATA16 lEmpty1_16
     DATA16 lEmpty2_16
-
-    DATA8 lEmpty1_8
-    DATA8 lEmpty2_8
-    DATA8 lEmpty3_8
-
-    DATA8 lButtonCircle_8
-    DATA8 lButtonCross_8
-    DATA8 lButtonTriangle_8
-    DATA8 lButtonSquare_8
-
-    DATA8 lButtonR1_8
-    DATA8 lButtonR2_8
-    DATA8 lButtonL1_8
-    DATA8 lButtonL2_8
-
-    DATA8 lButtonLeft_8
-    DATA8 lButtonRight_8
-    DATA8 lButtonUp_8
-    DATA8 lButtonDown_8
-
-    DATA8 lButtonStart_8
-    DATA8 lButtonSelect_8
-
-    DATA8 lStickLeftX_8
-    DATA8 lStickLeftY_8
-    DATA8 lStickRightX_8
-    DATA8 lStickRightY_8
+    DATA8  lEmpty1_8
+    DATA8  lEmpty2_8
+    DATA8  lEmpty3_8
+    DATA8  lButtonCircle_8
+    DATA8  lButtonCross_8
+    DATA8  lButtonTriangle_8
+    DATA8  lButtonSquare_8
+    DATA8  lButtonR1_8
+    DATA8  lButtonR2_8
+    DATA8  lButtonL1_8
+    DATA8  lButtonL2_8
+    DATA8  lButtonLeft_8
+    DATA8  lButtonRight_8
+    DATA8  lButtonUp_8
+    DATA8  lButtonDown_8
+    DATA8  lButtonStart_8
+    DATA8  lButtonSelect_8
+    DATA8  lStickLeftX_8
+    DATA8  lStickLeftY_8
+    DATA8  lStickRightX_8
+    DATA8  lStickRightY_8
+    DATA8  lAnyButton_8
 
 psp_loop:
     JR_EQ32(gPSPWriteOffset_32, -1, psp_not_ready)
     CALL(PSP_OBJECT1,gPSPPort_F, lEmpty1_16,lEmpty2_16,2, lButtonCircle_8,lButtonCross_8,lButtonTriangle_8,lButtonSquare_8, lButtonR1_8,lButtonR2_8,lButtonL1_8,lButtonL2_8, lButtonLeft_8,lButtonRight_8,lButtonUp_8,lButtonDown_8, lButtonStart_8,lButtonSelect_8,lEmpty1_8,lEmpty2_8, lStickLeftX_8,lStickLeftY_8,lStickRightX_8,lStickRightY_8,1,lEmpty3_8)
 
-    CALL(writeMem8, gPSPWriteOffset_32,  0, lButtonCircle_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  1, lButtonCross_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  2, lButtonTriangle_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  3, lButtonSquare_8)
+    MOVE8_8(0, lAnyButton_8)
+    MOVE32_32(gPSPWriteOffset_32, lPSPWriteOffset_32)
 
-    CALL(writeMem8, gPSPWriteOffset_32,  4, lButtonR1_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  5, lButtonR2_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  6, lButtonL1_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  7, lButtonL2_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8,  1, lButtonCircle_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8,  2, lButtonCross_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8,  3, lButtonTriangle_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8,  4, lButtonSquare_8)
 
-    CALL(writeMem8, gPSPWriteOffset_32,  8, lButtonLeft_8)
-    CALL(writeMem8, gPSPWriteOffset_32,  9, lButtonRight_8)
-    CALL(writeMem8, gPSPWriteOffset_32, 10, lButtonUp_8,)
-    CALL(writeMem8, gPSPWriteOffset_32, 11, lButtonDown_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8,  5, lButtonR1_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8,  6, lButtonR2_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8,  7, lButtonL1_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8,  8, lButtonL2_8)
 
-    CALL(writeMem8, gPSPWriteOffset_32, 12, lButtonStart_8)
-    CALL(writeMem8, gPSPWriteOffset_32, 13, lButtonSelect_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8,  9, lButtonLeft_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 10, lButtonRight_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 11, lButtonUp_8,)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 12, lButtonDown_8)
 
-    CALL(writeMem8, gPSPWriteOffset_32, 14, lStickLeftX_8)
-    CALL(writeMem8, gPSPWriteOffset_32, 15, lStickLeftY_8)
-    CALL(writeMem8, gPSPWriteOffset_32, 16, lStickRightX_8)
-    CALL(writeMem8, gPSPWriteOffset_32, 17, lStickRightY_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8, 13, lButtonStart_8)
+    CALL(modPSPUpdateWriteMemSet, lPSPWriteOffset_32, lAnyButton_8, 14, lButtonSelect_8)
+
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 15, lStickLeftX_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 16, lStickLeftY_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 17, lStickRightX_8)
+    CALL(modPSPUpdateWriteMemGreater, lPSPWriteOffset_32, lAnyButton_8, 18, lStickRightY_8)
+
+    CALL(writeMem8, lPSPWriteOffset_32, 0, lAnyButton_8)
 psp_not_ready:
     TIMER_WAIT(50, lTime_32)
     TIMER_READY(lTime_32)

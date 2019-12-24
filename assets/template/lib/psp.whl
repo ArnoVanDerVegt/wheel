@@ -6,12 +6,31 @@
 ; http://www.mindsensors.com/ev3-and-nxt/31-psp-nx-v4-ref-combo-with-wireless-controller
 
 ; @const The PSP controller module.
-#define MODULE_PSP     32
+#define MODULE_PSP                  32
 
 ; @const Module calls for PSP functions.
-#define MODULE_PSP_SET_WRITE_OFFSET 0
-#define MODULE_PSP_START            1
-#define MODULE_PSP_STOP             2
+#define MODULE_PSP_SET_WRITE_OFFSET  0
+#define MODULE_PSP_START             1
+#define MODULE_PSP_STOP              2
+
+#define PSP_BUTTON_CIRCLE            1
+#define PSP_BUTTON_CROSS             2
+#define PSP_BUTTON_TRIANGLE          3
+#define PSP_BUTTON_SQUARE            4
+#define PSP_BUTTON_R1                5
+#define PSP_BUTTON_R2                6
+#define PSP_BUTTON_L1                7
+#define PSP_BUTTON_L2                8
+#define PSP_BUTTON_LEFT              9
+#define PSP_BUTTON_RIGHT            10
+#define PSP_BUTTON_UP               11
+#define PSP_BUTTON_DOWN             12
+#define PSP_BUTTON_START            13
+#define PSP_BUTTON_SELECT           14
+#define PSP_STICK_LEFT_X            15
+#define PSP_STICK_LEFT_Y            16
+#define PSP_STICK_RIGHT_X           17
+#define PSP_STICK_RIGHT_Y           18
 
 record PSPData
     number buttonCircle
@@ -32,6 +51,7 @@ record PSPData
     number stickLeftY
     number stickRightX
     number stickRightY
+    number anyButton
 end
 
 PSPData pspData
