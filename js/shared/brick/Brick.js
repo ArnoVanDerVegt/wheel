@@ -440,15 +440,13 @@ exports.Brick = class {
         if (!this._connected) {
             return;
         }
-        color   = Math.min(Math.max(color,   0), 2);
-        pattern = Math.min(Math.max(pattern, 0), 2);
         this._commandQueue.addToCommandQueue({
             type:    constants.UIWRITE,
             message: new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
                 .addS(constants.UIWRITE)
                 .addS(constants.LED)
-                .addS('0' + color)
+                .addS('0' + Math.min(Math.max(color, 0), 9))
         });
     }
 
