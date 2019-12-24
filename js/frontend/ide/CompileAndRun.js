@@ -268,7 +268,7 @@ exports.CompileAndRun = class extends DOMUtils {
                     setImage:        this.onSetImage.bind(this)
                 });
                 this.onCreatedPreProcessor(this._preProcessor);
-                this._preProcessor.processFile({filename: this._projectFilename, token: null}, 0, this.filesProcessed.bind(this, title));
+                this._preProcessor.processFile({filename: this._projectFilename, token: null}, 0, 0, this.filesProcessed.bind(this, title));
             } catch (error) {
                 this._compiling = false;
                 if (!this._compileSilent) {

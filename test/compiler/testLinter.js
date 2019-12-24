@@ -17,7 +17,7 @@ const compileWithLinter = function(source, linter, done) {
                 new compiler.Compiler({preProcessor: preProcessor, linter: linter}).buildTokens(tokens);
                 done();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
     };
 
 describe(

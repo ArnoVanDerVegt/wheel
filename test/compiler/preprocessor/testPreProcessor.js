@@ -37,7 +37,7 @@ const testDefineNumber = function(defineValue, callback) {
                 dispatcher.on('Console.Log', this, callback);
                 vm.setCommands(program.getCommands()).run();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
     };
 
 describe(
@@ -101,7 +101,7 @@ describe(
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -157,7 +157,7 @@ describe(
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -216,7 +216,7 @@ describe(
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -295,7 +295,7 @@ describe(
                         assert.deepEqual(logs, [456, 789]);
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -339,7 +339,7 @@ describe(
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
     }

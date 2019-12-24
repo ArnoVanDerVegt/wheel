@@ -78,7 +78,7 @@ exports.PreProcessor = class PreProcessor {
         fileItem.includes = includes;
     }
 
-    processFile(includeItem, depth, finishedCallback) {
+    processFile(includeItem, depth, index, finishedCallback) {
         let filesDone = this._filesDone;
         let filename  = this.getBaseFilename(includeItem.filename);
         if (filename in filesDone) {
@@ -88,6 +88,7 @@ exports.PreProcessor = class PreProcessor {
         this._fileCount++;
         let fileItem = {
                 depth:    depth,
+                index:    index,
                 tokens:   null,
                 filename: path.join(this._documentPath, filename)
             };
@@ -107,7 +108,7 @@ exports.PreProcessor = class PreProcessor {
                         let fileDone = filesDone[include];
                         fileDone.depth += depth;
                     } else {
-                        this.processFile(include, depth + 1, finishedCallback);
+                        this.processFile(include, depth + 1, i, finishedCallback);
                     }
                 }
                 if (this._fileCount === 0) {
@@ -149,12 +150,12 @@ exports.PreProcessor = class PreProcessor {
         for (let i in filesDone) {
             let fileDone = filesDone[i];
             fileDone.toString = function() {
-                return ('00000000' + fileDone.depth).substr(-8);
+                this.sortIndex = ('00000000' + (256 - fileDone.depth)).substr(-8) + ('0000' + fileDone.index).substr(-4);
+                return this.sortIndex;
             };
             files.push(fileDone);
         }
         files.sort();
-        files.reverse();
         this._sortedFiles = files;
         return files;
     }
