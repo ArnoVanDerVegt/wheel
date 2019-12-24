@@ -10,6 +10,7 @@
     const LEXEME_CASE               = 'case';
     const LEXEME_DEFAULT            = 'default';
     const LEXEME_ELSE               = 'else';
+    const LEXEME_ELSEIF             = 'elseif';
     const LEXEME_END                = 'end';
     const LEXEME_FOR                = 'for';
     const LEXEME_IF                 = 'if';
@@ -92,6 +93,7 @@
     exports.LEXEME_CASE               = LEXEME_CASE;
     exports.LEXEME_DEFAULT            = LEXEME_DEFAULT;
     exports.LEXEME_ELSE               = LEXEME_ELSE;
+    exports.LEXEME_ELSEIF             = LEXEME_ELSEIF;
     exports.LEXEME_END                = LEXEME_END;
     exports.LEXEME_FOR                = LEXEME_FOR;
     exports.LEXEME_IF                 = LEXEME_IF;
@@ -172,6 +174,7 @@
             LEXEME_CASE,
             LEXEME_DEFAULT,
             LEXEME_ELSE,
+            LEXEME_ELSEIF,
             LEXEME_END,
             LEXEME_FOR,
             LEXEME_IF,

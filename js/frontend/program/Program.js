@@ -643,6 +643,10 @@ exports.Program = class {
         return this;
     }
 
+    getCodeUsed() {
+        return this._codeUsed;
+    }
+
     setCodeUsed(codeUsed) {
         this._codeUsed = codeUsed;
     }

@@ -67,6 +67,7 @@ let breakScope = {
 // Block
 let blockScope = {};
 blockScope[t.LEXEME_IF        ] = function() { return [ifScope,     ifScopeCondition   ]; };
+blockScope[t.LEXEME_ELSEIF    ] = function() { return [ifScope,     ifScopeCondition   ]; };
 blockScope[t.LEXEME_SELECT    ] = function() { return [selectScope, selectValueScope   ]; };
 blockScope[t.LEXEME_WHILE     ] = function() { return [whileScope,  whileScopeCondition]; };
 blockScope[t.LEXEME_FOR       ] = function() { return [forScope,    toScope            ]; };

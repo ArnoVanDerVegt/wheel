@@ -39,7 +39,7 @@ exports.CompileSelect = class extends CompileBlock {
                     lastCase    = t.LEXEME_DEFAULT;
                     let defaultExpression = iterator.nextUntilLexeme([t.LEXEME_COLON, t.LEXEME_NEWLINE]);
                     tokens = defaultExpression.tokens; // Tokens needed to show duplicate default error!
-                    if (lastCaseIndex !== null) {
+                    if ((lastCaseIndex !== null) && program.getCodeUsed()) { // Check if code is removed by optimizer...
                         program.setCommandParamValue2(lastCaseIndex, program.getLength() + 1);
                     }
                     program.addCommand(
@@ -54,7 +54,7 @@ exports.CompileSelect = class extends CompileBlock {
                     lastCase = t.LEXEME_CASE;
                     let caseExpression = iterator.nextUntilLexeme([t.LEXEME_COLON, t.LEXEME_NEWLINE]);
                     tokens = caseExpression.tokens;
-                    if (lastCaseIndex !== null) {
+                    if ((lastCaseIndex !== null) && program.getCodeUsed()) { // Check if code is removed by optimizer...
                         program.setCommandParamValue2(lastCaseIndex, program.getLength());
                     }
                     program.addCommand(
@@ -70,7 +70,9 @@ exports.CompileSelect = class extends CompileBlock {
             if (lastCase === t.LEXEME_DEFAULT) {
                 index--;
             }
-            program.setCommandParamValue2(lastCaseIndex, index);
+            if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                program.setCommandParamValue2(lastCaseIndex, index);
+            }
         }
         scope.decStackOffset();
         scope.decStackOffset();

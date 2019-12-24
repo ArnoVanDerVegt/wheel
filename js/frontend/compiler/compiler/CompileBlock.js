@@ -149,8 +149,10 @@ class CompileBlock extends CompileScope {
                 case t.TOKEN_KEYWORD:
                     if (token.is(t.LEXEME_END) || (endStatements && (endStatements.indexOf(token.lexeme) !== -1))) {
                         end = true;
-                    } else {
+                    } else if (keywordCompiler[token.lexeme]) {
                         new keywordCompiler[token.lexeme](opts).compile(iterator);
+                    } else {
+                        throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                     }
                     break;
                 case t.TOKEN_META:
