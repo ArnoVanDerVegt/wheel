@@ -120,9 +120,12 @@ exports.Compiler = class extends CompileBlock {
     }
 
     popLoop() {
+        let program  = this._program;
+        if (!program.getCodeUsed()) {
+            return;
+        }
         let loop     = this._loopStack.pop();
         let breaks   = loop.loop.getBreaks();
-        let program  = this._program;
         let commands = program.getCommands();
         let index    = commands.length - 1;
         for (let i = 0; i < breaks.length; i++) {

@@ -256,6 +256,9 @@ exports.VarExpression = class {
     compileAddFieldOffsetToReg(opts) {
         let token = opts.expression.tokens[opts.index];
         let field = opts.identifierType.findVar(token.lexeme);
+        if (!field) {
+            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
+        }
         if (field.getOffset() !== 0) {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
         }

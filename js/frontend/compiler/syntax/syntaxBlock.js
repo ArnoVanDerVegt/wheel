@@ -158,10 +158,11 @@ exports.blockScopeTokens = function() {
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSE] = follow14;
 
-    // "ret" -> NUMBER | IDENTIFIER
+    // "ret" -> NUMBER | IDENTIFIER | "\n"
     let follow15 = [
             {token: t.TOKEN_IDENTIFIER},
-            {token: t.TOKEN_NUMBER}
+            {token: t.TOKEN_NUMBER},
+            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_RET] = follow15;
 
