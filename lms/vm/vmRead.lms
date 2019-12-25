@@ -6,24 +6,6 @@
 // license: https://arnovandervegt.github.io/wheel/license.txt
 //
 //=================================================================================================//
-subcall readCommand {
-    DATA32 lRegCode_32
-
-    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
-    MUL32(lRegCode_32, 3, gCommandListOffset_32)
-    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gCommand_8)
-    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
-    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gType1_8)
-    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
-    ARRAY_READ(gCommandList_H, gCommandListOffset_32, gType2_8)
-    MUL32(lRegCode_32, 2, gCommandParamOffset_32)
-    ARRAY_READ(gCommandParam_H, gCommandParamOffset_32, gParam1_F)
-    ADD32(gCommandParamOffset_32, 1, gCommandParamOffset_32)
-    ARRAY_READ(gCommandParam_H, gCommandParamOffset_32, gParam2_F)
-}
-
-//=================================================================================================//
-
 subcall readMem8 {
     IN_32 pOffset1_32
     IN_32 pOffset2_32

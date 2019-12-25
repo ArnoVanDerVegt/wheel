@@ -51,23 +51,16 @@ subcall loadCommands {
     CALL(loadS)                                                         // #COMMANDS
     CALL(load32, gCommandCount_32, 0x03)
 
-    MUL32(gCommandCount_32, 3, lSize_32)                                // Command and param info = gCommandCount_32 * 3
-    ARRAY(CREATE8, lSize_32, gCommandList_H)
-    MOVE16_16(0, gCommandListOffset_32)
-
     MUL32(gCommandCount_32, 2, lSize_32)                                // Command and param values = gCommandCount_32 * 2
-    ARRAY(CREATEF, lSize_32, gCommandParam_H)
-    ARRAY(RESIZE, gCommandParam_H, lSize_32)
-    MOVE32_32(0, gCommandParamOffset_32)
+    ARRAY(CREATEF, lSize_32, gCommandList_H)
+    ARRAY(RESIZE, gCommandList_H, lSize_32)
+    MOVE32_32(0, gCommandListffset_32)
 
     MOVE32_32(0, lCommandIndex_32)                                      // lCommandIndex_32 = 0
 read_command:
     CALL(load16, lCommand_16, 0x05)                                     // Read command with comma delimiter, param type1, param type2
     CALL(loadF, gParam1_F, 0x05)                                        // Read param value1 with comma delimiter
     CALL(loadF, gParam2_F, 0x03)                                        // Read param value2 with return delimiter
-
-    CALL(storeCommandParam, gParam1_F)
-    CALL(storeCommandParam, gParam2_F)
 
     JR_EQ16(lCommand_16,  88, optimize_set_local_constant)
     JR_EQ16(lCommand_16,  84, optimize_set_global_constant)
@@ -124,10 +117,14 @@ optimize_sub_local_local:                                               // optim
     JR(read_command_done)
 
 read_command_done:
+    DATA32 lInfo_32
+    WRITE8(gCommand_8, 0, lInfo_32)
+    WRITE8(gType1_8, 1, lInfo_32)
+    WRITE8(gType2_8, 2, lInfo_32)
 
-    CALL(storeCommandList, gCommand_8)
-    CALL(storeCommandList, gType1_8)
-    CALL(storeCommandList, gType2_8)
+    CALL(storeCommandParam, lInfo_32)
+    CALL(storeCommandParam, gParam1_F)
+    CALL(storeCommandParam, gParam2_F)
 
     ADD32(lCommandIndex_32, 1, lCommandIndex_32)                        // lCommandIndex_32 = lCommandIndex_32 + 1
     JR_LT32(lCommandIndex_32, gCommandCount_32, read_command)           // Jump to read_command if there are more...
@@ -190,16 +187,10 @@ constant_done:
 constants_done:
 }
 
-subcall storeCommandList {
-    IN_8 pCommand_8
-    ARRAY_WRITE(gCommandList_H, gCommandListOffset_32, pCommand_8)
-    ADD32(gCommandListOffset_32, 1, gCommandListOffset_32)
-}
-
 subcall storeCommandParam {
     IN_F pParam_F
-    ARRAY_WRITE(gCommandParam_H, gCommandParamOffset_32, pParam_F)
-    ADD32(gCommandParamOffset_32, 1, gCommandParamOffset_32)
+    ARRAY_WRITE(gCommandList_H, gCommandListffset_32, pParam_F)
+    ADD32(gCommandListffset_32, 1, gCommandListffset_32)
 }
 
 //=================================================================================================//

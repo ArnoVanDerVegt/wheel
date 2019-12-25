@@ -8,8 +8,17 @@
 //=================================================================================================//
 subcall run {
     DATA32 lRegCode_32
+
+    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
 loop:
-    CALL(readCommand)
+    MUL32(lRegCode_32, 3, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gCommandInfo_32)
+    READ8(gCommandInfo_32, 0, gCommand_8)
+    ADD32(gCommandListffset_32, 1, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gParam1_F)
+    ADD32(gCommandListffset_32, 1, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gParam2_F)
+
     CALL(runCommand)
     CALL(readMem32, 4, 0, lRegCode_32)
     ADD32(lRegCode_32, 1, lRegCode_32)
@@ -19,9 +28,9 @@ loop:
     DATA32 lTime_32
     TIMER_READ(lTime_32)
     JR_LT32(lTime_32, gModScreenUpdateTime_32, screen_not_updated)
-    UI_DRAW(UPDATE)                                                     // Update screen every 100ms
+    UI_DRAW(UPDATE)                                                     // Update screen every 250ms
     MOVE32_32(lTime_32, gModScreenUpdateTime_32)
-    ADD32(gModScreenUpdateTime_32, 100, gModScreenUpdateTime_32)
+    ADD32(gModScreenUpdateTime_32, 250, gModScreenUpdateTime_32)
     MOVE8_8(0, gModScreenUpdated_8)
 screen_not_updated:
 
@@ -145,6 +154,9 @@ optimized_sub_local_local:
     RETURN()
 
 un_optimized_command:
+    READ8(gCommandInfo_32, 1, gType1_8)                                 // Get parameter type info...
+    READ8(gCommandInfo_32, 2, gType2_8)
+
     CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
 
     JR_EQ8(gType2_8, 2, param2_local)                                   // Param2 is local
