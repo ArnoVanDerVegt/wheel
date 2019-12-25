@@ -69,3 +69,12 @@ end
 proc pspStop()
     mod  MODULE_PSP, MODULE_PSP_STOP
 end
+
+; @proc             Wait until a PSP button is press.
+proc pspWaitForButton()
+    repeat
+        if pspData.anyButton
+            break
+        end
+    end
+end
