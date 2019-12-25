@@ -36,7 +36,7 @@ mod_sensor_multi_stop_all_loop:
     ADD32(lIndex_32, 1, lIndex_32)
     JR_LT32(lIndex_32, 4, mod_sensor_multi_stop_all_loop)
     JR_EQ8(gMSThreadStarted_8, 0, mod_sensor_multi_stopped_all)
-    OBJECT_STOP(18)
+    OBJECT_STOP(19)
     MOVE8_8(0, gMSThreadStarted_8)
 mod_sensor_multi_stopped_all:
 }

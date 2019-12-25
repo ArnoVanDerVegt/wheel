@@ -22,68 +22,63 @@ vmthread MAIN {
     CALL(run)
 }
 
-//= Screen update thread ==========================================================================//
-
-vmthread screenUpdateThread02 {
-}
-
 //= Threads device 1 ==============================================================================//
 
-vmthread motorThread03 {
+vmthread motorThread02 {
     CALL(modMotor1AUpdate)
 }
-vmthread motorThread04 {
+vmthread motorThread03 {
     CALL(modMotor1BUpdate)
 }
-vmthread motorThread05 {
+vmthread motorThread04 {
     CALL(modMotor1CUpdate)
 }
-vmthread motorThread06 {
+vmthread motorThread05 {
     CALL(modMotor1DUpdate)
 }
 
 //= Threads device 2 ==============================================================================//
 
-vmthread motorThread07 {
+vmthread motorThread06 {
     CALL(modMotor2AUpdate)
 }
-vmthread motorThread08 {
+vmthread motorThread07 {
     CALL(modMotor2BUpdate)
 }
-vmthread motorThread09 {
+vmthread motorThread08 {
     CALL(modMotor2CUpdate)
 }
-vmthread motorThread10 {
+vmthread motorThread09 {
     CALL(modMotor2DUpdate)
 }
 
 //= Threads device 3 ==============================================================================//
 
-vmthread motorThread11 {
+vmthread motorThread10 {
     CALL(modMotor3AUpdate)
 }
-vmthread motorThread12 {
+vmthread motorThread11 {
     CALL(modMotor3BUpdate)
 }
-vmthread motorThread13 {
+vmthread motorThread12 {
     CALL(modMotor3CUpdate)
 }
-vmthread motorThread14 {
+vmthread motorThread13 {
     CALL(modMotor3DUpdate)
 }
 
 //= Threads device 4 ==============================================================================//
 
-vmthread motorThread15 {
+vmthread motorThread14 {
     CALL(modMotor4AUpdate)
 }
-vmthread motorThread16 {
+vmthread motorThread15 {
     CALL(modMotor4BUpdate)
 }
-vmthread motorThread17 {
+vmthread motorThread16 {
     CALL(modMotor4CUpdate)
 }
-vmthread motorThread18 {
+vmthread motorThread17 {
     CALL(modMotor4DUpdate)
 }
 
