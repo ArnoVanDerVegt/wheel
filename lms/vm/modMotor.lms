@@ -289,22 +289,22 @@ mod_motor_reset_layer1:
     JR_EQ8(lPort_8, 3, mod_motor_reset_1d)
     RETURN()
 mod_motor_reset_1a:
-    CALL(modMotorResetMotor, 0, 101)
+    CALL(modMotorResetMotor, 101)
     MOVE32_32(0, gModMotor1ACurrrent_32)
     MOVE32_32(0, gModMotor1ATarget_32)
     RETURN()
 mod_motor_reset_1b:
-    CALL(modMotorResetMotor, 0, 102)
+    CALL(modMotorResetMotor, 102)
     MOVE32_32(0, gModMotor1BCurrrent_32)
     MOVE32_32(0, gModMotor1BTarget_32)
     RETURN()
 mod_motor_reset_1c:
-    CALL(modMotorResetMotor, 0, 103)
+    CALL(modMotorResetMotor, 103)
     MOVE32_32(0, gModMotor1CCurrrent_32)
     MOVE32_32(0, gModMotor1CTarget_32)
     RETURN()
 mod_motor_reset_1d:
-    CALL(modMotorResetMotor, 0, 104)
+    CALL(modMotorResetMotor, 104)
     MOVE32_32(0, gModMotor1DCurrrent_32)
     MOVE32_32(0, gModMotor1DTarget_32)
     RETURN()
@@ -316,22 +316,22 @@ mod_motor_reset_layer2:
     JR_EQ8(lPort_8, 3, mod_motor_reset_2d)
     RETURN()
 mod_motor_reset_2a:
-    CALL(modMotorResetMotor, 1, 201)
+    CALL(modMotorResetMotor, 201)
     MOVE32_32(0, gModMotor2ACurrrent_32)
     MOVE32_32(0, gModMotor2ATarget_32)
     RETURN()
 mod_motor_reset_2b:
-    CALL(modMotorResetMotor, 1, 202)
+    CALL(modMotorResetMotor, 202)
     MOVE32_32(0, gModMotor2BCurrrent_32)
     MOVE32_32(0, gModMotor2BTarget_32)
     RETURN()
 mod_motor_reset_2c:
-    CALL(modMotorResetMotor, 1, 203)
+    CALL(modMotorResetMotor, 203)
     MOVE32_32(0, gModMotor2CCurrrent_32)
     MOVE32_32(0, gModMotor2CTarget_32)
     RETURN()
 mod_motor_reset_2d:
-    CALL(modMotorResetMotor, 1, 204)
+    CALL(modMotorResetMotor, 204)
     MOVE32_32(0, gModMotor2DCurrrent_32)
     MOVE32_32(0, gModMotor2DTarget_32)
     RETURN()
@@ -343,22 +343,22 @@ mod_motor_reset_layer3:
     JR_EQ8(lPort_8, 3, mod_motor_reset_3d)
     RETURN()
 mod_motor_reset_3a:
-    CALL(modMotorResetMotor, 2, 301)
+    CALL(modMotorResetMotor, 301)
     MOVE32_32(0, gModMotor3ACurrrent_32)
     MOVE32_32(0, gModMotor3ATarget_32)
     RETURN()
 mod_motor_reset_3b:
-    CALL(modMotorResetMotor, 2, 302)
+    CALL(modMotorResetMotor, 302)
     MOVE32_32(0, gModMotor3BCurrrent_32)
     MOVE32_32(0, gModMotor3BTarget_32)
     RETURN()
 mod_motor_reset_3c:
-    CALL(modMotorResetMotor, 2, 303)
+    CALL(modMotorResetMotor, 303)
     MOVE32_32(0, gModMotor3CCurrrent_32)
     MOVE32_32(0, gModMotor3CTarget_32)
     RETURN()
 mod_motor_reset_3d:
-    CALL(modMotorResetMotor, 2, 304)
+    CALL(modMotorResetMotor, 304)
     MOVE32_32(0, gModMotor3DCurrrent_32)
     MOVE32_32(0, gModMotor3DTarget_32)
     RETURN()
@@ -370,22 +370,22 @@ mod_motor_reset_layer4:
     JR_EQ8(lPort_8, 3, mod_motor_reset_4d)
     RETURN()
 mod_motor_reset_4a:
-    CALL(modMotorResetMotor, 3, 401)
+    CALL(modMotorResetMotor, 401)
     MOVE32_32(0, gModMotor4ACurrrent_32)
     MOVE32_32(0, gModMotor4ATarget_32)
     RETURN()
 mod_motor_reset_4b:
-    CALL(modMotorResetMotor, 3, 402)
+    CALL(modMotorResetMotor, 402)
     MOVE32_32(0, gModMotor4BCurrrent_32)
     MOVE32_32(0, gModMotor4BTarget_32)
     RETURN()
 mod_motor_reset_4c:
-    CALL(modMotorResetMotor, 3, 403)
+    CALL(modMotorResetMotor, 403)
     MOVE32_32(0, gModMotor4CCurrrent_32)
     MOVE32_32(0, gModMotor4CTarget_32)
     RETURN()
 mod_motor_reset_4d:
-    CALL(modMotorResetMotor, 3, 404)
+    CALL(modMotorResetMotor, 404)
     MOVE32_32(0, gModMotor4DCurrrent_32)
     MOVE32_32(0, gModMotor4DTarget_32)
     RETURN()
@@ -538,19 +538,19 @@ mod_motor_on_layer1:
     RETURN()
 mod_motor_on_1a:
     MOVE8_8(0, gModMotor1AMode_8)
-    CALL(modMotorOnMotor, 0, 101, gModMotor1ASpeed_8)
+    CALL(modMotorOnMotor, 101, gModMotor1ASpeed_8)
     RETURN()
 mod_motor_on_1b:
     MOVE8_8(0, gModMotor1AMode_8)
-    CALL(modMotorOnMotor, 0, 102, gModMotor1BSpeed_8)
+    CALL(modMotorOnMotor, 102, gModMotor1BSpeed_8)
     RETURN()
 mod_motor_on_1c:
     MOVE8_8(0, gModMotor1AMode_8)
-    CALL(modMotorOnMotor, 0, 103, gModMotor1CSpeed_8)
+    CALL(modMotorOnMotor, 103, gModMotor1CSpeed_8)
     RETURN()
 mod_motor_on_1d:
     MOVE8_8(0, gModMotor1AMode_8)
-    CALL(modMotorOnMotor, 0, 104, gModMotor1DSpeed_8)
+    CALL(modMotorOnMotor, 104, gModMotor1DSpeed_8)
     RETURN()
 
 mod_motor_on_layer2:
@@ -561,19 +561,19 @@ mod_motor_on_layer2:
     RETURN()
 mod_motor_on_2a:
     MOVE8_8(0, gModMotor2AMode_8)
-    CALL(modMotorOnMotor, 1, 201, gModMotor2ASpeed_8)
+    CALL(modMotorOnMotor, 201, gModMotor2ASpeed_8)
     RETURN()
 mod_motor_on_2b:
     MOVE8_8(0, gModMotor2AMode_8)
-    CALL(modMotorOnMotor, 1, 202, gModMotor2BSpeed_8)
+    CALL(modMotorOnMotor, 202, gModMotor2BSpeed_8)
     RETURN()
 mod_motor_on_2c:
     MOVE8_8(0, gModMotor2AMode_8)
-    CALL(modMotorOnMotor, 1, 203, gModMotor2CSpeed_8)
+    CALL(modMotorOnMotor, 203, gModMotor2CSpeed_8)
     RETURN()
 mod_motor_on_2d:
     MOVE8_8(0, gModMotor2AMode_8)
-    CALL(modMotorOnMotor, 1, 204, gModMotor2DSpeed_8)
+    CALL(modMotorOnMotor, 204, gModMotor2DSpeed_8)
     RETURN()
 
 mod_motor_on_layer3:
@@ -584,19 +584,19 @@ mod_motor_on_layer3:
     RETURN()
 mod_motor_on_3a:
     MOVE8_8(0, gModMotor3AMode_8)
-    CALL(modMotorOnMotor, 2, 301, gModMotor3ASpeed_8)
+    CALL(modMotorOnMotor, 301, gModMotor3ASpeed_8)
     RETURN()
 mod_motor_on_3b:
     MOVE8_8(0, gModMotor3AMode_8)
-    CALL(modMotorOnMotor, 2, 302, gModMotor3BSpeed_8)
+    CALL(modMotorOnMotor, 302, gModMotor3BSpeed_8)
     RETURN()
 mod_motor_on_3c:
     MOVE8_8(0, gModMotor3AMode_8)
-    CALL(modMotorOnMotor, 2, 303, gModMotor3CSpeed_8)
+    CALL(modMotorOnMotor, 303, gModMotor3CSpeed_8)
     RETURN()
 mod_motor_on_3d:
     MOVE8_8(0, gModMotor3AMode_8)
-    CALL(modMotorOnMotor, 2, 304, gModMotor3DSpeed_8)
+    CALL(modMotorOnMotor, 304, gModMotor3DSpeed_8)
     RETURN()
 
 mod_motor_on_layer4:
@@ -607,19 +607,19 @@ mod_motor_on_layer4:
     RETURN()
 mod_motor_on_4a:
     MOVE8_8(0, gModMotor4AMode_8)
-    CALL(modMotorOnMotor, 3, 401, gModMotor4ASpeed_8)
+    CALL(modMotorOnMotor, 401, gModMotor4ASpeed_8)
     RETURN()
 mod_motor_on_4b:
     MOVE8_8(0, gModMotor4AMode_8)
-    CALL(modMotorOnMotor, 3, 402, gModMotor4BSpeed_8)
+    CALL(modMotorOnMotor, 402, gModMotor4BSpeed_8)
     RETURN()
 mod_motor_on_4c:
     MOVE8_8(0, gModMotor4AMode_8)
-    CALL(modMotorOnMotor, 3, 403, gModMotor4CSpeed_8)
+    CALL(modMotorOnMotor, 403, gModMotor4CSpeed_8)
     RETURN()
 mod_motor_on_4d:
     MOVE8_8(0, gModMotor4AMode_8)
-    CALL(modMotorOnMotor, 3, 404, gModMotor4DSpeed_8)
+    CALL(modMotorOnMotor, 404, gModMotor4DSpeed_8)
     RETURN()
 }
 
@@ -769,23 +769,23 @@ mod_motor_stop_layer1:
     JR_EQ8(lPort_8, 3, mod_motor_stop_1d)
     RETURN()
 mod_motor_stop_1a:
-    CALL(modMotorStopMotor, 0, 101, gModMotor1ABrake_8)
-    CALL(modMotorReadValue, 0, 101, gModMotor1ACurrrent_32)
+    CALL(modMotorStopMotor, 101, gModMotor1ABrake_8)
+    CALL(modMotorReadValue, 101, gModMotor1ADiscard_8, gModMotor1ACurrrent_32)
     MOVE8_8(0, gModMotor1AMode_8)
     RETURN()
 mod_motor_stop_1b:
-    CALL(modMotorStopMotor, 0, 102, gModMotor1BBrake_8)
-    CALL(modMotorReadValue, 0, 102, gModMotor1BCurrrent_32)
+    CALL(modMotorStopMotor, 102, gModMotor1BBrake_8)
+    CALL(modMotorReadValue, 102, gModMotor1BDiscard_8, gModMotor1BCurrrent_32)
     MOVE8_8(0, gModMotor1BMode_8)
     RETURN()
 mod_motor_stop_1c:
-    CALL(modMotorStopMotor, 0, 103, gModMotor1CBrake_8)
-    CALL(modMotorReadValue, 0, 103, gModMotor1CCurrrent_32)
+    CALL(modMotorStopMotor, 103, gModMotor1CBrake_8)
+    CALL(modMotorReadValue, 103, gModMotor1CDiscard_8, gModMotor1CCurrrent_32)
     MOVE8_8(0, gModMotor1CMode_8)
     RETURN()
 mod_motor_stop_1d:
-    CALL(modMotorStopMotor, 0, 104, gModMotor1DBrake_8)
-    CALL(modMotorReadValue, 0, 104, gModMotor1DCurrrent_32)
+    CALL(modMotorStopMotor, 104, gModMotor1DBrake_8)
+    CALL(modMotorReadValue, 104, gModMotor1DDiscard_8, gModMotor1DCurrrent_32)
     MOVE8_8(0, gModMotor1DMode_8)
     RETURN()
 
@@ -796,23 +796,23 @@ mod_motor_stop_layer2:
     JR_EQ8(lPort_8, 3, mod_motor_stop_2d)
     RETURN()
 mod_motor_stop_2a:
-    CALL(modMotorStopMotor, 0, 201, gModMotor2ABrake_8)
-    CALL(modMotorReadValue, 0, 201, gModMotor2ACurrrent_32)
+    CALL(modMotorStopMotor, 201, gModMotor2ABrake_8)
+    CALL(modMotorReadValue, 201, gModMotor2ADiscard_8, gModMotor2ACurrrent_32)
     MOVE8_8(0, gModMotor2AMode_8)
     RETURN()
 mod_motor_stop_2b:
-    CALL(modMotorStopMotor, 0, 202, gModMotor2BBrake_8)
-    CALL(modMotorReadValue, 0, 202, gModMotor2BCurrrent_32)
+    CALL(modMotorStopMotor, 202, gModMotor2BBrake_8)
+    CALL(modMotorReadValue, 202, gModMotor2BDiscard_8, gModMotor2BCurrrent_32)
     MOVE8_8(0, gModMotor2BMode_8)
     RETURN()
 mod_motor_stop_2c:
-    CALL(modMotorStopMotor, 0, 203, gModMotor2CBrake_8)
-    CALL(modMotorReadValue, 0, 203, gModMotor2CCurrrent_32)
+    CALL(modMotorStopMotor, 203, gModMotor2CBrake_8)
+    CALL(modMotorReadValue, 203, gModMotor2CDiscard_8, gModMotor2CCurrrent_32)
     MOVE8_8(0, gModMotor2CMode_8)
     RETURN()
 mod_motor_stop_2d:
-    CALL(modMotorStopMotor, 0, 204, gModMotor2DBrake_8)
-    CALL(modMotorReadValue, 0, 204, gModMotor2DCurrrent_32)
+    CALL(modMotorStopMotor, 204, gModMotor2DBrake_8)
+    CALL(modMotorReadValue, 204, gModMotor2DDiscard_8, gModMotor2DCurrrent_32)
     MOVE8_8(0, gModMotor2DMode_8)
     RETURN()
 
@@ -823,23 +823,23 @@ mod_motor_stop_layer3:
     JR_EQ8(lPort_8, 3, mod_motor_stop_3d)
     RETURN()
 mod_motor_stop_3a:
-    CALL(modMotorStopMotor, 0, 301, gModMotor3ABrake_8)
-    CALL(modMotorReadValue, 0, 301, gModMotor3ACurrrent_32)
+    CALL(modMotorStopMotor, 301, gModMotor3ABrake_8)
+    CALL(modMotorReadValue, 301, gModMotor3ADiscard_8, gModMotor3ACurrrent_32)
     MOVE8_8(0, gModMotor1AMode_8)
     RETURN()
 mod_motor_stop_3b:
-    CALL(modMotorStopMotor, 0, 302, gModMotor3BBrake_8)
-    CALL(modMotorReadValue, 0, 302, gModMotor3BCurrrent_32)
+    CALL(modMotorStopMotor, 302, gModMotor3BBrake_8)
+    CALL(modMotorReadValue, 302, gModMotor3BDiscard_8, gModMotor3BCurrrent_32)
     MOVE8_8(0, gModMotor1BMode_8)
     RETURN()
 mod_motor_stop_3c:
-    CALL(modMotorStopMotor, 0, 303, gModMotor3CBrake_8)
-    CALL(modMotorReadValue, 0, 303, gModMotor3CCurrrent_32)
+    CALL(modMotorStopMotor, 303, gModMotor3CBrake_8)
+    CALL(modMotorReadValue, 303, gModMotor3CDiscard_8, gModMotor3CCurrrent_32)
     MOVE8_8(0, gModMotor1CMode_8)
     RETURN()
 mod_motor_stop_3d:
-    CALL(modMotorStopMotor, 0, 304, gModMotor3DBrake_8)
-    CALL(modMotorReadValue, 0, 304, gModMotor3DCurrrent_32)
+    CALL(modMotorStopMotor, 304, gModMotor3DBrake_8)
+    CALL(modMotorReadValue, 304, gModMotor3DDiscard_8, gModMotor3DCurrrent_32)
     MOVE8_8(0, gModMotor1DMode_8)
     RETURN()
 
@@ -850,23 +850,23 @@ mod_motor_stop_layer4:
     JR_EQ8(lPort_8, 3, mod_motor_stop_4d)
     RETURN()
 mod_motor_stop_4a:
-    CALL(modMotorStopMotor, 0, 401, gModMotor4ABrake_8)
-    CALL(modMotorReadValue, 0, 401, gModMotor4ACurrrent_32)
+    CALL(modMotorStopMotor, 401, gModMotor4ABrake_8)
+    CALL(modMotorReadValue, 401, gModMotor4ADiscard_8, gModMotor4ACurrrent_32)
     MOVE8_8(0, gModMotor4AMode_8)
     RETURN()
 mod_motor_stop_4b:
-    CALL(modMotorStopMotor, 0, 402, gModMotor4BBrake_8)
-    CALL(modMotorReadValue, 0, 402, gModMotor4BCurrrent_32)
+    CALL(modMotorStopMotor, 402, gModMotor4BBrake_8)
+    CALL(modMotorReadValue, 402, gModMotor4BDiscard_8, gModMotor4BCurrrent_32)
     MOVE8_8(0, gModMotor4BMode_8)
     RETURN()
 mod_motor_stop_4c:
-    CALL(modMotorStopMotor, 0, 403, gModMotor4CBrake_8)
-    CALL(modMotorReadValue, 0, 403, gModMotor4CCurrrent_32)
+    CALL(modMotorStopMotor, 403, gModMotor4CBrake_8)
+    CALL(modMotorReadValue, 403, gModMotor4CDiscard_8, gModMotor4CCurrrent_32)
     MOVE8_8(0, gModMotor4CMode_8)
     RETURN()
 mod_motor_stop_4d:
-    CALL(modMotorStopMotor, 0, 404, gModMotor4DBrake_8)
-    CALL(modMotorReadValue, 0, 404, gModMotor4DCurrrent_32)
+    CALL(modMotorStopMotor, 404, gModMotor4DBrake_8)
+    CALL(modMotorReadValue, 404, gModMotor4DDiscard_8, gModMotor4DCurrrent_32)
     MOVE8_8(0, gModMotor4DMode_8)
     RETURN()
 }
@@ -892,19 +892,19 @@ mod_motor_read_layer1:
     JR_EQ8(lPort_8, 3, mod_motor_read_1d)
     RETURN()
 mod_motor_read_1a:
-    CALL(modMotorReadValue, 0, 101, gModMotor1ACurrrent_32)
+    CALL(modMotorReadValue, 101, gModMotor1ADiscard_8, gModMotor1ACurrrent_32)
     CALL(setRet32AndKeep, gModMotor1ACurrrent_32)
     RETURN()
 mod_motor_read_1b:
-    CALL(modMotorReadValue, 0, 102, gModMotor1BCurrrent_32)
+    CALL(modMotorReadValue, 102, gModMotor1BDiscard_8, gModMotor1BCurrrent_32)
     CALL(setRet32AndKeep, gModMotor1BCurrrent_32)
     RETURN()
 mod_motor_read_1c:
-    CALL(modMotorReadValue, 0, 103, gModMotor1CCurrrent_32)
+    CALL(modMotorReadValue, 103, gModMotor1CDiscard_8, gModMotor1CCurrrent_32)
     CALL(setRet32AndKeep, gModMotor1CCurrrent_32)
     RETURN()
 mod_motor_read_1d:
-    CALL(modMotorReadValue, 0, 104, gModMotor1DCurrrent_32)
+    CALL(modMotorReadValue, 104, gModMotor1DDiscard_8, gModMotor1DCurrrent_32)
     CALL(setRet32AndKeep, gModMotor1DCurrrent_32)
     RETURN()
 
@@ -915,19 +915,19 @@ mod_motor_read_layer2:
     JR_EQ8(lPort_8, 3, mod_motor_read_2d)
     RETURN()
 mod_motor_read_2a:
-    CALL(modMotorReadValue, 1, 201, gModMotor2ACurrrent_32)
+    CALL(modMotorReadValue, 201, gModMotor2ADiscard_8, gModMotor2ACurrrent_32)
     CALL(setRet32AndKeep, gModMotor2ACurrrent_32)
     RETURN()
 mod_motor_read_2b:
-    CALL(modMotorReadValue, 1, 202, gModMotor2BCurrrent_32)
+    CALL(modMotorReadValue, 202, gModMotor2BDiscard_8, gModMotor2BCurrrent_32)
     CALL(setRet32AndKeep, gModMotor2BCurrrent_32)
     RETURN()
 mod_motor_read_2c:
-    CALL(modMotorReadValue, 1, 203, gModMotor2CCurrrent_32)
+    CALL(modMotorReadValue, 203, gModMotor2CDiscard_8, gModMotor2CCurrrent_32)
     CALL(setRet32AndKeep, gModMotor2CCurrrent_32)
     RETURN()
 mod_motor_read_2d:
-    CALL(modMotorReadValue, 1, 204, gModMotor2DCurrrent_32)
+    CALL(modMotorReadValue, 204, gModMotor2DDiscard_8, gModMotor2DCurrrent_32)
     CALL(setRet32AndKeep, gModMotor2DCurrrent_32)
     RETURN()
 
@@ -938,19 +938,19 @@ mod_motor_read_layer3:
     JR_EQ8(lPort_8, 3, mod_motor_read_3d)
     RETURN()
 mod_motor_read_3a:
-    CALL(modMotorReadValue, 2, 301, gModMotor3ACurrrent_32)
+    CALL(modMotorReadValue, 301, gModMotor3ADiscard_8, gModMotor3ACurrrent_32)
     CALL(setRet32AndKeep, gModMotor3ACurrrent_32)
     RETURN()
 mod_motor_read_3b:
-    CALL(modMotorReadValue, 2, 302, gModMotor3BCurrrent_32)
+    CALL(modMotorReadValue, 302, gModMotor3BDiscard_8, gModMotor3BCurrrent_32)
     CALL(setRet32AndKeep, gModMotor3BCurrrent_32)
     RETURN()
 mod_motor_read_3c:
-    CALL(modMotorReadValue, 2, 303, gModMotor3CCurrrent_32)
+    CALL(modMotorReadValue, 303, gModMotor3CDiscard_8, gModMotor3CCurrrent_32)
     CALL(setRet32AndKeep, gModMotor3CCurrrent_32)
     RETURN()
 mod_motor_read_3d:
-    CALL(modMotorReadValue, 2, 304, gModMotor3DCurrrent_32)
+    CALL(modMotorReadValue, 304, gModMotor3DDiscard_8, gModMotor3DCurrrent_32)
     CALL(setRet32AndKeep, gModMotor3DCurrrent_32)
     RETURN()
 
@@ -961,19 +961,19 @@ mod_motor_read_layer4:
     JR_EQ8(lPort_8, 3, mod_motor_read_4d)
     RETURN()
 mod_motor_read_4a:
-    CALL(modMotorReadValue, 3, 401, gModMotor4ACurrrent_32)
+    CALL(modMotorReadValue, 401, gModMotor4ADiscard_8, gModMotor4ACurrrent_32)
     CALL(setRet32AndKeep, gModMotor4ACurrrent_32)
     RETURN()
 mod_motor_read_4b:
-    CALL(modMotorReadValue, 3, 402, gModMotor4BCurrrent_32)
+    CALL(modMotorReadValue, 402, gModMotor4BDiscard_8, gModMotor4BCurrrent_32)
     CALL(setRet32AndKeep, gModMotor4BCurrrent_32)
     RETURN()
 mod_motor_read_4c:
-    CALL(modMotorReadValue, 3, 403, gModMotor4CCurrrent_32)
+    CALL(modMotorReadValue, 403, gModMotor4CDiscard_8, gModMotor4CCurrrent_32)
     CALL(setRet32AndKeep, gModMotor4CCurrrent_32)
     RETURN()
 mod_motor_read_4d:
-    CALL(modMotorReadValue, 3, 404, gModMotor4DCurrrent_32)
+    CALL(modMotorReadValue, 404, gModMotor4DDiscard_8, gModMotor4DCurrrent_32)
     CALL(setRet32AndKeep, gModMotor4DCurrrent_32)
     RETURN()
 }
@@ -1070,45 +1070,77 @@ mod_motor_ready_4d:
 }
 
 subcall modMotorResetMotor {
-    IN_8   pLayer_8
     IN_32  pPort_32
+    DATA8  lLayer_8
     DATA8  lBitfield_8
     DATA8  lInverted_8
     DATA32 lPort_32
 
-    PORT_CNV_OUTPUT(pPort_32, pLayer_8, lBitfield_8, lInverted_8)
-    OUTPUT_CLR_COUNT(pLayer_8, lBitfield_8)
+    PORT_CNV_OUTPUT(pPort_32, lLayer_8, lBitfield_8, lInverted_8)
+    OUTPUT_CLR_COUNT(lLayer_8, lBitfield_8)
 }
 
 subcall modMotorStopMotor {
-    IN_8   pLayer_8
     IN_32  pPort_32
     IN_8   pBrake_8
+    DATA8  lLayer_8
     DATA8  lBitfield_8
     DATA8  lInverted_8
 
-    PORT_CNV_OUTPUT(pPort_32, pLayer_8, lBitfield_8, lInverted_8)
-    OUTPUT_STOP(pLayer_8, lBitfield_8, pBrake_8)
+    PORT_CNV_OUTPUT(pPort_32, lLayer_8, lBitfield_8, lInverted_8)
+    OUTPUT_STOP(lLayer_8, lBitfield_8, pBrake_8)
 }
 
 subcall modMotorReadValue {
-    IN_8   pLayer_8
-    IN_32  pPort_32
-    OUT_32 pMotorPos_32
-    DATA8  lBitfield_8
+    IN_32 pPort_32
+    IO_8  pMotorPosDiscard_8
+    IO_32 pMotorPos_32
+    DATAF lMotorPosLast_F
+    DATAF lMotorPosAbs_F
+    DATAF lMotorPosDelta_F
+    DATAF lMotorPos_F
+    DATA8 lLayer_8
+    DATA8 lBitfield_8
 
-    PORT_CNV_INPUT(pPort_32, pLayer_8, lBitfield_8)
-    OUTPUT_GET_COUNT(pLayer_8, lBitfield_8, pMotorPos_32)
+    PORT_CNV_INPUT(pPort_32, lLayer_8, lBitfield_8)
+    ADD8(lBitfield_8, 16, lBitfield_8)
+    INPUT_DEVICE(READY_SI, lLayer_8, lBitfield_8, 0, 0, 1, lMotorPos_F)
+    JR_NAN(lMotorPos_F, nan)
+
+    MOVE32_F(pMotorPos_32, lMotorPosLast_F)
+    MATH(ABS, lMotorPosLast_F, lMotorPosLast_F)
+    JR_LTF(lMotorPosLast_F, 16, small_value)
+
+    MOVE32_F(pMotorPos_32, lMotorPosLast_F)
+    MULF(lMotorPosLast_F, 0.25F, lMotorPosLast_F)
+    MATH(ABS, lMotorPosLast_F, lMotorPosLast_F)
+    MATH(ABS, lMotorPos_F, lMotorPosAbs_F)
+
+    JR_GTF(lMotorPosLast_F, lMotorPosAbs_F, discard)
+    MOVE8_8(0, pMotorPosDiscard_8)
+    MOVEF_32(lMotorPos_F, pMotorPos_32)
+discard:
+    ADD8(pMotorPosDiscard_8, 1, pMotorPosDiscard_8)
+    JR_GT8(pMotorPosDiscard_8, 2, small_value)
+    RETURN()
+
+small_value:
+    MOVE8_8(0, pMotorPosDiscard_8)
+    MOVEF_32(lMotorPos_F, pMotorPos_32)
+    RETURN()
+
+nan:
+    ADD8(pMotorPosDiscard_8, 1, pMotorPosDiscard_8)
 }
 
 subcall modMotorOnMotor {
-    IN_8   pLayer_8
     IN_32  pPort_32
     IN_8   pSpeed_8
+    DATA8  lLayer_8
     DATA8  lBitfield_8
     DATA8  lInverted_8
 
-    PORT_CNV_OUTPUT(pPort_32, pLayer_8, lBitfield_8, lInverted_8)
-    OUTPUT_SPEED(pLayer_8, lBitfield_8, pSpeed_8)
-    OUTPUT_START(pLayer_8, lBitfield_8)
+    PORT_CNV_OUTPUT(pPort_32, lLayer_8, lBitfield_8, lInverted_8)
+    OUTPUT_SPEED(lLayer_8, lBitfield_8, pSpeed_8)
+    OUTPUT_START(lLayer_8, lBitfield_8)
 }

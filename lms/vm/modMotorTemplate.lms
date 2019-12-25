@@ -22,7 +22,7 @@ mod_motor{a}_loop:
 mod_motor{a}_time_on:
     MOVE8_8(0, gModMotor{A}Ready_8)                                      // Motor {A} no longer ready
     CALL(modMotor{A}TimeOn)                                              // Motor {A} time on
-    CALL(modMotorReadValue, {l}, {pn}, gModMotor{A}Currrent_32)           // Update the current value with the actual value
+    CALL(modMotorReadValue, {pn}, gModMotor{A}Discard_8, gModMotor{A}Currrent_32) // Update the current value with the actual value
     JR(mod_motor{a}_loop)
 
 mod_motor{a}_move_to:
@@ -32,7 +32,7 @@ mod_motor{a}_move_to:
     MATH(ABS, lDelta_F, lDelta_F)
     JR_LTF(lDelta_F, 20, mod_motor{a}_loop)
     CALL(modMotor{A}MoveTo, lDelta_32)                                   // Motor {A} move to
-    CALL(modMotorReadValue, {l}, {pn}, gModMotor{A}Currrent_32)           // Update the current value with the actual value
+    CALL(modMotorReadValue, {pn}, gModMotor{A}Discard_8, gModMotor{A}Currrent_32) // Update the current value with the actual value
     JR(mod_motor{a}_loop)
 }
 
@@ -40,6 +40,7 @@ subcall modMotor{A}MoveTo {
     IN_32  pDegrees_32
     DATA8  lBusy_8
     DATA8  lInverted_8
+    DATA8  lLayer_8
     DATA8  lBitField_8
     DATA8  lSpeed_8
 
@@ -52,10 +53,10 @@ mod_motor{a}_speed_positive:
     SUB8(0, lSpeed_8, lSpeed_8)
 mod_motor{a}_degrees_positive:
 
-    PORT_CNV_OUTPUT({pn}, {l}, lBitField_8, lInverted_8)
-    OUTPUT_STEP_SPEED({l}, lBitField_8, lSpeed_8, 0, pDegrees_32, 0, gModMotor{A}Brake_8)
+    PORT_CNV_OUTPUT({pn}, lLayer_8, lBitField_8, lInverted_8)
+    OUTPUT_STEP_SPEED(lLayer_8, lBitField_8, lSpeed_8, 0, pDegrees_32, 0, gModMotor{A}Brake_8)
 mod_motor{a}_move_wait_loop:
-    OUTPUT_TEST({l}, lBitField_8, lBusy_8)
+    OUTPUT_TEST(lLayer_8, lBitField_8, lBusy_8)
     SLEEP()
     JR_NEQ8(gModMotor{A}Mode_8, 2, mod_motor{a}_move_done)                // If no longer mode = 2 then exit...
     JR_NEQ8(lBusy_8, 0, mod_motor{a}_move_wait_loop)
@@ -66,12 +67,13 @@ mod_motor{a}_move_done:
 subcall modMotor{A}TimeOn {
     DATA8 lBusy_8
     DATA8 lInverted_8
+    DATA8 lLayer_8
     DATA8 lBitField_8
 
-    PORT_CNV_OUTPUT({pn}, {l}, lBitField_8, lInverted_8)
-    OUTPUT_TIME_SPEED({l}, lBitField_8, gModMotor{A}Speed_8, 0, gModMotor{A}Time_32, 0, gModMotor{A}Brake_8)
+    PORT_CNV_OUTPUT({pn}, lLayer_8, lBitField_8, lInverted_8)
+    OUTPUT_TIME_SPEED(lLayer_8, lBitField_8, gModMotor{A}Speed_8, 0, gModMotor{A}Time_32, 0, gModMotor{A}Brake_8)
 mod_motor{a}_time_wait_loop:
-    OUTPUT_TEST({l}, lBitField_8, lBusy_8)
+    OUTPUT_TEST(lLayer_8, lBitField_8, lBusy_8)
     JR_NEQ8(gModMotor{A}Mode_8, 1, mod_motor{a}_time_done)                // If no longer mode = 1 then exit...
     SLEEP()
     JR_NEQ8(lBusy_8, 0, mod_motor{a}_time_wait_loop)
