@@ -234,7 +234,7 @@ describe(
                         '0000  set     [stack + 0],        1',
                         '0001  set     [stack + 3],        [stack + 0]',
                         '0002  cmp     [stack + 3],        0',
-                        '0003  jmpc    flags.neq,          0013',
+                        '0003  jmpc    flags.neq,          0014',
                         '0004  set     [stack + 1],        0',
                         '0005  set     src,                1',
                         '0006  add     src,                stack',
@@ -245,8 +245,9 @@ describe(
                         '0011  jmpc    flags.le,           0012',
                         '0012  jump    0014',
                         '0013  jump    0005',
-                        '0014  cmp     [stack + 3],        1',
-                        '0015  jmpc    flags.neq,          0015'
+                        '0014  jump    0017',
+                        '0015  cmp     [stack + 3],        1',
+                        '0016  jmpc    flags.neq,          0016'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
