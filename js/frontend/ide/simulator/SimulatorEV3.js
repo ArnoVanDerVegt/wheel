@@ -12,10 +12,11 @@ const Button     = require('../../lib/components/Button').Button;
 exports.SimulatorEV3 = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        opts.id && opts.id(this);
-        this._ui     = opts.ui;
-        this._onStop = opts.onStop;
+        this._ui        = opts.ui;
+        this._onStop    = opts.onStop;
+        this._simulator = opts.simulator;
         this.initDOM(opts.parentNode);
+        this._simulator.registerPlugin('ev3', this);
     }
 
     initDOM(domNode) {

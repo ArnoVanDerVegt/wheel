@@ -13,7 +13,6 @@ const Sensor                = require('./io/Sensor').Sensor;
 exports.SimulatorSensors = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        opts.id && opts.id(this);
         let brick = opts.brick;
         this._ui                  = opts.ui;
         this._brick               = brick;
@@ -32,6 +31,7 @@ exports.SimulatorSensors = class extends DOMNode {
         dispatcher
             .on('VM.Start', this, this.onVMStart)
             .on('VM.Stop',  this, this.onVMStop);
+        this._simulator.registerPlugin('sensors', this);
     }
 
     initDOM(parentNode) {

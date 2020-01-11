@@ -68,7 +68,7 @@ exports.SimulatorModules = class {
     }
 
     setupStandardModule(vm) {
-        let display        = this._simulator.getDisplay();
+        let display        = this._simulator.getPlugin('ev3').getDisplay();
         let self           = this;
         let standardModule = this._modules[standardModuleConstants.MODULE_STANDARD];
         if (!standardModule) {
@@ -82,7 +82,7 @@ exports.SimulatorModules = class {
     }
 
     setupScreenModule(vm) {
-        let display      = this._simulator.getDisplay();
+        let display      = this._simulator.getPlugin('ev3').getDisplay();
         let self         = this;
         let screenModule = this._modules[screenModuleConstants.MODULE_SCREEN];
         if (!screenModule) {
@@ -118,7 +118,7 @@ exports.SimulatorModules = class {
     }
 
     setupButtonModule(vm) {
-        let buttons      = this._simulator.getButtons();
+        let buttons      = this._simulator.getPlugin('ev3').getButtons();
         let buttonModule = this._modules[buttonModuleConstants.MODULE_BUTTON];
         if (!buttonModule) {
             return this;
@@ -189,8 +189,8 @@ exports.SimulatorModules = class {
         this._vm        = vm;
         this._simulator = opts.simulator;
         this._modules   = opts.modules;
-        this._motors    = opts.simulator.getMotors();
-        this._sensors   = opts.simulator.getSensors();
+        this._motors    = opts.simulator.getPlugin('motors');
+        this._sensors   = opts.simulator.getPlugin('sensors');
         this
             .setupStandardModule(vm)
             .setupScreenModule(vm)

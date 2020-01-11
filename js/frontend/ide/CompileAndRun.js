@@ -205,7 +205,7 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     simulatorLoaded() {
-        this._simulator.getDisplay().drawLoaded(this._title);
+        this._simulator.getPlugin('ev3').getDisplay().drawLoaded(this._title);
     }
 
     filesProcessed(title) {
@@ -286,7 +286,7 @@ exports.CompileAndRun = class extends DOMUtils {
             this._vm = this.createVM(this._program);
             this.onBeforeRun(this._program);
             this.setRunProgramTitle('Stop');
-            this._simulator.getDisplay()
+            this._simulator.getPlugin('ev3').getDisplay()
                 .clearScreen()
                 .reset();
             this._vm.startRunInterval(this.stop.bind(this));

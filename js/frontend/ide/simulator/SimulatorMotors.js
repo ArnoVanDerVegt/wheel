@@ -9,7 +9,6 @@ const Motor      = require('./io/Motor').Motor;
 exports.SimulatorMotors = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        opts.id && opts.id(this);
         let brick = opts.brick;
         this._brick               = brick;
         this._simulator           = opts.simulator;
@@ -20,6 +19,7 @@ exports.SimulatorMotors = class extends DOMNode {
         brick
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
             .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
+        this._simulator.registerPlugin('motors', this);
     }
 
     initDOM(domNode) {

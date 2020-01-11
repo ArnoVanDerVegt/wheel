@@ -24,9 +24,8 @@ exports.Simulator = class extends DOMNode {
         this._settings = opts.settings;
         this._layer    = 0;
         this._sound    = new Sound();
-        this._motors   = null;
-        this._sensors  = null;
         this._vm       = null;
+        this._plugins  = {};
         this.initDOM(opts.parentNode || document.body);
     }
 
@@ -47,7 +46,6 @@ exports.Simulator = class extends DOMNode {
                         className: 'ev3-background',
                         children: [
                             {
-                                id:        this.setMotors.bind(this),
                                 type:      SimulatorMotors,
                                 ui:        this._ui,
                                 brick:     this._brick,
@@ -55,7 +53,6 @@ exports.Simulator = class extends DOMNode {
                                 simulator: this
                             },
                             {
-                                id:        this.setEV3.bind(this),
                                 type:      SimulatorEV3,
                                 ui:        this._ui,
                                 brick:     this._brick,
@@ -63,7 +60,6 @@ exports.Simulator = class extends DOMNode {
                                 simulator: this
                             },
                             {
-                                id:        this.setSensors.bind(this),
                                 type:      SimulatorSensors,
                                 ui:        this._ui,
                                 brick:     this._brick,
@@ -82,28 +78,12 @@ exports.Simulator = class extends DOMNode {
         dispatcher.dispatch('Settings.UpdateViewSettings');
     }
 
-    getMotors() {
-        return this._motors;
+    registerPlugin(name, plugin) {
+        this._plugins[name] = plugin;
     }
 
-    setMotors(motors) {
-        this._motors = motors;
-    }
-
-    getSensors() {
-        return this._sensors;
-    }
-
-    setSensors(sensors) {
-        this._sensors = sensors;
-    }
-
-    getEV3() {
-        return this._ev3;
-    }
-
-    setEV3(ev3) {
-        this._ev3 = ev3;
+    getPlugin(name) {
+        return this._plugins[name] || null;
     }
 
     getVM() {
@@ -114,16 +94,8 @@ exports.Simulator = class extends DOMNode {
         this._vm = vm;
     }
 
-    getDisplay() {
-        return this._ev3.getDisplay();
-    }
-
     getLight() {
         return require('./io/Light').light;
-    }
-
-    getButtons() {
-        return this._ev3.getButtons();
     }
 
     getSound() {
