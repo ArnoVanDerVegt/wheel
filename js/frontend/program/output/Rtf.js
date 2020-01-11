@@ -113,7 +113,7 @@ exports.Rtf = class {
                         toString:  function() {
                             return ('00000000' + this.count).substr(-8);
                         }
-                    }
+                    };
                 }
                 return this.addLine(list.join(','));
             },
