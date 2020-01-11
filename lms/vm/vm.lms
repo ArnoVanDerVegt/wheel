@@ -99,26 +99,34 @@ vmthread sensorMultiThread20 {
 subcall startThread1A {
     JR_NEQ8(gModMotor1AStarted_8, 0, motor_a1_started)
     MOVE8_8(1, gModMotor1AStarted_8)
-    OBJECT_START(3)
+    OBJECT_START(2)
+    RETURN()
 motor_a1_started:
+    OBJECT_TRIG(2)
 }
 subcall startThread1B {
     JR_NEQ8(gModMotor1BStarted_8, 0, motor_b1_started)
     MOVE8_8(1, gModMotor1BStarted_8)
-    OBJECT_START(4)
+    OBJECT_START(3)
+    RETURN()
 motor_b1_started:
+    OBJECT_TRIG(3)
 }
 subcall startThread1C {
     JR_NEQ8(gModMotor1CStarted_8, 0, motor_c1_started)
     MOVE8_8(1, gModMotor1CStarted_8)
-    OBJECT_START(5)
+    OBJECT_START(4)
+    RETURN()
 motor_c1_started:
+    OBJECT_TRIG(4)
 }
 subcall startThread1D {
     JR_NEQ8(gModMotor1DStarted_8, 0, motor_d1_started)
     MOVE8_8(1, gModMotor1DStarted_8)
-    OBJECT_START(6)
+    OBJECT_START(5)
+    RETURN()
 motor_d1_started:
+    OBJECT_TRIG(5)
 }
 
 //= Device 2 ======================================================================================//
@@ -126,26 +134,34 @@ motor_d1_started:
 subcall startThread2A {
     JR_NEQ8(gModMotor2AStarted_8, 0, motor_a2_started)
     MOVE8_8(1, gModMotor2AStarted_8)
-    OBJECT_START(7)
+    OBJECT_START(6)
+    RETURN()
 motor_a2_started:
+    OBJECT_TRIG(6)
 }
 subcall startThread2B {
     JR_NEQ8(gModMotor2BStarted_8, 0, motor_b2_started)
     MOVE8_8(1, gModMotor2BStarted_8)
-    OBJECT_START(8)
+    OBJECT_START(7)
+    RETURN()
 motor_b2_started:
+    OBJECT_TRIG(7)
 }
 subcall startThread2C {
     JR_NEQ8(gModMotor2CStarted_8, 0, motor_c2_started)
     MOVE8_8(1, gModMotor2CStarted_8)
-    OBJECT_START(9)
+    OBJECT_START(8)
+    RETURN()
 motor_c2_started:
+    OBJECT_TRIG(8)
 }
 subcall startThread2D {
     JR_NEQ8(gModMotor2DStarted_8, 0, motor_d2_started)
     MOVE8_8(1, gModMotor2DStarted_8)
-    OBJECT_START(10)
+    OBJECT_START(9)
+    RETURN()
 motor_d2_started:
+    OBJECT_TRIG(9)
 }
 
 //= Device 3 ======================================================================================//
@@ -153,26 +169,34 @@ motor_d2_started:
 subcall startThread3A {
     JR_NEQ8(gModMotor3AStarted_8, 0, motor_a3_started)
     MOVE8_8(1, gModMotor3AStarted_8)
-    OBJECT_START(11)
+    OBJECT_START(10)
+    RETURN()
 motor_a3_started:
+    OBJECT_TRIG(10)
 }
 subcall startThread3B {
     JR_NEQ8(gModMotor3BStarted_8, 0, motor_b3_started)
     MOVE8_8(1, gModMotor3BStarted_8)
-    OBJECT_START(12)
+    OBJECT_START(11)
+    RETURN()
 motor_b3_started:
+    OBJECT_TRIG(11)
 }
 subcall startThread3C {
     JR_NEQ8(gModMotor3CStarted_8, 0, motor_c3_started)
     MOVE8_8(1, gModMotor3CStarted_8)
-    OBJECT_START(13)
+    OBJECT_START(12)
+    RETURN()
 motor_c3_started:
+    OBJECT_TRIG(12)
 }
 subcall startThread3D {
     JR_NEQ8(gModMotor3DStarted_8, 0, motor_d3_started)
     MOVE8_8(1, gModMotor3DStarted_8)
-    OBJECT_START(14)
+    OBJECT_START(13)
+    RETURN()
 motor_d3_started:
+    OBJECT_TRIG(13)
 }
 
 //= Device 4 ======================================================================================//
@@ -180,24 +204,32 @@ motor_d3_started:
 subcall startThread4A {
     JR_NEQ8(gModMotor4AStarted_8, 0, motor_a4_started)
     MOVE8_8(1, gModMotor4AStarted_8)
-    OBJECT_START(15)
+    OBJECT_START(14)
+    RETURN()
 motor_a4_started:
+    OBJECT_TRIG(14)
 }
 subcall startThread4B {
     JR_NEQ8(gModMotor4BStarted_8, 0, motor_b4_started)
     MOVE8_8(1, gModMotor4BStarted_8)
-    OBJECT_START(16)
+    OBJECT_START(15)
+    RETURN()
 motor_b4_started:
+    OBJECT_TRIG(15)
 }
 subcall startThread4C {
     JR_NEQ8(gModMotor4CStarted_8, 0, motor_c4_started)
     MOVE8_8(1, gModMotor4CStarted_8)
-    OBJECT_START(17)
+    OBJECT_START(16)
+    RETURN()
 motor_c4_started:
+    OBJECT_TRIG(16)
 }
 subcall startThread4D {
     JR_NEQ8(gModMotor4DStarted_8, 0, motor_d4_started)
     MOVE8_8(1, gModMotor4DStarted_8)
-    OBJECT_START(18)
+    OBJECT_START(17)
+    RETURN()
 motor_d4_started:
+    OBJECT_TRIG(17)
 }

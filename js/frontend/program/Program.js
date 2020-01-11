@@ -751,6 +751,9 @@ exports.Program = class {
         }
         for (let i = 0; i < blockIdInfo.length; i++) {
             let token = blockIdInfo[i].token;
+            if (!token) {
+                continue;
+            }
             let hash  = token.fileIndex + '_' + token.lineNum;
             let b     = breakpointHash[hash];
             if (b && !b.done) {

@@ -6,31 +6,32 @@
 #define MODULE_MOTOR     6
 
 ; @const Module calls to control the motors.
-#define MOTOR_SET_TYPE   0
-#define MOTOR_SET_SPEED  1
-#define MOTOR_SET_BRAKE  2
-#define MOTOR_GET_TYPE   3
-#define MOTOR_RESET      4
-#define MOTOR_MOVE_TO    5
-#define MOTOR_ON         6
-#define MOTOR_TIME_ON    7
-#define MOTOR_STOP       8
-#define MOTOR_READ       9
-#define MOTOR_READY     10
+#define MOTOR_SET_TYPE      0
+#define MOTOR_SET_SPEED     1
+#define MOTOR_SET_BRAKE     2
+#define MOTOR_GET_TYPE      3
+#define MOTOR_RESET         4
+#define MOTOR_MOVE_TO       5
+#define MOTOR_ON            6
+#define MOTOR_TIME_ON       7
+#define MOTOR_STOP          8
+#define MOTOR_READ          9
+#define MOTOR_READY        10
+#define MOTOR_READY_BITS   11
 
 ; @const Motor types.
-#define MOTOR_MEDIUM     7
-#define MOTOR_LARGE      8
+#define MOTOR_MEDIUM        7
+#define MOTOR_LARGE         8
 
 ; @const The motor outputs.
-#define OUTPUT_A         0
-#define OUTPUT_B         1
-#define OUTPUT_C         2
-#define OUTPUT_D         3
+#define OUTPUT_A            0
+#define OUTPUT_B            1
+#define OUTPUT_C            2
+#define OUTPUT_D            3
 
 ; @const Brake or coast the motor.
-#define MOTOR_BRAKE      0
-#define MOTOR_COAST      1
+#define MOTOR_BRAKE         0
+#define MOTOR_COAST         1
 
 ; @proc             Set the motor type.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
@@ -120,10 +121,17 @@ end
 ; @proc             Check if a motor reached its target.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
-; @param target     0 is the motor has not reached its target position, 1 if its there.
 proc motorLayerReady(number layer, number id)
     addr layer
     mod  MODULE_MOTOR, MOTOR_READY
+end
+
+; @proc             Check if one or more motors reached their target.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+proc motorLayerReadyBits(number layer, number bits)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_READY_BITS
 end
 
 ; @proc             Set the motor type for the main device.
@@ -194,7 +202,12 @@ end
 
 ; @proc             Check if a motor on the main device reached its target.
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
-; @param target     0 is the motor has not reached its target position, 1 if its there.
 proc motorReady(number id)
     ret motorLayerReady(0, id)
+end
+
+; @proc             Check if one or more motors reached their target.
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+proc motorReadyBits(number bits)
+    ret motorLayerReadyBits(0, bits)
 end
