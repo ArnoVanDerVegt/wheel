@@ -106,7 +106,7 @@ exports.SimulatorModules = class {
     }
 
     setupLightModule(vm) {
-        let light       = this._simulator.getLight();
+        let light       = this._simulator.getPlugin('ev3').getLight();
         let lightModule = this._modules[lightModuleConstants.MODULE_LIGHT];
         if (!lightModule) {
             return this;
@@ -131,7 +131,7 @@ exports.SimulatorModules = class {
     }
 
     setupSoundModule(vm) {
-        let sound       = this._simulator.getSound();
+        let sound       = this._simulator.getPlugin('ev3').getSound();
         let self        = this;
         let soundModule = this._modules[soundModuleConstants.MODULE_SOUND];
         if (!soundModule) {

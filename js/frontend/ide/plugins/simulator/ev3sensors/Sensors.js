@@ -2,15 +2,15 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const sensorModuleConstants = require('../../../shared/vm/modules/sensorModuleConstants');
-const dispatcher            = require('../../lib/dispatcher').dispatcher;
-const DOMNode               = require('../../lib/dom').DOMNode;
-const Checkbox              = require('../../lib/components/Checkbox').Checkbox;
-const ContextMenu           = require('../../lib/components/ContextMenu').ContextMenu;
-const tabIndex              = require('../tabIndex');
+const sensorModuleConstants = require('../../../../../shared/vm/modules/sensorModuleConstants');
+const dispatcher            = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode               = require('../../../../lib/dom').DOMNode;
+const Checkbox              = require('../../../../lib/components/Checkbox').Checkbox;
+const ContextMenu           = require('../../../../lib/components/ContextMenu').ContextMenu;
+const tabIndex              = require('../../../tabIndex');
 const Sensor                = require('./io/Sensor').Sensor;
 
-exports.SimulatorSensors = class extends DOMNode {
+exports.Sensors = class extends DOMNode {
     constructor(opts) {
         super(opts);
         let brick = opts.brick;

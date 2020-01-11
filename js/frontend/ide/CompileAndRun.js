@@ -303,9 +303,9 @@ exports.CompileAndRun = class extends DOMUtils {
         this.setRunProgramTitle('Run');
         this._vm.stop();
         this._motors && this._motors.reset();
-        let simulator = this._simulator;
-        simulator.getLight().off();
-        simulator.getDisplay().drawLoaded(this._title);
+        let ev3Plugin = this._simulator.getPlugin('ev3');
+        ev3Plugin.getLight().off();
+        ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();
     }
 

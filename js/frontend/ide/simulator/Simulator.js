@@ -5,14 +5,10 @@
 const dispatcher          = require('../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../lib/dom').DOMNode;
 const Button              = require('../../lib/components/Button').Button;
-const Display             = require('./io/Display').Display;
-const Buttons             = require('./io/Buttons').Buttons;
-const EV3Button           = require('./io/Buttons').Button;
-const Sound               = require('./io/Sound').Sound;
 const SimulatorToolbar    = require('./SimulatorToolbar').SimulatorToolbar;
-const SimulatorMotors     = require('./SimulatorMotors').SimulatorMotors;
-const SimulatorSensors    = require('./SimulatorSensors').SimulatorSensors;
-const SimulatorEV3        = require('./SimulatorEV3').SimulatorEV3;
+const Sensors             = require('../plugins/simulator/ev3sensors/Sensors').Sensors;
+const Motors              = require('../plugins/simulator/ev3motors/Motors').Motors;
+const EV3                 = require('../plugins/simulator/ev3/EV3').EV3;
 const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection;
 
 exports.Simulator = class extends DOMNode {
@@ -23,7 +19,6 @@ exports.Simulator = class extends DOMNode {
         this._brick    = opts.brick;
         this._settings = opts.settings;
         this._layer    = 0;
-        this._sound    = new Sound();
         this._vm       = null;
         this._plugins  = {};
         this.initDOM(opts.parentNode || document.body);
@@ -46,21 +41,21 @@ exports.Simulator = class extends DOMNode {
                         className: 'ev3-background',
                         children: [
                             {
-                                type:      SimulatorMotors,
+                                type:      Motors,
                                 ui:        this._ui,
                                 brick:     this._brick,
                                 settings:  this._settings,
                                 simulator: this
                             },
                             {
-                                type:      SimulatorEV3,
+                                type:      EV3,
                                 ui:        this._ui,
                                 brick:     this._brick,
                                 onStop:    this._opts.onStop,
                                 simulator: this
                             },
                             {
-                                type:      SimulatorSensors,
+                                type:      Sensors,
                                 ui:        this._ui,
                                 brick:     this._brick,
                                 simulator: this
@@ -92,14 +87,6 @@ exports.Simulator = class extends DOMNode {
 
     setVM(vm) {
         this._vm = vm;
-    }
-
-    getLight() {
-        return require('./io/Light').light;
-    }
-
-    getSound() {
-        return this._sound;
     }
 
     getLayer() {

@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../../lib/dispatcher').dispatcher;
+const dispatcher = require('../../../../../lib/dispatcher').dispatcher;
 const TextLarge  = require('./text/TextLarge').TextLarge;
 const TextMedium = require('./text/TextMedium').TextMedium;
 const TextSmall  = require('./text/TextSmall').TextSmall;

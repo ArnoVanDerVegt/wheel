@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode = require('../../../lib/dom').DOMNode;
+const DOMNode = require('../../../../../lib/dom').DOMNode;
 const Light   = require('./Light').Light;
 const Button  = require('./Button').Button;
 

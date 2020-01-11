@@ -2,12 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const sensorModuleConstants = require('../../../../shared/vm/modules/sensorModuleConstants');
-const dispatcher            = require('../../../lib/dispatcher').dispatcher;
-const DOMNode               = require('../../../lib/dom').DOMNode;
-const Checkbox              = require('../../../lib/components/Checkbox').Checkbox;
-const IconSelect            = require('../../../lib/components/IconSelect').IconSelect;
-const getImage              = require('../../data/images').getImage;
+const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
+const dispatcher            = require('../../../../../lib/dispatcher').dispatcher;
+const DOMNode               = require('../../../../../lib/dom').DOMNode;
+const Checkbox              = require('../../../../../lib/components/Checkbox').Checkbox;
+const IconSelect            = require('../../../../../lib/components/IconSelect').IconSelect;
+const getImage              = require('../../../../data/images').getImage;
 
 exports.Sensor = class extends DOMNode {
     constructor(opts) {
