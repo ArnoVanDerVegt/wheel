@@ -8,7 +8,7 @@ const DOMNode               = require('../../../../lib/dom').DOMNode;
 const Checkbox              = require('../../../../lib/components/Checkbox').Checkbox;
 const ContextMenu           = require('../../../../lib/components/ContextMenu').ContextMenu;
 const tabIndex              = require('../../../tabIndex');
-const Sensor                = require('./io/Sensor').Sensor;
+const SensorContainer       = require('./SensorContainer').SensorContainer;
 
 exports.Sensors = class extends DOMNode {
     constructor(opts) {
@@ -20,9 +20,8 @@ exports.Sensors = class extends DOMNode {
         this._sensors             = [];
         this._disconnectedTimeout = null;
         this._connected           = false;
-        this
-            .initDOM(opts.parentNode)
-            .initContextMenus();
+        this._contextMenus        = {};
+        this.initDOM(opts.parentNode);
         // Brick events...
         brick
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
@@ -39,7 +38,7 @@ exports.Sensors = class extends DOMNode {
         let children  = [];
         for (let i = 0; i < 16; i++) {
             children.push({
-                type:      Sensor,
+                type:      SensorContainer,
                 ui:        this._ui,
                 brick:     this._brick,
                 simulator: this._simulator,
@@ -82,63 +81,18 @@ exports.Sensors = class extends DOMNode {
         return this;
     }
 
-    initContextMenus() {
-        this._colorContextMenu = this.initSensorModeMenu(
-            '_colorContextMenu',
-            [
-                'COLOR_REFLECTED',
-                'COLOR_AMBIENT',
-                'COLOR_COLOR',
-                'COLOR_REFLECTED_RAW',
-                'COLOR_RGB_RAW',
-                'COLOR_CALIBRATION'
-            ]
-        );
-        this._ultrasonicContextMenu = this.initSensorModeMenu(
-            '_ultrasonicContextMenu',
-            [
-                'ULTRASONIC_CM',
-                'ULTRASONIC_INCH',
-                'ULTRASONIC_LISTEN',
-                'ULTRASONIC_SI_CM',
-                'ULTRASONIC_SI_INCH',
-                'ULTRASONIC_DC_CM',
-                'ULTRASONIC_DC_INCH'
-            ]
-        );
-        this._gyroContextMenu = this.initSensorModeMenu(
-            '_gyroContextMenu',
-            [
-                'GYRO_ANGLE',
-                'GYRO_RATE',
-                'GYRO_FAST',
-                'GYRO_RATE_AND_ANGLE',
-                'GYRO_CALIBRATION'
-            ]
-        );
-        this._irContextMenu = this.initSensorModeMenu(
-            '_irContextMenu',
-            [
-                'IR_PROXIMITY',
-                'IR_SEEKER',
-                'IR_REMOTE',
-                'IR_REMOTE_ADVANCED',
-                'IR_NOT_UTILIZED',
-                'IR_CALIBRATION'
-            ]
-        );
-    }
-
     initSensorModeMenu(menu, options) {
         for (let i = 0; i < options.length; i++) {
             options[i] = this.initSensorModeOption(menu, options[i], i);
         }
-        return new ContextMenu({
-            ui:         this._ui,
-            parentNode: document.body,
-            options:    options,
-            withCheck:  true
-        });
+        let contextMenu = new ContextMenu({
+                ui:         this._ui,
+                parentNode: document.body,
+                options:    options,
+                withCheck:  true
+            });
+        this[menu] = contextMenu;
+        return contextMenu;
     }
 
     initSensorModeOption(menu, sensorMode, index) {
@@ -202,6 +156,15 @@ exports.Sensors = class extends DOMNode {
         this._sensorsElement.className = 'sensors';
     }
 
+    getContextMenu(options) {
+        let key          = options.join('|');
+        let contextMenus = this._contextMenus;
+        if (!(key in contextMenus)) {
+            contextMenus[key] = this.initSensorModeMenu(key, options);
+        }
+        return contextMenus[key];
+    }
+
     getAutoReset() {
         return this._autoResetCheckbox.getChecked();
     }
@@ -224,23 +187,11 @@ exports.Sensors = class extends DOMNode {
         if (pos.y < window.innerHeight / 2) {
             pos.y += 71;
         }
-        let contextMenu = null;
-        switch (sensor.getType()) {
-            case sensorModuleConstants.SENSOR_TYPE_NXT_COLOR:
-            case sensorModuleConstants.SENSOR_TYPE_COLOR:
-                contextMenu = this._colorContextMenu;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC:
-            case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
-                contextMenu = this._ultrasonicContextMenu;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_GYRO:
-                contextMenu = this._gyroContextMenu;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_INFRARED:
-                contextMenu = this._irContextMenu;
-                break;
+        let options = sensor.getContextMenuOptions();
+        if (!options) {
+            return;
         }
+        let contextMenu = this.getContextMenu(options);
         if (contextMenu) {
             let menuItems = contextMenu.getMenuItems();
             for (let i = 0; i < menuItems.length; i++) {

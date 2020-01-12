@@ -8,7 +8,6 @@ const Button      = require('../../lib/components/Button').Button;
 const ToolOptions = require('../../lib/components/ToolOptions').ToolOptions;
 const CloseButton = require('../../lib/components/CloseButton').CloseButton;
 const tabIndex    = require('../tabIndex');
-const Motor       = require('./io/Motor').Motor;
 
 exports.SimulatorToolbar = class extends DOMNode {
     constructor(opts) {
@@ -26,7 +25,7 @@ exports.SimulatorToolbar = class extends DOMNode {
             .addEventListener('Settings.EV3',  this, this.updateSettings.bind(this));
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         let children = [
                 {
                     type:      Button,
@@ -78,7 +77,7 @@ exports.SimulatorToolbar = class extends DOMNode {
             options:  options
         });
         this.create(
-            domNode,
+            parentNode,
             {
                 className: 'simulator-options',
                 children:  children

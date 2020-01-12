@@ -95,7 +95,11 @@ exports.Simulator = class extends DOMNode {
 
     setLayer(layer) {
         this._layer = layer;
-        this._motors.showLayer(layer);
-        this._sensors.showLayer(layer);
+        for (let plugin in this._plugins) {
+            plugin = this._plugins[plugin];
+            if ('showLayer' in plugin) {
+                plugin.showLayer(layer);
+            }
+        }
     }
 };

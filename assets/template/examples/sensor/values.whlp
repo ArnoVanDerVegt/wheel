@@ -75,6 +75,7 @@ proc main()
     sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
     sensorSetMode(INPUT_2, COLOR_COLOR)
     sensorSetType(INPUT_3, SENSOR_TYPE_ULTRASONIC)
+    sensorSetMode(INPUT_3, ULTRASONIC_CM)
 
     repeat
         value = sensorRead(INPUT_1)

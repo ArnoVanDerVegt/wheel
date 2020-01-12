@@ -14,9 +14,9 @@ exports.Checkbox = class extends Component {
         this.initDOM(opts.parentNode);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
                 type:      'a',

@@ -22,7 +22,7 @@ exports.Motors = class extends DOMNode {
         this._simulator.registerPlugin('motors', this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         let addMotor = this.addMotor.bind(this);
         let children = [];
         for (let i = 0; i < 16; i++) {
@@ -38,7 +38,7 @@ exports.Motors = class extends DOMNode {
             });
         }
         this.create(
-            domNode,
+            parentNode,
             {
                 className: 'motors',
                 children:  children

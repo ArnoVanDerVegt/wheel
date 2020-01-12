@@ -16,9 +16,9 @@ class RadioOption extends DOMNode {
         opts.radio.addRadioElement(this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
                 type:      'a',
@@ -106,7 +106,7 @@ exports.Radio = class extends DOMNode {
         (typeof opts.id === 'function') && opts.id(this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         let children = [];
         this._options.forEach(
             function(option, index) {
@@ -120,7 +120,7 @@ exports.Radio = class extends DOMNode {
             this
         );
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
                 className: 'radio',

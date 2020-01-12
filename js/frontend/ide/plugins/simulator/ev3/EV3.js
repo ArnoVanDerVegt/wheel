@@ -21,9 +21,9 @@ exports.EV3 = class extends DOMNode {
         this._simulator.registerPlugin('ev3', this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 className: 'ev3',
                 children: [

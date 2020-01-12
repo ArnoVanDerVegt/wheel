@@ -34,9 +34,9 @@ exports.Motor = class extends DOMNode {
             .addEventListener('Brick.Layer' + this._layer + 'Motor' + this._id + 'Assigned', this, this.onAssigned);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setMotorElement.bind(this),
                 className: 'motor' + (this._hidden ? ' hidden' : ''),

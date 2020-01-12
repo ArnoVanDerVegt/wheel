@@ -29,22 +29,31 @@ body.ide.no-simulator div.simulator {
     line-height:                    19px;
     font-size:                      14px;
 }
+.simulator .sensors .sensor-container {
+    float:                          left;
+    position:                       relative;
+    width:                          61px;
+    margin:                         0 8px 0 0;
+}
 .simulator .motors .motor,
 .simulator .sensors .sensor {
     float:                          left;
     position:                       relative;
     width:                          61px;
-    margin:                         0 8px 0 0;
+    margin:                         0;
     background-color:               var(--sensor-background1);
     border-radius:                  2px;
     box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.simulator .motors .motor {
+    margin:                         0 8px 0 0;
 }
 .simulator .motors .motor img,
 .simulator .sensors .sensor img {
     border-radius:                  2px 0 0 0;
 }
 .simulator .motors .motor.hidden,
-.simulator .sensors .sensor.hidden {
+.simulator .sensors .sensor-container.hidden {
     display:                        none;
 }
 .simulator .motors .motor .position,
@@ -57,6 +66,20 @@ body.ide.no-simulator div.simulator {
     text-align:                     center;
     font-size:                      15px;
     font-family:                    monospace;
+}
+.simulator .sensors .sensor .value.multiplexer {
+    left:                           0px;
+}
+.simulator .sensors .sensor .value.multiplexer .checkbox.green {
+    width:                          33%;
+    margin:                         0;
+}
+.simulator .sensors .sensor .unknown-type {
+    height:                         39px;
+    padding:                        0 0 0 20px;
+    font-weight:                    bold;
+    font-size:                      16px;
+    line-height:                    39px;
 }
 .simulator {
     position:                       absolute;
