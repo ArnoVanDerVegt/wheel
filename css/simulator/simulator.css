@@ -67,12 +67,20 @@ body.ide.no-simulator div.simulator {
     font-size:                      15px;
     font-family:                    monospace;
 }
-.simulator .sensors .sensor .value.multiplexer {
-    left:                           0px;
-}
 .simulator .sensors .sensor .value.multiplexer .checkbox.green {
-    width:                          33%;
+    width:                          19px;
+    height:                         19px;
     margin:                         0;
+}
+.simulator .sensors .sensor .value.multiplexer .checkbox.green span {
+    width:                          13px;
+    height:                         13px;
+}
+.simulator .sensors .sensor .value.multiplexer .checkbox.checked span::after {
+    font-size:                      10px;
+    width:                          13px;
+    height:                         13px;
+    line-height:                    13px;
 }
 .simulator .sensors .sensor .unknown-type {
     height:                         39px;
