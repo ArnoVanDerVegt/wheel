@@ -32,7 +32,7 @@ const Chart = class extends Component {
                 let optimized = [88, 84, 0, 64, 16, 101, 90, 106, 122].indexOf(o.cmdPacked) !== -1;
                 let title     = perc + '% ' + $.CMD_TO_STR[o.cmd] + ' ' + locationText[o.param1] + ', ' + locationText[o.param2];
                 if (optimized) {
-                    optimizedCount++;
+                    optimizedCount += o.count;
                 }
                 children.push({
                     className: 'chart-row',
@@ -131,7 +131,7 @@ exports.StatisticsDialog = class extends Dialog {
         if (opts.program) {
             new Chart({ui: this._ui, parentNode: text, program: opts.program});
         } else {
-            this.create(parentNode, {className: 'text-line', innerHTML: 'No data available.'});
+            this.create(text, {className: 'text-line', innerHTML: 'No data available.'});
         }
         this.show();
     }
