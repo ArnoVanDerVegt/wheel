@@ -8,22 +8,18 @@ const DOMNode               = require('../../../../lib/dom').DOMNode;
 const Checkbox              = require('../../../../lib/components/Checkbox').Checkbox;
 const ContextMenu           = require('../../../../lib/components/ContextMenu').ContextMenu;
 const tabIndex              = require('../../../tabIndex');
+const SimulatorPlugin       = require('../SimulatorPlugin').SimulatorPlugin;
 const SensorContainer       = require('./SensorContainer').SensorContainer;
 
-exports.Sensors = class extends DOMNode {
+exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
-        let brick = opts.brick;
-        this._ui                  = opts.ui;
-        this._brick               = brick;
-        this._simulator           = opts.simulator;
-        this._sensors             = [];
-        this._disconnectedTimeout = null;
-        this._connected           = false;
-        this._contextMenus        = {};
+        this._baseClassName = 'sensors';
+        this._contextMenus  = {};
+        this._sensors       = [];
         this.initDOM(opts.parentNode);
         // Brick events...
-        brick
+        this._brick
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
             .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
             .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
@@ -31,6 +27,7 @@ exports.Sensors = class extends DOMNode {
             .on('VM.Start', this, this.onVMStart)
             .on('VM.Stop',  this, this.onVMStop);
         this._simulator.registerPlugin('sensors', this);
+        opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
 
     initDOM(parentNode) {
@@ -54,8 +51,9 @@ exports.Sensors = class extends DOMNode {
         this.create(
             parentNode,
             {
+                ref:       this.setRef('sensors'),
                 id:        this.setSensorsElement.bind(this),
-                className: 'sensors',
+                className: this.getClassName(),
                 children:  children.concat([
                     {
                         id:        this.setAutoResetPanel.bind(this),
@@ -154,6 +152,10 @@ exports.Sensors = class extends DOMNode {
 
     onVMStop() {
         this._sensorsElement.className = 'sensors';
+    }
+
+    onPluginSettings() {
+        this._refs.sensors.className = this.getClassName();
     }
 
     getContextMenu(options) {

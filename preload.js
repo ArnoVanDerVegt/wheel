@@ -278,6 +278,7 @@ require('./js/frontend/ide/console/NewVersion');
 require('./js/frontend/ide/console/Console');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
+require('./js/frontend/ide/plugins/simulator/SimulatorPlugin');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/Text');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/TextLarge');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/TextMedium');

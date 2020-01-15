@@ -14,6 +14,7 @@ exports.SettingsState = class extends Emitter {
         this._getDataProvider  = opts.getDataProvider;
         this._documentPath     = '';
         this._userDocumentPath = (opts.userDocumentPath || '').split('\\').join('/');
+        this._plugins          = {};
         this.onLoad({});
         // Update...
         dispatcher
@@ -24,8 +25,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
-            .on('Settings.Set.ShowSimulatorMotors',         this, this._setShowSimulatorMotors)
-            .on('Settings.Set.ShowSimulatorSensors',        this, this._setShowSimulatorSensors)
+            .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
             .on('Settings.Set.DontShowWelcomeHintDialog',   this, this._setDontShowWelcomeHintDialog)
@@ -34,12 +34,13 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.LocalFilesDetail',            this, this._setLocalFilesDetail)
             .on('Settings.Set.RemoteFilesDetail',           this, this._setRemoteFilesDetail)
             .on('Settings.Set.LastVersionCheckDate',        this, this._setLastVersionCheckDate)
+            .on('Settings.Set.PluginByName',                this, this._setPluginByName)
+            // Toggle...
+            .on('Settings.Show.PluginByName',               this, this._showPluginByName)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
-            .on('Settings.Toggle.ShowSimulatorMotors',      this, this._toggleShowSimulatorMotors)
-            .on('Settings.Toggle.ShowSimulatorEV3',         this, this._toggleShowSimulatorEV3)
-            .on('Settings.Toggle.ShowSimulatorSensors',     this, this._toggleShowSimulatorSensors)
+            .on('Settings.Toggle.ShowSimulator',            this, this._toggleShowSimulator)
             .on('Settings.Toggle.ShowSimulatorOnRun',       this, this._toggleShowSimulatorOnRun)
             .on('Settings.Toggle.CreateVMTextOutput',       this, this._toggleCreateVMTextOutput)
             .on('Settings.Toggle.Linter',                   this, this._toggleLinter)
@@ -79,9 +80,7 @@ exports.SettingsState = class extends Emitter {
                 show: {
                     fileTree:          this._show.fileTree,
                     console:           this._show.console,
-                    simulatorMotors:   this._show.simulatorMotors,
-                    simulatorEV3:      this._show.simulatorEV3,
-                    simulatorSensors:  this._show.simulatorSensors,
+                    simulator:         this._show.simulator,
                     simulatorOnRun:    this._show.simulatorOnRun
                 },
                 dontShow:{
@@ -93,7 +92,8 @@ exports.SettingsState = class extends Emitter {
                     autoInstall:       this._brick.autoInstall,
                     deviceName:        this._brick.deviceName,
                     daisyChainMode:    this._brick.daisyChainMode
-                }
+                },
+                plugins: this._plugins
             };
         if (this._getDataProvider) {
             this._getDataProvider().getData('post', 'ide/settings-save', {settings: settings});
@@ -105,13 +105,10 @@ exports.SettingsState = class extends Emitter {
             return;
         }
         let items       = ['ide'];
-        let noSimulator = !this._show.simulatorMotors && !this._show.simulatorEV3 && !this._show.simulatorSensors;
+        let noSimulator = !this._show.simulator;
         noSimulator                      && items.push('no-simulator');
         this._show.fileTree              || items.push('no-file-tree');
         this._show.console               || items.push('no-console');
-        this._show.simulatorMotors       || items.push('no-motors');
-        this._show.simulatorEV3          || items.push('no-ev3');
-        this._show.simulatorSensors      || items.push('no-sensors');
         this._darkMode                   && items.push('dark');
         (this._os.platform === 'darwin') || items.push('scroll-bar');
         if (document.body) {
@@ -151,16 +148,8 @@ exports.SettingsState = class extends Emitter {
         return this._show.console;
     }
 
-    getShowSimulatorMotors() {
-        return this._show.simulatorMotors;
-    }
-
-    getShowSimulatorEV3() {
-        return this._show.simulatorEV3;
-    }
-
-    getShowSimulatorSensors() {
-        return this._show.simulatorSensors;
+    getShowSimulator() {
+        return this._show.simulator;
     }
 
     getShowSimulatorOnRun() {
@@ -231,6 +220,36 @@ exports.SettingsState = class extends Emitter {
         return this._resizer.fileTreeSize;
     }
 
+    getPluginByName(name, defaults) {
+        if (name in this._plugins) {
+            return this._plugins[name];
+        }
+        return defaults;
+    }
+
+    getDefaultPlugins() {
+        return {
+            EV3Motors: {
+                group:   'EV3',
+                name:    'EV3 Motors',
+                path:    '../plugins/simulator/ev3motors/Motors',
+                visible: true
+            },
+            EV3: {
+                group:   'EV3',
+                name:    'EV3',
+                path:    '../plugins/simulator/ev3/EV3',
+                visible: true
+            },
+            EV3Sensors: {
+                group:   'EV3',
+                name:    'EV3 Sensors',
+                path:    '../plugins/simulator/ev3sensors/Sensors',
+                visible: true
+            }
+        };
+    }
+
     _setRecentProject(recentProject) {
         this._recentProject = recentProject;
         this._save();
@@ -259,15 +278,8 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
-    _setShowSimulatorMotors(showSimulatorMotors) {
-        this._show.simulatorMotors = showSimulatorMotors;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
-    }
-
-    _setShowSimulatorSensors(showSimulatorSensors) {
-        this._show.simulatorSensors = showSimulatorSensors;
+    _setShowSimulator(showSimulator) {
+        this._show.simulator = showSimulator;
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
@@ -313,6 +325,20 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
+    _setPluginByName(name, opts) {
+        this._plugins[name] = opts;
+        this._save();
+        this.emit('Settings.Plugin');
+    }
+
+    _showPluginByName(name) {
+        if (!(name in this._plugins)) {
+            return;
+        }
+        this._plugins[name].visible = true;
+        this.emit('Settings.Plugin');
+    }
+
     _toggleShowFileTree() {
         this._show.fileTree = !this._show.fileTree;
         this._updateViewSettings();
@@ -327,8 +353,8 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
-    _toggleShowSimulatorMotors() {
-        this._show.simulatorMotors = !this._show.simulatorMotors;
+    _toggleShowSimulator() {
+        this._show.simulator = !this._show.simulator;
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
@@ -403,9 +429,7 @@ exports.SettingsState = class extends Emitter {
         this._show                       = ('show'                  in data)             ? data.show                        : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
         this._show.console               = ('console'               in this._show)       ? this._show.console               : true;
-        this._show.simulatorMotors       = ('simulatorMotors'       in this._show)       ? this._show.simulatorMotors       : true;
-        this._show.simulatorEV3          = ('simulatorEV3'          in this._show)       ? this._show.simulatorEV3          : true;
-        this._show.simulatorSensors      = ('simulatorSensors'      in this._show)       ? this._show.simulatorSensors      : true;
+        this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator             : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun        : true;
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                    : {};
         this._dontShow.welcomeHintDialog = ('welcomeHintDialog'     in this._dontShow)   ? this._dontShow.welcomeHintDialog : false;
@@ -432,6 +456,7 @@ exports.SettingsState = class extends Emitter {
         this._resizer                    = ('resizer'               in data)             ? data.resizer                     : {};
         this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize        : 192;
         this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
+        this._plugins                    = ('plugins'               in data)             ? data.plugins                     : this.getDefaultPlugins();
         this._updateViewSettings();
         dispatcher.dispatch('Brick.LayerCount', this._brick.daisyChainMode);
         this._onLoad();

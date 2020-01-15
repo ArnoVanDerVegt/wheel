@@ -312,9 +312,9 @@ input[type="button"].button.clear,
     display:                        none;
 }
 /* Show the extra run button if there are no simulator items visible... */
-body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.run,
-body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.continue,
-body.no-motors.no-ev3.no-sensors .editor-wrapper .continue-button-wrapper {
+body.no-simulator .editor-wrapper input[type="button"].button.run,
+body.no-simulator .editor-wrapper input[type="button"].button.continue,
+body.no-simulator .editor-wrapper .continue-button-wrapper {
     display:                        block;
 }
 

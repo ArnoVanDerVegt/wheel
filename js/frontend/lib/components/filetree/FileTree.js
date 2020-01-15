@@ -129,7 +129,7 @@ exports.FileTree = class extends DOMNode {
         if (!settings.getShowFileTree()) {
             width = 0;
         }
-        let simulatorVisible = settings.getShowSimulatorMotors() || settings.getShowSimulatorEV3() || settings.getShowSimulatorSensors();
+        let simulatorVisible = settings.getShowSimulator();
         let minWidth         = simulatorVisible ? 900 : 600;
         let css              = '@media screen and (min-width: calc(' + minWidth + 'px + ' + width + 'px)) { .home-screen-content { width:600px; }}';
         let head             = document.head || document.getElementsByTagName('head')[0];

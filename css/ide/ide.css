@@ -58,16 +58,6 @@ body.ide div.editor-wrapper {
 body.ide div.editor-wrapper .toolbar .tabs {
     width:                          calc(100% - 96px);
 }
-/* Hidden/showing */
-body.ide.no-motors .simulator .motors {
-    display:                        none;
-}
-body.ide.no-ev3 .simulator .ev3 {
-    display:                        none;
-}
-body.ide.no-sensors .simulator .sensors {
-    display:                        none;
-}
 /* No console */
 body.ide.no-console div.editor-wrapper {
     bottom:                         0;

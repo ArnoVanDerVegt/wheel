@@ -326,6 +326,7 @@ const files = [
         './js/frontend/ide/console/Console',
         './js/frontend/ide/simulator/SimulatorToolbar',
         './js/frontend/ide/simulator/SimulatorModules',
+        './js/frontend/ide/plugins/simulator/SimulatorPlugin',
         './js/frontend/ide/plugins/simulator/ev3/io/text/Text',
         './js/frontend/ide/plugins/simulator/ev3/io/text/TextLarge',
         './js/frontend/ide/plugins/simulator/ev3/io/text/TextMedium',

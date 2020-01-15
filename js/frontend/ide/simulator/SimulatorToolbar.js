@@ -155,9 +155,6 @@ exports.SimulatorToolbar = class extends DOMNode {
     }
 
     onCloseSimulator() {
-        let settings = this._settings;
-        settings.getShowSimulatorMotors()  && dispatcher.dispatch('Settings.Toggle.ShowSimulatorMotors');
-        settings.getShowSimulatorEV3()     && dispatcher.dispatch('Settings.Toggle.ShowSimulatorEV3');
-        settings.getShowSimulatorSensors() && dispatcher.dispatch('Settings.Toggle.ShowSimulatorSensors');
+        this._settings.getShowSimulator() && dispatcher.dispatch('Settings.Toggle.ShowSimulator');
     }
 };

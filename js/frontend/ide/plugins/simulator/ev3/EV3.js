@@ -2,21 +2,21 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../../../lib/dom').DOMNode;
-const Button     = require('../../../../lib/components/Button').Button;
-const Display    = require('./io/Display').Display;
-const Buttons    = require('./io/Buttons').Buttons;
-const EV3Button  = require('./io/Buttons').Button;
-const Sound      = require('./io/Sound').Sound;
+const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode         = require('../../../../lib/dom').DOMNode;
+const Button          = require('../../../../lib/components/Button').Button;
+const SimulatorPlugin = require('../SimulatorPlugin').SimulatorPlugin;
+const Display         = require('./io/Display').Display;
+const Buttons         = require('./io/Buttons').Buttons;
+const EV3Button       = require('./io/Buttons').Button;
+const Sound           = require('./io/Sound').Sound;
 
-exports.EV3 = class extends DOMNode {
+exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
-        this._ui        = opts.ui;
-        this._onStop    = opts.onStop;
-        this._simulator = opts.simulator;
-        this._sound     = new Sound();
+        this._baseClassName = 'ev3';
+        this._sound         = new Sound();
+        opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
         this.initDOM(opts.parentNode);
         this._simulator.registerPlugin('ev3', this);
     }
@@ -25,7 +25,8 @@ exports.EV3 = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'ev3',
+                ref:       this.setRef('ev3'),
+                className: this.getClassName(),
                 children: [
                     {
                         className: 'ev3-left'
@@ -120,6 +121,10 @@ exports.EV3 = class extends DOMNode {
 
     getLight() {
         return require('./io/Light').light;
+    }
+
+    onPluginSettings() {
+        this._refs.ev3.className = this.getClassName();
     }
 
     onCopyDisplay() {

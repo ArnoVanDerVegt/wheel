@@ -2,24 +2,24 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../../../lib/dom').DOMNode;
-const Motor      = require('./io/Motor').Motor;
+const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode         = require('../../../../lib/dom').DOMNode;
+const SimulatorPlugin = require('../SimulatorPlugin').SimulatorPlugin;
+const Motor           = require('./io/Motor').Motor;
 
-exports.Motors = class extends DOMNode {
+exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
-        let brick = opts.brick;
-        this._brick               = brick;
-        this._simulator           = opts.simulator;
+        this._baseClassName       = 'motors';
         this._motors              = [];
         this._interval            = null;
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
-        brick
+        this._brick
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
             .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
         this._simulator.registerPlugin('motors', this);
+        opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
 
     initDOM(parentNode) {
@@ -40,7 +40,8 @@ exports.Motors = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'motors',
+                ref:       this.setRef('motors'),
+                className: this.getClassName(),
                 children:  children
             }
         );
@@ -55,6 +56,10 @@ exports.Motors = class extends DOMNode {
     }
 
     onBrickDisconnected() {
+    }
+
+    onPluginSettings() {
+        this._refs.motors.className = this.getClassName();
     }
 
     onInterval() {

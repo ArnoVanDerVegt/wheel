@@ -24,7 +24,8 @@ exports.MainMenu = class extends MainMenu {
         settings
             .addEventListener('Settings.View',    this, this.onUpdateViewMenu)
             .addEventListener('Settings.EV3',     this, this.onUpdateEV3Menu)
-            .addEventListener('Settings.Compile', this, this.onUpdateCompileMenu);
+            .addEventListener('Settings.Compile', this, this.onUpdateCompileMenu)
+            .addEventListener('Settings.Plugin',  this, this.onUpdateSimulatorMenu);
         // Brick events...
         brick
             .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
@@ -100,8 +101,10 @@ exports.MainMenu = class extends MainMenu {
             .initEV3Menu()
             .initCompileMenu()
             .initViewMenu()
+            .initSimulatorMenu()
             .initAboutMenu()
             .onUpdateViewMenu()
+            .onUpdateSimulatorMenu()
             .onUpdateCompileMenu()
             .onVM()
             .onUpdateEV3Menu()
@@ -242,14 +245,25 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Show files',                   hotkey: ['command', 'D'], dispatch: 'Settings.Toggle.ShowFileTree'},
                 {title: 'Show console',                 hotkey: ['command', 'B'], dispatch: 'Settings.Toggle.ShowConsole'},
-                {title: '-'},
-                {title: 'Show simulator motors',                                  dispatch: 'Settings.Toggle.ShowSimulatorMotors'},
-                {title: 'Show simulator EV3',                                     dispatch: 'Settings.Toggle.ShowSimulatorEV3'},
-                {title: 'Show simulator sensors',                                 dispatch: 'Settings.Toggle.ShowSimulatorSensors'},
+                {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
                 {title: '-'},
                 {title: 'Dark mode',                                              dispatch: 'Settings.Toggle.DarkMode'}
+            ]
+        });
+        return this;
+    }
+
+    initSimulatorMenu() {
+        this._simulatorMenu = this.addMenu({
+            title:     '^Simulator',
+            width:     '160px',
+            withCheck: true,
+            items: [
+                {title: 'EV3',                                                    dispatch: 'Menu.Simulator.EV3'},
+                {title: 'EV3 Motors',                                             dispatch: 'Menu.Simulator.EV3Motors'},
+                {title: 'EV3 Sensors',                                            dispatch: 'Menu.Simulator.EV3Sensors'}
             ]
         });
         return this;
@@ -335,11 +349,19 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
         menuOptions[1].setChecked(settings.getShowConsole());
-        menuOptions[2].setChecked(settings.getShowSimulatorMotors());
-        menuOptions[3].setChecked(settings.getShowSimulatorEV3());
-        menuOptions[4].setChecked(settings.getShowSimulatorSensors());
-        menuOptions[5].setChecked(settings.getShowSimulatorOnRun());
-        menuOptions[6].setChecked(settings.getDarkMode());
+        menuOptions[2].setChecked(settings.getShowSimulator());
+        menuOptions[3].setChecked(settings.getShowSimulatorOnRun());
+        menuOptions[4].setChecked(settings.getDarkMode());
+        return this;
+    }
+
+    onUpdateSimulatorMenu(info) {
+        let menuOptions    = this._simulatorMenu.getMenu().getMenuOptions();
+        let settings       = this._settings;
+        let defaultPlugins = settings.getDefaultPlugins();
+        menuOptions[0].setChecked(settings.getPluginByName('EV3',        defaultPlugins.EV3).visible);
+        menuOptions[1].setChecked(settings.getPluginByName('EV3Motors',  defaultPlugins.EV3Motors).visible);
+        menuOptions[2].setChecked(settings.getPluginByName('EV3Sensors', defaultPlugins.EV3Sensors).visible);
         return this;
     }
 
