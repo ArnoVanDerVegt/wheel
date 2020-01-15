@@ -23,6 +23,8 @@ proc main()
         y += 36
     end
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

@@ -35,6 +35,8 @@ proc main()
     setTextAlign(TEXT_ALIGN_RIGHT)
     drawText(177, y + 36, "Right")
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

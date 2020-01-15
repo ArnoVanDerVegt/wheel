@@ -20,6 +20,7 @@ proc main()
     drawCircle(50, 64, 32)
     drawRightPosition(0, 0)
     drawCircle(128, 64, 32)
+    updateScreen()
 
     number lastLeftX  = 0
     number lastLeftY  = 0
@@ -37,6 +38,7 @@ proc main()
             drawLeftPosition(lastLeftX, lastLeftY)
             setFillColor(BLACK)
             drawLeftPosition(leftX, leftY)
+            updateScreen()
             lastLeftX = leftX
             lastLeftY = leftY
         end
@@ -45,6 +47,7 @@ proc main()
             drawRightPosition(lastRightX, lastRightY)
             setFillColor(BLACK)
             drawRightPosition(rightX, rightY)
+            updateScreen()
             lastRightX = rightX
             lastRightY = rightY
         end

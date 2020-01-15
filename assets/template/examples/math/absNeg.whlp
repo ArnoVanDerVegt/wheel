@@ -17,6 +17,8 @@ proc main()
     drawText(10, 50, "Neg:")
     drawNumber(80, 50, neg(n))
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

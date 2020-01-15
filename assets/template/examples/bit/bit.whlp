@@ -27,6 +27,7 @@ proc main()
         bit *= 2
         x -= 10
     end
+    updateScreen()
     ; Wait...
     halt()
 end

@@ -28,6 +28,7 @@ proc main()
     drawButtonOutline(66, 63)
     drawButtonOutline(91, 43)
     drawButtonOutline(91, 63)
+    updateScreen()
 
     setFill(TRUE)
 
@@ -48,5 +49,6 @@ proc main()
             lastR2 = pspData.buttonR2
             drawButton(92, 64, lastR2)
         end
+        updateScreen()
     end
 end

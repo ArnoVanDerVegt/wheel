@@ -20,6 +20,8 @@ proc main()
     drawText(10, 50, "Next index of:")
     drawNumber(140, 50, n)
 
+    updateScreen()
+
     halt()
 end
 

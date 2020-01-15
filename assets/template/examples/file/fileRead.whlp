@@ -19,6 +19,7 @@ proc main()
     string s
     number i, j
     number y = 10
+
     for i = 0 to 2
         j = fileReadNumber(handle)
         drawNumber(10, y, j)
@@ -26,6 +27,8 @@ proc main()
         drawText(40, y, s)
         y += 20
     end
+
+    updateScreen()
 
     ; Wait...
     halt()

@@ -12,4 +12,6 @@ proc main()
     drawText(10, 30, s)
     s = s + " three"
     drawText(10, 50, s)
+
+    updateScreen()
 end

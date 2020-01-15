@@ -67,6 +67,7 @@ proc main()
     drawTouchValue()
     drawColorValue()
     drawInfraredValue()
+    updateScreen()
 
     ; Set the sensor types and modes...
     sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
@@ -93,5 +94,7 @@ proc main()
             infraredValue = value
             drawInfraredValue()
         end
+
+        updateScreen()
     end
 end

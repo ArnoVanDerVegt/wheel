@@ -24,16 +24,6 @@ loop:
     ADD32(lRegCode_32, 1, lRegCode_32)
     CALL(writeMem32, 4, 0, lRegCode_32)
 
-    JR_EQ8(gModScreenUpdated_8, 0, screen_not_updated)                  // Check if the screen needs an update
-    DATA32 lTime_32
-    TIMER_READ(lTime_32)
-    JR_LT32(lTime_32, gModScreenUpdateTime_32, screen_not_updated)
-    UI_DRAW(UPDATE)                                                     // Update screen every 250ms
-    MOVE32_32(lTime_32, gModScreenUpdateTime_32)
-    ADD32(gModScreenUpdateTime_32, 250, gModScreenUpdateTime_32)
-    MOVE8_8(0, gModScreenUpdated_8)
-screen_not_updated:
-
     JR_LT32(lRegCode_32, gCommandCount_32, loop)
 }
 

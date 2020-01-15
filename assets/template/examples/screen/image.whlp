@@ -61,5 +61,7 @@ proc main()
     drawImage(10, 10, "myImage.rgf")
     drawImage(10 + SCREEN_CENTER_X, 10 + SCREEN_CENTER_Y, "accept1.rgf")
 
+    updateScreen()
+
     halt()
 end

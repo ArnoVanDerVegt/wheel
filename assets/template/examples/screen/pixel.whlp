@@ -32,6 +32,8 @@ proc main()
         s += 1
     end
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

@@ -25,11 +25,13 @@ proc drawDiceNumber(number dots)
         drawCircle(points[b].x, points[b].y, 6)
         bit *= 2
     end
+    updateScreen()
 end
 
 proc main()
     clearConsole()
     drawRect(55, 29, 70, 70)
+    updateScreen()
     repeat
         drawDiceNumber(dots[random(0, 5)])
         sleep(500)

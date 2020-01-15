@@ -21,6 +21,8 @@ proc main()
 
     drawText(10, 50, s)                 ; Draw the updated string
 
+    updateScreen()
+
     halt()
 end
 

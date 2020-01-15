@@ -29,6 +29,8 @@ proc main()
     setFill(FALSE)
     drawRect(10, 74, 69, 44)
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

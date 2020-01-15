@@ -39,6 +39,8 @@ proc main()
 
     drawLine(0, height, SCREEN_WIDTH - 1, height)
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

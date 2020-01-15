@@ -14,5 +14,6 @@ proc main()
         drawNumber(20, 20, msTouch0[0])
         drawNumber(50, 20, msTouch0[1])
         drawNumber(80, 20, msTouch0[2])
+        updateScreen()
     end
 end

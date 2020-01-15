@@ -16,6 +16,8 @@ proc main()
         drawNumber(120, y, length(fruit[n]))
     end
 
+    updateScreen()
+
     halt()
 end
 

@@ -25,6 +25,8 @@ proc main()
         drawLine(177, y, 90, 64)
     end
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

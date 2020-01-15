@@ -17,5 +17,7 @@ proc main()
     toLowerCase(s)      ; Convert the string to lower case...
     drawText(10, 50, s)
 
+    updateScreen()
+
     halt()
 end

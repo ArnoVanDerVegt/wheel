@@ -10,6 +10,9 @@ exports.ScreenModule = class extends VMModule {
         let vmData = this._vmData;
         let vm     = this._vm;
         switch (commandId) {
+            case screenModuleConstants.SCREEN_UPDATE:
+                this.emit('Screen.Update', {});
+                break;
             case screenModuleConstants.SCREEN_CLEAR:
                 this.emit('Screen.Clear', {});
                 break;

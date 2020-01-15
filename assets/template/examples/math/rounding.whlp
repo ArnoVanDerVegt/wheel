@@ -17,6 +17,8 @@ proc main()
     drawText(10, 50, "Ceil:")
     drawNumber(100, 50, ceil(n))
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

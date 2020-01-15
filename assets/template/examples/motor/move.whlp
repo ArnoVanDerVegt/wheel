@@ -33,6 +33,7 @@ proc drawScreen()
         drawRect(x, 43, 38, 38)
         x += 43
     end
+    updateScreen()
 end
 
 ; Draw the active motor position
@@ -45,6 +46,7 @@ proc drawMotorPos()
     setFillColor(BLACK)
     drawRect(66, 12, 52, 13)
     drawNumber(68, 14, n)
+    updateScreen()
 end
 
 proc main()

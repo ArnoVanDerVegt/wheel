@@ -64,7 +64,6 @@ exports.Display = class {
             return;
         }
         this.drawCenterText(56, 1, 'Simulator ready.');
-        this.render();
     }
 
     clearScreen() {
@@ -73,7 +72,6 @@ exports.Display = class {
         context.fillStyle = 'rgb(' + fillColor + ',' + fillColor + ',' + fillColor + ')';
         context.fillRect(0, 0, WIDTH, HEIGHT);
         this._imageData = context.getImageData(0, 0, WIDTH, HEIGHT);
-        this.render();
         return this;
     }
 
@@ -91,19 +89,16 @@ exports.Display = class {
                 this._text[this._textSize].drawText(Math.floor(x - text.length * charWidth), y, this._fill, text);
                 break;
         }
-        this.render();
     }
 
     drawCenterText(y, size, text) {
         this._text[size].drawText(~~((178 - text.length * 8) * 0.5), y, 0, text);
-        this.render();
     }
 
     drawReady() {
         this.reset();
         this.clearScreen();
         this.drawCenterText(56, 1, 'Simulator ready.');
-        this.render();
     }
 
     drawLoaded(title) {
@@ -117,7 +112,7 @@ exports.Display = class {
         this.clearScreen();
         this.drawCenterText(51, 0, 'Loaded');
         this.drawCenterText(68, 1, title);
-        this.render();
+        this.updateScreen();
     }
 
     drawPixel(x, y) {
@@ -133,7 +128,6 @@ exports.Display = class {
         data[offset++] = color;
         data[offset++] = color;
         data[offset++] = 255;
-        this.render();
     }
 
     drawLine(x1, y1, x2, y2) {
@@ -248,7 +242,6 @@ exports.Display = class {
         this._fill ?
             this.drawFillRect(x, y, width, height) :
             this.drawStrokeRect(x, y, width, height);
-        this.render();
     }
 
     drawStrokeCircle(x, y, radius) {
@@ -334,7 +327,6 @@ exports.Display = class {
         this._fill ?
             this.drawFillCircle(x, y, radius) :
             this.drawStrokeCircle(x, y, radius);
-        this.render();
     }
 
     drawImage(x, y, data) {
@@ -359,10 +351,9 @@ exports.Display = class {
                 }
             }
         }
-        this.render();
     }
 
-    render() {
+    updateScreen() {
         let context = this._context;
         context.clearRect(0, 0, WIDTH, HEIGHT);
         context.putImageData(this._imageData, 0, 0);

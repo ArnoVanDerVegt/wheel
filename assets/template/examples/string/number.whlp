@@ -18,5 +18,7 @@ proc main()
     drawText(10, 50, "String to number:")
     drawNumber(10, 70, n)
 
+    updateScreen()
+
     halt()
 end

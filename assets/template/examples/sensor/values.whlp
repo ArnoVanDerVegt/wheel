@@ -70,6 +70,7 @@ proc main()
     drawTouchValue()
     drawColorValue()
     drawUltrasonicValue()
+    updateScreen()
 
     sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
     sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
@@ -96,5 +97,7 @@ proc main()
             ultrasonicValue = value
             drawUltrasonicValue()
         end
+
+        updateScreen()
     end
 end

@@ -29,6 +29,8 @@ proc main()
     setFill(FALSE)
     drawCircle(45, 96, 24)
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

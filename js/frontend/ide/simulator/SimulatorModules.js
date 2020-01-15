@@ -89,6 +89,7 @@ exports.SimulatorModules = class {
             return this;
         }
         this._events.push(
+            screenModule.addEventListener('Screen.Update',     this, function()          { display.updateScreen();                                     }),
             screenModule.addEventListener('Screen.Clear',      this, function()          { display.clearScreen();                                     }),
             screenModule.addEventListener('Screen.Fill',       this, function(fill)      { display.setFill(fill.fill);                                }),
             screenModule.addEventListener('Screen.FillColor',  this, function(fillColor) { display.setFillColor(fillColor.fillColor);                 }),
