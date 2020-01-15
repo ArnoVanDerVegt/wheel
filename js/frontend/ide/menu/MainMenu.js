@@ -224,6 +224,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Linter',                                                 dispatch: 'Settings.Toggle.Linter'},
                 {title: '-'},
+                {title: 'Statistics',                                             dispatch: 'Menu.Compile.Statistics'},
+                {title: '-'},
                 {title: 'Clear all breakpoints',                                  dispatch: 'Menu.Compile.ClearAllBreakpoints'},
                 {title: '-'},
                 {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'}
@@ -313,7 +315,7 @@ exports.MainMenu = class extends MainMenu {
         }
         menuOptions[6].setChecked(settings.getLinter());                    // Linter
         menuOptions[5].setEnabled(this._brick.getConnected());              //
-        menuOptions[8].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        menuOptions[9].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
     }
 

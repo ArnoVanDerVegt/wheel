@@ -89,7 +89,6 @@ exports.Rtf = class {
         this
             .addLine('#COMMANDS')
             .addLine(commands.length);
-        let occurenceByCmd = [];
         commands.forEach(
             function(command) {
                 let param1    = command.getParam1();
@@ -101,32 +100,10 @@ exports.Rtf = class {
                         param1.getValue(),
                         param2.getValue()
                     ];
-                if (occurenceByCmd[cmdPacked]) {
-                    occurenceByCmd[cmdPacked].count++;
-                } else {
-                    occurenceByCmd[cmdPacked] = {
-                        count:     1,
-                        cmd:       cmd,
-                        cmdPacked: cmdPacked,
-                        param1:    param1.getType(),
-                        param2:    param2.getType(),
-                        toString:  function() {
-                            return ('00000000' + this.count).substr(-8);
-                        }
-                    };
-                }
                 return this.addLine(list.join(','));
             },
             this
         );
-        let s            = '----------------------------------------------------------------------------------------------------';
-        let locationText = ['constant', 'global', 'local', 'pointer'];
-        occurenceByCmd.sort();
-        occurenceByCmd.forEach(function(o, index) {
-            let perc    = Math.round(o.count * 100 / commands.length);
-            let cmdText = $.CMD_TO_STR[o.cmd] + ' ' + locationText[o.param1] + ', ' + locationText[o.param2] + ' -> ' + o.cmdPacked;
-            console.log(('0' + index).substr(-2) + ' ' + s.substr(0, perc) + ' ' + perc + '% ' + cmdText);
-        });
         return this;
     }
 

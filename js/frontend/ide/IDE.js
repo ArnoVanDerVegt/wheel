@@ -34,6 +34,7 @@ const ImageResizeDialog   = require('./dialogs/image/ImageResizeDialog').ImageRe
 const ImageLoadDialog     = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
 const ListDialog          = require('./dialogs/list/ListDialog').ListDialog;
 const ConnectListDialog   = require('./dialogs/list/ConnectListDialog').ConnectListDialog;
+const StatisticsDialog    = require('./dialogs/statistics/StatisticsDialog').StatisticsDialog;
 const VolumeDialog        = require('./dialogs/VolumeDialog').VolumeDialog;
 const HelpDialog          = require('./dialogs/help/HelpDialog').HelpDialog;
 const DaisyChainDialog    = require('./dialogs/DaisyChainDialog').DaisyChainDialog;
@@ -134,6 +135,7 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.Compile.Stop',                  this, this.onStop)
             .on('Menu.Compile.Continue',              this, this.onContinue)
             .on('Menu.Compile.CompileAndInstall',     this, this.onMenuCompileCompileAndInstall)
+            .on('Menu.Compile.Statistics',            this, this.onMenuCompileStatistics)
             .on('Menu.About.Version',                 this, this.onMenuAboutVersion)
             .on('Menu.About.Website',                 this, this.onMenuAboutWebsite)
             .on('Menu.About.ReportIssue',             this, this.onMenuAboutReportIssue)
@@ -265,6 +267,10 @@ exports.IDE = class extends CompileAndRun {
     onMenuCompileCompileAndInstall() {
     }
 
+    onMenuCompileStatistics() {
+        dispatcher.dispatch('Dialog.Statistics.Show', {program: this._program});
+    }
+
     // EV3 Menu...
     onMenuEV3Connect() {
         dispatcher.dispatch('Dialog.Connect.Show');
@@ -367,6 +373,7 @@ exports.IDE = class extends CompileAndRun {
         new ImageResizeDialog  ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog    ({getImage: getImage, ui: this._ui});
         new ListDialog         ({getImage: getImage, ui: this._ui});
+        new StatisticsDialog   ({getImage: getImage, ui: this._ui});
         new VolumeDialog       ({getImage: getImage, ui: this._ui});
         new DaisyChainDialog   ({getImage: getImage, ui: this._ui});
         new LicenseDialog      ({getImage: getImage, ui: this._ui});

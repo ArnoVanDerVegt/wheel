@@ -196,6 +196,7 @@ require('./js/frontend/ide/dialogs/ExploreDialog');
 require('./js/frontend/ide/dialogs/list/components/ListItem');
 require('./js/frontend/ide/dialogs/list/ListDialog');
 require('./js/frontend/ide/dialogs/list/ConnectListDialog');
+require('./js/frontend/ide/dialogs/statistics/StatisticsDialog');
 require('./js/frontend/ide/dialogs/YesNoCancelDialog');
 require('./js/frontend/ide/dialogs/file/components/IncludeFiles');
 require('./js/frontend/ide/dialogs/file/FileDialog');
