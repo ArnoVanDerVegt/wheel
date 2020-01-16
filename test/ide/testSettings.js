@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher    = require('../../js/frontend/lib/dispatcher').dispatcher;
-const SettingsState = require('../../js/frontend/ide/SettingsState').SettingsState;
+const SettingsState = require('../../js/frontend/ide/settings/SettingsState').SettingsState;
 const assert        = require('assert');
 
 describe(
@@ -30,9 +30,7 @@ describe(
                         let settings = new SettingsState({});
                         assert.equal(settings.getShowFileTree(),              true);
                         assert.equal(settings.getShowConsole(),               true);
-                        assert.equal(settings.getShowSimulatorMotors(),       true);
-                        assert.equal(settings.getShowSimulatorEV3(),          true);
-                        assert.equal(settings.getShowSimulatorSensors(),      true);
+                        assert.equal(settings.getShowSimulator(),             true);
                         assert.equal(settings.getShowSimulatorOnRun(),        true);
                         assert.equal(settings.getCreateVMTextOutput(),        true);
                         assert.equal(settings.getLinter(),                    true);
@@ -70,39 +68,15 @@ describe(
                     }
                 );
                 it(
-                    'Should toggle simulator motors',
+                    'Should toggle simulator',
                     function() {
                         dispatcher.reset();
                         let done     = false;
                         let settings = new SettingsState({});
                         settings.on('Settings.View', this, function() { done = true; });
-                        dispatcher.dispatch('Settings.Toggle.ShowSimulatorMotors');
-                        assert.equal(done,                              true);
-                        assert.equal(settings.getShowSimulatorMotors(), false);
-                    }
-                );
-                it(
-                    'Should toggle simulator ev3',
-                    function() {
-                        dispatcher.reset();
-                        let done     = false;
-                        let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
-                        dispatcher.dispatch('Settings.Toggle.ShowSimulatorEV3');
-                        assert.equal(done,                           true);
-                        assert.equal(settings.getShowSimulatorEV3(), false);
-                    }
-                );
-                it(
-                    'Should toggle simulator sensors',
-                    function() {
-                        dispatcher.reset();
-                        let done     = false;
-                        let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
-                        dispatcher.dispatch('Settings.Toggle.ShowSimulatorSensors');
-                        assert.equal(done,                               true);
-                        assert.equal(settings.getShowSimulatorSensors(), false);
+                        dispatcher.dispatch('Settings.Toggle.ShowSimulator');
+                        assert.equal(done,                        true);
+                        assert.equal(settings.getShowSimulator(), false);
                     }
                 );
                 it(
@@ -201,30 +175,6 @@ describe(
                         assert.equal(settings.getRecentProject(), '');
                         dispatcher.dispatch('Settings.Set.RecentProject', 'hello.whlp');
                         assert.equal(settings.getRecentProject(), 'hello.whlp');
-                    }
-                );
-                it(
-                    'Should set show simulator motors',
-                    function() {
-                        dispatcher.reset();
-                        let done     = false;
-                        let settings = new SettingsState({});
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorMotors', true);
-                        assert.equal(settings.getShowSimulatorMotors(), true);
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorMotors', false);
-                        assert.equal(settings.getShowSimulatorMotors(), false);
-                    }
-                );
-                it(
-                    'Should set show simulator sensors',
-                    function() {
-                        dispatcher.reset();
-                        let done     = false;
-                        let settings = new SettingsState({});
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorSensors', true);
-                        assert.equal(settings.getShowSimulatorSensors(), true);
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorSensors', false);
-                        assert.equal(settings.getShowSimulatorSensors(), false);
                     }
                 );
                 it(

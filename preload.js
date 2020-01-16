@@ -303,12 +303,14 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/io/UltrasonicSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/Sensors');
+require('./js/frontend/ide/plugins/simulator/psp/PSP'),
 require('./js/frontend/ide/simulator/SimulatorConnection');
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');
+require('./js/frontend/ide/settings/PluginsState');
 const Setup         = require('./js/frontend/ide/Setup').Setup;
 const IDE           = require('./js/frontend/ide/IDE').IDE;
-const SettingsState = require('./js/frontend/ide/SettingsState').SettingsState;
+const SettingsState = require('./js/frontend/ide/settings/SettingsState').SettingsState;
 const UIState       = require('./js/frontend/lib/UIState').UIState;
 const BrickState    = require('./js/frontend/vm/brick/BrickState').BrickState;
 

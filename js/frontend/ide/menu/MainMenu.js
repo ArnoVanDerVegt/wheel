@@ -256,15 +256,20 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSimulatorMenu() {
+        let items = [];
+        this._settings.getPlugins().getSortedPlugins().forEach(function(plugin) {
+            items.push({
+                title:   plugin.name,
+                onClick: function() {
+                    dispatcher.dispatch('Settings.Toggle.PluginByUuid', plugin.uuid);
+                }
+            });
+        });
         this._simulatorMenu = this.addMenu({
             title:     '^Simulator',
             width:     '160px',
             withCheck: true,
-            items: [
-                {title: 'EV3',                                                    dispatch: 'Menu.Simulator.EV3'},
-                {title: 'EV3 Motors',                                             dispatch: 'Menu.Simulator.EV3Motors'},
-                {title: 'EV3 Sensors',                                            dispatch: 'Menu.Simulator.EV3Sensors'}
-            ]
+            items:     items
         });
         return this;
     }
@@ -357,11 +362,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateSimulatorMenu(info) {
         let menuOptions    = this._simulatorMenu.getMenu().getMenuOptions();
-        let settings       = this._settings;
-        let defaultPlugins = settings.getDefaultPlugins();
-        menuOptions[0].setChecked(settings.getPluginByName('EV3',        defaultPlugins.EV3).visible);
-        menuOptions[1].setChecked(settings.getPluginByName('EV3Motors',  defaultPlugins.EV3Motors).visible);
-        menuOptions[2].setChecked(settings.getPluginByName('EV3Sensors', defaultPlugins.EV3Sensors).visible);
+        this._settings.getPlugins().getSortedPlugins().forEach(function(plugin, index) {
+            menuOptions[index].setChecked(plugin.visible);
+        });
         return this;
     }
 

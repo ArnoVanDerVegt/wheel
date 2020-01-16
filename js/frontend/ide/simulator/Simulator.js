@@ -22,37 +22,23 @@ exports.Simulator = class extends DOMNode {
     }
 
     initPlugins() {
-        const plugins = [
-                {
-                    name: 'EV3 Motors',
-                    path: '../plugins/simulator/ev3motors/Motors'
-                },
-                {
-                    name: 'EV3',
-                    path: '../plugins/simulator/ev3/EV3'
-                },
-                {
-                    name: 'EV3 Sensors',
-                    path: '../plugins/simulator/ev3sensors/Sensors'
-                }
-            ];
+        let plugins  = this._settings.getPlugins().getSortedPlugins();
         let children = [];
         let settings = this._settings;
         plugins.forEach(
             function(plugin) {
-                let name = plugin.name.split(' ').join('');
+                let uuid = plugin.uuid;
                 dispatcher.on(
-                    'Menu.Simulator.' + name,
+                    'Menu.Simulator.' + uuid,
                     this,
                     function() {
-                        let pluginSettings = settings.getPluginByName(name, {});
-                        pluginSettings.visible = !pluginSettings.visible;
-                        dispatcher.dispatch('Settings.Set.PluginByName', name, pluginSettings);
+                        let pluginSettings = settings.getPluginByUiid(uuid, {});
+                        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', uuid, 'visible', !pluginSettings.visible);
                     }
                 );
                 children.push({
                     type:      require(plugin.path).Plugin,
-                    name:      plugin.name,
+                    plugin:    plugin,
                     ui:        this._ui,
                     brick:     this._brick,
                     settings:  settings,

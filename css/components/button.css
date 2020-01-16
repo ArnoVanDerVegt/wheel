@@ -62,6 +62,32 @@ input[type="button"].icon-button.in-active.blue {
     background-color:               var(--color-blue-in-active);
 }
 
+input[type="button"].button.gray {
+    border:                         var(--ui-border3);
+    color:                          var(--ui-color2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.gray:active {
+    border-color:                   var(--ui-border2);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.gray.focus:active, {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.focus.gray {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.in-active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+
 input[type="button"].button.dark-green {
     border:                         2px solid var(--color-green);
     color:                          var(--button-text-color);

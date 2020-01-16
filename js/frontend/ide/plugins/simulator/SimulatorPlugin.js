@@ -9,7 +9,7 @@ exports.SimulatorPlugin = class extends DOMNode {
     constructor(opts) {
         super(opts);
         let brick = opts.brick;
-        this._name                = opts.name;
+        this._plugin              = opts.plugin;
         this._ui                  = opts.ui;
         this._settings            = opts.settings;
         this._brick               = opts.brick;
@@ -21,7 +21,7 @@ exports.SimulatorPlugin = class extends DOMNode {
 
     getClassName() {
         let settings = this._settings;
-        let name     = this._name.split(' ').join('');
-        return this._baseClassName + ' ' + (settings.getPluginByName(name, settings.getDefaultPlugins().EV3).visible ? ' visible' : '');
+        let uuid     = this._plugin.uuid;
+        return this._baseClassName + ' ' + (settings.getPlugins().getPluginByUuid(uuid).visible ? ' visible' : '');
     }
 };

@@ -270,7 +270,7 @@
             './js/frontend/ide/simulator/Simulator',
             './js/frontend/ide/CompileAndRun',
             './js/frontend/ide/IDE',
-            './js/frontend/ide/SettingsState',
+            './js/frontend/ide/settings/SettingsState',
             './js/frontend/lib/UIState',
             './js/frontend/vm/brick/BrickState'
         ];
@@ -289,7 +289,7 @@
         };
         const getDataProvider = loadedFiles['./js/frontend/lib/dataprovider/dataProvider'].getDataProvider;
         const UIState         = loadedFiles['./js/frontend/lib/UIState'].UIState;
-        const SettingsState   = loadedFiles['./js/frontend/ide/SettingsState'].SettingsState;
+        const SettingsState   = loadedFiles['./js/frontend/ide/settings/SettingsState'].SettingsState;
         ui       = new UIState();
         settings = new SettingsState({getDataProvider: getDataProvider});
         settings.load(onLoadedSettings);

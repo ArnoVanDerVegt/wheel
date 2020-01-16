@@ -90,7 +90,7 @@ body.ide div.editor-wrapper .editor {
 .auto-reset,
 .connection {
     float:                          left;
-    margin:                         16px 0 0 0;
+    margin:                         8px 0 16px 0;
     width:                          100%;
 }
 .connection {

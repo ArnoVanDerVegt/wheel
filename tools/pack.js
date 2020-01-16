@@ -342,11 +342,13 @@ const files = [
         './js/frontend/ide/plugins/simulator/ev3motors/Motors',
         './js/frontend/ide/plugins/simulator/ev3sensors/io/Sensor',
         './js/frontend/ide/plugins/simulator/ev3sensors/Sensors',
+        './js/frontend/ide/plugins/simulator/psp/PSP',
         './js/frontend/ide/simulator/SimulatorConnection',
         './js/frontend/ide/simulator/Simulator',
         './js/frontend/ide/CompileAndRun',
         './js/frontend/ide/IDE',
-        './js/frontend/ide/SettingsState',
+        './js/frontend/ide/settings/PluginState',
+        './js/frontend/ide/settings/SettingsState',
         './js/frontend/lib/UIState',
         './js/frontend/vm/brick/BrickState'
     ];

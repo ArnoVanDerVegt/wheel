@@ -116,9 +116,11 @@ body.ide.no-simulator div.simulator {
 .simulator .ev3-background {
     float:                          left;
     width:                          100%;
-    min-height:                     100%;
-    padding:                        16px 0 16px 17px;
+    height:                         100%;
+    padding:                        16px 0 256px 17px;
     margin:                         0;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
 }
 .simulator .ev3-background.stand-alone .ev3-background {
     border-radius:                  2px;
