@@ -128,6 +128,10 @@ exports.SensorContainer = class extends DOMNode {
         this._refs.sensor.style.display = hidden ? 'none' : 'block';
     }
 
+    getId() {
+        return this._id;
+    }
+
     getType() {
         return this._type;
     }

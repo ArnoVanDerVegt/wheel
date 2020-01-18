@@ -482,8 +482,8 @@ exports.IDE = class extends CompileAndRun {
 
     onBeforeRun(program) {
         let settings = this._settings;
-        if (settings.getShowSimulatorOnRun() && !settings.getShowSimulatorEV3()) {
-            dispatcher.dispatch('Settings.Toggle.ShowSimulatorEV3');
+        if (settings.getShowSimulatorOnRun() && !settings.getShowSimulator()) {
+            dispatcher.dispatch('Settings.Toggle.ShowSimulator');
         }
         program.setBreakpoints(this._editor.getBreakpoints());
     }

@@ -6,13 +6,25 @@ const multiplexerModuleConstants = require('../../../../shared/vm/modules/multip
 const VMModule                   = require('./../VMModule').VMModule;
 
 exports.MultiplexerModule = class extends VMModule {
+    constructor(opts) {
+        super(opts);
+        this._writeOffset       = 0;
+        this._writeOffsetByPort = [0, 0, 0, 0];
+    }
+
     run(commandId) {
         let vmData = this._vmData;
         switch (commandId) {
             case multiplexerModuleConstants.MULTI_MULTI_SET_WRITE_OFFSET:
+                this._writeOffset = vmData.getRegSrc();
                 break;
 
-            case multiplexerModuleConstants.MULTI__MULTI_START:
+            case multiplexerModuleConstants.MULTI_MULTI_START:
+                let multi = vmData.getRecordFromAtOffset(['port']);
+                if (this._writeOffset !== 0) {
+                    this._writeOffsetByPort[multi.port] = this._writeOffset;
+                    this._writeOffset                   = 0;
+                }
                 break;
 
             case multiplexerModuleConstants.MULTI_MULTI_STOP:
@@ -21,5 +33,14 @@ exports.MultiplexerModule = class extends VMModule {
             case multiplexerModuleConstants.MULTI_MULTI_STOP_ALL:
                 break;
         }
+    }
+
+    onValueChanged(port, input, value) {
+        let writeOffsetByPort = this._writeOffsetByPort;
+        if (writeOffsetByPort[port] === 0) {
+            return;
+        }
+        let offset = writeOffsetByPort[port] + input;
+        this._vmData.setNumberAtOffset(value ? 1 : 0, offset);
     }
 };

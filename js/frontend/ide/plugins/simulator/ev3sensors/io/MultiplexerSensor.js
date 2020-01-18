@@ -4,6 +4,7 @@
 **/
 const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
 const Checkbox              = require('../../../../../lib/components/Checkbox').Checkbox;
+const dispatcher            = require('../../../../../lib/dispatcher').dispatcher;
 const getImage              = require('../../../../data/images').getImage;
 const Sensor                = require('./Sensor').Sensor;
 
@@ -23,21 +24,21 @@ exports.MultiplexerSensor = class extends Sensor {
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex,
-                            onChange: this.onChangeValue.bind(this)
+                            onChange: this.onChangeValue.bind(this, 0)
                         },
                         {
                             ref:      this.setRef('multiplexerValueInput2'),
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex + 1,
-                            onChange: this.onChangeValue.bind(this)
+                            onChange: this.onChangeValue.bind(this, 1)
                         },
                         {
                             ref:      this.setRef('multiplexerValueInput3'),
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex + 2,
-                            onChange: this.onChangeValue.bind(this)
+                            onChange: this.onChangeValue.bind(this, 2)
                         }
                     ]
                 }
@@ -60,10 +61,22 @@ exports.MultiplexerSensor = class extends Sensor {
         refs.multiplexerValueInput3.setChecked((value & 4) === 4);
     }
 
+    onChangeValue(index, value) {
+        let id = this._sensorContainer.getId();
+        dispatcher.dispatch('Sensor.Multiplexer.Changed', id, index, value ? 1 : 0);
+        this.setTimeoutReset();
+    }
+
     onResetTimeout() {
-        this._refs.multiplexerValueInput1.setChecked(false);
-        this._refs.multiplexerValueInput2.setChecked(false);
-        this._refs.multiplexerValueInput3.setChecked(false);
+        let refs = this._refs;
+        refs.multiplexerValueInput1.setChecked(false);
+        refs.multiplexerValueInput2.setChecked(false);
+        refs.multiplexerValueInput3.setChecked(false);
+        let id = this._sensorContainer.getId();
+        dispatcher
+            .dispatch('Sensor.Multiplexer.Changed', id, 0, 0)
+            .dispatch('Sensor.Multiplexer.Changed', id, 1, 0)
+            .dispatch('Sensor.Multiplexer.Changed', id, 2, 0);
         this._timeoutReset = null;
         this._value        = 0;
     }

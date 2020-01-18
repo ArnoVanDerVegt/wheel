@@ -9,6 +9,9 @@
 ; @const The sensor multiplexer module.
 #define MODULE_SENSOR_MULTI                    33
 
+; @const The sensor type for the multiplexer. Setting the type displays the multiplexer in the simulator for the given port.
+#define SENSOR_TYPE_MULTIPLEXER                64
+
 ; @const Module calls for sensor multiplexer functions.
 #define MODULE_SENSOR_MULTI_SET_WRITE_OFFSET    0
 #define MODULE_SENSOR_MULTI_START               1
@@ -25,6 +28,11 @@ number msTouch3[3]
 proc msStart(number port)
     addr port
     mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_START
+    number layer = 0
+    number p     = port
+    number type  = SENSOR_TYPE_MULTIPLEXER
+    addr layer
+    mod  7, 0 ; MODULE_SENSOR, SENSOR_SET_TYPE
 end
 
 ; @proc             Start updating touch sensors on port 0.

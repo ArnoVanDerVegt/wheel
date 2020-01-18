@@ -187,7 +187,7 @@ exports.SimulatorModules = class {
     setupPspModule(vm) {
         let sensors   = this._sensors;
         let pspModule = this._modules[pspModuleConstants.MODULE_PSP];
-        if (!sensorModule) {
+        if (!pspModule) {
             return this;
         }
         // -> this._events.push();
@@ -197,10 +197,12 @@ exports.SimulatorModules = class {
     setupMultiplexerModule(vm) {
         let sensors           = this._sensors;
         let multiplexerModule = this._modules[multiplexerModuleConstants.MODULE_MULTIPLEXER];
-        if (!sensorModule) {
+        if (!multiplexerModule) {
             return this;
         }
-        // -> this._events.push();
+        this._events.push(
+            dispatcher.on('Sensor.Multiplexer.Changed', multiplexerModule, multiplexerModule.onValueChanged)
+        );
         return this;
     }
 

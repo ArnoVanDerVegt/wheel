@@ -69,9 +69,17 @@ class VMData {
         return result;
     }
 
+    getRegSrc() {
+        return this._data[$.REG_SRC];
+    }
+
     getNumberAtRegOffset() {
         let data = this._data;
         return data[data[$.REG_SRC]];
+    }
+
+    setNumberAtOffset(value, offset) {
+        this._data[offset ? offset : 0] = value;
     }
 
     setNumberAtRegOffset(value, offset) {
