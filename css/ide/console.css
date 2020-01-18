@@ -177,7 +177,6 @@ body.ide .console-content {
     line-height:                    20px;
     font-family:                    monospace;
     font-size:                      13px;
-    overflow:                       hidden;
     text-overflow:                  ellipsis;
 }
 .console-content .terminal input[type="text"].input {

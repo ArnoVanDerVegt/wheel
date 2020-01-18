@@ -69,10 +69,10 @@ exports.MultiplexerSensor = class extends Sensor {
 
     onResetTimeout() {
         let refs = this._refs;
+        let id   = this._sensorContainer.getId();
         refs.multiplexerValueInput1.setChecked(false);
         refs.multiplexerValueInput2.setChecked(false);
         refs.multiplexerValueInput3.setChecked(false);
-        let id = this._sensorContainer.getId();
         dispatcher
             .dispatch('Sensor.Multiplexer.Changed', id, 0, 0)
             .dispatch('Sensor.Multiplexer.Changed', id, 1, 0)

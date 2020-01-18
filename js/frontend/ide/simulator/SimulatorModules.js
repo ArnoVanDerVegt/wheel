@@ -190,7 +190,9 @@ exports.SimulatorModules = class {
         if (!pspModule) {
             return this;
         }
-        // -> this._events.push();
+        this._events.push(
+            dispatcher.on('Sensor.PSP.Changed', pspModule, pspModule.onValueChanged)
+        );
         return this;
     }
 

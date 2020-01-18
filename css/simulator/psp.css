@@ -74,6 +74,7 @@
     border-radius:                  16px;
     border:                         var(--ui-border3);
     background-color:               var(--ui-background1);
+    pointer-events:                 none;
 }
 
 .simulator .psp .device div.four-buttons {

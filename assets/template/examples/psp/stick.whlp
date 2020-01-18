@@ -7,11 +7,11 @@
 #include "lib/psp.whl"
 
 proc drawLeftPosition(number x, number y)
-    drawCircle(50 + x / 10, 64 + y / 10, 10)
+    drawCircle(50 + x / 5, 64 + y / 5, 10)
 end
 
 proc drawRightPosition(number x, number y)
-    drawCircle(128 + x / 10, 64 + y / 10, 10)
+    drawCircle(128 + x / 5, 64 + y / 5, 10)
 end
 
 proc main()
