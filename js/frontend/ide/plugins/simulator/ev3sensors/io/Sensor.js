@@ -71,7 +71,7 @@ exports.Sensor = class extends DOMNode {
     }
 
     onConnecting() {
-        this.setType(-1);
+        this._sensorContainer.setType(-1);
     }
 
     onConnected() {

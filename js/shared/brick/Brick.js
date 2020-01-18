@@ -184,7 +184,14 @@ exports.Brick = class {
                     }
                     break;
             }
-            poll.main = (poll.main + 1) % 128;
+            let layer = this._commandQueue.getFailedConnectionTypesLayer();
+            if (layer === -1) {
+                poll.main      = (poll.main + 1) % 128;
+            } else {
+                console.log('Failed for layer:', layer);
+                poll.mainLayer = layer;
+                poll.main      = 0;
+            }
         }
         let time;
         if (this._stopPolling) {

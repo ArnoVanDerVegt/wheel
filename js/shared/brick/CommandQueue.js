@@ -16,14 +16,15 @@ const MESSAGE_TIME_OUT_TIME = 50;
 
 exports.CommandQueue = class {
     constructor(brick, sendFunction) {
-        this._brick          = brick;
-        this._battery        = 0;
-        this._sendFunction   = sendFunction;
-        this._pendingCommand = null;
-        this._pendingCount   = 0;
-        this._queue          = [];
-        this._id             = 0;
-        this._layers         = [this.initLayer(0), this.initLayer(1), this.initLayer(2), this.initLayer(3)];
+        this._brick                      = brick;
+        this._battery                    = 0;
+        this._sendFunction               = sendFunction;
+        this._pendingCommand             = null;
+        this._pendingCount               = 0;
+        this._failedConnectionTypesLayer = -1;
+        this._queue                      = [];
+        this._id                         = 0;
+        this._layers                     = [this.initLayer(0), this.initLayer(1), this.initLayer(2), this.initLayer(3)];
     }
 
     initLayer(layer) {
@@ -142,6 +143,10 @@ exports.CommandQueue = class {
         view.setUint8(3, inputData[5]);
         let result = view.getFloat32(0);
         return isNaN(result) ? 0 : result;
+    }
+
+    getFailedConnectionTypesLayer() {
+        return this._failedConnectionTypesLayer;
     }
 
     sendCommand(commandArray) {
@@ -375,6 +380,38 @@ exports.CommandQueue = class {
         return found;
     }
 
+    /**
+     * Process the inputData for the connected device information.
+     *
+     * Return true if there was an earlier connection but no connections are found now.
+    **/
+    receiveTypeMode(inputData) {
+        const isAssigned = function(assigned) {
+                // None, Port Error, Unknown, Initializing
+                return [0x7E, 0x7F, 0xFF, 0x7D].indexOf(assigned) === -1;
+            };
+        let assignedCount = 0;
+        let hadAssignment = false;
+        let p             = this._layers[this._pendingCommand.layer || 0];
+        for (let i = 0; i < 4; i++) {
+            let value    = inputData[5 + (i * 2)] || 0;
+            let assigned = parseInt(messageEncoder.byteString(value), 16);
+            if (!isAssigned(assigned)) {
+                p[i].mode = null;
+            }
+            p[i].assigned = assigned;
+            let j = i + 4;
+            value = inputData[5 + (j * 2)] || 0;
+            if ([7, 8].indexOf(value) === -1) {
+                hadAssignment = ([7, 8].indexOf(p[j].assigned) !== -1);
+            } else {
+                assignedCount++;
+            }
+            p[j].assigned = value;
+        }
+        return hadAssignment && (assignedCount === 0);
+    }
+
     receiveHandler(data) {
         let inputData = new Uint8Array(data);
         let id        = inputData[2];
@@ -417,22 +454,12 @@ exports.CommandQueue = class {
                 }
                 break;
             case constants.INPUT_DEVICE_GET_TYPE_MODE:
-                let p = this._layers[this._pendingCommand.layer || 0];
-                for (let i = 0; i < 4; i++) {
-                    let value    = inputData[5 + (i * 2)] || 0;
-                    let assigned = parseInt(messageEncoder.byteString(value), 16);
-                    p[i].assigned = assigned;
-                    if ([
-                            0x7E, // None
-                            0x7F, // Port Error
-                            0xFF, // Unknown
-                            0x7D  // Initializing
-                        ].indexOf(assigned) !== -1) {
-                        p[i].mode = null;
-                    }
-                    let j = i + 4;
-                    value = inputData[5 + (j * 2)] || 0;
-                    p[j].assigned = value;
+                if (this.receiveTypeMode(inputData)) {
+                    // Receive probably failed...
+                    console.log('Receive failed for layer:', this._pendingCommand.layer);
+                    this._failedConnectionTypesLayer = this._pendingCommand.layer;
+                } else if (this._failedConnectionTypesLayer === this._pendingCommand.layer) {
+                    this._failedConnectionTypesLayer = -1;
                 }
                 break;
             case constants.SYSTEM_COMMAND:
