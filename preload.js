@@ -294,10 +294,10 @@ require('./js/frontend/ide/plugins/simulator/ev3/io/Sound');
 require('./js/frontend/ide/plugins/simulator/ev3/io/Button');
 require('./js/frontend/ide/plugins/simulator/ev3/io/Buttons');
 require('./js/frontend/ide/plugins/simulator/ev3/io/Display');
-require('./js/frontend/ide/plugins/simulator/ev3/EV3');
+require('./js/frontend/ide/plugins/simulator/ev3/Plugin');
 require('./js/frontend/ide/plugins/simulator/ev3motors/io/MotorState');
 require('./js/frontend/ide/plugins/simulator/ev3motors/io/Motor');
-require('./js/frontend/ide/plugins/simulator/ev3motors/Motors');
+require('./js/frontend/ide/plugins/simulator/ev3motors/Plugin');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/Sensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/UnknownSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/ColorSensor');
@@ -308,8 +308,8 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/io/TouchSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/UltrasonicSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
-require('./js/frontend/ide/plugins/simulator/ev3sensors/Sensors');
-require('./js/frontend/ide/plugins/simulator/psp/PSP'),
+require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
+require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
 require('./js/frontend/ide/simulator/SimulatorConnection');
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');

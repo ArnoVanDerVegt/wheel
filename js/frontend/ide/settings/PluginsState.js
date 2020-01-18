@@ -46,7 +46,7 @@ exports.PluginsState = class extends Emitter {
                 uuid:    '975b784e-3886-11ea-a137-2e728ce88125',
                 group:   'EV3',
                 name:    'EV3 Motors',
-                path:    '../plugins/simulator/ev3motors/Motors',
+                path:    'ev3motors',
                 visible: true,
                 order:   1
             },
@@ -54,7 +54,7 @@ exports.PluginsState = class extends Emitter {
                 uuid:    'a8e77680-3886-11ea-a137-2e728ce88125',
                 group:   'EV3',
                 name:    'EV3',
-                path:    '../plugins/simulator/ev3/EV3',
+                path:    'ev3',
                 visible: true,
                 order:   2
             },
@@ -62,7 +62,7 @@ exports.PluginsState = class extends Emitter {
                 uuid:    'b643ac7c-3886-11ea-a137-2e728ce88125',
                 group:   'EV3',
                 name:    'EV3 Sensors',
-                path:    '../plugins/simulator/ev3sensors/Sensors',
+                path:    'ev3sensors',
                 visible: true,
                 order:   3
             },
@@ -70,8 +70,8 @@ exports.PluginsState = class extends Emitter {
                 uuid:    'bea9f98e-3886-11ea-a137-2e728ce88125',
                 group:   'PSP',
                 name:    'PSP',
-                path:    '../plugins/simulator/psp/PSP',
-                visible: true,
+                path:    'psp',
+                visible: false,
                 order:   4
             }
         ];

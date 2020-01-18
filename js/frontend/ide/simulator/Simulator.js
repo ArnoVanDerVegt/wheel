@@ -21,6 +21,15 @@ exports.Simulator = class extends DOMNode {
         this.initDOM(opts.parentNode || document.body);
     }
 
+    cleanPath(path) {
+        let valid  = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789';
+        let result = '';
+        for (let i = 0; i < path.length; i++) {
+            (valid.indexOf(path[i]) !== -1) && (result += path[i]);
+        }
+        return result;
+    }
+
     initPlugins() {
         let plugins  = this._settings.getPlugins().getSortedPlugins();
         let children = [];
@@ -37,7 +46,7 @@ exports.Simulator = class extends DOMNode {
                     }
                 );
                 children.push({
-                    type:      require(plugin.path).Plugin,
+                    type:      require('../plugins/simulator/' + this.cleanPath(plugin.path) + '/Plugin').Plugin,
                     plugin:    plugin,
                     ui:        this._ui,
                     brick:     this._brick,
