@@ -2,15 +2,17 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const standardModuleConstants = require('../../../shared/vm/modules/standardModuleConstants');
-const screenModuleConstants   = require('../../../shared/vm/modules/screenModuleConstants');
-const lightModuleConstants    = require('../../../shared/vm/modules/lightModuleConstants');
-const buttonModuleConstants   = require('../../../shared/vm/modules/buttonModuleConstants');
-const soundModuleConstants    = require('../../../shared/vm/modules/soundModuleConstants');
-const motorModuleConstants    = require('../../../shared/vm/modules/motorModuleConstants');
-const sensorModuleConstants   = require('../../../shared/vm/modules/sensorModuleConstants');
-const Sound                   = require('../../../shared/lib/Sound').Sound;
-const dispatcher              = require('../../lib/dispatcher').dispatcher;
+const standardModuleConstants    = require('../../../shared/vm/modules/standardModuleConstants');
+const screenModuleConstants      = require('../../../shared/vm/modules/screenModuleConstants');
+const lightModuleConstants       = require('../../../shared/vm/modules/lightModuleConstants');
+const buttonModuleConstants      = require('../../../shared/vm/modules/buttonModuleConstants');
+const soundModuleConstants       = require('../../../shared/vm/modules/soundModuleConstants');
+const motorModuleConstants       = require('../../../shared/vm/modules/motorModuleConstants');
+const sensorModuleConstants      = require('../../../shared/vm/modules/sensorModuleConstants');
+const pspModuleConstants         = require('../../../shared/vm/modules/pspModuleConstants');
+const multiplexerModuleConstants = require('../../../shared/vm/modules/multiplexerModuleConstants');
+const Sound                      = require('../../../shared/lib/Sound').Sound;
+const dispatcher                 = require('../../lib/dispatcher').dispatcher;
 
 exports.SimulatorModules = class {
     constructor() {
@@ -182,6 +184,26 @@ exports.SimulatorModules = class {
         return this;
     }
 
+    setupPspModule(vm) {
+        let sensors   = this._sensors;
+        let pspModule = this._modules[pspModuleConstants.MODULE_PSP];
+        if (!sensorModule) {
+            return this;
+        }
+        // -> this._events.push();
+        return this;
+    }
+
+    setupMultiplexerModule(vm) {
+        let sensors           = this._sensors;
+        let multiplexerModule = this._modules[multiplexerModuleConstants.MODULE_MULTIPLEXER];
+        if (!sensorModule) {
+            return this;
+        }
+        // -> this._events.push();
+        return this;
+    }
+
     setupModules(opts) {
         while (this._events.length) {
             this._events.pop()();
@@ -199,6 +221,8 @@ exports.SimulatorModules = class {
             .setupButtonModule(vm)
             .setupSoundModule(vm)
             .setupMotorModule(vm)
-            .setupSensorModule(vm);
+            .setupSensorModule(vm)
+            .setupPspModule(vm)
+            .setupMultiplexerModule(vm);
     }
 };
