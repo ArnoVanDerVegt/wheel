@@ -26,7 +26,6 @@ exports.Plugin = class extends SimulatorPlugin {
         dispatcher
             .on('VM.Start', this, this.onVMStart)
             .on('VM.Stop',  this, this.onVMStop);
-        this._simulator.registerPlugin('sensors', this);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
 

@@ -17,6 +17,7 @@ exports.SimulatorPlugin = class extends DOMNode {
         this._onStop              = opts.onStop;
         this._disconnectedTimeout = null;
         this._connected           = false;
+        this._simulator.registerPlugin(this._plugin.uuid, this);
      }
 
     getClassName() {

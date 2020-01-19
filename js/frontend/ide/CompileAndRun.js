@@ -215,7 +215,7 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     simulatorLoaded() {
-        this._simulator.getPlugin('ev3').getDisplay().drawLoaded(this._title);
+        this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay().drawLoaded(this._title);
     }
 
     filesProcessed(title) {
@@ -296,7 +296,7 @@ exports.CompileAndRun = class extends DOMUtils {
             this._vm = this.createVM(this._program);
             this.onBeforeRun(this._program);
             this.setRunProgramTitle('Stop');
-            this._simulator.getPlugin('ev3').getDisplay()
+            this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay()
                 .clearScreen()
                 .reset();
             this._vm.startRunInterval(this.stop.bind(this));
@@ -313,7 +313,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this.setRunProgramTitle('Run');
         this._vm.stop();
         this._motors && this._motors.reset();
-        let ev3Plugin = this._simulator.getPlugin('ev3');
+        let ev3Plugin = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125');
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

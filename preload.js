@@ -310,6 +310,16 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
+require('./js/frontend/ide/plugins/simulator/graph/io/CircularBuffer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/BarChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/BinaryChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/ColorBarChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/FillChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/LineChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/PointChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/SplineChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/Plugin'),
 require('./js/frontend/ide/simulator/SimulatorConnection');
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');

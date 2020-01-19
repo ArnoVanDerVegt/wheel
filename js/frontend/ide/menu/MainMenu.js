@@ -256,8 +256,15 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSimulatorMenu() {
-        let items = [];
+        let items     = [];
+        let lastGroup = null;
         this._settings.getPlugins().getSortedPlugins().forEach(function(plugin) {
+            if (lastGroup === null) {
+                lastGroup = plugin.group;
+            } else if (lastGroup !== plugin.group) {
+                lastGroup = plugin.group;
+                items.push({title: '-'});
+            }
             items.push({
                 title:   plugin.name,
                 onClick: function() {
@@ -267,7 +274,7 @@ exports.MainMenu = class extends MainMenu {
         });
         this._simulatorMenu = this.addMenu({
             title:     '^Simulator',
-            width:     '160px',
+            width:     '200px',
             withCheck: true,
             items:     items
         });

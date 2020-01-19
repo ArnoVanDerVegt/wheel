@@ -111,7 +111,6 @@ exports.Plugin = class extends SimulatorPlugin {
         this._brick
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
             .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
-        this._simulator.registerPlugin('motors', this);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
 

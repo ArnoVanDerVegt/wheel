@@ -70,7 +70,7 @@ exports.SimulatorModules = class {
     }
 
     setupStandardModule(vm) {
-        let display        = this._simulator.getPlugin('ev3').getDisplay();
+        let display        = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay();
         let self           = this;
         let standardModule = this._modules[standardModuleConstants.MODULE_STANDARD];
         if (!standardModule) {
@@ -84,7 +84,7 @@ exports.SimulatorModules = class {
     }
 
     setupScreenModule(vm) {
-        let display      = this._simulator.getPlugin('ev3').getDisplay();
+        let display      = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay();
         let self         = this;
         let screenModule = this._modules[screenModuleConstants.MODULE_SCREEN];
         if (!screenModule) {
@@ -109,7 +109,7 @@ exports.SimulatorModules = class {
     }
 
     setupLightModule(vm) {
-        let light       = this._simulator.getPlugin('ev3').getLight();
+        let light       = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getLight();
         let lightModule = this._modules[lightModuleConstants.MODULE_LIGHT];
         if (!lightModule) {
             return this;
@@ -121,7 +121,7 @@ exports.SimulatorModules = class {
     }
 
     setupButtonModule(vm) {
-        let buttons      = this._simulator.getPlugin('ev3').getButtons();
+        let buttons      = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getButtons();
         let buttonModule = this._modules[buttonModuleConstants.MODULE_BUTTON];
         if (!buttonModule) {
             return this;
@@ -134,7 +134,7 @@ exports.SimulatorModules = class {
     }
 
     setupSoundModule(vm) {
-        let sound       = this._simulator.getPlugin('ev3').getSound();
+        let sound       = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getSound();
         let self        = this;
         let soundModule = this._modules[soundModuleConstants.MODULE_SOUND];
         if (!soundModule) {
@@ -216,8 +216,8 @@ exports.SimulatorModules = class {
         this._vm        = vm;
         this._simulator = opts.simulator;
         this._modules   = opts.modules;
-        this._motors    = opts.simulator.getPlugin('motors');
-        this._sensors   = opts.simulator.getPlugin('sensors');
+        this._motors    = opts.simulator.getPluginByUuid('975b784e-3886-11ea-a137-2e728ce88125');
+        this._sensors   = opts.simulator.getPluginByUuid('b643ac7c-3886-11ea-a137-2e728ce88125');
         this
             .setupStandardModule(vm)
             .setupScreenModule(vm)

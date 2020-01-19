@@ -86,12 +86,12 @@ exports.Simulator = class extends DOMNode {
         dispatcher.dispatch('Settings.UpdateViewSettings');
     }
 
-    registerPlugin(name, plugin) {
-        this._plugins[name] = plugin;
+    registerPlugin(uuid, plugin) {
+        this._plugins[uuid] = plugin;
     }
 
-    getPlugin(name) {
-        return this._plugins[name] || null;
+    getPluginByUuid(uuid) {
+        return this._plugins[uuid] || null;
     }
 
     getVM() {

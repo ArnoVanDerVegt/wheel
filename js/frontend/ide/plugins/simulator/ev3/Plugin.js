@@ -18,7 +18,6 @@ exports.Plugin = class extends SimulatorPlugin {
         this._sound         = new Sound();
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
         this.initDOM(opts.parentNode);
-        this._simulator.registerPlugin('ev3', this);
     }
 
     initDOM(parentNode) {

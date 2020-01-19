@@ -67,12 +67,20 @@ exports.PluginsState = class extends Emitter {
                 order:   3
             },
             {
+                uuid:    '26ade4b0-3a07-11ea-a137-2e728ce88125',
+                group:   'Graph',
+                name:    'Sensor output graph',
+                path:    'graph',
+                visible: false,
+                order:   4
+            },
+            {
                 uuid:    'bea9f98e-3886-11ea-a137-2e728ce88125',
                 group:   'PSP',
                 name:    'PSP',
                 path:    'psp',
                 visible: false,
-                order:   4
+                order:   5
             }
         ];
     }

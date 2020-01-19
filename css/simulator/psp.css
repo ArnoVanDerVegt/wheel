@@ -1,7 +1,7 @@
 .simulator .psp {
     float:                          left;
     width:                          100%;
-    height:                         128px;
+    height:                         320px;
     display:                        none;
     margin:                         16px 0 16px 0;
     -webkit-user-select:            none;
@@ -76,7 +76,6 @@
     background-color:               var(--ui-background1);
     pointer-events:                 none;
 }
-
 .simulator .psp .device div.four-buttons {
     float:                          left;
     width:                          128px;
