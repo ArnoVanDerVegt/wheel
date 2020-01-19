@@ -20,11 +20,8 @@ exports.LineChartDrawer = class extends SplineChartDrawer {
 
         context.lineWidth = 2;
         context.beginPath();
-        for (let i = 0; i < 19; i++) {
-            if (i >= buffer.getCurrentSize()) {
-                break;
-            }
-            let x  = i * 13 + 6;
+        for (let i = 0; i < 22; i++) {
+            let x  = i * 13 - 6;
             let y0 = 94 * getValue(index - 1);
             let y1 = 94 * getValue(index);
             let y2 = 94 * getValue(index + 1);

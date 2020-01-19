@@ -17,23 +17,18 @@ exports.ChartDrawer = class {
             context.strokeStyle = colors[i];
             context.beginPath();
             context.moveTo(0, y);
-            context.lineTo(260, y);
+            context.lineTo(260 + 13, y);
             context.stroke();
         }
     }
 
     clear() {
-        this._context.clearRect(0, 0, 260, 96);
+        this._context.clearRect(0, 0, 260 + 13, 96);
         return this;
     }
 
     drawValueGrid() {
         this.drawGrid(['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 1)']);
-        return this;
-    }
-
-    drawBinaryGrid() {
-        this.drawGrid(['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0.5)']);
         return this;
     }
 

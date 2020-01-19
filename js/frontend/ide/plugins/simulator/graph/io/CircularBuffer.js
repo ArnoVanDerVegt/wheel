@@ -6,7 +6,7 @@
 exports.CircularBuffer = class {
     constructor(opts) {
         this._buffer        = [];
-        this._size          = opts.size || 21;
+        this._size          = opts.size || 23;
         this._currentOffset = 0;
     }
 
@@ -31,5 +31,9 @@ exports.CircularBuffer = class {
 
     getCurrentOffset() {
         return this._currentOffset;
+    }
+
+    getFull() {
+        return this._buffer.length >= this._size;
     }
 };

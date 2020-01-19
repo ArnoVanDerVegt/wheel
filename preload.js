@@ -232,6 +232,7 @@ require('./js/frontend/ide/dialogs/directory/DirectoryNewDialog');
 require('./js/frontend/ide/dialogs/ReplaceDialog');
 require('./js/frontend/ide/dialogs/download/components/ResourceLine');
 require('./js/frontend/ide/dialogs/download/DownloadDialog');
+require('./js/frontend/ide/dialogs/GraphDialog');
 require('./js/frontend/ide/menu/HelpOption');
 require('./js/frontend/ide/menu/MainMenu');
 require('./js/frontend/ide/editor/editors/Clipboard');

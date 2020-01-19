@@ -42,6 +42,7 @@ const LicenseDialog       = require('./dialogs/LicenseDialog').LicenseDialog;
 const DirectoryNewDialog  = require('./dialogs/directory/DirectoryNewDialog').DirectoryNewDialog;
 const ReplaceDialog       = require('./dialogs/ReplaceDialog').ReplaceDialog;
 const DownloadDialog      = require('./dialogs/download/DownloadDialog').DownloadDialog;
+const GraphDialog         = require('./dialogs/GraphDialog').GraphDialog;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -379,6 +380,7 @@ exports.IDE = class extends CompileAndRun {
         new LicenseDialog      ({getImage: getImage, ui: this._ui});
         new DirectoryNewDialog ({getImage: getImage, ui: this._ui});
         new ReplaceDialog      ({getImage: getImage, ui: this._ui});
+        new GraphDialog        ({getImage: getImage, ui: this._ui});
         new HelpDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DirectControlDialog({getImage: getImage, ui: this._ui, brick: this._brick});
         new ExploreDialog      ({getImage: getImage, ui: this._ui, brick: this._brick, settings: this._settings});

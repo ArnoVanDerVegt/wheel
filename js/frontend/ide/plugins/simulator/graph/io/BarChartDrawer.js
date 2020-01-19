@@ -15,11 +15,11 @@ exports.BarChartDrawer = class extends ChartDrawer {
         context.lineWidth   = 0.5;
 
         let index = buffer.getCurrentOffset();
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 21; i++) {
             if (i >= buffer.getCurrentSize()) {
                 break;
             }
-            let value = Math.min(buffer.getValue(index++), maxValue) / maxValue;
+            let value = Math.min(buffer.getValue(2 + index++), maxValue) / maxValue;
             let x     = i * 13 + 2;
             let y     = 96 * value;
             context.fillRect(x, 96 - y, 9, y);
