@@ -31,6 +31,7 @@ class Chart extends DOMNode {
         this._interval            = opts.interval;
         this._ui                  = opts.ui;
         this._type                = null;
+        this._mode                = null;
         this._time                = null;
         this._deltaTime           = 0;
         this._maxValue            = 1;
@@ -96,7 +97,7 @@ class Chart extends DOMNode {
         this._chartDrawers   = [];
     }
 
-    initType(type) {
+    initTypeAndMode(type, mode) {
         let img   = this._refs.img;
         let image = null;
 
@@ -111,9 +112,15 @@ class Chart extends DOMNode {
             case sensorModuleConstants.SENSOR_TYPE_NXT_COLOR:
             case sensorModuleConstants.SENSOR_TYPE_COLOR:
                 image = 'images/ev3/color.png';
-                this._gridDrawer   = this._colorBarDrawer;
-                this._chartDrawers = [this._colorBarDrawer];
-                this._maxValue     = 7;
+                if (mode === sensorModuleConstants.COLOR_COLOR) {
+                    this._gridDrawer   = this._colorBarDrawer;
+                    this._chartDrawers = [this._colorBarDrawer];
+                    this._maxValue     = 7;
+                } else {
+                    this._gridDrawer   = this._fillDrawer;
+                    this._chartDrawers = [this._fillDrawer, this._lineDrawer];
+                    this._maxValue     = 100;
+                }
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC:
             case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
@@ -150,6 +157,7 @@ class Chart extends DOMNode {
             this._gridDrawer  = null;
         }
         this._type = type;
+        this._mode = mode;
     }
 
     getLayer() {
@@ -174,8 +182,8 @@ class Chart extends DOMNode {
         this._deltaTime += deltaTime;
         if (this._deltaTime > interval) {
             let sensor = this._sensorPlugin.getSensor(this._layer, this._port);
-            if (sensor.getType() !== this._type) {
-                this.initType(sensor.getType());
+            if ((sensor.getType() !== this._type) || (sensor.getMode() !== this._mode)) {
+                this.initTypeAndMode(sensor.getType(), sensor.getMode());
             }
             this._buffer.add(sensor.read());
             while (this._deltaTime > interval) {

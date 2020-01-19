@@ -103,7 +103,7 @@ exports.InfraredSensor = class extends Sensor {
     }
 
     onResetTimeout() {
-        this._refs.infraredValueInput.setValue(0);
+        this._refs.colorValueInput.setValue(0);
         this._numberInputElement.value = 0;
         this._timeoutReset             = null;
         this._value                    = 0;

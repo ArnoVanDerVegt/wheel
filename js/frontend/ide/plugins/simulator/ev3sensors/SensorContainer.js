@@ -140,6 +140,10 @@ exports.SensorContainer = class extends DOMNode {
         this.onAssigned(type, null);
     }
 
+    getMode() {
+        return this._currentSensor ? this._currentSensor.getMode() : -1;
+    }
+
     setMode(mode) {
         if (this._currentSensor) {
             this._currentSensor.setMode(mode);

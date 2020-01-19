@@ -42,7 +42,8 @@ exports.SoundSensor = class extends Sensor {
     }
 
     onResetTimeout() {
-        this._timeoutReset = null;
-        this._value        = 0;
+        this._timeoutReset             = null;
+        this._value                    = 0;
+        this._numberInputElement.value = 0;
     }
 };
