@@ -22,7 +22,6 @@ mod_motor{a}_time_on:
     MOVE8_8(0, gModMotor{A}Ready_8)                                      // Motor {A} no longer ready
     CALL(modMotor{A}TimeOn)                                              // Motor {A} time on
     CALL(modMotorReadValue, {pn}, gModMotor{A}Discard_8, gModMotor{A}Currrent_32) // Update the current value with the actual value
-    MOVE8_8(1, gModMotor{A}Ready_8)
     SLEEP()
     JR(mod_motor{a}_loop)
 
@@ -31,7 +30,6 @@ mod_motor{a}_move_to:
     SUB32(gModMotor{A}Currrent_32, gModMotor{A}Target_32, lDelta_32)      // Motor {A} delta = target - current
     CALL(modMotor{A}MoveTo, lDelta_32)                                   // Motor {A} move to
     MOVE32_32(gModMotor{A}Target_32, gModMotor{A}Currrent_32)
-    MOVE8_8(1, gModMotor{A}Ready_8)
     SLEEP()
     JR(mod_motor{a}_loop)
 }
@@ -58,15 +56,20 @@ mod_motor{a}_move_degrees:
 
     PORT_CNV_OUTPUT({pn}, lLayer_8, lBitField_8, lInverted_8)
     OUTPUT_STEP_SPEED(lLayer_8, lBitField_8, lSpeed_8, 0, lDegrees_32, 0, gModMotor{A}Brake_8)
-mod_motor{a}_move_wait_loop:
+
     DATA32 lTime_32
     TIMER_WAIT(10, lTime_32)
     TIMER_READY(lTime_32)
+
+    MOVE8_8(0, gModMotor{A}Updated_8)
+mod_motor{a}_move_wait_loop:
+    SLEEP()
     JR_NEQ8(gModMotor{A}Updated_8, 0, mod_motor{a}_move_done)             // If motor is updated
     JR_NEQ8(gModMotor{A}Mode_8, 1, mod_motor{a}_move_done)                // If no longer mode = 2 then exit...
     OUTPUT_TEST(lLayer_8, lBitField_8, lBusy_8)
     JR_NEQ8(lBusy_8, 0, mod_motor{a}_move_wait_loop)
 mod_motor{a}_move_done:
+    MOVE8_8(1, gModMotor{A}Ready_8)
     MOVE8_8(0, gModMotor{A}Updated_8)
     MOVE8_8(0, gModMotor{A}Mode_8)                                       // Motor {A} mode 0
 }
@@ -79,13 +82,17 @@ subcall modMotor{A}TimeOn {
 
     PORT_CNV_OUTPUT({pn}, lLayer_8, lBitField_8, lInverted_8)
     OUTPUT_TIME_SPEED(lLayer_8, lBitField_8, gModMotor{A}Speed_8, 0, gModMotor{A}Time_32, 0, gModMotor{A}Brake_8)
+
+    DATA32 lTime_32
+    TIMER_WAIT(10, lTime_32)
+    TIMER_READY(lTime_32)
+
+    MOVE8_8(0, gModMotor{A}Updated_8)
 mod_motor{a}_time_wait_loop:
     OUTPUT_TEST(lLayer_8, lBitField_8, lBusy_8)
     JR_NEQ8(gModMotor{A}Updated_8, 0, mod_motor{a}_time_done)             // If motor is updated
     JR_NEQ8(gModMotor{A}Mode_8, 2, mod_motor{a}_time_done)                // If no longer mode = 1 then exit...
-    DATA32 lTime_32
-    TIMER_WAIT(10, lTime_32)
-    TIMER_READY(lTime_32)
+    SLEEP()
     JR_NEQ8(lBusy_8, 0, mod_motor{a}_time_wait_loop)
 mod_motor{a}_time_done:
     MOVE8_8(0, gModMotor{A}Updated_8)
