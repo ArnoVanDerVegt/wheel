@@ -32,29 +32,19 @@ exports.ToolbarTop = class extends Toolbar {
                                 ref:       imageEditor.setRef('undo'),
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:  tabIndex.IMAGE_UNDO,
-                                icon:      'icon-left',
+                                icon:      'icon-undo',
+                                className: 'toolbar-button',
                                 title:     'Undo',
+                                color:     ' ',
                                 disabled:  true,
                                 onClick:   imageEditor.onUndo.bind(imageEditor)
-                            }),
-                            this.addToolOptions({
-                                uiId:     imageEditor.getUIId.bind(imageEditor),
-                                tabIndex: tabIndex.IMAGE_TOOL,
-                                label:    'Tool:',
-                                onSelect: imageEditor.onSelectTool.bind(imageEditor),
-                                options: [
-                                    {title: 'Pen',    icon: 'icon-point'},
-                                    {title: 'Line',   icon: 'icon-line'},
-                                    {title: 'Rect',   icon: 'icon-rect'},
-                                    {title: 'Circle', icon: 'icon-circle'},
-                                    {title: 'Text',   icon: 'icon-text'},
-                                    {title: 'Select', icon: 'icon-select'}
-                                ]
                             }),
                             this.addButton({
                                 ref:       imageEditor.setRef('copy'),
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:  tabIndex.IMAGE_COPY,
+                                className: 'toolbar-button',
+                                color:     ' ',
                                 icon:      'icon-copy',
                                 title:     'Copy',
                                 disabled:  true,
@@ -64,10 +54,26 @@ exports.ToolbarTop = class extends Toolbar {
                                 ref:       imageEditor.setRef('paste'),
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:  tabIndex.IMAGE_PASTE,
+                                className: 'toolbar-button',
+                                color:     ' ',
                                 icon:      'icon-paste',
                                 title:     'Paste',
                                 disabled:  true,
                                 onClick:   imageEditor.onPaste.bind(imageEditor)
+                            }),
+                            this.addToolOptions({
+                                uiId:      imageEditor.getUIId.bind(imageEditor),
+                                tabIndex:  tabIndex.IMAGE_TOOL,
+                                label:     'Tool:',
+                                onSelect:  imageEditor.onSelectTool.bind(imageEditor),
+                                options: [
+                                    {title: 'Pen',    icon: 'icon-point'},
+                                    {title: 'Line',   icon: 'icon-line'},
+                                    {title: 'Rect',   icon: 'icon-rect'},
+                                    {title: 'Circle', icon: 'icon-circle'},
+                                    {title: 'Text',   icon: 'icon-text'},
+                                    {title: 'Select', icon: 'icon-select'}
+                                ]
                             }),
                             this.addToolOptions({
                                 uiId:     imageEditor.getUIId.bind(imageEditor),
@@ -116,7 +122,8 @@ exports.ToolbarTop = class extends Toolbar {
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:  tabIndex.IMAGE_VIEW_GRID,
                                 icon:      'icon-grid',
-                                className: 'active',
+                                className: 'toolbar-button active',
+                                color:     ' ',
                                 title:     'Grid',
                                 onClick:   imageEditor.onSelectGrid.bind(imageEditor)
                             }),
@@ -125,6 +132,8 @@ exports.ToolbarTop = class extends Toolbar {
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:  tabIndex.IMAGE_VIEW_SOURCE,
                                 icon:      'icon-binary',
+                                className: 'toolbar-button',
+                                color:     ' ',
                                 title:     'Binary',
                                 onClick:   imageEditor.onSelectMeta.bind(imageEditor)
                             })

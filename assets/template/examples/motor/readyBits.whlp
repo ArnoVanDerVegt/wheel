@@ -1,0 +1,25 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This demo shows how to use motorReadyBits to check if motors reached their target position.
+
+#project "Motor moveTo demo"
+
+#include "lib/motor.whl"
+
+#display "motors"
+
+proc main()
+    motorSetSpeed(OUTPUT_A, 10) ; Set the speed of motor A
+    motorSetSpeed(OUTPUT_B, 50) ; Set the speed of motor B
+
+    motorMoveTo(OUTPUT_A, 360) ; Turn motor A 360 degrees
+    motorMoveTo(OUTPUT_B, 360) ; Turn motor B 360 degrees
+
+    waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
+
+    motorMoveTo(OUTPUT_A, 720) ; Turn motor A another 360 degrees, from 360 to 720
+    motorMoveTo(OUTPUT_B, 0)   ; Move motor B back to 0
+
+    waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
+end

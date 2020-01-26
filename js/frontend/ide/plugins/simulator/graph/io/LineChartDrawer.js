@@ -9,11 +9,8 @@ exports.LineChartDrawer = class extends SplineChartDrawer {
         let getValue = function(index) {
                 return Math.min(buffer.getValue(index), maxValue) / maxValue;
             };
-        let context  = this._context;
-        let gradient = context.createLinearGradient(0, 0, 0, 96);
-        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.75)');
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
-        context.strokeStyle = gradient;
+        let context = this._context;
+        context.strokeStyle = '#E74C3C';
 
         let index = buffer.getCurrentOffset();
         let first = true;

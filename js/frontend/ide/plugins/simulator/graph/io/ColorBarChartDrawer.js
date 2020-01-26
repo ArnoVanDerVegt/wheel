@@ -28,13 +28,13 @@ exports.ColorBarChartDrawer = class extends ChartDrawer {
                 continue;
             }
             let x     = i * 13 + 2;
-            let y     = 96 * value / maxValue;
+            let y     = 48 - 12;
             let color = colors[value];
             context.fillStyle   = 'rgb(' + color + ')';
             context.strokeStyle = 'rgba(' + color + ', 0.6)';
             context.lineWidth   = 0.5;
-            context.fillRect(x, 96 - y, 9, y);
-            context.strokeRect(x + 0.5, 96 - y, 9, y);
+            context.fillRect(x, y, 9, 24);
+            context.strokeRect(x + 0.5, y, 9, 24);
         }
     }
 };

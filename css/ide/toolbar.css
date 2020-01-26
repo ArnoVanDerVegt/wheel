@@ -7,3 +7,67 @@
     border:                         var(--ui-border1);
     border-width:                   0 0 1px 0;
 }
+.resource-options .tool-options input[type="button"].icon-button.blue,
+.resource-options .tool-options input {
+    opacity:                        0;
+    transition:                     opacity .5s;
+}
+.resource-options .tool-options input[type="button"].icon-button.blue,
+.resource-options .tool-options input,
+.resource-options input.toolbar-button {
+    background-color:               transparent;
+    border:                         2px solid transparent;
+    width:                          24px;
+    height:                         24px;
+    border-radius:                  12px;
+    box-shadow:                     none;
+    transition:                     border-color 0.2s;
+}
+.resource-options .tool-options:hover input[type="button"].icon-button.blue,
+.resource-options .tool-options:hover input {
+    opacity:                        1;
+}
+.resource-options input.toolbar-button:hover,
+.resource-options .tool-options input[type="button"].icon-button.blue:hover,
+.resource-options .tool-options input:hover,
+.resource-options input.toolbar-button.focus {
+    border:                         2px solid var(--color-blue);
+}
+.resource-options input.toolbar-button.active,
+.resource-options .tool-options input[type="button"].icon-button.blue.active,
+.resource-options .tool-options input.active {
+    z-index:                        100;
+    opacity:                        1;
+}
+/*.resource-options input.toolbar-button.active,*/
+.resource-options .tool-options:hover input[type="button"].icon-button.blue.active,
+.resource-options .tool-options:hover input.active {
+    border-color:                   var(--color-green);
+}
+.resource-options .tool-options input[type="button"].icon-button.blue.active,
+.resource-options .tool-options input.active {
+   position:                        absolute;
+    left:                           0;
+    top:                            0;
+ }
+.resource-options .tool-options {
+    position:                       relative;
+    background-color:               transparent;
+    border-radius:                  12px;
+    box-shadow:                     none;
+    max-width:                      24px;
+    transition:                     max-width .5s;
+    height:                         24px;
+    overflow:                       hidden;
+}
+.resource-options .tool-options:hover {
+    max-width:                      180px;
+}
+.resource-options .tool-options:hover input[type="button"].icon-button.blue.active {
+    position:                       static;
+    left:                           auto;
+    top:                            auto;
+}
+.resource-options body.ide.dark .icon-button {
+    opacity:                        0.5;
+}

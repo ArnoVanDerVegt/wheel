@@ -18,7 +18,7 @@
 }
 .tabs .tabs-content .tab {
     float:                          left;
-    position: relative;
+    position:                       relative;
     margin:                         10px 0 0 0;
     padding:                        0 2px 0 2px;
     height:                         calc(100% - 10px);

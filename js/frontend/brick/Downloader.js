@@ -78,6 +78,7 @@ exports.Downloader = class {
         let remotePath      = path.join(opts.remotePath, opts.remoteDirectory);
         let programFilename = opts.remoteDirectory;
         programFilename = programFilename.substr(0, 1).toUpperCase() + programFilename.substr(1 - programFilename.length);
+        console.log(path.join(opts.localPath, 'vm/vm.rbf'));
         opts.brick.download(
             path.join(opts.localPath, 'vm/vm.rbf'),
             path.join(remotePath, programFilename + '.rbf'),

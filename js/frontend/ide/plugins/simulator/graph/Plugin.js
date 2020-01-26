@@ -113,7 +113,7 @@ class Chart extends DOMNode {
             case sensorModuleConstants.SENSOR_TYPE_COLOR:
                 image = 'images/ev3/color.png';
                 if (mode === sensorModuleConstants.COLOR_COLOR) {
-                    this._gridDrawer   = this._colorBarDrawer;
+                    this._gridDrawer   = this._binaryDrawer;
                     this._chartDrawers = [this._colorBarDrawer];
                     this._maxValue     = 7;
                 } else {
@@ -210,6 +210,14 @@ class Chart extends DOMNode {
         this._time = Date.now();
         window.requestAnimationFrame(this.onAnimate.bind(this));
     }
+
+    toJSON() {
+        return {
+            layer:    this._layer,
+            port:     this._port,
+            interval: this._interval
+        }
+    }
 }
 
 exports.Plugin = class extends SimulatorPlugin {
@@ -223,6 +231,17 @@ exports.Plugin = class extends SimulatorPlugin {
             .addEventListener('Brick.Connected',    this, this.onBrickConnected)
             .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
+        let charts = this._plugin.charts;
+        if (charts) {
+            charts.forEach && charts.forEach(
+                function(chart) {
+                    if (('layer' in chart) && ('port' in chart) && ('interval' in chart)) {
+                        this.initChart(chart);
+                    }
+                },
+                this
+            );
+        }
     }
 
     initTitle() {
@@ -300,6 +319,11 @@ exports.Plugin = class extends SimulatorPlugin {
 
     addChart(chart) {
         this._charts.push(chart);
+        let charts = [];
+        this._charts.forEach(function(chart) {
+            charts.push(chart.toJSON());
+        });
+        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     removeChart(chart) {

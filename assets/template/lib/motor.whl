@@ -3,35 +3,51 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
 ; @const The motor module.
-#define MODULE_MOTOR     6
+#define MODULE_MOTOR          6
 
 ; @const Module calls to control the motors.
-#define MOTOR_SET_TYPE      0
-#define MOTOR_SET_SPEED     1
-#define MOTOR_SET_BRAKE     2
-#define MOTOR_GET_TYPE      3
-#define MOTOR_RESET         4
-#define MOTOR_MOVE_TO       5
-#define MOTOR_ON            6
-#define MOTOR_TIME_ON       7
-#define MOTOR_STOP          8
-#define MOTOR_READ          9
-#define MOTOR_READY        10
-#define MOTOR_READY_BITS   11
+#define MOTOR_SET_TYPE        0
+#define MOTOR_SET_SPEED       1
+#define MOTOR_SET_BRAKE       2
+#define MOTOR_GET_TYPE        3
+#define MOTOR_RESET           4
+#define MOTOR_MOVE_TO         5
+#define MOTOR_ON              6
+#define MOTOR_TIME_ON         7
+#define MOTOR_STOP            8
+#define MOTOR_READ            9
+#define MOTOR_READY          10
+#define MOTOR_READY_BITS     11
 
 ; @const Motor types.
-#define MOTOR_MEDIUM        7
-#define MOTOR_LARGE         8
+#define MOTOR_MEDIUM          7
+#define MOTOR_LARGE           8
 
 ; @const The motor outputs.
-#define OUTPUT_A            0
-#define OUTPUT_B            1
-#define OUTPUT_C            2
-#define OUTPUT_D            3
+#define OUTPUT_A              0
+#define OUTPUT_B              1
+#define OUTPUT_C              2
+#define OUTPUT_D              3
+
+#define MOTOR_READY_BITS_A    0b0001
+#define MOTOR_READY_BITS_B    0b0010
+#define MOTOR_READY_BITS_AB   0b0011
+#define MOTOR_READY_BITS_C    0b0100
+#define MOTOR_READY_BITS_AC   0b0101
+#define MOTOR_READY_BITS_BC   0b0110
+#define MOTOR_READY_BITS_ABC  0b0111
+#define MOTOR_READY_BITS_D    0b1000
+#define MOTOR_READY_BITS_AD   0b1001
+#define MOTOR_READY_BITS_BD   0b1010
+#define MOTOR_READY_BITS_ABD  0b1011
+#define MOTOR_READY_BITS_CD   0b1100
+#define MOTOR_READY_BITS_ACD  0b1101
+#define MOTOR_READY_BITS_BCD  0b1110
+#define MOTOR_READY_BITS_ABCD 0b1111
 
 ; @const Brake or coast the motor.
-#define MOTOR_BRAKE         0
-#define MOTOR_COAST         1
+#define MOTOR_BRAKE           0
+#define MOTOR_COAST           1
 
 ; @proc             Set the motor type.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
@@ -210,4 +226,11 @@ end
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
 proc motorReadyBits(number bits)
     ret motorLayerReadyBits(0, bits)
+end
+
+; @proc             Wait until the given motors have reached their targets.
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+proc waitForMotors(number bits)
+    while motorReadyBits(bits) == 0
+    end
 end

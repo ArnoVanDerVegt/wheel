@@ -47,11 +47,15 @@
 .editor .source-wrapper .resource-wrapper .resource-options.top .top-options.right,
 .editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.right {
     float:                          right;
+    position:                       relative;
     margin-right:                   8px;
 }
 .editor .source-wrapper .resource-wrapper .resource-options.bottom,
 .editor .source-wrapper .code-mirror-wrapper .resource-options.bottom {
     border-width:                   1px 0 0 0;
+}
+.resource-options .tool-options.view-output input[type="button"].button {
+    width:                          60px;
 }
 .editor .source-wrapper .resource-wrapper .resource-options.top .top-options.hidden,
 .editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.hidden,
@@ -323,7 +327,7 @@ body.no-simulator .editor-wrapper .continue-button-wrapper {
 .icon-button.icon-play {
     margin-left:                    6px;
 }
-.icon-button.icon-left {
+.icon-button.icon-undo {
     margin:                         8px 2px 0 8px;
 }
 .icon-button.icon-delete,

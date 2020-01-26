@@ -59,6 +59,7 @@ exports.ExploreDialog = class extends Dialog {
                     label:      false,
                     onSelect:   this.onSelectLeftDetail.bind(this),
                     className:  'left-view',
+                    color:      'green',
                     options: [
                         {title: 'Normal',   icon: 'icon-list'},
                         {title: 'Detailed', icon: 'icon-list-detail'}
@@ -109,6 +110,7 @@ exports.ExploreDialog = class extends Dialog {
                     label:      false,
                     onSelect:   this.onSelectRightDetail.bind(this),
                     className:  'right-view',
+                    color:      'green',
                     options: [
                         {title: 'Normal',   icon: 'icon-list'},
                         {title: 'Detailed', icon: 'icon-list-detail'}

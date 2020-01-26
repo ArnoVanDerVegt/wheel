@@ -74,7 +74,8 @@ exports.SimulatorToolbar = class extends DOMNode {
             ui:       this._ui,
             uiId:     1,
             tabIndex: tabIndex.LAYER_1_BUTTON,
-            options:  options
+            options:  options,
+            color:    'green'
         });
         this.create(
             parentNode,

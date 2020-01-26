@@ -21,15 +21,15 @@
     border-radius:                  2px;
     margin:                         0 0 8px 0;
     padding:                        4px 0 0 0;
-    background-color:               var(--sensor-background2);
+    background-color:               var(--sensor-background1);
     box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .simulator .graph .chart .chart-title {
     float:                          left;
     width:                          100%;
     height:                         32px;
-    padding:                        0 0 0 4px;
-    background-color:               var(--sensor-background1);
+    padding:                        0;
+    background-color:               var(--ui-background2);
     border-radius:                  0 0 2px 2px;
 }
 .simulator .graph .chart .chart-title img,

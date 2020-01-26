@@ -33,6 +33,7 @@ exports.FileDialog = class extends Dialog {
                         tabIndex: 1,
                         tool:     this._settings.getFilesDetail() ? 1 : 0,
                         label:    'View:',
+                        color:    'green',
                         onSelect: this.onSelectDetail.bind(this),
                         options: [
                             {title: 'Normal',   icon: 'icon-list'},

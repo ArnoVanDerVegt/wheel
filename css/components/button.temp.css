@@ -1,0 +1,443 @@
+input[type="button"].button.green,
+input[type="button"].icon-button.green {
+    border:                         1px solid var(--color-green);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-green);
+}
+input[type="button"].button.green:active,
+input[type="button"].icon-button.green:active {
+    border-color:                   var(--color-green-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.green.focus:active,
+input[type="button"].icon-button.green.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-green-pressed);
+}
+input[type="button"].button.active.focus.green,
+input[type="button"].icon-button.active.focus.green {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-green-active);
+}
+input[type="button"].button.active.green,
+input[type="button"].icon-button.active.green {
+    border-color:                   var(--color-green-active);
+    background-color:               var(--color-green-active);
+}
+input[type="button"].button.in-active.green,
+input[type="button"].icon-button.in-active.green {
+    border-color:                   var(--color-green-in-active);
+    background-color:               var(--color-green-in-active);
+}
+
+input[type="button"].button.blue,
+input[type="button"].icon-button.blue {
+    border:                         1px solid var(--color-blue);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-blue);
+}
+input[type="button"].button.blue:active,
+input[type="button"].icon-button.blue:active {
+    border-color:                   var(--color-blue-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.blue.focus:active,
+input[type="button"].icon-button.blue.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-blue-pressed);
+}
+input[type="button"].button.active.focus.blue,
+input[type="button"].icon-button.active.focus.blue {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-blue-active);
+}
+input[type="button"].button.active.blue,
+input[type="button"].icon-button.active.blue {
+    border-color:                   var(--color-blue-active);
+    background-color:               var(--color-blue-active);
+}
+input[type="button"].button.in-active.blue,
+input[type="button"].icon-button.in-active.blue {
+    border-color:                   var(--color-blue-in-active);
+    background-color:               var(--color-blue-in-active);
+}
+
+input[type="button"].button.gray {
+    border:                         var(--ui-border3);
+    color:                          var(--ui-color2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.gray:active {
+    border-color:                   var(--ui-border2);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.gray.focus:active, {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.focus.gray {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.in-active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+
+input[type="button"].button.dark-green {
+    border:                         2px solid var(--color-green);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-dark-green);
+}
+input[type="button"].button.dark-green:active {
+    border-color:                   var(--color-dark-green-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.dark-green.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-dark-green-pressed);
+}
+input[type="button"].button.active.focus.dark-green {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-dark-green-active);
+}
+input[type="button"].button.active.dark-green {
+    border-color:                   var(--color-dark-green-active);
+    background-color:               var(--color-dark-green-active);
+}
+input[type="button"].button.in-active.dark-green {
+    border-color:                   var(--color-dark-green-in-active);
+    background-color:               var(--color-dark-green-in-active);
+}
+
+input[type="button"].button.disabled,
+input[type="button"].icon-button.disabled {
+    opacity:                        var(--button-disabled-opacity);
+    cursor:                         default;
+    pointer-events:                 none;
+}
+
+input[type="button"].button {
+    float:                          left;
+    position:                       relative;
+    border-radius:                  3px;
+    box-shadow:                     var(--button-shadow);
+    transition:                     transform 0.1s, background-color 0.1s;
+    position:                       relative;
+    padding:                        0 8px 0 8px;
+    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
+    font-size:                      15px;
+    text-transform:                 none;
+    height:                         24px;
+    line-height:                    22px;
+    cursor:                         pointer;
+    outline:                        none;
+    border:                         0;
+    -webkit-user-select:            none;
+}
+input[type="button"].button.focus {
+    border:                         var(--focus-border-dotted);
+}
+
+/* Icon button */
+input[type="button"].icon-button {
+    float:                          left;
+    width:                          24px;
+    height:                         24px;
+    border:                         0;
+    border-radius:                  3px;
+    box-shadow:                     var(--button-shadow);
+    background-repeat:              no-repeat;
+    /*background-position:            0 0;*/
+    cursor:                         pointer;
+    outline:                        none;
+    transition:                     transform 0.1s, background-color 0.1s;
+}
+input[type="button"].icon-button.focus {
+    border:                         var(--focus-border-dotted);
+}
+input[type="button"].icon-button.disabled {
+    opacity:                        var(--button-disabled-opacity);
+    cursor:                         default;
+    pointer-events:                 none;
+}
+input[type="button"].icon-button.in-active {
+    opacity:                        var(--button-in-active-opacity);
+}
+
+.icon-button.icon-undo {
+    margin-left:                    8px;
+}
+.icon-button.icon-add {
+    background-image:               url('images/buttons/add.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-left {
+    background-image:               url('images/buttons/leftBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-left {
+    background-image:               url('images/buttons/leftWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-right {
+    background-image:               url('images/buttons/right.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-point {
+    background-image:               url('images/buttons/pointBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-point {
+    background-image:               url('images/buttons/pointWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-circle {
+    background-image:               url('images/buttons/circleBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-circle {
+    background-image:               url('images/buttons/circleWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-rect {
+    background-image:               url('images/buttons/rectBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-rect {
+    background-image:               url('images/buttons/rectWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-line {
+    background-image:               url('images/buttons/lineBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-line {
+    background-image:               url('images/buttons/lineWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-fill-white {
+    background-image:               url('images/buttons/fillWhiteBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-fill-white {
+    background-image:               url('images/buttons/fillWhiteWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-fill-black {
+    background-image:               url('images/buttons/fillBlackBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-fill-black {
+    background-image:               url('images/buttons/fillBlackWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-line-white {
+    background-image:               url('images/buttons/lineWhiteWhite.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-line-white {
+    background-image:               url('images/buttons/lineWhiteBlack.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-line-black {
+    background-image:               url('images/buttons/lineBlackBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-line-black {
+    background-image:               url('images/buttons/lineBlackWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-line-transparent {
+    background-image:               url('images/buttons/lineTransparent.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-size1 {
+    background-image:               url('images/buttons/size1Black.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-size1 {
+    background-image:               url('images/buttons/size1White.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-size2 {
+    background-image:               url('images/buttons/size2Black.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-size2 {
+    background-image:               url('images/buttons/size2White.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-size3 {
+    background-image:               url('images/buttons/size3Black.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-size3 {
+    background-image:               url('images/buttons/size3White.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-size4 {
+    background-image:               url('images/buttons/size4Black.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-size4 {
+    background-image:               url('images/buttons/size4White.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-select {
+    background-image:               url('images/buttons/selectBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-select {
+    background-image:               url('images/buttons/selectWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-grid {
+    background-image:               url('images/buttons/gridBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-grid {
+    background-image:               url('images/buttons/gridWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryBlack.svg');
+    background-position:            1px 1px;
+}
+body.ide.dark .icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryWhite.svg');
+    background-position:            1px 1px;
+}
+.icon-button.icon-copy {
+    background-image:               url('images/buttons/copyBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-copy {
+    background-image:               url('images/buttons/copyWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-undo {
+    background-image:               url('images/buttons/undoBlack.svg');
+    background-position:            2px 1px;
+}
+body.ide.dark .icon-button.icon-undo {
+    background-image:               url('images/buttons/undoWhite.svg');
+    background-position:            2px 1px;
+}
+.icon-button.icon-text {
+    background-image:               url('images/buttons/textBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-text {
+    background-image:               url('images/buttons/textWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-text1 {
+    background-image:               url('images/buttons/text1.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-text2 {
+    background-image:               url('images/buttons/text2.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-text3 {
+    background-image:               url('images/buttons/text3.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-magnifier1 {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="9" y1="7" x2="4" y2="18" style="stroke:rgb(0,0,0);stroke-width:2" stroke-linecap="round" />    <circle cx="9" cy="7" r="6" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">1</text></svg>');
+    background-position:            0 0;
+}
+.icon-button.icon-magnifier2 {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="9" y1="7" x2="4" y2="18" style="stroke:rgb(0,0,0);stroke-width:2" stroke-linecap="round" />    <circle cx="9" cy="7" r="6" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">2</text></svg>');
+    background-position:            0 0;
+}
+.icon-button.icon-magnifier3 {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="9" y1="7" x2="4" y2="18" style="stroke:rgb(0,0,0);stroke-width:2" stroke-linecap="round" />    <circle cx="9" cy="7" r="6" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">3</text></svg>');
+    background-position:            0 0;
+}
+.icon-button.icon-magnifier4 {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="9" y1="7" x2="4" y2="18" style="stroke:rgb(0,0,0);stroke-width:2" stroke-linecap="round" />    <circle cx="9" cy="7" r="6" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">4</text></svg>');
+    background-position:            0 0;
+}
+.icon-button.icon-play {
+    background-image:               url('images/buttons/playBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-play {
+    background-image:               url('images/buttons/playWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark .icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutWhite.svg');
+    background-position:            2px 2px;
+}
+.icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-list {
+    background-image:               url('images/buttons/listBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-list {
+    background-image:               url('images/buttons/listWhite.svg');
+    background-position:            0 0;
+}
+.icon-button.icon-list-detail {
+    background-image:               url('images/buttons/listDetailBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark .icon-button.icon-list-detail {
+    background-image:               url('images/buttons/listDetailWhite.svg');
+    background-position:            0 0;
+}
+input[type="button"].icon-button.icon-copy,
+input[type="button"].icon-button.icon-copy.in-active,
+input[type="button"].icon-button.icon-play {
+    margin-left:                    12px;
+}

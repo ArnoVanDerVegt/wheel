@@ -33,9 +33,11 @@ exports.ToolbarBottomViewer = class extends Toolbar {
                 children: [
                     this.addFileSaved(wheelEditor),
                     {
-                        type:     ToolOptions,
-                        ui:       this._ui,
-                        uiId:     1,
+                        type:      ToolOptions,
+                        ui:        this._ui,
+                        color:     'green',
+                        className: 'view-output',
+                        uiId:      1,
                         options:  [
                             {
                                 ui:       this._ui,
