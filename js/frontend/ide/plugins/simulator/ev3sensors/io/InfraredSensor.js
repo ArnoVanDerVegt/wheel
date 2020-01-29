@@ -48,10 +48,11 @@ exports.InfraredSensor = class extends Sensor {
 
     setValue(value) {
         if (this._mode === sensorModuleConstants.INFRARED_BUTTON) {
-           this._value = Math.min(Math.max(value, 0), 11);
-           this._refs.infraredValueInput.setValue(this._value);
+            this._value = Math.min(Math.max(value, 0), 11);
+            this._refs.infraredValueInput.setValue(this._value);
         } else {
-           this._value = value;
+            this._numberInputElement.value = value;
+            this._value                    = value;
         }
     }
 

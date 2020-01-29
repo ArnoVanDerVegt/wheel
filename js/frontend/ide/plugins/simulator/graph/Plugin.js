@@ -216,7 +216,7 @@ class Chart extends DOMNode {
             layer:    this._layer,
             port:     this._port,
             interval: this._interval
-        }
+        };
     }
 }
 

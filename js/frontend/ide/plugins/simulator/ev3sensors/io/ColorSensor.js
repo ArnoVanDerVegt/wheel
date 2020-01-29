@@ -48,10 +48,11 @@ exports.ColorSensor = class extends Sensor {
 
     setValue(value) {
        if (this._mode === sensorModuleConstants.COLOR_COLOR) {
-           this._value = Math.min(Math.max(value, 0), 7);
-           this._refs.colorValueInput.setValue(this._value);
+            this._value = Math.min(Math.max(value, 0), 7);
+            this._refs.colorValueInput.setValue(this._value);
        } else {
-           this._value = value;
+            this._value                    = value;
+            this._numberInputElement.value = value;
        }
     }
 
