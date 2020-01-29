@@ -50,6 +50,8 @@ exports.ToolOptions = class extends DOMNode {
                 value:     option.value || '',
                 title:     option.title,
                 className: (i === this._tool) ? 'active' : 'in-active',
+                onFocus:   option.onFocus,
+                onBlur:    option.onBlur,
                 onClick:   (function(index) {
                     this.onSelectTool(index);
                     option.onClick && option.onClick();

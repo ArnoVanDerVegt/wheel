@@ -24,13 +24,16 @@
     transition:                     border-color 0.2s;
 }
 .resource-options .tool-options:hover input[type="button"].icon-button.blue,
-.resource-options .tool-options:hover input {
+.resource-options .tool-options.focus input[type="button"].icon-button.blue,
+.resource-options .tool-options:hover input,
+.resource-options .tool-options.focus input {
     opacity:                        1;
 }
 .resource-options input.toolbar-button:hover,
+.resource-options input.toolbar-button.focus,
 .resource-options .tool-options input[type="button"].icon-button.blue:hover,
-.resource-options .tool-options input:hover,
-.resource-options input.toolbar-button.focus {
+.resource-options .tool-options input[type="button"].icon-button.blue.focus,
+.resource-options .tool-options input:hover {
     border:                         2px solid var(--color-blue);
 }
 .resource-options input.toolbar-button.active,
@@ -41,7 +44,9 @@
 }
 /*.resource-options input.toolbar-button.active,*/
 .resource-options .tool-options:hover input[type="button"].icon-button.blue.active,
-.resource-options .tool-options:hover input.active {
+.resource-options .tool-options.focus input[type="button"].icon-button.blue.active,
+.resource-options .tool-options:hover input.active,
+.resource-options .tool-options.focus input.active {
     border-color:                   var(--color-green);
 }
 .resource-options .tool-options input[type="button"].icon-button.blue.active,
@@ -60,10 +65,12 @@
     height:                         24px;
     overflow:                       hidden;
 }
-.resource-options .tool-options:hover {
+.resource-options .tool-options:hover,
+.resource-options .tool-options.focus {
     max-width:                      180px;
 }
-.resource-options .tool-options:hover input[type="button"].icon-button.blue.active {
+.resource-options .tool-options:hover input[type="button"].icon-button.blue.active,
+.resource-options .tool-options.focus input[type="button"].icon-button.blue.active {
     position:                       static;
     left:                           auto;
     top:                            auto;

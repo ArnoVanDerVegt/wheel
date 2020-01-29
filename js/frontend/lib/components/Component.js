@@ -46,6 +46,9 @@ exports.Component = class extends DOMNode {
         this._color         = ('color'  in opts) ? opts.color  : 'green';
         this._className     = opts.className     || '';
         this._baseClassName = opts.baseClassName || '';
+        this._parentNode    = opts.parentNode;
+        this._onFocus       = opts.onFocus;
+        this._onBlur        = opts.onBlur;
         this._onClick       = opts.onClick;
         this._onKeyDown     = opts.onKeyDown;
         this._onKeyUp       = opts.onKeyUp;
@@ -151,11 +154,13 @@ exports.Component = class extends DOMNode {
     onFocus() {
         this._focus             = true;
         this._element.className = this.getClassName();
+        this._onFocus && this._onFocus.call(this);
     }
 
     onBlur() {
         this._focus             = false;
         this._element.className = this.getClassName();
+        this._onBlur && this._onBlur.call(this);
     }
 
     onClick(event) {

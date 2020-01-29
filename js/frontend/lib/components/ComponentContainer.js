@@ -47,6 +47,14 @@ exports.ComponentContainer = class extends Component {
         if (!('uiId' in opts)) {
             opts.uiId = this._uiId;
         }
+        opts.options.forEach(function(option) {
+            option.onFocus = function() {
+                this._parentNode.className = 'tool-options focus';
+            }
+            option.onBlur = function() {
+                this._parentNode.className = 'tool-options';
+            }
+        });
         return opts;
     }
 };
