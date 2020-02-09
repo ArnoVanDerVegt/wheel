@@ -8,7 +8,7 @@ exports.VMModule = class extends Emitter {
     constructor(opts) {
         super();
         this._vm     = opts.vm;
-        this._brick  = opts.brick;
+        this._device = opts.device;
         this._vmData = opts.vm.getVMData();
     }
 };

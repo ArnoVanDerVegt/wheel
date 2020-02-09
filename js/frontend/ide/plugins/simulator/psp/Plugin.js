@@ -6,8 +6,8 @@ const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../../../lib/dom').DOMNode;
 const Button              = require('../../../../lib/components/Button').Button;
 const Component           = require('../../../../lib/components/Component').Component;
-const SimulatorPlugin     = require('../SimulatorPlugin').SimulatorPlugin;
 const getImage            = require('../../../data/images').getImage;
+const SimulatorPlugin     = require('../lib/SimulatorPlugin').SimulatorPlugin;
 
 const PSP_BUTTON_CIRCLE   =  0;
 const PSP_BUTTON_CROSS    =  1;
@@ -108,9 +108,9 @@ exports.Plugin = class extends SimulatorPlugin {
         this._baseClassName       = 'psp';
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
-        this._brick
-            .addEventListener('Brick.Connected',    this, this.onBrickConnected)
-            .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
+        this._device
+            .addEventListener('EV3.Connected',    this, this.onEV3Connected)
+            .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
 
@@ -264,14 +264,14 @@ exports.Plugin = class extends SimulatorPlugin {
         );
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         if (this._disconnectedTimeout) {
             clearTimeout(this._disconnectedTimeout);
             this._disconnectedTimeout = null;
         }
     }
 
-    onBrickDisconnected() {
+    onEV3Disconnected() {
     }
 
     onPluginSettings() {

@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const ideRoutes = require('../../../backend/routes/ide').ideRoutes;
-const ev3Routes = require('../../../backend/routes/ev3').ev3Routes;
+const ideRoutes       = require('../../../backend/routes/ide').ideRoutes;
+const ev3Routes       = require('../../../backend/routes/ev3').ev3Routes;
+const poweredUpRoutes = require('../../../backend/routes/poweredUp').poweredUpRoutes;
 
 const routes = {
         // IDE...
@@ -40,7 +41,18 @@ const routes = {
         'ev3/stop-all-motors':            ev3Routes.stopAllMotors,
         'ev3/stop-polling':               ev3Routes.stopPolling,
         'ev3/resume-polling':             ev3Routes.resumePolling,
-        'ev3/set-mode':                   ev3Routes.setMode
+        'ev3/set-mode':                   ev3Routes.setMode,
+        // Powered Up...
+        'powered-up/device-list':         poweredUpRoutes.deviceList,
+        'powered-up/connect':             poweredUpRoutes.connect,
+        'powered-up/disconnect':          poweredUpRoutes.disconnect,
+        'powered-up/connecting':          poweredUpRoutes.connecting,
+        'powered-up/connected':           poweredUpRoutes.connected,
+        'powered-up/update':              poweredUpRoutes.update,
+        'powered-up/stop-all-motors':     poweredUpRoutes.stopAllMotors,
+        'powered-up/stop-polling':        poweredUpRoutes.stopPolling,
+        'powered-up/resume-polling':      poweredUpRoutes.resumePolling,
+        'powered-up/set-mode':            poweredUpRoutes.setMode
     };
 
 for (let i in routes) {
@@ -50,6 +62,9 @@ for (let i in routes) {
             break;
         case 'ev3':
             routes[i] = routes[i].bind(ev3Routes);
+            break;
+        case 'pow':
+            routes[i] = routes[i].bind(poweredUpRoutes);
             break;
     }
 }

@@ -12,7 +12,7 @@ exports.Motor = class extends DOMNode {
         super(opts);
         this._ui              = opts.ui;
         this._uiId            = opts.uiId;
-        this._brick           = opts.brick;
+        this._device           = opts.device;
         this._dialog          = opts.dialog;
         this._speed           = 50;
         this._motorId         = opts.motorId;
@@ -131,39 +131,39 @@ exports.Motor = class extends DOMNode {
     onUpKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
             let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
         }
     }
 
     onUpMousePressed(event) {
         if (!this._assignedTimeout) {
             let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
         }
     }
 
     onUpReleased() {
         let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
     }
 
     onDownKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
             let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
         }
     }
 
     onDownMousePressed(event) {
         if (!this._assignedTimeout) {
             let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
         }
     }
 
     onDownReleased() {
         let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
     }
 
     onChange(value) {

@@ -248,7 +248,8 @@ const files = [
         './js/frontend/ide/dialogs/ExploreDialog',
         './js/frontend/ide/dialogs/list/components/ListItem',
         './js/frontend/ide/dialogs/list/ListDialog',
-        './js/frontend/ide/dialogs/list/ConnectListDialog',
+        './js/frontend/ide/dialogs/list/EV3ConnectListDialog',
+        './js/frontend/ide/dialogs/list/PoweredUpConnectListDialog',
         './js/frontend/ide/dialogs/statistics/StatisticsDialog',
         './js/frontend/ide/dialogs/YesNoCancelDialog',
         './js/frontend/ide/dialogs/file/components/IncludeFiles',
@@ -366,7 +367,7 @@ const files = [
         './js/frontend/ide/settings/PluginsState',
         './js/frontend/ide/settings/SettingsState',
         './js/frontend/lib/UIState',
-        './js/frontend/vm/brick/BrickState'
+        './js/frontend/vm/ev3/EV3State'
     ];
 
 let output = '(function() {\n' +
@@ -439,12 +440,12 @@ files.forEach(function(filename) {
 output += 'let settings;\n' +
     'let ui;\n' +
     'const onLoadedSettings = function() {\n' +
-    '    const IDE        = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;\n' +
-    '    const BrickState = exportsByUrl[\'./js/frontend/vm/brick/BrickState\'].BrickState;\n' +
+    '    const IDE      = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;\n' +
+    '    const EV3State = exportsByUrl[\'./js/frontend/vm/ev3/EV3State\'].EV3State;\n' +
     '    new IDE({\n' +
     '        ui:       ui,\n' +
     '        settings: settings,\n' +
-    '        brick:    new BrickState()\n' +
+    '        ev3:      new EV3State()\n' +
     '    });\n' +
     '};\n' +
     'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;\n' +

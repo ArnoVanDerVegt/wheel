@@ -30,7 +30,7 @@ exports.MotorModule = class extends VMModule {
 
     getCurrentMotorPosition(layer, id) {
         if (this.getLayerAndIdValid(layer, id)) {
-            let layerState = this._brick.getLayerState(layer);
+            let layerState = this._device().getLayerState(layer);
             return layerState.getMotors()[id];
         }
         return 0;
@@ -39,7 +39,7 @@ exports.MotorModule = class extends VMModule {
     getMotorReady(layer, id) {
         let motorStatus = this.getMotorStatus(layer, id);
         if (this.getLayerAndIdValid(layer, id)) {
-            let layerState = this._brick.getLayerState(layer);
+            let layerState = this._device().getLayerState(layer);
             let motors      = layerState.getMotors();
             if (motorStatus.target === null) {
                 return 1;
@@ -80,7 +80,7 @@ exports.MotorModule = class extends VMModule {
             case motorModuleConstants.MOTOR_GET_TYPE:
                 motor          = vmData.getRecordFromAtOffset(['layer', 'id']);
                 motor.callback = (function(value) {
-                    if (!this._brick.getConnected() && (value === -1)) {
+                    if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
                     } else if (value === -1) {
                         vmData.setNumberAtRet(0);
@@ -103,7 +103,7 @@ exports.MotorModule = class extends VMModule {
                 motor.speed        = motorStatus.speed || 0;
                 motor.degrees      = motor.target - this.getCurrentMotorPosition(motor.layer, motor.id);
                 this.emit('Motor.MoveTo', motor);
-                this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_MOVE_TO, motor);
+                this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_MOVE_TO, motor);
                 break;
             case motorModuleConstants.MOTOR_ON:
                 motor              = vmData.getRecordFromAtOffset(['layer', 'id']);
@@ -111,7 +111,7 @@ exports.MotorModule = class extends VMModule {
                 motorStatus.target = null;
                 motor.speed        = motorStatus.speed || 0;
                 this.emit('Motor.On', motor);
-                this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+                this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
                 break;
             case motorModuleConstants.MOTOR_TIME_ON:
                 motor              = vmData.getRecordFromAtOffset(['layer', 'id', 'time']);
@@ -119,20 +119,20 @@ exports.MotorModule = class extends VMModule {
                 motorStatus.target = null;
                 motor.speed        = motorStatus.speed || 0;
                 this.emit('Motor.TimeOn', motor);
-                this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_TIME_ON, motor);
+                this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_TIME_ON, motor);
                 break;
             case motorModuleConstants.MOTOR_STOP:
                 motor              = vmData.getRecordFromAtOffset(['layer', 'id', 'brake']);
                 motorStatus        = this.getMotorStatus(motor.layer, motor.id);
                 motorStatus.target = null;
                 this.emit('Motor.Stop', motor);
-                this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+                this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
                 break;
             case motorModuleConstants.MOTOR_READ:
                 motor = vmData.getRecordFromAtOffset(['layer', 'id']);
                 value = 0;
                 if (((motor.layer >= 0) && (motor.layer <= 1)) && ((motor.id >= 0) && (motor.id <= 3))) {
-                    layerState = this._brick.getLayerState(motor.layer);
+                    layerState = this._device().getLayerState(motor.layer);
                     motors     = layerState.getMotors();
                     value      = motors[motor.id];
                 }

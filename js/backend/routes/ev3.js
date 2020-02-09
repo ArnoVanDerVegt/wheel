@@ -2,26 +2,26 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const messageEncoder = require('../../shared/brick/messageEncoder');
-const CommandQueue   = require('../../shared/brick/CommandQueue').CommandQueue;
-const Brick          = require('../../shared/brick/Brick').Brick;
-const constants      = require('../../shared/brick/constants');
+const messageEncoder = require('../../shared/device/messageEncoder');
+const CommandQueue   = require('../../shared/device/CommandQueue').CommandQueue;
+const EV3            = require('../../shared/device/EV3').EV3;
+const constants      = require('../../shared/device/constants');
 const path           = require('path');
 const fs             = require('fs');
 
-let brick       = null;
+let ev3         = null;
 let currentPath = {};
 
 const getSerialPortConstructor = function() {
         return require('serialport');
     };
 
-const getBrick = function() {
-        if (brick) {
-            return brick;
+const getEV3 = function() {
+        if (ev3) {
+            return ev3;
         }
-        brick = new Brick({serialPortConstructor: getSerialPortConstructor()});
-        return brick;
+        ev3 = new EV3({serialPortConstructor: getSerialPortConstructor()});
+        return ev3;
     };
 
 exports.ev3Routes = {
@@ -29,25 +29,25 @@ exports.ev3Routes = {
         getSerialPortConstructor().list().then(function(ports) {
             let list = [];
             ports.forEach(function(port) {
-                list.push(port.comName);
+                list.push(port.path);
             });
             res.send(JSON.stringify({result: true, list: list}));
         });
     },
     connect: function(req, res) {
         let deviceName = req.body.deviceName;
-        getBrick().connect(deviceName);
+        getEV3().connect(deviceName);
         res.send(JSON.stringify({connecting: true, deviceName: deviceName}));
     },
     disconnect: function(req, res) {
-        getBrick().disconnect(function() {});
+        getEV3().disconnect(function() {});
         res.send(JSON.stringify({}));
     },
     connecting: function(req, res) {
-        let connected = getBrick().getConnected();
+        let connected = getEV3().getConnected();
         let status    = {};
         if (connected) {
-            status = getBrick().getStatus();
+            status = getEV3().getStatus();
         }
         res.send(JSON.stringify({
             connected: connected,
@@ -55,22 +55,18 @@ exports.ev3Routes = {
         }));
     },
     connected: function(req, res) {
-        res.send(JSON.stringify({connected: getBrick().getConnected()}));
+        res.send(JSON.stringify({connected: getEV3().getConnected()}));
     },
     update: function(req, res) {
         let result = {error: false, connected: true};
-        let brick  = getBrick();
-        if (brick.getConnected()) {
-            brick.setLayerCount(req.body.layerCount);
-            // Try {
-                let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
-                queue.forEach(function(params) {
-                    brick.module(params.module, params.command, params.data);
-                });
-            // } catch (error) {
-                // Result.error = true;
-            // }
-            result.status = brick.getStatus();
+        let ev3  = getEV3();
+        if (ev3.getConnected()) {
+            ev3.setLayerCount(req.body.layerCount);
+            let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+            queue.forEach(function(params) {
+                ev3.module(params.module, params.command, params.data);
+            });
+            result.status = ev3.getStatus();
         } else {
             result.connected = false;
         }
@@ -125,7 +121,7 @@ exports.ev3Routes = {
                 res.send(JSON.stringify(result));
             };
         let getFiles = function() {
-                getBrick().listFiles(currentPath[index], callback);
+                getEV3().listFiles(currentPath[index], callback);
             };
         let update = function() {
                 if (!done) {
@@ -146,7 +142,7 @@ exports.ev3Routes = {
                 s += messageEncoder.byteString(data[i]);
             }
         }
-        getBrick().downloadFile(remoteFilename, s, callback);
+        getEV3().downloadFile(remoteFilename, s, callback);
     },
     downloadData: function(req, res) {
         this._donwloadData(
@@ -198,34 +194,34 @@ exports.ev3Routes = {
         return callback;
     },
     createDir: function(req, res) {
-        getBrick().createDir(req.body.path, this._createTimeoutCallback(res));
+        getEV3().createDir(req.body.path, this._createTimeoutCallback(res));
     },
     deleteFile: function(req, res) {
-        getBrick().deleteFile(req.body.path, this._createTimeoutCallback(res));
+        getEV3().deleteFile(req.body.path, this._createTimeoutCallback(res));
     },
     stopAllMotors(req, res) {
         let result     = {success: true};
         let layerCount = req.body.layerCount;
         let brake      = req.body.brake ? 1 : 0;
-        let brick      = getBrick();
+        let ev3        = getEV3();
         for (let i = 0; i < layerCount; i++) {
             for (let j = 0; j < 4; j++) {
-                brick.motorStop(i, j, brake);
+                ev3.motorStop(i, j, brake);
             }
         }
         res.send(JSON.stringify(result));
     },
     stopPolling(req, res) {
-        getBrick().stopPolling();
+        getEV3().stopPolling();
         res.send(JSON.stringify({success: true}));
     },
     resumePolling(req, res) {
-        getBrick().resumePolling();
+        getEV3().resumePolling();
         res.send(JSON.stringify({success: true}));
     },
     setMode(req, res) {
         let body = req.body;
-        getBrick().setMode(body.layer, body.port, body.mode);
+        getEV3().setMode(body.layer, body.port, body.mode);
         res.send(JSON.stringify({success: true}));
     }
 };

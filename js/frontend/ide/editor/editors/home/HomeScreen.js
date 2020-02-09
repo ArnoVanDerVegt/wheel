@@ -17,7 +17,7 @@ exports.HomeScreen = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
-        this._brick        = opts.brick;
+        this._ev3          = opts.ev3;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
         dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
@@ -110,10 +110,10 @@ exports.HomeScreen = class extends DOMNode {
                                 title:    'Connect to EV3 &raquo;',
                                 type:     HomeScreenConnectTile,
                                 tabIndex: tabIndex.HOME_SCREEN + 6,
-                                brick:    this._brick,
+                                ev3:      this._ev3,
                                 onClick: function() {
                                     if ('electron' in window) {
-                                        dispatcher.dispatch('Dialog.Connect.Show');
+                                        dispatcher.dispatch('Dialog.ConnectEV3.Show');
                                     } else {
                                         dispatcher.dispatch(
                                             'Dialog.Alert.Show',

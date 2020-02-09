@@ -11,7 +11,7 @@ exports.LightModule = class extends VMModule {
         let vm     = this._vm;
         switch (commandId) {
             case lightModuleConstants.LIGHT_UPDATE:
-                this.emit('Light.Light', vmData.getRecordFromAtOffset(['color']));
+                this.emit('Light.Light', vmData.getRecordFromAtOffset(['layer', 'color']));
                 break;
         }
     }

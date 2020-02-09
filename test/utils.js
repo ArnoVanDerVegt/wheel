@@ -24,7 +24,7 @@ const MockFileSystem       = require('./compiler/modules/MockFileSystem').MockFi
 
 const createModules = function(vm) {
         let mockFileSystem = new MockFileSystem();
-        let handle = mockFileSystem.open('test.rtf');
+        let handle         = mockFileSystem.open('test.rtf');
         mockFileSystem
            .writeNumber(handle, 45)
            .writeNumber(handle, 99)

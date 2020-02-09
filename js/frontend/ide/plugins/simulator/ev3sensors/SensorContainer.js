@@ -20,7 +20,7 @@ const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSenso
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._brick              = opts.brick;
+        this._device             = opts.device;
         this._simulator          = opts.simulator;
         this._layer              = opts.layer;
         this._id                 = opts.id;
@@ -34,9 +34,9 @@ exports.SensorContainer = class extends DOMNode {
         this._currentSensor      = null;
         this._sensorConstructors = [];
         opts.addSensor(this);
-        this._brick
-           .addEventListener('Brick.Layer' + this._layer + 'Sensor' + this._id + 'Changed',  this, this.onValueChanged)
-           .addEventListener('Brick.Layer' + this._layer + 'Sensor' + this._id + 'Assigned', this, this.onAssigned);
+        this._device
+           .addEventListener('EV3.Layer' + this._layer + 'Sensor' + this._id + 'Changed',  this, this.onValueChanged)
+           .addEventListener('EV3.Layer' + this._layer + 'Sensor' + this._id + 'Assigned', this, this.onAssigned);
         this
             .initSensorConstructors()
             .initDOM(opts.parentNode);
@@ -61,7 +61,7 @@ exports.SensorContainer = class extends DOMNode {
         return {
             sensorContainer: this,
             type:            sensorConstructor,
-            brick:           this._brick,
+            device:          this._device,
             simulator:       this._simulator,
             layer:           this._layer,
             id:              this._id,

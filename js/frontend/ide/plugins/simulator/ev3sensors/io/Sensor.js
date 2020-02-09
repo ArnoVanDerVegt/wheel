@@ -10,7 +10,7 @@ const getImage              = require('../../../../data/images').getImage;
 exports.Sensor = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        let brick = opts.brick;
+        let device = opts.device;
         this._sensorContainer    = opts.sensorContainer;
         this._parentNode         = opts.parentNode;
         this._simulator          = opts.simulator;
@@ -27,9 +27,9 @@ exports.Sensor = class extends DOMNode {
         this._timeoutReset       = null;
         this._timeoutType        = null;
         this._events             = [
-            brick.addEventListener('Brick.Connecting',   this, this.onConnecting),
-            brick.addEventListener('Brick.Connected',    this, this.onConnected),
-            brick.addEventListener('Brick.Disconnected', this, this.onDisconnected)
+            device.addEventListener('EV3.Connecting',   this, this.onConnecting),
+            device.addEventListener('EV3.Connected',    this, this.onConnected),
+            device.addEventListener('EV3.Disconnected', this, this.onDisconnected)
         ];
         this.initDOM(opts.parentNode);
         opts.sensorContainer.setCurrentSensor(this);
@@ -47,8 +47,9 @@ exports.Sensor = class extends DOMNode {
                         id:        this.setTitleElement.bind(this),
                         children: [
                             {
-                                type: 'img',
-                                src:  getImage(image)
+                                type:      'img',
+                                className: 'type',
+                                src:       getImage(image)
                             },
                             {
                                 type:      'span',

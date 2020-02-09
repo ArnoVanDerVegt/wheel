@@ -19,7 +19,7 @@ exports.Light = class {
         }
     }
 
-    off(color, pattern) {
+    off() {
         this._element.className = 'ev3-light';
     }
 };

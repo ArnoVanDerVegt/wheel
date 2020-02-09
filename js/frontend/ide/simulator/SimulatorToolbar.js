@@ -59,6 +59,7 @@ exports.SimulatorToolbar = class extends DOMNode {
                     onSelect:  this.updateLayerButtons.bind(this)
                 }
             ];
+
         let options = [];
         for (let i = 0; i < 4; i++) {
             options.push({
@@ -76,6 +77,29 @@ exports.SimulatorToolbar = class extends DOMNode {
             tabIndex: tabIndex.LAYER_1_BUTTON,
             options:  options,
             color:    'green'
+        });
+        children.push({
+            type:     ToolOptions,
+            ui:       this._ui,
+            uiId:     1,
+            tabIndex: tabIndex.DEVICE_EV3_BUTTON,
+            color:    'green',
+            options:  [
+                {
+                    ui:       this._ui,
+                    uiId:     1,
+                    dispatch: 'Button.Device.EV3',
+                    event:    'Button.Device.EV3.Change',
+                    value:    'EV3'
+                },
+                {
+                    ui:       this._ui,
+                    uiId:     1,
+                    dispatch: 'Button.Device.PoweredUp',
+                    event:    'Button.Device.PoweredUp.Change',
+                    value:    'Hub'
+                }
+            ]
         });
         this.create(
             parentNode,

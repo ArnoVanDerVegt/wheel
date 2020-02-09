@@ -99,7 +99,7 @@
             './js/frontend/vm/modules/local/StandardModule',
             './js/frontend/vm/modules/local/SystemModule',
             './js/frontend/vm/modules/local/StringModule',
-            './js/frontend/vm/brick/LayerState',
+            './js/frontend/vm/ev3/LayerState',
             './js/frontend/vm/modules/remote/VMModule',
             './js/frontend/vm/modules/remote/ButtonModule',
             './js/frontend/vm/modules/remote/FileModule',
@@ -172,7 +172,8 @@
             './js/frontend/ide/dialogs/ExploreDialog',
             './js/frontend/ide/dialogs/list/components/ListItem',
             './js/frontend/ide/dialogs/list/ListDialog',
-            './js/frontend/ide/dialogs/list/ConnectListDialog',
+            './js/frontend/ide/dialogs/list/EV3ConnectListDialog',
+            './js/frontend/ide/dialogs/list/PoweredUpConnectListDialog',
             './js/frontend/ide/dialogs/YesNoCancelDialog',
             './js/frontend/ide/dialogs/file/components/IncludeFiles',
             './js/frontend/ide/dialogs/file/FileDialog',
@@ -272,19 +273,19 @@
             './js/frontend/ide/IDE',
             './js/frontend/ide/settings/SettingsState',
             './js/frontend/lib/UIState',
-            './js/frontend/vm/brick/BrickState'
+            './js/frontend/vm/ev3/EV3State'
         ];
 
     function onLoaded(loadedFiles) {
         let settings;
         let ui;
         const onLoadedSettings = function() {
-            const IDE        = loadedFiles['./js/frontend/ide/IDE'].IDE;
-            const BrickState = loadedFiles['./js/frontend/vm/brick/BrickState'].BrickState;
+            const IDE      = loadedFiles['./js/frontend/ide/IDE'].IDE;
+            const EV3State = loadedFiles['./js/frontend/vm/ev3/EV3State'].EV3State;
             new IDE({
                 ui:       ui,
                 settings: settings,
-                brick:    new BrickState({layerCount: settings.getDaisyChainMode()})
+                ev3:      new EV3State({layerCount: settings.getDaisyChainMode()})
             });
         };
         const getDataProvider = loadedFiles['./js/frontend/lib/dataprovider/dataProvider'].getDataProvider;

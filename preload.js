@@ -14,31 +14,37 @@ require('./js/shared/vm/modules/standardModuleConstants');
 require('./js/shared/vm/modules/systemModuleConstants');
 require('./js/shared/vm/modules/stringModuleConstants');
 require('./js/shared/vm/modules/bitModuleConstants');
+require('./js/shared/vm/modules/deviceModuleConstants');
 require('./js/shared/vm/modules/multiplexerModuleConstants');
 require('./js/shared/vm/modules/pspModuleConstants');
+require('./js/shared/vm/modules/poweredUpModuleConstants');
 require('./js/shared/lib/RgfImage');
 require('./js/shared/lib/Sound');
-require('./js/shared/brick/modules/BrickModule');
-require('./js/shared/brick/modules/ButtonModule');
-require('./js/shared/brick/modules/FileModule');
-require('./js/shared/brick/modules/LightModule');
-require('./js/shared/brick/modules/MathModule');
-require('./js/shared/brick/modules/MotorModule');
-require('./js/shared/brick/modules/ScreenModule');
-require('./js/shared/brick/modules/SensorModule');
-require('./js/shared/brick/modules/SoundModule');
-require('./js/shared/brick/modules/StandardModule');
-require('./js/shared/brick/modules/SystemModule');
-require('./js/shared/brick/modules/StringModule');
-require('./js/shared/brick/modules/BitModule');
-require('./js/shared/brick/messageEncoder');
-require('./js/shared/brick/CommandQueue');
-require('./js/shared/brick/Brick');
-require('./js/shared/brick/constants');
+require('./js/shared/device/modules/DeviceModule');
+require('./js/shared/device/modules/PoweredUpModule');
+require('./js/shared/device/modules/ButtonModule');
+require('./js/shared/device/modules/FileModule');
+require('./js/shared/device/modules/LightModule');
+require('./js/shared/device/modules/MathModule');
+require('./js/shared/device/modules/MotorModule');
+require('./js/shared/device/modules/ScreenModule');
+require('./js/shared/device/modules/SensorModule');
+require('./js/shared/device/modules/SoundModule');
+require('./js/shared/device/modules/StandardModule');
+require('./js/shared/device/modules/SystemModule');
+require('./js/shared/device/modules/StringModule');
+require('./js/shared/device/modules/BitModule');
+require('./js/shared/device/modules/DeviceModule');
+require('./js/shared/device/modules/PoweredUpModule');
+require('./js/shared/device/messageEncoder');
+require('./js/shared/device/CommandQueue');
+require('./js/shared/device/EV3');
+require('./js/shared/device/PoweredUp');
+require('./js/shared/device/constants');
 require('./js/backend/routes/settings');
 require('./js/backend/routes/ev3');
 require('./js/backend/routes/ide');
-require('./js/frontend/brick/Downloader');
+require('./js/frontend/ev3/Downloader');
 require('./js/frontend/lib/utils');
 const dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
 require('./js/frontend/lib/Emitter');
@@ -121,9 +127,12 @@ require('./js/frontend/vm/modules/local/StandardModule');
 require('./js/frontend/vm/modules/local/SystemModule');
 require('./js/frontend/vm/modules/local/StringModule');
 require('./js/frontend/vm/modules/local/BitModule');
+require('./js/frontend/vm/modules/local/DeviceModule');
+require('./js/frontend/vm/modules/local/PoweredUpModule');
 require('./js/frontend/vm/modules/local/MultiplexerModule');
 require('./js/frontend/vm/modules/local/PspModule');
-require('./js/frontend/vm/brick/LayerState');
+require('./js/frontend/vm/ev3/LayerState');
+require('./js/frontend/vm/poweredup/LayerState');
 require('./js/frontend/vm/modules/remote/ButtonModule');
 require('./js/frontend/vm/modules/remote/FileModule');
 require('./js/frontend/vm/modules/remote/LightModule');
@@ -136,6 +145,8 @@ require('./js/frontend/vm/modules/remote/StandardModule');
 require('./js/frontend/vm/modules/remote/SystemModule');
 require('./js/frontend/vm/modules/remote/StringModule');
 require('./js/frontend/vm/modules/remote/BitModule');
+require('./js/frontend/vm/modules/remote/DeviceModule');
+require('./js/frontend/vm/modules/remote/PoweredUpModule');
 require('./js/frontend/vm/modules/remote/MultiplexerModule');
 require('./js/frontend/vm/modules/remote/PspModule');
 require('./js/frontend/vm/VMData');
@@ -171,6 +182,8 @@ require('./js/frontend/lib/components/filetree/Directory');
 require('./js/frontend/lib/components/filetree/FileTree');
 require('./js/frontend/lib/components/tree/TreeNode');
 require('./js/frontend/lib/components/tree/Tree');
+require('./js/frontend/lib/components/list/ListItem');
+require('./js/frontend/lib/components/list/List');
 require('./js/frontend/lib/components/basic/A');
 require('./js/frontend/lib/components/basic/H');
 require('./js/frontend/lib/components/basic/P');
@@ -201,7 +214,8 @@ require('./js/frontend/ide/dialogs/ConfirmDialog');
 require('./js/frontend/ide/dialogs/ExploreDialog');
 require('./js/frontend/ide/dialogs/list/components/ListItem');
 require('./js/frontend/ide/dialogs/list/ListDialog');
-require('./js/frontend/ide/dialogs/list/ConnectListDialog');
+require('./js/frontend/ide/dialogs/list/EV3ConnectListDialog');
+require('./js/frontend/ide/dialogs/list/PoweredUpConnectListDialog');
 require('./js/frontend/ide/dialogs/statistics/StatisticsDialog');
 require('./js/frontend/ide/dialogs/YesNoCancelDialog');
 require('./js/frontend/ide/dialogs/file/components/IncludeFiles');
@@ -285,7 +299,10 @@ require('./js/frontend/ide/console/NewVersion');
 require('./js/frontend/ide/console/Console');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
-require('./js/frontend/ide/plugins/simulator/SimulatorPlugin');
+require('./js/frontend/ide/plugins/simulator/lib/SimulatorPlugin');
+require('./js/frontend/ide/plugins/simulator/lib/motor/io/MotorState');
+require('./js/frontend/ide/plugins/simulator/lib/motor/io/Motor');
+require('./js/frontend/ide/plugins/simulator/lib/motor/Plugin');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/Text');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/TextLarge');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/TextMedium');
@@ -311,6 +328,9 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
+require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
+require('./js/frontend/ide/plugins/simulator/poweredup/io/Motor');
+require('./js/frontend/ide/plugins/simulator/poweredup/Plugin');
 require('./js/frontend/ide/plugins/simulator/graph/io/CircularBuffer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/BarChartDrawer'),
@@ -325,11 +345,12 @@ require('./js/frontend/ide/simulator/SimulatorConnection');
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');
 require('./js/frontend/ide/settings/PluginsState');
-const Setup         = require('./js/frontend/ide/Setup').Setup;
-const IDE           = require('./js/frontend/ide/IDE').IDE;
-const SettingsState = require('./js/frontend/ide/settings/SettingsState').SettingsState;
-const UIState       = require('./js/frontend/lib/UIState').UIState;
-const BrickState    = require('./js/frontend/vm/brick/BrickState').BrickState;
+const Setup          = require('./js/frontend/ide/Setup').Setup;
+const IDE            = require('./js/frontend/ide/IDE').IDE;
+const SettingsState  = require('./js/frontend/ide/settings/SettingsState').SettingsState;
+const UIState        = require('./js/frontend/lib/UIState').UIState;
+const EV3State       = require('./js/frontend/vm/ev3/EV3State').EV3State;
+const PoweredUpState = require('./js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
 
 (function() {
     let settings;
@@ -341,9 +362,10 @@ const BrickState    = require('./js/frontend/vm/brick/BrickState').BrickState;
                 return;
             }
             ide = new IDE({
-                ui:       ui,
-                settings: settings,
-                brick:    new BrickState({layerCount: settings.getDaisyChainMode()})
+                ui:        ui,
+                settings:  settings,
+                ev3:       new EV3State({layerCount: settings.getDaisyChainMode()}),
+                poweredUp: new PoweredUpState({layerCount: settings.getDaisyChainMode()})
             });
         };
 

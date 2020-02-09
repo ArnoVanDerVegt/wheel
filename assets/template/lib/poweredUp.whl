@@ -1,0 +1,33 @@
+; @module PoweredUp
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The Powered Up module.
+#define MODULE_POWERED_UP     13
+
+; @const The Powered Up ports.
+#define PU_OUTPUT_A            0
+#define PU_OUTPUT_B            1
+#define PU_OUTPUT_C            2
+#define PU_OUTPUT_D            3
+
+; @const Module calls for device functions.
+#define POWERED_UP_START       0
+
+record PoweredUpVector
+    number x, y, z
+end
+
+record PoweredUpStatus
+    number          button
+    PoweredUpVector tilt
+    PoweredUpVector accel
+end
+
+PoweredUpStatus poweredUpStatus[4]
+
+; @proc             Start reading updates from the Powered Up devices.
+proc poweredUpStart()
+    addr poweredUpStatus
+    mod  MODULE_POWERED_UP, POWERED_UP_START
+end

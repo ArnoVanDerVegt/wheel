@@ -11,13 +11,14 @@ const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection
 exports.Simulator = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts     = opts;
-        this._ui       = opts.ui;
-        this._brick    = opts.brick;
-        this._settings = opts.settings;
-        this._layer    = 0;
-        this._vm       = null;
-        this._plugins  = {};
+        this._opts      = opts;
+        this._ui        = opts.ui;
+        this._ev3       = opts.ev3;
+        this._poweredUp = opts.poweredUp;
+        this._settings  = opts.settings;
+        this._layer     = 0;
+        this._vm        = null;
+        this._plugins   = {};
         this.initDOM(opts.parentNode || document.body);
     }
 
@@ -49,7 +50,8 @@ exports.Simulator = class extends DOMNode {
                     type:      require('../plugins/simulator/' + this.cleanPath(plugin.path) + '/Plugin').Plugin,
                     plugin:    plugin,
                     ui:        this._ui,
-                    brick:     this._brick,
+                    ev3:       this._ev3,
+                    poweredUp: this._poweredUp,
                     settings:  settings,
                     simulator: this
                 });
@@ -68,16 +70,16 @@ exports.Simulator = class extends DOMNode {
                     {
                         type:      SimulatorToolbar,
                         ui:        this._ui,
-                        brick:     this._brick,
+                        ev3:       this._ev3,
                         settings:  this._settings,
                         simulator: this
                     },
                     {
                         className: 'ev3-background',
                         children: this.initPlugins().concat({
-                            type:  SimulatorConnection,
-                            ui:    this._ui,
-                            brick: this._brick
+                            type: SimulatorConnection,
+                            ui:   this._ui,
+                            ev3:  this._ev3
                         })
                     }
                 ]

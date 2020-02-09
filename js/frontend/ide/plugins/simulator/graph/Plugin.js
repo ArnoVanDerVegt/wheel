@@ -9,7 +9,7 @@ const Button                = require('../../../../lib/components/Button').Butto
 const CloseButton           = require('../../../../lib/components/CloseButton').CloseButton;
 const Component             = require('../../../../lib/components/Component').Component;
 const getImage              = require('../../../data/images').getImage;
-const SimulatorPlugin       = require('../SimulatorPlugin').SimulatorPlugin;
+const SimulatorPlugin       = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const CircularBuffer        = require('./io/CircularBuffer').CircularBuffer;
 const ChartDrawer           = require('./io/ChartDrawer').ChartDrawer;
 const BarChartDrawer        = require('./io/BarChartDrawer').BarChartDrawer;
@@ -227,9 +227,9 @@ exports.Plugin = class extends SimulatorPlugin {
         this._baseClassName       = 'graph';
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
-        this._brick
-            .addEventListener('Brick.Connected',    this, this.onBrickConnected)
-            .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
+        this._device
+            .addEventListener('EV3.Connected',    this, this.onEV3Connected)
+            .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
         let charts = this._plugin.charts;
         if (charts) {
@@ -303,14 +303,14 @@ exports.Plugin = class extends SimulatorPlugin {
         );
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         if (this._disconnectedTimeout) {
             clearTimeout(this._disconnectedTimeout);
             this._disconnectedTimeout = null;
         }
     }
 
-    onBrickDisconnected() {
+    onEV3Disconnected() {
     }
 
     onPluginSettings() {

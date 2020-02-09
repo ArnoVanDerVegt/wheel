@@ -11,11 +11,11 @@ exports.SimulatorConnection = class extends DOMNode {
         super(opts);
         this.initDOM(opts.parentNode);
         this._disconnectedTimeout = null;
-        opts.brick
-            .addEventListener('Brick.Connected',    this, this.onBrickConnected)
-            .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
-            .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected)
-            .addEventListener('Brick.Battery',      this, this.onBrickBattery);
+        opts.ev3
+            .addEventListener('EV3.Connected',    this, this.onEV3Connected)
+            .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
+            .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected)
+            .addEventListener('EV3.Battery',      this, this.onEV3Battery);
     }
 
     initDOM(parentNode) {
@@ -67,20 +67,20 @@ exports.SimulatorConnection = class extends DOMNode {
         this._disconnectedTimeout = null;
     }
 
-    onBrickConnecting(deviceName) {
+    onEV3Connecting(deviceName) {
         this.clearDisconnectedTimeout();
         this._connectPanelElement.style.display = 'block';
         this._connectStatusElement.innerHTML    = 'Connecting...';
         this._connectDeviceElement.innerHTML    = deviceName;
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         this.clearDisconnectedTimeout();
         this._connected                      = true;
         this._connectStatusElement.innerHTML = 'Connected.';
     }
 
-    onBrickDisconnected() {
+    onEV3Disconnected() {
         this.clearDisconnectedTimeout();
         this._connected                      = true;
         this._connectStatusElement.innerHTML = 'Disconnected.';
@@ -93,7 +93,7 @@ exports.SimulatorConnection = class extends DOMNode {
         );
     }
 
-    onBrickBattery(battery) {
+    onEV3Battery(battery) {
         this._deviceBatteryElement.innerHTML = 'Battery ' + battery + '%';
     }
 };

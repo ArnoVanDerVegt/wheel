@@ -5,6 +5,7 @@
 const dispatcher   = require('../../lib/dispatcher').dispatcher;
 const Emitter      = require('../../lib/Emitter').Emitter;
 const PluginsState = require('./PluginsState').PluginsState;
+const pluginUuid   = require('../plugins/pluginUuid');
 
 exports.PluginsState = class extends Emitter {
     constructor(opts) {
@@ -43,7 +44,7 @@ exports.PluginsState = class extends Emitter {
     getDefaultPlugins() {
         return [
             {
-                uuid:    '975b784e-3886-11ea-a137-2e728ce88125',
+                uuid:    pluginUuid.SIMULATOR_EV3_MOTORS_UUID,
                 group:   'EV3',
                 name:    'EV3 Motors',
                 path:    'ev3motors',
@@ -51,7 +52,7 @@ exports.PluginsState = class extends Emitter {
                 order:   1
             },
             {
-                uuid:    'a8e77680-3886-11ea-a137-2e728ce88125',
+                uuid:    pluginUuid.SIMULATOR_EV3_UUID,
                 group:   'EV3',
                 name:    'EV3',
                 path:    'ev3',
@@ -59,7 +60,7 @@ exports.PluginsState = class extends Emitter {
                 order:   2
             },
             {
-                uuid:    'b643ac7c-3886-11ea-a137-2e728ce88125',
+                uuid:    pluginUuid.SIMULATOR_EV3_SENSORS_UUID,
                 group:   'EV3',
                 name:    'EV3 Sensors',
                 path:    'ev3sensors',
@@ -67,7 +68,7 @@ exports.PluginsState = class extends Emitter {
                 order:   3
             },
             {
-                uuid:    '26ade4b0-3a07-11ea-a137-2e728ce88125',
+                uuid:    pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID,
                 group:   'Graph',
                 name:    'Sensor output graph',
                 path:    'graph',
@@ -75,12 +76,20 @@ exports.PluginsState = class extends Emitter {
                 order:   4
             },
             {
-                uuid:    'bea9f98e-3886-11ea-a137-2e728ce88125',
+                uuid:    pluginUuid.SIMULATOR_PSP_UUID,
                 group:   'PSP',
                 name:    'PSP',
                 path:    'psp',
                 visible: false,
                 order:   5
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_POWERED_UP_UUID,
+                group:   'PoweredUp',
+                name:    'Hub',
+                path:    'poweredup',
+                visible: false,
+                order:   6
             }
         ];
     }

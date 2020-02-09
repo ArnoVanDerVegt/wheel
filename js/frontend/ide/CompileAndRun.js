@@ -22,6 +22,8 @@ const LocalStringModule       = require('../vm/modules/local/StringModule'      
 const LocalBitModule          = require('../vm/modules/local/BitModule'         ).BitModule;
 const LocalPspModule          = require('../vm/modules/local/PspModule'         ).PspModule;
 const LocalMultiplexerModule  = require('../vm/modules/local/MultiplexerModule' ).MultiplexerModule;
+const LocalDeviceModule       = require('../vm/modules/local/DeviceModule'      ).DeviceModule;
+const LocalPoweredUpModule    = require('../vm/modules/local/PoweredUpModule'   ).PoweredUpModule;
 const RemoteStandardModule    = require('../vm/modules/remote/StandardModule'   ).StandardModule;
 const RemoteScreenModule      = require('../vm/modules/remote/ScreenModule'     ).ScreenModule;
 const RemoteMotorModule       = require('../vm/modules/remote/MotorModule'      ).MotorModule;
@@ -36,15 +38,20 @@ const RemoteStringModule      = require('../vm/modules/remote/StringModule'     
 const RemoteBitModule         = require('../vm/modules/remote/BitModule'        ).BitModule;
 const RemotePspModule         = require('../vm/modules/remote/PspModule'        ).PspModule;
 const RemoteMultiplexerModule = require('../vm/modules/remote/MultiplexerModule').MultiplexerModule;
+const RemoteDeviceModule      = require('../vm/modules/remote/DeviceModule'     ).DeviceModule;
+const RemotePoweredUpModule   = require('../vm/modules/remote/PoweredUpModule'  ).PoweredUpModule;
 const Simulator               = require('./simulator/Simulator').Simulator;
 const SimulatorModules        = require('./simulator/SimulatorModules').SimulatorModules;
+const pluginUuid              = require('./plugins/pluginUuid');
 
 exports.CompileAndRun = class extends DOMUtils {
     constructor(opts) {
         super();
-        let settings = opts.settings;
-        let brick    = opts.brick;
-        this._brick               = brick;
+        let settings  = opts.settings;
+        let ev3       = opts.ev3;
+        let poweredUp = opts.poweredUp;
+        this._ev3                 = ev3;
+        this._poweredUp           = poweredUp;
         this._settings            = opts.settings;
         this._outputPath          = '';
         this._projectFilename     = '';
@@ -58,25 +65,33 @@ exports.CompileAndRun = class extends DOMUtils {
         this._localModules        = true;
         this._compileSilent       = false;
         this._compiling           = false;
-        this._simulatorModules    = new SimulatorModules({brick: brick});
+        this._activeDevice        = 0;
+        this._simulatorModules    = new SimulatorModules({compileAndRun: this});
         this._simulator           = new Simulator({
-            ui:       opts.ui,
-            brick:    brick,
-            settings: settings,
-            onStop:   this.stop.bind(this)
+            ui:        opts.ui,
+            ev3:       ev3,
+            poweredUp: poweredUp,
+            settings:  settings,
+            onStop:    this.stop.bind(this)
         });
-        // Brick events...
-        brick
-            .addEventListener('Brick.Connected',    this, this.onBickConnected)
-            .addEventListener('Brick.Disconnected', this, this.onBickDisconnected);
+        // EV3 events...
+        ev3
+            .addEventListener('EV3.Connected',    this, this.onDeviceConnected)
+            .addEventListener('EV3.Disconnected', this, this.onDeviceDisconnected);
+        // EV3 events...
+        poweredUp
+            .addEventListener('PoweredUp.Connected',    this, this.onDeviceConnected)
+            .addEventListener('PoweredUp.Disconnected', this, this.onDeviceDisconnected);
         dispatcher
             .on('VM.Breakpoint',           this, this.onBreakpoint)
             .on('VM.Error.Range',          this, this.onRangeCheckError)
             .on('VM.Error.DivisionByZero', this, this.onDivisionByZero)
-            .on('VM.Error.HeapOverflow',   this, this.onHeapOverflow);
+            .on('VM.Error.HeapOverflow',   this, this.onHeapOverflow)
+            .on('Button.Device.EV3',       this, this.onSelectDeviceEV3)
+            .on('Button.Device.PoweredUp', this, this.onSelectDevicePoweredUp);
     }
 
-    onBickConnected() {
+    onDeviceConnected() {
         if (this._localModules && this._vm) {
             let modules = this.getModules(this._vm);
             this._vm.setModules(modules);
@@ -88,7 +103,7 @@ exports.CompileAndRun = class extends DOMUtils {
         }
     }
 
-    onBickDisconnected() {
+    onDeviceDisconnected() {
         if (!this._localModules && this._vm) {
             let modules = this.getModules(this._vm);
             this._vm.setModules(modules);
@@ -126,6 +141,18 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulatorModules.setImage(image);
     }
 
+    onSelectDeviceEV3() {
+        this._activeDevice = 0;
+        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green active'});
+        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
+    }
+
+    onSelectDevicePoweredUp() {
+        this._activeDevice = 1;
+        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
+        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
+    }
+
     getVM() {
         return this._vm;
     }
@@ -148,43 +175,51 @@ exports.CompileAndRun = class extends DOMUtils {
 
     getModules(vm) {
         let modules    = [];
-        let brick      = this._brick;
         let fileSystem = new FileSystem({vm: vm});
-        this._localModules = !this._brick.getConnected();
+        let device     = (function() { return (this._activeDevice === 0) ? this._ev3 : this._poweredUp; }).bind(this);
+        this._localModules = !device().getConnected();
         if (this._localModules) {
-            modules[ 0] = new LocalStandardModule    ({vm: vm, brick: brick});
-            modules[ 1] = new LocalMathModule        ({vm: vm, brick: brick});
-            modules[ 2] = new LocalScreenModule      ({vm: vm, brick: brick});
-            modules[ 3] = new LocalLightModule       ({vm: vm, brick: brick});
-            modules[ 4] = new LocalButtonModule      ({vm: vm, brick: brick});
-            modules[ 5] = new LocalSoundModule       ({vm: vm, brick: brick});
-            modules[ 6] = new LocalMotorModule       ({vm: vm, brick: brick});
-            modules[ 7] = new LocalSensorModule      ({vm: vm, brick: brick});
-            modules[ 8] = new LocalFileModule        ({vm: vm, brick: brick, fileSystem: fileSystem});
-            modules[ 9] = new LocalSystemModule      ({vm: vm, brick: brick});
-            modules[10] = new LocalStringModule      ({vm: vm, brick: brick});
-            modules[11] = new LocalBitModule         ({vm: vm, brick: brick});
+            modules[ 0] = new LocalStandardModule    ({vm: vm, device: device});
+            modules[ 1] = new LocalMathModule        ({vm: vm, device: device});
+            modules[ 2] = new LocalScreenModule      ({vm: vm, device: device});
+            modules[ 3] = new LocalLightModule       ({vm: vm, device: device});
+            modules[ 4] = new LocalButtonModule      ({vm: vm, device: device});
+            modules[ 5] = new LocalSoundModule       ({vm: vm, device: device});
+            modules[ 6] = new LocalMotorModule       ({vm: vm, device: device});
+            modules[ 7] = new LocalSensorModule      ({vm: vm, device: device});
+            modules[ 8] = new LocalFileModule        ({vm: vm, device: device, fileSystem: fileSystem});
+            modules[ 9] = new LocalSystemModule      ({vm: vm, device: device});
+            modules[10] = new LocalStringModule      ({vm: vm, device: device});
+            modules[11] = new LocalBitModule         ({vm: vm, device: device});
+            modules[12] = new LocalDeviceModule      ({vm: vm, device: device});
+            modules[13] = new LocalPoweredUpModule   ({vm: vm, device: device});
             // Mindsensors...
-            modules[32] = new LocalPspModule         ({vm: vm, brick: brick});
-            modules[33] = new LocalMultiplexerModule ({vm: vm, brick: brick});
+            modules[32] = new LocalPspModule         ({vm: vm, device: device});
+            modules[33] = new LocalMultiplexerModule ({vm: vm, device: device});
         } else {
-            modules[ 0] = new RemoteStandardModule   ({vm: vm, brick: brick});
-            modules[ 1] = new RemoteMathModule       ({vm: vm, brick: brick});
-            modules[ 2] = new RemoteScreenModule     ({vm: vm, brick: brick});
-            modules[ 3] = new RemoteLightModule      ({vm: vm, brick: brick});
-            modules[ 4] = new RemoteButtonModule     ({vm: vm, brick: brick});
-            modules[ 5] = new RemoteSoundModule      ({vm: vm, brick: brick});
-            modules[ 6] = new RemoteMotorModule      ({vm: vm, brick: brick});
-            modules[ 7] = new RemoteSensorModule     ({vm: vm, brick: brick});
-            modules[ 8] = new RemoteFileModule       ({vm: vm, brick: brick, fileSystem: fileSystem});
-            modules[ 9] = new RemoteSystemModule     ({vm: vm, brick: brick});
-            modules[10] = new RemoteStringModule     ({vm: vm, brick: brick});
-            modules[11] = new RemoteBitModule        ({vm: vm, brick: brick});
+            modules[ 0] = new RemoteStandardModule   ({vm: vm, device: device});
+            modules[ 1] = new RemoteMathModule       ({vm: vm, device: device});
+            modules[ 2] = new RemoteScreenModule     ({vm: vm, device: device});
+            modules[ 3] = new RemoteLightModule      ({vm: vm, device: device});
+            modules[ 4] = new RemoteButtonModule     ({vm: vm, device: device});
+            modules[ 5] = new RemoteSoundModule      ({vm: vm, device: device});
+            modules[ 6] = new RemoteMotorModule      ({vm: vm, device: device});
+            modules[ 7] = new RemoteSensorModule     ({vm: vm, device: device});
+            modules[ 8] = new RemoteFileModule       ({vm: vm, device: device, fileSystem: fileSystem});
+            modules[ 9] = new RemoteSystemModule     ({vm: vm, device: device});
+            modules[10] = new RemoteStringModule     ({vm: vm, device: device});
+            modules[11] = new RemoteBitModule        ({vm: vm, device: device});
+            modules[12] = new RemoteDeviceModule     ({vm: vm, device: device});
+            modules[13] = new RemotePoweredUpModule  ({vm: vm, device: device});
             // Mindsensors...
-            modules[32] = new RemotePspModule        ({vm: vm, brick: brick});
-            modules[33] = new RemoteMultiplexerModule({vm: vm, brick: brick});
+            modules[32] = new RemotePspModule        ({vm: vm, device: device});
+            modules[33] = new RemoteMultiplexerModule({vm: vm, device: device});
         }
         return modules;
+    }
+
+    getActiveDevice() {
+        return this._activeDevice;
     }
 
     createVM() {
@@ -215,7 +250,7 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     simulatorLoaded() {
-        this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay().drawLoaded(this._title);
+        this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay().drawLoaded(this._title);
     }
 
     filesProcessed(title) {
@@ -296,7 +331,7 @@ exports.CompileAndRun = class extends DOMUtils {
             this._vm = this.createVM(this._program);
             this.onBeforeRun(this._program);
             this.setRunProgramTitle('Stop');
-            this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay()
+            this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay()
                 .clearScreen()
                 .reset();
             this._vm.startRunInterval(this.stop.bind(this));
@@ -313,7 +348,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this.setRunProgramTitle('Run');
         this._vm.stop();
         this._motors && this._motors.reset();
-        let ev3Plugin = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125');
+        let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

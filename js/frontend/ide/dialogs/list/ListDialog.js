@@ -5,7 +5,7 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const ListItem   = require('./components/ListItem').ListItem;
+const List       = require('../../../lib/components/list/List').List;
 
 exports.ListDialog = class extends Dialog {
     constructor(opts) {
@@ -24,10 +24,14 @@ exports.ListDialog = class extends Dialog {
                     } :
                     null,
                 {
-                    ref:       this.setRef('text'),
-                    uiId:      this._uiId,
+                    type:      List,
+                    ListItem:  opts.ListItem,
+                    ref:       this.setRef('list'),
+                    ui:        this._ui,
                     tabIndex:  1,
-                    className: 'item-list'
+                    className: 'item-list',
+                    onChange:  this.onChangeItem.bind(this),
+                    onSelect:  this.onSelectItem.bind(this)
                 },
                 {
                     className: 'buttons',
@@ -69,19 +73,13 @@ exports.ListDialog = class extends Dialog {
         return this;
     }
 
-    onClickItem(listItem) {
-        if (this._selected) {
-            this._selected.setSelected(false);
-        }
-        if (this._selected === listItem) {
-            this.onApply();
-            return;
-        }
-        this._selected = listItem;
-        this._selected.setSelected(true);
+    onChangeItem() {
         this._refs.buttonApply.setDisabled(false);
-        event.preventDefault();
-        event.stopPropagation();
+    }
+
+    onSelectItem(index) {
+        this.hide();
+        this._dispatchApply && dispatcher.dispatch(this._dispatchApply, index);
     }
 
     hide() {
@@ -92,9 +90,10 @@ exports.ListDialog = class extends Dialog {
     }
 
     onApply() {
-        if (this._selected) {
+        let index = this._refs.list.getSelectedIndex();
+        if (index >= 0) {
             this.hide();
-            this._dispatchApply && dispatcher.dispatch(this._dispatchApply, this._selected.getIndex());
+            this._dispatchApply && dispatcher.dispatch(this._dispatchApply, index);
         }
     }
 
@@ -104,36 +103,18 @@ exports.ListDialog = class extends Dialog {
         refs.buttonApply.innerHTML = opts.applyTitle;
         refs.buttonApply.className = 'button disabled';
         this._list                 = opts.list;
-        this._selected             = null;
         this._dispatchApply        = opts.dispatchApply;
         this._dispatchCancel       = opts.dispatchCancel;
         this.showList(opts.list);
         super.show();
-        if (this._listItems && this._listItems.length) {
-            this._listItems[0].focus();
+        if (this._list.length) {
+            refs.list.focus();
         } else {
             refs.buttonCancel.focus();
         }
     }
 
     showList(list) {
-        let refs = this._refs;
-        while (refs.text.childNodes.length) {
-            refs.text.removeChild(this._refs.text.childNodes[0]);
-        }
-        this._listItems = [];
-        list.forEach(
-            function(item, index) {
-                this._listItems.push(new ListItem({
-                    parentNode: refs.text,
-                    index:      index,
-                    tabIndex:   index + 1,
-                    item:       item,
-                    dialog:     this
-                }));
-            },
-            this
-        );
-        return this;
+        this._refs.list.setItems(list);
     }
 };

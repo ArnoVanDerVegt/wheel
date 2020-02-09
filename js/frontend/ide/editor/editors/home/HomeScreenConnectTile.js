@@ -7,27 +7,28 @@ const HomeScreenTile = require('./HomeScreenTile').HomeScreenTile;
 exports.HomeScreenConnectTile = class extends HomeScreenTile {
     constructor(opts) {
         super(opts);
-        this._brick = opts.brick;
-        opts.brick.on('Brick.Connecting',   this, this.onBrickConnecting);
-        opts.brick.on('Brick.Connected',    this, this.onBrickConnected);
-        opts.brick.on('Brick.Disconnected', this, this.onBrickDisconnected);
+        this._ev3 = opts.ev3;
+        opts.ev3
+            .on('EV3.Connecting',   this, this.onEV3Connecting)
+            .on('EV3.Connected',    this, this.onEV3Connected)
+            .on('EV3.Disconnected', this, this.onEV3Disconnected);
     }
 
-    onBrickConnecting() {
+    onEV3Connecting() {
         let refs = this._refs;
         refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'EV3';
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         let refs = this._refs;
         refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connected';
         refs.title.innerHTML              = 'EV3';
     }
 
-    onBrickDisconnected() {
+    onEV3Disconnected() {
         let refs = this._refs;
         refs.homeScreenTileText.className = 'home-screen-tile-text';
         refs.subTitle.innerHTML           = '';
@@ -35,7 +36,7 @@ exports.HomeScreenConnectTile = class extends HomeScreenTile {
     }
 
     onClick() {
-        if (!this._brick.getConnected()) {
+        if (!this._ev3.getConnected()) {
             this._onClick();
         }
     }

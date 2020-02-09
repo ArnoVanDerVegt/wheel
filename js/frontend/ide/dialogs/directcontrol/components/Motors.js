@@ -8,9 +8,9 @@ const Motor   = require('./Motor').Motor;
 exports.Motors = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._ui    = opts.ui;
-        this._brick = opts.brick;
-        this._uiId  = opts.uiId;
+        this._ui     = opts.ui;
+        this._device = opts.device;
+        this._uiId   = opts.uiId;
         this.initDOM(opts.parentNode, opts.dialog);
     }
 
@@ -26,7 +26,7 @@ exports.Motors = class extends DOMNode {
                         type:      Motor,
                         ui:        this._ui,
                         uiId:      this._uiId,
-                        brick:     this._brick,
+                        device:    this._device,
                         dialog:    dialog,
                         motorId:   0,
                         tabIndex:  10
@@ -36,7 +36,7 @@ exports.Motors = class extends DOMNode {
                         type:      Motor,
                         ui:        this._ui,
                         uiId:      this._uiId,
-                        brick:     this._brick,
+                        device:    this._device,
                         dialog:    dialog,
                         motorId:   1,
                         tabIndex:  20
@@ -46,7 +46,7 @@ exports.Motors = class extends DOMNode {
                         type:      Motor,
                         ui:        this._ui,
                         uiId:      this._uiId,
-                        brick:     this._brick,
+                        device:    this._device,
                         dialog:    dialog,
                         motorId:   2,
                         tabIndex:  30
@@ -56,7 +56,7 @@ exports.Motors = class extends DOMNode {
                         type:      Motor,
                         ui:        this._ui,
                         uiId:      this._uiId,
-                        brick:     this._brick,
+                        device:    this._device,
                         dialog:    dialog,
                         tabIndex:  40,
                         motorId:   3,

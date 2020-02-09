@@ -2,47 +2,48 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Downloader          = require('../brick/Downloader');
-const path                = require('../lib/path');
-const Http                = require('../lib/Http').Http;
-const dispatcher          = require('../lib/dispatcher').dispatcher;
-const Button              = require('../lib/components/Button').Button;
-const Hint                = require('../lib/components/Hint').Hint;
-const FileTree            = require('../lib/components/filetree/FileTree').FileTree;
-const getDataProvider     = require('../lib/dataprovider/dataProvider').getDataProvider;
-const Text                = require('../program/output/Text').Text;
-const Rtf                 = require('../program/output/Rtf').Rtf;
-const Linter              = require('../compiler/linter/Linter');
-const getImage            = require('./data/images').getImage;
-const tabIndex            = require('./tabIndex');
-const CompileAndRun       = require('./CompileAndRun').CompileAndRun;
-const EditorsState        = require('./editor/EditorsState').EditorsState;
-const Editor              = require('./editor/Editor').Editor;
-const Console             = require('./console/Console').Console;
-const Log                 = require('./console/Log');
-const MainMenu            = require('./menu/MainMenu').MainMenu;
-const FileDialog          = require('./dialogs/file/FileDialog').FileDialog;
-const FileNewDialog       = require('./dialogs/file/FileNewDialog').FileNewDialog;
-const FileRenameDialog    = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
-const ExploreDialog       = require('./dialogs/ExploreDialog').ExploreDialog;
-const DirectControlDialog = require('./dialogs/directcontrol/DirectControlDialog').DirectControlDialog;
-const ConfirmDialog       = require('./dialogs/ConfirmDialog').ConfirmDialog;
-const AlertDialog         = require('./dialogs/AlertDialog').AlertDialog;
-const YesNoCancelDialog   = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
-const ImageNewDialog      = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
-const ImageResizeDialog   = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
-const ImageLoadDialog     = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
-const ListDialog          = require('./dialogs/list/ListDialog').ListDialog;
-const ConnectListDialog   = require('./dialogs/list/ConnectListDialog').ConnectListDialog;
-const StatisticsDialog    = require('./dialogs/statistics/StatisticsDialog').StatisticsDialog;
-const VolumeDialog        = require('./dialogs/VolumeDialog').VolumeDialog;
-const HelpDialog          = require('./dialogs/help/HelpDialog').HelpDialog;
-const DaisyChainDialog    = require('./dialogs/DaisyChainDialog').DaisyChainDialog;
-const LicenseDialog       = require('./dialogs/LicenseDialog').LicenseDialog;
-const DirectoryNewDialog  = require('./dialogs/directory/DirectoryNewDialog').DirectoryNewDialog;
-const ReplaceDialog       = require('./dialogs/ReplaceDialog').ReplaceDialog;
-const DownloadDialog      = require('./dialogs/download/DownloadDialog').DownloadDialog;
-const GraphDialog         = require('./dialogs/GraphDialog').GraphDialog;
+const Downloader                 = require('../ev3/Downloader');
+const path                       = require('../lib/path');
+const Http                       = require('../lib/Http').Http;
+const dispatcher                 = require('../lib/dispatcher').dispatcher;
+const Button                     = require('../lib/components/Button').Button;
+const Hint                       = require('../lib/components/Hint').Hint;
+const FileTree                   = require('../lib/components/filetree/FileTree').FileTree;
+const getDataProvider            = require('../lib/dataprovider/dataProvider').getDataProvider;
+const Text                       = require('../program/output/Text').Text;
+const Rtf                        = require('../program/output/Rtf').Rtf;
+const Linter                     = require('../compiler/linter/Linter');
+const getImage                   = require('./data/images').getImage;
+const tabIndex                   = require('./tabIndex');
+const CompileAndRun              = require('./CompileAndRun').CompileAndRun;
+const EditorsState               = require('./editor/EditorsState').EditorsState;
+const Editor                     = require('./editor/Editor').Editor;
+const Console                    = require('./console/Console').Console;
+const Log                        = require('./console/Log');
+const MainMenu                   = require('./menu/MainMenu').MainMenu;
+const FileDialog                 = require('./dialogs/file/FileDialog').FileDialog;
+const FileNewDialog              = require('./dialogs/file/FileNewDialog').FileNewDialog;
+const FileRenameDialog           = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
+const ExploreDialog              = require('./dialogs/ExploreDialog').ExploreDialog;
+const DirectControlDialog        = require('./dialogs/directcontrol/DirectControlDialog').DirectControlDialog;
+const ConfirmDialog              = require('./dialogs/ConfirmDialog').ConfirmDialog;
+const AlertDialog                = require('./dialogs/AlertDialog').AlertDialog;
+const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
+const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
+const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
+const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
+const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
+const EV3ConnectListDialog       = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
+const PoweredUpConnectListDialog = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
+const StatisticsDialog           = require('./dialogs/statistics/StatisticsDialog').StatisticsDialog;
+const VolumeDialog               = require('./dialogs/VolumeDialog').VolumeDialog;
+const HelpDialog                 = require('./dialogs/help/HelpDialog').HelpDialog;
+const DaisyChainDialog           = require('./dialogs/DaisyChainDialog').DaisyChainDialog;
+const LicenseDialog              = require('./dialogs/LicenseDialog').LicenseDialog;
+const DirectoryNewDialog         = require('./dialogs/directory/DirectoryNewDialog').DirectoryNewDialog;
+const ReplaceDialog              = require('./dialogs/ReplaceDialog').ReplaceDialog;
+const DownloadDialog             = require('./dialogs/download/DownloadDialog').DownloadDialog;
+const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -58,7 +59,7 @@ exports.IDE = class extends CompileAndRun {
         this._editor       = new Editor({
             ui:           ui,
             settings:     settings,
-            brick:        this._brick,
+            ev3:          this._ev3,
             editorsState: this._editorsState
         });
         new Console ({
@@ -70,7 +71,7 @@ exports.IDE = class extends CompileAndRun {
             settings:      settings,
             platform:      settings.getOS().platform,
             tabIndex:      tabIndex.MAIN_MENU,
-            brick:         this._brick,
+            ev3:           this._ev3,
             getImage:      getImage
         });
         new FileTree({
@@ -87,7 +88,7 @@ exports.IDE = class extends CompileAndRun {
         });
         this
             .initGlobalRequire()
-            .initBrick()
+            .initEV3()
             .initDialogs()
             .initDispatcher()
             .initWindowResizeListener()
@@ -127,6 +128,7 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.EV3.DaisyChainMode',            this, this.onMenuEV3DaisyChain)
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)
             .on('Menu.EV3.StopAllMotors',             this, this.onMenuEV3StopAllMotors)
+            .on('Menu.PoweredUp.Connect',             this, this.onMenuPoweredUpConnect)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
             .on('Menu.Download.InstallVM',            this, this.onMenuDownloadInstallVM)
             .on('Menu.Download.InstallSineTable',     this, this.onMenuDownloadInstallSineTable)
@@ -144,12 +146,12 @@ exports.IDE = class extends CompileAndRun {
             .on('FileTree.NewProjectFile',            this, this.onMenuFileNewProjectFile)
             .on('FileTree.NewImageFile',              this, this.onMenuFileNewImageFile)
             .on('Compile.Silent',                     this, this.onCompileSilent);
-        // Brick...
-        let brick = this._brick;
-        brick
-            .addEventListener('Brick.Connecting', this, this.onBrickConnecting)
-            .addEventListener('Brick.Connected',  this, this.onBrickConnected);
-        dispatcher.on('Menu.EV3.Disconnect', brick, brick.disconnect);
+        // EV3...
+        let ev3 = this._ev3;
+        ev3
+            .addEventListener('EV3.Connecting', this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',  this, this.onEV3Connected);
+        dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
         // Editor...
         let editor = this._editor;
         dispatcher
@@ -274,7 +276,8 @@ exports.IDE = class extends CompileAndRun {
 
     // EV3 Menu...
     onMenuEV3Connect() {
-        dispatcher.dispatch('Dialog.Connect.Show');
+        dispatcher.dispatch('Dialog.ConnectEV3.Show');
+        this.onSelectDeviceEV3();
     }
 
     onMenuEV3DaisyChain() {
@@ -286,7 +289,13 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuEV3StopAllMotors() {
-        brick.stopAllMotors();
+        this._ev3.stopAllMotors();
+    }
+
+    // Powered Up Menu...
+    onMenuPoweredUpConnect() {
+        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
+        this.onSelectDevicePoweredUp();
     }
 
     onMenuDownloadInstallCompiledFiles() {
@@ -352,10 +361,10 @@ exports.IDE = class extends CompileAndRun {
         activeEditor && activeEditor[func] && activeEditor[func]();
     }
 
-    initBrick() {
+    initEV3() {
         let settings = this._settings;
-        if (settings.getAutoConnect() && (settings.getDeviceName() !== '')) {
-            dispatcher.dispatch('Brick.ConnectToDevice', settings.getDeviceName());
+        if (settings.getEV3AutoConnect() && (settings.getDeviceName() !== '')) {
+            dispatcher.dispatch('EV3.ConnectToDevice', settings.getDeviceName());
         }
         return this;
     }
@@ -364,27 +373,28 @@ exports.IDE = class extends CompileAndRun {
         if (!('electron' in window)) {
             new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
-        new FileNewDialog      ({getImage: getImage, ui: this._ui});
-        new FileRenameDialog   ({getImage: getImage, ui: this._ui});
-        new ConfirmDialog      ({getImage: getImage, ui: this._ui});
-        new AlertDialog        ({getImage: getImage, ui: this._ui});
-        new ConnectListDialog  ({getImage: getImage, ui: this._ui});
-        new YesNoCancelDialog  ({getImage: getImage, ui: this._ui});
-        new ImageNewDialog     ({getImage: getImage, ui: this._ui});
-        new ImageResizeDialog  ({getImage: getImage, ui: this._ui});
-        new ImageLoadDialog    ({getImage: getImage, ui: this._ui});
-        new ListDialog         ({getImage: getImage, ui: this._ui});
-        new StatisticsDialog   ({getImage: getImage, ui: this._ui});
-        new VolumeDialog       ({getImage: getImage, ui: this._ui});
-        new DaisyChainDialog   ({getImage: getImage, ui: this._ui});
-        new LicenseDialog      ({getImage: getImage, ui: this._ui});
-        new DirectoryNewDialog ({getImage: getImage, ui: this._ui});
-        new ReplaceDialog      ({getImage: getImage, ui: this._ui});
-        new GraphDialog        ({getImage: getImage, ui: this._ui});
-        new HelpDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DirectControlDialog({getImage: getImage, ui: this._ui, brick: this._brick});
-        new ExploreDialog      ({getImage: getImage, ui: this._ui, brick: this._brick, settings: this._settings});
-        new DownloadDialog     ({getImage: getImage, ui: this._ui, brick: this._brick, settings: this._settings});
+        new FileNewDialog             ({getImage: getImage, ui: this._ui});
+        new FileRenameDialog          ({getImage: getImage, ui: this._ui});
+        new ConfirmDialog             ({getImage: getImage, ui: this._ui});
+        new AlertDialog               ({getImage: getImage, ui: this._ui});
+        new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui});
+        new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui});
+        new YesNoCancelDialog         ({getImage: getImage, ui: this._ui});
+        new ImageNewDialog            ({getImage: getImage, ui: this._ui});
+        new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
+        new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
+        new ListDialog                ({getImage: getImage, ui: this._ui});
+        new StatisticsDialog          ({getImage: getImage, ui: this._ui});
+        new VolumeDialog              ({getImage: getImage, ui: this._ui});
+        new DaisyChainDialog          ({getImage: getImage, ui: this._ui});
+        new LicenseDialog             ({getImage: getImage, ui: this._ui});
+        new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
+        new ReplaceDialog             ({getImage: getImage, ui: this._ui});
+        new GraphDialog               ({getImage: getImage, ui: this._ui});
+        new HelpDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new DirectControlDialog       ({getImage: getImage, ui: this._ui, device: this._ev3});
+        new ExploreDialog             ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
+        new DownloadDialog            ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         return this;
     }
 
@@ -396,11 +406,11 @@ exports.IDE = class extends CompileAndRun {
         });
     }
 
-    onBrickConnecting() {
+    onEV3Connecting() {
         dispatcher.dispatch('Console.Log', {message: 'Connecting to EV3...'});
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         dispatcher.dispatch('Console.Log', {message: 'Connected to EV3.', className: 'ok'});
     }
 
@@ -716,7 +726,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     installProgram() {
-        if (!this._brick.getConnected() || !this._settings.getAutoInstall()) {
+        if (!this._ev3.getConnected() || !this._settings.getAutoInstall()) {
             return;
         }
         let messageId       = Log.getMessageId();
@@ -725,7 +735,7 @@ exports.IDE = class extends CompileAndRun {
         let filename        = path.getPathAndFilename(this._projectFilename).filename;
         let resources       = this._preProcessor.getResources();
         new Downloader.Downloader().download({
-            brick:           this._brick,
+            ev3:             this._ev3,
             program:         this._program,
             localPath:       this._settings.getDocumentPath(),
             resources:       resources,

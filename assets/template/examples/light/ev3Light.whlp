@@ -1,0 +1,27 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "EV3 Light example"
+
+#include "lib/standard.whl"
+#include "lib/light.whl"
+
+proc main()
+    ; Turn the red light on and wait 1 second...
+    light(LIGHT_RED)
+    sleep(1000)
+
+    ; Turn the yellow light on and wait 3 seconds...
+    light(LIGHT_ORANGE_FLASH)
+    sleep(3000)
+
+    ; Turn the yellow light on and wait 1 second...
+    light(LIGHT_ORANGE)
+    sleep(1000)
+
+    ; Turn the green pulse light on and wait 3 seconds...
+    light(LIGHT_GREEN_PULSE)
+    sleep(3000)
+
+    ; Turn the light off.
+    light(LIGHT_OFF)
+end

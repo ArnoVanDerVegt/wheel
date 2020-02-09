@@ -39,13 +39,13 @@ exports.SystemModule = class extends VMModule {
                 this.emit('System.SetPowerOffMinutes', vmData.getRecordFromAtOffset(['time']));
                 break;
             case systemModuleConstants.SYSTEM_GET_BRICKNAME:
-                this.emit('System.GetBrickname', {});
-                let getBrickname = vmData.getRecordFromAtOffset(['name']);
-                vmData.getStringList()[getBrickname.name] = 'EV3';
+                this.emit('System.GetEV3name', {});
+                let getEV3name = vmData.getRecordFromAtOffset(['name']);
+                vmData.getStringList()[getEV3name.name] = 'EV3';
                 break;
             case systemModuleConstants.SYSTEM_SET_BRICKNAME:
-                let setBrickname = vmData.getRecordFromAtOffset(['name']);
-                this.emit('System.SetBrickname', {name: vmData.getStringList()[setBrickname.name]});
+                let setEV3name = vmData.getRecordFromAtOffset(['name']);
+                this.emit('System.SetEV3name', {name: vmData.getStringList()[setEV3name.name]});
                 break;
             case systemModuleConstants.SYSTEM_GET_MEMORY_TOTAL:
                 this.emit('System.GetMemoryTotal', {});

@@ -23,7 +23,7 @@ exports.MotorModule = class extends VMModule {
             case motorModuleConstants.MOTOR_GET_TYPE:
                 motor          = vmData.getRecordFromAtOffset(['layer', 'id']);
                 motor.callback = (function(value) {
-                    if (!this._brick.getConnected() && (value === -1)) {
+                    if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
                     } else {
                         vmData.setNumberAtRet(value);

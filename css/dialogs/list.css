@@ -48,6 +48,7 @@
 }
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item a {
     float:                          left;
+    position:                       relative;
     width:                          100%;
     height:                         100%;
     padding:                        0 16px 0 16px;
@@ -72,6 +73,27 @@
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item span {
     width:                          calc(100% - 72px);
     height:                         48px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item span.item-title {
+    height:                         24px;
+    line-height:                    24px;
+    margin-top:                     4px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item span.item-sub-title {
+    font-size:                      10px;
+    height:                         16px;
+    line-height:                    16px;
+}
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-status {
+    pointer-events:                 none;
+    font-size:                      10px;
+    height:                         16px;
+    line-height:                    16px;
+    width: auto;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item:hover {
     background-color:               var(--ui-background4);

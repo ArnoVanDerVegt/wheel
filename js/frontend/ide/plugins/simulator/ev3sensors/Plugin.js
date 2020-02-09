@@ -8,7 +8,7 @@ const DOMNode               = require('../../../../lib/dom').DOMNode;
 const Checkbox              = require('../../../../lib/components/Checkbox').Checkbox;
 const ContextMenu           = require('../../../../lib/components/ContextMenu').ContextMenu;
 const tabIndex              = require('../../../tabIndex');
-const SimulatorPlugin       = require('../SimulatorPlugin').SimulatorPlugin;
+const SimulatorPlugin       = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const SensorContainer       = require('./SensorContainer').SensorContainer;
 
 exports.Plugin = class extends SimulatorPlugin {
@@ -18,11 +18,11 @@ exports.Plugin = class extends SimulatorPlugin {
         this._contextMenus  = {};
         this._sensors       = [];
         this.initDOM(opts.parentNode);
-        // Brick events...
-        this._brick
-            .addEventListener('Brick.Connected',    this, this.onBrickConnected)
-            .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
-            .addEventListener('Brick.Disconnected', this, this.onBrickDisconnected);
+        // EV3 events...
+        this._device
+            .addEventListener('EV3.Connected',    this, this.onEV3Connected)
+            .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
+            .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
         dispatcher
             .on('VM.Start', this, this.onVMStart)
             .on('VM.Stop',  this, this.onVMStop);
@@ -36,7 +36,7 @@ exports.Plugin = class extends SimulatorPlugin {
             children.push({
                 type:      SensorContainer,
                 ui:        this._ui,
-                brick:     this._brick,
+                device:    this._device,
                 simulator: this._simulator,
                 sensors:   this,
                 tabIndex:  tabIndex.LAYER_1_SENSOR_1 + i,
@@ -109,7 +109,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 if (mode !== null) {
                     let sensor = this._activeSensor;
                     sensor.setMode(mode);
-                    this._brick.setMode(sensor.getLayer(), sensor.getId(), mode);
+                    this._device.setMode(sensor.getLayer(), sensor.getId(), mode);
                 }
             }).bind(this)
         };
@@ -122,18 +122,18 @@ exports.Plugin = class extends SimulatorPlugin {
         this._disconnectedTimeout = null;
     }
 
-    onBrickConnecting(deviceName) {
+    onEV3Connecting(deviceName) {
         this.clearDisconnectedTimeout();
         this._autoResetPanelElement.style.display = 'none';
     }
 
-    onBrickConnected() {
+    onEV3Connected() {
         this.clearDisconnectedTimeout();
         this._connected                           = true;
         this._autoResetPanelElement.style.display = 'none';
     }
 
-    onBrickDisconnected() {
+    onEV3Disconnected() {
         this.clearDisconnectedTimeout();
         this._connected = true;
         this._disconnectedTimeout = setTimeout(

@@ -1,0 +1,46 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Light example"
+
+#include "lib/standard.whl"
+#include "lib/light.whl"
+
+proc main()
+    repeat
+        light(LIGHT_PU_BLACK)
+        sleep(1000)
+
+        light(LIGHT_PU_PINK)
+        sleep(1000)
+
+        light(LIGHT_PU_PURPLE)
+        sleep(1000)
+
+        light(LIGHT_PU_BLUE)
+        sleep(1000)
+
+        light(LIGHT_PU_LIGHT_BLUE)
+        sleep(1000)
+
+        light(LIGHT_PU_CYAN)
+        sleep(1000)
+
+        light(LIGHT_PU_GREEN)
+        sleep(1000)
+
+        light(LIGHT_PU_YELLOW)
+        sleep(1000)
+
+        light(LIGHT_PU_ORANGE)
+        sleep(1000)
+
+        light(LIGHT_PU_RED)
+        sleep(1000)
+
+        light(LIGHT_PU_WHITE)
+        sleep(1000)
+
+        light(LIGHT_PU_NONE)
+        sleep(1000)
+    end
+end

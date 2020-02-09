@@ -11,10 +11,10 @@ const HelpOption  = require('./HelpOption').HelpOption;
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
-        let brick    = opts.brick;
+        let ev3      = opts.ev3;
         let settings = opts.settings;
         this._ui       = opts.ui;
-        this._brick    = brick;
+        this._ev3      = ev3;
         this._settings = settings;
         this
             .initMenu()
@@ -22,16 +22,17 @@ exports.MainMenu = class extends MainMenu {
             .initStorage();
         // Settings events...
         settings
-            .addEventListener('Settings.View',    this, this.onUpdateViewMenu)
-            .addEventListener('Settings.EV3',     this, this.onUpdateEV3Menu)
-            .addEventListener('Settings.Compile', this, this.onUpdateCompileMenu)
-            .addEventListener('Settings.Plugin',  this, this.onUpdateSimulatorMenu);
-        // Brick events...
-        brick
-            .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
-            .addEventListener('Brick.Connected',    this, this.onUpdateEV3Menu)
-            .addEventListener('Brick.Disconnect',   this, this.onUpdateEV3Menu)
-            .addEventListener('Brick.Disconnected', this, this.onUpdateEV3Menu);
+            .addEventListener('Settings.View',      this, this.onUpdateViewMenu)
+            .addEventListener('Settings.EV3',       this, this.onUpdateEV3Menu)
+            .addEventListener('Settings.PoweredUp', this, this.onUpdatePowerdUpMenu)
+            .addEventListener('Settings.Compile',   this, this.onUpdateCompileMenu)
+            .addEventListener('Settings.Plugin',    this, this.onUpdateSimulatorMenu);
+        // EV3 events...
+        ev3
+            .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',    this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnect',   this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnected', this, this.onUpdateEV3Menu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -99,6 +100,7 @@ exports.MainMenu = class extends MainMenu {
             .initEditMenu()
             .initFindMenu()
             .initEV3Menu()
+            .initPoweredUpMenu()
             .initCompileMenu()
             .initViewMenu()
             .initSimulatorMenu()
@@ -108,6 +110,7 @@ exports.MainMenu = class extends MainMenu {
             .onUpdateCompileMenu()
             .onVM()
             .onUpdateEV3Menu()
+            .onUpdatePoweredUpMenu()
             .onUpdateFileMenu();
     }
 
@@ -191,7 +194,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Connect',                                                dispatch: 'Menu.EV3.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.EV3.Disconnect'},
-                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.AutoConnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.EV3AutoConnect'},
                 {title: '-'},
                 {title: 'Daisy chain mode',                                       dispatch: 'Menu.EV3.DaisyChainMode'},
                 {title: '-'},
@@ -208,6 +211,28 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(false);                // Disconnect
         menuOptions[2].setEnabled('electron' in window); // Autoconnect
         menuOptions[7].setEnabled(false);                // Install compiled files
+        return this;
+    }
+
+    initPoweredUpMenu() {
+        this._poweredUpMenu = this.addMenu({
+            title:     '^PoweredUp',
+            width:     '256px',
+            className: 'ev3-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
+                {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.PoweredUpAutoConnect'},
+                {title: '-'},
+                {title: 'Direct control',                                         dispatch: 'Menu.EV3.DirectControl'},
+                {title: 'Stop all motors',                                        dispatch: 'Menu.PoweredUp.StopAllMotors'}
+            ]
+        });
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        menuOptions[0].setEnabled('electron' in window); // Connect
+        menuOptions[1].setEnabled(false);                // Disconnect
+        menuOptions[2].setEnabled('electron' in window); // Autoconnect
         return this;
     }
 
@@ -315,17 +340,29 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateEV3Menu() {
-        let connected   = this._brick.getConnected();
+        let connected   = this._ev3.getConnected();
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[2].setChecked(settings.getAutoConnect());
+        menuOptions[2].setChecked(settings.getEV3AutoConnect());
         menuOptions[3].setChecked(settings.getDaisyChainMode());
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
         menuOptions[8].setChecked(settings.getAutoInstall());
+        return this;
+    }
+
+    onUpdatePoweredUpMenu() {
+        let connected   = false;
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        let settings    = this._settings;
+        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
+        menuOptions[1].setEnabled(connected);                               // Disconnect
+        menuOptions[2].setChecked(settings.getPoweredUpAutoConnect());
+        menuOptions[3].setEnabled(connected);                               // EV3 Direct control
+        menuOptions[4].setEnabled(connected);                               // Stop all motors
         return this;
     }
 
@@ -340,7 +377,7 @@ exports.MainMenu = class extends MainMenu {
             menuOptions[2].setEnabled(false);                               // Compile & run
         }
         menuOptions[6].setChecked(settings.getLinter());                    // Linter
-        menuOptions[5].setEnabled(this._brick.getConnected());              //
+        menuOptions[5].setEnabled(this._ev3.getConnected());                //
         menuOptions[9].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
     }
@@ -350,7 +387,7 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(vm && !vm.running());                     // Run
         menuOptions[3].setEnabled(vm && vm.getBreakpoint());                // Continue
         menuOptions[4].setEnabled(vm && vm.running());                      // Stop
-        let connected = this._brick.getConnected();
+        let connected = this._ev3.getConnected();
         menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[7].setEnabled(vm && connected);                         // Install compiled files
         return this;
@@ -375,7 +412,7 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
-    onBrickConnecting() {
+    onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[0].setTitle('Connecting...');
     }

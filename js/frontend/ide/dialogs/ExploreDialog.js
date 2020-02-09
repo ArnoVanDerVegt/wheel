@@ -12,7 +12,7 @@ exports.ExploreDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._settings    = opts.settings;
-        this._brick       = opts.brick;
+        this._ev3         = opts.ev3;
         this._currentFile = null;
         this.createWindow(
             'ev3-file-viewer-dialog',
@@ -244,7 +244,7 @@ exports.ExploreDialog = class extends Dialog {
         let remotePath    = remoteFiles.getPath();
         if (localFilename && (['.rbf', '.rgf', '.rtf', '.rsf'].indexOf(path.getExtension(localFilename)) !== -1)) {
             remoteFiles.setLoading(true);
-            this._brick.download(
+            this._ev3.download(
                 path.join(localPath,  localFilename),
                 path.join(remotePath, localFilename)
             );
@@ -268,7 +268,7 @@ exports.ExploreDialog = class extends Dialog {
         let remoteFiles = refs.remoteFiles;
         refs.delete.setDisabled(true);
         remoteFiles.setLoading(true);
-        this._brick.deleteFile(
+        this._ev3.deleteFile(
             this._deleteFilename,
             (function(result) {
                 if (result.error) {
@@ -317,7 +317,7 @@ exports.ExploreDialog = class extends Dialog {
             let remoteFiles = this._refs.remoteFiles;
             remoteFiles.setLoading(true);
             directory = path.join(remoteFiles.getPath(), directory);
-            this._brick.createDir(directory, this.onRemoteDirUpdated.bind(this));
+            this._ev3.createDir(directory, this.onRemoteDirUpdated.bind(this));
         }
     }
 
@@ -337,14 +337,14 @@ exports.ExploreDialog = class extends Dialog {
     }
 
     onShow() {
-        this._brick.stopPolling();
+        this._ev3.stopPolling();
         this._refs.localFiles.load();
         this._refs.remoteFiles.load(true);
         this.show();
     }
 
     hide() {
-        this._brick.resumePolling();
+        this._ev3.resumePolling();
         super.hide();
     }
 };

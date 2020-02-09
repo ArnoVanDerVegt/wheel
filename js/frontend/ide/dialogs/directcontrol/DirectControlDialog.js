@@ -16,7 +16,7 @@ const Piano           = require('./components/Piano').Piano;
 exports.DirectControlDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this._brick         = opts.brick;
+        this._device        = opts.device;
         this._layer         = 0;
         this._motorElements = [];
         this.createWindow(
@@ -35,14 +35,14 @@ exports.DirectControlDialog = class extends Dialog {
                     type:     Motors,
                     ui:       this._ui,
                     uiId:     this._uiId,
-                    brick:    this._brick,
+                    device:   this._device,
                     dialog:   this
                 },
                 {
                     type:     Piano,
                     ui:       this._ui,
                     uiId:     this._uiId,
-                    brick:    this._brick,
+                    device:   this._device,
                     dialog:   this
                 },
                 {
@@ -97,7 +97,7 @@ exports.DirectControlDialog = class extends Dialog {
         );
         dispatcher.on('Dialog.DirectControl.Show', this, this.onShow);
         this.initLayerState();
-        this.initBrickEvents();
+        this.initEV3Events();
     }
 
     initLayerState() {
@@ -115,21 +115,21 @@ exports.DirectControlDialog = class extends Dialog {
         }
     }
 
-    initBrickEvents() {
-        let brick = this._brick;
+    initEV3Events() {
+        let device = this._device;
         for (let layer = 0; layer < 4; layer++) {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
-                    brick.on(
-                        'Brick.Layer' + layer + 'Motor' + output + 'Assigned',
+                    device.on(
+                        'EV3.Layer' + layer + 'Motor' + output + 'Assigned',
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
                             this.onOutputAssigned(layer, output, assigned);
                         }
                     );
-                    brick.on(
-                        'Brick.Layer' + layer + 'Motor' + output + 'Changed',
+                    device.on(
+                        'EV3.Layer' + layer + 'Motor' + output + 'Changed',
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */

@@ -43,8 +43,9 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.ShowSimulatorOnRun',       this, this._toggleShowSimulatorOnRun)
             .on('Settings.Toggle.CreateVMTextOutput',       this, this._toggleCreateVMTextOutput)
             .on('Settings.Toggle.Linter',                   this, this._toggleLinter)
-            .on('Settings.Toggle.AutoConnect',              this, this._toggleAutoConnect)
+            .on('Settings.Toggle.EV3AutoConnect',           this, this._toggleEV3AutoConnect)
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
+            .on('Settings.Toggle.PoweredUpAutoConnect',     this, this._togglePoweredUpAutoConnect)
             .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode);
     }
 
@@ -86,11 +87,14 @@ exports.SettingsState = class extends Emitter {
                     welcomeHintDialog: this._dontShow.welcomeHintDialog,
                     themeTile:         this._dontShow.themeTile
                 },
-                brick: {
-                    autoConnect:       this._brick.autoConnect,
-                    autoInstall:       this._brick.autoInstall,
-                    deviceName:        this._brick.deviceName,
-                    daisyChainMode:    this._brick.daisyChainMode
+                ev3: {
+                    autoConnect:       this._ev3.autoConnect,
+                    autoInstall:       this._ev3.autoInstall,
+                    deviceName:        this._ev3.deviceName,
+                    daisyChainMode:    this._ev3.daisyChainMode
+                },
+                poweredUp: {
+                    autoConnect:       this._poweredUp.autoConnect
                 },
                 plugins: this._plugins.toJSON()
             };
@@ -175,20 +179,24 @@ exports.SettingsState = class extends Emitter {
         return this._linter;
     }
 
-    getAutoConnect() {
-        return this._brick.autoConnect;
+    getEV3AutoConnect() {
+        return this._ev3.autoConnect;
     }
 
     getAutoInstall() {
-        return this._brick.autoInstall;
+        return this._ev3.autoInstall;
     }
 
     getDeviceName() {
-        return this._brick.deviceName;
+        return this._ev3.deviceName;
     }
 
     getDaisyChainMode() {
-        return this._brick.daisyChainMode;
+        return this._ev3.daisyChainMode;
+    }
+
+    getPoweredUpAutoConnect() {
+        return this._poweredUp.autoConnect;
     }
 
     getRecentProject() {
@@ -239,13 +247,13 @@ exports.SettingsState = class extends Emitter {
     }
 
     _setDaisyChainMode(daisyChainMode) {
-        this._brick.daisyChainMode = daisyChainMode;
+        this._ev3.daisyChainMode = daisyChainMode;
         this._save();
         this.emit('Settings.EV3');
     }
 
     _setDeviceName(deviceName) {
-        this._brick.deviceName = deviceName;
+        this._ev3.deviceName = deviceName;
         this._save();
     }
 
@@ -356,14 +364,14 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.Compile');
     }
 
-    _toggleAutoConnect() {
-        this._brick.autoConnect = !this._brick.autoConnect;
+    _toggleEV3AutoConnect() {
+        this._ev3.autoConnect = !this._ev3.autoConnect;
         this._save();
         this.emit('Settings.EV3');
     }
 
     _toggleAutoInstall() {
-        this._brick.autoInstall = !this._brick.autoInstall;
+        this._ev3.autoInstall = !this._ev3.autoInstall;
         this._save();
         this.emit('Settings.EV3');
     }
@@ -373,6 +381,12 @@ exports.SettingsState = class extends Emitter {
         this._save();
         this._updateViewSettings();
         this.emit('Settings.View');
+    }
+
+    _togglePoweredUpAutoConnect() {
+        this._poweredUp.autoConnect = !this._poweredUp.autoConnect;
+        this._save();
+        this.emit('Settings.PoweredUp');
     }
 
     onLoad(data) {
@@ -404,11 +418,13 @@ exports.SettingsState = class extends Emitter {
         this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x            : 0;
         this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y            : 0;
         this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                    : false;
-        this._brick                      = ('brick'                 in data)             ? data.brick                       : {};
-        this._brick.autoConnect          = ('autoConnect'           in this._brick)      ? this._brick.autoConnect          : false;
-        this._brick.autoInstall          = ('autoInstall'           in this._brick)      ? this._brick.autoInstall          : false;
-        this._brick.deviceName           = ('deviceName'            in this._brick)      ? this._brick.deviceName           : '';
-        this._brick.daisyChainMode       = ('daisyChainMode'        in this._brick)      ? this._brick.daisyChainMode       : 0;
+        this._ev3                        = ('ev3'                   in data)             ? data.ev3                         : {};
+        this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect            : false;
+        this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall            : false;
+        this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName             : '';
+        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this._ev3.daisyChainMode         : 0;
+        this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                   : {};
+        this._poweredUp.autoConnect      = ('autoConnect'           in this._poweredUp)  ? this._poweredUp.autoConnect      : false;
         this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput          : !electron;
         this._linter                     = ('linter'                in data)             ? data.linter                      : true;
         this._recentProject              = ('recentProject'         in data)             ? data.recentProject               : '';
@@ -426,7 +442,7 @@ exports.SettingsState = class extends Emitter {
             this._plugins.loadDefaults();
         }
         this._updateViewSettings();
-        dispatcher.dispatch('Brick.LayerCount', this._brick.daisyChainMode);
+        dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);
         this._onLoad();
     }
 };

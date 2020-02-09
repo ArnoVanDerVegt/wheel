@@ -23,7 +23,7 @@ exports.Editors = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
-        this._brick        = opts.brick;
+        this._ev3          = opts.ev3;
         this._editorsState = opts.editorsState;
         this._soundLoader  = new SoundLoader();
         this._imageLoader  = new ImageLoader();
@@ -108,7 +108,7 @@ exports.Editors = class extends DOMNode {
                                         type:     HomeScreen,
                                         ui:       this._ui,
                                         settings: this._settings,
-                                        brick:    this._brick
+                                        ev3:      this._ev3
                                     }
                                 ]
                             }

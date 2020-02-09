@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "istanbul": "^0.4.5",
+    "node-poweredup": "^5.0.3",
     "serialport": "^8.0.5",
     "v8-compile-cache": "^2.1.0"
   },

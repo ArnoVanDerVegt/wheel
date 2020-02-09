@@ -11,18 +11,34 @@ const motorModuleConstants       = require('../../../shared/vm/modules/motorModu
 const sensorModuleConstants      = require('../../../shared/vm/modules/sensorModuleConstants');
 const pspModuleConstants         = require('../../../shared/vm/modules/pspModuleConstants');
 const multiplexerModuleConstants = require('../../../shared/vm/modules/multiplexerModuleConstants');
+const deviceModuleConstants      = require('../../../shared/vm/modules/deviceModuleConstants');
+const poweredUpModuleConstants   = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const Sound                      = require('../../../shared/lib/Sound').Sound;
 const dispatcher                 = require('../../lib/dispatcher').dispatcher;
+const pluginUuid                 = require('../plugins/PluginUuid');
+
+const callOnObject = function() {
+        let args   = Array.from(arguments);
+        let object = args.shift();
+        if (!object) {
+            return;
+        }
+        let method = args.shift();
+        if (!object[method]) {
+            return;
+        }
+        /* eslint-disable consistent-return */
+        return object[method].apply(object, args);
+    };
 
 exports.SimulatorModules = class {
-    constructor() {
-        this._simulator = null;
-        this._motors    = null;
-        this._sensors   = null;
-        this._resources = null;
-        this._events    = [];
-        this._modules   = [];
-        this._vm        = null;
+    constructor(opts) {
+        this._compileAndRun = opts.compileAndRun;
+        this._simulator     = null;
+        this._resources     = null;
+        this._events        = [];
+        this._modules       = [];
+        this._vm            = null;
     }
 
     reset() {
@@ -69,9 +85,28 @@ exports.SimulatorModules = class {
         });
     }
 
+    getActiveDevicePlugin() {
+        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+                pluginUuid.SIMULATOR_EV3_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+
+        return this._simulator.getPluginByUuid(uuid);
+    }
+
+    getActiveMotorsPlugin() {
+        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+                pluginUuid.SIMULATOR_EV3_MOTORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+
+        return this._simulator.getPluginByUuid(uuid);
+    }
+
+    getActiveSensorsPlugin() {
+        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+                pluginUuid.SIMULATOR_EV3_SENSORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+
+        return this._simulator.getPluginByUuid(uuid);
+    }
+
     setupStandardModule(vm) {
-        let display        = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay();
-        let self           = this;
         let standardModule = this._modules[standardModuleConstants.MODULE_STANDARD];
         if (!standardModule) {
             return this;
@@ -84,108 +119,123 @@ exports.SimulatorModules = class {
     }
 
     setupScreenModule(vm) {
-        let display      = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getDisplay();
-        let self         = this;
         let screenModule = this._modules[screenModuleConstants.MODULE_SCREEN];
         if (!screenModule) {
             return this;
         }
+        let getDisplay = (function() {
+                let device = this.getActiveDevicePlugin();
+                return device && device.getDisplay ? device.getDisplay() : null;
+            }).bind(this);
+        let self = this;
         this._events.push(
-            screenModule.addEventListener('Screen.Update',     this, function()          { display.updateScreen();                                     }),
-            screenModule.addEventListener('Screen.Clear',      this, function()          { display.clearScreen();                                     }),
-            screenModule.addEventListener('Screen.Fill',       this, function(fill)      { display.setFill(fill.fill);                                }),
-            screenModule.addEventListener('Screen.FillColor',  this, function(fillColor) { display.setFillColor(fillColor.fillColor);                 }),
-            screenModule.addEventListener('Screen.TextSize',   this, function(textSize)  { display.setTextSize(textSize.textSize);                    }),
-            screenModule.addEventListener('Screen.TextAlign',  this, function(textAlign) { display.setTextAlign(textAlign.textAlign);                 }),
-            screenModule.addEventListener('Screen.DrawPixel',  this, function(pixel)     { display.drawPixel(pixel.x, pixel.y);                       }),
-            screenModule.addEventListener('Screen.DrawNum',    this, function(num)       { display.drawText(num.x, num.y, num.n);                     }),
-            screenModule.addEventListener('Screen.DrawText',   this, function(text)      { display.drawText(text.x, text.y, text.s);                  }),
-            screenModule.addEventListener('Screen.DrawLine',   this, function(line)      { display.drawLine(line.x1, line.y1, line.x2, line.y2);      }),
-            screenModule.addEventListener('Screen.DrawRect',   this, function(rect)      { display.drawRect(rect.x, rect.y, rect.width, rect.height); }),
-            screenModule.addEventListener('Screen.DrawCircle', this, function(circle)    { display.drawCircle(circle.x, circle.y, circle.radius);     }),
+            screenModule.addEventListener('Screen.Update',     this, function()          { callOnObject(getDisplay(), 'updateScreen');                                          }),
+            screenModule.addEventListener('Screen.Clear',      this, function()          { callOnObject(getDisplay(), 'clearScreen');                                           }),
+            screenModule.addEventListener('Screen.Fill',       this, function(fill)      { callOnObject(getDisplay(), 'setFill',      fill.fill);                               }),
+            screenModule.addEventListener('Screen.FillColor',  this, function(fillColor) { callOnObject(getDisplay(), 'setFillColor', fillColor.fillColor);                     }),
+            screenModule.addEventListener('Screen.TextSize',   this, function(textSize)  { callOnObject(getDisplay(), 'setTextSize',  textSize.textSize);                       }),
+            screenModule.addEventListener('Screen.TextAlign',  this, function(textAlign) { callOnObject(getDisplay(), 'setTextAlign', textAlign.textAlign);                     }),
+            screenModule.addEventListener('Screen.DrawPixel',  this, function(pixel)     { callOnObject(getDisplay(), 'drawPixel',    pixel.x, pixel.y);                        }),
+            screenModule.addEventListener('Screen.DrawNum',    this, function(num)       { callOnObject(getDisplay(), 'drawText',     num.x, num.y, num.n);                     }),
+            screenModule.addEventListener('Screen.DrawText',   this, function(text)      { callOnObject(getDisplay(), 'drawText',     text.x, text.y, text.s);                  }),
+            screenModule.addEventListener('Screen.DrawLine',   this, function(line)      { callOnObject(getDisplay(), 'drawLine',     line.x1, line.y1, line.x2, line.y2);      }),
+            screenModule.addEventListener('Screen.DrawRect',   this, function(rect)      { callOnObject(getDisplay(), 'drawRect',     rect.x, rect.y, rect.width, rect.height); }),
+            screenModule.addEventListener('Screen.DrawCircle', this, function(circle)    { callOnObject(getDisplay(), 'drawCircle',   circle.x, circle.y, circle.radius);       }),
             screenModule.addEventListener('Screen.DrawImage',  this, function(image)     { self.drawImage(display, image);                            })
         );
         return this;
     }
 
     setupLightModule(vm) {
-        let light       = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getLight();
         let lightModule = this._modules[lightModuleConstants.MODULE_LIGHT];
         if (!lightModule) {
             return this;
         }
+        let getLight = (function() {
+                let device = this.getActiveDevicePlugin();
+                return device && device.getLight ? device.getLight() : null;
+            }).bind(this);
         this._events.push(
-            lightModule.addEventListener('Light.Light', this, function(l) { light.setColor(l.color); })
+            lightModule.addEventListener('Light.Light', this, function(l) { callOnObject(getLight(), 'setColor', l.color); })
         );
         return this;
     }
 
     setupButtonModule(vm) {
-        let buttons      = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getButtons();
         let buttonModule = this._modules[buttonModuleConstants.MODULE_BUTTON];
         if (!buttonModule) {
             return this;
         }
+        let getButtons = (function() {
+                let device = this.getActiveDevicePlugin();
+                return device && device.getButtons ? device.getButtons() : null;
+            }).bind(this);
         this._events.push(
-            buttonModule.addEventListener('Button.Button',       this, function(button) { button(buttons.readButton()); }),
-            buttonModule.addEventListener('Button.WaitForPress', this, function(button) { button(buttons.readButton()); })
+            buttonModule.addEventListener('Button.Button',       this, function(button) { button(callOnObject(getButtons(), 'readButton')); }),
+            buttonModule.addEventListener('Button.WaitForPress', this, function(button) { button(callOnObject(getButtons(), 'readButton')); })
         );
         return this;
     }
 
     setupSoundModule(vm) {
-        let sound       = this._simulator.getPluginByUuid('a8e77680-3886-11ea-a137-2e728ce88125').getSound();
-        let self        = this;
         let soundModule = this._modules[soundModuleConstants.MODULE_SOUND];
         if (!soundModule) {
             return this;
         }
+        let getSound = (function() {
+                let device = this.getActiveDevicePlugin();
+                return device && device.getSound ? device.getSound() : null;
+            }).bind(this);
+        let self = this;
         this._events.push(
-            soundModule.addEventListener('Sound.PlayTone',   this, function(tone)   { sound.playTone(tone); }),
+            soundModule.addEventListener('Sound.PlayTone',   this, function(tone)   { callOnObject(getSound(), 'playTone', tone); }),
             soundModule.addEventListener('Sound.PlaySample', this, function(sample) { self.playSample(sample); })
         );
         return this;
     }
 
     setupMotorModule(vm) {
-        let motors      = this._motors;
         let motorModule = this._modules[motorModuleConstants.MODULE_MOTOR];
         if (!motorModule) {
             return this;
         }
+        let getMotors = (function() {
+                return this.getActiveMotorsPlugin();
+            }).bind(this);
         this._events.push(
-            motorModule.addEventListener('Motor.SetType',  this, function(motor) { motors.setType(motor);                 }),
-            motorModule.addEventListener('Motor.SetSpeed', this, function(motor) { motors.setSpeed(motor);                }),
-            motorModule.addEventListener('Motor.GetType',  this, function(motor) { motor.callback(motors.getType(motor)); }),
-            motorModule.addEventListener('Motor.Reset',    this, function(motor) { motors.setPosition(motor);             }),
-            motorModule.addEventListener('Motor.MoveTo',   this, function(motor) { motors.moveTo(motor);                  }),
-            motorModule.addEventListener('Motor.On',       this, function(motor) { motors.on(motor);                      }),
-            motorModule.addEventListener('Motor.TimeOn',   this, function(motor) { motors.timeOn(motor);                  }),
-            motorModule.addEventListener('Motor.Stop',     this, function(motor) { motors.stop(motor);                    }),
-            motorModule.addEventListener('Motor.Read',     this, function(motor) { motor.callback(motors.read(motor));    }),
-            motorModule.addEventListener('Motor.Ready',    this, function(motor) { motor.callback(motors.ready(motor));   })
+            motorModule.addEventListener('Motor.SetType',  this, function(motor) { callOnObject(getMotors(), 'setType', motor);                 }),
+            motorModule.addEventListener('Motor.SetSpeed', this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                }),
+            motorModule.addEventListener('Motor.GetType',  this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor)); }),
+            motorModule.addEventListener('Motor.Reset',    this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);             }),
+            motorModule.addEventListener('Motor.MoveTo',   this, function(motor) { callOnObject(getMotors(), 'moveTo', motor);                  }),
+            motorModule.addEventListener('Motor.On',       this, function(motor) { callOnObject(getMotors(), 'on', motor);                      }),
+            motorModule.addEventListener('Motor.TimeOn',   this, function(motor) { callOnObject(getMotors(), 'timeOn', motor);                  }),
+            motorModule.addEventListener('Motor.Stop',     this, function(motor) { callOnObject(getMotors(), 'stop', motor);                    }),
+            motorModule.addEventListener('Motor.Read',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'read', motor));    }),
+            motorModule.addEventListener('Motor.Ready',    this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready', motor));   })
         );
         return this;
     }
 
     setupSensorModule(vm) {
-        let sensors      = this._sensors;
         let sensorModule = this._modules[sensorModuleConstants.MODULE_SENSOR];
         if (!sensorModule) {
             return this;
         }
+        let getSensors = (function() {
+                return this.getActiveSensorsPlugin();
+            }).bind(this);
         this._events.push(
-            sensorModule.addEventListener('Sensor.SetType', this, function(sensor) { sensors.setType(sensor);                  }),
-            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(sensors.getType(sensor)); }),
-            sensorModule.addEventListener('Sensor.SetMode', this, function(sensor) { sensors.setMode(sensor);                  }),
-            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { sensors.reset(sensor);                    }),
-            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(sensors.read(sensor));    })
+            sensorModule.addEventListener('Sensor.SetType', this, function(sensor) { callOnObject(getSensors(), 'setType', sensor);                  }),
+            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
+            sensorModule.addEventListener('Sensor.SetMode', this, function(sensor) { callOnObject(getSensors(), 'setMode', sensor);                  }),
+            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { callOnObject(getSensors(), 'reset', sensor);                    }),
+            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'read', sensor));    })
         );
         return this;
     }
 
     setupPspModule(vm) {
-        let sensors   = this._sensors;
         let pspModule = this._modules[pspModuleConstants.MODULE_PSP];
         if (!pspModule) {
             return this;
@@ -197,13 +247,54 @@ exports.SimulatorModules = class {
     }
 
     setupMultiplexerModule(vm) {
-        let sensors           = this._sensors;
         let multiplexerModule = this._modules[multiplexerModuleConstants.MODULE_MULTIPLEXER];
         if (!multiplexerModule) {
             return this;
         }
         this._events.push(
             dispatcher.on('Sensor.Multiplexer.Changed', multiplexerModule, multiplexerModule.onValueChanged)
+        );
+        return this;
+    }
+
+    setupDeviceModule(vm) {
+        let deviceModule = this._modules[deviceModuleConstants.MODULE_DEVICE];
+        if (!deviceModule) {
+            return this;
+        }
+        this._events.push(
+            deviceModule.addEventListener(
+                'Device.Select',
+                this,
+                function(device) {
+                    let signals = ['Button.Device.EV3', 'Button.Device.PoweredUp'];
+                    if (signals[device.device]) {
+                        dispatcher.dispatch(signals[device.device]);
+                    }
+                }
+            )
+        );
+        return this;
+    }
+
+    setupPoweredUpModule(vm) {
+        let poweredUpModule = this._modules[poweredUpModuleConstants.MODULE_POWERED_UP];
+        if (!poweredUpModule) {
+            return this;
+        }
+        this._events.push(
+            poweredUpModule.addEventListener(
+                'PoweredUp.Start',
+                this,
+                function(readAddress) {
+                }
+            ),
+            poweredUpModule.addEventListener(
+                'PoweredUp.Read',
+                this,
+                function() {
+                }
+            )
         );
         return this;
     }
@@ -216,8 +307,6 @@ exports.SimulatorModules = class {
         this._vm        = vm;
         this._simulator = opts.simulator;
         this._modules   = opts.modules;
-        this._motors    = opts.simulator.getPluginByUuid('975b784e-3886-11ea-a137-2e728ce88125');
-        this._sensors   = opts.simulator.getPluginByUuid('b643ac7c-3886-11ea-a137-2e728ce88125');
         this
             .setupStandardModule(vm)
             .setupScreenModule(vm)
@@ -227,6 +316,8 @@ exports.SimulatorModules = class {
             .setupMotorModule(vm)
             .setupSensorModule(vm)
             .setupPspModule(vm)
-            .setupMultiplexerModule(vm);
+            .setupMultiplexerModule(vm)
+            .setupDeviceModule(vm)
+            .setupPoweredUpModule(vm);
     }
 };
