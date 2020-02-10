@@ -165,7 +165,7 @@ class Completions {
                 let hasMore   = false;
                 this._infoLength = name.length + 3;
                 for (let j = 0; j < fields.length; j++) {
-                    if (this._infoLength > 20) {
+                    if (this._infoLength > 60) {
                         hasMore = true;
                         break;
                     }

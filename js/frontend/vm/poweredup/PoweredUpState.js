@@ -23,6 +23,10 @@ exports.PoweredUpState = class extends Emitter {
         dispatcher.on('PoweredUp.ConnectToDevice', this, this.onConnectToDevice);
     }
 
+    getAbsolutePosition() {
+        return true;
+    }
+
     getConnected() {
         return this._connected;
     }

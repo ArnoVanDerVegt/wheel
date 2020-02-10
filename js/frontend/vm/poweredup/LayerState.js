@@ -9,6 +9,7 @@ exports.LayerState = class {
         this._layer           = opts.layer;
         this._poweredUp       = opts.poweredUp;
         this._uuid            = null;
+        this._uuidTime        = Date.now();
         this._tilt            = {x: 0, y: 0, z: 0};
         this._accel           = {x: 0, y: 0, z: 0};
         this._ports           = [0, 0, 0, 0];
@@ -20,6 +21,10 @@ exports.LayerState = class {
     }
 
     getSensors() {
+        return this._ports;
+    }
+
+    getMotors() {
         return this._ports;
     }
 
@@ -76,8 +81,10 @@ exports.LayerState = class {
     }
 
     setStatus(status) {
-        if (status.uuid && (status.uuid !== this._uuid)) {
-            this._uuid = status.uuid;
+        let time = Date.now();
+        if (status.uuid && ((status.uuid !== this._uuid) || (time > this._uuidTime + 500))) {
+            this._uuid     = status.uuid;
+            this._uuidTime = time;
             this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Uuid', this._uuid);
         }
         this.checkTiltChange(status.tilt);

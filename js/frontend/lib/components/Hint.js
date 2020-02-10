@@ -105,7 +105,7 @@ exports.Hint = class extends Component {
             hasMore = false;
             infoLength = name.length + 1;
             for (let j = 2; j < proc.getParamCount() + 2; j++) {
-                if (infoLength > 20) {
+                if (infoLength > 60) {
                     hasMore = true;
                     break;
                 }

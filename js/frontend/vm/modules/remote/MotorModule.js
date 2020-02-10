@@ -95,13 +95,18 @@ exports.MotorModule = class extends VMModule {
                 motorStatus        = this.getMotorStatus(motor.layer, motor.id);
                 motorStatus.target = null;
                 this.emit('Motor.Reset', motor);
+                this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO:
                 motor              = vmData.getRecordFromAtOffset(['layer', 'id', 'target']);
                 motorStatus        = this.getMotorStatus(motor.layer, motor.id);
                 motorStatus.target = motor.target;
                 motor.speed        = motorStatus.speed || 0;
-                motor.degrees      = motor.target - this.getCurrentMotorPosition(motor.layer, motor.id);
+                if (this._device().getAbsolutePosition()) {
+                    motor.degrees = motor.target;
+                } else {
+                    motor.degrees = motor.target - this.getCurrentMotorPosition(motor.layer, motor.id);
+                }
                 this.emit('Motor.MoveTo', motor);
                 this._device().module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_MOVE_TO, motor);
                 break;

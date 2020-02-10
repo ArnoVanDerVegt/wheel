@@ -302,6 +302,9 @@ exports.EV3 = class {
         return constants.MODE0;
     }
 
+    motorReset(layer, motor) {
+    }
+
     motorDegrees(layer, motor, speed, degrees, callback) {
         if (!this._connected) {
             return;

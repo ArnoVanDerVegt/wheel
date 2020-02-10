@@ -100,17 +100,17 @@ exports.Plugin = class extends Plugin {
                     {
                         ref:       this.setRef(ref + 'X'),
                         className: 'xyz',
-                        innerHTML: 'x: 0'
+                        innerHTML: 'x'
                     },
                     {
                         ref:       this.setRef(ref + 'Y'),
                         className: 'xyz',
-                        innerHTML: 'y: 0'
+                        innerHTML: 'y'
                     },
                     {
                         ref:       this.setRef(ref + 'Z'),
                         className: 'xyz',
-                        innerHTML: 'z: 0'
+                        innerHTML: 'z'
                     }
                 ]
             }
@@ -142,6 +142,18 @@ exports.Plugin = class extends Plugin {
                 hubLight.className = 'hub-light none';
             }
         };
+    }
+
+    showLayer(layer) {
+        let refs = this._refs;
+        refs.tiltX.innerHTML  = 'x';
+        refs.tiltY.innerHTML  = 'y';
+        refs.tiltZ.innerHTML  = 'z';
+        refs.accelX.innerHTML = 'x';
+        refs.accelY.innerHTML = 'y';
+        refs.accelZ.innerHTML = 'z';
+        refs.uuid.innerHTML   = '';
+        super.showLayer(layer);
     }
 
     onUuid(layer, uuid) {

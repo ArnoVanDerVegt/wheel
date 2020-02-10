@@ -67,7 +67,6 @@ exports.PoweredUpModule = class extends LocalPoweredUpModule {
         let vmData = this._vmData;
         let vm     = this._vm;
         let device = this._device();
-        console.log('PoweredUpModule', commandId);
         switch (commandId) {
             case poweredUpModuleConstants.POWERED_UP_START:
                 this._writeOffset = vmData.getRegSrc();

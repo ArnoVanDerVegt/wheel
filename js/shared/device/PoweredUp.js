@@ -141,7 +141,9 @@ exports.PoweredUp = class {
             'attach',
             function(port, device) {
                 if (port in portToIndex) {
-                    layer.portAssignments[portToIndex[port]] = device;
+                    port                        = portToIndex[port];
+                    layer.ports[port]           = 0;
+                    layer.portAssignments[port] = device;
                 }
             }
         );
@@ -159,6 +161,7 @@ exports.PoweredUp = class {
             }
         );
     }
+
     getChanged() {
         return this._changed;
     }
@@ -196,20 +199,8 @@ exports.PoweredUp = class {
         this._layerCount = layerCount;
     }
 
-    getMotorPosition(layer) {
-        return 0;
-    }
-
-    getUpdateList(layer) {
-    }
-
-    updateSensorPort(layer, port) {
-    }
-
-    updateMotorPort(layer, port) {
-    }
-
-    startConnectionPolling() {
+    getMotorPosition(layer, port) {
+        return this._port[port] || 0;
     }
 
     connect(uuid, callback) {
@@ -230,9 +221,18 @@ exports.PoweredUp = class {
     }
 
     playtone(frequency, duration, volume, callback) {
-        if (!this._connected) {
+    }
+
+    getHHubByLayer(layer) {
+        let h = this._hubs[layer];
+        if (!h) {
+            return null;
+        }
+        let hub = this._hubsByUuid[h.uuid];
+        if (!hub || !hub.connected) {
             return;
         }
+        return {h: h, hub: hub};
     }
 
     getConnectedTypes(layer) {
@@ -242,20 +242,28 @@ exports.PoweredUp = class {
         return constants.MODE0;
     }
 
-    motorDegrees(layer, motor, speed, degrees, callback) {
-        if (!this._connected) {
+    motorReset(layer, motor) {
+        let hHub = this.getHHubByLayer(layer);
+        if (!hHub) {
             return;
         }
-        if (degrees < 0) {
-            degrees *= -1;
-            speed   *= -1;
+        //hHub.h.setAbsolutePosition(['A', 'B', 'C', 'D'][motor], 0);
+    }
+
+    motorDegrees(layer, motor, speed, degrees, callback) {
+        let hHub = this.getHHubByLayer(layer);
+        if (!hHub) {
+            return;
         }
+        hHub.h.setMotorAngle(['A', 'B', 'C', 'D'][motor], degrees, speed);
     }
 
     motorOn(layer, motor, speed, callback) {
-        if (!this._connected) {
-            return;
-        }
+        // let hHub = this.getHHubByLayer(layer);
+        // if (!hHub) {
+        //     return;
+        // }
+        // hHub.h.setMotorAngle(['A', 'B', 'C', 'D'][motor], degrees, speed);
     }
 
     motorStop(layer, motor, brake, callback) {

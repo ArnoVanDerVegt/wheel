@@ -43,6 +43,7 @@ exports.MotorModule = class extends DeviceModule {
             case motorModuleConstants.MOTOR_SET_SPEED:
                 break;
             case motorModuleConstants.MOTOR_RESET:
+                this._device.motorReset(data.layer, data.id);
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO:
                 this.clearStopTimer(data.layer, data.id);
