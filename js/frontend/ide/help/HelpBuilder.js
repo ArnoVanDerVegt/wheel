@@ -484,14 +484,45 @@ class HelpBuilder {
         this._helpData = helpData;
         this._dialog   = dialog;
         this
+            .addLegend(parentNode)
             .buildSubjectIndex(parentNode, helpData, 'Programming:', 'Programming')
             .buildSubjectIndex(parentNode, helpData, 'Example:',     'Examples')
             .buildSubjectIndex(parentNode, helpData, 'Module:',      'Modules')
-            .buildSubjectIndex(parentNode, helpData, 'IDE:',         'IDE')
             .addSeparator(parentNode)
+            .buildSubjectIndex(parentNode, helpData, 'IDE:',         'IDE')
             .buildSubjectIndex(parentNode, helpData, 'Installing:',  'Installing')
             .buildSubjectIndex(parentNode, helpData, 'Compiler:',    'Compiler')
+            .addSeparator(parentNode)
             .buildSubjectIndex(parentNode, helpData, 'VM:',          'VM');
+    }
+
+    addLegend(parentNode) {
+        const addLegendItem = function(type, title) {
+                return {
+                    className: 'legend-item',
+                    children: [
+                        {
+                            className: 'device ' + type,
+                            innerHTML: type.toUpperCase()
+                        },
+                        {
+                            className: 'title',
+                            innerHTML: title
+                        }
+                    ]
+                };
+            };
+        new DOMNode({}).create(
+            parentNode,
+            {
+                className: 'legend',
+                children: [
+                    addLegendItem('e', 'EV3'),
+                    addLegendItem('p', 'Powered Up')
+                ]
+            }
+        );
+        return this;
     }
 
     addSeparator(parentNode) {

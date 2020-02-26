@@ -8,9 +8,38 @@
     border-radius:                  2px;
     -webkit-user-select:            none;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .breaker {
+.dialog-background.help-dialog .dialog-center .dialog-content .breaker,
+.dialog-background.help-dialog .dialog-center .dialog-content .legend {
     float:                          left;
     width:                          100%;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item {
+    float:                          left;
+    height:                         32px;
+    margin:                         0 32px 0 0;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .title {
+    float:                          left;
+    line-height:                    32px;
+    font-size:                      18px;
+    font-family:                    latolight;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device {
+    float:                          left;
+    width:                          32px;
+    height:                         32px;
+    line-height:                    32px;
+    text-align:                     center;
+    font-size:                      18px;
+    border-radius:                  16px;
+    color:                          #FFFFFF;
+    margin:                         0 4px 0 0;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.e {
+    background-color:               #0984E3;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.p {
+    background-color:               #F9CA24;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content div.third,
 .dialog-background.help-dialog .dialog-center .dialog-content div.quarter {
@@ -34,7 +63,7 @@
 .dialog-background.help-dialog .dialog-center .dialog-content div.quarter li {
     padding-left:                   0;
     height:                         30px;
-    max-width:                      calc(100% - 16px);
+    max-width:                      calc(100% - 32px);
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file,
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files {

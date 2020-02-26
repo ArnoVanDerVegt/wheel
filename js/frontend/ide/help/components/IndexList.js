@@ -62,7 +62,7 @@ exports.IndexList = class extends DOMNode {
 
     initDOM(parentNode) {
         let node = {
-                className: 'quarter',
+                className: 'third',
                 children: [
                     {
                         type:      H,
