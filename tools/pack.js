@@ -219,6 +219,7 @@ const files = [
         './js/frontend/lib/components/tree/TreeNode',
         './js/frontend/lib/components/tree/Tree',
         './js/frontend/lib/components/basic/A',
+        './js/frontend/lib/components/basic/Span',
         './js/frontend/lib/components/basic/H',
         './js/frontend/lib/components/basic/P',
         './js/frontend/lib/components/basic/Hr',

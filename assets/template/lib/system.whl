@@ -1,4 +1,5 @@
 ; @module System
+; @device E,P
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
@@ -19,30 +20,35 @@
 #define SYSTEM_GET_MEMORY_FREE        10
 
 ; @proc             Get the battery voltage.
+; @device E
 ; @return           The battery voltage.
 proc getBatteryVoltage()
     mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_VOLTAGE
 end
 
 ; @proc             Get the battery current.
+; @device E
 ; @return           The battery current.
 proc getBatteryCurrent()
     mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_CURRENT
 end
 
 ; @proc             Get the battery level.
+; @device E,P
 ; @return           The battery level.
 proc getBatteryLevel()
     mod MODULE_SYSTEM, SYSTEM_GET_BATTERY_LEVEL
 end
 
 ; @proc             Get the sound volume.
+; @device E
 ; @return           The sound volume.
 proc getVolume()
     mod MODULE_SYSTEM, SYSTEM_GET_VOLUME
 end
 
 ; @proc             Get the sound volume.
+; @device E
 ; @param volume     The sound volume.
 proc setVolume(number volume)
     addr volume
@@ -50,12 +56,14 @@ proc setVolume(number volume)
 end
 
 ; @proc             Get the power off time.
+; @device E
 ; @return           The time in minutes.
 proc getPowerOffMinutes()
     mod  MODULE_SYSTEM, SYSTEM_GET_POWER_OFF_MINUTES
 end
 
 ; @proc             Set the power off time.
+; @device E
 ; @param time       The power off time.
 proc setPowerOffMinutes(number time)
     addr time
@@ -63,6 +71,7 @@ proc setPowerOffMinutes(number time)
 end
 
 ; @proc             Get the brick name.
+; @device E
 ; @param brickName  The brick name.
 proc getBrickName(string brickName)
     addr brickName
@@ -70,6 +79,7 @@ proc getBrickName(string brickName)
 end
 
 ; @proc             Set the brick name.
+; @device E
 ; @param brickName  The brick name.
 proc setBrickName(string brickName)
     addr brickName
@@ -77,12 +87,14 @@ proc setBrickName(string brickName)
 end
 
 ; @proc             Get the total available memory in KB.
+; @device E
 ; @return           The total memory.
 proc getMemoryTotal()
     mod MODULE_SYSTEM, SYSTEM_GET_MEMORY_TOTAL
 end
 
 ; @proc             Get the free available memory in KB.
+; @device E
 ; @return           The free memory.
 proc getMemoryFree()
     mod MODULE_SYSTEM, SYSTEM_GET_MEMORY_FREE

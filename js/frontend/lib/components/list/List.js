@@ -8,6 +8,7 @@ const ListItem  = require('./ListItem').ListItem;
 exports.List = class extends Component {
     constructor(opts) {
         super(opts);
+        this._settings            = opts.settings;
         this._listItemConstructor = opts.ListItem || ListItem;
         this._selected            = 0;
         this._items               = opts.items || [];
@@ -37,6 +38,7 @@ exports.List = class extends Component {
             function(item, index) {
                 result.push(new this._listItemConstructor({
                     list:       this,
+                    settings:   this._settings,
                     parentNode: refs.list,
                     index:      index,
                     tabIndex:   tabIndex + 1 + index,
@@ -83,9 +85,13 @@ exports.List = class extends Component {
     }
 
     setItems(items) {
+        let index = this.getSelectedIndex();
         this.clear();
         this._items     = items;
         this._listItems = this.initListItems();
+        if (this._listItems[index]) {
+            this.onClickItem(this._listItems[index]);
+        }
     }
 
     getSelectedIndex() {

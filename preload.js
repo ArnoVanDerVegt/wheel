@@ -185,6 +185,7 @@ require('./js/frontend/lib/components/tree/Tree');
 require('./js/frontend/lib/components/list/ListItem');
 require('./js/frontend/lib/components/list/List');
 require('./js/frontend/lib/components/basic/A');
+require('./js/frontend/lib/components/basic/Span');
 require('./js/frontend/lib/components/basic/H');
 require('./js/frontend/lib/components/basic/P');
 require('./js/frontend/lib/components/basic/Hr');
@@ -240,6 +241,8 @@ require('./js/frontend/ide/dialogs/directcontrol/components/Motors');
 require('./js/frontend/ide/dialogs/directcontrol/components/PianoKey');
 require('./js/frontend/ide/dialogs/directcontrol/components/Piano');
 require('./js/frontend/ide/dialogs/directcontrol/DirectControlDialog');
+require('./js/frontend/ide/dialogs/directcontrol/EV3ControlDialog');
+require('./js/frontend/ide/dialogs/directcontrol/PoweredUpControlDialog');
 require('./js/frontend/ide/dialogs/DaisyChainDialog');
 require('./js/frontend/ide/dialogs/LicenseDialog');
 require('./js/frontend/ide/dialogs/directory/DirectoryNewDialog');
@@ -247,6 +250,8 @@ require('./js/frontend/ide/dialogs/ReplaceDialog');
 require('./js/frontend/ide/dialogs/download/components/ResourceLine');
 require('./js/frontend/ide/dialogs/download/DownloadDialog');
 require('./js/frontend/ide/dialogs/GraphDialog');
+require('./js/frontend/ide/dialogs/device/DeviceAliasDialog');
+require('./js/frontend/ide/dialogs/device/DeviceCountDialog');
 require('./js/frontend/ide/menu/HelpOption');
 require('./js/frontend/ide/menu/MainMenu');
 require('./js/frontend/ide/editor/editors/Clipboard');
@@ -330,6 +335,8 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
 require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/Motor');
+require('./js/frontend/ide/plugins/simulator/poweredup/components/TechnicHub');
+require('./js/frontend/ide/plugins/simulator/poweredup/components/Remote');
 require('./js/frontend/ide/plugins/simulator/poweredup/Plugin');
 require('./js/frontend/ide/plugins/simulator/graph/io/CircularBuffer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),

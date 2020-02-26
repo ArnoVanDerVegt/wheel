@@ -65,8 +65,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this._localModules        = true;
         this._compileSilent       = false;
         this._compiling           = false;
-        this._activeDevice        = 0;
-        this._simulatorModules    = new SimulatorModules({compileAndRun: this});
+        this._simulatorModules    = new SimulatorModules({settings: this._settings});
         this._simulator           = new Simulator({
             ui:        opts.ui,
             ev3:       ev3,
@@ -142,13 +141,13 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     onSelectDeviceEV3() {
-        this._activeDevice = 0;
+        dispatcher.dispatch('Settings.Set.ActiveDevice',      0);
         dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green active'});
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
     }
 
     onSelectDevicePoweredUp() {
-        this._activeDevice = 1;
+        dispatcher.dispatch('Settings.Set.ActiveDevice',      1);
         dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
     }
@@ -176,7 +175,9 @@ exports.CompileAndRun = class extends DOMUtils {
     getModules(vm) {
         let modules    = [];
         let fileSystem = new FileSystem({vm: vm});
-        let device     = (function() { return (this._activeDevice === 0) ? this._ev3 : this._poweredUp; }).bind(this);
+        let device     = (function() {
+                return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
+            }).bind(this);
         this._localModules = !device().getConnected();
         if (this._localModules) {
             modules[ 0] = new LocalStandardModule    ({vm: vm, device: device});
@@ -216,10 +217,6 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[33] = new RemoteMultiplexerModule({vm: vm, device: device});
         }
         return modules;
-    }
-
-    getActiveDevice() {
-        return this._activeDevice;
     }
 
     createVM() {

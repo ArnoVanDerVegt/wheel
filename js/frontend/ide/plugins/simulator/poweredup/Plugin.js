@@ -8,6 +8,8 @@ const TextInput       = require('../../../../lib/components/TextInput').TextInpu
 const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin          = require('../lib/motor/Plugin').Plugin;
 const Motor           = require('./io/Motor').Motor;
+const TechnicHub      = require('./components/TechnicHub').TechnicHub;
+const Remote          = require('./components/Remote').Remote;
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
@@ -15,168 +17,189 @@ exports.Plugin = class extends Plugin {
         opts.ev3              = opts.poweredUp; // Hack device should be fixed!
         super(opts);
         this.initEvents();
+        this._buttons   = null;
+        this._poweredUp = opts.poweredUp;
+        this._uuid      = '';
     }
 
     initEvents() {
         let device = this._device;
         for (let i = 0; i < 4; i++) {
             device
-                .on('PoweredUp.Layer' + i + 'Uuid',  this, this.onUuid.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Tilt',  this, this.onTilt.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Accel', this, this.onAccel.bind(this, i));
+                .on('PoweredUp.Layer' + i + 'Uuid',   this, this.onUuid.bind(this, i))
+                .on('PoweredUp.Layer' + i + 'Type',   this, this.onType.bind(this, i))
+                .on('PoweredUp.Layer' + i + 'Tilt',   this, this.onTilt.bind(this, i))
+                .on('PoweredUp.Layer' + i + 'Button', this, this.onButton.bind(this, i))
+                .on('PoweredUp.Layer' + i + 'Accel',  this, this.onAccel.bind(this, i));
         }
+        this._settings.on('Settings.AliasChanged', this, this.onAliasChanged);
+        dispatcher
+            .on('Button.Layer0', this, this.onToggleLayer0.bind(this))
+            .on('Button.Layer1', this, this.onToggleLayer1.bind(this))
+            .on('Button.Layer2', this, this.onToggleLayer2.bind(this))
+            .on('Button.Layer3', this, this.onToggleLayer3.bind(this));
     }
 
     getMainElement() {
         return {
-            className: 'powered-up',
+            className: 'powered-up remote',
             children: [
                 {
                     className: 'hub-id',
                     children: [
                         {
-                            ref:       this.setRef('uuid'),
+                            id:        this.setUuidElement.bind(this),
                             type:      'span',
                             innerHTML: ''
                         }
                     ]
                 },
                 {
-                    className: 'hub-body',
                     children: [
                         {
-                            className: 'hub-top'
+                            type:   TechnicHub,
+                            plugin: this
                         },
                         {
-                            className: 'hub-middle'
-                        },
-                        {
-                            className: 'hub-bottom'
-                        },
-                        {
-                            className: 'hub-box',
-                            children: [
-                                {
-                                    className: 'left-connections'
-                                },
-                                {
-                                    className: 'right-connections'
-                                },
-                                {
-                                    className: 'hub-button'
-                                },
-                                {
-                                    className: 'hub-light',
-                                    ref:       this.setRef('hubLight')
-                                }
-                            ]
+                            type:   Remote,
+                            plugin: this
                         }
                     ]
-                },
-                {
-                    className: 'hub-status',
-                    children: []
-                        .concat(this.getVectorRow('tilt', 'Tilt'))
-                        .concat(this.getVectorRow('accel', 'Acceleration'))
                 }
             ]
         };
     }
 
-    getVectorRow(ref, title) {
-        return [
-            {
-                className: 'hub-status-row',
-                children: [
-                    {
-                        type:      'span',
-                        innerHTML: title
+    getActiveDevice() {
+        switch (this._type) {
+            case 4:
+                return this._remote;
+            case 6:
+                return this._technicHub;
+        }
+        return null;
+    }
+
+    getButtons() {
+        if (!this._buttons) {
+            this._buttons = {
+                readButton: (function(layer) {
+                    let device = this.getActiveDevice();
+                    if (device && device.getButtons) {
+                        return device.getButtons();
                     }
-                ]
-            },
-            {
-                className: 'hub-status-row',
-                children: [
-                    {
-                        ref:       this.setRef(ref + 'X'),
-                        className: 'xyz',
-                        innerHTML: 'x'
-                    },
-                    {
-                        ref:       this.setRef(ref + 'Y'),
-                        className: 'xyz',
-                        innerHTML: 'y'
-                    },
-                    {
-                        ref:       this.setRef(ref + 'Z'),
-                        className: 'xyz',
-                        innerHTML: 'z'
-                    }
-                ]
-            }
-        ];
+                    return 0;
+                }).bind(this)
+            };
+        }
+        return this._buttons;
     }
 
     getLight() {
-        let hubLight = this._refs.hubLight;
-        let colors   = [];
-        colors[  0] = 'black';
-        colors[  1] = 'pink';
-        colors[  2] = 'purple';
-        colors[  3] = 'blue';
-        colors[  4] = 'light-blue';
-        colors[  5] = 'cyan';
-        colors[  6] = 'green';
-        colors[  7] = 'yellow';
-        colors[  8] = 'orange';
-        colors[  9] = 'red';
-        colors[ 10] = 'white';
-        colors[255] = 'none';
+        let device = this.getActiveDevice();
+        if (device) {
+            return device.getLight();
+        }
         return {
-            setColor: function(color) {
-                if (colors[color] !== undefined) {
-                    hubLight.className = 'hub-light ' + colors[color];
-                }
-            },
-            off: function() {
-                hubLight.className = 'hub-light none';
-            }
+            setColor: function(color) {},
+            off: function() {}
         };
     }
 
+    setUuidElement(element) {
+        this._uuidElement = element;
+        element.addEventListener('click', this.onClickUuid.bind(this));
+    }
+
+    setTechnicHub(technicHub) {
+        this._technicHub = technicHub;
+    }
+
+    setRemote(remote) {
+        this._remote = remote;
+    }
+
+    setType(type) {
+        this._technicHub.hide();
+        this._remote.hide();
+        this._type = type;
+        let device = this.getActiveDevice();
+        device && device.show();
+    }
+
     showLayer(layer) {
-        let refs = this._refs;
-        refs.tiltX.innerHTML  = 'x';
-        refs.tiltY.innerHTML  = 'y';
-        refs.tiltZ.innerHTML  = 'z';
-        refs.accelX.innerHTML = 'x';
-        refs.accelY.innerHTML = 'y';
-        refs.accelZ.innerHTML = 'z';
-        refs.uuid.innerHTML   = '';
+        this._technicHub.clear();
+        this._uuidElement.innerHTML = '';
         super.showLayer(layer);
+        let layerState = this._poweredUp.getLayerState(layer);
+        this.setType(layerState.getType());
     }
 
     onUuid(layer, uuid) {
         if (layer === this._simulator.getLayer()) {
-            this._refs.uuid.innerHTML = uuid;
+            this._uuid                  = uuid;
+            this._uuidElement.innerHTML = this._settings.getDeviceAlias(uuid);
         }
+    }
+
+    onType(layer, type) {
+        if (layer === this._simulator.getLayer()) {
+            this.setType(type);
+        }
+    }
+
+    onClickUuid(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        if (!this._uuid) {
+            return;
+        }
+        dispatcher.dispatch(
+            'Dialog.DeviceAlias.Show',
+            {
+                uuid:  this._uuid,
+                alias: this._settings.getDeviceAlias(this._uuid)
+            }
+        );
     }
 
     onTilt(layer, tilt) {
         if (layer === this._simulator.getLayer()) {
-            let refs = this._refs;
-            refs.tiltX.innerHTML = 'x: ' + tilt.x;
-            refs.tiltY.innerHTML = 'y: ' + tilt.y;
-            refs.tiltZ.innerHTML = 'z: ' + tilt.z;
+            this._technicHub.setTilt(tilt);
         }
     }
 
     onAccel(layer, accel) {
         if (layer === this._simulator.getLayer()) {
-            let refs = this._refs;
-            refs.accelX.innerHTML = 'x: ' + accel.x;
-            refs.accelY.innerHTML = 'y: ' + accel.y;
-            refs.accelZ.innerHTML = 'z: ' + accel.z;
+            this._technicHub.setAccel(accel);
         }
+    }
+
+    onButton(layer, button) {
+        if (layer === this._simulator.getLayer()) {
+            let device = this.getActiveDevice();
+            device && device.setButton(button);
+        }
+    }
+
+    onAliasChanged() {
+        console.log('Changed:', this._uuid);
+        this._uuidElement.innerHTML = this._settings.getDeviceAlias(this._uuid);
+    }
+
+    onToggleLayer0() {
+        this.showLayer(0);
+    }
+
+    onToggleLayer1() {
+        this.showLayer(1);
+    }
+
+    onToggleLayer2() {
+        this.showLayer(2);
+    }
+
+    onToggleLayer3() {
+        this.showLayer(3);
     }
 };

@@ -11,28 +11,33 @@ const HelpOption  = require('./HelpOption').HelpOption;
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
-        let ev3      = opts.ev3;
-        let settings = opts.settings;
-        this._ui       = opts.ui;
-        this._ev3      = ev3;
-        this._settings = settings;
+        let ev3       = opts.ev3;
+        let poweredUp = opts.poweredUp;
+        let settings  = opts.settings;
+        this._ui        = opts.ui;
+        this._ev3       = ev3;
+        this._poweredUp = poweredUp;
+        this._settings  = settings;
         this
             .initMenu()
             .initHelp()
             .initStorage();
         // Settings events...
         settings
-            .addEventListener('Settings.View',      this, this.onUpdateViewMenu)
-            .addEventListener('Settings.EV3',       this, this.onUpdateEV3Menu)
-            .addEventListener('Settings.PoweredUp', this, this.onUpdatePowerdUpMenu)
-            .addEventListener('Settings.Compile',   this, this.onUpdateCompileMenu)
-            .addEventListener('Settings.Plugin',    this, this.onUpdateSimulatorMenu);
+            .addEventListener('Settings.View',        this, this.onUpdateViewMenu)
+            .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
+            .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
+            .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
+            .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu);
         // EV3 events...
         ev3
-            .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
-            .addEventListener('EV3.Connected',    this, this.onUpdateEV3Menu)
-            .addEventListener('EV3.Disconnect',   this, this.onUpdateEV3Menu)
-            .addEventListener('EV3.Disconnected', this, this.onUpdateEV3Menu);
+            .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
+        poweredUp
+            .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
+            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -223,16 +228,17 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
-                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.PoweredUpAutoConnect'},
                 {title: '-'},
-                {title: 'Direct control',                                         dispatch: 'Menu.EV3.DirectControl'},
+                {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                         dispatch: 'Menu.PoweredUp.DirectControl'},
                 {title: 'Stop all motors',                                        dispatch: 'Menu.PoweredUp.StopAllMotors'}
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled('electron' in window); // Connect
         menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[2].setEnabled('electron' in window); // Autoconnect
+        menuOptions[3].setEnabled(false);                // Direct control
         return this;
     }
 
@@ -355,13 +361,12 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdatePoweredUpMenu() {
-        let connected   = false;
+        let connected   = this._poweredUp.getConnected();
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[2].setChecked(settings.getPoweredUpAutoConnect());
-        menuOptions[3].setEnabled(connected);                               // EV3 Direct control
+        menuOptions[3].setEnabled(connected);                               // PoweredUp Direct control
         menuOptions[4].setEnabled(connected);                               // Stop all motors
         return this;
     }
@@ -415,6 +420,10 @@ exports.MainMenu = class extends MainMenu {
     onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[0].setTitle('Connecting...');
+    }
+
+    onPoweredUpConnecting() {
+
     }
 
     onUpdateCropDisable() {

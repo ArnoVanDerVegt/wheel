@@ -65,16 +65,16 @@ exports.EV3State = class extends Emitter {
             'ev3/connect',
             {deviceName: deviceName},
             (function(data) {
-                // Try {
+                try {
                     let json = JSON.parse(data);
                     if (json.connecting) {
                         this.connecting();
                         this._deviceName = json.deviceName;
                         this._connecting = true;
                     }
-                // } catch (error) {
-                    // This._connecting = false;
-                // }
+                } catch (error) {
+                    this._connecting = false;
+                }
             }).bind(this)
         );
     }

@@ -120,9 +120,12 @@ exports.SubjectFileProcessor = class extends FileProcessor {
         let lines        = this._lines;
         let line         = this.readLine();
         let subjectTitle = line.substr(8, line.length - 8).trim(); // @subject
+        let device       = false;
         while (this._index < lines.length) {
             line = this.readLine();
-            if (line.indexOf('@section') === 0) {
+            if (line.indexOf('@device') === 0) {
+                device = line.substr(7, line.length - 7).trim();
+            } else if (line.indexOf('@section') === 0) {
                 section = this
                     .addTextAndSection(section, text)
                     .createNewSection(line);
@@ -162,7 +165,8 @@ exports.SubjectFileProcessor = class extends FileProcessor {
             .addSection(section);
         this._help.files.push({
             subject:  subjectTitle,
-            sections: this._sections
+            sections: this._sections,
+            device:   device
         });
     }
 };

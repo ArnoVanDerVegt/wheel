@@ -1,0 +1,14 @@
+.dialog-background.device-count-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -118px;
+    width:                          480px;
+    height:                         236px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.device-count-dialog .dialog-center .dialog-content .radio {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+}

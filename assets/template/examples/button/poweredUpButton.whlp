@@ -1,0 +1,39 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Button example"
+
+#include "lib/standard.whl"
+#include "lib/bit.whl"
+#include "lib/button.whl"
+
+proc printButton(number button)
+    if bitAnd(button, BUTTON_PU_LEFT_MIN) == BUTTON_PU_LEFT_MIN
+        printS("Left min button")
+    end
+    if bitAnd(button, BUTTON_PU_LEFT_CENTER) == BUTTON_PU_LEFT_CENTER
+        printS("Left center button")
+    end
+    if bitAnd(button, BUTTON_PU_LEFT_RIGHT) == BUTTON_PU_LEFT_RIGHT
+        printS("Left plus button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_MIN) == BUTTON_PU_RIGHT_MIN
+        printS("Right min button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_CENTER) == BUTTON_PU_RIGHT_CENTER
+        printS("Right center button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_RIGHT) == BUTTON_PU_RIGHT_RIGHT
+        printS("Right plus button")
+    end
+end
+
+proc main()
+    number lastButton = 0
+    repeat
+        number b = button()
+        if b != lastButton
+            lastButton = b
+            printButton(lastButton)
+        end
+    end
+end

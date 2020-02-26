@@ -13,6 +13,11 @@ exports.WhlFileProcessor = class extends FileProcessor {
         return '';
     }
 
+    getTextComment(line) {
+        let textComment = this.getComment(line);
+        return (textComment !== '') && (textComment.substr(0, 1) !== '@');
+    }
+
     addConst(section, line) {
         let nextLine = this.peekLine().trim();
         let constant = {
@@ -40,22 +45,44 @@ exports.WhlFileProcessor = class extends FileProcessor {
                 id:          this.getNextId(),
                 name:        '',
                 description: line,
-                params:      []
+                params:      [],
+                device:      ''
             };
+        while (this.getTextComment(nextLine)) {
+            this.readLine(true);
+            proc.description += '\n' + nextLine;
+            nextLine = this.peekLine().trim();
+        }
+        if (this.getComment(nextLine).indexOf('@device') === 0) {
+            proc.device = this.getComment(nextLine).substr(7, nextLine.length - 7).trim();
+            this.readLine(true);
+            nextLine = this.peekLine().trim();
+        }
         while (this.getComment(nextLine).indexOf('@param') === 0) {
             let paramLine = this.getComment(this.readLine()).trim();
             paramLine = paramLine.substr(6, paramLine.length - 6).trim();
             let i           = paramLine.indexOf(' ');
             let param       = paramLine.substr(0, i).trim();
             let description = paramLine.substr(i, paramLine.length - i).trim();
+            nextLine = this.peekLine().trim();
+            while (this.getTextComment(nextLine)) {
+                this.readLine(true);
+                description += '\n' + nextLine;
+                nextLine = this.peekLine().trim();
+            }
             descriptionByParam[this.getCleanName(param)] = description;
-            nextLine                                     = this.peekLine().trim();
         }
         nextLine = this.readLine(true);
         if (this.getComment(nextLine).indexOf('@return') === 0) {
             let returnLine  = nextLine.substr(7, nextLine.length - 7).trim();
             let j           = returnLine.indexOf(' ');
             let description = returnLine.substr(j, returnLine.length - j).trim();
+            nextLine = this.peekLine().trim();
+            while (this.getTextComment(nextLine)) {
+                this.readLine(true);
+                description += '\n' + nextLine;
+                nextLine = this.peekLine().trim();
+            }
             proc.ret = description;
             nextLine = this.readLine(true);
         }
@@ -96,6 +123,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
     }
 
     process(wocByName) {
+        let device           = false;
         let mod              = false;
         let constantsSection = {id: this.getNextId(), title: 'Constants',  content: []};
         let procSection      = {id: this.getNextId(), title: 'Procedures', content: []};
@@ -109,6 +137,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
                     switch (keyword) {
                         case '@module':
                             mod = line.substr(j, line.length - j).trim();
+                            break;
+                        case '@device':
+                            device = line.substr(j, line.length - j).trim();
                             break;
                         case '@const':
                             this.addConst(constantsSection, line.substr(j, line.length - j).trim());
@@ -134,7 +165,8 @@ exports.WhlFileProcessor = class extends FileProcessor {
             this.addKeyword(mod, this._sections[0].content[0].text);
             this._help.files.push({
                 subject:  'Module:' + mod,
-                sections: this._sections
+                sections: this._sections,
+                device:   device
             });
         }
     }

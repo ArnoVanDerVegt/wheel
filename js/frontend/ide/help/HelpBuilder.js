@@ -10,6 +10,7 @@ const Pre         = require('../../lib/components/basic/Pre').Pre;
 const Table       = require('../../lib/components/basic/Table').Table;
 const Img         = require('../../lib/components/basic/Img').Img;
 const Ul          = require('../../lib/components/basic/Ul').Ul;
+const Span        = require('../../lib/components/basic/Span').Span;
 const Button      = require('../../lib/components/Button').Button;
 const DOMNode     = require('../../lib/dom').DOMNode;
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
@@ -43,6 +44,15 @@ class HelpBuilder {
             parentNode: parentNode,
             size:       size,
             innerHTML:  title
+        });
+        return this;
+    }
+
+    addSpan(parentNode, text, className) {
+        new Span({
+            parentNode: parentNode,
+            className:  className,
+            innerHTML:  text
         });
         return this;
     }
@@ -91,6 +101,18 @@ class HelpBuilder {
     addProc(parentNode, proc) {
         new A({parentNode: parentNode, id: proc.description.split(' ').join('')});
         this.addSubSubTitle(parentNode, proc.name);
+        if (proc.device !== '') {
+            let children = [];
+            proc.device.split(',').forEach(
+                function(device) {
+                    if ('EP'.indexOf(device) !== -1) {
+                        children.push({type: Span, innerHTML: device, className: device.toLowerCase()});
+                    }
+                },
+                this
+            );
+            new DOMNode({}).create(parentNode, {className: 'devices', children: children});
+        }
         new P({parentNode: parentNode, innerHTML: proc.description});
         let params = [];
         for (let i = 0; i < proc.params.length; i++) {
@@ -449,6 +471,7 @@ class HelpBuilder {
                 helpFiles.push({
                     index:    i,
                     name:     file.subject.substr(prefix.length - file.subject.length),
+                    device:   file.device,
                     toString: function() { return this.name; }
                 });
             }

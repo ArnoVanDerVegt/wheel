@@ -7,6 +7,7 @@ const DOMNode = require('../../../lib/dom').DOMNode;
 exports.ListItem = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._settings = opts.settings;
         this._item     = opts.item;
         this._list     = opts.list;
         this._index    = opts.index;

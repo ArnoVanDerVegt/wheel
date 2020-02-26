@@ -39,11 +39,16 @@ exports.PoweredUp = class {
     initLayer() {
         return {
             connected:       false,
-            button:          false,
+            buttonLeft:      0,
+            buttonRight:     0,
+            button:          0,
+            hubLed:          null,
+            hubButtons:      [],
             tilt:            {x: 0, y: 0, z: 0},
             accel:           {x: 0, y: 0, z: 0},
             ports:           [0, 0, 0, 0],
-            portAssignments: [0, 0, 0, 0]
+            portAssignments: [0, 0, 0, 0],
+            portDevices:     [null, null, null, null]
         };
     }
 
@@ -74,6 +79,7 @@ exports.PoweredUp = class {
             index:      this._hubs.length,
             layer:      null,
             uuid:       uuid,
+            type:       hub.type,
             title:      hub.name,
             subTitle:   uuid,
             connecting: false,
@@ -83,83 +89,111 @@ exports.PoweredUp = class {
         this._changed++;
     }
 
-    _connectHub(h, hub) {
-        let layer = this._layers[hub.index];
+    _attachEvents(h, hub) {
+        let layer   = this._layers[hub.index];
+        let devices = h.getDevices();
+        layer.connected = true;
+        devices.forEach(this.onAttachDevice.bind(this, layer));
+        h.on('disconnect', this.onDisconnect.bind(this, hub));
+        h.on('tilt',       this.onTilt.bind(this, layer));
+        h.on('accel',      this.onAccel.bind(this, layer));
+        h.on('button',     this.onButton.bind(this, layer));
+        h.on('rotate',     this.onRotate.bind(this, layer));
+        h.on('attach',     this.onAttachDevice.bind(this, layer));
+        h.on('detach',     this.onDetachDevice.bind(this, layer));
+    }
 
+    onAttachDevice(layer, device) {
+        if (device.portName in portToIndex) {
+            let port = portToIndex[device.portName];
+            layer.portAssignments[port] = device.type;
+            layer.portDevices[port]     = device;
+            switch (device.type) {
+                case 37: // Color and distance
+                    device.on('colorAndDistance', this.onColorAndDistance.bind(this, layer, port));
+                    break;
+            }
+        } else {
+            switch (device.type) {
+                case 23: // Led...
+                    layer.hubLed = device;
+                    break;
+                case 55: // Remote control buttons...
+                    let index = layer.hubButtons.length;
+                    layer.hubButtons.push(device);
+                    device.on('remoteButton', this.onRemoteButton.bind(this, index, layer));
+                    break;
+            }
+        }
+    }
+
+    onDetachDevice(layer, device) {
+        if (device.portName in portToIndex) {
+            let port = portToIndex[device.portName];
+            layer.portAssignments[port] = 0;
+            layer.portDevices[port]     = null;
+        }
+    }
+
+    onDisconnect(hub) {
+        hub.connected = false;
+    }
+
+    onColorAndDistance(layer, port, event) {
+        layer.ports[port] = event.distance; // Distance or color depending on mode!
+    }
+
+    onRotate(layer, device) {
+        if (device.portName in portToIndex) {
+            layer.ports[portToIndex[device.portName]] = device.values.rotate.degrees;
+        }
+    }
+
+    onButton(layer, event) {
+        layer.button = event.event ? 0 : 1;
+    }
+
+    onTilt(layer, event) {
+        let tilt = event.values.tilt;
+        layer.tilt.x = tilt.x;
+        layer.tilt.y = tilt.y;
+        layer.tilt.z = tilt.z;
+    }
+
+    onAccel(layer, event) {
+        let accel = event.values.accel;
+        layer.accel.x = accel.x;
+        layer.accel.y = accel.y;
+        layer.accel.z = accel.z;
+    }
+
+    onRemoteButton(index, layer, event) {
+        let value = 0;
+        switch (event.event) {
+            case 255: // "-"
+                value = 1;
+                break;
+            case 127: // Red
+                value = 2;
+                break;
+            case 1:  // "+"
+                value = 4;
+                break;
+        }
+        switch (index) {
+            case 0:
+                layer.buttonLeft = value;
+                break;
+            case 1:
+                layer.buttonRight = value;
+                break;
+        }
+        layer.button = (layer.buttonLeft << 3) + layer.buttonRight;
+    }
+
+    _connectHub(h, hub) {
         h.connect(); // Connect to the Hub
-        h.on(
-            'disconnect',
-            function() {
-                hub.connected = false;
-            }
-        );
-        h.on(
-            'tilt',
-            function(port, x, y, z) {
-                if (port === 'TILT') {
-                    layer.tilt.x = x;
-                    layer.tilt.y = y;
-                    layer.tilt.z = z;
-                }
-            }
-        );
-        h.on(
-            'accel',
-            function(port, x, y, z) {
-                if (port === 'ACCEL') {
-                    layer.accel.x = x;
-                    layer.accel.y = y;
-                    layer.accel.z = z;
-                }
-            }
-        );
-        h.on(
-            'button',
-            function(button, state) {
-                if (button === 'GREEN') {
-                    layer.button = state ? 0 : 1;
-                }
-            }
-        );
-        h.on(
-            'color',
-            function(port, color) {
-                if (port in portToIndex) {
-                    layer.ports[portToIndex[port]] = color;
-                }
-            }
-        );
-        h.on(
-            'rotate',
-            function(port, rotation) {
-                if (port in portToIndex) {
-                    layer.ports[portToIndex[port]] = rotation;
-                }
-            }
-        );
-        h.on(
-            'attach',
-            function(port, device) {
-                if (port in portToIndex) {
-                    port                        = portToIndex[port];
-                    layer.ports[port]           = 0;
-                    layer.portAssignments[port] = device;
-                }
-            }
-        );
-        h.on(
-            'detach',
-            function(port) {
-                if (port in portToIndex) {
-                    layer.portAssignments[portToIndex[port]] = 0;
-                }
-            }
-        );
-        h.on(
-            'distance',
-            function(port, distance) {
-            }
-        );
+        setTimeout(this._attachEvents.bind(this, h, hub), 3000);
     }
 
     getChanged() {
@@ -181,6 +215,14 @@ exports.PoweredUp = class {
             this
         );
         return list;
+    }
+
+    getDevice(layer, port) {
+        const device = this._layers[layer].portDevices[port];
+        if (!device || !device.connected) {
+            return null;
+        }
+        return device;
     }
 
     getPort() {
@@ -230,9 +272,17 @@ exports.PoweredUp = class {
         }
         let hub = this._hubsByUuid[h.uuid];
         if (!hub || !hub.connected) {
-            return;
+            return null;
         }
         return {h: h, hub: hub};
+    }
+
+    getHubConnected(layer) {
+        let hHub = this.getHHubByLayer(layer);
+        if (!hHub) {
+            return false;
+        }
+        return hHub.hub.connected;
     }
 
     getConnectedTypes(layer) {
@@ -247,53 +297,70 @@ exports.PoweredUp = class {
         if (!hHub) {
             return;
         }
-        //hHub.h.setAbsolutePosition(['A', 'B', 'C', 'D'][motor], 0);
     }
 
     motorDegrees(layer, motor, speed, degrees, callback) {
-        let hHub = this.getHHubByLayer(layer);
-        if (!hHub) {
+        if (!this.getHubConnected(layer)) {
             return;
         }
-        hHub.h.setMotorAngle(['A', 'B', 'C', 'D'][motor], degrees, speed);
+        const motorDevice = this.getDevice(layer, motor);
+        if (!motorDevice) {
+            return;
+        }
+        if (motorDevice.rotateByDegrees) {
+            if (degrees < 0) {
+                degrees *= -1;
+                speed   *= -1;
+            }
+            motorDevice.rotateByDegrees(degrees, speed);
+        }
+        callback && callback();
     }
 
     motorOn(layer, motor, speed, callback) {
-        // let hHub = this.getHHubByLayer(layer);
-        // if (!hHub) {
-        //     return;
-        // }
-        // hHub.h.setMotorAngle(['A', 'B', 'C', 'D'][motor], degrees, speed);
+        if (!this.getHubConnected(layer)) {
+            return;
+        }
+        const motorDevice = this.getDevice(layer, motor);
+        if (!motorDevice) {
+            return;
+        }
+        if (motorDevice.setPower) {
+            motorDevice.setPower(speed);
+        }
+        if (motorDevice.setBrightness) {
+            motorDevice.setBrightness(speed);
+        }
+        callback && callback();
     }
 
     motorStop(layer, motor, brake, callback) {
-        if (!this._connected) {
+        if (!this.getHubConnected(layer)) {
             return;
         }
+        const motorDevice = this.getDevice(layer, motor);
+        if (!motorDevice) {
+            return;
+        }
+        if (motorDevice.stop) {
+            motorDevice.stop();
+        }
+        if (motorDevice.setBrightness) {
+            motorDevice.setBrightness(0);
+        }
+        callback && callback();
     }
 
     readTouchSensor(layer, port) {
-        if (!this._connected) {
-            return;
-        }
     }
 
     readSensor(layer, port, type, mode) {
-        if (!this._connected) {
-            return;
-        }
     }
 
     readMotor(layer, port) {
-        if (!this._connected) {
-            return;
-        }
     }
 
     readBattery(callback) {
-        if (!this._connected) {
-            return;
-        }
     }
 
     setLed(layer, color) {
@@ -303,7 +370,14 @@ exports.PoweredUp = class {
         let hub = this._hubs[layer];
         let h   = this._hubsByUuid[hub.uuid];
         if (h.connected && ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 255].indexOf(color) !== -1)) {
-            hub.setLEDColor(color);
+            if (hub.setLEDColor) {
+                hub.setLEDColor(color);
+            } else {
+                let hubLed = this._layers[layer].hubLed;
+                if (hubLed && hubLed.setColor) {
+                    hubLed.setColor(color);
+                }
+            }
         }
     }
 
@@ -337,6 +411,7 @@ exports.PoweredUp = class {
                 }
                 if (hub.connected) {
                     layers[index].uuid         = h.uuid;
+                    layers[index].type         = h.type;
                     layers[index].batteryLevel = h.batteryLevel;
                     layers[index].connected    = true;
                     index++;
@@ -344,11 +419,18 @@ exports.PoweredUp = class {
             },
             this
         );
+        const copyLayer = function(layer) {
+                    let result = Object.assign({}, layer);
+                    delete result.portDevices;
+                    delete result.hubLed;
+                    delete result.hubButtons;
+                    return result;
+                };
         return {
-            layer0: layers[0],
-            layer1: layers[1],
-            layer2: layers[2],
-            layer3: layers[3]
+            layer0: copyLayer(layers[0]),
+            layer1: copyLayer(layers[1]),
+            layer2: copyLayer(layers[2]),
+            layer3: copyLayer(layers[3])
         };
     }
 

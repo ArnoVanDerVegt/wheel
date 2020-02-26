@@ -1,9 +1,10 @@
 @subject IDE:Connecting EV3
+@device  E
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Connecting your EV3
 @keyword connecting
-When your running the application (not the online version), you can connect and control up to 4 EV3s to Wheel.
+When you're running the application (not the online version), you can connect and control up to 4 EV3s to Wheel.
 
 @image images/display/passkey.png
 

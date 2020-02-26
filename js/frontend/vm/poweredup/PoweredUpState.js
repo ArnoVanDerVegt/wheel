@@ -13,7 +13,7 @@ exports.PoweredUpState = class extends Emitter {
         this._updating   = false;
         this._queue      = [];
         this._deviceName = 'PoweredUp';
-        this._connected  = true;
+        this._connected  = false;
         this._layerState = [
             new LayerState({layer: 0, poweredUp: this}),
             new LayerState({layer: 1, poweredUp: this}),
@@ -24,7 +24,7 @@ exports.PoweredUpState = class extends Emitter {
     }
 
     getAbsolutePosition() {
-        return true;
+        return false;
     }
 
     getConnected() {
@@ -41,18 +41,27 @@ exports.PoweredUpState = class extends Emitter {
 
     setStatus(status) {
         this._connected = status.layer0.connected || status.layer1.connected || status.layer2.connected || status.layer3.connected;
+        let layerState = this._layerState;
+        if ((status.layer0.connected && (layerState[0].getConnected() !== status.layer0.connected)) ||
+            (status.layer1.connected && (layerState[1].getConnected() !== status.layer1.connected)) ||
+            (status.layer2.connected && (layerState[2].getConnected() !== status.layer2.connected)) ||
+            (status.layer3.connected && (layerState[3].getConnected() !== status.layer3.connected))) {
+            this.emit('PoweredUp.Connected');
+        }
     }
 
     onConnectToDevice(hub) {
         if (hub.connecting || hub.connected) {
             return;
         }
+        this.emit('PoweredUp.Connecting', hub);
         getDataProvider().getData(
             'post',
             'powered-up/connect',
             {uuid: hub.uuid},
             (function(data) {
                 if (!this._updating) {
+                    this.emit('PoweredUp.Connected', hub);
                     this.update();
                 }
             }).bind(this)

@@ -25,7 +25,8 @@ const FileDialog                 = require('./dialogs/file/FileDialog').FileDial
 const FileNewDialog              = require('./dialogs/file/FileNewDialog').FileNewDialog;
 const FileRenameDialog           = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
 const ExploreDialog              = require('./dialogs/ExploreDialog').ExploreDialog;
-const DirectControlDialog        = require('./dialogs/directcontrol/DirectControlDialog').DirectControlDialog;
+const EV3ControlDialog           = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
+const PoweredUpControlDialog     = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
 const ConfirmDialog              = require('./dialogs/ConfirmDialog').ConfirmDialog;
 const AlertDialog                = require('./dialogs/AlertDialog').AlertDialog;
 const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
@@ -44,6 +45,8 @@ const DirectoryNewDialog         = require('./dialogs/directory/DirectoryNewDial
 const ReplaceDialog              = require('./dialogs/ReplaceDialog').ReplaceDialog;
 const DownloadDialog             = require('./dialogs/download/DownloadDialog').DownloadDialog;
 const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
+const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
+const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -72,6 +75,7 @@ exports.IDE = class extends CompileAndRun {
             platform:      settings.getOS().platform,
             tabIndex:      tabIndex.MAIN_MENU,
             ev3:           this._ev3,
+            poweredUp:     this._poweredUp,
             getImage:      getImage
         });
         new FileTree({
@@ -129,6 +133,8 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)
             .on('Menu.EV3.StopAllMotors',             this, this.onMenuEV3StopAllMotors)
             .on('Menu.PoweredUp.Connect',             this, this.onMenuPoweredUpConnect)
+            .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
+            .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
             .on('Menu.Download.InstallVM',            this, this.onMenuDownloadInstallVM)
             .on('Menu.Download.InstallSineTable',     this, this.onMenuDownloadInstallSineTable)
@@ -285,7 +291,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuEV3DirectControl() {
-        dispatcher.dispatch('Dialog.DirectControl.Show', this._settings.getDaisyChainMode());
+        dispatcher.dispatch('Dialog.EV3Control.Show', this._settings.getDaisyChainMode());
     }
 
     onMenuEV3StopAllMotors() {
@@ -296,6 +302,15 @@ exports.IDE = class extends CompileAndRun {
     onMenuPoweredUpConnect() {
         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
         this.onSelectDevicePoweredUp();
+    }
+
+    onMenuPoweredDeviceCount() {
+        dispatcher.dispatch('Dialog.DeviceCount.Show', this._settings.getDeviceCount());
+        this.onSelectDevicePoweredUp();
+    }
+
+    onMenuPoweredUpDirectControl() {
+        dispatcher.dispatch('Dialog.PoweredUpControl.Show', this._settings.getDaisyChainMode());
     }
 
     onMenuDownloadInstallCompiledFiles() {
@@ -378,7 +393,9 @@ exports.IDE = class extends CompileAndRun {
         new ConfirmDialog             ({getImage: getImage, ui: this._ui});
         new AlertDialog               ({getImage: getImage, ui: this._ui});
         new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui});
-        new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui});
+        new EV3ControlDialog          ({getImage: getImage, ui: this._ui, device: this._ev3});
+        new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
+        new PoweredUpControlDialog    ({getImage: getImage, ui: this._ui, device: this._poweredUp});
         new YesNoCancelDialog         ({getImage: getImage, ui: this._ui});
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
@@ -391,8 +408,9 @@ exports.IDE = class extends CompileAndRun {
         new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
+        new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new DeviceCountDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new HelpDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DirectControlDialog       ({getImage: getImage, ui: this._ui, device: this._ev3});
         new ExploreDialog             ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new DownloadDialog            ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         return this;

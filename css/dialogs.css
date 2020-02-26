@@ -37,6 +37,7 @@
     right:                          -192px;
     bottom:                         -256px;
     -webkit-user-select:            none;
+    pointer-events:                 none;
 }
 .dialog-background .dialog-center .dialog-content .buttons {
     position:                       absolute;

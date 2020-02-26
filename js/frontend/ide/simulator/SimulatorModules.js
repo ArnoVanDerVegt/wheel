@@ -33,12 +33,12 @@ const callOnObject = function() {
 
 exports.SimulatorModules = class {
     constructor(opts) {
-        this._compileAndRun = opts.compileAndRun;
-        this._simulator     = null;
-        this._resources     = null;
-        this._events        = [];
-        this._modules       = [];
-        this._vm            = null;
+        this._settings  = opts.settings;
+        this._simulator = null;
+        this._resources = null;
+        this._events    = [];
+        this._modules   = [];
+        this._vm        = null;
     }
 
     reset() {
@@ -86,21 +86,21 @@ exports.SimulatorModules = class {
     }
 
     getActiveDevicePlugin() {
-        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+        let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
 
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveMotorsPlugin() {
-        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+        let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_MOTORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
 
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveSensorsPlugin() {
-        let uuid = (this._compileAndRun.getActiveDevice() === 0) ?
+        let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_SENSORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
 
         return this._simulator.getPluginByUuid(uuid);
@@ -168,7 +168,7 @@ exports.SimulatorModules = class {
         }
         let getButtons = (function() {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getButtons ? device.getButtons() : null;
+                return device && device.getButtons ? device.getButtons() : 0;
             }).bind(this);
         this._events.push(
             buttonModule.addEventListener('Button.Button',       this, function(button) { button(callOnObject(getButtons(), 'readButton')); }),

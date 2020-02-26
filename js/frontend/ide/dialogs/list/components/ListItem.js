@@ -62,11 +62,12 @@ exports.ListItem = class extends ListItem {
                                 {
                                     type:      'span',
                                     className: 'item-sub-title',
-                                    innerHTML: item.subTitle
+                                    innerHTML: this._settings.getDeviceAlias(item.subTitle) + ' (' + item.subTitle + ')',
+                                    title:     item.subTitle
                                 } :
                                 null,
                             {
-                                className: 'item-status',
+                                className: 'item-status ' + (item.connected ? 'green' : 'red'),
                                 innerHTML: item.connected ? 'Connected' : 'Disconnected'
                             }
                         ]

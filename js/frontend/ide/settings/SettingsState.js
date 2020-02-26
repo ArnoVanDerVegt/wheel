@@ -25,6 +25,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DocumentPath',                this, this._setDocumentPath)
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
+            .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
             .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
@@ -36,6 +37,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.RemoteFilesDetail',           this, this._setRemoteFilesDetail)
             .on('Settings.Set.LastVersionCheckDate',        this, this._setLastVersionCheckDate)
             .on('Settings.Set.PluginByName',                this, this._setPluginByName)
+            .on('Settings.Set.ActiveDevice',                this, this._setActiveDevice)
+            .on('Settings.Set.DeviceAlias',                 this, this._setDeviceAlias)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -60,6 +63,8 @@ exports.SettingsState = class extends Emitter {
                 createVMTextOutput:    this._createVMTextOutput,
                 linter:                this._linter,
                 recentProject:         this._recentProject,
+                activeDevice:          this._activeDevice,
+                deviceAlias:           this._deviceAlias,
                 darkMode:              this._darkMode,
                 windowSize: {
                     width:             this._windowSize.width,
@@ -94,7 +99,8 @@ exports.SettingsState = class extends Emitter {
                     daisyChainMode:    this._ev3.daisyChainMode
                 },
                 poweredUp: {
-                    autoConnect:       this._poweredUp.autoConnect
+                    autoConnect:       this._poweredUp.autoConnect,
+                    deviceCount:       this._poweredUp.deviceCount
                 },
                 plugins: this._plugins.toJSON()
             };
@@ -191,6 +197,10 @@ exports.SettingsState = class extends Emitter {
         return this._ev3.deviceName;
     }
 
+    getDeviceCount() {
+        return this._poweredUp.deviceCount || 1;
+    }
+
     getDaisyChainMode() {
         return this._ev3.daisyChainMode;
     }
@@ -235,6 +245,14 @@ exports.SettingsState = class extends Emitter {
         return this._plugins;
     }
 
+    getActiveDevice() {
+        return this._activeDevice;
+    }
+
+    getDeviceAlias(uuid) {
+        return this._deviceAlias[uuid] || uuid;
+    }
+
     _setRecentProject(recentProject) {
         this._recentProject = recentProject;
         this._save();
@@ -255,6 +273,12 @@ exports.SettingsState = class extends Emitter {
     _setDeviceName(deviceName) {
         this._ev3.deviceName = deviceName;
         this._save();
+    }
+
+    _setDeviceCount(deviceCount) {
+        this._poweredUp.deviceCount = deviceCount || 1;
+        this._save();
+        this.emit('Settings.PoweredUp');
     }
 
     _setWindowSize(width, height) {
@@ -308,6 +332,17 @@ exports.SettingsState = class extends Emitter {
     _setLastVersionCheckDate(lastVersionCheckDate) {
         this._lastVersionCheckDate = lastVersionCheckDate;
         this._save();
+    }
+
+    _setActiveDevice(activeDevice) {
+        this._activeDevice = activeDevice;
+        this._save();
+    }
+
+    _setDeviceAlias(uuid, alias) {
+        this._deviceAlias[uuid] = alias;
+        this._save();
+        this.emit('Settings.AliasChanged');
     }
 
     _toggleShowFileTree() {
@@ -418,13 +453,14 @@ exports.SettingsState = class extends Emitter {
         this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x            : 0;
         this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y            : 0;
         this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                    : false;
+        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                : 0;
         this._ev3                        = ('ev3'                   in data)             ? data.ev3                         : {};
         this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect            : false;
         this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall            : false;
         this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName             : '';
         this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this._ev3.daisyChainMode         : 0;
         this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                   : {};
-        this._poweredUp.autoConnect      = ('autoConnect'           in this._poweredUp)  ? this._poweredUp.autoConnect      : false;
+        this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this._poweredUp.deviceCount      : 1;
         this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput          : !electron;
         this._linter                     = ('linter'                in data)             ? data.linter                      : true;
         this._recentProject              = ('recentProject'         in data)             ? data.recentProject               : '';
@@ -435,6 +471,7 @@ exports.SettingsState = class extends Emitter {
         this._resizer                    = ('resizer'               in data)             ? data.resizer                     : {};
         this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize        : 192;
         this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
+        this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
 
         if ('plugins' in data) {
             this._plugins.load(data.plugins);

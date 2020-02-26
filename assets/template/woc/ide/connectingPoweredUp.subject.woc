@@ -1,0 +1,10 @@
+@subject IDE:Connecting Powered Up
+@device  P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Connecting your Powered Up devices
+@keyword connecting
+When you're running the application (not the online version), you can connect and control up to 4 Powered Up Hubs to Wheel.
+
+
+@see simulator,daisy

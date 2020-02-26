@@ -12,9 +12,10 @@ exports.Motor = class extends DOMNode {
         super(opts);
         this._ui              = opts.ui;
         this._uiId            = opts.uiId;
-        this._device           = opts.device;
+        this._device          = opts.device;
         this._dialog          = opts.dialog;
         this._speed           = 50;
+        this._motorValidator  = opts.motorValidator;
         this._motorId         = opts.motorId;
         this._tabIndex        = opts.tabIndex;
         this._className       = opts.className || '';
@@ -103,11 +104,11 @@ exports.Motor = class extends DOMNode {
         let className       = this._className;
         let updateClassName = (function() {
                 this.clearAssignedTimeout();
-                let disabled = (assigned === null) || ([7, 8].indexOf(assigned) === -1);
+                let disabled = !this._motorValidator.valid(assigned);
                 element.className = 'motor ' + (disabled ? 'disabled' : '') + ' ' + className;
             }).bind(this);
         this.clearAssignedTimeout();
-        if ([0, -1].indexOf(assigned) !== -1) {
+        if (this._motorValidator.waiting(assigned)) {
             this._assignedTimeout = setTimeout(updateClassName, 3000);
         } else {
             updateClassName();

@@ -17,6 +17,7 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
         dispatcher.on('Dialog.ConnectPoweredUp.Show', this, this.onShow);
         this._scanTimeout = null;
         this._changed     = -1;
+        this._changeTime  = Date.now();
     }
 
     getList() {
@@ -30,8 +31,10 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
                 } catch (error) {
                     data = null;
                 }
-                if (data && (data.changed !== this._changed)) {
-                    this._changed = data.changed;
+                let time = Date.now();
+                if (data && ((data.changed !== this._changed) || (time > this._changeTime + 5000))) {
+                    this._changed    = data.changed;
+                    this._changeTime = time;
                     this.onDeviceList(data.list);
                 }
                 this._scanTimeout = setTimeout(this.getList.bind(this), 200);

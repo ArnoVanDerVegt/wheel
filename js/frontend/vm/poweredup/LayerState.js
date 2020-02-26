@@ -6,14 +6,25 @@ let dispatcher = require('../../lib/dispatcher').dispatcher;
 
 exports.LayerState = class {
     constructor(opts) {
+        this._connected       = false;
         this._layer           = opts.layer;
         this._poweredUp       = opts.poweredUp;
         this._uuid            = null;
         this._uuidTime        = Date.now();
+        this._type            = null;
+        this._button          = 0;
         this._tilt            = {x: 0, y: 0, z: 0};
         this._accel           = {x: 0, y: 0, z: 0};
         this._ports           = [0, 0, 0, 0];
         this._portAssignments = [0, 0, 0, 0];
+    }
+
+    getConnected() {
+        return this._connected;
+    }
+
+    getType() {
+        return this._type;
     }
 
     getPorts() {
@@ -82,15 +93,24 @@ exports.LayerState = class {
 
     setStatus(status) {
         let time = Date.now();
-        if (status.uuid && ((status.uuid !== this._uuid) || (time > this._uuidTime + 500))) {
-            this._uuid     = status.uuid;
+        if ((status.uuid && (status.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
+            this._uuid     = status.uuid || '';
             this._uuidTime = time;
             this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Uuid', this._uuid);
+        }
+        if (status.type && (status.type !== this._type)) {
+            this._type = status.type;
+            this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Type', this._type);
+        }
+        if (('button' in status) && (status.button !== this._button)) {
+            this._button = status.button;
+            this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Button', this._button);
         }
         this.checkTiltChange(status.tilt);
         this.checkAccelChange(status.accel);
         this.checkSensorAssignment(status);
         this.checkSensorChange(status);
+        this._connected = status.connected;
     }
 
     getUuid() {

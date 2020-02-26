@@ -26,6 +26,7 @@ exports.ListDialog = class extends Dialog {
                 {
                     type:      List,
                     ListItem:  opts.ListItem,
+                    settings:  this._settings,
                     ref:       this.setRef('list'),
                     ui:        this._ui,
                     tabIndex:  1,
