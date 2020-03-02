@@ -74,6 +74,18 @@ exports.Plugin = class extends SimulatorPlugin {
         }
     }
 
+    showMotors(count) {
+        let layer      = this._simulator.getLayer();
+        let motors     = this._motors;
+        let foundCount = 0;
+        for (let i = 0; i < motors.length; i++) {
+            if (layer === (i >> 2)) {
+                motors[i].setHidden(foundCount >= count);
+                foundCount++;
+            }
+        }
+    }
+
     reset() {
         let motors = this._motors;
         for (let i = 0; i < motors.length; i++) {

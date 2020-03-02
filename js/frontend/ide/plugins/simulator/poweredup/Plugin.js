@@ -125,12 +125,14 @@ exports.Plugin = class extends Plugin {
         this._type = type;
         let device = this.getActiveDevice();
         device && device.show();
+        this.showMotors((this._type === 4) ? 0 : 4);
     }
 
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
         super.showLayer(layer);
+        this.showMotors((this._type === 4) ? 0 : 4);
         let layerState = this._poweredUp.getLayerState(layer);
         this.setType(layerState.getType());
     }
