@@ -11,6 +11,9 @@ const Motor           = require('./io/Motor').Motor;
 const TechnicHub      = require('./components/TechnicHub').TechnicHub;
 const Remote          = require('./components/Remote').Remote;
 
+const POWERED_UP_REMOTE = 4;
+const POWERED_UP_HUB    = 6;
+
 exports.Plugin = class extends Plugin {
     constructor(opts) {
         opts.motorConstructor = Motor;
@@ -72,9 +75,9 @@ exports.Plugin = class extends Plugin {
 
     getActiveDevice() {
         switch (this._type) {
-            case 4:
+            case POWERED_UP_REMOTE:
                 return this._remote;
-            case 6:
+            case POWERED_UP_HUB:
                 return this._technicHub;
         }
         return null;
@@ -125,16 +128,14 @@ exports.Plugin = class extends Plugin {
         this._type = type;
         let device = this.getActiveDevice();
         device && device.show();
-        this.showMotors((this._type === 4) ? 0 : 4);
+        this.showMotors((this._type === POWERED_UP_REMOTE) ? 0 : 4);
     }
 
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
         super.showLayer(layer);
-        this.showMotors((this._type === 4) ? 0 : 4);
-        let layerState = this._poweredUp.getLayerState(layer);
-        this.setType(layerState.getType());
+        this.setType(this._poweredUp.getLayerState(layer).getType());
     }
 
     onUuid(layer, uuid) {
