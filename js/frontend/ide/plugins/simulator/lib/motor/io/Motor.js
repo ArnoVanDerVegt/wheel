@@ -10,7 +10,6 @@ const MotorState = require('./MotorState').MotorState;
 exports.Motor = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._type              = -1;
         this._image             = opts.image || 'images/ev3/motorMedium.png';
         this._device            = opts.device;
         this._simulator         = opts.simulator;
@@ -111,11 +110,11 @@ exports.Motor = class extends DOMNode {
     }
 
     getType() {
-        return this._type;
+        return this._state.getType();
     }
 
     setType(type) {
-        this._type = type;
+        this._state.setType(type);
     }
 
     setSpeed(speed) {
@@ -137,7 +136,6 @@ exports.Motor = class extends DOMNode {
 
     reset() {
         this._state.reset();
-        this.setType(this._state.getType());
         this.setSpeed(100);
         this._positionElement.innerHTML = '0';
     }
@@ -176,7 +174,7 @@ exports.Motor = class extends DOMNode {
             if (this._state.getTarget() !== null) {
                 ready = this._state.ready();
             }
-        } else if (this._device && this._device.getConnected() && (this._type !== -1)) {
+        } else if (this._device && this._device.getConnected() && (this._state.getType() !== -1)) {
             let vm = this._simulator.getVM();
             if (vm) {
                 let motorModule = vm.getModules()[6];

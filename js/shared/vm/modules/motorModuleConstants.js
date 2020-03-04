@@ -15,6 +15,7 @@ exports.MOTOR_TIME_ON    =  7;
 exports.MOTOR_STOP       =  8;
 exports.MOTOR_READ       =  9;
 exports.MOTOR_READY      = 10;
+exports.MOTOR_READY_BITS = 11;
 
 exports.MOTOR_BRAKE      =  0;
 exports.MOTOR_COAST      =  1;

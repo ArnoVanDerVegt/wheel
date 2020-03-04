@@ -35,7 +35,7 @@ exports.Motor = class extends Motor {
             this._positionElement.style.display = 'none';
             this._speedElement.style.display    = 'none';
         }
-        this._type = type;
+        this._state.setType(type);
     }
 
     onAssigned(assignment) {
