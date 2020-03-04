@@ -48,6 +48,7 @@ exports.PoweredUp = class {
             tilt:            {x: 0, y: 0, z: 0},
             accel:           {x: 0, y: 0, z: 0},
             ports:           [0, 0, 0, 0],
+            resetValues:     [0, 0, 0, 0],
             portAssignments: [0, 0, 0, 0],
             portDevices:     [null, null, null, null]
         };
@@ -146,7 +147,8 @@ exports.PoweredUp = class {
 
     onRotate(layer, device) {
         if (device.portName in portToIndex) {
-            layer.ports[portToIndex[device.portName]] = device.values.rotate.degrees;
+            let port = portToIndex[device.portName];
+            layer.ports[port] = device.values.rotate.degrees - layer.resetValues[port];
         }
     }
 
@@ -319,6 +321,13 @@ exports.PoweredUp = class {
         if (!hHub) {
             return;
         }
+        let layers = this._layers;
+        if (!layers[layer] || !(motor in layers[layer].resetValues)) {
+            return;
+        }
+        layer = layers[layer];
+        layer.resetValues[motor] = layer.ports[motor];
+        layer.ports[motor]       = 0;
     }
 
     motorDegrees(layer, motor, speed, degrees, callback) {
