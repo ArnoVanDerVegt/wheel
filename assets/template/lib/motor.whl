@@ -47,8 +47,8 @@
 #define MOTOR_READY_BITS_ABCD 0b1111
 
 ; @const Brake or coast the motor.
-#define MOTOR_BRAKE           0
-#define MOTOR_COAST           1
+#define MOTOR_COAST           0
+#define MOTOR_BRAKE           1
 
 ; @proc             Set the motor type.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.

@@ -305,7 +305,7 @@ exports.EV3 = class {
     motorReset(layer, motor) {
     }
 
-    motorDegrees(layer, motor, speed, degrees, callback) {
+    motorDegrees(layer, motor, speed, degrees, brake, callback) {
         if (!this._connected) {
             return;
         }
@@ -323,13 +323,13 @@ exports.EV3 = class {
                 .add3(0)
                 .add3(degrees)
                 .add3(0)
-                .add1(1) // 1 = brake, 0 = coast
+                .add1(brake) // 1 = brake, 0 = coast
                 .addS(constants.SET_MOTOR_START)
                 .addS('0' + (1 << (motor & 3)).toString())
         });
     }
 
-    motorOn(layer, motor, speed, callback) {
+    motorOn(layer, motor, speed, brake, callback) {
         if (!this._connected) {
             return;
         }

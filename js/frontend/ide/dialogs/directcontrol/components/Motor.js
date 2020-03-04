@@ -129,42 +129,41 @@ exports.Motor = class extends DOMNode {
         return this;
     }
 
+    getMotorData(speed) {
+        return {layer: this._dialog.getLayer(), id: this._motorId, speed: speed, brake: this._dialog.getBrake()};
+    }
+
     onUpKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed, brake: this._dialog.getBrake()};
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpMousePressed(event) {
         if (!this._assignedTimeout) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpReleased() {
-        let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
     }
 
     onDownKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(-this._speed));
         }
     }
 
     onDownMousePressed(event) {
         if (!this._assignedTimeout) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(-this._speed));
         }
     }
 
     onDownReleased() {
-        let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
     }
 
     onChange(value) {

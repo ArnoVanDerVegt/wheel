@@ -138,7 +138,7 @@ exports.DirectControlDialog = class extends Dialog {
     }
 
     getBrake() {
-        return this._refs.brakeCheckbox.getChecked();
+        return this._refs.brakeCheckbox.getChecked() ? 1 : 0;
     }
 
     getLayer() {

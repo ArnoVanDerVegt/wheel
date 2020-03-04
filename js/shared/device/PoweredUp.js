@@ -330,7 +330,7 @@ exports.PoweredUp = class {
         layer.ports[motor]       = 0;
     }
 
-    motorDegrees(layer, motor, speed, degrees, callback) {
+    motorDegrees(layer, motor, speed, degrees, brake, callback) {
         if (!this.getHubConnected(layer)) {
             return;
         }
@@ -338,6 +338,7 @@ exports.PoweredUp = class {
         if (!motorDevice) {
             return;
         }
+        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
         if (motorDevice.rotateByDegrees) {
             if (degrees < 0) {
                 degrees *= -1;
@@ -348,7 +349,7 @@ exports.PoweredUp = class {
         callback && callback();
     }
 
-    motorOn(layer, motor, speed, callback) {
+    motorOn(layer, motor, speed, brake, callback) {
         if (!this.getHubConnected(layer)) {
             return;
         }
@@ -356,12 +357,9 @@ exports.PoweredUp = class {
         if (!motorDevice) {
             return;
         }
-        if (motorDevice.setPower) {
-            motorDevice.setPower(speed);
-        }
-        if (motorDevice.setBrightness) {
-            motorDevice.setBrightness(speed);
-        }
+        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
+        motorDevice.setPower        && motorDevice.setPower(speed);
+        motorDevice.setBrightness   && motorDevice.setBrightness(speed);
         callback && callback();
     }
 
@@ -373,12 +371,9 @@ exports.PoweredUp = class {
         if (!motorDevice) {
             return;
         }
-        if (motorDevice.stop) {
-            motorDevice.stop();
-        }
-        if (motorDevice.setBrightness) {
-            motorDevice.setBrightness(0);
-        }
+        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
+        motorDevice.stop            && motorDevice.stop();
+        motorDevice.setBrightness   && motorDevice.setBrightness(0);
         callback && callback();
     }
 
