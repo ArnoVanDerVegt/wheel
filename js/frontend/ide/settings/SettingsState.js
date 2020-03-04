@@ -39,6 +39,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.PluginByName',                this, this._setPluginByName)
             .on('Settings.Set.ActiveDevice',                this, this._setActiveDevice)
             .on('Settings.Set.DeviceAlias',                 this, this._setDeviceAlias)
+            .on('Settings.Set.DevicePortAlias',             this, this._setDevicePortAlias)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -65,6 +66,7 @@ exports.SettingsState = class extends Emitter {
                 recentProject:         this._recentProject,
                 activeDevice:          this._activeDevice,
                 deviceAlias:           this._deviceAlias,
+                devicePortAlias:       this._devicePortAlias,
                 darkMode:              this._darkMode,
                 windowSize: {
                     width:             this._windowSize.width,
@@ -253,6 +255,13 @@ exports.SettingsState = class extends Emitter {
         return this._deviceAlias[uuid] || uuid;
     }
 
+    getDevicePortAlias(uuid, port) {
+        if (!this._devicePortAlias[uuid] || !this._devicePortAlias[uuid][port]) {
+            return (port + 1) + '';
+        }
+        return this._devicePortAlias[uuid][port];
+    }
+
     _setRecentProject(recentProject) {
         this._recentProject = recentProject;
         this._save();
@@ -343,6 +352,15 @@ exports.SettingsState = class extends Emitter {
         this._deviceAlias[uuid] = alias;
         this._save();
         this.emit('Settings.AliasChanged');
+    }
+
+    _setDevicePortAlias(uuid, port, alias) {
+        if (!this._devicePortAlias[uuid]) {
+            this._devicePortAlias[uuid] = [];
+        }
+        this._devicePortAlias[uuid][port] = alias;
+        this._save();
+        this.emit('Settings.AliasPortChanged');
     }
 
     _toggleShowFileTree() {
@@ -472,6 +490,7 @@ exports.SettingsState = class extends Emitter {
         this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize        : 192;
         this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
         this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
+        this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias             : {};
 
         if ('plugins' in data) {
             this._plugins.load(data.plugins);

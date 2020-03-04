@@ -83,6 +83,16 @@ exports.Plugin = class extends Plugin {
         return null;
     }
 
+    getMotorCount() {
+        switch (this._type) {
+            case POWERED_UP_REMOTE:
+                return 0;
+            case POWERED_UP_HUB:
+                return 4;
+        }
+        return 0;
+    }
+
     getButtons() {
         if (!this._buttons) {
             this._buttons = {
@@ -128,7 +138,7 @@ exports.Plugin = class extends Plugin {
         this._type = type;
         let device = this.getActiveDevice();
         device && device.show();
-        this.showMotors((this._type === POWERED_UP_REMOTE) ? 0 : 4);
+        this.showMotors();
     }
 
     showLayer(layer) {
@@ -186,7 +196,6 @@ exports.Plugin = class extends Plugin {
     }
 
     onAliasChanged() {
-        console.log('Changed:', this._uuid);
         this._uuidElement.innerHTML = this._settings.getDeviceAlias(this._uuid);
     }
 

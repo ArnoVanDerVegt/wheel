@@ -7,13 +7,13 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const Img        = require('../../../lib/components/basic/Img').Img;
 const getImage   = require('../../data/images').getImage;
 
-exports.DeviceAliasDialog = class extends Dialog {
+exports.DevicePortAliasDialog = class extends Dialog {
     constructor(opts) {
         opts.title = 'Device alias';
         super(opts);
         this.createWindow(
             'device-alias-dialog',
-            'Device alias',
+            'Device port alias',
             [
                 {
                     ref:       this.setRef('text'),
@@ -49,7 +49,7 @@ exports.DeviceAliasDialog = class extends Dialog {
                 }
             ]
         );
-        dispatcher.on('Dialog.DeviceAlias.Show', this, this.onShow);
+        dispatcher.on('Dialog.DevicePortAlias.Show', this, this.onShow);
     }
 
     onApply() {
@@ -57,13 +57,8 @@ exports.DeviceAliasDialog = class extends Dialog {
         let refs  = this._refs;
         let alias = refs.alias.getValue().trim();
         if (alias) {
-            alias = alias.substr(0, Math.min(alias.length, 32));
-            dispatcher.dispatch('Settings.Set.DeviceAlias', this._uuid, alias);
+            this._onApply(this._port, alias.substr(0, Math.min(alias.length, 32)));
         }
-    }
-
-    onAliasKeyUp(event) {
-        this._refs.buttonApply.setDisabled(event.target.value.trim() === '');
     }
 
     onGlobalKeyUp(event) {
@@ -76,14 +71,19 @@ exports.DeviceAliasDialog = class extends Dialog {
         event.stopPropagation();
     }
 
+    onAliasKeyUp(event) {
+        this._refs.buttonApply.setDisabled(event.target.value.trim() === '');
+    }
+
     onShow(opts) {
         let refs          = this._refs;
         let dialogElement = this._dialogElement;
         let alias         = ((opts.alias || opts.uuid) + '').trim();
-        refs.text.innerHTML = 'Alias for uuid <i>' + opts.uuid + '</i>:';
+        refs.text.innerHTML = 'Alias for port <i>' + (opts.port + 1) + '</i>:';
         refs.alias.setValue(alias);
         refs.buttonApply.setDisabled(alias === '');
-        this._uuid = opts.uuid;
+        this._port    = opts.port;
+        this._onApply = opts.onApply;
         this.show();
     }
 };

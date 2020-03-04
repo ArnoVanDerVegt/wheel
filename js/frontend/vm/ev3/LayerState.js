@@ -15,6 +15,10 @@ exports.LayerState = class {
         this._sensorModes       = [null, null, null, null];
     }
 
+    getUUID() {
+        return '';
+    }
+
     getSensors() {
         return this._sensors;
     }

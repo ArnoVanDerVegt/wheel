@@ -13,11 +13,12 @@ exports.Dialog = class extends ComponentContainer {
         if (opts.uiOwner) {
             opts.ui = opts.uiOwner.getUI();
         }
-        this._settings = opts.settings;
-        this._ui       = opts.ui;
-        this._uiId     = opts.ui.getNextUIId();
-        this._getImage = opts.getImage;
-        this._help     = opts.help;
+        this._hideTimeout = null;
+        this._settings    = opts.settings;
+        this._ui          = opts.ui;
+        this._uiId        = opts.ui.getNextUIId();
+        this._getImage    = opts.getImage;
+        this._help        = opts.help;
         this._ui.addEventListener('Global.Key.Up', this, this.onGlobalKeyUp);
     }
 
@@ -49,13 +50,22 @@ exports.Dialog = class extends ComponentContainer {
     }
 
     hide() {
-        this._ui.popUIId();
+        if (this._hideTimeout) {
+            clearTimeout(this._hideTimeout);
+            this._hideTimeout = null;
+        }
         let dialogNode = this._dialogNode;
         dialogNode.className = this.removeClassName(dialogNode.className, 'show');
-        setTimeout(
-            function() {
-                document.body.removeChild(dialogNode);
-            },
+        this._hideTimeout = setTimeout(
+            (function() {
+                this._hideTimeout = null;
+                try {
+                    document.body.removeChild(dialogNode);
+                    this._ui.popUIId();
+                } catch (error) {
+                    // Ignore if node is already removed...
+                }
+            }).bind(this),
             200
         );
     }

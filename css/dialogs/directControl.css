@@ -7,6 +7,10 @@
     position:                       relative;
     border-radius:                  2px;
 }
+.dialog-background.direct-control-dialog .dialog-center .dialog-content.with-alias {
+    height:                         460px;
+    margin-top:                     -230px;
+}
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .brake,
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .volume {
     position:                       absolute;
@@ -57,6 +61,22 @@
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors.hidden {
     display:                        none;
+}
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor-alias {
+    float:                          left;
+    width:                          128px;
+    height:                         32px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-align:                     center;
+    text-overflow:                  ellipsis;
+    font-family:                    latolight;
+    font-size:                      18px;
+    margin:                         0 16px 0 0;
+    cursor:                         pointer;
+}
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor-alias.last {
+    margin:                         0;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor {
     float:                          left;

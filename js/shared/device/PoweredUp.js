@@ -27,6 +27,7 @@ exports.PoweredUp = class {
         this._layerCount    = 0;
         this._modules       = [];
         this._scanning      = false;
+        this._connectedHubs = [];
         this._hubs          = [];
         this._hubsByUuid    = {};
         this._changed       = 0;
@@ -89,8 +90,8 @@ exports.PoweredUp = class {
         this._changed++;
     }
 
-    _attachEvents(h, hub) {
-        let layer   = this._layers[hub.index];
+    _attachEvents(index, h, hub) {
+        let layer   = this._layers[index];
         let devices = h.getDevices();
         layer.connected = true;
         devices.forEach(this.onAttachDevice.bind(this, layer));
@@ -193,7 +194,27 @@ exports.PoweredUp = class {
 
     _connectHub(h, hub) {
         h.connect(); // Connect to the Hub
-        setTimeout(this._attachEvents.bind(this, h, hub), 3000);
+    }
+
+    _updateConnectedHubs() {
+        let connectedHubs     = this._connectedHubs;
+        let connectedHubUuids = {};
+        let hubsByUuid        = this._hubsByUuid;
+        connectedHubs.forEach(function(connectedHub) {
+            connectedHubUuids[connectedHub.uuid] = true;
+        });
+        this._hubs.forEach(
+            function(hub) {
+                if (hub.uuid in connectedHubUuids) {
+                    return;
+                }
+                if (hubsByUuid[hub.uuid].connected) {
+                    this._attachEvents(connectedHubs.length, hub, hubsByUuid[hub.uuid]);
+                    connectedHubs.push(hub);
+                }
+            },
+            this
+        );
     }
 
     getChanged() {
@@ -202,9 +223,10 @@ exports.PoweredUp = class {
 
     getDeviceList() {
         if (!this._scanning) {
-            this._scanning   = true;
-            this._hubs       = [];
-            this._hubsByUuid = {};
+            this._scanning      = true;
+            this._connectedHubs = [];
+            this._hubs          = [];
+            this._hubsByUuid    = {};
             this._poweredUP.scan();
         }
         let list = [];
@@ -266,7 +288,7 @@ exports.PoweredUp = class {
     }
 
     getHHubByLayer(layer) {
-        let h = this._hubs[layer];
+        let h = this._connectedHubs[layer];
         if (!h) {
             return null;
         }
@@ -401,21 +423,25 @@ exports.PoweredUp = class {
 
     getStatus() {
         let time   = Date.now();
-        let index  = 0;
         let layers = this._layers;
         this._hubs.forEach(
             function(h) {
                 let hub = this._hubsByUuid[h.uuid];
                 if (hub.connecting && (time > hub.connectTime + 3000)) {
-                    hub.connected = true;
+                    hub.connecting = false;
+                    hub.connected  = true;
+                    this._updateConnectedHubs();
                 }
-                if (hub.connected) {
-                    layers[index].uuid         = h.uuid;
-                    layers[index].type         = h.type;
-                    layers[index].batteryLevel = h.batteryLevel;
-                    layers[index].connected    = true;
-                    index++;
-                }
+            },
+            this
+        );
+        this._connectedHubs.forEach(
+            function(h, index) {
+                let hub = this._hubsByUuid[h.uuid];
+                layers[index].uuid         = h.uuid;
+                layers[index].type         = h.type;
+                layers[index].batteryLevel = h.batteryLevel;
+                layers[index].connected    = true;
             },
             this
         );

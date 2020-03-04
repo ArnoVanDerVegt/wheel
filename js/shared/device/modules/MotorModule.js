@@ -8,7 +8,7 @@ const DeviceModule         = require('./DeviceModule').DeviceModule;
 exports.MotorModule = class extends DeviceModule {
     constructor(opts) {
         super(opts);
-        this._timers = [[null, null, null, null], [null, null, null, null]];
+        this._timers = [[null, null, null, null], [null, null, null, null], [null, null, null, null], [null, null, null, null]];
     }
 
     clearStopTimer(layer, id) {
@@ -34,7 +34,7 @@ exports.MotorModule = class extends DeviceModule {
     }
 
     run(commandId, data) {
-        if ((data.layer < 0) || (data.layer > 1) || (data.id < 0) || (data.id > 3)) {
+        if ((data.layer < 0) || (data.layer > 3) || (data.id < 0) || (data.id > 3)) {
             return;
         }
         switch (commandId) {

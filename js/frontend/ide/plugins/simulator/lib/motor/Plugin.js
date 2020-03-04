@@ -74,7 +74,8 @@ exports.Plugin = class extends SimulatorPlugin {
         }
     }
 
-    showMotors(count) {
+    showMotors() {
+        let count      = this.getMotorCount();
         let layer      = this._simulator.getLayer();
         let motors     = this._motors;
         let foundCount = 0;
@@ -107,6 +108,10 @@ exports.Plugin = class extends SimulatorPlugin {
 
     getMainElement() {
         return null;
+    }
+
+    getMotorCount() {
+        return 4;
     }
 
     getMotor(layer, id) {

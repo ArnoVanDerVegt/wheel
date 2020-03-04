@@ -32,7 +32,7 @@ exports.PoweredUpState = class extends Emitter {
     }
 
     getLayerState(layer) {
-        return this._layerState[layer];
+        return (layer === undefined) ? this._layerState : this._layerState[layer];
     }
 
     getDeviceName() {

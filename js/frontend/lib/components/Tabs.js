@@ -225,8 +225,8 @@ exports.Tabs = class extends DOMNode {
                 } :
                 false,
             onClick: (function(title, meta) {
-                opts.onClick(title, meta);
                 this.onClickTab(title, meta);
+                opts.onClick(title, meta);
             }).bind(this)
         }));
         this

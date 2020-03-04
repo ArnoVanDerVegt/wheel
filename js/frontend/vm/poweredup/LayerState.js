@@ -19,6 +19,10 @@ exports.LayerState = class {
         this._portAssignments = [0, 0, 0, 0];
     }
 
+    getUUID() {
+        return this._uuid || '';
+    }
+
     getConnected() {
         return this._connected;
     }
