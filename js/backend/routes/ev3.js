@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const messageEncoder = require('../../shared/device/messageEncoder');
-const CommandQueue   = require('../../shared/device/CommandQueue').CommandQueue;
-const EV3            = require('../../shared/device/EV3').EV3;
-const constants      = require('../../shared/device/constants');
+const messageEncoder = require('../../shared/device/ev3/messageEncoder');
+const CommandQueue   = require('../../shared/device/ev3/CommandQueue').CommandQueue;
+const EV3            = require('../../shared/device/ev3/EV3').EV3;
+const constants      = require('../../shared/device/ev3/constants');
 const path           = require('path');
 const fs             = require('fs');
 

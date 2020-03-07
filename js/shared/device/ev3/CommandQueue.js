@@ -7,7 +7,7 @@
  * Added performance improvements by sending out multiple messages at once with an ID
  * and waiting for their response id.
 **/
-const sensorModuleConstants = require('../vm/modules/sensorModuleConstants');
+const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const messageEncoder        = require('./messageEncoder');
 const Message               = require('./Message').Message;
 const constants             = require('./constants');

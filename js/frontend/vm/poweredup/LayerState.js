@@ -6,17 +6,24 @@ let dispatcher = require('../../lib/dispatcher').dispatcher;
 
 exports.LayerState = class {
     constructor(opts) {
-        this._connected       = false;
-        this._layer           = opts.layer;
-        this._poweredUp       = opts.poweredUp;
-        this._uuid            = null;
-        this._uuidTime        = Date.now();
-        this._type            = null;
-        this._button          = 0;
-        this._tilt            = {x: 0, y: 0, z: 0};
-        this._accel           = {x: 0, y: 0, z: 0};
-        this._ports           = [0, 0, 0, 0];
-        this._portAssignments = [0, 0, 0, 0];
+        this._connected = false;
+        this._layer     = opts.layer;
+        this._poweredUp = opts.poweredUp;
+        this._uuid      = null;
+        this._uuidTime  = Date.now();
+        this._type      = null;
+        this._button    = 0;
+        this._tilt      = {x: 0, y: 0, z: 0};
+        this._accel     = {x: 0, y: 0, z: 0};
+        this._ports     = [this.createPort(), this.createPort(), this.createPort(), this.createPort()];
+    }
+
+    createPort() {
+        return {
+            value:      0,
+            assignment: 0,
+            ready:      true
+        };
     }
 
     getUUID() {
@@ -35,16 +42,23 @@ exports.LayerState = class {
         return this._ports;
     }
 
+    getPortValues(property) {
+        let result = [];
+        for (let i = 0; i < 4; i++) {
+            result.push(this._ports[i][property]);
+        }
+    }
+
     getSensors() {
-        return this._ports;
+        return this.getPortValues('value');
     }
 
     getMotors() {
-        return this._ports;
+        return this.getPortValues('value');
     }
 
     getPortAssingments() {
-        return this._portAssignments;
+        return this.getPortValues('assignment');
     }
 
     checkTiltChange(tilt) {
@@ -77,25 +91,28 @@ exports.LayerState = class {
         let ports = this._ports;
         for (let i = 0; i < 4; i++) {
             let value = status.ports[i];
-            if (ports[i] !== value) {
-                ports[i] = value;
+            if (ports[i].value !== value) {
+                ports[i].value = value;
                 this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Sensor' + i + 'Changed', value);
             }
         }
     }
 
     checkSensorAssignment(status) {
-        let portAssignments = this._portAssignments;
+        let ports = this._ports;
         for (let i = 0; i < 4; i++) {
-            let assignment = status.portAssignments[i];
-            if (portAssignments[i] !== assignment) {
-                portAssignments[i] = assignment;
+            let assignment = status.assignments[i];
+            if (ports[i].assignment !== assignment) {
+                ports[i].assignment = assignment;
                 this._poweredUp.emit('PoweredUp.Layer' + this._layer + 'Sensor' + i + 'Assigned', assignment);
             }
         }
     }
 
     setStatus(status) {
+        for (let i = 0; i < 4; i++) {
+            this._ports[i].ready = status.ready[i];
+        }
         let time = Date.now();
         if ((status.uuid && (status.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
             this._uuid     = status.uuid || '';

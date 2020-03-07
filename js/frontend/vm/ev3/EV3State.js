@@ -50,6 +50,10 @@ exports.EV3State = class extends Emitter {
         }
     }
 
+    getQueueLength() {
+        return this._queue.length;
+    }
+
     onLayerCount(layerCount) {
         this._layerCount = layerCount;
     }
@@ -81,10 +85,9 @@ exports.EV3State = class extends Emitter {
 
     updateLayerStatus(data) {
         this.setStatus(data.status);
-        data.status.layer0 && this._layerState[0].setStatus(data.status.layer0);
-        data.status.layer1 && this._layerState[1].setStatus(data.status.layer1);
-        data.status.layer2 && this._layerState[2].setStatus(data.status.layer2);
-        data.status.layer3 && this._layerState[3].setStatus(data.status.layer3);
+        for (let i = 0; i < 4; i++) {
+            data.status.layers[i] && this._layerState[i].setStatus(data.status.layers[i]);
+        }
     }
 
     update() {

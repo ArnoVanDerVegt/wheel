@@ -1,11 +1,12 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../../../../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../../../../../lib/dom').DOMNode;
-const getImage   = require('../../../../../data/images').getImage;
-const MotorState = require('./MotorState').MotorState;
+const motorModuleConstants = require('../../../../../../../shared/vm/modules/motorModuleConstants');
+const dispatcher           = require('../../../../../../lib/dispatcher').dispatcher;
+const DOMNode              = require('../../../../../../lib/dom').DOMNode;
+const getImage             = require('../../../../../data/images').getImage;
+const MotorState           = require('./MotorState').MotorState;
 
 exports.Motor = class extends DOMNode {
     constructor(opts) {
@@ -177,9 +178,9 @@ exports.Motor = class extends DOMNode {
         } else if (this._device && this._device.getConnected() && (this._state.getType() !== -1)) {
             let vm = this._simulator.getVM();
             if (vm) {
-                let motorModule = vm.getModules()[6];
+                let motorModule = vm.getModules()[motorModuleConstants.MODULE_MOTOR];
                 if (motorModule &&  motorModule.getMotorReady) {
-                    ready = motorModule.getMotorReady(this._layer, this._id);
+                    ready = motorModule.getMotorReady(this._layer, this._id, false);
                 }
             }
         }

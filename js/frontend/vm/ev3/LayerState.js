@@ -35,6 +35,10 @@ exports.LayerState = class {
         return this._motorAssignments;
     }
 
+    resetMotor(id) {
+        // Not implemented for EV3...
+    }
+
     checkSensorChange(newSensors) {
         let ev3               = this._ev3;
         let sensorAssignments = this._sensorAssignments;

@@ -2,8 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const PoweredUp = require('../../shared/device/PoweredUp').PoweredUp;
-const constants = require('../../shared/device/constants');
+const PoweredUp = require('../../shared/device/poweredup/PoweredUp').PoweredUp;
 
 let poweredUp = null;
 

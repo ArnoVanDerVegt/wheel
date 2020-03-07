@@ -4,7 +4,6 @@
 **/
 const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const DeviceModule          = require('./DeviceModule').DeviceModule;
-const constants             = require('../constants');
 
 class Sensor {
     constructor(layer, id, device) {

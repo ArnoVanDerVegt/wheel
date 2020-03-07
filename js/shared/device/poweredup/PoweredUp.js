@@ -2,25 +2,33 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const sensorModuleConstants = require('../vm/modules/sensorModuleConstants');
-const constants             = require('./constants');
-const StandardModule        = require('./modules/StandardModule' ).StandardModule;
-const ScreenModule          = require('./modules/ScreenModule'   ).ScreenModule;
-const MotorModule           = require('./modules/MotorModule'    ).MotorModule;
-const SensorModule          = require('./modules/SensorModule'   ).SensorModule;
-const MathModule            = require('./modules/MathModule'     ).MathModule;
-const LightModule           = require('./modules/LightModule'    ).LightModule;
-const ButtonModule          = require('./modules/ButtonModule'   ).ButtonModule;
-const SoundModule           = require('./modules/SoundModule'    ).SoundModule;
-const SystemModule          = require('./modules/SystemModule'   ).SystemModule;
-const FileModule            = require('./modules/FileModule'     ).FileModule;
-const BitModule             = require('./modules/BitModule'      ).BitModule;
-const StringModule          = require('./modules/StringModule'   ).StringModule;
-const DeviceModule          = require('./modules/DeviceModule'   ).DeviceModule;
-const PoweredUpModule       = require('./modules/PoweredUpModule').PoweredUpModule;
+const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
+const StandardModule        = require('../modules/StandardModule' ).StandardModule;
+const ScreenModule          = require('../modules/ScreenModule'   ).ScreenModule;
+const MotorModule           = require('../modules/MotorModule'    ).MotorModule;
+const SensorModule          = require('../modules/SensorModule'   ).SensorModule;
+const MathModule            = require('../modules/MathModule'     ).MathModule;
+const LightModule           = require('../modules/LightModule'    ).LightModule;
+const ButtonModule          = require('../modules/ButtonModule'   ).ButtonModule;
+const SoundModule           = require('../modules/SoundModule'    ).SoundModule;
+const SystemModule          = require('../modules/SystemModule'   ).SystemModule;
+const FileModule            = require('../modules/FileModule'     ).FileModule;
+const BitModule             = require('../modules/BitModule'      ).BitModule;
+const StringModule          = require('../modules/StringModule'   ).StringModule;
+const DeviceModule          = require('../modules/DeviceModule'   ).DeviceModule;
+const PoweredUpModule       = require('../modules/PoweredUpModule').PoweredUpModule;
+const poweredUpConstants    = require('node-poweredup').Consts;
 const PoweredUP             = require('node-poweredup');
 
-const portToIndex = {A: 0, B: 1, C: 2, D: 3};
+const PORT_TO_INDEX         = {A: 0, B: 1, C: 2, D: 3};
+
+const REMOTE_BUTTON_MINUS   = 255;
+const REMOTE_BUTTON_RED     = 127;
+const REMOTE_BUTTON_PLUS    =   1;
+
+const DIRECTION_REVERSE     =  -1;
+const DIRECTION_NONE        =   0;
+const DIRECTION_FORWARD     =   1;
 
 exports.PoweredUp = class {
     constructor(opts) {
@@ -35,23 +43,35 @@ exports.PoweredUp = class {
         this._poweredUP     = new PoweredUP.PoweredUP();
         this._poweredUP.on('discover', this._addHub.bind(this));
         this.initModules();
+        setInterval(this.motorMonitor.bind(this), 5);
     }
 
     initLayer() {
-        return {
-            connected:       false,
-            buttonLeft:      0,
-            buttonRight:     0,
-            button:          0,
-            hubLed:          null,
-            hubButtons:      [],
-            tilt:            {x: 0, y: 0, z: 0},
-            accel:           {x: 0, y: 0, z: 0},
-            ports:           [0, 0, 0, 0],
-            resetValues:     [0, 0, 0, 0],
-            portAssignments: [0, 0, 0, 0],
-            portDevices:     [null, null, null, null]
-        };
+        let result = {
+                connected:       false,
+                buttonLeft:      0,
+                buttonRight:     0,
+                button:          0,
+                hubLed:          null,
+                hubButtons:      [],
+                tilt:            {x: 0, y: 0, z: 0},
+                accel:           {x: 0, y: 0, z: 0},
+                ports:           []
+            };
+        for (let i = 0; i < 4; i++) {
+            result.ports.push({
+                value:            0,
+                reset:            0,
+                assignment:       0,
+                device:           null,
+                moving:           false,
+                currentDirection: DIRECTION_NONE,
+                degrees:          0,
+                startDegrees:     null,
+                endDegrees:       null
+            });
+        }
+        return result;
     }
 
     initModules() {
@@ -106,21 +126,21 @@ exports.PoweredUp = class {
     }
 
     onAttachDevice(layer, device) {
-        if (device.portName in portToIndex) {
-            let port = portToIndex[device.portName];
-            layer.portAssignments[port] = device.type;
-            layer.portDevices[port]     = device;
+        if (device.portName in PORT_TO_INDEX) {
+            let port = layer.ports[PORT_TO_INDEX[device.portName]];
+            port.assignment = device.type;
+            port.device     = device;
             switch (device.type) {
-                case 37: // Color and distance
+                case poweredUpConstants.DeviceType.COLOR_DISTANCE_SENSOR:
                     device.on('colorAndDistance', this.onColorAndDistance.bind(this, layer, port));
                     break;
             }
         } else {
             switch (device.type) {
-                case 23: // Led...
+                case poweredUpConstants.DeviceType.HUB_LED:
                     layer.hubLed = device;
                     break;
-                case 55: // Remote control buttons...
+                case poweredUpConstants.DeviceType.REMOTE_CONTROL_BUTTON:
                     let index = layer.hubButtons.length;
                     layer.hubButtons.push(device);
                     device.on('remoteButton', this.onRemoteButton.bind(this, index, layer));
@@ -130,10 +150,10 @@ exports.PoweredUp = class {
     }
 
     onDetachDevice(layer, device) {
-        if (device.portName in portToIndex) {
-            let port = portToIndex[device.portName];
-            layer.portAssignments[port] = 0;
-            layer.portDevices[port]     = null;
+        if (device.portName in PORT_TO_INDEX) {
+            let port = layer.ports[PORT_TO_INDEX[device.portName]];
+            port.assignment = 0;
+            port.device     = null;
         }
     }
 
@@ -142,13 +162,14 @@ exports.PoweredUp = class {
     }
 
     onColorAndDistance(layer, port, event) {
-        layer.ports[port] = event.distance; // Distance or color depending on mode!
+        layer.ports[port].value = event.distance; // Distance or color depending on mode!
     }
 
     onRotate(layer, device) {
-        if (device.portName in portToIndex) {
-            let port = portToIndex[device.portName];
-            layer.ports[port] = device.values.rotate.degrees - layer.resetValues[port];
+        if (device.portName in PORT_TO_INDEX) {
+            let port = layer.ports[PORT_TO_INDEX[device.portName]];
+            port.degrees = device.values.rotate.degrees;
+            port.value   = device.values.rotate.degrees - port.reset;
         }
     }
 
@@ -173,23 +194,13 @@ exports.PoweredUp = class {
     onRemoteButton(index, layer, event) {
         let value = 0;
         switch (event.event) {
-            case 255: // "-"
-                value = 1;
-                break;
-            case 127: // Red
-                value = 2;
-                break;
-            case 1:  // "+"
-                value = 4;
-                break;
+            case REMOTE_BUTTON_MINUS: value = 1; break;
+            case REMOTE_BUTTON_RED:   value = 2; break;
+            case REMOTE_BUTTON_PLUS:  value = 4; break;
         }
         switch (index) {
-            case 0:
-                layer.buttonLeft = value;
-                break;
-            case 1:
-                layer.buttonRight = value;
-                break;
+            case 0: layer.buttonLeft  = value; break;
+            case 1: layer.buttonRight = value; break;
         }
         layer.button = (layer.buttonLeft << 3) + layer.buttonRight;
     }
@@ -242,7 +253,7 @@ exports.PoweredUp = class {
     }
 
     getDevice(layer, port) {
-        const device = this._layers[layer].portDevices[port];
+        const device = this._layers[layer].ports[port].device;
         if (!device || !device.connected) {
             return null;
         }
@@ -313,7 +324,29 @@ exports.PoweredUp = class {
     }
 
     getDefaultModeForType(type) {
-        return constants.MODE0;
+        return 0;
+    }
+
+    getPUBrake(brake) {
+        return brake ? poweredUpConstants.BrakingStyle.HOLD : poweredUpConstants.BrakingStyle.FLOAT;
+    }
+
+    setDirection(port, direction) {
+        if (port.currentDirection !== direction) {
+            switch (direction) {
+                case DIRECTION_REVERSE:
+                    port.motorDevice.setPower(-port.speed);
+                    break;
+                case DIRECTION_NONE:
+                    port.moving = false;
+                    port.motorDevice.setPower(0);
+                    break;
+                case DIRECTION_FORWARD:
+                    port.motorDevice.setPower(port.speed);
+                    break;
+            }
+            port.currentDirection = direction;
+        }
     }
 
     motorReset(layer, motor) {
@@ -322,12 +355,36 @@ exports.PoweredUp = class {
             return;
         }
         let layers = this._layers;
-        if (!layers[layer] || !(motor in layers[layer].resetValues)) {
+        if (!layers[layer] || !(motor in layers[layer].ports)) {
             return;
         }
-        layer = layers[layer];
-        layer.resetValues[motor] = layer.ports[motor];
-        layer.ports[motor]       = 0;
+        let port = layers[layer].ports[motor];
+        port.reset = port.degrees;
+        port.value = 0;
+    }
+
+    motorMonitor() {
+        const time = Date.now();
+        let layers = this._layers;
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                let port        = layers[i].ports[j];
+                let motorDevice = port.motorDevice;
+                if (motorDevice) {
+                    if (port.moving) {
+                        if (Math.abs(port.endDegrees - port.degrees) < 45) {
+                            this.setDirection(port, DIRECTION_NONE);
+                        } else if (port.degrees < port.endDegrees) {
+                            this.setDirection(port, DIRECTION_FORWARD);
+                        } else {
+                            this.setDirection(port, DIRECTION_REVERSE);
+                        }
+                    } else {
+                        this.setDirection(port, DIRECTION_NONE);
+                    }
+                }
+            }
+        }
     }
 
     motorDegrees(layer, motor, speed, degrees, brake, callback) {
@@ -338,13 +395,18 @@ exports.PoweredUp = class {
         if (!motorDevice) {
             return;
         }
-        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
+        if (motorDevice.setBrakingStyle) {
+            motorDevice.setBrakingStyle(this.getPUBrake(brake));
+        }
         if (motorDevice.rotateByDegrees) {
-            if (degrees < 0) {
-                degrees *= -1;
-                speed   *= -1;
-            }
-            motorDevice.rotateByDegrees(degrees, speed);
+            let port = this._layers[layer].ports[motor];
+            this.setDirection(port, DIRECTION_NONE);
+            port.motorDevice      = motorDevice;
+            port.moving           = true;
+            port.startDegrees     = port.degrees;
+            port.endDegrees       = port.degrees + degrees;
+            port.speed            = speed;
+            port.currentDirection = DIRECTION_NONE;
         }
         callback && callback();
     }
@@ -354,12 +416,11 @@ exports.PoweredUp = class {
             return;
         }
         const motorDevice = this.getDevice(layer, motor);
-        if (!motorDevice) {
-            return;
+        if (motorDevice) {
+            motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
+            motorDevice.setPower        && motorDevice.setPower(speed);
+            motorDevice.setBrightness   && motorDevice.setBrightness(speed);
         }
-        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
-        motorDevice.setPower        && motorDevice.setPower(speed);
-        motorDevice.setBrightness   && motorDevice.setBrightness(speed);
         callback && callback();
     }
 
@@ -368,12 +429,11 @@ exports.PoweredUp = class {
             return;
         }
         const motorDevice = this.getDevice(layer, motor);
-        if (!motorDevice) {
-            return;
+        if (motorDevice) {
+            motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
+            motorDevice.stop            && motorDevice.stop();
+            motorDevice.setBrightness   && motorDevice.setBrightness(0);
         }
-        motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(brake ? 127 : 0); // BRAKE or FLOAT
-        motorDevice.stop            && motorDevice.stop();
-        motorDevice.setBrightness   && motorDevice.setBrightness(0);
         callback && callback();
     }
 
@@ -450,28 +510,33 @@ exports.PoweredUp = class {
             this
         );
         const copyLayer = function(layer) {
-                    let result = Object.assign({}, layer);
-                    delete result.portDevices;
-                    delete result.hubLed;
-                    delete result.hubButtons;
+                    let result = {
+                            type:        layer.type,
+                            connected:   layer.connected,
+                            button:      layer.button,
+                            tilt:        layer.tilt,
+                            accel:       layer.accel,
+                            ports:       [],
+                            assignments: [],
+                            ready:       []
+                        };
+                    let d = false;
+                    for (let i = 0; i < 4; i++) {
+                        let port = layer.ports[i];
+                        result.ports.push(port.value);
+                        result.assignments.push(port.assignment);
+                        result.ready.push(!port.moving);
+                    }
                     return result;
                 };
-        return {
-            layer0: copyLayer(layers[0]),
-            layer1: copyLayer(layers[1]),
-            layer2: copyLayer(layers[2]),
-            layer3: copyLayer(layers[3])
-        };
+        let result = {layers: []};
+        for (let i = 0; i < 4; i++) {
+            result.layers.push(copyLayer(layers[i]));
+        }
+        return result;
     }
 
-    setMode(layer, port, mode) {
-    }
-
-    stopPolling() {
-        this._stopPolling = true;
-    }
-
-    resumePolling() {
-        this._stopPolling = false;
-    }
+    setMode(layer, port, mode) {}
+    stopPolling() {}
+    resumePolling() {}
 };

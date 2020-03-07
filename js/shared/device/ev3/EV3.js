@@ -2,24 +2,24 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const sensorModuleConstants = require('../vm/modules/sensorModuleConstants');
+const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
+const StandardModule        = require('../modules/StandardModule' ).StandardModule;
+const ScreenModule          = require('../modules/ScreenModule'   ).ScreenModule;
+const MotorModule           = require('../modules/MotorModule'    ).MotorModule;
+const SensorModule          = require('../modules/SensorModule'   ).SensorModule;
+const MathModule            = require('../modules/MathModule'     ).MathModule;
+const LightModule           = require('../modules/LightModule'    ).LightModule;
+const ButtonModule          = require('../modules/ButtonModule'   ).ButtonModule;
+const SoundModule           = require('../modules/SoundModule'    ).SoundModule;
+const SystemModule          = require('../modules/SystemModule'   ).SystemModule;
+const FileModule            = require('../modules/FileModule'     ).FileModule;
+const BitModule             = require('../modules/BitModule'      ).BitModule;
+const StringModule          = require('../modules/StringModule'   ).StringModule;
+const DeviceModule          = require('../modules/DeviceModule'   ).DeviceModule;
 const CommandQueue          = require('./CommandQueue').CommandQueue;
 const messageEncoder        = require('./messageEncoder');
 const Message               = require('./Message').Message;
 const constants             = require('./constants');
-const StandardModule        = require('./modules/StandardModule' ).StandardModule;
-const ScreenModule          = require('./modules/ScreenModule'   ).ScreenModule;
-const MotorModule           = require('./modules/MotorModule'    ).MotorModule;
-const SensorModule          = require('./modules/SensorModule'   ).SensorModule;
-const MathModule            = require('./modules/MathModule'     ).MathModule;
-const LightModule           = require('./modules/LightModule'    ).LightModule;
-const ButtonModule          = require('./modules/ButtonModule'   ).ButtonModule;
-const SoundModule           = require('./modules/SoundModule'    ).SoundModule;
-const SystemModule          = require('./modules/SystemModule'   ).SystemModule;
-const FileModule            = require('./modules/FileModule'     ).FileModule;
-const BitModule             = require('./modules/BitModule'      ).BitModule;
-const StringModule          = require('./modules/StringModule'   ).StringModule;
-const DeviceModule          = require('./modules/DeviceModule'   ).DeviceModule;
 
 exports.EV3 = class {
     constructor(opts) {
@@ -524,10 +524,7 @@ exports.EV3 = class {
         let commandQueue = this._commandQueue;
         let layers       = this._commandQueue.getLayers();
         return {
-            layer0:  layers[0],
-            layer1:  layers[1],
-            layer2:  layers[2],
-            layer3:  layers[3],
+            layers:  layers,
             battery: commandQueue.getBattery()
         };
     }
