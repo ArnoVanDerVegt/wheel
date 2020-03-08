@@ -22,6 +22,10 @@ exports.LayerState = class extends BasicLayerState {
         return this._uuid || '';
     }
 
+    getButton() {
+        return this._button;
+    }
+
     getTilt() {
         return this._tilt;
     }
@@ -43,6 +47,7 @@ exports.LayerState = class extends BasicLayerState {
         for (let i = 0; i < 4; i++) {
             result.push(this._ports[i][property]);
         }
+        return result;
     }
 
     getSensors() {
