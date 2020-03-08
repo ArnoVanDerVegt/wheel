@@ -132,9 +132,9 @@ describe(
                         let done     = false;
                         let settings = new SettingsState({});
                         settings.on('Settings.EV3', this, function() { done = true; });
-                        dispatcher.dispatch('Settings.Toggle.AutoConnect');
-                        assert.equal(done,                      true);
-                        assert.equal(settings.getAutoConnect(), true);
+                        dispatcher.dispatch('Settings.Toggle.EV3AutoConnect');
+                        assert.equal(done,                         true);
+                        assert.equal(settings.getEV3AutoConnect(), true);
                     }
                 );
                 it(

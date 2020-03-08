@@ -291,7 +291,6 @@ describe(
                             }
                         );
                         vm.setCommands(program.getCommands()).run();
-                        console.log('logs:', logs);
                         assert.deepEqual(logs, [456, 789]);
                         done();
                     };

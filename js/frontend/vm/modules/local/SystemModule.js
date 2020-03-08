@@ -45,7 +45,7 @@ exports.SystemModule = class extends VMModule {
                 break;
             case systemModuleConstants.SYSTEM_SET_BRICKNAME:
                 let setEV3name = vmData.getRecordFromAtOffset(['name']);
-                this.emit('System.SetEV3name', {name: vmData.getStringList()[setEV3name.name]});
+                this.emit('System.SetBrickname', {name: vmData.getStringList()[setEV3name.name]});
                 break;
             case systemModuleConstants.SYSTEM_GET_MEMORY_TOTAL:
                 this.emit('System.GetMemoryTotal', {});
