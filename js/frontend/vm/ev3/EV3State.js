@@ -2,26 +2,17 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../lib/dispatcher').dispatcher;
-const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
-const Emitter         = require('../../lib/Emitter').Emitter;
-const LayerState      = require('./LayerState').LayerState;
+const dispatcher       = require('../../lib/dispatcher').dispatcher;
+const getDataProvider  = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const BasicDeviceState = require('../BasicDeviceState').BasicDeviceState;
+const LayerState       = require('./LayerState').LayerState;
 
-exports.EV3State = class extends Emitter {
+exports.EV3State = class extends BasicDeviceState {
     constructor(opts) {
-        super();
+        opts.LayerState = LayerState;
+        super(opts);
         this._battery    = null;
-        this._connecting = false;
-        this._connected  = false;
-        this._queue      = [];
         this._deviceName = 'EV3';
-        this._layerCount = opts.layerCount || 0;
-        this._layerState = [
-            new LayerState({layer: 0, ev3: this}),
-            new LayerState({layer: 1, ev3: this}),
-            new LayerState({layer: 2, ev3: this}),
-            new LayerState({layer: 3, ev3: this})
-        ];
         dispatcher
             .on('EV3.ConnectToDevice', this, this.onConnectToDevice)
             .on('EV3.LayerCount',      this, this.onLayerCount);
@@ -77,6 +68,8 @@ exports.EV3State = class extends Emitter {
                         this._connecting = true;
                     }
                 } catch (error) {
+                    // Todo: show error message in IDE...
+                    console.error(error);
                     this._connecting = false;
                 }
             }).bind(this)
@@ -102,7 +95,7 @@ exports.EV3State = class extends Emitter {
                 queue:      this._queue
             },
             (function(data) {
-                // Try {
+                try {
                     let json = JSON.parse(data);
                     if (json.connected) {
                         this.updateLayerStatus(json);
@@ -110,8 +103,10 @@ exports.EV3State = class extends Emitter {
                         this._connected = false;
                         this.emit('EV3.Disconnect');
                     }
-                // } catch (error) {
-                // }
+                } catch (error) {
+                    // Todo: show error message in IDE...
+                    console.error(error);
+                }
                 setTimeout(this.update.bind(this), 20);
             }).bind(this)
         );
@@ -128,7 +123,7 @@ exports.EV3State = class extends Emitter {
                     'ev3/connecting',
                     {},
                     (function(data) {
-                        // Try {
+                        try {
                             let json = JSON.parse(data);
                             if (json.connected) {
                                 this._connected  = true;
@@ -139,9 +134,11 @@ exports.EV3State = class extends Emitter {
                             } else {
                                 setTimeout(callback, 100);
                             }
-                        // } catch (error) {
-                            // This._connecting = false;
-                        // }
+                        } catch (error) {
+                            // Todo: show error message in IDE...
+                            console.error(error);
+                            this._connecting = false;
+                        }
                     }).bind(this)
                 );
             }).bind(this);

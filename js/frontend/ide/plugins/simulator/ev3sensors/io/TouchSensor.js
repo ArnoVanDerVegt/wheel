@@ -33,7 +33,7 @@ exports.TouchSensor = class extends Sensor {
 
     setValue(value) {
         this._value = value;
-        refs.touchValueInput.setChecked(value);
+        this._refs.touchValueInput.setChecked(value);
     }
 
     onResetTimeout() {

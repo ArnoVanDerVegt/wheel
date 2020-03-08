@@ -2,33 +2,22 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../lib/dispatcher').dispatcher;
-const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
-const Emitter         = require('../../lib/Emitter').Emitter;
-const LayerState      = require('./LayerState').LayerState;
+const dispatcher       = require('../../lib/dispatcher').dispatcher;
+const getDataProvider  = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const BasicDeviceState = require('../BasicDeviceState').BasicDeviceState;
+const LayerState       = require('./LayerState').LayerState;
 
-exports.PoweredUpState = class extends Emitter {
+exports.PoweredUpState = class extends BasicDeviceState {
     constructor(opts) {
-        super();
+        opts.LayerState = LayerState;
+        super(opts);
         this._updating   = false;
-        this._queue      = [];
         this._deviceName = 'PoweredUp';
-        this._connected  = false;
-        this._layerState = [
-            new LayerState({layer: 0, poweredUp: this}),
-            new LayerState({layer: 1, poweredUp: this}),
-            new LayerState({layer: 2, poweredUp: this}),
-            new LayerState({layer: 3, poweredUp: this})
-        ];
         dispatcher.on('PoweredUp.ConnectToDevice', this, this.onConnectToDevice);
     }
 
     getAbsolutePosition() {
         return false;
-    }
-
-    getConnected() {
-        return this._connected;
     }
 
     getLayerState(layer) {
@@ -108,11 +97,8 @@ exports.PoweredUpState = class extends Emitter {
         callback();
     }
 
-    connecting() {
-    }
-
-    disconnect() {
-    }
+    connecting() {}
+    disconnect() {}
 
     module(module, command, data) {
         if (this._connecting || !this._connected) {

@@ -3,58 +3,25 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
-const StandardModule        = require('../modules/StandardModule' ).StandardModule;
-const ScreenModule          = require('../modules/ScreenModule'   ).ScreenModule;
-const MotorModule           = require('../modules/MotorModule'    ).MotorModule;
-const SensorModule          = require('../modules/SensorModule'   ).SensorModule;
-const MathModule            = require('../modules/MathModule'     ).MathModule;
-const LightModule           = require('../modules/LightModule'    ).LightModule;
-const ButtonModule          = require('../modules/ButtonModule'   ).ButtonModule;
-const SoundModule           = require('../modules/SoundModule'    ).SoundModule;
-const SystemModule          = require('../modules/SystemModule'   ).SystemModule;
-const FileModule            = require('../modules/FileModule'     ).FileModule;
-const BitModule             = require('../modules/BitModule'      ).BitModule;
-const StringModule          = require('../modules/StringModule'   ).StringModule;
-const DeviceModule          = require('../modules/DeviceModule'   ).DeviceModule;
+const BasicDevice           = require('../BasicDevice').BasicDevice;
 const CommandQueue          = require('./CommandQueue').CommandQueue;
 const messageEncoder        = require('./messageEncoder');
 const Message               = require('./Message').Message;
 const constants             = require('./constants');
 
-exports.EV3 = class {
+exports.EV3 = class extends BasicDevice {
     constructor(opts) {
+        super(opts);
         this._serialPortConstructor  = opts.serialPortConstructor;
         this._port                   = null;
-        this._connected              = false;
-        this._connecting             = false;
         this._connectionFailed       = false;
         this._commandQueue           = null;
         this._layerCount             = 0;
         this._updateListByLayer      = [];
-        this._modules                = [];
         this._poll                   = {count: 0, layer: 0, main: 0, mainLayer: 0};
         this._stopPolling            = false;
         this._deviceName             = '';
         this._startConnectionPolling = this.startConnectionPolling.bind(this);
-        this.initModules();
-    }
-
-    initModules() {
-        let modules = this._modules;
-        modules[ 0] = new StandardModule ({device: this});
-        modules[ 1] = new MathModule     ({device: this});
-        modules[ 2] = new ScreenModule   ({device: this});
-        modules[ 3] = new LightModule    ({device: this});
-        modules[ 4] = new ButtonModule   ({device: this});
-        modules[ 5] = new SoundModule    ({device: this});
-        modules[ 6] = new MotorModule    ({device: this});
-        modules[ 7] = new SensorModule   ({device: this});
-        modules[ 8] = new FileModule     ({device: this});
-        modules[ 9] = new SystemModule   ({device: this});
-        modules[10] = new StringModule   ({device: this});
-        modules[11] = new BitModule      ({device: this});
-        modules[12] = new DeviceModule   ({device: this});
-        modules[13] = new PoweredUpModule({device: this});
     }
 
     getPort() {
