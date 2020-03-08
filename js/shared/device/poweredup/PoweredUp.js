@@ -1,5 +1,5 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
@@ -93,6 +93,13 @@ exports.PoweredUp = class {
     }
 
     _addHub(hub) {
+        if ([
+                poweredUpConstants.HubType.MOVE_HUB,
+                poweredUpConstants.HubType.REMOTE_CONTROL,
+                poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
+            ].indexOf(hub.type) === -1) {
+            return;
+        }
         let uuid = hub.uuid;
         if (uuid in this._hubsByUuid) {
             return;
@@ -145,6 +152,9 @@ exports.PoweredUp = class {
                     layer.hubButtons.push(device);
                     device.on('remoteButton', this.onRemoteButton.bind(this, index, layer));
                     break;
+                case poweredUpConstants.DeviceType.MOVE_HUB_TILT_SENSOR:
+                    device.on('tilt', this.onMoveHubTilt.bind(this, layer));
+                    break;
             }
         }
     }
@@ -162,7 +172,7 @@ exports.PoweredUp = class {
     }
 
     onColorAndDistance(layer, port, event) {
-        layer.ports[port].value = event.distance; // Distance or color depending on mode!
+        port.value = event.distance; // Todo: Distance or color depending on mode!
     }
 
     onRotate(layer, device) {
@@ -184,6 +194,12 @@ exports.PoweredUp = class {
         layer.tilt.z = tilt.z;
     }
 
+    onMoveHubTilt(layer, tilt) {
+        layer.tilt.x = tilt.x;
+        layer.tilt.y = tilt.y;
+        layer.tilt.z = 0;
+    }
+
     onAccel(layer, event) {
         let accel = event.values.accel;
         layer.accel.x = accel.x;
@@ -203,10 +219,6 @@ exports.PoweredUp = class {
             case 1: layer.buttonRight = value; break;
         }
         layer.button = (layer.buttonLeft << 3) + layer.buttonRight;
-    }
-
-    _connectHub(h, hub) {
-        h.connect(); // Connect to the Hub
     }
 
     _updateConnectedHubs() {
@@ -286,7 +298,7 @@ exports.PoweredUp = class {
             if (!hub.connected && !hub.connecting) {
                 hub.connecting  = true;
                 hub.connectTime = Date.now();
-                this._connectHub(this._hubs[hub.index], hub);
+                this._hubs[hub.index].connect();
             }
             callback(hub);
         } else {
@@ -511,6 +523,7 @@ exports.PoweredUp = class {
         );
         const copyLayer = function(layer) {
                     let result = {
+                            uuid:        layer.uuid,
                             type:        layer.type,
                             connected:   layer.connected,
                             button:      layer.button,

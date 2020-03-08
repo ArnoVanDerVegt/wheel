@@ -9,8 +9,10 @@ const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin          = require('../lib/motor/Plugin').Plugin;
 const Motor           = require('./io/Motor').Motor;
 const TechnicHub      = require('./components/TechnicHub').TechnicHub;
+const MoveHub         = require('./components/MoveHub').MoveHub;
 const Remote          = require('./components/Remote').Remote;
 
+const POWERED_UP_MOVE   = 2;
 const POWERED_UP_REMOTE = 4;
 const POWERED_UP_HUB    = 6;
 
@@ -64,6 +66,10 @@ exports.Plugin = class extends Plugin {
                             plugin: this
                         },
                         {
+                            type:   MoveHub,
+                            plugin: this
+                        },
+                        {
                             type:   Remote,
                             plugin: this
                         }
@@ -75,20 +81,18 @@ exports.Plugin = class extends Plugin {
 
     getActiveDevice() {
         switch (this._type) {
-            case POWERED_UP_REMOTE:
-                return this._remote;
-            case POWERED_UP_HUB:
-                return this._technicHub;
+            case POWERED_UP_MOVE:   return this._moveHub;
+            case POWERED_UP_REMOTE: return this._remote;
+            case POWERED_UP_HUB:    return this._technicHub;
         }
         return null;
     }
 
     getMotorCount() {
         switch (this._type) {
-            case POWERED_UP_REMOTE:
-                return 0;
-            case POWERED_UP_HUB:
-                return 4;
+            case POWERED_UP_MOVE:   return 4;
+            case POWERED_UP_REMOTE: return 0;
+            case POWERED_UP_HUB:    return 4;
         }
         return 0;
     }
@@ -124,17 +128,22 @@ exports.Plugin = class extends Plugin {
         element.addEventListener('click', this.onClickUuid.bind(this));
     }
 
-    setTechnicHub(technicHub) {
-        this._technicHub = technicHub;
+    setMoveHub(moveHub) {
+        this._moveHub = moveHub;
     }
 
     setRemote(remote) {
         this._remote = remote;
     }
 
+    setTechnicHub(technicHub) {
+        this._technicHub = technicHub;
+    }
+
     setType(type) {
-        this._technicHub.hide();
+        this._moveHub.hide();
         this._remote.hide();
+        this._technicHub.hide();
         this._type = type;
         let device = this.getActiveDevice();
         device && device.show();
@@ -178,20 +187,22 @@ exports.Plugin = class extends Plugin {
 
     onTilt(layer, tilt) {
         if (layer === this._simulator.getLayer()) {
-            this._technicHub.setTilt(tilt);
+            let device = this.getActiveDevice();
+            device && device.setTilt && device.setTilt(tilt);
         }
     }
 
     onAccel(layer, accel) {
         if (layer === this._simulator.getLayer()) {
-            this._technicHub.setAccel(accel);
+            let device = this.getActiveDevice();
+            device && device.setAccel && device.setAccel(accel);
         }
     }
 
     onButton(layer, button) {
         if (layer === this._simulator.getLayer()) {
             let device = this.getActiveDevice();
-            device && device.setButton(button);
+            device && device.setButton && device.setButton(button);
         }
     }
 

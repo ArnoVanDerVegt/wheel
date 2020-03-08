@@ -4,7 +4,7 @@
 **/
 const HomeScreenTile = require('./HomeScreenTile').HomeScreenTile;
 
-exports.HomeScreenConnectTile = class extends HomeScreenTile {
+exports.HomeScreenConnectEV3Tile = class extends HomeScreenTile {
     constructor(opts) {
         super(opts);
         this._ev3 = opts.ev3;
@@ -39,35 +39,5 @@ exports.HomeScreenConnectTile = class extends HomeScreenTile {
         if (!this._ev3.getConnected()) {
             this._onClick();
         }
-    }
-
-    getIcon() {
-        return {
-            className: 'icon-ev3',
-            children: [
-                {
-                    className: 'body-side'
-                },
-                {
-                    className: 'body',
-                    children: [
-                        {
-                            className: 'screen',
-                            children: [
-                                {
-                                    className: 'display'
-                                }
-                            ]
-                        },
-                        {
-                            className: 'buttons'
-                        },
-                        {
-                            className: 'bottom'
-                        }
-                    ]
-                }
-            ]
-        };
     }
 };

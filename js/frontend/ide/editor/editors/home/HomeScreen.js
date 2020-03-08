@@ -2,15 +2,16 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher                  = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode                     = require('../../../../lib/dom').DOMNode;
-const path                        = require('../../../../lib/path');
-const getImage                    = require('../../../data/images').getImage;
-const tabIndex                    = require('../../../tabIndex');
-const HomeScreenTile              = require('./HomeScreenTile').HomeScreenTile;
-const HomeScreenConnectTile       = require('./HomeScreenConnectTile').HomeScreenConnectTile;
-const HomeScreenThemeTile         = require('./HomeScreenThemeTile').HomeScreenThemeTile;
-const HomeScreenRecentProjectTile = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
+const dispatcher                     = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode                        = require('../../../../lib/dom').DOMNode;
+const path                           = require('../../../../lib/path');
+const getImage                       = require('../../../data/images').getImage;
+const tabIndex                       = require('../../../tabIndex');
+const HomeScreenTile                 = require('./HomeScreenTile').HomeScreenTile;
+const HomeScreenConnectEV3Tile       = require('./HomeScreenConnectEV3Tile').HomeScreenConnectEV3Tile;
+const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
+const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScreenThemeTile;
+const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
 
 exports.HomeScreen = class extends DOMNode {
     constructor(opts) {
@@ -97,19 +98,12 @@ exports.HomeScreen = class extends DOMNode {
                                     dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
                                 }
                             }),
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/help.svg'),
-                                title:    'Open documentation &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 4,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
-                                }
-                            }),
                             {
                                 ui:       ui,
+                                icon:     getImage('images/files/ev3.svg'),
                                 title:    'Connect to EV3 &raquo;',
-                                type:     HomeScreenConnectTile,
-                                tabIndex: tabIndex.HOME_SCREEN + 6,
+                                type:     HomeScreenConnectEV3Tile,
+                                tabIndex: tabIndex.HOME_SCREEN + 4,
                                 ev3:      this._ev3,
                                 onClick: function() {
                                     if ('electron' in window) {
@@ -128,6 +122,38 @@ exports.HomeScreen = class extends DOMNode {
                                     }
                                 }
                             },
+                            {
+                                ui:       ui,
+                                icon:     getImage('images/files/poweredUp.svg'),
+                                title:    'Connect to Powered Up &raquo;',
+                                type:     HomeScreenConnectPoweredUpTile,
+                                tabIndex: tabIndex.HOME_SCREEN + 5,
+                                ev3:      this._ev3,
+                                onClick: function() {
+                                    if ('electron' in window) {
+                                        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
+                                    } else {
+                                        dispatcher.dispatch(
+                                            'Dialog.Alert.Show',
+                                            {
+                                                title: 'Browser version',
+                                                lines: [
+                                                    'The browser version can not connect to your Powered Up devices...',
+                                                    'Please install the (free) Electron version to use all features.'
+                                                ]
+                                            }
+                                        );
+                                    }
+                                }
+                            },
+                            this.addHomeScreenTile({
+                                icon:     getImage('images/files/help.svg'),
+                                title:    'Open documentation &raquo;',
+                                tabIndex: tabIndex.HOME_SCREEN + 6,
+                                onClick: function() {
+                                    dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
+                                }
+                            }),
                             showThemeTile ?
                                 {
                                     ui:       ui,

@@ -259,7 +259,8 @@ require('./js/frontend/ide/menu/MainMenu');
 require('./js/frontend/ide/editor/editors/Clipboard');
 require('./js/frontend/ide/editor/editors/Editor');
 require('./js/frontend/ide/editor/editors/home/HomeScreenTile');
-require('./js/frontend/ide/editor/editors/home/HomeScreenConnectTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenConnectEV3Tile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenThemeTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreen');
@@ -337,7 +338,9 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
 require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/Motor');
+require('./js/frontend/ide/plugins/simulator/poweredup/components/BasicHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/TechnicHub');
+require('./js/frontend/ide/plugins/simulator/poweredup/components/MoveHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/Remote');
 require('./js/frontend/ide/plugins/simulator/poweredup/Plugin');
 require('./js/frontend/ide/plugins/simulator/graph/io/CircularBuffer'),

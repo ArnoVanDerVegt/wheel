@@ -24,42 +24,40 @@
     padding:                        0 10px 0 10px;
     text-align:                     center;
 }
-.powered-up .hub-body {
+.powered-up .hub-status {
+    display:                        none;
+}
+.powered-up .hub-status.visible {
+    display:                        block;
+}
+
+/* Technic hub */
+.powered-up .technic-hub-body.visible {
+    display:                        block;
+}
+.powered-up .technic-hub-body {
     float:                          left;
     position:                       relative;
     width:                          120px;
     height:                         120px;
 }
-.powered-up .hub-body {
+.powered-up .technic-hub-body {
     display:                        none;
 }
-.powered-up .hub-status {
-    display:                        none;
-}
-.powered-up .hub-remote {
-    display:                        none;
-}
-.powered-up .hub-body.visible,
-.powered-up .hub-status.visible {
-    display:                        block;
-}
-.powered-up .hub-remote.visible {
-    display:                        block;
-}
-.powered-up .hub-body .hub-top,
-.powered-up .hub-body .hub-middle,
-.powered-up .hub-body .hub-bottom {
+.powered-up .technic-hub-body .hub-top,
+.powered-up .technic-hub-body .hub-middle,
+.powered-up .technic-hub-body .hub-bottom {
     float:                          left;
     width:                          120px;
     height:                         40px;
 }
-.powered-up .hub-body .hub-top,
-.powered-up .hub-body .hub-bottom {
+.powered-up .technic-hub-body .hub-top,
+.powered-up .technic-hub-body .hub-bottom {
     background-color:               #808080;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  4px;
 }
-.powered-up .hub-body .hub-box {
+.powered-up .technic-hub-body .hub-box {
     position:                       absolute;
     left:                           13px;
     top:                            0;
@@ -68,8 +66,8 @@
     background-color:               #909090;
     border:                         1px solid rgba(0, 0, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .left-connections,
-.powered-up .hub-body .hub-box .right-connections {
+.powered-up .technic-hub-body .hub-box .left-connections,
+.powered-up .technic-hub-body .hub-box .right-connections {
     position:                       absolute;
     bottom:                         0;
     width:                          13px;
@@ -77,15 +75,15 @@
     background-color:               rgba(0, 0, 0, 0.05);
     border:                         1px solid rgba(0, 0, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .left-connections {
+.powered-up .technic-hub-body .hub-box .left-connections {
     left:                           0;
     border-width:                   1px 1px 0 0;
 }
-.powered-up .hub-body .hub-box .right-connections {
+.powered-up .technic-hub-body .hub-box .right-connections {
     right:                          0;
     border-width:                   1px 0 0 1px;
 }
-.powered-up .hub-body .hub-box .hub-button {
+.powered-up .technic-hub-body .hub-box .hub-button {
     position:                       absolute;
     left:                           50%;
     top:                            75%;
@@ -96,7 +94,7 @@
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
 }
-.powered-up .hub-body .hub-box .hub-light {
+.powered-up .technic-hub-body .hub-box .hub-light {
     position:                       absolute;
     left:                           50%;
     top:                            100%;
@@ -107,52 +105,175 @@
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
 }
-.powered-up .hub-body .hub-box .hub-light.black {
+.powered-up .technic-hub-body .hub-box .hub-light.black {
     background-color:               rgb(0, 0, 0);
 }
-.powered-up .hub-body .hub-box .hub-light.pink {
+.powered-up .technic-hub-body .hub-box .hub-light.pink {
     background-color:               rgb(255, 105, 180);
     box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.purple {
+.powered-up .technic-hub-body .hub-box .hub-light.purple {
     background-color:               rgb(128, 0, 128);
     box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.blue {
+.powered-up .technic-hub-body .hub-box .hub-light.blue {
     background-color:               rgb(0, 0, 128);
     box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.light-blue {
+.powered-up .technic-hub-body .hub-box .hub-light.light-blue {
     background-color:               rgb(135, 206, 250);
     box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.cyan {
+.powered-up .technic-hub-body .hub-box .hub-light.cyan {
     background-color:               rgb(0, 206, 209);
     box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.green {
+.powered-up .technic-hub-body .hub-box .hub-light.green {
     background-color:               rgb(0, 128, 0);
     box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.yellow {
+.powered-up .technic-hub-body .hub-box .hub-light.yellow {
     background-color:               rgb(255, 250, 0);
     box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.orange {
+.powered-up .technic-hub-body .hub-box .hub-light.orange {
     background-color:               rgb(255, 200, 0);
     box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.red {
+.powered-up .technic-hub-body .hub-box .hub-light.red {
     background-color:               rgb(128, 0, 0);
     box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.white {
+.powered-up .technic-hub-body .hub-box .hub-light.white {
     background-color:               rgb(255, 255, 255);
     box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
 }
-.powered-up .hub-body .hub-box .hub-light.none {
+.powered-up .technic-hub-body .hub-box .hub-light.none {
     background-color:               rgb(255, 255, 255);
 }
+
+/* Move hub */
+.powered-up .move-hub-body.visible {
+    display:                        block;
+}
+.powered-up .move-hub-body {
+    float:                          left;
+    position:                       relative;
+    width:                          120px;
+    height:                         120px;
+}
+.powered-up .move-hub-body {
+    display:                        none;
+}
+.powered-up .move-hub-body .hub-top,
+.powered-up .move-hub-body .hub-middle,
+.powered-up .move-hub-body .hub-bottom {
+    float:                          left;
+    width:                          120px;
+    height:                         40px;
+}
+.powered-up .move-hub-body .hub-top,
+.powered-up .move-hub-body .hub-bottom {
+    background-color:               #808080;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    border-radius:                  4px;
+}
+.powered-up .move-hub-body .hub-box {
+    position:                       absolute;
+    left:                           13px;
+    top:                            0;
+    width:                          94px;
+    height:                         120px;
+    background-color:               #909090;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .left-connections,
+.powered-up .move-hub-body .hub-box .right-connections {
+    position:                       absolute;
+    bottom:                         0;
+    width:                          13px;
+    height:                         66px;
+    background-color:               rgba(0, 0, 0, 0.05);
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .left-connections {
+    left:                           0;
+    border-width:                   1px 1px 0 0;
+}
+.powered-up .move-hub-body .hub-box .right-connections {
+    right:                          0;
+    border-width:                   1px 0 0 1px;
+}
+.powered-up .move-hub-body .hub-box .hub-button {
+    position:                       absolute;
+    left:                           50%;
+    top:                            75%;
+    margin:                         -6.5px 0 0 -6.5px;
+    width:                          13px;
+    height:                         13px;
+    background-color:               green;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    border-radius:                  2px;
+}
+.powered-up .move-hub-body .hub-box .hub-light {
+    position:                       absolute;
+    left:                           50%;
+    top:                            100%;
+    margin:                         -13px 0 0 -3px;
+    width:                          6px;
+    height:                         13px;
+    background-color:               white;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    border-radius:                  2px;
+}
+.powered-up .move-hub-body .hub-box .hub-light.black {
+    background-color:               rgb(0, 0, 0);
+}
+.powered-up .move-hub-body .hub-box .hub-light.pink {
+    background-color:               rgb(255, 105, 180);
+    box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.purple {
+    background-color:               rgb(128, 0, 128);
+    box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.blue {
+    background-color:               rgb(0, 0, 128);
+    box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.light-blue {
+    background-color:               rgb(135, 206, 250);
+    box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.cyan {
+    background-color:               rgb(0, 206, 209);
+    box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.green {
+    background-color:               rgb(0, 128, 0);
+    box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.yellow {
+    background-color:               rgb(255, 250, 0);
+    box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.orange {
+    background-color:               rgb(255, 200, 0);
+    box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.red {
+    background-color:               rgb(128, 0, 0);
+    box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.white {
+    background-color:               rgb(255, 255, 255);
+    box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
+}
+.powered-up .move-hub-body .hub-box .hub-light.none {
+    background-color:               rgb(255, 255, 255);
+}
+
+/* Hub status */
 .powered-up .hub-status {
     float:                          left;
     width:                          148px;
@@ -170,6 +291,13 @@
     margin:                         0 0 8px 0;
 }
 
+/* Remote */
+.powered-up .hub-remote {
+    display:                        none;
+}
+.powered-up .hub-remote.visible {
+    display:                        block;
+}
 .powered-up .hub-remote {
     float:                          left;
     position:                       relative;
