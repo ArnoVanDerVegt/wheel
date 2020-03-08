@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode = require('../../../../../lib/dom').DOMNode;
+const DOMNode  = require('../../../../../lib/dom').DOMNode;
+const BasicHub = require('./BasicHub').BasicHub;
 
 const RemoteButtons = class extends DOMNode {
         constructor(opts) {
@@ -49,7 +50,7 @@ const RemoteButtons = class extends DOMNode {
         }
     };
 
-exports.Remote = class extends DOMNode {
+exports.Remote = class extends BasicHub {
     constructor(opts) {
         super(opts);
         this._buttons = 0;
@@ -74,8 +75,8 @@ exports.Remote = class extends DOMNode {
                         className: 'remote-button'
                     },
                     {
-                        className: 'remote-light',
-                        ref:       this.setRef('remoteLight')
+                        className: 'hub-light',
+                        ref:       this.setRef('hubLight')
                     },
                     {
                         type:      RemoteButtons,
@@ -86,33 +87,6 @@ exports.Remote = class extends DOMNode {
                 ]
             }
         );
-    }
-
-    getLight() {
-        let remoteLight = this._refs.remoteLight;
-        let colors      = [];
-        colors[  0] = 'black';
-        colors[  1] = 'pink';
-        colors[  2] = 'purple';
-        colors[  3] = 'blue';
-        colors[  4] = 'light-blue';
-        colors[  5] = 'cyan';
-        colors[  6] = 'green';
-        colors[  7] = 'yellow';
-        colors[  8] = 'orange';
-        colors[  9] = 'red';
-        colors[ 10] = 'white';
-        colors[255] = 'none';
-        return {
-            setColor: function(color) {
-                if (colors[color] !== undefined) {
-                    remoteLight.className = 'remote-light ' + colors[color];
-                }
-            },
-            off: function() {
-                remoteLight.className = 'remote-light none';
-            }
-        };
     }
 
     getButtons() {

@@ -16,7 +16,6 @@ exports.TechnicHub = class extends BasicHub {
         this.create(
             parentNode,
             {
-                ref: this.setRef('technicHub'),
                 children: [
                     {
                         ref:       this.setRef('hubBody'),
@@ -56,7 +55,7 @@ exports.TechnicHub = class extends BasicHub {
                         className: 'hub-status',
                         children: []
                             .concat(this.getVectorRow('tilt', 'Tilt', true))
-                            .concat(this.getVectorRow('accel', 'Acceleration'))
+                            .concat(this.getVectorRow('accel', 'Acceleration', true))
                     }
                 ]
             }

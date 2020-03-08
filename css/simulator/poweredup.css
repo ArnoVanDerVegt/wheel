@@ -101,55 +101,8 @@
     margin:                         -13px 0 0 -3px;
     width:                          6px;
     height:                         13px;
-    background-color:               white;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
-}
-.powered-up .technic-hub-body .hub-box .hub-light.black {
-    background-color:               rgb(0, 0, 0);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.pink {
-    background-color:               rgb(255, 105, 180);
-    box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.purple {
-    background-color:               rgb(128, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.blue {
-    background-color:               rgb(0, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.light-blue {
-    background-color:               rgb(135, 206, 250);
-    box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.cyan {
-    background-color:               rgb(0, 206, 209);
-    box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.green {
-    background-color:               rgb(0, 128, 0);
-    box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.yellow {
-    background-color:               rgb(255, 250, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.orange {
-    background-color:               rgb(255, 200, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.red {
-    background-color:               rgb(128, 0, 0);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.white {
-    background-color:               rgb(255, 255, 255);
-    box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
-}
-.powered-up .technic-hub-body .hub-box .hub-light.none {
-    background-color:               rgb(255, 255, 255);
 }
 
 /* Move hub */
@@ -166,48 +119,33 @@
     display:                        none;
 }
 .powered-up .move-hub-body .hub-top,
-.powered-up .move-hub-body .hub-middle,
 .powered-up .move-hub-body .hub-bottom {
-    float:                          left;
-    width:                          120px;
-    height:                         40px;
-}
-.powered-up .move-hub-body .hub-top,
-.powered-up .move-hub-body .hub-bottom {
-    background-color:               #808080;
+    position:                       absolute;
+    left:                           21px;
+    top:                            0;
+    width:                          78px;
+    height:                         60px;
+    background-color:               #FFFFFF;
     border:                         1px solid rgba(0, 0, 0, 0.5);
-    border-radius:                  4px;
+}
+.powered-up .move-hub-body .hub-bottom {
+    top:                            auto;
+    bottom:                         0;
+    height:                         35px;
 }
 .powered-up .move-hub-body .hub-box {
     position:                       absolute;
-    left:                           13px;
+    left:                           34px;
     top:                            0;
-    width:                          94px;
+    width:                          50px;
     height:                         120px;
-    background-color:               #909090;
+    background-color:               #FFFFFF;
     border:                         1px solid rgba(0, 0, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .left-connections,
-.powered-up .move-hub-body .hub-box .right-connections {
-    position:                       absolute;
-    bottom:                         0;
-    width:                          13px;
-    height:                         66px;
-    background-color:               rgba(0, 0, 0, 0.05);
-    border:                         1px solid rgba(0, 0, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .left-connections {
-    left:                           0;
-    border-width:                   1px 1px 0 0;
-}
-.powered-up .move-hub-body .hub-box .right-connections {
-    right:                          0;
-    border-width:                   1px 0 0 1px;
 }
 .powered-up .move-hub-body .hub-box .hub-button {
     position:                       absolute;
-    left:                           50%;
-    top:                            75%;
+    left:                           25px;
+    top:                            31px;
     margin:                         -6.5px 0 0 -6.5px;
     width:                          13px;
     height:                         13px;
@@ -217,60 +155,13 @@
 }
 .powered-up .move-hub-body .hub-box .hub-light {
     position:                       absolute;
-    left:                           50%;
-    top:                            100%;
+    left:                           25px;
+    top:                            58px;
     margin:                         -13px 0 0 -3px;
     width:                          6px;
     height:                         13px;
-    background-color:               white;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
-}
-.powered-up .move-hub-body .hub-box .hub-light.black {
-    background-color:               rgb(0, 0, 0);
-}
-.powered-up .move-hub-body .hub-box .hub-light.pink {
-    background-color:               rgb(255, 105, 180);
-    box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.purple {
-    background-color:               rgb(128, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.blue {
-    background-color:               rgb(0, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.light-blue {
-    background-color:               rgb(135, 206, 250);
-    box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.cyan {
-    background-color:               rgb(0, 206, 209);
-    box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.green {
-    background-color:               rgb(0, 128, 0);
-    box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.yellow {
-    background-color:               rgb(255, 250, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.orange {
-    background-color:               rgb(255, 200, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.red {
-    background-color:               rgb(128, 0, 0);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.white {
-    background-color:               rgb(255, 255, 255);
-    box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
-}
-.powered-up .move-hub-body .hub-box .hub-light.none {
-    background-color:               rgb(255, 255, 255);
 }
 
 /* Hub status */
@@ -373,62 +264,15 @@
 .powered-up .hub-remote .control-circle.right {
     right:                          5px;
 }
-.powered-up .hub-remote .remote-light {
+.powered-up .hub-remote .hub-light {
     position:                       absolute;
     left:                           50%;
     top:                            -1px;
     margin:                         0 0 0 -4px;
     width:                          8px;
     height:                         22px;
-    background-color:               white;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
-}
-.powered-up .hub-remote .remote-light.black {
-    background-color:               rgb(0, 0, 0);
-}
-.powered-up .hub-remote .remote-light.pink {
-    background-color:               rgb(255, 105, 180);
-    box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
-}
-.powered-up .hub-remote .remote-light.purple {
-    background-color:               rgb(128, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
-}
-.powered-up .hub-remote .remote-light.blue {
-    background-color:               rgb(0, 0, 128);
-    box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
-}
-.powered-up .hub-remote .remote-light.light-blue {
-    background-color:               rgb(135, 206, 250);
-    box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
-}
-.powered-up .hub-remote .remote-light.cyan {
-    background-color:               rgb(0, 206, 209);
-    box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
-}
-.powered-up .hub-remote .remote-light.green {
-    background-color:               rgb(0, 128, 0);
-    box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
-}
-.powered-up .hub-remote .remote-light.yellow {
-    background-color:               rgb(255, 250, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
-}
-.powered-up .hub-remote .remote-light.orange {
-    background-color:               rgb(255, 200, 0);
-    box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
-}
-.powered-up .hub-remote .remote-light.red {
-    background-color:               rgb(128, 0, 0);
-    box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
-}
-.powered-up .hub-remote .remote-light.white {
-    background-color:               rgb(255, 255, 255);
-    box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
-}
-.powered-up .hub-remote .remote-light.none {
-    background-color:               rgb(255, 255, 255);
 }
 .powered-up .hub-remote  .remote-button {
     position:                       absolute;
@@ -440,4 +284,52 @@
     background-color:               green;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-radius:                  2px;
+}
+
+/* Light */
+.powered-up .hub-light.black {
+    background-color:               rgb(0, 0, 0);
+}
+.powered-up .hub-light.pink {
+    background-color:               rgb(255, 105, 180);
+    box-shadow:                     3px 3px 6px rgba(255, 105, 180, 0.5), -3px -3px 6px rgba(255, 105, 180, 0.5), 3px -3px 6px rgba(255, 105, 180, 0.5), -3px 3px 6px rgba(255, 105, 180, 0.5);
+}
+.powered-up .hub-light.purple {
+    background-color:               rgb(128, 0, 128);
+    box-shadow:                     3px 3px 6px rgba(128, 0, 128, 0.5), -3px -3px 6px rgba(128, 0, 128, 0.5), 3px -3px 6px rgba(128, 0, 128, 0.5), -3px 3px 6px rgba(128, 0, 128, 0.5);
+}
+.powered-up .hub-light.blue {
+    background-color:               rgb(0, 0, 128);
+    box-shadow:                     3px 3px 6px rgba(0, 0, 128, 0.5), -3px -3px 6px rgba(0, 0, 128, 0.5), 3px -3px 6px rgba(0, 0, 128, 0.5), -3px 3px 6px rgba(0, 0, 128, 0.5);
+}
+.powered-up .hub-light.light-blue {
+    background-color:               rgb(135, 206, 250);
+    box-shadow:                     3px 3px 6px rgba(135, 206, 250, 0.5), -3px -3px 6px rgba(135, 206, 250, 0.5), 3px -3px 6px rgba(135, 206, 250, 0.5), -3px 3px 6px rgba(135, 206, 250, 0.5);
+}
+.powered-up .hub-light.cyan {
+    background-color:               rgb(0, 206, 209);
+    box-shadow:                     3px 3px 6px rgba(0, 206, 209, 0.5), -3px -3px 6px rgba(0, 206, 209, 0.5), 3px -3px 6px rgba(0, 206, 209, 0.5), -3px 3px 6px rgba(0, 206, 209, 0.5);
+}
+.powered-up .hub-light.green {
+    background-color:               rgb(0, 128, 0);
+    box-shadow:                     3px 3px 6px rgba(0, 128, 0, 0.5), -3px -3px 6px rgba(0, 128, 0, 0.5), 3px -3px 6px rgba(0, 128, 0, 0.5), -3px 3px 6px rgba(0, 128, 0, 0.5);
+}
+.powered-up .hub-light.yellow {
+    background-color:               rgb(255, 250, 0);
+    box-shadow:                     3px 3px 6px rgba(255, 250, 0, 0.5), -3px -3px 6px rgba(255, 250, 0, 0.5), 3px -3px 6px rgba(255, 250, 0, 0.5), -3px 3px 6px rgba(255, 250, 0, 0.5);
+}
+.powered-up .hub-light.orange {
+    background-color:               rgb(255, 200, 0);
+    box-shadow:                     3px 3px 6px rgba(255, 200, 0, 0.5), -3px -3px 6px rgba(255, 200, 0, 0.5), 3px -3px 6px rgba(255, 200, 0, 0.5), -3px 3px 6px rgba(255, 200, 0, 0.5);
+}
+.powered-up .hub-light.red {
+    background-color:               rgb(128, 0, 0);
+    box-shadow:                     3px 3px 6px rgba(128, 0, 0, 0.5), -3px -3px 6px rgba(128, 0, 0, 0.5), 3px -3px 6px rgba(128, 0, 0, 0.5), -3px 3px 6px rgba(128, 0, 0, 0.5);
+}
+.powered-up .hub-light.white {
+    background-color:               rgb(255, 255, 255);
+    box-shadow:                     3px 3px 6px rgba(255, 255, 255, 0.5), -3px -3px 6px rgba(255, 255, 255, 0.5), 3px -3px 6px rgba(255, 255, 255, 0.5), -3px 3px 6px rgba(255, 255, 255, 0.5);
+}
+.powered-up .hub-light.none {
+    background-color:               rgb(255, 255, 255);
 }

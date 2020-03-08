@@ -16,7 +16,6 @@ exports.MoveHub = class extends BasicHub {
         this.create(
             parentNode,
             {
-                ref: this.setRef('moveHub'),
                 children: [
                     {
                         ref:       this.setRef('hubBody'),
@@ -26,20 +25,11 @@ exports.MoveHub = class extends BasicHub {
                                 className: 'hub-top'
                             },
                             {
-                                className: 'hub-middle'
-                            },
-                            {
                                 className: 'hub-bottom'
                             },
                             {
                                 className: 'hub-box',
                                 children: [
-                                    {
-                                        className: 'left-connections'
-                                    },
-                                    {
-                                        className: 'right-connections'
-                                    },
                                     {
                                         className: 'hub-button'
                                     },
