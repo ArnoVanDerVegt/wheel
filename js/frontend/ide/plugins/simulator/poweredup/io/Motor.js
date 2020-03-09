@@ -47,5 +47,6 @@ exports.Motor = class extends Motor {
 
     onAssigned(assignment) {
         this.setType(assignment);
+        this._state.setIsMotor((assignment in deviceInfo) && deviceInfo[assignment].motor);
     }
 };

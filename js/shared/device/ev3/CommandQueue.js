@@ -47,8 +47,14 @@ exports.CommandQueue = class {
         }
         for (i = 0; i < 4; i++) {
             result.push({
-                value:    0,
-                assigned: null
+                ready:        false,
+                assigned:     null,
+                value:        0,
+                reset:        false,
+                degrees:      0,
+                resetDegrees: 0,
+                startDegrees: null,
+                endDegrees:   null
             });
         }
         return result;
@@ -60,6 +66,14 @@ exports.CommandQueue = class {
 
     setMode(layer, port, mode) {
         this._layers[layer][port].mode = mode;
+    }
+
+    setMotorMove(layer, port, degrees) {
+        layer = this._layers[layer];
+        port  = layer[port + 4];
+        port.startDegrees = port.value - port.resetDegrees;
+        port.endDegrees   = degrees;
+        return this;
     }
 
     getDefaultModeForType(type) {
@@ -90,7 +104,22 @@ exports.CommandQueue = class {
     }
 
     getLayers() {
-        return this._layers;
+        let layers = this._layers;
+        layers.forEach(function(layer) {
+            for (let i = 4; i < 8; i++) {
+                let port = layer[i];
+                if (port.assigned !== null) {
+                    if (port.endDegrees !== null) {
+                        if (port.startDegrees < port.endDegrees) {
+                            port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees >= port.endDegrees);
+                        } else {
+                            port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees <= port.endDegrees);
+                        }
+                    }
+                }
+            }
+        });
+        return layers;
     }
 
     getId() {
@@ -372,6 +401,11 @@ exports.CommandQueue = class {
                         break;
                     case constants.READ_FROM_MOTOR:
                         item.value = Math.round(this.getFloatResult(inputData) * 360); // Round to nearest degree
+                        if (item.reset) {
+                            item.reset        = false;
+                            item.resetDegrees = item.value;
+                        }
+                        item.degrees = item.value - item.resetDegrees;
                         break;
                 }
                 item.sending = false;
@@ -443,7 +477,7 @@ exports.CommandQueue = class {
                     this.continueDownload(messageEncoder.decimalToLittleEndianHex(handle, 2), filename, data);
                     callback && callback(false);
                 } else {
-                    console.log('Download failed, state:' + result + ' handle: ' + handle);
+                    console.error('Download failed, state:' + result + ' handle: ' + handle);
                     callback && callback(true);
                 }
                 break;
@@ -456,7 +490,7 @@ exports.CommandQueue = class {
             case constants.INPUT_DEVICE_GET_TYPE_MODE:
                 if (this.receiveTypeMode(inputData)) {
                     // Receive probably failed...
-                    console.log('Receive failed for layer:', this._pendingCommand.layer);
+                    console.error('Receive failed for layer:', this._pendingCommand.layer);
                     this._failedConnectionTypesLayer = this._pendingCommand.layer;
                 } else if (this._failedConnectionTypesLayer === this._pendingCommand.layer) {
                     this._failedConnectionTypesLayer = -1;

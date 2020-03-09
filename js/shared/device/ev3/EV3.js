@@ -158,7 +158,7 @@ exports.EV3 = class extends BasicDevice {
             if (layer === -1) {
                 poll.main      = (poll.main + 1) % 128;
             } else {
-                console.log('Failed for layer:', layer);
+                console.error('Failed for layer:', layer);
                 poll.mainLayer = layer;
                 poll.main      = 0;
             }
@@ -201,11 +201,11 @@ exports.EV3 = class extends BasicDevice {
                 function(data) {
                     port.write(Buffer.from(data), function(error) {
                         if (error) {
-                            console.log('Write err:', error);
+                            console.error('Write err:', error);
                         }
                         port.drain(function(error) {
                             if (error) {
-                                console.log('Drain err:', error);
+                                console.error('Drain err:', error);
                             }
                         });
                     });
@@ -270,6 +270,11 @@ exports.EV3 = class extends BasicDevice {
     }
 
     motorReset(layer, motor) {
+        if (!this._connected) {
+            return;
+        }
+        let layers = this._commandQueue.getLayers();
+        layers[layer][motor + 4].reset = true;
     }
 
     motorDegrees(layer, motor, speed, degrees, brake, callback) {
@@ -280,19 +285,21 @@ exports.EV3 = class extends BasicDevice {
             degrees *= -1;
             speed   *= -1;
         }
-        this._commandQueue.addToCommandQueue({
-            callback: callback,
-            message:  new Message()
-                .addS(constants.DIRECT_COMMAND_PREFIX)
-                .addS(constants.SET_MOTOR_STEP_SPEED)
-                .addS('0' + (1 << (motor & 3)).toString())
-                .add1(Math.max(Math.min(speed, 100), -100))
-                .add3(0)
-                .add3(degrees)
-                .add3(0)
-                .add1(brake) // 1 = brake, 0 = coast
-                .addS(constants.SET_MOTOR_START)
-                .addS('0' + (1 << (motor & 3)).toString())
+        this._commandQueue
+            .setMotorMove(layer, motor, degrees)
+            .addToCommandQueue({
+                callback: callback,
+                message:  new Message()
+                    .addS(constants.DIRECT_COMMAND_PREFIX)
+                    .addS(constants.SET_MOTOR_STEP_SPEED)
+                    .addS('0' + (1 << (motor & 3)).toString())
+                    .add1(Math.max(Math.min(speed, 100), -100))
+                    .add3(0)
+                    .add3(degrees)
+                    .add3(0)
+                    .add1(brake) // 1 = brake, 0 = coast
+                    .addS(constants.SET_MOTOR_START)
+                    .addS('0' + (1 << (motor & 3)).toString())
         });
     }
 
@@ -489,7 +496,7 @@ exports.EV3 = class extends BasicDevice {
 
     getState() {
         let commandQueue = this._commandQueue;
-        let layers       = this._commandQueue.getLayers();
+        let layers       = commandQueue.getLayers();
         return {
             layers:  layers,
             battery: commandQueue.getBattery()

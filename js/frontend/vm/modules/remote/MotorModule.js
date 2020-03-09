@@ -43,17 +43,17 @@ exports.MotorModule = class extends VMModule {
         return this._layers[layer][id];
     }
 
-    getPort(layer, id) {
+    getMotorPort(layer, id) {
         let layerState = this._device().getLayerState(layer);
-        return layerState.getPorts()[id];
+        return layerState.getMotorPort(id);
     }
 
     getCurrentMotorPosition(layer, id) {
-        return this.getLayerAndIdValid(layer, id) ? this.getPort(layer, id).value : 0;
+        return this.getLayerAndIdValid(layer, id) ? this.getMotorPort(layer, id).degrees : 0;
     }
 
     getMotorReady(layer, id) {
-        let port = this.getPort(layer, id);
+        let port = this.getMotorPort(layer, id);
         if ('ready' in port) {
             return port.ready;
         }
@@ -69,8 +69,8 @@ exports.MotorModule = class extends VMModule {
         let callback = (function() {
                 vm.sleep(1000);
                 if (!device.getQueueLength()) {
-                    let port = this.getPort(motor.layer, motor.id);
-                    if (port.value === 0) {
+                    let port = this.getMotorPort(motor.layer, motor.id);
+                    if (port.degrees === 0) {
                         return;
                     }
                 }
@@ -165,12 +165,7 @@ exports.MotorModule = class extends VMModule {
                     motorState.time   = 0;
                     motor.speed       = Math.abs(motorState.speed || 0);
                     motor.brake       = motorState.brake;
-                    if (this._device().getAbsolutePosition()) {
-                        motor.degrees = motor.target;
-                    } else {
-                        motor.degrees = motor.target - this.getCurrentMotorPosition(motor.layer, motor.id);
-                    }
-                    layerState = this._device().getLayerState(motor.layer);
+                    motor.degrees     = motor.target - this.getCurrentMotorPosition(motor.layer, motor.id);
                     this.callModule(motorModuleConstants.MOTOR_MOVE_TO, 'Motor.MoveTo', motor);
                 }
                 break;
@@ -209,7 +204,7 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromAtOffset(['layer', 'id']);
                 value = 0;
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
-                    value = this.getPort(motor.layer, motor.id).value;
+                    value = this.getMotorPort(motor.layer, motor.id).degrees;
                 }
                 vmData.setNumberAtRet(value);
                 break;

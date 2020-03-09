@@ -21,6 +21,7 @@ exports.Motor = class extends Motor {
         if ([7, 8].indexOf(type) !== -1) {
             type -= 7;
         }
+        let state  = this._state;
         let images = [
                 'images/ev3/motorMedium.png',
                 'images/ev3/motorLarge.png'
@@ -30,12 +31,14 @@ exports.Motor = class extends Motor {
             this._positionElement.style.display = 'block';
             this._speedElement.style.display    = 'block';
             this._imageElement.src              = getImage(images[this._state.setType(type)]);
+            state.setIsMotor(true);
         } else {
             this._imageElement.style.display    = 'none';
             this._positionElement.style.display = 'none';
             this._speedElement.style.display    = 'none';
+            state.setIsMotor(false);
         }
-        this._state.setType(type);
+        state.setType(type);
     }
 
     onAssigned(assignment) {

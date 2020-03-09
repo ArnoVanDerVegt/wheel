@@ -169,18 +169,23 @@ exports.Motor = class extends DOMNode {
     }
 
     update() {
+        let state = this._state;
+        if (!state.getIsMotor()) {
+            this._readyElement.className = 'ready';
+            return;
+        }
         let ready = null;
-        if (this._state.update()) {
-            this._positionElement.innerHTML = this._state.getPosition();
-            if (this._state.getTarget() !== null) {
-                ready = this._state.ready();
+        if (state.update()) { // Update based on local value...
+            this._positionElement.innerHTML = state.getPosition();
+            if (state.getTarget() !== null) {
+                ready = state.ready();
             }
-        } else if (this._device && this._device.getConnected() && (this._state.getType() !== -1)) {
+        } else if (this._device && this._device.getConnected() && (state.getType() !== -1)) {
             let vm = this._simulator.getVM();
             if (vm) {
                 let motorModule = vm.getModules()[motorModuleConstants.MODULE_MOTOR];
-                if (motorModule &&  motorModule.getMotorReady) {
-                    ready = motorModule.getMotorReady(this._layer, this._id, false);
+                if (motorModule && motorModule.getMotorReady) {
+                    ready = motorModule.getMotorReady(this._layer, this._id);
                 }
             }
         }

@@ -117,5 +117,11 @@ exports.LayerState = class extends BasicLayerState {
         this.checkTiltChange(state.tilt);
         this.checkAccelChange(state.accel);
         this._connected = state.connected;
+        // Since Powered Up ports can be a motor or sensor we copy the value to degrees...
+        let ports = this._ports;
+        for (let i = 0; i < 4; i++) {
+            let port = ports[i];
+            port.degrees = port.value;
+        }
     }
 };

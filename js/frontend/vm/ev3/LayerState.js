@@ -23,6 +23,10 @@ exports.LayerState = class extends BasicLayerState {
         return '';
     }
 
+    getMotorPort(port) {
+        return this._motors[port];
+    }
+
     getMotorValues(property) {
         let result = [];
         for (let i = 0; i < 4; i++) {
@@ -47,16 +51,22 @@ exports.LayerState = class extends BasicLayerState {
         let motors = this._motors;
         let layer  = this._layer;
         for (let i = 0; i < 4; i++) {
-            let assigned = newMotors[i + 4].assigned || 0;
+            let newMotor = newMotors[i + 4];
+            let assigned = newMotor.assigned || 0;
             let motor    = motors[i];
             if (motor.assigned !== assigned) {
                 motor.assigned = assigned;
                 device.emit(this._signalPrefix + layer + 'Motor' + i + 'Assigned', assigned);
             }
-            let value = parseInt(newMotors[i + 4].value || '0');
-            if (motor.degrees !== value) {
-                motor.degrees = value;
-                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', value);
+            let degrees = parseInt(newMotor.degrees || '0');
+            if (motor.degrees !== degrees) {
+                motor.degrees = degrees;
+                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', degrees);
+            }
+            if ('ready' in newMotor) {
+                motor.ready = newMotor.ready;
+            } else {
+                delete motor.ready;
             }
         }
     }

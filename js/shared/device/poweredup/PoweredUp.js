@@ -476,26 +476,25 @@ exports.PoweredUp = class extends BasicDevice {
             this
         );
         const copyLayer = function(layer) {
-                    let result = {
-                            uuid:      layer.uuid,
-                            type:      layer.type,
-                            connected: layer.connected,
-                            button:    layer.button,
-                            tilt:      layer.tilt,
-                            accel:     layer.accel,
-                            ports:     []
-                        };
-                    let d = false;
-                    for (let i = 0; i < 4; i++) {
-                        let port = layer.ports[i];
-                        result.ports.push({
-                            value:    port.value,
-                            assigned: port.assigned,
-                            ready:    !port.moving
-                        });
-                    }
-                    return result;
-                };
+                let result = {
+                        uuid:      layer.uuid,
+                        type:      layer.type,
+                        connected: layer.connected,
+                        button:    layer.button,
+                        tilt:      layer.tilt,
+                        accel:     layer.accel,
+                        ports:     []
+                    };
+                for (let i = 0; i < 4; i++) {
+                    let port = layer.ports[i];
+                    result.ports.push({
+                        value:    port.value,
+                        assigned: port.assigned,
+                        ready:    !port.moving
+                    });
+                }
+                return result;
+            };
         let result = {layers: []};
         for (let i = 0; i < 4; i++) {
             result.layers.push(copyLayer(layers[i]));

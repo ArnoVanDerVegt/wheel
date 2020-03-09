@@ -17,6 +17,7 @@ exports.MotorState = class {
     reset() {
         this._mode           = MODE_OFF;
         this._speed          = 100;
+        this._isMotor        = true;
         this._type           = 0;
         this._rpm            = 272;
         this._position       = 0;
@@ -34,6 +35,14 @@ exports.MotorState = class {
         this._type = type;
         this._rpm  = [272, 105][type];
         return this._type;
+    }
+
+    getIsMotor() {
+        return this._isMotor;
+    }
+
+    setIsMotor(isMotor) {
+        this._isMotor = isMotor;
     }
 
     getTarget() {

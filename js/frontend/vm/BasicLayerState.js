@@ -24,6 +24,10 @@ exports.BasicLayerState = class {
         return this._ports;
     }
 
+    getMotorPort(port) {
+        return this._ports[port];
+    }
+
     getPortValues(property) {
         let result = [];
         for (let i = 0; i < 4; i++) {
