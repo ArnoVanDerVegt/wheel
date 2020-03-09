@@ -51,8 +51,8 @@ exports.TechnicHub = class extends BasicHub {
                         ]
                     },
                     {
-                        ref:       this.setRef('hubStatus'),
-                        className: 'hub-status',
+                        ref:       this.setRef('hubState'),
+                        className: 'hub-state',
                         children: []
                             .concat(this.getVectorRow('tilt', 'Tilt', true))
                             .concat(this.getVectorRow('accel', 'Acceleration', true))
@@ -80,12 +80,12 @@ exports.TechnicHub = class extends BasicHub {
     }
 
     hide() {
-        this._refs.hubBody.className   = 'technic-hub-body';
-        this._refs.hubStatus.className = 'hub-status';
+        this._refs.hubBody.className  = 'technic-hub-body';
+        this._refs.hubState.className = 'hub-state';
     }
 
     show() {
-        this._refs.hubBody.className   = 'technic-hub-body visible';
-        this._refs.hubStatus.className = 'hub-status visible';
+        this._refs.hubBody.className  = 'technic-hub-body visible';
+        this._refs.hubState.className = 'hub-state visible';
     }
 };

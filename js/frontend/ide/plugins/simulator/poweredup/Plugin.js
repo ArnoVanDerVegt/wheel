@@ -119,7 +119,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getLight(layer) {
-        let device = this.getDeviceByType(poweredUp.getLayerState(layer).getType());
+        let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
         if (device) {
             return device.getLight();
         }

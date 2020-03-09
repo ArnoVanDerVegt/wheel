@@ -45,13 +45,13 @@ exports.ev3Routes = {
     },
     connecting: function(req, res) {
         let connected = getEV3().getConnected();
-        let status    = {};
+        let state     = {};
         if (connected) {
-            status = getEV3().getStatus();
+            state = getEV3().getState();
         }
         res.send(JSON.stringify({
             connected: connected,
-            status:    status
+            state:     state
         }));
     },
     connected: function(req, res) {
@@ -66,7 +66,7 @@ exports.ev3Routes = {
             queue.forEach(function(params) {
                 ev3.module(params.module, params.command, params.data);
             });
-            result.status = ev3.getStatus();
+            result.state = ev3.getState();
         } else {
             result.connected = false;
         }

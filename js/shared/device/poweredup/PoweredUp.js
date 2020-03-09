@@ -451,7 +451,7 @@ exports.PoweredUp = class extends BasicDevice {
         }
     }
 
-    getStatus() {
+    getState() {
         let time   = Date.now();
         let layers = this._layers;
         this._hubs.forEach(
@@ -483,7 +483,7 @@ exports.PoweredUp = class extends BasicDevice {
                             button:    layer.button,
                             tilt:      layer.tilt,
                             accel:     layer.accel,
-                            ports:     [],
+                            ports:     []
                         };
                     let d = false;
                     for (let i = 0; i < 4; i++) {

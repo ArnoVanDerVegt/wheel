@@ -26,7 +26,7 @@ exports.SimulatorConnection = class extends DOMNode {
                 className: 'connection',
                 children: [
                     {
-                        id:        this.setConnectStatus.bind(this),
+                        id:        this.setConnectState.bind(this),
                         innerHTML: 'Connecting...'
                     },
                     {
@@ -48,8 +48,8 @@ exports.SimulatorConnection = class extends DOMNode {
         this._connectPanelElement = element;
     }
 
-    setConnectStatus(element) {
-        this._connectStatusElement = element;
+    setConnectState(element) {
+        this._connectStateElement = element;
     }
 
     setConnectDevice(element) {
@@ -70,20 +70,20 @@ exports.SimulatorConnection = class extends DOMNode {
     onEV3Connecting(deviceName) {
         this.clearDisconnectedTimeout();
         this._connectPanelElement.style.display = 'block';
-        this._connectStatusElement.innerHTML    = 'Connecting...';
+        this._connectStateElement.innerHTML     = 'Connecting...';
         this._connectDeviceElement.innerHTML    = deviceName;
     }
 
     onEV3Connected() {
         this.clearDisconnectedTimeout();
-        this._connected                      = true;
-        this._connectStatusElement.innerHTML = 'Connected.';
+        this._connected                     = true;
+        this._connectStateElement.innerHTML = 'Connected.';
     }
 
     onEV3Disconnected() {
         this.clearDisconnectedTimeout();
-        this._connected                      = true;
-        this._connectStatusElement.innerHTML = 'Disconnected.';
+        this._connected                     = true;
+        this._connectStateElement.innerHTML = 'Disconnected.';
         this._disconnectedTimeout = setTimeout(
             (function() {
                 this._connectPanelElement.style.display = 'none';

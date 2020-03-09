@@ -443,7 +443,7 @@ exports.CommandQueue = class {
                     this.continueDownload(messageEncoder.decimalToLittleEndianHex(handle, 2), filename, data);
                     callback && callback(false);
                 } else {
-                    console.log('Download failed, status:' + result + ' handle: ' + handle);
+                    console.log('Download failed, state:' + result + ' handle: ' + handle);
                     callback && callback(true);
                 }
                 break;

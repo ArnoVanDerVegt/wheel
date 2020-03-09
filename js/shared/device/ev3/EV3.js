@@ -487,7 +487,7 @@ exports.EV3 = class extends BasicDevice {
         }
     }
 
-    getStatus() {
+    getState() {
         let commandQueue = this._commandQueue;
         let layers       = this._commandQueue.getLayers();
         return {

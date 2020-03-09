@@ -28,17 +28,17 @@ exports.PoweredUpState = class extends BasicDeviceState {
         return this._deviceName;
     }
 
-    setStatus(status) {
+    setState(state) {
         this._connected = false;
         for (let i = 0; i < 4; i++) {
-            if (status.layers[i].connected) {
+            if (state.layers[i].connected) {
                 this._connected = true;
                 break;
             }
         }
         let layerState = this._layerState;
         for (let i = 0; i < 4; i++) {
-            if (status.layers[i].connected && (layerState[i].getConnected() !== status.layers[i].connected)) {
+            if (state.layers[i].connected && (layerState[i].getConnected() !== state.layers[i].connected)) {
                 this.emit('PoweredUp.Connected');
                 break;
             }
@@ -67,10 +67,10 @@ exports.PoweredUpState = class extends BasicDeviceState {
         );
     }
 
-    updateLayerStatus(data) {
-        this.setStatus(data.status);
+    updateLayerState(data) {
+        this.setState(data.state);
         for (let i = 0; i < 4; i++) {
-            data.status.layers[i] && this._layerState[i].setStatus(data.status.layers[i]);
+            data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
         }
     }
 
@@ -89,7 +89,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
                     (function(data) {
                         this._queue.length = 0;
                         let json = JSON.parse(data);
-                        this.updateLayerStatus(json);
+                        this.updateLayerState(json);
                         setTimeout(callback, 20);
                     }).bind(this)
                 );

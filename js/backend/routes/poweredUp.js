@@ -34,13 +34,13 @@ exports.poweredUpRoutes = {
     },
     connecting: function(req, res) {
         let connected = getPoweredUp().getConnected();
-        let status    = {};
+        let state     = {};
         if (connected) {
-            status = getPoweredUp().getStatus();
+            state = getPoweredUp().getState();
         }
         res.send(JSON.stringify({
             connected: connected,
-            status:    status
+            state:     state
         }));
     },
     connected: function(req, res) {
@@ -52,7 +52,7 @@ exports.poweredUpRoutes = {
         queue.forEach(function(params) {
             poweredUp.module(params.module, params.command, params.data);
         });
-        result.status = poweredUp.getStatus();
+        result.state = poweredUp.getState();
         res.send(JSON.stringify(result));
     },
     _createTimeoutCallback(res) {

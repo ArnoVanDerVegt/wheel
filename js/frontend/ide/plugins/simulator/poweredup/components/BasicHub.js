@@ -27,7 +27,7 @@ exports.BasicHub = class extends DOMNode {
     getVectorRow(ref, title, addZ) {
         return [
             {
-                className: 'hub-status-row',
+                className: 'hub-state-row',
                 children: [
                     {
                         type:      'span',
@@ -36,7 +36,7 @@ exports.BasicHub = class extends DOMNode {
                 ]
             },
             {
-                className: 'hub-status-row',
+                className: 'hub-state-row',
                 children: [
                     {
                         ref:       this.setRef(ref + 'X'),

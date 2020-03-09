@@ -20,6 +20,10 @@ exports.BasicDeviceState = class extends Emitter {
         ];
     }
 
+    getQueueLength() {
+        return this._queue.length;
+    }
+
     getConnected() {
         return this._connected;
     }

@@ -61,8 +61,8 @@ exports.LayerState = class extends BasicLayerState {
         }
     }
 
-    setStatus(status) {
-        this.checkSensorChange(status);
-        this.checkMotorChange(status);
+    setState(state) {
+        this.checkSensorChange(state);
+        this.checkMotorChange(state);
     }
 };

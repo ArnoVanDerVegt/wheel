@@ -67,7 +67,7 @@ exports.ListItem = class extends ListItem {
                                 } :
                                 null,
                             {
-                                className: 'item-status ' + (item.connected ? 'green' : 'red'),
+                                className: 'item-state ' + (item.connected ? 'green' : 'red'),
                                 innerHTML: item.connected ? 'Connected' : 'Disconnected'
                             }
                         ]

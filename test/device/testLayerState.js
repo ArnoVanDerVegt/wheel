@@ -154,7 +154,7 @@ describe(
                     function() {
                         let layerState = new PoweredUpLayerState({device: {emit: function() {}}});
                         assert.equal(layerState.getType(), null);
-                        layerState.setStatus({type: 123, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
+                        layerState.setState({type: 123, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getType(), 123);
                     }
                 );
@@ -163,7 +163,7 @@ describe(
                     function() {
                         let layerState = new PoweredUpLayerState({device: {emit: function() {}}});
                         assert.equal(layerState.getUUID(), '');
-                        layerState.setStatus({uuid: 'abcde', ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
+                        layerState.setState({uuid: 'abcde', ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getUUID(), 'abcde');
                     }
                 );
@@ -172,7 +172,7 @@ describe(
                     function() {
                         let layerState = new PoweredUpLayerState({device: {emit: function() {}}});
                         assert.equal(layerState.getButton(), 0);
-                        layerState.setStatus({button: 541, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
+                        layerState.setState({button: 541, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getButton(), 541);
                     }
                 );
@@ -181,7 +181,7 @@ describe(
                     function() {
                         let layerState = new PoweredUpLayerState({device: {emit: function() {}}});
                         assert.equal(layerState.getConnected(), false);
-                        layerState.setStatus({connected: true, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
+                        layerState.setState({connected: true, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getConnected(), true);
                     }
                 );

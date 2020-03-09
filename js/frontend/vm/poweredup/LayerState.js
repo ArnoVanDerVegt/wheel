@@ -96,25 +96,26 @@ exports.LayerState = class extends BasicLayerState {
             }
         }
     }
-    setStatus(status) {
+
+    setState(state) {
         let time = Date.now();
-        if ((status.uuid && (status.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
-            this._uuid     = status.uuid || '';
+        if ((state.uuid && (state.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
+            this._uuid     = state.uuid || '';
             this._uuidTime = time;
             this._device.emit(this._signalPrefix + this._layer + 'Uuid', this._uuid);
         }
-        if (status.type && (status.type !== this._type)) {
-            this._type = status.type;
+        if (state.type && (state.type !== this._type)) {
+            this._type = state.type;
             this._device.emit(this._signalPrefix + this._layer + 'Type', this._type);
         }
-        if (('button' in status) && (status.button !== this._button)) {
-            this._button = status.button;
+        if (('button' in state) && (state.button !== this._button)) {
+            this._button = state.button;
             this._device.emit(this._signalPrefix + this._layer + 'Button', this._button);
         }
-        this.checkReady(status.ports);
-        this.checkSensorChange(status.ports);
-        this.checkTiltChange(status.tilt);
-        this.checkAccelChange(status.accel);
-        this._connected = status.connected;
+        this.checkReady(state.ports);
+        this.checkSensorChange(state.ports);
+        this.checkTiltChange(state.tilt);
+        this.checkAccelChange(state.accel);
+        this._connected = state.connected;
     }
 };

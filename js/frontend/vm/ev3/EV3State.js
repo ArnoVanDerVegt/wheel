@@ -34,15 +34,11 @@ exports.EV3State = class extends BasicDeviceState {
         return this._deviceName;
     }
 
-    setStatus(status) {
-        if (status.battery !== this._battery) {
-            this._battery = status.battery;
-            this.emit('EV3.Battery', status.battery);
+    setState(state) {
+        if (state.battery !== this._battery) {
+            this._battery = state.battery;
+            this.emit('EV3.Battery', state.battery);
         }
-    }
-
-    getQueueLength() {
-        return this._queue.length;
     }
 
     onLayerCount(layerCount) {
@@ -76,10 +72,10 @@ exports.EV3State = class extends BasicDeviceState {
         );
     }
 
-    updateLayerStatus(data) {
-        this.setStatus(data.status);
+    updateLayerState(data) {
+        this.setState(data.state);
         for (let i = 0; i < 4; i++) {
-            data.status.layers[i] && this._layerState[i].setStatus(data.status.layers[i]);
+            data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
         }
     }
 
@@ -98,7 +94,7 @@ exports.EV3State = class extends BasicDeviceState {
                 try {
                     let json = JSON.parse(data);
                     if (json.connected) {
-                        this.updateLayerStatus(json);
+                        this.updateLayerState(json);
                     } else {
                         this._connected = false;
                         this.emit('EV3.Disconnect');
@@ -128,7 +124,7 @@ exports.EV3State = class extends BasicDeviceState {
                             if (json.connected) {
                                 this._connected  = true;
                                 this._connecting = false;
-                                this.updateLayerStatus(json);
+                                this.updateLayerState(json);
                                 this.emit('EV3.Connected');
                                 this.update();
                             } else {
@@ -159,25 +155,6 @@ exports.EV3State = class extends BasicDeviceState {
                 this.emit('EV3.Disconnected');
             }).bind(this)
         );
-    }
-
-    module(module, command, data) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        let queue = this._queue;
-        for (let i = 0; i < queue.length; i++) {
-            let item     = queue[i];
-            let itemData = item.data;
-            if ((item.module     === module)     &&
-                (item.command    === command)    &&
-                (item.data.layer === data.layer) &&
-                (item.data.id    === data.id)) {
-                queue[i] = {module: module, command: command, data: data};
-                return;
-            }
-        }
-        this._queue.push({module: module, command: command, data: data});
     }
 
     _createResponseHandler(callback) {

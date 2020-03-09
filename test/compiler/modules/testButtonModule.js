@@ -29,7 +29,7 @@ describe(
             function() {
                 let info = testCompile(source);
                 info.modules[4].on('Button.Button', this, function(b) {
-                    b(3);
+                    b.callback(3);
                 });
                 info.modules[0].on('Console.Log', this, function(opts) {
                     assert.equal(opts.message, 3);

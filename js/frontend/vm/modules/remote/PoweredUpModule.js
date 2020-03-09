@@ -10,13 +10,13 @@ const LocalPoweredUpModule     = require('../local/PoweredUpModule').PoweredUpMo
  *|     number x, y, z
  *| end
  *|
- *| record PoweredUpStatus
+ *| record PoweredUpState
  *|     number          button
  *|     PoweredUpVector tilt
  *|     PoweredUpVector accel
  *| end
  *|
- *| PoweredUpStatus poweredUpStatus[4]
+ *| PoweredUpState poweredUpState[4]
 */
 
 exports.PoweredUpModule = class extends LocalPoweredUpModule {

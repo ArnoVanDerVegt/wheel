@@ -24,10 +24,10 @@
     padding:                        0 10px 0 10px;
     text-align:                     center;
 }
-.powered-up .hub-status {
+.powered-up .hub-state {
     display:                        none;
 }
-.powered-up .hub-status.visible {
+.powered-up .hub-state.visible {
     display:                        block;
 }
 
@@ -164,18 +164,18 @@
     border-radius:                  2px;
 }
 
-/* Hub status */
-.powered-up .hub-status {
+/* Hub state */
+.powered-up .hub-state {
     float:                          left;
     width:                          148px;
 }
-.powered-up .hub-status .hub-status-row {
+.powered-up .hub-state .hub-state-row {
     float:                          left;
     width:                          100%;
     padding:                        0 0 0 16px;
     font-size:                      14px;
 }
-.powered-up .hub-status .hub-status-row .xyz {
+.powered-up .hub-state .hub-state-row .xyz {
     float:                          left;
     width:                          33%;
     font-size:                      10px;

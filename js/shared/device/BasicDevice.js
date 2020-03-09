@@ -62,7 +62,7 @@ exports.BasicDevice = class {
     createDir(path, callback) {}
     deleteFile(path, callback) {}
     module(module, command, data) {}
-    getStatus() {}
+    getState() {}
     setMode(layer, port, mode) {}
     stopPolling() {}
     resumePolling() {}

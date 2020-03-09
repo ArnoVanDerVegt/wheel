@@ -109,32 +109,32 @@ exports.ToolbarBottom = class extends Toolbar {
 
     setCompileInfo(element) {
         this._compileInfoElement = element;
-        element.addEventListener('click', this.onClickStatus.bind(this));
+        element.addEventListener('click', this.onClickState.bind(this));
     }
 
-    setFilenameAndStatus(filename, status) {
+    setFilenameAndState(filename, state) {
         this._compileInfoElement.innerHTML = filename;
         this._compileInfoElement.title     = filename;
-        this._compileInfoElement.className = 'compile-info ' + status;
+        this._compileInfoElement.className = 'compile-info ' + state;
     }
 
     onCompileStart(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, '');
+        this.setFilenameAndState(projectFilename, '');
     }
 
     onCompileSuccess(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'success');
+        this.setFilenameAndState(projectFilename, 'success');
     }
 
     onCompileWarning(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'warning');
+        this.setFilenameAndState(projectFilename, 'warning');
     }
 
     onCompileFailed(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'failed');
+        this.setFilenameAndState(projectFilename, 'failed');
     }
 
-    onClickStatus() {
+    onClickState() {
         dispatcher.dispatch('Settings.Toggle.ShowConsole');
     }
 };

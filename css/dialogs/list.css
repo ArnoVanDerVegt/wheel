@@ -88,7 +88,7 @@
     text-overflow:                  ellipsis;
     line-height:                    16px;
 }
-.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-status {
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-state {
     pointer-events:                 none;
     font-size:                      10px;
     height:                         16px;
@@ -101,10 +101,10 @@
     color:                          #FFFFFF;
     padding:                        0 8px 0 8px;
 }
-.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-status.green {
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-state.green {
     background-color:               var(--color-green);
 }
-.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-status.red {
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-state.red {
     background-color:               var(--color-red);
 }
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item:hover {

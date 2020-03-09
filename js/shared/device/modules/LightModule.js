@@ -9,7 +9,7 @@ exports.LightModule = class extends DeviceModule {
     run(commandId, data) {
         switch (commandId) {
             case lightModuleConstants.LIGHT_UPDATE:
-                this._device.setLed(data.layer, data.color);
+                this._device.setLed(data.layer, data.mode);
                 break;
         }
     }

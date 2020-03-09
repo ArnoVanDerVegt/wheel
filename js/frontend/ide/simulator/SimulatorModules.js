@@ -151,12 +151,12 @@ exports.SimulatorModules = class {
         if (!lightModule) {
             return this;
         }
-        let getLight = (function() {
+        let getLight = (function(layer) {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getLight ? device.getLight() : null;
+                return device && device.getLight ? device.getLight(layer) : null;
             }).bind(this);
         this._events.push(
-            lightModule.addEventListener('Light.Light', this, function(l) { callOnObject(getLight(), 'setColor', l.color); })
+            lightModule.addEventListener('Light.Light', this, function(l) { callOnObject(getLight(l.layer), 'setColor', l.mode); })
         );
         return this;
     }
@@ -166,13 +166,13 @@ exports.SimulatorModules = class {
         if (!buttonModule) {
             return this;
         }
-        let getButtons = (function() {
+        let getButtons = (function(layer) {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getButtons ? device.getButtons() : 0;
+                return device && device.getButtons ? device.getButtons(layer) : 0;
             }).bind(this);
         this._events.push(
-            buttonModule.addEventListener('Button.Button',       this, function(button) { button(callOnObject(getButtons(), 'readButton')); }),
-            buttonModule.addEventListener('Button.WaitForPress', this, function(button) { button(callOnObject(getButtons(), 'readButton')); })
+            buttonModule.addEventListener('Button.Button',       this, function(b) { b.callback(callOnObject(getButtons(b.layer), 'readButton')); }),
+            buttonModule.addEventListener('Button.WaitForPress', this, function(b) { b.callback(callOnObject(getButtons(b.layer), 'readButton')); })
         );
         return this;
     }

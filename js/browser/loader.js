@@ -19,7 +19,7 @@ const load = function(files, onLoaded) {
     function requestFile(url, callback) {
         let request = new XMLHttpRequest();
         request.onload = function(deps, count) {
-            switch (request.status) {
+            switch (request.state) {
                 case 200:
                     callback(url, request.response);
                     break;
