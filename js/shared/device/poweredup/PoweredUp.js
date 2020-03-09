@@ -48,7 +48,7 @@ exports.PoweredUp = class extends BasicDevice {
             result.ports.push({
                 value:            0,
                 reset:            0,
-                assignment:       0,
+                assigned:         0,
                 device:           null,
                 moving:           false,
                 currentDirection: DIRECTION_NONE,
@@ -103,8 +103,8 @@ exports.PoweredUp = class extends BasicDevice {
     onAttachDevice(layer, device) {
         if (device.portName in PORT_TO_INDEX) {
             let port = layer.ports[PORT_TO_INDEX[device.portName]];
-            port.assignment = device.type;
-            port.device     = device;
+            port.assigned = device.type;
+            port.device   = device;
             switch (device.type) {
                 case poweredUpConstants.DeviceType.COLOR_DISTANCE_SENSOR:
                     device.on('colorAndDistance', this.onColorAndDistance.bind(this, layer, port));
@@ -130,8 +130,8 @@ exports.PoweredUp = class extends BasicDevice {
     onDetachDevice(layer, device) {
         if (device.portName in PORT_TO_INDEX) {
             let port = layer.ports[PORT_TO_INDEX[device.portName]];
-            port.assignment = 0;
-            port.device     = null;
+            port.assigned = 0;
+            port.device   = null;
         }
     }
 
@@ -477,22 +477,22 @@ exports.PoweredUp = class extends BasicDevice {
         );
         const copyLayer = function(layer) {
                     let result = {
-                            uuid:        layer.uuid,
-                            type:        layer.type,
-                            connected:   layer.connected,
-                            button:      layer.button,
-                            tilt:        layer.tilt,
-                            accel:       layer.accel,
-                            ports:       [],
-                            assignments: [],
-                            ready:       []
+                            uuid:      layer.uuid,
+                            type:      layer.type,
+                            connected: layer.connected,
+                            button:    layer.button,
+                            tilt:      layer.tilt,
+                            accel:     layer.accel,
+                            ports:     [],
                         };
                     let d = false;
                     for (let i = 0; i < 4; i++) {
                         let port = layer.ports[i];
-                        result.ports.push(port.value);
-                        result.assignments.push(port.assignment);
-                        result.ready.push(!port.moving);
+                        result.ports.push({
+                            value:    port.value,
+                            assigned: port.assigned,
+                            ready:    !port.moving
+                        });
                     }
                     return result;
                 };

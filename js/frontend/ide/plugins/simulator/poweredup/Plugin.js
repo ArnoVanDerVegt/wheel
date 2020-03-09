@@ -16,6 +16,11 @@ const POWERED_UP_MOVE   = 2;
 const POWERED_UP_REMOTE = 4;
 const POWERED_UP_HUB    = 6;
 
+const dummyLight = {
+        setColor: function(color) {},
+        off: function() {}
+    };
+
 exports.Plugin = class extends Plugin {
     constructor(opts) {
         opts.motorConstructor = Motor;
@@ -79,8 +84,8 @@ exports.Plugin = class extends Plugin {
         };
     }
 
-    getActiveDevice() {
-        switch (this._type) {
+    getDeviceByType(type) {
+        switch (type) {
             case POWERED_UP_MOVE:   return this._moveHub;
             case POWERED_UP_REMOTE: return this._remote;
             case POWERED_UP_HUB:    return this._technicHub;
@@ -98,10 +103,11 @@ exports.Plugin = class extends Plugin {
     }
 
     getButtons() {
+        let poweredUp = this._poweredUp;
         if (!this._buttons) {
             this._buttons = {
                 readButton: (function(layer) {
-                    let device = this.getActiveDevice();
+                    let device = this.getDeviceByType(poweredUp.getLayerState(layer).getType());
                     if (device && device.getButtons) {
                         return device.getButtons();
                     }
@@ -112,15 +118,12 @@ exports.Plugin = class extends Plugin {
         return this._buttons;
     }
 
-    getLight() {
-        let device = this.getActiveDevice();
+    getLight(layer) {
+        let device = this.getDeviceByType(poweredUp.getLayerState(layer).getType());
         if (device) {
             return device.getLight();
         }
-        return {
-            setColor: function(color) {},
-            off: function() {}
-        };
+        return dummyLight;
     }
 
     setUuidElement(element) {
@@ -145,7 +148,7 @@ exports.Plugin = class extends Plugin {
         this._remote.hide();
         this._technicHub.hide();
         this._type = type;
-        let device = this.getActiveDevice();
+        let device = this.getDeviceByType(type);
         device && device.show();
         this.showMotors();
     }
@@ -187,21 +190,21 @@ exports.Plugin = class extends Plugin {
 
     onTilt(layer, tilt) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getActiveDevice();
+            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
             device && device.setTilt && device.setTilt(tilt);
         }
     }
 
     onAccel(layer, accel) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getActiveDevice();
+            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
             device && device.setAccel && device.setAccel(accel);
         }
     }
 
     onButton(layer, button) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getActiveDevice();
+            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
             device && device.setButton && device.setButton(button);
         }
     }

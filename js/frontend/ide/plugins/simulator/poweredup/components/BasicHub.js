@@ -4,7 +4,26 @@
 **/
 const DOMNode = require('../../../../../lib/dom').DOMNode;
 
+let colors = [];
+colors[  0] = 'black';
+colors[  1] = 'pink';
+colors[  2] = 'purple';
+colors[  3] = 'blue';
+colors[  4] = 'light-blue';
+colors[  5] = 'cyan';
+colors[  6] = 'green';
+colors[  7] = 'yellow';
+colors[  8] = 'orange';
+colors[  9] = 'red';
+colors[ 10] = 'white';
+colors[255] = 'none';
+
 exports.BasicHub = class extends DOMNode {
+    constructor(opts) {
+        super(opts);
+        this._light = null;
+    }
+
     getVectorRow(ref, title, addZ) {
         return [
             {
@@ -42,21 +61,11 @@ exports.BasicHub = class extends DOMNode {
     }
 
     getLight() {
+        if (this._light) {
+            return this._light;
+        }
         let hubLight = this._refs.hubLight;
-        let colors   = [];
-        colors[  0] = 'black';
-        colors[  1] = 'pink';
-        colors[  2] = 'purple';
-        colors[  3] = 'blue';
-        colors[  4] = 'light-blue';
-        colors[  5] = 'cyan';
-        colors[  6] = 'green';
-        colors[  7] = 'yellow';
-        colors[  8] = 'orange';
-        colors[  9] = 'red';
-        colors[ 10] = 'white';
-        colors[255] = 'none';
-        return {
+        this._light = {
             setColor: function(color) {
                 if (colors[color] !== undefined) {
                     hubLight.className = 'hub-light ' + colors[color];
@@ -66,6 +75,7 @@ exports.BasicHub = class extends DOMNode {
                 hubLight.className = 'hub-light none';
             }
         };
+        return this._light;
     }
 
     getButtons() {

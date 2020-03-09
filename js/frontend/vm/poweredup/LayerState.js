@@ -88,10 +88,15 @@ exports.LayerState = class extends BasicLayerState {
         }
     }
 
-    setStatus(status) {
+    checkReady(ports) {
         for (let i = 0; i < 4; i++) {
-            this._ports[i].ready = status.ready[i];
+            let port = ports[i];
+            if ('ready' in port) {
+                this._ports[i].ready = port.ready;
+            }
         }
+    }
+    setStatus(status) {
         let time = Date.now();
         if ((status.uuid && (status.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
             this._uuid     = status.uuid || '';
@@ -106,6 +111,7 @@ exports.LayerState = class extends BasicLayerState {
             this._button = status.button;
             this._device.emit(this._signalPrefix + this._layer + 'Button', this._button);
         }
+        this.checkReady(status.ports);
         this.checkSensorChange(status.ports);
         this.checkTiltChange(status.tilt);
         this.checkAccelChange(status.accel);
