@@ -88,21 +88,18 @@ exports.SimulatorModules = class {
     getActiveDevicePlugin() {
         let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
-
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveMotorsPlugin() {
         let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_MOTORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
-
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveSensorsPlugin() {
         let uuid = (this._settings.getActiveDevice() === 0) ?
                 pluginUuid.SIMULATOR_EV3_SENSORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
-
         return this._simulator.getPluginByUuid(uuid);
     }
 
@@ -153,7 +150,7 @@ exports.SimulatorModules = class {
         }
         let getLight = (function(layer) {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getLight ? device.getLight(layer) : null;
+                return (device && device.getLight) ? device.getLight(layer) : null;
             }).bind(this);
         this._events.push(
             lightModule.addEventListener('Light.Light', this, function(l) { callOnObject(getLight(l.layer), 'setColor', l.mode); })
@@ -168,11 +165,11 @@ exports.SimulatorModules = class {
         }
         let getButtons = (function(layer) {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getButtons ? device.getButtons(layer) : 0;
+                return (device && device.getButtons) ? device.getButtons(layer) : 0;
             }).bind(this);
         this._events.push(
-            buttonModule.addEventListener('Button.Button',       this, function(b) { b.callback(callOnObject(getButtons(b.layer), 'readButton')); }),
-            buttonModule.addEventListener('Button.WaitForPress', this, function(b) { b.callback(callOnObject(getButtons(b.layer), 'readButton')); })
+            buttonModule.addEventListener('Button.Button',       this, function(b) { b.callback(callOnObject(getButtons(), 'readButton', b.layer)); }),
+            buttonModule.addEventListener('Button.WaitForPress', this, function(b) { b.callback(callOnObject(getButtons(), 'readButton', b.layer)); })
         );
         return this;
     }

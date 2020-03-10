@@ -93,6 +93,11 @@ exports.Plugin = class extends Plugin {
         return null;
     }
 
+    getDeviceByLayer(layer) {
+        let layerState = this._poweredUp.getLayerState(layer);
+        return layerState ? this.getDeviceByType(layerState.getType()) : null;
+    }
+
     getMotorCount() {
         switch (this._type) {
             case POWERED_UP_MOVE:   return 4;
@@ -107,7 +112,7 @@ exports.Plugin = class extends Plugin {
         if (!this._buttons) {
             this._buttons = {
                 readButton: (function(layer) {
-                    let device = this.getDeviceByType(poweredUp.getLayerState(layer).getType());
+                    let device = this.getDeviceByLayer(layer);
                     if (device && device.getButtons) {
                         return device.getButtons();
                     }
@@ -119,7 +124,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getLight(layer) {
-        let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
+        let device = this.getDeviceByLayer(layer);
         if (device) {
             return device.getLight();
         }
@@ -157,7 +162,10 @@ exports.Plugin = class extends Plugin {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
         super.showLayer(layer);
-        this.setType(this._poweredUp.getLayerState(layer).getType());
+        let layerState = this._poweredUp.getLayerState(layer);
+        if (layerState) {
+            this.setType(layerState.getType());
+        }
     }
 
     onUuid(layer, uuid) {
@@ -190,21 +198,21 @@ exports.Plugin = class extends Plugin {
 
     onTilt(layer, tilt) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
+            let device = this.getDeviceByLayer(layer);
             device && device.setTilt && device.setTilt(tilt);
         }
     }
 
     onAccel(layer, accel) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
+            let device = this.getDeviceByLayer(layer);
             device && device.setAccel && device.setAccel(accel);
         }
     }
 
     onButton(layer, button) {
         if (layer === this._simulator.getLayer()) {
-            let device = this.getDeviceByType(this._poweredUp.getLayerState(layer).getType());
+            let device = this.getDeviceByLayer(layer);
             device && device.setButton && device.setButton(button);
         }
     }

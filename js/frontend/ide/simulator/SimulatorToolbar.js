@@ -132,7 +132,7 @@ exports.SimulatorToolbar = class extends DOMNode {
         dispatcher.dispatch(
             'Button.Layer0.Change',
             {
-                hidden:    (layerCount === 0),
+                hidden:    false,
                 className: (layerCount === 0 ? 'last ' : '') +
                             (layer === 0 ? 'active' : 'in-active')
             }
