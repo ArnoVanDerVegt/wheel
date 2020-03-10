@@ -23,3 +23,6 @@ div.tool-options .button:last-child,
 div.tool-options .icon-button:last-child {
     border-radius:                  0 3px 3px 0;
 }
+div.tool-options .button:first-child.last {
+    border-radius:                  3px;
+}
