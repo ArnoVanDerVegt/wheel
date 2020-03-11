@@ -23,11 +23,11 @@ exports.StandardModule = class extends VMModule {
                 }
                 break;
             case standardModuleConstants.STANDARD_PRINT_NUMBER:
-                let printNumber = vmData.getRecordFromAtOffset(['n']);
+                let printNumber = vmData.getRecordFromSrcOffset(['n']);
                 this.emit('Console.Log', {message: printNumber.n, pos: {lineNumber: 0, filename: ''}});
                 break;
             case standardModuleConstants.STANDARD_PRINT_STRING:
-                let printString = vmData.getRecordFromAtOffset(['s']);
+                let printString = vmData.getRecordFromSrcOffset(['s']);
                 this.emit(
                     'Console.Log',
                     {
@@ -40,7 +40,7 @@ exports.StandardModule = class extends VMModule {
                 this.emit('Console.Clear');
                 break;
             case standardModuleConstants.STANDARD_SLEEP:
-                vm.sleep(vmData.getRecordFromAtOffset(['time']).time);
+                vm.sleep(vmData.getRecordFromSrcOffset(['time']).time);
                 break;
             case standardModuleConstants.STANDARD_STOP_VM:
                 vm.stop();

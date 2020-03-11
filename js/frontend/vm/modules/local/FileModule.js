@@ -22,7 +22,7 @@ exports.FileModule = class extends VMModule {
         let h;
         switch (commandId) {
             case fileModuleConstants.FILE_EXISTS:
-                fileOpen = vmData.getRecordFromAtOffset(['filename']);
+                fileOpen = vmData.getRecordFromSrcOffset(['filename']);
                 fileSystem.exists(
                     vmData.getStringList()[fileOpen.filename],
                     function(exists) {
@@ -31,39 +31,39 @@ exports.FileModule = class extends VMModule {
                 );
                 break;
             case fileModuleConstants.FILE_OPEN_READ:
-                fileOpen = vmData.getRecordFromAtOffset(['filename']);
+                fileOpen = vmData.getRecordFromSrcOffset(['filename']);
                 h        = fileSystem.open(vmData.getStringList()[fileOpen.filename], FileSystem.MODE_READ);
                 vmData.setNumberAtRet(h);
                 break;
             case fileModuleConstants.FILE_OPEN_WRITE:
-                fileOpen = vmData.getRecordFromAtOffset(['filename']);
+                fileOpen = vmData.getRecordFromSrcOffset(['filename']);
                 h        = fileSystem.open(vmData.getStringList()[fileOpen.filename], FileSystem.MODE_WRITE);
                 vmData.setNumberAtRet(h);
                 break;
             case fileModuleConstants.FILE_READ_NUMBER:
-                vmData.setNumberAtRet(this._fileSystem.readNumber(vmData.getRecordFromAtOffset(['handle']).handle));
+                vmData.setNumberAtRet(this._fileSystem.readNumber(vmData.getRecordFromSrcOffset(['handle']).handle));
                 break;
             case fileModuleConstants.FILE_READ_STRING:
-                let fileReadString = vmData.getRecordFromAtOffset(['handle', 's']);
+                let fileReadString = vmData.getRecordFromSrcOffset(['handle', 's']);
                 vmData.getStringList()[fileReadString.s] = this._fileSystem.readString(fileReadString.handle);
                 break;
             case fileModuleConstants.FILE_WRITE_NUMBER:
-                let fileWriteNumber = vmData.getRecordFromAtOffset(['handle', 'n']);
+                let fileWriteNumber = vmData.getRecordFromSrcOffset(['handle', 'n']);
                 fileSystem.writeNumber(fileWriteNumber.handle, fileWriteNumber.n);
                 break;
             case fileModuleConstants.FILE_WRITE_STRING:
-                let fileWriteString = vmData.getRecordFromAtOffset(['handle', 's']);
+                let fileWriteString = vmData.getRecordFromSrcOffset(['handle', 's']);
                 fileSystem.writeNumber(fileWriteString.handle, vmData.getStringList()[fileWriteString.s]);
                 break;
             case fileModuleConstants.FILE_CLOSE:
-                fileSystem.close(vmData.getRecordFromAtOffset(['handle']).handle);
+                fileSystem.close(vmData.getRecordFromSrcOffset(['handle']).handle);
                 break;
             case fileModuleConstants.FILE_DELETE:
-                let fileDelete = vmData.getRecordFromAtOffset(['s']);
+                let fileDelete = vmData.getRecordFromSrcOffset(['s']);
                 fileSystem.remove(vmData.getStringList()[fileDelete.s]);
                 break;
             case fileModuleConstants.FILE_SIZE:
-                let fileSize = vmData.getRecordFromAtOffset(['filename']);
+                let fileSize = vmData.getRecordFromSrcOffset(['filename']);
                 fileSystem.fileSize(
                     vmData.getStringList()[fileSize.filename],
                     function(size) {

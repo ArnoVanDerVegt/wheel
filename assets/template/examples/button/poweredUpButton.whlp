@@ -3,6 +3,7 @@
 #project "Powered Up Button example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/bit.whl"
 #include "lib/button.whl"
 
@@ -28,6 +29,7 @@ proc printButton(number button)
 end
 
 proc main()
+    selectDevice(DEVICE_POWERED_UP)
     number lastButton = 0
     repeat
         number b = button()

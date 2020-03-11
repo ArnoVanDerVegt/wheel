@@ -11,7 +11,7 @@ exports.DeviceModule = class extends VMModule {
         let vm     = this._vm;
         switch (commandId) {
             case deviceModuleConstants.DEVICE_SELECT:
-                this.emit('Device.Select', vmData.getRecordFromAtOffset(['device']));
+                this.emit('Device.Select', vmData.getRecordFromSrcOffset(['device']));
                 break;
         }
     }

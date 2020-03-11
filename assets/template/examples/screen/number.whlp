@@ -1,11 +1,15 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Screen number demo"
+#project "Screen number example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number textSize
     number y = 0
     number n = 100

@@ -13,26 +13,26 @@ exports.SensorModule = class extends VMModule {
         let sensor;
         switch (commandId) {
             case sensorModuleConstants.SENSOR_SET_TYPE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id', 'type']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id', 'type']);
                 this.emit('Sensor.SetType', sensor);
                 device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_TYPE, sensor);
                 break;
             case sensorModuleConstants.SENSOR_GET_TYPE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 sensor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Sensor.GetType', sensor);
                 break;
             case sensorModuleConstants.SENSOR_SET_MODE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id', 'mode']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id', 'mode']);
                 this.emit('Sensor.SetMode', sensor);
                 device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_MODE, sensor);
                 break;
             case sensorModuleConstants.SENSOR_RESET:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_RESET, sensor);
                 break;
             case sensorModuleConstants.SENSOR_READ:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_READ, sensor);
                 let state = device.getLayerState(sensor.layer);
                 if (state) {

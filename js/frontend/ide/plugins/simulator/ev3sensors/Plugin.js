@@ -18,7 +18,6 @@ exports.Plugin = class extends SimulatorPlugin {
         this._contextMenus  = {};
         this._sensors       = [];
         this.initDOM(opts.parentNode);
-        // EV3 events...
         this._device
             .addEventListener('EV3.Connected',    this, this.onEV3Connected)
             .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)

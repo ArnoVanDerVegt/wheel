@@ -3,10 +3,14 @@
 #project "Math abs/neg example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/math.whl"
 #include "lib/screen.whl"
 
 proc main()
+    ; This demo uses the EV3 screen in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number n = random(1, 99) / 10 - 5
     drawText(10, 10, "Number:")
     drawNumber(80, 10, n)

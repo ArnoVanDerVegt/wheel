@@ -113,7 +113,7 @@ exports.MotorModule = class extends VMModule {
         let value;
         switch (commandId) {
             case motorModuleConstants.MOTOR_SET_TYPE:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id', 'type']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'type']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.type   = motor.type;
@@ -121,7 +121,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_SET_SPEED:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id', 'speed']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'speed']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.speed  = motor.speed;
@@ -129,7 +129,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_SET_BRAKE:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id', 'brake']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'brake']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState       = this.getMotorState(motor.layer, motor.id);
                     motorState.brake = motor.brake;
@@ -137,7 +137,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_GET_TYPE:
-                motor          = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor          = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 motor.callback = (function(value) {
                     if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
@@ -150,7 +150,7 @@ exports.MotorModule = class extends VMModule {
                 this.emit('Motor.GetType', motor);
                 break;
             case motorModuleConstants.MOTOR_RESET:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.target = 0;
@@ -158,7 +158,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id', 'target']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'target']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.target = motor.target;
@@ -170,7 +170,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_ON:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.target = null;
@@ -181,7 +181,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_TIME_ON:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id', 'time']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'time']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.target = null;
@@ -191,7 +191,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_STOP:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     motorState        = this.getMotorState(motor.layer, motor.id);
                     motorState.target = null;
@@ -201,7 +201,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_READ:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 value = 0;
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     value = this.getMotorPort(motor.layer, motor.id).degrees;
@@ -209,7 +209,7 @@ exports.MotorModule = class extends VMModule {
                 vmData.setNumberAtRet(value);
                 break;
             case motorModuleConstants.MOTOR_READY:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor.layer, motor.id)) {
                     vmData.setNumberAtRet(this.getMotorReady(motor.layer, motor.id));
                 } else {
@@ -217,7 +217,7 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_READY_BITS:
-                motor = vmData.getRecordFromAtOffset(['layer', 'bits']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
                 if ((motor.layer >= 0) && (motor.layer <= 3)) {
                     let bit = 1;

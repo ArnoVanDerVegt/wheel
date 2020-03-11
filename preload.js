@@ -340,6 +340,8 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
 require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/Motor');
+require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedLayerDevice');
+require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedDevices');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/BasicHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/TechnicHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/MoveHub');

@@ -3,6 +3,7 @@
 #project "Dice demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/math.whl"
 #include "lib/bit.whl"
 #include "lib/screen.whl"
@@ -29,7 +30,9 @@ proc drawDiceNumber(number dots)
 end
 
 proc main()
-    clearConsole()
+    ; This demo uses the EV3 screen in the simulator...
+    selectDevice(DEVICE_EV3)
+
     drawRect(55, 29, 70, 70)
     updateScreen()
     repeat

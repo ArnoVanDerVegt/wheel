@@ -34,48 +34,48 @@ exports.StringModule = class extends VMModule {
                 }
                 break;
             case stringModuleConstants.STRING_NUMBER_TO_STRING:
-                let numberToString = vmData.getRecordFromAtOffset(['n', 's']);
+                let numberToString = vmData.getRecordFromSrcOffset(['n', 's']);
                 vmData.getStringList()[numberToString.s] = numberToString.n + '';
                 break;
             case stringModuleConstants.STRING_STRING_TO_NUMBER:
-                let stringToNumber = vmData.getRecordFromAtOffset(['s']);
+                let stringToNumber = vmData.getRecordFromSrcOffset(['s']);
                 vmData.setNumberAtRet(parseFloat(vmData.getStringList()[stringToNumber.s], 10));
                 break;
             case stringModuleConstants.STRING_INDEX_OF:
-                let indexOf  = vmData.getRecordFromAtOffset(['haystack', 'needle', 'startIndex']);
+                let indexOf  = vmData.getRecordFromSrcOffset(['haystack', 'needle', 'startIndex']);
                 let haystack = vmData.getStringList()[indexOf.haystack];
                 let needle   = vmData.getStringList()[indexOf.needle];
                 vmData.setNumberAtRet(haystack.indexOf(needle, indexOf.startIndex));
                 break;
             case stringModuleConstants.STRING_SUB_STRING:
-                let subString  = vmData.getRecordFromAtOffset(['s', 'start', 'length', 'result']);
+                let subString  = vmData.getRecordFromSrcOffset(['s', 'start', 'length', 'result']);
                 s1 = vmData.getStringList()[subString.s];
                 vmData.getStringList()[subString.result] = s1.substr(subString.start, subString.length);
                 break;
             case stringModuleConstants.STRING_LENGTH:
-                let stringLength = vmData.getRecordFromAtOffset(['s']);
+                let stringLength = vmData.getRecordFromSrcOffset(['s']);
                 vmData.setNumberAtRet(vmData.getStringList()[stringLength.s].length, 1);
                 break;
             case stringModuleConstants.STRING_EQUAL:
-                let stringEqual = vmData.getRecordFromAtOffset(['s1', 's2']);
+                let stringEqual = vmData.getRecordFromSrcOffset(['s1', 's2']);
                 s1 = vmData.getStringList()[stringEqual.s1];
                 s2 = vmData.getStringList()[stringEqual.s2];
                 vmData.setNumberAtRet(s1 === s2 ? 1 : 0, 2);
                 break;
             case stringModuleConstants.STRING_TO_UPPER_CASE:
-                let toUpperCase = vmData.getRecordFromAtOffset(['s']);
+                let toUpperCase = vmData.getRecordFromSrcOffset(['s']);
                 vmData.getStringList()[toUpperCase.s] = (vmData.getStringList()[toUpperCase.s] || '').toUpperCase();
                 break;
             case stringModuleConstants.STRING_TO_LOWER_CASE:
-                let toLowerCase = vmData.getRecordFromAtOffset(['s']);
+                let toLowerCase = vmData.getRecordFromSrcOffset(['s']);
                 vmData.getStringList()[toLowerCase.s] = (vmData.getStringList()[toLowerCase.s] || '').toLowerCase();
                 break;
             case stringModuleConstants.STRING_GET_CHAR_CODE_AT:
-                let getCharCodeAt = vmData.getRecordFromAtOffset(['s', 'index']);
+                let getCharCodeAt = vmData.getRecordFromSrcOffset(['s', 'index']);
                 vmData.setNumberAtRet(vmData.getStringList()[getCharCodeAt.s].charCodeAt(getCharCodeAt.index), 2);
                 break;
             case stringModuleConstants.STRING_SET_CHAR_CODE_AT:
-                let setCharCodeAt = vmData.getRecordFromAtOffset(['s', 'index', 'charCode']);
+                let setCharCodeAt = vmData.getRecordFromSrcOffset(['s', 'index', 'charCode']);
                 s2 = vmData.getStringList()[setCharCodeAt.s].split('');
                 if ((setCharCodeAt.index >= 0) && (setCharCodeAt.index < s2.length)) {
                     s2[setCharCodeAt.index]                 = String.fromCharCode(setCharCodeAt.charCode);

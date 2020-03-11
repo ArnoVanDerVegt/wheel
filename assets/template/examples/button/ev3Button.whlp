@@ -3,6 +3,7 @@
 #project "EV3 Button example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/button.whl"
 
@@ -43,6 +44,7 @@ proc drawScreen()
 end
 
 proc main()
+    selectDevice(DEVICE_EV3)
     drawScreen()
     setFill(TRUE)
     number lastButton = 0

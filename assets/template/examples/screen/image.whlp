@@ -3,9 +3,10 @@
 
 ; This demo shows how to declare an image.
 ; An image will be saved in the output direcory when this file is compiled.
-#project "Screen image demo"
+#project "Screen image example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
 #image "myImage.rgf"
@@ -47,6 +48,9 @@
 #resource "resources/images/system/accept1.rgf"
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     setFill(TRUE)
     setFillColor(BLACK)
     drawRect(0, 0, SCREEN_CENTER_X, SCREEN_CENTER_Y)

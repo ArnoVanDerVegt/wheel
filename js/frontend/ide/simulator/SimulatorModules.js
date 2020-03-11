@@ -120,7 +120,7 @@ exports.SimulatorModules = class {
         if (!screenModule) {
             return this;
         }
-        let getDisplay = (function() {
+        const getDisplay = (function() {
                 let device = this.getActiveDevicePlugin();
                 return device && device.getDisplay ? device.getDisplay() : null;
             }).bind(this);
@@ -148,7 +148,7 @@ exports.SimulatorModules = class {
         if (!lightModule) {
             return this;
         }
-        let getLight = (function(layer) {
+        const getLight = (function(layer) {
                 let device = this.getActiveDevicePlugin();
                 return (device && device.getLight) ? device.getLight(layer) : null;
             }).bind(this);
@@ -163,7 +163,7 @@ exports.SimulatorModules = class {
         if (!buttonModule) {
             return this;
         }
-        let getButtons = (function(layer) {
+        const getButtons = (function(layer) {
                 let device = this.getActiveDevicePlugin();
                 return (device && device.getButtons) ? device.getButtons(layer) : 0;
             }).bind(this);
@@ -179,7 +179,7 @@ exports.SimulatorModules = class {
         if (!soundModule) {
             return this;
         }
-        let getSound = (function() {
+        const getSound = (function() {
                 let device = this.getActiveDevicePlugin();
                 return device && device.getSound ? device.getSound() : null;
             }).bind(this);
@@ -196,7 +196,7 @@ exports.SimulatorModules = class {
         if (!motorModule) {
             return this;
         }
-        let getMotors = (function() {
+        const getMotors = (function() {
                 return this.getActiveMotorsPlugin();
             }).bind(this);
         this._events.push(
@@ -219,7 +219,7 @@ exports.SimulatorModules = class {
         if (!sensorModule) {
             return this;
         }
-        let getSensors = (function() {
+        const getSensors = (function() {
                 return this.getActiveSensorsPlugin();
             }).bind(this);
         this._events.push(
@@ -279,19 +279,12 @@ exports.SimulatorModules = class {
         if (!poweredUpModule) {
             return this;
         }
+        const getPoweredUpDevice = (function() {
+                return this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_POWERED_UP_UUID);
+            }).bind(this);
         this._events.push(
-            poweredUpModule.addEventListener(
-                'PoweredUp.Start',
-                this,
-                function(readAddress) {
-                }
-            ),
-            poweredUpModule.addEventListener(
-                'PoweredUp.Read',
-                this,
-                function() {
-                }
-            )
+            poweredUpModule.addEventListener('PoweredUp.Start',     this, function(readAddress) {}),
+            poweredUpModule.addEventListener('PoweredUp.SetDevice', this, function(device) { getPoweredUpDevice().setDeviceType(device.layer, device.type); })
         );
         return this;
     }

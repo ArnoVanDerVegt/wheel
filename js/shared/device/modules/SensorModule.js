@@ -34,27 +34,27 @@ class Sensor {
     }
 
     read() {
-        // A switch (this._type) {
-        // A     case sensorModuleConstants.SENSOR_TYPE_TOUCH:
-        // A         this._device.readTouchSensor(this._layer, this._id);
-        // A         break;
-        // A     case sensorModuleConstants.SENSOR_TYPE_COLOR:
-        // A         if ((this._mode >= 0) && (this._mode < 3)) {
-        // A             this._device.readColorSensor(this._layer, this._id, '0' + this._mode);
-        // A         }
-        // A         break;
-        // A     case sensorModuleConstants.SENSOR_TYPE_INFRARED:
-        // A         if ([0, 2].indexOf(this._mode) !== -1) {
-        // A             this._device.readInfraredSensor(this._layer, this._id, '0' + this._mode);
-        // A         }
-        // A         break;
-        // A     case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
-        // A         break;
-        // A     case sensorModuleConstants.SENSOR_TYPE_GYRO:
-        // A         break;
-        // A     case sensorModuleConstants.SENSOR_TYPE_SOUND:
-        // A         break;
-        // A }
+        switch (this._type) {
+            case sensorModuleConstants.SENSOR_TYPE_TOUCH:
+                this._device.readTouchSensor(this._layer, this._id);
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_COLOR:
+                if ((this._mode >= 0) && (this._mode < 3)) {
+                    this._device.readColorSensor(this._layer, this._id, '0' + this._mode);
+                }
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_INFRARED:
+                if ([0, 2].indexOf(this._mode) !== -1) {
+                    this._device.readInfraredSensor(this._layer, this._id, '0' + this._mode);
+                }
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_GYRO:
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_SOUND:
+                break;
+        }
     }
 }
 
@@ -62,7 +62,7 @@ exports.SensorModule = class extends DeviceModule {
     constructor(opts) {
         super(opts);
         this._layers = [];
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 4; i++) {
             let sensors = [];
             for (let j = 0; j < 4; j++) {
                 sensors.push(new Sensor(i, j, this._device));

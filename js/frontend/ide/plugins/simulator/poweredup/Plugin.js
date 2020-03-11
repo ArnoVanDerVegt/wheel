@@ -2,19 +2,17 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode         = require('../../../../lib/dom').DOMNode;
-const TextInput       = require('../../../../lib/components/TextInput').TextInput;
-const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
-const Plugin          = require('../lib/motor/Plugin').Plugin;
-const Motor           = require('./io/Motor').Motor;
-const TechnicHub      = require('./components/TechnicHub').TechnicHub;
-const MoveHub         = require('./components/MoveHub').MoveHub;
-const Remote          = require('./components/Remote').Remote;
-
-const POWERED_UP_MOVE   = 2;
-const POWERED_UP_REMOTE = 4;
-const POWERED_UP_HUB    = 6;
+const poweredUpModuleConstants = require('../../../../../shared/vm/modules/poweredUpModuleConstants');
+const dispatcher               = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode                  = require('../../../../lib/dom').DOMNode;
+const TextInput                = require('../../../../lib/components/TextInput').TextInput;
+const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlugin;
+const Plugin                   = require('../lib/motor/Plugin').Plugin;
+const Motor                    = require('./io/Motor').Motor;
+const SimulatedDevices         = require('./io/SimulatedDevices').SimulatedDevices;
+const TechnicHub               = require('./components/TechnicHub').TechnicHub;
+const MoveHub                  = require('./components/MoveHub').MoveHub;
+const Remote                   = require('./components/Remote').Remote;
 
 const dummyLight = {
         setColor: function(color) {},
@@ -27,9 +25,10 @@ exports.Plugin = class extends Plugin {
         opts.ev3              = opts.poweredUp; // Hack device should be fixed!
         super(opts);
         this.initEvents();
-        this._buttons   = null;
-        this._poweredUp = opts.poweredUp;
-        this._uuid      = '';
+        this._buttons          = null;
+        this._poweredUp        = opts.poweredUp;
+        this._uuid             = '';
+        this._simulatedDevices = new SimulatedDevices({});
     }
 
     initEvents() {
@@ -86,23 +85,34 @@ exports.Plugin = class extends Plugin {
 
     getDeviceByType(type) {
         switch (type) {
-            case POWERED_UP_MOVE:   return this._moveHub;
-            case POWERED_UP_REMOTE: return this._remote;
-            case POWERED_UP_HUB:    return this._technicHub;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return this._moveHub;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return this._remote;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return this._technicHub;
         }
         return null;
     }
 
-    getDeviceByLayer(layer) {
+    getDeviceTypeByLayer(layer) {
         let layerState = this._poweredUp.getLayerState(layer);
-        return layerState ? this.getDeviceByType(layerState.getType()) : null;
+        let type       = this._simulatedDevices.getType(layer);
+        if (layerState && layerState.getConnected()) {
+            type = layerState.getType();
+        }
+        return type;
+    }
+
+    getDeviceByLayer(layer) {
+        return this.getDeviceByType(this.getDeviceTypeByLayer(layer));
     }
 
     getMotorCount() {
-        switch (this._type) {
-            case POWERED_UP_MOVE:   return 4;
-            case POWERED_UP_REMOTE: return 0;
-            case POWERED_UP_HUB:    return 4;
+        let layerState = this._poweredUp.getLayerState(this._simulator.getLayer());
+        if (layerState) {
+            switch (layerState.getType()) {
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return 4;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return 0;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return 4;
+            }
         }
         return 0;
     }
@@ -148,7 +158,7 @@ exports.Plugin = class extends Plugin {
         this._technicHub = technicHub;
     }
 
-    setType(type) {
+    _setDeviceType(type) {
         this._moveHub.hide();
         this._remote.hide();
         this._technicHub.hide();
@@ -158,13 +168,45 @@ exports.Plugin = class extends Plugin {
         this.showMotors();
     }
 
+    /**
+     * Select the type of device for the layer...
+    **/
+    setDeviceType(layer, type) {
+        this._simulatedDevices.setType(layer, type);
+        this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        this.updateActiveLayer(layer);
+    }
+
+    /**
+     * Select the device at the given port for the device at the given layer...
+    **/
+    setType(port) {
+        let simulatedLayerDevice = this._simulatedDevices.getLayer(port.layer);
+        if (simulatedLayerDevice) {
+            simulatedLayerDevice.setPortType(port.id, port.type);
+            this.updateActiveLayer(port.layer);
+        }
+    }
+
+    updateActiveLayer(layer) {
+        if (layer === this._simulator.getLayer()) {
+            this.showLayer(layer);
+        }
+    }
+
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
         super.showLayer(layer);
         let layerState = this._poweredUp.getLayerState(layer);
-        if (layerState) {
-            this.setType(layerState.getType());
+        if (layerState && layerState.getConnected()) {
+            this._setDeviceType(layerState.getType());
+        } else if ((layer >= 0) && (layer <= 3)) {
+            let simulatedLayerDevice = this._simulatedDevices.getLayer(layer);
+            let motors               = this._motors;
+            for (let port = 0; port < 4; port++) {
+                motors[layer * 4 + port].onAssigned(simulatedLayerDevice.getPortType(port));
+            }
         }
     }
 
@@ -177,7 +219,7 @@ exports.Plugin = class extends Plugin {
 
     onType(layer, type) {
         if (layer === this._simulator.getLayer()) {
-            this.setType(type);
+            this._setDeviceType(type);
         }
     }
 

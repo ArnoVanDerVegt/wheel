@@ -1,7 +1,7 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
-; This demo shows how to turn a motor on or off.
+; This example shows how to control motors with EV3 buttons.
 
 #project "Motor move demo"
 

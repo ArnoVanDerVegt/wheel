@@ -60,7 +60,7 @@ class VMData {
         return this._stringList;
     }
 
-    getRecordFromAtOffset(recordFields) {
+    getRecordFromSrcOffset(recordFields) {
         let regOffsetSrc = this._data[$.REG_SRC];
         let result       = {};
         for (let i = 0; i < recordFields.length; i++) {

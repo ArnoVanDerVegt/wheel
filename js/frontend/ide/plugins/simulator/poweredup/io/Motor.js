@@ -45,8 +45,8 @@ exports.Motor = class extends Motor {
         this._positionElement.innerHTML = value;
     }
 
-    onAssigned(assignment) {
-        this.setType(assignment);
-        this._state.setIsMotor((assignment in deviceInfo) && deviceInfo[assignment].motor);
+    onAssigned(assigned) {
+        this.setType(assigned);
+        this._state.setIsMotor((assigned in deviceInfo) && deviceInfo[assigned].motor);
     }
 };

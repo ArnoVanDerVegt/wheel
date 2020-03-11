@@ -3,6 +3,7 @@
 #project "PSP L/R demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/bit.whl"
 #include "lib/screen.whl"
 #include "lib/psp.whl"
@@ -17,6 +18,8 @@ proc drawButton(number x, number y, number fillColor)
 end
 
 proc main()
+    selectDevice(DEVICE_EV3)
+
     pspStart(0)
 
     number lastL1 = 0

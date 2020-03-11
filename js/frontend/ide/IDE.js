@@ -412,7 +412,7 @@ exports.IDE = class extends CompileAndRun {
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
-        new ListDialog                ({getImage: getImage, ui: this._ui});
+        new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
         new StatisticsDialog          ({getImage: getImage, ui: this._ui});
         new VolumeDialog              ({getImage: getImage, ui: this._ui});
         new DaisyChainDialog          ({getImage: getImage, ui: this._ui});

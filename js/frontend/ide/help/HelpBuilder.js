@@ -98,6 +98,79 @@ class HelpBuilder {
         new DOMNode({}).create(parentNode, node);
     }
 
+    addVar(parentNode, vr) {
+        let head = ['Name', 'Type'];
+        let body = [vr.name, vr.type];
+        if (vr.arraySize) {
+            head.push('Array size');
+            body.push(vr.arraySize.join(', '));
+        }
+        let node = {
+                type: 'p',
+                children: [
+                    {
+                        type: A,
+                        id:   vr.description.split(' ').join('')
+                    },
+                    {
+                        innerHTML: vr.description + '<br/>'
+                    },
+                    {
+                        type:      Table,
+                        className: 'table',
+                        head:      head,
+                        body:      [body]
+                    }
+                ]
+            };
+        new DOMNode({}).create(parentNode, node);
+    }
+
+    addRecord(parentNode, record) {
+        let head      = ['Name', 'Type'];
+        let body      = [];
+        let fields    = record.fields;
+        let arraySize = false;
+        for (let i = 0; i < fields.length; i++) {
+            arraySize = fields[i].arraySize;
+            if (arraySize) {
+                head.push('Array size');
+                break;
+            }
+        }
+        for (let i = 0; i < fields.length; i++) {
+            let field = fields[i];
+            let row   = [field.name, field.type];
+            if (arraySize) {
+                if (field.arraySize) {
+                    row.push(field.arraySize.join(', '));
+                } else {
+                    row.push('');
+                }
+            }
+            body.push(row);
+        }
+        let node = {
+                type: 'p',
+                children: [
+                    {
+                        type: A,
+                        id:   record.description.split(' ').join('')
+                    },
+                    {
+                        innerHTML: record.description + '<br/>'
+                    },
+                    {
+                        type:      Table,
+                        className: 'table',
+                        head:      head,
+                        body:      body
+                    }
+                ]
+            };
+        new DOMNode({}).create(parentNode, node);
+    }
+
     addProc(parentNode, proc) {
         new A({parentNode: parentNode, id: proc.description.split(' ').join('')});
         this.addSubSubTitle(parentNode, proc.name);
@@ -401,6 +474,12 @@ class HelpBuilder {
                             break;
                         case 'proc':
                             this.addProc(parentNode, content[j].text);
+                            break;
+                        case 'var':
+                            this.addVar(parentNode, content[j].text);
+                            break;
+                        case 'record':
+                            this.addRecord(parentNode, content[j].text);
                             break;
                     }
                 }

@@ -12,7 +12,7 @@ exports.LightModule = class extends VMModule {
         let device = this._device();
         switch (commandId) {
             case lightModuleConstants.LIGHT_UPDATE:
-                let light = vmData.getRecordFromAtOffset(['layer', 'mode']);
+                let light = vmData.getRecordFromSrcOffset(['layer', 'mode']);
                 this.emit('Light.Light', light);
                 device.module(lightModuleConstants.MODULE_LIGHT, lightModuleConstants.LIGHT_UPDATE, light);
                 break;

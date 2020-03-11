@@ -11,7 +11,7 @@ exports.ButtonModule = class extends VMModule {
         let vm     = this._vm;
         switch (commandId) {
             case buttonModuleConstants.BUTTON_READ:
-                let button = vmData.getRecordFromAtOffset(['layer']);
+                let button = vmData.getRecordFromSrcOffset(['layer']);
                 button.callback = function(button) { vmData.setNumberAtRet(button); };
                 this.emit('Button.Button', button);
                 break;

@@ -3,10 +3,14 @@
 #project "String charCode example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/string.whl"
 
 proc main()
+    ; This example uses the EV3 screen in the simulator...
+    selectDevice(DEVICE_EV3)
+
     string s = "ABCDE"
     drawText(10, 10, s)
 

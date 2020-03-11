@@ -3,6 +3,7 @@
 #project "PSP stick demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/psp.whl"
 
@@ -15,6 +16,8 @@ proc drawRightPosition(number x, number y)
 end
 
 proc main()
+    selectDevice(DEVICE_EV3)
+
     pspStart(0)
     drawLeftPosition(0, 0)
     drawCircle(50, 64, 32)

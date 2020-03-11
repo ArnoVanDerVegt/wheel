@@ -55,8 +55,8 @@ exports.ListDialog = class extends Dialog {
                 }
             ]
         );
-        if (!opts || !opts.subClass) {
-            dispatcher.on('Dialog.List.Show', this, this.onShow);
+        if (opts && opts.signal) {
+            dispatcher.on(opts.signal, this, this.onShow);
         }
     }
 

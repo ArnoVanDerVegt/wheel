@@ -1,7 +1,7 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
-; This demo shows how to move a motor to a given target position.
+; This example shows how to control motors with EV3 buttons to move to a given target position.
 
 #project "Motor target demo"
 

@@ -3,11 +3,15 @@
 #project "Sound sample example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/sound.whl"
 
 #resource "resources/sounds/information/start.rsf"
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     playSample("start.rsf", 100)
 
     halt()

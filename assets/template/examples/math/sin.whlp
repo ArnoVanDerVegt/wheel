@@ -3,10 +3,14 @@
 #project "Math sine example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/math.whl"
 #include "lib/screen.whl"
 
 proc main()
+    ; This demo uses the EV3 screen in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number n
     number sx1, sy1
     number sx2, sy2

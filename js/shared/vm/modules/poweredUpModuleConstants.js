@@ -4,7 +4,12 @@
 **/
 exports.MODULE_POWERED_UP                              = 13;
 
+exports.POWERED_UP_DEVICE_MOVE_HUB                     =  2;
+exports.POWERED_UP_DEVICE_REMOTE                       =  4;
+exports.POWERED_UP_DEVICE_TECHNIC_HUB                  =  6;
+
 exports.POWERED_UP_START                               =  0;
+exports.POWERED_UP_SET_DEVICE                          =  1;
 
 exports.POWERED_UP_DEVICE_UNKNOWN                      =  0;
 exports.POWERED_UP_DEVICE_BASIC_MOTOR                  =  1;

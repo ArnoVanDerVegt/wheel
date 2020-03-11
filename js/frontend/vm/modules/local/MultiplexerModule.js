@@ -20,7 +20,7 @@ exports.MultiplexerModule = class extends VMModule {
                 break;
 
             case multiplexerModuleConstants.MULTI_MULTI_START:
-                let multi = vmData.getRecordFromAtOffset(['port']);
+                let multi = vmData.getRecordFromSrcOffset(['port']);
                 if (this._writeOffset !== 0) {
                     this._writeOffsetByPort[multi.port] = this._writeOffset;
                     this._writeOffset                   = 0;

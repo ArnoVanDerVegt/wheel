@@ -1,11 +1,15 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Screen text fill demo"
+#project "Screen text fill example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     setFill(BLACK)
     drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
     setFillColor(WHITE)

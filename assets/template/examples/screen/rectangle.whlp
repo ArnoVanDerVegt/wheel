@@ -1,11 +1,15 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Screen rectangle demo"
+#project "Screen rectangle example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     ; Draw two black filled rectangles at the left/top and right/bottom...
     setFill(TRUE)
     setFillColor(BLACK)

@@ -12,16 +12,16 @@ exports.MotorModule = class extends VMModule {
         let motor;
         switch (commandId) {
             case motorModuleConstants.MOTOR_SET_TYPE:
-                this.emit('Motor.SetType', vmData.getRecordFromAtOffset(['layer', 'id', 'type']));
+                this.emit('Motor.SetType', vmData.getRecordFromSrcOffset(['layer', 'id', 'type']));
                 break;
             case motorModuleConstants.MOTOR_SET_SPEED:
-                this.emit('Motor.SetSpeed', vmData.getRecordFromAtOffset(['layer', 'id', 'speed']));
+                this.emit('Motor.SetSpeed', vmData.getRecordFromSrcOffset(['layer', 'id', 'speed']));
                 break;
             case motorModuleConstants.MOTOR_SET_BRAKE:
-                this.emit('Motor.SetBrake', vmData.getRecordFromAtOffset(['layer', 'id', 'brake']));
+                this.emit('Motor.SetBrake', vmData.getRecordFromSrcOffset(['layer', 'id', 'brake']));
                 break;
             case motorModuleConstants.MOTOR_GET_TYPE:
-                motor          = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor          = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 motor.callback = (function(value) {
                     if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
@@ -32,27 +32,27 @@ exports.MotorModule = class extends VMModule {
                 this.emit('Motor.GetType', motor);
                 break;
             case motorModuleConstants.MOTOR_RESET:
-                this.emit('Motor.Reset', vmData.getRecordFromAtOffset(['layer', 'id']));
+                this.emit('Motor.Reset', vmData.getRecordFromSrcOffset(['layer', 'id']));
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO:
-                this.emit('Motor.MoveTo', vmData.getRecordFromAtOffset(['layer', 'id', 'target']));
+                this.emit('Motor.MoveTo', vmData.getRecordFromSrcOffset(['layer', 'id', 'target']));
                 break;
             case motorModuleConstants.MOTOR_ON:
-                this.emit('Motor.On', vmData.getRecordFromAtOffset(['layer', 'id']));
+                this.emit('Motor.On', vmData.getRecordFromSrcOffset(['layer', 'id']));
                 break;
             case motorModuleConstants.MOTOR_TIME_ON:
-                this.emit('Motor.TimeOn', vmData.getRecordFromAtOffset(['layer', 'id', 'time']));
+                this.emit('Motor.TimeOn', vmData.getRecordFromSrcOffset(['layer', 'id', 'time']));
                 break;
             case motorModuleConstants.MOTOR_STOP:
-                this.emit('Motor.Stop', vmData.getRecordFromAtOffset(['layer', 'id', 'brake']));
+                this.emit('Motor.Stop', vmData.getRecordFromSrcOffset(['layer', 'id', 'brake']));
                 break;
             case motorModuleConstants.MOTOR_READ:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 motor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Motor.Read', motor);
                 break;
             case motorModuleConstants.MOTOR_READY:
-                motor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 motor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Motor.Ready', motor);
                 break;
