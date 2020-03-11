@@ -165,6 +165,12 @@ class HelpBuilder {
                         id:   record.description.split(' ').join('')
                     },
                     {
+                        type:      H,
+                        size:      5,
+                        innerHTML: record.name,
+                        title:     record.name
+                    },
+                    {
                         innerHTML: record.description + '<br/>'
                     },
                     {

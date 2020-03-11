@@ -217,6 +217,7 @@
     font-size:                      17px;
     font-weight:                    bold;
     opacity:                        0.8;
+    margin-bottom:                  12px;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file hr {
     width:                          100%;
