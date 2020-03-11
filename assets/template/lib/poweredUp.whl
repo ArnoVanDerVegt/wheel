@@ -39,8 +39,11 @@ end
 
 ; @record A record for button, tilt and acceleration status data.
 record PoweredUpStatus
+	; @field The device button value.
     number          button
+    ; @field The tilt vector.
     PoweredUpVector tilt
+    ; @field The acceleration vector.
     PoweredUpVector accel
 end
 

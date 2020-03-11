@@ -117,7 +117,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'table',
+                        className: 'proc', // Todo: rename class
                         head:      head,
                         body:      [body]
                     }
@@ -127,10 +127,11 @@ class HelpBuilder {
     }
 
     addRecord(parentNode, record) {
-        let head      = ['Name', 'Type'];
-        let body      = [];
-        let fields    = record.fields;
-        let arraySize = false;
+        let head        = ['Name', 'Type'];
+        let body        = [];
+        let fields      = record.fields;
+        let arraySize   = false;
+        let description = false;
         for (let i = 0; i < fields.length; i++) {
             arraySize = fields[i].arraySize;
             if (arraySize) {
@@ -139,14 +140,20 @@ class HelpBuilder {
             }
         }
         for (let i = 0; i < fields.length; i++) {
+            description = fields[i].description;
+            if (description) {
+                head.push('Description');
+                break;
+            }
+        }
+        for (let i = 0; i < fields.length; i++) {
             let field = fields[i];
             let row   = [field.name, field.type];
             if (arraySize) {
-                if (field.arraySize) {
-                    row.push(field.arraySize.join(', '));
-                } else {
-                    row.push('');
-                }
+                row.push(field.arraySize ? field.arraySize.join(', ') : '');
+            }
+            if (description) {
+                row.push(field.description || '');
             }
             body.push(row);
         }
@@ -162,7 +169,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'table',
+                        className: 'proc', // Todo: rename class
                         head:      head,
                         body:      body
                     }

@@ -56,9 +56,21 @@ exports.WhlFileProcessor = class extends FileProcessor {
             };
         let nextLine   = this.peekLine(true);
         while (nextLine.indexOf('end') !== 0) {
-            let fieldLine = this.readLine(true);
-            record.fields = record.fields.concat(this.getVarInfoFromLine(fieldLine));
-            nextLine = this.peekLine(true);
+            nextLine = this.readLine(true);
+            let fieldCommentLine = '';
+            if (this.getComment(nextLine).indexOf('@field') === 0) {
+                nextLine         = this.getComment(nextLine);
+                fieldCommentLine = nextLine.substr(6, nextLine.length - 6).trim();
+                nextLine         = this.readLine(true);
+            }
+            let fields = this.getVarInfoFromLine(nextLine);
+            if (fieldCommentLine !== '') {
+                fields.forEach(function(field) {
+                    field.description = fieldCommentLine;
+                });
+            }
+            record.fields = record.fields.concat(fields);
+            nextLine      = this.peekLine(true);
         }
         this.addTypedText(section, 'record', record);
     }
