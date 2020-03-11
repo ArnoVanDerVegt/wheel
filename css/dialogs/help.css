@@ -237,61 +237,39 @@
     padding:                        4px;
     background-color:               var(--ui-background2);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.constants {
-    margin-top:                     8px;
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table {
+    margin:                         8px 0 0 8px;
     border:                         var(--help-table-border);
     border-width:                   1px 0 0 1px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table {
-    margin-top:                     8px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.constants td {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table td {
     border:                         var(--help-table-border);
     border-width:                   0 1px 1px 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.proc {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table {
     border:                         var(--help-table-border);
     border-width:                   1px 0 0 1px;
     max-width:                      calc(100% - 10px);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.proc td,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.proc th {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table td,
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table th {
     border:                         var(--help-table-border);
     border-width:                   0 1px 1px 0;
     padding:                        8px;
     vertical-align:                 top;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.proc th {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table th {
     text-align:                     left;
     font-weight:                    bold;
     background-color:               var(--help-table-header);
     color:                          var(--help-table-header-color);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.constants td:first-child {
-    min-width:                      224px;
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table.constants td:first-child {
+    min-width:                      360px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.constants td:nth-child(2) {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table.constants td:nth-child(2) {
     min-width:                      64px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table {
-    border:                         var(--ui-border2);
-    border-width:                   1px 0 0 1px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table td,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table th {
-    border:                         var(--ui-border2);
-    border-width:                   0 1px 1px 0;
-    padding:                        8px;
-    vertical-align:                 top;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table th {
-    font-weight:                    bold;
-    background-color:               var(--help-table-header);
-    color:                          var(--help-table-header-color);
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.table th {
-    text-align:                     left;
-    font-weight:                    bold;
+    text-align:                     right;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file img.display-preview {
     border:                         var(--ui-border1);

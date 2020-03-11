@@ -90,7 +90,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'constants',
+                        className: 'help-table constants',
                         body:      body
                     }
                 ]
@@ -117,7 +117,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'proc', // Todo: rename class
+                        className: 'help-table',
                         head:      head,
                         body:      [body]
                     }
@@ -169,7 +169,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'proc', // Todo: rename class
+                        className: 'help-table',
                         head:      head,
                         body:      body
                     }
@@ -212,7 +212,7 @@ class HelpBuilder {
                 let param = proc.params[i];
                 body.push([param.name, param.type, param.description]);
             }
-            new Table({parentNode, className: 'proc', head: head, body: body});
+            new Table({parentNode, className: 'help-table', head: head, body: body});
         }
         if (proc.ret) {
             new P({parentNode: parentNode, innerHTML: 'Return: <i>' + proc.ret + '</i>'});
@@ -465,7 +465,7 @@ class HelpBuilder {
                         case 'table':
                             new Table({
                                 parentNode: parentNode,
-                                className:  'table',
+                                className:  'help-table',
                                 head:       content[j].text.head,
                                 body:       content[j].text.body
                             });
