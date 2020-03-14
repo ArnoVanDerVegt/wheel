@@ -169,14 +169,18 @@ class HelpBuilder {
         }
         for (let i = 0; i < fields.length; i++) {
             let field = fields[i];
-            let row   = [field.name, field.type];
-            if (arraySize) {
-                row.push(field.arraySize ? field.arraySize.join(', ') : '');
+            if (field === 'union') {
+                body.push([':' + head.length + 'union']);
+            } else {
+                let row   = [field.name, field.type];
+                if (arraySize) {
+                    row.push(field.arraySize ? field.arraySize.join(', ') : '');
+                }
+                if (description) {
+                    row.push(field.description || '');
+                }
+                body.push(row);
             }
-            if (description) {
-                row.push(field.description || '');
-            }
-            body.push(row);
         }
         let node = {
                 type: 'p',

@@ -48,12 +48,27 @@ record PoweredUpStatus
     PoweredUpVector accel
 end
 
-; @var Powered Up status data.
-PoweredUpStatus poweredUpStatus[4]
+; @record The status of the Powered Up device for all layers.
+record PoweredUpDevices
+    ; @field Powered Up status data for all four layers.
+    PoweredUpStatus layer[4]
+union
+    ; @field Powered Up status data for layer one.
+    PoweredUpStatus layer1
+    ; @field Powered Up status data for layer two.
+    PoweredUpStatus layer2
+    ; @field Powered Up status data for layer three.
+    PoweredUpStatus layer3
+    ; @field Powered Up status data for layer four.
+    PoweredUpStatus layer4
+end
+
+; @var Powered Up device status data.
+PoweredUpDevices poweredUpDevices
 
 ; @proc             Start reading updates from the Powered Up devices.
 proc poweredUpStart()
-    addr poweredUpStatus
+    addr poweredUpDevices
     mod  MODULE_POWERED_UP, POWERED_UP_START
 end
 
