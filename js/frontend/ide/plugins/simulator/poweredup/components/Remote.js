@@ -55,7 +55,9 @@ exports.Remote = class extends BasicHub {
         super(opts);
         this._buttons = 0;
         opts.plugin.setRemote(this);
-        this.initDOM(opts.parentNode);
+        this
+            .initDOM(opts.parentNode)
+            .initButtons();
     }
 
     initDOM(parentNode) {
@@ -87,6 +89,35 @@ exports.Remote = class extends BasicHub {
                 ]
             }
         );
+        return this;
+    }
+
+    initButton(element, className, buttons) {
+        let onMouseDown = (function(event) {
+                this._buttons    = buttons;
+                element.className = className + ' pressed';
+                event.stopPropagation();
+                event.preventDefault();
+            }).bind(this);
+        let onMouseUp   = (function(event) {
+                this._buttons     = 0;
+                element.className = className;
+                event.stopPropagation();
+                event.preventDefault();
+            }).bind(this);
+        element.addEventListener('mousedown', onMouseDown);
+        element.addEventListener('mouseout',  onMouseUp);
+        element.addEventListener('mouseup',   onMouseUp);
+    }
+
+    initButtons() {
+        let refs = this._refs;
+        this.initButton(refs.buttonRightMin,    'button-left',    1);
+        this.initButton(refs.buttonRightCenter, 'button-center',  2);
+        this.initButton(refs.buttonRightPlus,   'button-right',   4);
+        this.initButton(refs.buttonLeftMin,     'button-left',    8);
+        this.initButton(refs.buttonLeftCenter,  'button-center', 16);
+        this.initButton(refs.buttonLeftPlus,    'button-right',  32);
     }
 
     getButtons() {
