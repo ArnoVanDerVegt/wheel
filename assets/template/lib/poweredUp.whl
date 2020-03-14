@@ -14,6 +14,7 @@
 
 ; @const Powered Up device types.
 #define POWERED_UP_MOVE_HUB                          2
+#define POWERED_UP_HUB                               3
 #define POWERED_UP_REMOTE_CONTROL                    4
 #define POWERED_UP_TECHNIC_MEDIUM_HUB                6
 
@@ -39,7 +40,7 @@ end
 
 ; @record A record for button, tilt and acceleration status data.
 record PoweredUpStatus
-	; @field The device button value.
+    ; @field The device button value.
     number          button
     ; @field The tilt vector.
     PoweredUpVector tilt

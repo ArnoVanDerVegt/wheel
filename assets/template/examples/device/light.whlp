@@ -6,6 +6,8 @@
 #include "lib/light.whl"
 #include "lib/device.whl"
 
+#display "EV3, Hub"
+
 proc main()
     selectDevice(DEVICE_EV3)
 

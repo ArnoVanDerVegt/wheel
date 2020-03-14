@@ -11,7 +11,7 @@
 #include "lib/motor.whl"
 #include "lib/sound.whl"
 
-#display "motors"
+#display "EV3 Motors"
 
 number active     = 0               ; Which motor is active
 number lastActive = 0               ; The last active motor

@@ -5,6 +5,8 @@
 #include "lib/screen.whl"
 #include "lib/device.whl"
 
+#display "EV3"
+
 proc main()
     ; This example uses the EV3 screen in the simulator...
     selectDevice(DEVICE_EV3)

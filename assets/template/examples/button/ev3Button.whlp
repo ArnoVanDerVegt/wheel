@@ -7,6 +7,8 @@
 #include "lib/screen.whl"
 #include "lib/button.whl"
 
+#display "EV3"
+
 proc drawUp()
     drawRect(71, 21, 38, 18)
 end

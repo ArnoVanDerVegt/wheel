@@ -9,6 +9,8 @@
 #include "lib/screen.whl"
 #include "lib/button.whl"
 
+#display "EV3"
+
 record Point
     number x, y
 end

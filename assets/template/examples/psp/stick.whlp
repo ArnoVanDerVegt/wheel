@@ -7,6 +7,8 @@
 #include "lib/screen.whl"
 #include "lib/psp.whl"
 
+#display "PSP"
+
 proc drawLeftPosition(number x, number y)
     drawCircle(50 + x / 5, 64 + y / 5, 10)
 end

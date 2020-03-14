@@ -8,6 +8,8 @@
 #include "lib/screen.whl"
 #include "lib/psp.whl"
 
+#display "PSP"
+
 proc drawButtonOutline(number x, number y)
     drawRect(x, y, 22, 12)
 end

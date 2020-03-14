@@ -1,8 +1,8 @@
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Powered Up Move Hub motor example"
+#project "Powered Up Hub motor example"
 
-; This example shows how to select the Move Hub device in the simulator and move the motor
+; This example shows how to select the Hub device in the simulator and move the motor
 ; to a given angle.
 
 #include "lib/standard.whl"
@@ -10,18 +10,18 @@
 #include "lib/motor.whl"
 #include "lib/poweredUp.whl"
 
-#display "motors"
+#display "Hub"
 
 proc main()
     ; Select the Powered Up mode in the simulator
     selectDevice(DEVICE_POWERED_UP)
-    ; Select the Move Hub device
-    poweredUpSetDevice(0, POWERED_UP_MOVE_HUB)
+    ; Select the Hub device
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
 
     ; Reset output A on layer 0
-    motorLayerReset(0, OUTPUT_A)
+    motorLayerReset(LAYER_1, OUTPUT_A)
     ; Move the motor to 720 degrees
-    motorLayerMoveTo(0, OUTPUT_A, 720)
+    motorLayerMoveTo(LAYER_1, OUTPUT_A, 720)
 
     halt()
 end

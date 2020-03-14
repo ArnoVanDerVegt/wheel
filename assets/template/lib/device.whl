@@ -6,7 +6,13 @@
 ; @const The device module.
 #define MODULE_DEVICE     12
 
-; @const The avaialable types of devives.
+; @const The avaialable layers.
+#define LAYER_1            0
+#define LAYER_2            1
+#define LAYER_3            2
+#define LAYER_4            3
+
+; @const The avaialable types of devices.
 #define DEVICE_EV3         0
 #define DEVICE_POWERED_UP  1
 

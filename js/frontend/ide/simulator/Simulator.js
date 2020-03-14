@@ -20,6 +20,7 @@ exports.Simulator = class extends DOMNode {
         this._vm        = null;
         this._plugins   = {};
         this.initDOM(opts.parentNode || document.body);
+        dispatcher.on('Simulator.ShowPluginByName', this, this.onShowPluginByName);
     }
 
     cleanPath(path) {
@@ -92,6 +93,17 @@ exports.Simulator = class extends DOMNode {
         this._plugins[uuid] = plugin;
     }
 
+    getPluginByName(name) {
+        let plugins = this._settings.getPlugins().getSortedPlugins();
+        for (let i in plugins) {
+            let plugin = plugins[i];
+            if (plugin.name === name) {
+                return plugin;
+            }
+        }
+        return null;
+    }
+
     getPluginByUuid(uuid) {
         return this._plugins[uuid] || null;
     }
@@ -115,6 +127,13 @@ exports.Simulator = class extends DOMNode {
             if ('showLayer' in plugin) {
                 plugin.showLayer(layer);
             }
+        }
+    }
+
+    onShowPluginByName(name) {
+        let plugin = this.getPluginByName(name);
+        if (plugin) {
+            dispatcher.dispatch('Settings.Show.PluginByUuid', plugin.uuid);
         }
     }
 };

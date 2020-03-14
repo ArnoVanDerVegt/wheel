@@ -6,6 +6,8 @@
 #include "lib/device.whl"
 #include "lib/sound.whl"
 
+#display "EV3"
+
 proc main()
     ; Select the EV3 device in the simulator...
     selectDevice(DEVICE_EV3)

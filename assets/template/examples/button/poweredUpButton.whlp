@@ -7,6 +7,8 @@
 #include "lib/bit.whl"
 #include "lib/button.whl"
 
+#display "Hub"
+
 proc printButton(number button)
     if bitAnd(button, BUTTON_PU_LEFT_MIN) == BUTTON_PU_LEFT_MIN
         printS("Left min button")

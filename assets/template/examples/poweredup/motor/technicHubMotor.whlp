@@ -10,20 +10,20 @@
 #include "lib/motor.whl"
 #include "lib/poweredUp.whl"
 
-#display "motors"
+#display "Hub"
 
 proc main()
     ; Select the Powered Up mode in the simulator...
     selectDevice(DEVICE_POWERED_UP)
     ; Select the Move Hub device...
-    poweredUpSetDevice(0, POWERED_UP_TECHNIC_MEDIUM_HUB)
+    poweredUpSetDevice(LAYER_1, POWERED_UP_TECHNIC_MEDIUM_HUB)
 
     ; Select the motor type...
-    motorLayerSetType(0, OUTPUT_A, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)
+    motorLayerSetType(LAYER_1, OUTPUT_A, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)
     ; Reset output A on layer 0...
-    motorLayerReset(0, OUTPUT_A)
+    motorLayerReset(LAYER_1, OUTPUT_A)
     ; Move the motor to 720 degrees...
-    motorLayerMoveTo(0, OUTPUT_A, 720)
+    motorLayerMoveTo(LAYER_1, OUTPUT_A, 720)
 
     halt()
 end

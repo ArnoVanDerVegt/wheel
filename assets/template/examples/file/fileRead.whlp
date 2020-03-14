@@ -6,6 +6,8 @@
 #include "lib/file.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 #text "fruit.rtf"
 #line "1"
 #line "Apple"

@@ -7,7 +7,7 @@
 
 #include "lib/motor.whl"
 
-#display "motors"
+#display "EV3 Motors"
 
 proc main()
     motorSetSpeed(OUTPUT_A, 10) ; Set the speed of motor A

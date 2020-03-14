@@ -9,6 +9,8 @@
 #include "lib/device.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 #image "myImage.rgf"
 #data "000111111111111111111111111111111000"
 #data "001000000000000000000000000000000100"

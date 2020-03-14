@@ -5,6 +5,8 @@
 #include "lib/standard.whl"
 #include "lib/light.whl"
 
+#display "EV3"
+
 proc main()
     ; Turn the red light on and wait 1 second...
     light(LIGHT_RED)

@@ -5,6 +5,7 @@
 exports.MODULE_POWERED_UP                              = 13;
 
 exports.POWERED_UP_DEVICE_MOVE_HUB                     =  2;
+exports.POWERED_UP_DEVICE_HUB                          =  3;
 exports.POWERED_UP_DEVICE_REMOTE                       =  4;
 exports.POWERED_UP_DEVICE_TECHNIC_HUB                  =  6;
 

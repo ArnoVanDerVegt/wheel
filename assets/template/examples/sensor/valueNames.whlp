@@ -12,7 +12,7 @@
 #include "lib/screen.whl"
 #include "lib/sensor.whl"
 
-#display "sensors"
+#display "EV3 Sensors"
 
 string colors[8]     = ["non", "blk", "blu", "grn", "yel", "red", "wht", "brn"]
 number touchValue    = FALSE

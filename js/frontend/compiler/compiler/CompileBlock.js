@@ -60,13 +60,9 @@ class CompileBlock extends CompileScope {
             case '#display':
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
-                    let display = token.lexeme.substr(1, token.lexeme.length - 2).split(',');
-                    if (display.indexOf('sensors') !== -1) {
-                       dispatcher.dispatch('Settings.Show.SimulatorByName', 'EV3Sensors');
-                    }
-                    if (display.indexOf('motors') !== -1) {
-                       dispatcher.dispatch('Settings.Show.SimulatorByName', 'EV3Motors');
-                    }
+                    token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach(function(name) {
+                        dispatcher.dispatch('Simulator.ShowPluginByName', name.trim());
+                    });
                 } else {
                     throw errors.createError(err.STRING_CONSTANT_EXPECTED, token, 'String constant expected.');
                 }

@@ -7,6 +7,8 @@
 #include "lib/screen.whl"
 #include "lib/string.whl"
 
+#display "EV3"
+
 string fruit[5] = ["Banana", "Apple", "Orange", "Pear", "Melon"]
 
 proc main()

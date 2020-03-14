@@ -5,6 +5,8 @@
 #include "lib/standard.whl"
 #include "lib/light.whl"
 
+#display "Hub"
+
 proc main()
     repeat
         light(LIGHT_PU_BLACK)

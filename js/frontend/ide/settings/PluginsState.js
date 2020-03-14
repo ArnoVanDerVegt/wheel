@@ -15,6 +15,7 @@ exports.PluginsState = class extends Emitter {
         this._updatePluginByUuid();
         dispatcher.on('Settings.Set.PluginPropertyByUuid', this, this._setPluginPropertyByUuid);
         dispatcher.on('Settings.Toggle.PluginByUuid',      this, this._togglePluginByUuid);
+        dispatcher.on('Settings.Show.PluginByUuid',        this, this._showPluginByUuid);
     }
 
     _updatePluginByUuid() {
@@ -29,6 +30,14 @@ exports.PluginsState = class extends Emitter {
             return;
         }
         this._setPluginPropertyByUuid(uuid, 'visible', !plugin.visible);
+    }
+
+    _showPluginByUuid(uuid) {
+        let plugin = this.getPluginByUuid(uuid);
+        if (!plugin) {
+            return;
+        }
+        this._setPluginPropertyByUuid(uuid, 'visible', true);
     }
 
     _setPluginPropertyByUuid(uuid, property, value) {

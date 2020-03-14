@@ -10,6 +10,7 @@ const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlug
 const Plugin                   = require('../lib/motor/Plugin').Plugin;
 const Motor                    = require('./io/Motor').Motor;
 const SimulatedDevices         = require('./io/SimulatedDevices').SimulatedDevices;
+const Hub                      = require('./components/Hub').Hub;
 const TechnicHub               = require('./components/TechnicHub').TechnicHub;
 const MoveHub                  = require('./components/MoveHub').MoveHub;
 const Remote                   = require('./components/Remote').Remote;
@@ -70,6 +71,10 @@ exports.Plugin = class extends Plugin {
                             plugin: this
                         },
                         {
+                            type:   Hub,
+                            plugin: this
+                        },
+                        {
                             type:   MoveHub,
                             plugin: this
                         },
@@ -86,6 +91,7 @@ exports.Plugin = class extends Plugin {
     getDeviceByType(type) {
         switch (type) {
             case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return this._moveHub;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_HUB:         return this._hub;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return this._remote;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return this._technicHub;
         }
@@ -110,6 +116,7 @@ exports.Plugin = class extends Plugin {
         if (layerState) {
             switch (layerState.getType()) {
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return 4;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_HUB:         return 2;
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return 0;
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return 4;
             }
@@ -150,6 +157,10 @@ exports.Plugin = class extends Plugin {
         this._moveHub = moveHub;
     }
 
+    setHub(hub) {
+        this._hub = hub;
+    }
+
     setRemote(remote) {
         this._remote = remote;
     }
@@ -159,10 +170,17 @@ exports.Plugin = class extends Plugin {
     }
 
     _setDeviceType(type) {
+        this._hub.hide();
         this._moveHub.hide();
-        this._remote.hide();
         this._technicHub.hide();
-        this._type = type;
+        this._remote.hide();
+        if (this._type !== type) {
+            this._type = type;
+            let simulatedLayerDevice = this._simulatedDevices.getLayer(this._simulator.getLayer());
+            for (let i = 0; i < 4; i++) {
+                simulatedLayerDevice.setPortType(i, -1);
+            }
+        }
         let device = this.getDeviceByType(type);
         device && device.show();
         this.showMotors();
@@ -173,7 +191,9 @@ exports.Plugin = class extends Plugin {
     **/
     setDeviceType(layer, type) {
         this._simulatedDevices.setType(layer, type);
-        this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        if (layer === this._simulator.getLayer()) {
+            this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        }
         this.updateActiveLayer(layer);
     }
 

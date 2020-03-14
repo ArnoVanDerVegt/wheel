@@ -344,6 +344,7 @@ require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedLayerDevice')
 require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedDevices');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/BasicHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/TechnicHub');
+require('./js/frontend/ide/plugins/simulator/poweredup/components/Hub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/MoveHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/Remote');
 require('./js/frontend/ide/plugins/simulator/poweredup/Plugin');

@@ -164,6 +164,50 @@
     border-radius:                  2px;
 }
 
+/* Hub hub */
+.powered-up .hub-hub-body.visible {
+    display:                        block;
+}
+.powered-up .hub-hub-body {
+    float:                          left;
+    position:                       relative;
+    width:                          120px;
+    height:                         120px;
+}
+.powered-up .hub-hub-body {
+    display:                        none;
+}
+.powered-up .hub-hub-body .hub-box {
+    position:                       absolute;
+    left:                           21px;
+    top:                            0;
+    width:                          66px;
+    height:                         120px;
+    background-color:               #FFFFFF;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+}
+.powered-up .hub-hub-body .hub-box .hub-button {
+    position:                       absolute;
+    left:                           32px;
+    top:                            31px;
+    margin:                         -6.5px 0 0 -6.5px;
+    width:                          13px;
+    height:                         13px;
+    background-color:               green;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    border-radius:                  2px;
+}
+.powered-up .hub-hub-body .hub-box .hub-light {
+    position:                       absolute;
+    left:                           32px;
+    top:                            0px;
+    margin:                         -1px 0 0 -3px;
+    width:                          6px;
+    height:                         13px;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    border-radius:                  2px;
+}
+
 /* Hub state */
 .powered-up .hub-state {
     float:                          left;
