@@ -20,6 +20,7 @@ exports.recordScopeTokens = function() {
         ];
     tokens[t.TOKEN_POINTER][t.LEXEME_POINTER] = follow02;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC   ] = follow02;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_UNION  ] = follow02;
 
     // "," -> IDENTIFIER | "^"
     let follow03 = [
@@ -59,6 +60,12 @@ exports.recordScopeTokens = function() {
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
     tokens[t.TOKEN_IDENTIFIER] = follow07;
+
+    // "union" -> "\n"
+    let follow08 = [
+            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_UNION] = follow08;
 
     return utils.updateTokens(tokens);
 };

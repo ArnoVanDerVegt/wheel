@@ -36,7 +36,8 @@ const keywords = [
         'copy',
         'else',
         'elseif',
-        'struct',
+        'record',
+        'union',
         'or',
         'and',
         'call'

@@ -21,6 +21,7 @@
     const LEXEME_DOWNTO             = 'downto';
     const LEXEME_STEP               = 'step';
     const LEXEME_RECORD             = 'record';
+    const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
     const LEXEME_ADDR               = 'addr';
@@ -104,6 +105,7 @@
     exports.LEXEME_DOWNTO             = LEXEME_DOWNTO;
     exports.LEXEME_STEP               = LEXEME_STEP;
     exports.LEXEME_RECORD             = LEXEME_RECORD;
+    exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
     exports.LEXEME_ADDR               = LEXEME_ADDR;
@@ -186,6 +188,7 @@
             LEXEME_DOWNTO,
             LEXEME_STEP,
             LEXEME_RECORD,
+            LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,
             LEXEME_ADDR,

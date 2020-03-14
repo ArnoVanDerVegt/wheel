@@ -28,7 +28,11 @@ exports.CompileRecord = class extends CompileScope {
                     expectType = false;
                     break;
                 case t.TOKEN_KEYWORD:
-                    if (token.is(t.LEXEME_PROC)) {
+                    if (token.is(t.LEXEME_UNION)) {
+                        if (!record.union()) {
+                            throw errors.createError(err.UNION_SIZE_MISMATCH, token, 'Union size mismatch.');
+                        }
+                    } else if (token.is(t.LEXEME_PROC)) {
                         type       = token.lexeme;
                         expectType = false;
                     } else if (token.is(t.LEXEME_END)) {
@@ -89,6 +93,9 @@ exports.CompileRecord = class extends CompileScope {
                 default:
                     throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
             }
+        }
+        if (!record.checkUnion()) {
+            throw errors.createError(err.UNION_SIZE_MISMATCH, token, 'Union size mismatch.');
         }
     }
 };
