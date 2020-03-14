@@ -64,6 +64,7 @@ exports.IDE = class extends CompileAndRun {
             ui:           ui,
             settings:     settings,
             ev3:          this._ev3,
+            poweredUp:    this._poweredUp,
             editorsState: this._editorsState
         });
         new Console ({

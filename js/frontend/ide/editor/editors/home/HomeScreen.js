@@ -19,6 +19,7 @@ exports.HomeScreen = class extends DOMNode {
         this._ui           = opts.ui;
         this._settings     = opts.settings;
         this._ev3          = opts.ev3;
+        this._poweredUp    = opts.poweredUp;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
         dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
@@ -123,12 +124,12 @@ exports.HomeScreen = class extends DOMNode {
                                 }
                             },
                             {
-                                ui:       ui,
-                                icon:     getImage('images/files/poweredUp.svg'),
-                                title:    'Connect to Powered Up &raquo;',
-                                type:     HomeScreenConnectPoweredUpTile,
-                                tabIndex: tabIndex.HOME_SCREEN + 5,
-                                ev3:      this._ev3,
+                                ui:        ui,
+                                icon:      getImage('images/files/poweredUp.svg'),
+                                title:     'Connect to Powered Up &raquo;',
+                                type:      HomeScreenConnectPoweredUpTile,
+                                tabIndex:  tabIndex.HOME_SCREEN + 5,
+                                poweredUp: this._poweredUp,
                                 onClick: function() {
                                     if ('electron' in window) {
                                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');

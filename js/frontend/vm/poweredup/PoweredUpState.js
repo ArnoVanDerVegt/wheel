@@ -28,6 +28,17 @@ exports.PoweredUpState = class extends BasicDeviceState {
         return this._deviceName;
     }
 
+    getConnectionCount() {
+        let result     = 0;
+        let layerState = this._layerState;
+        for (let i = 0; i < 4; i++) {
+            if (layerState[i].getConnected()) {
+                result++;
+            }
+        }
+        return result;
+    }
+
     setState(state) {
         this._connected = false;
         for (let i = 0; i < 4; i++) {
@@ -39,6 +50,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         let layerState = this._layerState;
         for (let i = 0; i < 4; i++) {
             if (state.layers[i].connected && (layerState[i].getConnected() !== state.layers[i].connected)) {
+                layerState[i].setConnected(true);
                 this.emit('PoweredUp.Connected');
                 break;
             }
@@ -60,7 +72,6 @@ exports.PoweredUpState = class extends BasicDeviceState {
             {uuid: hub.uuid},
             (function(data) {
                 if (!this._updating) {
-                    this.emit('PoweredUp.Connected', hub);
                     this.update();
                 }
             }).bind(this)

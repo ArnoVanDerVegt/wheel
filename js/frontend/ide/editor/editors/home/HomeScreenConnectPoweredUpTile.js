@@ -8,31 +8,23 @@ exports.HomeScreenConnectPoweredUpTile = class extends HomeScreenTile {
     constructor(opts) {
         super(opts);
         this._poweredUp = opts.poweredUp;
-        // Todo: Show connected information...
-        // |opts.ev3
-        // |    .on('EV3.Connecting',   this, this.onEV3Connecting)
-        // |    .on('EV3.Connected',    this, this.onEV3Connected)
-        // |    .on('EV3.Disconnected', this, this.onEV3Disconnected);
+        opts.poweredUp
+            .on('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
+            .on('PoweredUp.Connected',  this, this.onPoweredUpConnected);
     }
 
-    // |onEV3Connecting() {
-    // |    let refs = this._refs;
-    // |    refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
-    // |    refs.subTitle.innerHTML           = 'Connecting...';
-    // |    refs.title.innerHTML              = 'EV3';
-    // |}
+    onPoweredUpConnecting() {
+        let refs = this._refs;
+        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.subTitle.innerHTML           = 'Connecting...';
+        refs.title.innerHTML              = 'Powered Up';
+    }
 
-    // |onEV3Connected() {
-    // |    let refs = this._refs;
-    // |    refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
-    // |    refs.subTitle.innerHTML           = 'Connected';
-    // |    refs.title.innerHTML              = 'EV3';
-    // |}
-
-    // |onEV3Disconnected() {
-    // |    let refs = this._refs;
-    // |    refs.homeScreenTileText.className = 'home-screen-tile-text';
-    // |    refs.subTitle.innerHTML           = '';
-    // |    refs.title.innerHTML              = 'Connect to EV3 &raquo;';
-    // |}
+    onPoweredUpConnected() {
+        let refs           = this._refs;
+        let connectedCount = this._poweredUp.getConnectionCount();
+        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.subTitle.innerHTML           = 'Connected to ' + connectedCount + ' device' + (connectedCount > 1 ? 's' : '');
+        refs.title.innerHTML              = 'Powered Up';
+    }
 };

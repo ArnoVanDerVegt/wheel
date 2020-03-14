@@ -21,7 +21,8 @@ exports.Editor = class extends DOMUtils {
             ui:           this._ui,
             editorsState: this._editorsState,
             settings:     opts.settings,
-            ev3:          opts.ev3
+            ev3:          opts.ev3,
+            poweredUp:    opts.poweredUp
         });
         this._selectProjectCompileCallback = null; // Which project should be compiled?
         this._projectNewFileOptions        = [];   // List of projects where a new file can be added
