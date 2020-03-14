@@ -20,11 +20,11 @@ const WheelSyntax = require('./woc/WheelSyntax').WheelSyntax;
 const IndexList   = require('./components/IndexList').IndexList;
 
 class HelpBuilder {
-    getFilenameWithoutDocumentPath(filename, documentPath) {
-        if (documentPath === '') {
+    getFilenameWithoutDocumentPath(filename) {
+        if (this._documentPath === '') {
             return filename;
         }
-        return filename.substr(documentPath.length + 1 - filename.length);
+        return filename.substr(this._documentPath.length + 1 - filename.length);
     }
 
     getIdsForKeyword(keyword) {
@@ -39,11 +39,12 @@ class HelpBuilder {
         return null;
     }
 
-    addH(parentNode, size, title) {
+    addH(parentNode, size, title, className) {
         new H({
             parentNode: parentNode,
             size:       size,
-            innerHTML:  title
+            innerHTML:  title,
+            className:  className || ''
         });
         return this;
     }
@@ -65,12 +66,12 @@ class HelpBuilder {
         return this.addH(parentNode, '3', title);
     }
 
-    addSubSubTitle(parentNode, title) {
+    addSubSubTitle(parentNode, title, className) {
         return this.addH(parentNode, '4', title);
     }
 
-    addSubSubSubTitle(parentNode, title) {
-        return this.addH(parentNode, '5', title);
+    addSubSubSubTitle(parentNode, title, className) {
+        return this.addH(parentNode, '5', title, className);
     }
 
     addConstants(parentNode, constant) {
@@ -89,6 +90,10 @@ class HelpBuilder {
                         innerHTML: constant.description + '<br/>'
                     },
                     {
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/>',
+                        className: 'source-location'
+                    },
+                    {
                         type:      Table,
                         className: 'help-table constants',
                         body:      body
@@ -99,11 +104,16 @@ class HelpBuilder {
     }
 
     addVar(parentNode, vr) {
-        let head = ['Name', 'Type'];
-        let body = [vr.name, vr.type];
+        let head = ['Type'];
+        let body = [vr.type];
         if (vr.arraySize) {
             head.push('Array size');
             body.push(vr.arraySize.join(', '));
+        }
+        let name = vr.name;
+        let i    = name.indexOf('[');
+        if (i !== -1) {
+            name = name.substr(0, i);
         }
         let node = {
                 type: 'p',
@@ -111,6 +121,17 @@ class HelpBuilder {
                     {
                         type: A,
                         id:   vr.description.split(' ').join('')
+                    },
+                    {
+                        type:      H,
+                        size:      5,
+                        innerHTML: name,
+                        title:     vr.name,
+                        className: 'title-with-source'
+                    },
+                    {
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(vr.filename) + ', line: ' + vr.lineNumber + '<br/>',
+                        className: 'source-location'
                     },
                     {
                         innerHTML: vr.description + '<br/>'
@@ -168,7 +189,12 @@ class HelpBuilder {
                         type:      H,
                         size:      5,
                         innerHTML: record.name,
-                        title:     record.name
+                        title:     record.name,
+                        className: 'title-with-source'
+                    },
+                    {
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(record.filename) + ', line: ' + record.lineNumber + '<br/>',
+                        className: 'source-location'
                     },
                     {
                         innerHTML: record.description + '<br/>'
@@ -186,7 +212,14 @@ class HelpBuilder {
 
     addProc(parentNode, proc) {
         new A({parentNode: parentNode, id: proc.description.split(' ').join('')});
-        this.addSubSubTitle(parentNode, proc.name);
+        this.addSubSubSubTitle(parentNode, proc.name, 'title-with-source');
+        new DOMNode({}).create(
+            parentNode,
+            {
+                innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(proc.filename) + ', line: ' + proc.lineNumber + '<br/>',
+                className: 'source-location'
+            }
+        );
         if (proc.device !== '') {
             let children = [];
             proc.device.split(',').forEach(
@@ -209,9 +242,10 @@ class HelpBuilder {
         let s           = 'proc ' + proc.name + '(' + params.join(',') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (proc.ret) {
-            new DOMNode({parentNode: parentNode, innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
+            new DOMNode({}).create(parentNode, {innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
         }
         if (proc.params.length) {
+            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
             let body = [];
             for (let i = 0; i < proc.params.length; i++) {
@@ -314,13 +348,13 @@ class HelpBuilder {
         if (file.module) {
             this
                 .addTitle(parentNode, file.module + ' module')
-                .addSubTitle(parentNode, this.getFilenameWithoutDocumentPath(file.name, documentPath));
+                .addSubTitle(parentNode, this.getFilenameWithoutDocumentPath(file.name));
         } else if (file.subject) {
             mainTitle = file.subject;
             let i = mainTitle.indexOf(':');
             this.addTitle(parentNode, (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length));
         } else {
-            this.addTitle(this.getFilenameWithoutDocumentPath(file.name, documentPath));
+            this.addTitle(this.getFilenameWithoutDocumentPath(file.name));
         }
     }
 
@@ -415,6 +449,7 @@ class HelpBuilder {
     }
 
     buildFile(opts) {
+        this._documentPath = opts.documentPath || '';
         this.addFileTitle(opts);
         let parentNode  = opts.parentNode;
         let file        = opts.file;

@@ -19,11 +19,12 @@ exports.WhlFileProcessor = class extends FileProcessor {
     }
 
     getVarInfoFromLine(line) {
-        let i         = line.indexOf(' ');
-        let varName   = line.substr(i, line.length - i).trim();
-        let varType   = line.substr(0, i).trim();
-        let arraySize = false;
-        let result    = [];
+        let lineNumber = this._index;
+        let i          = line.indexOf(' ');
+        let varName    = line.substr(i, line.length - i).trim();
+        let varType    = line.substr(0, i).trim();
+        let arraySize  = false;
+        let result     = [];
         i = varName.indexOf('[');
         if (i !== -1) {
             let parts = varName.split('[');
@@ -35,23 +36,32 @@ exports.WhlFileProcessor = class extends FileProcessor {
         }
         let vars = varName.split(',');
         for (i = 0; i < vars.length; i++) {
-            result.push({name: vars[i].trim(), type: varType, arraySize: arraySize});
+            result.push({
+                name:       vars[i].trim(),
+                filename:   this._filename,
+                lineNumber: lineNumber,
+                type:       varType,
+                arraySize:  arraySize
+            });
         }
         return result;
     }
 
-    addVar(section, line) {
+    processVar(section, line) {
         let varLine = this.readLine(true);
         let varInfo = this.getVarInfoFromLine(varLine)[0];
         varInfo.description = this.getItalicWords(line);
         this.addTypedText(section, 'var', varInfo);
     }
 
-    addRecord(section, line) {
+    processRecord(section, line) {
+        let lineNumber = this._index;
         let recordLine = this.readLine(true);
         let record     = {
                 description: this.getItalicWords(line),
                 name:        recordLine.substr(6, recordLine.length - 6).trim(),
+                filename:    this._filename,
+                lineNumber:  lineNumber + 1,
                 fields:      []
             };
         let nextLine   = this.peekLine(true);
@@ -75,10 +85,12 @@ exports.WhlFileProcessor = class extends FileProcessor {
         this.addTypedText(section, 'record', record);
     }
 
-    addConst(section, line) {
+    processConst(section, line) {
         let nextLine = this.peekLine().trim();
         let constant = {
                 id:          this.getNextId(),
+                filename:    this._filename,
+                lineNumber:  this._index + 1,
                 description: this.getItalicWords(line),
                 values:      []
             };
@@ -101,6 +113,8 @@ exports.WhlFileProcessor = class extends FileProcessor {
         let proc               = {
                 id:          this.getNextId(),
                 name:        '',
+                filename:    this._filename,
+                lineNumber:  this._index + 1,
                 description: line,
                 params:      [],
                 device:      ''
@@ -201,13 +215,13 @@ exports.WhlFileProcessor = class extends FileProcessor {
                             device = line.substr(j, line.length - j).trim();
                             break;
                         case '@const':
-                            this.addConst(constantsSection, line.substr(j, line.length - j).trim());
+                            this.processConst(constantsSection, line.substr(j, line.length - j).trim());
                             break;
                         case '@var':
-                            this.addVar(varSection, line.substr(j, line.length - j).trim());
+                            this.processVar(varSection, line.substr(j, line.length - j).trim());
                             break;
                         case '@record':
-                            this.addRecord(recordSection, line.substr(j, line.length - j).trim());
+                            this.processRecord(recordSection, line.substr(j, line.length - j).trim());
                             break;
                         case '@proc':
                             try {

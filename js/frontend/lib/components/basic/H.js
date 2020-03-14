@@ -10,6 +10,7 @@ exports.H = class extends DOMNode {
         this._size      = opts.size      || '1';
         this._innerHTML = opts.innerHTML || '';
         this._title     = opts.title     || '';
+        this._className = opts.className || '';
         this.initDOM(opts.parentNode);
     }
 
@@ -19,7 +20,8 @@ exports.H = class extends DOMNode {
             {
                 type:      'h' + this._size,
                 innerHTML: this._innerHTML,
-                title:     this._title
+                title:     this._title,
+                className: this._className
             }
         );
     }

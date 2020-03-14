@@ -247,18 +247,20 @@ exports.Setup = class extends DOMNode {
     }
 
     onShow(opts) {
+        let refs = this._refs;
         this._setupElement.className = 'setup';
         this._fileIndex              = 0;
-        this._refs.cancelButton
+        refs.cancelButton
             .setDisabled(false)
             .setVisible(true);
         this._homedirButtonElement
             .setDisabled(false)
             .focus();
-        this._refs.installWheelFilesButton.setDisabled(false);
+        refs.installWheelFilesButton.setDisabled(false);
         this._ui.pushUIId(this._uiId);
         if (opts && opts.canCancel) {
-            this._refs.cancelButton.setVisible(true);
+            refs.moveToApplicationFolder && refs.moveToApplicationFolder.setVisible(false);
+            refs.cancelButton.setVisible(true);
         }
         return this;
     }

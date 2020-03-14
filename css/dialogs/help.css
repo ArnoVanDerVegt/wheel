@@ -219,6 +219,14 @@
     opacity:                        0.8;
     margin-bottom:                  12px;
 }
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file h5.title-with-source {
+    margin-bottom:                  2px;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.source-location {
+    font-size:                      11px;
+    opacity:                        0.75;
+    margin-bottom:                  16px;
+}
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file hr {
     width:                          100%;
     opacity:                        0.5;
