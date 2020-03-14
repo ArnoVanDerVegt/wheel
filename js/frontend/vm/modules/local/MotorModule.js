@@ -10,7 +10,6 @@ exports.MotorModule = class extends VMModule {
         let vm     = this._vm;
         let vmData = this._vmData;
         let motor;
-        console.log(commandId);
         switch (commandId) {
             case motorModuleConstants.MOTOR_SET_TYPE:
                 this.emit('Motor.SetType', vmData.getRecordFromSrcOffset(['layer', 'id', 'type']));

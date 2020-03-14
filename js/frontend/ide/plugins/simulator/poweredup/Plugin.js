@@ -112,14 +112,11 @@ exports.Plugin = class extends Plugin {
     }
 
     getMotorCount() {
-        let layerState = this._poweredUp.getLayerState(this._simulator.getLayer());
-        if (layerState) {
-            switch (layerState.getType()) {
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return 4;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_HUB:         return 2;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return 0;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return 4;
-            }
+        switch (this.getDeviceTypeByLayer(this._simulator.getLayer())) {
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return 4;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_HUB:         return 2;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return 0;
+            case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB: return 4;
         }
         return 0;
     }
@@ -217,13 +214,17 @@ exports.Plugin = class extends Plugin {
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
-        super.showLayer(layer);
+        this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        this.showMotors();
         let layerState = this._poweredUp.getLayerState(layer);
+        let motors     = this._motors;
         if (layerState && layerState.getConnected()) {
-            this._setDeviceType(layerState.getType());
+            let ports = layerState.getPorts();
+            for (let port = 0; port < 4; port++) {
+                motors[layer * 4 + port].onAssigned(ports[i].assigned);
+            }
         } else if ((layer >= 0) && (layer <= 3)) {
             let simulatedLayerDevice = this._simulatedDevices.getLayer(layer);
-            let motors               = this._motors;
             for (let port = 0; port < 4; port++) {
                 motors[layer * 4 + port].onAssigned(simulatedLayerDevice.getPortType(port));
             }

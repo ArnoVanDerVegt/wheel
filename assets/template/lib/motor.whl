@@ -246,7 +246,7 @@ end
 ; @param threshold  The threshold, if the difference in degrees between the motor target and position is less
 ;                   than this value then the motor ready status returns `TRUE`.
 proc motorThreshold(number id, number threshold)
-    motorLayerThreshold(0, threshold)
+    motorLayerThreshold(0, id, threshold)
 end
 
 ; @proc             Wait until the given motors have reached their targets.

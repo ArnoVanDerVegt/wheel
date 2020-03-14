@@ -83,6 +83,8 @@ exports.Plugin = class extends SimulatorPlugin {
             if (layer === (i >> 2)) {
                 motors[i].setHidden(foundCount >= count);
                 foundCount++;
+            } else {
+                motors[i].setHidden(true);
             }
         }
     }
