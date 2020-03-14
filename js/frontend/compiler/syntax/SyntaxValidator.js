@@ -246,15 +246,18 @@ exports.SyntaxValidator = class {
                         if (currentTokens[token1.cls].e && currentTokens[token1.cls][token1.lexeme]) {
                             let expect = currentTokens[token1.cls][token1.lexeme];
                             if (!this.findInExpect(token2, expect)) {
+                                console.log('1)', token1.lexeme, '/', token2.lexeme, '/', currentScope.name);
                                 throw errors.createError(err.SYNTAX_ERROR, token1, 'Syntax error.');
                             }
                         } else {
                             let expect = currentTokens[token1.cls];
                             if (!this.findInExpect(token2, expect)) {
+                                console.log('2)', token1.lexeme, '/', token2.lexeme, '/', currentScope.name);
                                 throw errors.createError(err.SYNTAX_ERROR, token1, 'Syntax error.');
                             }
                         }
                     } else if (token1.cls !== t.TOKEN_WHITE_SPACE) {
+                        console.log('3)', token1.lexeme, '/', token2.lexeme, '/', currentScope.name);
                         throw errors.createError(err.SYNTAX_ERROR, token1, 'Syntax error.');
                     }
                 }

@@ -122,9 +122,10 @@ exports.booleanScopeTokens = function() {
         ];
     tokens[t.TOKEN_IDENTIFIER] = follow10;
 
-    // "not" -> IDENTIFIER
+    // "not" -> "(" | IDENTIFIER
     let follow11 = [
-            {token: t.TOKEN_IDENTIFIER}
+            {token: t.TOKEN_IDENTIFIER},
+            {token: t.TOKEN_PARENTHESIS_OPEN}
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_NOT] = follow11;
 
