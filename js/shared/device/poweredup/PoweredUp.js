@@ -353,7 +353,9 @@ exports.PoweredUp = class extends BasicDevice {
                 let motorDevice = port.motorDevice;
                 if (motorDevice) {
                     if (port.moving) {
-                        if (Math.abs(port.endDegrees - port.degrees) < port.threshold) {
+                        if ((Math.abs(port.endDegrees - port.degrees) < port.threshold) ||
+                            ((port.startDegrees < port.endDegrees) && (port.degrees >= port.endDegrees)) ||
+                            ((port.startDegrees > port.endDegrees) && (port.degrees <= port.endDegrees))) {
                             this.setDirection(port, DIRECTION_NONE);
                         } else if (port.degrees < port.endDegrees) {
                             this.setDirection(port, DIRECTION_FORWARD);
