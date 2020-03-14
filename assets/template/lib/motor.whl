@@ -19,6 +19,7 @@
 #define MOTOR_READ            9
 #define MOTOR_READY          10
 #define MOTOR_READY_BITS     11
+#define MOTOR_THRESHOLD      12
 
 ; @const Motor types.
 #define MOTOR_MEDIUM          7
@@ -151,6 +152,16 @@ proc motorLayerReadyBits(number layer, number bits)
     mod  MODULE_MOTOR, MOTOR_READY_BITS
 end
 
+; @proc             Set the threshold for the motor to reach the given angle, this proc only applies to Powered Up.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param threshold  The threshold, if the difference in degrees between the motor target and position is less
+;                   than this value then the motor ready status returns `TRUE`.
+proc motorLayerThreshold(number layer, number id, number threshold)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_THRESHOLD
+end
+
 ; @proc             Set the motor type for the main device.
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
 ; @param type       The type of motor: `MOTOR_MEDIUM` or `MOTOR_LARGE`.
@@ -227,6 +238,15 @@ end
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
 proc motorReadyBits(number bits)
     ret motorLayerReadyBits(0, bits)
+end
+
+; @device P
+; @proc             Set the threshold for the motor to reach the given angle, this proc only applies to Powered Up.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param threshold  The threshold, if the difference in degrees between the motor target and position is less
+;                   than this value then the motor ready status returns `TRUE`.
+proc motorThreshold(number id, number threshold)
+    motorLayerThreshold(0, threshold)
 end
 
 ; @proc             Wait until the given motors have reached their targets.

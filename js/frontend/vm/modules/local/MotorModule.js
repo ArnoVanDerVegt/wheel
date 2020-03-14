@@ -10,6 +10,7 @@ exports.MotorModule = class extends VMModule {
         let vm     = this._vm;
         let vmData = this._vmData;
         let motor;
+        console.log(commandId);
         switch (commandId) {
             case motorModuleConstants.MOTOR_SET_TYPE:
                 this.emit('Motor.SetType', vmData.getRecordFromSrcOffset(['layer', 'id', 'type']));
@@ -55,6 +56,9 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 motor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Motor.Ready', motor);
+                break;
+            case motorModuleConstants.MOTOR_THRESHOLD:
+                this.emit('Motor.Threshold', vmData.getRecordFromSrcOffset(['layer', 'id', 'threshold']));
                 break;
         }
     }

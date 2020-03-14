@@ -196,5 +196,25 @@ describe(
                 assert.equal(info.compiler.getUseInfo().getUsedModule(2, 3), false);
             }
         );
+        testModuleCall(
+            it,
+            'Should set threshold',
+            [
+                'proc threshold(number layer, number id, number threshold)',
+                '    addr layer',
+                '    mod  6, 12',
+                'end',
+                'proc main()',
+                '    threshold(2, 1, 45)',
+                'end'
+            ],
+            6, // Module id
+            'Motor.Threshold',
+            {
+                layer:     2,
+                id:        1,
+                threshold: 45
+            }
+        );
     }
 );

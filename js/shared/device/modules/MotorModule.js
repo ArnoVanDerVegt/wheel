@@ -66,6 +66,9 @@ exports.MotorModule = class extends DeviceModule {
                 break;
             case motorModuleConstants.MOTOR_READY:
                 break;
+            case motorModuleConstants.MOTOR_THRESHOLD:
+                this._device.motorThreshold(data.layer, data.id, data.threshold);
+                break;
         }
     }
 };

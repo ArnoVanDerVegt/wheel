@@ -233,6 +233,12 @@ exports.MotorModule = class extends VMModule {
                     vmData.setNumberAtRet(0);
                 }
                 break;
+            case motorModuleConstants.MOTOR_THRESHOLD:
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'threshold']);
+                if (this.getLayerAndIdValid(motor.layer, motor.id)) {
+                    this.callModule(motorModuleConstants.MOTOR_THRESHOLD, 'Motor.Threshold', motor);
+                }
+                break;
         }
     }
 };

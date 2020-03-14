@@ -52,6 +52,7 @@ exports.BasicDevice = class {
     motorDegrees(layer, motor, speed, degrees, brake, callback) {}
     motorOn(layer, motor, speed, brake, callback) {}
     motorStop(layer, motor, brake, callback) {}
+    motorThreshold(layer, motor, threshold) {}
     readTouchSensor(layer, port) {}
     readSensor(layer, port, type, mode) {}
     readMotor(layer, port) {}

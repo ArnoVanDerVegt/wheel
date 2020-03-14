@@ -54,7 +54,8 @@ exports.PoweredUp = class extends BasicDevice {
                 currentDirection: DIRECTION_NONE,
                 degrees:          0,
                 startDegrees:     null,
-                endDegrees:       null
+                endDegrees:       null,
+                threshold:        45
             });
         }
         return result;
@@ -352,7 +353,7 @@ exports.PoweredUp = class extends BasicDevice {
                 let motorDevice = port.motorDevice;
                 if (motorDevice) {
                     if (port.moving) {
-                        if (Math.abs(port.endDegrees - port.degrees) < 45) {
+                        if (Math.abs(port.endDegrees - port.degrees) < port.threshold) {
                             this.setDirection(port, DIRECTION_NONE);
                         } else if (port.degrees < port.endDegrees) {
                             this.setDirection(port, DIRECTION_FORWARD);
@@ -371,7 +372,7 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        const motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getDevice(layer, motor);
         if (!motorDevice) {
             return;
         }
@@ -395,7 +396,7 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        const motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getDevice(layer, motor);
         if (motorDevice) {
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
             motorDevice.setPower        && motorDevice.setPower(speed);
@@ -408,13 +409,20 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        const motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getDevice(layer, motor);
         if (motorDevice) {
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
             motorDevice.stop            && motorDevice.stop();
             motorDevice.setBrightness   && motorDevice.setBrightness(0);
         }
         callback && callback();
+    }
+
+    motorThreshold(layer, motor, threshold) {
+        if (!this.getHubConnected(layer)) {
+            return;
+        }
+        this._layers[layer].ports[motor].threshold = threshold;
     }
 
     readTouchSensor(layer, port) {}
