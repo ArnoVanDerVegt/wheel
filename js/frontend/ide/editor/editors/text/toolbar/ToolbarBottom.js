@@ -10,6 +10,46 @@ const Checkbox   = require('../../../../../lib/components/Checkbox').Checkbox;
 const TextInput  = require('../../../../../lib/components/TextInput').TextInput;
 const tabIndex   = require('../../../../tabIndex');
 
+/*
+Todo: show connection status in toolbar
+
+    // this._device
+    //     .addEventListener('EV3.Connected',    this, this.onEV3Connected)
+    //     .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
+    //     .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
+
+    // clearDisconnectedTimeout() {
+    //     if (this._disconnectedTimeout) {
+    //         clear(this._disconnectedTimeout);
+    //     }
+    //     this._disconnectedTimeout = null;
+    // }
+
+    // onEV3Connecting(deviceName) {
+    //     this.clearDisconnectedTimeout();
+    //     //this._autoResetPanelElement.style.display = 'none';
+    // }
+
+    // onEV3Connected() {
+    //     this.clearDisconnectedTimeout();
+    //     this._connected                           = true;
+    //     //this._autoResetPanelElement.style.display = 'none';
+    // }
+
+    // onEV3Disconnected() {
+    //     this.clearDisconnectedTimeout();
+    //     this._connected = true;
+    //     this._disconnectedTimeout = setTimeout(
+    //         (function() {
+    //             //this._autoResetPanelElement.style.display = 'block';
+    //             this._disconnectedTimeout                 = null;
+    //         }).bind(this),
+    //         5000
+    //     );
+    // }
+*/
+
+
 exports.ToolbarBottom = class extends Toolbar {
     constructor(opts) {
         super(opts);

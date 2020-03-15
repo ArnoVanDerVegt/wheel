@@ -3,7 +3,6 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
-const IconSelect            = require('../../../../../lib/components/IconSelect').IconSelect;
 const getImage              = require('../../../../data/images').getImage;
 const Sensor                = require('./Sensor').Sensor;
 
@@ -14,20 +13,7 @@ exports.ColorSensor = class extends Sensor {
             'images/ev3/color.png',
             true, // With mode
             [
-                {
-                    className: 'value hidden',
-                    ref:       this.setRef('colorValue'),
-                    children: [
-                        {
-                            ref:      this.setRef('colorValueInput'),
-                            type:     IconSelect,
-                            ui:       this._ui,
-                            tabIndex: this._tabIndex,
-                            options:  this.getColorOptions(),
-                            onChange: this.onChangeValue.bind(this)
-                        }
-                    ]
-                },
+                this.getColorValueInput(),
                 this.getNumberValueInput()
             ]
         );
@@ -54,19 +40,6 @@ exports.ColorSensor = class extends Sensor {
             this._value                    = value;
             this._numberInputElement.value = value;
        }
-    }
-
-    getColorOptions() {
-        return [
-            {value: 0, icon: getImage('images/constants/colorNone.svg')},
-            {value: 1, icon: getImage('images/constants/colorBlack.svg')},
-            {value: 2, icon: getImage('images/constants/colorBlue.svg')},
-            {value: 3, icon: getImage('images/constants/colorGreen.svg')},
-            {value: 4, icon: getImage('images/constants/colorYellow.svg')},
-            {value: 5, icon: getImage('images/constants/colorRed.svg')},
-            {value: 6, icon: getImage('images/constants/colorWhite.svg')},
-            {value: 7, icon: getImage('images/constants/colorBrown.svg')}
-        ];
     }
 
     getContextMenuOptions() {

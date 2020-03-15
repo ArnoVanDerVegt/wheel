@@ -36,3 +36,6 @@ exports.POWERED_UP_DEVICE_POWERED_UP_REMOTE_BUTTON     = 55;
 exports.POWERED_UP_DEVICE_RSSI                         = 56;
 exports.POWERED_UP_DEVICE_CONTROL_PLUS_ACCELEROMETER   = 58;
 exports.POWERED_UP_DEVICE_CONTROL_PLUS_TILT            = 59;
+
+exports.POWERED_UP_SENSOR_MODE_DISTANCE                =  0;
+exports.POWERED_UP_SENSOR_MODE_COLOR                   =  1;

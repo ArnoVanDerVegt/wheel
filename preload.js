@@ -339,7 +339,7 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
-require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
+require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorOrSensorState');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorOrSensor');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedLayerDevice');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedDevices');

@@ -95,7 +95,10 @@ exports.LAYER_4_SENSOR_3            = 4806;
 exports.LAYER_4_SENSOR_4            = 4807;
 exports.SENSOR_AUTO_RESET           = 4808;
 
+// Plugins
+exports.SIMULATOR_PLUGINS           = 4832;
+
 // Console
-exports.CONSOLE_TABS                = 5024;
-exports.CONSOLE_CLEAR_BUTTON        = 5040;
-exports.CLOSE_CONSOLE               = 5041;
+exports.CONSOLE_TABS                = 6400;
+exports.CONSOLE_CLEAR_BUTTON        = 6432;
+exports.CLOSE_CONSOLE               = 6433;

@@ -104,22 +104,43 @@ body.ide.no-simulator div.simulator {
     float:                          right;
     margin:                         8px 8px 0 0;
 }
-.simulator .ev3-background {
-    float:                          left;
+
+/* Auto reset sensors */
+.auto-reset {
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
     width:                          100%;
-    height:                         100%;
-    padding:                        16px 0 256px 17px;
+    height:                         32px;
+    padding:                        4px 0 0 16px;
+}
+.auto-reset .label {
+    float:                          left;
+    margin:                         2.5px 0 0 8px;
+    line-height:                    16px;
+}
+.auto-reset .checkbox {
+    float:                          left;
+}
+
+/* Simulator plugins */
+.simulator .plugin-container {
+    position:                       absolute;
+    top:                            72px;
+    bottom:                         0px;
+    width:                          100%;
+    padding:                        0 0 256px 17px;
     margin:                         0;
     overflow:                       hidden;
     overflow-y:                     scroll;
 }
-.simulator .ev3-background.stand-alone .ev3-background {
+.simulator .plugin-container.stand-alone .ev3-background {
     border-radius:                  2px;
 }
-.simulator .ev3-background.stand-alone .simulator-options {
+.simulator .plugin-container.stand-alone .simulator-options {
     border:                         0;
 }
-.simulator .ev3-background.stand-alone .simulator-options .button.run {
+.simulator .plugin-container.stand-alone .simulator-options .button.run {
     margin-left:                    0;
 }
 
@@ -152,4 +173,16 @@ body.ide.no-simulator div.simulator {
     font-size:                      13px;
     text-align:                     center;
     margin-top:                     1px;
+}
+.simulator .sensors .title.with-mode,
+.simulator .motors .title.with-mode {
+    cursor:                         pointer;
+}
+.simulator .sensors .sensor .value .icon-select,
+.simulator .motors .motor .value .icon-select {
+    float:                          left;
+    margin:                         -2px 0 0 14px;
+}
+.simulator .motors .motor .value .icon-select {
+    margin:                         -2px 0 0 16px;
 }

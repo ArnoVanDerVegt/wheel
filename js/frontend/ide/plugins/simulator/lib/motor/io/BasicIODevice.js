@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode  = require('../../../../../../lib/dom').DOMNode;
-const getImage = require('../../../../../data/images').getImage;
+const DOMNode    = require('../../../../../../lib/dom').DOMNode;
+const IconSelect = require('../../../../../../lib/components/IconSelect').IconSelect;
+const getImage   = require('../../../../../data/images').getImage;
 
 exports.BasicIODevice = class extends DOMNode {
     constructor(opts) {
@@ -46,6 +47,23 @@ exports.BasicIODevice = class extends DOMNode {
         this.setTimeoutReset();
     }
 
+    onClickTitle(element, event) {
+        let offsetX = element.offsetLeft;
+        let offsetY = element.offsetTop;
+        let parent  = element.offsetParent;
+        while (parent) {
+            offsetX += parent.offsetLeft;
+            offsetY += parent.offsetTop;
+            parent = parent.offsetParent;
+        }
+        parent = element.offsetParent.offsetParent;
+        this._sensors.showContextMenu(
+            this,
+            {x: offsetX + parent.scrollLeft, y: offsetY - parent.scrollTop},
+            event
+        );
+    }
+
     onResetTimeout() {
         this._timeoutReset = null;
         this._value        = 0;
@@ -53,25 +71,37 @@ exports.BasicIODevice = class extends DOMNode {
 
     setTitleElement(element) {
         this._titleElement = element;
-        element.addEventListener(
-            'click',
-            (function(event) {
-                let offsetX = element.offsetLeft;
-                let offsetY = element.offsetTop;
-                let parent  = element.offsetParent;
-                while (parent) {
-                    offsetX += parent.offsetLeft;
-                    offsetY += parent.offsetTop;
-                    parent = parent.offsetParent;
+        element.addEventListener('click', this.onClickTitle.bind(this, element));
+    }
+
+    getColorOptions() {
+        return [
+            {value: 0, icon: getImage('images/constants/colorNone.svg')},
+            {value: 1, icon: getImage('images/constants/colorBlack.svg')},
+            {value: 2, icon: getImage('images/constants/colorBlue.svg')},
+            {value: 3, icon: getImage('images/constants/colorGreen.svg')},
+            {value: 4, icon: getImage('images/constants/colorYellow.svg')},
+            {value: 5, icon: getImage('images/constants/colorRed.svg')},
+            {value: 6, icon: getImage('images/constants/colorWhite.svg')},
+            {value: 7, icon: getImage('images/constants/colorBrown.svg')}
+        ];
+    }
+
+    getColorValueInput() {
+        return {
+            className: 'value hidden',
+            ref:       this.setRef('colorValue'),
+            children: [
+                {
+                    ref:      this.setRef('colorValueInput'),
+                    type:     IconSelect,
+                    ui:       this._ui,
+                    tabIndex: this._tabIndex,
+                    options:  this.getColorOptions(),
+                    onChange: this.onChangeValue.bind(this)
                 }
-                parent = element.offsetParent.offsetParent;
-                this._sensors.showContextMenu(
-                    this,
-                    {x: offsetX + parent.scrollLeft, y: offsetY + parent.scrollTop},
-                    event
-                );
-            }).bind(this)
-        );
+            ]
+        };
     }
 
     getNumberValueInput() {
@@ -92,7 +122,7 @@ exports.BasicIODevice = class extends DOMNode {
     }
 
     setTimeoutReset() {
-        if (!this._sensors.getAutoReset()) {
+        if (!this._simulator.getAutoReset()) {
             return;
         }
         if (this._timeoutReset) {
@@ -104,10 +134,6 @@ exports.BasicIODevice = class extends DOMNode {
 
     getType() {
         return this._sensorContainer.getType();
-    }
-
-    setMode(mode) {
-        this._mode = mode;
     }
 
     setValue(value) {
@@ -154,6 +180,10 @@ exports.BasicIODevice = class extends DOMNode {
 
     getMode() {
        return this._mode;
+    }
+
+    setMode(mode) {
+        this._mode = mode;
     }
 
     getContextMenuOptions() {

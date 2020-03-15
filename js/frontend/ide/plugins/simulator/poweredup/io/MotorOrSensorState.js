@@ -8,11 +8,19 @@ const MODE_OFF    = 0;
 const MODE_ON     = 1;
 const MODE_TARGET = 2;
 
-exports.MotorState = class extends MotorState {
+exports.MotorOrSensorState = class extends MotorState {
+    constructor(opts) {
+        super(opts);
+        this._deviceInfo = opts.deviceInfo;
+    }
+
     setType(type) {
-        type = (type & 1);
-        this._type = type;
-        this._rpm  = [272, 105][type];
+        if ((type in this._deviceInfo) || ([0, 1].indexOf(type) !== -1)) {
+            this._type = type;
+        } else {
+            this._type = -1;
+        }
+        this._rpm = 272;
         return this._type;
     }
 };

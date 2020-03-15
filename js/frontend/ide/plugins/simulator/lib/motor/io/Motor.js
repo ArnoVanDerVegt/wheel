@@ -18,7 +18,7 @@ exports.Motor = class extends BasicIODevice {
         this._positionElement   = null;
         this._readyElement      = null;
         this._speedValueElement = null;
-        this._state             = new MotorState(opts);
+        this._state             = opts.MotorState ? new opts.MotorState(opts) : new MotorState(opts);
         this._resetTimeout      = null;
         opts.addMotor(this);
         this.initDOM(opts.parentNode);
@@ -33,6 +33,7 @@ exports.Motor = class extends BasicIODevice {
                 children: [
                     {
                         className: 'title',
+                        ref:       this.setRef('sensorTitle'),
                         children: [
                             {
                                 type:      'img',

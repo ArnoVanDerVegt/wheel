@@ -86,14 +86,11 @@ body.ide div.editor-wrapper .editor {
     margin:                         8px 8px 0 0;
 }
 
-/* Auto reset sensors */
-.auto-reset,
+/* Connection status */
 .connection {
     float:                          left;
     margin:                         8px 0 16px 0;
     width:                          100%;
-}
-.connection {
     display:                        none;
 }
 .connection .device-info {
@@ -103,14 +100,7 @@ body.ide div.editor-wrapper .editor {
     text-overflow:                  ellipsis;
     width:                          268px;
 }
-.auto-reset .label {
-    float:                          left;
-    margin:                         2.5px 0 0 8px;
-    line-height:                    16px;
-}
-.auto-reset .checkbox {
-    float:                          left;
-}
+
 /* Storage in title bar */
 .main-menu .storage {
     float:                          right;

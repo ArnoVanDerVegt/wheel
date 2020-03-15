@@ -76,6 +76,7 @@ exports.IconSelect = class extends DOMNode {
         this._open              = !this._open;
         this._focus             = true;
         this._element.className = this.getClassName();
+        this.updateListPosition();
     }
 
     onClickOption(index) {
@@ -86,6 +87,27 @@ exports.IconSelect = class extends DOMNode {
         this._value               = option.value;
         this._selectedElement.src = option.icon;
         this._onChange && this._onChange(this._value);
+    }
+
+    updateListPosition() {
+        if (!this._open) {
+            return;
+        }
+        let element = this._element;
+        let offsetY = element.offsetTop;
+        let parent  = element.offsetParent;
+        while (parent) {
+            offsetY += parent.offsetTop;
+            parent = parent.offsetParent;
+            if (parent) {
+                offsetY += (parent.scrollTop || 0);
+            }
+        }
+        if (offsetY < window.innerHeight / 2) {
+            this._optionsElement.style.top = '26px';
+        } else {
+            this._optionsElement.style.top = '-' + (this._options.length * 18 + 1) + 'px';
+        }
     }
 
     getValue() {
@@ -145,7 +167,6 @@ exports.IconSelect = class extends DOMNode {
 
     setOptionsElement(element) {
         let height = this._options.length * 18 + 1;
-
         this._optionsElement              = element;
         this._optionsElement.style.top    = '-' + height + 'px';
         this._optionsElement.style.height = height + 'px';

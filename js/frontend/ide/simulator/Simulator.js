@@ -5,6 +5,8 @@
 const dispatcher          = require('../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../lib/dom').DOMNode;
 const Button              = require('../../lib/components/Button').Button;
+const Checkbox            = require('../../lib/components/Checkbox').Checkbox;
+const tabIndex            = require('../tabIndex');
 const SimulatorToolbar    = require('./SimulatorToolbar').SimulatorToolbar;
 const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection;
 
@@ -37,7 +39,7 @@ exports.Simulator = class extends DOMNode {
         let children = [];
         let settings = this._settings;
         plugins.forEach(
-            function(plugin) {
+            function(plugin, index) {
                 let uuid = plugin.uuid;
                 dispatcher.on(
                     'Menu.Simulator.' + uuid,
@@ -54,7 +56,8 @@ exports.Simulator = class extends DOMNode {
                     ev3:       this._ev3,
                     poweredUp: this._poweredUp,
                     settings:  settings,
-                    simulator: this
+                    simulator: this,
+                    tabIndex:  tabIndex.SIMULATOR_PLUGINS + index * 96
                 });
             },
             this
@@ -76,7 +79,25 @@ exports.Simulator = class extends DOMNode {
                         simulator: this
                     },
                     {
-                        className: 'ev3-background',
+                        id:        this.setAutoResetPanel.bind(this),
+                        className: 'auto-reset',
+                        children: [
+                            {
+                                id:       this.setAutoResetCheckbox.bind(this),
+                                ui:       this._ui,
+                                uiId:     1,
+                                type:     Checkbox,
+                                tabIndex: tabIndex.SENSOR_AUTO_RESET,
+                                checked:  true
+                            },
+                            {
+                                className: 'label',
+                                innerHTML: 'Auto reset sensor value'
+                            }
+                        ]
+                    },
+                    {
+                        className: 'plugin-container',
                         children: this.initPlugins().concat({
                             type: SimulatorConnection,
                             ui:   this._ui,
@@ -91,6 +112,18 @@ exports.Simulator = class extends DOMNode {
 
     registerPlugin(uuid, plugin) {
         this._plugins[uuid] = plugin;
+    }
+
+    getAutoReset() {
+        return this._autoResetCheckbox.getChecked();
+    }
+
+    setAutoResetPanel(element) {
+        this._autoResetPanelElement = element;
+    }
+
+    setAutoResetCheckbox(element) {
+        this._autoResetCheckbox = element;
     }
 
     getPluginByName(name) {

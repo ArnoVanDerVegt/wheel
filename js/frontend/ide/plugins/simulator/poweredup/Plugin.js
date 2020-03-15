@@ -24,6 +24,7 @@ exports.Plugin = class extends Plugin {
     constructor(opts) {
         opts.motorConstructor = MotorOrSensor;
         opts.ev3              = opts.poweredUp; // Hack device should be fixed!
+        opts.constants        = poweredUpModuleConstants;
         super(opts);
         this.initEvents();
         this._buttons          = null;
@@ -86,11 +87,6 @@ exports.Plugin = class extends Plugin {
                 }
             ]
         };
-    }
-
-    getAutoReset() {
-        console.log('Auto reset');
-        return true;
     }
 
     getDeviceByType(type) {

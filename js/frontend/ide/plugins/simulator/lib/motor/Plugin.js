@@ -30,6 +30,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 sensors:   this,
                 device:    this._device,
                 layer:     ~~(i / 4),
+                ui:        this._ui,
                 id:        i & 3,
                 title:     String.fromCharCode(65 + (i & 3)),
                 addMotor:  addMotor,
