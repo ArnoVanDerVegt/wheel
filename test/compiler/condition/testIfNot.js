@@ -106,7 +106,7 @@ describe(
             }
         );
         describe(
-            'Test and not',
+            'Test and not without parenthesis',
             function() {
                 testLogs(
                     it,
@@ -156,6 +156,67 @@ describe(
                         '    a = 4',
                         '    b = 5',
                         '    if not a == 4 and not b == 5',
+                        '        addr b',
+                        '        mod 0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                    ]
+                );
+            }
+        );
+        describe(
+            'Test and not with parenthesis',
+            function() {
+                testLogs(
+                    it,
+                    'Should evaluate true - if (a == 4) and not (b == 5)',
+                    [
+                        'number a',
+                        'number b',
+                        'proc main()',
+                        '    a = 4',
+                        '    b = 6',
+                        '    if (a == 4) and not (b == 5)',
+                        '        addr a',
+                        '        mod 0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        4
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should evaluate true - if not (a == 4) and (b == 5)',
+                    [
+                        'number a',
+                        'number b',
+                        'proc main()',
+                        '    a = 5',
+                        '    b = 5',
+                        '    if not (a == 4) and (b == 5)',
+                        '        addr b',
+                        '        mod 0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        5
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should evaluate true - if not (a == 4) and not (b == 5)',
+                    [
+                        'number a',
+                        'number b',
+                        'proc main()',
+                        '    a = 4',
+                        '    b = 5',
+                        '    if not (a == 4) and not (b == 5)',
                         '        addr b',
                         '        mod 0, 1',
                         '    end',
