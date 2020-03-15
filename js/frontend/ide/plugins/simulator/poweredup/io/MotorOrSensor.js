@@ -16,7 +16,7 @@ deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR]
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS               ] = {src: 'images/poweredup/light.png',       motor: false, value: false};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE           ] = {src: 'images/poweredup/lightSensor.png', motor: false, value: true};
 
-exports.Motor = class extends Motor {
+exports.MotorOrSensor = class extends Motor {
     constructor(opts) {
         opts.image  = 'images/poweredup/motor.svg';
         super(opts);
@@ -26,19 +26,41 @@ exports.Motor = class extends Motor {
         this.setType(0);
     }
 
+    getExtraElements() {
+        return [
+            this.getNumberValueInput()
+        ];
+    }
+
     setType(type) {
-        if (deviceInfo[type]) {
-            this._imageElement.style.display    = 'block';
-            this._speedElement.style.display    = 'block';
-            this._imageElement.src              = getImage(deviceInfo[type].src);
-            this._positionElement.style.display = deviceInfo[type].value ? 'block' : 'none';
-            this._speedElement.style.display    = deviceInfo[type].motor ? 'block' : 'none';
+        let info = deviceInfo[type];
+        if (info) {
+            let isMotor = info.motor;
+            this._refs.numberValue.className     = 'value hidden';
+            this._imageElement.style.display     = 'block';
+            this._speedElement.style.display     = 'block';
+            this._imageElement.src               = getImage(info.src);
+            this._speedElement.style.display     = isMotor ? 'block' : 'none';
+            if (isMotor || this._device.getConnected()) {
+                this._positionElement.style.display = deviceInfo[type].value ? 'block' : 'none';
+            } else {
+                // Not connected, no motor: allow input in the simulator...
+                this._positionElement.style.display = 'none';
+                this._refs.numberValue.className    = 'value';
+            }
         } else {
             this._imageElement.style.display    = 'none';
             this._positionElement.style.display = 'none';
             this._speedElement.style.display    = 'none';
         }
         this._state.setType(type);
+    }
+
+    onResetTimeout() {
+        // Todo: this._refs.colorValueInput.setValue(0);
+        this._numberInputElement.value = 0;
+        this._timeoutReset             = null;
+        this._value                    = 0;
     }
 
     onValueChanged(value) {

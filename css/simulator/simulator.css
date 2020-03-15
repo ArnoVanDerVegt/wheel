@@ -58,17 +58,6 @@ body.ide.no-simulator div.simulator {
 .simulator .sensors .sensor-container.hidden {
     display:                        none;
 }
-.simulator .motors .motor .position,
-.simulator .sensors .sensor .value {
-    position:                       absolute;
-    left:                           1px;
-    width:                          calc(100% - 2px);
-    height:                         18px;
-    line-height:                    18px;
-    text-align:                     center;
-    font-size:                      15px;
-    font-family:                    monospace;
-}
 .simulator .sensors .sensor .value.multiplexer .checkbox.green {
     width:                          19px;
     height:                         19px;
@@ -132,4 +121,35 @@ body.ide.no-simulator div.simulator {
 }
 .simulator .ev3-background.stand-alone .simulator-options .button.run {
     margin-left:                    0;
+}
+
+/* Shared between sensor and motor... */
+.simulator .motors .motor .position,
+.simulator .motors .motor .value,
+.simulator .sensors .sensor .value {
+    position:                       absolute;
+    left:                           1px;
+    width:                          calc(100% - 2px);
+    height:                         18px;
+    line-height:                    18px;
+    text-align:                     center;
+    font-size:                      15px;
+    font-family:                    monospace;
+}
+.simulator .motors .motor .value {
+    top:                            55px;
+}
+.simulator .sensors .sensor .value.hidden,
+.simulator .motors .motor .value.hidden {
+    display:                        none;
+}
+.simulator .sensors .sensor .value input[type="text"],
+.simulator .motors .motor .value input[type="text"] {
+    outline:                        none;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    width:                          47px;
+    font-family:                    monospace;
+    font-size:                      13px;
+    text-align:                     center;
+    margin-top:                     1px;
 }

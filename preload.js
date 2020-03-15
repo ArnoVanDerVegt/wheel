@@ -311,6 +311,7 @@ require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
 require('./js/frontend/ide/plugins/simulator/lib/SimulatorPlugin');
 require('./js/frontend/ide/plugins/simulator/lib/motor/io/MotorState');
+require('./js/frontend/ide/plugins/simulator/lib/motor/io/BasicIODevice');
 require('./js/frontend/ide/plugins/simulator/lib/motor/io/Motor');
 require('./js/frontend/ide/plugins/simulator/lib/motor/Plugin');
 require('./js/frontend/ide/plugins/simulator/ev3/io/text/Text');
@@ -339,7 +340,7 @@ require('./js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('./js/frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('./js/frontend/ide/plugins/simulator/psp/Plugin'),
 require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorState');
-require('./js/frontend/ide/plugins/simulator/poweredup/io/Motor');
+require('./js/frontend/ide/plugins/simulator/poweredup/io/MotorOrSensor');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedLayerDevice');
 require('./js/frontend/ide/plugins/simulator/poweredup/io/SimulatedDevices');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/BasicHub');

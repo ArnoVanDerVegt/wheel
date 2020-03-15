@@ -15,9 +15,6 @@
 .simulator .sensors .title.with-mode {
     cursor:                         pointer;
 }
-/*.simulator .sensors.running .sensor .value {
-    pointer-events:                 none;
-}*/
 .simulator .sensors .sensor .value .checkbox {
     float:                          left;
     margin:                         0 0 0 16.5px;
@@ -26,7 +23,7 @@
     float:                          left;
     margin:                         -2px 0 0 14px;
 }
-.simulator .sensors .sensor .value.hidden {
+/*.simulator .sensors .sensor .value.hidden {
     display:                        none;
 }
 .simulator .sensors .sensor .value input[type="text"] {
@@ -38,3 +35,4 @@
     text-align:                     center;
     margin-top:                     1px;
 }
+*/

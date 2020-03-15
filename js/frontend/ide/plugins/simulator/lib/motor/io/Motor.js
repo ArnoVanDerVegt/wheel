@@ -7,17 +7,12 @@ const dispatcher           = require('../../../../../../lib/dispatcher').dispatc
 const DOMNode              = require('../../../../../../lib/dom').DOMNode;
 const getImage             = require('../../../../../data/images').getImage;
 const MotorState           = require('./MotorState').MotorState;
+const BasicIODevice        = require('./BasicIODevice').BasicIODevice;
 
-exports.Motor = class extends DOMNode {
+exports.Motor = class extends BasicIODevice {
     constructor(opts) {
         super(opts);
         this._image             = opts.image || 'images/ev3/motorMedium.png';
-        this._device            = opts.device;
-        this._simulator         = opts.simulator;
-        this._layer             = opts.layer;
-        this._id                = opts.id;
-        this._hidden            = opts.hidden;
-        this._title             = opts.title;
         this._motorElement      = null;
         this._imageElement      = null;
         this._positionElement   = null;
@@ -76,9 +71,16 @@ exports.Motor = class extends DOMNode {
                         className: 'position',
                         id:        this.setPositionElement.bind(this)
                     }
-                ]
+                ].concat(this.getExtraElements())
             }
         );
+    }
+
+    /**
+     * Subclasses can implement this function and add extra elements such as a number input to this device.
+    **/
+    getExtraElements() {
+        return [];
     }
 
     setReadyElement(element) {

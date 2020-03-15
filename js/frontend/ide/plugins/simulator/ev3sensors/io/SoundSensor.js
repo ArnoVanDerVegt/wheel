@@ -10,7 +10,7 @@ exports.SoundSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/sound.png',
+            'images/ev3/microphone.png',
             false, // With mode
             [
                 this.getNumberValueInput()

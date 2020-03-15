@@ -27,6 +27,7 @@ exports.Plugin = class extends SimulatorPlugin {
             children.push({
                 simulator: this._simulator,
                 type:      Motor,
+                sensors:   this,
                 device:    this._device,
                 layer:     ~~(i / 4),
                 id:        i & 3,

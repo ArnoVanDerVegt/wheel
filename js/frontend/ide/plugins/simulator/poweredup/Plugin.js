@@ -8,7 +8,7 @@ const DOMNode                  = require('../../../../lib/dom').DOMNode;
 const TextInput                = require('../../../../lib/components/TextInput').TextInput;
 const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin                   = require('../lib/motor/Plugin').Plugin;
-const Motor                    = require('./io/Motor').Motor;
+const MotorOrSensor            = require('./io/MotorOrSensor').MotorOrSensor;
 const SimulatedDevices         = require('./io/SimulatedDevices').SimulatedDevices;
 const Hub                      = require('./components/Hub').Hub;
 const TechnicHub               = require('./components/TechnicHub').TechnicHub;
@@ -22,7 +22,7 @@ const dummyLight = {
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
-        opts.motorConstructor = Motor;
+        opts.motorConstructor = MotorOrSensor;
         opts.ev3              = opts.poweredUp; // Hack device should be fixed!
         super(opts);
         this.initEvents();
@@ -86,6 +86,11 @@ exports.Plugin = class extends Plugin {
                 }
             ]
         };
+    }
+
+    getAutoReset() {
+        console.log('Auto reset');
+        return true;
     }
 
     getDeviceByType(type) {

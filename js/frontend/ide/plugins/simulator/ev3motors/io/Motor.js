@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const getImage   = require('../../../../data/images').getImage;
 const Motor      = require('./../../lib/motor/io/Motor').Motor;
 const MotorState = require('./MotorState').MotorState;
-const getImage   = require('../../../../data/images').getImage;
 
 exports.Motor = class extends Motor {
     constructor(opts) {

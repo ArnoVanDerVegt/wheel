@@ -1,0 +1,21 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Hub distance sensor example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sensor.whl"
+#include "lib/poweredUp.whl"
+
+#display "Hub"
+
+proc main()
+    ; Select the Powered Up mode in the simulator
+    selectDevice(DEVICE_POWERED_UP)
+    ; Select the Hub device
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
+
+    sensorLayerSetType(LAYER_1, INPUT_1, POWERED_UP_DEVICE_BOOST_DISTANCE)
+
+    halt()
+end
