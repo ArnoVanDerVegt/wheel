@@ -157,6 +157,10 @@ exports.WheelEditor = class extends Editor {
         this._textareaElement = element;
     }
 
+    setBluetoothStatusElement(element) {
+        this._blueToothStatusElement = element;
+    }
+
     clearAllBreakpoints() {
         this._codeMirror.clearGutter('breakpoints');
         this._wheelEditorState.resetBreakpoints();
@@ -196,15 +200,19 @@ exports.WheelEditor = class extends Editor {
     }
 
     showFindToolbar() {
-        this._refs.findOptions.className = 'bottom-options';
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setFindVisible(true);
-        this._refs.findText.focus();
+        refs.findText.focus();
     }
 
     showReplaceToolbar() {
-        this._refs.wrapper.className        = 'code-mirror-wrapper with-replace';
-        this._refs.findOptions.className    = 'bottom-options';
-        this._refs.replaceOptions.className = 'bottom-options replace';
+        let refs = this._refs;
+        refs.wrapper.className          = 'code-mirror-wrapper with-replace';
+        refs.findOptions.className      = 'bottom-options';
+        refs.replaceOptions.className   = 'bottom-options replace';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setReplaceVisible(true);
         this._wheelEditorState.setFindVisible(true);
     }
@@ -363,9 +371,11 @@ exports.WheelEditor = class extends Editor {
     }
 
     hideReplaceOptions() {
-        this._refs.findOptions.className    = 'bottom-options hidden';
-        this._refs.replaceOptions.className = 'bottom-options hidden';
-        this._refs.wrapper.className        = 'code-mirror-wrapper';
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options hidden';
+        refs.replaceOptions.className   = 'bottom-options hidden';
+        refs.connectionStatus.className = 'bottom-options connection-status';
+        refs.wrapper.className          = 'code-mirror-wrapper';
         this._wheelEditorState.setFindVisible(false);
         this._wheelEditorState.setReplaceVisible(false);
     }

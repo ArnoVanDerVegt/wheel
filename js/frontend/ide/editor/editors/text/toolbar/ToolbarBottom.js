@@ -73,71 +73,10 @@ exports.ToolbarBottom = class extends Toolbar {
                 className: 'resource-options bottom',
                 children: [
                     this.addFileSaved(wheelEditor),
-                    {
-                        ref:       wheelEditor.setRef('findOptions'),
-                        className: 'bottom-options hidden',
-                        children: [
-                            // Find...
-                            {
-                                innerHTML: 'Find:',
-                                className: 'label find'
-                            },
-                            {
-                                ref:       wheelEditor.setRef('findText'),
-                                type:      TextInput,
-                                ui:        this._ui,
-                                tabIndex:  tabIndex.WHEEL_EDITOR_FIND_TEXT,
-                                onKeyUp:   wheelEditor.onFindKeyUp.bind(wheelEditor)
-                            },
-                            {
-                                type:      Button,
-                                ui:        this._ui,
-                                tabIndex:  tabIndex.WHEEL_EDITOR_FIND_BUTTON,
-                                className: 'find-button',
-                                value:     'Find',
-                                onClick:   wheelEditor.onFind.bind(wheelEditor)
-                            },
-                            // Case...
-                            {
-                                innerHTML: 'Match case:',
-                                className: 'label case'
-                            },
-                            {
-                                ref:       wheelEditor.setRef('findCaseSensitive'),
-                                type:      Checkbox,
-                                ui:        this._ui,
-                                uiId:      1,
-                                tabIndex:  tabIndex.WHEEL_EDITOR_TEXT_CASE
-                            }
-                        ]
-                    },
-                    {
-                        ref:       wheelEditor.setRef('replaceOptions'),
-                        className: 'bottom-options replace hidden',
-                        children: [
-                            // Replace...
-                            {
-                                innerHTML: 'Replace:',
-                                className: 'label find'
-                            },
-                            {
-                                ref:       wheelEditor.setRef('replaceText'),
-                                type:      TextInput,
-                                ui:        this._ui,
-                                tabIndex:  tabIndex.WHEEL_EDITOR_REPLACE_TEXT,
-                                onKeyUp:   wheelEditor.onReplaceKeyUp.bind(wheelEditor)
-                            },
-                            {
-                                type:      Button,
-                                ui:        this._ui,
-                                tabIndex:  tabIndex.WHEEL_EDITOR_REPLACE_BUTTON,
-                                className: 'find-button',
-                                value:     'Replace',
-                                onClick:   wheelEditor.onReplace.bind(wheelEditor)
-                            }
-                        ]
-                    },
+                    this.addFind(wheelEditor),
+                    this.addReplace(wheelEditor),
                     this.addCursorInfo(wheelEditor),
+                    this.addConnectionStatus(wheelEditor),
                     {
                         id:        this.setCompileInfo.bind(this),
                         className: 'compile-info'
@@ -145,6 +84,98 @@ exports.ToolbarBottom = class extends Toolbar {
                 ]
             }
         );
+    }
+
+    addFind(wheelEditor) {
+        return {
+            ref:       wheelEditor.setRef('findOptions'),
+            className: 'bottom-options hidden',
+            children: [
+                // Find...
+                {
+                    innerHTML: 'Find:',
+                    className: 'label find'
+                },
+                {
+                    ref:       wheelEditor.setRef('findText'),
+                    type:      TextInput,
+                    ui:        this._ui,
+                    tabIndex:  tabIndex.WHEEL_EDITOR_FIND_TEXT,
+                    onKeyUp:   wheelEditor.onFindKeyUp.bind(wheelEditor)
+                },
+                {
+                    type:      Button,
+                    ui:        this._ui,
+                    tabIndex:  tabIndex.WHEEL_EDITOR_FIND_BUTTON,
+                    className: 'find-button',
+                    value:     'Find',
+                    onClick:   wheelEditor.onFind.bind(wheelEditor)
+                },
+                // Case...
+                {
+                    innerHTML: 'Match case:',
+                    className: 'label case'
+                },
+                {
+                    ref:       wheelEditor.setRef('findCaseSensitive'),
+                    type:      Checkbox,
+                    ui:        this._ui,
+                    uiId:      1,
+                    tabIndex:  tabIndex.WHEEL_EDITOR_TEXT_CASE
+                }
+            ]
+        };
+    }
+
+    addReplace(wheelEditor) {
+        return {
+            ref:       wheelEditor.setRef('replaceOptions'),
+            className: 'bottom-options replace hidden',
+            children: [
+                // Replace...
+                {
+                    innerHTML: 'Replace:',
+                    className: 'label find'
+                },
+                {
+                    ref:       wheelEditor.setRef('replaceText'),
+                    type:      TextInput,
+                    ui:        this._ui,
+                    tabIndex:  tabIndex.WHEEL_EDITOR_REPLACE_TEXT,
+                    onKeyUp:   wheelEditor.onReplaceKeyUp.bind(wheelEditor)
+                },
+                {
+                    type:      Button,
+                    ui:        this._ui,
+                    tabIndex:  tabIndex.WHEEL_EDITOR_REPLACE_BUTTON,
+                    className: 'find-button',
+                    value:     'Replace',
+                    onClick:   wheelEditor.onReplace.bind(wheelEditor)
+                }
+            ]
+        };
+    }
+
+    addConnectionStatus(wheelEditor) {
+        return {
+            ref:       wheelEditor.setRef('connectionStatus'),
+            className: 'bottom-options connection-status',
+            children: [
+                {
+                    className: 'bluetooth-status',
+                    children: [
+                        {
+                            className: 'bluetooth-icon'
+                        },
+                        {
+                            id:        wheelEditor.setBluetoothStatusElement.bind(wheelEditor),
+                            type:      'span',
+                            innerHTML: 'Not connected'
+                        }
+                    ]
+                }
+            ]
+        };
     }
 
     setCompileInfo(element) {
