@@ -4,6 +4,7 @@
 **/
 const BasicLayerState     = require('../../js/frontend/vm/BasicLayerState').BasicLayerState;
 const PoweredUpLayerState = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
+const EV3LayerState       = require('../../js/frontend/vm/ev3/LayerState').LayerState;
 const assert              = require('assert');
 
 describe(
@@ -129,7 +130,7 @@ describe(
             }
         );
         describe(
-            'Test PoweredUpState',
+            'Test PoweredUpLayerState',
             function() {
                 it(
                     'Should change acceleration',
@@ -183,6 +184,104 @@ describe(
                         assert.equal(layerState.getConnected(), false);
                         layerState.setState({connected: true, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getConnected(), true);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test EV3LayerState',
+            function() {
+                it(
+                    'Should change motor assignments',
+                    function() {
+                        let layerState = new EV3LayerState({device: {emit: function() {}}});
+                        assert.deepEqual(layerState.getMotorAssingments(), [0, 0, 0, 0]);
+                        layerState.checkMotorChange([
+                            null, null, null, null,
+                            {assigned: 1}, {assigned: 2}, {assigned: 3}, {assigned: 4}
+                        ]);
+                        assert.deepEqual(layerState.getMotorAssingments(), [1, 2, 3, 4]);
+                    }
+                );
+                it(
+                    'Should change motor degrees',
+                    function() {
+                        let layerState = new EV3LayerState({device: {emit: function() {}}});
+                        assert.deepEqual(layerState.getMotorAssingments(), [0, 0, 0, 0]);
+                        layerState.checkMotorChange([
+                            null, null, null, null,
+                            {degrees: 1}, {degrees: 2}, {degrees: 3}, {degrees: 4}
+                        ]);
+                        assert.deepEqual(layerState.getMotors(), [1, 2, 3, 4]);
+                    }
+                );
+                it(
+                    'Should change motor ready',
+                    function() {
+                        let layerState = new EV3LayerState({device: {emit: function() {}}});
+                        assert.deepEqual(layerState.getMotorValues('ready'), [false, false, false, false]);
+                        layerState.checkMotorChange([
+                            null, null, null, null,
+                            {ready: true}, {ready: false}, {ready: true}, {ready: false}
+                        ]);
+                        assert.deepEqual(layerState.getMotorValues('ready'), [true, false, true, false]);
+                    }
+                );
+                it(
+                    'Should emit four assigned signals',
+                    function() {
+                        let signals    = [];
+                        let layerState = new EV3LayerState({
+                                layer:        0,
+                                signalPrefix: 'Test',
+                                device: {
+                                    emit: function(signal, assigned, mode) {
+                                        signals.push(signal);
+                                    }
+                                }
+                            });
+                        layerState.checkMotorChange([
+                            null, null, null, null,
+                            {assigned: 1}, {assigned: 2}, {assigned: 3}, {assigned: 4}
+                        ]);
+                        assert.deepEqual(
+                            signals,
+                            [
+                                'EV3.Layer0Motor0Assigned',
+                                'EV3.Layer0Motor1Assigned',
+                                'EV3.Layer0Motor2Assigned',
+                                'EV3.Layer0Motor3Assigned'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should emit four changed signals',
+                    function() {
+                        let signals    = [];
+                        let layerState = new EV3LayerState({
+                                layer:        0,
+                                signalPrefix: 'Test',
+                                device: {
+                                    emit: function(signal, assigned, mode) {
+                                        console.log(signal);
+                                        signals.push(signal);
+                                    }
+                                }
+                            });
+                        layerState.checkMotorChange([
+                            null, null, null, null,
+                            {degrees: 1}, {degrees: 2}, {degrees: 3}, {degrees: 4}
+                        ]);
+                        assert.deepEqual(
+                            signals,
+                            [
+                                'EV3.Layer0Motor0Changed',
+                                'EV3.Layer0Motor1Changed',
+                                'EV3.Layer0Motor2Changed',
+                                'EV3.Layer0Motor3Changed'
+                            ]
+                        );
                     }
                 );
             }

@@ -14,6 +14,7 @@ exports.LayerState = class extends BasicLayerState {
 
     createMotor() {
         return {
+            ready:    false,
             degrees:  0,
             assigned: 0
         };
@@ -32,6 +33,7 @@ exports.LayerState = class extends BasicLayerState {
         for (let i = 0; i < 4; i++) {
             result.push(this._motors[i][property]);
         }
+        return result;
     }
 
     getMotors() {
