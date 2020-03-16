@@ -20,11 +20,12 @@ const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSenso
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._type               = -1;
+        this._settings           = opts.settings;
         this._device             = opts.device;
         this._simulator          = opts.simulator;
         this._layer              = opts.layer;
         this._id                 = opts.id;
-        this._type               = -1;
         this._ui                 = opts.ui;
         this._sensors            = opts.sensors;
         this._hidden             = opts.hidden;
@@ -61,6 +62,7 @@ exports.SensorContainer = class extends DOMNode {
         return {
             sensorContainer: this,
             type:            sensorConstructor,
+            settings:        this._settings,
             device:          this._device,
             simulator:       this._simulator,
             layer:           this._layer,

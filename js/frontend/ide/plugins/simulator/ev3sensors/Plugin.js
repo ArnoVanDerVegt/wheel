@@ -27,6 +27,7 @@ exports.Plugin = class extends SimulatorPlugin {
         for (let i = 0; i < 16; i++) {
             children.push({
                 type:      SensorContainer,
+                settings:  this._settings,
                 ui:        this._ui,
                 device:    this._device,
                 simulator: this._simulator,

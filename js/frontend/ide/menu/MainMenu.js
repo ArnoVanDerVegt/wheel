@@ -28,7 +28,8 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
             .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
             .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
-            .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu);
+            .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
+            .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
         // EV3 events...
         ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
@@ -287,8 +288,11 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSimulatorMenu() {
-        let items     = [];
         let lastGroup = null;
+        let items     = [
+                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'},
+                {title: '-'}
+            ];
         this._settings.getPlugins().getSortedPlugins().forEach(function(plugin) {
             if (lastGroup === null) {
                 lastGroup = plugin.group;
@@ -305,7 +309,7 @@ exports.MainMenu = class extends MainMenu {
         });
         this._simulatorMenu = this.addMenu({
             title:     '^Simulator',
-            width:     '200px',
+            width:     '256px',
             withCheck: true,
             items:     items
         });
@@ -410,9 +414,10 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateSimulatorMenu(info) {
-        let menuOptions    = this._simulatorMenu.getMenu().getMenuOptions();
+        let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
+        menuOptions[0].setChecked(this._settings.getSensorAutoReset());
         this._settings.getPlugins().getSortedPlugins().forEach(function(plugin, index) {
-            menuOptions[index].setChecked(plugin.visible);
+            menuOptions[1 + index].setChecked(plugin.visible);
         });
         return this;
     }

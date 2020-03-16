@@ -50,7 +50,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.EV3AutoConnect',           this, this._toggleEV3AutoConnect)
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
             .on('Settings.Toggle.PoweredUpAutoConnect',     this, this._togglePoweredUpAutoConnect)
-            .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode);
+            .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode)
+            .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset);
     }
 
     load(onLoad) {
@@ -104,7 +105,8 @@ exports.SettingsState = class extends Emitter {
                     autoConnect:       this._poweredUp.autoConnect,
                     deviceCount:       this._poweredUp.deviceCount
                 },
-                plugins: this._plugins.toJSON()
+                sensorAutoReset:       this._sensorAutoReset,
+                plugins:               this._plugins.toJSON()
             };
         if (this._getDataProvider) {
             this._getDataProvider().getData('post', 'ide/settings-save', {settings: settings});
@@ -260,6 +262,10 @@ exports.SettingsState = class extends Emitter {
             return (port + 1) + '';
         }
         return this._devicePortAlias[uuid][port];
+    }
+
+    getSensorAutoReset() {
+        return this._sensorAutoReset;
     }
 
     _setRecentProject(recentProject) {
@@ -436,6 +442,12 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
+    _toggleAutoReset() {
+        this._sensorAutoReset = !this._sensorAutoReset;
+        this._save();
+        this.emit('Settings.Simulator');
+    }
+
     _togglePoweredUpAutoConnect() {
         this._poweredUp.autoConnect = !this._poweredUp.autoConnect;
         this._save();
@@ -491,6 +503,7 @@ exports.SettingsState = class extends Emitter {
         this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
         this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
         this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias             : {};
+        this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset             : true;
 
         if ('plugins' in data) {
             this._plugins.load(data.plugins);

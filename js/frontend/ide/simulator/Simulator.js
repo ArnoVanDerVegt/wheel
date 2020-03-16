@@ -77,7 +77,7 @@ exports.Simulator = class extends DOMNode {
                         settings:  this._settings,
                         simulator: this
                     },
-                    {
+                    /*{
                         id:        this.setAutoResetPanel.bind(this),
                         className: 'auto-reset',
                         children: [
@@ -94,7 +94,7 @@ exports.Simulator = class extends DOMNode {
                                 innerHTML: 'Auto reset sensor value'
                             }
                         ]
-                    },
+                    },*/
                     {
                         className: 'plugin-container',
                         children:  this.initPlugins()
@@ -107,10 +107,6 @@ exports.Simulator = class extends DOMNode {
 
     registerPlugin(uuid, plugin) {
         this._plugins[uuid] = plugin;
-    }
-
-    getAutoReset() {
-        return this._autoResetCheckbox.getChecked();
     }
 
     setAutoResetPanel(element) {

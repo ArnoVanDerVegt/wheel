@@ -25,8 +25,9 @@ exports.Plugin = class extends SimulatorPlugin {
         let children = [];
         for (let i = 0; i < 16; i++) {
             children.push({
-                simulator: this._simulator,
                 type:      Motor,
+                simulator: this._simulator,
+                settings:  this._settings,
                 sensors:   this,
                 device:    this._device,
                 layer:     ~~(i / 4),

@@ -9,6 +9,7 @@ const getImage   = require('../../../../../data/images').getImage;
 exports.BasicIODevice = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._settings           = opts.settings;
         this._parentNode         = opts.parentNode;
         this._sensors            = opts.sensors;
         this._device             = opts.device;
@@ -122,7 +123,7 @@ exports.BasicIODevice = class extends DOMNode {
     }
 
     setTimeoutReset() {
-        if (!this._simulator.getAutoReset()) {
+        if (!this._settings.getSensorAutoReset()) {
             return;
         }
         if (this._timeoutReset) {

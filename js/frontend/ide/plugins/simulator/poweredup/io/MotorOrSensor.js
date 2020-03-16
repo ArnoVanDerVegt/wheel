@@ -95,10 +95,13 @@ exports.MotorOrSensor = class extends Motor {
     }
 
     getContextMenuOptions() {
-        return [
-            'POWERED_UP_SENSOR_MODE_DISTANCE',
-            'POWERED_UP_SENSOR_MODE_COLOR'
-        ];
+        if (this._type in deviceInfo) {
+            return [
+                'POWERED_UP_SENSOR_MODE_DISTANCE',
+                'POWERED_UP_SENSOR_MODE_COLOR'
+            ];
+        }
+        return [];
     }
 
     onClickMotorElement(event) {

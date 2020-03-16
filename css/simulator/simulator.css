@@ -105,28 +105,10 @@ body.ide.no-simulator div.simulator {
     margin:                         8px 8px 0 0;
 }
 
-/* Auto reset sensors */
-.auto-reset {
-    position:                       absolute;
-    left:                           0;
-    top:                            40px;
-    width:                          100%;
-    height:                         32px;
-    padding:                        4px 0 0 16px;
-}
-.auto-reset .label {
-    float:                          left;
-    margin:                         2.5px 0 0 8px;
-    line-height:                    16px;
-}
-.auto-reset .checkbox {
-    float:                          left;
-}
-
 /* Simulator plugins */
 .simulator .plugin-container {
     position:                       absolute;
-    top:                            72px;
+    top:                            40px;
     bottom:                         0px;
     width:                          100%;
     padding:                        0 0 256px 17px;

@@ -17,7 +17,7 @@ const Remote                   = require('./components/Remote').Remote;
 
 const dummyLight = {
         setColor: function(color) {},
-        off: function() {}
+        off:      function() {}
     };
 
 exports.Plugin = class extends Plugin {
