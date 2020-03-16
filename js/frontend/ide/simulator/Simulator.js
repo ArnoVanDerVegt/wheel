@@ -2,13 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../lib/dispatcher').dispatcher;
-const DOMNode             = require('../../lib/dom').DOMNode;
-const Button              = require('../../lib/components/Button').Button;
-const Checkbox            = require('../../lib/components/Checkbox').Checkbox;
-const tabIndex            = require('../tabIndex');
-const SimulatorToolbar    = require('./SimulatorToolbar').SimulatorToolbar;
-const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection;
+const dispatcher       = require('../../lib/dispatcher').dispatcher;
+const DOMNode          = require('../../lib/dom').DOMNode;
+const Button           = require('../../lib/components/Button').Button;
+const Checkbox         = require('../../lib/components/Checkbox').Checkbox;
+const tabIndex         = require('../tabIndex');
+const SimulatorToolbar = require('./SimulatorToolbar').SimulatorToolbar;
 
 exports.Simulator = class extends DOMNode {
     constructor(opts) {
@@ -98,11 +97,7 @@ exports.Simulator = class extends DOMNode {
                     },
                     {
                         className: 'plugin-container',
-                        children: this.initPlugins().concat({
-                            type: SimulatorConnection,
-                            ui:   this._ui,
-                            ev3:  this._ev3
-                        })
+                        children:  this.initPlugins()
                     }
                 ]
             }

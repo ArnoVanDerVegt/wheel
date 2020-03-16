@@ -2,53 +2,14 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode    = require('../../../../../lib/dom').DOMNode;
-const dispatcher = require('../../../../../lib/dispatcher').dispatcher;
-const Toolbar    = require('../../../../../lib/components/Toolbar').Toolbar;
-const Button     = require('../../../../../lib/components/Button').Button;
-const Checkbox   = require('../../../../../lib/components/Checkbox').Checkbox;
-const TextInput  = require('../../../../../lib/components/TextInput').TextInput;
-const tabIndex   = require('../../../../tabIndex');
-
-/*
-Todo: show connection status in toolbar
-
-    // this._device
-    //     .addEventListener('EV3.Connected',    this, this.onEV3Connected)
-    //     .addEventListener('EV3.Connecting',   this, this.onEV3Connecting)
-    //     .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
-
-    // clearDisconnectedTimeout() {
-    //     if (this._disconnectedTimeout) {
-    //         clear(this._disconnectedTimeout);
-    //     }
-    //     this._disconnectedTimeout = null;
-    // }
-
-    // onEV3Connecting(deviceName) {
-    //     this.clearDisconnectedTimeout();
-    //     //this._autoResetPanelElement.style.display = 'none';
-    // }
-
-    // onEV3Connected() {
-    //     this.clearDisconnectedTimeout();
-    //     this._connected                           = true;
-    //     //this._autoResetPanelElement.style.display = 'none';
-    // }
-
-    // onEV3Disconnected() {
-    //     this.clearDisconnectedTimeout();
-    //     this._connected = true;
-    //     this._disconnectedTimeout = setTimeout(
-    //         (function() {
-    //             //this._autoResetPanelElement.style.display = 'block';
-    //             this._disconnectedTimeout                 = null;
-    //         }).bind(this),
-    //         5000
-    //     );
-    // }
-*/
-
+const DOMNode        = require('../../../../../lib/dom').DOMNode;
+const dispatcher     = require('../../../../../lib/dispatcher').dispatcher;
+const Toolbar        = require('../../../../../lib/components/Toolbar').Toolbar;
+const Button         = require('../../../../../lib/components/Button').Button;
+const Checkbox       = require('../../../../../lib/components/Checkbox').Checkbox;
+const TextInput      = require('../../../../../lib/components/TextInput').TextInput;
+const tabIndex       = require('../../../../tabIndex');
+const BluetoothState = require('./BluetoothState').BluetoothState;
 
 exports.ToolbarBottom = class extends Toolbar {
     constructor(opts) {
@@ -57,6 +18,8 @@ exports.ToolbarBottom = class extends Toolbar {
         this._settings    = opts.settings;
         this._parentNode  = opts.parentNode;
         this._wheelEditor = opts.wheelEditor;
+        this._ev3         = opts.ev3;
+        this._poweredUp   = opts.poweredUp;
         this.initDOM();
         dispatcher
             .on('Compile.Start',   this, this.onCompileStart)
@@ -158,23 +121,9 @@ exports.ToolbarBottom = class extends Toolbar {
 
     addConnectionStatus(wheelEditor) {
         return {
-            ref:       wheelEditor.setRef('connectionStatus'),
-            className: 'bottom-options connection-status',
-            children: [
-                {
-                    className: 'bluetooth-status',
-                    children: [
-                        {
-                            className: 'bluetooth-icon'
-                        },
-                        {
-                            id:        wheelEditor.setBluetoothStatusElement.bind(wheelEditor),
-                            type:      'span',
-                            innerHTML: 'Not connected'
-                        }
-                    ]
-                }
-            ]
+            type:      BluetoothState,
+            ev3:       this._ev3,
+            poweredUp: this._poweredUp
         };
     }
 
@@ -207,5 +156,17 @@ exports.ToolbarBottom = class extends Toolbar {
 
     onClickState() {
         dispatcher.dispatch('Settings.Toggle.ShowConsole');
+    }
+
+    onEV3Connected() {
+
+    }
+
+    onEV3Connecting() {
+
+    }
+
+    onEV3Disconnected() {
+
     }
 };

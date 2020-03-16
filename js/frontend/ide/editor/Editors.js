@@ -296,6 +296,8 @@ exports.Editors = class extends DOMNode {
         if (editor) {
             return editor;
         }
+        opts.ev3        = this._ev3;
+        opts.poweredUp  = this._poweredUp;
         opts.ui         = this._ui;
         opts.settings   = this._settings;
         opts.editors    = this;

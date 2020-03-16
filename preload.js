@@ -266,6 +266,7 @@ require('./js/frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenThemeTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreen');
+require('./js/frontend/ide/editor/editors/text/toolbar/BluetoothState');
 require('./js/frontend/ide/editor/editors/text/toolbar/ToolbarBottom');
 require('./js/frontend/ide/editor/editors/text/toolbar/ToolbarBottomViewer');
 require('./js/frontend/ide/editor/editors/text/VMViewer');
@@ -359,7 +360,6 @@ require('./js/frontend/ide/plugins/simulator/graph/io/LineChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/PointChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/SplineChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/Plugin'),
-require('./js/frontend/ide/simulator/SimulatorConnection');
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');
 require('./js/frontend/ide/settings/PluginsState');

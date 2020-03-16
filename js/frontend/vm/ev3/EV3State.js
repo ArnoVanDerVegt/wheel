@@ -26,6 +26,10 @@ exports.EV3State = class extends BasicDeviceState {
         return this._connected;
     }
 
+    getBattery() {
+        return this._battery;
+    }
+
     getLayerState(layer) {
         return this._layerState[layer];
     }

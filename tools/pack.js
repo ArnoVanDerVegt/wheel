@@ -361,7 +361,6 @@ const files = [
         './js/frontend/ide/plugins/simulator/graph/io/PointChartDrawer',
         './js/frontend/ide/plugins/simulator/graph/io/SplineChartDrawer',
         './js/frontend/ide/plugins/simulator/graph/Plugin',
-        './js/frontend/ide/simulator/SimulatorConnection',
         './js/frontend/ide/simulator/Simulator',
         './js/frontend/ide/CompileAndRun',
         './js/frontend/ide/IDE',
