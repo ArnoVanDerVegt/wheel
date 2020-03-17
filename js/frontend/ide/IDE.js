@@ -210,6 +210,7 @@ exports.IDE = class extends CompileAndRun {
 
     // Buttons
     onButtonCompile() {
+        this._compileSilent = false;
         this._compileAndRun = false;
         this.compile(this._settings.getDocumentPath(), '');
     }
@@ -846,43 +847,52 @@ exports.IDE = class extends CompileAndRun {
         return this._linter;
     }
 
-    getFileData(filename, token, callback) {
-        let documentPath    = this._settings.getDocumentPath();
-        let fullPath        = path.join(documentPath, filename);
+    getEditorFile(fullPath, callback) {
         let pathAndFilename = path.getPathAndFilename(fullPath);
         let editor          = this._editorsState.findByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
-        if (editor) {
-            setTimeout(
-                function() {
-                    // Debug: Check for tabs...
-                    let s     = editor.getValue();
-                    let lines = s.split('\n');
-                    s = '';
-                    for (let i = 0; i < lines.length; i++) {
-                        s += lines[i].trimRight() + '\n';
-                    }
-                    if (s.indexOf('\t') !== -1) {
-                        console.log('Tabs!!!!!');
-                        console.log(s.split('\t').join('@@@@'));
-                        s = s.split('\t').join('    ');
-                    }
-                    callback(s);
-                },
-                1
-            );
+        if (!editor) {
+            return false;
+        }
+        setTimeout(
+            function() {
+                // Debug: Check for tabs...
+                let s     = editor.getValue();
+                let lines = s.split('\n');
+                s = '';
+                for (let i = 0; i < lines.length; i++) {
+                    s += lines[i].trimRight() + '\n';
+                }
+                if (s.indexOf('\t') !== -1) {
+                    console.log('Tabs!!!!!');
+                    console.log(s.split('\t').join('@@@@'));
+                    s = s.split('\t').join('    ');
+                }
+                callback(s);
+            },
+            1
+        );
+        return true;
+    }
+
+    getFileData(filename, token, callback) {
+        let projectPath      = path.getPathAndFilename(this._projectFilename).path;
+        let documentPath     = this._settings.getDocumentPath();
+        let fullProjectPath  = path.join(projectPath, filename);
+        let fullDocumentPath = path.join(documentPath, filename);
+        if (this.getEditorFile(fullProjectPath, callback) || this.getEditorFile(fullDocumentPath, callback)) {
             return;
         }
         getDataProvider().getData(
             'post',
             'ide/file',
-            {filename: fullPath},
+            {filename: [fullDocumentPath, fullProjectPath]},
             (function(data) {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
-                    return;
+                    data = {data: null};
                 }
-                if (data.data === null) {
+                if ((data.data === null) || !data.success) {
                     this._compiling = false;
                     if (!this._compileSilent) {
                         dispatcher.dispatch(

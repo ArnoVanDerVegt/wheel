@@ -120,69 +120,76 @@ exports.ideRoutes = {
             }).bind(this)
         );
     },
-    file: function(req, res) {
-        let f;
-        let filename = req.body.filename;
-        let result   = {success: true, filename: filename, data: null};
+    _findFile(filename) {
         let found    = false;
+        if (Array.isArray(filename)) {
+            for (let i = 0; i < filename.length; i++) {
+                if (fs.existsSync(filename[i])) {
+                    return filename[i];
+                }
+            }
+            return null;
+        }
         if (fs.existsSync(filename)) {
-            f     = filename;
-            found = true;
-        } else if (fs.existsSync('/' + filename)) {
-            f     = '/' + filename;
-            found = true;
-        } else if (fs.existsSync(path.join(this._documentPath, filename))) {
-            f     = path.join(this._documentPath, filename);
-            found = true;
-        } else {
-            let searchPath = this._getSettings().searchPath || [];
-            for (let i = 0; i < searchPath.length; i++) {
-                f = path.join(searchPath[i], filename);
-                if (fs.existsSync(f)) {
-                    found = true;
-                    break;
-                }
-                f = path.join(this._documentPath, searchPath[i], filename);
-                if (fs.existsSync(f)) {
-                    found = true;
-                    break;
-                }
+            return filename;
+        }
+        if (fs.existsSync('/' + filename)) {
+            return '/' + filename;
+        }
+        if (fs.existsSync(path.join(this._documentPath, filename))) {
+            return path.join(this._documentPath, filename);
+        }
+        let searchPath = this._getSettings().searchPath || [];
+        let f;
+        for (let i = 0; i < searchPath.length; i++) {
+            f = path.join(searchPath[i], filename);
+            if (fs.existsSync(f)) {
+                return f;
+            }
+            f = path.join(this._documentPath, searchPath[i], filename);
+            if (fs.existsSync(f)) {
+                return f;
             }
         }
-        if (found) {
-            let extension = path.extname(f);
-            switch (extension) {
-                case '.rgf':
-                    result.data = new RgfImage().unpack(fs.readFileSync(f));
-                    res.send(JSON.stringify(result));
-                    break;
-                case '.mp3':
-                case '.wav':
-                    res.send(fs.readFileSync(f));
-                    break;
-                case '.bmp':
-                case '.png':
-                case '.jpg':
-                case '.jpeg':
-                case '.gif':
-                    res.send('data:image/' + extension + ';base64,' + fs.readFileSync(f).toString('base64'));
-                    break;
-                case '.rsf':
-                    result.data = fs.readFileSync(f);
-                    res.send(JSON.stringify(result));
-                    break;
-                default:
-                    try {
-                        result.data = fs.readFileSync(f).toString();
-                        res.send(JSON.stringify(result));
-                    } catch (error) {
-                        res.send(JSON.stringify({success: false}));
-                    }
-                    break;
-            }
-        } else {
+        return null;
+    },
+    file: function(req, res) {
+        let filename = this._findFile(req.body.filename);
+        let result   = {success: true, filename: req.body.filename, data: null};
+        if (filename === null) {
             result.success = false;
             res.send(JSON.stringify(result));
+            return;
+        }
+        let extension = path.extname(filename);
+        switch (extension) {
+            case '.rgf':
+                result.data = new RgfImage().unpack(fs.readFileSync(filename));
+                res.send(JSON.stringify(result));
+                break;
+            case '.mp3':
+            case '.wav':
+                res.send(fs.readFileSync(filename));
+                break;
+            case '.bmp':
+            case '.png':
+            case '.jpg':
+            case '.jpeg':
+            case '.gif':
+                res.send('data:image/' + extension + ';base64,' + fs.readFileSync(filename).toString('base64'));
+                break;
+            case '.rsf':
+                result.data = fs.readFileSync(filename);
+                res.send(JSON.stringify(result));
+                break;
+            default:
+                try {
+                    result.data = fs.readFileSync(filename).toString();
+                    res.send(JSON.stringify(result));
+                } catch (error) {
+                    res.send(JSON.stringify({success: false}));
+                }
+                break;
         }
     },
     fileAppend(req, res) {
