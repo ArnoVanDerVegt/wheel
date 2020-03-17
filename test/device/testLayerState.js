@@ -264,7 +264,6 @@ describe(
                                 signalPrefix: 'Test',
                                 device: {
                                     emit: function(signal, assigned, mode) {
-                                        console.log(signal);
                                         signals.push(signal);
                                     }
                                 }

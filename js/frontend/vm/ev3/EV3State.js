@@ -11,8 +11,11 @@ exports.EV3State = class extends BasicDeviceState {
     constructor(opts) {
         opts.LayerState = LayerState;
         super(opts);
-        this._battery    = null;
-        this._deviceName = 'EV3';
+        // Allow dependency injection for unit tests...
+        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
+        this._battery      = null;
+        this._deviceName   = 'EV3';
+        this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
         dispatcher
             .on('EV3.ConnectToDevice', this, this.onConnectToDevice)
             .on('EV3.LayerCount',      this, this.onLayerCount);
@@ -55,7 +58,7 @@ exports.EV3State = class extends BasicDeviceState {
         }
         this._deviceName = deviceName;
         this.emit('EV3.Connecting', deviceName);
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/connect',
             {deviceName: deviceName},
@@ -87,7 +90,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/update',
             {
@@ -98,6 +101,7 @@ exports.EV3State = class extends BasicDeviceState {
                 try {
                     let json = JSON.parse(data);
                     if (json.connected) {
+                        this._connected = true;
                         this.updateLayerState(json);
                     } else {
                         this._connected = false;
@@ -107,7 +111,9 @@ exports.EV3State = class extends BasicDeviceState {
                     // Todo: show error message in IDE...
                     console.error(error);
                 }
-                setTimeout(this.update.bind(this), 20);
+                if (!this._noTimeout) {
+                    this._updateTimeout = setTimeout(this.update.bind(this), 20);
+                }
             }).bind(this)
         );
         this._queue = [];
@@ -118,7 +124,7 @@ exports.EV3State = class extends BasicDeviceState {
             return;
         }
         let callback = (function() {
-                getDataProvider().getData(
+                this._dataProvider.getData(
                     'post',
                     'ev3/connecting',
                     {},
@@ -131,7 +137,7 @@ exports.EV3State = class extends BasicDeviceState {
                                 this.updateLayerState(json);
                                 this.emit('EV3.Connected');
                                 this.update();
-                            } else {
+                            } else if (!this._noTimeout) {
                                 setTimeout(callback, 100);
                             }
                         } catch (error) {
@@ -150,7 +156,7 @@ exports.EV3State = class extends BasicDeviceState {
             return;
         }
         this.emit('EV3.Disconnect');
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/disconnect',
             {},
@@ -176,7 +182,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/download-data',
             {
@@ -191,7 +197,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/download',
             {
@@ -206,7 +212,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/upload',
             {
@@ -221,7 +227,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/create-dir',
             {
@@ -235,7 +241,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/delete-file',
             {
@@ -249,7 +255,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/stop-polling',
             {},
@@ -261,7 +267,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/resume-polling',
             {},
@@ -273,7 +279,7 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'ev3/set-mode',
             {
@@ -286,6 +292,6 @@ exports.EV3State = class extends BasicDeviceState {
     }
 
     stopAllMotors(layerCount) {
-        getDataProvider().getData('post', 'ev3/stop-all-motors', {layerCount: layerCount});
+        this._dataProvider.getData('post', 'ev3/stop-all-motors', {layerCount: layerCount});
     }
 };
