@@ -208,7 +208,7 @@ exports.EV3State = class extends BasicDeviceState {
         );
     }
 
-    upload(remoteFilename, localFilename) {
+    upload(remoteFilename, localFilename, callback) {
         if (this._connecting || !this._connected) {
             return;
         }
