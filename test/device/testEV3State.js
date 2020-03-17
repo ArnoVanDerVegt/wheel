@@ -56,6 +56,9 @@ class MockDataProvider {
                     }
                 }));
                 break;
+            case 'post:ev3/disconnect':
+                callback(JSON.stringify({}));
+                break;
         }
     }
 }
@@ -103,6 +106,23 @@ describe(
                 ev3State.connecting();
                 ev3State.update();
                 assert.equal(ev3State.getConnected(), true);
+            }
+        );
+        it(
+            'Should disconnect after connecting',
+            function() {
+                let mockDataProvider = new MockDataProvider({applyConnecting: true});
+                let ev3State         = new EV3State({dataProvider: mockDataProvider, noTimeout: true});
+                dispatcher.dispatch('EV3.ConnectToDevice', 'TestDevice');
+                assert.equal(ev3State.getConnecting(), true);
+                assert.equal(ev3State.getConnected(), false);
+                mockDataProvider.setConnected(true);
+                ev3State._connecting = false;
+                ev3State.connecting();
+                ev3State.update();
+                assert.equal(ev3State.getConnected(), true);
+                ev3State.disconnect();
+                assert.equal(ev3State.getConnected(), false);
             }
         );
     }
