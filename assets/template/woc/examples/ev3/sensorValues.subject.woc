@@ -9,17 +9,17 @@ This demo shows how to read and display sensor values, the following sensors are
 * Color, the color value</li>
 * Ultrasonic
 
-@see sensor,Modules
-
 @section Code
 @example
 #project "Sensor value demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/math.whl"
 #include "lib/screen.whl"
 #include "lib/sensor.whl"
 
-#display "sensors"
+#display "EV3, EV3 Sensors"
 
 number touchValue      = FALSE
 number colorValue      = 0
@@ -46,7 +46,7 @@ proc drawColorValue()
     setFill(FALSE)
     setFillColor(BLACK)
     setTextSize(TEXT_SIZE_2)
-    drawNumber(78, 56, colorValue)
+    drawNumber(86, 57, colorValue)
 end
 
 ; Draw a the ultrasonic sensor value
@@ -60,27 +60,32 @@ proc drawUltrasonicValue()
     setFill(FALSE)
     setFillColor(BLACK)
     setTextSize(TEXT_SIZE_2)
-    number x = 124
-    if infraredValue >= 10
-        x -= 5
+    number x = 129
+    if ultrasonicValue >= 10
+        x -= 4
     end
-    if infraredValue >= 100
-        x -= 5
+    if ultrasonicValue >= 100
+        x -= 4
     end
-    drawNumber(x, 55, ultrasonicValue)
+    drawNumber(x, 57, ultrasonicValue)
 end
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number value
 
     drawTouchValue()
     drawColorValue()
     drawUltrasonicValue()
+    updateScreen()
 
     sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
     sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
-    sensorSetMode(INPUT_2, COLOR_REFLECTED_INTENSITY)
+    sensorSetMode(INPUT_2, COLOR_COLOR)
     sensorSetType(INPUT_3, SENSOR_TYPE_ULTRASONIC)
+    sensorSetMode(INPUT_3, ULTRASONIC_CM)
 
     repeat
         value = sensorRead(INPUT_1)
@@ -96,15 +101,18 @@ proc main()
         end
 
         value = sensorRead(INPUT_3)
+        value = round(value)
         if value != ultrasonicValue
             ultrasonicValue = value
             drawUltrasonicValue()
         end
+
+        updateScreen()
     end
 end
 @end
 
-@load Open sensor values example|examples/sensor/values.whlp
+@load Open sensor values example|examples/ev3/sensor/values.whlp
 
-@see screen,standard,sensor
+@see screen,standard,sensor,Modules
 

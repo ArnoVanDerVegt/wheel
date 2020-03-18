@@ -4,18 +4,18 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Motor move example
 This example shows how to turn the EV3 motors on or off and control the direction of a motor.
-@see motor,Modules
 
 @section Code
 @example
 #project "Motor move demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/button.whl"
 #include "lib/motor.whl"
 
-#display "motors"
+#display "EV3, EV3 Motors"
 
 number active     = 0       ; The last active motor
 number lastActive = 0       ; The last known motor position
@@ -104,6 +104,6 @@ proc main()
 end
 @end
 
-@load Open motor move example|examples/motor/move.whlp
+@load Open motor move example|examples/ev3/motor/controlMove.whlp
 
-@see button,screen,standard,motor
+@see standard,screen,button,motor,Modules

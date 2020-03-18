@@ -620,9 +620,11 @@ class HelpBuilder {
             .buildSubjectIndex(parentNode, helpData, 'IDE:',               'IDE')
             .buildSubjectIndex(parentNode, helpData, 'VM:',                'Compiler and VM')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Example:',           'Examples')
             .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       'EV3 examples')
-            .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples');
+            .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples')
+            .addSeparator(parentNode)
+            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules');
     }
 
     addLegend(parentNode) {

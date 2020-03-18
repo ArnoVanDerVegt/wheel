@@ -1,118 +1,34 @@
-@subject EV3_Example:Motor, target
+@subject EV3_Example:Motor, target and readyBits
 @device  E
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-@section Motor move to target example
-This example shows how to set a target for a motor to move to.
-@see motor,Modules
+@section Motor target and readyBits example
+This example shows how to turn the EV3 motors to a given angle and wait until they reached their position.
 
 @section Code
 @example
-#project "Motor target demo"
+#project "Motor target and readyBits example"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
-#include "lib/button.whl"
 #include "lib/motor.whl"
-#include "lib/sound.whl"
 
-#display "motors"
-
-number active     = 0               ; Which motor is active
-number lastActive = 0               ; The last active motor
-number lastPos    = 0               ; The last known motor position
-number target[4]  = [0, 0, 0, 0]    ; A target position for every motor
-
-; Draw four rectangles and fill the active motor rectangle
-proc drawScreen()
-    number i
-    number x = 3
-    for i = 0 to 3
-        if i == active
-            setFillColor(BLACK)
-        else
-            setFillColor(WHITE)
-        end
-        setFill(TRUE)
-        drawRect(x, 42, 40, 40)
-        setFillColor(BLACK)
-        setFill(FALSE)
-        x += 1
-        drawRect(x, 43, 38, 38)
-        x += 43
-    end
-end
-
-; Draw the active motor position
-proc drawMotorPos(number pos)
-    setFill(TRUE)
-    setFillColor(WHITE)
-    drawRect(68, 14, 48, 9)
-    setFill(FALSE)
-    setFillColor(BLACK)
-    drawRect(66, 12, 52, 13)
-    drawNumber(68, 14, pos)
-end
+#display "EV3 Motors"
 
 proc main()
-    drawScreen()
-    drawMotorPos(0)
+    motorSetSpeed(OUTPUT_A, 10) ; Set the speed of motor A
+    motorSetSpeed(OUTPUT_B, 50) ; Set the speed of motor B
 
-    repeat
-        number b       = button()           ; Read the EV3 button...
-        number pressed = FALSE              ; Save if up or down was pressed...
-        number ready   = motorReady(active) ; Check if the active motor reached its target...
+    motorMoveTo(OUTPUT_A, 360) ; Turn motor A 360 degrees
+    motorMoveTo(OUTPUT_B, 360) ; Turn motor B 360 degrees
 
-        select b
-            case BUTTON_LEFT:
-                ; Select the previous motor...
-                if active == 0
-                    active = 3
-                else
-                    active -= 1
-                end
-            case BUTTON_RIGHT:
-                ; Select the next motor...
-                if active == 3
-                    active = 0
-                else
-                    active += 1
-                end
-            case BUTTON_UP:
-                ; If the motor has reached its previous target then increase the target:
-                if ready
-                    pressed = TRUE
-                    target[active] += 180
-                    motorSetSpeed(active, 5)
-                    motorMoveTo(active, target[active])
-                end
-            case BUTTON_DOWN:
-                ; If the motor has reached its previous target then decrease the target:
-                if ready
-                    pressed = TRUE
-                    target[active] -= 180
-                    motorSetSpeed(active, 5)
-                    motorMoveTo(active, target[active])
-                end
-        end
+    waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
 
-        number pos = motorRead(active)
-        if pos != lastPos
-            ; The motor position was changed, update the screen:
-            lastPos = pos
-            drawMotorPos(pos)
-        end
+    motorMoveTo(OUTPUT_A, 720) ; Turn motor A another 360 degrees, from 360 to 720
+    motorMoveTo(OUTPUT_B, 0)   ; Move motor B back to 0
 
-        if lastActive != active
-            ; The was a different motor output selected, update the screen...
-            drawScreen()
-            sleep(500)
-            lastActive = active
-        end
-    end
+    waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
 end
 @end
 
-@load Open motor move example|examples/motor/target.whlp
+@load Open motor target and readyBits example|examples/ev3/motor/readyBits.whlp
 
-@see button,screen,standard,motor
+@see standard,screen,motor,Modules

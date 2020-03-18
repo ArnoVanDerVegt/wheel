@@ -4,16 +4,21 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Circle example
 This example shows how draw black and white, filled and line circles.
-@see screen,Modules
 
 @section Code
 @example
-#project "Circle demo"
+#project "Screen circle example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     ; Draw two black filled rectangles at the left/top and right/bottom...
     setFill(TRUE)
     setFillColor(BLACK)
@@ -37,6 +42,8 @@ proc main()
     setFill(FALSE)
     drawCircle(45, 96, 24)
 
+    updateScreen()
+
     ; Wait...
     halt()
 end
@@ -45,7 +52,7 @@ end
 @section Screenshot
 @image images/display/circle.png
 
-@load Open circle example|examples/screen/circle.whlp
+@load Open circle example|examples/ev3/screen/circle.whlp
 
-@see screen,standard
+@see standard,screen,standard,Modules
 

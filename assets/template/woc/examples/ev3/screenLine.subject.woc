@@ -4,16 +4,21 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Line example
 This example shows how draw black and white lines.
-@see screen,Modules
 
 @section Code
 @example
-#project "Line demo"
+#project "Screen line example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     ; Fill half the screen black...
     setFill(TRUE)
     setFillColor(BLACK)
@@ -33,6 +38,8 @@ proc main()
         drawLine(177, y, 90, 64)
     end
 
+    updateScreen()
+
     ; Wait...
     halt()
 end
@@ -41,6 +48,6 @@ end
 @section Screenshot
 @image images/display/line.png
 
-@load Open line example|examples/screen/line.whlp
+@load Open line example|examples/ev3/screen/line.whlp
 
-@see screen,standard
+@see screen,standard,Modules

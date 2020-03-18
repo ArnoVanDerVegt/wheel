@@ -11,17 +11,16 @@ This demo shows how to read and display sensor values, the following sensors are
 
 The color is displayed as a text: `non`, `blk`, `blu`, `grn`, `yel`, `red`, `wht` en `brn`.
 
-@see sensor,Modules
-
 @section Code
 @example
-#project "Sensor value name demo"
+#project "Sensor value name example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/sensor.whl"
 
-#display "sensors"
+#display "EV3,EV3 Sensors"
 
 string colors[8]     = ["non", "blk", "blu", "grn", "yel", "red", "wht", "brn"]
 number touchValue    = FALSE
@@ -49,7 +48,7 @@ proc drawColorValue()
     setFill(FALSE)
     setFillColor(BLACK)
     setTextSize(TEXT_SIZE_2)
-    drawText(78, 56, colors[colorValue])
+    drawText(78, 57, colors[colorValue])
 end
 
 ; Draw a the infrared sensor value
@@ -65,24 +64,28 @@ proc drawInfraredValue()
     setTextSize(TEXT_SIZE_3)
     number x = 124
     if infraredValue >= 10
-        x -= 5
+        x -= 7
     end
     drawNumber(x, 55, infraredValue)
 end
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number value
 
     drawTouchValue()
     drawColorValue()
     drawInfraredValue()
+    updateScreen()
 
     ; Set the sensor types and modes...
     sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
     sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
-    sensorSetMode(INPUT_2, COLOR_VALUE)
+    sensorSetMode(INPUT_2, COLOR_COLOR)
     sensorSetType(INPUT_3, SENSOR_TYPE_INFRARED)
-    sensorSetMode(INPUT_3, INFRARED_BUTTON)
+    sensorSetMode(INPUT_3, IR_REMOTE)
 
     repeat
         value = sensorRead(INPUT_1)
@@ -102,11 +105,12 @@ proc main()
             infraredValue = value
             drawInfraredValue()
         end
+
+        updateScreen()
     end
 end
 @end
 
-@load Open sensor value names example|examples/sensor/valueNames.whlp
+@load Open sensor value names example|examples/ev3/sensor/valueNames.whlp
 
-@see screen,standard,sensor
-
+@see screen,standard,sensor,Modules

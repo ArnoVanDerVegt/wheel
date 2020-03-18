@@ -2,7 +2,6 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
 ; This example shows how to control motors with EV3 buttons.
-
 #project "Motor move demo"
 
 #include "lib/standard.whl"

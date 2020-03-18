@@ -1,5 +1,18 @@
+@subject PoweredUp_Example:Light and color sensor
+@device  P
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Light and color sensor example
+This example shows how to detect a color and change the color of the light accordingly.
+
+
+If you are using a `Move Hub` then this exemple expects the light sensor to be
+connected to port "C".
+If you are using the `Hub` -which has only two ports- then you can change
+the `inputPort` value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+
+@section Code
+@example
 #project "Powered Up Light color example"
 
 #include "lib/standard.whl"
@@ -11,10 +24,6 @@
 #display "Hub"
 
 proc main()
-    ; If you are using a Move Hub then this exemple expects the light sensor to be
-    ; connected to port "C".
-    ; If you are using the Hub -which has only two ports- then you can change
-    ; the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
     number inputPort = POWERED_UP_PORT_C
 
     sensorLayerSetMode(LAYER_1, inputPort, POWERED_UP_SENSOR_MODE_COLOR)
@@ -50,3 +59,8 @@ proc main()
         end
     end
 end
+@end
+
+@load Open pixel example|examples/poweredup/light/light.whlp
+
+@see light,Modules

@@ -2,7 +2,6 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
 ; This demo shows how to use motorReadyBits to check if motors reached their target position.
-
 #project "Motor moveTo demo"
 
 #include "lib/motor.whl"

@@ -1,9 +1,15 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:Bit
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Bit demo"
+@section Bit example
+This example demonstrates how to read the bits from a decimal number.
 
-; This example gets a random number greater or equal then 0 and less than 256
-; and converts the number using the bitAnd function.
+This example gets a `random` number greater or equal then 0 and less than 256
+and converts the number using the `bitAnd` function.
+
+@section Code
+@example
+#project "Bit demo"
 
 #include "lib/standard.whl"
 #include "lib/math.whl"
@@ -35,3 +41,8 @@ proc main()
     printS("Binary:")
     printS(s)
 end
+@end
+
+@load Open bit example|examples/bit/bit.whlp
+
+@see bit,standard,Modules

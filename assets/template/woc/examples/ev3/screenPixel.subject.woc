@@ -2,18 +2,24 @@
 @device  E
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-@section Line example
+@section Pixels example
 This example shows how draw black and white pixels.
 @see screen,Modules
 
 @section Code
 @example
-#project "Pixel demo"
+#project "Screen pixel example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     ; Fill half the screen black...
     setFill(TRUE)
     setFillColor(BLACK)
@@ -40,6 +46,8 @@ proc main()
         s += 1
     end
 
+    updateScreen()
+
     ; Wait...
     halt()
 end
@@ -48,6 +56,6 @@ end
 @section Screenshot
 @image images/display/pixel.png
 
-@load Open pixel example|examples/screen/pixel.whlp
+@load Open pixel example|examples/ev3/screen/pixel.whlp
 
 @see screen,standard

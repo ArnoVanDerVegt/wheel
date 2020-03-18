@@ -7,15 +7,19 @@ This example shows how to read the EV3 buttons.
 The program has a main loop in which the buttons are read.
 If the button value is different from the last value then a `switch` statement
 is used to check which button is pressed.
-@see button,Modules
 
 @section Code
 @example
-#project "Button demo"
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "EV3 Button example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/button.whl"
+
+#display "EV3"
 
 proc drawUp()
     drawRect(71, 21, 38, 18)
@@ -50,9 +54,11 @@ proc drawScreen()
     drawRect(46, 44, 20, 40)
     ; Right
     drawRect(114, 44, 20, 40)
+    updateScreen()
 end
 
 proc main()
+    selectDevice(DEVICE_EV3)
     drawScreen()
     setFill(TRUE)
     number lastButton = 0
@@ -91,6 +97,7 @@ proc main()
             drawLeft()
             setFillColor(right)
             drawRight()
+            updateScreen()
         end
     end
 end
@@ -99,6 +106,6 @@ end
 @section Screenshot
 @image images/display/buttons.png
 
-@load Open button example|examples/button/button.whlp
+@load Open button example|examples/ev3/button/button.whlp
 
 @see button,screen,standard

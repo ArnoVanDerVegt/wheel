@@ -5,15 +5,15 @@
 ; - Touch
 ; - Color, reflected light
 ; - Ultrasonic
-
 #project "Sensor value demo"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/math.whl"
 #include "lib/screen.whl"
 #include "lib/sensor.whl"
 
-#display "EV3 Sensors"
+#display "EV3, EV3 Sensors"
 
 number touchValue      = FALSE
 number colorValue      = 0
@@ -65,6 +65,9 @@ proc drawUltrasonicValue()
 end
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number value
 
     drawTouchValue()

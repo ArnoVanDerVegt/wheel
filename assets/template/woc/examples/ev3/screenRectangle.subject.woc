@@ -4,16 +4,21 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Circle example
 This example shows how draw black and white, filled and line rectangles.
-@see screen,Modules
 
 @section Code
 @example
-#project "Rectangle demo"
+#project "Screen rectangle example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 
+#display "EV3"
+
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     ; Draw two black filled rectangles at the left/top and right/bottom...
     setFill(TRUE)
     setFillColor(BLACK)
@@ -37,6 +42,8 @@ proc main()
     setFill(FALSE)
     drawRect(10, 74, 69, 44)
 
+    updateScreen()
+
     ; Wait...
     halt()
 end
@@ -45,6 +52,6 @@ end
 @section Screenshot
 @image images/display/rectangle.png
 
-@load Open rectangle example|examples/screen/rectangle.whlp
+@load Open rectangle example|examples/ev3/screen/rectangle.whlp
 
-@see screen,standard
+@see screen,standard,Modules

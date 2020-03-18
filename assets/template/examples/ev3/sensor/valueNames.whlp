@@ -5,14 +5,14 @@
 ; - Touch
 ; - Color, the color value
 ; - Infrared, the remote button
-
-#project "Sensor value name demo"
+#project "Sensor value name example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/sensor.whl"
 
-#display "EV3 Sensors"
+#display "EV3, EV3 Sensors"
 
 string colors[8]     = ["non", "blk", "blu", "grn", "yel", "red", "wht", "brn"]
 number touchValue    = FALSE
@@ -56,12 +56,15 @@ proc drawInfraredValue()
     setTextSize(TEXT_SIZE_3)
     number x = 124
     if infraredValue >= 10
-        x -= 5
+        x -= 7
     end
     drawNumber(x, 55, infraredValue)
 end
 
 proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number value
 
     drawTouchValue()
