@@ -1,5 +1,12 @@
-; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+@subject EV3_Example:PSP, Stick
+@device  E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section PSP Stick
+This example shows how to use the Mindsensors PSP device to read left and right joysticks.
+
+@section Code
+@example
 #project "PSP stick demo"
 
 #include "lib/standard.whl"
@@ -59,3 +66,8 @@ proc main()
         end
     end
 end
+@end
+
+@load Open the PSP stick example|examples/ev3/psp/stick.whlp
+
+@see pspStart,pspData,Modules

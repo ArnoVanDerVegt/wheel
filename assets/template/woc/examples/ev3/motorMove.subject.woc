@@ -104,6 +104,6 @@ proc main()
 end
 @end
 
-@load Open motor move example|examples/ev3/motor/controlMove.whlp
+@load Open the motor move example|examples/ev3/motor/controlMove.whlp
 
 @see standard,screen,button,motor,Modules

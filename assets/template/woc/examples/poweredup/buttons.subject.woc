@@ -99,6 +99,6 @@ end
 @section Screenshot
 @image images/display/buttons.png
 
-@load Open button example|examples/button/button.whlp
+@load Open the button example|examples/button/button.whlp
 
 @see button,screen,standard

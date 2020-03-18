@@ -41,6 +41,9 @@
 .dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.p {
     background-color:               #F9CA24;
 }
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.m {
+    background-color:               #E74C3C;
+}
 .dialog-background.help-dialog .dialog-center .dialog-content div.third,
 .dialog-background.help-dialog .dialog-center .dialog-content div.quarter {
     float:                          left;
@@ -165,25 +168,28 @@
     height:                         20px;
     border-radius:                  10px;
     text-align:                     center;
-    line-height:                    20px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices span {
-    margin-left:                    8px;
+    line-height:                    21px;
+    font-size:                      13px;
+    font-family:                    latolight;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.e,
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e {
     background-color:               #0984E3;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e {
-    float:                          left;
-}
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.p,
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .p {
     background-color:               #F9CA24;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .p {
+.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.m,
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .m {
+    background-color:               #E74C3C;
+    color:                          #FFFFFF;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e,
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .p,
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .m {
     float:                          left;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file pre.wheel,

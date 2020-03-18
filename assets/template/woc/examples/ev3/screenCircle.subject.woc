@@ -52,7 +52,7 @@ end
 @section Screenshot
 @image images/display/circle.png
 
-@load Open circle example|examples/ev3/screen/circle.whlp
+@load Open the circle example|examples/ev3/screen/circle.whlp
 
 @see standard,screen,standard,Modules
 

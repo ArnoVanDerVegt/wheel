@@ -1,4 +1,4 @@
-@subject EV3_Example:Motor, target and readyBits
+@subject EV3_Example:Motor, target/readyBits
 @device  E
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
@@ -29,6 +29,6 @@ proc main()
 end
 @end
 
-@load Open motor target and readyBits example|examples/ev3/motor/readyBits.whlp
+@load Open the motor target and readyBits example|examples/ev3/motor/readyBits.whlp
 
 @see standard,screen,motor,Modules

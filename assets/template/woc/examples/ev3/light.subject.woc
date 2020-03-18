@@ -41,6 +41,6 @@ proc main()
 end
 @end
 
-@load Open light example|examples/ev3/light/light.whlp
+@load Open the light example|examples/ev3/light/light.whlp
 
 @see light,standard,Modules

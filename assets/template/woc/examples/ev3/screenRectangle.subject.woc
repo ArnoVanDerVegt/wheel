@@ -52,6 +52,6 @@ end
 @section Screenshot
 @image images/display/rectangle.png
 
-@load Open rectangle example|examples/ev3/screen/rectangle.whlp
+@load Open the rectangle example|examples/ev3/screen/rectangle.whlp
 
 @see screen,standard,Modules

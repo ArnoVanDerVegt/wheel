@@ -106,6 +106,6 @@ end
 @section Screenshot
 @image images/display/buttons.png
 
-@load Open button example|examples/ev3/button/button.whlp
+@load Open the button example|examples/ev3/button/button.whlp
 
 @see button,screen,standard

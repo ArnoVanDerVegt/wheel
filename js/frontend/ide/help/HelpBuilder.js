@@ -228,7 +228,7 @@ class HelpBuilder {
             let children = [];
             proc.device.split(',').forEach(
                 function(device) {
-                    if ('EP'.indexOf(device) !== -1) {
+                    if ('EPM'.indexOf(device) !== -1) {
                         children.push({type: Span, innerHTML: device, className: device.toLowerCase()});
                     }
                 },
@@ -659,7 +659,8 @@ class HelpBuilder {
                 className: 'legend',
                 children: [
                     addLegendItem('e', 'EV3'),
-                    addLegendItem('p', 'Powered Up')
+                    addLegendItem('p', 'Powered Up'),
+                    addLegendItem('m', 'Mindsensors')
                 ]
             }
         );

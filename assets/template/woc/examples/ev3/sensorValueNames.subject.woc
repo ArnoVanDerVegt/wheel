@@ -111,6 +111,6 @@ proc main()
 end
 @end
 
-@load Open sensor value names example|examples/ev3/sensor/valueNames.whlp
+@load Open the sensor value names example|examples/ev3/sensor/valueNames.whlp
 
 @see screen,standard,sensor,Modules

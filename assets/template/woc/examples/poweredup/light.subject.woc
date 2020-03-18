@@ -61,6 +61,6 @@ proc main()
 end
 @end
 
-@load Open pixel example|examples/poweredup/light/light.whlp
+@load Open the light and color example|examples/poweredup/light/light.whlp
 
 @see light,Modules

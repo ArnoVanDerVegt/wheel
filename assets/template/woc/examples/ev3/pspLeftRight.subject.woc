@@ -1,10 +1,16 @@
-; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+@subject EV3_Example:PSP, Left/right buttons
+@device  E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section PSP Left and right buttons
+This example shows how to use the Mindsensors PSP device to read the left and right buttons.
+
+@section Code
+@example
 #project "PSP L/R demo"
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
-#include "lib/bit.whl"
 #include "lib/screen.whl"
 #include "lib/psp.whl"
 
@@ -58,3 +64,8 @@ proc main()
         updateScreen()
     end
 end
+@end
+
+@load Open the PSP left/right example|examples/ev3/psp/lr.whlp
+
+@see pspStart,pspData,Modules

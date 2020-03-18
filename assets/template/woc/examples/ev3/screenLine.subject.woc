@@ -48,6 +48,6 @@ end
 @section Screenshot
 @image images/display/line.png
 
-@load Open line example|examples/ev3/screen/line.whlp
+@load Open the line example|examples/ev3/screen/line.whlp
 
 @see screen,standard,Modules

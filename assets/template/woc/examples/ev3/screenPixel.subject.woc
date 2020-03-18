@@ -56,6 +56,6 @@ end
 @section Screenshot
 @image images/display/pixel.png
 
-@load Open pixel example|examples/ev3/screen/pixel.whlp
+@load Open the pixel example|examples/ev3/screen/pixel.whlp
 
 @see screen,standard
