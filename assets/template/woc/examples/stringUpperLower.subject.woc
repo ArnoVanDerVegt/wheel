@@ -1,5 +1,11 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:String, upper/lower case
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String upper/lower case example
+This demo declares a string and converts it to upper and lower case.
+
+@section Code
+@example
 #project "String Uppercase, lowercase example"
 
 #include "lib/standard.whl"
@@ -20,3 +26,8 @@ proc main()
     toLowerCase(s)
     printS(s)
 end
+@end
+
+@load Open upper/lowercase example|examples/string/upperLower.whlp
+
+@see string,toUpperCase,toLowerCase,standard,Modules

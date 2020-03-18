@@ -1,8 +1,12 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:String, subString
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "String indexOf example"
+@section String number example
+This demo declares a string with a value, takes two sub strings and prints them in the console.
 
-; This demo declares a string with a value, takes two sub strings and prints them in the console.
+@section Code
+@example
+#project "String indexOf example"
 
 #include "lib/standard.whl"
 #include "lib/string.whl"
@@ -19,3 +23,8 @@ proc main()
     subString(s, 10, 16, s2)
     printS(s2)
 end
+@end
+
+@load Open subString example|examples/string/subString.whlp
+
+@see string,number,subString,standard,Modules

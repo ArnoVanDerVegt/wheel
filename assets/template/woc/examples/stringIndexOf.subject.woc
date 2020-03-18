@@ -1,5 +1,12 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:String, indexOf
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String indexOf example
+This example declares tow strings: needle and haystack.
+Then the index of the needle in the haystack is printed in the console.
+
+@section Code
+@example
 #project "String indexOf example"
 
 #include "lib/standard.whl"
@@ -22,3 +29,8 @@ proc main()
     printS("Next index of:")
     printN(n)
 end
+@end
+
+@load Open indexOf example|examples/string/indexOf.whlp
+
+@see string,indexOf,standard,Modules

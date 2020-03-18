@@ -1,5 +1,12 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:Math, rounding
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Math abs, neg example
+This gets a random value between greater or equan than 0 and less than 10 and prints
+the value, the rounded down and rounderd up value in the console.
+
+@section Code
+@example
 #project "Math rounding example"
 
 #include "lib/standard.whl"
@@ -21,3 +28,8 @@ proc main()
     printS("Ceil:")
     printN(ceil(n))
 end
+@end
+
+@load Open file read example|examples/math/rounding.whlp
+
+@see math,abs,neg,Modules

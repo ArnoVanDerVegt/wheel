@@ -1,5 +1,11 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:String, number
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String number example
+This shows how to convert a number to a string and a string to a number.
+
+@section Code
+@example
 #project "String number example"
 
 #include "lib/standard.whl"
@@ -23,3 +29,8 @@ proc main()
     printS("String to number:")
     printN(n)
 end
+@end
+
+@load Open indexOf example|examples/string/number.whlp
+
+@see string,number,numberToString,stringToNumber,standard,Modules
