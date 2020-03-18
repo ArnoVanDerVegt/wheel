@@ -51,4 +51,14 @@ exports.SimulatedLayerDevice = class {
             this._ports[port].type = type;
         }
     }
+
+    setPortMode(port, mode) {
+        if (this.getValidPort(port)) {
+            if ((this._type === poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB) && (port < 2)) {
+                // The first two ports of the Move Hub are built in and can not be changed...
+                return;
+            }
+            this._ports[port].mode = mode;
+        }
+    }
 };

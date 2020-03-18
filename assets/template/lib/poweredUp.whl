@@ -12,6 +12,12 @@
 #define POWERED_UP_OUTPUT_C                          2
 #define POWERED_UP_OUTPUT_D                          3
 
+; @const The Powered Up ports.
+#define POWERED_UP_PORT_A                            0
+#define POWERED_UP_PORT_B                            1
+#define POWERED_UP_PORT_C                            2
+#define POWERED_UP_PORT_D                            3
+
 ; @const Powered Up device types.
 #define POWERED_UP_MOVE_HUB                          2
 #define POWERED_UP_HUB                               3
@@ -32,6 +38,10 @@
 
 ; @const Sensor types, these constants can be used as a parameter for the `sensorSetType` or `sensorLayerSetType` procedures.
 #define POWERED_UP_DEVICE_BOOST_DISTANCE            37
+
+; @const The sensor modes for the color/distance sensor.
+#define POWERED_UP_SENSOR_MODE_DISTANCE              0
+#define POWERED_UP_SENSOR_MODE_COLOR                 1
 
 ; @record A record to contain vector data for acceleration and tilt values.
 record PoweredUpVector

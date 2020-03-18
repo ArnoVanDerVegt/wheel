@@ -206,6 +206,15 @@ exports.Plugin = class extends Plugin {
         }
     }
 
+    setMode(port) {
+        let simulatedLayerDevice = this._simulatedDevices.getLayer(port.layer);
+        if (simulatedLayerDevice) {
+            simulatedLayerDevice.setPortMode(port.id, port.mode);
+            this.updateActiveLayer(port.layer);
+            this._motors[port.layer * 4 + port.id].setMode(port.mode);
+        }
+    }
+
     updateActiveLayer(layer) {
         if (layer === this._simulator.getLayer()) {
             this.showLayer(layer);
@@ -222,7 +231,7 @@ exports.Plugin = class extends Plugin {
         if (layerState && layerState.getConnected()) {
             let ports = layerState.getPorts();
             for (let port = 0; port < 4; port++) {
-                motors[layer * 4 + port].onAssigned(ports[i].assigned);
+                motors[layer * 4 + port].onAssigned(ports[port].assigned);
             }
         } else if ((layer >= 0) && (layer <= 3)) {
             let simulatedLayerDevice = this._simulatedDevices.getLayer(layer);

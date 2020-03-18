@@ -82,6 +82,8 @@ exports.SensorModule = class extends DeviceModule {
                 sensor && sensor.setType(data.type);
                 break;
             case sensorModuleConstants.SENSOR_SET_MODE:
+                let device = this._device;
+                device && device.setMode(data.layer, data.id, data.mode);
                 sensor && sensor.setMode(data.mode);
                 break;
             case sensorModuleConstants.SENSOR_RESET:

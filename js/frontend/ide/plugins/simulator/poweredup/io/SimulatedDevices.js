@@ -32,6 +32,12 @@ exports.SimulatedDevices = class {
         }
     }
 
+    setMode(layer, mode) {
+        if (this.getValidLayer(layer)) {
+            this._layers[layer].setMode(type);
+        }
+    }
+
     getLayer(layer) {
         return this._layers[layer];
     }
