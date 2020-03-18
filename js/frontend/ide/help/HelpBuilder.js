@@ -616,15 +616,13 @@ class HelpBuilder {
         this._dialog   = dialog;
         this
             .addLegend(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Programming:', 'Programming')
-            .buildSubjectIndex(parentNode, helpData, 'Example:',     'Examples')
-            .buildSubjectIndex(parentNode, helpData, 'Module:',      'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Programming:',       'Programming')
+            .buildSubjectIndex(parentNode, helpData, 'IDE:',               'IDE')
+            .buildSubjectIndex(parentNode, helpData, 'VM:',                'Compiler and VM')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'IDE:',         'IDE')
-            .buildSubjectIndex(parentNode, helpData, 'Installing:',  'Installing')
-            .buildSubjectIndex(parentNode, helpData, 'Compiler:',    'Compiler')
-            .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'VM:',          'VM');
+            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       'EV3 examples')
+            .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples');
     }
 
     addLegend(parentNode) {

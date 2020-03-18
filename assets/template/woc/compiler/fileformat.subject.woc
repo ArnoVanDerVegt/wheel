@@ -1,4 +1,4 @@
-@subject Compiler:File format
+@subject VM:VM File format
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Rtf
@@ -49,7 +49,7 @@ A single command is stored as 3 numbers:
 * The second parameter value
 
 The first number is 8 bits, the 4 high bits store the command, followed by two bits for the first parameter type
-followed by two bits for the second parameter type. 
+followed by two bits for the second parameter type.
 A command and parameter type information can be stored in a single byte.
 
 +---+---+---+---+---+---+---+-----+

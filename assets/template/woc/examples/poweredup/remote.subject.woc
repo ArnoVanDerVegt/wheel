@@ -1,0 +1,10 @@
+@subject PoweredUp_Example:Remote control
+@device  P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Button example
+This example shows how to read the EV3 buttons.
+The program has a main loop in which the buttons are read.
+If the button value is different from the last value then a `switch` statement
+is used to check which button is pressed.
+@see button,Modules
