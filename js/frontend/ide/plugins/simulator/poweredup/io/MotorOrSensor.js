@@ -16,6 +16,9 @@ deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR]
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS               ] = {src: 'images/poweredup/light.png',       motor: false, value: false};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE           ] = {src: 'images/poweredup/lightSensor.png', motor: false, value: true};
 
+/**
+ * Todo: move _mode to _state instance.
+**/
 exports.MotorOrSensor = class extends Motor {
     constructor(opts) {
         opts.deviceInfo = deviceInfo;
@@ -77,25 +80,11 @@ exports.MotorOrSensor = class extends Motor {
 
     setMode(mode) {
         this._mode = mode;
-        let refs = this._refs;
-        let type = this._state.getType();
-        refs.colorValue.className  = 'value hidden';
-        refs.numberValue.className = 'value hidden';
-        if (!deviceInfo[type] || deviceInfo[type].motor) {
-            return;
-        }
-        switch (mode) {
-            case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE:
-                refs.numberValue.className = 'value';
-                break;
-            case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_COLOR:
-                refs.colorValue.className = 'value';
-                break;
-        }
+        this.onValueChanged(0);
     }
 
     getContextMenuOptions() {
-        if (this._type in deviceInfo) {
+        if (this._state.getType() in deviceInfo) {
             return [
                 'POWERED_UP_SENSOR_MODE_DISTANCE',
                 'POWERED_UP_SENSOR_MODE_COLOR'
@@ -116,7 +105,40 @@ exports.MotorOrSensor = class extends Motor {
     }
 
     onValueChanged(value) {
-        this._positionElement.innerHTML = value;
+        let type            = this._state.getType();
+        let positionElement = this._positionElement;
+        if (!(type in deviceInfo)) {
+            return;
+        }
+        if (deviceInfo[type].motor) {
+            positionElement.innerHTML = value;
+            return;
+        }
+        if (type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE) {
+            let refs = this._refs;
+            switch (this._mode) {
+                case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE:
+                    if (this._device.getConnected()) {
+                        refs.numberValue.className     = 'value hidden';
+                        refs.colorValue.className      = 'value hidden';
+                        positionElement.style.display  = 'block';
+                        positionElement.innerHTML      = value;
+                    } else {
+                        refs.numberValue.className     = 'value';
+                        refs.colorValue.className      = 'value hidden';
+                        positionElement.style.display  = 'none';
+                        this._numberInputElement.value = value;
+                    }
+                    break;
+                case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_COLOR:
+                    positionElement.style.display = 'none';
+                    refs.numberValue.className    = 'value hidden';
+                    refs.colorValue.className     = 'value';
+                    refs.colorValueInput.setValue(value);
+                    refs.colorValueInput.setDisabled(this._device.getConnected());
+                    break;
+            }
+        }
     }
 
     onAssigned(assigned) {

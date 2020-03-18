@@ -29,6 +29,7 @@ exports.ideRoutes = {
     _cwd:              path.join(__dirname, '/../../..'),
     _currentPath:      {},
     _documentPath:     genericPath(path.join(os.homedir(), 'Wheel')),
+
     _onIpcMessage: function(event, arg) {
         let data;
         try {
@@ -60,15 +61,18 @@ exports.ideRoutes = {
             this._res = null;
         }
     },
+
     _saveSettings: function() {
         return settings.saveToLocalStorage(this._getSettings()) || settings.saveToFile(this._getSettings());
     },
+
     _getSettings: function() {
         if (!this._settings) {
             this._settings = {};
         }
         return this._settings;
     },
+
     files: function(req, res) {
         let index = req.query.index;
         if (!(index in this._currentPath)) {
@@ -120,6 +124,7 @@ exports.ideRoutes = {
             }).bind(this)
         );
     },
+
     _findFile(filename) {
         let found    = false;
         if (Array.isArray(filename)) {
@@ -153,6 +158,7 @@ exports.ideRoutes = {
         }
         return null;
     },
+
     file: function(req, res) {
         let filename = this._findFile(req.body.filename);
         let result   = {success: true, filename: req.body.filename, data: null};
@@ -192,11 +198,13 @@ exports.ideRoutes = {
                 break;
         }
     },
+
     fileAppend(req, res) {
         let filename = req.body.filename;
         let result   = {success: true, filename: filename};
         fs.appendFile(filename, req.body.data, createResultCallback(result, res));
     },
+
     fileSave: function(req, res) {
         let f;
         let filename = req.body.filename;
@@ -225,15 +233,18 @@ exports.ideRoutes = {
             res.send(JSON.stringify(result));
         }
     },
+
     fileSaveBase64AsBinary(req, res) {
         let result = {success: true};
         fs.writeFile(req.body.filename, Buffer.from(req.body.data, 'base64'), createResultCallback(result, res));
     },
+
     fileDelete: function(req, res) {
         let filename = req.body.filename;
         let result   = {success: false};
         fs.unlink(req.body.filename, createResultCallback(result, res));
     },
+
     fileSize: function(req, res) {
         let filename = req.body.filename;
         let result   = {success: false, size: 0};
@@ -247,6 +258,7 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     filesInPath: function(req, res) {
         let filelist      = [];
         let readFilesSync = function(dir) {
@@ -262,6 +274,7 @@ exports.ideRoutes = {
         readFilesSync(this._documentPath);
         res.send(JSON.stringify(filelist));
     },
+
     directoryCreate: function(req, res) {
         let directory = req.body.directory;
         let result    = {success: false};
@@ -275,10 +288,12 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     directoryDelete: function(req, res) {
         let result = {success: false};
         fs.rmdir(req.body.directory, createResultCallback(result, res));
     },
+
     pathCreate: function(req, res) {
         let result = {success: false};
         try {
@@ -296,6 +311,7 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     pathExists: function(req, res) {
         let result = {success: false};
         try {
@@ -306,10 +322,12 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     rename: function(req, res) {
         let result = {success: false};
         fs.rename(req.body.oldName, req.body.newName, createResultCallback(result, res));
     },
+
     settingsLoad: function(req, res) {
         let result = settings.loadFromLocalStorage();
         if (!result) {
@@ -345,6 +363,7 @@ exports.ideRoutes = {
         ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
         ipcRenderer.send('postMessage', {command: 'settings', settings: result});
     },
+
     settingsSave: function(req, res) {
         let result = {success: true};
         let data   = req.body.settings;
@@ -362,13 +381,16 @@ exports.ideRoutes = {
         result.success = this._saveSettings();
         res.send(JSON.stringify(result));
     },
+
     changes: function(req, res) {
         res.send(JSON.stringify(this.directoryWatcher ? this.directoryWatcher.getChanges() : []));
     },
+
     userInfo: function(req, res) {
         this._cwd = this._getSettings().documentPath;
         res.send(JSON.stringify({username: os.userInfo().username, cwd: this._cwd}));
     },
+
     exec: function(req, res) {
         let command = req.body.command;
         let result  = null;

@@ -2,20 +2,21 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
-const BasicDevice           = require('../BasicDevice').BasicDevice;
-const poweredUpConstants    = require('node-poweredup').Consts;
-const PoweredUP             = require('node-poweredup');
+const sensorModuleConstants    = require('../../vm/modules/sensorModuleConstants');
+const poweredUpModuleConstants = require('../../vm/modules/poweredUpModuleConstants');
+const BasicDevice              = require('../BasicDevice').BasicDevice;
+const poweredUpConstants       = require('node-poweredup').Consts;
+const PoweredUP                = require('node-poweredup');
 
-const PORT_TO_INDEX         = {A: 0, B: 1, C: 2, D: 3};
+const PORT_TO_INDEX            = {A: 0, B: 1, C: 2, D: 3};
 
-const REMOTE_BUTTON_MINUS   = 255;
-const REMOTE_BUTTON_RED     = 127;
-const REMOTE_BUTTON_PLUS    =   1;
+const REMOTE_BUTTON_MINUS      = 255;
+const REMOTE_BUTTON_RED        = 127;
+const REMOTE_BUTTON_PLUS       =   1;
 
-const DIRECTION_REVERSE     =  -1;
-const DIRECTION_NONE        =   0;
-const DIRECTION_FORWARD     =   1;
+const DIRECTION_REVERSE        =  -1;
+const DIRECTION_NONE           =   0;
+const DIRECTION_FORWARD        =   1;
 
 exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
@@ -49,6 +50,7 @@ exports.PoweredUp = class extends BasicDevice {
                 value:            0,
                 reset:            0,
                 assigned:         0,
+                mode:             0,
                 device:           null,
                 moving:           false,
                 currentDirection: DIRECTION_NONE,
@@ -141,7 +143,25 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     onColorAndDistance(layer, port, event) {
-        port.value = event.distance; // Todo: Distance or color depending on mode!
+        switch (port.mode) {
+            case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE:
+                port.value = event.distance;
+                break;
+            case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_COLOR:
+                switch (event.color) {
+                    case  0: port.value = sensorModuleConstants.COLOR_BLACK;  break;
+                    case  3: port.value = sensorModuleConstants.COLOR_BLUE;   break;
+                    case  5: port.value = sensorModuleConstants.COLOR_GREEN;  break;
+                    case  7: port.value = sensorModuleConstants.COLOR_YELLOW; break;
+                    case  9: port.value = sensorModuleConstants.COLOR_RED;    break;
+                    case 10: port.value = sensorModuleConstants.COLOR_WHITE;  break;
+                    default: port.value = sensorModuleConstants.COLOR_NONE;   break;
+                }
+                break;
+            default:
+                port.value = 0;
+                break;
+        }
     }
 
     onRotate(layer, device) {
@@ -512,7 +532,10 @@ exports.PoweredUp = class extends BasicDevice {
         return result;
     }
 
-    setMode(layer, port, mode) {}
+    setMode(layer, port, mode) {
+        this._layers[layer].ports[port].mode = mode;
+    }
+
     stopPolling() {}
     resumePolling() {}
 };

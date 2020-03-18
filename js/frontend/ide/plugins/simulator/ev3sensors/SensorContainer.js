@@ -17,6 +17,9 @@ const TouchSensor           = require('./io/TouchSensor').TouchSensor;
 const UltrasonicSensor      = require('./io/UltrasonicSensor').UltrasonicSensor;
 const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSensor;
 
+/**
+ * Todo: move _mode to _state instance.
+**/
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);

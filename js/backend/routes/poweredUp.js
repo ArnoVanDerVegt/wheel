@@ -19,6 +19,7 @@ exports.poweredUpRoutes = {
         let poweredUp = getPoweredUp();
         res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getDeviceList()}));
     },
+
     connect: function(req, res) {
         let uuid = req.body.uuid;
         getPoweredUp().connect(
@@ -28,10 +29,12 @@ exports.poweredUpRoutes = {
             }
         );
     },
+
     disconnect: function(req, res) {
         getPoweredUp().disconnect(function() {});
         res.send(JSON.stringify({}));
     },
+
     connecting: function(req, res) {
         let connected = getPoweredUp().getConnected();
         let state     = {};
@@ -43,9 +46,11 @@ exports.poweredUpRoutes = {
             state:     state
         }));
     },
+
     connected: function(req, res) {
         res.send(JSON.stringify({connected: getPoweredUp().getConnected()}));
     },
+
     update: function(req, res) {
         let result = {error: false, connected: true};
         let queue  = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
@@ -55,6 +60,7 @@ exports.poweredUpRoutes = {
         result.state = poweredUp.getState();
         res.send(JSON.stringify(result));
     },
+
     _createTimeoutCallback(res) {
         let done     = false;
         let timeout  = null;
@@ -72,6 +78,7 @@ exports.poweredUpRoutes = {
         timeout = setTimeout(callback, 500);
         return callback;
     },
+
     stopAllMotors(req, res) {
         let result     = {success: true};
         let layerCount = req.body.layerCount;
@@ -84,14 +91,17 @@ exports.poweredUpRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     stopPolling(req, res) {
         getPoweredUp().stopPolling();
         res.send(JSON.stringify({success: true}));
     },
+
     resumePolling(req, res) {
         getPoweredUp().resumePolling();
         res.send(JSON.stringify({success: true}));
     },
+
     setMode(req, res) {
         let body = req.body;
         getPoweredUp().setMode(body.layer, body.port, body.mode);
