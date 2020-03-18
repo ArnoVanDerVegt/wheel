@@ -1,5 +1,11 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:File, read
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section File read example
+This example shows how to create a file with meta commands and read strings and numbers from the file.
+
+@section Code
+@example
 #project "File read example"
 
 #include "lib/standard.whl"
@@ -31,3 +37,8 @@ proc main()
         printS(s)
     end
 end
+@end
+
+@load Open file read example|examples/file/fileRead.whlp
+
+@see file,fileOpenRead,fileReadNumber,fileReadString,standard,#text,#line,Modules

@@ -18,7 +18,7 @@ exports.UnknownSensor = class extends Sensor {
                         children: [
                             {
                                 className: 'unknown-type',
-                                innerHTML: '?'
+                                innerHTML: ''
                             },
                             {
                                 type:      'span',

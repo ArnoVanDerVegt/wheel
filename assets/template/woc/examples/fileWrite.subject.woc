@@ -1,8 +1,15 @@
-; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+@subject Example:File, write
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "File write example"
+@section File write example
+This example shows how to create a file with meta commands and read strings and numbers from the file.
 
-; When you run this example then a file named `furniture.rtf` will be written in the `examples/file/output`.
+
+When you run this example then a file named `furniture.rtf` will be written in the `examples/file/output`.
+
+@section Code
+@example
+#project "File write example"
 
 #include "lib/standard.whl"
 #include "lib/file.whl"
@@ -22,3 +29,8 @@ proc main()
     fileWriteNumber(handle, 3)
     fileWriteString(handle, "Cupboard")
 end
+@end
+
+@load Open file write example|examples/file/fileWrite.whlp
+
+@see file,fileExists,fileOpenWrite,standard,#text,#line,Modules
