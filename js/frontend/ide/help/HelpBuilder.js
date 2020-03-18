@@ -321,25 +321,28 @@ class HelpBuilder {
         return this;
     }
 
-    addLoadButton(opts) {
+    addLoadButton(buttons) {
+        let children = [];
+        for (let i = 0; i < buttons.length; i++) {
+            let button = buttons[i];
+            children.push({
+                type:     Button,
+                ui:       button.ui,
+                uiId:     button.uiId,
+                value:    button.title,
+                tabIndex: 256,
+                color:    'blue',
+                onClick:  function() {
+                    button.dialog.hide();
+                    dispatcher.dispatch('Dialog.File.Open', path.join(button.documentPath, button.src));
+                }
+            });
+        }
         new DOMNode({}).create(
-            opts.parentNode,
+            buttons[0].parentNode,
             {
                 className: 'example-loader',
-                children: [
-                    {
-                        type:     Button,
-                        ui:       opts.ui,
-                        uiId:     opts.uiId,
-                        value:    opts.title,
-                        tabIndex: 256,
-                        color:    'blue',
-                        onClick:  function() {
-                            opts.dialog.hide();
-                            dispatcher.dispatch('Dialog.File.Open', path.join(opts.documentPath, opts.src));
-                        }
-                    }
-                ]
+                children:  children
             }
         );
     }
@@ -477,9 +480,16 @@ class HelpBuilder {
                             new P({parentNode: parentNode, innerHTML: lines.join(' ')});
                             break;
                         case 'load':
-                            opts.title = content[j].text[0];
-                            opts.src   = content[j].text[1];
-                            this.addLoadButton(opts);
+                            let buttons = [];
+                            while (content[j].type === 'load') {
+                                let button  = Object.assign({}, opts);
+                                button.title = content[j].text[0];
+                                button.src   = content[j].text[1];
+                                buttons.push(button);
+                                j++;
+                            }
+                            j--;
+                            this.addLoadButton(buttons);
                             break;
                         case 'see':
                             this.addSee({

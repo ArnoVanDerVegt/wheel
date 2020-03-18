@@ -26,5 +26,6 @@ end
 @end
 
 @load Open subString example|examples/string/subString.whlp
+@load Open subString example for EV3|examples/ev3/string/subString.whlp
 
 @see string,number,subString,standard,Modules

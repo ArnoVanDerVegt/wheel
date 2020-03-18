@@ -29,5 +29,6 @@ end
 @end
 
 @load Open add example|examples/string/add.whlp
+@load Open add example for EV3|examples/ev3/string/add.whlp
 
 @see string,standard,Modules

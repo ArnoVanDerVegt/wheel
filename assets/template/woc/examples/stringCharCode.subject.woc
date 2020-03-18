@@ -36,5 +36,6 @@ end
 @end
 
 @load Open add example|examples/string/charCode.whlp
+@load Open add example for EV3|examples/ev3/string/charCode.whlp
 
 @see string,getCharCodeAt,setCharCodeAt,standard,Modules

@@ -293,6 +293,7 @@
     height:                         32px;
     text-align:                     center;
     line-height:                    28px;
+    margin-right:                   12px;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file div.see-also-block {
     float:                          left;

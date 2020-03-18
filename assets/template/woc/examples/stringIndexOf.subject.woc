@@ -32,5 +32,6 @@ end
 @end
 
 @load Open indexOf example|examples/string/indexOf.whlp
+@load Open indexOf example for EV3|examples/ev3/string/indexOf.whlp
 
 @see string,indexOf,standard,Modules
