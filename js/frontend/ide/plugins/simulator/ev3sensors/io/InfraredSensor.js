@@ -24,7 +24,7 @@ exports.InfraredSensor = class extends Sensor {
                             ui:       this._ui,
                             tabIndex: this._tabIndex,
                             options:  this.getInfraredOptions(),
-                            onChange: this.onChangeValue.bind(this)
+                            onChange: this.onChangeRemoteValue.bind(this)
                         }
                     ]
                 },
@@ -33,26 +33,27 @@ exports.InfraredSensor = class extends Sensor {
         );
     }
 
-    setMode(mode) {
-        let refs = this._refs;
-        this._mode = mode;
-        if (mode === sensorModuleConstants.IR_REMOTE) {
-            refs.numberValue.className   = 'value hidden';
-            refs.infraredValue.className = 'value';
-            refs.infraredValueInput.setValue(this._value);
+    onChangeRemoteValue(value) {
+        this._state.setValue(value);
+    }
+
+    onChangeValue(value) {
+        if (this._state.getMode() === sensorModuleConstants.IR_REMOTE) {
+            this._refs.infraredValueInput.setValue(Math.min(Math.max(value, 0), 11));
         } else {
-            refs.infraredValue.className = 'value hidden';
-            refs.numberValue.className   = 'value';
+            this._numberInputElement.value = value;
         }
     }
 
-    setValue(value) {
-        if (this._mode === sensorModuleConstants.INFRARED_BUTTON) {
-            this._value = Math.min(Math.max(value, 0), 11);
-            this._refs.infraredValueInput.setValue(this._value);
+    onChangeMode(mode) {
+        let refs = this._refs;
+        if (mode === sensorModuleConstants.IR_REMOTE) {
+            refs.numberValue.className   = 'value hidden';
+            refs.infraredValue.className = 'value';
+            refs.infraredValueInput.setValue(Math.min(Math.max(this._state.getValue(), 0), 11));
         } else {
-            this._numberInputElement.value = value;
-            this._value                    = value;
+            refs.infraredValue.className = 'value hidden';
+            refs.numberValue.className   = 'value';
         }
     }
 
@@ -84,15 +85,6 @@ exports.InfraredSensor = class extends Sensor {
         ];
     }
 
-    onChangeNumberValue(event) {
-        let value = parseInt(event.target.value, 10);
-        if (isNaN(value)) {
-            return;
-        }
-        this._value = Math.min(Math.max(value, 0), 999);
-        this.setTimeoutReset();
-    }
-
     onConnected() {
         this._numberInputElement.disabled = 'disabled';
         this._refs.infraredValueInput.setDisabled(true);
@@ -101,12 +93,5 @@ exports.InfraredSensor = class extends Sensor {
     onDisconnected() {
         this._numberInputElement.disabled = '';
         this._refs.infraredValueInput.setDisabled(false);
-    }
-
-    onResetTimeout() {
-        this._refs.infraredValueInput.setValue(0);
-        this._numberInputElement.value = 0;
-        this._timeoutReset             = null;
-        this._value                    = 0;
     }
 };

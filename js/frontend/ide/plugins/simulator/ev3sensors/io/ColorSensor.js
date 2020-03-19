@@ -19,29 +19,6 @@ exports.ColorSensor = class extends Sensor {
         );
     }
 
-    setMode(mode) {
-        let refs = this._refs;
-        this._mode = mode;
-        if (mode === sensorModuleConstants.COLOR_COLOR) {
-            refs.numberValue.className = 'value hidden';
-            refs.colorValue.className  = 'value';
-            refs.colorValueInput.setValue(this._value);
-        } else {
-            refs.colorValue.className  = 'value hidden';
-            refs.numberValue.className = 'value';
-        }
-    }
-
-    setValue(value) {
-       if (this._mode === sensorModuleConstants.COLOR_COLOR) {
-            this._value = Math.min(Math.max(value, 0), 7);
-            this._refs.colorValueInput.setValue(this._value);
-       } else {
-            this._value                    = value;
-            this._numberInputElement.value = value;
-       }
-    }
-
     getContextMenuOptions() {
         return [
             'COLOR_REFLECTED',
@@ -53,6 +30,26 @@ exports.ColorSensor = class extends Sensor {
         ];
     }
 
+    onChangeValue(value) {
+       if (this._state.getMode() === sensorModuleConstants.COLOR_COLOR) {
+            this._refs.colorValueInput.setValue(Math.min(Math.max(value, 0), 7));
+       } else {
+            this._numberInputElement.value = value;
+       }
+    }
+
+    onChangeMode(mode) {
+        let refs = this._refs;
+        if (mode === sensorModuleConstants.COLOR_COLOR) {
+            refs.numberValue.className = 'value hidden';
+            refs.colorValue.className  = 'value';
+            refs.colorValueInput.setValue(this._value);
+        } else {
+            refs.colorValue.className  = 'value hidden';
+            refs.numberValue.className = 'value';
+        }
+    }
+
     onConnected() {
         this._numberInputElement.disabled = 'disabled';
         this._refs.colorValueInput.setDisabled(true);
@@ -61,12 +58,5 @@ exports.ColorSensor = class extends Sensor {
     onDisconnected() {
         this._numberInputElement.disabled = '';
         this._refs.colorValueInput.setDisabled(false);
-    }
-
-    onResetTimeout() {
-        this._refs.colorValueInput.setValue(0);
-        this._numberInputElement.value = 0;
-        this._timeoutReset = null;
-        this._value        = 0;
     }
 };

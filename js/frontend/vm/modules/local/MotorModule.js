@@ -56,6 +56,11 @@ exports.MotorModule = class extends VMModule {
                 motor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Motor.Ready', motor);
                 break;
+            case motorModuleConstants.MOTOR_READY_BITS:
+                motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
+                motor.callback = function(value) { vmData.setNumberAtRet(value); };
+                this.emit('Motor.ReadyBits', motor);
+                break;
             case motorModuleConstants.MOTOR_THRESHOLD:
                 this.emit('Motor.Threshold', vmData.getRecordFromSrcOffset(['layer', 'id', 'threshold']));
                 break;

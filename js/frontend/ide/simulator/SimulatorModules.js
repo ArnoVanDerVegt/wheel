@@ -21,13 +21,12 @@ const callOnObject = function() {
         let args   = Array.from(arguments);
         let object = args.shift();
         if (!object) {
-            return;
+            return 0;
         }
         let method = args.shift();
         if (!object[method]) {
-            return;
+            return 0;
         }
-        /* eslint-disable consistent-return */
         return object[method].apply(object, args);
     };
 
@@ -200,16 +199,19 @@ exports.SimulatorModules = class {
                 return this.getActiveMotorsPlugin();
             }).bind(this);
         this._events.push(
-            motorModule.addEventListener('Motor.SetType',  this, function(motor) { callOnObject(getMotors(), 'setType', motor);                 }),
-            motorModule.addEventListener('Motor.SetSpeed', this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                }),
-            motorModule.addEventListener('Motor.GetType',  this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor)); }),
-            motorModule.addEventListener('Motor.Reset',    this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);             }),
-            motorModule.addEventListener('Motor.MoveTo',   this, function(motor) { callOnObject(getMotors(), 'moveTo', motor);                  }),
-            motorModule.addEventListener('Motor.On',       this, function(motor) { callOnObject(getMotors(), 'on', motor);                      }),
-            motorModule.addEventListener('Motor.TimeOn',   this, function(motor) { callOnObject(getMotors(), 'timeOn', motor);                  }),
-            motorModule.addEventListener('Motor.Stop',     this, function(motor) { callOnObject(getMotors(), 'stop', motor);                    }),
-            motorModule.addEventListener('Motor.Read',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'read', motor));    }),
-            motorModule.addEventListener('Motor.Ready',    this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready', motor));   })
+            motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType', motor);                   }),
+            motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                  }),
+            motorModule.addEventListener('Motor.GetType',   this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor));   }),
+            motorModule.addEventListener('Motor.Reset',     this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);               }),
+            motorModule.addEventListener('Motor.MoveTo',    this, function(motor) { callOnObject(getMotors(), 'moveTo', motor);                    }),
+            motorModule.addEventListener('Motor.On',        this, function(motor) { callOnObject(getMotors(), 'on', motor);                        }),
+            motorModule.addEventListener('Motor.TimeOn',    this, function(motor) { callOnObject(getMotors(), 'timeOn', motor);                    }),
+            motorModule.addEventListener('Motor.Stop',      this, function(motor) { callOnObject(getMotors(), 'stop', motor);                      }),
+            motorModule.addEventListener('Motor.Read',      this, function(motor) { motor.callback(callOnObject(getMotors(), 'read', motor));      }),
+            motorModule.addEventListener('Motor.Ready',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready', motor));     }),
+            motorModule.addEventListener('Motor.ReadyBits', this, function(motor) {
+                motor.callback(callOnObject(getMotors(), 'readyBits', motor));
+            })
         );
         return this;
     }

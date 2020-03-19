@@ -16,19 +16,18 @@ deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR]
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS               ] = {src: 'images/poweredup/light.png',       motor: false, value: false};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE           ] = {src: 'images/poweredup/lightSensor.png', motor: false, value: true};
 
-/**
- * Todo: move _mode to _state instance.
-**/
 exports.MotorOrSensor = class extends Motor {
     constructor(opts) {
         opts.deviceInfo = deviceInfo;
         opts.MotorState = MotorOrSensorState;
         opts.image      = 'images/poweredup/motor.svg';
         super(opts);
+        let layer = opts.layer;
+        let id    = opts.id;
         this._device
-            .addEventListener('PoweredUp.Layer' + this._layer + 'Sensor' + this._id + 'Changed',  this, this.onValueChanged)
-            .addEventListener('PoweredUp.Layer' + this._layer + 'Sensor' + this._id + 'Assigned', this, this.onAssigned);
-        this
+            .addEventListener('PoweredUp.Layer' + layer + 'Sensor' + id + 'Changed',  this, this.onValueChanged)
+            .addEventListener('PoweredUp.Layer' + layer + 'Sensor' + id + 'Assigned', this, this.onAssigned);
+        this._state
             .setType(0)
             .setMode(poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE);
     }
@@ -45,10 +44,20 @@ exports.MotorOrSensor = class extends Motor {
         element.addEventListener('click', this.onClickMotorElement.bind(this));
     }
 
-    setType(type) {
-        this._state.setType(type);
-        let refs = this._refs;
-        let info = deviceInfo[type];
+    getContextMenuOptions() {
+        if (this._state.getType() in deviceInfo) {
+            return [
+                'POWERED_UP_SENSOR_MODE_DISTANCE',
+                'POWERED_UP_SENSOR_MODE_COLOR'
+            ];
+        }
+        return [];
+    }
+
+    onChangeType(type) {
+        let state = this._state;
+        let refs  = this._refs;
+        let info  = deviceInfo[type];
         refs.sensorTitle.className = 'title';
         refs.colorValue.className  = 'value hidden';
         refs.numberValue.className = 'value hidden';
@@ -67,9 +76,6 @@ exports.MotorOrSensor = class extends Motor {
                 // Not connected, no motor: allow input in the simulator...
                 this._positionElement.style.display = 'none';
             }
-            if ((this._layer === 0) && (this._id === 0)) {
-                this.setMode(this._mode);
-            }
         } else {
             this._imageElement.style.display    = 'none';
             this._positionElement.style.display = 'none';
@@ -78,34 +84,13 @@ exports.MotorOrSensor = class extends Motor {
         return this;
     }
 
-    setMode(mode) {
-        this._mode = mode;
-        this.onValueChanged(0);
-    }
-
-    getContextMenuOptions() {
-        if (this._state.getType() in deviceInfo) {
-            return [
-                'POWERED_UP_SENSOR_MODE_DISTANCE',
-                'POWERED_UP_SENSOR_MODE_COLOR'
-            ];
-        }
-        return [];
-    }
-
     onClickMotorElement(event) {
         this.onClickTitle(this._refs.sensorTitle, event);
     }
 
-    onResetTimeout() {
-        this._refs.colorValueInput.setValue(0);
-        this._numberInputElement.value = 0;
-        this._timeoutReset             = null;
-        this._value                    = 0;
-    }
-
     onValueChanged(value) {
-        let type            = this._state.getType();
+        let state           = this._state;
+        let type            = state.getType();
         let positionElement = this._positionElement;
         if (!(type in deviceInfo)) {
             return;
@@ -116,7 +101,7 @@ exports.MotorOrSensor = class extends Motor {
         }
         if (type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE) {
             let refs = this._refs;
-            switch (this._mode) {
+            switch (state.getMode()) {
                 case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE:
                     if (this._device.getConnected()) {
                         refs.numberValue.className     = 'value hidden';
@@ -142,7 +127,8 @@ exports.MotorOrSensor = class extends Motor {
     }
 
     onAssigned(assigned) {
-        this.setType(assigned);
-        this._state.setIsMotor((assigned in deviceInfo) && deviceInfo[assigned].motor);
+        this._state
+            .setIsMotor((assigned in deviceInfo) && deviceInfo[assigned].motor)
+            .setType(assigned);
     }
 };

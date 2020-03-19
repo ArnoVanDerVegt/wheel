@@ -4,7 +4,6 @@
 **/
 const sensorModuleConstants = require('../../../../../shared/vm/modules/sensorModuleConstants');
 const dispatcher            = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode               = require('../../../../lib/dom').DOMNode;
 const SimulatorPlugin       = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const SensorContainer       = require('./SensorContainer').SensorContainer;
 
@@ -81,10 +80,14 @@ exports.Plugin = class extends SimulatorPlugin {
         this._sensors.push(sensor);
     }
 
-    callOnSensor(layer, id, func, param) {
+    callOnSensorState(layer, id, func, param) {
         let sensor = this.getSensor(layer, id);
-        if (sensor && sensor[func]) {
-            return sensor[func](param);
+        if (!sensor) {
+            return 0;
+        }
+        let currentSensor = sensor.getCurrentSensor();
+        if (currentSensor && currentSensor.getState() && currentSensor.getState()[func]) {
+            return currentSensor.getState()[func](param);
         }
         return false;
     }
@@ -94,22 +97,23 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     setType(opts) {
-        this.callOnSensor(opts.layer, opts.id, 'setType', opts.type);
+        let sensor = this.getSensor(opts.layer, opts.id);
+        sensor && sensor.onAssigned(opts.type, null);
     }
 
     getType(opts) {
-        return this.callOnSensor(opts.layer, opts.id, 'getType');
+        return this.callOnSensorState(opts.layer, opts.id, 'getType');
     }
 
     setMode(opts) {
-        this.callOnSensor(opts.layer, opts.id, 'setMode', opts.mode);
+        return this.callOnSensorState(opts.layer, opts.id, 'setMode', opts.mode);
     }
 
     reset(opts) {
-        this.callOnSensor(opts.layer, opts.id, 'reset');
+        return this.callOnSensorState(opts.layer, opts.id, 'reset');
     }
 
     read(opts) {
-        return this.callOnSensor(opts.layer, opts.id, 'read');
+        return this.callOnSensorState(opts.layer, opts.id, 'getValue');
     }
 };

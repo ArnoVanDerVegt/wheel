@@ -52,10 +52,10 @@ exports.SimulatorPlugin = class extends DOMNode {
                         break;
                     }
                 }
-                if (mode !== null) {
-                    let sensor = this._activeSensor;
-                    sensor.setMode(mode);
-                    this._device.setMode(sensor.getLayer(), sensor.getId(), mode);
+                if ((mode !== null) && this._activeSensor) {
+                    let state = this._activeSensor.getState();
+                    state.setMode(mode);
+                    this._device.setMode(state.getLayer(), state.getId(), mode);
                 }
             }).bind(this)
         };
@@ -90,9 +90,10 @@ exports.SimulatorPlugin = class extends DOMNode {
         if (contextMenu) {
             let constants = this._constants;
             let menuItems = contextMenu.getMenuItems();
+            let state     = sensor.getState();
             for (let i = 0; i < menuItems.length; i++) {
                 let menuItem = menuItems[i];
-                menuItem.setChecked(sensor.getMode() === constants[menuItem.getTitle()]);
+                menuItem.setChecked(state.getMode() === constants[menuItem.getTitle()]);
             }
             contextMenu.show(pos.x, pos.y, this);
         }

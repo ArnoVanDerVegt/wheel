@@ -19,16 +19,6 @@ exports.UltrasonicSensor = class extends Sensor {
         this._refs.numberValue.className = 'value';
     }
 
-    setMode(mode) {
-        this._mode                       = mode;
-        this._refs.numberValue.className = 'value';
-    }
-
-    setValue(value) {
-        this._value                    = value;
-        this._numberInputElement.value = (this._value === 255) ? '?' : this._value.toFixed(1);
-    }
-
     getContextMenuOptions() {
         return [
             'ULTRASONIC_CM',
@@ -41,13 +31,8 @@ exports.UltrasonicSensor = class extends Sensor {
         ];
     }
 
-    onChangeNumberValue(event) {
-        let value = parseInt(event.target.value, 10);
-        if (isNaN(value)) {
-            return;
-        }
-        this._value = Math.min(Math.max(value, 0), 999);
-        this.setTimeoutReset();
+    onChangeValue(value) {
+        this._numberInputElement.value = (value === 255) ? '?' : value.toFixed(1);
     }
 
     onConnected() {
@@ -56,11 +41,5 @@ exports.UltrasonicSensor = class extends Sensor {
 
     onDisconnected() {
         this._numberInputElement.disabled = '';
-    }
-
-    onResetTimeout() {
-        this._numberInputElement.value = 0;
-        this._timeoutReset             = null;
-        this._value                    = 0;
     }
 };

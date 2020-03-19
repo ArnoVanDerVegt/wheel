@@ -9,12 +9,16 @@ const SimulatorPlugin = require('../../lib/SimulatorPlugin').SimulatorPlugin;
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
+        if (!opts.stateConstructor) {
+            throw new Error('No state constructor');
+        }
         this._device              = opts.ev3;
         this._baseClassName       = 'motors';
         this._motors              = [];
         this._interval            = null;
         this._disconnectedTimeout = null;
         this._motorConstructor    = opts.motorConstructor;
+        this._stateConstructor    = opts.stateConstructor;
         this.initDOM(opts.parentNode);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
     }
@@ -25,17 +29,18 @@ exports.Plugin = class extends SimulatorPlugin {
         let children = [];
         for (let i = 0; i < 16; i++) {
             children.push({
-                type:      Motor,
-                simulator: this._simulator,
-                settings:  this._settings,
-                sensors:   this,
-                device:    this._device,
-                layer:     ~~(i / 4),
-                ui:        this._ui,
-                id:        i & 3,
-                title:     String.fromCharCode(65 + (i & 3)),
-                addMotor:  addMotor,
-                hidden:    (i >= 4)
+                type:             Motor,
+                stateConstructor: this._stateConstructor,
+                simulator:        this._simulator,
+                settings:         this._settings,
+                sensors:          this,
+                device:           this._device,
+                ui:               this._ui,
+                layer:            ~~(i / 4),
+                id:               i & 3,
+                title:            String.fromCharCode(65 + (i & 3)),
+                addMotor:         addMotor,
+                hidden:           (i >= 4)
             });
         }
         this.create(
@@ -161,5 +166,26 @@ exports.Plugin = class extends SimulatorPlugin {
 
     ready(opts) {
         return this.callOnMotor(opts.layer, opts.id, 'ready');
+    }
+
+    readyBits(opts) {
+        let layer = opts.layer;
+        if ((layer < 0) || (layer > 3)) {
+            return 0;
+        }
+        let bit    = 1;
+        let bits   = opts.bits;
+        let result = 1;
+        for (let id = 0; id < 4; id++) {
+            let motor = this.getMotor(layer, id);
+            if ((bits & bit) === bit) {
+                if (!motor.ready()) {
+                    result = 0;
+                    break;
+                }
+            }
+            bit <= 1;
+        }
+        return result;
     }
 };

@@ -9,22 +9,23 @@ const getImage   = require('../../../../../data/images').getImage;
 exports.BasicIODevice = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        if (!opts.stateConstructor) {
+            throw new Error('No state constructor');
+        }
+        opts.onChangeType  = this.onChangeType.bind(this);
+        opts.onChangeMode  = this.onChangeMode.bind(this);
+        opts.onChangeValue = this.onChangeValue.bind(this);
+        this._state              = new opts.stateConstructor(opts);
         this._settings           = opts.settings;
         this._parentNode         = opts.parentNode;
         this._sensors            = opts.sensors;
         this._device             = opts.device;
         this._simulator          = opts.simulator;
-        this._layer              = opts.layer;
-        this._id                 = opts.id;
         this._hidden             = opts.hidden;
         this._title              = opts.title;
         this._tabIndex           = opts.tabIndex;
         this._ui                 = opts.ui;
-        this._mode               = null;
-        this._value              = 0;
         this._numberInputElement = null;
-        this._timeoutReset       = null;
-        this._timeoutType        = null;
     }
 
     remove() {
@@ -34,18 +35,25 @@ exports.BasicIODevice = class extends DOMNode {
         }
     }
 
-    onChangeValue(value) {
-        this._value = value;
-        this.setTimeoutReset();
+    onChangeType(type) {
     }
 
-    onChangeNumberValue(event) {
-        let value = parseInt(event.target.value, 10);
-        if (isNaN(value)) {
-            return;
+    onChangeMode(mode) {
+    }
+
+    onChangeValue(value) {
+    }
+
+    onChangeColorValue(value) {
+        this._state.setValue(value);
+    }
+
+    onChangeNumberValue(value) {
+        let state        = this._state;
+        let currentValue = state.getValue();
+        if (Math.round(value * 100) !== Math.round(currentValue * 100)) {
+            state.setValue(value);
         }
-        this._value = value;
-        this.setTimeoutReset();
     }
 
     onClickTitle(element, event) {
@@ -63,11 +71,6 @@ exports.BasicIODevice = class extends DOMNode {
             {x: offsetX + parent.scrollLeft, y: offsetY - parent.scrollTop},
             event
         );
-    }
-
-    onResetTimeout() {
-        this._timeoutReset = null;
-        this._value        = 0;
     }
 
     setTitleElement(element) {
@@ -99,7 +102,7 @@ exports.BasicIODevice = class extends DOMNode {
                     ui:       this._ui,
                     tabIndex: this._tabIndex,
                     options:  this.getColorOptions(),
-                    onChange: this.onChangeValue.bind(this)
+                    onChange: this.onChangeColorValue.bind(this)
                 }
             ]
         };
@@ -120,24 +123,6 @@ exports.BasicIODevice = class extends DOMNode {
                 }
             ]
         };
-    }
-
-    setTimeoutReset() {
-        if (!this._settings.getSensorAutoReset()) {
-            return;
-        }
-        if (this._timeoutReset) {
-            clearTimeout(this._timeoutReset);
-        }
-        this._timeoutType  = this._type;
-        this._timeoutReset = setTimeout(this.onResetTimeout.bind(this), 1500);
-    }
-
-    getType() {
-        return this._sensorContainer.getType();
-    }
-
-    setValue(value) {
     }
 
     /**
@@ -163,40 +148,36 @@ exports.BasicIODevice = class extends DOMNode {
                 );
             }
         );
+        let debounceTimeout = null;
         ['keyup', 'change'].forEach(
             function(event) {
-                element.addEventListener(event, this.onChangeNumberValue.bind(this));
+                element.addEventListener(
+                    event,
+                    (function(event) {
+                        if (debounceTimeout) {
+                            clearTimeout(debounceTimeout);
+                        }
+                        debounceTimeout = setTimeout(
+                            (function() {
+                                debounceTimeout = null;
+                                if (event.target.value !== '') {
+                                    this.onChangeNumberValue(parseFloat(event.target.value, 10));
+                                }
+                            }).bind(this),
+                            500
+                        );
+                    }).bind(this)
+                );
             },
             this
         );
     }
 
-    getLayer() {
-        return this._layer;
-    }
-
-    getId() {
-        return this._id;
-    }
-
-    getMode() {
-       return this._mode;
-    }
-
-    setMode(mode) {
-        this._mode = mode;
+    getState() {
+        return this._state;
     }
 
     getContextMenuOptions() {
         return null;
-    }
-
-    reset(reset) {
-        let sensor = this.getSensor(reset.id);
-        sensor && sensor.reset();
-    }
-
-    read() {
-        return this._value;
     }
 };

@@ -2,19 +2,20 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const getImage   = require('../../../../data/images').getImage;
-const Motor      = require('./../../lib/motor/io/Motor').Motor;
-const MotorState = require('./MotorState').MotorState;
+const getImage = require('../../../../data/images').getImage;
+const Motor    = require('./../../lib/motor/io/Motor').Motor;
 
 exports.Motor = class extends Motor {
     constructor(opts) {
         opts.image = 'images/ev3/motorMedium.png';
         super(opts);
+        let layer = opts.layer;
+        let id    = opts.id;
         this._device
-            .addEventListener('EV3.Connecting',                                            this, this.onConnecting)
-            .addEventListener('EV3.Disconnected',                                          this, this.onDisconnected)
-            .addEventListener('EV3.Layer' + this._layer + 'Motor' + this._id + 'Changed',  this, this.onValueChanged)
-            .addEventListener('EV3.Layer' + this._layer + 'Motor' + this._id + 'Assigned', this, this.onAssigned);
+            .addEventListener('EV3.Connecting',                                this, this.onConnecting)
+            .addEventListener('EV3.Disconnected',                              this, this.onDisconnected)
+            .addEventListener('EV3.Layer' + layer + 'Motor' + id + 'Changed',  this, this.onValueChanged)
+            .addEventListener('EV3.Layer' + layer + 'Motor' + id + 'Assigned', this, this.onAssigned);
     }
 
     setType(type) {

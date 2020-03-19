@@ -19,18 +19,8 @@ exports.SoundSensor = class extends Sensor {
         this._refs.numberValue.className = 'value';
     }
 
-    setValue(value) {
-        this._value                    = value;
+    onChangeValue(value) {
         this._numberInputElement.value = value;
-    }
-
-    onChangeNumberValue(event) {
-        let value = parseInt(event.target.value, 10);
-        if (isNaN(value)) {
-            return;
-        }
-        this._value = value;
-        this.setTimeoutReset();
     }
 
     onConnected() {
@@ -39,11 +29,5 @@ exports.SoundSensor = class extends Sensor {
 
     onDisconnected() {
         this._numberInputElement.disabled = '';
-    }
-
-    onResetTimeout() {
-        this._timeoutReset             = null;
-        this._value                    = 0;
-        this._numberInputElement.value = 0;
     }
 };

@@ -23,7 +23,7 @@ exports.TouchSensor = class extends Sensor {
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex,
-                            onChange: this.onChangeValue.bind(this)
+                            onChange: this.onChangeCheckboxValue.bind(this)
                         }
                     ]
                 }
@@ -31,14 +31,11 @@ exports.TouchSensor = class extends Sensor {
         );
     }
 
-    setValue(value) {
-        this._value = value;
-        this._refs.touchValueInput.setChecked(value);
+    onChangeCheckboxValue(checked) {
+        this._state.setValue(checked ? 1 : 0);
     }
 
-    onResetTimeout() {
-        this._refs.touchValueInput.setChecked(false);
-        this._timeoutReset = null;
-        this._value        = 0;
+    onChangeValue(value) {
+        this._refs.touchValueInput.setChecked(value);
     }
 };

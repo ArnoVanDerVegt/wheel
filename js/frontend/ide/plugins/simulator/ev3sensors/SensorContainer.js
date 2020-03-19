@@ -8,6 +8,7 @@ const DOMNode               = require('../../../../lib/dom').DOMNode;
 const Checkbox              = require('../../../../lib/components/Checkbox').Checkbox;
 const IconSelect            = require('../../../../lib/components/IconSelect').IconSelect;
 const getImage              = require('../../../data/images').getImage;
+const BasicIOState          = require('../lib/motor/io/BasicIOState').BasicIOState;
 const UnknownSensor         = require('./io/UnknownSensor').UnknownSensor;
 const ColorSensor           = require('./io/ColorSensor').ColorSensor;
 const GyroSensor            = require('./io/GyroSensor').GyroSensor;
@@ -17,28 +18,16 @@ const TouchSensor           = require('./io/TouchSensor').TouchSensor;
 const UltrasonicSensor      = require('./io/UltrasonicSensor').UltrasonicSensor;
 const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSensor;
 
-/**
- * Todo: move _mode to _state instance.
-**/
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._type               = -1;
-        this._settings           = opts.settings;
-        this._device             = opts.device;
-        this._simulator          = opts.simulator;
-        this._layer              = opts.layer;
-        this._id                 = opts.id;
-        this._ui                 = opts.ui;
-        this._sensors            = opts.sensors;
+        this._opts               = opts;
         this._hidden             = opts.hidden;
-        this._title              = opts.title;
-        this._tabIndex           = opts.tabIndex;
         this._currentConstructor = null;
         this._currentSensor      = null;
         this._sensorConstructors = [];
         opts.addSensor(this);
-        this._device
+        opts.device
            .addEventListener('EV3.Layer' + this._layer + 'Sensor' + this._id + 'Changed',  this, this.onValueChanged)
            .addEventListener('EV3.Layer' + this._layer + 'Sensor' + this._id + 'Assigned', this, this.onAssigned);
         this
@@ -62,20 +51,11 @@ exports.SensorContainer = class extends DOMNode {
 
     initSensor(sensorConstructor) {
         this._currentConstructor = sensorConstructor;
-        return {
-            sensorContainer: this,
-            type:            sensorConstructor,
-            settings:        this._settings,
-            device:          this._device,
-            simulator:       this._simulator,
-            layer:           this._layer,
-            id:              this._id,
-            ui:              this._ui,
-            sensors:         this._sensors,
-            hidden:          this._hidden,
-            title:           this._title,
-            tabIndex:        this._tabIndex
-        };
+        let opts = Object.assign({}, this._opts);
+        opts.type             = sensorConstructor;
+        opts.sensorContainer  = this;
+        opts.stateConstructor = BasicIOState;
+        return opts;
     }
 
     initDOM(parentNode) {
@@ -99,10 +79,6 @@ exports.SensorContainer = class extends DOMNode {
     }
 
     onAssigned(assignment, mode) {
-        this._type = assignment;
-        if (mode !== null) {
-            mode = parseInt(mode, 10);
-        }
         let currentConstructor = this._sensorConstructors[assignment] || UnknownSensor;
         if (currentConstructor !== this._currentConstructor) {
             if (this._currentSensor) {
@@ -116,9 +92,13 @@ exports.SensorContainer = class extends DOMNode {
             }
             this._currentConstructor = currentConstructor;
         }
-        if ((mode !== null) && this._currentSensor) {
-            this._currentSensor.setMode(mode);
+        if (this._currentSensor && (mode !== null)) {
+            this._currentSensor.getState().setMode(parseInt(mode, 10));
         }
+    }
+
+    getCurrentSensor() {
+        return this._currentSensor;
     }
 
     setCurrentSensor(currentSensor) {
@@ -133,29 +113,7 @@ exports.SensorContainer = class extends DOMNode {
         this._refs.sensor.style.display = hidden ? 'none' : 'block';
     }
 
-    getId() {
-        return this._id;
-    }
-
-    getType() {
-        return this._type;
-    }
-
-    setType(type) {
-        this.onAssigned(type, null);
-    }
-
-    getMode() {
-        return this._currentSensor ? this._currentSensor.getMode() : -1;
-    }
-
-    setMode(mode) {
-        if (this._currentSensor) {
-            this._currentSensor.setMode(mode);
-        }
-    }
-
     read() {
-        return this._currentSensor ? this._currentSensor.read() : 0;
+        return this._currentSensor ? this._currentSensor.getState().getValue() : 0;
     }
 };

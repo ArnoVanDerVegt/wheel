@@ -9,6 +9,7 @@ const TextInput                = require('../../../../lib/components/TextInput')
 const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin                   = require('../lib/motor/Plugin').Plugin;
 const MotorOrSensor            = require('./io/MotorOrSensor').MotorOrSensor;
+const MotorOrSensorState       = require('./io/MotorOrSensorState').MotorOrSensorState;
 const SimulatedDevices         = require('./io/SimulatedDevices').SimulatedDevices;
 const Hub                      = require('./components/Hub').Hub;
 const TechnicHub               = require('./components/TechnicHub').TechnicHub;
@@ -23,7 +24,8 @@ const dummyLight = {
 exports.Plugin = class extends Plugin {
     constructor(opts) {
         opts.motorConstructor = MotorOrSensor;
-        opts.ev3              = opts.poweredUp; // Hack device should be fixed!
+        opts.stateConstructor = MotorOrSensorState;
+        opts.ev3              = opts.poweredUp; // Todo: Hack device should be fixed!
         opts.constants        = poweredUpModuleConstants;
         super(opts);
         this.initEvents();

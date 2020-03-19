@@ -185,7 +185,7 @@ class Chart extends DOMNode {
             if ((sensor.getType() !== this._type) || (sensor.getMode() !== this._mode)) {
                 this.initTypeAndMode(sensor.getType(), sensor.getMode());
             }
-            this._buffer.add(sensor.read());
+            this._buffer.add(sensor.getState().getValue());
             while (this._deltaTime > interval) {
                 this._deltaTime -= interval;
             }

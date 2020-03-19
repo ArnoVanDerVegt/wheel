@@ -6,7 +6,7 @@ const motorModuleConstants = require('../../../../../../../shared/vm/modules/mot
 const dispatcher           = require('../../../../../../lib/dispatcher').dispatcher;
 const DOMNode              = require('../../../../../../lib/dom').DOMNode;
 const getImage             = require('../../../../../data/images').getImage;
-const MotorState           = require('./MotorState').MotorState;
+const BasicIOState         = require('./BasicIOState').BasicIOState;
 const BasicIODevice        = require('./BasicIODevice').BasicIODevice;
 
 exports.Motor = class extends BasicIODevice {
@@ -18,7 +18,7 @@ exports.Motor = class extends BasicIODevice {
         this._positionElement   = null;
         this._readyElement      = null;
         this._speedValueElement = null;
-        this._state             = opts.MotorState ? new opts.MotorState(opts) : new MotorState(opts);
+        this._state             = opts.MotorState ? new opts.MotorState(opts) : new BasicIOState(opts);
         this._resetTimeout      = null;
         opts.addMotor(this);
         this.initDOM(opts.parentNode);
@@ -178,7 +178,7 @@ exports.Motor = class extends BasicIODevice {
             return;
         }
         let ready = null;
-        if (state.update()) { // Update based on local value...
+        if (state.updateSimulatedMotor()) { // Update based on local value...
             this._positionElement.innerHTML = state.getPosition();
             if (state.getTarget() !== null) {
                 ready = state.ready();
@@ -188,7 +188,7 @@ exports.Motor = class extends BasicIODevice {
             if (vm) {
                 let motorModule = vm.getModules()[motorModuleConstants.MODULE_MOTOR];
                 if (motorModule && motorModule.getMotorReady) {
-                    ready = motorModule.getMotorReady(this._layer, this._id);
+                    ready = motorModule.getMotorReady(state.getLayer(), state.getId());
                 }
             }
         }

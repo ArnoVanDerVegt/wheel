@@ -24,21 +24,21 @@ exports.MultiplexerSensor = class extends Sensor {
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex,
-                            onChange: this.onChangeValue.bind(this, 0)
+                            onChange: this.onChangeCheckboxValue.bind(this, 0)
                         },
                         {
                             ref:      this.setRef('multiplexerValueInput2'),
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex + 1,
-                            onChange: this.onChangeValue.bind(this, 1)
+                            onChange: this.onChangeCheckboxValue.bind(this, 1)
                         },
                         {
                             ref:      this.setRef('multiplexerValueInput3'),
                             type:     Checkbox,
                             ui:       this._ui,
                             tabIndex: this._tabIndex + 2,
-                            onChange: this.onChangeValue.bind(this, 2)
+                            onChange: this.onChangeCheckboxValue.bind(this, 2)
                         }
                     ]
                 }
@@ -53,7 +53,7 @@ exports.MultiplexerSensor = class extends Sensor {
             (refs.multiplexerValueInput3.getChecked() ? 4 : 0);
     }
 
-    setValue(value) {
+    onChangeVaue(value) {
         let refs = this._refs;
         this._value = value;
         refs.multiplexerValueInput1.setChecked((value & 1) === 1);
@@ -61,23 +61,9 @@ exports.MultiplexerSensor = class extends Sensor {
         refs.multiplexerValueInput3.setChecked((value & 4) === 4);
     }
 
-    onChangeValue(index, value) {
+    onChangeCheckboxValue(index, value) {
         let id = this._sensorContainer.getId();
         dispatcher.dispatch('Sensor.Multiplexer.Changed', id, index, value ? 1 : 0);
         this.setTimeoutReset();
-    }
-
-    onResetTimeout() {
-        let refs = this._refs;
-        let id   = this._sensorContainer.getId();
-        refs.multiplexerValueInput1.setChecked(false);
-        refs.multiplexerValueInput2.setChecked(false);
-        refs.multiplexerValueInput3.setChecked(false);
-        dispatcher
-            .dispatch('Sensor.Multiplexer.Changed', id, 0, 0)
-            .dispatch('Sensor.Multiplexer.Changed', id, 1, 0)
-            .dispatch('Sensor.Multiplexer.Changed', id, 2, 0);
-        this._timeoutReset = null;
-        this._value        = 0;
     }
 };

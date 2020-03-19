@@ -311,7 +311,7 @@ require('./js/frontend/ide/console/Console');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
 require('./js/frontend/ide/plugins/simulator/lib/SimulatorPlugin');
-require('./js/frontend/ide/plugins/simulator/lib/motor/io/MotorState');
+require('./js/frontend/ide/plugins/simulator/lib/motor/io/BasicIOState');
 require('./js/frontend/ide/plugins/simulator/lib/motor/io/BasicIODevice');
 require('./js/frontend/ide/plugins/simulator/lib/motor/io/Motor');
 require('./js/frontend/ide/plugins/simulator/lib/motor/Plugin');

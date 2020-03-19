@@ -36,7 +36,4 @@ exports.UnknownSensor = class extends Sensor {
 
     onDisconnected() {
     }
-
-    onResetTimeout() {
-    }
 };
