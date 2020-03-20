@@ -119,8 +119,8 @@ exports.MotorOrSensor = class extends Motor {
                     positionElement.style.display = 'none';
                     refs.numberValue.className    = 'value hidden';
                     refs.colorValue.className     = 'value';
-                    refs.colorValueInput.setValue(value);
-                    refs.colorValueInput.setDisabled(this._device.getConnected());
+                    refs.specialValueInput.setValue(value);
+                    refs.specialValueInput.setDisabled(this._device.getConnected());
                     break;
             }
         }

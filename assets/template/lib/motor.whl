@@ -178,7 +178,7 @@ end
 
 ; @proc             Set the motor brake or coast for the main device: 0 = coast, 1 = brake. The default value is 1 (brake).
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
-proc motorSetBrake(number layer, number id, number brake)
+proc motorSetBrake(number id, number brake)
     motorLayerSetBrake(0, id, brake)
 end
 

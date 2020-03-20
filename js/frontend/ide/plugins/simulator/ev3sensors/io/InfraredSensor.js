@@ -19,12 +19,13 @@ exports.InfraredSensor = class extends Sensor {
                     ref:       this.setRef('infraredValue'),
                     children: [
                         {
-                            ref:      this.setRef('infraredValueInput'),
                             type:     IconSelect,
+                            ref:      this.setRef('specialValueInput'),
                             ui:       this._ui,
                             tabIndex: this._tabIndex,
                             options:  this.getInfraredOptions(),
-                            onChange: this.onChangeRemoteValue.bind(this)
+                            onChange: this.onChangeRemoteValue.bind(this),
+                            disabled: this._state.getConnected()
                         }
                     ]
                 },
@@ -39,7 +40,7 @@ exports.InfraredSensor = class extends Sensor {
 
     onChangeValue(value) {
         if (this._state.getMode() === sensorModuleConstants.IR_REMOTE) {
-            this._refs.infraredValueInput.setValue(Math.min(Math.max(value, 0), 11));
+            this._refs.specialValueInput.setValue(Math.min(Math.max(value, 0), 11));
         } else {
             this._numberInputElement.value = value;
         }
@@ -50,7 +51,7 @@ exports.InfraredSensor = class extends Sensor {
         if (mode === sensorModuleConstants.IR_REMOTE) {
             refs.numberValue.className   = 'value hidden';
             refs.infraredValue.className = 'value';
-            refs.infraredValueInput.setValue(Math.min(Math.max(this._state.getValue(), 0), 11));
+            refs.specialValueInput.setValue(Math.min(Math.max(this._state.getValue(), 0), 11));
         } else {
             refs.infraredValue.className = 'value hidden';
             refs.numberValue.className   = 'value';
@@ -83,15 +84,5 @@ exports.InfraredSensor = class extends Sensor {
             'IR_NOT_UTILIZED',
             'IR_CALIBRATION'
         ];
-    }
-
-    onConnected() {
-        this._numberInputElement.disabled = 'disabled';
-        this._refs.infraredValueInput.setDisabled(true);
-    }
-
-    onDisconnected() {
-        this._numberInputElement.disabled = '';
-        this._refs.infraredValueInput.setDisabled(false);
     }
 };

@@ -14,9 +14,13 @@ exports.LayerState = class extends BasicLayerState {
 
     createMotor() {
         return {
-            ready:    false,
-            degrees:  0,
-            assigned: 0
+            degrees:       0,
+            assigned:      0,
+            startDegrees:  0,
+            targetDegrees: 0,
+            brake:         0,
+            speed:         0,
+            time:          null
         };
     }
 
@@ -64,11 +68,6 @@ exports.LayerState = class extends BasicLayerState {
             if (motor.degrees !== degrees) {
                 motor.degrees = degrees;
                 device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', degrees);
-            }
-            if ('ready' in newMotor) {
-                motor.ready = newMotor.ready;
-            } else {
-                delete motor.ready;
             }
         }
     }

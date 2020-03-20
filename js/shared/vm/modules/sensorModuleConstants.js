@@ -21,6 +21,7 @@ exports.SENSOR_TYPE_COLOR           = 29;
 exports.SENSOR_TYPE_ULTRASONIC      = 30;
 exports.SENSOR_TYPE_GYRO            = 32;
 exports.SENSOR_TYPE_INFRARED        = 33;
+exports.SENSOR_TYPE_MULTIPLEXER     = 64;
 
 exports.COLOR_REFLECTED             =  0;
 exports.COLOR_AMBIENT               =  1;

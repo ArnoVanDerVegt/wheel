@@ -9,15 +9,17 @@ const MODE_TARGET = 2;
 exports.BasicIOState = class {
     constructor(opts) {
         this.reset();
-        this._settings      = opts.settings;
-        this._device        = opts.device;
-        this._layer         = opts.layer;
-        this._id            = opts.id;
-        this._value         = 0;
-        this._timeoutReset  = null;
-        this._onChangeType  = opts.onChangeType;
-        this._onChangeMode  = opts.onChangeMode;
-        this._onChangeValue = opts.onChangeValue;
+        this._connected        = !!opts.connected;
+        this._settings         = opts.settings;
+        this._device           = opts.device;
+        this._layer            = opts.layer;
+        this._id               = opts.id;
+        this._onChangeConneced = opts.onChangeConnected;
+        this._onChangeType     = opts.onChangeType;
+        this._onChangeMode     = opts.onChangeMode;
+        this._onChangeValue    = opts.onChangeValue;
+        this._value            = 0;
+        this._timeoutReset     = null;
     }
 
     reset() {
@@ -40,12 +42,20 @@ exports.BasicIOState = class {
         return this._id;
     }
 
+    getConnected() {
+        return this._connected;
+    }
+
+    setConnected(connected) {
+        this._connected = connected;
+        this._onChangeConneced(connected);
+    }
+
     getType() {
         return this._type;
     }
 
     setType(type) {
-        type = (type & 1);
         this._type = type;
         this._rpm  = [272, 105][type] || 272;
         this._onChangeType(type);

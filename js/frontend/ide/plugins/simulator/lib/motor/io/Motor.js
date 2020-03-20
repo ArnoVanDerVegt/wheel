@@ -12,6 +12,7 @@ const BasicIODevice        = require('./BasicIODevice').BasicIODevice;
 exports.Motor = class extends BasicIODevice {
     constructor(opts) {
         super(opts);
+        opts.onChangeType = this.onChangeType.bind(this);
         this._image             = opts.image || 'images/ev3/motorMedium.png';
         this._motorElement      = null;
         this._imageElement      = null;
@@ -39,7 +40,10 @@ exports.Motor = class extends BasicIODevice {
                                 type:      'img',
                                 className: 'type',
                                 src:       getImage(this._image),
-                                id:        this.setImageElement.bind(this)
+                                id:        this.setImageElement.bind(this),
+                                style: {
+                                    display: 'none'
+                                }
                             },
                             {
                                 type:      'span',
@@ -55,6 +59,9 @@ exports.Motor = class extends BasicIODevice {
                     {
                         id:        this.setSpeedElement.bind(this),
                         className: 'speed',
+                        style: {
+                            display: 'none'
+                        },
                         children: [
                             {
                                 className: 'speed-bar'
@@ -70,7 +77,10 @@ exports.Motor = class extends BasicIODevice {
                     },
                     {
                         className: 'position',
-                        id:        this.setPositionElement.bind(this)
+                        id:        this.setPositionElement.bind(this),
+                        style: {
+                            display: 'none'
+                        }
                     }
                 ].concat(this.getExtraElements())
             }
@@ -188,7 +198,7 @@ exports.Motor = class extends BasicIODevice {
             if (vm) {
                 let motorModule = vm.getModules()[motorModuleConstants.MODULE_MOTOR];
                 if (motorModule && motorModule.getMotorReady) {
-                    ready = motorModule.getMotorReady(state.getLayer(), state.getId());
+                    ready = motorModule.getMotorReady({layer: state.getLayer(), id: state.getId()});
                 }
             }
         }
@@ -200,11 +210,11 @@ exports.Motor = class extends BasicIODevice {
     }
 
     onConnecting() {
-        this.setType(-1);
+        this._state.setType(-1);
     }
 
     onDisconnected() {
-        this.setType(1);
+        this._state.setType(1);
     }
 
     onValueChanged(value) {

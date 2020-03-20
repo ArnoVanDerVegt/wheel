@@ -18,11 +18,10 @@ exports.Motor = class extends Motor {
             .addEventListener('EV3.Layer' + layer + 'Motor' + id + 'Assigned', this, this.onAssigned);
     }
 
-    setType(type) {
+    onChangeType(type) {
         if ([7, 8].indexOf(type) !== -1) {
             type -= 7;
         }
-        let state  = this._state;
         let images = [
                 'images/ev3/motorMedium.png',
                 'images/ev3/motorLarge.png'
@@ -31,15 +30,12 @@ exports.Motor = class extends Motor {
             this._imageElement.style.display    = 'block';
             this._positionElement.style.display = 'block';
             this._speedElement.style.display    = 'block';
-            this._imageElement.src              = getImage(images[this._state.setType(type)]);
-            state.setIsMotor(true);
+            this._imageElement.src              = getImage(images[type]);
         } else {
             this._imageElement.style.display    = 'none';
             this._positionElement.style.display = 'none';
             this._speedElement.style.display    = 'none';
-            state.setIsMotor(false);
         }
-        state.setType(type);
     }
 
     onAssigned(assignment) {
@@ -47,20 +43,16 @@ exports.Motor = class extends Motor {
             clearTimeout(this._resetTimeout);
             this._resetTimeout = null;
         }
+        let state = this._state;
         switch (assignment) {
             case 7: // Large Motor
-                this.setType(1);
+                state.setType(1);
                 break;
             case 8: // Medium Motor
-                this.setType(0);
+                state.setType(0);
                 break;
             default:
-                this._resetTimeout = setTimeout(
-                    (function() {
-                        this.setType(-1);
-                    }).bind(this),
-                    3000
-                );
+                this._resetTimeout = setTimeout(state.setType.bind(state, -1), 3000);
                 break;
         }
     }

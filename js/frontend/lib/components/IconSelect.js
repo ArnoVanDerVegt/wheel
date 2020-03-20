@@ -8,7 +8,7 @@ exports.IconSelect = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._open         = false;
-        this._disabled     = false;
+        this._disabled     = ('disabled' in opts) ? opts.disabled : false;
         this._focus        = false;
         this._options      = opts.options;
         this._value        = ('value' in opts) ? opts.value : this._options[0].value;

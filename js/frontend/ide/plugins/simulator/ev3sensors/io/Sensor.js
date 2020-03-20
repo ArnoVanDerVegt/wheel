@@ -14,11 +14,6 @@ exports.Sensor = class extends BasicIODevice {
         let device = opts.device;
         this._sensorContainer = opts.sensorContainer;
         this._image           = opts.image;
-        this._events          = [
-            device.addEventListener('EV3.Connecting',   this, this.onConnecting),
-            device.addEventListener('EV3.Connected',    this, this.onConnected),
-            device.addEventListener('EV3.Disconnected', this, this.onDisconnected)
-        ];
         this.initDOM(opts.parentNode);
         opts.sensorContainer.setCurrentSensor(this);
     }
@@ -48,22 +43,5 @@ exports.Sensor = class extends BasicIODevice {
                 ].concat(inputs)
             }
         );
-    }
-
-    remove() {
-        while (this._events.length) {
-            this._events.pop()();
-        }
-        super.remove();
-    }
-
-    onConnecting() {
-        this._sensorContainer.setType(-1);
-    }
-
-    onConnected() {
-    }
-
-    onDisconnected() {
     }
 };

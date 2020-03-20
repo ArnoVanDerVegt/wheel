@@ -69,8 +69,8 @@ exports.CommandQueue = class {
     }
 
     setMotorMove(layer, port, degrees) {
-        layer = this._layers[layer];
-        port  = layer[port + 4];
+        layer             = this._layers[layer];
+        port              = layer[port + 4];
         port.startDegrees = port.value - port.resetDegrees;
         port.endDegrees   = degrees;
         return this;

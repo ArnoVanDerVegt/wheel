@@ -269,12 +269,14 @@ exports.EV3 = class extends BasicDevice {
         return constants.MODE0;
     }
 
-    motorReset(layer, motor) {
+    motorReset(layer, id) {
+        let layers = this._commandQueue.getLayers();
+        let motor  = layers[layer][id + 4];
         if (!this._connected) {
+            motor.reset = true;
             return;
         }
-        let layers = this._commandQueue.getLayers();
-        layers[layer][motor + 4].reset = true;
+        motor.resetDegrees = motor.value;
     }
 
     motorDegrees(layer, motor, speed, degrees, brake, callback) {

@@ -32,7 +32,7 @@ exports.ColorSensor = class extends Sensor {
 
     onChangeValue(value) {
        if (this._state.getMode() === sensorModuleConstants.COLOR_COLOR) {
-            this._refs.colorValueInput.setValue(Math.min(Math.max(value, 0), 7));
+            this._refs.specialValueInput.setValue(Math.min(Math.max(value, 0), 7));
        } else {
             this._numberInputElement.value = value;
        }
@@ -43,7 +43,7 @@ exports.ColorSensor = class extends Sensor {
         if (mode === sensorModuleConstants.COLOR_COLOR) {
             refs.numberValue.className = 'value hidden';
             refs.colorValue.className  = 'value';
-            refs.colorValueInput.setValue(this._value);
+            refs.specialValueInput.setValue(this._value);
         } else {
             refs.colorValue.className  = 'value hidden';
             refs.numberValue.className = 'value';
@@ -52,11 +52,11 @@ exports.ColorSensor = class extends Sensor {
 
     onConnected() {
         this._numberInputElement.disabled = 'disabled';
-        this._refs.colorValueInput.setDisabled(true);
+        this._refs.specialValueInput.setDisabled(true);
     }
 
     onDisconnected() {
         this._numberInputElement.disabled = '';
-        this._refs.colorValueInput.setDisabled(false);
+        this._refs.specialValueInput.setDisabled(false);
     }
 };

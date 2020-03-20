@@ -12,9 +12,10 @@ exports.BasicIODevice = class extends DOMNode {
         if (!opts.stateConstructor) {
             throw new Error('No state constructor');
         }
-        opts.onChangeType  = this.onChangeType.bind(this);
-        opts.onChangeMode  = this.onChangeMode.bind(this);
-        opts.onChangeValue = this.onChangeValue.bind(this);
+        opts.onChangeConnected = this.onChangeConnected.bind(this);
+        opts.onChangeType      = this.onChangeType.bind(this);
+        opts.onChangeMode      = this.onChangeMode.bind(this);
+        opts.onChangeValue     = this.onChangeValue.bind(this);
         this._state              = new opts.stateConstructor(opts);
         this._settings           = opts.settings;
         this._parentNode         = opts.parentNode;
@@ -32,6 +33,17 @@ exports.BasicIODevice = class extends DOMNode {
         let parentNode = this._parentNode;
         while (parentNode.childNodes.length) {
             parentNode.removeChild(parentNode.childNodes[0]);
+        }
+    }
+
+    onChangeConnected(connected) {
+        let refs = this._refs;
+        if (connected) {
+            this._numberInputElement && (this._numberInputElement.disabled = 'disabled');
+            refs.specialValueInput   && refs.specialValueInput.setDisabled(true);
+        } else {
+            this._numberInputElement && (this._numberInputElement.disabled = '');
+            refs.specialValueInput   && refs.specialValueInput.setDisabled(false);
         }
     }
 
@@ -97,12 +109,13 @@ exports.BasicIODevice = class extends DOMNode {
             ref:       this.setRef('colorValue'),
             children: [
                 {
-                    ref:      this.setRef('colorValueInput'),
                     type:     IconSelect,
+                    ref:      this.setRef('specialValueInput'),
                     ui:       this._ui,
                     tabIndex: this._tabIndex,
                     options:  this.getColorOptions(),
-                    onChange: this.onChangeColorValue.bind(this)
+                    onChange: this.onChangeColorValue.bind(this),
+                    disabled: this._state.getConnected()
                 }
             ]
         };
@@ -114,10 +127,11 @@ exports.BasicIODevice = class extends DOMNode {
             ref:       this.setRef('numberValue'),
             children: [
                 {
-                    id:        this.setNumberInputElement.bind(this),
                     type:      'input',
+                    id:        this.setNumberInputElement.bind(this),
                     ui:        this._ui,
                     tabIndex:  this._tabIndex,
+                    disabled:  this._state.getConnected() ? 'disabled' : '',
                     inputType: 'text',
                     value:     '0'
                 }

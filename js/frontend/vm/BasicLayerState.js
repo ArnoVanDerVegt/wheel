@@ -13,10 +13,12 @@ exports.BasicLayerState = class {
 
     createPort() {
         return {
-            mode:     0,
-            value:    0,
-            assigned: 0,
-            ready:    true
+            ready:         true,
+            mode:          0,
+            value:         0,
+            assigned:      0,
+            startDegrees:  0,
+            targetDegrees: 0
         };
     }
 

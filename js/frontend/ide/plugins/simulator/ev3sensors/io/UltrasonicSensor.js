@@ -16,7 +16,7 @@ exports.UltrasonicSensor = class extends Sensor {
                 this.getNumberValueInput()
             ]
         );
-        this._refs.numberValue.className = 'value';
+        this._refs.numberValue.className  = 'value';
     }
 
     getContextMenuOptions() {
@@ -29,6 +29,10 @@ exports.UltrasonicSensor = class extends Sensor {
             'ULTRASONIC_DC_CM',
             'ULTRASONIC_DC_INCH'
         ];
+    }
+
+    onChangeConnected(connected) {
+
     }
 
     onChangeValue(value) {
