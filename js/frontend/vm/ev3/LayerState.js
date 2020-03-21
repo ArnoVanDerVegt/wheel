@@ -14,6 +14,7 @@ exports.LayerState = class extends BasicLayerState {
 
     createMotor() {
         return {
+            ready:         false,
             degrees:       0,
             assigned:      0,
             startDegrees:  0,
@@ -69,6 +70,7 @@ exports.LayerState = class extends BasicLayerState {
                 motor.degrees = degrees;
                 device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', degrees);
             }
+            motor.ready = newMotor.ready;
         }
     }
 

@@ -182,49 +182,23 @@ exports.CommandQueue = class {
         this._sendFunction(commandArray.buffer);
     }
 
-    executeAgain(time) {
-        setTimeout(this.execute.bind(this), time);
-    }
-
     shouldChunkTranfers() {
         return false;
     }
 
     execute() {
         let queue = this._queue;
-        if (queue.length === 0) {
-            return; // Nothing to do
-        }
-        let time = Date.now();
-        let command;
-        for (let i = 0; i < queue.length; i++) {
-            command = queue[i];
-            if (command.time < time) {
-                queue.splice(i, 1);
-            }
-        }
-        if (!queue.length) {
+        if (!queue.length || this._pendingCommand) {
             return;
         }
-        command = queue[0]; // Peek at first in line
+        let command = queue.shift();
+        command.id = this.getId();
         if (command.response) {
-            if (this._pendingCommand) {
-                return;
-            }
-            queue.shift(); // Remove it from the queue
-            this._pendingCommand    = command;
-            this._pendingCommand.id = this.getId();
-            this.sendCommand(messageEncoder.packMessageForSending(this._pendingCommand.id, command.message.get()));
-        } else {
-            if (this._pendingCommand) {   // Bail if we're waiting for a response
-                return;
-            }
-            queue.shift(); // Remove it from the queue
-            command.id = this.getId();
-            this.sendCommand(messageEncoder.packMessageForSending(command.id, command.message.get()));
-            command.callback && command.callback();
-            this.executeAgain(1);   // Maybe do the next one
+            this._pendingCommand = command;
         }
+        this.sendCommand(messageEncoder.packMessageForSending(command.id, command.message.get()));
+        command.callback && command.callback();
+        setTimeout(this.execute.bind(this), 1);
     }
 
     addToCommandQueue(command) {
@@ -503,6 +477,6 @@ exports.CommandQueue = class {
                 break;
         }
         this._pendingCommand = null;
-        this.executeAgain(1);
+        setTimeout(this.execute.bind(this), 1);
     }
 };

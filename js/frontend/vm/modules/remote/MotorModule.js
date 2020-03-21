@@ -43,11 +43,11 @@ exports.MotorModule = class extends VMModule {
         return this._layers[motor.layer][motor.id];
     }
 
-    getMotorReady(motor, dbg) {
+    getMotorReady(motor) {
         let port = this.getMotorPort(motor);
-        // if ('ready' in port) {
-        //     return port.ready;
-        // }
+        if ('ready' in port) {
+            return port.ready;
+        }
         let result = 0;
         if (port.startDegrees < port.targetDegrees) {
             result = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
@@ -200,17 +200,21 @@ exports.MotorModule = class extends VMModule {
                 }
                 break;
             case motorModuleConstants.MOTOR_READY_BITS:
+                this.waitForQueue();
                 motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
                 if ((motor.layer >= 0) && (motor.layer <= 3)) {
                     let bit = 1;
                     for (let id = 0; id < 4; id++) {
                         motor.id = id;
-                        if (((motor.bits & bit) === bit) && !this.getMotorReady(motor, true)) {
+                        if (((motor.bits & bit) === bit) && !this.getMotorReady(motor)) {
                             value = 0;
                             break;
                         }
                         bit <<= 1;
+                    }
+                    if (value) {
+                        this._vm.sleep(100);
                     }
                     vmData.setNumberAtRet(value);
                 } else {

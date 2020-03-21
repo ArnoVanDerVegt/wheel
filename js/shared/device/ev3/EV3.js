@@ -158,7 +158,6 @@ exports.EV3 = class extends BasicDevice {
             if (layer === -1) {
                 poll.main      = (poll.main + 1) % 128;
             } else {
-                console.error('Failed for layer:', layer);
                 poll.mainLayer = layer;
                 poll.main      = 0;
             }
@@ -416,7 +415,7 @@ exports.EV3 = class extends BasicDevice {
         this._commandQueue.addToCommandQueue({
             type:             constants.UIREAD_BATTERY,
             response:         true,
-            responseCallback: callback,
+            responseCallback: callback || false,
             message:          new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_PREFIX)
                 .addS(constants.UIREAD)
@@ -443,7 +442,7 @@ exports.EV3 = class extends BasicDevice {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.BEGIN_LIST_FILES,
             response:         true,
-            responseCallback: callback,
+            responseCallback: callback || false,
             message:          new Message()
                 .addS(constants.BEGIN_LIST_FILES)
                 .addS('FFFF')
@@ -457,7 +456,7 @@ exports.EV3 = class extends BasicDevice {
             filename:         filename,
             data:             data,
             response:         true,
-            responseCallback: callback,
+            responseCallback: callback || false,
             message:          new Message()
                 .addS(constants.BEGIN_DOWNLOAD)
                 .addS(messageEncoder.decimalToLittleEndianHex(data.length / 2, 8))
@@ -470,7 +469,7 @@ exports.EV3 = class extends BasicDevice {
             type:             constants.SYSTEM_COMMAND,
             path:             path,
             response:         true,
-            responseCallback: callback,
+            responseCallback: callback || false,
             message:          new Message()
                 .addS(constants.CREATE_DIR)
                 .addH(path)
@@ -482,7 +481,7 @@ exports.EV3 = class extends BasicDevice {
             type:             constants.SYSTEM_COMMAND,
             path:             path,
             response:         true,
-            responseCallback: callback,
+            responseCallback: callback || false,
             command:          constants.DELETE_FILE,
             message:          new Message()
                 .addS(constants.DELETE_FILE)
