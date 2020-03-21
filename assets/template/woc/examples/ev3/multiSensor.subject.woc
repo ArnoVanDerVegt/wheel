@@ -1,0 +1,47 @@
+@subject EV3_Example:Sensor, multiplexer
+@device  E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Mindstorms sensor multiplexer example
+This example shows how to use the Mindsensors sensor multiplexer to read three touch sensors with a single
+sensor port.
+
+
+With the call to `sensorSetType` the correct sensor is displayed in the simulator, this call is
+not necessary for the application to run in the VM.
+
+
+By making a call to the `msStart0` procedure the application starts registering multiplexer changes
+and writes them to the `msTouch0` array.
+
+@section Code
+@example
+#project "Multi sensor demo"
+
+#include "lib/standard.whl"
+#include "lib/screen.whl"
+#include "lib/sensor.whl"
+#include "lib/sensorMulti.whl"
+
+#display "EV3 Sensors"
+
+proc main()
+    ; Set the sensor type...
+    sensorSetType(INPUT_1, SENSOR_TYPE_MULTIPLEXER)
+
+    setTextSize(2)
+    msStart0() ; Start reading the multiplexer on port 1
+
+    repeat
+        ; Draw the input state from the multiplexer on port 1
+        drawNumber(20, 20, msTouch0[0])
+        drawNumber(50, 20, msTouch0[1])
+        drawNumber(80, 20, msTouch0[2])
+        updateScreen()
+    end
+end
+@end
+
+@load Open the multiplexer example|examples/ev3/sensormulti/multi.whlp
+
+@see sensor,standard,Modules

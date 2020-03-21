@@ -4,23 +4,24 @@
 
 #include "lib/standard.whl"
 #include "lib/screen.whl"
+#include "lib/sensor.whl"
 #include "lib/sensorMulti.whl"
 
 #display "EV3 Sensors"
 
 proc main()
-    setTextSize(2)
+    ; Set the sensor type...
+    sensorSetType(INPUT_1, SENSOR_TYPE_MULTIPLEXER)
+
     msStart0() ; Start reading the multiplexer on port 1
-    msStart1() ; Start reading the multiplexer on port 2
+
+    setTextSize(2)
+
     repeat
         ; Draw the input state from the multiplexer on port 1
         drawNumber(20, 20, msTouch0[0])
         drawNumber(50, 20, msTouch0[1])
         drawNumber(80, 20, msTouch0[2])
-
-        ; Draw the input state from the multiplexer on port 2
-        drawNumber(20, 40, msTouch1[0])
-        drawNumber(50, 40, msTouch1[1])
-        drawNumber(80, 40, msTouch1[2])
+        updateScreen()
     end
 end
