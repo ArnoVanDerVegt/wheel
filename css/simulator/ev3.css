@@ -46,6 +46,7 @@
     float:                          left;
     width:                          268px;
     height:                         336px;
+    margin-top:                     8px;
 }
 .ev3.visible {
     display:                        block;
