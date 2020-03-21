@@ -160,6 +160,9 @@ exports.IDE = class extends CompileAndRun {
             .addEventListener('EV3.Connecting', this, this.onEV3Connecting)
             .addEventListener('EV3.Connected',  this, this.onEV3Connected);
         dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
+        this._poweredUp
+            .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
+            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
         // Editor...
         let editor = this._editor;
         dispatcher
@@ -445,6 +448,14 @@ exports.IDE = class extends CompileAndRun {
 
     onEV3Connected() {
         dispatcher.dispatch('Console.Log', {message: 'Connected to EV3.', className: 'ok'});
+    }
+
+    onPoweredUpConnecting(hub) {
+        dispatcher.dispatch('Console.Log', {message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'});
+    }
+
+    onPoweredUpConnected() {
+        dispatcher.dispatch('Console.Log', {message: 'Connected to Powered Up.', className: 'ok'});
     }
 
     onCreatedPreProcessor(preProcessor) {

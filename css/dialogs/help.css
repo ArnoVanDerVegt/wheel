@@ -160,7 +160,7 @@
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device {
     float:                          right;
-    margin:                         0 8px 0 0;
+    margin:                         2px 8px 0 0;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device,
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices span {

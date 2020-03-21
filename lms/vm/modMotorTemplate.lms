@@ -49,7 +49,7 @@ subcall modMotor{A}MoveTo {
 mod_motor{a}_move_speed:
 
     MOVE32_32(pDegrees_32, lDegrees_32)
-    JR_GTEQ32(lDegrees_32, 0, mod_motor{a}_move_degrees)
+    JR_LTEQ32(lDegrees_32, 0, mod_motor{a}_move_degrees)
     SUB32(0, lDegrees_32, lDegrees_32)
     SUB8(0, lSpeed_8, lSpeed_8)
 mod_motor{a}_move_degrees:

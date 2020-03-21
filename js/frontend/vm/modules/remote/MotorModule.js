@@ -44,12 +44,11 @@ exports.MotorModule = class extends VMModule {
     }
 
     getMotorReady(motor) {
-        let port = this.getMotorPort(motor);
-        if ('ready' in port) {
-            return port.ready;
-        }
-        let result = 0;
-        if (port.startDegrees < port.targetDegrees) {
+        let port   = this.getMotorPort(motor);
+        let result = false;
+        if (port.ready) {
+            result = true;
+        } else if (port.startDegrees < port.targetDegrees) {
             result = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
         } else {
             result = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);

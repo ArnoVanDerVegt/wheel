@@ -1227,6 +1227,7 @@ subcall modMotorResetMotor {
     DATA32 lPort_32
 
     PORT_CNV_OUTPUT(pPort_32, lLayer_8, lBitfield_8, lInverted_8)
+    OUTPUT_RESET(lLayer_8, lBitfield_8)
     OUTPUT_CLR_COUNT(lLayer_8, lBitfield_8)
 }
 

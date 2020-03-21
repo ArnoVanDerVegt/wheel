@@ -10,22 +10,36 @@ This example shows how to turn the EV3 motors to a given angle and wait until th
 #project "Motor target and readyBits example"
 
 #include "lib/motor.whl"
+#include "lib/standard.whl"
 
 #display "EV3 Motors"
 
 proc main()
-    motorSetSpeed(OUTPUT_A, 10) ; Set the speed of motor A
-    motorSetSpeed(OUTPUT_B, 50) ; Set the speed of motor B
+    ; Setup the type and speed of motor A...
+    motorSetType(OUTPUT_A, MOTOR_LARGE)
+    motorSetSpeed(OUTPUT_A, 30)
+    motorSetBrake(OUTPUT_A, MOTOR_BRAKE)
+    motorReset(OUTPUT_A)
+
+    ; Setup the type and speed of motor B...
+    motorSetType(OUTPUT_B, MOTOR_MEDIUM)
+    motorSetSpeed(OUTPUT_B, 60)
+    motorSetBrake(OUTPUT_B, MOTOR_BRAKE)
+    motorReset(OUTPUT_B)
 
     motorMoveTo(OUTPUT_A, 360) ; Turn motor A 360 degrees
     motorMoveTo(OUTPUT_B, 360) ; Turn motor B 360 degrees
 
     waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
 
+    sleep(500)
+
     motorMoveTo(OUTPUT_A, 720) ; Turn motor A another 360 degrees, from 360 to 720
     motorMoveTo(OUTPUT_B, 0)   ; Move motor B back to 0
 
     waitForMotors(MOTOR_READY_BITS_AB) ; Wait until motors A and B are ready...
+
+    halt()
 end
 @end
 
