@@ -4,7 +4,6 @@
 **/
 const dispatcher   = require('../../lib/dispatcher').dispatcher;
 const Emitter      = require('../../lib/Emitter').Emitter;
-const PluginsState = require('./PluginsState').PluginsState;
 const pluginUuid   = require('../plugins/pluginUuid');
 
 exports.PluginsState = class extends Emitter {

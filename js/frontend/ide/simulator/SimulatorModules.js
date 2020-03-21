@@ -15,7 +15,7 @@ const deviceModuleConstants      = require('../../../shared/vm/modules/deviceMod
 const poweredUpModuleConstants   = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const Sound                      = require('../../../shared/lib/Sound').Sound;
 const dispatcher                 = require('../../lib/dispatcher').dispatcher;
-const pluginUuid                 = require('../plugins/PluginUuid');
+const pluginUuid                 = require('../plugins/pluginUuid');
 
 const callOnObject = function() {
         let args   = Array.from(arguments);
