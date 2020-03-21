@@ -112,12 +112,12 @@ exports.Remote = class extends BasicHub {
 
     initButtons() {
         let refs = this._refs;
-        this.initButton(refs.buttonRightMin,    'button-left',    1);
-        this.initButton(refs.buttonRightCenter, 'button-center',  2);
-        this.initButton(refs.buttonRightPlus,   'button-right',   4);
-        this.initButton(refs.buttonLeftMin,     'button-left',    8);
-        this.initButton(refs.buttonLeftCenter,  'button-center', 16);
-        this.initButton(refs.buttonLeftPlus,    'button-right',  32);
+        this.initButton(refs.buttonRightMin,    'button-left',    8);
+        this.initButton(refs.buttonRightCenter, 'button-center', 16);
+        this.initButton(refs.buttonRightPlus,   'button-right',  32);
+        this.initButton(refs.buttonLeftMin,     'button-left',    1);
+        this.initButton(refs.buttonLeftCenter,  'button-center',  2);
+        this.initButton(refs.buttonLeftPlus,    'button-right',   4);
     }
 
     getButtons() {
@@ -127,12 +127,12 @@ exports.Remote = class extends BasicHub {
     setButton(buttons) {
         this._buttons = buttons;
         let refs = this._refs;
-        refs.buttonRightMin.className    = 'button-left'   + (((buttons &  1) ===  1) ? ' pressed' : '');
-        refs.buttonRightCenter.className = 'button-center' + (((buttons &  2) ===  2) ? ' pressed' : '');
-        refs.buttonRightPlus.className   = 'button-right'  + (((buttons &  4) ===  4) ? ' pressed' : '');
-        refs.buttonLeftMin.className     = 'button-left'   + (((buttons &  8) ===  8) ? ' pressed' : '');
-        refs.buttonLeftCenter.className  = 'button-center' + (((buttons & 16) === 16) ? ' pressed' : '');
-        refs.buttonLeftPlus.className    = 'button-right'  + (((buttons & 32) === 32) ? ' pressed' : '');
+        refs.buttonRightMin.className    = 'button-left'   + (((buttons &  8) ===  8) ? ' pressed' : '');
+        refs.buttonRightCenter.className = 'button-center' + (((buttons & 16) === 16) ? ' pressed' : '');
+        refs.buttonRightPlus.className   = 'button-right'  + (((buttons & 32) === 32) ? ' pressed' : '');
+        refs.buttonLeftMin.className     = 'button-left'   + (((buttons &  1) ===  1) ? ' pressed' : '');
+        refs.buttonLeftCenter.className  = 'button-center' + (((buttons &  2) ===  2) ? ' pressed' : '');
+        refs.buttonLeftPlus.className    = 'button-right'  + (((buttons &  4) ===  4) ? ' pressed' : '');
     }
 
     hide() {

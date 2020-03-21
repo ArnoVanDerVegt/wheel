@@ -1,5 +1,22 @@
-; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+@subject PoweredUp_Example:Distance sensor
+@device  P
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Powered Up Distance example
+This example shows how to read values from the distance sensor.
+
+
+The following call selects the Move Hub in the simulator,
+this is only necessary to run this demo without an actual connection to a device...
+
+
+If you are using a Move Hub then this exemple expects the distance sensor to be
+connected to port "C".
+If you are using the Hub -which has only two ports- then you can change
+the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+
+@section Code
+@example
 #project "Powered Up Distance sensor example"
 
 #include "lib/standard.whl"
@@ -11,17 +28,12 @@
 #display "Hub"
 
 proc main()
-    ; The following call selects the Move Hub in the simulator,
-    ; this is only necessary to run this demo without an actual connection to a device...
+    ; Select the device in the simulator...
     poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)
 
-    ; If you are using a Move Hub then this exemple expects the distance sensor to be
-    ; connected to port "C".
-    ; If you are using the Hub -which has only two ports- then you can change
-    ; the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+    ; Use port "C"...
     number inputPort = POWERED_UP_PORT_C
 
-    sensorLayerSetType(LAYER_1, inputPort, POWERED_UP_DEVICE_BOOST_DISTANCE)
     sensorLayerSetMode(LAYER_1, inputPort, POWERED_UP_SENSOR_MODE_DISTANCE)
 
     number lastValue = -1
@@ -42,3 +54,8 @@ proc main()
         end
     end
 end
+@end
+
+@load Open the distance sensor example|examples/poweredup/distance/distance.whlp
+
+@see light,standard

@@ -207,7 +207,7 @@ exports.PoweredUp = class extends BasicDevice {
             case 0: layer.buttonLeft  = value; break;
             case 1: layer.buttonRight = value; break;
         }
-        layer.button = (layer.buttonLeft << 3) + layer.buttonRight;
+        layer.button = (layer.buttonRight << 3) + layer.buttonLeft;
     }
 
     _updateConnectedHubs() {

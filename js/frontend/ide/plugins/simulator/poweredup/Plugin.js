@@ -213,7 +213,6 @@ exports.Plugin = class extends Plugin {
         if (simulatedLayerDevice) {
             simulatedLayerDevice.setPortMode(port.id, port.mode);
             this.updateActiveLayer(port.layer);
-            this._motors[port.layer * 4 + port.id].setMode(port.mode);
         }
     }
 

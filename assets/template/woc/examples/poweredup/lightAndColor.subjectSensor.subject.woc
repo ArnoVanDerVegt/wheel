@@ -2,7 +2,7 @@
 @device  P
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-@section Light and color sensor example
+@section Powered Up Light and color sensor example
 This example shows how to detect a color and change the color of the light accordingly.
 
 
@@ -13,7 +13,7 @@ the `inputPort` value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sen
 
 @section Code
 @example
-#project "Powered Up Light color example"
+#project "Powered Up Light and color sensor example"
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
@@ -24,6 +24,9 @@ the `inputPort` value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sen
 #display "Hub"
 
 proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
     number inputPort = POWERED_UP_PORT_C
 
     sensorLayerSetMode(LAYER_1, inputPort, POWERED_UP_SENSOR_MODE_COLOR)
@@ -61,6 +64,6 @@ proc main()
 end
 @end
 
-@load Open the light and color example|examples/poweredup/light/light.whlp
+@load Open the light and color example|examples/poweredup/light/lightAndColorSensor.whlp
 
-@see light,Modules
+@see light,sensor,Modules

@@ -1,8 +1,9 @@
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Powered Up Button example"
+#project "Powered Up Remote control example"
 
 #include "lib/standard.whl"
+#include "lib/sensor.whl"
 #include "lib/device.whl"
 #include "lib/bit.whl"
 #include "lib/button.whl"
@@ -10,6 +11,7 @@
 #display "Hub"
 
 proc printButton(number button)
+    clearConsole()
     if bitAnd(button, BUTTON_PU_LEFT_MIN) == BUTTON_PU_LEFT_MIN
         printS("Left min button")
     end
@@ -31,10 +33,14 @@ proc printButton(number button)
 end
 
 proc main()
+    ; Select the Powered Up device in the IDE...
     selectDevice(DEVICE_POWERED_UP)
+
     number lastButton = 0
     repeat
-        number b = button()
+        number b = buttonLayer(INPUT_1)
+
+        ; Check if the button value is changed:
         if b != lastButton
             lastButton = b
             printButton(lastButton)
