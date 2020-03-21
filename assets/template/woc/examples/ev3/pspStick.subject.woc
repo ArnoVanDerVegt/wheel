@@ -11,28 +11,30 @@ This example shows how to use the Mindsensors PSP device to read left and right 
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
+#include "lib/sensor.whl"
 #include "lib/screen.whl"
 #include "lib/psp.whl"
 
 #display "EV3, PSP"
 
 proc drawLeftPosition(number x, number y)
-    drawCircle(50 + x / 5, 64 + y / 5, 10)
+    drawCircle(46 + x / 5, 64 + y / 5, 10)
 end
 
 proc drawRightPosition(number x, number y)
-    drawCircle(128 + x / 5, 64 + y / 5, 10)
+    drawCircle(132 + x / 5, 64 + y / 5, 10)
 end
 
 proc main()
     ; Select the EV3 device in the simulator...
     selectDevice(DEVICE_EV3)
 
-    pspStart(0)
+    pspStart(INPUT_1)
+
     drawLeftPosition(0, 0)
-    drawCircle(50, 64, 32)
+    drawCircle(46, 64, 40)
     drawRightPosition(0, 0)
-    drawCircle(128, 64, 32)
+    drawCircle(132, 64, 40)
     updateScreen()
 
     number lastLeftX  = 0

@@ -60,6 +60,27 @@ PSPData pspData
 ; @proc             Set the write data offset and start the PSP update thread.
 ; @param port       The port to which the receiver is connected, the first port is 0, the second 1, etc...
 proc pspStart(number port)
+    ; Reset the values...
+    pspData.buttonCircle   = 0
+    pspData.buttonCross    = 0
+    pspData.buttonTriangle = 0
+    pspData.buttonSquare   = 0
+    pspData.buttonR1       = 0
+    pspData.buttonR2       = 0
+    pspData.buttonL1       = 0
+    pspData.buttonL2       = 0
+    pspData.buttonLeft     = 0
+    pspData.buttonRight    = 0
+    pspData.buttonUp       = 0
+    pspData.buttonDown     = 0
+    pspData.buttonStart    = 0
+    pspData.buttonSelect   = 0
+    pspData.stickLeftX     = 0
+    pspData.stickLeftY     = 0
+    pspData.stickRightX    = 0
+    pspData.stickRightY    = 0
+    pspData.anyButton      = 0
+
     addr pspData
     mod  MODULE_PSP, MODULE_PSP_SET_WRITE_OFFSET
     addr port

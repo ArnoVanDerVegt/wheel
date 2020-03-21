@@ -4,6 +4,7 @@
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
+#include "lib/sensor.whl"
 #include "lib/bit.whl"
 #include "lib/screen.whl"
 #include "lib/psp.whl"
@@ -23,7 +24,7 @@ proc main()
     ; Select the EV3 device in the simulator...
     selectDevice(DEVICE_EV3)
 
-    pspStart(0)
+    pspStart(INPUT_1)
 
     number lastL1 = 0
     number lastL2 = 0
