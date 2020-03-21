@@ -48,6 +48,7 @@ const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
 const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
 const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
+const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -425,6 +426,7 @@ exports.IDE = class extends CompileAndRun {
         new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
+        new WelcomeHintDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceCountDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});

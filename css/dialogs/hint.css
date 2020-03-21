@@ -15,4 +15,9 @@
     height:                         calc(56px);
     line-height:                    20px;
 }
+.dialog-background.hint-dialog .dialog-center .dialog-content a,
+.dialog-background.hint-dialog .dialog-center .dialog-content a:visited,
+.dialog-background.hint-dialog .dialog-center .dialog-content a:hover {
+    color:                          #3498DB;
+}
 

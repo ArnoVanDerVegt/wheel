@@ -47,7 +47,7 @@ exports.HomeScreen = class extends DOMNode {
                         ]
                     },
                     {
-                        className: 'home-screen-content' + (showThemeTile ? ' with-theme' : ''),
+                        className: 'home-screen-content',// + (showThemeTile ? ' with-theme' : ''),
                         children: [
                             {
                                 type:      'h1',

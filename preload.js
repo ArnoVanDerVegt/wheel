@@ -201,6 +201,7 @@ require('./js/frontend/ide/data/images');
 // Don't load, only loaded in setup when needed: require('./js/frontend/ide/data/templates');
 require('./js/frontend/ide/data/texts');
 require('./js/frontend/ide/tabIndex');
+require('./js/frontend/ide/plugins/pluginUuid');
 require('./js/frontend/ide/help/components/IndexList');
 require('./js/frontend/ide/help/woc/FileProcessor');
 require('./js/frontend/ide/help/woc/SubjectFileProcessor');
@@ -351,7 +352,6 @@ require('./js/frontend/ide/plugins/simulator/poweredup/components/MoveHub');
 require('./js/frontend/ide/plugins/simulator/poweredup/components/Remote');
 require('./js/frontend/ide/plugins/simulator/poweredup/Plugin');
 require('./js/frontend/ide/plugins/simulator/graph/io/CircularBuffer'),
-require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/BarChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/BinaryChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/ColorBarChartDrawer'),
@@ -359,6 +359,7 @@ require('./js/frontend/ide/plugins/simulator/graph/io/FillChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/LineChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/PointChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/io/SplineChartDrawer'),
+require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/Plugin'),
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');

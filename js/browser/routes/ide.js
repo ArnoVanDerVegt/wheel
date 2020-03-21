@@ -169,12 +169,19 @@
             let localFiles = getLocalStorageFiles().getFiles();
             let extension  = path.getExtension(params.filename);
             let data       = null;
-            if (params.filename in files) {
-                data = atob(files[params.filename]);
-            } else if ('Wheel' + params.filename in files) {
-                data = atob(files['Wheel' + params.filename]);
-            } else if (params.filename in localFiles) {
-                data = localFiles[params.filename];
+            let filenames  = (typeof params.filename === 'string') ? [params.filename] : params.filename;
+            for (let i = filenames.length - 1; i >= 0; i--) {
+                let filename = filenames[i];
+                if (filename in files) {
+                    data = atob(files[filename]);
+                    break;
+                } else if ('Wheel' + filename in files) {
+                    data = atob(files['Wheel' + filename]);
+                    break;
+                } else if (filename in localFiles) {
+                    data = localFiles[filename];
+                    break;
+                }
             }
             switch (extension) {
                 case '.rgf':
@@ -212,7 +219,7 @@
             } catch (error) {
                 settings = {};
             }
-            settings.version      = '0.9.0';
+            settings.version      = '0.9.1';
             settings.documentPath = 'Wheel';
             settings.os           = {
                 homedir:  '',

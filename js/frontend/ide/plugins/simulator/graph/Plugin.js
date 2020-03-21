@@ -174,6 +174,7 @@ class Chart extends DOMNode {
     }
 
     onAnimate(time) {
+/*
         if (this._time === null) {
             this._time = Date.now();
         }
@@ -209,6 +210,7 @@ class Chart extends DOMNode {
         this._context.drawImage(this._canvasBuffer, x, 0);
         this._time = Date.now();
         window.requestAnimationFrame(this.onAnimate.bind(this));
+*/
     }
 
     toJSON() {

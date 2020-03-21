@@ -15,8 +15,8 @@ exports.WelcomeHintDialog = class extends HintDialog {
             'With this version you can edit and compile programs.',
             'If you save a program then it will be stored in the local storage of your browser.',
             '',
-            'The web version can not connect to your EV3 brick,',
-            'for this you have to download and install the local version.',
+            'The web version can not connect to your EV3 brick or Powered Up devices,',
+            'for this you have to <a href="../../site/install.html" target="_download">download and install</a> the local version.',
             '',
             'You can copy and save the compiled code and upload it to your EV3 brick.'
         ];
