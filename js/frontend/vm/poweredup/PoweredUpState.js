@@ -11,13 +11,12 @@ exports.PoweredUpState = class extends BasicDeviceState {
     constructor(opts) {
         opts.LayerState = LayerState;
         super(opts);
-        this._updating   = false;
-        this._deviceName = 'PoweredUp';
+        // Allow dependency injection for unit tests...
+        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
+        this._updating     = false;
+        this._deviceName   = 'PoweredUp';
+        this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
         dispatcher.on('PoweredUp.ConnectToDevice', this, this.onConnectToDevice);
-    }
-
-    getAbsolutePosition() {
-        return false;
     }
 
     getLayerState(layer) {
@@ -66,7 +65,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
             return;
         }
         this.emit('PoweredUp.Connecting', hub);
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'powered-up/connect',
             {uuid: hub.uuid},
@@ -91,7 +90,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         }
         this._updating = true;
         let callback = (function() {
-                getDataProvider().getData(
+                this._dataProvider.getData(
                     'post',
                     'powered-up/update',
                     {
@@ -101,7 +100,9 @@ exports.PoweredUpState = class extends BasicDeviceState {
                         this._queue.length = 0;
                         let json = JSON.parse(data);
                         this.updateLayerState(json);
-                        setTimeout(callback, 20);
+                        if (!this._noTimeout) {
+                            setTimeout(callback, 20);
+                        }
                     }).bind(this)
                 );
             }).bind(this);
@@ -151,7 +152,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'powered-up/stop-polling',
             {},
@@ -163,7 +164,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'powered-up/resume-polling',
             {},
@@ -175,7 +176,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         if (this._connecting || !this._connected) {
             return;
         }
-        getDataProvider().getData(
+        this._dataProvider.getData(
             'post',
             'powered-up/set-mode',
             {
@@ -188,6 +189,6 @@ exports.PoweredUpState = class extends BasicDeviceState {
     }
 
     stopAllMotors(layerCount) {
-        getDataProvider().getData('post', 'powered-up/stop-all-motors', {layerCount: layerCount});
+        this._dataProvider.getData('post', 'powered-up/stop-all-motors', {layerCount: layerCount});
     }
 };

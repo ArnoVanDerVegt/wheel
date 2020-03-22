@@ -21,10 +21,6 @@ exports.EV3State = class extends BasicDeviceState {
             .on('EV3.LayerCount',      this, this.onLayerCount);
     }
 
-    getAbsolutePosition() {
-        return false;
-    }
-
     getConnected() {
         return this._connected;
     }
