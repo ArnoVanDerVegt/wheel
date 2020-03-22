@@ -70,5 +70,62 @@ describe(
                 assert.equal(type,                   9);
             }
         );
+        it(
+            'Should set mode',
+            function() {
+                let mode         = null;
+                let basicIOState = new BasicIOState({
+                        onChangeMode: function(m) {
+                            mode = m;
+                        }
+                    });
+                assert.equal(basicIOState.getMode(),  0);
+                basicIOState.setMode(15);
+                assert.equal(basicIOState.getMode(), 15);
+                assert.equal(mode,                   15);
+                basicIOState.setMode(19);
+                assert.equal(basicIOState.getMode(), 19);
+                assert.equal(mode,                   19);
+            }
+        );
+        it(
+            'Should set value',
+            function() {
+                let value        = null;
+                let basicIOState = new BasicIOState({
+                        settings: {
+                            getSensorAutoReset: function() { return false; }
+                        },
+                        onChangeValue: function(v) {
+                            value = v;
+                        }
+                    });
+                assert.equal(basicIOState.getValue(),   0);
+                basicIOState.setValue(115);
+                assert.equal(basicIOState.getValue(), 115);
+                assert.equal(value,                   115);
+                basicIOState.setValue(119);
+                assert.equal(basicIOState.getValue(), 119);
+                assert.equal(value,                   119);
+            }
+        );
+        it(
+            'Should set motorMode',
+            function() {
+                let basicIOState = new BasicIOState({});
+                basicIOState.setOn(true);
+                assert.equal(basicIOState.getMotorMode(), 1);
+            }
+        );
+        it(
+            'Should set motor',
+            function() {
+                let basicIOState = new BasicIOState({});
+                basicIOState.setIsMotor(true);
+                assert.equal(basicIOState.getIsMotor(), true);
+                basicIOState.setIsMotor(false);
+                assert.equal(basicIOState.getIsMotor(), false);
+            }
+        );
     }
 );

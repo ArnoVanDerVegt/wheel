@@ -214,10 +214,6 @@ exports.SettingsState = class extends Emitter {
         return this._ev3.daisyChainMode;
     }
 
-    getPoweredUpAutoConnect() {
-        return this._poweredUp.autoConnect;
-    }
-
     getRecentProject() {
         return this._recentProject;
     }
@@ -390,20 +386,6 @@ exports.SettingsState = class extends Emitter {
 
     _toggleShowSimulator() {
         this._show.simulator = !this._show.simulator;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
-    }
-
-    _toggleShowSimulatorEV3() {
-        this._show.simulatorEV3 = !this._show.simulatorEV3;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
-    }
-
-    _toggleShowSimulatorSensors() {
-        this._show.simulatorSensors = !this._show.simulatorSensors;
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');

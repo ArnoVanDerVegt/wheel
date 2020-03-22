@@ -186,6 +186,16 @@ describe(
                         assert.equal(layerState.getConnected(), true);
                     }
                 );
+                it(
+                    'Should get port values',
+                    function() {
+                        let layerState = new PoweredUpLayerState({device: {emit: function() {}}});
+                        assert.deepEqual(layerState.getPortValues('value'), [0, 0, 0, 0]);
+                        assert.deepEqual(layerState.getPortAssignments(),   [0, 0, 0, 0]);
+                        assert.deepEqual(layerState.getSensors(),           [0, 0, 0, 0]);
+                        assert.deepEqual(layerState.getMotors(),            [0, 0, 0, 0]);
+                    }
+                );
             }
         );
         describe(
