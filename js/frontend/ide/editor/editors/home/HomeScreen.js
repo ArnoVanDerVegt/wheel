@@ -116,7 +116,7 @@ exports.HomeScreen = class extends DOMNode {
                                                 title: 'Browser version',
                                                 lines: [
                                                     'The browser version can not connect to your EV3...',
-                                                    'Please install the (free) Electron version to use all features.'
+                                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
                                                 ]
                                             }
                                         );
@@ -140,7 +140,7 @@ exports.HomeScreen = class extends DOMNode {
                                                 title: 'Browser version',
                                                 lines: [
                                                     'The browser version can not connect to your Powered Up devices...',
-                                                    'Please install the (free) Electron version to use all features.'
+                                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
                                                 ]
                                             }
                                         );

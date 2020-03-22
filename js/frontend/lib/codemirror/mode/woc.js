@@ -12,7 +12,7 @@
                 }
                 return obj;
             }
-            let keyword = words('@keyword @end @subject @for @example @error @section');
+            let keyword = words('@keyword @end @subject @for @example @error @section @see @load');
 
             function tokenBase(stream, state) {
                 let ch = stream.next();

@@ -33,3 +33,8 @@
 .dialog-background.alert-dialog.with-image .dialog-center .dialog-content .buttons input[type="button"].button {
     float:                          right;
 }
+.dialog-background.alert-dialog .dialog-center .dialog-content a,
+.dialog-background.alert-dialog .dialog-center .dialog-content a:visited,
+.dialog-background.alert-dialog .dialog-center .dialog-content a:hover {
+    color:                          #3498DB;
+}
