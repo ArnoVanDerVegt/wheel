@@ -21,7 +21,7 @@ mod_motor{a}_loop:
 mod_motor{a}_time_on:
     MOVE8_8(0, gModMotor{A}Ready_8)                                      // Motor {A} no longer ready
     CALL(modMotor{A}TimeOn)                                              // Motor {A} time on
-    CALL(modMotorReadValue, {pn}, gModMotor{A}Discard_8, gModMotor{A}Currrent_32) // Update the current value with the actual value
+    CALL(modMotorReadValue, {pn}, gModMotor{A}Currrent_32) // Update the current value with the actual value
     SLEEP()
     JR(mod_motor{a}_loop)
 

@@ -16,7 +16,6 @@ DATA8  gModMotor1AUpdated_8
 DATA8  gModMotor1ASpeed_8
 DATA8  gModMotor1ABrake_8
 DATA32 gModMotor1ACurrrent_32
-DATA8  gModMotor1ADiscard_8
 DATA32 gModMotor1ATarget_32
 DATA32 gModMotor1ATime_32
 
@@ -27,7 +26,6 @@ DATA8  gModMotor1BUpdated_8
 DATA8  gModMotor1BSpeed_8
 DATA8  gModMotor1BBrake_8
 DATA32 gModMotor1BCurrrent_32
-DATA8  gModMotor1BDiscard_8
 DATA32 gModMotor1BTarget_32
 DATA32 gModMotor1BTime_32
 
@@ -38,7 +36,6 @@ DATA8  gModMotor1CUpdated_8
 DATA8  gModMotor1CSpeed_8
 DATA8  gModMotor1CBrake_8
 DATA32 gModMotor1CCurrrent_32
-DATA8  gModMotor1CDiscard_8
 DATA32 gModMotor1CTarget_32
 DATA32 gModMotor1CTime_32
 
@@ -49,7 +46,6 @@ DATA8  gModMotor1DUpdated_8
 DATA8  gModMotor1DSpeed_8
 DATA8  gModMotor1DBrake_8
 DATA32 gModMotor1DCurrrent_32
-DATA8  gModMotor1DDiscard_8
 DATA32 gModMotor1DTarget_32
 DATA32 gModMotor1DTime_32
 
@@ -62,7 +58,6 @@ DATA8  gModMotor2AUpdated_8
 DATA8  gModMotor2ASpeed_8
 DATA8  gModMotor2ABrake_8
 DATA32 gModMotor2ACurrrent_32
-DATA8  gModMotor2ADiscard_8
 DATA32 gModMotor2ATarget_32
 DATA32 gModMotor2ATime_32
 
@@ -73,7 +68,6 @@ DATA8  gModMotor2BUpdated_8
 DATA8  gModMotor2BSpeed_8
 DATA8  gModMotor2BBrake_8
 DATA32 gModMotor2BCurrrent_32
-DATA8  gModMotor2BDiscard_8
 DATA32 gModMotor2BTarget_32
 DATA32 gModMotor2BTime_32
 
@@ -84,7 +78,6 @@ DATA8  gModMotor2CUpdated_8
 DATA8  gModMotor2CSpeed_8
 DATA8  gModMotor2CBrake_8
 DATA32 gModMotor2CCurrrent_32
-DATA8  gModMotor2CDiscard_8
 DATA32 gModMotor2CTarget_32
 DATA32 gModMotor2CTime_32
 
@@ -95,7 +88,6 @@ DATA8  gModMotor2DUpdated_8
 DATA8  gModMotor2DSpeed_8
 DATA8  gModMotor2DBrake_8
 DATA32 gModMotor2DCurrrent_32
-DATA8  gModMotor2DDiscard_8
 DATA32 gModMotor2DTarget_32
 DATA32 gModMotor2DTime_32
 
@@ -108,7 +100,6 @@ DATA8  gModMotor3AUpdated_8
 DATA8  gModMotor3ASpeed_8
 DATA8  gModMotor3ABrake_8
 DATA32 gModMotor3ACurrrent_32
-DATA8  gModMotor3ADiscard_8
 DATA32 gModMotor3ATarget_32
 DATA32 gModMotor3ATime_32
 
@@ -119,7 +110,6 @@ DATA8  gModMotor3BUpdated_8
 DATA8  gModMotor3BSpeed_8
 DATA8  gModMotor3BBrake_8
 DATA32 gModMotor3BCurrrent_32
-DATA8  gModMotor3BDiscard_8
 DATA32 gModMotor3BTarget_32
 DATA32 gModMotor3BTime_32
 
@@ -130,7 +120,6 @@ DATA8  gModMotor3CUpdated_8
 DATA8  gModMotor3CSpeed_8
 DATA8  gModMotor3CBrake_8
 DATA32 gModMotor3CCurrrent_32
-DATA8  gModMotor3CDiscard_8
 DATA32 gModMotor3CTarget_32
 DATA32 gModMotor3CTime_32
 
@@ -141,7 +130,6 @@ DATA8  gModMotor3DUpdated_8
 DATA8  gModMotor3DSpeed_8
 DATA8  gModMotor3DBrake_8
 DATA32 gModMotor3DCurrrent_32
-DATA8  gModMotor3DDiscard_8
 DATA32 gModMotor3DTarget_32
 DATA32 gModMotor3DTime_32
 
@@ -154,7 +142,6 @@ DATA8  gModMotor4AUpdated_8
 DATA8  gModMotor4ASpeed_8
 DATA8  gModMotor4ABrake_8
 DATA32 gModMotor4ACurrrent_32
-DATA8  gModMotor4ADiscard_8
 DATA32 gModMotor4ATarget_32
 DATA32 gModMotor4ATime_32
 
@@ -165,7 +152,6 @@ DATA8  gModMotor4BUpdated_8
 DATA8  gModMotor4BSpeed_8
 DATA8  gModMotor4BBrake_8
 DATA32 gModMotor4BCurrrent_32
-DATA8  gModMotor4BDiscard_8
 DATA32 gModMotor4BTarget_32
 DATA32 gModMotor4BTime_32
 
@@ -176,7 +162,6 @@ DATA8  gModMotor4CUpdated_8
 DATA8  gModMotor4CSpeed_8
 DATA8  gModMotor4CBrake_8
 DATA32 gModMotor4CCurrrent_32
-DATA8  gModMotor4CDiscard_8
 DATA32 gModMotor4CTarget_32
 DATA32 gModMotor4CTime_32
 
@@ -187,6 +172,5 @@ DATA8  gModMotor4DUpdated_8
 DATA8  gModMotor4DSpeed_8
 DATA8  gModMotor4DBrake_8
 DATA32 gModMotor4DCurrrent_32
-DATA8  gModMotor4DDiscard_8
 DATA32 gModMotor4DTarget_32
 DATA32 gModMotor4DTime_32

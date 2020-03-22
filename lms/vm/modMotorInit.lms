@@ -16,7 +16,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor1ASpeed_8)
     MOVE8_8(1, gModMotor1ABrake_8)
     MOVE32_32(0, gModMotor1ACurrrent_32)
-    MOVE8_8(0, gModMotor1ADiscard_8)
     MOVE32_32(0, gModMotor1ATarget_32)
     MOVE32_32(0, gModMotor1ATime_32)
 
@@ -27,7 +26,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor1BSpeed_8)
     MOVE8_8(1, gModMotor1BBrake_8)
     MOVE32_32(0, gModMotor1BCurrrent_32)
-    MOVE8_8(0, gModMotor1BDiscard_8)
     MOVE32_32(0, gModMotor1BTarget_32)
     MOVE32_32(0, gModMotor1BTime_32)
 
@@ -38,7 +36,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor1CSpeed_8)
     MOVE8_8(1, gModMotor1CBrake_8)
     MOVE32_32(0, gModMotor1CCurrrent_32)
-    MOVE8_8(0, gModMotor1CDiscard_8)
     MOVE32_32(0, gModMotor1CTarget_32)
     MOVE32_32(0, gModMotor1CTime_32)
 
@@ -49,7 +46,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor1DSpeed_8)
     MOVE8_8(1, gModMotor1DBrake_8)
     MOVE32_32(0, gModMotor1DCurrrent_32)
-    MOVE8_8(0, gModMotor1DDiscard_8)
     MOVE32_32(0, gModMotor1DTarget_32)
     MOVE32_32(0, gModMotor1DTime_32)
 
@@ -62,7 +58,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor2ASpeed_8)
     MOVE8_8(1, gModMotor2ABrake_8)
     MOVE32_32(0, gModMotor2ACurrrent_32)
-    MOVE8_8(0, gModMotor2ADiscard_8)
     MOVE32_32(0, gModMotor2ATarget_32)
     MOVE32_32(0, gModMotor2ATime_32)
 
@@ -73,7 +68,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor2BSpeed_8)
     MOVE8_8(1, gModMotor2BBrake_8)
     MOVE32_32(0, gModMotor2BCurrrent_32)
-    MOVE8_8(0, gModMotor2BDiscard_8)
     MOVE32_32(0, gModMotor2BTarget_32)
     MOVE32_32(0, gModMotor2BTime_32)
 
@@ -84,7 +78,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor2CSpeed_8)
     MOVE8_8(1, gModMotor2CBrake_8)
     MOVE32_32(0, gModMotor2CCurrrent_32)
-    MOVE8_8(0, gModMotor2CDiscard_8)
     MOVE32_32(0, gModMotor2CTarget_32)
     MOVE32_32(0, gModMotor2CTime_32)
 
@@ -95,7 +88,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor2DSpeed_8)
     MOVE8_8(1, gModMotor2DBrake_8)
     MOVE32_32(0, gModMotor2DCurrrent_32)
-    MOVE8_8(0, gModMotor2DDiscard_8)
     MOVE32_32(0, gModMotor2DTarget_32)
     MOVE32_32(0, gModMotor2DTime_32)
 
@@ -108,7 +100,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor3ASpeed_8)
     MOVE8_8(1, gModMotor3ABrake_8)
     MOVE32_32(0, gModMotor3ACurrrent_32)
-    MOVE8_8(0, gModMotor3ADiscard_8)
     MOVE32_32(0, gModMotor3ATarget_32)
     MOVE32_32(0, gModMotor3ATime_32)
 
@@ -119,7 +110,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor3BSpeed_8)
     MOVE8_8(1, gModMotor3BBrake_8)
     MOVE32_32(0, gModMotor3BCurrrent_32)
-    MOVE8_8(0, gModMotor3BDiscard_8)
     MOVE32_32(0, gModMotor3BTarget_32)
     MOVE32_32(0, gModMotor3BTime_32)
 
@@ -130,7 +120,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor3CSpeed_8)
     MOVE8_8(1, gModMotor3CBrake_8)
     MOVE32_32(0, gModMotor3CCurrrent_32)
-    MOVE8_8(0, gModMotor3CDiscard_8)
     MOVE32_32(0, gModMotor3CTarget_32)
     MOVE32_32(0, gModMotor3CTime_32)
 
@@ -141,7 +130,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor3DSpeed_8)
     MOVE8_8(1, gModMotor3DBrake_8)
     MOVE32_32(0, gModMotor3DCurrrent_32)
-    MOVE8_8(0, gModMotor3DDiscard_8)
     MOVE32_32(0, gModMotor3DTarget_32)
     MOVE32_32(0, gModMotor3DTime_32)
 
@@ -154,7 +142,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor4ASpeed_8)
     MOVE8_8(1, gModMotor4ABrake_8)
     MOVE32_32(0, gModMotor4ACurrrent_32)
-    MOVE8_8(0, gModMotor4ADiscard_8)
     MOVE32_32(0, gModMotor4ATarget_32)
     MOVE32_32(0, gModMotor4ATime_32)
 
@@ -165,7 +152,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor4BSpeed_8)
     MOVE8_8(1, gModMotor4BBrake_8)
     MOVE32_32(0, gModMotor4BCurrrent_32)
-    MOVE8_8(0, gModMotor4BDiscard_8)
     MOVE32_32(0, gModMotor4BTarget_32)
     MOVE32_32(0, gModMotor4BTime_32)
 
@@ -176,7 +162,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor4CSpeed_8)
     MOVE8_8(1, gModMotor4CBrake_8)
     MOVE32_32(0, gModMotor4CCurrrent_32)
-    MOVE8_8(0, gModMotor4CDiscard_8)
     MOVE32_32(0, gModMotor4CTarget_32)
     MOVE32_32(0, gModMotor4CTime_32)
 
@@ -187,7 +172,6 @@ subcall modMotorInit {
     MOVE8_8(0, gModMotor4DSpeed_8)
     MOVE8_8(1, gModMotor4DBrake_8)
     MOVE32_32(0, gModMotor4DCurrrent_32)
-    MOVE8_8(0, gModMotor4DDiscard_8)
     MOVE32_32(0, gModMotor4DTarget_32)
     MOVE32_32(0, gModMotor4DTime_32)
 
