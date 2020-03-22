@@ -137,7 +137,7 @@ exports.SimulatorModules = class {
             screenModule.addEventListener('Screen.DrawLine',   this, function(line)      { callOnObject(getDisplay(), 'drawLine',     line.x1, line.y1, line.x2, line.y2);      }),
             screenModule.addEventListener('Screen.DrawRect',   this, function(rect)      { callOnObject(getDisplay(), 'drawRect',     rect.x, rect.y, rect.width, rect.height); }),
             screenModule.addEventListener('Screen.DrawCircle', this, function(circle)    { callOnObject(getDisplay(), 'drawCircle',   circle.x, circle.y, circle.radius);       }),
-            screenModule.addEventListener('Screen.DrawImage',  this, function(image)     { self.drawImage(display, image);                            })
+            screenModule.addEventListener('Screen.DrawImage',  this, function(image)     { self.drawImage(getDisplay(), image);                                                 })
         );
         return this;
     }
