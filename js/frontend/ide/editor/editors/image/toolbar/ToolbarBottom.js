@@ -42,10 +42,11 @@ exports.ToolbarBottom = class extends Toolbar {
                                 onKeyUp:  imageEditor.onKeyUp.bind(imageEditor)
                             },
                             this.addToolOptions({
-                                uiId:     1,
-                                tabIndex: tabIndex.IMAGE_FONT_SIZE,
-                                label:    'Font:',
-                                onSelect: imageEditor.onSelectFont.bind(imageEditor),
+                                uiId:          1,
+                                tabIndex:      tabIndex.IMAGE_FONT_SIZE,
+                                label:         'Font:',
+                                baseClassName: 'tool-options-toolbar',
+                                onSelect:      imageEditor.onSelectFont.bind(imageEditor),
                                 options: [
                                     {title: 'Size 1', icon: 'icon-text1'},
                                     {title: 'Size 2', icon: 'icon-text2'},

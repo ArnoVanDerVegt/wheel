@@ -386,10 +386,12 @@ body.no-simulator .editor-wrapper .continue-button-wrapper {
 .icon-button.icon-binary {
     margin:                         8px 2px 0 0;
 }
-.resource-options .tool-options {
+.resource-options .tool-options,
+.resource-options .tool-options-toolbar {
     margin:                         8px 2px 0 2px;
 }
-.resource-options.bottom.viewer .tool-options {
+.resource-options.bottom.viewer .tool-options,
+.resource-options.bottom.viewer .tool-options-toolbar {
     margin:                         8px 2px 0 8px;
 }
 .resource-options.bottom.viewer .select-and-copy {

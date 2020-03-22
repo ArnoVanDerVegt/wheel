@@ -1,28 +1,40 @@
-div.tool-options {
+div.tool-options,
+div.tool-options-toolbar {
     float:                          left;
     box-shadow:                     var(--button-shadow);
     border-radius:                  3px;
     -webkit-user-select:            none;
 }
 div.tool-options .icon-button,
-div.tool-options .button {
+div.tool-options .button,
+div.tool-options-toolbar .icon-button,
+div.tool-options-toolbar .button {
     border-radius:                  0;
     box-shadow:                     none;
 }
 div.tool-options .icon-button:active,
-div.tool-options .button:active {
+div.tool-options .button:active,
+div.tool-options-toolbar .icon-button:active,
+div.tool-options-toolbar .button:active {
     transform:                      translate(0, 0);
 }
 div.tool-options .button:first-child,
-div.tool-options .icon-button:first-child {
+div.tool-options .icon-button:first-child,
+div.tool-options-toolbar .button:first-child,
+div.tool-options-toolbar .icon-button:first-child {
     border-radius:                  3px 0 0 3px;
 }
 div.tool-options .last.button,
 div.tool-options .last.icon-button,
 div.tool-options .button:last-child,
-div.tool-options .icon-button:last-child {
+div.tool-options .icon-button:last-child,
+div.tool-options-toolbar .last.button,
+div.tool-options-toolbar .last.icon-button,
+div.tool-options-toolbar .button:last-child,
+div.tool-options-toolbar .icon-button:last-child {
     border-radius:                  0 3px 3px 0;
 }
-div.tool-options .button:first-child.last {
+div.tool-options .button:first-child.last,
+div.tool-options-toolbar .button:first-child.last {
     border-radius:                  3px;
 }

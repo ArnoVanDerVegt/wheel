@@ -62,10 +62,11 @@ exports.ToolbarTop = class extends Toolbar {
                                 onClick:   imageEditor.onPaste.bind(imageEditor)
                             }),
                             this.addToolOptions({
-                                uiId:      imageEditor.getUIId.bind(imageEditor),
-                                tabIndex:  tabIndex.IMAGE_TOOL,
-                                label:     'Tool:',
-                                onSelect:  imageEditor.onSelectTool.bind(imageEditor),
+                                uiId:          imageEditor.getUIId.bind(imageEditor),
+                                tabIndex:      tabIndex.IMAGE_TOOL,
+                                label:         'Tool:',
+                                baseClassName: 'tool-options-toolbar',
+                                onSelect:      imageEditor.onSelectTool.bind(imageEditor),
                                 options: [
                                     {title: 'Pen',    icon: 'icon-point'},
                                     {title: 'Line',   icon: 'icon-line'},
@@ -76,10 +77,11 @@ exports.ToolbarTop = class extends Toolbar {
                                 ]
                             }),
                             this.addToolOptions({
-                                uiId:     imageEditor.getUIId.bind(imageEditor),
-                                tabIndex: tabIndex.IMAGE_FILL,
-                                tool:     1,
-                                label:    'Fill:',
+                                uiId:          imageEditor.getUIId.bind(imageEditor),
+                                tabIndex:      tabIndex.IMAGE_FILL,
+                                tool:          1,
+                                label:         'Fill:',
+                                baseClassName: 'tool-options-toolbar',
                                 onSelect: imageEditor.onSelectFill.bind(imageEditor),
                                 options: [
                                     {title: 'White',       icon: 'icon-fill-white'},
@@ -88,11 +90,12 @@ exports.ToolbarTop = class extends Toolbar {
                                 ]
                             }),
                             this.addToolOptions({
-                                uiId:     imageEditor.getUIId.bind(imageEditor),
-                                tabIndex: tabIndex.IMAGE_STROKE,
-                                tool:     1,
-                                label:    'Stroke:',
-                                onSelect: imageEditor.onSelectStroke.bind(imageEditor),
+                                uiId:          imageEditor.getUIId.bind(imageEditor),
+                                tabIndex:      tabIndex.IMAGE_STROKE,
+                                tool:          1,
+                                label:         'Stroke:',
+                                baseClassName: 'tool-options-toolbar',
+                                onSelect:      imageEditor.onSelectStroke.bind(imageEditor),
                                 options: [
                                     {title: 'White',       icon: 'icon-line-white'},
                                     {title: 'Black',       icon: 'icon-line-black'},
@@ -100,10 +103,11 @@ exports.ToolbarTop = class extends Toolbar {
                                 ]
                             }),
                             this.addToolOptions({
-                                uiId:     imageEditor.getUIId.bind(imageEditor),
-                                tabIndex: tabIndex.IMAGE_DRAW_SIZE,
-                                label:    'Size:',
-                                onSelect: imageEditor.onSelectSize.bind(imageEditor),
+                                uiId:          imageEditor.getUIId.bind(imageEditor),
+                                tabIndex:      tabIndex.IMAGE_DRAW_SIZE,
+                                label:         'Size:',
+                                baseClassName: 'tool-options-toolbar',
+                                onSelect:      imageEditor.onSelectSize.bind(imageEditor),
                                 options: [
                                     {title: 'Size 1', icon: 'icon-size1'},
                                     {title: 'Size 2', icon: 'icon-size2'},

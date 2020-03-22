@@ -9,17 +9,18 @@ const DOMNode    = require('../dom').DOMNode;
 exports.ToolOptions = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._ui         = opts.ui;
-        this._uiId       = opts.uiId;
-        this._color      = opts.color || 'blue';
-        this._elements   = [];
-        this._tabIndex   = opts.tabIndex;
-        this._tool       = opts.tool || 0;
-        this._onSelect   = opts.onSelect;
-        this._parentNode = opts.parentNode;
-        this._options    = opts.options;
-        this._label      = opts.label;
-        this._className  = opts.className || '';
+        this._ui            = opts.ui;
+        this._uiId          = opts.uiId;
+        this._color         = opts.color || 'blue';
+        this._elements      = [];
+        this._tabIndex      = opts.tabIndex;
+        this._tool          = opts.tool || 0;
+        this._onSelect      = opts.onSelect;
+        this._parentNode    = opts.parentNode;
+        this._options       = opts.options;
+        this._label         = opts.label;
+        this._baseClassName = opts.baseClassName || 'tool-options';
+        this._className     = opts.className || '';
         this.initDOM();
     }
 
@@ -61,7 +62,7 @@ exports.ToolOptions = class extends DOMNode {
         this.create(
             this._parentNode,
             {
-                className: 'tool-options ' + (this._className || ''),
+                className: this._baseClassName + ' ' + (this._className || ''),
                 children:  children
             }
         );
