@@ -18,7 +18,6 @@ const ColorBarChartDrawer   = require('./io/ColorBarChartDrawer').ColorBarChartD
 const FillChartDrawer       = require('./io/FillChartDrawer').FillChartDrawer;
 const LineChartDrawer       = require('./io/LineChartDrawer').LineChartDrawer;
 const PointChartDrawer      = require('./io/PointChartDrawer').PointChartDrawer;
-const SplineChartDrawer     = require('./io/SplineChartDrawer').SplineChartDrawer;
 
 class Chart extends DOMNode {
     constructor(opts) {
@@ -100,7 +99,6 @@ class Chart extends DOMNode {
     initTypeAndMode(type, mode) {
         let img   = this._refs.img;
         let image = null;
-
         switch (type) {
             case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:
             case sensorModuleConstants.SENSOR_TYPE_TOUCH:
@@ -131,20 +129,20 @@ class Chart extends DOMNode {
                 break;
             case sensorModuleConstants.SENSOR_TYPE_GYRO:
                 image = 'images/ev3/gyro.png';
-                this._gridDrawer   = this._splineLineDrawer;
-                this._chartDrawers = [this._splineFillDrawer];
+                this._gridDrawer   = this._lineDrawer;
+                this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_INFRARED:
                 image = 'images/ev3/infrared.png';
-                this._gridDrawer   = this._splineLineDrawer;
-                this._chartDrawers = [this._splineFillDrawer];
+                this._gridDrawer   = this._lineDrawer;
+                this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image = 'images/ev3/sound.png';
-                this._gridDrawer   = this._splineLineDrawer;
-                this._chartDrawers = [this._splineFillDrawer];
+                image = 'images/ev3/microphone.png';
+                this._gridDrawer   = this._lineDrawer;
+                this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 100;
                 break;
         }
@@ -174,7 +172,6 @@ class Chart extends DOMNode {
     }
 
     onAnimate(time) {
-/*
         if (this._time === null) {
             this._time = Date.now();
         }
@@ -182,18 +179,22 @@ class Chart extends DOMNode {
         let deltaTime = Date.now() - this._time;
         this._deltaTime += deltaTime;
         if (this._deltaTime > interval) {
-            let sensor = this._sensorPlugin.getSensor(this._layer, this._port);
-            if ((sensor.getType() !== this._type) || (sensor.getMode() !== this._mode)) {
-                this.initTypeAndMode(sensor.getType(), sensor.getMode());
-            }
-            this._buffer.add(sensor.getState().getValue());
-            while (this._deltaTime > interval) {
-                this._deltaTime -= interval;
-            }
-            if (this._gridDrawer) {
-                this._gridDrawer
-                    .clear()
-                    .drawValueGrid();
+            let sensorContainer = this._sensorPlugin.getSensor(this._layer, this._port);
+            let currentSensor   = sensorContainer.getCurrentSensor();
+            if (currentSensor) {
+                let state  = currentSensor.getState();
+                if ((state.getType() !== this._type) || (state.getMode() !== this._mode)) {
+                    this.initTypeAndMode(state.getType(), state.getMode());
+                }
+                this._buffer.add(state.getValue());
+                while (this._deltaTime > interval) {
+                    this._deltaTime -= interval;
+                }
+                if (this._gridDrawer) {
+                    this._gridDrawer
+                        .clear()
+                        .drawValueGrid();
+                }
                 this._chartDrawers.forEach(
                     function(drawer) {
                         drawer.draw(this._buffer, this._maxValue);
@@ -210,7 +211,6 @@ class Chart extends DOMNode {
         this._context.drawImage(this._canvasBuffer, x, 0);
         this._time = Date.now();
         window.requestAnimationFrame(this.onAnimate.bind(this));
-*/
     }
 
     toJSON() {
@@ -253,7 +253,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 children: [
                     {
                         type:      'span',
-                        innerHTML: 'Graph'
+                        innerHTML: 'EV3 Graph'
                     },
                     {
                         type:    Button,
@@ -336,6 +336,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 break;
             }
         }
+        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     reset() {

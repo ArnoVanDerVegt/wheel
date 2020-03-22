@@ -13,7 +13,7 @@ exports.GraphDialog = class extends Dialog {
         this._sampleRate = 0;
         this.createWindow(
             'graph-dialog new-graph',
-            'New graph',
+            'New EV3 graph',
             [
                 {
                     className: 'graph-dialog-text',

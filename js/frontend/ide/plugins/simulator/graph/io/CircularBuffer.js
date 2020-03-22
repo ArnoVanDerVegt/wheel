@@ -8,17 +8,16 @@ exports.CircularBuffer = class {
         this._buffer        = [];
         this._size          = opts.size || 23;
         this._currentOffset = 0;
+        for (let i = 0; i < this._size; i++) {
+            this._buffer.push(0);
+        }
     }
 
     add(value) {
         let buffer = this._buffer;
         let size   = this._size;
-        if (buffer.length < size) {
-            buffer.push(value);
-        } else {
-            buffer[this._currentOffset] = value;
-            this._currentOffset = (this._currentOffset + 1) % size;
-        }
+        buffer[this._currentOffset] = value;
+        this._currentOffset = (this._currentOffset + 1) % size;
     }
 
     getValue(index) {

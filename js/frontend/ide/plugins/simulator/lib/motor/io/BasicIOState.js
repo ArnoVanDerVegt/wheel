@@ -27,6 +27,7 @@ exports.BasicIOState = class {
         this._speed          = 100;
         this._isMotor        = true;
         this._type           = 0;
+        this._mode           = 0;
         this._rpm            = 272;
         this._position       = 0;
         this._romotePosition = 0;

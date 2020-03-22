@@ -94,8 +94,12 @@ exports.SensorContainer = class extends DOMNode {
             }
             this._currentConstructor = currentConstructor;
         }
-        if (this._currentSensor && (mode !== null)) {
-            this._currentSensor.getState().setMode(parseInt(mode, 10));
+        if (this._currentSensor) {
+            let state = this._currentSensor.getState();
+            state.setType(assignment);
+            if (mode !== null) {
+                state.setMode(parseInt(mode, 10));
+            }
         }
     }
 

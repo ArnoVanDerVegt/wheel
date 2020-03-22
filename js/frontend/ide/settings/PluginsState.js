@@ -77,8 +77,8 @@ exports.PluginsState = class extends Emitter {
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID,
-                group:   'Graph',
-                name:    'Sensor output graph',
+                group:   'EV3',
+                name:    'EV3 Sensor output graph',
                 path:    'graph',
                 visible: false,
                 order:   4
