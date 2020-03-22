@@ -11,11 +11,11 @@ afterEach(function() {
 });
 
 const getMockLayers = function() {
-        const getLayer = function() {
+        const getLayer = function(connected) {
                 let result = {
                         uuid:      'uuid',
                         type:      'type',
-                        connected: false,
+                        connected: connected,
                         button:    0,
                         tilt:      {},
                         accel:     {},
@@ -30,13 +30,21 @@ const getMockLayers = function() {
                 }
                 return result;
             };
-        return {layers: [getLayer(), getLayer(), getLayer(), getLayer()]};
+        return {layers: [
+            getLayer(false),
+            getLayer(false),
+            getLayer(true),
+            getLayer(false)
+        ]};
     };
 
 class MockDataProvider {
     constructor(opts) {
         this._uuid         = false;
         this._updateCalled = false;
+        this._layer        = null;
+        this._port         = null;
+        this._mode         = null;
     }
 
     getData(method, route, params, callback) {
@@ -49,6 +57,11 @@ class MockDataProvider {
                 this._updateCalled = true;
                 callback(JSON.stringify({state: getMockLayers()}));
                 break;
+            case 'post:powered-up/set-mode':
+                this._layer = params.layer;
+                this._port  = params.port;
+                this._mode  = params.mode;
+                break;
         }
     }
 
@@ -58,6 +71,18 @@ class MockDataProvider {
 
     getUpdateCalled() {
         return this._updateCalled;
+    }
+
+    getLayer() {
+        return this._layer;
+    }
+
+    getPort() {
+        return this._port;
+    }
+
+    getMode() {
+        return this._mode;
     }
 }
 
@@ -95,11 +120,40 @@ describe(
             function() {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                let called           = false;
                 poweredUpState.addEventListener('PoweredUp.Connecting', this, function() {});
                 assert.equal(mockDataProvider.getUpdateCalled(), false);
                 poweredUpState.onConnectToDevice({uuid: 'xyz'});
                 assert.equal(mockDataProvider.getUpdateCalled(), true);
+            }
+        );
+        it(
+            'Should connect to device and emit connected',
+            function() {
+                let mockDataProvider = new MockDataProvider({});
+                let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
+                let called           = false;
+                poweredUpState.addEventListener(
+                    'PoweredUp.Connected',
+                    this,
+                    function(index) {
+                        called = index;
+                    }
+                );
+                poweredUpState.onConnectToDevice({uuid: 'xyz'});
+                assert.equal(called, 2);
+            }
+        );
+        it(
+            'Should set mode',
+            function() {
+                let mockDataProvider = new MockDataProvider({});
+                let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
+                poweredUpState._connecting = false; // Force correct state...
+                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.setMode(112, 113, 114, function() {});
+                assert.equal(mockDataProvider.getLayer(), 112);
+                assert.equal(mockDataProvider.getPort(),  113);
+                assert.equal(mockDataProvider.getMode(),  114);
             }
         );
     }

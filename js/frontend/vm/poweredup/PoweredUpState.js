@@ -50,7 +50,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         for (let i = 0; i < 4; i++) {
             if (state.layers[i].connected && (layerState[i].getConnected() !== state.layers[i].connected)) {
                 layerState[i].setConnected(true);
-                this.emit('PoweredUp.Connected');
+                this.emit('PoweredUp.Connected', i);
                 break;
             }
         }
@@ -147,30 +147,8 @@ exports.PoweredUpState = class extends BasicDeviceState {
     upload() {}
     createDir() {}
     deleteFile() {}
-
-    stopPolling(callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'powered-up/stop-polling',
-            {},
-            this._createResponseHandler(callback)
-        );
-    }
-
-    resumePolling(callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'powered-up/resume-polling',
-            {},
-            this._createResponseHandler(callback)
-        );
-    }
+    stopPolling(callback) {}
+    resumePolling(callback) {}
 
     setMode(layer, port, mode, callback) {
         if (this._connecting || !this._connected) {
