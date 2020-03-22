@@ -71,6 +71,62 @@ describe(
                 brake: 0
             }
         );
+        it(
+            'Should get motor type with connection',
+            function() {
+                let source = [
+                        'proc motorLayerType(number layer, number id)',
+                        '    number result',
+                        '    addr layer',
+                        '    mod  6, 3',
+                        'end',
+                        'proc main()',
+                        '    number a = motorLayerType(1, 3)',
+                        '    addr a',
+                        '    mod  0, 1',
+                        'end'
+                    ];
+                let info = testCompile(source);
+                info.modules[6]._device = function() { return { getConnected: function() { return true; }}; };
+                info.modules[6].on('Motor.GetType', this, function(motor) {
+                    assert.equal(motor.layer, 1);
+                    assert.equal(motor.id, 3);
+                    motor.callback(11);
+                });
+                info.modules[0].on('Console.Log', this, function(opts) {
+                    assert.equal(opts.message, 11);
+                });
+                info.vm.setCommands(info.commands).run();
+            }
+        );
+        it(
+            'Should get motor type without connection',
+            function() {
+                let source = [
+                        'proc motorLayerType(number layer, number id)',
+                        '    number result',
+                        '    addr layer',
+                        '    mod  6, 3',
+                        'end',
+                        'proc main()',
+                        '    number a = motorLayerType(1, 3)',
+                        '    addr a',
+                        '    mod  0, 1',
+                        'end'
+                    ];
+                let info = testCompile(source);
+                info.modules[6]._device = function() { return { getConnected: function() { return false; }}; };
+                info.modules[6].on('Motor.GetType', this, function(motor) {
+                    assert.equal(motor.layer, 1);
+                    assert.equal(motor.id, 3);
+                    motor.callback(-1);
+                });
+                info.modules[0].on('Console.Log', this, function(opts) {
+                    assert.equal(opts.message, 7);
+                });
+                info.vm.setCommands(info.commands).run();
+            }
+        );
         testModuleCall(
             it,
             'Should reset',
@@ -194,6 +250,60 @@ describe(
                 info.vm.setCommands(info.commands).run();
                 assert.equal(info.compiler.getUseInfo().getUsedModule(6, 9), true);
                 assert.equal(info.compiler.getUseInfo().getUsedModule(2, 3), false);
+            }
+        );
+        it(
+            'Should get motor ready',
+            function() {
+                let source = [
+                        'proc motorLayerReady(number layer, number id)',
+                        '    number result',
+                        '    addr layer',
+                        '    mod  6, 10',
+                        'end',
+                        'proc main()',
+                        '    number a = motorLayerReady(2, 3)',
+                        '    addr a',
+                        '    mod  0, 1',
+                        'end'
+                    ];
+                let info = testCompile(source);
+                info.modules[6].on('Motor.Ready', this, function(motor) {
+                    assert.equal(motor.layer, 2);
+                    assert.equal(motor.id, 3);
+                    motor.callback(1);
+                });
+                info.modules[0].on('Console.Log', this, function(opts) {
+                    assert.equal(opts.message, 1);
+                });
+                info.vm.setCommands(info.commands).run();
+            }
+        );
+        it(
+            'Should get motor ready bits',
+            function() {
+                let source = [
+                        'proc motorLayerReadyBits(number layer, number bits)',
+                        '    number result',
+                        '    addr layer',
+                        '    mod  6, 11',
+                        'end',
+                        'proc main()',
+                        '    number a = motorLayerReadyBits(2, 11)',
+                        '    addr a',
+                        '    mod  0, 1',
+                        'end'
+                    ];
+                let info = testCompile(source);
+                info.modules[6].on('Motor.ReadyBits', this, function(motor) {
+                    assert.equal(motor.layer, 2);
+                    assert.equal(motor.bits, 11);
+                    motor.callback(1);
+                });
+                info.modules[0].on('Console.Log', this, function(opts) {
+                    assert.equal(opts.message, 1);
+                });
+                info.vm.setCommands(info.commands).run();
             }
         );
         testModuleCall(

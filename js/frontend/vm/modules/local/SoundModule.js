@@ -17,6 +17,7 @@ exports.SoundModule = class extends VMModule {
                 break;
             case soundModuleConstants.SOUND_PLAY_SAMPLE:
                 let playSample = vmData.getRecordFromSrcOffset(['filename', 'volume']);
+                playSample.filename = vmData.getStringList()[playSample.filename];
                 this.emit('Sound.PlaySample', playSample);
                 break;
         }

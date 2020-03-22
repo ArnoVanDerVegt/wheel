@@ -37,5 +37,37 @@ describe(
                 info.vm.setCommands(info.commands).run();
             }
         );
+        it(
+            'Should wait for button press',
+            function(done) {
+                let source = [
+                        'proc waitForPress()',
+                        '    mod 4, 1',
+                        'end',
+                        'proc main()',
+                        '    waitForPress()',
+                        '    number a = 55',
+                        '    addr a',
+                        '    mod  0, 1',
+                        'end'
+                    ];
+                let info = testCompile(source);
+                info.modules[4].on('Button.WaitForPress', this, function(button) {
+                    button(false);
+                    setTimeout(
+                        function() {
+                            button(true);
+                            assert.equal(typeof button === 'function', true);
+                        },
+                        10
+                    );
+                });
+                info.modules[0].on('Console.Log', this, function(opts) {
+                    assert.equal(opts.message, 55);
+                    done();
+                });
+                info.vm.setCommands(info.commands).run();
+            }
+        );
     }
 );

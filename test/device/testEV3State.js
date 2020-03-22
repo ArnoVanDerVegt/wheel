@@ -28,6 +28,7 @@ class MockDataProvider {
         this._mode            = null;
         this._localFilename   = null;
         this._remoteFilename  = null;
+        this._layerCount      = null;
     }
 
     setConnected(connected) {
@@ -52,6 +53,10 @@ class MockDataProvider {
 
     getRemoteFilename() {
         return this._remoteFilename;
+    }
+
+    getLayerCount() {
+        return this._layerCount;
     }
 
     getData(method, route, params, callback) {
@@ -101,6 +106,9 @@ class MockDataProvider {
                 this._remoteFilename = params.remoteFilename;
                 callback(JSON.stringify({}));
                 break;
+            case 'post:ev3/stop-all-motors':
+                this._layerCount = params.layerCount;
+                break;
         }
     }
 }
@@ -113,6 +121,13 @@ describe(
             function() {
                 let ev3State = new EV3State({dataProvider: new MockDataProvider({}), noTimeout: true});
                 assert.equal(ev3State.getConnected(), false);
+            }
+        );
+        it(
+            'Should get initial battery',
+            function() {
+                let ev3State = new EV3State({dataProvider: new MockDataProvider({}), noTimeout: true});
+                assert.equal(ev3State.getBattery(), null);
             }
         );
         it(
@@ -221,6 +236,18 @@ describe(
                 assert.equal(mockDataProvider.getLocalFilename(),  'local.file');
                 assert.equal(mockDataProvider.getRemoteFilename(), 'remote.file');
                 assert.equal(called, true);
+            }
+        );
+        it(
+            'Should stop all motors',
+            function() {
+                let mockDataProvider = new MockDataProvider({applyConnecting: true});
+                let ev3State         = new EV3State({dataProvider: mockDataProvider, noTimeout: true});
+                ev3State._connecting = false;
+                ev3State._connected  = true;
+                assert.equal(mockDataProvider.getLayerCount(), null);
+                ev3State.stopAllMotors(3);
+                assert.equal(mockDataProvider.getLayerCount(), 3);
             }
         );
     }
