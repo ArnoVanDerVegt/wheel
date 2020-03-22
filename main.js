@@ -106,7 +106,7 @@ const createWindow = function() {
                 switch (arg.command) {
                     case 'documentPath': // The document path is requested from the preload file!
                         let homedir = (process.platform === 'darwin') ? app.getPath('documents') : os.homedir();
-                        event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir}));
+                        event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir, isPackaged: app.isPackaged}));
                         break;
                     case 'quit':
                         app.quit();
@@ -124,6 +124,7 @@ const createWindow = function() {
                             JSON.stringify({
                                 message:                'settings',
                                 version:                app.getVersion(),
+                                isPackaged:             app.isPackaged,
                                 isInApplicationsFolder: (process.platform === 'darwin') ? app.isInApplicationsFolder() : true
                             })
                         );

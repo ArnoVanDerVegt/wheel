@@ -412,7 +412,11 @@ const PoweredUpState = require('./js/frontend/vm/poweredup/PoweredUpState').Powe
                     if (data.message === 'documentPath') {
                         const getDataProvider = require('./js/frontend/lib/dataprovider/dataProvider').getDataProvider;
                         ui       = new UIState();
-                        settings = new SettingsState({getDataProvider: getDataProvider, userDocumentPath: data.data});
+                        settings = new SettingsState({
+                            getDataProvider:  getDataProvider,
+                            userDocumentPath: data.data,
+                            isPackaged:       data.isPackaged
+                        });
                         settings.load(onLoadedSettings);
                     }
                 }

@@ -15,11 +15,16 @@ exports.NewVersion = class extends DOMNode {
         this._console      = opts.console;
         this._settings     = opts.settings;
         this._downloadLink = 'https://arnovandervegt.github.io/wheel/';
-        let now   = new Date();
-        let today = now.getYear() + '-' + now.getMonth() + '-' + now.getDate();
-        if (this._settings.getLastVersionCheckDate() !== today) {
+        let now        = new Date();
+        let today      = now.getYear() + '-' + now.getMonth() + '-' + now.getDate();
+        let isPackaged = opts.settings.getIsPackaged();
+        if (!isPackaged || (this._settings.getLastVersionCheckDate() !== today)) {
             dispatcher.dispatch('Settings.Set.LastVersionCheckDate', today);
-            new Http({onLoad: this.onLoadNewVersionInfo.bind(this)}).get('http://127.0.0.1:3000/newVersion.json', {});
+            let url = 'http://127.0.0.1:3000/newVersion.json';
+            if (isPackaged) {
+                url = 'https://raw.githubusercontent.com/ArnoVanDerVegt/wheel/master/newVersion.json';
+            }
+            new Http({onLoad: this.onLoadNewVersionInfo.bind(this)}).get(url, {});
             this.initDOM(opts.parentNode);
         }
     }

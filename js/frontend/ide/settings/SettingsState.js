@@ -11,6 +11,7 @@ exports.SettingsState = class extends Emitter {
         super(opts);
         this._onLoad           = function() {};
         this._os               = {};
+        this._isPackaged       = !!opts.isPackaged;
         this._version          = null;
         this._getDataProvider  = opts.getDataProvider;
         this._documentPath     = '';
@@ -135,6 +136,10 @@ exports.SettingsState = class extends Emitter {
 
     getVersion() {
         return this._version;
+    }
+
+    getIsPackaged() {
+        return this._isPackaged;
     }
 
     getIsInApplicationsFolder() {

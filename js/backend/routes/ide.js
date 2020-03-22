@@ -41,6 +41,7 @@ exports.ideRoutes = {
         switch (data.message) {
             case 'settings':
                 settings.isInApplicationsFolder = data.isInApplicationsFolder;
+                settings.isPackaged             = data.isPackaged;
                 settings.version                = data.version;
                 this._saveSettings();
                 break;
