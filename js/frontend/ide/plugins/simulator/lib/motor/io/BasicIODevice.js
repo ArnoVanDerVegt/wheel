@@ -69,6 +69,9 @@ exports.BasicIODevice = class extends DOMNode {
     }
 
     onClickTitle(element, event) {
+        if (event.target.nodeName !== 'IMG') {
+            return;
+        }
         let offsetX = element.offsetLeft;
         let offsetY = element.offsetTop;
         let parent  = element.offsetParent;
@@ -149,7 +152,7 @@ exports.BasicIODevice = class extends DOMNode {
                 /* eslint-disable no-invalid-this */
                 element.addEventListener(
                     event,
-                    function() {
+                    function(event) {
                         if (/^\d*\.?\d*$/.test(this.value)) {
                             this.oldValue           = this.value;
                             this.oldSelectionStart  = this.selectionStart;

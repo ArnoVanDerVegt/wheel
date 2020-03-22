@@ -101,13 +101,16 @@ exports.Plugin = class extends Plugin {
         return null;
     }
 
-    getDeviceTypeByLayer(layer) {
+    getDeviceStateByLayer(layer) {
         let layerState = this._poweredUp.getLayerState(layer);
-        let type       = this._simulatedDevices.getType(layer);
         if (layerState && layerState.getConnected()) {
-            type = layerState.getType();
+            return layerState;
         }
-        return type;
+        return this._simulatedDevices.getLayer(layer);
+    }
+
+    getDeviceTypeByLayer(layer) {
+        return this.getDeviceStateByLayer(layer).getType();
     }
 
     getDeviceByLayer(layer) {
@@ -115,7 +118,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getMotorCount() {
-        switch (this.getDeviceTypeByLayer(this._simulator.getLayer())) {
+        switch (this.getDeviceStateByLayer(this._simulator.getLayer()).getType()) {
             case poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB:    return 4;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_HUB:         return 2;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE:      return 0;
@@ -169,51 +172,38 @@ exports.Plugin = class extends Plugin {
         this._technicHub = technicHub;
     }
 
-    _setDeviceType(type) {
-        this._hub.hide();
-        this._moveHub.hide();
-        this._technicHub.hide();
-        this._remote.hide();
-        if (this._type !== type) {
-            this._type = type;
-            let simulatedLayerDevice = this._simulatedDevices.getLayer(this._simulator.getLayer());
-            for (let i = 0; i < 4; i++) {
-                simulatedLayerDevice.setPortType(i, -1);
-            }
-        }
-        let device = this.getDeviceByType(type);
-        device && device.show();
-        this.showMotors();
-    }
-
     /**
      * Select the type of device for the layer...
     **/
     setDeviceType(layer, type) {
-        this._simulatedDevices.setType(layer, type);
-        if (layer === this._simulator.getLayer()) {
-            this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        let motors = this._motors;
+        for (let i = 0; i < 4; i++) {
+            motors[layer * 4 + i].getState().setType(-1);
         }
-        this.updateActiveLayer(layer);
+        if (type === poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB) {
+            motors[layer * 4    ].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
+            motors[layer * 4 + 1].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
+        }
+        this.getDeviceStateByLayer(layer).setType(type);
+        if (layer === this._simulator.getLayer()) {
+            this._hub.hide();
+            this._moveHub.hide();
+            this._technicHub.hide();
+            this._remote.hide();
+            let device = this.getDeviceByType(type);
+            device && device.show();
+            this.showMotors();
+        }
     }
 
-    /**
-     * Select the device at the given port for the device at the given layer...
-    **/
     setType(port) {
-        let simulatedLayerDevice = this._simulatedDevices.getLayer(port.layer);
-        if (simulatedLayerDevice) {
-            simulatedLayerDevice.setPortType(port.id, port.type);
-            this.updateActiveLayer(port.layer);
-        }
+        let motor = this._motors[port.layer * 4 + port.id];
+        motor && motor.getState().setType(port.type);
     }
 
     setMode(port) {
-        let simulatedLayerDevice = this._simulatedDevices.getLayer(port.layer);
-        if (simulatedLayerDevice) {
-            simulatedLayerDevice.setPortMode(port.id, port.mode);
-            this.updateActiveLayer(port.layer);
-        }
+        let motor = this._motors[port.layer * 4 + port.id];
+        motor && motor.getState().setMode(port.mode);
     }
 
     updateActiveLayer(layer) {
@@ -225,21 +215,14 @@ exports.Plugin = class extends Plugin {
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
-        this._setDeviceType(this.getDeviceTypeByLayer(layer));
+        this.setDeviceType(this.getDeviceTypeByLayer(layer));
         this.showMotors();
-        let layerState = this._poweredUp.getLayerState(layer);
-        let motors     = this._motors;
-        if (layerState && layerState.getConnected()) {
-            let ports = layerState.getPorts();
-            for (let port = 0; port < 4; port++) {
-                motors[layer * 4 + port].onAssigned(ports[port].assigned);
-            }
-        } else if ((layer >= 0) && (layer <= 3)) {
-            let simulatedLayerDevice = this._simulatedDevices.getLayer(layer);
-            for (let port = 0; port < 4; port++) {
-                motors[layer * 4 + port].onAssigned(simulatedLayerDevice.getPortType(port));
-            }
-        }
+    }
+
+    read(opts) {
+        let motors = this._motors;
+        let motor  = motors[opts.layer * 4 + opts.id];
+        return motor ? motor.getState().getValue() : 0;
     }
 
     onUuid(layer, uuid) {
@@ -251,7 +234,7 @@ exports.Plugin = class extends Plugin {
 
     onType(layer, type) {
         if (layer === this._simulator.getLayer()) {
-            this._setDeviceType(type);
+            this.setDeviceType(type);
         }
     }
 

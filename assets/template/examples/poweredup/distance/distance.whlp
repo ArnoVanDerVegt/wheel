@@ -11,6 +11,9 @@
 #display "Hub"
 
 proc main()
+    ; Select the Powered Up device in the simulator...
+    selectDevice(DEVICE_POWERED_UP)
+
     ; The following call selects the Move Hub in the simulator,
     ; this is only necessary to run this demo without an actual connection to a device...
     poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)

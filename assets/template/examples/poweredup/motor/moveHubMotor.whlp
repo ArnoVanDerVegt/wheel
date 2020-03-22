@@ -15,6 +15,7 @@
 proc main()
     ; Select the Powered Up mode in the simulator
     selectDevice(DEVICE_POWERED_UP)
+
     ; Select the Move Hub device
     poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)
 

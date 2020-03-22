@@ -7,38 +7,14 @@ const SimulatedLayerDevice = require('./SimulatedLayerDevice').SimulatedLayerDev
 exports.SimulatedDevices = class {
     constructor(opts) {
         this._layers = [
-            this.createDevice(),
-            this.createDevice(),
-            this.createDevice(),
-            this.createDevice()
+            new SimulatedLayerDevice({layer: 0}),
+            new SimulatedLayerDevice({layer: 1}),
+            new SimulatedLayerDevice({layer: 2}),
+            new SimulatedLayerDevice({layer: 3})
         ];
     }
 
-    createDevice() {
-        return new SimulatedLayerDevice({});
-    }
-
-    getValidLayer(layer) {
-        return (layer >= 0) && (layer <= 3);
-    }
-
-    getType(layer) {
-        return this.getValidLayer(layer) ? this._layers[layer].getType() : -1;
-    }
-
-    setType(layer, type) {
-        if (this.getValidLayer(layer)) {
-            this._layers[layer].setType(type);
-        }
-    }
-
-    setMode(layer, mode) {
-        if (this.getValidLayer(layer)) {
-            this._layers[layer].setMode(type);
-        }
-    }
-
     getLayer(layer) {
-        return this._layers[layer];
+        return this._layers[layer] || new SimulatedLayerDevice({layer: null});
     }
 };

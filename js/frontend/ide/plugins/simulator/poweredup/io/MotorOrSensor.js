@@ -84,11 +84,14 @@ exports.MotorOrSensor = class extends Motor {
         return this;
     }
 
-    onClickMotorElement(event) {
-        this.onClickTitle(this._refs.sensorTitle, event);
+    onChangeMode(mode) {
+        let state = this._state;
+        if (state.getType() !== -1) {
+            this.onChangeValue(this._state.getValue());
+        }
     }
 
-    onValueChanged(value) {
+    onChangeValue(value) {
         let state           = this._state;
         let type            = state.getType();
         let positionElement = this._positionElement;
@@ -96,27 +99,21 @@ exports.MotorOrSensor = class extends Motor {
             return;
         }
         if (deviceInfo[type].motor) {
-            positionElement.innerHTML = value;
+            positionElement.style.display = 'block';
+            positionElement.innerHTML     = value;
             return;
         }
+        positionElement.style.display = 'none';
         if (type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE) {
             let refs = this._refs;
             switch (state.getMode()) {
                 case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_DISTANCE:
-                    if (this._device.getConnected()) {
-                        refs.numberValue.className     = 'value hidden';
-                        refs.colorValue.className      = 'value hidden';
-                        positionElement.style.display  = 'block';
-                        positionElement.innerHTML      = value;
-                    } else {
-                        refs.numberValue.className     = 'value';
-                        refs.colorValue.className      = 'value hidden';
-                        positionElement.style.display  = 'none';
-                        this._numberInputElement.value = value;
-                    }
+                    refs.colorValue.className         = 'value hidden';
+                    refs.numberValue.className        = 'value';
+                    this._numberInputElement.disabled = this._device.getConnected() ? 'disabled' : '';
+                    this._numberInputElement.value    = value;
                     break;
                 case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_COLOR:
-                    positionElement.style.display = 'none';
                     refs.numberValue.className    = 'value hidden';
                     refs.colorValue.className     = 'value';
                     refs.specialValueInput.setValue(value);
@@ -130,5 +127,14 @@ exports.MotorOrSensor = class extends Motor {
         this._state
             .setIsMotor((assigned in deviceInfo) && deviceInfo[assigned].motor)
             .setType(assigned);
+    }
+
+    onValueChanged(value) {
+        this._state.setPosition(value);
+        this.onChangeValue(value);
+    }
+
+    onClickMotorElement(event) {
+        this.onClickTitle(this._refs.sensorTitle, event);
     }
 };
