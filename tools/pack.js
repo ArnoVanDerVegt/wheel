@@ -112,7 +112,6 @@ const files = [
         './js/shared/device/modules/DeviceModule',
         './js/shared/device/modules/PoweredUpModule',
         './js/shared/device/BasicDevice',
-        './js/frontend/lib/utils',
         './js/frontend/lib/dispatcher',
         './js/frontend/lib/Emitter',
         './js/frontend/lib/path',

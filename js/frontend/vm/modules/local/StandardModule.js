@@ -3,10 +3,13 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const standardModuleConstants = require('../../../../shared/vm/modules/standardModuleConstants');
-const utils                   = require('./../../../lib/utils');
 const dispatcher              = require('./../../../lib/dispatcher').dispatcher;
 const $                       = require('../../../program/commands');
 const VMModule                = require('./../VMModule').VMModule;
+
+const sanitizeString = function(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    };
 
 exports.StandardModule = class extends VMModule {
     run(commandId) {
@@ -31,7 +34,7 @@ exports.StandardModule = class extends VMModule {
                 this.emit(
                     'Console.Log',
                     {
-                        message: utils.sanitizeString(vmData.getStringList()[printString.s]),
+                        message: sanitizeString(vmData.getStringList()[printString.s]),
                         pos:     {lineNumber: 0, filename: ''}
                     }
                 );

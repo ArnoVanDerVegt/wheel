@@ -265,7 +265,17 @@ exports.FileTree = class extends DOMNode {
         let directory   = this.findDirectoryItemFromPath(foundPath);
         let nodeToGet   = [foundPath];
         let filesInPath = [];
-        utils.forEachKey(this._fullPathOpen, utils.addNewItem.bind(utils, nodeToGet));
+        let forEachKey  = function(object, callback) {
+                for (let key in object) {
+                    callback(key);
+                }
+            };
+        let addNewItem = function(array, item) {
+                if (array.indexOf(item) === -1) {
+                    array.push(item);
+                }
+            };
+        forEachKey(this._fullPathOpen, addNewItem.bind(utils, nodeToGet));
         // Add all files found in directory...
         let pathListCallback = (function(parentNode, p, fileList) {
                 if ((p === foundPath) || this._fullPathLoaded[p]) {
@@ -568,6 +578,18 @@ exports.FileTree = class extends DOMNode {
         this.showOpenDirectories();
     }
 
+    removeEmptyStrings(array) {
+        let i = 0;
+        while (i < array.length) {
+            if (array[i] === '') {
+                array.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        return array;
+    }
+
     findDirectoryItemFromPath(p) {
         let directory = this._fullPathItem[p];
         if (directory) {
@@ -583,7 +605,7 @@ exports.FileTree = class extends DOMNode {
         let documentPath = this._settings.getDocumentPath();
         let foundPath    = documentPath;
         let findPath     = path.getPath(p);
-        let parts        = utils.removeEmptyStrings(findPath.split('/'));
+        let parts        = this.removeEmptyStrings(findPath.split('/'));
         let s            = '';
         let index        = 0;
         // Find the last path part which was loaded to reload...
