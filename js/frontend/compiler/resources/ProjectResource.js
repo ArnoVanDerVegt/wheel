@@ -2,12 +2,14 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const RgfImage = require('../../../shared/lib/RgfImage').RgfImage;
+const RgfImage        = require('../../../shared/lib/RgfImage').RgfImage;
+const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 
 exports.ProjectResource = class {
-    constructor(filename, data) {
-        this._filename = filename;
-        this._data     = data;
+    constructor(opts) {
+        this._filename        = opts.filename;
+        this._data            = opts.data;
+        this._getDataProvider = opts.getDataProvider || getDataProvider;
     }
 
     getFilename() {

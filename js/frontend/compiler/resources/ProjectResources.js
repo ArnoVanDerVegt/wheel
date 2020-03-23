@@ -8,8 +8,8 @@ const ImageResource   = require('./ImageResource').ImageResource;
 const TextResource    = require('./TextResource').TextResource;
 
 exports.ProjectResources = class {
-    constructor(projectFilename) {
-        this._projectFilename = projectFilename;
+    constructor(opts) {
+        this._projectFilename = opts.projectFilename;
         this._resources       = [];
     }
 
@@ -24,17 +24,17 @@ exports.ProjectResources = class {
         if (data) {
             switch (filename.substr(-4)) {
                 case '.rgf':
-                    resources.push(new ImageResource(filename, data));
+                    resources.push(new ImageResource({filename: filename, data: data}));
                     break;
                 case '.rtf':
-                    resources.push(new TextResource(filename, data));
+                    resources.push(new TextResource({filename: filename, data: data}));
                     break;
                 default:
-                    resources.push(new ProjectResource(filename, data));
+                    resources.push(new ProjectResource({filename: filename, data: data}));
                     break;
             }
         } else {
-            resources.push(new ProjectResource(filename, data));
+            resources.push(new ProjectResource({filename: filename, data: data}));
         }
     }
 

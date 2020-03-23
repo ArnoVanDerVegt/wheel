@@ -28,7 +28,7 @@ exports.PreProcessor = class PreProcessor {
         this._fileCount       = 0;
         this._sortedFiles     = null;
         this._defines         = new Defines();
-        this._resources       = new ProjectResources(this._projectFilename);
+        this._resources       = new ProjectResources({projectFilename: this._projectFilename});
         this._lineCount       = 0;
     }
 

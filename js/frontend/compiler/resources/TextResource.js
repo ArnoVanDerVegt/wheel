@@ -13,10 +13,9 @@ exports.TextResource = class extends ProjectResource {
         if (!data) {
             return;
         }
-        let dataProvider = getDataProvider();
-        let filename     = this._filename;
+        let filename = this._filename;
         dispatcher.dispatch('Console.Log', {message: 'Writing text <i>' + filename + '</i>...'});
-        dataProvider.getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-save',
             {

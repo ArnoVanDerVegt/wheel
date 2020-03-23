@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const EV3State   = require('../../js/frontend/vm/ev3/EV3State').EV3State;
+const LayerState = require('../../js/frontend/vm/ev3/LayerState').LayerState;
 const dispatcher = require('../../js/frontend/lib/dispatcher').dispatcher;
 const assert     = require('assert');
 
@@ -29,6 +30,7 @@ class MockDataProvider {
         this._localFilename   = null;
         this._remoteFilename  = null;
         this._layerCount      = null;
+        this._data            = null;
     }
 
     setConnected(connected) {
@@ -57,6 +59,10 @@ class MockDataProvider {
 
     getLayerCount() {
         return this._layerCount;
+    }
+
+    getDataV() {
+        return this._data;
     }
 
     getData(method, route, params, callback) {
@@ -109,6 +115,10 @@ class MockDataProvider {
             case 'post:ev3/stop-all-motors':
                 this._layerCount = params.layerCount;
                 break;
+            case 'post:ev3/download-data':
+                this._data           = params.data;
+                this._remoteFilename = params.remoteFilename;
+                break;
         }
     }
 }
@@ -120,7 +130,9 @@ describe(
             'Should create EV3State',
             function() {
                 let ev3State = new EV3State({dataProvider: new MockDataProvider({}), noTimeout: true});
-                assert.equal(ev3State.getConnected(), false);
+                assert.equal(ev3State.getConnected(),                         false);
+                assert.equal(ev3State.getDeviceName(),                        'EV3');
+                assert.equal(ev3State.getLayerState(0) instanceof LayerState, true);
             }
         );
         it(
@@ -248,6 +260,31 @@ describe(
                 assert.equal(mockDataProvider.getLayerCount(), null);
                 ev3State.stopAllMotors(3);
                 assert.equal(mockDataProvider.getLayerCount(), 3);
+            }
+        );
+        it(
+            'Should download data',
+            function() {
+                let mockDataProvider = new MockDataProvider({applyConnecting: true});
+                let ev3State         = new EV3State({dataProvider: mockDataProvider, noTimeout: true});
+                ev3State._connecting = false;
+                ev3State._connected  = true;
+                assert.equal(mockDataProvider.getDataV(),          null);
+                assert.equal(mockDataProvider.getRemoteFilename(), null);
+                ev3State.downloadData('<data>', 'file.data', function() {});
+                assert.equal(mockDataProvider.getDataV(),          '<data>');
+                assert.equal(mockDataProvider.getRemoteFilename(), 'file.data');
+            }
+        );
+        it(
+            'Should set layer count',
+            function() {
+                let mockDataProvider = new MockDataProvider({applyConnecting: true});
+                let ev3State         = new EV3State({dataProvider: mockDataProvider, noTimeout: true});
+                dispatcher.dispatch('EV3.LayerCount', 1);
+                assert.equal(ev3State._layerCount, 1);
+                dispatcher.dispatch('EV3.LayerCount', 2);
+                assert.equal(ev3State._layerCount, 2);
             }
         );
     }
