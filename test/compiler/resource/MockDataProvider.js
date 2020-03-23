@@ -5,15 +5,21 @@
 
 exports.MockDataProvider = class {
     constructor() {
-        this._filename = null;
-        this._data     = null;
+        this._filenames = [];
+        this._filename  = null;
+        this._data      = null;
     }
 
     getData(method, route, params) {
         if (method + ':' + route === 'post:ide/file-save') {
+            this._filenames.push(params.filename);
             this._filename = params.filename;
             this._data     = params.data;
         }
+    }
+
+    getFilenames() {
+        return this._filenames;
     }
 
     getFilename() {

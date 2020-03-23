@@ -9,6 +9,7 @@ const TextResource    = require('./TextResource').TextResource;
 
 exports.ProjectResources = class {
     constructor(opts) {
+        this._getDataProvider = opts.getDataProvider || false;
         this._projectFilename = opts.projectFilename;
         this._resources       = [];
     }
@@ -18,23 +19,39 @@ exports.ProjectResources = class {
         for (let i = 0; i < resources.length; i++) {
             let projectResource = resources[i];
             if (projectResource.getFilename() === filename) {
-                throw errors.createError(err.DUPLICATE_RESOURCE, token, 'Duplicate resource "' + filename + '".');
+                throw errors.createError(errors.DUPLICATE_RESOURCE, token, 'Duplicate resource "' + filename + '".');
             }
         }
         if (data) {
             switch (filename.substr(-4)) {
                 case '.rgf':
-                    resources.push(new ImageResource({filename: filename, data: data}));
+                    resources.push(new ImageResource({
+                        filename:        filename,
+                        data:            data,
+                        getDataProvider: this._getDataProvider
+                    }));
                     break;
                 case '.rtf':
-                    resources.push(new TextResource({filename: filename, data: data}));
+                    resources.push(new TextResource({
+                        filename:        filename,
+                        data:            data,
+                        getDataProvider: this._getDataProvider
+                    }));
                     break;
                 default:
-                    resources.push(new ProjectResource({filename: filename, data: data}));
+                    resources.push(new ProjectResource({
+                        filename:        filename,
+                        data:            data,
+                        getDataProvider: this._getDataProvider
+                    }));
                     break;
             }
         } else {
-            resources.push(new ProjectResource({filename: filename, data: data}));
+            resources.push(new ProjectResource({
+                filename:        filename,
+                data:            data,
+                getDataProvider: this._getDataProvider
+            }));
         }
     }
 
@@ -69,6 +86,7 @@ exports.ProjectResources = class {
 
     save(outputPath) {
         this._resources.forEach(function(projectResource) {
+            console.log('save->projectResource:', projectResource);
             projectResource.save(outputPath);
         });
     }
