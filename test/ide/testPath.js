@@ -220,5 +220,41 @@ describe(
                 );
             }
         );
+        describe(
+            'Test remove path',
+            function() {
+                it(
+                    'Should not remove path',
+                    function() {
+                        assert.equal(path.removePath('/no-match', '/some/path'), '/some/path');
+                    }
+                );
+                it(
+                    'Should remove path',
+                    function() {
+                        assert.equal(path.removePath('/match', '/match/path'), 'path');
+                    }
+                );
+            }
+        );
+        describe(
+            'Test platform path',
+            function() {
+                it(
+                    'Should not make platform path',
+                    function() {
+                        assert.equal(path.makePlatformPath('/platform/path'), '/platform/path');
+                    }
+                );
+                it(
+                    'Should make platform path',
+                    function() {
+                        path.setSep('\\');
+                        assert.equal(path.makePlatformPath('/platform/path'), '\\platform\\path');
+                        path.setSep('/');
+                    }
+                );
+            }
+        );
     }
 );
