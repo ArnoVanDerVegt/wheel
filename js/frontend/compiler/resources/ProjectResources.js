@@ -86,7 +86,6 @@ exports.ProjectResources = class {
 
     save(outputPath) {
         this._resources.forEach(function(projectResource) {
-            console.log('save->projectResource:', projectResource);
             projectResource.save(outputPath);
         });
     }
