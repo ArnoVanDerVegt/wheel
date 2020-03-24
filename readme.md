@@ -1,5 +1,5 @@
 # Wheel
-EV3 VM and compiler
+EV3 and Powered Up
 
 This project contains an IDE, Compiler and Virtual machine.
 
