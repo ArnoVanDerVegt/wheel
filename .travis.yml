@@ -1,8 +1,15 @@
 language: node_js
 
 addons:
+  apt:
+    packages:
+      - xvfb
   code_climate:
     repo_token: bf670fe192fdc64141c8e6c29042ee4e7337753465252d73f78e27a59cbc037d
+
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
 before_script:
   - npm install -g istanbul
