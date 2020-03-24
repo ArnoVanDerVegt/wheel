@@ -229,6 +229,7 @@ describe(
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(function() {});
                         assert.equal(info.vm.running(), true);
+                        info.vm.stop();
                     }
                 );
                 it(
@@ -244,6 +245,7 @@ describe(
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(function() {});
                         assert.equal(info.vm.running(), true);
+                        info.vm.stop();
                     }
                 );
             }
