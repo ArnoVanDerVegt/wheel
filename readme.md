@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master)](https://travis-ci.org/ArnoVanDerVegt/wheel)
+
 # Wheel
 EV3 VM and compiler
 
