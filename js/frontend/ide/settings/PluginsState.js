@@ -12,9 +12,10 @@ exports.PluginsState = class extends Emitter {
         this._settings = opts.settings;
         this._plugins  = this.getDefaultPlugins();
         this._updatePluginByUuid();
-        dispatcher.on('Settings.Set.PluginPropertyByUuid', this, this._setPluginPropertyByUuid);
-        dispatcher.on('Settings.Toggle.PluginByUuid',      this, this._togglePluginByUuid);
-        dispatcher.on('Settings.Show.PluginByUuid',        this, this._showPluginByUuid);
+        dispatcher
+            .on('Settings.Set.PluginPropertyByUuid', this, this._setPluginPropertyByUuid)
+            .on('Settings.Toggle.PluginByUuid',      this, this._togglePluginByUuid)
+            .on('Settings.Show.PluginByUuid',        this, this._showPluginByUuid);
     }
 
     _updatePluginByUuid() {
