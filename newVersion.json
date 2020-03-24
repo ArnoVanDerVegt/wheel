@@ -12,6 +12,7 @@
                 "children": [
                     {"type": "li", "innerHTML": "Powered Up support!"},
                     {"type": "li", "innerHTML": "EV3 Chart plugin"}
+                    {"type": "li", "innerHTML": "Updated image and sound editors toolbars"}
                 ]
             }
         ]
