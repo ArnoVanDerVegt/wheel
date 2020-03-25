@@ -149,7 +149,7 @@ exports.MotorModule = class extends VMModule {
                     motorPort.startDegrees  = motorPort.degrees;
                     motorPort.targetDegrees = motor.target;
                     motor.speed             = Math.abs(motorPort.speed || 0);
-                    motor.brake             = motorPort.brake;
+                    motor.brake             = motorPort.brake || 0;
                     motor.degrees           = motor.target - motorPort.degrees;
                     this.callModule(motorModuleConstants.MOTOR_MOVE_TO, 'Motor.MoveTo', motor);
                 }
@@ -159,7 +159,7 @@ exports.MotorModule = class extends VMModule {
                 if (this.getLayerAndIdValid(motor)) {
                     motorPort   = this.getMotorPort(motor);
                     motor.speed = motorPort.speed || 0;
-                    motor.brake = motorPort.brake;
+                    motor.brake = motorPort.brake || 0;
                     this.callModule(motorModuleConstants.MOTOR_ON, 'Motor.On', motor);
                 }
                 break;
@@ -168,7 +168,7 @@ exports.MotorModule = class extends VMModule {
                 if (this.getLayerAndIdValid(motor)) {
                     motorPort   = this.getMotorPort(motor);
                     motor.speed = motorPort.speed || 0;
-                    motor.brake = motorPort.brake;
+                    motor.brake = motorPort.brake || 0;
                     this.callModule(motorModuleConstants.MOTOR_TIME_ON, 'Motor.TimeOn', motor);
                 }
                 break;

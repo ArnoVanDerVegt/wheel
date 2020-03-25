@@ -10,7 +10,12 @@ selecting the `Move Hub` device automatically sets the two motor types in the si
 
 @section Code
 @example
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Powered Up Move Hub motor example"
+
+; This example shows how to select the Move Hub device in the simulator and
+; move the motor to a given angle. The Move Hub has 2 built in motors.
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
@@ -25,6 +30,10 @@ proc main()
 
     ; Select the Move Hub device
     poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)
+
+    ; Set the motor speed and brake...
+    motorLayerSetSpeed(LAYER_1, OUTPUT_A, 100)
+    motorLayerSetBrake(LAYER_1, OUTPUT_A, MOTOR_BRAKE)
 
     ; Reset output A on layer 1
     motorLayerReset(LAYER_1, OUTPUT_A)

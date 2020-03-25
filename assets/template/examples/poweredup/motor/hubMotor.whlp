@@ -23,6 +23,11 @@ proc main()
     motorSetType(OUTPUT_A, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)
     motorSetType(OUTPUT_B, POWERED_UP_DEVICE_BASIC_MOTOR)
 
+    ; Set the motor speed and brake...
+    motorLayerSetSpeed(LAYER_1, OUTPUT_A, 50)
+    motorLayerSetSpeed(LAYER_1, OUTPUT_B, 75)
+    motorLayerSetBrake(LAYER_1, OUTPUT_A, MOTOR_BRAKE)
+
     ; Reset output A on layer 1
     motorLayerReset(LAYER_1, OUTPUT_A)
     ; Move the motor to 720 degrees

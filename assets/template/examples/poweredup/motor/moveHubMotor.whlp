@@ -19,6 +19,10 @@ proc main()
     ; Select the Move Hub device
     poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)
 
+    ; Set the motor speed and brake...
+    motorLayerSetSpeed(LAYER_1, OUTPUT_A, 100)
+    motorLayerSetBrake(LAYER_1, OUTPUT_A, MOTOR_BRAKE)
+
     ; Reset output A on layer 1
     motorLayerReset(LAYER_1, OUTPUT_A)
     ; Move the motor to 720 degrees

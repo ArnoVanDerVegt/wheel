@@ -367,9 +367,9 @@ exports.PoweredUp = class extends BasicDevice {
     motorMonitor() {
         const time = Date.now();
         let layers = this._layers;
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-                let port        = layers[i].ports[j];
+        for (let layer = 0; layer < 4; layer++) {
+            for (let id = 0; id < 4; id++) {
+                let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;
                 if (motorDevice) {
                     if (port.moving) {
