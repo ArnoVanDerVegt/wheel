@@ -19,4 +19,8 @@ will connnect to the first layer, the second to the second, etc.
 
 If you create a program to control multiple Powered Up devices you probably always want the connect them in the same order.
 
+
+Wheel can not update the firmware of your Powered Up devices, if you encounter problems connecting then try updating the
+firmware by connecting your device with to the official Lego® app.
+
 @see simulator,daisy

@@ -17,7 +17,7 @@ The virtual machine which can be executed on the EV3 brick is written in assembl
 +------------------------------+-----------+--------------------------------------------+
 | Icon                         | Extension | Description                                |
 +------------------------------+-----------+--------------------------------------------+
-| @image images/files/lms.svg  | lms       | Lego assembly file.                        |
+| @image images/files/lms.svg  | lms       | Lego® assembly file.                       |
 +------------------------------+-----------+--------------------------------------------+
 
 @section Image files
