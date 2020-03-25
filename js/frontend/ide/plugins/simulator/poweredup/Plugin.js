@@ -29,6 +29,7 @@ exports.Plugin = class extends Plugin {
         opts.constants        = poweredUpModuleConstants;
         super(opts);
         this.initEvents();
+        this._assignmentError  = false;
         this._buttons          = null;
         this._poweredUp        = opts.poweredUp;
         this._uuid             = '';
@@ -197,7 +198,22 @@ exports.Plugin = class extends Plugin {
     }
 
     setType(port) {
-        let motor = this._motors[port.layer * 4 + port.id];
+        let motor  = this._motors[port.layer * 4 + port.id];
+        let device = this.getDeviceStateByLayer(port.layer);
+        if (device && (device.getType() === poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB) && (port.id < 2)) {
+            if (!this._assignmentError) {
+                dispatcher.dispatch(
+                    'Console.Log',
+                    {
+                        message:   'Error: Can\'t assign motor type to <i>Move Hub</i> port "A" or "B".',
+                        className: 'error'
+                    }
+                );
+                this._assignmentError = true;
+            }
+            return; // Can't assign built in motor!
+        }
+        this._assignmentError = false;
         motor && motor.getState().setType(port.type);
     }
 

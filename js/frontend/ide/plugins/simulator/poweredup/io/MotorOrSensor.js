@@ -9,6 +9,7 @@ const MotorOrSensorState       = require('./MotorOrSensorState').MotorOrSensorSt
 
 let deviceInfo = [];
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR              ] = {src: 'images/poweredup/motor.png',       motor: true,  value: false};
+deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR              ] = {src: 'images/poweredup/train.png',       motor: true,  value: false};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR        ] = {src: 'images/poweredup/motorM.png',      motor: true,  value: true};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR     ] = {src: 'images/poweredup/moveHub.png',     motor: true,  value: true};
 deviceInfo[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR ] = {src: 'images/poweredup/motorL.png',      motor: true,  value: true};

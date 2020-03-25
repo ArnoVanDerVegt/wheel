@@ -30,6 +30,7 @@
 
 ; @const Motor types, these constants can be used as a parameter for the `motorSetType` or `motorLayerSetType` procedures.
 #define POWERED_UP_DEVICE_BASIC_MOTOR                1
+#define POWERED_UP_DEVICE_TRAIN_MOTOR                2
 #define POWERED_UP_DEVICE_LED_LIGHTS                 8
 #define POWERED_UP_DEVICE_BOOST_TACHO_MOTOR         38
 #define POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR      39
