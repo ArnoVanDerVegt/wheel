@@ -1,0 +1,15 @@
+@subject Miscellaneous:Links
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Open source
+
+Wheel is made possible by various awesome open source projects and information sources, you can find them in the following list:
+@end
+
+@section EV3, Powered Up
+@link LMS hacker tools|https://github.com/ev3dev/lms-hacker-tools
+
+@link Node Powered Up|https://github.com/nathankellenicki/node-poweredup
+
+@section Motor information
+@link Philo's Lego motors information page|https://www.philohome.com/motors/motorcomp.htm

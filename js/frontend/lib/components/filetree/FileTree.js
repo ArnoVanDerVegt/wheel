@@ -274,7 +274,7 @@ exports.FileTree = class extends DOMNode {
                     array.push(item);
                 }
             };
-        forEachKey(this._fullPathOpen, addNewItem.bind(utils, nodeToGet));
+        forEachKey(this._fullPathOpen, addNewItem.bind(nodeToGet));
         // Add all files found in directory...
         let pathListCallback = (function(parentNode, p, fileList) {
                 if ((p === foundPath) || this._fullPathLoaded[p]) {
@@ -284,7 +284,7 @@ exports.FileTree = class extends DOMNode {
                             if (file.directory && (file.name !== '..')) {
                                 let s = path.join(p, file.name);
                                 if (this._fullPathLoaded[s]) {
-                                    utils.addNewItem(nodeToGet, s);
+                                    addNewItem(nodeToGet, s);
                                 }
                             }
                         },

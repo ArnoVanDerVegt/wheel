@@ -289,6 +289,17 @@
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file img.display-preview {
     border:                         var(--ui-border1);
 }
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box {
+    float:                          left;
+    width:                          100%;
+    margin:                         0 0 16px 0;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box .link {
+    color:                          #3498DB;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box .link:hover {
+    text-decoration:                underline;
+}
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .example-loader {
     float:                          left;
     width:                          100%;

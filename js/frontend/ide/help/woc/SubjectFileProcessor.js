@@ -91,6 +91,11 @@ exports.SubjectFileProcessor = class extends FileProcessor {
         this.addTypedText(section, 'load', loadItems);
     }
 
+    addLink(section, line) {
+        let loadItems = line.substr(5, line.length - 5).trim().split('|'); // Expect: "title|filename"
+        this.addTypedText(section, 'link', loadItems);
+    }
+
     addSee(section, line) {
         let see = line.substr(4, line.length - 4).trim().split(','); // Expect: "subject,title|subject"
         this.addTypedText(section, 'see', see);
@@ -136,6 +141,10 @@ exports.SubjectFileProcessor = class extends FileProcessor {
                 this
                     .addText(section, text)
                     .addLoad(section, line);
+            }  else if (line.indexOf('@link') === 0) {
+                this
+                    .addText(section, text)
+                    .addLink(section, line);
             }  else if (line.indexOf('@see') === 0) {
                 this
                     .addText(section, text)

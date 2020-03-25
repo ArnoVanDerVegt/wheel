@@ -347,6 +347,39 @@ class HelpBuilder {
         );
     }
 
+    addLink(link) {
+        new DOMNode({}).create(
+            link.parentNode,
+            {
+                className: 'link-box',
+                children: [
+                    window.electron ?
+                        {
+                            innerHTML: link.title,
+                            title:     link.title,
+                            className: 'link',
+                            id: function(element) {
+                                element.addEventListener(
+                                    'click',
+                                    function() {
+                                        const shell = require('electron').shell;
+                                        shell.openExternal(link.src);
+                                    }
+                                );
+                            }
+                        } :
+                        {
+                            type:      'a',
+                            href:      link.src,
+                            innerHTML: link.title,
+                            title:     link.title,
+                            target:    '_wheelLink'
+                        }
+                ]
+            }
+        );
+    }
+
     addFileTitle(opts) {
         let parentNode   = opts.parentNode;
         let file         = opts.file;
@@ -491,6 +524,13 @@ class HelpBuilder {
                             j--;
                             this.addLoadButton(buttons);
                             break;
+                        case 'link':
+                            this.addLink({
+                                parentNode: parentNode,
+                                title:      content[j].text[0],
+                                src:        content[j].text[1]
+                            });
+                            break;
                         case 'see':
                             this.addSee({
                                 parentNode: parentNode,
@@ -634,7 +674,8 @@ class HelpBuilder {
             .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       'EV3 examples')
             .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules');
+            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Miscellaneous:',     'Miscellaneous');
     }
 
     addLegend(parentNode) {
