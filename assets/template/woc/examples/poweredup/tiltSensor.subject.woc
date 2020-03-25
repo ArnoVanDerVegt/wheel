@@ -56,6 +56,6 @@ proc main()
 end
 @end
 
-@load Open the remote control example|examples/poweredup/sensor/tilt.whlp
+@load Open the remote control example|examples/poweredup/tilt/tilt.whlp
 
 @see poweredup,tilt,sensor,Modules

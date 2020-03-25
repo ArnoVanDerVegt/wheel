@@ -13,7 +13,7 @@ this is only necessary to run this demo without an actual connection to a device
 If you are using a Move Hub then this exemple expects the distance sensor to be
 connected to port "C".
 If you are using the Hub -which has only two ports- then you can change
-the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+the value `POWERED_UP_PORT_C` to `POWERED_UP_PORT_A` and connect the sensor to port "A"...
 
 @section Code
 @example

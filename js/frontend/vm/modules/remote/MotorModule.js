@@ -158,8 +158,8 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor)) {
                     motorPort   = this.getMotorPort(motor);
-                    motor.speed = motorState.speed || 0;
-                    motor.brake = motorState.brake;
+                    motor.speed = motorPort.speed || 0;
+                    motor.brake = motorPort.brake;
                     this.callModule(motorModuleConstants.MOTOR_ON, 'Motor.On', motor);
                 }
                 break;
@@ -167,8 +167,8 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'time']);
                 if (this.getLayerAndIdValid(motor)) {
                     motorPort   = this.getMotorPort(motor);
-                    motor.speed = motorState.speed || 0;
-                    motor.brake = motorState.brake;
+                    motor.speed = motorPort.speed || 0;
+                    motor.brake = motorPort.brake;
                     this.callModule(motorModuleConstants.MOTOR_TIME_ON, 'Motor.TimeOn', motor);
                 }
                 break;
@@ -178,7 +178,7 @@ exports.MotorModule = class extends VMModule {
                     motorPort        = this.getMotorPort(motor);
                     motorPort.target = null;
                     motorPort.time   = null;
-                    motor.brake      = motorState.brake;
+                    motor.brake      = motorPort.brake;
                     this.callModule(motorModuleConstants.MOTOR_STOP, 'Motor.Stop', motor);
                 }
                 break;

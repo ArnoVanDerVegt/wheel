@@ -5,6 +5,12 @@
 @section Powered Up Device light example
 This example shows how to control the built in light on the Powered Up device.
 
+
+The demo below selects the `Hub` device in the simulator with the `DEVICE_POWERED_UP` constant.
+If you have a different hub connected you should change the `POWERED_UP_HUB` to
+`POWERED_UP_MOVE_HUB`, `POWERED_UP_REMOTE_CONTROL` or `POWERED_UP_TECHNIC_MEDIUM_HUB`
+depending on the type of device you are using.
+
 @section Code
 @example
 #project "Powered Up Light example"
@@ -18,6 +24,9 @@ This example shows how to control the built in light on the Powered Up device.
 proc main()
     ; Select the Powered Up device in the IDE...
     selectDevice(DEVICE_POWERED_UP)
+
+    ; Select the Hub device:
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
 
     repeat
         light(LIGHT_PU_BLUE)

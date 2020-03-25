@@ -3,7 +3,7 @@
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Powered Up Remote control example
-This example shows how to Powered Up remote buttons.
+This example shows how to read the Powered Up remote buttons.
 
 
 This example expects the remote to be connected as the first layer `INPUT_1`.

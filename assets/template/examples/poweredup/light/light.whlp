@@ -12,6 +12,9 @@ proc main()
     ; Select the Powered Up device in the IDE...
     selectDevice(DEVICE_POWERED_UP)
 
+    ; Select the Hub device:
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
+
     repeat
         light(LIGHT_PU_BLUE)
         sleep(1000)
