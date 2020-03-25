@@ -679,7 +679,7 @@ exports.IDE = class extends CompileAndRun {
             dispatcher.dispatch(
                 'Console.Log',
                 {
-                    message:   'Processing ' + resourcesList.length + ' resource' + (resourcesList.length ? 's' : ''),
+                    message:   'Processing ' + resourcesList.length + ' resource' + ((resourcesList.length > 1) ? 's' : ''),
                     messageId: this._resourceMessageId
                 }
             );
