@@ -365,9 +365,9 @@ input[type="button"].button.clear,
     display:                        none;
 }
 /* Show the extra run button if there are no simulator items visible... */
-body.no-simulator .editor-wrapper input[type="button"].button.run,
-body.no-simulator .editor-wrapper input[type="button"].button.continue,
-body.no-simulator .editor-wrapper .continue-button-wrapper {
+body.no-right-panel .editor-wrapper input[type="button"].button.run,
+body.no-right-panel .editor-wrapper input[type="button"].button.continue,
+body.no-right-panel .editor-wrapper .continue-button-wrapper {
     display:                        block;
 }
 

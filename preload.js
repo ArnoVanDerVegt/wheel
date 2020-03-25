@@ -312,6 +312,8 @@ require('./js/frontend/ide/console/Log');
 require('./js/frontend/ide/console/Terminal');
 require('./js/frontend/ide/console/NewVersion');
 require('./js/frontend/ide/console/Console');
+require('./js/frontend/ide/properties/PropertiesToolbar');
+require('./js/frontend/ide/properties/Properties');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
 require('./js/frontend/ide/plugins/simulator/lib/SimulatorPlugin');

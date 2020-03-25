@@ -62,8 +62,8 @@ body.ide div.editor-wrapper .toolbar .tabs {
 body.ide.no-console div.editor-wrapper {
     bottom:                         0;
 }
-/* No simulator */
-body.ide.no-simulator div.editor-wrapper {
+/* No simulator & No properties */
+body.ide.no-right-panel div.editor-wrapper {
     right:                          0;
 }
 /* No file tree */

@@ -278,6 +278,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Show files',                   hotkey: ['command', 'D'], dispatch: 'Settings.Toggle.ShowFileTree'},
                 {title: 'Show console',                 hotkey: ['command', 'B'], dispatch: 'Settings.Toggle.ShowConsole'},
+                {title: 'Show properties',                                        dispatch: 'Settings.Toggle.ShowProperties'},
                 {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
@@ -408,9 +409,10 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
         menuOptions[1].setChecked(settings.getShowConsole());
-        menuOptions[2].setChecked(settings.getShowSimulator());
-        menuOptions[3].setChecked(settings.getShowSimulatorOnRun());
-        menuOptions[4].setChecked(settings.getDarkMode());
+        menuOptions[2].setChecked(settings.getShowProperties());
+        menuOptions[3].setChecked(settings.getShowSimulator());
+        menuOptions[4].setChecked(settings.getShowSimulatorOnRun());
+        menuOptions[5].setChecked(settings.getDarkMode());
         return this;
     }
 

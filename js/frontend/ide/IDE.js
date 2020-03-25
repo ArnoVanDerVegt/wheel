@@ -50,6 +50,7 @@ const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog')
 const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
+const Properties                 = require('./properties/Properties').Properties;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -91,6 +92,10 @@ exports.IDE = class extends CompileAndRun {
             getImage:      getImage
         });
         new Hint({
+            ui:            ui,
+            settings:      settings
+        });
+        new Properties({
             ui:            ui,
             settings:      settings
         });

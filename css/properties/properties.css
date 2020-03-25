@@ -1,0 +1,28 @@
+body.ide.no-properties div.properties {
+    display:                        none;
+    -webkit-user-select:            none;
+}
+.properties {
+    position:                       absolute;
+    right:                          0;
+    top:                            40px;
+    width:                          304px;
+    height:                         calc(100% - 24px);
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-width:                   0 0 0 1px;
+    z-index:                        1;
+}
+.properties .properties-options {
+    float:                          left;
+    width:                          100%;
+    height:                         40px;
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    background-color:               var(--ui-background2);
+}
+.properties .properties-options .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}

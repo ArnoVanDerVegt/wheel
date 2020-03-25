@@ -28,6 +28,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
             .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
+            .on('Settings.Set.ShowProperties',              this, this._setShowProperties)
             .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
@@ -44,6 +45,7 @@ exports.SettingsState = class extends Emitter {
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
+            .on('Settings.Toggle.ShowProperties',           this, this._toggleShowProperties)
             .on('Settings.Toggle.ShowSimulator',            this, this._toggleShowSimulator)
             .on('Settings.Toggle.ShowSimulatorOnRun',       this, this._toggleShowSimulatorOnRun)
             .on('Settings.Toggle.CreateVMTextOutput',       this, this._toggleCreateVMTextOutput)
@@ -89,6 +91,7 @@ exports.SettingsState = class extends Emitter {
                 show: {
                     fileTree:          this._show.fileTree,
                     console:           this._show.console,
+                    properties:        this._show.properties,
                     simulator:         this._show.simulator,
                     simulatorOnRun:    this._show.simulatorOnRun
                 },
@@ -118,9 +121,12 @@ exports.SettingsState = class extends Emitter {
         if (typeof document === 'undefined') {
             return;
         }
-        let items       = ['ide'];
-        let noSimulator = !this._show.simulator;
+        let items        = ['ide'];
+        let noSimulator  = !this._show.simulator;
+        let noProperties = !this._show.properties;
+        noSimulator && noProperties      && items.push('no-right-panel');
         noSimulator                      && items.push('no-simulator');
+        noProperties                     && items.push('no-properties');
         this._show.fileTree              || items.push('no-file-tree');
         this._show.console               || items.push('no-console');
         this._darkMode                   && items.push('dark');
@@ -172,6 +178,10 @@ exports.SettingsState = class extends Emitter {
 
     getShowSimulator() {
         return this._show.simulator;
+    }
+
+    getShowProperties() {
+        return this._show.properties;
     }
 
     getShowSimulatorOnRun() {
@@ -305,6 +315,19 @@ exports.SettingsState = class extends Emitter {
 
     _setShowSimulator(showSimulator) {
         this._show.simulator = showSimulator;
+        if (showSimulator) {
+            this._show.properties = false;
+        }
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
+    _setShowProperties(showProperties) {
+        this._show.properties = showProperties;
+        if (showProperties) {
+            this._show.simulator = false;
+        }
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
@@ -384,8 +407,21 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
+    _toggleShowProperties() {
+        this._show.properties = !this._show.properties;
+        if (this._show.properties) {
+            this._show.simulator = false;
+        }
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
     _toggleShowSimulator() {
         this._show.simulator = !this._show.simulator;
+        if (this._show.simulator) {
+            this._show.properties = false;
+        }
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
@@ -458,6 +494,7 @@ exports.SettingsState = class extends Emitter {
         this._show                       = ('show'                  in data)             ? data.show                        : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
         this._show.console               = ('console'               in this._show)       ? this._show.console               : true;
+        this._show.properties            = ('properties'            in this._show)       ? this._show.properties            : false;
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator             : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun        : true;
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                    : {};
@@ -491,7 +528,11 @@ exports.SettingsState = class extends Emitter {
         this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
         this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias             : {};
         this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset             : true;
-
+        if (this._show.simulator) {
+            this._show.properties = false;
+        } else if (this._show.properties) {
+            this._show.simulator = false;
+        }
         if ('plugins' in data) {
             this._plugins.load(data.plugins);
         } else {

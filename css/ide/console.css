@@ -9,8 +9,8 @@ body.ide div.console-wrapper {
     z-index:                        1;
     background-color:               var(--ui-background1);
 }
-/* No simulator */
-body.ide.no-simulator div.console-wrapper {
+/* No simulator & No properties */
+body.ide.no-right-panel div.console-wrapper {
     right:                          0;
 }
 /* No console */

@@ -71,6 +71,9 @@ exports.VM_VIEWER_SELECT_TEXT       = 4256;
 exports.VM_VIEWER_SELECT_RTF        = 4257;
 exports.VM_VIEWER_SELECT_AND_COPY   = 4258;
 
+// Above properties
+exports.CLOSE_PROPERTIES_BUTTON     = 4513;
+
 // Above simulator
 exports.SIMULATOR_RUN_BUTTON        = 4513;
 exports.SIMULATOR_CONTINUE_BUTTON   = 4514;
