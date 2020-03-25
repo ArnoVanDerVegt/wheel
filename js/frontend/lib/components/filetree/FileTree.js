@@ -3,7 +3,6 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const getDataProvider = require('../../dataprovider/dataProvider').getDataProvider;
-const utils           = require('../../utils');
 const dispatcher      = require('../../dispatcher').dispatcher;
 const DOMNode         = require('../../dom').DOMNode;
 const path            = require('../../path');

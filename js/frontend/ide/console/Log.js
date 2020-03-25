@@ -6,7 +6,6 @@ const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../lib/dom').DOMNode;
 const path       = require('../../lib/path');
-const utils      = require('../../lib/utils');
 
 class LogMessage extends DOMNode {
     constructor(opts) {
