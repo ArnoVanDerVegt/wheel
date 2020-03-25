@@ -128,6 +128,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
                 {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
                 {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New form',                                               dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},

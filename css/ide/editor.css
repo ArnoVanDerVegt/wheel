@@ -281,7 +281,8 @@
     min-width:                      100%;
     min-height:                     100%;
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource {
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource {
     position:                       absolute;
     left:                           50%;
     top:                            50%;
@@ -289,10 +290,14 @@
     border:                         var(--ui-border1);
     cursor:                         crosshair;
 }
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
+    background-color:               #FFFFFF;
+}
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
     background-color:               var(--ui-background1);
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow {
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.with-shadow {
     box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
 }
 .editor .source-wrapper .resource-wrapper .resource-content .resource-overlay {

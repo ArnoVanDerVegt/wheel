@@ -11,7 +11,7 @@ exports.ImageNewDialog = class extends ImageDialog {
         super(opts);
         this.createWindow(
             'image-dialog new-image',
-            'New image',
+            opts.title || 'New image',
             [
                 {
                     className: 'image-dialog-text',
@@ -52,11 +52,11 @@ exports.ImageNewDialog = class extends ImageDialog {
                 }
             ]
         );
-        dispatcher.on('Dialog.Image.New.Show', this, this.onShow);
+        dispatcher.on(opts.dispatchShow || 'Dialog.Image.New.Show', this, this.onShow);
     }
 
     onShow(activeDirectory, documentPath) {
-        super.show();
+        this.show();
         this._activeDirectory         = activeDirectory || documentPath;
         this._refs.filename.className = '';
         this._refs.filename.value     = '';

@@ -53,6 +53,12 @@ exports.SOUND_FADE_OUT              = 4282;
 // Sound editor, toolbar bottom
 exports.SOUND_ZOOM                  = 4290;
 
+// Form editor, toolbar top
+exports.FORM_UNDO                   = 4256;
+exports.FORM_COPY                   = 4257;
+exports.FORM_PASTE                  = 4258;
+exports.FORM_DELETE                 = 4259;
+
 // Wheel editor, toolbar bottom
 exports.WHEEL_EDITOR_FIND_TEXT      = 4256;
 exports.WHEEL_EDITOR_FIND_BUTTON    = 4257;

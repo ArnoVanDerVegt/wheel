@@ -17,6 +17,7 @@ const SoundEditor = require('./editors/sound/SoundEditor').SoundEditor;
 const SoundLoader = require('./editors/sound/SoundLoader').SoundLoader;
 const ImageEditor = require('./editors/image/ImageEditor').ImageEditor;
 const ImageLoader = require('./editors/image/ImageLoader').ImageLoader;
+const FormEditor  = require('./editors/form/FormEditor').FormEditor;
 
 exports.Editors = class extends DOMNode {
     constructor(opts) {
@@ -287,7 +288,7 @@ exports.Editors = class extends DOMNode {
                 '.bmp', '.png', '.jpg', '.jpeg', '.gif',
                 '.whl', '.whlp', '.vm',
                 '.txt', '.woc',
-                '.lms'
+                '.lms', '.wfrm'
             ].indexOf(extension) === -1) {
             return null;
         }
@@ -308,6 +309,9 @@ exports.Editors = class extends DOMNode {
                 break;
             case '.rsf':
                 this.addEditor(opts, new SoundEditor(opts));
+                break;
+            case '.wfrm':
+                this.addEditor(opts, new FormEditor(opts));
                 break;
             case '.mp3':
             case '.wav':

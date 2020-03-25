@@ -19,7 +19,7 @@ exports.ImageDialog = class extends Dialog {
     validateWidth() {
         let result = true;
         let refs   = this._refs;
-        this._width = parseInt(refs.width.getValue().trim(),  10);
+        this._width = parseInt(refs.width.getValue().trim(), 10);
         if (isNaN(this._width) || (this._width < 1) || (this._width > 178)) {
             refs.width.setClassName('invalid');
             result = false;

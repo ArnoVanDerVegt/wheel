@@ -33,6 +33,7 @@ const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoC
 const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
 const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
 const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
+const FormNewDialog              = require('./dialogs/form/FormNewDialog').FormNewDialog;
 const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
 const EV3ConnectListDialog       = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
 const PoweredUpConnectListDialog = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
@@ -122,6 +123,7 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.File.NewFile',                  this, this.onMenuFileNewFile)
             .on('Menu.File.NewProjectFile',           this, this.onMenuFileNewProjectFile)
             .on('Menu.File.NewImageFile',             this, this.onMenuFileNewImageFile)
+            .on('Menu.File.NewFormFile',              this, this.onMenuFileNewFormFile)
             .on('Menu.File.Open',                     this, this.onMenuFileOpen)
             .on('Menu.File.SaveAs',                   this, this.onSaveAs)
             .on('Menu.File.Exit',                     this, this.onExit)
@@ -234,6 +236,10 @@ exports.IDE = class extends CompileAndRun {
 
     onMenuFileNewImageFile(activeDirectory) {
         dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, this._settings.getDocumentPath());
+    }
+
+    onMenuFileNewFormFile(activeDirectory) {
+        dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, this._settings.getDocumentPath());
     }
 
     onMenuFileOpen() {
@@ -418,6 +424,7 @@ exports.IDE = class extends CompileAndRun {
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
+        new FormNewDialog             ({getImage: getImage, ui: this._ui});
         new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
         new StatisticsDialog          ({getImage: getImage, ui: this._ui});
         new VolumeDialog              ({getImage: getImage, ui: this._ui});

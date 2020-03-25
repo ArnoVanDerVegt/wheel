@@ -49,7 +49,8 @@ exports.Editor = class extends DOMUtils {
         dispatcher
             .on('Create.Project', this, this._addProjectFile)
             .on('Create.File',    this, this._addFile)
-            .on('Create.Image',   this, this._addImageFile);
+            .on('Create.Image',   this, this._addImageFile)
+            .on('Create.Form',    this, this._addFormFile);
     }
 
     add(opts) {
@@ -94,29 +95,43 @@ exports.Editor = class extends DOMUtils {
     }
 
     _addImageFile(filename, width, height) {
-        let callback = (function() {
-                let image = [];
-                for (let y = 0; y < height; y++) {
-                    let line = [];
-                    for (let x = 0; x < width; x++) {
-                        line.push(0);
-                    }
-                    image.push(line);
-                }
-                let value = {
-                        width:  width,
-                        height: height,
-                        image:  image
-                    };
-                let pathAndFilename = path.getPathAndFilename(filename);
-                this._editors.add({
-                    value:    value,
-                    path:     pathAndFilename.path,
-                    filename: pathAndFilename.filename,
-                    changed:  true
-                });
-            }).bind(this);
-        callback();
+        let image = [];
+        for (let y = 0; y < height; y++) {
+            let line = [];
+            for (let x = 0; x < width; x++) {
+                line.push(0);
+            }
+            image.push(line);
+        }
+        let value = {
+                width:  width,
+                height: height,
+                image:  image
+            };
+        let pathAndFilename = path.getPathAndFilename(filename);
+        this._editors.add({
+            value:    value,
+            path:     pathAndFilename.path,
+            filename: pathAndFilename.filename,
+            changed:  true
+        });
+    }
+
+    _addFormFile(filename, width, height) {
+        let value = {
+                width:  width,
+                height: height,
+                data:   {}
+            };
+        let pathAndFilename = path.getPathAndFilename(filename);
+        this._editors.add({
+            value:    value,
+            path:     pathAndFilename.path,
+            filename: pathAndFilename.filename,
+            width:    width,
+            height:   height,
+            changed:  true
+        });
     }
 
     hideBreakpoint() {
