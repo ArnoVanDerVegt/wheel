@@ -259,7 +259,7 @@ class HelpBuilder {
             new Table({parentNode, className: 'help-table', head: head, body: body});
         }
         if (proc.ret) {
-            new P({parentNode: parentNode, innerHTML: 'Return: <i>' + proc.ret + '</i>'});
+            new P({parentNode: parentNode, innerHTML: 'Return: ' + proc.ret});
         }
         if (proc.text) {
             new P({parentNode: parentNode, innerHTML: proc.text.join('<br/>')});

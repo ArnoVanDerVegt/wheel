@@ -155,10 +155,10 @@ exports.WhlFileProcessor = class extends FileProcessor {
             nextLine = this.peekLine().trim();
             while (this.getTextComment(nextLine)) {
                 this.readLine(true);
-                description += '\n' + nextLine;
+                description += '\n' + nextLine.substr(1 - nextLine.length);
                 nextLine = this.peekLine().trim();
             }
-            proc.ret = description;
+            proc.ret = this.getItalicWords(description);
             nextLine = this.readLine(true);
         }
         nextLine = nextLine.substr(4, nextLine.length - 4).trim();

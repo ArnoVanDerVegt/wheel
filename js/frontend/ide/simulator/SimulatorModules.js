@@ -62,8 +62,20 @@ exports.SimulatorModules = class {
         if (!vm) {
             return;
         }
-        let vmData   = vm.getVMData();
-        let resource = this._resources.get(vmData.getStringList()[sample.filename]);
+        let vmData    = vm.getVMData();
+        let resources = this._resources;
+        let resource  = resources.get(vmData.getStringList()[sample.filename]);
+        if (!resource) {
+            let filenames = resources.getFilenameList();
+            let j         = -sample.filename.length;
+            for (let i = 0; i < filenames.length; i++) {
+                let filename = filenames[i];
+                if (filename.substr(j) === sample.filename) {
+                    resource = resources.get(filename);
+                    break;
+                }
+            }
+        }
         if (!resource) {
             return;
         }
