@@ -1,9 +1,17 @@
+@subject PoweredUp_Example:Hub motor
+@device  P
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Powered Up Hub motor example"
+@section Powered Up Hub motor example
+This example shows how to select the `Hub` device with two different types of motors.
 
-; This example shows how to select the Hub device in the simulator and move the motor
-; to a given angle.
+
+The `Hub` has only two ports, in this example one motor with a tacho counter is selected
+and a basic motor which has no tacho counter.
+
+@section Code
+@example
+#project "Powered Up Hub motor example"
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
@@ -34,3 +42,8 @@ proc main()
 
     halt()
 end
+@end
+
+@load Open the Hub motor example|examples/poweredup/motor/hubMotor.whlp
+
+@see motor,Modules

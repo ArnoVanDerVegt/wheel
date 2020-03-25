@@ -1,9 +1,16 @@
+@subject PoweredUp_Example:Move Hub motor
+@device  P
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Powered Up Move Hub motor example"
+@section Powered Up Move Hub motor example
+This example shows how to control a motor in the `Move Hub`.
+The `Move Hub` has two built in motors of which the type can't be selected,
+selecting the `Move Hub` device automatically sets the two motor types in the simulator.
 
-; This example shows how to select the Move Hub device in the simulator and
-; move the motor to a given angle. The Move Hub has 2 built in motors.
+
+@section Code
+@example
+#project "Powered Up Move Hub motor example"
 
 #include "lib/standard.whl"
 #include "lib/device.whl"
@@ -26,3 +33,8 @@ proc main()
 
     halt()
 end
+@end
+
+@load Open the Move Hub motor example|examples/poweredup/motor/moveHubMotor.whlp
+
+@see motor,Modules
