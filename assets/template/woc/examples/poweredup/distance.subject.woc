@@ -58,4 +58,4 @@ end
 
 @load Open the distance sensor example|examples/poweredup/distance/distance.whlp
 
-@see light,standard
+@see poweredup,light,standard

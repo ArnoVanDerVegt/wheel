@@ -61,4 +61,4 @@ end
 
 @load Open the remote control example|examples/poweredup/remote/remote.whlp
 
-@see button,Modules
+@see poweredup,button,Modules

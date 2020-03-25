@@ -46,4 +46,4 @@ end
 
 @load Open the Hub motor example|examples/poweredup/motor/hubMotor.whlp
 
-@see motor,Modules
+@see poweredup,motor,Modules

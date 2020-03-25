@@ -180,7 +180,7 @@ exports.PoweredUp = class extends BasicDevice {
         let tilt = event.values.tilt;
         layer.tilt.x = tilt.x;
         layer.tilt.y = tilt.y;
-        layer.tilt.z = tilt.z;
+        layer.tilt.z = tilt.z || 0;
     }
 
     onMoveHubTilt(layer, tilt) {
@@ -193,7 +193,7 @@ exports.PoweredUp = class extends BasicDevice {
         let accel = event.values.accel;
         layer.accel.x = accel.x;
         layer.accel.y = accel.y;
-        layer.accel.z = accel.z;
+        layer.accel.z = accel.z || 0;
     }
 
     onRemoteButton(index, layer, event) {

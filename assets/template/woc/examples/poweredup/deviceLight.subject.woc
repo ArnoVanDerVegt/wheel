@@ -34,4 +34,4 @@ end
 
 @load Open the light example|examples/poweredup/light/light.whlp
 
-@see light,standard
+@see poweredup,light,standard

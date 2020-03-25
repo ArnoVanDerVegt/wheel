@@ -185,7 +185,10 @@ exports.Plugin = class extends Plugin {
             motors[layer * 4    ].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
             motors[layer * 4 + 1].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
         }
-        this.getDeviceStateByLayer(layer).setType(type);
+        let device = this.getDeviceStateByLayer(layer);
+        if (device && device.setType) {
+            device.setType(type);
+        }
         if (layer === this._simulator.getLayer()) {
             this._hub.hide();
             this._moveHub.hide();
@@ -249,9 +252,7 @@ exports.Plugin = class extends Plugin {
     }
 
     onType(layer, type) {
-        if (layer === this._simulator.getLayer()) {
-            this.setDeviceType(type);
-        }
+        this.setDeviceType(layer, type);
     }
 
     onClickUuid(event) {

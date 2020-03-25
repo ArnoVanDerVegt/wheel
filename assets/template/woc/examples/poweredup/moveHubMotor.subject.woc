@@ -37,4 +37,4 @@ end
 
 @load Open the Move Hub motor example|examples/poweredup/motor/moveHubMotor.whlp
 
-@see motor,Modules
+@see poweredup,motor,Modules

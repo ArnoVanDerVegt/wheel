@@ -66,4 +66,4 @@ end
 
 @load Open the light and color example|examples/poweredup/light/lightAndColorSensor.whlp
 
-@see light,sensor,Modules
+@see poweredup,light,sensor,Modules

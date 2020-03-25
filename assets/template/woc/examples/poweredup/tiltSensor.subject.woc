@@ -1,0 +1,61 @@
+@subject PoweredUp_Example:Tilt sensor
+@device  P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Powered Up Tilt sensor example
+This example displays the tilt values in the console.
+
+
+The `Move Hub` returns the `x` and `y` values and the `Technic Hub` returns the `x`, `y` and `z` values.
+
+
+By calling the `poweredUpStart` procedure Wheel will register `tilt` and `acceleration` values in
+the global `poweredUpDevices` variable.
+
+
+This demo only works on a real device, the simulator does not support changing `tilt` or `acceleration` values.
+
+@section Code
+@example
+#project "Powered Up tilt sensor example"
+
+#include "lib/standard.whl"
+#include "lib/poweredUp.whl"
+
+proc main()
+    ; Start reading the Powered Up sensors...
+    poweredUpStart()
+
+    number x, lastX
+    number y, lastY
+    number z, lastZ
+
+    repeat
+        ; Get the values...
+        x = poweredUpDevices.layer1.tilt.x
+        y = poweredUpDevices.layer1.tilt.y
+        z = poweredUpDevices.layer1.tilt.z
+
+        ; Check if one of the values is changed:
+        if (x != lastX) or (y != lastY) or (z != lastZ)
+            ; Display the last values:
+            clearConsole();
+            printS("Tilt:")
+            printS("x:")
+            printN(x)
+            printS("y:")
+            printN(y)
+            printS("z:")
+            printN(z)
+
+            lastX = x
+            lastY = y
+            lastZ = z
+        end
+    end
+end
+@end
+
+@load Open the remote control example|examples/poweredup/sensor/tilt.whlp
+
+@see poweredup,tilt,sensor,Modules
