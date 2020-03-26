@@ -24,7 +24,14 @@ exports.TextProperty = class extends Property {
     }
 
     setInputElement(element) {
+        this._inputElement = element;
         element.addEventListener('focus', this.onFocus.bind(this));
         element.addEventListener('blur',  this.onBlur.bind(this));
+    }
+
+    onClick(event) {
+        if (event.target.nodeName !== 'INPUT') {
+            this._inputElement.focus();
+        }
     }
 };

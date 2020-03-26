@@ -197,4 +197,8 @@ exports.IconSelect = class extends DOMNode {
         );
         return elements;
     }
+
+    focus() {
+        this._element.focus();
+    }
 };

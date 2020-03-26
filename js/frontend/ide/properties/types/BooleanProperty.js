@@ -15,6 +15,7 @@ exports.BooleanProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
+                    ref:     this.setRef('checkbox'),
                     type:    Checkbox,
                     ui:      this._ui,
                     onFocus: this.onFocus.bind(this),
@@ -22,5 +23,9 @@ exports.BooleanProperty = class extends Property {
                 }
             ]
         };
+    }
+
+    onClick(event) {
+        this._refs.checkbox.focus();
     }
 };

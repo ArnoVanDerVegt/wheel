@@ -16,6 +16,7 @@ exports.ColorProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
+                    ref:      this.setRef('colorList'),
                     type:     IconSelect,
                     ui:       this._ui,
                     onFocus:  this.onFocus.bind(this),
@@ -37,5 +38,9 @@ exports.ColorProperty = class extends Property {
                 }
             ]
         };
+    }
+
+    onClick(event) {
+        this._refs.colorList.focus();
     }
 };

@@ -9,6 +9,7 @@ const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
 const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
 const TextProperty      = require('./types/TextProperty').TextProperty;
 const ColorProperty     = require('./types/ColorProperty').ColorProperty;
+const ListProperty      = require('./types/ListProperty').ListProperty;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
@@ -58,6 +59,12 @@ exports.Properties = class extends DOMNode {
             type:  TextProperty,
             ui:    this._ui,
             name:  'Text',
+            value: 'text'
+        });
+        children.push({
+            type:  ListProperty,
+            ui:    this._ui,
+            name:  'List',
             value: 'text'
         });
         children.push({

@@ -317,6 +317,7 @@ require('./js/frontend/ide/properties/Property');
 require('./js/frontend/ide/properties/types/BooleanProperty');
 require('./js/frontend/ide/properties/types/ColorProperty');
 require('./js/frontend/ide/properties/types/TextProperty');
+require('./js/frontend/ide/properties/types/ListProperty');
 require('./js/frontend/ide/properties/Properties');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');

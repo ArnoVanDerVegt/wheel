@@ -1,6 +1,5 @@
 body.ide.no-properties div.properties {
     display:                        none;
-    -webkit-user-select:            none;
 }
 .properties {
     position:                       absolute;
@@ -8,7 +7,7 @@ body.ide.no-properties div.properties {
     top:                            40px;
     width:                          304px;
     height:                         calc(100% - 24px);
-    background-color:               var(--ui-background2);
+    background-color:               var(--ui-background1);
     border:                         var(--ui-border1);
     border-width:                   0 0 0 1px;
     z-index:                        1;
@@ -41,6 +40,7 @@ body.ide.no-properties div.properties {
     top:                            0;
     border:                         var(--ui-border1);
     border-width:                   0 1px 0 0;
+    border-style:                   dotted;
     width:                          50%;
     height:                         100%;
     pointer-events:                 none;
@@ -51,9 +51,10 @@ body.ide.no-properties div.properties {
     border:                         var(--ui-border1);
     border-width:                   0 0 1px 0;
     border-style:                   dotted;
+    cursor:                         pointer;
 }
 .properties .properties-container .property.focus {
-    background-color:               var(--ui-background1);
+    background-color:               var(--ui-background2);
 }
 .properties .properties-container .property .property-name,
 .properties .properties-container .property .property-value {
@@ -66,7 +67,10 @@ body.ide.no-properties div.properties {
 }
 .properties .properties-container .property .property-name {
     padding:                        0 0 0 8px;
+    position:                       relative;
+    -webkit-user-select:            none;
 }
+/* Text input */
 .properties .properties-container .property .property-value .text-input {
     float:                          left;
     width:                          100%;
@@ -86,6 +90,7 @@ body.ide.no-properties div.properties {
     float:                          left;
     position:                       relative;
 }
+/* Icon select */
 .properties .properties-container .property .property-value a.icon-select img {
     position:                       relative;
     top:                            -2px;
@@ -93,6 +98,53 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-value a.icon-select {
     margin:                         1px 0 0 6px;
 }
+/* Boolean */
 .properties .properties-container .property .property-value .checkbox {
     margin:                         3px 0 0 6px;
+}
+/* List */
+.properties .properties-container .property .property-name.list-focus,
+.properties .properties-container .property .property-value.list-focus {
+    height:                         140px;
+}
+.properties .properties-container .property .property-value.list-focus a.list-selected {
+}
+.properties .properties-container .property .property-value a.list-selected,
+.properties .properties-container .property .property-value a.list-selected:visited {
+    outline:                        none;
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    padding:                        0 0 0 8px;
+    text-decoration:                none;
+    color:                          var(--ui-text1);
+}
+.properties .properties-container .property .property-name .list-content {
+    display:                        none;
+    position:                       absolute;
+    width:                          303px;
+    height:                         calc(100% - 28px);
+    left:                           0px;
+    top:                            28px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content {
+    display:                        block;
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 0 0;
+    border-style:                   dotted;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    line-height:                    26px;
+    font-size:                      15px;
+    padding:                        0 0 0 8px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:hover {
+    background-color:               var(--files-hover-background);
+    color:                          var(--files-hover-color);
 }

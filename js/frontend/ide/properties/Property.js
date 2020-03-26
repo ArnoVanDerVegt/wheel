@@ -15,6 +15,14 @@ exports.Property = class extends DOMNode {
         this.initDOM(opts.parentNode);
     }
 
+    initPropertyName() {
+        return {
+            ref:       this.setRef('name'),
+            className: 'property-name',
+            innerHTML: this._name
+        };
+    }
+
     initPropertyValue() {
         return {
             className: 'property-value',
@@ -26,24 +34,29 @@ exports.Property = class extends DOMNode {
         this.create(
             parentNode,
             {
-                ref:       this.setRef('property'),
+                id:        this.setPropertyElement.bind(this),
                 className: 'property',
                 children:  [
-                    {
-                        className: 'property-name',
-                        innerHTML: this._name
-                    },
+                    this.initPropertyName(),
                     this.initPropertyValue()
                 ]
             }
         );
     }
 
+    setPropertyElement(element) {
+        this._propertyElement = element;
+        this._propertyElement.addEventListener('click', this.onClick.bind(this));
+    }
+
+    onClick() {
+    }
+
     onFocus() {
-        this._refs.property.className = 'property focus';
+        this._propertyElement.className = 'property focus';
     }
 
     onBlur() {
-        this._refs.property.className = 'property';
+        this._propertyElement.className = 'property';
     }
 };

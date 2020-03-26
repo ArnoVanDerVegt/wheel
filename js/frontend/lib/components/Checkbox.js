@@ -67,4 +67,8 @@ exports.Checkbox = class extends Component {
         this._onChange && this._onChange(this._checked);
         this._element.className = this.getClassName();
     }
+
+    focus() {
+        this._element.focus();
+    }
 };

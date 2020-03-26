@@ -390,6 +390,7 @@ const files = [
         './js/frontend/ide/properties/types/BooleanProperty',
         './js/frontend/ide/properties/types/ColorProperty',
         './js/frontend/ide/properties/types/TextProperty',
+        './js/frontend/ide/properties/types/ListProperty',
         './js/frontend/ide/properties/Properties',
         './js/frontend/ide/simulator/SimulatorToolbar',
         './js/frontend/ide/simulator/SimulatorModules',
