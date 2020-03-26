@@ -8,7 +8,7 @@ body.ide.no-properties div.properties {
     top:                            40px;
     width:                          304px;
     height:                         calc(100% - 24px);
-    background-color:               var(--ui-background1);
+    background-color:               var(--ui-background2);
     border:                         var(--ui-border1);
     border-width:                   0 0 0 1px;
     z-index:                        1;
@@ -25,4 +25,74 @@ body.ide.no-properties div.properties {
 .properties .properties-options .close-button {
     float:                          right;
     margin:                         8px 8px 0 0;
+}
+/* Properties */
+.properties .properties-container {
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
+    width:                          100%;
+    height:                         calc(100% - 56px);
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.properties .properties-container .property-separator {
+    position:                       absolute;
+    top:                            0;
+    border:                         var(--ui-border1);
+    border-width:                   0 1px 0 0;
+    width:                          50%;
+    height:                         100%;
+    pointer-events:                 none;
+}
+.properties .properties-container .property {
+    float:                          left;
+    width:                          100%;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    border-style:                   dotted;
+}
+.properties .properties-container .property.focus {
+    background-color:               var(--ui-background1);
+}
+.properties .properties-container .property .property-name,
+.properties .properties-container .property .property-value {
+    float:                          left;
+    width:                          50%;
+    height:                         28px;
+    font-size:                      15px;
+    line-height:                    28px;
+    padding:                        0;
+}
+.properties .properties-container .property .property-name {
+    padding:                        0 0 0 8px;
+}
+.properties .properties-container .property .property-value .text-input {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    border:                         1px solid transparent;
+    padding:                        0 0 0 8px;
+    line-height:                    26px;
+    outline:                        none;
+    font-size:                      15px;
+    background-color:               transparent;
+}
+.properties .properties-container .property .property-value .text-input:focus {
+    border:                         var(--focus-border-dotted);
+}
+.properties .properties-container .property .property-value .icon-select,
+.properties .properties-container .property .property-value .checkbox {
+    float:                          left;
+    position:                       relative;
+}
+.properties .properties-container .property .property-value a.icon-select img {
+    position:                       relative;
+    top:                            -2px;
+}
+.properties .properties-container .property .property-value a.icon-select {
+    margin:                         1px 0 0 6px;
+}
+.properties .properties-container .property .property-value .checkbox {
+    margin:                         3px 0 0 6px;
 }

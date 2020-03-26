@@ -13,6 +13,8 @@ exports.IconSelect = class extends DOMNode {
         this._options      = opts.options;
         this._value        = ('value' in opts) ? opts.value : this._options[0].value;
         this._onChange     = opts.onChange;
+        this._onFocus      = opts.onFocus;
+        this._onBlur       = opts.onBlur;
         this._tabIndex     = opts.tabIndex;
         this._ui           = opts.ui;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
@@ -60,12 +62,14 @@ exports.IconSelect = class extends DOMNode {
     onFocus() {
         this._focus             = true;
         this._element.className = this.getClassName();
+        this._onFocus && this._onFocus();
     }
 
     onBlur() {
         this._focus             = false;
         this._open              = false;
         this._element.className = this.getClassName();
+        this._onBlur && this._onBlur();
     }
 
     onClick(event) {

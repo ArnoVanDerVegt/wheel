@@ -6,6 +6,9 @@ const dispatcher        = require('../../lib/dispatcher').dispatcher;
 const DOMNode           = require('../../lib/dom').DOMNode;
 const tabIndex          = require('../tabIndex');
 const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
+const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
+const TextProperty      = require('./types/TextProperty').TextProperty;
+const ColorProperty     = require('./types/ColorProperty').ColorProperty;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
@@ -31,11 +34,38 @@ exports.Properties = class extends DOMNode {
                     },
                     {
                         className: 'properties-container',
-                        children:  []
+                        children:  [
+                            {
+                                className: 'property-separator'
+                            }
+                        ].concat(this.initPropertyChildren())
                     }
                 ]
             }
         );
         dispatcher.dispatch('Settings.UpdateViewSettings');
+    }
+
+    initPropertyChildren() {
+        let children = [];
+        children.push({
+            type:  BooleanProperty,
+            ui:    this._ui,
+            name:  'Boolean',
+            value: 'boolean'
+        });
+        children.push({
+            type:  TextProperty,
+            ui:    this._ui,
+            name:  'Text',
+            value: 'text'
+        });
+        children.push({
+            type:  ColorProperty,
+            ui:    this._ui,
+            name:  'Colors',
+            value: 'text'
+        });
+        return children;
     }
 };
