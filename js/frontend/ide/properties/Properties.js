@@ -25,6 +25,7 @@ exports.Properties = class extends DOMNode {
         this.create(
             parentNode,
             {
+                ref:       this.setRef('property'),
                 className: 'properties',
                 children: [
                     {

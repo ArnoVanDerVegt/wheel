@@ -56,6 +56,7 @@ exports.Property = class extends DOMNode {
 
     onFocus() {
         this._propertyElement.className = 'property focus';
+        this._properties.focusProperty(this);
     }
 
     onBlur() {

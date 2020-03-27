@@ -105,7 +105,7 @@ body.ide.no-properties div.properties {
 /* List */
 .properties .properties-container .property .property-name.list-focus,
 .properties .properties-container .property .property-value.list-focus {
-    height:                         140px;
+    height:                         156px;
 }
 .properties .properties-container .property .property-value a.list-selected,
 .properties .properties-container .property .property-value a.list-selected:visited {
@@ -149,6 +149,11 @@ body.ide.no-properties div.properties {
     background-color:               var(--files-hover-background);
     color:                          var(--files-hover-color);
 }
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active:hover {
+    background-color:               var(--files-selected-background);
+    color:                          var(--files-hover-color);
+}
 .properties .properties-container .property a.list-item-button.add,
 .properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button {
     float:                          right;
@@ -171,6 +176,7 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button.delete {
     margin-right:                   16px;
 }
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active a,
 .properties .properties-container .property .property-name.list-focus .list-content .list-item:hover a {
     opacity:                        1;
 }
@@ -180,4 +186,21 @@ body.ide.no-properties div.properties {
     overflow:                       hidden;
     text-overflow:                  ellipsis;
     white-space:                    nowrap;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item input[type="text"].list-item-input {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    outline:                        none;
+    border:                         0;
+    height:                         24px;
+    line-height:                    24px;
+    font-size:                      15px;
+    margin:                         2px 0 0 0;
+    display:                        none;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active input[type="text"].list-item-input {
+    display:                        block;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active span.list-item-title {
+    display:                        none;
 }

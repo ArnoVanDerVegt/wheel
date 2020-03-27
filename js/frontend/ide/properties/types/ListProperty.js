@@ -8,8 +8,10 @@ const Property = require('../Property').Property;
 class ListItem extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._list  = opts.list;
         this._index = opts.index;
+        this._title = opts.title;
+        this._list  = opts.list;
+        this._list.setItem(this._index, this);
         this.initDOM(opts.parentNode);
     }
 
@@ -19,6 +21,7 @@ class ListItem extends DOMNode {
                 element.addEventListener(
                     'click',
                     function(event) {
+                        event.stopPropagation();
                         event.preventDefault();
                         opts.onClick(opts.index);
                     }
@@ -35,13 +38,21 @@ class ListItem extends DOMNode {
         this.create(
             parentNode,
             {
+                id:        this.setElement.bind(this),
                 className: 'list-item',
                 children: [
                     {
                         ref:       this.setRef('title'),
                         type:      'span',
                         className: 'list-item-title',
-                        innerHTML: 'List item'
+                        innerHTML: this._title
+                    },
+                    {
+                        id:        this.setInputElement.bind(this),
+                        type:      'input',
+                        inputType: 'text',
+                        className: 'list-item-input',
+                        value:     this._title
                     },
                     this.initIconButton({
                         title:     '✖',
@@ -63,12 +74,45 @@ class ListItem extends DOMNode {
         );
     }
 
-    setTitle(title) {
-        this._refs.title.innerHTML = title;
+    remove() {
+        this._element.parentNode.removeChild(this._element);
+        return this._element;
+    }
+
+    setElement(element) {
+        this._element = element;
+        element.addEventListener('click', this.onClick.bind(this));
+    }
+
+    setInputElement(element) {
+        element.addEventListener('keyup', this.onKeyUp.bind(this));
+    }
+
+    getElement() {
+        return this._element;
+    }
+
+    setActive(active) {
+        this._element.className = 'list-item' + (active ? ' active' : '');
+    }
+
+    getTitle(title) {
+        return this._title;
     }
 
     setIndex(index) {
         this._index = index;
+        this._list.setItem(index, this);
+    }
+
+    onKeyUp(event) {
+        this._title                = event.target.value;
+        this._refs.title.innerHTML = this._title;
+    }
+
+    onClick(event) {
+        event.stopPropagation();
+        this._list.setActiveItem(this);
     }
 
     onClickUp() {
@@ -88,7 +132,6 @@ exports.ListProperty = class extends Property {
     constructor(opts) {
         super(opts);
         this._focus = false;
-        this._items = [];
     }
 
     initPropertyValue() {
@@ -97,15 +140,15 @@ exports.ListProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
-                    id: function(element) {
+                    id: (function(element) {
                         element.addEventListener(
                             'click',
-                            function(event) {
+                            (function(event) {
                                 event.preventDefault();
-                                //opts.onClick(opts.index);
-                            }
+                                this.onClickAdd();
+                            }).bind(this)
                         );
-                    },
+                    }).bind(this),
                     type:      'a',
                     href:      '#',
                     className: 'list-item-button add',
@@ -138,6 +181,7 @@ exports.ListProperty = class extends Property {
             innerHTML: this._name,
             children: [
                 {
+                    ref:       this.setRef('listContent'),
                     className: 'list-content',
                     children: [
                         this.initListItem(0),
@@ -152,11 +196,12 @@ exports.ListProperty = class extends Property {
     setInputElement(element) {
         this._inputElement = element;
         element.addEventListener('click', this.onClickInput.bind(this));
-        //element.addEventListener('focus', this.onFocus.bind(this));
-        //element.addEventListener('blur',  this.onBlur.bind(this));
     }
 
     setItem(index, item) {
+        if (!this._items) {
+            this._items = [];
+        }
         this._items[index] = item;
     }
 
@@ -166,27 +211,61 @@ exports.ListProperty = class extends Property {
             refs.name.className             = 'property-name list-focus';
             refs.value.className            = 'property-value list-focus';
             this._propertyElement.className = 'property focus';
-        this._inputElement.focus();
+            this._inputElement.focus();
         } else {
             refs.name.className             = 'property-name';
             refs.value.className            = 'property-value';
             this._propertyElement.className = 'property';
+            this.setActiveItem(null);
         }
     }
 
+    setActiveItem(activeItem) {
+        this._items.forEach(function(item) {
+            item.setActive(item === activeItem);
+        });
+    }
+
     itemUp(index) {
-        console.log('Up', index);
+        this.setActiveItem(null);
+        let items     = this._items;
+        let listItem1 = items[index - 1].getElement();
+        let listItem2 = items[index].remove();
+        listItem1.parentNode.insertBefore(listItem2, listItem1);
+        let item1 = items[index - 1];
+        let item2 = items[index];
+        item1.setIndex(index);
+        item2.setIndex(index - 1);
     }
 
     itemDown(index) {
-        console.log('Down', index);
+        this.setActiveItem(null);
+        let items     = this._items;
+        let listItem1 = items[index].getElement();
+        let listItem2 = items[index + 1].remove();
+        listItem1.parentNode.insertBefore(listItem2, listItem1);
+        let item1 = items[index];
+        let item2 = items[index + 1];
+        item1.setIndex(index + 1);
+        item2.setIndex(index);
     }
 
     itemDelete(index) {
-        console.log('Delete', index, this._items[index]);
+        this.setActiveItem(null);
+        let items = this._items;
+        items[index].remove();
+        items.splice(index, 1);
+        for (let i = index; i < items.length; i++) {
+            items[i].setIndex(i);
+        }
     }
 
     onClickAdd() {
+        this.setActiveItem(null);
+        this.create(
+            this._refs.listContent,
+            this.initListItem(this._items.length)
+        );
     }
 
     onClickInput(event) {
