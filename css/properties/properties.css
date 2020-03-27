@@ -107,8 +107,6 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-value.list-focus {
     height:                         140px;
 }
-.properties .properties-container .property .property-value.list-focus a.list-selected {
-}
 .properties .properties-container .property .property-value a.list-selected,
 .properties .properties-container .property .property-value a.list-selected:visited {
     outline:                        none;
@@ -118,6 +116,9 @@ body.ide.no-properties div.properties {
     padding:                        0 0 0 8px;
     text-decoration:                none;
     color:                          var(--ui-text1);
+}
+.properties .properties-container .property .property-value a.list-selected {
+    width:                          calc(100% - 40px);
 }
 .properties .properties-container .property .property-name .list-content {
     display:                        none;
@@ -147,4 +148,36 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-name.list-focus .list-content .list-item:hover {
     background-color:               var(--files-hover-background);
     color:                          var(--files-hover-color);
+}
+.properties .properties-container .property a.list-item-button.add,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button {
+    float:                          right;
+    width:                          24px;
+    height:                         28px;
+    text-align:                     center;
+    color:                          inherit;
+    text-decoration:                none;
+    opacity:                        0.25;
+}
+.properties .properties-container .property a.list-item-button.add {
+    font-weight:                    bold;
+    font-size:                      20px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:first-child a.list-item-button.up,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:last-child a.list-item-button.down {
+    visibility:                     hidden;
+}
+.properties .properties-container .property a.list-item-button.add,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button.delete {
+    margin-right:                   16px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:hover a {
+    opacity:                        1;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item span.list-item-title {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
 }

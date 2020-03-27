@@ -7,11 +7,13 @@ const DOMNode = require('../../lib/dom').DOMNode;
 exports.Property = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts      = opts;
-        this._ui        = opts.ui;
-        this._settings  = opts.settings;
-        this._name      = opts.name;
-        this._value     = opts.value;
+        this._opts       = opts;
+        this._ui         = opts.ui;
+        this._settings   = opts.settings;
+        this._name       = opts.name;
+        this._value      = opts.value;
+        this._properties = opts.properties;
+        this._properties.addProperty(this);
         this.initDOM(opts.parentNode);
     }
 

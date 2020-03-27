@@ -42,5 +42,6 @@ exports.ColorProperty = class extends Property {
 
     onClick(event) {
         this._refs.colorList.focus();
+        this._properties.focusProperty(this);
     }
 };

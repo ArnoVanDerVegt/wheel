@@ -27,5 +27,6 @@ exports.BooleanProperty = class extends Property {
 
     onClick(event) {
         this._refs.checkbox.focus();
+        this._properties.focusProperty(this);
     }
 };

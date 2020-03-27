@@ -31,7 +31,8 @@ exports.TextProperty = class extends Property {
 
     onClick(event) {
         if (event.target.nodeName !== 'INPUT') {
-            this._inputElement.focus();
+            this._inputElement.focus(this);
+            this._properties.focusProperty(this);
         }
     }
 };

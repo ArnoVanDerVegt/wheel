@@ -14,9 +14,10 @@ const ListProperty      = require('./types/ListProperty').ListProperty;
 exports.Properties = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts      = opts;
-        this._ui        = opts.ui;
-        this._settings  = opts.settings;
+        this._opts       = opts;
+        this._ui         = opts.ui;
+        this._settings   = opts.settings;
+        this._properties = [];
         this.initDOM(opts.parentNode || document.body);
     }
 
@@ -50,29 +51,45 @@ exports.Properties = class extends DOMNode {
     initPropertyChildren() {
         let children = [];
         children.push({
-            type:  BooleanProperty,
-            ui:    this._ui,
-            name:  'Boolean',
-            value: 'boolean'
+            type:       BooleanProperty,
+            properties: this,
+            ui:         this._ui,
+            name:       'Boolean',
+            value:      'boolean'
         });
         children.push({
-            type:  TextProperty,
-            ui:    this._ui,
-            name:  'Text',
-            value: 'text'
+            type:       TextProperty,
+            properties: this,
+            ui:         this._ui,
+            name:       'Text',
+            value:      'text'
         });
         children.push({
-            type:  ListProperty,
-            ui:    this._ui,
-            name:  'List',
-            value: 'text'
+            type:       ListProperty,
+            properties: this,
+            ui:         this._ui,
+            name:       'List',
+            value:      'text'
         });
         children.push({
-            type:  ColorProperty,
-            ui:    this._ui,
-            name:  'Colors',
-            value: 'text'
+            type:       ColorProperty,
+            properties: this,
+            ui:         this._ui,
+            name:       'Colors',
+            value:      'text'
         });
         return children;
+    }
+
+    focusProperty(property) {
+        this._properties.forEach(function(p) {
+            if ((p !== property) && p.setFocus) {
+                p.setFocus(false);
+            }
+        });
+    }
+
+    addProperty(property) {
+        this._properties.push(property);
     }
 };
