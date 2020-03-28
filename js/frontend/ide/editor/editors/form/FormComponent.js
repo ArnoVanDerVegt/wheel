@@ -2,9 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Button     = require('../../../../lib/components/Button').Button;
-const dispatcher = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../../../lib/dom').DOMNode;
+const Button      = require('../../../../lib/components/Button').Button;
+const ToolOptions = require('../../../../lib/components/ToolOptions').ToolOptions;
+const dispatcher  = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode     = require('../../../../lib/dom').DOMNode;
 
 exports.FormComponent = class extends DOMNode {
     constructor(opts) {
@@ -19,7 +20,8 @@ exports.FormComponent = class extends DOMNode {
         this._ui              = opts.ui;
         this._className       = opts.className;
         this._formEditorState = opts.formEditorState;
-        this._formEditorState.on('AddButton', this, this.onAddButton);
+        this._formEditorState.on('AddButton',       this, this.onAddButton);
+        this._formEditorState.on('AddSelectButton', this, this.onAddSelectButton);
         this.initDOM(opts.parentNode);
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
@@ -113,14 +115,22 @@ exports.FormComponent = class extends DOMNode {
     }
 
     onComponentMouseDown(event, element, id, type, properties) {
+        let offsetX    = event.offsetX;
+        let offsetY    = event.offsetY;
+        let parentNode = event.target;
+        while (parentNode.parentNode.className.indexOf('parent') === -1) {
+            offsetX += parentNode.offsetLeft;
+            offsetY += parentNode.offsetTop;
+            parentNode = parentNode.parentNode;
+        }
         this._mouseComponent = this._formEditorState.getComponentById(id);
         if (!this._mouseComponent) {
             return;
         }
         element.onEvent({pointerEvents: 'none'});
         this._mouseDown    = true;
-        this._mouseOffsetX = event.offsetX;
-        this._mouseOffsetY = event.offsetY;
+        this._mouseOffsetX = offsetX;
+        this._mouseOffsetY = offsetY;
         this._mouseElement = element;
         event.stopPropagation();
         dispatcher.dispatch('Properties.Select', type, properties);
@@ -144,6 +154,48 @@ exports.FormComponent = class extends DOMNode {
                 {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
                 {type: 'string',     name: 'value',      value: opts.value},
                 {type: 'string',     name: 'title',      value: opts.title}
+            ]
+        });
+    }
+
+    onAddButton(opts) {
+        this.addElement({
+            type:                 'button',
+            componentConstructor: Button,
+            id:                   opts.id,
+            x:                    opts.x,
+            y:                    opts.y,
+            value:                opts.value,
+            title:                opts.title,
+            properties: [
+                {type: 'id',         name: null,         value: opts.id},
+                {type: 'string',     name: 'name',       value: opts.name},
+                {type: 'integer',    name: 'tabIndex',   value: opts.id},
+                {type: 'integer',    name: 'x',          value: opts.x},
+                {type: 'integer',    name: 'y',          value: opts.y},
+                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
+                {type: 'string',     name: 'value',      value: opts.value},
+                {type: 'string',     name: 'title',      value: opts.title}
+            ]
+        });
+    }
+
+    onAddSelectButton(opts) {
+        this.addElement({
+            type:                 'selectButton',
+            componentConstructor: ToolOptions,
+            id:                   opts.id,
+            x:                    opts.x,
+            y:                    opts.y,
+            options:              [{value: opts.options[0]}, {value: opts.options[1]}],
+            properties: [
+                {type: 'id',         name: null,         value: opts.id},
+                {type: 'string',     name: 'name',       value: opts.name},
+                {type: 'integer',    name: 'tabIndex',   value: opts.id},
+                {type: 'integer',    name: 'x',          value: opts.x},
+                {type: 'integer',    name: 'y',          value: opts.y},
+                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
+                {type: 'options',    name: 'buttons',    value: [{value: opts.options[0]}, {value: opts.options[1]}]}
             ]
         });
     }

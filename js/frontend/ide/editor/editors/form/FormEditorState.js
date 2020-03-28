@@ -80,6 +80,12 @@ exports.FormEditorState = class extends Emitter {
                 component.colorStyle = 'green';
                 this.emit('AddButton', component);
                 break;
+            case COMPONENT_SELECT_BUTTON:
+                component.name       = 'SelectButton' + component.id;
+                component.options    = ['A', 'B'];
+                component.colorStyle = 'green';
+                this.emit('AddSelectButton', component);
+                break;
         }
     }
 
