@@ -7,20 +7,16 @@ const getImage   = require('../../data/images').getImage;
 const Property   = require('../Property').Property;
 
 exports.ColorProperty = class extends Property {
-    constructor(opts) {
-        super(opts);
-    }
-
     initPropertyValue() {
         return {
             className: 'property-value',
             children: [
                 {
-                    ref:      this.setRef('colorList'),
-                    type:     IconSelect,
-                    ui:       this._ui,
-                    onFocus:  this.onFocus.bind(this),
-                    onBlur:   this.onBlur.bind(this),
+                    type:    IconSelect,
+                    ref:     this.setRef('colorList'),
+                    ui:      this._ui,
+                    onFocus: this.onFocus.bind(this),
+                    onBlur:  this.onBlur.bind(this),
                     options: [
                         {value: 0, icon: getImage('images/constants/colorNone.svg')},
                         {value: 1, icon: getImage('images/constants/colorBlack.svg')},
@@ -31,10 +27,6 @@ exports.ColorProperty = class extends Property {
                         {value: 6, icon: getImage('images/constants/colorWhite.svg')},
                         {value: 7, icon: getImage('images/constants/colorBrown.svg')}
                     ]
-                    //ref:      this.setRef('specialValueInput'),
-                    //tabIndex: this._tabIndex,
-                    //onChange: this.onChangeColorValue.bind(this),
-                    //disabled: this._state.getConnected()
                 }
             ]
         };

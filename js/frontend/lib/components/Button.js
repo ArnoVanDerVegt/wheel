@@ -27,7 +27,8 @@ exports.Button = class extends Component {
                 tabIndex:  this._tabIndex,
                 disabled:  this._disabled ? 'disabled' : '',
                 value:     this._value || '',
-                title:     this._title || ''
+                title:     this._title || '',
+                style:     this._style || {}
             }
         );
     }
@@ -53,6 +54,12 @@ exports.Button = class extends Component {
             this._disabled    = opts.disabled;
             element.disabled  = opts.disabled ? 'disabled' : '';
             element.className = this.getClassName();
+        }
+        if ('x' in opts) {
+            element.style.left = opts.x + 'px';
+        }
+        if ('y' in opts) {
+            element.style.top = opts.y + 'px';
         }
     }
 };

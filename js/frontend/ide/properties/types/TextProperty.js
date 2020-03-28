@@ -5,10 +5,6 @@
 const Property = require('../Property').Property;
 
 exports.TextProperty = class extends Property {
-    constructor(opts) {
-        super(opts);
-    }
-
     initPropertyValue() {
         return {
             className: 'property-value',
@@ -17,7 +13,8 @@ exports.TextProperty = class extends Property {
                     id:        this.setInputElement.bind(this),
                     type:      'input',
                     inputType: 'text',
-                    className: 'text-input'
+                    className: 'text-input',
+                    value:     this._value
                 }
             ]
         };
@@ -27,6 +24,7 @@ exports.TextProperty = class extends Property {
         this._inputElement = element;
         element.addEventListener('focus', this.onFocus.bind(this));
         element.addEventListener('blur',  this.onBlur.bind(this));
+        element.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
     onClick(event) {
@@ -34,5 +32,9 @@ exports.TextProperty = class extends Property {
             this._inputElement.focus(this);
             this._properties.focusProperty(this);
         }
+    }
+
+    onKeyUp(event) {
+        this._onChange && this._onChange(this._inputElement.value);
     }
 };

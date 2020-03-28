@@ -44,6 +44,7 @@ exports.Component = class extends DOMNode {
         this._disabled      = opts.disabled;
         this._hidden        = ('hidden' in opts) ? opts.hidden : false;
         this._color         = ('color'  in opts) ? opts.color  : 'green';
+        this._style         = opts.style || {};
         this._className     = opts.className     || '';
         this._baseClassName = opts.baseClassName || '';
         this._parentNode    = opts.parentNode;
@@ -165,7 +166,7 @@ exports.Component = class extends DOMNode {
 
     onClick(event) {
         if (!this._disabled) {
-            this._onClick  && this._onClick();
+            this._onClick  && this._onClick(event);
             this._dispatch && dispatcher.dispatch(this._dispatch);
         }
     }

@@ -6,10 +6,6 @@ const Checkbox = require('../../../lib/components/Checkbox').Checkbox;
 const Property = require('../Property').Property;
 
 exports.BooleanProperty = class extends Property {
-    constructor(opts) {
-        super(opts);
-    }
-
     initPropertyValue() {
         return {
             className: 'property-value',

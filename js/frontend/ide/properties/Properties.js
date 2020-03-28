@@ -17,8 +17,10 @@ exports.Properties = class extends DOMNode {
         this._opts       = opts;
         this._ui         = opts.ui;
         this._settings   = opts.settings;
+        this._value      = opts.value;
         this._properties = [];
         this.initDOM(opts.parentNode || document.body);
+        dispatcher.on('Properties.Select', this, this.onSelectProperties);
     }
 
     initDOM(parentNode) {
@@ -36,12 +38,13 @@ exports.Properties = class extends DOMNode {
                         simulator: this
                     },
                     {
+                        ref:       this.setRef('propertiesContainer'),
                         className: 'properties-container',
                         children:  [
                             {
                                 className: 'property-separator'
                             }
-                        ].concat(this.initPropertyChildren())
+                        ]
                     }
                 ]
             }
@@ -92,5 +95,58 @@ exports.Properties = class extends DOMNode {
 
     addProperty(property) {
         this._properties.push(property);
+    }
+
+    onSelectProperties(componentType, properties) {
+        let propertiesContainer = this._refs.propertiesContainer;
+        let childNodes          = propertiesContainer.childNodes;
+        while (childNodes.length > 1) {
+            let childNode = childNodes[childNodes.length - 1];
+            childNode.parentNode.removeChild(childNode);
+        }
+        let id = 0;
+        properties.forEach(
+            function(property) {
+                let onChange = function(value) {
+                        dispatcher.dispatch('Properties.Property.Change', componentType, id, property.name, value);
+                    };
+                switch (property.type) {
+                    case 'id':
+                        id = property.value;
+                        break;
+                    case 'string':
+                        new TextProperty({
+                            parentNode: propertiesContainer,
+                            properties: this,
+                            ui:         this._ui,
+                            name:       property.name,
+                            value:      property.value,
+                            onChange:   onChange
+                        });
+                        break;
+                    case 'integer':
+                        new TextProperty({
+                            parentNode: propertiesContainer,
+                            properties: this,
+                            ui:         this._ui,
+                            name:       property.name,
+                            value:      property.value,
+                            onChange:   onChange
+                        });
+                        break;
+                    case 'colorStyle':
+                        new ColorProperty({
+                            parentNode: propertiesContainer,
+                            properties: this,
+                            ui:         this._ui,
+                            name:       property.name,
+                            value:      property.value,
+                            onChange:   onChange
+                        });
+                        break;
+                }
+            },
+            this
+        );
     }
 };

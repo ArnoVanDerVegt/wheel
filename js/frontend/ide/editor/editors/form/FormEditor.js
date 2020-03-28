@@ -4,6 +4,7 @@
 **/
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
 const path            = require('../../../../lib/path');
+const Button          = require('../../../../lib/components/Button').Button;
 const Editor          = require('../Editor').Editor;
 const Clipboard       = require('../Clipboard');
 const ToolbarTop      = require('./toolbar/ToolbarTop').ToolbarTop;
@@ -13,12 +14,16 @@ exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
         this._formEditorState = new FormEditorState(opts);
+        this._elementById     = {};
         this
-            .initDOM(opts.parentNode)
-            .initDispatcher();
+            .initFormEditor()
+            .initDOM(opts.parentNode);
+        dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
     }
 
-    initDispatcher() {
+    initFormEditor() {
+        this._formEditorState.on('AddButton', this, this.onAddButton);
+        return this;
     }
 
     initDOM(parentNode) {
@@ -79,23 +84,51 @@ exports.FormEditor = class extends Editor {
     onDelete() {
     }
 
-    onMouseMove(event) {
+    onClickForm(event) {
         this.onCancelEvent(event);
-    }
-
-    onMouseOut(event) {
-        this.onCancelEvent(event);
-    }
-
-    onMouseDown(event) {
-        this.onCancelEvent(event);
-    }
-
-    onMouseUp(event) {
-        this.onCancelEvent(event);
+        this._formEditorState.addComponent({x: event.offsetX, y: event.offsetY});
     }
 
     onSelectComponent(component) {
+        this._formEditorState.setComponent(component);
+    }
+
+    onChangeProperty(componentType, id, property, value) {
+        let element = this._elementById[id];
+        if (!element) {
+            return;
+        }
+        let opts = {};
+        opts[property] = value;
+        element.onEvent(opts);
+    }
+
+    onAddButton(opts) {
+        let properties = [
+                {type: 'id',         name: null,         value: opts.id},
+                {type: 'string',     name: 'name',       value: opts.name},
+                {type: 'integer',    name: 'tabIndex',   value: opts.id},
+                {type: 'integer',    name: 'x',          value: opts.x},
+                {type: 'integer',    name: 'y',          value: opts.y},
+                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
+                {type: 'string',     name: 'value',      value: opts.value},
+                {type: 'string',     name: 'title',      value: opts.title}
+            ];
+        this._elementById[opts.id] = new Button({
+            parentNode: this._formElement,
+            ui:         this._ui,
+            style: {
+                position: 'absolute',
+                left:     opts.x + 'px',
+                top:      opts.y + 'px'
+            },
+            value: opts.title,
+            onClick: function(event) {
+                event.stopPropagation();
+                dispatcher.dispatch('Properties.Select', 'button', properties);
+            }
+        });
+        dispatcher.dispatch('Properties.Select', 'button', properties);
     }
 
     getCanUndo() {
@@ -128,6 +161,7 @@ exports.FormEditor = class extends Editor {
 
     setFormElement(element) {
         this._formElement = element;
+        element.addEventListener('click', this.onClickForm.bind(this));
         this.setSize();
     }
 
