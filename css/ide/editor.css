@@ -38,6 +38,10 @@
     background-color:               var(--ui-background1);
     overflow:                       hidden;
 }
+.editor .source-wrapper .resource-wrapper .resource-options.top,
+.editor .code-mirror-wrapper .resource-options.top {
+    height:                         48px;
+}
 .editor .source-wrapper .code-mirror-wrapper.with-replace .resource-options.bottom {
     height:                         80px;
 }
@@ -86,6 +90,10 @@
     height:                         42px;
     line-height:                    42px;
     font-size:                      13px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top .label {
+    height:                         48px;
+    line-height:                    48px;
 }
 .editor .source-wrapper .code-mirror-wrapper .resource-options .label.find {
     width:                          56px;
@@ -258,7 +266,7 @@
     float:                          left;
     position:                       relative;
     width:                          100%;
-    height:                         calc(100% - 81px);
+    height:                         calc(100% - 89px);
     overflow:                       scroll;
 }
 .editor .source-wrapper .resource-wrapper .resource-content.hidden {

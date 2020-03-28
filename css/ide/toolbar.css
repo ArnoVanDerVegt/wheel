@@ -17,9 +17,9 @@
 .resource-options input.toolbar-button {
     background-color:               transparent;
     border:                         2px solid transparent;
-    width:                          24px;
-    height:                         24px;
-    border-radius:                  12px;
+    width:                          32px;
+    height:                         32px;
+    border-radius:                  16px;
     box-shadow:                     none;
     transition:                     border-color 0.2s;
 }
@@ -51,23 +51,26 @@
 }
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue.active,
 .resource-options .tool-options-toolbar input.active {
-   position:                        absolute;
+    position:                       absolute;
     left:                           0;
     top:                            0;
- }
+}
+.resource-options.top .tool-options-toolbar input[type="button"].icon-button {
+    margin:                         0 2px 0 0;
+}
 .resource-options .tool-options-toolbar {
     position:                       relative;
     background-color:               transparent;
     border-radius:                  12px;
     box-shadow:                     none;
-    max-width:                      24px;
+    max-width:                      32px;
     transition:                     max-width .5s;
-    height:                         24px;
+    height:                         32px;
     overflow:                       hidden;
 }
 .resource-options .tool-options-toolbar:hover,
 .resource-options .tool-options-toolbar.focus {
-    max-width:                      180px;
+    max-width:                      224px;
 }
 .resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
 .resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active {

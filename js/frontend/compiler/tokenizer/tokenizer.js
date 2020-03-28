@@ -415,7 +415,15 @@
         removeTrailingSpaces(line) {
             let lines = line.split('\n');
             for (let i = 0; i < lines.length; i++) {
-                lines[i] = lines[i].trimEnd();
+                let line = lines[i];
+                if (line.trimEnd) {
+                    lines[i] = line.trimEnd();
+                } else {
+                    while (line.length && line[line.length - 1] === ' ') {
+                        line = line.substr(0, line.length - 1);
+                    }
+                    lines[i] = line;
+                }
             }
             return lines.join('\n');
         }
