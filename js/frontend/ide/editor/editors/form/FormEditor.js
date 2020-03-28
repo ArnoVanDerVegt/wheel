@@ -95,6 +95,9 @@ exports.FormEditor = class extends Editor {
         this.onCancelEvent(event);
     }
 
+    onSelectComponent(component) {
+    }
+
     getCanUndo() {
         return false;
     }

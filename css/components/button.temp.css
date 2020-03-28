@@ -436,6 +436,59 @@ body.ide.dark .icon-button.icon-list-detail {
     background-image:               url('images/buttons/listDetailWhite.svg');
     background-position:            0 0;
 }
+
+input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonBlack.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonWhite.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-label {
+    background-image:               url('images/buttons/labelBlack.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-label {
+    background-image:               url('images/buttons/labelWhite.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxBlack.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxWhite.svg');
+    background-position:            2px 5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsBlack.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsWhite.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+
+
 input[type="button"].icon-button.icon-copy,
 input[type="button"].icon-button.icon-copy.in-active,
 input[type="button"].icon-button.icon-play {

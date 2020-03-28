@@ -67,6 +67,20 @@ exports.ToolbarTop = class extends Toolbar {
                         title:     'Delete',
                         disabled:  true,
                         onClick:   formEditor.onDelete.bind(formEditor)
+                    }),
+                    this.addToolOptions({
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        label:         'Component:',
+                        baseClassName: 'tool-options-toolbar',
+                        onSelect:      formEditor.onSelectComponent.bind(formEditor),
+                        options: [
+                            {title: 'Button',        icon: 'icon-btn'},
+                            {title: 'Select button', icon: 'icon-select-btn'},
+                            {title: 'Label',         icon: 'icon-label'},
+                            {title: 'Checkbox',      icon: 'icon-checkbox'},
+                            {title: 'Tabs',          icon: 'icon-tabs'}
+                        ]
                     })
                 ]
             }

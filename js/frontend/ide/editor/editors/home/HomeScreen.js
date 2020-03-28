@@ -93,10 +93,18 @@ exports.HomeScreen = class extends DOMNode {
                             }),
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/rgf.svg'),
-                                title:    'New image &raquo;',
+                                title:    'New image EV3 &raquo;',
                                 tabIndex: tabIndex.HOME_SCREEN + 3,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
+                                }
+                            }),
+                            this.addHomeScreenTile({
+                                icon:     getImage('images/files/form.svg'),
+                                title:    'New form &raquo;',
+                                tabIndex: tabIndex.HOME_SCREEN + 3,
+                                onClick: function() {
+                                    dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
                                 }
                             }),
                             {
