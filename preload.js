@@ -294,6 +294,7 @@ require('./js/frontend/ide/editor/editors/sound/SoundLoader');
 require('./js/frontend/ide/editor/editors/sound/SoundEditorState');
 require('./js/frontend/ide/editor/editors/sound/SoundEditor');
 require('./js/frontend/ide/editor/editors/form/toolbar/ToolbarTop');
+require('./js/frontend/ide/editor/editors/form/FormComponent');
 require('./js/frontend/ide/editor/editors/form/FormEditorState');
 require('./js/frontend/ide/editor/editors/form/FormEditor');
 require('./js/frontend/ide/editor/Editors');

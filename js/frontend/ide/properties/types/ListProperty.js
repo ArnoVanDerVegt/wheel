@@ -32,7 +32,7 @@ class ListItem extends DOMNode {
             className: 'list-item-button ' + (opts.className || ''),
             innerHTML: opts.title
         };
-    };
+    }
 
     initDOM(parentNode) {
         this.create(

@@ -53,6 +53,10 @@ exports.FormEditorState = class extends Emitter {
         this._mouseDown = mouseDown;
     }
 
+    getComponentById(id) {
+        return this._componentsById[id];
+    }
+
     undoStackPop() {
         return this._undoStack.pop();
     }

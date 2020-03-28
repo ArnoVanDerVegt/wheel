@@ -300,6 +300,7 @@
 }
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
     background-color:               #FFFFFF;
+    overflow:                       hidden;
 }
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
     background-color:               var(--ui-background1);

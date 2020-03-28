@@ -14,13 +14,16 @@ const ListProperty      = require('./types/ListProperty').ListProperty;
 exports.Properties = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts       = opts;
-        this._ui         = opts.ui;
-        this._settings   = opts.settings;
-        this._value      = opts.value;
-        this._properties = [];
+        this._opts           = opts;
+        this._ui             = opts.ui;
+        this._settings       = opts.settings;
+        this._value          = opts.value;
+        this._properties     = [];
+        this._propertyByName = {};
         this.initDOM(opts.parentNode || document.body);
-        dispatcher.on('Properties.Select', this, this.onSelectProperties);
+        dispatcher
+            .on('Properties.Select',         this, this.onSelectProperties)
+            .on('Properties.ChangePosition', this, this.onChangePosition);
     }
 
     initDOM(parentNode) {
@@ -104,7 +107,8 @@ exports.Properties = class extends DOMNode {
             let childNode = childNodes[childNodes.length - 1];
             childNode.parentNode.removeChild(childNode);
         }
-        let id = 0;
+        let id             = 0;
+        let propertyByName = {};
         properties.forEach(
             function(property) {
                 let onChange = function(value) {
@@ -115,7 +119,7 @@ exports.Properties = class extends DOMNode {
                         id = property.value;
                         break;
                     case 'string':
-                        new TextProperty({
+                        propertyByName[property.name] = new TextProperty({
                             parentNode: propertiesContainer,
                             properties: this,
                             ui:         this._ui,
@@ -125,7 +129,7 @@ exports.Properties = class extends DOMNode {
                         });
                         break;
                     case 'integer':
-                        new TextProperty({
+                        propertyByName[property.name] = new TextProperty({
                             parentNode: propertiesContainer,
                             properties: this,
                             ui:         this._ui,
@@ -135,7 +139,7 @@ exports.Properties = class extends DOMNode {
                         });
                         break;
                     case 'colorStyle':
-                        new ColorProperty({
+                        propertyByName[property.name] = new ColorProperty({
                             parentNode: propertiesContainer,
                             properties: this,
                             ui:         this._ui,
@@ -148,5 +152,15 @@ exports.Properties = class extends DOMNode {
             },
             this
         );
+        this._propertyByName = propertyByName;
+    }
+
+    onChangePosition(position) {
+        if (this._propertyByName.x) {
+            this._propertyByName.x.setValue(position.x);
+        }
+        if (this._propertyByName.y) {
+            this._propertyByName.y.setValue(position.y);
+        }
     }
 };

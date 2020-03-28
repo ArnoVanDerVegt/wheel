@@ -132,6 +132,12 @@ exports.Component = class extends DOMNode {
         return this;
     }
 
+    setTitle(title) {
+        this._title         = title;
+        this._element.title = title;
+        return this;
+    }
+
     remove() {
         (typeof this._onGlobalUIId === 'function') && this._onGlobalUIId();
     }

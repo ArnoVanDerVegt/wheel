@@ -27,6 +27,10 @@ exports.TextProperty = class extends Property {
         element.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
+    setValue(value) {
+        this._inputElement.value = value;
+    }
+
     onClick(event) {
         if (event.target.nodeName !== 'INPUT') {
             this._inputElement.focus(this);

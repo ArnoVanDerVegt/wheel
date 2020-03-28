@@ -41,14 +41,11 @@ exports.Button = class extends Component {
         if ('hidden' in opts) {
             this.setHidden(opts.hidden);
         }
-        let inputElement = this._inputElement;
         if ('value' in opts) {
             this.setValue(opts.value);
         }
         if ('title' in opts) {
             this.setTitle(opts.title);
-            this._title        = opts.title;
-            inputElement.title = opts.title;
         }
         if ('disabled' in opts) {
             this._disabled    = opts.disabled;
@@ -60,6 +57,9 @@ exports.Button = class extends Component {
         }
         if ('y' in opts) {
             element.style.top = opts.y + 'px';
+        }
+        if ('pointerEvents' in opts) {
+            element.style.pointerEvents = opts.pointerEvents;
         }
     }
 };

@@ -52,6 +52,9 @@ exports.Property = class extends DOMNode {
         this._propertyElement.addEventListener('click', this.onClick.bind(this));
     }
 
+    setValue(value) {
+    }
+
     onClick() {
     }
 

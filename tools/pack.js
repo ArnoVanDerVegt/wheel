@@ -367,6 +367,7 @@ const files = [
         './js/frontend/ide/editor/editors/sound/SoundEditorState',
         './js/frontend/ide/editor/editors/sound/SoundEditor',
         './js/frontend/ide/editor/editors/form/toolbar/ToolbarTop',
+        './js/frontend/ide/editor/editors/form/FormComponent',
         './js/frontend/ide/editor/editors/form/FormEditorState',
         './js/frontend/ide/editor/editors/form/FormEditor',
         './js/frontend/ide/editor/Editors',
