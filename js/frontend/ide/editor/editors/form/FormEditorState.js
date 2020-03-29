@@ -5,6 +5,9 @@
 const dispatcher              = require('../../../../lib/dispatcher').dispatcher;
 const Emitter                 = require('../../../../lib/Emitter').Emitter;
 
+const TOOL_COMPONENT          = 0;
+const TOOL_MOVE               = 1;
+
 const COMPONENT_BUTTON        = 0;
 const COMPONENT_SELECT_BUTTON = 1;
 const COMPONENT_LABEL         = 2;
@@ -70,7 +73,8 @@ exports.FormEditorState = class extends Emitter {
                 tabIndex: 0,
                 id:       this.getNextId(),
                 x:        opts.x,
-                y:        opts.y
+                y:        opts.y,
+                owner:    opts.owner
             };
         this._componentsById[component.id] = component;
         switch (this._component) {
@@ -93,10 +97,17 @@ exports.FormEditorState = class extends Emitter {
                 this.emit('AddLabel', component);
                 break;
             case COMPONENT_CHECKBOX:
-                component.name    = 'Label' + component.id;
-                component.text    = 'Label' + component.id;
+                component.name    = 'Checkbox' + component.id;
+                component.text    = 'Checkbox' + component.id;
                 component.checked = false;
                 this.emit('AddCheckbox', component);
+                break;
+            case COMPONENT_TABS:
+                component.name    = 'Tabs' + component.id;
+                component.tabs    = ['A', 'B'];
+                component.width   = 200;
+                component.height  = 128;
+                this.emit('AddTabs', component);
                 break;
         }
     }

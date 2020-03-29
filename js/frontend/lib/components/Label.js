@@ -16,6 +16,7 @@ exports.Label = class extends Component {
         this.create(
             parentNode,
             {
+                className: 'label',
                 id:        this.setElement.bind(this),
                 innerHTML: this._text,
                 style:     this._style || {}

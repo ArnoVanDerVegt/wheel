@@ -298,10 +298,6 @@
     border:                         var(--ui-border1);
     cursor:                         crosshair;
 }
-.editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
-    background-color:               #FFFFFF;
-    overflow:                       hidden;
-}
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
     background-color:               var(--ui-background1);
 }
@@ -414,4 +410,21 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 .simulator .tool-options {
     float:                          right;
     margin:                         8px 4px 0 0;
+}
+
+/* Form editor */
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
+    background-color:               #FFFFFF;
+    overflow:                       hidden;
+    cursor:                         default;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .button,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label .checkbox,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels {
+    cursor:                         move;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels .tab-panel {
+    cursor:                         default;
 }

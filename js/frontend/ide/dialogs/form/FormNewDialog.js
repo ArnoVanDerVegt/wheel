@@ -17,10 +17,10 @@ exports.FormNewDialog = class extends ImageNewDialog {
         super.show();
         let refs = this._refs;
         refs.width
-            .setValue(256)
+            .setValue(400)
             .setClassName('');
         refs.height
-            .setValue(256)
+            .setValue(320)
             .setClassName('');
     }
 

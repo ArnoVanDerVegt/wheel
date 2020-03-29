@@ -77,6 +77,10 @@ exports.FormEditor = class extends Editor {
     onDelete() {
     }
 
+    onSelectTool(tool) {
+        this._formEditorState.setTool(tool);
+    }
+
     onSelectComponent(component) {
         this._formEditorState.setComponent(component);
     }
