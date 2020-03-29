@@ -153,7 +153,7 @@ exports.Tabs = class extends DOMNode {
         super(opts);
         this._ui             = opts.ui;
         this._tabs           = [];
-        this._active         = opts.active;
+        this._active         = opts.active || 0;
         this._activeTab      = null;
         this._tabIndex       = opts.tabIndex;
         this._wrapperElement = null;

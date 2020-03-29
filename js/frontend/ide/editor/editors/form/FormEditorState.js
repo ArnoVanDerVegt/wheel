@@ -5,9 +5,6 @@
 const dispatcher              = require('../../../../lib/dispatcher').dispatcher;
 const Emitter                 = require('../../../../lib/Emitter').Emitter;
 
-const TOOL_COMPONENT          = 0;
-const TOOL_MOVE               = 1;
-
 const COMPONENT_BUTTON        = 0;
 const COMPONENT_SELECT_BUTTON = 1;
 const COMPONENT_LABEL         = 2;

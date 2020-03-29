@@ -151,14 +151,15 @@ exports.FormComponentContainer = class extends DOMNode {
             owner:                opts.owner,
             componentConstructor: Button,
             properties: [
-                {type: 'id',      name: null,       value: opts.id},
-                {type: 'string',  name: 'name',     value: opts.name},
-                {type: 'integer', name: 'tabIndex', value: opts.id},
-                {type: 'integer', name: 'x',        value: opts.x},
-                {type: 'integer', name: 'y',        value: opts.y},
-                {type: 'color',   name: 'color',    value: opts.color},
-                {type: 'string',  name: 'value',    value: opts.value},
-                {type: 'string',  name: 'title',    value: opts.title}
+                {type: 'id',       name: null,       value: opts.id},
+                {type: 'parentId', name: null,       value: opts.parentId},
+                {type: 'string',   name: 'name',     value: opts.name},
+                {type: 'integer',  name: 'tabIndex', value: opts.id},
+                {type: 'integer',  name: 'x',        value: opts.x},
+                {type: 'integer',  name: 'y',        value: opts.y},
+                {type: 'color',    name: 'color',    value: opts.color},
+                {type: 'string',   name: 'value',    value: opts.value},
+                {type: 'string',   name: 'title',    value: opts.title}
             ]
         });
     }
@@ -170,6 +171,7 @@ exports.FormComponentContainer = class extends DOMNode {
             componentConstructor: ToolOptions,
             properties: [
                 {type: 'id',         name: null,       value: opts.id},
+                {type: 'parentId',   name: null,       value: opts.parentId},
                 {type: 'string',     name: 'name',     value: opts.name},
                 {type: 'integer',    name: 'tabIndex', value: opts.id},
                 {type: 'integer',    name: 'x',        value: opts.x},
@@ -186,12 +188,13 @@ exports.FormComponentContainer = class extends DOMNode {
             owner:                opts.owner,
             componentConstructor: Label,
             properties: [
-                {type: 'id',      name: null,       value: opts.id},
-                {type: 'string',  name: 'name',     value: opts.name},
-                {type: 'integer', name: 'tabIndex', value: opts.id},
-                {type: 'integer', name: 'x',        value: opts.x},
-                {type: 'integer', name: 'y',        value: opts.y},
-                {type: 'string',  name: 'text',     value: opts.text}
+                {type: 'id',       name: null,       value: opts.id},
+                {type: 'parentId', name: null,       value: opts.parentId},
+                {type: 'string',   name: 'name',     value: opts.name},
+                {type: 'integer',  name: 'tabIndex', value: opts.id},
+                {type: 'integer',  name: 'x',        value: opts.x},
+                {type: 'integer',  name: 'y',        value: opts.y},
+                {type: 'string',   name: 'text',     value: opts.text}
             ]
         });
     }
@@ -202,13 +205,14 @@ exports.FormComponentContainer = class extends DOMNode {
             owner:                opts.owner,
             componentConstructor: CheckboxAndLabel,
             properties: [
-                {type: 'id',      name: null,       value: opts.id},
-                {type: 'string',  name: 'name',     value: opts.name},
-                {type: 'integer', name: 'tabIndex', value: opts.id},
-                {type: 'integer', name: 'x',        value: opts.x},
-                {type: 'integer', name: 'y',        value: opts.y},
-                {type: 'string',  name: 'text',     value: opts.text},
-                {type: 'boolean', name: 'checked',  value: opts.checked}
+                {type: 'id',       name: null,       value: opts.id},
+                {type: 'parentId', name: null,       value: opts.parentId},
+                {type: 'string',   name: 'name',     value: opts.name},
+                {type: 'integer',  name: 'tabIndex', value: opts.id},
+                {type: 'integer',  name: 'x',        value: opts.x},
+                {type: 'integer',  name: 'y',        value: opts.y},
+                {type: 'string',   name: 'text',     value: opts.text},
+                {type: 'boolean',  name: 'checked',  value: opts.checked}
             ]
         });
     }
@@ -225,6 +229,7 @@ exports.FormComponentContainer = class extends DOMNode {
             },
             properties: [
                 {type: 'id',         name: null,       value: opts.id},
+                {type: 'parentId',   name: null,       value: opts.parentId},
                 {type: 'string',     name: 'name',     value: opts.name},
                 {type: 'integer',    name: 'tabIndex', value: opts.id},
                 {type: 'integer',    name: 'x',        value: opts.x},
@@ -262,6 +267,7 @@ exports.FormComponentContainer = class extends DOMNode {
             this.onComponentMouseDown(event, element, opts.id, opts.type, opts.properties);
         }).bind(this);
         opts.parentNode            = this._formElement;
+        opts.parentId              = 0;
         opts.ui                    = this._ui;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;

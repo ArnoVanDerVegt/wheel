@@ -470,12 +470,12 @@ body.ide.dark input[type="button"].icon-button.icon-select-btn {
 }
 input[type="button"].icon-button.icon-label {
     background-image:               url('images/buttons/labelBlack.svg');
-    background-position:            2px 5px;
+    background-position:            3px 5px;
     background-size:                24px 24px;
 }
 body.ide.dark input[type="button"].icon-button.icon-label {
     background-image:               url('images/buttons/labelWhite.svg');
-    background-position:            2px 5px;
+    background-position:            3px 5px;
     background-size:                24px 24px;
 }
 input[type="button"].icon-button.icon-checkbox {

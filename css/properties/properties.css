@@ -29,11 +29,13 @@ body.ide.no-properties div.properties {
 .properties .properties-container {
     position:                       absolute;
     left:                           0;
-    top:                            40px;
+    top:                            calc(40px + 47px);
     width:                          100%;
-    height:                         calc(100% - 56px);
+    height:                         calc(100% - 56px - 47px);
     overflow:                       hidden;
     overflow-y:                     scroll;
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 0 0;
 }
 .properties .properties-container .property-separator {
     position:                       absolute;
