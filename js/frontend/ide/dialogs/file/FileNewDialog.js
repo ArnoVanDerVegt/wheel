@@ -100,7 +100,6 @@ exports.FileNewDialog = class extends Dialog {
 
     onApply() {
         if (!this.validate()) {
-            console.log('not valid');
             return;
         }
         let filename = (this._activeDirectory ? this._activeDirectory + '/' : '') + this._filename;

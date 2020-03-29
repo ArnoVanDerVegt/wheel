@@ -12,24 +12,30 @@ exports.ColorProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
-                    type:    IconSelect,
-                    ref:     this.setRef('colorList'),
-                    ui:      this._ui,
-                    onFocus: this.onFocus.bind(this),
-                    onBlur:  this.onBlur.bind(this),
+                    type:     IconSelect,
+                    ref:      this.setRef('colorList'),
+                    ui:       this._ui,
+                    value:    this._value,
+                    onChange: this.onChange.bind(this),
+                    onFocus:  this.onFocus.bind(this),
+                    onBlur:   this.onBlur.bind(this),
                     options: [
-                        {value: 0, icon: getImage('images/constants/colorNone.svg')},
-                        {value: 1, icon: getImage('images/constants/colorBlack.svg')},
-                        {value: 2, icon: getImage('images/constants/colorBlue.svg')},
-                        {value: 3, icon: getImage('images/constants/colorGreen.svg')},
-                        {value: 4, icon: getImage('images/constants/colorYellow.svg')},
-                        {value: 5, icon: getImage('images/constants/colorRed.svg')},
-                        {value: 6, icon: getImage('images/constants/colorWhite.svg')},
-                        {value: 7, icon: getImage('images/constants/colorBrown.svg')}
+                        {value: 'blue',  icon: getImage('images/constants/colorBlue.svg')},
+                        {value: 'green', icon: getImage('images/constants/colorGreen.svg')}
                     ]
                 }
             ]
         };
+    }
+
+    setValue(value) {
+        this._value = value;
+        this._refs.colorList.setValue(value);
+    }
+
+    onChange(value) {
+        this._value = value;
+        this._onChange && this._onChange(value);
     }
 
     onClick(event) {

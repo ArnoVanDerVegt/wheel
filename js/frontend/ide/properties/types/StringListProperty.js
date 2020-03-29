@@ -108,6 +108,7 @@ class ListItem extends DOMNode {
     onKeyUp(event) {
         this._title                = event.target.value;
         this._refs.title.innerHTML = this._title;
+        this._list.onChange();
     }
 
     onClick(event) {
@@ -128,7 +129,7 @@ class ListItem extends DOMNode {
     }
 }
 
-exports.ListProperty = class extends Property {
+exports.StringListProperty = class extends Property {
     constructor(opts) {
         super(opts);
         this._focus = false;
@@ -165,16 +166,23 @@ exports.ListProperty = class extends Property {
         };
     }
 
-    initListItem(index) {
+    initListItem(index, value) {
         return {
             list:  this,
             type:  ListItem,
-            title: 'Title' + index,
+            title: value,
             index: index
         };
     }
 
     initPropertyName() {
+        let children = [];
+        this._value.forEach(
+            function(value, index) {
+                children.push(this.initListItem(index, value));
+            },
+            this
+        );
         return {
             ref:       this.setRef('name'),
             className: 'property-name',
@@ -183,11 +191,7 @@ exports.ListProperty = class extends Property {
                 {
                     ref:       this.setRef('listContent'),
                     className: 'list-content',
-                    children: [
-                        this.initListItem(0),
-                        this.initListItem(1),
-                        this.initListItem(2)
-                    ]
+                    children:  children
                 }
             ]
         };
@@ -262,10 +266,13 @@ exports.ListProperty = class extends Property {
 
     onClickAdd() {
         this.setActiveItem(null);
+        let index = this._items.length;
+        let title = 'New(' + index + ')';
         this.create(
             this._refs.listContent,
-            this.initListItem(this._items.length)
+            this.initListItem(index, title)
         );
+        this.onChange();
     }
 
     onClickInput(event) {
@@ -274,5 +281,13 @@ exports.ListProperty = class extends Property {
 
     onClick(event) {
         this.setFocus(true);
+    }
+
+    onChange() {
+        let value = [];
+        this._items.forEach(function(item) {
+            value.push(item.getTitle());
+        });
+        this._onChange(value);
     }
 };

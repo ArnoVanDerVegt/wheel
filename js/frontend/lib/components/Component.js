@@ -89,6 +89,11 @@ exports.Component = class extends DOMNode {
         return this;
     }
 
+    setColor(color) {
+        this._color             = color;
+        this._element.className = this.getClassName();
+    }
+
     setDisabled(disabled) {
         this._element.disabled  = disabled ? 'disabled' : '';
         this._disabled          = disabled;

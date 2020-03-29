@@ -33,10 +33,18 @@ exports.Button = class extends Component {
         );
     }
 
+    remove() {
+        super.remove();
+        this._element.parentNode.removeChild(this._element);
+    }
+
     onEvent(opts) {
         let element = this._element;
         if ('className' in opts) {
             this.setClassName(opts.className);
+        }
+        if ('color' in opts) {
+            this.setColor(opts.color);
         }
         if ('hidden' in opts) {
             this.setHidden(opts.hidden);

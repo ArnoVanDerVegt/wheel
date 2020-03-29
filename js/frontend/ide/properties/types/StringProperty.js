@@ -4,7 +4,7 @@
 **/
 const Property = require('../Property').Property;
 
-exports.TextProperty = class extends Property {
+exports.StringProperty = class extends Property {
     initPropertyValue() {
         return {
             className: 'property-value',

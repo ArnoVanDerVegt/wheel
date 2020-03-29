@@ -67,24 +67,30 @@ exports.FormEditorState = class extends Emitter {
 
     addComponent(opts) {
         let component = {
-                id: this.getNextId(),
-                x:  opts.x,
-                y:  opts.y
+                tabIndex: 0,
+                id:       this.getNextId(),
+                x:        opts.x,
+                y:        opts.y
             };
         this._componentsById[component.id] = component;
         switch (this._component) {
             case COMPONENT_BUTTON:
-                component.name       = 'Button' + component.id;
-                component.value      = 'Button' + component.id;
-                component.title      = 'Button' + component.id;
-                component.colorStyle = 'green';
+                component.name    = 'Button' + component.id;
+                component.value   = 'Button' + component.id;
+                component.title   = 'Button' + component.id;
+                component.color   = 'green';
                 this.emit('AddButton', component);
                 break;
             case COMPONENT_SELECT_BUTTON:
-                component.name       = 'SelectButton' + component.id;
-                component.options    = ['A', 'B'];
-                component.colorStyle = 'green';
+                component.name    = 'SelectButton' + component.id;
+                component.options = ['A', 'B'];
+                component.color   = 'green';
                 this.emit('AddSelectButton', component);
+                break;
+            case COMPONENT_LABEL:
+                component.name    = 'Label' + component.id;
+                component.text    = 'Label' + component.id;
+                this.emit('AddLabel', component);
                 break;
         }
     }

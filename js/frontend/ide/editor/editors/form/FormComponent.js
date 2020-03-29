@@ -4,6 +4,7 @@
 **/
 const Button      = require('../../../../lib/components/Button').Button;
 const ToolOptions = require('../../../../lib/components/ToolOptions').ToolOptions;
+const Label       = require('../../../../lib/components/Label').Label;
 const dispatcher  = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../../../lib/dom').DOMNode;
 
@@ -22,6 +23,7 @@ exports.FormComponent = class extends DOMNode {
         this._formEditorState = opts.formEditorState;
         this._formEditorState.on('AddButton',       this, this.onAddButton);
         this._formEditorState.on('AddSelectButton', this, this.onAddSelectButton);
+        this._formEditorState.on('AddLabel',        this, this.onAddLabel);
         this.initDOM(opts.parentNode);
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
@@ -133,49 +135,22 @@ exports.FormComponent = class extends DOMNode {
         this._mouseOffsetY = offsetY;
         this._mouseElement = element;
         event.stopPropagation();
-        dispatcher.dispatch('Properties.Select', type, properties);
+        dispatcher.dispatch('Properties.Select', type, properties, this._formEditorState);
     }
 
     onAddButton(opts) {
         this.addElement({
             type:                 'button',
             componentConstructor: Button,
-            id:                   opts.id,
-            x:                    opts.x,
-            y:                    opts.y,
-            value:                opts.value,
-            title:                opts.title,
             properties: [
-                {type: 'id',         name: null,         value: opts.id},
-                {type: 'string',     name: 'name',       value: opts.name},
-                {type: 'integer',    name: 'tabIndex',   value: opts.id},
-                {type: 'integer',    name: 'x',          value: opts.x},
-                {type: 'integer',    name: 'y',          value: opts.y},
-                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
-                {type: 'string',     name: 'value',      value: opts.value},
-                {type: 'string',     name: 'title',      value: opts.title}
-            ]
-        });
-    }
-
-    onAddButton(opts) {
-        this.addElement({
-            type:                 'button',
-            componentConstructor: Button,
-            id:                   opts.id,
-            x:                    opts.x,
-            y:                    opts.y,
-            value:                opts.value,
-            title:                opts.title,
-            properties: [
-                {type: 'id',         name: null,         value: opts.id},
-                {type: 'string',     name: 'name',       value: opts.name},
-                {type: 'integer',    name: 'tabIndex',   value: opts.id},
-                {type: 'integer',    name: 'x',          value: opts.x},
-                {type: 'integer',    name: 'y',          value: opts.y},
-                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
-                {type: 'string',     name: 'value',      value: opts.value},
-                {type: 'string',     name: 'title',      value: opts.title}
+                {type: 'id',      name: null,       value: opts.id},
+                {type: 'string',  name: 'name',     value: opts.name},
+                {type: 'integer', name: 'tabIndex', value: opts.id},
+                {type: 'integer', name: 'x',        value: opts.x},
+                {type: 'integer', name: 'y',        value: opts.y},
+                {type: 'color',   name: 'color',    value: opts.color},
+                {type: 'string',  name: 'value',    value: opts.value},
+                {type: 'string',  name: 'title',    value: opts.title}
             ]
         });
     }
@@ -184,24 +159,42 @@ exports.FormComponent = class extends DOMNode {
         this.addElement({
             type:                 'selectButton',
             componentConstructor: ToolOptions,
-            id:                   opts.id,
-            x:                    opts.x,
-            y:                    opts.y,
-            options:              [{value: opts.options[0]}, {value: opts.options[1]}],
             properties: [
-                {type: 'id',         name: null,         value: opts.id},
-                {type: 'string',     name: 'name',       value: opts.name},
-                {type: 'integer',    name: 'tabIndex',   value: opts.id},
-                {type: 'integer',    name: 'x',          value: opts.x},
-                {type: 'integer',    name: 'y',          value: opts.y},
-                {type: 'colorStyle', name: 'colorStyle', value: opts.colorStyle},
-                {type: 'options',    name: 'buttons',    value: [{value: opts.options[0]}, {value: opts.options[1]}]}
+                {type: 'id',         name: null,       value: opts.id},
+                {type: 'string',     name: 'name',     value: opts.name},
+                {type: 'integer',    name: 'tabIndex', value: opts.id},
+                {type: 'integer',    name: 'x',        value: opts.x},
+                {type: 'integer',    name: 'y',        value: opts.y},
+                {type: 'color',      name: 'color',    value: opts.color},
+                {type: 'stringList', name: 'options',  value: opts.options}
+            ]
+        });
+    }
+
+    onAddLabel(opts) {
+        this.addElement({
+            type:                 'label',
+            componentConstructor: Label,
+            properties: [
+                {type: 'id',      name: null,       value: opts.id},
+                {type: 'string',  name: 'name',     value: opts.name},
+                {type: 'integer', name: 'tabIndex', value: opts.id},
+                {type: 'integer', name: 'x',        value: opts.x},
+                {type: 'integer', name: 'y',        value: opts.y},
+                {type: 'string',  name: 'text',     value: opts.text}
             ]
         });
     }
 
     addElement(opts) {
         let element;
+        opts.properties.forEach(function(property) {
+            if (property.type === 'id') {
+                opts.id = property.value;
+            } else if (property.name && !(property.name in opts)) {
+                opts[property.name] = property.value;
+            }
+        });
         opts.style = {
             position: 'absolute',
             left:     opts.x + 'px',
@@ -214,6 +207,6 @@ exports.FormComponent = class extends DOMNode {
         opts.ui                    = this._ui;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
-        dispatcher.dispatch('Properties.Select', opts.type, opts.properties);
+        dispatcher.dispatch('Properties.Select', opts.type, opts.properties, this._formEditorState);
     }
 };
