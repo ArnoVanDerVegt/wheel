@@ -99,6 +99,7 @@ exports.Properties = class extends DOMNode {
                         onChange:   onChange
                     };
                 switch (property.type) {
+                    case 'boolean':    propertyConstructor = BooleanProperty;    break;
                     case 'string':     propertyConstructor = StringProperty;     break;
                     case 'stringList': propertyConstructor = StringListProperty; break;
                     case 'integer':    propertyConstructor = StringProperty;     break;

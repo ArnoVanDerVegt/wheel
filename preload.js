@@ -170,6 +170,7 @@ require('./js/frontend/lib/components/CloseButton');
 require('./js/frontend/lib/components/IconSelect');
 require('./js/frontend/lib/components/TextInput');
 require('./js/frontend/lib/components/Checkbox');
+require('./js/frontend/lib/components/CheckboxAndLabel');
 require('./js/frontend/lib/components/Radio');
 require('./js/frontend/lib/components/Slider');
 require('./js/frontend/lib/components/Toolbar');

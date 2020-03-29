@@ -8,7 +8,7 @@ const Emitter                 = require('../../../../lib/Emitter').Emitter;
 const COMPONENT_BUTTON        = 0;
 const COMPONENT_SELECT_BUTTON = 1;
 const COMPONENT_LABEL         = 2;
-const COMPENENT_CHECKBOX      = 3;
+const COMPONENT_CHECKBOX      = 3;
 const COMPONENT_TABS          = 4;
 
 exports.FormEditorState = class extends Emitter {
@@ -91,6 +91,12 @@ exports.FormEditorState = class extends Emitter {
                 component.name    = 'Label' + component.id;
                 component.text    = 'Label' + component.id;
                 this.emit('AddLabel', component);
+                break;
+            case COMPONENT_CHECKBOX:
+                component.name    = 'Label' + component.id;
+                component.text    = 'Label' + component.id;
+                component.checked = false;
+                this.emit('AddCheckbox', component);
                 break;
         }
     }
