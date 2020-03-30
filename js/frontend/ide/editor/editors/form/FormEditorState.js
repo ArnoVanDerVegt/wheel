@@ -24,6 +24,10 @@ exports.FormEditorState = class extends Emitter {
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
     }
 
+    peekId() {
+        return this._nextId + 1;
+    }
+
     getNextId() {
         this._nextId++;
         return this._nextId;
@@ -71,7 +75,8 @@ exports.FormEditorState = class extends Emitter {
                 id:       this.getNextId(),
                 x:        opts.x,
                 y:        opts.y,
-                owner:    opts.owner
+                owner:    opts.owner,
+                parentId: opts.parentId
             };
         this._componentsById[component.id] = component;
         switch (this._component) {
@@ -109,7 +114,7 @@ exports.FormEditorState = class extends Emitter {
         }
     }
 
-    onChangeProperty(componentType, id, property, value) {
+    onChangeProperty(id, property, value) {
         let component = this._componentsById[id];
         if (!component) {
             return;

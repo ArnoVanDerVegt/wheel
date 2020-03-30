@@ -450,22 +450,22 @@ body.ide.dark input[type="button"].icon-button.icon-move {
 }
 input[type="button"].icon-button.icon-btn {
     background-image:               url('images/buttons/buttonBlack.svg');
-    background-position:            2px 5px;
+    background-position:            2px 4.5px;
     background-size:                24px 24px;
 }
 body.ide.dark input[type="button"].icon-button.icon-btn {
     background-image:               url('images/buttons/buttonWhite.svg');
-    background-position:            2px 5px;
+    background-position:            2px 4.5px;
     background-size:                24px 24px;
 }
 input[type="button"].icon-button.icon-select-btn {
     background-image:               url('images/buttons/selectButtonBlack.svg');
-    background-position:            2px 5px;
+    background-position:            2px 4.5px;
     background-size:                24px 24px;
 }
 body.ide.dark input[type="button"].icon-button.icon-select-btn {
     background-image:               url('images/buttons/selectButtonWhite.svg');
-    background-position:            2px 5px;
+    background-position:            2px 4.5px;
     background-size:                24px 24px;
 }
 input[type="button"].icon-button.icon-label {

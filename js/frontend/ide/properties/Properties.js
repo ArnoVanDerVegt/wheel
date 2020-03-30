@@ -74,20 +74,16 @@ exports.Properties = class extends DOMNode {
             let childNode = childNodes[childNodes.length - 1];
             childNode.parentNode.removeChild(childNode);
         }
-        let id = 0;
-        for (let i = 0; i < properties.length; i++) {
-            if (properties[i].type === 'id') {
-                id = properties[i].value;
-                break;
-            }
-        }
-
+        let id             = properties.id;
         let propertyByName = {};
         let component      = formEditorState.getComponentById(id);
         properties.forEach(
             function(property) {
+                if (!property || (property.name === null)) {
+                    return;
+                }
                 let onChange = function(value) {
-                        dispatcher.dispatch('Properties.Property.Change', componentType, id, property.name, value);
+                        dispatcher.dispatch('Properties.Property.Change', id, property.name, value);
                     };
                 let propertyConstructor = null;
                 let opts                = {
