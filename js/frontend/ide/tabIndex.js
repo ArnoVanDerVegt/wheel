@@ -4,7 +4,7 @@
 **/
 // Top bar
 exports.MAIN_MENU                   =    1;
-exports.HELP                        =    8;
+exports.HELP                        =   10;
 
 // File tree
 exports.DELETE_FILE                 =   12;
@@ -73,7 +73,9 @@ exports.VM_VIEWER_SELECT_RTF        = 4257;
 exports.VM_VIEWER_SELECT_AND_COPY   = 4258;
 
 // Above properties
-exports.CLOSE_PROPERTIES_BUTTON     = 4513;
+exports.PROPERTIES_LIST             = 4513;
+
+exports.CLOSE_PROPERTIES_BUTTON     = 4514;
 
 // Above simulator
 exports.SIMULATOR_RUN_BUTTON        = 4513;

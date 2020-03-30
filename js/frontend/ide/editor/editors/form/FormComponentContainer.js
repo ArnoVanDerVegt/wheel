@@ -286,6 +286,7 @@ exports.FormComponentContainer = class extends DOMNode {
         }).bind(this);
         opts.parentNode            = this._formElement;
         opts.ui                    = this._ui;
+        opts.uiId                  = 1;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
         dispatcher.dispatch('Properties.Select', opts.type, opts.properties, this._formEditorState);

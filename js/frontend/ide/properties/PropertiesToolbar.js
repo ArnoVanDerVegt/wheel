@@ -5,6 +5,7 @@
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../lib/dom').DOMNode;
 const CloseButton = require('../../lib/components/CloseButton').CloseButton;
+const Dropdown    = require('../../lib/components/Dropdown').Dropdown;
 const tabIndex    = require('../tabIndex');
 
 exports.PropertiesToolbar = class extends DOMNode {
@@ -27,6 +28,12 @@ exports.PropertiesToolbar = class extends DOMNode {
                         uiId:      1,
                         onClick:   this.onCloseProperties.bind(this),
                         tabIndex:  tabIndex.CLOSE_PROPERTIES_BUTTON
+                    },
+                    {
+                        type:      Dropdown,
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  tabIndex.PROPERTIES_LIST
                     }
                 ]
             }

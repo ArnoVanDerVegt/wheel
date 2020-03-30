@@ -25,6 +25,11 @@ body.ide.no-properties div.properties {
     float:                          right;
     margin:                         8px 8px 0 0;
 }
+.properties .properties-options .dropdown {
+    float:                          left;
+    margin:                         8px 0 0 8px;
+    width:                          calc(100% - 48px);
+}
 /* Properties */
 .properties .properties-container {
     position:                       absolute;

@@ -167,6 +167,7 @@ require('./js/frontend/lib/components/Menu');
 require('./js/frontend/lib/components/Label');
 require('./js/frontend/lib/components/Button');
 require('./js/frontend/lib/components/Resizer');
+require('./js/frontend/lib/components/Dropdown');
 require('./js/frontend/lib/components/CloseButton');
 require('./js/frontend/lib/components/IconSelect');
 require('./js/frontend/lib/components/TextInput');
