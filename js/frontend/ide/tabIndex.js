@@ -4,7 +4,7 @@
 **/
 // Top bar
 exports.MAIN_MENU                   =    1;
-exports.HELP                        =    8;
+exports.HELP                        =   10;
 
 // File tree
 exports.DELETE_FILE                 =   12;
