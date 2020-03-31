@@ -35,14 +35,6 @@ exports.Label = class extends Component {
             this._text              = opts.text;
             this._element.innerHTML = opts.text;
         }
-        if ('x' in opts) {
-            element.style.left = opts.x + 'px';
-        }
-        if ('y' in opts) {
-            element.style.top = opts.y + 'px';
-        }
-        if ('pointerEvents' in opts) {
-            element.style.pointerEvents = opts.pointerEvents;
-        }
+        super.onEvent(opts);
     }
 };

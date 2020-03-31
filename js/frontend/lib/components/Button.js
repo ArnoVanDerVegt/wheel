@@ -43,9 +43,6 @@ exports.Button = class extends Component {
         if ('color' in opts) {
             this.setColor(opts.color);
         }
-        if ('hidden' in opts) {
-            this.setHidden(opts.hidden);
-        }
         if ('value' in opts) {
             this.setValue(opts.value);
         }
@@ -53,18 +50,8 @@ exports.Button = class extends Component {
             this.setTitle(opts.title);
         }
         if ('disabled' in opts) {
-            this._disabled    = opts.disabled;
             element.disabled  = opts.disabled ? 'disabled' : '';
-            element.className = this.getClassName();
         }
-        if ('x' in opts) {
-            element.style.left = opts.x + 'px';
-        }
-        if ('y' in opts) {
-            element.style.top = opts.y + 'px';
-        }
-        if ('pointerEvents' in opts) {
-            element.style.pointerEvents = opts.pointerEvents;
-        }
+        super.onEvent(opts);
     }
 };

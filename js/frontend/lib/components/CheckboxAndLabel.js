@@ -8,6 +8,7 @@ const Checkbox   = require('./Checkbox').Checkbox;
 
 exports.CheckboxAndLabel = class extends Component {
     constructor(opts) {
+        opts.baseClassName = 'checkbox-and-label';
         super(opts);
         this._text    = opts.text;
         this._checked = !!opts.checked;
@@ -20,7 +21,7 @@ exports.CheckboxAndLabel = class extends Component {
             {
                 id:        this.setElement.bind(this),
                 style:     this._style || {},
-                className: 'checkbox-and-label',
+                className: this.getClassName(),
                 children: [
                     {
                         type:    Checkbox,
@@ -43,6 +44,11 @@ exports.CheckboxAndLabel = class extends Component {
         this._element.parentNode.removeChild(this._element);
     }
 
+    setDisabled(disabled) {
+        super.setDisabled(disabled);
+        this._refs.checkbox.setDisabled(disabled);
+    }
+
     onEvent(opts) {
         let element = this._element;
         let refs    = this._refs;
@@ -50,18 +56,10 @@ exports.CheckboxAndLabel = class extends Component {
             this._text          = opts.text;
             refs.text.innerHTML = opts.text;
         }
-        if ('x' in opts) {
-            element.style.left = opts.x + 'px';
-        }
-        if ('y' in opts) {
-            element.style.top = opts.y + 'px';
-        }
-        if ('pointerEvents' in opts) {
-            element.style.pointerEvents = opts.pointerEvents;
-        }
         if ('checked' in opts) {
             this._checked = opts.checked;
             refs.checkbox.setChecked(this._checked);
         }
+        super.onEvent(opts);
     }
 };

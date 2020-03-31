@@ -8,6 +8,7 @@ const Tabs       = require('./Tabs').Tabs;
 
 exports.TabPanel = class extends Component {
     constructor(opts) {
+        opts.baseClassName = 'tab-panels';
         super(opts);
         this._panelConstructor = opts.panelConstructor || 'div';
         this._panelOpts        = opts.panelOpts || {};
@@ -44,7 +45,7 @@ exports.TabPanel = class extends Component {
             {
                 id:        this.setElement.bind(this),
                 style:     style,
-                className: 'tab-panels',
+                className: this.getClassName(),
                 children: [
                     {
                         type:    Tabs,
@@ -83,23 +84,15 @@ exports.TabPanel = class extends Component {
     onEvent(opts) {
         let element = this._element;
         let refs    = this._refs;
-        if ('x' in opts) {
-            element.style.left = opts.x + 'px';
-        }
-        if ('y' in opts) {
-            element.style.top = opts.y + 'px';
-        }
         if ('width' in opts) {
             element.style.width = Math.max(opts.width, 128) + 'px';
         }
         if ('height' in opts) {
             element.style.height = Math.max(opts.height, 80) + 'px';
         }
-        if ('pointerEvents' in opts) {
-            element.style.pointerEvents = opts.pointerEvents;
-        }
         if ('tabs' in opts) {
             this._refs.tabs.setTabs(opts.tabs);
         }
+        super.onEvent(opts);
     }
 };

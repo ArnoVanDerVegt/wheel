@@ -161,6 +161,25 @@ exports.Component = class extends DOMNode {
     }
 
     onEvent(opts) {
+        let element = this._element;
+        if (!element) {
+            return;
+        }
+        if ('hidden' in opts) {
+            this.setHidden(opts.hidden);
+        }
+        if ('disabled' in opts) {
+            this.setDisabled(opts.disabled);
+        }
+        if ('x' in opts) {
+            element.style.left = opts.x + 'px';
+        }
+        if ('y' in opts) {
+            element.style.top = opts.y + 'px';
+        }
+        if ('pointerEvents' in opts) {
+            element.style.pointerEvents = opts.pointerEvents;
+        }
     }
 
     onFocus() {

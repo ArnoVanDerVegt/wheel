@@ -11,18 +11,19 @@ exports.ToolOptions = class extends DOMNode {
         super(opts);
         this._ui            = opts.ui;
         this._uiId          = opts.uiId;
-        this._style         = opts.style || {};
-        this._color         = opts.color || 'blue';
-        this._elements      = [];
         this._tabIndex      = opts.tabIndex;
-        this._tool          = opts.tool || 0;
         this._onMouseDown   = opts.onMouseDown;
         this._onSelect      = opts.onSelect;
         this._parentNode    = opts.parentNode;
         this._options       = opts.options;
         this._label         = opts.label;
+        this._style         = opts.style         || {};
+        this._color         = opts.color         || 'blue';
+        this._disabled      = opts.disabled      || false;
+        this._tool          = opts.tool          || 0;
         this._baseClassName = opts.baseClassName || 'tool-options';
-        this._className     = opts.className || '';
+        this._className     = opts.className     || '';
+        this._elements      = [];
         this.initDOM();
     }
 
@@ -89,6 +90,10 @@ exports.ToolOptions = class extends DOMNode {
         }
     }
 
+    setDisabled(disabled) {
+        console.log('-->', this._elements);
+    }
+
     setOptionElement(element) {
         this._elements.push(element);
     }
@@ -107,25 +112,21 @@ exports.ToolOptions = class extends DOMNode {
             let element  = this._element;
             let children = this.initOptions();
             elements.length = 0;
-            children.forEach(function(button) {
-                button.parentNode = element;
-                new Button(button);
-            });
+            children.forEach(
+                function(button) {
+                    button.parentNode = element;
+                    button.disabled   = this._disabled;
+                    button.color      = this._color;
+                    new Button(button);
+                },
+                this
+            );
         }
     }
 
     onEvent(opts) {
         let element  = this._element;
         let elements = this._elements;
-        if ('x' in opts) {
-            element.style.left = opts.x + 'px';
-        }
-        if ('y' in opts) {
-            element.style.top = opts.y + 'px';
-        }
-        if ('pointerEvents' in opts) {
-            element.style.pointerEvents = opts.pointerEvents;
-        }
         if ('options' in opts) {
             this.setOptions(opts.options);
         }
@@ -134,6 +135,24 @@ exports.ToolOptions = class extends DOMNode {
             elements.forEach(function(element) {
                 element.setColor(opts.color);
             });
+        }
+        if ('disabled' in opts) {
+            this._disabled = opts.disabled;
+            elements.forEach(function(element) {
+                element.setDisabled(opts.disabled);
+            });
+        }
+        if ('hidden' in opts) {
+            element.style.display = opts.hidden ? 'none' : 'block';
+        }
+        if ('x' in opts) {
+            element.style.left = opts.x + 'px';
+        }
+        if ('y' in opts) {
+            element.style.top = opts.y + 'px';
+        }
+        if ('pointerEvents' in opts) {
+            element.style.pointerEvents = opts.pointerEvents;
         }
     }
 

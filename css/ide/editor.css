@@ -414,7 +414,7 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 
 /* Form editor */
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
-    background-color:               #FFFFFF;
+    background-color:               var(--ui-background1);
     overflow:                       hidden;
     cursor:                         default;
 }

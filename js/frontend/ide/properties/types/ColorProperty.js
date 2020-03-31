@@ -20,8 +20,11 @@ exports.ColorProperty = class extends Property {
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
                     options: [
-                        {value: 'blue',  icon: getImage('images/constants/colorBlue.svg')},
-                        {value: 'green', icon: getImage('images/constants/colorGreen.svg')}
+                        {value: 'yellow', icon: getImage('images/constants/colorYellow.svg')},
+                        {value: 'green',  icon: getImage('images/constants/colorGreen.svg')},
+                        {value: 'blue',   icon: getImage('images/constants/colorBlue.svg')},
+                        {value: 'red',    icon: getImage('images/constants/colorRed.svg')},
+                        {value: 'gray',   icon: getImage('images/constants/colorGray.svg')}
                     ]
                 }
             ]
