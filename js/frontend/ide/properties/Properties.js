@@ -67,7 +67,7 @@ exports.Properties = class extends DOMNode {
         this._properties.push(property);
     }
 
-    onSelectProperties(componentType, properties, formEditorState) {
+    onSelectProperties(properties, formEditorState) {
         let propertiesContainer = this._refs.propertiesContainer;
         let childNodes          = propertiesContainer.childNodes;
         while (childNodes.length > 1) {

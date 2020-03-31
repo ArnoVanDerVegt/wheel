@@ -11,9 +11,6 @@ exports.Button = class extends Component {
         this._icon          = opts.icon;
         this._baseClassName = (this._icon ? 'icon-' : ' ') + 'button ' + (this._icon ? this._icon : '');
         this.initDOM(opts.parentNode);
-        if (opts.event) {
-            dispatcher.on(opts.event, this, this.onEvent);
-        }
     }
 
     initDOM(parentNode) {

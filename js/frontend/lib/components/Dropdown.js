@@ -38,22 +38,18 @@ const ListItem = class extends DOMNode {
 
         onMouseDown(event) {
             this.onCancelEvent(event);
-            this._dropdown.setValue(this._value);
+            this._dropdown
+                .setValue(this._value)
+                .dispatchValue();
             setTimeout(this._dropdown.close.bind(this._dropdown), 500);
         }
-    }
+    };
 
 exports.Dropdown = class extends Component {
     constructor(opts) {
         super(opts);
-        this._items = [
-            {title: 'Title(1)', value: 0},
-            {title: 'Title(2)', value: 1},
-            {title: 'Title(3)', value: 2},
-            {title: 'Title(4)', value: 3},
-            {title: 'Title(5)', value: 4},
-            {title: 'Title(6)', value: 5}
-        ];
+        this._items        = opts.items || [];
+        this._value        = null;
         this._itemElements = [];
         this._tabIndex     = opts.tabIndex;
         this.initDOM(opts.parentNode);
@@ -87,7 +83,7 @@ exports.Dropdown = class extends Component {
                         type:      'a',
                         href:      '#',
                         className: 'dropdown-value',
-                        innerHTML: 'Value',
+                        innerHTML: '',
                         tabIndex:  this._tabIndex
                     },
                     {
@@ -114,31 +110,75 @@ exports.Dropdown = class extends Component {
         element.addEventListener('mousedown', this.onMouseDown.bind(this));
         element.addEventListener('mouseup',   this.onMouseUp.bind(this));
         element.addEventListener('click',     this.onClick.bind(this));
+        element.addEventListener('keyup',     this.onKeyUp.bind(this));
     }
 
     setValue(value) {
         let title = '';
+        let found = false;
         this._items.forEach(
             function(item, index) {
                 let active = (item.value === value);
                 this._itemElements[index].setSelected(active);
                 if (active) {
-                    title = item.title;
+                    this._value = item.value;
+                    title       = item.title;
+                    found       = true;
                 }
             },
             this
         );
+        if (!found) {
+            this._value = null;
+        }
         this._valueElement.innerHTML = title;
+        return this;
+    }
+
+    setItems(items) {
+        this._itemElements = [];
+        this._items        = items;
+        let refs = this._refs;
+        let list = refs.list;
+        while (list.childNodes.length) {
+            list.removeChild(list.childNodes[0]);
+        }
+        let children = this.initListItems();
+        children.forEach(
+            function(item) {
+                this.create(refs.list, item);
+            },
+            this
+        );
+        if (items.length) {
+            this.setValue(this._value);
+            if (!this._value) {
+                this.setValue(items[0].value);
+            }
+        } else {
+            this._valueElement.innerHTML = '';
+            this._value                  = null;
+        }
     }
 
     close() {
         this._refs.dropdown.className = 'dropdown';
-        console.log('close');
     }
 
     onFocus(event) {
         this.onCancelEvent(event);
-        this._refs.dropdown.className = 'dropdown focus';
+        if (this._items.length) {
+            this._refs.dropdown.className = 'dropdown focus';
+        }
+    }
+
+    onEvent(opts) {
+        if ('items' in opts) {
+            this.setItems(opts.items);
+        }
+        if ('value' in opts) {
+            this.setValue(opts.value);
+        }
     }
 
     onBlur(event) {
@@ -157,7 +197,63 @@ exports.Dropdown = class extends Component {
     onClick(event) {
         this.onCancelEvent(event);
         this._valueElement.focus();
-        this._refs.dropdown.className = 'dropdown focus';
-        console.log(this._valueElement);
+        if (this._items.length) {
+            this._refs.dropdown.className = 'dropdown focus';
+        }
+    }
+
+    onKeyUp(event) {
+        if (!this._items.length) {
+            return;
+        }
+        let value        = null;
+        let refs         = this._refs;
+        let items        = this._items;
+        let itemElements = this._itemElements;
+        switch (event.keyCode) {
+            case 13: // Enter
+                this.close();
+                break;
+            case 38: // Up
+                for (let i = 1; i < items.length; i++) {
+                    let item = items[i];
+                    if (item.value === this._value) {
+                        value = items[i - 1].value;
+                        break;
+                    }
+                }
+                if (value) {
+                    this
+                        .setValue(value)
+                        .dispatchValue();
+                } else {
+                    this
+                        .setValue(items[0].value)
+                        .dispatchValue();
+                }
+                refs.dropdown.className = 'dropdown focus';
+                break;
+            case 40: // Down
+                for (let i = 0; i < items.length - 1; i++) {
+                    let item = items[i];
+                    if (item.value === this._value) {
+                        value = items[i + 1].value;
+                        break;
+                    }
+                }
+                if (value) {
+                    this
+                        .setValue(value)
+                        .dispatchValue();
+                }
+                refs.dropdown.className = 'dropdown focus';
+                break;
+        }
+    }
+
+    dispatchValue() {
+        if (this._dispatch) {
+            dispatcher.dispatch(this._dispatch, this._value);
+        }
     }
 };

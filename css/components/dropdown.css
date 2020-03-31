@@ -6,6 +6,7 @@
 .dropdown {
     position:                       relative;
     height:                         24px;
+    border-radius:                  2px;
 }
 .dropdown .dropdown-list {
     position:                       absolute;
@@ -34,12 +35,18 @@
     text-decoration:                none;
     outline:                        none;
     border:                         1px solid transparent;
+    border-radius:                  2px;
 }
-.dropdown.focus .dropdown-value {
+.dropdown.focus .dropdown-value,
+.dropdown.focus .dropdown-value:focus {
     border:                         var(--focus-border-dotted);
+}
+.dropdown.focus {
+    border-radius:                  2px 2px 0 0;
 }
 .dropdown.focus .dropdown-list {
     display:                        block;
+    border-radius:                  0 0 2px 2px;
 }
 .dropdown .dropdown-list-item {
     float:                          left;

@@ -33,7 +33,9 @@ exports.PropertiesToolbar = class extends DOMNode {
                         type:      Dropdown,
                         ui:        this._ui,
                         uiId:      1,
-                        tabIndex:  tabIndex.PROPERTIES_LIST
+                        tabIndex:  tabIndex.PROPERTIES_LIST,
+                        event:     'Properties.Components',
+                        dispatch:  'Properties.SelectComponent'
                     }
                 ]
             }

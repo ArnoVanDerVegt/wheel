@@ -11,6 +11,14 @@ const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode          = require('../../../../lib/dom').DOMNode;
 const FormEditorState  = require('./FormEditorState');
 
+const CONSTRUCTOR_BY_TYPE = {
+        button:       Button,
+        selectButton: ToolOptions,
+        label:        Label,
+        checkbox:     CheckboxAndLabel,
+        tabs:         TabPanel
+    };
+
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
@@ -26,12 +34,7 @@ exports.FormComponentContainer = class extends DOMNode {
         this._className       = opts.className;
         this._parentId        = opts.formEditorState.getNextId();
         this._formEditorState = opts.formEditorState;
-        this._formEditorState
-            .on('AddButton',       this, this.onAddButton)
-            .on('AddSelectButton', this, this.onAddSelectButton)
-            .on('AddLabel',        this, this.onAddLabel)
-            .on('AddCheckbox',     this, this.onAddCheckbox)
-            .on('AddTabs',         this, this.onAddTabs);
+        this._formEditorState.on('AddComponent', this, this.onAddComponent);
         this.initDOM(opts.parentNode);
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
@@ -148,115 +151,21 @@ exports.FormComponentContainer = class extends DOMNode {
         this._mouseOffsetY = offsetY;
         this._mouseElement = element;
         event.stopPropagation();
-        dispatcher.dispatch('Properties.Select', type, properties, this._formEditorState);
+        dispatcher
+            .dispatch('Properties.Select', properties, this._formEditorState)
+            .dispatch('Properties.Components', {value: id});
     }
 
-    onAddButton(opts) {
-        this.addElement({
-            type:                 'button',
-            id:                   opts.id,
-            owner:                opts.owner,
-            componentConstructor: Button,
-            properties: [
-                {type: 'type',        name: null},
-                {type: 'id',          name: null},
-                {type: 'parentId',    name: null},
-                {type: 'string',      name: 'name'},
-                {type: 'integer',     name: 'tabIndex'},
-                {type: 'integer',     name: 'x'},
-                {type: 'integer',     name: 'y'},
-                {type: 'color',       name: 'color'},
-                {type: 'string',      name: 'value'},
-                {type: 'string',      name: 'title'}
-            ]
-        });
-    }
-
-    onAddSelectButton(opts) {
-        this.addElement({
-            type:                 'selectButton',
-            id:                   opts.id,
-            owner:                opts.owner,
-            componentConstructor: ToolOptions,
-            properties: [
-                {type: 'type',        name: null},
-                {type: 'id',          name: null},
-                {type: 'parentId',    name: null},
-                {type: 'string',      name: 'name'},
-                {type: 'integer',     name: 'tabIndex'},
-                {type: 'integer',     name: 'x'},
-                {type: 'integer',     name: 'y'},
-                {type: 'color',       name: 'color'},
-                {type: 'stringList',  name: 'options'}
-            ]
-        });
-    }
-
-    onAddLabel(opts) {
-        this.addElement({
-            type:                 'label',
-            id:                   opts.id,
-            owner:                opts.owner,
-            componentConstructor: Label,
-            properties: [
-                {type: 'type',        name: null},
-                {type: 'id',          name: null},
-                {type: 'parentId',    name: null},
-                {type: 'string',      name: 'name'},
-                {type: 'integer',     name: 'tabIndex'},
-                {type: 'integer',     name: 'x'},
-                {type: 'integer',     name: 'y'},
-                {type: 'string',      name: 'text'}
-            ]
-        });
-    }
-
-    onAddCheckbox(opts) {
-        this.addElement({
-            type:                 'checkbox',
-            id:                   opts.id,
-            owner:                opts.owner,
-            componentConstructor: CheckboxAndLabel,
-            properties: [
-                {type: 'type',        name: null},
-                {type: 'id',          name: null},
-                {type: 'parentId',    name: null},
-                {type: 'string',      name: 'name'},
-                {type: 'integer',     name: 'tabIndex'},
-                {type: 'integer',     name: 'x'},
-                {type: 'integer',     name: 'y'},
-                {type: 'string',      name: 'text'},
-                {type: 'boolean',     name: 'checked'}
-            ]
-        });
-    }
-
-    onAddTabs(opts) {
-        this.addElement({
-            type:                 'tabs',
-            id:                   opts.id,
-            containerId:          [this._formEditorState.peekId(), this._formEditorState.peekId() + 1],
-            owner:                opts.owner,
-            componentConstructor: TabPanel,
-            panelConstructor:     exports.FormComponentContainer,
-            panelOpts: {
+    onAddComponent(opts) {
+        opts.componentConstructor = CONSTRUCTOR_BY_TYPE[opts.type];
+        if (opts.type === 'tabs') {
+            opts.panelConstructor = exports.FormComponentContainer;
+            opts.panelOpts        = {
                 formEditorState: this._formEditorState,
                 ui:              this._ui
-            },
-            properties: [
-                {type: 'type',        name: null},
-                {type: 'id',          name: null},
-                {type: 'parentId',    name: null},
-                {type: 'containerId', name: null},
-                {type: 'string',      name: 'name'},
-                {type: 'integer',     name: 'tabIndex'},
-                {type: 'integer',     name: 'x'},
-                {type: 'integer',     name: 'y'},
-                {type: 'integer',     name: 'width'},
-                {type: 'integer',     name: 'height'},
-                {type: 'stringList',  name: 'tabs'}
-            ]
-        });
+            };
+        }
+        this.addElement(opts);
     }
 
     addElement(opts) {
@@ -289,6 +198,6 @@ exports.FormComponentContainer = class extends DOMNode {
         opts.uiId                  = 1;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
-        dispatcher.dispatch('Properties.Select', opts.type, opts.properties, this._formEditorState);
+        dispatcher.dispatch('Properties.Select', opts.properties, this._formEditorState);
     }
 };
