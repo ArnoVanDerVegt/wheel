@@ -2,89 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher                   = require('../../../../lib/dispatcher').dispatcher;
-const Emitter                      = require('../../../../lib/Emitter').Emitter;
-
-const COMPONENT_BUTTON             = 0;
-const COMPONENT_SELECT_BUTTON      = 1;
-const COMPONENT_LABEL              = 2;
-const COMPONENT_CHECKBOX           = 3;
-const COMPONENT_TABS               = 4;
-
-const ACTION_ADD_COMPONENT         = 0;
-const ACTION_DELETE_COMPONENT      = 1;
-const ACTION_TAB_ADD_TAB           = 2;
-const ACTION_TAB_DELETE_TAB        = 3;
-const ACTION_CHANGE_POSITION       = 4;
-const ACTION_CHANGE_PROPERTY       = 5;
-
-const PROPERTIES_BY_TYPE           = {
-        BUTTON: [
-            {type: 'type',        name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'string',      name: 'name'},
-            {type: 'integer',     name: 'tabIndex'},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'boolean',     name: 'disabled'},
-            {type: 'integer',     name: 'x'},
-            {type: 'integer',     name: 'y'},
-            {type: 'color',       name: 'color'},
-            {type: 'string',      name: 'value'},
-            {type: 'string',      name: 'title'}
-        ],
-        SELECT_BUTTON: [
-            {type: 'type',        name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'string',      name: 'name'},
-            {type: 'integer',     name: 'tabIndex'},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'boolean',     name: 'disabled'},
-            {type: 'integer',     name: 'x'},
-            {type: 'integer',     name: 'y'},
-            {type: 'color',       name: 'color'},
-            {type: 'stringList',  name: 'options', options: {sort: true, remove: true}}
-        ],
-        LABEL: [
-            {type: 'type',        name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'string',      name: 'name'},
-            {type: 'integer',     name: 'tabIndex'},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'integer',     name: 'x'},
-            {type: 'integer',     name: 'y'},
-            {type: 'string',      name: 'text'}
-        ],
-        CHECKBOX: [
-            {type: 'type',        name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'string',      name: 'name'},
-            {type: 'integer',     name: 'tabIndex'},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'boolean',     name: 'disabled'},
-            {type: 'integer',     name: 'x'},
-            {type: 'integer',     name: 'y'},
-            {type: 'string',      name: 'text'},
-            {type: 'boolean',     name: 'checked'}
-        ],
-        TABS: [
-            {type: 'type',        name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'containerId', name: null},
-            {type: 'string',      name: 'name'},
-            {type: 'integer',     name: 'tabIndex'},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'integer',     name: 'x'},
-            {type: 'integer',     name: 'y'},
-            {type: 'integer',     name: 'width'},
-            {type: 'integer',     name: 'height'},
-            {type: 'stringList',  name: 'tabs', options: {removeLast: true}}
-        ]
-    };
+const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
+const Emitter             = require('../../../../lib/Emitter').Emitter;
+const formEditorConstants = require('./formEditorConstants');
 
 let nextId = 0;
 
@@ -96,7 +16,7 @@ exports.FormEditorState = class extends Emitter {
         this._width              = opts.width;
         this._height             = opts.height;
         this._undoStack          = [];
-        this._component          = COMPONENT_BUTTON;
+        this._component          = formEditorConstants.COMPONENT_BUTTON;
         this._componentsById     = {};
         this._activeComponentId  = null;
         dispatcher
@@ -133,7 +53,7 @@ exports.FormEditorState = class extends Emitter {
     setComponentPositionById(id, position) {
         let component = this._componentsById[id] || {};
         this.undoStackPush({
-            action:   ACTION_CHANGE_POSITION,
+            action:   formEditorConstants.ACTION_CHANGE_POSITION,
             id:       id,
             position: {x: component.x, y: component.y}
         });
@@ -175,12 +95,12 @@ exports.FormEditorState = class extends Emitter {
         let lastItem  = undoStack.length ? undoStack[undoStack.length - 1] : null;
         if (lastItem) {
             switch (lastItem.action) {
-                case ACTION_CHANGE_POSITION:
+                case formEditorConstants.ACTION_CHANGE_POSITION:
                     if (lastItem.id === item.id) {
                         return this;
                     }
                     break;
-                case ACTION_CHANGE_PROPERTY:
+                case formEditorConstants.ACTION_CHANGE_PROPERTY:
                     if ((lastItem.id === item.id) && (lastItem.property === item.property)) {
                         return this;
                     }
@@ -208,30 +128,30 @@ exports.FormEditorState = class extends Emitter {
                 return component;
             }).bind(this);
         switch (item.action) {
-            case ACTION_ADD_COMPONENT:
+            case formEditorConstants.ACTION_ADD_COMPONENT:
                 this.deleteComponentById(item.id, false);
                 break;
-            case ACTION_DELETE_COMPONENT:
+            case formEditorConstants.ACTION_DELETE_COMPONENT:
                 component = addComponent(item.component);
                 this._activeComponentId = component.id;
                 this
                     .emit('AddComponent', Object.assign({}, component))
                     .updateComponents(component.id);
                 break;
-            case ACTION_CHANGE_POSITION:
+            case formEditorConstants.ACTION_CHANGE_POSITION:
                 component   = componentsById[item.id];
                 component.x = item.position.x;
                 component.y = item.position.y;
                 this.onSelectComponent(item.id);
                 this.emit('ChangePosition', item.id, item.position);
                 break;
-            case ACTION_CHANGE_PROPERTY:
+            case formEditorConstants.ACTION_CHANGE_PROPERTY:
                 component                = componentsById[item.id];
                 component[item.property] = item.value;
                 this.onSelectComponent(item.id);
                 this.emit('ChangeProperty', item.id, item.property, item.value);
                 break;
-            case ACTION_TAB_DELETE_TAB:
+            case formEditorConstants.ACTION_TAB_DELETE_TAB:
                 let parentMap = {};
                 let id        = nextId + 1;
                 item.children.forEach(
@@ -302,7 +222,7 @@ exports.FormEditorState = class extends Emitter {
 
     addButtonComponent(component) {
         component.type       = 'button';
-        component.properties = [].concat(PROPERTIES_BY_TYPE.BUTTON);
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.BUTTON);
         this
             .addProperty(component, 'name',  this.findComponentText('button', 'name', 'Button'))
             .addProperty(component, 'value', component.name)
@@ -312,7 +232,7 @@ exports.FormEditorState = class extends Emitter {
 
     addSelectButton(component) {
         component.type       = 'selectButton';
-        component.properties = [].concat(PROPERTIES_BY_TYPE.SELECT_BUTTON);
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.SELECT_BUTTON);
         this
             .addProperty(component, 'name',    this.findComponentText('selectButton', 'name', 'SelectButton'))
             .addProperty(component, 'options', ['A', 'B'])
@@ -321,7 +241,7 @@ exports.FormEditorState = class extends Emitter {
 
     addLabel(component) {
         component.type       = 'label';
-        component.properties = [].concat(PROPERTIES_BY_TYPE.LABEL);
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.LABEL);
         this
             .addProperty(component, 'name', findComponentText('label', 'name', 'Label'))
             .addProperty(component, 'text', component.name);
@@ -329,7 +249,7 @@ exports.FormEditorState = class extends Emitter {
 
     addCheckBox(component) {
         component.type       = 'checkbox';
-        component.properties = [].concat(PROPERTIES_BY_TYPE.CHECKBOX);
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.CHECKBOX);
         this
             .addProperty(component, 'name',    this.findComponentText('checkbox', 'name', 'Checkbox'))
             .addProperty(component, 'text',    component.name)
@@ -338,7 +258,7 @@ exports.FormEditorState = class extends Emitter {
 
     addTabs(component) {
         component.type       = 'tabs';
-        component.properties = [].concat(PROPERTIES_BY_TYPE.TABS);
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.TABS);
         this
             .addProperty(component, 'name',        this.findComponentText('tabs', 'name', 'Tabs'))
             .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
@@ -358,15 +278,15 @@ exports.FormEditorState = class extends Emitter {
             };
         this._componentsById[component.id] = component;
         switch (this._component) {
-            case COMPONENT_BUTTON:        this.addButtonComponent(component); break;
-            case COMPONENT_SELECT_BUTTON: this.addSelectButton   (component); break;
-            case COMPONENT_LABEL:         this.addLabel          (component); break;
-            case COMPONENT_CHECKBOX:      this.addCheckBox       (component); break;
-            case COMPONENT_TABS:          this.addTabs           (component); break;
+            case formEditorConstants.COMPONENT_BUTTON:        this.addButtonComponent(component); break;
+            case formEditorConstants.COMPONENT_SELECT_BUTTON: this.addSelectButton   (component); break;
+            case formEditorConstants.COMPONENT_LABEL:         this.addLabel          (component); break;
+            case formEditorConstants.COMPONENT_CHECKBOX:      this.addCheckBox       (component); break;
+            case formEditorConstants.COMPONENT_TABS:          this.addTabs           (component); break;
         }
         this._activeComponentId = component.id;
         this
-            .undoStackPush({action: ACTION_ADD_COMPONENT, id: component.id})
+            .undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id})
             .emit('AddComponent', Object.assign({}, component))
             .updateComponents(component.id);
     }
@@ -386,7 +306,7 @@ exports.FormEditorState = class extends Emitter {
         delete componentsById[id];
         this._activeComponentId = null;
         if (saveUndo) {
-            this.undoStackPush({action: ACTION_DELETE_COMPONENT, component: component});
+            this.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
         this.emit('DeleteComponent', id);
         dispatcher.dispatch('Properties.ComponentList', {value: null, items: this.getItems()});
@@ -423,7 +343,7 @@ exports.FormEditorState = class extends Emitter {
         if (value.length > component.tabs.length) {
             component.containerId.push(nextId + 1);
             this.undoStackPush({
-                action: ACTION_TAB_ADD_TAB,
+                action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id
             });
         } else if (value.length < component.tabs.length) {
@@ -431,7 +351,7 @@ exports.FormEditorState = class extends Emitter {
             let children = [];
             findNestedComponents(children, parentId);
             this.undoStackPush({
-                action:   ACTION_TAB_DELETE_TAB,
+                action:   formEditorConstants.ACTION_TAB_DELETE_TAB,
                 id:       component.id,
                 tab:      component.tabs[component.tabs.length - 1],
                 children: children.reverse()
@@ -448,7 +368,7 @@ exports.FormEditorState = class extends Emitter {
             this.changeTabs(component, value);
         } else {
             this.undoStackPush({
-                action:   ACTION_CHANGE_PROPERTY,
+                action:   formEditorConstants.ACTION_CHANGE_PROPERTY,
                 id:       id,
                 property: property,
                 value:    component[property]
@@ -464,7 +384,7 @@ exports.FormEditorState = class extends Emitter {
     onSelectComponent(id) {
         let component = this.selectComponentById(id);
         if (component) {
-            let properties = [].concat(PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
+            let properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
             properties.id = id;
             dispatcher.dispatch('Properties.Select', properties, this);
         }

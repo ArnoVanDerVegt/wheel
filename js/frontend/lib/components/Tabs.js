@@ -261,10 +261,6 @@ exports.Tabs = class extends DOMNode {
         return this._activeTab;
     }
 
-    getActiveTab() {
-        return this._activeTab;
-    }
-
     setActiveTab(title, meta) {
         meta || (meta = '');
         this._tabs.forEach(

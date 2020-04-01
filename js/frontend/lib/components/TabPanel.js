@@ -79,6 +79,9 @@ exports.TabPanel = class extends Component {
         opts.id        = this.addPanel.bind(this);
         opts.className = 'tab-panel';
         this.create(this._element, opts);
+        let active = this._tabs.length - 1;
+        this._refs.tabs.setActiveTab(this._tabs[active], '');
+        this.onClickTab(active);
         return this;
     }
 
@@ -111,7 +114,7 @@ exports.TabPanel = class extends Component {
         if ('tabs' in opts) {
             let tabCount = this._tabs.length;
             this._tabs = opts.tabs;
-            this._refs.tabs.setTabs(opts.tabs);
+            refs.tabs.setTabs(opts.tabs);
             if (opts.tabs.length > tabCount) {
                 this.addTab();
             } else if (opts.tabs.length < tabCount) {
