@@ -269,16 +269,16 @@ exports.FormEditorState = class extends Emitter {
 
     addButtonComponent(component) {
         component.type       = 'button';
-        component.name       = 'Button' + component.id;
-        component.value      = this.findComponentText('button', 'value', 'Button');
-        component.title      = component.value;
+        component.name       = this.findComponentText('button', 'name', 'Button');
+        component.value      = component.name;
+        component.title      = component.name;
         component.color      = 'green';
         component.properties = [].concat(PROPERTIES_BY_TYPE.BUTTON);
     }
 
     addSelectButton(component) {
         component.type       = 'selectButton';
-        component.name       = 'SelectButton' + component.id;
+        component.name       = this.findComponentText('selectButton', 'name', 'SelectButton');
         component.options    = ['A', 'B'];
         component.color      = 'green';
         component.properties = [].concat(PROPERTIES_BY_TYPE.SELECT_BUTTON);
@@ -286,22 +286,22 @@ exports.FormEditorState = class extends Emitter {
 
     addLabel(component) {
         component.type       = 'label';
-        component.name       = 'Label' + component.id;
-        component.text       = this.findComponentText('label', 'text', 'Label');
+        component.name       = this.findComponentText('label', 'name', 'Label');
+        component.text       = component.name;
         component.properties = [].concat(PROPERTIES_BY_TYPE.LABEL);
     }
 
     addCheckBox(component) {
         component.type       = 'checkbox';
-        component.name       = 'Checkbox' + component.id;
-        component.text       = this.findComponentText('checkbox', 'text', 'Checkbox');
+        component.name       = this.findComponentText('checkbox', 'name', 'Checkbox');
+        component.text       = component.name;
         component.checked    = false;
         component.properties = [].concat(PROPERTIES_BY_TYPE.CHECKBOX);
     }
 
     addTabs(component) {
         component.type        = 'tabs';
-        component.name        = 'Tabs' + component.id;
+        component.name        = this.findComponentText('tabs', 'name', 'Tabs');
         component.tabs        = ['Tab(1)', 'Tab(2)'];
         component.width       = 200;
         component.height      = 128;

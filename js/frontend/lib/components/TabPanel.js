@@ -117,6 +117,7 @@ exports.TabPanel = class extends Component {
             } else if (opts.tabs.length < tabCount) {
                 this._panels.pop().remove();
             }
+            this.onClickTab(this._panels.length - 1);
         }
         super.onEvent(opts);
     }
