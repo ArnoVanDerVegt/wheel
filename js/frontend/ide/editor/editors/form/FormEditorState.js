@@ -232,10 +232,35 @@ exports.FormEditorState = class extends Emitter {
                 this.emit('ChangeProperty', item.id, item.property, item.value);
                 break;
             case ACTION_TAB_DELETE_TAB:
+                let parentMap = {};
+                let id        = nextId + 1;
+                item.children.forEach(
+                    function(component) {
+                        if (!(component.parentId in parentMap)) {
+                            parentMap[component.parentId] = id;
+                            id++;
+                        }
+                        let containerId = component.containerId;
+                        if (containerId) {
+                            for (let i = 0; i < containerId.length; i++) {
+                                if (!(containerId[i] in parentMap)) {
+                                    parentMap[containerId[i]] = id;
+                                    id++;
+                                }
+                            }
+                        }
+                    }
+                );
                 dispatcher.dispatch('AddTabComponent', item);
                 item.children.forEach(
                     function(component) {
-                        component.parentId = nextId;
+                        component.parentId = parentMap[component.parentId];
+                        if (component.type === 'tabs') {
+                            let containerId = component.containerId;
+                            for (let i = 0; i < containerId.length; i++) {
+                                containerId[i] = parentMap[containerId[i]];
+                            }
+                        }
                         addComponent(component);
                         this.emit('AddComponent', Object.assign({}, component));
                     },
@@ -267,46 +292,59 @@ exports.FormEditorState = class extends Emitter {
         return result;
     }
 
+    addProperty(component, property, value) {
+        if (property in component) {
+            return this;
+        }
+        component[property] = value;
+        return this;
+    }
+
     addButtonComponent(component) {
         component.type       = 'button';
-        component.name       = this.findComponentText('button', 'name', 'Button');
-        component.value      = component.name;
-        component.title      = component.name;
-        component.color      = 'green';
         component.properties = [].concat(PROPERTIES_BY_TYPE.BUTTON);
+        this
+            .addProperty(component, 'name',  this.findComponentText('button', 'name', 'Button'))
+            .addProperty(component, 'value', component.name)
+            .addProperty(component, 'title', component.name)
+            .addProperty(component, 'color', 'green');
     }
 
     addSelectButton(component) {
         component.type       = 'selectButton';
-        component.name       = this.findComponentText('selectButton', 'name', 'SelectButton');
-        component.options    = ['A', 'B'];
-        component.color      = 'green';
         component.properties = [].concat(PROPERTIES_BY_TYPE.SELECT_BUTTON);
+        this
+            .addProperty(component, 'name',    this.findComponentText('selectButton', 'name', 'SelectButton'))
+            .addProperty(component, 'options', ['A', 'B'])
+            .addProperty(component, 'color',   'green');
     }
 
     addLabel(component) {
         component.type       = 'label';
-        component.name       = this.findComponentText('label', 'name', 'Label');
-        component.text       = component.name;
         component.properties = [].concat(PROPERTIES_BY_TYPE.LABEL);
+        this
+            .addProperty(component, 'name', findComponentText('label', 'name', 'Label'))
+            .addProperty(component, 'text', component.name);
     }
 
     addCheckBox(component) {
         component.type       = 'checkbox';
-        component.name       = this.findComponentText('checkbox', 'name', 'Checkbox');
-        component.text       = component.name;
-        component.checked    = false;
         component.properties = [].concat(PROPERTIES_BY_TYPE.CHECKBOX);
+        this
+            .addProperty(component, 'name',    this.findComponentText('checkbox', 'name', 'Checkbox'))
+            .addProperty(component, 'text',    component.name)
+            .addProperty(component, 'checked', false);
     }
 
     addTabs(component) {
-        component.type        = 'tabs';
-        component.name        = this.findComponentText('tabs', 'name', 'Tabs');
-        component.tabs        = ['Tab(1)', 'Tab(2)'];
-        component.width       = 200;
-        component.height      = 128;
-        component.containerId = [this.peekId(), this.peekId() + 1];
-        component.properties  = [].concat(PROPERTIES_BY_TYPE.TABS);
+        component.type       = 'tabs';
+        component.properties = [].concat(PROPERTIES_BY_TYPE.TABS);
+        this
+            .addProperty(component, 'name',        this.findComponentText('tabs', 'name', 'Tabs'))
+            .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
+            .addProperty(component, 'width',       200)
+            .addProperty(component, 'height',      128)
+            .addProperty(component, 'containerId', [this.peekId(), this.peekId() + 1]);
     }
 
     addComponent(opts) {
@@ -365,6 +403,23 @@ exports.FormEditorState = class extends Emitter {
     }
 
     changeTabs(component, value) {
+        let componentsById       = this._componentsById;
+        let findNestedComponents = (function(children, parentId) {
+                for (let id in componentsById) {
+                    let component = componentsById[id];
+                    if (component.parentId === parentId) {
+                        let containerId = component.containerId || [];
+                        for (let i = 0; i < containerId.length; i++) {
+                            findNestedComponents(children, containerId[i]);
+                        }
+                        let child = Object.assign({}, component);
+                        delete child.owner;
+                        delete componentsById[id];
+                        children.push(child);
+                        this.emit('DeleteComponent', id);
+                    }
+                }
+            }).bind(this);
         if (value.length > component.tabs.length) {
             component.containerId.push(nextId + 1);
             this.undoStackPush({
@@ -372,23 +427,14 @@ exports.FormEditorState = class extends Emitter {
                 id:     component.id
             });
         } else if (value.length < component.tabs.length) {
-            let parentId       = component.containerId.pop();
-            let componentsById = this._componentsById;
-            let children       = [];
-            for (let id in componentsById) {
-                if (componentsById[id].parentId === parentId) {
-                    let child = Object.assign({}, componentsById[id]);
-                    delete child.owner;
-                    delete componentsById[id];
-                    children.push(child);
-                    this.emit('DeleteComponent', id);
-                }
-            }
+            let parentId = component.containerId.pop();
+            let children = [];
+            findNestedComponents(children, parentId);
             this.undoStackPush({
                 action:   ACTION_TAB_DELETE_TAB,
                 id:       component.id,
                 tab:      component.tabs[component.tabs.length - 1],
-                children: children
+                children: children.reverse()
             });
         }
     }
