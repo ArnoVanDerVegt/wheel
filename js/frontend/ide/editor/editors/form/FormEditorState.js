@@ -2,21 +2,23 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher              = require('../../../../lib/dispatcher').dispatcher;
-const Emitter                 = require('../../../../lib/Emitter').Emitter;
+const dispatcher                   = require('../../../../lib/dispatcher').dispatcher;
+const Emitter                      = require('../../../../lib/Emitter').Emitter;
 
-const COMPONENT_BUTTON        = 0;
-const COMPONENT_SELECT_BUTTON = 1;
-const COMPONENT_LABEL         = 2;
-const COMPONENT_CHECKBOX      = 3;
-const COMPONENT_TABS          = 4;
+const COMPONENT_BUTTON             = 0;
+const COMPONENT_SELECT_BUTTON      = 1;
+const COMPONENT_LABEL              = 2;
+const COMPONENT_CHECKBOX           = 3;
+const COMPONENT_TABS               = 4;
 
-const ACTION_ADD_COMPONENT    = 0;
-const ACTION_DELETE_COMPONENT = 1;
-const ACTION_CHANGE_POSITION  = 2;
-const ACTION_CHANGE_PROPERTY  = 3;
+const ACTION_ADD_COMPONENT         = 0;
+const ACTION_DELETE_COMPONENT      = 1;
+const ACTION_TAB_ADD_TAB           = 2;
+const ACTION_TAB_DELETE_TAB        = 3;
+const ACTION_CHANGE_POSITION       = 4;
+const ACTION_CHANGE_PROPERTY       = 5;
 
-const PROPERTIES_BY_TYPE      = {
+const PROPERTIES_BY_TYPE           = {
         BUTTON: [
             {type: 'type',        name: null},
             {type: 'id',          name: null},
@@ -42,7 +44,7 @@ const PROPERTIES_BY_TYPE      = {
             {type: 'integer',     name: 'x'},
             {type: 'integer',     name: 'y'},
             {type: 'color',       name: 'color'},
-            {type: 'stringList',  name: 'options'}
+            {type: 'stringList',  name: 'options', options: {sort: true, remove: true}}
         ],
         LABEL: [
             {type: 'type',        name: null},
@@ -80,7 +82,7 @@ const PROPERTIES_BY_TYPE      = {
             {type: 'integer',     name: 'y'},
             {type: 'integer',     name: 'width'},
             {type: 'integer',     name: 'height'},
-            {type: 'stringList',  name: 'tabs'}
+            {type: 'stringList',  name: 'tabs', options: {removeLast: true}}
         ]
     };
 
@@ -193,15 +195,9 @@ exports.FormEditorState = class extends Emitter {
         let item           = this.undoStackPop();
         let componentsById = this._componentsById;
         let component;
-        switch (item.action) {
-            case ACTION_ADD_COMPONENT:
-                this.deleteComponentById(item.id, false);
-                break;
-            case ACTION_DELETE_COMPONENT:
-                component                    = item.component;
+        let addComponent = (function(component) {
                 component.owner              = this._getOwnerByParentId(component.parentId);
                 componentsById[component.id] = component;
-                this._activeComponentId      = component.id;
                 switch (component.type) {
                     case 'button':       this.addButtonComponent(component); break;
                     case 'selectButton': this.addSelectButton   (component); break;
@@ -209,6 +205,15 @@ exports.FormEditorState = class extends Emitter {
                     case 'checkbox':     this.addCheckBox       (component); break;
                     case 'tabs':         this.addTabs           (component); break;
                 }
+                return component;
+            }).bind(this);
+        switch (item.action) {
+            case ACTION_ADD_COMPONENT:
+                this.deleteComponentById(item.id, false);
+                break;
+            case ACTION_DELETE_COMPONENT:
+                component = addComponent(item.component);
+                this._activeComponentId = component.id;
                 this
                     .emit('AddComponent', Object.assign({}, component))
                     .updateComponents(component.id);
@@ -226,15 +231,47 @@ exports.FormEditorState = class extends Emitter {
                 this.onSelectComponent(item.id);
                 this.emit('ChangeProperty', item.id, item.property, item.value);
                 break;
+            case ACTION_TAB_DELETE_TAB:
+                dispatcher.dispatch('AddTabComponent', item);
+                item.children.forEach(
+                    function(component) {
+                        component.parentId = nextId;
+                        addComponent(component);
+                        this.emit('AddComponent', Object.assign({}, component));
+                    },
+                    this
+                );
+                this.updateComponents(item.id);
+                break;
         }
         this.emit('Undo');
+    }
+
+    findComponentText(type, property, prefix) {
+        let componentsById = this._componentsById;
+        let count          = 1;
+        let found          = true;
+        let result;
+        while (found) {
+            found  = false;
+            result = prefix + count;
+            for (let id in componentsById) {
+                let component = componentsById[id];
+                if ((component.type === type) && (component[property] === result)) {
+                    found = true;
+                    count++;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     addButtonComponent(component) {
         component.type       = 'button';
         component.name       = 'Button' + component.id;
-        component.value      = 'Button' + component.id;
-        component.title      = 'Button' + component.id;
+        component.value      = this.findComponentText('button', 'value', 'Button');
+        component.title      = component.value;
         component.color      = 'green';
         component.properties = [].concat(PROPERTIES_BY_TYPE.BUTTON);
     }
@@ -250,14 +287,14 @@ exports.FormEditorState = class extends Emitter {
     addLabel(component) {
         component.type       = 'label';
         component.name       = 'Label' + component.id;
-        component.text       = 'Label' + component.id;
+        component.text       = this.findComponentText('label', 'text', 'Label');
         component.properties = [].concat(PROPERTIES_BY_TYPE.LABEL);
     }
 
     addCheckBox(component) {
         component.type       = 'checkbox';
         component.name       = 'Checkbox' + component.id;
-        component.text       = 'Checkbox' + component.id;
+        component.text       = this.findComponentText('checkbox', 'text', 'Checkbox');
         component.checked    = false;
         component.properties = [].concat(PROPERTIES_BY_TYPE.CHECKBOX);
     }
@@ -265,7 +302,7 @@ exports.FormEditorState = class extends Emitter {
     addTabs(component) {
         component.type        = 'tabs';
         component.name        = 'Tabs' + component.id;
-        component.tabs        = ['A', 'B'];
+        component.tabs        = ['Tab(1)', 'Tab(2)'];
         component.width       = 200;
         component.height      = 128;
         component.containerId = [this.peekId(), this.peekId() + 1];
@@ -327,17 +364,50 @@ exports.FormEditorState = class extends Emitter {
         return false;
     }
 
+    changeTabs(component, value) {
+        if (value.length > component.tabs.length) {
+            component.containerId.push(nextId + 1);
+            this.undoStackPush({
+                action: ACTION_TAB_ADD_TAB,
+                id:     component.id
+            });
+        } else if (value.length < component.tabs.length) {
+            let parentId       = component.containerId.pop();
+            let componentsById = this._componentsById;
+            let children       = [];
+            for (let id in componentsById) {
+                if (componentsById[id].parentId === parentId) {
+                    let child = Object.assign({}, componentsById[id]);
+                    delete child.owner;
+                    delete componentsById[id];
+                    children.push(child);
+                    this.emit('DeleteComponent', id);
+                }
+            }
+            this.undoStackPush({
+                action:   ACTION_TAB_DELETE_TAB,
+                id:       component.id,
+                tab:      component.tabs[component.tabs.length - 1],
+                children: children
+            });
+        }
+    }
+
     onChangeProperty(id, property, value) {
         let component = this._componentsById[id];
         if (!component) {
             return;
         }
-        this.undoStackPush({
-            action:   ACTION_CHANGE_PROPERTY,
-            id:       id,
-            property: property,
-            value:    component[property]
-        });
+        if ((component.type === 'tabs') && (property === 'tabs')) {
+            this.changeTabs(component, value);
+        } else {
+            this.undoStackPush({
+                action:   ACTION_CHANGE_PROPERTY,
+                id:       id,
+                property: property,
+                value:    component[property]
+            });
+        }
         component[property] = value;
     }
 

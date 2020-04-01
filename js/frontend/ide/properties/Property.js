@@ -8,6 +8,7 @@ exports.Property = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._opts       = opts;
+        this._options    = opts.options || {};
         this._ui         = opts.ui;
         this._settings   = opts.settings;
         this._name       = opts.name;

@@ -98,6 +98,7 @@ exports.Properties = class extends DOMNode {
                         properties: this,
                         ui:         this._ui,
                         name:       property.name,
+                        options:    property.options,
                         value:      component[property.name],
                         onChange:   onChange
                     };

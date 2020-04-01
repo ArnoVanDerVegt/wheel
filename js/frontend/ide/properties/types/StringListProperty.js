@@ -8,9 +8,10 @@ const Property = require('../Property').Property;
 class ListItem extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._index = opts.index;
-        this._title = opts.title;
-        this._list  = opts.list;
+        this._options = opts.options;
+        this._index   = opts.index;
+        this._title   = opts.title;
+        this._list    = opts.list;
         this._list.setItem(this._index, this);
         this.initDOM(opts.parentNode);
     }
@@ -35,6 +36,7 @@ class ListItem extends DOMNode {
     }
 
     initDOM(parentNode) {
+        let options = this._options;
         this.create(
             parentNode,
             {
@@ -54,21 +56,27 @@ class ListItem extends DOMNode {
                         className: 'list-item-input',
                         value:     this._title
                     },
-                    this.initIconButton({
-                        title:     '✖',
-                        className: 'delete',
-                        onClick:   this.onClickDelete.bind(this)
-                    }),
-                    this.initIconButton({
-                        title:     '▼',
-                        className: 'down',
-                        onClick:   this.onClickDown.bind(this)
-                    }),
-                    this.initIconButton({
-                        title:     '▲',
-                        className: 'up',
-                        onClick:   this.onClickUp.bind(this)
-                    })
+                    (options.remove || options.removeLast) ?
+                        this.initIconButton({
+                            title:     '✖',
+                            className: 'delete',
+                            onClick:   this.onClickDelete.bind(this)
+                        }) :
+                        null,
+                    options.sort ?
+                        this.initIconButton({
+                            title:     '▼',
+                            className: 'down',
+                            onClick:   this.onClickDown.bind(this)
+                        }) :
+                        null,
+                    options.sort ?
+                        this.initIconButton({
+                            title:     '▲',
+                            className: 'up',
+                            onClick:   this.onClickUp.bind(this)
+                        }) :
+                        null
                 ]
             }
         );
@@ -168,10 +176,11 @@ exports.StringListProperty = class extends Property {
 
     initListItem(index, value) {
         return {
-            list:  this,
-            type:  ListItem,
-            title: value,
-            index: index
+            list:    this,
+            options: this._options,
+            type:    ListItem,
+            title:   value,
+            index:   index
         };
     }
 
@@ -190,7 +199,7 @@ exports.StringListProperty = class extends Property {
             children: [
                 {
                     ref:       this.setRef('listContent'),
-                    className: 'list-content',
+                    className: 'list-content' + (this._options.removeLast ? ' remove-last' : ''),
                     children:  children
                 }
             ]
@@ -240,6 +249,7 @@ exports.StringListProperty = class extends Property {
         let item2 = items[index];
         item1.setIndex(index);
         item2.setIndex(index - 1);
+        this.onChange();
     }
 
     itemDown(index) {
@@ -252,6 +262,7 @@ exports.StringListProperty = class extends Property {
         let item2 = items[index + 1];
         item1.setIndex(index + 1);
         item2.setIndex(index);
+        this.onChange();
     }
 
     itemDelete(index) {
@@ -262,6 +273,7 @@ exports.StringListProperty = class extends Property {
         for (let i = index; i < items.length; i++) {
             items[i].setIndex(i);
         }
+        this.onChange();
     }
 
     onClickAdd() {

@@ -35,13 +35,14 @@ exports.FormComponentContainer = class extends DOMNode {
         this._className        = opts.className;
         this._parentId         = opts.formEditorState.getNextId();
         this._formEditorState  = opts.formEditorState;
-        this._formEditorState
-            .on('AddComponent',    this, this.onAddComponent)
-            .on('DeleteComponent', this, this.onDeleteComponent)
-            .on('ChangePosition',  this, this.onChangePosition)
-            .on('ChangeProperty',  this, this.onChangeProperty);
+        this._events           = [
+            this._formEditorState.on('AddComponent',    this, this.onAddComponent),
+            this._formEditorState.on('DeleteComponent', this, this.onDeleteComponent),
+            this._formEditorState.on('ChangePosition',  this, this.onChangePosition),
+            this._formEditorState.on('ChangeProperty',  this, this.onChangeProperty),
+            dispatcher.on('Properties.Property.Change', this, this.onChangeProperty)
+        ];
         this.initDOM(opts.parentNode);
-        dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
         formComponentContainerByParentId[this._parentId] = this;
     }
@@ -54,6 +55,14 @@ exports.FormComponentContainer = class extends DOMNode {
                 className: this._className + ' parent'
             }
         );
+    }
+
+    remove() {
+        let events = this._events;
+        while (events.length) {
+            events.pop()();
+        }
+        this._formElement.parentNode.removeChild(this._formElement);
     }
 
     setFormElement(element) {

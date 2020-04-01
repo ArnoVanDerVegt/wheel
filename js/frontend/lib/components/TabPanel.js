@@ -17,6 +17,7 @@ exports.TabPanel = class extends Component {
         this._height           = opts.height ||  80;
         this._panels           = [];
         this._active           = 0;
+        this._events           = [dispatcher.on('AddTabComponent', this, this.onAddTabComponent)];
         this.initDOM(opts.parentNode);
     }
 
@@ -60,8 +61,25 @@ exports.TabPanel = class extends Component {
         );
     }
 
+    remove() {
+        let events = this._events;
+        while (events.length) {
+            events.pop()();
+        }
+        this._element.parentNode.removeChild(this._element);
+    }
+
     addPanel(panel) {
         this._panels.push(panel);
+    }
+
+    addTab() {
+        let opts = Object.assign({}, this._panelOpts);
+        opts.type      = this._panelConstructor;
+        opts.id        = this.addPanel.bind(this);
+        opts.className = 'tab-panel';
+        this.create(this._element, opts);
+        return this;
     }
 
     remove() {
@@ -91,8 +109,26 @@ exports.TabPanel = class extends Component {
             element.style.height = Math.max(opts.height, 80) + 'px';
         }
         if ('tabs' in opts) {
+            let tabCount = this._tabs.length;
+            this._tabs = opts.tabs;
             this._refs.tabs.setTabs(opts.tabs);
+            if (opts.tabs.length > tabCount) {
+                this.addTab();
+            } else if (opts.tabs.length < tabCount) {
+                this._panels.pop().remove();
+            }
         }
         super.onEvent(opts);
+    }
+
+    onAddTabComponent(opts) {
+        if (opts.id !== this._id) {
+            return;
+        }
+        this._tabs.push(opts.tab);
+        this._refs.tabs.setTabs(this._tabs);
+        this
+            .addTab()
+            .onClickTab(this._active);
     }
 };

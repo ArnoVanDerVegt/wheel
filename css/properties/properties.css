@@ -175,6 +175,12 @@ body.ide.no-properties div.properties {
     font-weight:                    bold;
     font-size:                      20px;
 }
+.properties .properties-container .property .property-name.list-focus .list-content.remove-last .list-item a.list-item-button.delete {
+    visibility:                     hidden;
+}
+.properties .properties-container .property .property-name.list-focus .list-content.remove-last .list-item:last-child a.list-item-button.delete {
+    visibility:                     visible;
+}
 .properties .properties-container .property .property-name.list-focus .list-content .list-item:first-child a.list-item-button.up,
 .properties .properties-container .property .property-name.list-focus .list-content .list-item:last-child a.list-item-button.down {
     visibility:                     hidden;
