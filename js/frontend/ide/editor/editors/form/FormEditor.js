@@ -14,6 +14,10 @@ exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
         this._formEditorState = new FormEditorState(opts);
+        this._formEditorState
+            .on('AddComponent',    this, this.updateElements)
+            .on('DeleteComponent', this, this.updateElements)
+            .on('SelectComponent', this, this.updateElements);
         this.initDOM(opts.parentNode);
     }
 
@@ -75,6 +79,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onDelete() {
+        this._formEditorState.deleteActiveComponent();
     }
 
     onSelectTool(tool) {
@@ -125,7 +130,10 @@ exports.FormEditor = class extends Editor {
         return this;
     }
 
-    updateAfterResize() {
+    updateElements() {
+        let refs            = this._refs;
+        let formEditorState = this._formEditorState;
+        refs.delete.setDisabled(formEditorState.getActiveComponentId() === null);
         return this;
     }
 

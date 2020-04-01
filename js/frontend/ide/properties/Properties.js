@@ -23,7 +23,8 @@ exports.Properties = class extends DOMNode {
         this.initDOM(opts.parentNode || document.body);
         dispatcher
             .on('Properties.Select',         this, this.onSelectProperties)
-            .on('Properties.ChangePosition', this, this.onChangePosition);
+            .on('Properties.ChangePosition', this, this.onChangePosition)
+            .on('Properties.ComponentList',  this, this.onChangeComponentList);
     }
 
     initDOM(parentNode) {
@@ -63,20 +64,26 @@ exports.Properties = class extends DOMNode {
         });
     }
 
-    addProperty(property) {
-        this._properties.push(property);
-    }
-
-    onSelectProperties(properties, formEditorState) {
+    clear() {
         let propertiesContainer = this._refs.propertiesContainer;
         let childNodes          = propertiesContainer.childNodes;
         while (childNodes.length > 1) {
             let childNode = childNodes[childNodes.length - 1];
             childNode.parentNode.removeChild(childNode);
         }
-        let id             = properties.id;
-        let propertyByName = {};
-        let component      = formEditorState.getComponentById(id);
+        this._propertyByName = {};
+    }
+
+    addProperty(property) {
+        this._properties.push(property);
+    }
+
+    onSelectProperties(properties, formEditorState) {
+        this.clear();
+        let propertiesContainer = this._refs.propertiesContainer;
+        let id                  = properties.id;
+        let propertyByName      = {};
+        let component           = formEditorState.getComponentById(id);
         properties.forEach(
             function(property) {
                 if (!property || (property.name === null)) {
@@ -116,6 +123,12 @@ exports.Properties = class extends DOMNode {
         }
         if (this._propertyByName.y) {
             this._propertyByName.y.setValue(position.y);
+        }
+    }
+
+    onChangeComponentList(opts) {
+        if (opts.value === null) {
+            this.clear();
         }
     }
 };

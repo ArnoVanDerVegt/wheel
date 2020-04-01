@@ -79,28 +79,31 @@ const PROPERTIES_BY_TYPE      = {
         ]
     };
 
+let nextId = 0;
+
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
-        this._data           = opts.data || [];
-        this._width          = opts.width;
-        this._height         = opts.height;
-        this._undoStack      = [];
-        this._component      = COMPONENT_BUTTON;
-        this._componentsById = {};
-        this._nextId         = 0;
+        this._data              = opts.data || [];
+        this._width             = opts.width;
+        this._height            = opts.height;
+        this._undoStack         = [];
+        this._component         = COMPONENT_BUTTON;
+        this._componentsById    = {};
+        this._activeComponentId = null;
         dispatcher
             .on('Properties.Property.Change', this, this.onChangeProperty)
+            .on('Properties.Select',          this, this.onSelectProperties)
             .on('Properties.SelectComponent', this, this.onSelectComponent);
     }
 
     peekId() {
-        return this._nextId + 1;
+        return nextId + 1;
     }
 
     getNextId() {
-        this._nextId++;
-        return this._nextId;
+        nextId++;
+        return nextId;
     }
 
     setComponent(component) {
@@ -129,6 +132,23 @@ exports.FormEditorState = class extends Emitter {
 
     getComponentById(id) {
         return this._componentsById[id];
+    }
+
+    getActiveComponentId() {
+        return this._activeComponentId;
+    }
+
+    getItems() {
+        let componentsById = this._componentsById;
+        let items          = [];
+        for (let id in componentsById) {
+            let component = componentsById[id];
+            items.push({
+                value: component.id,
+                title: component.name + ' <i>' + component.type + '</i>'
+            });
+        }
+        return items;
     }
 
     undoStackPop() {
@@ -198,8 +218,33 @@ exports.FormEditorState = class extends Emitter {
             case COMPONENT_CHECKBOX:      this.addCheckBox       (component); break;
             case COMPONENT_TABS:          this.addTabs           (component); break;
         }
+        this._activeComponentId = component.id;
         this.emit('AddComponent', Object.assign({}, component));
         this.updateComponents(component.id);
+    }
+
+    deleteActiveComponent() {
+        let activeComponentId = this._activeComponentId;
+        let componentsById    = this._componentsById;
+        if ((activeComponentId === null) || !componentsById[activeComponentId]) {
+            return;
+        }
+        delete componentsById[activeComponentId];
+        this._activeComponentId = null;
+        this.emit('DeleteComponent', activeComponentId);
+        dispatcher.dispatch('Properties.ComponentList', {value: null, items: this.getItems()});
+    }
+
+    selectComponentById(id) {
+        let component = this._componentsById[id];
+        if (component) {
+            this._activeComponentId = id;
+            let properties = [].concat(PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
+            properties.id = id;
+            this.emit('SelectComponent', id);
+            return true;
+        }
+        return false;
     }
 
     onChangeProperty(id, property, value) {
@@ -210,25 +255,17 @@ exports.FormEditorState = class extends Emitter {
         component[property] = value;
     }
 
+    onSelectProperties(properties) {
+        this.selectComponentById(properties.id);
+    }
+
     onSelectComponent(id) {
-        let component = this._componentsById[id];
-        if (component) {
-            let properties = [].concat(PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
-            properties.id = id;
+        if (this.selectComponentById(id)) {
             dispatcher.dispatch('Properties.Select', properties, this);
         }
     }
 
     updateComponents(id) {
-        let componentsById = this._componentsById;
-        let items          = [];
-        for (let id in componentsById) {
-            let component = componentsById[id];
-            items.push({
-                value: component.id,
-                title: component.name + ' <i>' + component.type + '</i>'
-            });
-        }
-        dispatcher.dispatch('Properties.Components', {items: items, value: id});
+        dispatcher.dispatch('Properties.ComponentList', {value: id, items: this.getItems()});
     }
 };

@@ -2,21 +2,16 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Button           = require('../../../../lib/components/Button').Button;
-const ToolOptions      = require('../../../../lib/components/ToolOptions').ToolOptions;
-const Label            = require('../../../../lib/components/Label').Label;
-const CheckboxAndLabel = require('../../../../lib/components/CheckboxAndLabel').CheckboxAndLabel;
-const TabPanel         = require('../../../../lib/components/TabPanel').TabPanel;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode          = require('../../../../lib/dom').DOMNode;
 const FormEditorState  = require('./FormEditorState');
 
 const CONSTRUCTOR_BY_TYPE = {
-        button:       Button,
-        selectButton: ToolOptions,
-        label:        Label,
-        checkbox:     CheckboxAndLabel,
-        tabs:         TabPanel
+        button:       require('../../../../lib/components/Button').Button,
+        selectButton: require('../../../../lib/components/ToolOptions').ToolOptions,
+        label:        require('../../../../lib/components/Label').Label,
+        checkbox:     require('../../../../lib/components/CheckboxAndLabel').CheckboxAndLabel,
+        tabs:         require('../../../../lib/components/TabPanel').TabPanel
     };
 
 exports.FormComponentContainer = class extends DOMNode {
@@ -34,7 +29,9 @@ exports.FormComponentContainer = class extends DOMNode {
         this._className       = opts.className;
         this._parentId        = opts.formEditorState.getNextId();
         this._formEditorState = opts.formEditorState;
-        this._formEditorState.on('AddComponent', this, this.onAddComponent);
+        this._formEditorState
+            .on('AddComponent',    this, this.onAddComponent)
+            .on('DeleteComponent', this, this.onDeleteComponent);
         this.initDOM(opts.parentNode);
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
@@ -71,7 +68,6 @@ exports.FormComponentContainer = class extends DOMNode {
     }
 
     onMouseDown(event) {
-        // | this._onMouseDown && this._onMouseDown(event);
         this.onCancelEvent(event);
         this._mouseDown  = true;
         this._mouseMoved = false;
@@ -153,7 +149,7 @@ exports.FormComponentContainer = class extends DOMNode {
         event.stopPropagation();
         dispatcher
             .dispatch('Properties.Select', properties, this._formEditorState)
-            .dispatch('Properties.Components', {value: id});
+            .dispatch('Properties.ComponentList', {value: id});
     }
 
     onAddComponent(opts) {
@@ -166,6 +162,15 @@ exports.FormComponentContainer = class extends DOMNode {
             };
         }
         this.addElement(opts);
+    }
+
+    onDeleteComponent(id) {
+        let elementById = this._elementById;
+        if (!elementById[id]) {
+            return;
+        }
+        elementById[id].remove();
+        delete elementById[id];
     }
 
     addElement(opts) {
@@ -185,7 +190,7 @@ exports.FormComponentContainer = class extends DOMNode {
             left:     opts.x + 'px',
             top:      opts.y + 'px'
         };
-        if (opts.type === 'tabs') {
+        if (opts.panelOpts) {
             opts.panelOpts.onMouseDown = (function(event) {
                 this.onComponentMouseDown(event, element, opts.id, opts.type, opts.properties);
             }).bind(this);

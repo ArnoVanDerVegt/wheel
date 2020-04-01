@@ -34,7 +34,7 @@ exports.PropertiesToolbar = class extends DOMNode {
                         ui:        this._ui,
                         uiId:      1,
                         tabIndex:  tabIndex.PROPERTIES_LIST,
-                        event:     'Properties.Components',
+                        event:     'Properties.ComponentList',
                         dispatch:  'Properties.SelectComponent'
                     }
                 ]
