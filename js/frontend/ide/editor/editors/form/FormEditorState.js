@@ -190,17 +190,18 @@ exports.FormEditorState = class extends Emitter {
     }
 
     undo() {
-        let item = this.undoStackPop();
+        let item           = this.undoStackPop();
+        let componentsById = this._componentsById;
         let component;
         switch (item.action) {
             case ACTION_ADD_COMPONENT:
                 this.deleteComponentById(item.id, false);
                 break;
             case ACTION_DELETE_COMPONENT:
-                component                          = item.component;
-                component.owner                    = this._getOwnerByParentId(component.parentId);
-                this._componentsById[component.id] = component;
-                this._activeComponentId            = component.id;
+                component                    = item.component;
+                component.owner              = this._getOwnerByParentId(component.parentId);
+                componentsById[component.id] = component;
+                this._activeComponentId      = component.id;
                 switch (component.type) {
                     case 'button':       this.addButtonComponent(component); break;
                     case 'selectButton': this.addSelectButton   (component); break;
@@ -213,11 +214,17 @@ exports.FormEditorState = class extends Emitter {
                     .updateComponents(component.id);
                 break;
             case ACTION_CHANGE_POSITION:
-                component   = this._componentsById[item.id];
+                component   = componentsById[item.id];
                 component.x = item.position.x;
                 component.y = item.position.y;
                 this.onSelectComponent(item.id);
                 this.emit('ChangePosition', item.id, item.position);
+                break;
+            case ACTION_CHANGE_PROPERTY:
+                component                = componentsById[item.id];
+                component[item.property] = item.value;
+                this.onSelectComponent(item.id);
+                this.emit('ChangeProperty', item.id, item.property, item.value);
                 break;
         }
         this.emit('Undo');
@@ -325,6 +332,12 @@ exports.FormEditorState = class extends Emitter {
         if (!component) {
             return;
         }
+        this.undoStackPush({
+            action:   ACTION_CHANGE_PROPERTY,
+            id:       id,
+            property: property,
+            value:    component[property]
+        });
         component[property] = value;
     }
 
