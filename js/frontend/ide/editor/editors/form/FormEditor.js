@@ -2,22 +2,25 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const path            = require('../../../../lib/path');
-const Editor          = require('../Editor').Editor;
-const Clipboard       = require('../Clipboard');
-const ToolbarTop      = require('./toolbar/ToolbarTop').ToolbarTop;
-const FormEditorState = require('./FormEditorState').FormEditorState;
-const FormComponent   = require('./FormComponent').FormComponent;
+const dispatcher                          = require('../../../../lib/dispatcher').dispatcher;
+const path                                = require('../../../../lib/path');
+const Editor                              = require('../Editor').Editor;
+const Clipboard                           = require('../Clipboard');
+const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
+const FormEditorState                     = require('./FormEditorState').FormEditorState;
+const FormComponent                       = require('./FormComponent').FormComponent;
+const getFormComponentContainerByParentId = require('./FormComponentContainer').getFormComponentContainerByParentId;
 
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
+        opts.getOwnerByParentId = getFormComponentContainerByParentId;
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
             .on('AddComponent',    this, this.updateElements)
             .on('DeleteComponent', this, this.updateElements)
-            .on('SelectComponent', this, this.updateElements);
+            .on('SelectComponent', this, this.updateElements)
+            .on('Undo',            this, this.updateElements);
         this.initDOM(opts.parentNode);
     }
 
@@ -70,6 +73,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onUndo() {
+        this._formEditorState.undo();
     }
 
     onCopy() {
@@ -91,7 +95,7 @@ exports.FormEditor = class extends Editor {
     }
 
     getCanUndo() {
-        return false;
+        return this._formEditorState.getHasUndo();
     }
 
     getCanCopy() {
@@ -134,10 +138,7 @@ exports.FormEditor = class extends Editor {
         let refs            = this._refs;
         let formEditorState = this._formEditorState;
         refs.delete.setDisabled(formEditorState.getActiveComponentId() === null);
-        return this;
-    }
-
-    addUndo(undo) {
+        refs.undo.setDisabled(!formEditorState.getHasUndo());
         return this;
     }
 };

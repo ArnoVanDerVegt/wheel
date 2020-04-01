@@ -14,27 +14,36 @@ const CONSTRUCTOR_BY_TYPE = {
         tabs:         require('../../../../lib/components/TabPanel').TabPanel
     };
 
+let formComponentContainerByParentId = {};
+
+exports.getFormComponentContainerByParentId = function(parentId) {
+    return formComponentContainerByParentId[parentId];
+};
+
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._mouseDown       = false;
-        this._mouseOffsetX    = 0;
-        this._mouseOffsetY    = 0;
-        this._mouseElement    = null;
-        this._mouseComponent  = null;
-        this._mouseMoved      = false;
-        this._elementById     = {};
-        this._onMouseDown     = opts.onMouseDown;
-        this._ui              = opts.ui;
-        this._className       = opts.className;
-        this._parentId        = opts.formEditorState.getNextId();
-        this._formEditorState = opts.formEditorState;
+        this._mouseDown        = false;
+        this._mouseOffsetX     = 0;
+        this._mouseOffsetY     = 0;
+        this._mouseElement     = null;
+        this._mouseComponentId = null;
+        this._mouseMoved       = false;
+        this._elementById      = {};
+        this._onMouseDown      = opts.onMouseDown;
+        this._ui               = opts.ui;
+        this._className        = opts.className;
+        this._parentId         = opts.formEditorState.getNextId();
+        this._formEditorState  = opts.formEditorState;
         this._formEditorState
             .on('AddComponent',    this, this.onAddComponent)
-            .on('DeleteComponent', this, this.onDeleteComponent);
+            .on('DeleteComponent', this, this.onDeleteComponent)
+            .on('ChangePosition',  this, this.onChangePosition)
+            .on('ChangeProperty',  this, this.onChangeProperty);
         this.initDOM(opts.parentNode);
         dispatcher.on('Properties.Property.Change', this, this.onChangeProperty);
         opts.id && opts.id(this);
+        formComponentContainerByParentId[this._parentId] = this;
     }
 
     initDOM(parentNode) {
@@ -60,6 +69,10 @@ exports.FormComponentContainer = class extends DOMNode {
         this._formElement.className = className + ' parent';
     }
 
+    getParentId() {
+        return this._parentId;
+    }
+
     resetMouseElement() {
         if (this._mouseElement) {
             this._mouseElement.onEvent({pointerEvents: 'auto'});
@@ -82,8 +95,7 @@ exports.FormComponentContainer = class extends DOMNode {
         let x        = event.offsetX - this._mouseOffsetX;
         let y        = event.offsetY - this._mouseOffsetY;
         let position = {x: x, y: y};
-        this._mouseComponent.x = x;
-        this._mouseComponent.y = y;
+        this._formEditorState.setComponentPositionById(this._mouseComponentId, position);
         this._mouseElement.onEvent(position);
         dispatcher.dispatch('Properties.ChangePosition', position);
     }
@@ -128,6 +140,14 @@ exports.FormComponentContainer = class extends DOMNode {
         element.onEvent(opts);
     }
 
+    onChangePosition(id, position) {
+        let element = this._elementById[id];
+        if (!element) {
+            return;
+        }
+        element.onEvent(position);
+    }
+
     onComponentMouseDown(event, element, id, type, properties) {
         let offsetX    = event.offsetX;
         let offsetY    = event.offsetY;
@@ -137,15 +157,15 @@ exports.FormComponentContainer = class extends DOMNode {
             offsetY += parentNode.offsetTop;
             parentNode = parentNode.parentNode;
         }
-        this._mouseComponent = this._formEditorState.getComponentById(id);
-        if (!this._mouseComponent) {
+        if (!this._formEditorState.getComponentById(id)) {
             return;
         }
         element.onEvent({pointerEvents: 'none'});
-        this._mouseDown    = true;
-        this._mouseOffsetX = offsetX;
-        this._mouseOffsetY = offsetY;
-        this._mouseElement = element;
+        this._mouseDown        = true;
+        this._mouseComponentId = id;
+        this._mouseOffsetX     = offsetX;
+        this._mouseOffsetY     = offsetY;
+        this._mouseElement     = element;
         event.stopPropagation();
         dispatcher
             .dispatch('Properties.Select', properties, this._formEditorState)
