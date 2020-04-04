@@ -321,6 +321,7 @@ require('./js/frontend/ide/console/NewVersion');
 require('./js/frontend/ide/console/Console');
 require('./js/frontend/ide/properties/PropertiesToolbar');
 require('./js/frontend/ide/properties/Property');
+require('./js/frontend/ide/properties/Event');
 require('./js/frontend/ide/properties/types/BooleanProperty');
 require('./js/frontend/ide/properties/types/ColorProperty');
 require('./js/frontend/ide/properties/types/StringProperty');

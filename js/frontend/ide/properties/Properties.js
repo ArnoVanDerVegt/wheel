@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher         = require('../../lib/dispatcher').dispatcher;
+const Tabs               = require('../../lib/components/Tabs').Tabs;
 const DOMNode            = require('../../lib/dom').DOMNode;
 const tabIndex           = require('../tabIndex');
 const PropertiesToolbar  = require('./PropertiesToolbar').PropertiesToolbar;
@@ -10,6 +11,7 @@ const BooleanProperty    = require('./types/BooleanProperty').BooleanProperty;
 const StringProperty     = require('./types/StringProperty').StringProperty;
 const StringListProperty = require('./types/StringListProperty').StringListProperty;
 const ColorProperty      = require('./types/ColorProperty').ColorProperty;
+const Event              = require('./Event').Event;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
@@ -20,6 +22,8 @@ exports.Properties = class extends DOMNode {
         this._value          = opts.value;
         this._properties     = [];
         this._propertyByName = {};
+        this._events         = [];
+        this._eventByName    = {};
         this.initDOM(opts.parentNode || document.body);
         dispatcher
             .on('Properties.Select',         this, this.onSelectProperties)
@@ -42,11 +46,35 @@ exports.Properties = class extends DOMNode {
                         simulator: this
                     },
                     {
+                        type: Tabs,
+                        ui:   this._ui,
+                        uiId: 1,
+                        tabs: [
+                            {
+                                title:   'Properties',
+                                onClick: this.onClickProperties.bind(this)
+                            },
+                            {
+                                title:   'Events',
+                                onClick: this.onClickEvents.bind(this)
+                            }
+                        ]
+                    },
+                    {
                         ref:       this.setRef('propertiesContainer'),
-                        className: 'properties-container',
+                        className: 'properties-container visible',
                         children:  [
                             {
                                 className: 'property-separator'
+                            }
+                        ]
+                    },
+                    {
+                        ref:       this.setRef('eventsContainer'),
+                        className: 'events-container',
+                        children:  [
+                            {
+                                className: 'event-separator'
                             }
                         ]
                     }
@@ -64,26 +92,33 @@ exports.Properties = class extends DOMNode {
         });
     }
 
-    clear() {
-        let propertiesContainer = this._refs.propertiesContainer;
-        let childNodes          = propertiesContainer.childNodes;
+    focusEvent(event) {
+        this._events.forEach(function(e) {
+            if ((e !== event) && e.setFocus) {
+                e.setFocus(false);
+            }
+        });
+    }
+
+    clear(container) {
+        let childNodes = container.childNodes;
         while (childNodes.length > 1) {
             let childNode = childNodes[childNodes.length - 1];
             childNode.parentNode.removeChild(childNode);
         }
-        this._propertyByName = {};
     }
 
     addProperty(property) {
         this._properties.push(property);
     }
 
-    onSelectProperties(properties, formEditorState) {
-        this.clear();
+    showProperties(properties, formEditorState) {
+        this._properties.length = 0;
         let propertiesContainer = this._refs.propertiesContainer;
         let id                  = properties.id;
         let propertyByName      = {};
         let component           = formEditorState.getComponentById(id);
+        this.clear(propertiesContainer);
         properties.forEach(
             function(property) {
                 if (!property || (property.name === null)) {
@@ -116,6 +151,52 @@ exports.Properties = class extends DOMNode {
             this
         );
         this._propertyByName = propertyByName;
+    }
+
+    addEvent(event) {
+        this._events.push(event);
+    }
+
+    showEvents(events, formEditorState) {
+        this._events.length = 0;
+        let eventsContainer = this._refs.eventsContainer;
+        let id              = events.id;
+        let eventByName     = {};
+        let component       = formEditorState.getComponentById(id);
+        this.clear(eventsContainer);
+        events.forEach(
+            function(event) {
+                eventByName[event.name] = new Event({
+                    parentNode: eventsContainer,
+                    properties: this,
+                    ui:         this._ui,
+                    name:       event.name,
+                    value:      component[event.name] || '',
+                    onChange: function(value) {
+                        dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
+                    }
+                });
+            },
+            this
+        );
+        this._eventByName = eventByName;
+    }
+
+    onClickProperties() {
+        let refs = this._refs;
+        refs.propertiesContainer.style.display = 'block';
+        refs.eventsContainer.style.display     = 'none';
+    }
+
+    onClickEvents() {
+        let refs = this._refs;
+        refs.propertiesContainer.style.display = 'none';
+        refs.eventsContainer.style.display     = 'block';
+    }
+
+    onSelectProperties(properties, events, formEditorState) {
+        this.showProperties(properties, formEditorState);
+        this.showEvents(events, formEditorState);
     }
 
     onChangePosition(position) {

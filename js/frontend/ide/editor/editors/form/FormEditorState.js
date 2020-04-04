@@ -223,6 +223,7 @@ exports.FormEditorState = class extends Emitter {
     addButtonComponent(component) {
         component.type       = 'button';
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.BUTTON);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.BUTTON);
         this
             .addProperty(component, 'name',  this.findComponentText('button', 'name', 'Button'))
             .addProperty(component, 'value', component.name)
@@ -233,6 +234,7 @@ exports.FormEditorState = class extends Emitter {
     addSelectButton(component) {
         component.type       = 'selectButton';
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.SELECT_BUTTON);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.SELECT_BUTTON);
         this
             .addProperty(component, 'name',    this.findComponentText('selectButton', 'name', 'SelectButton'))
             .addProperty(component, 'options', ['A', 'B'])
@@ -242,6 +244,7 @@ exports.FormEditorState = class extends Emitter {
     addLabel(component) {
         component.type       = 'label';
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.LABEL);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.LABEL);
         this
             .addProperty(component, 'name', findComponentText('label', 'name', 'Label'))
             .addProperty(component, 'text', component.name);
@@ -250,6 +253,7 @@ exports.FormEditorState = class extends Emitter {
     addCheckBox(component) {
         component.type       = 'checkbox';
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.CHECKBOX);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.CHECKBOX);
         this
             .addProperty(component, 'name',    this.findComponentText('checkbox', 'name', 'Checkbox'))
             .addProperty(component, 'text',    component.name)
@@ -259,6 +263,7 @@ exports.FormEditorState = class extends Emitter {
     addTabs(component) {
         component.type       = 'tabs';
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.TABS);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.TABS);
         this
             .addProperty(component, 'name',        this.findComponentText('tabs', 'name', 'Tabs'))
             .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
@@ -385,8 +390,10 @@ exports.FormEditorState = class extends Emitter {
         let component = this.selectComponentById(id);
         if (component) {
             let properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
+            let events     = [].concat(formEditorConstants.EVENTS_BY_TYPE[component.type.toUpperCase()]);
             properties.id = id;
-            dispatcher.dispatch('Properties.Select', properties, this);
+            events.id     = id;
+            dispatcher.dispatch('Properties.Select', properties, events, this);
         }
     }
 

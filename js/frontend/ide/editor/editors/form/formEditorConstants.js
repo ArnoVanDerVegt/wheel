@@ -86,3 +86,29 @@ exports.PROPERTIES_BY_TYPE           = {
         {type: 'stringList',  name: 'tabs', options: {removeLast: true}}
     ]
 };
+
+// Component properties...
+exports.EVENTS_BY_TYPE               = {
+    BUTTON: [
+        {name: 'onClick'},
+        {name: 'onFocus'},
+        {name: 'onBlur'}
+    ],
+    SELECT_BUTTON: [
+        {name: 'onSelect', params: ['index']},
+        {name: 'onFocus'},
+        {name: 'onBlur'}
+    ],
+    LABEL: [
+    ],
+    CHECKBOX: [
+        {name: 'onClick',  params: ['value']},
+        {name: 'onFocus'},
+        {name: 'onBlur'}
+    ],
+    TABS: [
+        {name: 'onSelect', params: ['index']},
+        {name: 'onFocus'},
+        {name: 'onBlur'}
+    ]
+};

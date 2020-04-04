@@ -157,7 +157,7 @@ exports.FormComponentContainer = class extends DOMNode {
         element.onEvent(position);
     }
 
-    onComponentMouseDown(event, element, id, type, properties) {
+    onComponentMouseDown(event, element, opts) {
         let offsetX    = event.offsetX;
         let offsetY    = event.offsetY;
         let parentNode = event.target;
@@ -166,18 +166,18 @@ exports.FormComponentContainer = class extends DOMNode {
             offsetY += parentNode.offsetTop;
             parentNode = parentNode.parentNode;
         }
-        if (!this._formEditorState.getComponentById(id)) {
+        if (!this._formEditorState.getComponentById(opts.id)) {
             return;
         }
         element.onEvent({pointerEvents: 'none'});
         this._mouseDown        = true;
-        this._mouseComponentId = id;
+        this._mouseComponentId = opts.id;
         this._mouseOffsetX     = offsetX;
         this._mouseOffsetY     = offsetY;
         this._mouseElement     = element;
         event.stopPropagation();
         dispatcher
-            .dispatch('Properties.Select', properties, this._formEditorState)
+            .dispatch('Properties.Select', opts.properties, opts.events, this._formEditorState)
             .dispatch('Properties.ComponentList', {value: id});
     }
 
@@ -214,6 +214,7 @@ exports.FormComponentContainer = class extends DOMNode {
             }
         });
         opts.properties.id = opts.id;
+        opts.events.id     = opts.id;
         opts.style         = {
             position: 'absolute',
             left:     opts.x + 'px',
@@ -221,17 +222,17 @@ exports.FormComponentContainer = class extends DOMNode {
         };
         if (opts.panelOpts) {
             opts.panelOpts.onMouseDown = (function(event) {
-                this.onComponentMouseDown(event, element, opts.id, opts.type, opts.properties);
+                this.onComponentMouseDown(event, element, opts);
             }).bind(this);
         }
         opts.onMouseDown = (function(event) {
-            this.onComponentMouseDown(event, element, opts.id, opts.type, opts.properties);
+            this.onComponentMouseDown(event, element, opts);
         }).bind(this);
         opts.parentNode            = this._formElement;
         opts.ui                    = this._ui;
         opts.uiId                  = 1;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
-        dispatcher.dispatch('Properties.Select', opts.properties, this._formEditorState);
+        dispatcher.dispatch('Properties.Select', opts.properties, opts.events, this._formEditorState);
     }
 };

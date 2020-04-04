@@ -12,6 +12,10 @@ body.ide.no-properties div.properties {
     border-width:                   0 0 0 1px;
     z-index:                        1;
 }
+.properties .tabs {
+    top:                            48px;
+    z-index:                        100;
+}
 .properties .properties-options {
     float:                          left;
     width:                          100%;
@@ -30,8 +34,9 @@ body.ide.no-properties div.properties {
     margin:                         8px 0 0 8px;
     width:                          calc(100% - 48px);
 }
-/* Properties */
-.properties .properties-container {
+/* Properties, events */
+.properties .properties-container,
+.properties .events-container {
     position:                       absolute;
     left:                           0;
     top:                            calc(40px + 47px);
@@ -41,8 +46,17 @@ body.ide.no-properties div.properties {
     overflow-y:                     scroll;
     border:                         var(--ui-border1);
     border-width:                   1px 0 0 0;
+    display:                        none;
+    z-index:                        50;
 }
-.properties .properties-container .property-separator {
+.properties .properties-container.visible {
+    display:                        block;
+}
+.properties .events-container.visible {
+    display:                        block;
+}
+.properties .properties-container .property-separator,
+.properties .events-container .event-separator {
     position:                       absolute;
     top:                            0;
     border:                         var(--ui-border1);
@@ -52,7 +66,8 @@ body.ide.no-properties div.properties {
     height:                         100%;
     pointer-events:                 none;
 }
-.properties .properties-container .property {
+.properties .properties-container .property,
+.properties .events-container .event {
     float:                          left;
     width:                          100%;
     border:                         var(--ui-border1);
@@ -60,11 +75,14 @@ body.ide.no-properties div.properties {
     border-style:                   dotted;
     cursor:                         pointer;
 }
-.properties .properties-container .property.focus {
+.properties .properties-container .property.focus,
+.properties .events-container .event.focus {
     background-color:               var(--ui-background2);
 }
 .properties .properties-container .property .property-name,
-.properties .properties-container .property .property-value {
+.properties .properties-container .property .property-value,
+.properties .events-container .event .event-name,
+.properties .events-container .event .event-value {
     float:                          left;
     width:                          50%;
     height:                         28px;
@@ -72,13 +90,15 @@ body.ide.no-properties div.properties {
     line-height:                    28px;
     padding:                        0;
 }
-.properties .properties-container .property .property-name {
+.properties .properties-container .property .property-name,
+.properties .events-container .event .event-name {
     padding:                        0 0 0 8px;
     position:                       relative;
     -webkit-user-select:            none;
 }
 /* Text input */
-.properties .properties-container .property .property-value .text-input {
+.properties .properties-container .property .property-value .text-input,
+.properties .events-container .event .event-value .text-input {
     float:                          left;
     width:                          100%;
     height:                         28px;
@@ -89,15 +109,16 @@ body.ide.no-properties div.properties {
     font-size:                      15px;
     background-color:               transparent;
 }
-.properties .properties-container .property .property-value .text-input:focus {
+.properties .properties-container .property .property-value .text-input:focus,
+.properties .events-container .event .event-value .text-input:focus {
     border:                         var(--focus-border-dotted);
 }
+/* Icon select */
 .properties .properties-container .property .property-value .icon-select,
 .properties .properties-container .property .property-value .checkbox {
     float:                          left;
     position:                       relative;
 }
-/* Icon select */
 .properties .properties-container .property .property-value a.icon-select img {
     position:                       relative;
     top:                            -2px;
