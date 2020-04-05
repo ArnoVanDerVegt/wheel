@@ -27,6 +27,7 @@ exports.FormEditorState = class extends Emitter {
 
     initForm(opts) {
         let component = this.addFormComponent({
+            type:   'form',
             name:   opts.filename,
             title:  opts.filename,
             width:  opts.width,
@@ -78,6 +79,11 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveComponentId() {
         return this._activeComponentId;
+    }
+
+    getActiveComponentType() {
+        let activeComponent = this._componentsById[this._activeComponentId];
+        return activeComponent ? activeComponent.type : null;
     }
 
     getItems() {
@@ -161,6 +167,9 @@ exports.FormEditorState = class extends Emitter {
                 component[item.property] = item.value;
                 this.onSelectComponent(item.id);
                 this.emit('ChangeProperty', item.id, item.property, item.value);
+                if (component.type === 'form') {
+                    this.emit('ChangeForm');
+                }
                 break;
             case formEditorConstants.ACTION_TAB_DELETE_TAB:
                 let parentMap = {};
@@ -393,6 +402,7 @@ exports.FormEditorState = class extends Emitter {
             return;
         }
         if ((component.type === 'tabs') && (property === 'tabs')) {
+            // todo: add undo...
             this.changeTabs(component, value);
         } else {
             this.undoStackPush({
@@ -403,6 +413,9 @@ exports.FormEditorState = class extends Emitter {
             });
         }
         component[property] = value;
+        if (component.type) {
+            this.emit('ChangeForm');
+        }
     }
 
     onSelectProperties(properties) {

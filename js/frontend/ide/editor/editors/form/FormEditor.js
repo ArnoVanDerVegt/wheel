@@ -17,6 +17,8 @@ exports.FormEditor = class extends Editor {
         opts.getOwnerByParentId = getFormComponentContainerByParentId;
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
+            .on('ChangeForm',      this, this.onChangeForm)
+            .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.onAddForm)
             .on('AddForm',         this, this.updateElements)
             .on('AddComponent',    this, this.updateElements)
@@ -80,6 +82,10 @@ exports.FormEditor = class extends Editor {
         );
     }
 
+    onChangeForm() {
+        this.setSize();
+    }
+
     onUndo() {
         this._formEditorState.undo();
     }
@@ -117,8 +123,8 @@ exports.FormEditor = class extends Editor {
     setSize() {
         let formEditorState = this._formEditorState;
         let formComponent   = formEditorState.getFormComponent();
-        let width           = formComponent.width;
-        let height          = formComponent.height;
+        let width           = Math.max(parseInt(formComponent.width  || '128', 10), 128);
+        let height          = Math.max(parseInt(formComponent.height || '128', 10), 128);
         let element         = this._refs.resourceContentWrapper;
         element.style.width  = (width  + 64)  + 'px';
         element.style.height = (height + 64)  + 'px';
@@ -146,7 +152,10 @@ exports.FormEditor = class extends Editor {
     updateElements() {
         let refs            = this._refs;
         let formEditorState = this._formEditorState;
-        refs.delete.setDisabled(formEditorState.getActiveComponentId() === null);
+        refs.delete.setDisabled(
+            (formEditorState.getActiveComponentId() === null) ||
+            (formEditorState.getActiveComponentType() === 'form')
+        );
         refs.undo.setDisabled(!formEditorState.getHasUndo());
         return this;
     }

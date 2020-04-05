@@ -106,6 +106,7 @@ exports.Properties = class extends DOMNode {
             let childNode = childNodes[childNodes.length - 1];
             childNode.parentNode.removeChild(childNode);
         }
+        return this;
     }
 
     addProperty(property) {
@@ -210,7 +211,10 @@ exports.Properties = class extends DOMNode {
 
     onChangeComponentList(opts) {
         if (opts.value === null) {
-            this.clear();
+            let refs = this._refs;
+            this
+                .clear(refs.propertiesContainer)
+                .clear(refs.eventsContainer);
         }
     }
 };
