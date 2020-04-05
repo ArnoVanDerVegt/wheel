@@ -20,6 +20,15 @@ exports.ACTION_CHANGE_PROPERTY       = 5;
 
 // Component properties...
 exports.PROPERTIES_BY_TYPE           = {
+    FORM: [
+        {type: 'type',        name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'string',      name: 'name'},
+        {type: 'string',      name: 'title'},
+        {type: 'integer',     name: 'width'},
+        {type: 'integer',     name: 'height'}
+    ],
     BUTTON: [
         {type: 'type',        name: null},
         {type: 'id',          name: null},
@@ -89,6 +98,10 @@ exports.PROPERTIES_BY_TYPE           = {
 
 // Component properties...
 exports.EVENTS_BY_TYPE               = {
+    FORM: [
+        {name: 'onShow'},
+        {name: 'onHide'}
+    ],
     BUTTON: [
         {name: 'onClick'},
         {name: 'onFocus'},

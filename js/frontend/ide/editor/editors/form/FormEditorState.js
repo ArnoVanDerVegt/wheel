@@ -13,8 +13,7 @@ exports.FormEditorState = class extends Emitter {
         super(opts);
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._data               = opts.data || [];
-        this._width              = opts.width;
-        this._height             = opts.height;
+        this._formId             = this.peekId();
         this._undoStack          = [];
         this._component          = formEditorConstants.COMPONENT_BUTTON;
         this._componentsById     = {};
@@ -23,6 +22,22 @@ exports.FormEditorState = class extends Emitter {
             .on('Properties.Property.Change', this, this.onChangeProperty)
             .on('Properties.Select',          this, this.onSelectProperties)
             .on('Properties.SelectComponent', this, this.onSelectComponent);
+        setTimeout(this.initForm.bind(this, opts), 50);
+    }
+
+    initForm(opts) {
+        let component = this.addFormComponent({
+            name:   opts.filename,
+            title:  opts.filename,
+            width:  opts.width,
+            height: opts.height
+        });
+        component.id = this._formId;
+        this._componentsById[this._formId] = component;
+        this
+            .emit('AddForm', Object.assign({}, component))
+            .updateComponents(component.id)
+            .onSelectComponent(component.id);
     }
 
     peekId() {
@@ -42,12 +57,8 @@ exports.FormEditorState = class extends Emitter {
         return this._undoStack.length;
     }
 
-    getWidth() {
-        return this._width;
-    }
-
-    getHeight() {
-        return this._height;
+    getFormComponent() {
+        return this._componentsById[this._formId];
     }
 
     setComponentPositionById(id, position) {
@@ -218,6 +229,18 @@ exports.FormEditorState = class extends Emitter {
         }
         component[property] = value;
         return this;
+    }
+
+    addFormComponent(component) {
+        component.type       = 'form';
+        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.FORM);
+        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.FORM);
+        this
+            .addProperty(component, 'name',   component.name)
+            .addProperty(component, 'title',  component.title)
+            .addProperty(component, 'width',  component.width)
+            .addProperty(component, 'height', component.height);
+        return component;
     }
 
     addButtonComponent(component) {
@@ -399,5 +422,6 @@ exports.FormEditorState = class extends Emitter {
 
     updateComponents(id) {
         dispatcher.dispatch('Properties.ComponentList', {value: id, items: this.getItems()});
+        return this;
     }
 };

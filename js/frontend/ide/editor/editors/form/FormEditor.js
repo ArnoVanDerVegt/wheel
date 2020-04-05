@@ -17,14 +17,16 @@ exports.FormEditor = class extends Editor {
         opts.getOwnerByParentId = getFormComponentContainerByParentId;
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
+            .on('AddForm',         this, this.onAddForm)
+            .on('AddForm',         this, this.updateElements)
             .on('AddComponent',    this, this.updateElements)
             .on('DeleteComponent', this, this.updateElements)
             .on('SelectComponent', this, this.updateElements)
             .on('Undo',            this, this.updateElements);
-        this.initDOM(opts.parentNode);
+        this.initDom(opts.parentNode);
     }
 
-    initDOM(parentNode) {
+    initDom(parentNode) {
         this.create(
             parentNode,
             {
@@ -35,24 +37,6 @@ exports.FormEditor = class extends Editor {
                         type:       ToolbarTop,
                         ui:         this._ui,
                         formEditor: this
-                    },
-                    {
-                        className: 'resource-content',
-                        children: [
-                            {
-                                ref:       this.setRef('resourceContentWrapper'),
-                                className: 'resource-content-wrapper',
-                                children: [
-                                    {
-                                        type:            FormComponent,
-                                        ui:              this._ui,
-                                        id:              this.setFormComponent.bind(this),
-                                        formEditorState: this._formEditorState,
-                                        className:       'resource with-shadow form'
-                                    }
-                                ]
-                            }
-                        ]
                     }
                 ]
             }
@@ -70,6 +54,30 @@ exports.FormEditor = class extends Editor {
     show() {
         super.show();
         this.updateElements();
+    }
+
+    onAddForm() {
+        this.create(
+            this._refs.wrapper,
+            {
+                className: 'resource-content',
+                children: [
+                    {
+                        ref:       this.setRef('resourceContentWrapper'),
+                        className: 'resource-content-wrapper',
+                        children: [
+                            {
+                                type:            FormComponent,
+                                ui:              this._ui,
+                                id:              this.setFormComponent.bind(this),
+                                formEditorState: this._formEditorState,
+                                className:       'resource with-shadow form'
+                            }
+                        ]
+                    }
+                ]
+            }
+        );
     }
 
     onUndo() {
@@ -108,8 +116,9 @@ exports.FormEditor = class extends Editor {
 
     setSize() {
         let formEditorState = this._formEditorState;
-        let width           = formEditorState.getWidth();
-        let height          = formEditorState.getHeight();
+        let formComponent   = formEditorState.getFormComponent();
+        let width           = formComponent.width;
+        let height          = formComponent.height;
         let element         = this._refs.resourceContentWrapper;
         element.style.width  = (width  + 64)  + 'px';
         element.style.height = (height + 64)  + 'px';
