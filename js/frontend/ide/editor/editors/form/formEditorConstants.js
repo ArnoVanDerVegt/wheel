@@ -3,12 +3,13 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 
-// Components...
-exports.COMPONENT_BUTTON             = 0;
-exports.COMPONENT_SELECT_BUTTON      = 1;
-exports.COMPONENT_LABEL              = 2;
-exports.COMPONENT_CHECKBOX           = 3;
-exports.COMPONENT_TABS               = 4;
+// Component types...
+exports.COMPONENT_TYPE_FORM          = 'form';
+exports.COMPONENT_TYPE_BUTTON        = 'button';
+exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
+exports.COMPONENT_TYPE_LABEL         = 'label';
+exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
+exports.COMPONENT_TYPE_TABS          = 'tabs';
 
 // Edit actions for undo...
 exports.ACTION_ADD_COMPONENT         = 0;

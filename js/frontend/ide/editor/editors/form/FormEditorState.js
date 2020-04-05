@@ -11,11 +11,12 @@ let nextId = 0;
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
+        this._clipboard          = null;
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._data               = opts.data || [];
         this._formId             = this.peekId();
         this._undoStack          = [];
-        this._component          = formEditorConstants.COMPONENT_BUTTON;
+        this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._componentsById     = {};
         this._activeComponentId  = null;
         dispatcher
@@ -81,8 +82,26 @@ exports.FormEditorState = class extends Emitter {
         return this._activeComponentId;
     }
 
+    getActiveComponentParentId() {
+        let activeComponent = this.getActiveComponent();
+        if (activeComponent.type === formEditorConstants.COMPONENT_TYPE_TABS) {
+            return activeComponent.containerId;
+        }
+        if (!activeComponent ||
+            (activeComponent.type === formEditorConstants.COMPONENT_TYPE_FORM) ||
+            (activeComponent.parentId === this._formId)) {
+            return null;
+        }
+        return activeComponent.parentId;
+    }
+
+    getActiveComponent() {
+        return this._componentsById[this._activeComponentId] || null;
+
+    }
+
     getActiveComponentType() {
-        let activeComponent = this._componentsById[this._activeComponentId];
+        let activeComponent = this.getActiveComponent();
         return activeComponent ? activeComponent.type : null;
     }
 
@@ -97,6 +116,20 @@ exports.FormEditorState = class extends Emitter {
             });
         }
         return items;
+    }
+
+    getCanCopy() {
+        switch (this.getActiveComponentType()) {
+            case formEditorConstants.COMPONENT_TYPE_BUTTON:        return true;
+            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return true;
+            case formEditorConstants.COMPONENT_TYPE_LABEL:         return true;
+            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return true;
+        }
+        return false;
+    }
+
+    getCanPaste() {
+        return !!this._clipboard;
     }
 
     getHasUndo() {
@@ -125,6 +158,7 @@ exports.FormEditorState = class extends Emitter {
             }
         }
         this._undoStack.push(item);
+        this.emit('AddUndo');
         return this;
     }
 
@@ -136,11 +170,11 @@ exports.FormEditorState = class extends Emitter {
                 component.owner              = this._getOwnerByParentId(component.parentId);
                 componentsById[component.id] = component;
                 switch (component.type) {
-                    case 'button':       this.addButtonComponent(component); break;
-                    case 'selectButton': this.addSelectButton   (component); break;
-                    case 'label':        this.addLabel          (component); break;
-                    case 'checkbox':     this.addCheckBox       (component); break;
-                    case 'tabs':         this.addTabs           (component); break;
+                    case formEditorConstants.COMPONENT_TYPE_BUTTON:        this.addButtonComponent(component); break;
+                    case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: this.addSelectButton   (component); break;
+                    case formEditorConstants.COMPONENT_TYPE_LABEL:         this.addLabel          (component); break;
+                    case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      this.addCheckBox       (component); break;
+                    case formEditorConstants.COMPONENT_TYPE_TABS:          this.addTabs           (component); break;
                 }
                 return component;
             }).bind(this);
@@ -241,7 +275,7 @@ exports.FormEditorState = class extends Emitter {
     }
 
     addFormComponent(component) {
-        component.type       = 'form';
+        component.type       = formEditorConstants.COMPONENT_TYPE_FORM;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.FORM);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.FORM);
         this
@@ -253,51 +287,51 @@ exports.FormEditorState = class extends Emitter {
     }
 
     addButtonComponent(component) {
-        component.type       = 'button';
+        component.type       = formEditorConstants.COMPONENT_TYPE_BUTTON;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.BUTTON);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.BUTTON);
         this
-            .addProperty(component, 'name',  this.findComponentText('button', 'name', 'Button'))
+            .addProperty(component, 'name',  this.findComponentText(component.type, 'name', 'Button'))
             .addProperty(component, 'value', component.name)
             .addProperty(component, 'title', component.name)
             .addProperty(component, 'color', 'green');
     }
 
     addSelectButton(component) {
-        component.type       = 'selectButton';
+        component.type       = formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.SELECT_BUTTON);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.SELECT_BUTTON);
         this
-            .addProperty(component, 'name',    this.findComponentText('selectButton', 'name', 'SelectButton'))
+            .addProperty(component, 'name',    this.findComponentText(component.type, 'name', 'SelectButton'))
             .addProperty(component, 'options', ['A', 'B'])
             .addProperty(component, 'color',   'green');
     }
 
     addLabel(component) {
-        component.type       = 'label';
+        component.type       = formEditorConstants.COMPONENT_TYPE_LABEL;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.LABEL);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.LABEL);
         this
-            .addProperty(component, 'name', findComponentText('label', 'name', 'Label'))
+            .addProperty(component, 'name', findComponentText(component.type, 'name', 'Label'))
             .addProperty(component, 'text', component.name);
     }
 
     addCheckBox(component) {
-        component.type       = 'checkbox';
+        component.type       = formEditorConstants.COMPONENT_TYPE_CHECKBOX;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.CHECKBOX);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.CHECKBOX);
         this
-            .addProperty(component, 'name',    this.findComponentText('checkbox', 'name', 'Checkbox'))
+            .addProperty(component, 'name',    this.findComponentText(component.type, 'name', 'Checkbox'))
             .addProperty(component, 'text',    component.name)
             .addProperty(component, 'checked', false);
     }
 
     addTabs(component) {
-        component.type       = 'tabs';
+        component.type       = formEditorConstants.COMPONENT_TYPE_TABS;
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.TABS);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.TABS);
         this
-            .addProperty(component, 'name',        this.findComponentText('tabs', 'name', 'Tabs'))
+            .addProperty(component, 'name',        this.findComponentText(component.type, 'name', 'Tabs'))
             .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
             .addProperty(component, 'width',       200)
             .addProperty(component, 'height',      128)
@@ -314,12 +348,12 @@ exports.FormEditorState = class extends Emitter {
                 parentId: opts.parentId
             };
         this._componentsById[component.id] = component;
-        switch (this._component) {
-            case formEditorConstants.COMPONENT_BUTTON:        this.addButtonComponent(component); break;
-            case formEditorConstants.COMPONENT_SELECT_BUTTON: this.addSelectButton   (component); break;
-            case formEditorConstants.COMPONENT_LABEL:         this.addLabel          (component); break;
-            case formEditorConstants.COMPONENT_CHECKBOX:      this.addCheckBox       (component); break;
-            case formEditorConstants.COMPONENT_TABS:          this.addTabs           (component); break;
+        switch (opts.type || this._component) {
+            case formEditorConstants.COMPONENT_TYPE_BUTTON:        this.addButtonComponent(component); break;
+            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: this.addSelectButton   (component); break;
+            case formEditorConstants.COMPONENT_TYPE_LABEL:         this.addLabel          (component); break;
+            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      this.addCheckBox       (component); break;
+            case formEditorConstants.COMPONENT_TYPE_TABS:          this.addTabs           (component); break;
         }
         this._activeComponentId = component.id;
         this
@@ -347,6 +381,31 @@ exports.FormEditorState = class extends Emitter {
         }
         this.emit('DeleteComponent', id);
         dispatcher.dispatch('Properties.ComponentList', {value: null, items: this.getItems()});
+    }
+
+    copy() {
+        if (!this.getCanCopy()) {
+            return false;
+        }
+        let component = this.getActiveComponent();
+        if (component) {
+            this._clipboard = Object.assign({}, component);
+            delete this._clipboard.owner;
+            return true;
+        }
+        return false;
+    }
+
+    paste(parentId, owner) {
+        let clipboard = this._clipboard;
+        if (!clipboard) {
+            return;
+        }
+        clipboard.owner    = owner;
+        clipboard.parentId = parentId;
+        clipboard.x += 32;
+        clipboard.y += 32;
+        this.addComponent(clipboard);
     }
 
     selectComponentById(id) {
@@ -402,7 +461,7 @@ exports.FormEditorState = class extends Emitter {
             return;
         }
         if ((component.type === 'tabs') && (property === 'tabs')) {
-            // todo: add undo...
+            // Todo: add undo...
             this.changeTabs(component, value);
         } else {
             this.undoStackPush({

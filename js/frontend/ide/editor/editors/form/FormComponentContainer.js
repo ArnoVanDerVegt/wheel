@@ -82,6 +82,10 @@ exports.FormComponentContainer = class extends DOMNode {
         return this._parentId;
     }
 
+    getElementById(id) {
+        return this._elementById[id];
+    }
+
     resetMouseElement() {
         if (this._mouseElement) {
             this._mouseElement.onEvent({pointerEvents: 'auto'});
@@ -178,11 +182,14 @@ exports.FormComponentContainer = class extends DOMNode {
         event.stopPropagation();
         dispatcher
             .dispatch('Properties.Select', opts.properties, opts.events, this._formEditorState)
-            .dispatch('Properties.ComponentList', {value: id});
+            .dispatch('Properties.ComponentList', {value: opts.id});
     }
 
     onAddComponent(opts) {
         opts.componentConstructor = CONSTRUCTOR_BY_TYPE[opts.type];
+        if (!opts.componentConstructor) {
+            return;
+        }
         if (opts.type === 'tabs') {
             opts.panelConstructor = exports.FormComponentContainer;
             opts.panelOpts        = {

@@ -135,4 +135,8 @@ exports.TabPanel = class extends Component {
             .addTab()
             .onClickTab(this._active);
     }
+
+    getActive() {
+        return this._active;
+    }
 };

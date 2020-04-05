@@ -4,9 +4,11 @@
 **/
 const dispatcher                          = require('../../../../lib/dispatcher').dispatcher;
 const path                                = require('../../../../lib/path');
+const TabPanel                            = require('../../../../lib/components/TabPanel').TabPanel;
 const Editor                              = require('../Editor').Editor;
 const Clipboard                           = require('../Clipboard');
 const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
+const formEditorConstants                 = require('./formEditorConstants');
 const FormEditorState                     = require('./FormEditorState').FormEditorState;
 const FormComponent                       = require('./FormComponent').FormComponent;
 const getFormComponentContainerByParentId = require('./FormComponentContainer').getFormComponentContainerByParentId;
@@ -21,6 +23,7 @@ exports.FormEditor = class extends Editor {
             .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.onAddForm)
             .on('AddForm',         this, this.updateElements)
+            .on('AddUndo',         this, this.onAddUndo)
             .on('AddComponent',    this, this.updateElements)
             .on('DeleteComponent', this, this.updateElements)
             .on('SelectComponent', this, this.updateElements)
@@ -88,12 +91,41 @@ exports.FormEditor = class extends Editor {
 
     onUndo() {
         this._formEditorState.undo();
+        dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
+    }
+
+    onAddUndo() {
+        dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
     }
 
     onCopy() {
+        if (this._formEditorState.copy()) {
+            dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
+            this.updateElements();
+        }
     }
 
     onPaste() {
+        let formEditorState = this._formEditorState;
+        let parentId        = formEditorState.getActiveComponentParentId();
+        let owner           = null;
+        if (parentId === null) {
+            parentId = formEditorState.getFormId();
+            owner    = this._formComponent;
+        } else if (Array.isArray(parentId)) {
+            let activeComponentId = formEditorState.getActiveComponentId();
+            let element           = this._formComponent.getElementById(activeComponentId);
+            if (element && (element instanceof TabPanel)) {
+                parentId = parentId[element.getActive()];
+                owner    = getFormComponentContainerByParentId(parentId);
+            }
+        } else {
+            owner = getFormComponentContainerByParentId(parentId);
+            // Todo: show active tab panel!
+        }
+        if (owner) {
+            this._formEditorState.paste(parentId, owner);
+        }
     }
 
     onDelete() {
@@ -105,7 +137,16 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectComponent(component) {
-        this._formEditorState.setComponent(component);
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_BUTTON,
+                formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
+                formEditorConstants.COMPONENT_TYPE_LABEL,
+                formEditorConstants.COMPONENT_TYPE_CHECKBOX,
+                formEditorConstants.COMPONENT_TYPE_TABS
+            ];
+        if (component in components) {
+            this._formEditorState.setComponent(components[component]);
+        }
     }
 
     getCanUndo() {
@@ -113,11 +154,11 @@ exports.FormEditor = class extends Editor {
     }
 
     getCanCopy() {
-        return false;
+        return this._formEditorState.getCanCopy();
     }
 
     getCanPaste() {
-        return false;
+        return this._formEditorState.getCanPaste();
     }
 
     setSize() {
@@ -157,6 +198,9 @@ exports.FormEditor = class extends Editor {
             (formEditorState.getActiveComponentType() === 'form')
         );
         refs.undo.setDisabled(!formEditorState.getHasUndo());
+        refs.copy.setDisabled(!this.getCanCopy());
+        refs.paste.setDisabled(!this.getCanPaste());
+        dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
         return this;
     }
 };
