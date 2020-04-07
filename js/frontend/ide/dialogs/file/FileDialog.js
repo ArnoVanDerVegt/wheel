@@ -47,7 +47,7 @@ exports.FileDialog = class extends Dialog {
                     ui:       this._ui,
                     tabIndex: 2,
                     detail:   this._settings.getFilesDetail(),
-                    filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms'],
+                    filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
                     getImage: this._getImage,
                     getFiles: this.getFiles.bind(this),
                     onFile:   this.onFile.bind(this),
@@ -103,7 +103,7 @@ exports.FileDialog = class extends Dialog {
                     .setDisabled(true);
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
                 this.getFiles(
                     false,
                     false,
@@ -143,7 +143,7 @@ exports.FileDialog = class extends Dialog {
                     .setDisabled(filename.trim() === '');
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
                 this.getFiles(
                     false,
                     path,

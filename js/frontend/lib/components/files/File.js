@@ -31,6 +31,7 @@ const getIcon = function(getImage, file) {
         case '.whlp': image = 'images/files/whlp.svg'; break;
         case '.woc':  image = 'images/files/woc.svg';  break;
         case '.lms':  image = 'images/files/lms.svg';  break;
+        case '.wfrm': image = 'images/files/form.svg'; break;
     }
     return {
         className: 'file-icon',

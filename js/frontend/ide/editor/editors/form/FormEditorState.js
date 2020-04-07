@@ -5,6 +5,8 @@
 const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const Emitter             = require('../../../../lib/Emitter').Emitter;
 const formEditorConstants = require('./formEditorConstants');
+const ComponentBuilder    = require('./ComponentBuilder').ComponentBuilder;
+const UndoStack           = require('./UndoStack').UndoStack;
 
 let nextId = 0;
 
@@ -14,7 +16,8 @@ exports.FormEditorState = class extends Emitter {
         this._clipboard          = null;
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._formId             = this.peekId();
-        this._undoStack          = [];
+        this._undoStack          = new UndoStack({formEditorState: this});
+        this._componentBuilder   = new ComponentBuilder({formEditorState: this});
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._componentsById     = {};
         this._activeComponentId  = null;
@@ -36,7 +39,7 @@ exports.FormEditorState = class extends Emitter {
         let component;
         if (opts.data) {
             let form = opts.data[0];
-            component = this.addFormComponent({
+            component = this._componentBuilder.addFormComponent({
                 type:   'form',
                 name:   form.name,
                 title:  form.title,
@@ -44,7 +47,7 @@ exports.FormEditorState = class extends Emitter {
                 height: form.height
             });
         } else {
-            component = this.addFormComponent({
+            component = this._componentBuilder.addFormComponent({
                 type:   'form',
                 name:   opts.filename,
                 title:  opts.filename,
@@ -77,6 +80,7 @@ exports.FormEditorState = class extends Emitter {
                 this.addComponent(component);
             }
         }
+        this._undoStack.setEnabled(true);
     }
 
     peekId() {
@@ -93,7 +97,7 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getUndoStackLength() {
-        return this._undoStack.length;
+        return this._undoStack.getLength();
     }
 
     getFormComponent() {
@@ -102,7 +106,7 @@ exports.FormEditorState = class extends Emitter {
 
     setComponentPositionById(id, position) {
         let component = this._componentsById[id] || {};
-        this.undoStackPush({
+        this._undoStack.undoStackPush({
             action:   formEditorConstants.ACTION_CHANGE_POSITION,
             id:       id,
             position: {x: component.x, y: component.y}
@@ -134,7 +138,6 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveComponent() {
         return this._componentsById[this._activeComponentId] || null;
-
     }
 
     getActiveComponentType() {
@@ -170,7 +173,7 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getHasUndo() {
-        return this._undoStack.length;
+        return this._undoStack.getLength();
     }
 
     getData() {
@@ -212,114 +215,8 @@ exports.FormEditorState = class extends Emitter {
         return result;
     }
 
-    undoStackPop() {
-        return this._undoStack.pop();
-    }
-
-    undoStackPush(item) {
-        let undoStack = this._undoStack;
-        let lastItem  = undoStack.length ? undoStack[undoStack.length - 1] : null;
-        if (lastItem) {
-            switch (lastItem.action) {
-                case formEditorConstants.ACTION_CHANGE_POSITION:
-                    if (lastItem.id === item.id) {
-                        return this;
-                    }
-                    break;
-                case formEditorConstants.ACTION_CHANGE_PROPERTY:
-                    if ((lastItem.id === item.id) && (lastItem.property === item.property)) {
-                        return this;
-                    }
-                    break;
-            }
-        }
-        this._undoStack.push(item);
-        this.emit('AddUndo');
-        return this;
-    }
-
     undo() {
-        let item           = this.undoStackPop();
-        let componentsById = this._componentsById;
-        let component;
-        let addComponent = (function(component) {
-                component.owner              = this._getOwnerByParentId(component.parentId);
-                componentsById[component.id] = component;
-                switch (component.type) {
-                    case formEditorConstants.COMPONENT_TYPE_BUTTON:        this.addButtonComponent(component); break;
-                    case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: this.addSelectButton   (component); break;
-                    case formEditorConstants.COMPONENT_TYPE_LABEL:         this.addLabel          (component); break;
-                    case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      this.addCheckBox       (component); break;
-                    case formEditorConstants.COMPONENT_TYPE_TABS:          this.addTabs           (component); break;
-                }
-                return component;
-            }).bind(this);
-        switch (item.action) {
-            case formEditorConstants.ACTION_ADD_COMPONENT:
-                this.deleteComponentById(item.id, false);
-                break;
-            case formEditorConstants.ACTION_DELETE_COMPONENT:
-                component = addComponent(item.component);
-                this._activeComponentId = component.id;
-                this
-                    .emit('AddComponent', Object.assign({}, component))
-                    .updateComponents(component.id);
-                break;
-            case formEditorConstants.ACTION_CHANGE_POSITION:
-                component   = componentsById[item.id];
-                component.x = item.position.x;
-                component.y = item.position.y;
-                this.onSelectComponent(item.id);
-                this.emit('ChangePosition', item.id, item.position);
-                break;
-            case formEditorConstants.ACTION_CHANGE_PROPERTY:
-                component                = componentsById[item.id];
-                component[item.property] = item.value;
-                this.onSelectComponent(item.id);
-                this.emit('ChangeProperty', item.id, item.property, item.value);
-                if (component.type === 'form') {
-                    this.emit('ChangeForm');
-                }
-                break;
-            case formEditorConstants.ACTION_TAB_DELETE_TAB:
-                let parentMap = {};
-                let id        = nextId + 1;
-                item.children.forEach(
-                    function(component) {
-                        if (!(component.parentId in parentMap)) {
-                            parentMap[component.parentId] = id;
-                            id++;
-                        }
-                        let containerId = component.containerId;
-                        if (containerId) {
-                            for (let i = 0; i < containerId.length; i++) {
-                                if (!(containerId[i] in parentMap)) {
-                                    parentMap[containerId[i]] = id;
-                                    id++;
-                                }
-                            }
-                        }
-                    }
-                );
-                dispatcher.dispatch('AddTabComponent', item);
-                item.children.forEach(
-                    function(component) {
-                        component.parentId = parentMap[component.parentId];
-                        if (component.type === 'tabs') {
-                            let containerId = component.containerId;
-                            for (let i = 0; i < containerId.length; i++) {
-                                containerId[i] = parentMap[containerId[i]];
-                            }
-                        }
-                        addComponent(component);
-                        this.emit('AddComponent', Object.assign({}, component));
-                    },
-                    this
-                );
-                this.updateComponents(item.id);
-                break;
-        }
-        this.emit('Undo');
+        this._undoStack.undo();
     }
 
     findComponentText(type, property, prefix) {
@@ -342,78 +239,6 @@ exports.FormEditorState = class extends Emitter {
         return result;
     }
 
-    addProperty(component, property, value) {
-        if (property in component) {
-            return this;
-        }
-        component[property] = value;
-        return this;
-    }
-
-    addFormComponent(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_FORM;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.FORM);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.FORM);
-        this
-            .addProperty(component, 'name',   component.name)
-            .addProperty(component, 'title',  component.title)
-            .addProperty(component, 'width',  component.width)
-            .addProperty(component, 'height', component.height);
-        return component;
-    }
-
-    addButtonComponent(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_BUTTON;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.BUTTON);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.BUTTON);
-        this
-            .addProperty(component, 'name',  this.findComponentText(component.type, 'name', 'Button'))
-            .addProperty(component, 'value', component.name)
-            .addProperty(component, 'title', component.name)
-            .addProperty(component, 'color', 'green');
-    }
-
-    addSelectButton(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.SELECT_BUTTON);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.SELECT_BUTTON);
-        this
-            .addProperty(component, 'name',    this.findComponentText(component.type, 'name', 'SelectButton'))
-            .addProperty(component, 'options', ['A', 'B'])
-            .addProperty(component, 'color',   'green');
-    }
-
-    addLabel(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_LABEL;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.LABEL);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.LABEL);
-        this
-            .addProperty(component, 'name', findComponentText(component.type, 'name', 'Label'))
-            .addProperty(component, 'text', component.name);
-    }
-
-    addCheckBox(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_CHECKBOX;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.CHECKBOX);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.CHECKBOX);
-        this
-            .addProperty(component, 'name',    this.findComponentText(component.type, 'name', 'Checkbox'))
-            .addProperty(component, 'text',    component.name)
-            .addProperty(component, 'checked', false);
-    }
-
-    addTabs(component) {
-        component.type       = formEditorConstants.COMPONENT_TYPE_TABS;
-        component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.TABS);
-        component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.TABS);
-        this
-            .addProperty(component, 'name',        this.findComponentText(component.type, 'name', 'Tabs'))
-            .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
-            .addProperty(component, 'width',       200)
-            .addProperty(component, 'height',      128)
-            .addProperty(component, 'containerId', [this.peekId(), this.peekId() + 1]);
-    }
-
     addComponent(opts) {
         let component = {
                 tabIndex: 0,
@@ -424,16 +249,10 @@ exports.FormEditorState = class extends Emitter {
                 parentId: opts.parentId
             };
         this._componentsById[component.id] = component;
-        switch (opts.type || this._component) {
-            case formEditorConstants.COMPONENT_TYPE_BUTTON:        this.addButtonComponent(component); break;
-            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: this.addSelectButton   (component); break;
-            case formEditorConstants.COMPONENT_TYPE_LABEL:         this.addLabel          (component); break;
-            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      this.addCheckBox       (component); break;
-            case formEditorConstants.COMPONENT_TYPE_TABS:          this.addTabs           (component); break;
-        }
+        this._componentBuilder.addComponentForType(component, opts.type || this._component);
         this._activeComponentId = component.id;
+        this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
-            .undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id})
             .emit('AddComponent', Object.assign({}, component))
             .updateComponents(component.id);
     }
@@ -453,7 +272,7 @@ exports.FormEditorState = class extends Emitter {
         delete componentsById[id];
         this._activeComponentId = null;
         if (saveUndo) {
-            this.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
+            this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
         this.emit('DeleteComponent', id);
         dispatcher.dispatch('Properties.ComponentList', {value: null, items: this.getItems()});
@@ -514,7 +333,7 @@ exports.FormEditorState = class extends Emitter {
             }).bind(this);
         if (value.length > component.tabs.length) {
             component.containerId.push(nextId + 1);
-            this.undoStackPush({
+            this._undoStack.undoStackPush({
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id
             });
@@ -522,7 +341,7 @@ exports.FormEditorState = class extends Emitter {
             let parentId = component.containerId.pop();
             let children = [];
             findNestedComponents(children, parentId);
-            this.undoStackPush({
+            this._undoStack.undoStackPush({
                 action:   formEditorConstants.ACTION_TAB_DELETE_TAB,
                 id:       component.id,
                 tab:      component.tabs[component.tabs.length - 1],
@@ -540,7 +359,7 @@ exports.FormEditorState = class extends Emitter {
             // Todo: add undo...
             this.changeTabs(component, value);
         } else {
-            this.undoStackPush({
+            this._undoStack.undoStackPush({
                 action:   formEditorConstants.ACTION_CHANGE_PROPERTY,
                 id:       id,
                 property: property,
@@ -566,6 +385,7 @@ exports.FormEditorState = class extends Emitter {
             events.id     = id;
             dispatcher.dispatch('Properties.Select', properties, events, this);
         }
+        return this;
     }
 
     updateComponents(id) {
