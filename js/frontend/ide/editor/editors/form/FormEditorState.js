@@ -36,25 +36,14 @@ exports.FormEditorState = class extends Emitter {
     }
 
     initForm(opts) {
-        let component;
-        if (opts.data) {
-            let form = opts.data[0];
-            component = this._componentBuilder.addFormComponent({
-                type:   'form',
-                name:   form.name,
-                title:  form.title,
-                width:  form.width,
-                height: form.height
-            });
-        } else {
-            component = this._componentBuilder.addFormComponent({
-                type:   'form',
-                name:   opts.filename,
-                title:  opts.filename,
-                width:  opts.width,
-                height: opts.height
-            });
-        }
+        let form      = opts.data ? opts.data[0] : null;
+        let component = this._componentBuilder.addFormComponent({
+            type:   'form',
+            name:   form ? form.name :  opts.filename,
+            title:  form ? form.title  : opts.filename,
+            width:  form ? form.width  : opts.width,
+            height: form ? form.height : opts.height
+        });
         component.id = this._formId;
         this._componentsById[this._formId] = component;
         this
