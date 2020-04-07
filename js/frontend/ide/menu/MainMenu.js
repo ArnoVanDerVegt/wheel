@@ -337,9 +337,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[4].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[6].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[7].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 

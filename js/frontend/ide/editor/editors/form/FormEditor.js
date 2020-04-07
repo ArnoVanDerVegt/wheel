@@ -50,9 +50,7 @@ exports.FormEditor = class extends Editor {
     }
 
     remove() {
-        while (this._dispatch.length) {
-            this._dispatch.pop()();
-        }
+        this._formEditorState.remove();
         super.remove();
     }
 
@@ -179,7 +177,7 @@ exports.FormEditor = class extends Editor {
     }
 
     getValue() {
-        return null;
+        return this._formEditorState.getData();
     }
 
     clearSelection() {

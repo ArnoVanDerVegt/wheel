@@ -211,22 +211,21 @@ exports.ideRoutes = {
         let filename = req.body.filename;
         let data     = req.body.data;
         let result   = {success: true};
-        switch (filename.substr(-4)) {
-            case '.rgf':
-                if (typeof data === 'string') {
-                    try {
-                        data = JSON.parse(data);
-                    } catch (error) {
-                        result.success = false;
-                    }
+        if (filename.substr(-4) === '.rgf') {
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    result.success = false;
                 }
-                if (result.success) {
-                    data = new RgfImage().pack(data);
-                }
-                break;
-            case '.rsf':
-                data = new Uint8Array(data);
-                break;
+            }
+            if (result.success) {
+                data = new RgfImage().pack(data);
+            }
+        } else if (filename.substr(-4) === '.rsf') {
+            data = new Uint8Array(data);
+        } else if (filename.substr(-5) === '.wfrm') {
+            data = JSON.stringify(data, null, 4);
         }
         if (result.success) {
             fs.writeFile(filename, data, createResultCallback(result, res));

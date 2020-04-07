@@ -252,7 +252,6 @@ exports.Editors = class extends DOMNode {
 
     addEditor(opts, editor) {
         this._editorsState.add(editor);
-        this.onClickTab(opts.filename, opts.path);
         this._refs.tabs.add({
             title:   opts.filename,
             meta:    opts.path,
@@ -261,6 +260,7 @@ exports.Editors = class extends DOMNode {
                 (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
             }).bind(this)
         });
+        this.onClickTab(opts.filename, opts.path);
         dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
     }
 
@@ -311,6 +311,11 @@ exports.Editors = class extends DOMNode {
                 this.addEditor(opts, new SoundEditor(opts));
                 break;
             case '.wfrm':
+                try {
+                    opts.data = JSON.parse(opts.value);
+                } catch (error) {
+                    opts.data = null;
+                }
                 this.addEditor(opts, new FormEditor(opts));
                 break;
             case '.mp3':
@@ -371,7 +376,7 @@ exports.Editors = class extends DOMNode {
         let canPaste    = false;
         let canCompile  = this._editorsState.hasCompilableFile();
         if (activeEditor) {
-            canSave     = (['.whl', '.whlp', '.rgf', '.rsf'].indexOf(path.getExtension(activeEditor.getFilename())) !== -1);
+            canSave     = (['.whl', '.whlp', '.rgf', '.rsf', '.wfrm'].indexOf(path.getExtension(activeEditor.getFilename())) !== -1);
             canFind     = activeEditor.getCanFind();
             canFindNext = (activeEditor.getFindText() !== null);
             canUndo     = activeEditor.getCanUndo();

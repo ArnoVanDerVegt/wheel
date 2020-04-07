@@ -32,8 +32,11 @@ exports.FormNewDialog = class extends ImageNewDialog {
         if (extension === '') {
             this._filename += '.wfrm';
         }
-        let filename = path.join(this._activeDirectory, this._filename);
-        dispatcher.dispatch('Create.Form', filename, this._width, this._height);
+        let formFilename = path.join(this._activeDirectory, this._filename);
+        let whlFilename  = path.replaceExtension(formFilename, '.whl');
+        dispatcher
+            .dispatch('Create.File', whlFilename, ['lib/form.whl'], ['test'])
+            .dispatch('Create.Form', formFilename, this._width, this._height);
         this.hide();
     }
 

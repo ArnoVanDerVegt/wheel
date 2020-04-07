@@ -171,9 +171,11 @@ exports.Editor = class extends DOMNode {
 
     onFileSaved(filename) {
         this._onFileSaved && clearTimeout(this._onFileSaved);
-        this._fileSavedElement.className     = 'bottom-options';
-        this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
-        this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
-        this._changed                        = false;
+        if (this._fileSavedElement && this._filenameSavedElement) {
+            this._fileSavedElement.className     = 'bottom-options';
+            this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
+            this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
+        }
+        this._changed = false;
     }
 };

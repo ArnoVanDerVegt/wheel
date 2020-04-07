@@ -187,7 +187,7 @@ exports.FileDialog = class extends Dialog {
                         saveFilename += this._extension;
                     }
                     let save = (function() {
-                            dispatcher.dispatch('Dialog.File.SaveAs', saveFilename);
+                            dispatcher.dispatch('Dialog.File.SaveAs', saveFilename, this._startFilename === saveFilename);
                             this.hide();
                         }).bind(this);
                     let existingFile = this.getFileExists(this._refs.files.getFiles(), filename);

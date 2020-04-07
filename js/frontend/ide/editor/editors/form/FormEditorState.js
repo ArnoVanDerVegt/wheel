@@ -13,33 +13,70 @@ exports.FormEditorState = class extends Emitter {
         super(opts);
         this._clipboard          = null;
         this._getOwnerByParentId = opts.getOwnerByParentId;
-        this._data               = opts.data || [];
         this._formId             = this.peekId();
         this._undoStack          = [];
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._componentsById     = {};
         this._activeComponentId  = null;
-        dispatcher
-            .on('Properties.Property.Change', this, this.onChangeProperty)
-            .on('Properties.Select',          this, this.onSelectProperties)
-            .on('Properties.SelectComponent', this, this.onSelectComponent);
+        this._dispatch           = [
+            dispatcher.on('Properties.Property.Change', this, this.onChangeProperty),
+            dispatcher.on('Properties.Select',          this, this.onSelectProperties),
+            dispatcher.on('Properties.SelectComponent', this, this.onSelectComponent)
+        ];
         setTimeout(this.initForm.bind(this, opts), 50);
     }
 
+    remove() {
+        while (this._dispatch.length) {
+            this._dispatch.pop()();
+        }
+    }
+
     initForm(opts) {
-        let component = this.addFormComponent({
-            type:   'form',
-            name:   opts.filename,
-            title:  opts.filename,
-            width:  opts.width,
-            height: opts.height
-        });
+        let component;
+        if (opts.data) {
+            let form = opts.data[0];
+            component = this.addFormComponent({
+                type:   'form',
+                name:   form.name,
+                title:  form.title,
+                width:  form.width,
+                height: form.height
+            });
+        } else {
+            component = this.addFormComponent({
+                type:   'form',
+                name:   opts.filename,
+                title:  opts.filename,
+                width:  opts.width,
+                height: opts.height
+            });
+        }
         component.id = this._formId;
         this._componentsById[this._formId] = component;
         this
             .emit('AddForm', Object.assign({}, component))
             .updateComponents(component.id)
             .onSelectComponent(component.id);
+        if (opts.data) {
+            let data = opts.data;
+            let ids  = {};
+            ids[1] = this._formId;
+            for (let i = 1; i < data.length; i++) {
+                let component = data[i];
+                ids[component.id]  = nextId;
+                component.parentId = ids[component.parentId];
+                component.owner    = this._getOwnerByParentId(component.parentId);
+                if ('containerId' in component) {
+                    let containerId = component.containerId;
+                    for (let j = 0; j < containerId.length; j++) {
+                        ids[containerId[j]] = nextId + j + 2;
+                        containerId[j]      = nextId + j + 2;
+                    }
+                }
+                this.addComponent(component);
+            }
+        }
     }
 
     peekId() {
@@ -134,6 +171,45 @@ exports.FormEditorState = class extends Emitter {
 
     getHasUndo() {
         return this._undoStack.length;
+    }
+
+    getData() {
+        /* eslint-disable no-invalid-this */
+        let toString       = function() { return ('00000000' + this.id).substr(-8); };
+        let result         = [];
+        let componentsById = this._componentsById;
+        let ids            = {};
+        let nextId         = 0;
+        let getId = function(id) {
+                if (id in ids) {
+                    return ids[id];
+                }
+                nextId++;
+                ids[id] = nextId;
+                return nextId;
+            };
+        for (let id in componentsById) {
+            let component = Object.assign({}, componentsById[id]);
+            delete component.owner;
+            delete component.properties;
+            delete component.events;
+            component.id = getId(id);
+            if ('containerId' in component) {
+                let containerId = component.containerId;
+                for (let i = 0; i < containerId.length; i++) {
+                    containerId[i] = getId(containerId[i]);
+                }
+            }
+            if (component.type === 'form') {
+                delete(component.parentId);
+            } else {
+                component.parentId = getId(component.parentId);
+            }
+            component.toString = toString;
+            result.push(component);
+        }
+        result.sort();
+        return result;
     }
 
     undoStackPop() {

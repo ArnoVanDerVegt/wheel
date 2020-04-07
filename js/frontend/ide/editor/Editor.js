@@ -57,13 +57,16 @@ exports.Editor = class extends DOMUtils {
         this._editors.add(opts);
     }
 
-    _addFile(filename, includeFiles) {
+    _addFile(filename, includeFiles, lines) {
         let pathAndFilename = path.getPathAndFilename(filename);
         let file            = [];
         for (let i = 0; i < includeFiles.length; i++) {
             file.push('#include "' + includeFiles[i] + '"');
         }
         file.push('');
+        if (lines) {
+            file = file.concat(lines);
+        }
         this._editors.add({
             value:    file.join('\n'),
             path:     pathAndFilename.path,
@@ -345,12 +348,14 @@ exports.Editor = class extends DOMUtils {
         );
     }
 
-    _saveAs(filename) {
-        let pathAndFilename = path.getPathAndFilename(filename);
-        // Check if there's already a file open with the same path and filename...
-        let existingEditor = this._editorsState.findByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
-        if (existingEditor) {
-            this._editors.close(pathAndFilename);
+    _saveAs(filename, filenameChanged) {
+        if (filenameChanged) {
+            let pathAndFilename = path.getPathAndFilename(filename);
+            // Check if there's already a file open with the same path and filename...
+            let existingEditor = this._editorsState.findByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
+            if (existingEditor) {
+                this._editors.close(pathAndFilename);
+            }
         }
         let editor = this._editors.getActiveEditor();
         if (editor) {
