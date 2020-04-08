@@ -61,6 +61,11 @@ exports.Properties = class extends DOMNode {
                         ]
                     },
                     {
+                        ref:       this.setRef('componentUid'),
+                        className: 'component-uid',
+                        innerHTML: '0x00000000'
+                    },
+                    {
                         ref:       this.setRef('propertiesContainer'),
                         className: 'properties-container visible',
                         children:  [
@@ -196,6 +201,7 @@ exports.Properties = class extends DOMNode {
     }
 
     onSelectProperties(properties, events, formEditorState) {
+        this._refs.componentUid.innerHTML = properties.uid || '0x00000000';
         this.showProperties(properties, formEditorState);
         this.showEvents(events, formEditorState);
     }

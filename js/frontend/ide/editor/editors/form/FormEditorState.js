@@ -6,6 +6,7 @@ const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const Emitter             = require('../../../../lib/Emitter').Emitter;
 const formEditorConstants = require('./formEditorConstants');
 const ComponentBuilder    = require('./ComponentBuilder').ComponentBuilder;
+const ComponentList       = require('./ComponentList').ComponentList;
 const UndoStack           = require('./UndoStack').UndoStack;
 
 let nextId = 0;
@@ -16,11 +17,10 @@ exports.FormEditorState = class extends Emitter {
         this._clipboard          = null;
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._formId             = this.peekId();
-        this._undoStack          = new UndoStack({formEditorState: this});
-        this._componentBuilder   = new ComponentBuilder({formEditorState: this});
+        this._componentList      = new ComponentList({formEditorState: this});
+        this._componentBuilder   = new ComponentBuilder({formEditorState: this, componentList: this._componentList});
+        this._undoStack          = new UndoStack({formEditorState: this, componentList: this._componentList});
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
-        this._componentsById     = {};
-        this._activeComponentId  = null;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty),
             dispatcher.on('Properties.Select',          this, this.onSelectProperties),
@@ -39,13 +39,14 @@ exports.FormEditorState = class extends Emitter {
         let form      = opts.data ? opts.data[0] : null;
         let component = this._componentBuilder.addFormComponent({
             type:   'form',
-            name:   form ? form.name :  opts.filename,
+            uid:    form ? form.uid    : this._componentList.getNewComponentUid(),
+            name:   form ? form.name   : opts.filename,
             title:  form ? form.title  : opts.filename,
             width:  form ? form.width  : opts.width,
             height: form ? form.height : opts.height
         });
         component.id = this._formId;
-        this._componentsById[this._formId] = component;
+        this._componentList.setComponentById(component, this._formId);
         this
             .emit('AddForm', Object.assign({}, component))
             .updateComponents(component.id)
@@ -90,11 +91,11 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getFormComponent() {
-        return this._componentsById[this._formId];
+        return this._componentList.getComponentById(this._formId);
     }
 
     setComponentPositionById(id, position) {
-        let component = this._componentsById[id] || {};
+        let component = this._componentList.getComponentById(id) || {};
         this._undoStack.undoStackPush({
             action:   formEditorConstants.ACTION_CHANGE_POSITION,
             id:       id,
@@ -105,11 +106,11 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getComponentById(id) {
-        return this._componentsById[id];
+        return this._componentList.getComponentById(id);
     }
 
     getActiveComponentId() {
-        return this._activeComponentId;
+        return this._componentList.getActiveComponentId();
     }
 
     getActiveComponentParentId() {
@@ -126,25 +127,12 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getActiveComponent() {
-        return this._componentsById[this._activeComponentId] || null;
+        return this._componentList.getComponentById(this.getActiveComponentId()) || null;
     }
 
     getActiveComponentType() {
         let activeComponent = this.getActiveComponent();
         return activeComponent ? activeComponent.type : null;
-    }
-
-    getItems() {
-        let componentsById = this._componentsById;
-        let items          = [];
-        for (let id in componentsById) {
-            let component = componentsById[id];
-            items.push({
-                value: component.id,
-                title: component.name + ' <i>' + component.type + '</i>'
-            });
-        }
-        return items;
     }
 
     getCanCopy() {
@@ -166,80 +154,27 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getData() {
-        /* eslint-disable no-invalid-this */
-        let toString       = function() { return ('00000000' + this.id).substr(-8); };
-        let result         = [];
-        let componentsById = this._componentsById;
-        let ids            = {};
-        let nextId         = 0;
-        let getId = function(id) {
-                if (id in ids) {
-                    return ids[id];
-                }
-                nextId++;
-                ids[id] = nextId;
-                return nextId;
-            };
-        for (let id in componentsById) {
-            let component = Object.assign({}, componentsById[id]);
-            delete component.owner;
-            delete component.properties;
-            delete component.events;
-            component.id = getId(id);
-            if ('containerId' in component) {
-                let containerId = component.containerId;
-                for (let i = 0; i < containerId.length; i++) {
-                    containerId[i] = getId(containerId[i]);
-                }
-            }
-            if (component.type === 'form') {
-                delete(component.parentId);
-            } else {
-                component.parentId = getId(component.parentId);
-            }
-            component.toString = toString;
-            result.push(component);
-        }
-        result.sort();
-        return result;
+        return this._componentList.getData();
     }
 
     undo() {
         this._undoStack.undo();
     }
 
-    findComponentText(type, property, prefix) {
-        let componentsById = this._componentsById;
-        let count          = 1;
-        let found          = true;
-        let result;
-        while (found) {
-            found  = false;
-            result = prefix + count;
-            for (let id in componentsById) {
-                let component = componentsById[id];
-                if ((component.type === type) && (component[property] === result)) {
-                    found = true;
-                    count++;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
     addComponent(opts) {
         let component = {
                 tabIndex: 0,
                 id:       this.getNextId(),
+                uid:      this._componentList.getNewComponentUid(),
                 x:        opts.x,
                 y:        opts.y,
                 owner:    opts.owner,
                 parentId: opts.parentId
             };
-        this._componentsById[component.id] = component;
+        this._componentList
+            .setComponentById(component, component.id)
+            .setActiveComponentId(component.id);
         this._componentBuilder.addComponentForType(component, opts.type || this._component);
-        this._activeComponentId = component.id;
         this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
             .emit('AddComponent', Object.assign({}, component))
@@ -247,24 +182,16 @@ exports.FormEditorState = class extends Emitter {
     }
 
     deleteActiveComponent() {
-        this.deleteComponentById(this._activeComponentId, true);
+        this._componentList.deleteActiveComponent();
     }
 
     deleteComponentById(id, saveUndo) {
-        let componentsById = this._componentsById;
-        if ((id === null) || !componentsById[id]) {
-            return;
-        }
-        let component = Object.assign({}, componentsById[id]);
-        component.parentId = component.owner.getParentId();
-        delete component.owner;
-        delete componentsById[id];
-        this._activeComponentId = null;
+        let component = this._componentList.deleteComponentById(id);
         if (saveUndo) {
             this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
         this.emit('DeleteComponent', id);
-        dispatcher.dispatch('Properties.ComponentList', {value: null, items: this.getItems()});
+        dispatcher.dispatch('Properties.ComponentList', {value: null, items: this._componentList.getItems()});
     }
 
     copy() {
@@ -293,54 +220,17 @@ exports.FormEditorState = class extends Emitter {
     }
 
     selectComponentById(id) {
-        let component = this._componentsById[id];
-        if (component) {
-            this._activeComponentId = id;
-            this.emit('SelectComponent', id);
-            return component;
-        }
-        return false;
+        let component = this._componentList.selectComponentById(id);
+        component && this.emit('SelectComponent', id);
+        return component;
     }
 
     changeTabs(component, value) {
-        let componentsById       = this._componentsById;
-        let findNestedComponents = (function(children, parentId) {
-                for (let id in componentsById) {
-                    let component = componentsById[id];
-                    if (component.parentId === parentId) {
-                        let containerId = component.containerId || [];
-                        for (let i = 0; i < containerId.length; i++) {
-                            findNestedComponents(children, containerId[i]);
-                        }
-                        let child = Object.assign({}, component);
-                        delete child.owner;
-                        delete componentsById[id];
-                        children.push(child);
-                        this.emit('DeleteComponent', id);
-                    }
-                }
-            }).bind(this);
-        if (value.length > component.tabs.length) {
-            component.containerId.push(nextId + 1);
-            this._undoStack.undoStackPush({
-                action: formEditorConstants.ACTION_TAB_ADD_TAB,
-                id:     component.id
-            });
-        } else if (value.length < component.tabs.length) {
-            let parentId = component.containerId.pop();
-            let children = [];
-            findNestedComponents(children, parentId);
-            this._undoStack.undoStackPush({
-                action:   formEditorConstants.ACTION_TAB_DELETE_TAB,
-                id:       component.id,
-                tab:      component.tabs[component.tabs.length - 1],
-                children: children.reverse()
-            });
-        }
+        this._componentList.changeTabs(component, value);
     }
 
     onChangeProperty(id, property, value) {
-        let component = this._componentsById[id];
+        let component = this._componentList.getComponentById(id);
         if (!component) {
             return;
         }
@@ -370,15 +260,16 @@ exports.FormEditorState = class extends Emitter {
         if (component) {
             let properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
             let events     = [].concat(formEditorConstants.EVENTS_BY_TYPE[component.type.toUpperCase()]);
-            properties.id = id;
-            events.id     = id;
+            properties.uid = component.uid;
+            properties.id  = id;
+            events.id      = id;
             dispatcher.dispatch('Properties.Select', properties, events, this);
         }
         return this;
     }
 
     updateComponents(id) {
-        dispatcher.dispatch('Properties.ComponentList', {value: id, items: this.getItems()});
+        dispatcher.dispatch('Properties.ComponentList', {value: id, items: this._componentList.getItems()});
         return this;
     }
 };

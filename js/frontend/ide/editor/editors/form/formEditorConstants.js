@@ -23,6 +23,7 @@ exports.ACTION_CHANGE_PROPERTY       = 5;
 exports.PROPERTIES_BY_TYPE           = {
     FORM: [
         {type: 'type',        name: null},
+        {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'string',      name: 'name'},
@@ -32,6 +33,7 @@ exports.PROPERTIES_BY_TYPE           = {
     ],
     BUTTON: [
         {type: 'type',        name: null},
+        {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'string',      name: 'name'},
@@ -46,6 +48,7 @@ exports.PROPERTIES_BY_TYPE           = {
     ],
     SELECT_BUTTON: [
         {type: 'type',        name: null},
+        {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'string',      name: 'name'},
@@ -59,6 +62,7 @@ exports.PROPERTIES_BY_TYPE           = {
     ],
     LABEL: [
         {type: 'type',        name: null},
+        {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'string',      name: 'name'},
@@ -83,6 +87,7 @@ exports.PROPERTIES_BY_TYPE           = {
     ],
     TABS: [
         {type: 'type',        name: null},
+        {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'containerId', name: null},

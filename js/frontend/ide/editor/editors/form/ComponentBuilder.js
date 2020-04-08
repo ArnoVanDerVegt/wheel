@@ -6,6 +6,7 @@ const formEditorConstants = require('./formEditorConstants');
 
 exports.ComponentBuilder = class {
     constructor(opts) {
+        this._componentList   = opts.componentList;
         this._formEditorState = opts.formEditorState;
     }
 
@@ -34,7 +35,7 @@ exports.ComponentBuilder = class {
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.BUTTON);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.BUTTON);
         this
-            .addProperty(component, 'name',  this._formEditorState.findComponentText(component.type, 'name', 'Button'))
+            .addProperty(component, 'name',  this._componentList.findComponentText(component.type, 'name', 'Button'))
             .addProperty(component, 'value', component.name)
             .addProperty(component, 'title', component.name)
             .addProperty(component, 'color', 'green');
@@ -46,7 +47,7 @@ exports.ComponentBuilder = class {
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.SELECT_BUTTON);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.SELECT_BUTTON);
         this
-            .addProperty(component, 'name',    this._formEditorState.findComponentText(component.type, 'name', 'SelectButton'))
+            .addProperty(component, 'name',    this._componentList.findComponentText(component.type, 'name', 'SelectButton'))
             .addProperty(component, 'options', ['A', 'B'])
             .addProperty(component, 'color',   'green');
         return component;
@@ -57,7 +58,7 @@ exports.ComponentBuilder = class {
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.LABEL);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.LABEL);
         this
-            .addProperty(component, 'name', this._formEditorState.findComponentText(component.type, 'name', 'Label'))
+            .addProperty(component, 'name', this._componentList.findComponentText(component.type, 'name', 'Label'))
             .addProperty(component, 'text', component.name);
         return component;
     }
@@ -67,7 +68,7 @@ exports.ComponentBuilder = class {
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.CHECKBOX);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.CHECKBOX);
         this
-            .addProperty(component, 'name',    this._formEditorState.findComponentText(component.type, 'name', 'Checkbox'))
+            .addProperty(component, 'name',    this._componentList.findComponentText(component.type, 'name', 'Checkbox'))
             .addProperty(component, 'text',    component.name)
             .addProperty(component, 'checked', false);
         return component;
@@ -78,7 +79,7 @@ exports.ComponentBuilder = class {
         component.properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE.TABS);
         component.events     = [].concat(formEditorConstants.EVENTS_BY_TYPE.TABS);
         this
-            .addProperty(component, 'name',        this._formEditorState.findComponentText(component.type, 'name', 'Tabs'))
+            .addProperty(component, 'name',        this._componentList.findComponentText(component.type, 'name', 'Tabs'))
             .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
             .addProperty(component, 'width',       200)
             .addProperty(component, 'height',      128)

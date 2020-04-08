@@ -34,18 +34,30 @@ body.ide.no-properties div.properties {
     margin:                         8px 0 0 8px;
     width:                          calc(100% - 48px);
 }
+.properties .component-uid {
+    position:                       absolute;
+    left:                           0;
+    top:                            calc(40px + 47px);
+    width:                          100%;
+    height:                         32px;
+    line-height:                    32px;
+    text-align:                     center;
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 1px 0;
+    color:                          var(--ui-text1);
+    font-size:                      12px;
+    font-family:                    monospace;
+}
 /* Properties, events */
 .properties .properties-container,
 .properties .events-container {
     position:                       absolute;
     left:                           0;
-    top:                            calc(40px + 47px);
+    top:                            calc(40px + 47px + 32px);
     width:                          100%;
     height:                         calc(100% - 56px - 47px);
     overflow:                       hidden;
     overflow-y:                     scroll;
-    border:                         var(--ui-border1);
-    border-width:                   1px 0 0 0;
     display:                        none;
     z-index:                        50;
 }

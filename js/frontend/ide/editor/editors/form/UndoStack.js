@@ -2,8 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const formEditorConstants = require('./formEditorConstants');
+
 exports.UndoStack = class {
     constructor(opts) {
+        this._componentList   = opts.componentList;
         this._formEditorState = opts.formEditorState;
         this._undoStack       = [];
         this._enabled         = false;
@@ -47,13 +50,14 @@ exports.UndoStack = class {
     }
 
     undo() {
-        let item           = this.undoStackPop();
-        let componentsById = this._componentsById;
+        let item             = this.undoStackPop();
+        let componentList    = this._componentList;
+        let componentBuilder = this._componentBuilder;
         let component;
         let addComponent = (function(component) {
-                component.owner              = this._getOwnerByParentId(component.parentId);
-                componentsById[component.id] = component;
-                this._componentBuilder.addComponentForType(component, component.type);
+                component.owner = this._getOwnerByParentId(component.parentId);
+                componentList.setComponentById(component, component.id);
+                componentBuilder.addComponentForType(component, component.type);
                 return component;
             }).bind(this);
         switch (item.action) {
@@ -68,7 +72,7 @@ exports.UndoStack = class {
                     .updateComponents(component.id);
                 break;
             case formEditorConstants.ACTION_CHANGE_POSITION:
-                component   = componentsById[item.id];
+                component   = componentList.getComponentById(item.id);
                 component.x = item.position.x;
                 component.y = item.position.y;
                 this._formEditorState
@@ -76,7 +80,7 @@ exports.UndoStack = class {
                     .emit('ChangePosition', item.id, item.position);
                 break;
             case formEditorConstants.ACTION_CHANGE_PROPERTY:
-                component                = componentsById[item.id];
+                component                = componentList.getComponentById(item.id);
                 component[item.property] = item.value;
                 this._formEditorState
                     .onSelectComponent(item.id)

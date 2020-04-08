@@ -220,9 +220,10 @@ exports.FormComponentContainer = class extends DOMNode {
                 opts[property.name] = component[property.name];
             }
         });
-        opts.properties.id = opts.id;
-        opts.events.id     = opts.id;
-        opts.style         = {
+        opts.properties.uid = component.uid;
+        opts.properties.id  = opts.id;
+        opts.events.id      = opts.id;
+        opts.style          = {
             position: 'absolute',
             left:     opts.x + 'px',
             top:      opts.y + 'px'
