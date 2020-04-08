@@ -88,15 +88,65 @@ exports.SourceBuilder = class {
         return result;
     }
 
+    generateEventsFromData(data, lines) {
+        let procedures = [];
+        lines.forEach(function(line) {
+            let s = line.trim();
+            if (s.indexOf('proc') === 0) {
+                s = s.substr(4, s.length - 4).trim();
+                let j = s.indexOf('(');
+                procedures.push(s.substr(0, j).trim());
+            }
+        });
+        for (let i = 0; i < data.length; i++) {
+            let component = data[i];
+            for (let j in component) {
+                let value = component[j];
+                if ((j.substr(0, 2) === 'on') && value) {
+                    if (procedures.indexOf(value) === -1) {
+                        procedures.push(value);
+                        lines.push(
+                            'proc ' + value + '()',
+                            'end',
+                            ''
+                        );
+                    }
+                }
+            }
+        }
+    }
+
     generateUpdatedSource(opts) {
-        let defines     = this._lastDefines;
-        let lines       = opts.source.split('\n');
-        let firstDefine = -1;
-        let i           = 0;
+        let defines = this._lastDefines;
+        let lines   = opts.source.split('\n');
+        let i       = 0;
         // First, remove all the existing #defines...
         if (!defines) {
             defines = this.generateDefinesFromData(opts.data);
         }
+        let firstDefine = this.updateLinesWithDefines(lines, defines);
+        // Then insert the new sorted and formated #define list...
+        defines           = this.generateDefinesFromData(opts.data);
+        this._lastDefines = defines;
+        if (firstDefine === -1) {
+            defines.forEach(function(define) {
+                lines.push(define.line);
+            });
+        } else {
+            defines.reverse();
+            defines.forEach(function(define) {
+                lines.splice(firstDefine, 0, define.line);
+            });
+        }
+        // Add the event procedures...
+        this.generateEventsFromData(opts.data, lines);
+        // Get the updated defines...
+        return lines.join('\n');
+    }
+
+    updateLinesWithDefines(lines, defines) {
+        let firstDefine = -1;
+        let i           = 0;
         while (i < lines.length) {
             let line = lines[i].trim();
             if (line.indexOf('#define') === 0) {
@@ -119,21 +169,7 @@ exports.SourceBuilder = class {
                 i++;
             }
         }
-        // Then insert the new sorted and formated #define list...
-        defines           = this.generateDefinesFromData(opts.data);
-        this._lastDefines = defines;
-        if (firstDefine === -1) {
-            defines.forEach(function(define) {
-                lines.push(define.line);
-            });
-        } else {
-            defines.reverse();
-            defines.forEach(function(define) {
-                lines.splice(firstDefine, 0, define.line);
-            });
-        }
-        // Get the updated defines...
-        return lines.join('\n');
+        return firstDefine;
     }
 
     /**

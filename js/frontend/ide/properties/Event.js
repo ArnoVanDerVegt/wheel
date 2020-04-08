@@ -3,18 +3,21 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode = require('../../lib/dom').DOMNode;
+const Button  = require('../../lib/components/Button').Button;
 
 exports.Event = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts       = opts;
-        this._options    = opts.options || {};
-        this._ui         = opts.ui;
-        this._settings   = opts.settings;
-        this._name       = opts.name;
-        this._value      = opts.value;
-        this._onChange   = opts.onChange;
-        this._properties = opts.properties;
+        this._opts          = opts;
+        this._options       = opts.options || {};
+        this._ui            = opts.ui;
+        this._settings      = opts.settings;
+        this._name          = opts.name;
+        this._formName      = opts.formName;
+        this._componentName = opts.componentName;
+        this._value         = opts.value;
+        this._onChange      = opts.onChange;
+        this._properties    = opts.properties;
         this._properties.addEvent(this);
         this.initDOM(opts.parentNode);
     }
@@ -35,8 +38,18 @@ exports.Event = class extends DOMNode {
                     id:        this.setInputElement.bind(this),
                     type:      'input',
                     inputType: 'text',
-                    className: 'text-input',
+                    className: 'text-input' + (this._value ? '' : ' hidden'),
                     value:     this._value
+                },
+                {
+                    ref:       this.setRef('addButton'),
+                    type:      Button,
+                    ui:        this._ui,
+                    uiId:      1,
+                    value:     '+',
+                    color:     'gray',
+                    hidden:    !!this._value,
+                    onClick:   this.onClickAdd.bind(this)
                 }
             ]
         };
@@ -77,6 +90,20 @@ exports.Event = class extends DOMNode {
             this._inputElement.focus(this);
             this._properties.focusEvent(this);
         }
+    }
+
+    onClickAdd() {
+        this._refs.addButton.onEvent({hidden: true});
+        let inputElement  = this._inputElement;
+        let formName      = this._formName();
+        let componentName = this._componentName();
+        let name          = this._name;
+        inputElement.className = 'text-input';
+        inputElement.value     = 'on' +
+            formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) +
+            componentName.substr(0, 1).toUpperCase() + componentName.substr(1 - componentName.length) +
+            name.substr(2 - name.length);
+        this._onChange(this._inputElement.value);
     }
 
     onKeyUp(event) {

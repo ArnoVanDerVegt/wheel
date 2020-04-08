@@ -174,11 +174,13 @@ exports.Properties = class extends DOMNode {
         events.forEach(
             function(event) {
                 eventByName[event.name] = new Event({
-                    parentNode: eventsContainer,
-                    properties: this,
-                    ui:         this._ui,
-                    name:       event.name,
-                    value:      component[event.name] || '',
+                    parentNode:    eventsContainer,
+                    properties:    this,
+                    ui:            this._ui,
+                    formName:      events.formName,
+                    componentName: events.componentName,
+                    name:          event.name,
+                    value:         component[event.name] || '',
                     onChange: function(value) {
                         dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
                     }

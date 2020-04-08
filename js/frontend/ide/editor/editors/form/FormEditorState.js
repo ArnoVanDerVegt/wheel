@@ -26,6 +26,7 @@ exports.FormEditorState = class extends Emitter {
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty),
+            dispatcher.on('Properties.Event.Change',    this, this.onChangeEvent),
             dispatcher.on('Properties.Select',          this, this.onSelectProperties),
             dispatcher.on('Properties.SelectComponent', this, this.onSelectComponent)
         ];
@@ -123,6 +124,10 @@ exports.FormEditorState = class extends Emitter {
 
     getComponentById(id) {
         return this._componentList.getComponentById(id);
+    }
+
+    getFormName() {
+        return this.getComponentById(this._formId).name;
     }
 
     getActiveComponentId() {
@@ -261,6 +266,15 @@ exports.FormEditorState = class extends Emitter {
         }
     }
 
+    onChangeEvent(id, event, value) {
+        let component = this._componentList.getComponentById(id);
+        if (!component) {
+            return;
+        }
+        component[event] = value;
+        this.emit('ChangeEvent');
+    }
+
     onSelectProperties(properties) {
         this.selectComponentById(properties.id);
     }
@@ -268,11 +282,15 @@ exports.FormEditorState = class extends Emitter {
     onSelectComponent(id) {
         let component = this.selectComponentById(id);
         if (component) {
-            let properties = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
-            let events     = [].concat(formEditorConstants.EVENTS_BY_TYPE[component.type.toUpperCase()]);
-            properties.uid = component.uid;
-            properties.id  = id;
-            events.id      = id;
+            let formId        = this._formId;
+            let componentList = this._componentList;
+            let properties    = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
+            let events        = [].concat(formEditorConstants.EVENTS_BY_TYPE[component.type.toUpperCase()]);
+            properties.uid       = component.uid;
+            properties.id        = id;
+            events.id            = id;
+            events.componentName = function() { return component.name; };
+            events.formName      = function() { return componentList.getComponentById(formId).name; };
             dispatcher.dispatch('Properties.Select', properties, events, this);
         }
         return this;

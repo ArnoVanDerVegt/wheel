@@ -214,16 +214,19 @@ exports.FormComponentContainer = class extends DOMNode {
             return;
         }
         let element;
-        let component = this._formEditorState.getComponentById(opts.id);
+        let formEditorState = this._formEditorState;
+        let component       = formEditorState.getComponentById(opts.id);
         opts.properties.forEach(function(property) {
             if (property.name && (property.name in component)) {
                 opts[property.name] = component[property.name];
             }
         });
-        opts.properties.uid = component.uid;
-        opts.properties.id  = opts.id;
-        opts.events.id      = opts.id;
-        opts.style          = {
+        opts.properties.uid       = component.uid;
+        opts.properties.id        = opts.id;
+        opts.events.id            = opts.id;
+        opts.events.componentName = function() { return component.name; };
+        opts.events.formName      = function() { return formEditorState.getFormName(); };
+        opts.style                = {
             position: 'absolute',
             left:     opts.x + 'px',
             top:      opts.y + 'px'

@@ -121,6 +121,12 @@ body.ide.no-properties div.properties {
     font-size:                      15px;
     background-color:               transparent;
 }
+.properties .events-container .event .event-value .text-input.hidden {
+    display:                        none;
+}
+.properties .events-container .event .event-value .button {
+    margin:                         2px 0 0 8px;
+}
 .properties .properties-container .property .property-value .text-input:focus,
 .properties .events-container .event .event-value .text-input:focus {
     border:                         var(--focus-border-dotted);

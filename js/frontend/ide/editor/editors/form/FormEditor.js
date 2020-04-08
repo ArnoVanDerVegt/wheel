@@ -22,6 +22,7 @@ exports.FormEditor = class extends Editor {
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
+            .on('ChangeEvent',     this, this.onChangeEvent)
             .on('AddForm',         this, this.onAddForm)
             .on('AddComponent',    this, this.onAddComponent)
             .on('AddUndo',         this, this.onAddUndo)
@@ -92,6 +93,10 @@ exports.FormEditor = class extends Editor {
 
     onChangeForm() {
         this.setSize();
+        this.updateSource();
+    }
+
+    onChangeEvent() {
         this.updateSource();
     }
 
