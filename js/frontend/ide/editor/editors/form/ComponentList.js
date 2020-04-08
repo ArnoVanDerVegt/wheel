@@ -9,21 +9,36 @@ exports.ComponentList = class {
         this._activeComponentId = null;
     }
 
+    generateComponentUid() {
+        return '0x' + ('00000000' + (Math.floor(Math.random() * 0xFFFFFFFF + 1)).toString(16)).substr(-8).toUpperCase();
+    }
+
     getNewComponentUid() {
         let componentsById = this._componentsById;
-        let result         = '0x' + (Math.floor(Math.random() * 0xFFFFFFFF + 1)).toString(16).toUpperCase();
+        let result         = this.generateComponentUid();
         let found          = true;
         while (found) {
             found = false;
             for (let id in componentsById) {
                 if (componentsById[id].uid === result) {
-                    result = '0x' + (Math.floor(Math.random() * 0xFFFFFFFF + 1)).toString(16).toUpperCase();
+                    result = this.generateComponentUid();
                     found  = true;
                     break;
                 }
             }
         }
         return result;
+    }
+
+    getNameExists(component, name) {
+        let componentsById = this._componentsById;
+        for (let id in componentsById) {
+            let c = componentsById[id];
+            if ((c !== component) && (c.name === name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     getActiveComponentId() {
@@ -69,6 +84,7 @@ exports.ComponentList = class {
             };
         for (let id in componentsById) {
             let component = Object.assign({}, componentsById[id]);
+            delete component.componentList;
             delete component.owner;
             delete component.properties;
             delete component.events;

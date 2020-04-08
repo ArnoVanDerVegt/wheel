@@ -298,6 +298,7 @@ require('./js/frontend/ide/editor/editors/sound/SoundLoader');
 require('./js/frontend/ide/editor/editors/sound/SoundEditorState');
 require('./js/frontend/ide/editor/editors/sound/SoundEditor');
 require('./js/frontend/ide/editor/editors/form/toolbar/ToolbarTop');
+require('./js/frontend/ide/editor/editors/form/SourceBuilder');
 require('./js/frontend/ide/editor/editors/form/ComponentBuilder');
 require('./js/frontend/ide/editor/editors/form/ComponentList');
 require('./js/frontend/ide/editor/editors/form/UndoStack');

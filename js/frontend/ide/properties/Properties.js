@@ -135,13 +135,15 @@ exports.Properties = class extends DOMNode {
                     };
                 let propertyConstructor = null;
                 let opts                = {
-                        parentNode: propertiesContainer,
-                        properties: this,
-                        ui:         this._ui,
-                        name:       property.name,
-                        options:    property.options,
-                        value:      component[property.name],
-                        onChange:   onChange
+                        parentNode:    propertiesContainer,
+                        properties:    this,
+                        ui:            this._ui,
+                        name:          property.name,
+                        options:       property.options,
+                        value:         component[property.name],
+                        component:     component,
+                        componentList: component.componentList,
+                        onChange:      onChange
                     };
                 switch (property.type) {
                     case 'boolean':  propertyConstructor = BooleanProperty;  break;

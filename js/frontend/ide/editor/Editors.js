@@ -2,22 +2,23 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const path        = require('../../lib/path');
-const DOMNode     = require('../../lib/dom').DOMNode;
-const Tabs        = require('../../lib/components/Tabs').Tabs;
-const Button      = require('../../lib/components/Button').Button;
-const tabIndex    = require('../tabIndex');
-const HomeScreen  = require('./editors/home/HomeScreen').HomeScreen;
-const WheelEditor = require('./editors/text/WheelEditor').WheelEditor;
-const VMViewer    = require('./editors/text/VMViewer').VMViewer;
-const TextEditor  = require('./editors/text/TextEditor').TextEditor;
-const LmsEditor   = require('./editors/text/LmsEditor').LmsEditor;
-const SoundEditor = require('./editors/sound/SoundEditor').SoundEditor;
-const SoundLoader = require('./editors/sound/SoundLoader').SoundLoader;
-const ImageEditor = require('./editors/image/ImageEditor').ImageEditor;
-const ImageLoader = require('./editors/image/ImageLoader').ImageLoader;
-const FormEditor  = require('./editors/form/FormEditor').FormEditor;
+const dispatcher    = require('../../lib/dispatcher').dispatcher;
+const path          = require('../../lib/path');
+const DOMNode       = require('../../lib/dom').DOMNode;
+const Tabs          = require('../../lib/components/Tabs').Tabs;
+const Button        = require('../../lib/components/Button').Button;
+const tabIndex      = require('../tabIndex');
+const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
+const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
+const VMViewer      = require('./editors/text/VMViewer').VMViewer;
+const TextEditor    = require('./editors/text/TextEditor').TextEditor;
+const LmsEditor     = require('./editors/text/LmsEditor').LmsEditor;
+const SoundEditor   = require('./editors/sound/SoundEditor').SoundEditor;
+const SoundLoader   = require('./editors/sound/SoundLoader').SoundLoader;
+const ImageEditor   = require('./editors/image/ImageEditor').ImageEditor;
+const ImageLoader   = require('./editors/image/ImageLoader').ImageLoader;
+const FormEditor    = require('./editors/form/FormEditor').FormEditor;
+const SourceBuilder = require('./editors/form/SourceBuilder').SourceBuilder;
 
 exports.Editors = class extends DOMNode {
     constructor(opts) {
@@ -250,20 +251,6 @@ exports.Editors = class extends DOMNode {
         }
     }
 
-    addEditor(opts, editor) {
-        this._editorsState.add(editor);
-        this._refs.tabs.add({
-            title:   opts.filename,
-            meta:    opts.path,
-            onClick: this.onClickTab.bind(this),
-            onClose: (function(title, meta) {
-                (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
-            }).bind(this)
-        });
-        this.onClickTab(opts.filename, opts.path);
-        dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
-    }
-
     activateFile(opts) {
         let editor = this._editorsState.findByPathAndFilename(opts.path || '', opts.filename);
         if (!editor) {
@@ -278,6 +265,41 @@ exports.Editors = class extends DOMNode {
             editor.setValue(opts.value);
         }
         return editor;
+    }
+
+    addEditor(opts, editor) {
+        this._editorsState.add(editor);
+        this._refs.tabs.add({
+            title:   opts.filename,
+            meta:    opts.path,
+            onClick: this.onClickTab.bind(this),
+            onClose: (function(title, meta) {
+                (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
+            }).bind(this)
+        });
+        this.onClickTab(opts.filename, opts.path);
+        dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
+    }
+
+    addForm(opts) {
+        try {
+            opts.data = JSON.parse(opts.value.wfrm);
+        } catch (error) {
+            opts.data = null;
+        }
+        if (opts.data !== null) {
+            let textOpts = Object.assign({}, opts);
+            if (opts.value.whl) {
+                textOpts.value = opts.value.whl;
+            } else {
+                textOpts.value = new SourceBuilder({}).generateSourceFromFormData(opts.data);
+            }
+            textOpts.filename = path.replaceExtension(opts.filename, '.whl');
+            textOpts.mode     = 'text/x-wheel';
+            textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
+            this.addEditor(textOpts, new WheelEditor(textOpts));
+        }
+        this.addEditor(opts, new FormEditor(opts));
     }
 
     add(opts) {
@@ -311,12 +333,7 @@ exports.Editors = class extends DOMNode {
                 this.addEditor(opts, new SoundEditor(opts));
                 break;
             case '.wfrm':
-                try {
-                    opts.data = JSON.parse(opts.value);
-                } catch (error) {
-                    opts.data = null;
-                }
-                this.addEditor(opts, new FormEditor(opts));
+                this.addForm(opts);
                 break;
             case '.mp3':
             case '.wav':
@@ -410,5 +427,9 @@ exports.Editors = class extends DOMNode {
             return null;
         }
         return this._editorsState.findByPathAndFilename(activeTab.meta, activeTab.title);
+    }
+
+    findEditor(path, filename) {
+        return this._editorsState.findByPathAndFilename(path, filename);
     }
 };

@@ -14,7 +14,10 @@ let nextId = 0;
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
+        this._loading            = true;
         this._clipboard          = null;
+        this._path               = opts.path;
+        this._filename           = opts.filename;
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._formId             = this.peekId();
         this._componentList      = new ComponentList({formEditorState: this});
@@ -71,6 +74,7 @@ exports.FormEditorState = class extends Emitter {
             }
         }
         this._undoStack.setEnabled(true);
+        this._loading = false;
     }
 
     peekId() {
@@ -80,6 +84,18 @@ exports.FormEditorState = class extends Emitter {
     getNextId() {
         nextId++;
         return nextId;
+    }
+
+    getLoading() {
+        return this._loading;
+    }
+
+    getPath() {
+        return this._path;
+    }
+
+    getFilename() {
+        return this._filename;
     }
 
     setComponent(component) {
@@ -162,15 +178,9 @@ exports.FormEditorState = class extends Emitter {
     }
 
     addComponent(opts) {
-        let component = {
-                tabIndex: 0,
-                id:       this.getNextId(),
-                uid:      this._componentList.getNewComponentUid(),
-                x:        opts.x,
-                y:        opts.y,
-                owner:    opts.owner,
-                parentId: opts.parentId
-            };
+        let component = Object.assign({}, opts);
+        component.id  = this.getNextId();
+        component.uid = component.uid || this._componentList.getNewComponentUid();
         this._componentList
             .setComponentById(component, component.id)
             .setActiveComponentId(component.id);

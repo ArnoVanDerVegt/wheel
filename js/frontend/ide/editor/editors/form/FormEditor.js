@@ -12,18 +12,21 @@ const formEditorConstants                 = require('./formEditorConstants');
 const FormEditorState                     = require('./FormEditorState').FormEditorState;
 const FormComponent                       = require('./FormComponent').FormComponent;
 const getFormComponentContainerByParentId = require('./FormComponentContainer').getFormComponentContainerByParentId;
+const SourceBuilder                       = require('./SourceBuilder').SourceBuilder;
 
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
         opts.getOwnerByParentId = getFormComponentContainerByParentId;
+        this._sourceBuilder   = new SourceBuilder({});
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
-            .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.onAddForm)
-            .on('AddForm',         this, this.updateElements)
+            .on('AddComponent',    this, this.onAddComponent)
             .on('AddUndo',         this, this.onAddUndo)
+            .on('ChangeForm',      this, this.updateElements)
+            .on('AddForm',         this, this.updateElements)
             .on('AddComponent',    this, this.updateElements)
             .on('DeleteComponent', this, this.updateElements)
             .on('SelectComponent', this, this.updateElements)
@@ -83,8 +86,13 @@ exports.FormEditor = class extends Editor {
         );
     }
 
+    onAddComponent(component) {
+        this.updateSource();
+    }
+
     onChangeForm() {
         this.setSize();
+        this.updateSource();
     }
 
     onUndo() {
@@ -186,6 +194,22 @@ exports.FormEditor = class extends Editor {
 
     render() {
         return this;
+    }
+
+    updateSource() {
+        let formEditorState = this._formEditorState;
+        if (formEditorState.getLoading()) {
+            return;
+        }
+        let filename = path.replaceExtension(formEditorState.getFilename(), '.whl');
+        let editor   = this._editors.findEditor(formEditorState.getPath(), filename);
+        if (!editor) {
+            return;
+        }
+        editor.setValue(this._sourceBuilder.addComponent({
+            source:    editor.getValue(),
+            data:      this._formEditorState.getData()
+        }));
     }
 
     updateElements() {

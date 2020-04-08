@@ -77,8 +77,8 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'parentId',    name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
         {type: 'text',        name: 'title'},
-        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128)}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40)}}
+        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
     ],
     BUTTON: [
         {type: 'type',        name: null},
@@ -86,11 +86,11 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'color',       name: 'color'},
         {type: 'text',        name: 'value'},
         {type: 'text',        name: 'title'}
@@ -101,11 +101,11 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'color',       name: 'color'},
         {type: 'textList',    name: 'options',  options: {sort: true, remove: true}}
     ],
@@ -115,10 +115,10 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'text',        name: 'text'}
     ],
     CHECKBOX: [
@@ -126,11 +126,11 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'text',        name: 'text'},
         {type: 'boolean',     name: 'checked'}
     ],
@@ -141,12 +141,12 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'parentId',    name: null},
         {type: 'containerId', name: null},
         {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
-        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128)}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40)}},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
         {type: 'textList',    name: 'tabs',     options: {removeLast: true}}
     ]
 };

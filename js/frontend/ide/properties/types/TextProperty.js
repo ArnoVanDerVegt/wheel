@@ -31,6 +31,28 @@ exports.TextProperty = class extends Property {
         this._inputElement.value = value;
     }
 
+    validate(value) {
+        let options = this._options;
+        if (options && options.validator) {
+            if ((this._name === 'name') && this._componentList.getNameExists(this._component, value)) {
+                return false;
+            }
+            if (!options.validator(value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    onBlur(event) {
+        super.onBlur(event);
+        let inputElement = this._inputElement;
+        if (!this.validate(inputElement.value)) {
+            inputElement.value     = this._value;
+            inputElement.className = 'text-input';
+        }
+    }
+
     onClick(event) {
         if (event.target.nodeName !== 'INPUT') {
             this._inputElement.focus(this);
@@ -42,16 +64,14 @@ exports.TextProperty = class extends Property {
         if (!this._onChange) {
             return;
         }
-        let value = this._inputElement.value;
-        if (this._options && this._options.validator) {
-            if (this._options.validator(value)) {
-                this._onChange(value);
-                this._inputElement.className = 'text-input';
-            } else {
-                this._inputElement.className = 'text-input invalid';
-            }
-        } else {
+        let inputElement = this._inputElement;
+        let value        = inputElement.value;
+        if (this.validate(value)) {
+            this._value            = value;
+            inputElement.className = 'text-input';
             this._onChange(value);
+        } else {
+            inputElement.className = 'text-input invalid';
         }
     }
 };

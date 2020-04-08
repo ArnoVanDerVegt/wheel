@@ -189,6 +189,15 @@ exports.ideRoutes = {
                 result.data = fs.readFileSync(filename);
                 res.send(JSON.stringify(result));
                 break;
+            case '.wfrm':
+                result.data = {wfrm: fs.readFileSync(filename).toString()};
+                let whlFilename = filename.substr(0, filename.length - extension.length) + '.whl';
+                whlFilename = this._findFile(whlFilename);
+                if (whlFilename !== null) {
+                    result.data.whl = fs.readFileSync(whlFilename).toString();
+                }
+                res.send(JSON.stringify(result));
+                break;
             default:
                 try {
                     result.data = fs.readFileSync(filename).toString();
