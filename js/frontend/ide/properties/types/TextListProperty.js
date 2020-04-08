@@ -137,7 +137,7 @@ class ListItem extends DOMNode {
     }
 }
 
-exports.StringListProperty = class extends Property {
+exports.TextListProperty = class extends Property {
     constructor(opts) {
         super(opts);
         this._focus = false;

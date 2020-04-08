@@ -2,16 +2,16 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher         = require('../../lib/dispatcher').dispatcher;
-const Tabs               = require('../../lib/components/Tabs').Tabs;
-const DOMNode            = require('../../lib/dom').DOMNode;
-const tabIndex           = require('../tabIndex');
-const PropertiesToolbar  = require('./PropertiesToolbar').PropertiesToolbar;
-const BooleanProperty    = require('./types/BooleanProperty').BooleanProperty;
-const StringProperty     = require('./types/StringProperty').StringProperty;
-const StringListProperty = require('./types/StringListProperty').StringListProperty;
-const ColorProperty      = require('./types/ColorProperty').ColorProperty;
-const Event              = require('./Event').Event;
+const dispatcher        = require('../../lib/dispatcher').dispatcher;
+const Tabs              = require('../../lib/components/Tabs').Tabs;
+const DOMNode           = require('../../lib/dom').DOMNode;
+const tabIndex          = require('../tabIndex');
+const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
+const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
+const TextProperty      = require('./types/TextProperty').TextProperty;
+const TextListProperty  = require('./types/TextListProperty').TextListProperty;
+const ColorProperty     = require('./types/ColorProperty').ColorProperty;
+const Event             = require('./Event').Event;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
@@ -144,11 +144,10 @@ exports.Properties = class extends DOMNode {
                         onChange:   onChange
                     };
                 switch (property.type) {
-                    case 'boolean':    propertyConstructor = BooleanProperty;    break;
-                    case 'string':     propertyConstructor = StringProperty;     break;
-                    case 'stringList': propertyConstructor = StringListProperty; break;
-                    case 'integer':    propertyConstructor = StringProperty;     break;
-                    case 'color':      propertyConstructor = ColorProperty;      break;
+                    case 'boolean':  propertyConstructor = BooleanProperty;  break;
+                    case 'text':     propertyConstructor = TextProperty;     break;
+                    case 'textList': propertyConstructor = TextListProperty; break;
+                    case 'color':    propertyConstructor = ColorProperty;    break;
                 }
                 if (propertyConstructor) {
                     propertyByName[property.name] = new propertyConstructor(opts);

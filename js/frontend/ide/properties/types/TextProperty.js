@@ -4,7 +4,7 @@
 **/
 const Property = require('../Property').Property;
 
-exports.StringProperty = class extends Property {
+exports.TextProperty = class extends Property {
     initPropertyValue() {
         return {
             className: 'property-value',
@@ -39,6 +39,19 @@ exports.StringProperty = class extends Property {
     }
 
     onKeyUp(event) {
-        this._onChange && this._onChange(this._inputElement.value);
+        if (!this._onChange) {
+            return;
+        }
+        let value = this._inputElement.value;
+        if (this._options && this._options.validator) {
+            if (this._options.validator(value)) {
+                this._onChange(value);
+                this._inputElement.className = 'text-input';
+            } else {
+                this._inputElement.className = 'text-input invalid';
+            }
+        } else {
+            this._onChange(value);
+        }
     }
 };

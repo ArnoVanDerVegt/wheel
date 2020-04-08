@@ -125,6 +125,12 @@ body.ide.no-properties div.properties {
 .properties .events-container .event .event-value .text-input:focus {
     border:                         var(--focus-border-dotted);
 }
+.properties .properties-container .property .property-value .text-input:focus.invalid,
+.properties .properties-container .property .property-value .text-input.invalid,
+.properties .events-container .event .event-value .text-input:focus.invalid,
+.properties .events-container .event .event-value .text-input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
 /* Icon select */
 .properties .properties-container .property .property-value .icon-select,
 .properties .properties-container .property .property-value .checkbox {

@@ -19,70 +19,119 @@ exports.ACTION_TAB_DELETE_TAB        = 3;
 exports.ACTION_CHANGE_POSITION       = 4;
 exports.ACTION_CHANGE_PROPERTY       = 5;
 
+const NUMERIC                        = '0123456789';
+const ALPHA                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ALPHA_NUMERIC                  = ALPHA + NUMERIC;
+
+const nameValidator = function(value) {
+        if ((value.length < 3) || (NUMERIC.indexOf(value[0]) !== -1)) {
+            return false;
+        }
+        value = value.toUpperCase();
+        for (let i = 0; i < value.length; i++) {
+            if (ALPHA_NUMERIC.indexOf(value[i]) === -1) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+const posNumberValidator = function(value) {
+        if (value.length < 1) {
+            return false;
+        }
+        for (let i = 0; i < value.length; i++) {
+            if (NUMERIC.indexOf(value[i]) === -1) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+const numberValidator = function(value) {
+        if (!value.length || ((value.length === 1) && (NUMERIC.indexOf(value) === -1))) {
+            return false;
+        }
+        let start = (value[0] === '-') ? 1 : 0;
+        for (let i = start; i < value.length; i++) {
+            if (NUMERIC.indexOf(value[i]) === -1) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+const posNumberValidatorWithMin = function(min) {
+        return function(value) {
+            let result = posNumberValidator(value);
+            return result && (parseInt(value, 10) >= min);
+        };
+    };
+
 // Component properties...
-exports.PROPERTIES_BY_TYPE           = {
+exports.PROPERTIES_BY_TYPE = {
     FORM: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'string',      name: 'title'},
-        {type: 'integer',     name: 'width'},
-        {type: 'integer',     name: 'height'}
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'title'},
+        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128)}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40)}}
     ],
     BUTTON: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'integer',     name: 'tabIndex'},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'integer',     name: 'x'},
-        {type: 'integer',     name: 'y'},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
         {type: 'color',       name: 'color'},
-        {type: 'string',      name: 'value'},
-        {type: 'string',      name: 'title'}
+        {type: 'text',        name: 'value'},
+        {type: 'text',        name: 'title'}
     ],
     SELECT_BUTTON: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'integer',     name: 'tabIndex'},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'integer',     name: 'x'},
-        {type: 'integer',     name: 'y'},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
         {type: 'color',       name: 'color'},
-        {type: 'stringList',  name: 'options', options: {sort: true, remove: true}}
+        {type: 'textList',    name: 'options',  options: {sort: true, remove: true}}
     ],
     LABEL: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'integer',     name: 'tabIndex'},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'integer',     name: 'x'},
-        {type: 'integer',     name: 'y'},
-        {type: 'string',      name: 'text'}
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'text'}
     ],
     CHECKBOX: [
         {type: 'type',        name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'integer',     name: 'tabIndex'},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'integer',     name: 'x'},
-        {type: 'integer',     name: 'y'},
-        {type: 'string',      name: 'text'},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'text'},
         {type: 'boolean',     name: 'checked'}
     ],
     TABS: [
@@ -91,19 +140,19 @@ exports.PROPERTIES_BY_TYPE           = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'containerId', name: null},
-        {type: 'string',      name: 'name'},
-        {type: 'integer',     name: 'tabIndex'},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'integer',     name: 'x'},
-        {type: 'integer',     name: 'y'},
-        {type: 'integer',     name: 'width'},
-        {type: 'integer',     name: 'height'},
-        {type: 'stringList',  name: 'tabs', options: {removeLast: true}}
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator}},
+        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128)}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40)}},
+        {type: 'textList',    name: 'tabs',     options: {removeLast: true}}
     ]
 };
 
 // Component properties...
-exports.EVENTS_BY_TYPE               = {
+exports.EVENTS_BY_TYPE = {
     FORM: [
         {name: 'onShow'},
         {name: 'onHide'}
