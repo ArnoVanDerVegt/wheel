@@ -2,11 +2,13 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
-const Emitter             = require('../../../../lib/Emitter').Emitter;
-const formEditorConstants = require('./formEditorConstants');
-const ComponentBuilder    = require('./ComponentBuilder').ComponentBuilder;
+const dispatcher          = require('../../../../../lib/dispatcher').dispatcher;
+const Emitter             = require('../../../../../lib/Emitter').Emitter;
+const formEditorConstants = require('../formEditorConstants');
+const ComponentBuilder    = require('../ComponentBuilder').ComponentBuilder;
 const ComponentList       = require('./ComponentList').ComponentList;
+const EventList           = require('./EventList').EventList;
+const PropertyList        = require('./PropertyList').PropertyList;
 const UndoStack           = require('./UndoStack').UndoStack;
 
 let nextId = 0;
@@ -178,6 +180,16 @@ exports.FormEditorState = class extends Emitter {
         return this._componentList.getData();
     }
 
+    propertiesFromComponentToOpts(componentId, properties, opts) {
+        let component = this.getComponentById(componentId);
+        properties.getList().forEach(function(property) {
+            if (property.name && (property.name in component)) {
+                opts[property.name] = component[property.name];
+            }
+        });
+        return component;
+    }
+
     undo() {
         this._undoStack.undo();
     }
@@ -284,13 +296,8 @@ exports.FormEditorState = class extends Emitter {
         if (component) {
             let formId        = this._formId;
             let componentList = this._componentList;
-            let properties    = [].concat(formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()]);
-            let events        = [].concat(formEditorConstants.EVENTS_BY_TYPE[component.type.toUpperCase()]);
-            properties.uid       = component.uid;
-            properties.id        = id;
-            events.id            = id;
-            events.componentName = function() { return component.name; };
-            events.formName      = function() { return componentList.getComponentById(formId).name; };
+            let properties    = new PropertyList({component: component, formEditorState: this});
+            let events        = new EventList({component: component, formEditorState: this});
             dispatcher.dispatch('Properties.Select', properties, events, this);
         }
         return this;

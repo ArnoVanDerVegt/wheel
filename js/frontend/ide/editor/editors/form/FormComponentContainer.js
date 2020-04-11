@@ -2,9 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode          = require('../../../../lib/dom').DOMNode;
-const FormEditorState  = require('./FormEditorState');
+const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode         = require('../../../../lib/dom').DOMNode;
+const FormEditorState = require('./state/FormEditorState');
+const EventList       = require('./state/EventList').EventList;
+const PropertyList    = require('./state/PropertyList').PropertyList;
 
 const CONSTRUCTOR_BY_TYPE = {
         button:       require('../../../../lib/components/Button').Button,
@@ -215,35 +217,21 @@ exports.FormComponentContainer = class extends DOMNode {
         }
         let element;
         let formEditorState = this._formEditorState;
-        let component       = formEditorState.getComponentById(opts.id);
-        opts.properties.forEach(function(property) {
-            if (property.name && (property.name in component)) {
-                opts[property.name] = component[property.name];
-            }
-        });
-        opts.properties.uid       = component.uid;
-        opts.properties.id        = opts.id;
-        opts.events.id            = opts.id;
-        opts.events.componentName = function() { return component.name; };
-        opts.events.formName      = function() { return formEditorState.getFormName(); };
-        opts.style                = {
-            position: 'absolute',
-            left:     opts.x + 'px',
-            top:      opts.y + 'px'
-        };
+        let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.properties, opts);
+        opts.onMouseDown          = (function(event) { this.onComponentMouseDown(event, element, opts); }).bind(this);
+        opts.style                = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.parentNode           = this._formElement;
+        opts.ui                   = this._ui;
+        opts.uiId                 = 1;
+        opts.properties           = new PropertyList({component: component, formEditorState: formEditorState});
+        opts.events               = new EventList({component: component, formEditorState: formEditorState});
         if (opts.panelOpts) {
             opts.panelOpts.onMouseDown = (function(event) {
                 this.onComponentMouseDown(event, element, opts);
             }).bind(this);
         }
-        opts.onMouseDown = (function(event) {
-            this.onComponentMouseDown(event, element, opts);
-        }).bind(this);
-        opts.parentNode            = this._formElement;
-        opts.ui                    = this._ui;
-        opts.uiId                  = 1;
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
-        dispatcher.dispatch('Properties.Select', opts.properties, opts.events, this._formEditorState);
+        dispatcher.dispatch('Properties.Select', opts.properties, opts.events, formEditorState);
     }
 };

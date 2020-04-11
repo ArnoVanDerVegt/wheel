@@ -121,11 +121,11 @@ exports.Properties = class extends DOMNode {
     showProperties(properties, formEditorState) {
         this._properties.length = 0;
         let propertiesContainer = this._refs.propertiesContainer;
-        let id                  = properties.id;
+        let id                  = properties.getComponentId();
         let propertyByName      = {};
         let component           = formEditorState.getComponentById(id);
         this.clear(propertiesContainer);
-        properties.forEach(
+        properties.getList().forEach(
             function(property) {
                 if (!property || (property.name === null)) {
                     return;
@@ -140,9 +140,9 @@ exports.Properties = class extends DOMNode {
                         ui:            this._ui,
                         name:          property.name,
                         options:       property.options,
-                        value:         component[property.name],
+                        value:         properties.getProperty(property.name),
+                        componentList: properties.getComponentList(),
                         component:     component,
-                        componentList: component.componentList,
                         onChange:      onChange
                     };
                 switch (property.type) {
@@ -167,20 +167,19 @@ exports.Properties = class extends DOMNode {
     showEvents(events, formEditorState) {
         this._events.length = 0;
         let eventsContainer = this._refs.eventsContainer;
-        let id              = events.id;
+        let id              = events.getComponentId();
         let eventByName     = {};
         let component       = formEditorState.getComponentById(id);
         this.clear(eventsContainer);
-        events.forEach(
+        events.getList().forEach(
             function(event) {
                 eventByName[event.name] = new Event({
+                    events:        events,
                     parentNode:    eventsContainer,
                     properties:    this,
                     ui:            this._ui,
-                    formName:      events.formName,
-                    componentName: events.componentName,
                     name:          event.name,
-                    value:         component[event.name] || '',
+                    value:         events.getEvent(event.name),
                     onChange: function(value) {
                         dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
                     }
@@ -204,7 +203,7 @@ exports.Properties = class extends DOMNode {
     }
 
     onSelectProperties(properties, events, formEditorState) {
-        this._refs.componentUid.innerHTML = properties.uid || '0x00000000';
+        this._refs.componentUid.innerHTML = properties.getComponentUid() || '0x00000000';
         this.showProperties(properties, formEditorState);
         this.showEvents(events, formEditorState);
     }

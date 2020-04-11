@@ -109,8 +109,7 @@ body.ide.no-properties div.properties {
     -webkit-user-select:            none;
 }
 /* Text input */
-.properties .properties-container .property .property-value .text-input,
-.properties .events-container .event .event-value .text-input {
+.properties .properties-container .property .property-value .text-input {
     float:                          left;
     width:                          100%;
     height:                         28px;
@@ -121,20 +120,11 @@ body.ide.no-properties div.properties {
     font-size:                      15px;
     background-color:               transparent;
 }
-.properties .events-container .event .event-value .text-input.hidden {
-    display:                        none;
-}
-.properties .events-container .event .event-value .button {
-    margin:                         2px 0 0 8px;
-}
-.properties .properties-container .property .property-value .text-input:focus,
-.properties .events-container .event .event-value .text-input:focus {
+.properties .properties-container .property .property-value .text-input:focus {
     border:                         var(--focus-border-dotted);
 }
 .properties .properties-container .property .property-value .text-input:focus.invalid,
-.properties .properties-container .property .property-value .text-input.invalid,
-.properties .events-container .event .event-value .text-input:focus.invalid,
-.properties .events-container .event .event-value .text-input.invalid {
+.properties .properties-container .property .property-value .text-input.invalid {
     border:                         var(--text-input-invalid-border);
 }
 /* Icon select */
@@ -262,3 +252,19 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-name.list-focus .list-content .list-item.active span.list-item-title {
     display:                        none;
 }
+/* Events */
+.properties .events-container .event .event-value .button {
+    margin:                         2px 0 0 8px;
+    width:                          28px;
+
+}
+.properties .events-container .event .event-value .current-value {
+    float:                          right;
+    width:                          calc(100% - 42px);
+    height:                         100%;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    direction:                      rtl;
+    padding:                        0 8px 0 0;
+}
+

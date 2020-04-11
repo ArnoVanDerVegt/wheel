@@ -9,12 +9,11 @@ exports.Event = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._opts          = opts;
+        this._events        = opts.events;
         this._options       = opts.options || {};
         this._ui            = opts.ui;
         this._settings      = opts.settings;
         this._name          = opts.name;
-        this._formName      = opts.formName;
-        this._componentName = opts.componentName;
         this._value         = opts.value;
         this._onChange      = opts.onChange;
         this._properties    = opts.properties;
@@ -35,13 +34,6 @@ exports.Event = class extends DOMNode {
             className: 'event-value',
             children: [
                 {
-                    id:        this.setInputElement.bind(this),
-                    type:      'input',
-                    inputType: 'text',
-                    className: 'text-input' + (this._value ? '' : ' hidden'),
-                    value:     this._value
-                },
-                {
                     ref:       this.setRef('addButton'),
                     type:      Button,
                     ui:        this._ui,
@@ -50,6 +42,12 @@ exports.Event = class extends DOMNode {
                     color:     'gray',
                     hidden:    !!this._value,
                     onClick:   this.onClickAdd.bind(this)
+                },
+                {
+                    id:        this.setRef('currentValue'),
+                    className: 'current-value',
+                    value:     this._value,
+                    title:     this._value
                 }
             ]
         };
@@ -87,23 +85,18 @@ exports.Event = class extends DOMNode {
 
     onClick(event) {
         if (event.target.nodeName !== 'INPUT') {
-            this._inputElement.focus(this);
             this._properties.focusEvent(this);
         }
     }
 
     onClickAdd() {
-        this._refs.addButton.onEvent({hidden: true});
-        let inputElement  = this._inputElement;
-        let formName      = this._formName();
-        let componentName = this._componentName();
-        let name          = this._name;
-        inputElement.className = 'text-input';
-        inputElement.value     = 'on' +
-            formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) +
-            componentName.substr(0, 1).toUpperCase() + componentName.substr(1 - componentName.length) +
-            name.substr(2 - name.length);
-        this._onChange(this._inputElement.value);
+        let refs  = this._refs;
+        let value = this._value ? '' : this._events.getEventName(this._name);
+        this._value                 = value;
+        refs.currentValue.innerHTML = value;
+        refs.currentValue.title     = value;
+        refs.addButton.onEvent({value: value ? '-' : '+'});
+        this._onChange(value);
     }
 
     onKeyUp(event) {
