@@ -136,15 +136,16 @@ exports.CompileProc = class extends CompileBlock {
         let compiler = this._compiler;
         let linter   = compiler.getLinter();
         let useInfo  = compiler.getUseInfo();
-        let procUsed = useInfo.getUsedProc(token.lexeme);
+        let procName = this.getNamespacedProcName(token.lexeme);
+        let procUsed = useInfo.getUsedProc(procName);
         program.setCodeUsed(procUsed); // Only add code when the proc was used...
         linter && linter.addProc(token);
-        this._scope = new Proc(this._scope, token.lexeme).setToken(token);
+        this._scope = new Proc(this._scope, procName, false, compiler.getNamespace()).setToken(token);
         if (procUsed instanceof Proc) {
             this._scope.setVarsLocked(procUsed);
         }
-        let identifier = this._scope.getParentScope().findIdentifier(token.lexeme);
-        if ((identifier !== null) && (token.lexeme !== t.LEXEME_MAIN)) {
+        let identifier = this._scope.getParentScope().findIdentifier(procName);
+        if ((identifier !== null) && (procName !== t.LEXEME_MAIN)) {
             throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier.');
         }
         this._scope.getParentScope().addProc(this._scope);
@@ -185,5 +186,9 @@ exports.CompileProc = class extends CompileBlock {
             throw errors.createError(err.NO_LOCAL_PROC_SUPPORTED, token, 'No local proc allowed.');
         }
         this.compileProc(iterator, token);
+    }
+
+    getNamespacedProcName(name) {
+        return (name === t.LEXEME_MAIN) ? name : (this._compiler.getNamespace().getCurrentNamespace() + name);
     }
 };

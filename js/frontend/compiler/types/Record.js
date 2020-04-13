@@ -5,8 +5,8 @@
 const Scope = require('./Scope').Scope;
 
 exports.Record = class extends Scope {
-    constructor(parentScope, name, global) {
-        super(parentScope, name, global);
+    constructor(parentScope, name, global, namespace) {
+        super(parentScope, name, global, namespace);
         this._unionSize = 0;
     }
 

@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 (function() {
+    const LEXEME_NAMESPACE          = 'namespace';
     const LEXEME_PROC               = 'proc';
     const LEXEME_NUMBER             = 'number';
     const LEXEME_STRING             = 'string';
@@ -87,6 +88,7 @@
     const TOKEN_COMMENT             = 20;
     const TOKEN_WHITE_SPACE         = 21;
 
+    exports.LEXEME_NAMESPACE          = LEXEME_NAMESPACE;
     exports.LEXEME_PROC               = LEXEME_PROC;
     exports.LEXEME_NUMBER             = LEXEME_NUMBER;
     exports.LEXEME_STRING             = LEXEME_STRING;
@@ -172,6 +174,7 @@
     exports.TOKEN_WHITE_SPACE         = TOKEN_WHITE_SPACE;
 
     const keywords = [
+            LEXEME_NAMESPACE,
             LEXEME_BREAK,
             LEXEME_CASE,
             LEXEME_DEFAULT,
@@ -234,6 +237,8 @@
         token.is = is.bind(token);
         return token;
     }
+
+    exports.makeToken = makeToken;
 
     exports.Tokenizer = class {
         constructor() {

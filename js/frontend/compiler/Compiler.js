@@ -13,6 +13,7 @@ const CompileBlock    = require('./compiler/CompileBlock').CompileBlock;
 const compileModule   = require('./keyword/CompileModule');
 const SyntaxValidator = require('./syntax/SyntaxValidator').SyntaxValidator;
 const Scope           = require('./types/Scope').Scope;
+const Namespace       = require('./types/Namespace').Namespace;
 
 class UseInfo {
     constructor(compiler) {
@@ -53,13 +54,14 @@ exports.Compiler = class extends CompileBlock {
         super(opts);
         this._linter     = opts.linter || null;
         this._rangeCheck = true;
+        this._namespace  = new Namespace({});
     }
 
     compile(tokens) {
-        let iterator    = new Iterator(tokens);
+        let iterator = new Iterator(tokens);
         this._compiler  = this;
         this._program   = new Program(this);
-        this._scope     = new Scope(null, 'global', true);
+        this._scope     = new Scope(null, 'global', true, this._namespace);
         this._loopStack = [];
         this._scope.setSize($.REG_TO_STR.length);
         this.compileBlock(iterator, null);
@@ -68,6 +70,7 @@ exports.Compiler = class extends CompileBlock {
 
     buildTokens(tokens) {
         new SyntaxValidator().validate(tokens);
+        tokens = this._namespace.compileNamespaces(tokens);
         this._useInfo = new UseInfo(this);
         this._pass    = 0;
         this.compile(tokens);
@@ -93,6 +96,14 @@ exports.Compiler = class extends CompileBlock {
 
     setRangeCheck(rangeCheck) {
         this._rangeCheck = rangeCheck;
+    }
+
+    getNamespace() {
+        return this._namespace;
+    }
+
+    setNamespace(namespace) {
+        this._namespace.setNamespace(namespace);
     }
 
     getScope() {

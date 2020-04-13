@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const keywords = [
+        'namespace',
         'proc',
         'for',
         'repeat',

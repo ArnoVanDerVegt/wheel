@@ -5,7 +5,10 @@
 const Var = require('./Var').Var;
 
 exports.Scope = class {
-    constructor(parentScope, name, global) {
+    constructor(parentScope, name, global, namespace) {
+        if (!namespace) {
+            throw new Error('No namespace');
+        }
         this._token             = null;
         this._program           = null;
         this._parentScope       = parentScope;
@@ -13,6 +16,7 @@ exports.Scope = class {
         this._name              = name;
         this._size              = 0;
         this._global            = !!global;
+        this._namespace         = namespace;
         this._varsLocked        = false;
         this._vars              = [];
         this._varsByName        = {};
@@ -130,6 +134,10 @@ exports.Scope = class {
         if (proc) {
             return proc;
         }
+        proc = this._procByName[this._namespace.getCurrentNamespace() + name];
+        if (proc) {
+            return proc;
+        }
         return this._parentScope ? this._parentScope.findIdentifier(name) : null;
     }
 
@@ -137,9 +145,12 @@ exports.Scope = class {
         return this._recordsByName[name];
     }
 
-    findProc(name) {
-        return this._recordsByName[name];
-    }
+    // findProc(name) {
+    //     if (name in this._recordsByName) {
+    //         return this._recordsByName[name]
+    //     }
+    //     return this._recordsByName[this._namespace.getCurrentNamespace() + name];
+    // }
 
     findType(name) {
         let tokenizer = require('../tokenizer/tokenizer');
@@ -168,6 +179,10 @@ exports.Scope = class {
 
     findProc(name) {
         let proc = this._procByName[name];
+        if (proc) {
+            return proc;
+        }
+        proc = this._procByName[this._namespace.getCurrentNamespace() + name];
         if (proc) {
             return proc;
         }
