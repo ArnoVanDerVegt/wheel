@@ -99,4 +99,4 @@ exports.Namespace = class {
         }
         return namespacedTokens;
     }
-}
+};

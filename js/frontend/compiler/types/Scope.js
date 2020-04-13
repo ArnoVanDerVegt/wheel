@@ -145,13 +145,6 @@ exports.Scope = class {
         return this._recordsByName[name];
     }
 
-    // findProc(name) {
-    //     if (name in this._recordsByName) {
-    //         return this._recordsByName[name]
-    //     }
-    //     return this._recordsByName[this._namespace.getCurrentNamespace() + name];
-    // }
-
     findType(name) {
         let tokenizer = require('../tokenizer/tokenizer');
         if (name === tokenizer.LEXEME_NUMBER) {

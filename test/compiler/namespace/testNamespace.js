@@ -10,7 +10,7 @@ const assert      = require('assert');
 describe(
     'Test namespace',
     function() {
-        /*describe(
+        describe(
             'Test namespace declarations',
             function() {
                 it(
@@ -53,7 +53,7 @@ describe(
                     }
                 );
             }
-        );*/
+        );
         describe(
             'Test call local procedure in namespace',
             function() {
@@ -95,7 +95,7 @@ describe(
                 );
             }
         );
-        /*describe(
+        describe(
             'Test call procedure in namespace',
             function() {
                 testLogs(
@@ -253,6 +253,6 @@ describe(
                     ]
                 );
             }
-        );*/
+        );
     }
 );
