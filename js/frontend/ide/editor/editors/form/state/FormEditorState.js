@@ -27,10 +27,10 @@ exports.FormEditorState = class extends Emitter {
         this._undoStack          = new UndoStack({formEditorState: this, componentList: this._componentList});
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._dispatch           = [
-            dispatcher.on('Properties.Property.Change', this, this.onChangeProperty),
-            dispatcher.on('Properties.Event.Change',    this, this.onChangeEvent),
-            dispatcher.on('Properties.Select',          this, this.onSelectProperties),
-            dispatcher.on('Properties.SelectComponent', this, this.onSelectComponent)
+            dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
+            dispatcher.on('Properties.Event.Change',      this, this.onChangeEvent),
+            dispatcher.on('Properties.Select.Properties', this, this.onSelectProperties),
+            dispatcher.on('Properties.SelectComponent',   this, this.onSelectComponent)
         ];
         setTimeout(this.initForm.bind(this, opts), 50);
     }
@@ -180,9 +180,13 @@ exports.FormEditorState = class extends Emitter {
         return this._componentList.getData();
     }
 
-    propertiesFromComponentToOpts(componentId, properties, opts) {
+    getComponentList() {
+        return this._componentList;
+    }
+
+    propertiesFromComponentToOpts(componentId, propertyList, opts) {
         let component = this.getComponentById(componentId);
-        properties.getList().forEach(function(property) {
+        propertyList.getList().forEach(function(property) {
             if (property.name && (property.name in component)) {
                 opts[property.name] = component[property.name];
             }
@@ -276,6 +280,20 @@ exports.FormEditorState = class extends Emitter {
         if (component.type) {
             this.emit('ChangeForm');
         }
+        if (property === 'name') {
+            let renameEvents = [];
+            if (id === this._formId) {
+                this._componentList.getList().forEach(
+                    function(component) {
+                        this.updateEventsForComponent(renameEvents, component);
+                    },
+                    this
+                );
+            } else {
+                this.updateEventsForComponent(renameEvents, component);
+            }
+            this.emit('RenameEvents', renameEvents);
+        }
     }
 
     onChangeEvent(id, event, value) {
@@ -283,12 +301,20 @@ exports.FormEditorState = class extends Emitter {
         if (!component) {
             return;
         }
-        component[event] = value;
-        this.emit('ChangeEvent');
+        let newValue = !component[event];
+        if (value) {
+            component[event] = value;
+        } else {
+            delete component[event];
+            newValue = false;
+        }
+        if (newValue) {
+            this.emit('ChangeEvent');
+        }
     }
 
-    onSelectProperties(properties) {
-        this.selectComponentById(properties.id);
+    onSelectProperties(propertyList) {
+        this.selectComponentById(propertyList.getComponentId());
     }
 
     onSelectComponent(id) {
@@ -296,11 +322,34 @@ exports.FormEditorState = class extends Emitter {
         if (component) {
             let formId        = this._formId;
             let componentList = this._componentList;
-            let properties    = new PropertyList({component: component, formEditorState: this});
-            let events        = new EventList({component: component, formEditorState: this});
-            dispatcher.dispatch('Properties.Select', properties, events, this);
+            let propertyList  = new PropertyList({
+                    component:       component,
+                    componentList:   this._componentList,
+                    formEditorState: this
+                });
+            let eventList     = new EventList({
+                    component:       component,
+                    formEditorState: this
+                });
+            dispatcher
+                .dispatch('Properties.Select.Properties', propertyList, this)
+                .dispatch('Properties.Select.Events', eventList, this);
         }
         return this;
+    }
+
+    updateEventsForComponent(renameEvents, component) {
+        let events = component.eventList.getUpdatedEvents();
+        for (let event in events) {
+            if (event in component) {
+                renameEvents.push({
+                    name:    event,
+                    newName: events[event],
+                    oldName: component[event]
+                });
+                component[event] = events[event];
+            }
+        }
     }
 
     updateComponents(id) {

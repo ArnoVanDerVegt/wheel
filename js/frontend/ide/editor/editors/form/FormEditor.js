@@ -26,6 +26,7 @@ exports.FormEditor = class extends Editor {
             .on('AddForm',         this, this.onAddForm)
             .on('AddComponent',    this, this.onAddComponent)
             .on('AddUndo',         this, this.onAddUndo)
+            .on('RenameEvents',    this, this.onRenameEvents)
             .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.updateElements)
             .on('AddComponent',    this, this.updateElements)
@@ -147,6 +148,17 @@ exports.FormEditor = class extends Editor {
         this._formEditorState.setTool(tool);
     }
 
+    onRenameEvents(renameEvents) {
+        let editor = this.getEditor();
+        if (!editor) {
+            return;
+        }
+        editor.setValue(this._sourceBuilder.updateEventNames({
+            source:       editor.getValue(),
+            renameEvents: renameEvents
+        }));
+    }
+
     onSelectComponent(component) {
         const components = [
                 formEditorConstants.COMPONENT_TYPE_BUTTON,
@@ -193,6 +205,12 @@ exports.FormEditor = class extends Editor {
         return this._formEditorState.getData();
     }
 
+    getEditor() {
+        let filename = path.replaceExtension(this._formEditorState.getFilename(), '.whl');
+        let editor   = this._editors.findEditor(this._formEditorState.getPath(), filename);
+        return editor;
+    }
+
     clearSelection() {
         return this;
     }
@@ -203,12 +221,8 @@ exports.FormEditor = class extends Editor {
 
     updateSource() {
         let formEditorState = this._formEditorState;
-        if (formEditorState.getLoading()) {
-            return;
-        }
-        let filename = path.replaceExtension(formEditorState.getFilename(), '.whl');
-        let editor   = this._editors.findEditor(formEditorState.getPath(), filename);
-        if (!editor) {
+        let editor          = this.getEditor();
+        if (!editor || formEditorState.getLoading()) {
             return;
         }
         editor.setValue(this._sourceBuilder.addComponent({

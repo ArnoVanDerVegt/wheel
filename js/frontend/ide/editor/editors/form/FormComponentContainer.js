@@ -183,7 +183,8 @@ exports.FormComponentContainer = class extends DOMNode {
         this._mouseElement     = element;
         event.stopPropagation();
         dispatcher
-            .dispatch('Properties.Select', opts.properties, opts.events, this._formEditorState)
+            .dispatch('Properties.Select.Properties', opts.propertyList, this._formEditorState)
+            .dispatch('Properties.Select.Events', opts.eventList, this._formEditorState)
             .dispatch('Properties.ComponentList', {value: opts.id});
     }
 
@@ -217,14 +218,21 @@ exports.FormComponentContainer = class extends DOMNode {
         }
         let element;
         let formEditorState = this._formEditorState;
-        let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.properties, opts);
+        let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
         opts.onMouseDown          = (function(event) { this.onComponentMouseDown(event, element, opts); }).bind(this);
         opts.style                = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
         opts.parentNode           = this._formElement;
         opts.ui                   = this._ui;
         opts.uiId                 = 1;
-        opts.properties           = new PropertyList({component: component, formEditorState: formEditorState});
-        opts.events               = new EventList({component: component, formEditorState: formEditorState});
+        opts.propertyList         = new PropertyList({
+            component:       component,
+            componentList:   formEditorState.getComponentList(),
+            formEditorState: formEditorState
+        });
+        opts.eventList            = new EventList({
+            component:       component,
+            formEditorState: formEditorState
+        });
         if (opts.panelOpts) {
             opts.panelOpts.onMouseDown = (function(event) {
                 this.onComponentMouseDown(event, element, opts);
@@ -232,6 +240,8 @@ exports.FormComponentContainer = class extends DOMNode {
         }
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;
-        dispatcher.dispatch('Properties.Select', opts.properties, opts.events, formEditorState);
+        dispatcher
+            .dispatch('Properties.Select.Properties', opts.propertyList, formEditorState)
+            .dispatch('Properties.Select.Events', opts.eventList, formEditorState);
     }
 };

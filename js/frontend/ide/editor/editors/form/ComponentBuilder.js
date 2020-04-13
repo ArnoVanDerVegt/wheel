@@ -18,9 +18,9 @@ exports.ComponentBuilder = class {
                 componentList:   this._componentList,
                 formEditorState: this._formEditorState
             };
-        component.type       = type;
-        component.properties = new PropertyList(opts);
-        component.events     = new EventList(opts);
+        component.type         = type;
+        component.propertyList = new PropertyList(opts);
+        component.eventList    = new EventList(opts);
         return this;
     }
 

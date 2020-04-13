@@ -172,6 +172,29 @@ exports.SourceBuilder = class {
         return firstDefine;
     }
 
+    updateEventNames(opts) {
+        let eventsByOldName = {};
+        opts.renameEvents.forEach(function(renameEvent) {
+            eventsByOldName[renameEvent.oldName] = renameEvent;
+        });
+        let lines = opts.source.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            if (line.trim().indexOf('proc') === 0) {
+                line = line.trim();
+                let j = line.indexOf('(');
+                if (j !== -1) {
+                    let procName = line.substr(5, j - 5).trim();
+                    if (procName in eventsByOldName) {
+                        lines[i] = 'proc ' + eventsByOldName[procName].newName + line.substr(j - line.length).trim();
+                        delete eventsByOldName[procName];
+                    }
+                }
+            }
+        }
+        return lines.join('\n');
+    }
+
     /**
      * Add a new component uid to the defines in the source...
     **/

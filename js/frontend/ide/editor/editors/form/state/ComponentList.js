@@ -54,6 +54,14 @@ exports.ComponentList = class {
         return this._componentsById[id];
     }
 
+    getList() {
+        let result = [];
+        for (let id in this._componentsById) {
+            result.push(this._componentsById[id]);
+        }
+        return result;
+    }
+
     getItems() {
         let componentsById = this._componentsById;
         let items          = [];
@@ -86,8 +94,8 @@ exports.ComponentList = class {
             let component = Object.assign({}, componentsById[id]);
             delete component.componentList;
             delete component.owner;
-            delete component.properties;
-            delete component.events;
+            delete component.propertyList;
+            delete component.eventList;
             component.id = getId(id);
             if ('containerId' in component) {
                 let containerId = component.containerId;

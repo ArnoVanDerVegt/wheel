@@ -14,6 +14,10 @@ exports.EventList = class {
         return this._component.id;
     }
 
+    getComponentUid() {
+        return this._component.uid;
+    }
+
     getComponentName () {
         return this._component.name;
     }
@@ -37,5 +41,17 @@ exports.EventList = class {
             formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) +
             componentName.substr(0, 1).toUpperCase() + componentName.substr(1 - componentName.length) +
             name.substr(2 - name.length);
+    }
+
+    getUpdatedEvents() {
+        let list   = this.getList();
+        let result = {};
+        list.forEach(
+            function(event) {
+                result[event.name] = this.getEventName(event.name);
+            },
+            this
+        );
+        return result;
     }
 };

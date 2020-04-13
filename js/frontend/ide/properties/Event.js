@@ -9,7 +9,7 @@ exports.Event = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._opts          = opts;
-        this._events        = opts.events;
+        this._eventList     = opts.eventList;
         this._options       = opts.options || {};
         this._ui            = opts.ui;
         this._settings      = opts.settings;
@@ -38,15 +38,14 @@ exports.Event = class extends DOMNode {
                     type:      Button,
                     ui:        this._ui,
                     uiId:      1,
-                    value:     '+',
+                    value:     this._value ? '-' : '+',
                     color:     'gray',
-                    hidden:    !!this._value,
                     onClick:   this.onClickAdd.bind(this)
                 },
                 {
                     id:        this.setRef('currentValue'),
                     className: 'current-value',
-                    value:     this._value,
+                    innerHTML: this._value,
                     title:     this._value
                 }
             ]
@@ -91,7 +90,7 @@ exports.Event = class extends DOMNode {
 
     onClickAdd() {
         let refs  = this._refs;
-        let value = this._value ? '' : this._events.getEventName(this._name);
+        let value = this._value ? '' : this._eventList.getEventName(this._name);
         this._value                 = value;
         refs.currentValue.innerHTML = value;
         refs.currentValue.title     = value;

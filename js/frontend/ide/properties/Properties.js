@@ -26,9 +26,10 @@ exports.Properties = class extends DOMNode {
         this._eventByName    = {};
         this.initDOM(opts.parentNode || document.body);
         dispatcher
-            .on('Properties.Select',         this, this.onSelectProperties)
-            .on('Properties.ChangePosition', this, this.onChangePosition)
-            .on('Properties.ComponentList',  this, this.onChangeComponentList);
+            .on('Properties.Select.Properties', this, this.onSelectProperties)
+            .on('Properties.Select.Events',     this, this.onSelectEvents)
+            .on('Properties.ChangePosition',    this, this.onChangePosition)
+            .on('Properties.ComponentList',     this, this.onChangeComponentList);
     }
 
     initDOM(parentNode) {
@@ -118,21 +119,35 @@ exports.Properties = class extends DOMNode {
         this._properties.push(property);
     }
 
-    showProperties(properties, formEditorState) {
-        this._properties.length = 0;
+    addEvent(event) {
+        this._events.push(event);
+    }
+
+    onClickProperties() {
+        let refs = this._refs;
+        refs.propertiesContainer.style.display = 'block';
+        refs.eventsContainer.style.display     = 'none';
+    }
+
+    onClickEvents() {
+        let refs = this._refs;
+        refs.propertiesContainer.style.display = 'none';
+        refs.eventsContainer.style.display     = 'block';
+    }
+
+    onSelectProperties(propertyList, formEditorState) {
+        this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
+        this._properties.length           = 0;
         let propertiesContainer = this._refs.propertiesContainer;
-        let id                  = properties.getComponentId();
+        let id                  = propertyList.getComponentId();
         let propertyByName      = {};
         let component           = formEditorState.getComponentById(id);
         this.clear(propertiesContainer);
-        properties.getList().forEach(
+        propertyList.getList().forEach(
             function(property) {
                 if (!property || (property.name === null)) {
                     return;
                 }
-                let onChange = function(value) {
-                        dispatcher.dispatch('Properties.Property.Change', id, property.name, value);
-                    };
                 let propertyConstructor = null;
                 let opts                = {
                         parentNode:    propertiesContainer,
@@ -140,10 +155,12 @@ exports.Properties = class extends DOMNode {
                         ui:            this._ui,
                         name:          property.name,
                         options:       property.options,
-                        value:         properties.getProperty(property.name),
-                        componentList: properties.getComponentList(),
+                        value:         propertyList.getProperty(property.name),
+                        componentList: propertyList.getComponentList(),
                         component:     component,
-                        onChange:      onChange
+                        onChange:      function(value) {
+                            dispatcher.dispatch('Properties.Property.Change', id, property.name, value);
+                        }
                     };
                 switch (property.type) {
                     case 'boolean':  propertyConstructor = BooleanProperty;  break;
@@ -160,26 +177,23 @@ exports.Properties = class extends DOMNode {
         this._propertyByName = propertyByName;
     }
 
-    addEvent(event) {
-        this._events.push(event);
-    }
-
-    showEvents(events, formEditorState) {
-        this._events.length = 0;
+    onSelectEvents(eventList, formEditorState) {
+        this._refs.componentUid.innerHTML = eventList.getComponentUid() || '0x00000000';
+        this._events.length               = 0;
         let eventsContainer = this._refs.eventsContainer;
-        let id              = events.getComponentId();
+        let id              = eventList.getComponentId();
         let eventByName     = {};
         let component       = formEditorState.getComponentById(id);
         this.clear(eventsContainer);
-        events.getList().forEach(
+        eventList.getList().forEach(
             function(event) {
                 eventByName[event.name] = new Event({
-                    events:        events,
+                    eventList:     eventList,
                     parentNode:    eventsContainer,
                     properties:    this,
                     ui:            this._ui,
                     name:          event.name,
-                    value:         events.getEvent(event.name),
+                    value:         component[event.name] || '',
                     onChange: function(value) {
                         dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
                     }
@@ -188,24 +202,6 @@ exports.Properties = class extends DOMNode {
             this
         );
         this._eventByName = eventByName;
-    }
-
-    onClickProperties() {
-        let refs = this._refs;
-        refs.propertiesContainer.style.display = 'block';
-        refs.eventsContainer.style.display     = 'none';
-    }
-
-    onClickEvents() {
-        let refs = this._refs;
-        refs.propertiesContainer.style.display = 'none';
-        refs.eventsContainer.style.display     = 'block';
-    }
-
-    onSelectProperties(properties, events, formEditorState) {
-        this._refs.componentUid.innerHTML = properties.getComponentUid() || '0x00000000';
-        this.showProperties(properties, formEditorState);
-        this.showEvents(events, formEditorState);
     }
 
     onChangePosition(position) {
