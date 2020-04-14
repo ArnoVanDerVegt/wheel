@@ -8,6 +8,19 @@ exports.Namespace = class {
     constructor(opts) {
         this._namespace        = {};
         this._currentNamespace = '';
+        this._currentFileIndex = -1;
+    }
+
+    reset() {
+        this._currentNamespace = '';
+        this._currentFileIndex = -1;
+    }
+
+    checkCurrentFileIndex(token) {
+        if (('fileIndex' in token) && (this._currentFileIndex !== token.fileIndex)) {
+            this._currentFileIndex = token.fileIndex;
+            this._currentNamespace = '';
+        }
     }
 
     setNamespace(namespace) {
@@ -57,6 +70,7 @@ exports.Namespace = class {
     }
 
     compileNamespaces(tokens) {
+        let namespaceAllowed = false;
         let namespacedTokens = [];
         let i                = 0;
         let skipWhitespace   = function() {
@@ -69,7 +83,24 @@ exports.Namespace = class {
             if (token.lexeme === t.LEXEME_NAMESPACE) {
                 i = this.compileNamespace(tokens, namespacedTokens, i);
                 i--;
-            } else {
+            } else if (token.lexeme === t.LEXEME_NEWLINE) {
+                // A namespace is allowed at the start of a new line...
+                namespaceAllowed = true;
+                namespacedTokens.push(token);
+            } else if (token.lexeme[0] === t.LEXEME_SPACE) {
+                // Don't reset the namespaceAllowed here...
+                namespacedTokens.push(token);
+            } else if ([ // A namespace can only appear after certain tokens...
+                    t.TOKEN_COMMA,               // ", namespace."
+                    t.TOKEN_PARENTHESIS_OPEN,    // "(namespace."
+                    t.TOKEN_BRACKET_OPEN,        // "[namespace."
+                    t.TOKEN_NUMERIC_OPERATOR,    // "* namespace."
+                    t.TOKEN_BOOLEAN_OPERATOR,    // "and namespace."
+                    t.TOKEN_ASSIGNMENT_OPERATOR  // "+= namespace."
+                ].indexOf(token.cls) !== -1) {
+                namespaceAllowed = true;
+                namespacedTokens.push(token);
+            } else if (namespaceAllowed) {
                 let n = this.getNamespace(token.lexeme);
                 if (n && tokens[i + 1] && (tokens[i + 1].lexeme === t.LEXEME_DOT)) {
                     let namespaceParts = [token.lexeme];
@@ -93,6 +124,9 @@ exports.Namespace = class {
                     token        = tokens[i];
                     token.lexeme = namespaceParts.join('~') + '~' + token.lexeme;
                 }
+                namespacedTokens.push(token);
+                namespaceAllowed = false;
+            } else {
                 namespacedTokens.push(token);
             }
             i++;

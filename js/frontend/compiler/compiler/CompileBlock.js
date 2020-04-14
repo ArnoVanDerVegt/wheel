@@ -131,13 +131,16 @@ class CompileBlock extends CompileScope {
     }
 
     compileBlock(iterator, endStatements) {
-        let program = this._program;
-        let scope   = this._scope;
-        let end     = false;
-        let token   = null;
-        let opts    = {compiler: this._compiler, program: program, scope: scope};
+        let compiler = this._compiler;
+        let program  = this._program;
+        let scope    = this._scope;
+        let end      = false;
+        let token    = null;
+        let opts     = {compiler: compiler, program: program, scope: scope};
         while (!end && !iterator.finished()) {
             token = iterator.skipWhiteSpace().next();
+            // Check if the token belongs to the next file, if so then reset the namespace to the root.
+            compiler.getNamespace().checkCurrentFileIndex(token);
             program.nextBlockId(token, scope);
             switch (token.cls) {
                 case t.TOKEN_TYPE:

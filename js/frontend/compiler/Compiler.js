@@ -64,6 +64,7 @@ exports.Compiler = class extends CompileBlock {
         this._scope     = new Scope(null, 'global', true, this._namespace);
         this._loopStack = [];
         this._scope.setSize($.REG_TO_STR.length);
+        this._namespace.reset();
         this.compileBlock(iterator, null);
         this._program.setGlobalSize(this._scope.getSize());
     }
