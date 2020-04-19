@@ -4,6 +4,37 @@
 **/
 const path = require('../../../../lib/path');
 
+const getShowProcNameFromFilename = function(filename) {
+        let result = '';
+        filename = path.replaceExtension(filename, '');
+        for (let i = 0; i < filename.length; i++) {
+            let c = filename[i];
+            if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) !== -1) {
+                result += c;
+            }
+        }
+        return result.substr(0, 1).toUpperCase() + result.substr(1 - result.length) + 'Form';
+    };
+
+const getShowProcNameFromFormName = function(formName) {
+        return 'show' + formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) + 'Form';
+    };
+
+const getFormCode = function(filename) {
+        return [
+            '; @proc Show the form',
+            '; @ret  The handle to the form.',
+            'proc show' + getShowProcNameFromFilename(filename) + '()',
+            '    ret components.form.show("' + filename + '")',
+            'end',
+            ''
+        ];
+    };
+
+
+exports.getFormCode                 = getFormCode;
+exports.getShowProcNameFromFormName = getShowProcNameFromFormName;
+
 exports.SourceBuilder = class {
     constructor(opts) {
         this._lastDefines = null;
@@ -28,6 +59,18 @@ exports.SourceBuilder = class {
             }
         }
         return result;
+    }
+
+    getLastInclude(lines) {
+        let i = lines.length - 1;
+        while (i >= 0) {
+            let line = lines[i].trim();
+            if (line.indexOf('#include') === 0) {
+                return i;
+            }
+            i--;
+        }
+        return -1;
     }
 
     generateDefinesFromData(data) {
@@ -62,7 +105,7 @@ exports.SourceBuilder = class {
         let space = '                                                                      ';
         for (i = 0; i < defines.length; i++) {
             let define = defines[i];
-            define.line = '#define ' + (define.name + space).substr(0, maxLength) + ' ' + define.uid;
+            define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
         }
         return defines;
     }
@@ -124,18 +167,30 @@ exports.SourceBuilder = class {
         if (!defines) {
             defines = this.generateDefinesFromData(opts.data);
         }
-        let firstDefine = this.updateLinesWithDefines(lines, defines);
+        let firstDefine    = this.updateLinesWithDefines(lines, defines);
+        let insertPosition = -1;
+        if (firstDefine === -1) {
+            insertPosition = this.getLastInclude(lines);
+            if (insertPosition !== -1) {
+                insertPosition++;
+                lines.splice(insertPosition, 0, '');
+                insertPosition++;
+            }
+        } else {
+            insertPosition = firstDefine;
+        }
+
         // Then insert the new sorted and formated #define list...
         defines           = this.generateDefinesFromData(opts.data);
         this._lastDefines = defines;
-        if (firstDefine === -1) {
+        if (insertPosition === -1) {
             defines.forEach(function(define) {
                 lines.push(define.line);
             });
         } else {
             defines.reverse();
             defines.forEach(function(define) {
-                lines.splice(firstDefine, 0, define.line);
+                lines.splice(insertPosition, 0, define.line);
             });
         }
         // Add the event procedures...
@@ -190,6 +245,22 @@ exports.SourceBuilder = class {
                         delete eventsByOldName[procName];
                     }
                 }
+            }
+        }
+        return lines.join('\n');
+    }
+
+    updateFormName(opts) {
+        let lines   = opts.source.split('\n');
+        let oldName = getShowProcNameFromFormName(opts.oldName);
+        let newName = getShowProcNameFromFormName(opts.newName);
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if ((line.indexOf('proc') === 0) && (line.indexOf(' ' + oldName) !== -1)) {
+                line = lines[i];
+                let j = line.indexOf(oldName);
+                lines[i] = line.substr(0, j) + newName + line.substr(j + oldName.length, line.length - j - oldName.length);
+                break;
             }
         }
         return lines.join('\n');

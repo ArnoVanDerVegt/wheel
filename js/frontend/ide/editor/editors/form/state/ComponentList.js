@@ -154,7 +154,7 @@ exports.ComponentList = class {
     }
 
     deleteActiveComponent() {
-        this.deleteComponentById(this._activeComponentId);
+        return this.deleteComponentById(this._activeComponentId);
     }
 
     selectComponentById(id) {

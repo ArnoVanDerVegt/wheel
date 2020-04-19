@@ -1,0 +1,16 @@
+; @module Component/Checkbox
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.checkbox
+
+; @const The button component module.
+#define MODULE_COMPONENT_CHECKBOX        68
+
+; @const Module calls for button component functions.
+#define CHECKBOX_COMPONENT_SET_TAB_INDEX  0
+#define CHECKBOX_COMPONENT_SET_HIDDEN     1
+#define CHECKBOX_COMPONENT_SET_DISABLED   2
+#define CHECKBOX_COMPONENT_SET_X          3
+#define CHECKBOX_COMPONENT_SET_Y          4
+#define CHECKBOX_COMPONENT_SET_TITLE      5
+#define CHECKBOX_COMPONENT_SET_CHECKED    6

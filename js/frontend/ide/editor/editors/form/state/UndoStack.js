@@ -6,10 +6,12 @@ const formEditorConstants = require('../formEditorConstants');
 
 exports.UndoStack = class {
     constructor(opts) {
-        this._componentList   = opts.componentList;
-        this._formEditorState = opts.formEditorState;
-        this._undoStack       = [];
-        this._enabled         = false;
+        this._getOwnerByParentId = opts.getOwnerByParentId;
+        this._componentBuilder   = opts.componentBuilder;
+        this._componentList      = opts.componentList;
+        this._formEditorState    = opts.formEditorState;
+        this._undoStack          = [];
+        this._enabled            = false;
     }
 
     setEnabled(enabled) {

@@ -26,6 +26,7 @@ exports.FormEditor = class extends Editor {
             .on('AddForm',         this, this.onAddForm)
             .on('AddComponent',    this, this.onAddComponent)
             .on('AddUndo',         this, this.onAddUndo)
+            .on('RenameForm',      this, this.onRenameForm)
             .on('RenameEvents',    this, this.onRenameEvents)
             .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.updateElements)
@@ -86,6 +87,14 @@ exports.FormEditor = class extends Editor {
                 ]
             }
         );
+        let formEditorState = this._formEditorState;
+        let editor          = this.getEditor();
+        if (editor && !formEditorState.getLoading()) {
+            editor.setValue(this._sourceBuilder.addComponent({
+                source:    editor.getValue(),
+                data:      formEditorState.getData()
+            }));
+        }
     }
 
     onAddComponent(component) {
@@ -136,7 +145,7 @@ exports.FormEditor = class extends Editor {
             // Todo: show active tab panel!
         }
         if (owner) {
-            this._formEditorState.paste(parentId, owner);
+            formEditorState.paste(parentId, owner);
         }
     }
 
@@ -146,6 +155,18 @@ exports.FormEditor = class extends Editor {
 
     onSelectTool(tool) {
         this._formEditorState.setTool(tool);
+    }
+
+    onRenameForm(oldName, newName) {
+        let editor = this.getEditor();
+        if (!editor) {
+            return;
+        }
+        editor.setValue(this._sourceBuilder.updateFormName({
+            source:  editor.getValue(),
+            oldName: oldName,
+            newName: newName
+        }));
     }
 
     onRenameEvents(renameEvents) {
@@ -227,7 +248,7 @@ exports.FormEditor = class extends Editor {
         }
         editor.setValue(this._sourceBuilder.addComponent({
             source:    editor.getValue(),
-            data:      this._formEditorState.getData()
+            data:      formEditorState.getData()
         }));
     }
 

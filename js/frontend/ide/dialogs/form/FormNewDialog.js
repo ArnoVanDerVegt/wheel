@@ -5,6 +5,7 @@
 const dispatcher     = require('../../../lib/dispatcher').dispatcher;
 const path           = require('../../../lib/path');
 const ImageNewDialog = require('../image/ImageNewDialog').ImageNewDialog;
+const SourceBuilder  = require('../../editor/editors/form/SourceBuilder');
 
 exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
@@ -35,8 +36,18 @@ exports.FormNewDialog = class extends ImageNewDialog {
         let formFilename = path.join(this._activeDirectory, this._filename);
         let whlFilename  = path.replaceExtension(formFilename, '.whl');
         dispatcher
-            .dispatch('Create.File', whlFilename, ['lib/form.whl'], ['test'])
-            .dispatch('Create.Form', formFilename, this._width, this._height);
+            .dispatch(
+                'Create.File',
+                whlFilename,
+                ['lib/form.whl'],
+                SourceBuilder.getFormCode(this._filename)
+            )
+            .dispatch(
+                'Create.Form',
+                formFilename,
+                this._width,
+                this._height
+            );
         this.hide();
     }
 

@@ -4,6 +4,7 @@
 **/
 const dispatcher          = require('../../../../../lib/dispatcher').dispatcher;
 const Emitter             = require('../../../../../lib/Emitter').Emitter;
+const path                = require('../../../../../lib/path');
 const formEditorConstants = require('../formEditorConstants');
 const ComponentBuilder    = require('../ComponentBuilder').ComponentBuilder;
 const ComponentList       = require('./ComponentList').ComponentList;
@@ -16,15 +17,25 @@ let nextId = 0;
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
-        this._loading            = true;
+        this._loading            = !!opts.data;
         this._clipboard          = null;
         this._path               = opts.path;
         this._filename           = opts.filename;
         this._getOwnerByParentId = opts.getOwnerByParentId;
         this._formId             = this.peekId();
-        this._componentList      = new ComponentList({formEditorState: this});
-        this._componentBuilder   = new ComponentBuilder({formEditorState: this, componentList: this._componentList});
-        this._undoStack          = new UndoStack({formEditorState: this, componentList: this._componentList});
+        this._componentList      = new ComponentList({
+            formEditorState:    this
+        });
+        this._componentBuilder   = new ComponentBuilder({
+            formEditorState:    this,
+            componentList:      this._componentList
+        });
+        this._undoStack          = new UndoStack({
+            formEditorState:    this,
+            componentBuilder:   this._componentBuilder,
+            componentList:      this._componentList,
+            getOwnerByParentId: this._getOwnerByParentId
+        });
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
@@ -42,12 +53,13 @@ exports.FormEditorState = class extends Emitter {
     }
 
     initForm(opts) {
+        let formName  = path.replaceExtension(opts.filename, '');
         let form      = opts.data ? opts.data[0] : null;
         let component = this._componentBuilder.addFormComponent({
             type:   'form',
             uid:    form ? form.uid    : this._componentList.getNewComponentUid(),
-            name:   form ? form.name   : opts.filename,
-            title:  form ? form.title  : opts.filename,
+            name:   form ? form.name   : formName,
+            title:  form ? form.title  : formName,
             width:  form ? form.width  : opts.width,
             height: form ? form.height : opts.height
         });
@@ -213,7 +225,11 @@ exports.FormEditorState = class extends Emitter {
     }
 
     deleteActiveComponent() {
-        this._componentList.deleteActiveComponent();
+        let activeComponentId = this._componentList.getActiveComponentId();
+        if (!activeComponentId) {
+            return;
+        }
+        this.deleteComponentById(activeComponentId, true);
     }
 
     deleteComponentById(id, saveUndo) {
@@ -276,8 +292,11 @@ exports.FormEditorState = class extends Emitter {
                 value:    component[property]
             });
         }
+        if ((component.type === 'form') && (property === 'name')) {
+            this.emit('RenameForm', component[property], value);
+        }
         component[property] = value;
-        if (component.type) {
+        if (component.type === 'form') {
             this.emit('ChangeForm');
         }
         if (property === 'name') {

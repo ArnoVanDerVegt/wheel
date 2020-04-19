@@ -100,6 +100,9 @@ exports.Namespace = class {
                 ].indexOf(token.cls) !== -1) {
                 namespaceAllowed = true;
                 namespacedTokens.push(token);
+            } else if ((token.cls === t.TOKEN_KEYWORD) && (token.lexeme === t.LEXEME_RET)) {
+                namespaceAllowed = true;
+                namespacedTokens.push(token);
             } else if (namespaceAllowed) {
                 let n = this.getNamespace(token.lexeme);
                 if (n && tokens[i + 1] && (tokens[i + 1].lexeme === t.LEXEME_DOT)) {

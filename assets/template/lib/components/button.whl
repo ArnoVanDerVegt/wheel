@@ -1,0 +1,17 @@
+; @module Component/Button
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.button
+
+; @const The button component module.
+#define MODULE_COMPONENT_BUTTON        65
+
+; @const Module calls for button component functions.
+#define BUTTON_COMPONENT_SET_TAB_INDEX  0
+#define BUTTON_COMPONENT_SET_HIDDEN     1
+#define BUTTON_COMPONENT_SET_DISABLED   2
+#define BUTTON_COMPONENT_SET_X          3
+#define BUTTON_COMPONENT_SET_Y          4
+#define BUTTON_COMPONENT_SET_COLOR      5
+#define BUTTON_COMPONENT_SET_VALUE      6
+#define BUTTON_COMPONENT_SET_TITLE      7

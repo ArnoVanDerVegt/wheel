@@ -1,0 +1,14 @@
+; @module Component/Label
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.label
+
+; @const The form component module.
+#define MODULE_COMPONENT_LABEL        67
+
+; @const Module calls for label component functions.
+#define LABEL_COMPONENT_SET_TAB_INDEX  0
+#define LABEL_COMPONENT_SET_HIDDEN     1
+#define LABEL_COMPONENT_SET_X          2
+#define LABEL_COMPONENT_SET_Y          3
+#define LABEL_COMPONENT_SET_TEXT       4
