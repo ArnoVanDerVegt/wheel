@@ -50,6 +50,7 @@ const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog')
 const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
+const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
 const Properties                 = require('./properties/Properties').Properties;
 
 exports.IDE = class extends CompileAndRun {
@@ -161,7 +162,8 @@ exports.IDE = class extends CompileAndRun {
             .on('FileTree.NewFile',                   this, this.onMenuFileNewFile)
             .on('FileTree.NewProjectFile',            this, this.onMenuFileNewProjectFile)
             .on('FileTree.NewImageFile',              this, this.onMenuFileNewImageFile)
-            .on('Compile.Silent',                     this, this.onCompileSilent);
+            .on('Compile.Silent',                     this, this.onCompileSilent)
+            .on('Form.Show',                          this, this.onShowForm);
         // EV3...
         let ev3 = this._ev3;
         ev3
@@ -394,10 +396,17 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onCompileSilent() {
-        // Compile silent...
+        // Compile silent, don't show any messages...
         this._compileSilent = true;
         this._compileAndRun = false;
         this.compile(this._settings.getDocumentPath());
+    }
+
+    onShowForm(data) {
+        new FormDialog({
+            ui:   this._ui,
+            data: data
+        }).show();
     }
 
     callOnActiveEditor(func) {
@@ -855,6 +864,10 @@ exports.IDE = class extends CompileAndRun {
                 );
             }
         });
+    }
+
+    getEditor(path, filename) {
+        return this._editor.findEditor(path, filename);
     }
 
     getCompileSilent() {

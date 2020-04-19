@@ -34,6 +34,10 @@ exports.Dialog = class extends ComponentContainer {
         this._dialogElement = element;
     }
 
+    setDialogContentElement(element) {
+        this._dialogContentElement = element;
+    }
+
     show() {
         this._ui.pushUIId(this._uiId);
         let dialogNode = this._dialogNode;
@@ -151,6 +155,7 @@ exports.Dialog = class extends ComponentContainer {
                         className: 'dialog-center',
                         children: [
                             {
+                                id:        this.setDialogContentElement.bind(this),
                                 className: 'dialog-content',
                                 children: [
                                     {

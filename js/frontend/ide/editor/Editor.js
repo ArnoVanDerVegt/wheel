@@ -377,4 +377,8 @@ exports.Editor = class extends DOMUtils {
         let activeEditor = this.getActiveEditor();
         activeEditor && activeEditor[func] && activeEditor[func]();
     }
+
+    findEditor(path, filename) {
+        return this._editorsState.findByPathAndFilename(path, filename);
+    }
 };

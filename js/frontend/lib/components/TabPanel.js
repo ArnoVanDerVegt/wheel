@@ -12,9 +12,10 @@ exports.TabPanel = class extends Component {
         super(opts);
         this._panelConstructor = opts.panelConstructor || 'div';
         this._panelOpts        = opts.panelOpts || {};
+        this._width            = opts.width     || 128;
+        this._height           = opts.height    ||  80;
+        this._children         = opts.children  || [];
         this._tabs             = opts.tabs;
-        this._width            = opts.width  || 128;
-        this._height           = opts.height ||  80;
         this._panels           = [];
         this._active           = 0;
         this._events           = [dispatcher.on('AddTabComponent', this, this.onAddTabComponent)];
@@ -30,6 +31,7 @@ exports.TabPanel = class extends Component {
                 opts.type      = this._panelConstructor;
                 opts.id        = this.addPanel.bind(this);
                 opts.className = 'tab-panel' + ((index === this._active) ? ' visible' : '');
+                opts.children  = this._children[index] || [];
                 children.push(opts);
             },
             this
@@ -51,6 +53,7 @@ exports.TabPanel = class extends Component {
                     {
                         type:    Tabs,
                         ui:      this._ui,
+                        uiId:    this._uiId,
                         ref:     this.setRef('tabs'),
                         tabs:    this._tabs,
                         active:  this._active,

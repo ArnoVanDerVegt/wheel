@@ -254,6 +254,7 @@ require('./js/frontend/ide/dialogs/image/ImageNewDialog');
 require('./js/frontend/ide/dialogs/image/ImageResizeDialog');
 require('./js/frontend/ide/dialogs/image/ImageLoadDialog');
 require('./js/frontend/ide/dialogs/form/FormNewDialog');
+require('./js/frontend/ide/dialogs/form/FormDialog');
 require('./js/frontend/ide/dialogs/VolumeDialog');
 require('./js/frontend/ide/dialogs/help/components/WocFileLoader');
 require('./js/frontend/ide/dialogs/help/HelpDialog');
