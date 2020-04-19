@@ -95,7 +95,7 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'text',        name: 'value'},
         {type: 'text',        name: 'title'}
     ],
-    SELECT_BUTTON: [
+    SELECTBUTTON: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
@@ -162,7 +162,7 @@ exports.EVENTS_BY_TYPE = {
         {name: 'onFocus'},
         {name: 'onBlur'}
     ],
-    SELECT_BUTTON: [
+    SELECTBUTTON: [
         {name: 'onSelect', params: ['index']},
         {name: 'onFocus'},
         {name: 'onBlur'}

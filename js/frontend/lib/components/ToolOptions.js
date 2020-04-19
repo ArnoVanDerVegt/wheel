@@ -91,7 +91,7 @@ exports.ToolOptions = class extends DOMNode {
     }
 
     setDisabled(disabled) {
-        console.log('-->', this._elements);
+        // Todo: set disabled.
     }
 
     setOptionElement(element) {
