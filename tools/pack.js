@@ -329,6 +329,7 @@ const files = [
         './js/frontend/ide/dialogs/image/ImageNewDialog',
         './js/frontend/ide/dialogs/image/ImageResizeDialog',
         './js/frontend/ide/dialogs/image/ImageLoadDialog',
+        './js/frontend/ide/dialogs/form/ComponentFormContainer.js',
         './js/frontend/ide/dialogs/form/FormNewDialog',
         './js/frontend/ide/dialogs/form/FormDialog',
         './js/frontend/ide/dialogs/VolumeDialog',

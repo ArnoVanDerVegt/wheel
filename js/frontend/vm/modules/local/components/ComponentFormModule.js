@@ -11,7 +11,8 @@ const VMModule                     = require('../../VMModule').VMModule;
 exports.ComponentFormModule = class extends VMModule {
     constructor(opts) {
         super(opts);
-        this._ide = null;
+        this._getDataProvider = opts.getDataProvider || getDataProvider;
+        this._ide             = opts.ide             || null;
     }
 
     showLoadError(formFilename) {
@@ -39,7 +40,7 @@ exports.ComponentFormModule = class extends VMModule {
             callback(editor.getValue());
             return;
         }
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file',
             {filename: formFilename},
