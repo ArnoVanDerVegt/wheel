@@ -57,8 +57,9 @@ exports.Component = class extends DOMNode {
         this._onMouseUp     = opts.onMouseUp;
         this._onMouseOut    = opts.onMouseOut;
         this._onGlobalUIId  = ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        this._dispatchEvent = null;
         if (opts.event) {
-            dispatcher.on(opts.event, this, this.onEvent);
+            this._dispatchEvent = dispatcher.on(opts.event, this, this.onEvent);
         }
         (typeof this._id === 'function') && this._id(this);
     }
@@ -145,6 +146,7 @@ exports.Component = class extends DOMNode {
 
     remove() {
         (typeof this._onGlobalUIId === 'function') && this._onGlobalUIId();
+        this._dispatchEvent && this._dispatchEvent();
     }
 
     onGlobalUIId() {

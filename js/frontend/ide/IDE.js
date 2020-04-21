@@ -51,6 +51,7 @@ const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDial
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
 const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
+const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const Properties                 = require('./properties/Properties').Properties;
 
 exports.IDE = class extends CompileAndRun {
@@ -58,13 +59,14 @@ exports.IDE = class extends CompileAndRun {
         super(opts);
         let ui       = opts.ui;
         let settings = opts.settings;
-        this._ui           = opts.ui;
-        this._settings     = settings;
-        this._local        = (document.location.hostname === '127.0.0.1') || window.electron;
-        this._title        = 'No program selected.';
-        this._linter       = null;
-        this._editorsState = new EditorsState();
-        this._editor       = new Editor({
+        this._ui                     = opts.ui;
+        this._componentFormContainer = new ComponentFormContainer();
+        this._settings               = settings;
+        this._local                  = (document.location.hostname === '127.0.0.1') || window.electron;
+        this._title                  = 'No program selected.';
+        this._linter                 = null;
+        this._editorsState           = new EditorsState();
+        this._editor                 = new Editor({
             ui:           ui,
             settings:     settings,
             ev3:          this._ev3,
@@ -403,9 +405,14 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onShowForm(data) {
+        let componentFormContainer = this._componentFormContainer;
         new FormDialog({
-            ui:   this._ui,
-            data: data
+            ui:                     this._ui,
+            componentFormContainer: componentFormContainer,
+            data:                   data,
+            onHide: function(uiId) {
+                componentFormContainer.removeWindow(uiId);
+            }
         }).show();
     }
 
@@ -864,6 +871,10 @@ exports.IDE = class extends CompileAndRun {
                 );
             }
         });
+    }
+
+    getNextWinUiId() {
+        return this._componentFormContainer.peekUiId();
     }
 
     getEditor(path, filename) {

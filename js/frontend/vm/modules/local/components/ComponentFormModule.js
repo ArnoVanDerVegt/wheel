@@ -70,10 +70,9 @@ exports.ComponentFormModule = class extends VMModule {
                 form = vmData.getRecordFromSrcOffset(['filename']);
                 this.loadFormData(
                     vmData.getStringList()[form.filename],
-                    function(data) {
-                        dispatcher.dispatch('Form.Show', data);
-                    }
+                    dispatcher.dispatch.bind(dispatcher, 'Form.Show')
                 );
+                vmData.setNumberAtRet(this._ide.getNextWinUiId());
                 break;
 
             case componentFormModuleConstants.BUTTON_WAIT_FOR_PRESS:

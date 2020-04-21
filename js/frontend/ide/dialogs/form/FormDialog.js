@@ -11,16 +11,16 @@ const TabPanel            = require('../../../lib/components/TabPanel').TabPanel
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
 
-let uiId = 1240;
-
 exports.FormDialog = class extends Dialog {
     constructor(opts) {
         opts.getImage = getImage;
-        opts.uiId     = uiId++;
         super(opts);
-        this._title  = '';
-        this._width  = 300;
-        this._height = 300;
+        this._onHide                 = opts.onHide;
+        this._componentFormContainer = opts.componentFormContainer;
+        this._win                    = this._componentFormContainer.addWindow();
+        this._title                  = '';
+        this._width                  = 300;
+        this._height                 = 300;
         let children = this.getChildren(opts);
         this.createWindow('form-dialog', this._title, children);
     }
@@ -32,12 +32,15 @@ exports.FormDialog = class extends Dialog {
             };
         opts.data.forEach(
             function(component) {
+                let win    = this._win;
                 let parent = componentById[component.parentId];
                 if (component.type === formEditorConstants.COMPONENT_TYPE_FORM) {
                     this._width  = component.width;
                     this._height = component.height;
                     this._title  = component.title;
                 } else if (parent) {
+                    component.event = win.getUiId() + '_' + parseInt(component.uid, 16);
+                    component.id    = win.addComponent.bind(win);
                     component.ui    = this._ui;
                     component.uiId  = this._uiId;
                     component.style = {
@@ -87,5 +90,10 @@ exports.FormDialog = class extends Dialog {
         element.style.marginTop = (height / -2) + 'px';
         element.style.width     = this._width  + 'px';
         element.style.height    = height + 'px';
+    }
+
+    onHide() {
+        super.onHide();
+        this._onHide(this._win.getUiId());
     }
 };

@@ -2,28 +2,33 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const assert                    = require('assert');
-const dispatcher                = require('../js/frontend/lib/dispatcher').dispatcher;
-const PreProcessor              = require('../js/frontend/compiler/preprocessor/PreProcessor').PreProcessor;
-const compiler                  = require('../js/frontend/compiler/Compiler');
-const Text                      = require('../js/frontend/program/output/Text').Text;
-const VM                        = require('../js/frontend/vm/VM').VM;
-const LocalStandardModule       = require('../js/frontend/vm/modules/local/StandardModule' ).StandardModule;
-const LocalScreenModule         = require('../js/frontend/vm/modules/local/ScreenModule'   ).ScreenModule;
-const LocalMotorModule          = require('../js/frontend/vm/modules/local/MotorModule'    ).MotorModule;
-const LocalSensorModule         = require('../js/frontend/vm/modules/local/SensorModule'   ).SensorModule;
-const LocalMathModule           = require('../js/frontend/vm/modules/local/MathModule'     ).MathModule;
-const LocalLightModule          = require('../js/frontend/vm/modules/local/LightModule'    ).LightModule;
-const LocalButtonModule         = require('../js/frontend/vm/modules/local/ButtonModule'   ).ButtonModule;
-const LocalSoundModule          = require('../js/frontend/vm/modules/local/SoundModule'    ).SoundModule;
-const LocalFileModule           = require('../js/frontend/vm/modules/local/FileModule'     ).FileModule;
-const LocalSystemModule         = require('../js/frontend/vm/modules/local/SystemModule'   ).SystemModule;
-const LocalStringModule         = require('../js/frontend/vm/modules/local/StringModule'   ).StringModule;
-const LocalBitModule            = require('../js/frontend/vm/modules/local/BitModule'      ).BitModule;
-const LocalComponentFormModule  = require('../js/frontend/vm/modules/local/components/ComponentFormModule').ComponentFormModule;
-const MockFileSystem            = require('./mock/MockFileSystem').MockFileSystem;
-const MockDataProvider          = require('./mock/MockDataProvider').MockDataProvider;
-const MockIDE                   = require('./mock/MockIDE').MockIDE;
+const assert                           = require('assert');
+const dispatcher                       = require('../js/frontend/lib/dispatcher').dispatcher;
+const PreProcessor                     = require('../js/frontend/compiler/preprocessor/PreProcessor').PreProcessor;
+const compiler                         = require('../js/frontend/compiler/Compiler');
+const Text                             = require('../js/frontend/program/output/Text').Text;
+const VM                               = require('../js/frontend/vm/VM').VM;
+const LocalStandardModule              = require('../js/frontend/vm/modules/local/StandardModule' ).StandardModule;
+const LocalScreenModule                = require('../js/frontend/vm/modules/local/ScreenModule'   ).ScreenModule;
+const LocalMotorModule                 = require('../js/frontend/vm/modules/local/MotorModule'    ).MotorModule;
+const LocalSensorModule                = require('../js/frontend/vm/modules/local/SensorModule'   ).SensorModule;
+const LocalMathModule                  = require('../js/frontend/vm/modules/local/MathModule'     ).MathModule;
+const LocalLightModule                 = require('../js/frontend/vm/modules/local/LightModule'    ).LightModule;
+const LocalButtonModule                = require('../js/frontend/vm/modules/local/ButtonModule'   ).ButtonModule;
+const LocalSoundModule                 = require('../js/frontend/vm/modules/local/SoundModule'    ).SoundModule;
+const LocalFileModule                  = require('../js/frontend/vm/modules/local/FileModule'     ).FileModule;
+const LocalSystemModule                = require('../js/frontend/vm/modules/local/SystemModule'   ).SystemModule;
+const LocalStringModule                = require('../js/frontend/vm/modules/local/StringModule'   ).StringModule;
+const LocalBitModule                   = require('../js/frontend/vm/modules/local/BitModule'                             ).BitModule;
+const LocalComponentFormModule         = require('../js/frontend/vm/modules/local/components/ComponentFormModule'        ).ComponentFormModule;
+const LocalComponentButtonModule       = require('../js/frontend/vm/modules/local/components/ComponentButtonModule'      ).ComponentButtonModule;
+const LocalComponentSelectButtonModule = require('../js/frontend/vm/modules/local/components/ComponentSelectButtonModule').ComponentSelectButtonModule;
+const LocalComponentLabelModule        = require('../js/frontend/vm/modules/local/components/ComponentLabelModule'       ).ComponentLabelModule;
+const LocalComponentCheckboxModule     = require('../js/frontend/vm/modules/local/components/ComponentCheckboxModule'    ).ComponentCheckboxModule;
+const LocalComponentTabsModule         = require('../js/frontend/vm/modules/local/components/ComponentTabsModule'        ).ComponentTabsModule;
+const MockFileSystem                   = require('./mock/MockFileSystem').MockFileSystem;
+const MockDataProvider                 = require('./mock/MockDataProvider').MockDataProvider;
+const MockIDE                          = require('./mock/MockIDE').MockIDE;
 
 const createModules = function(vm) {
         let modules          = [];
@@ -37,19 +42,24 @@ const createModules = function(vm) {
            .writeString(handle, 'Hello world')
            .writeNumber(handle, 15)
            .close(handle);
-        modules[ 0] = new LocalStandardModule     ({vm: vm});
-        modules[ 1] = new LocalMathModule         ({vm: vm});
-        modules[ 2] = new LocalScreenModule       ({vm: vm});
-        modules[ 3] = new LocalLightModule        ({vm: vm});
-        modules[ 4] = new LocalButtonModule       ({vm: vm});
-        modules[ 5] = new LocalSoundModule        ({vm: vm});
-        modules[ 6] = new LocalMotorModule        ({vm: vm});
-        modules[ 7] = new LocalSensorModule       ({vm: vm});
-        modules[ 8] = new LocalFileModule         ({vm: vm, fileSystem: mockFileSystem});
-        modules[ 9] = new LocalSystemModule       ({vm: vm});
-        modules[10] = new LocalStringModule       ({vm: vm});
-        modules[11] = new LocalBitModule          ({vm: vm});
-        modules[64] = new LocalComponentFormModule({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[ 0] = new LocalStandardModule             ({vm: vm});
+        modules[ 1] = new LocalMathModule                 ({vm: vm});
+        modules[ 2] = new LocalScreenModule               ({vm: vm});
+        modules[ 3] = new LocalLightModule                ({vm: vm});
+        modules[ 4] = new LocalButtonModule               ({vm: vm});
+        modules[ 5] = new LocalSoundModule                ({vm: vm});
+        modules[ 6] = new LocalMotorModule                ({vm: vm});
+        modules[ 7] = new LocalSensorModule               ({vm: vm});
+        modules[ 8] = new LocalFileModule                 ({vm: vm, fileSystem: mockFileSystem});
+        modules[ 9] = new LocalSystemModule               ({vm: vm});
+        modules[10] = new LocalStringModule               ({vm: vm});
+        modules[11] = new LocalBitModule                  ({vm: vm});
+        modules[64] = new LocalComponentFormModule        ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[65] = new LocalComponentButtonModule      ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[66] = new LocalComponentSelectButtonModule({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[67] = new LocalComponentLabelModule       ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[68] = new LocalComponentCheckboxModule    ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[69] = new LocalComponentTabsModule        ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         return modules;
     };
 
@@ -241,6 +251,37 @@ exports.testRangeCheckError = function(it, message, source) {
             );
             info.vm.setCommands(info.commands).run();
             assert.equal(called, true);
+        }
+    );
+};
+
+exports.testComponentCall = function(it, message, moduleId, procId, property) {
+    it(
+        message,
+        function() {
+            let value  = ~~(Math.random() * 100000);
+            let source = [
+                    'proc main()',
+                    '    number window = 10240',
+                    '    number button = 10',
+                    '    number value  = ' + value,
+                    '    addr window',
+                    '    mod ' + moduleId + ', ' + procId,
+                    'end'
+                ];
+            let info   = exports.testCompile(source);
+            let result = null;
+            dispatcher.on(
+                '10240_10',
+                this,
+                function(data) {
+                    result = data;
+                }
+            );
+            info.vm.setCommands(info.commands).run();
+            let opts = {};
+            opts[property] = value;
+            assert.deepEqual(result, opts);
         }
     );
 };

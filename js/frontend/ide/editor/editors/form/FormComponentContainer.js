@@ -219,17 +219,17 @@ exports.FormComponentContainer = class extends DOMNode {
         let element;
         let formEditorState = this._formEditorState;
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
-        opts.onMouseDown          = (function(event) { this.onComponentMouseDown(event, element, opts); }).bind(this);
-        opts.style                = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
-        opts.parentNode           = this._formElement;
-        opts.ui                   = this._ui;
-        opts.uiId                 = 1;
-        opts.propertyList         = new PropertyList({
+        opts.onMouseDown  = (function(event) { this.onComponentMouseDown(event, element, opts); }).bind(this);
+        opts.style        = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.parentNode   = this._formElement;
+        opts.ui           = this._ui;
+        opts.uiId         = 1;
+        opts.propertyList = new PropertyList({
             component:       component,
             componentList:   formEditorState.getComponentList(),
             formEditorState: formEditorState
         });
-        opts.eventList            = new EventList({
+        opts.eventList    = new EventList({
             component:       component,
             formEditorState: formEditorState
         });

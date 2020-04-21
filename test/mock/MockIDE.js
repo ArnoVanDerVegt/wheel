@@ -10,4 +10,8 @@ exports.MockIDE = class {
     getEditor() {
         return null;
     }
+
+    getNextWinUiId() {
+        return 10240;
+    }
 };
