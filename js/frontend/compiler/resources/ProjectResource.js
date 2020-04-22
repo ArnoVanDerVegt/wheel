@@ -7,9 +7,23 @@ const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataPr
 
 exports.ProjectResource = class {
     constructor(opts) {
+        this._projectPath     = '';
         this._filename        = opts.filename;
         this._data            = opts.data;
         this._getDataProvider = opts.getDataProvider || getDataProvider;
+    }
+
+    canSave() {
+        return true;
+    }
+
+    neededBeforeCompile() {
+        return false;
+    }
+
+    setProjectPath(projectPath) {
+        this._projectPath = projectPath;
+        return this;
     }
 
     getFilename() {

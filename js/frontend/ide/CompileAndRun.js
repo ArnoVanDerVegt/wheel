@@ -27,26 +27,26 @@ const LocalPoweredUpModule             = require('../vm/modules/local/PoweredUpM
 const LocalComponentFormModule         = require('../vm/modules/local/components/ComponentFormModule'        ).ComponentFormModule;
 const LocalComponentButtonModule       = require('../vm/modules/local/components/ComponentButtonModule'      ).ComponentButtonModule;
 const LocalComponentSelectButtonModule = require('../vm/modules/local/components/ComponentSelectButtonModule').ComponentSelectButtonModule;
-const RemoteStandardModule      = require('../vm/modules/remote/StandardModule'               ).StandardModule;
-const RemoteScreenModule        = require('../vm/modules/remote/ScreenModule'                 ).ScreenModule;
-const RemoteMotorModule         = require('../vm/modules/remote/MotorModule'                  ).MotorModule;
-const RemoteSensorModule        = require('../vm/modules/remote/SensorModule'                 ).SensorModule;
-const RemoteMathModule          = require('../vm/modules/remote/MathModule'                   ).MathModule;
-const RemoteLightModule         = require('../vm/modules/remote/LightModule'                  ).LightModule;
-const RemoteButtonModule        = require('../vm/modules/remote/ButtonModule'                 ).ButtonModule;
-const RemoteSoundModule         = require('../vm/modules/remote/SoundModule'                  ).SoundModule;
-const RemoteFileModule          = require('../vm/modules/remote/FileModule'                   ).FileModule;
-const RemoteSystemModule        = require('../vm/modules/remote/SystemModule'                 ).SystemModule;
-const RemoteStringModule        = require('../vm/modules/remote/StringModule'                 ).StringModule;
-const RemoteBitModule           = require('../vm/modules/remote/BitModule'                    ).BitModule;
-const RemotePspModule           = require('../vm/modules/remote/PspModule'                    ).PspModule;
-const RemoteMultiplexerModule   = require('../vm/modules/remote/MultiplexerModule'            ).MultiplexerModule;
-const RemoteDeviceModule        = require('../vm/modules/remote/DeviceModule'                 ).DeviceModule;
-const RemotePoweredUpModule     = require('../vm/modules/remote/PoweredUpModule'              ).PoweredUpModule;
-const RemoteComponentFormModule = LocalComponentFormModule;
-const Simulator                 = require('./simulator/Simulator').Simulator;
-const SimulatorModules          = require('./simulator/SimulatorModules').SimulatorModules;
-const pluginUuid                = require('./plugins/pluginUuid');
+const RemoteStandardModule             = require('../vm/modules/remote/StandardModule'               ).StandardModule;
+const RemoteScreenModule               = require('../vm/modules/remote/ScreenModule'                 ).ScreenModule;
+const RemoteMotorModule                = require('../vm/modules/remote/MotorModule'                  ).MotorModule;
+const RemoteSensorModule               = require('../vm/modules/remote/SensorModule'                 ).SensorModule;
+const RemoteMathModule                 = require('../vm/modules/remote/MathModule'                   ).MathModule;
+const RemoteLightModule                = require('../vm/modules/remote/LightModule'                  ).LightModule;
+const RemoteButtonModule               = require('../vm/modules/remote/ButtonModule'                 ).ButtonModule;
+const RemoteSoundModule                = require('../vm/modules/remote/SoundModule'                  ).SoundModule;
+const RemoteFileModule                 = require('../vm/modules/remote/FileModule'                   ).FileModule;
+const RemoteSystemModule               = require('../vm/modules/remote/SystemModule'                 ).SystemModule;
+const RemoteStringModule               = require('../vm/modules/remote/StringModule'                 ).StringModule;
+const RemoteBitModule                  = require('../vm/modules/remote/BitModule'                    ).BitModule;
+const RemotePspModule                  = require('../vm/modules/remote/PspModule'                    ).PspModule;
+const RemoteMultiplexerModule          = require('../vm/modules/remote/MultiplexerModule'            ).MultiplexerModule;
+const RemoteDeviceModule               = require('../vm/modules/remote/DeviceModule'                 ).DeviceModule;
+const RemotePoweredUpModule            = require('../vm/modules/remote/PoweredUpModule'              ).PoweredUpModule;
+const RemoteComponentFormModule        = LocalComponentFormModule;
+const Simulator                        = require('./simulator/Simulator').Simulator;
+const SimulatorModules                 = require('./simulator/SimulatorModules').SimulatorModules;
+const pluginUuid                       = require('./plugins/pluginUuid');
 
 exports.CompileAndRun = class extends DOMUtils {
     constructor(opts) {
@@ -268,7 +268,9 @@ exports.CompileAndRun = class extends DOMUtils {
         this._tokens      = tokens;
         this._sortedFiles = this._preProcessor.getSortedFiles();
         try {
-            compiler.buildTokens(tokens);
+            compiler
+                .setFormResources(this._preProcessor.getFormResources())
+                .buildTokens(tokens);
             this._program = compiler.getProgram();
             this._program.setLayerCount(this._settings.getDaisyChainMode());
             this.onCompileSuccess(this._program, this._preProcessor.getLineCount());

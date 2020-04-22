@@ -39,6 +39,7 @@ exports.CompileProc = class extends CompileBlock {
             this._main = true;
             program.setEntryPoint(entryPoint);
         } else {
+            this._compiler.setEventProc(scope.getName(), entryPoint);
             scope.addVar(null, '!____CODE_RETURN____',  t.LEXEME_NUMBER, false);
             scope.addVar(null, '!____STACK_RETURN____', t.LEXEME_NUMBER, false);
         }

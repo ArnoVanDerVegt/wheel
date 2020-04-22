@@ -15,6 +15,8 @@ exports.FormDialog = class extends Dialog {
     constructor(opts) {
         opts.getImage = getImage;
         super(opts);
+        this._vm                     = opts.vm;
+        this._program                = opts.program;
         this._onHide                 = opts.onHide;
         this._componentFormContainer = opts.componentFormContainer;
         this._win                    = this._componentFormContainer.addWindow();
@@ -23,6 +25,26 @@ exports.FormDialog = class extends Dialog {
         this._height                 = 300;
         let children = this.getChildren(opts);
         this.createWindow('form-dialog', this._title, children);
+    }
+
+    getComponentEvents(component) {
+        let program  = this._program;
+        let vm       = this._vm;
+        let addEvent = function(event, property) {
+                let entryPoint = program.getEventInfo(event);
+                if (!entryPoint) {
+                    return;
+                }
+                component[property] = function(event) {
+                    vm.runEvent(entryPoint);
+                };
+            };
+        for (let property in component) {
+            if (property.substr(0, 2) === 'on') {
+                addEvent(component[property], property);
+            }
+        }
+        return component;
     }
 
     getChildren(opts) {
@@ -51,19 +73,19 @@ exports.FormDialog = class extends Dialog {
                     switch (component.type) {
                         case formEditorConstants.COMPONENT_TYPE_BUTTON:
                             component.type = Button;
-                            parent.push(component);
+                            parent.push(this.getComponentEvents(component));
                             break;
                         case formEditorConstants.COMPONENT_TYPE_LABEL:
                             component.type = Label;
-                            parent.push(component);
+                            parent.push(this.getComponentEvents(component));
                             break;
                         case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON:
                             component.type = ToolOptions;
-                            parent.push(component);
+                            parent.push(this.getComponentEvents(component));
                             break;
                         case formEditorConstants.COMPONENT_TYPE_CHECKBOX:
                             component.type = CheckboxAndLabel;
-                            parent.push(component);
+                            parent.push(this.getComponentEvents(component));
                             break;
                         case formEditorConstants.COMPONENT_TYPE_TABS:
                             component.type     = TabPanel;
@@ -74,7 +96,7 @@ exports.FormDialog = class extends Dialog {
                                 componentById[container] = children;
                                 component.children.push(children);
                             });
-                            parent.push(component);
+                            parent.push(this.getComponentEvents(component));
                             break;
                     }
                 }

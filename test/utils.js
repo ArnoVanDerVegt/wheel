@@ -259,12 +259,14 @@ exports.testComponentCall = function(it, message, moduleId, procId, property) {
     it(
         message,
         function() {
-            let value  = ~~(Math.random() * 100000);
-            let source = [
+            let win       = ~~(Math.random() * 100000);
+            let component = ~~(Math.random() * 100000);
+            let value     = ~~(Math.random() * 100000);
+            let source    = [
                     'proc main()',
-                    '    number window = 10240',
-                    '    number button = 10',
-                    '    number value  = ' + value,
+                    '    number window    = ' + win,
+                    '    number component = ' + component,
+                    '    number value     = ' + value,
                     '    addr window',
                     '    mod ' + moduleId + ', ' + procId,
                     'end'
@@ -272,7 +274,7 @@ exports.testComponentCall = function(it, message, moduleId, procId, property) {
             let info   = exports.testCompile(source);
             let result = null;
             dispatcher.on(
-                '10240_10',
+                win + '_' + component,
                 this,
                 function(data) {
                     result = data;

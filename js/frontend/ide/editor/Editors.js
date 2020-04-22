@@ -297,7 +297,11 @@ exports.Editors = class extends DOMNode {
             textOpts.filename = path.replaceExtension(opts.filename, '.whl');
             textOpts.mode     = 'text/x-wheel';
             textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
-            this.addEditor(textOpts, new WheelEditor(textOpts));
+            let pathAndFilename = path.getPathAndFilename(path.join(opts.path, textOpts.filename));
+            // Check if the file is already open in an editor...
+            if (!this.findEditor(pathAndFilename.path, pathAndFilename.filename)) {
+                this.addEditor(textOpts, new WheelEditor(textOpts));
+            }
         }
         this.addEditor(opts, new FormEditor(opts));
     }

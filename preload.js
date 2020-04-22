@@ -104,6 +104,7 @@ require('./js/frontend/compiler/linter/Linter');
 require('./js/frontend/compiler/resources/ProjectResource');
 require('./js/frontend/compiler/resources/ImageResource');
 require('./js/frontend/compiler/resources/TextResource');
+require('./js/frontend/compiler/resources/FormResource');
 require('./js/frontend/compiler/resources/ProjectResources');
 require('./js/frontend/compiler/preprocessor/Defines');
 require('./js/frontend/compiler/preprocessor/MetaCompiler');
@@ -120,6 +121,7 @@ require('./js/frontend/compiler/keyword/CompileRepeat');
 require('./js/frontend/compiler/keyword/CompileRet');
 require('./js/frontend/compiler/keyword/CompileSelect');
 require('./js/frontend/compiler/keyword/CompileWhile');
+require('./js/frontend/compiler/CompilerUseInfo');
 require('./js/frontend/compiler/Compiler');
 require('./js/frontend/vm/modules/VMModule');
 require('./js/frontend/vm/modules/local/FileSystem');
@@ -403,6 +405,8 @@ require('./js/frontend/ide/plugins/simulator/graph/io/ChartDrawer'),
 require('./js/frontend/ide/plugins/simulator/graph/Plugin'),
 require('./js/frontend/ide/simulator/Simulator');
 require('./js/frontend/ide/CompileAndRun');
+require('./js/frontend/ide/CompileAndRunOutput');
+require('./js/frontend/ide/CompileAndRunInstall');
 require('./js/frontend/ide/settings/PluginsState');
 require('./js/frontend/vm/BasicDeviceState');
 const Setup          = require('./js/frontend/ide/Setup').Setup;

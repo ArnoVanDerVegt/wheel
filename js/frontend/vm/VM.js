@@ -180,18 +180,6 @@ class VM {
         }
     }
 
-    run() {
-        this._sleepContinueTime = null;
-        let vmData   = this._vmData;
-        let data     = vmData.getData();
-        vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
-        while (vmData.getGlobalNumber($.REG_CODE) < this._commands.length) {
-            this.runCommand(this._commands[vmData.getGlobalNumber($.REG_CODE)]);
-            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
-        }
-        dispatcher.dispatch('VM.Run', this);
-    }
-
     stop() {
         this._stopped = true;
         if (this._runTimeout !== null) {
@@ -212,6 +200,55 @@ class VM {
     sleep(time) {
         this._sleepContinueTime = Date.now() + time;
         return this;
+    }
+
+    run() {
+        this._sleepContinueTime = null;
+        let vmData   = this._vmData;
+        let data     = vmData.getData();
+        let commands = this._commands;
+        vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
+        while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
+            this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
+            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+        }
+        dispatcher.dispatch('VM.Run', this);
+    }
+
+    runEvent(entryPoint) {
+        let commands         = this._commands;
+        let vmData           = this._vmData;
+        let data             = vmData.getData();
+        let regOffsetStack   = data[$.REG_STACK];
+        let v2               = 2;
+        let runningRegisters = null;
+        let registers        = vmData.getRegisters(); // Get the register state from the running VM.
+        data[$.REG_STACK] += v2;
+        data[regOffsetStack + v2 - 2] = regOffsetStack;
+        data[regOffsetStack + v2 - 1] = 0xFFFFFF;
+        vmData.setGlobalNumber($.REG_CODE, entryPoint);
+        let run = (function() { // This function runs a maximum of 1024 VM commands...
+                if (!this.running()) {
+                    return;
+                }
+                if (runningRegisters) {
+                    vmData.setRegisters(runningRegisters); // Restore the event registers.
+                }
+                let commandCount = 0;
+                while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
+                    this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
+                    vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+                    commandCount++;
+                    if (commandCount > 1024) {
+                        runningRegisters = vmData.getRegisters();
+                        vmData.setRegisters(registers); // Restore the running VM register state.
+                        setTimeout(run, 10);
+                        return;
+                    }
+                }
+                vmData.setRegisters(registers); // Restore the running VM register state.
+            }).bind(this);
+        run();
     }
 
     runInterval(onFinished) {
@@ -242,6 +279,7 @@ class VM {
         if ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped) {
             this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 10);
         } else {
+            console.log('vmData.getGlobalNumber($.REG_CODE)', vmData.getGlobalNumber($.REG_CODE));
             this._stopped    = true;
             this._runTimeout = null;
             onFinished();

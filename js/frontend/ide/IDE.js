@@ -53,6 +53,8 @@ const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').W
 const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
 const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const Properties                 = require('./properties/Properties').Properties;
+const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
+const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -60,6 +62,8 @@ exports.IDE = class extends CompileAndRun {
         let ui       = opts.ui;
         let settings = opts.settings;
         this._ui                     = opts.ui;
+        this._compileAndRunOutput    = new CompileAndRunOutput({settings: settings});
+        this._compileAndRunInstall   = new CompileAndRunInstall({settings: settings});
         this._componentFormContainer = new ComponentFormContainer();
         this._settings               = settings;
         this._local                  = (document.location.hostname === '127.0.0.1') || window.electron;
@@ -149,8 +153,6 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
             .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
-            .on('Menu.Download.InstallVM',            this, this.onMenuDownloadInstallVM)
-            .on('Menu.Download.InstallSineTable',     this, this.onMenuDownloadInstallSineTable)
             .on('Menu.Compile.Compile',               this, this.onMenuCompileCompile)
             .on('Menu.Compile.CompileAndRun',         this, this.onMenuCompileCompileAndRun)
             .on('Menu.Compile.Run',                   this, this.run)
@@ -357,12 +359,6 @@ exports.IDE = class extends CompileAndRun {
         );
     }
 
-    onMenuDownloadInstallVM() {
-    }
-
-    onMenuDownloadInstallSineTable() {
-    }
-
     // About menu...
     onMenuAboutVersion() {
         let settings = this._settings;
@@ -408,6 +404,8 @@ exports.IDE = class extends CompileAndRun {
         let componentFormContainer = this._componentFormContainer;
         new FormDialog({
             ui:                     this._ui,
+            vm:                     this._vm,
+            program:                this._program,
             componentFormContainer: componentFormContainer,
             data:                   data,
             onHide: function(uiId) {
@@ -558,12 +556,21 @@ exports.IDE = class extends CompileAndRun {
         if (this._settings.getCreateVMTextOutput()) {
             this.showOutput(program);
         }
-        this.saveOutput(new Rtf(program).getOutput());
+        this._compileAndRunOutput
+            .setProjectFilename(this._projectFilename)
+            .setPreProcessor(this._preProcessor)
+            .setSimulatorModules(this._simulatorModules)
+            .saveOutput(new Rtf(program).getOutput());
         if (this._compileAndRun) {
             this._compileAndRun = false;
             setTimeout(this.run.bind(this), 200);
         }
-        this.installProgram();
+        this._compileAndRunInstall
+            .setEV3(this._ev3)
+            .setProgram(this._program)
+            .setPreProcessor(this._preProcessor)
+            .setProjectFilename(this._projectFilename)
+            .installProgram();
     }
 
     onBeforeRun(program) {
@@ -622,136 +629,6 @@ exports.IDE = class extends CompileAndRun {
         this.setChangedWhileRunning(true);
     }
 
-    onResourceData(resource, outputPath, filename, pathAndFilename, data) {
-        try {
-            data = JSON.parse(data);
-        } catch (error) {
-            data = {success: false};
-        }
-        let resourceMessageId = this._resourceMessageId;
-        if (!data.success) {
-            dispatcher.dispatch(
-                'Console.Log',
-                {
-                    parentMessageId: resourceMessageId,
-                    message:         'Failed to load resource <i>' + filename + '</i>',
-                    className:       'error'
-                }
-            );
-            return;
-        }
-        let saveData = null;
-        switch (path.getExtension(filename)) {
-            case '.rgf':
-                saveData = data.data;
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Loaded resource <i>' + filename + '</i>'
-                    }
-                );
-                resource.setData(data.data.image);
-                break;
-            case '.rsf':
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Loaded resource <i>' + filename + '</i>'
-                    }
-                );
-                resource.setData(data.data);
-                break;
-        }
-        if (saveData === null) {
-            return;
-        }
-        let documentPath = this._settings.getDocumentPath();
-        getDataProvider().getData(
-            'post',
-            'ide/file-save',
-            {
-                filename: path.join(outputPath, pathAndFilename.filename),
-                data:     saveData
-            },
-            function() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Saved resource ' +
-                            '<i>' + path.removePath(documentPath, path.join(outputPath, pathAndFilename.filename)) + '</i>'
-                    }
-                );
-            }
-        );
-    }
-
-    saveResource(outputPath, resource) {
-        let documentPath    = this._settings.getDocumentPath();
-        let filename        = resource.getFilename();
-        let pathAndFilename = path.getPathAndFilename(filename);
-        getDataProvider().getData(
-            'post',
-            'ide/file',
-            {filename: path.join(documentPath, filename)},
-            this.onResourceData.bind(this, resource, outputPath, filename, pathAndFilename)
-        );
-    }
-
-    saveResources(outputPath, resources) {
-        this._resourceMessageId = Log.getMessageId();
-        let resourcesList = resources.getResources();
-        if (resourcesList.length > 0) {
-            dispatcher.dispatch(
-                'Console.Log',
-                {
-                    message:   'Processing ' + resourcesList.length + ' resource' + ((resourcesList.length > 1) ? 's' : ''),
-                    messageId: this._resourceMessageId
-                }
-            );
-        }
-        resourcesList.forEach(
-            function(resource) {
-                resource.getData((function(data) {
-                    if (data === null) {
-                        this.saveResource(outputPath, resource);
-                    }
-                }).bind(this));
-            },
-            this
-        );
-    }
-
-    saveOutput(data) {
-        let dataProvider    = getDataProvider();
-        let pathAndFilename = path.getPathAndFilename(this._projectFilename);
-        let filename        = path.replaceExtension(pathAndFilename.filename, '.rtf');
-        let outputPath      = path.join(pathAndFilename.path, 'output');
-        let outputFilename  = path.join(outputPath, filename);
-        let resources       = this._preProcessor.getResources();
-        this._outputPath = outputPath;
-        dataProvider.getData(
-            'post',
-            'ide/path-create',
-            {path: outputPath},
-            function() {
-                dataProvider.getData(
-                    'post',
-                    'ide/file-save',
-                    {filename: outputFilename, data: data},
-                    function() {
-                        resources.save(outputPath);
-                        dispatcher.dispatch('Compile.SaveOutput', outputFilename);
-                    }
-                );
-            }
-        );
-        this.saveResources(outputPath, resources);
-        this._simulatorModules.setResources(resources);
-    }
-
     showLinterMessages() {
         let linter      = this.getLinter();
         let messages    = linter.getMessages();
@@ -795,80 +672,6 @@ exports.IDE = class extends CompileAndRun {
             value:    {
                 text: new Text(program, true, false).getOutput(true).trim(),
                 rtf:  new Rtf(program).getOutput()
-            }
-        });
-    }
-
-    installProgram() {
-        if (!this._ev3.getConnected() || !this._settings.getAutoInstall()) {
-            return;
-        }
-        let messageId       = Log.getMessageId();
-        let program         = this._program;
-        let remoteDirectory = Downloader.getRemoteDirectory(this._projectFilename);
-        let filename        = path.getPathAndFilename(this._projectFilename).filename;
-        let resources       = this._preProcessor.getResources();
-        new Downloader.Downloader().download({
-            ev3:             this._ev3,
-            program:         this._program,
-            localPath:       this._settings.getDocumentPath(),
-            resources:       resources,
-            remoteDirectory: remoteDirectory,
-            remotePath:      '../prjs/',
-            onCreatedDirectory() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Created remote directory <i>' + remoteDirectory + '</i>',
-                        className: 'ok'
-                    }
-                );
-            },
-            onDownloadedVM() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Downloaded VM.',
-                        className: 'ok'
-                    }
-                );
-            },
-            onDownloadedProgram() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Downloaded program.',
-                        className: 'ok'
-                    }
-                );
-                let resourceCount = resources.getResources().length;
-                if (resourceCount) {
-                    dispatcher.dispatch(
-                        'Console.Log',
-                        {
-                            message:   'Downloading ' + resourceCount + ' resource' + (resourceCount ? 's' : ''),
-                            messageId: messageId
-                        }
-                    );
-                }
-            },
-            onDownloadedFile: function(filename, result) {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:         'Downloaded file <i>' + filename + '</i>',
-                        parentMessageId: messageId
-                    }
-                );
-            },
-            onDownloadReady: function() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Download finished.',
-                        className: 'ok'
-                    }
-                );
             }
         });
     }

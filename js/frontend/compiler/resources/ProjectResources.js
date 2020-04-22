@@ -6,6 +6,8 @@ const errors          = require('../errors');
 const ProjectResource = require('./ProjectResource').ProjectResource;
 const ImageResource   = require('./ImageResource').ImageResource;
 const TextResource    = require('./TextResource').TextResource;
+const FormResource    = require('./FormResource').FormResource;
+const path            = require('../../lib/path');
 
 exports.ProjectResources = class {
     constructor(opts) {
@@ -23,7 +25,7 @@ exports.ProjectResources = class {
             }
         }
         if (data) {
-            switch (filename.substr(-4)) {
+            switch (path.getExtension(filename)) {
                 case '.rgf':
                     resources.push(new ImageResource({
                         filename:        filename,
@@ -46,6 +48,12 @@ exports.ProjectResources = class {
                     }));
                     break;
             }
+        } else if (path.getExtension(filename) === '.wfrm') {
+            resources.push(new FormResource({
+                filename:        filename,
+                data:            null,
+                getDataProvider: this._getDataProvider
+            }));
         } else {
             resources.push(new ProjectResource({
                 filename:        filename,

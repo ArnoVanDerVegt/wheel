@@ -74,6 +74,7 @@ exports.Program = class {
         this._layerCount = 0;
         this._pass       = 0;
         this._stringList = [];
+        this._eventInfo  = {};
         this.reset();
     }
 
@@ -774,6 +775,22 @@ exports.Program = class {
         }
     }
 
+    getLayerCount() {
+        return this._layerCount;
+    }
+
+    setLayerCount(layerCount) {
+        this._layerCount = layerCount;
+    }
+
+    setEventInfo(eventInfo) {
+        this._eventInfo = eventInfo;
+    }
+
+    getEventInfo(event) {
+        return this._eventInfo[event] || null;
+    }
+
     addInfoToLastCommand(info) {
         let lastCommand = this.getLastCommand();
         if (lastCommand) {
@@ -783,13 +800,5 @@ exports.Program = class {
 
     removeLastCommand() {
         this._commands.pop();
-    }
-
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        this._layerCount = layerCount;
     }
 };
