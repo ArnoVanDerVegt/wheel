@@ -14,6 +14,7 @@ exports.ToolOptions = class extends DOMNode {
         this._tabIndex      = opts.tabIndex;
         this._onMouseDown   = opts.onMouseDown;
         this._onSelect      = opts.onSelect;
+        this._onChange      = opts.onChange;
         this._parentNode    = opts.parentNode;
         this._options       = opts.options;
         this._label         = opts.label;
@@ -164,5 +165,6 @@ exports.ToolOptions = class extends DOMNode {
             this._elements[i].setClassName((i === tool) ? 'active' : 'in-active');
         }
         this._onSelect && this._onSelect(tool);
+        this._onChange && this._onChange(tool);
     }
 };

@@ -8,6 +8,7 @@ const VMData     = require('./VMData').VMData;
 
 class VM {
     constructor(opts) {
+        this._runningEvent      = false;
         this._stopped           = true;
         this._sleepContinueTime = null;
         this._breakpoint        = false;
@@ -215,7 +216,8 @@ class VM {
         dispatcher.dispatch('VM.Run', this);
     }
 
-    runEvent(entryPoint) {
+    runEvent(entryPoint, params) {
+        this._runningEvent = true;
         let commands         = this._commands;
         let vmData           = this._vmData;
         let data             = vmData.getData();
@@ -226,6 +228,9 @@ class VM {
         data[$.REG_STACK] += v2;
         data[regOffsetStack + v2 - 2] = regOffsetStack;
         data[regOffsetStack + v2 - 1] = 0xFFFFFF;
+        params.forEach(function(param, index) {
+            data[regOffsetStack + v2 + index + 2] = param;
+        });
         vmData.setGlobalNumber($.REG_CODE, entryPoint);
         let run = (function() { // This function runs a maximum of 1024 VM commands...
                 if (!this.running()) {
@@ -247,6 +252,7 @@ class VM {
                     }
                 }
                 vmData.setRegisters(registers); // Restore the running VM register state.
+                this._runningEvent = false;
             }).bind(this);
         run();
     }
@@ -256,7 +262,7 @@ class VM {
         let vmData   = this._vmData;
         let data     = vmData.getData();
         let count    = 0;
-        while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint) {
+        while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint && !this._runningEvent) {
             if (this._sleepContinueTime === null) {
                 let command    = commands[vmData.getGlobalNumber($.REG_CODE)];
                 let breakpoint = command.getBreakpoint();
@@ -279,7 +285,6 @@ class VM {
         if ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped) {
             this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 10);
         } else {
-            console.log('vmData.getGlobalNumber($.REG_CODE)', vmData.getGlobalNumber($.REG_CODE));
             this._stopped    = true;
             this._runTimeout = null;
             onFinished();

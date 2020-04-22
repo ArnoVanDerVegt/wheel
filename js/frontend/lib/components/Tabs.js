@@ -162,6 +162,7 @@ exports.Tabs = class extends DOMNode {
         this._ui             = opts.ui;
         this._uiId           = opts.uiId;
         this._onClick        = opts.onClick;
+        this._onChange       = opts.onChange;
         this._onGlobalUIId   = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode, opts.tabs || []);
         this.initContextMenu(opts.contextMenuOptions);
@@ -250,7 +251,8 @@ exports.Tabs = class extends DOMNode {
 
     onClickTab(title, meta, index) {
         this.setActiveTab(title, meta);
-        this._onClick && this._onClick(index);
+        this._onClick  && this._onClick(index);
+        this._onChange && this._onChange(index);
     }
 
     getContextMenu() {

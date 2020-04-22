@@ -154,29 +154,29 @@ exports.PROPERTIES_BY_TYPE = {
 // Component properties...
 exports.EVENTS_BY_TYPE = {
     FORM: [
-        {name: 'onShow'},
-        {name: 'onHide'}
+        {name: 'onShow',   params: ['windowHandle']},
+        {name: 'onHide',   params: ['windowHandle']}
     ],
     BUTTON: [
-        {name: 'onClick'},
-        {name: 'onFocus'},
-        {name: 'onBlur'}
+        {name: 'onClick',  params: ['windowHandle']},
+        {name: 'onFocus',  params: ['windowHandle']},
+        {name: 'onBlur',   params: ['windowHandle']}
     ],
     SELECTBUTTON: [
-        {name: 'onSelect', params: ['index']},
-        {name: 'onFocus'},
-        {name: 'onBlur'}
+        {name: 'onChange', params: ['windowHandle', 'value']},
+        {name: 'onFocus',  params: ['windowHandle']},
+        {name: 'onBlur',   params: ['windowHandle']}
     ],
     LABEL: [
     ],
     CHECKBOX: [
-        {name: 'onClick',  params: ['value']},
-        {name: 'onFocus'},
-        {name: 'onBlur'}
+        {name: 'onChange', params: ['windowHandle', 'value']},
+        {name: 'onFocus',  params: ['windowHandle']},
+        {name: 'onBlur',   params: ['windowHandle']}
     ],
     TABS: [
-        {name: 'onSelect', params: ['index']},
-        {name: 'onFocus'},
-        {name: 'onBlur'}
+        {name: 'onChange', params: ['windowHandle', 'value']},
+        {name: 'onFocus',  params: ['windowHandle']},
+        {name: 'onBlur',   params: ['windowHandle']}
     ]
 };

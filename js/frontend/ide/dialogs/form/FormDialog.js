@@ -27,21 +27,43 @@ exports.FormDialog = class extends Dialog {
         this.createWindow('form-dialog', this._title, children);
     }
 
+    addDefaultEvent(event, property) {
+        let entryPoint = program.getEventInfo(event);
+        if (!entryPoint) {
+            return;
+        }
+        component[property] = function() {
+            vm.runEvent(entryPoint, [win.getUiId()]);
+        };
+    }
+
+    addChangeEvent(event, property) {
+        let entryPoint = program.getEventInfo(event);
+        if (!entryPoint) {
+            return;
+        }
+        component[property] = function(value) {
+            vm.runEvent(entryPoint, [win.getUiId(), value]);
+        };
+    }
+
     getComponentEvents(component) {
         let program  = this._program;
         let vm       = this._vm;
-        let addEvent = function(event, property) {
-                let entryPoint = program.getEventInfo(event);
-                if (!entryPoint) {
-                    return;
-                }
-                component[property] = function(event) {
-                    vm.runEvent(entryPoint);
-                };
-            };
         for (let property in component) {
             if (property.substr(0, 2) === 'on') {
-                addEvent(component[property], property);
+                switch (property) {
+                    case 'onClick:':
+                    case 'onFocus:':
+                    case 'onBlur:':
+                    case 'onShow:':
+                    case 'onHide:':
+                        this.addDefaultEvent(component[property], property);
+                        break;
+                    case 'onChange':
+                        this.addChangeEvent(component[property], property);
+                        break;
+                }
             }
         }
         return component;

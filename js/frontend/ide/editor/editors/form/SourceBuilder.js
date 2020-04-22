@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const path = require('../../../../lib/path');
+const path                = require('../../../../lib/path');
+const formEditorConstants = require('./formEditorConstants');
 
 const getShowProcNameFromFilename = function(filename) {
         let result = '';
@@ -131,6 +132,26 @@ exports.SourceBuilder = class {
         return result;
     }
 
+    generateEventProc(componentType, eventType, procName) {
+        let events = formEditorConstants.EVENTS_BY_TYPE[componentType.toUpperCase()] || [];
+        let event  = null;
+        for (let i = 0; i < events.length; i++) {
+            if (events[i].name === eventType) {
+                event = events[i];
+                break;
+            }
+        }
+        if (!event) {
+            return [];
+        }
+        let proc = 'proc ' + procName + '(';
+        event.params.forEach(function(param) {
+            proc += 'number ' + param + ', ';
+        });
+        proc = proc.substr(0, proc.length - 2) + ')';
+        return [proc, 'end', ''];
+    }
+
     generateEventsFromData(data, lines) {
         let procedures = [];
         lines.forEach(function(line) {
@@ -148,11 +169,7 @@ exports.SourceBuilder = class {
                 if ((j.substr(0, 2) === 'on') && value) {
                     if (procedures.indexOf(value) === -1) {
                         procedures.push(value);
-                        lines.push(
-                            'proc ' + value + '()',
-                            'end',
-                            ''
-                        );
+                        lines.push.apply(lines, this.generateEventProc(component.type, j, value));
                     }
                 }
             }
