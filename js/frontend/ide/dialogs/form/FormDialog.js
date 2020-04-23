@@ -140,4 +140,9 @@ exports.FormDialog = class extends Dialog {
         super.onHide();
         this._onHide(this._win.getUiId());
     }
+
+    show() {
+        super.show();
+        return this;
+    }
 };

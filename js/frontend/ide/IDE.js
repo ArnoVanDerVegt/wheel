@@ -65,6 +65,7 @@ exports.IDE = class extends CompileAndRun {
         this._compileAndRunOutput    = new CompileAndRunOutput({settings: settings});
         this._compileAndRunInstall   = new CompileAndRunInstall({settings: settings});
         this._componentFormContainer = new ComponentFormContainer();
+        this._formDialogs            = [];
         this._settings               = settings;
         this._local                  = (document.location.hostname === '127.0.0.1') || window.electron;
         this._title                  = 'No program selected.';
@@ -167,7 +168,8 @@ exports.IDE = class extends CompileAndRun {
             .on('FileTree.NewProjectFile',            this, this.onMenuFileNewProjectFile)
             .on('FileTree.NewImageFile',              this, this.onMenuFileNewImageFile)
             .on('Compile.Silent',                     this, this.onCompileSilent)
-            .on('Form.Show',                          this, this.onShowForm);
+            .on('Form.Show',                          this, this.onShowForm)
+            .on('VM.Stop',                            this, this.onVMStop);
         // EV3...
         let ev3 = this._ev3;
         ev3
@@ -401,8 +403,13 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onShowForm(data) {
+        if (!this._vm || !this._vm.running()) {
+            return;
+        }
         let componentFormContainer = this._componentFormContainer;
-        new FormDialog({
+        let formDialogs            = this._formDialogs;
+        let index                  = formDialogs.length;
+        formDialogs.push(new FormDialog({
             ui:                     this._ui,
             vm:                     this._vm,
             program:                this._program,
@@ -410,8 +417,9 @@ exports.IDE = class extends CompileAndRun {
             data:                   data,
             onHide: function(uiId) {
                 componentFormContainer.removeWindow(uiId);
+                formDialogs[index] = null;
             }
-        }).show();
+        }).show());
     }
 
     callOnActiveEditor(func) {
@@ -586,6 +594,18 @@ exports.IDE = class extends CompileAndRun {
             this._vm.stop();
             dispatcher.dispatch('Button.Run.Change', {value: 'Run'});
             this.simulatorLoaded();
+        }
+    }
+
+    onVMStop() {
+        // Close all open windows when the VM stops...
+        let formDialogs = this._formDialogs;
+        for (let i = 0; i < formDialogs.length; i++) {
+            if (formDialogs[i]) {
+                formDialogs[i].hide();
+                formDialogs[i] = null;
+                console.log(formDialogs[i]);
+            }
         }
     }
 

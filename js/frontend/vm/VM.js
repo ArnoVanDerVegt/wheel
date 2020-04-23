@@ -16,6 +16,7 @@ class VM {
         this._entryPoint        = opts.entryPoint || 0;
         this._lastCommand       = null;
         this._commands          = null;
+        this._maxCallStackSize  = 2;
         this._modules           = [];
         this._outputPath        = '';
         this._sortedFiles       = opts.sortedFiles;
@@ -70,7 +71,19 @@ class VM {
     }
 
     setCommands(commands) {
-        this._commands = commands;
+        // Find the max stack size.
+        // This size is reserved when an event call is made.
+        let maxCallStackSize = 2;
+        commands.forEach(
+            function(command) {
+                if (command.getCmd() === $.CMD_CALL) {
+                    maxCallStackSize = Math.max(maxCallStackSize, command.getParam2().getValue());
+                }
+            },
+            this
+        );
+        this._commands         = commands;
+        this._maxCallStackSize = maxCallStackSize;
         return this;
     }
 
@@ -222,14 +235,14 @@ class VM {
         let vmData           = this._vmData;
         let data             = vmData.getData();
         let regOffsetStack   = data[$.REG_STACK];
-        let v2               = 2;
+        let callStackSize    = 2 + this._maxCallStackSize;
         let runningRegisters = null;
         let registers        = vmData.getRegisters(); // Get the register state from the running VM.
-        data[$.REG_STACK] += v2;
-        data[regOffsetStack + v2 - 2] = regOffsetStack;
-        data[regOffsetStack + v2 - 1] = 0xFFFFFF;
+        data[$.REG_STACK] += callStackSize;
+        data[regOffsetStack + callStackSize - 2] = regOffsetStack;
+        data[regOffsetStack + callStackSize - 1] = 0xFFFFFF;
         params.forEach(function(param, index) {
-            data[regOffsetStack + v2 + index + 2] = param;
+            data[regOffsetStack + callStackSize + index + 2] = param;
         });
         vmData.setGlobalNumber($.REG_CODE, entryPoint);
         let run = (function() { // This function runs a maximum of 1024 VM commands...

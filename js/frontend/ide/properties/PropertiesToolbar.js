@@ -5,6 +5,7 @@
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../lib/dom').DOMNode;
 const CloseButton = require('../../lib/components/CloseButton').CloseButton;
+const Button      = require('../../lib/components/Button').Button;
 const Dropdown    = require('../../lib/components/Dropdown').Dropdown;
 const tabIndex    = require('../tabIndex');
 
@@ -22,6 +23,17 @@ exports.PropertiesToolbar = class extends DOMNode {
             {
                 className: 'properties-options',
                 children:  [
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      1,
+                        dispatch:  'Button.Run',
+                        event:     'Button.Run.Change',
+                        tabIndex:  tabIndex.SIMULATOR_RUN_BUTTON,
+                        className: 'run',
+                        value:     'Run',
+                        disabled:  true
+                    },
                     {
                         type:      CloseButton,
                         ui:        this._ui,

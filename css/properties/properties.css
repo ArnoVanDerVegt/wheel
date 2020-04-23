@@ -30,9 +30,9 @@ body.ide.no-properties div.properties {
     margin:                         8px 8px 0 0;
 }
 .properties .properties-options .dropdown {
-    float:                          left;
-    margin:                         8px 0 0 8px;
-    width:                          calc(100% - 48px);
+    float:                          right;
+    margin:                         8px 8px 0 0;
+    width:                          calc(100% - 140px);
 }
 .properties .component-uid {
     position:                       absolute;
