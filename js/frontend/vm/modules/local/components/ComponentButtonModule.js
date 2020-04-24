@@ -20,8 +20,8 @@ exports.ComponentButtonModule = class extends VMModule {
             case componentButtonModuleConstants.BUTTON_SET_X:         property = 'x';        break;
             case componentButtonModuleConstants.BUTTON_SET_Y:         property = 'y';        break;
             case componentButtonModuleConstants.BUTTON_SET_COLOR:     property = 'color';    break;
-            case componentButtonModuleConstants.BUTTON_SET_VALUE:     property = 'value';    break;
-            case componentButtonModuleConstants.BUTTON_SET_TITLE:     property = 'title';    break;
+            case componentButtonModuleConstants.BUTTON_SET_TITLE:     property = 'value';    break;
+            case componentButtonModuleConstants.BUTTON_SET_HINT:      property = 'title';    break;
         }
         if (property !== '') {
             button         = vmData.getRecordFromSrcOffset(['window', 'component', property]);

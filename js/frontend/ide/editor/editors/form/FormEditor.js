@@ -186,6 +186,8 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
                 formEditorConstants.COMPONENT_TYPE_LABEL,
                 formEditorConstants.COMPONENT_TYPE_CHECKBOX,
+                formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT,
+                formEditorConstants.COMPONENT_TYPE_PANEL,
                 formEditorConstants.COMPONENT_TYPE_TABS
             ];
         if (component in components) {

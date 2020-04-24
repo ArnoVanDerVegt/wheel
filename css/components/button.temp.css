@@ -410,7 +410,26 @@ body.ide.dark input[type="button"].icon-button.icon-tabs {
     background-position:            2px 2px;
     background-size:                24px 24px;
 }
-
+input[type="button"].icon-button.icon-panel {
+    background-image:               url('images/buttons/panelBlack.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-panel {
+    background-image:               url('images/buttons/panelWhite.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightBlack.svg');
+    background-position:            2px 3px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightWhite.svg');
+    background-position:            2px 3px;
+    background-size:                24px 24px;
+}
 
 input[type="button"].icon-button.icon-copy,
 input[type="button"].icon-button.icon-copy.in-active,

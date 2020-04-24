@@ -10,5 +10,5 @@ exports.BUTTON_SET_DISABLED  =  2;
 exports.BUTTON_SET_X         =  3;
 exports.BUTTON_SET_Y         =  4;
 exports.BUTTON_SET_COLOR     =  5;
-exports.BUTTON_SET_VALUE     =  6;
-exports.BUTTON_SET_TITLE     =  7;
+exports.BUTTON_SET_TITLE     =  6;
+exports.BUTTON_SET_HINT      =  7;

@@ -10,6 +10,7 @@ const SourceBuilder  = require('../../editor/editors/form/SourceBuilder');
 exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
         opts.title        = 'New form';
+        opts.applyTitle   = 'Create new form';
         opts.dispatchShow = 'Dialog.Form.New.Show';
         super(opts);
     }

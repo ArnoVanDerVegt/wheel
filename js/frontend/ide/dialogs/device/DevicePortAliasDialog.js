@@ -36,7 +36,7 @@ exports.DevicePortAliasDialog = class extends Dialog {
                         this.addButton({
                             ref:       this.setRef('buttonApply'),
                             tabIndex:  128,
-                            value:     'Ok',
+                            value:     'Set device port alias',
                             onClick:   this.onApply.bind(this)
                         }),
                         this.addButton({

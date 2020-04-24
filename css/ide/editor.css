@@ -414,9 +414,11 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 
 /* Form editor */
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
-    background-color:               var(--ui-background1);
     overflow:                       hidden;
     cursor:                         default;
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            0 0;
+    background-size:                10px 10px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form .button,
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form .label,

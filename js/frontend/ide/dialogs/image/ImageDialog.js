@@ -55,6 +55,7 @@ exports.ImageDialog = class extends Dialog {
             className: 'image-dialog-row',
             children: [
                 {
+                    className: 'form-label',
                     innerHTML: 'Width'
                 },
                 this.addTextInput({
@@ -71,6 +72,7 @@ exports.ImageDialog = class extends Dialog {
             className: 'image-dialog-row',
             children: [
                 {
+                    className: 'form-label',
                     innerHTML: 'Height'
                 },
                 this.addTextInput({

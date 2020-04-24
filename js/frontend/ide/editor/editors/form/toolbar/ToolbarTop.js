@@ -79,6 +79,8 @@ exports.ToolbarTop = class extends Toolbar {
                             {title: 'Select button', icon: 'icon-select-btn'},
                             {title: 'Label',         icon: 'icon-label'},
                             {title: 'Checkbox',      icon: 'icon-checkbox'},
+                            {title: 'Status light',  icon: 'icon-status-light'},
+                            {title: 'Panel',         icon: 'icon-panel'},
                             {title: 'Tabs',          icon: 'icon-tabs'}
                         ]
                     })

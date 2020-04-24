@@ -17,7 +17,8 @@ describe(
         testComponentCall(it, 'Should set disabled', 68, 2, 'disabled');
         testComponentCall(it, 'Should set x',        68, 3, 'x');
         testComponentCall(it, 'Should set y',        68, 4, 'y');
-        testComponentCall(it, 'Should set text',     68, 5, 'title');
-        testComponentCall(it, 'Should set checked',  68, 6, 'checked');
+        testComponentCall(it, 'Should set text',     68, 5, 'text');
+        testComponentCall(it, 'Should set hint',     68, 6, 'title');
+        testComponentCall(it, 'Should set checked',  68, 7, 'checked');
     }
 );

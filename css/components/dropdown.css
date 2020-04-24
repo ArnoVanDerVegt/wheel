@@ -36,6 +36,9 @@
     outline:                        none;
     border:                         1px solid transparent;
     border-radius:                  2px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
 }
 .dropdown.focus .dropdown-value,
 .dropdown.focus .dropdown-value:focus {

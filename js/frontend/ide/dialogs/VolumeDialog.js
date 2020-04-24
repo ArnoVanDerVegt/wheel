@@ -42,7 +42,7 @@ exports.VolumeDialog = class extends Dialog {
                     children: [
                         this.addButton({
                             ref:      this.setRef('buttonApply'),
-                            value:    'Ok',
+                            value:    'Change volume',
                             tabIndex: 128,
                             onClick:  this.onApply.bind(this)
                         }),

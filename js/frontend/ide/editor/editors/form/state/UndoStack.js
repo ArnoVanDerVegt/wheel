@@ -115,8 +115,12 @@ exports.UndoStack = class {
                 item.children.forEach(
                     function(component) {
                         component.parentId = parentMap[component.parentId];
-                        if (component.type === 'tabs') {
-                            let containerId = component.containerId;
+                        let containerId;
+                        if (component.type === 'panel') {
+                            containerId = component.containerId;
+                            containerId[i] = parentMap[containerId[0]];
+                        } else if (component.type === 'tabs') {
+                            containerId = component.containerId;
                             for (let i = 0; i < containerId.length; i++) {
                                 containerId[i] = parentMap[containerId[i]];
                             }

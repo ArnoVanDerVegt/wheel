@@ -1,0 +1,23 @@
+.status-light {
+    position:                       absolute;
+    width:                          16px;
+    height:                         16px;
+    border:                         var(--ui-border1);
+    border-radius:                  8px;
+}
+.status-light.red {
+    background-color:               var(--color-red);
+    box-shadow:                     0px 0px 10px var(--color-red);
+}
+.status-light.green {
+    background-color:               var(--color-green);
+    box-shadow:                     0px 0px 10px var(--color-green);
+}
+.status-light.blue {
+    background-color:               var(--color-blue);
+    box-shadow:                     0px 0px 10px var(--color-blue);
+}
+.status-light.yellow {
+    background-color:               var(--color-yellow);
+    box-shadow:                     0px 0px 10px var(--color-yellow);
+}

@@ -39,6 +39,9 @@
     height:                         32px;
     line-height:                    32px;
     -webkit-user-select:            none;
+    width:                          128px;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-file-label,
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-files {
@@ -101,6 +104,10 @@
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div {
     width:                          128px;
     -webkit-user-select:            none;
+}
+.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div.form-label {
+    text-align:                     right;
+    padding:                        0 8px 0 0;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input {
     width:                          180px;

@@ -78,6 +78,25 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addStatusLight(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
+            .addProperty(component, 'name',  this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
+            .addProperty(component, 'text',  component.text  || component.name)
+            .addProperty(component, 'color', component.color || 'gray');
+        return component;
+    }
+
+    addPanel(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PANEL)
+            .addProperty(component, 'name',        this._componentList.findComponentText(component.type, 'name', 'Panel'))
+            .addProperty(component, 'width',       200)
+            .addProperty(component, 'height',      128)
+            .addProperty(component, 'containerId', [this._formEditorState.peekId()]);
+        return component;
+    }
+
     addTabs(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TABS)
@@ -99,6 +118,8 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return this.addSelectButton   (component);
             case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
             case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return this.addCheckBox       (component);
+            case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return this.addStatusLight    (component);
+            case formEditorConstants.COMPONENT_TYPE_PANEL:         return this.addPanel          (component);
             case formEditorConstants.COMPONENT_TYPE_TABS:          return this.addTabs           (component);
         }
         return null;

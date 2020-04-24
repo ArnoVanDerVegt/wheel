@@ -68,10 +68,13 @@ exports.ComponentList = class {
         for (let id in componentsById) {
             let component = componentsById[id];
             items.push({
-                value: component.id,
-                title: component.name + ' <i>' + component.type + '</i>'
+                toString:    function() { return this.nameAndType; },
+                value:       component.id,
+                title:       component.name + ' <i>' + component.type + '</i>',
+                nameAndType: component.name + '_' + component.type
             });
         }
+        items.sort();
         return items;
     }
 

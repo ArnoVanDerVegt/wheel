@@ -40,7 +40,7 @@ exports.ListDialog = class extends Dialog {
                         this.addButton({
                             ref:      this.setRef('buttonApply'),
                             tabIndex: 256,
-                            value:    'Ok',
+                            value:    opts.applyTitle || 'Ok',
                             disabled: true,
                             onClick:  this.onApply.bind(this)
                         }),

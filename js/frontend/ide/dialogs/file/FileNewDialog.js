@@ -23,6 +23,7 @@ exports.FileNewDialog = class extends Dialog {
                             className: 'file-new-row',
                             children: [
                                 {
+                                    className: 'form-label',
                                     innerHTML: 'Filename'
                                 },
                                 this.addTextInput({
@@ -36,6 +37,7 @@ exports.FileNewDialog = class extends Dialog {
                             className: 'file-new-row',
                             children: [
                                 {
+                                    className: 'form-label',
                                     innerHTML: 'Description'
                                 },
                                 this.addTextInput({
@@ -82,11 +84,12 @@ exports.FileNewDialog = class extends Dialog {
 
     onShow(type, activeDirectory) {
         let refs = this._refs;
-        type                          = type || 'file';
+        type                          = (type || 'file').toLowerCase();
         this._type                    = type;
         this._activeDirectory         = activeDirectory;
         this._dialogElement.className = 'dialog-background file-new-dialog ' + type.toLowerCase();
-        refs.title.innerHTML          = 'Create new ' + type.toLowerCase() + ' file';
+        refs.title.innerHTML          = 'Create new ' + ((type === 'project') ? 'project file' : ' file');
+        refs.buttonApply.setValue((type === 'project') ? 'Create project file' : 'Create file');
         super.show();
         this._includeFilesElement.reset();
         refs.description
@@ -103,7 +106,7 @@ exports.FileNewDialog = class extends Dialog {
             return;
         }
         let filename = (this._activeDirectory ? this._activeDirectory + '/' : '') + this._filename;
-        if (this._type === 'Project') {
+        if (this._type === 'project') {
             if (path.getExtension(filename) !== '.whlp') {
                 filename += '.whlp';
             }
@@ -119,7 +122,7 @@ exports.FileNewDialog = class extends Dialog {
 
     onFilenameKeyUp(event) {
         if ((event.keyCode === 13) && this.validateFilename()) {
-            if (this._type === 'Project') {
+            if (this._type === 'project') {
                 this._refs.description.focus();
             } else {
                 this.onApply();
@@ -137,7 +140,7 @@ exports.FileNewDialog = class extends Dialog {
         let refs = this._refs;
         this._filename = refs.filename.getValue().trim();
         let result = (this._filename !== '');
-        if ((this._type === 'Project') && (['', '.whlp'].indexOf(path.getExtension(this._filename)) === -1)) {
+        if ((this._type === 'project') && (['', '.whlp'].indexOf(path.getExtension(this._filename)) === -1)) {
             result = false;
         }
         if (!result) {
@@ -160,7 +163,7 @@ exports.FileNewDialog = class extends Dialog {
 
     validate() {
         let result = this.validateFilename();
-        if (result && (this._type === 'Project')) {
+        if (result && (this._type === 'project')) {
             result = this.validateDescription();
         }
         return result;

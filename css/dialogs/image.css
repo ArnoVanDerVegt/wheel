@@ -38,6 +38,10 @@
 .dialog-background.image-dialog .dialog-center .dialog-content .image-dialog-row div {
     width:                          128px;
 }
+.dialog-background.image-dialog .dialog-center .dialog-content .image-dialog-row div.form-label {
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}
 .dialog-background.image-dialog .dialog-center .dialog-content .image-dialog-row input {
     width:                          80px;
     outline:                        none;

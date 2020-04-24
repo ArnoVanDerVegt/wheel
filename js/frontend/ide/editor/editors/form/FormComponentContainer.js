@@ -2,17 +2,20 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode         = require('../../../../lib/dom').DOMNode;
-const FormEditorState = require('./state/FormEditorState');
-const EventList       = require('./state/EventList').EventList;
-const PropertyList    = require('./state/PropertyList').PropertyList;
+const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
+const DOMNode             = require('../../../../lib/dom').DOMNode;
+const FormEditorState     = require('./state/FormEditorState');
+const EventList           = require('./state/EventList').EventList;
+const PropertyList        = require('./state/PropertyList').PropertyList;
+const formEditorConstants = require('./formEditorConstants');
 
 const CONSTRUCTOR_BY_TYPE = {
         button:       require('../../../../lib/components/Button').Button,
         selectButton: require('../../../../lib/components/ToolOptions').ToolOptions,
         label:        require('../../../../lib/components/Label').Label,
         checkbox:     require('../../../../lib/components/CheckboxAndLabel').CheckboxAndLabel,
+        statusLight:  require('../../../../lib/components/StatusLight').StatusLight,
+        panel:        require('../../../../lib/components/Panel').Panel,
         tabs:         require('../../../../lib/components/TabPanel').TabPanel
     };
 
@@ -193,12 +196,21 @@ exports.FormComponentContainer = class extends DOMNode {
         if (!opts.componentConstructor) {
             return;
         }
-        if (opts.type === 'tabs') {
-            opts.panelConstructor = exports.FormComponentContainer;
-            opts.panelOpts        = {
-                formEditorState: this._formEditorState,
-                ui:              this._ui
-            };
+        switch (opts.type) {
+            case formEditorConstants.COMPONENT_TYPE_PANEL:
+                opts.panelConstructor = exports.FormComponentContainer;
+                opts.panelOpts        = {
+                    formEditorState: this._formEditorState,
+                    ui:              this._ui
+                };
+                break;
+            case formEditorConstants.COMPONENT_TYPE_TABS:
+                opts.panelConstructor = exports.FormComponentContainer;
+                opts.panelOpts        = {
+                    formEditorState: this._formEditorState,
+                    ui:              this._ui
+                };
+                break;
         }
         this.addElement(opts);
     }

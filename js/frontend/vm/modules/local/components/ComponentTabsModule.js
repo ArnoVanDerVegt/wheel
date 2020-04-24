@@ -19,6 +19,8 @@ exports.ComponentTabsModule = class extends VMModule {
             case componentTabsModuleConstants.TABS_SET_DISABLED:  property = 'disabled'; break;
             case componentTabsModuleConstants.TABS_SET_X:         property = 'x';        break;
             case componentTabsModuleConstants.TABS_SET_Y:         property = 'y';        break;
+            case componentTabsModuleConstants.TABS_SET_WIDTH:     property = 'width';    break;
+            case componentTabsModuleConstants.TABS_SET_HEIGHT:    property = 'height';   break;
             case componentTabsModuleConstants.TABS_SET_ACTIVE:    property = 'active';   break;
         }
         if (property !== '') {

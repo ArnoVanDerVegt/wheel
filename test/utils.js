@@ -25,6 +25,8 @@ const LocalComponentButtonModule       = require('../js/frontend/vm/modules/loca
 const LocalComponentSelectButtonModule = require('../js/frontend/vm/modules/local/components/ComponentSelectButtonModule').ComponentSelectButtonModule;
 const LocalComponentLabelModule        = require('../js/frontend/vm/modules/local/components/ComponentLabelModule'       ).ComponentLabelModule;
 const LocalComponentCheckboxModule     = require('../js/frontend/vm/modules/local/components/ComponentCheckboxModule'    ).ComponentCheckboxModule;
+const LocalComponentStatusLightModule  = require('../js/frontend/vm/modules/local/components/ComponentStatusLightModule' ).ComponentStatusLightModule;
+const LocalComponentPanelModule        = require('../js/frontend/vm/modules/local/components/ComponentPanelModule'       ).ComponentPanelModule;
 const LocalComponentTabsModule         = require('../js/frontend/vm/modules/local/components/ComponentTabsModule'        ).ComponentTabsModule;
 const MockFileSystem                   = require('./mock/MockFileSystem').MockFileSystem;
 const MockDataProvider                 = require('./mock/MockDataProvider').MockDataProvider;
@@ -59,7 +61,9 @@ const createModules = function(vm) {
         modules[66] = new LocalComponentSelectButtonModule({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         modules[67] = new LocalComponentLabelModule       ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         modules[68] = new LocalComponentCheckboxModule    ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
-        modules[69] = new LocalComponentTabsModule        ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[69] = new LocalComponentStatusLightModule ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[70] = new LocalComponentPanelModule       ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[71] = new LocalComponentTabsModule        ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         return modules;
     };
 

@@ -8,6 +8,7 @@ const ImageDialog = require('./ImageDialog').ImageDialog;
 
 exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
+        opts.applyTitle = 'Create new EV3 image';
         super(opts);
         this.createWindow(
             'image-dialog new-image',
@@ -20,6 +21,7 @@ exports.ImageNewDialog = class extends ImageDialog {
                             className: 'image-dialog-row',
                             children: [
                                 {
+                                    className: 'form-label',
                                     innerHTML: 'Filename'
                                 },
                                 this.addTextInput({
@@ -39,7 +41,7 @@ exports.ImageNewDialog = class extends ImageDialog {
                         this.addButton({
                             ref:      this.setRef('buttonApply'),
                             tabIndex: 128,
-                            value:    'Ok',
+                            value:    opts.applyTitle || 'Ok',
                             onClick:  this.onApply.bind(this)
                         }),
                         this.addButton({

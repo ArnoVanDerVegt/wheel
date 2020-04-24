@@ -12,11 +12,13 @@ afterEach(function() {
 describe(
     'Test Tabs component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 69, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   69, 1, 'hidden');
-        testComponentCall(it, 'Should set disabled', 69, 2, 'disabled');
-        testComponentCall(it, 'Should set x',        69, 3, 'x');
-        testComponentCall(it, 'Should set y',        69, 4, 'y');
-        testComponentCall(it, 'Should set active',   69, 5, 'active');
+        testComponentCall(it, 'Should set tabIndex', 71, 0, 'tabIndex');
+        testComponentCall(it, 'Should set hidden',   71, 1, 'hidden');
+        testComponentCall(it, 'Should set disabled', 71, 2, 'disabled');
+        testComponentCall(it, 'Should set x',        71, 3, 'x');
+        testComponentCall(it, 'Should set y',        71, 4, 'y');
+        testComponentCall(it, 'Should set width',    71, 5, 'width');
+        testComponentCall(it, 'Should set height',   71, 6, 'height');
+        testComponentCall(it, 'Should set active',   71, 7, 'active');
     }
 );

@@ -150,6 +150,9 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveComponentParentId() {
         let activeComponent = this.getActiveComponent();
+        if (activeComponent.type === formEditorConstants.COMPONENT_TYPE_PANEL) {
+            return activeComponent.containerId;
+        }
         if (activeComponent.type === formEditorConstants.COMPONENT_TYPE_TABS) {
             return activeComponent.containerId;
         }
@@ -176,6 +179,7 @@ exports.FormEditorState = class extends Emitter {
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return true;
             case formEditorConstants.COMPONENT_TYPE_LABEL:         return true;
             case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return true;
+            case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return true;
         }
         return false;
     }

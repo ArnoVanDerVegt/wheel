@@ -117,7 +117,9 @@ exports.SourceBuilder = class {
             '#include "lib/components/selectButton.whl"',
             '#include "lib/components/label.whl"',
             '#include "lib/components/checkbox.whl"',
-            '#include "lib/components/tabs.whl"'
+            '#include "lib/components/statusLight.whl"',
+            '#include "lib/components/tabs.whl"',
+            '#include "lib/components/panel.whl"'
         ].join('\n');
     }
 

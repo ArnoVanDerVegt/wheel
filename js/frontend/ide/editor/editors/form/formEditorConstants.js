@@ -9,6 +9,8 @@ exports.COMPONENT_TYPE_BUTTON        = 'button';
 exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
 exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
+exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
+exports.COMPONENT_TYPE_PANEL         = 'panel';
 exports.COMPONENT_TYPE_TABS          = 'tabs';
 
 // Edit actions for undo...
@@ -134,6 +136,30 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'text',        name: 'text'},
         {type: 'boolean',     name: 'checked'}
     ],
+    STATUSLIGHT: [
+        {type: 'type',        name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'boolean',     name: 'hidden'},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'color',       name: 'color'}
+    ],
+    PANEL: [
+        {type: 'type',        name: null},
+        {type: 'uid',         name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'containerId', name: null},
+        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'boolean',     name: 'hidden'},
+        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+    ],
     TABS: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
@@ -173,6 +199,10 @@ exports.EVENTS_BY_TYPE = {
         {name: 'onChange', params: ['windowHandle', 'value']},
         {name: 'onFocus',  params: ['windowHandle']},
         {name: 'onBlur',   params: ['windowHandle']}
+    ],
+    STATUSLIGHT: [
+    ],
+    PANEL: [
     ],
     TABS: [
         {name: 'onChange', params: ['windowHandle', 'value']},

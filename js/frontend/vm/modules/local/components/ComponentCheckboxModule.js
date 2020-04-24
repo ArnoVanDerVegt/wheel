@@ -19,7 +19,8 @@ exports.ComponentCheckboxModule = class extends VMModule {
             case componentCheckboxModuleConstants.CHECKBOX_SET_DISABLED:  property = 'disabled';  break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_X:         property = 'x';         break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_Y:         property = 'y';         break;
-            case componentCheckboxModuleConstants.CHECKBOX_SET_TITLE:     property = 'title';     break;
+            case componentCheckboxModuleConstants.CHECKBOX_SET_TEXT:      property = 'text';      break;
+            case componentCheckboxModuleConstants.CHECKBOX_SET_HINT:      property = 'title';     break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_CHECKED:   property = 'checked';   break;
         }
         if (property !== '') {
