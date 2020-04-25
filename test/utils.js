@@ -31,6 +31,7 @@ const LocalComponentTabsModule         = require('../js/frontend/vm/modules/loca
 const MockFileSystem                   = require('./mock/MockFileSystem').MockFileSystem;
 const MockDataProvider                 = require('./mock/MockDataProvider').MockDataProvider;
 const MockIDE                          = require('./mock/MockIDE').MockIDE;
+const fs                               = require('fs');
 
 const createModules = function(vm) {
         let modules          = [];
@@ -259,35 +260,63 @@ exports.testRangeCheckError = function(it, message, source) {
     );
 };
 
-exports.testComponentCall = function(it, message, moduleId, procId, property) {
+exports.testComponentCall = function(it, message, moduleFile, procName, property, type) {
     it(
         message,
-        function() {
-            let win       = ~~(Math.random() * 100000);
-            let component = ~~(Math.random() * 100000);
-            let value     = ~~(Math.random() * 100000);
-            let source    = [
-                    'proc main()',
-                    '    number window    = ' + win,
-                    '    number component = ' + component,
-                    '    number value     = ' + value,
-                    '    addr window',
-                    '    mod ' + moduleId + ', ' + procId,
-                    'end'
-                ];
-            let info   = exports.testCompile(source);
-            let result = null;
-            dispatcher.on(
-                win + '_' + component,
-                this,
-                function(data) {
-                    result = data;
-                }
-            );
-            info.vm.setCommands(info.commands).run();
-            let opts = {};
-            opts[property] = value;
-            assert.deepEqual(result, opts);
+        function(done) {
+            let win         = ~~(Math.random() * 100000);
+            let component   = ~~(Math.random() * 100000);
+            let value       = ~~(Math.random() * 100000);
+            let getFileData = function(filename, token, callback) {
+                    setTimeout(
+                        function() {
+                            if (filename === 'lib.whl') {
+                                callback(fs.readFileSync(moduleFile).toString());
+                            } else {
+                                let param = (type === 'string') ? ('"' + value + '"') : value;
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '   ' + procName + '(' + win + ',' + component + ',' + param + ')',
+                                    'end'
+                                ].join('\n'));
+                            }
+                        },
+                        1
+                    );
+                };
+            let preProcessor = new PreProcessor({getFileData: getFileData});
+            let preProcessed = function() {
+                    dispatcher.reset();
+                    let tokens  = preProcessor.getDefinedConcatTokens();
+                    let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
+                    let vm      = new VM({
+                            entryPoint: program.getEntryPoint(),
+                            globalSize: program.getGlobalSize(),
+                            constants:  program.getConstants(),
+                            stringList: program.getStringList()
+                        });
+                    vm.setModules(createModules(vm));
+                    // Start listening to the dispatcher:
+                    let result = null;
+                    dispatcher.on(
+                        win + '_' + component,
+                        this,
+                        function(data) {
+                            if (type === 'string') {
+                                data[property] = vm.getVMData().getStringList()[data[property]];
+                            }
+                            result = data;
+                        }
+                    );
+                    vm.setCommands(program.getCommands()).run();
+                    // Check if the dispatcher received the message...
+                    let opts = {};
+                    opts[property] = value;
+                    assert.deepEqual(result, opts);
+                    done();
+                };
+            preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
         }
     );
 };

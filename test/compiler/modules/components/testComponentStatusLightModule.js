@@ -9,12 +9,14 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/statusLight.whl';
+
 describe(
     'Test Status light component module',
     function() {
-        testComponentCall(it, 'Should set hidden', 69, 0, 'hidden');
-        testComponentCall(it, 'Should set x',      69, 1, 'x');
-        testComponentCall(it, 'Should set y',      69, 2, 'y');
-        testComponentCall(it, 'Should set color',  69, 3, 'color');
+        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.statusLight.setHidden', 'hidden', 'number');
+        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.statusLight.setX',      'x',      'number');
+        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.statusLight.setY',      'y',      'number');
+        testComponentCall(it, 'Should set color',  LIB_FILENAME, 'components.statusLight.setColor',  'color',  'number');
     }
 );

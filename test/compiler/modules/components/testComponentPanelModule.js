@@ -9,13 +9,15 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/panel.whl';
+
 describe(
     'Test Panel component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   70, 0, 'hidden');
-        testComponentCall(it, 'Should set x',        70, 1, 'x');
-        testComponentCall(it, 'Should set y',        70, 2, 'y');
-        testComponentCall(it, 'Should set width',    70, 3, 'width');
-        testComponentCall(it, 'Should set height',   70, 4, 'height');
+        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.panel.setHidden', 'hidden', 'number');
+        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.panel.setX', 'x', 'number');
+        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.panel.setY', 'y', 'number');
+        testComponentCall(it, 'Should set width',  LIB_FILENAME, 'components.panel.setWidth', 'width', 'number');
+        testComponentCall(it, 'Should set height', LIB_FILENAME, 'components.panel.setHeight', 'height', 'number');
     }
 );

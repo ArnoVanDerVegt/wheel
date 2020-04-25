@@ -106,7 +106,7 @@ describe(
         );
         it(
             'Should include',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
                             function() {
@@ -156,13 +156,14 @@ describe(
                         );
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
+                        done();
                     };
                 preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
             'Should include, strip comments',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
                             function() {
@@ -215,6 +216,7 @@ describe(
                         );
                         vm.setModules(createModules(vm));
                         vm.setCommands(program.getCommands()).run();
+                        done();
                     };
                 preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }

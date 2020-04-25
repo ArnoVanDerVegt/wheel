@@ -9,16 +9,18 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/tabs.whl';
+
 describe(
     'Test Tabs component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 71, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   71, 1, 'hidden');
-        testComponentCall(it, 'Should set disabled', 71, 2, 'disabled');
-        testComponentCall(it, 'Should set x',        71, 3, 'x');
-        testComponentCall(it, 'Should set y',        71, 4, 'y');
-        testComponentCall(it, 'Should set width',    71, 5, 'width');
-        testComponentCall(it, 'Should set height',   71, 6, 'height');
-        testComponentCall(it, 'Should set active',   71, 7, 'active');
+        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.tabs.setTabIndex', 'tabIndex', 'number');
+        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.tabs.setHidden',   'hidden',   'number');
+        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.tabs.setDisabled', 'disabled', 'number');
+        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.tabs.setX',        'x',        'number');
+        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.tabs.setY',        'y',        'number');
+        testComponentCall(it, 'Should set width',    LIB_FILENAME, 'components.tabs.setWidth',    'width',    'number');
+        testComponentCall(it, 'Should set height',   LIB_FILENAME, 'components.tabs.setHeight',   'height',   'number');
+        testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.tabs.setActive',   'active',   'number');
     }
 );

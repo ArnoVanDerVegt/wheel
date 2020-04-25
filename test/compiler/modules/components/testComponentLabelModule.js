@@ -9,13 +9,15 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/label.whl';
+
 describe(
     'Test Label component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 67, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   67, 1, 'hidden');
-        testComponentCall(it, 'Should set x',        67, 2, 'x');
-        testComponentCall(it, 'Should set y',        67, 3, 'y');
-        testComponentCall(it, 'Should set text',     67, 4, 'text');
+        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.label.setTabIndex', 'tabIndex', 'number');
+        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.label.setHidden',   'hidden',   'number');
+        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.label.setX',        'x',        'number');
+        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.label.setY',        'y',        'number');
+        testComponentCall(it, 'Should set text',     LIB_FILENAME, 'components.label.setText',     'text',     'string');
     }
 );

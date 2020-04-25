@@ -9,16 +9,18 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/button.whl';
+
 describe(
     'Test Button component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 65, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   65, 1, 'hidden');
-        testComponentCall(it, 'Should set disabled', 65, 2, 'disabled');
-        testComponentCall(it, 'Should set x',        65, 3, 'x');
-        testComponentCall(it, 'Should set y',        65, 4, 'y');
-        testComponentCall(it, 'Should set color',    65, 5, 'color');
-        testComponentCall(it, 'Should set value',    65, 6, 'value');
-        testComponentCall(it, 'Should set title',    65, 7, 'title');
+        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.button.setTabIndex', 'tabIndex', 'number');
+        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.button.setHidden',   'hidden',   'number');
+        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.button.setDisabled', 'disabled', 'number');
+        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.button.setX',        'x',        'number');
+        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.button.setY',        'y',        'number');
+        testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.button.setColor',    'color',    'number');
+        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.button.setTitle',    'value',    'string');
+        testComponentCall(it, 'Should set title',    LIB_FILENAME, 'components.button.setHint',     'title',    'string');
     }
 );

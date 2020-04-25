@@ -9,15 +9,17 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/selectButton.whl';
+
 describe(
     'Test SelectButton component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 66, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   66, 1, 'hidden');
-        testComponentCall(it, 'Should set disabled', 66, 2, 'disabled');
-        testComponentCall(it, 'Should set x',        66, 3, 'x');
-        testComponentCall(it, 'Should set y',        66, 4, 'y');
-        testComponentCall(it, 'Should set color',    66, 5, 'color');
-        testComponentCall(it, 'Should set active',   66, 6, 'active');
+        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.selectButton.setTabIndex', 'tabIndex', 'number');
+        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.selectButton.setHidden',   'hidden',   'number');
+        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.selectButton.setDisabled', 'disabled', 'number');
+        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.selectButton.setX',        'x',        'number');
+        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.selectButton.setY',        'y',        'number');
+        testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.selectButton.setColor',    'color',    'number');
+        testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.selectButton.setActive',   'active',   'number');
     }
 );

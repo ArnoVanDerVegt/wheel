@@ -4,23 +4,13 @@
 namespace components.statusLight
 
 ; @const The status light component module.
-#define MODULE_COMPONENT_STATUS_LIGHT        65
+#define MODULE_COMPONENT_STATUS_LIGHT        69
 
 ; @const Module calls for status light component functions.
-#define STATUS_LIGHT_COMPONENT_SET_TAB_INDEX  0
-#define STATUS_LIGHT_COMPONENT_SET_HIDDEN     1
-#define STATUS_LIGHT_COMPONENT_SET_X          3
-#define STATUS_LIGHT_COMPONENT_SET_Y          4
-#define STATUS_LIGHT_COMPONENT_SET_COLOR      5
-
-; @proc                   Set the tab index of the status light.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_TAB_INDEX
-end
+#define STATUS_LIGHT_COMPONENT_SET_HIDDEN     0
+#define STATUS_LIGHT_COMPONENT_SET_X          1
+#define STATUS_LIGHT_COMPONENT_SET_Y          2
+#define STATUS_LIGHT_COMPONENT_SET_COLOR      3
 
 ; @proc                   Hide the status light.
 ; @param windowhandle     The handle of the window.
@@ -29,15 +19,6 @@ end
 proc setHidden(number windowHandle, number componentHandle, number tabIndex)
     addr windowHandle
     mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_HIDDEN
-end
-
-; @proc                   Disable the status light.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param disabled         Disabled `TRUE` or `FALSE`.
-proc setDisabled(number windowHandle, number componentHandle, number disabled)
-    addr windowHandle
-    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_DISABLED
 end
 
 ; @proc                   Set the x position of the status light.

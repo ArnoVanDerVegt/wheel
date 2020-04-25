@@ -9,16 +9,18 @@ afterEach(function() {
     dispatcher.reset();
 });
 
+const LIB_FILENAME = 'assets/template/lib/components/checkbox.whl';
+
 describe(
     'Test Checkbox component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', 68, 0, 'tabIndex');
-        testComponentCall(it, 'Should set hidden',   68, 1, 'hidden');
-        testComponentCall(it, 'Should set disabled', 68, 2, 'disabled');
-        testComponentCall(it, 'Should set x',        68, 3, 'x');
-        testComponentCall(it, 'Should set y',        68, 4, 'y');
-        testComponentCall(it, 'Should set text',     68, 5, 'text');
-        testComponentCall(it, 'Should set hint',     68, 6, 'title');
-        testComponentCall(it, 'Should set checked',  68, 7, 'checked');
+        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.checkbox.setTabIndex', 'tabIndex', 'number');
+        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.checkbox.setHidden',   'hidden',   'number');
+        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.checkbox.setDisabled', 'disabled', 'number');
+        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.checkbox.setX',        'x',        'number');
+        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.checkbox.setY',        'y',        'number');
+        testComponentCall(it, 'Should set text',     LIB_FILENAME, 'components.checkbox.setText',     'text',     'string');
+        testComponentCall(it, 'Should set hint',     LIB_FILENAME, 'components.checkbox.setHint',     'title',    'string');
+        testComponentCall(it, 'Should set checked',  LIB_FILENAME, 'components.checkbox.setChecked',  'checked',  'number');
     }
 );
