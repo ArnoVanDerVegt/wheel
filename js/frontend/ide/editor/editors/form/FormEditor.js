@@ -8,6 +8,7 @@ const TabPanel                            = require('../../../../lib/components/
 const Editor                              = require('../Editor').Editor;
 const Clipboard                           = require('../Clipboard');
 const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
+const ToolbarBottom                       = require('./toolbar/ToolbarBottom').ToolbarBottom;
 const FormEditorState                     = require('./state/FormEditorState').FormEditorState;
 const formEditorConstants                 = require('./formEditorConstants');
 const FormComponent                       = require('./FormComponent').FormComponent;
@@ -48,6 +49,15 @@ exports.FormEditor = class extends Editor {
                         type:       ToolbarTop,
                         ui:         this._ui,
                         formEditor: this
+                    },
+                    {
+                        className: 'resource-content',
+                        ref:       this.setRef('resourceContent')
+                    },
+                    {
+                        type:       ToolbarBottom,
+                        ui:         this._ui,
+                        formEditor: this
                     }
                 ]
             }
@@ -67,22 +77,17 @@ exports.FormEditor = class extends Editor {
 
     onAddForm() {
         this.create(
-            this._refs.wrapper,
+            this._refs.resourceContent,
             {
-                className: 'resource-content',
+                ref:       this.setRef('resourceContentWrapper'),
+                className: 'resource-content-wrapper',
                 children: [
                     {
-                        ref:       this.setRef('resourceContentWrapper'),
-                        className: 'resource-content-wrapper',
-                        children: [
-                            {
-                                type:            FormComponent,
-                                ui:              this._ui,
-                                id:              this.setFormComponent.bind(this),
-                                formEditorState: this._formEditorState,
-                                className:       'resource with-shadow form'
-                            }
-                        ]
+                        type:            FormComponent,
+                        ui:              this._ui,
+                        id:              this.setFormComponent.bind(this),
+                        formEditorState: this._formEditorState,
+                        className:       'resource with-shadow form'
                     }
                 ]
             }
@@ -195,6 +200,14 @@ exports.FormEditor = class extends Editor {
         }
     }
 
+    onMouseMove(event) {
+        this._refs.cursorPosition.innerHTML = event.offsetX + ',' + event.offsetY;
+    }
+
+    onMouseOut(event) {
+        this._refs.cursorPosition.innerHTML = '';
+    }
+
     getCanUndo() {
         return this._formEditorState.getHasUndo();
     }
@@ -221,6 +234,9 @@ exports.FormEditor = class extends Editor {
 
     setFormComponent(component) {
         this._formComponent = component;
+        let element = component.getFormElement();
+        element.addEventListener('mousemove', this.onMouseMove.bind(this));
+        element.addEventListener('mouseout',  this.onMouseOut.bind(this));
         this.setSize();
     }
 

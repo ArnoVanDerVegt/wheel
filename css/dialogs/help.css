@@ -44,6 +44,9 @@
 .dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.m {
     background-color:               #E74C3C;
 }
+.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.i {
+    background-color:               #4CD137;
+}
 .dialog-background.help-dialog .dialog-center .dialog-content div.third,
 .dialog-background.help-dialog .dialog-center .dialog-content div.quarter {
     float:                          left;
@@ -185,6 +188,11 @@
 .dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.m,
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .m {
     background-color:               #E74C3C;
+    color:                          #FFFFFF;
+}
+.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.i,
+.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .i {
+    background-color:               #4CD137;
     color:                          #FFFFFF;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e,

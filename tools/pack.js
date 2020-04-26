@@ -401,6 +401,7 @@ const files = [
         './js/frontend/ide/editor/editors/sound/SoundEditorState',
         './js/frontend/ide/editor/editors/sound/SoundEditor',
         './js/frontend/ide/editor/editors/form/toolbar/ToolbarTop',
+        './js/frontend/ide/editor/editors/form/toolbar/ToolbarBottom',
         './js/frontend/ide/editor/editors/form/SourceBuilder',
         './js/frontend/ide/editor/editors/form/ComponentBuilder',
         './js/frontend/ide/editor/editors/form/formEditorConstants',

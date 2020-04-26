@@ -648,10 +648,22 @@ class HelpBuilder {
         let helpFiles = [];
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
-            if (file.subject && (file.subject.indexOf(prefix) === 0)) {
+            if (!file.subject) {
+                continue;
+            }
+            let show = (file.subject.indexOf(prefix) === 0);
+            let name = file.subject.substr(prefix.length - file.subject.length);
+            if (file.subject.indexOf('/') !== -1) {
+                if (prefix === 'Module:') {
+                    show = false;
+                } else {
+                    name = name.substr(1 - name.length);
+                }
+            }
+            if (show) {
                 helpFiles.push({
                     index:    i,
-                    name:     file.subject.substr(prefix.length - file.subject.length),
+                    name:     name,
                     device:   file.device,
                     toString: function() { return this.name; }
                 });
@@ -675,6 +687,7 @@ class HelpBuilder {
             .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples')
             .addSeparator(parentNode)
             .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Module:Component',   'IDE Modules')
             .buildSubjectIndex(parentNode, helpData, 'Miscellaneous:',     'Miscellaneous');
     }
 
@@ -701,7 +714,8 @@ class HelpBuilder {
                 children: [
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),
-                    addLegendItem('m', 'Mindsensors')
+                    addLegendItem('m', 'Mindsensors'),
+                    addLegendItem('i', 'IDE')
                 ]
             }
         );

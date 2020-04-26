@@ -70,6 +70,10 @@ exports.FormComponentContainer = class extends DOMNode {
         this._formElement.parentNode.removeChild(this._formElement);
     }
 
+    getFormElement() {
+        return this._formElement;
+    }
+
     setFormElement(element) {
         this._formElement = element;
         element.addEventListener('click',     this.onClick.bind(this));
