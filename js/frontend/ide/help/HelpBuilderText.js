@@ -747,7 +747,7 @@ class HelpBuilderText {
                     output,
                     [
                             '    <div class="legend-item">',
-                            '        <div class="device" ' + type + '">' + type.toUpperCase() + '</div>',
+                            '        <div class="device ' + type + '">' + type.toUpperCase() + '</div>',
                             '        <div class="title">' + title + '</div>',
                             '    </div>'
                         ]
