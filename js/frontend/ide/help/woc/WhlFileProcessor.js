@@ -142,7 +142,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
             nextLine = this.peekLine().trim();
             while (this.getTextComment(nextLine)) {
                 this.readLine(true);
-                description += '\n' + nextLine;
+                description += '\n' + nextLine.substr(1 - nextLine.length);
                 nextLine = this.peekLine().trim();
             }
             event.params.push({
@@ -169,7 +169,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
             };
         while (this.getTextComment(nextLine)) {
             this.readLine(true);
-            proc.description += '\n' + nextLine;
+            proc.description += '\n' + nextLine.substr(1 - nextLine.length);
             nextLine = this.peekLine().trim();
         }
         if (this.getComment(nextLine).indexOf('@device') === 0) {
@@ -186,7 +186,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
             nextLine = this.peekLine().trim();
             while (this.getTextComment(nextLine)) {
                 this.readLine(true);
-                description += '\n' + nextLine;
+                description += '\n' + nextLine.substr(1 - nextLine.length);
                 nextLine = this.peekLine().trim();
             }
             descriptionByParam[this.getCleanName(param)] = description;

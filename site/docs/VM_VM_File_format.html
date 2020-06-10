@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - VM:VM File format</title>
+    <meta name="description" content="VM:VM File format"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center"><div class="help-file">
+        <h2>VM File format</h2>
+        <a id="Rtf"></a>
+        <h4 class="">Rtf</h4>
+        <p>
+            The standard EV3 File block can read data from a <i>.rft</i> file.
+            The Wheel VM reads code from an <i>.rtf</i> file with the following structure:
+        </p>
+        <table class="help-table">
+            <tr>
+                <th> Size </th>
+                <th> Expected value   </th>
+                <th> Description                  </th>
+            </th>
+            <tr>
+                <td>1</td>
+                <td>Wheel VM Program</td>
+                <td>Header</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#VERSION</td>
+                <td>Version marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>Version value</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#NAME</td>
+                <td>Program name</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Name</td>
+                <td>Program name value</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#STRINGS</td>
+                <td>String marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Count</td>
+                <td>Number of strings</td>
+            </tr>
+            <tr>
+                <td>[String data]</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#CONSTANTS</td>
+                <td>Constant marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Count</td>
+                <td>Number of constants</td>
+            </tr>
+            <tr>
+                <td>[Constant data]</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#HEAP</td>
+                <td>Heap marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Number value</td>
+                <td>Heap size value</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#REG_CODE</td>
+                <td>Code register value marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Number value</td>
+                <td>Initial code register value</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#REG_STACK</td>
+                <td>Stack register value marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Number value</td>
+                <td>Initial stack register value</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>#COMMANDS</td>
+                <td>Command values marker</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Count</td>
+                <td>Number of commands</td>
+            </tr>
+            <tr>
+                <td>[Command data]</td>
+            </tr>
+        </table>
+        <a id="Constants"></a>
+        <h4 class="">Constants</h4>
+        <p>
+            Each constant constists of at least three values: the offset, the number of constants followed by the constants.
+        </p>
+        <table class="help-table">
+            <tr>
+                <th> Size </th>
+                <th> Expected value </th>
+                <th> Description                                       </th>
+            </th>
+            <tr>
+                <td>1</td>
+                <td>Offset</td>
+                <td>The absolute memory location of the constant data</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Count</td>
+                <td>Number of constants</td>
+            </tr>
+            <tr>
+                <td>[Constant values]</td>
+            </tr>
+        </table>
+        <a id="Commands"></a>
+        <h4 class="">Commands</h4>
+        <p>
+            A single command is stored as 3 numbers:
+        </p>
+        <p>
+            The first number is 8 bits, the 4 high bits store the command, followed by two bits for the first parameter type
+            followed by two bits for the second parameter type.
+            A command and parameter type information can be stored in a single byte.
+        </p>
+        <table class="help-table">
+            <tr>
+                <th> 8 </th>
+                <th> 7 </th>
+                <th> 6 </th>
+                <th> 5 </th>
+                <th> 4 </th>
+                <th> 3 </th>
+                <th> 2 </th>
+                <th> 1   </th>
+            </th>
+            <tr>
+                <td colspan="4"> Command</td>
+                <td colspan="2"> Type1</td>
+                <td colspan="2"> Type2</td>
+            </tr>
+        </table>
+    </div></div>
+</body>
+</html>

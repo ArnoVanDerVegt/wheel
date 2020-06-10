@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Programming:Meta commands</title>
+    <meta name="description" content="Programming:Meta commands"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center"><div class="help-file">
+        <h2>Meta commands</h2>
+        <a id="Metacommands"></a>
+        <h4 class="">Meta commands</h4>
+        <p>
+            Meta commands are parsed by the preprocessor.
+        </p>
+        <a id="#include"></a>
+        <h4 class="">#include</h4>
+        <p>
+            With the <i>#include</i> command you can import an existing file like a library.
+        </p>
+        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">5</span><span class="operator">,</span> <span class="number">90</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#define"></a>
+        <h4 class="">#define</h4>
+        <p>
+            With the <i>#define</i> command you can create constants, the constants are replaced with the defined value by the preprocessor.
+        </p>
+        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="meta">#define</span> <span class="define">MY_NUMBER</span> <span class="number">55</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="comment">; Draw the number 55:</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">5</span><span class="operator">,</span> <span class="define">MY_NUMBER</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#project"></a>
+        <h4 class="">#project</h4>
+        <p>
+            With the <i>#project</i> command you can set the name of the program.
+            The name should be given as string value.
+        </p>
+        <pre class="wheel"><span class="meta">#define</span> <span class="string">"This is my project"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#optimizer"></a>
+        <h4 class="">#optimizer</h4>
+        <p>
+            The <i>#optimizer</i> command turns the optimizer on or off, valid values are "on" or "off" strings.
+            The optimizer is turned on by default.
+        </p>
+        <pre class="wheel"><span class="meta">#optimizer</span> <span class="string">"off"</span> <span class="comment">; Turn the optimizer off...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#heap"></a>
+        <h4 class="">#heap</h4>
+        <p>
+            With the <i>#heap</i> command the amount of allocated memory for the virtual machine can be set.
+            The default setting is 1024 memory entries (floats). The heap value should be given as a positive number.
+            In the following example the amount of heap is increased to 4096 memory entries, this equals 16 kBytes.
+        </p>
+        <pre class="wheel"><span class="meta">#heap</span> <span class="number">4096</span> <span class="comment">; Set the heap size to 4096 floats...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#stringcount"></a>
+        <h4 class="">#stringcount</h4>
+        <p>
+            The <i>#stringcount</i> command sets the maximum number of strings which can be allocated.
+            The default setting is 64.
+        </p>
+        <pre class="wheel"><span class="meta">#stringcount</span> <span class="number">64</span> <span class="comment">; Set the number of strings to 64...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#stringlength"></a>
+        <h4 class="">#stringlength</h4>
+        <p>
+            The <i>#stringlength</i> command sets the maximum string length which can be allocated.
+            This value should be larger than 0 and less than 128.
+            The default setting is 64.
+        </p>
+        <pre class="wheel"><span class="meta">#stringlength</span> <span class="number">64</span> <span class="comment">; Set the maximum string lenght to 64...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#rangecheck"></a>
+        <h4 class="">#rangecheck</h4>
+        <p>
+            The <i>#rangecheck</i> command turns the runtime range checking on or off, valid values are "on" or "off" strings.
+            The range checking is turned on by default. Turning range checking off improves the performance of you application,
+            this can be helpfull when deploying your application on the EV3.
+        </p>
+        <pre class="wheel"><span class="meta">#rangecheck</span> <span class="string">"off"</span> <span class="comment">; Turn range checking off...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#image"></a>
+        <h4 class="">#image</h4>
+        <p>
+            The <i>#image</i> command can be used to create images, with the <i>#image</i> command the filename can be declared.
+            The filename should have an <i>.rgf</i> extension.
+            The <i>#image</i> command should be followed by one or more <i>#data</i> commands, these contain the image data.
+            Each <i>#data</i> command expects a string parameter with the same length as the first <i>data</i> command.
+            The data string may only contain "0" or "1" characters.
+        </p>
+        <pre class="wheel"><span class="meta">#image</span> <span class="string">"myImage.rgf"</span>
+<span class="meta">#data</span> <span class="string">"0100010"</span>
+<span class="meta">#data</span> <span class="string">"1001001"</span>
+<span class="meta">#data</span> <span class="string">"0100010"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#text"></a>
+        <h4 class="">#text</h4>
+        <p>
+            The <i>#text</i> command can be used to create text files, with the <i>#text</i> command the filename can be declared.
+            The filename should have an <i>.rtf</i> extension.
+            The <i>#text</i> command should be followed by one or more <i>#line</i> commands, these contain the text lines.
+            Each <i>#line</i> command expects a string parameter.
+        </p>
+        <pre class="wheel"><span class="meta">#text</span> <span class="string">"myText.rtf"</span>
+<span class="meta">#line</span> <span class="string">"The quick brown fox..."</span>
+<span class="meta">#line</span> <span class="string">"jumped over the lazy dogs back."</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#break"></a>
+        <h4 class="">#break</h4>
+        <p>
+            The <i>#break</i> command sets a breakpoint on a line, difference between this command and a breakpoint in the gutter
+            is that the breakpoint set with the <i>#break</i> command is saved in the file.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">n</span> <span class="operator">=</span> <span class="number">11</span>
+    <span class="comment">; Set a breakpoint...</span>
+<span class="meta">#break</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#resource"></a>
+        <h4 class="">#resource</h4>
+        <p>
+            With the <i>#resource</i> command you can declare a resource which will be downloaded to the EV3 when you
+            install your compiled program. There are four valid resource file extensions: <i>.rtf</i>, <i>.rgf</i>, <i>.rsf</i>, <i>.rbf</i>.
+            <br/>
+            The resource file should exist within the Wheel path.
+        </p>
+        <pre class="wheel"><span class="meta">#resource</span> <span class="string">"resources/images/expressions/Smile.rgf"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="#display"></a>
+        <h4 class="">#display</h4>
+        <p>
+            The <i>#display</i> command allows you to show the sensors and/or motors in the simulator,
+            it expects one parameter: a comma separated list of plugin names to be shown.
+            <br/>
+            The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
+            simulator EV3 and EV3 Sensors plugins will be shown:
+        </p>
+        <pre class="wheel"><span class="meta">#display</span> <span class="string">"EV3,EV3 Sensors"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+    </div></div>
+</body>
+</html>

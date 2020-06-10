@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Programming:Loops</title>
+    <meta name="description" content="Programming:Loops"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center"><div class="help-file">
+        <h2>Loops</h2>
+        <a id="For..to,step"></a>
+        <h4 class="">For..to, step</h4>
+        <p>
+            With the <i>to</i> command, the counter is <i>increased</i> while the counter value is <i>less</i> or <i>equal</i> than the <i>to</i> value.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+
+<span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> <span class="keyword">to</span> <span class="number">10</span>
+    <span class="comment">; This code block will be executed 10 times...</span>
+<span class="keyword">end</span>
+</pre>
+        <p>
+            When the <i>step</i> values is added then the counter will be increased with the <i>step</i> value:
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+
+<span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> <span class="keyword">to</span> <span class="number">10</span> <span class="keyword">step</span> <span class="number">2</span>
+    <span class="comment">; This code block will be executed 5 times...</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="For..downto,step"></a>
+        <h4 class="">For..downto, step</h4>
+        <p>
+            With the <i>downto</i> command, the counter is <i>decreased</i> while the counter value is <i>greater</i> or <i>equal</i> than the <i>downto</i> value.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+
+<span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">7</span> <span class="keyword">downto</span> <span class="number">2</span>
+    <span class="comment">; This code block will be executed 6 times...</span>
+<span class="keyword">end</span>
+</pre>
+        <p>
+            The <i>downto</i> loop can also have a step value:
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+
+<span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">9</span> <span class="keyword">downto</span> <span class="number">0</span> <span class="keyword">step</span> <span class="number">3</span>
+    <span class="comment">; This code block will be executed 4 times...</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="Repeat"></a>
+        <h4 class="">Repeat</h4>
+        <p>
+            Repeat a block of code endless.
+        </p>
+        <pre class="wheel"><span class="keyword">repeat</span>
+    <span class="comment">; This code block will be repeated endless</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="While"></a>
+        <h4 class="">While</h4>
+        <p>
+            Repeat a block of code while a condition evaluates as true.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
+
+<span class="keyword">while</span> <span class="variable">n</span> <span class="operator">!</span><span class="operator">=</span> <span class="number">0</span>
+    <span class="variable">n</span> <span class="operator">-</span><span class="operator">=</span> <span class="number">1</span>
+<span class="keyword">end</span>
+</pre>
+        <a id="Break"></a>
+        <h4 class="">Break</h4>
+        <p>
+            With the <i>break</i> command you can jump out of the inner most loop.
+            You can use the <i>break</i> statement in combination with <i>for</i>, <i>repeat</i> and <i>while</i> loops.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
+
+<span class="keyword">repeat</span>
+    <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span>
+    <span class="keyword">if</span> <span class="variable">n</span> <span class="operator">=</span><span class="operator">=</span> <span class="number">5</span>
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+        <p>
+            A <i>break</i> command can also refer to a specific loop. The code will continue after the <i>end</i> statement which
+            belongs to the <i>repeat</i> statement.
+        </p>
+        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
+
+<span class="keyword">repeat</span> <span class="variable">main_loop</span>
+    <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span>
+    <span class="keyword">repeat</span>
+        <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span>
+        <span class="keyword">if</span> <span class="variable">n</span> <span class="operator">=</span><span class="operator">=</span> <span class="number">10</span>
+            <span class="keyword">break</span> <span class="variable">main_loop</span>
+        <span class="keyword">end</span>
+    <span class="keyword">repeat</span>
+<span class="keyword">end</span>
+</pre>
+    </div></div>
+</body>
+</html>

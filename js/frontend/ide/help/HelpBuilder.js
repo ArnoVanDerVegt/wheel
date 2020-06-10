@@ -245,9 +245,6 @@ class HelpBuilder {
         let wheelSyntax = new WheelSyntax();
         let s           = 'proc ' + proc.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
-        if (proc.ret) {
-            new DOMNode({}).create(parentNode, {innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
-        }
         if (proc.params.length) {
             new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
@@ -259,7 +256,7 @@ class HelpBuilder {
             new Table({parentNode, className: 'help-table', head: head, body: body});
         }
         if (proc.ret) {
-            new P({parentNode: parentNode, innerHTML: 'Return: ' + proc.ret});
+            new P({parentNode: parentNode, innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
         }
         if (proc.text) {
             new P({parentNode: parentNode, innerHTML: proc.text.join('<br/>')});

@@ -6,13 +6,13 @@
 ; @const The Powered Up module.
 #define MODULE_POWERED_UP                           13
 
-; @const The Powered Up ports.
+; @const The Powered Up output ports.
 #define POWERED_UP_OUTPUT_A                          0
 #define POWERED_UP_OUTPUT_B                          1
 #define POWERED_UP_OUTPUT_C                          2
 #define POWERED_UP_OUTPUT_D                          3
 
-; @const The Powered Up ports.
+; @const The Powered Up input ports.
 #define POWERED_UP_PORT_A                            0
 #define POWERED_UP_PORT_B                            1
 #define POWERED_UP_PORT_C                            2
