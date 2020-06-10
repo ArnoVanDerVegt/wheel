@@ -27,7 +27,7 @@ end
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @param hidden           Hidden `TRUE` or `FALSE`.
-proc setHidden(number windowHandle, number componentHandle, number tabIndex)
+proc setHidden(number windowHandle, number componentHandle, number hidden)
     addr windowHandle
     mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_HIDDEN
 end

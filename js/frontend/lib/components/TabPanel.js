@@ -18,6 +18,7 @@ exports.TabPanel = class extends Component {
         this._tabs             = opts.tabs;
         this._panels           = [];
         this._active           = 0;
+        this._onChange         = opts.onChange;
         this._events           = [dispatcher.on('AddTabComponent', this, this.onAddTabComponent)];
         this.initDOM(opts.parentNode);
     }
@@ -103,6 +104,7 @@ exports.TabPanel = class extends Component {
                 panel.className = className;
             }
         });
+        this._onChange && this._onChange(index);
     }
 
     onEvent(opts) {

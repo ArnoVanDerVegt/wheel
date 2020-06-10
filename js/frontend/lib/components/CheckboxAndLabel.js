@@ -10,8 +10,9 @@ exports.CheckboxAndLabel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'checkbox-and-label';
         super(opts);
-        this._text    = opts.text;
-        this._checked = !!opts.checked;
+        this._text     = opts.text;
+        this._checked  = !!opts.checked;
+        this._onChange = opts.onChange;
         this.initDOM(opts.parentNode);
     }
 
@@ -24,10 +25,11 @@ exports.CheckboxAndLabel = class extends Component {
                 className: this.getClassName(),
                 children: [
                     {
-                        type:    Checkbox,
-                        ui:      this._ui,
-                        ref:     this.setRef('checkbox'),
-                        checked: this._checked
+                        type:     Checkbox,
+                        ui:       this._ui,
+                        ref:      this.setRef('checkbox'),
+                        checked:  this._checked,
+                        onChange: this._onChange
                     },
                     {
                         className: 'label',

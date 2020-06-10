@@ -56,6 +56,8 @@ exports.FormDialog = class extends Dialog {
         if (!entryPoint) {
             return;
         }
+        let vm  = this._vm;
+        let win = this._win;
         component[property] = function(value) {
             vm.runEvent(entryPoint, [win.getUiId(), value]);
         };
