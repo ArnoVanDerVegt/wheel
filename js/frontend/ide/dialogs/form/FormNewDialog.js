@@ -40,7 +40,7 @@ exports.FormNewDialog = class extends ImageNewDialog {
             .dispatch(
                 'Create.File',
                 whlFilename,
-                ['lib/form.whl'],
+                ['lib/components/form.whl'],
                 SourceBuilder.getFormCode(this._filename)
             )
             .dispatch(

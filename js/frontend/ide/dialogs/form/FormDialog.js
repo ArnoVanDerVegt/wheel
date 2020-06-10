@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const Dialog              = require('../../../lib/components/Dialog').Dialog;
 const Button              = require('../../../lib/components/Button').Button;
 const Label               = require('../../../lib/components/Label').Label;
@@ -27,18 +28,29 @@ exports.FormDialog = class extends Dialog {
         this.createWindow('form-dialog', this._title, children);
     }
 
-    addDefaultEvent(event, property) {
-        let entryPoint = program.getEventInfo(event);
+    addDefaultEvent(component, property) {
+        let entryPoint = this._program.getEventInfo(component[property]);
         if (!entryPoint) {
+            // Log warning...
+            dispatcher.dispatch(
+                'Console.Log',
+                {
+                    message:   'Warning: failed to find callback "' + component[property] + '" for <i>' + component.name + '.' + property + '</i> event.',
+                    className: 'warning'
+                }
+            );
+            component[property] = function() {};
             return;
         }
+        let vm  = this._vm;
+        let win = this._win;
         component[property] = function() {
             vm.runEvent(entryPoint, [win.getUiId()]);
         };
     }
 
-    addChangeEvent(event, property) {
-        let entryPoint = program.getEventInfo(event);
+    addChangeEvent(component, property) {
+        let entryPoint = this._program.getEventInfo(component[property]);
         if (!entryPoint) {
             return;
         }
@@ -48,20 +60,25 @@ exports.FormDialog = class extends Dialog {
     }
 
     getComponentEvents(component) {
-        let program  = this._program;
-        let vm       = this._vm;
+        let vm = this._vm;
         for (let property in component) {
             if (property.substr(0, 2) === 'on') {
                 switch (property) {
-                    case 'onClick:':
-                    case 'onFocus:':
-                    case 'onBlur:':
-                    case 'onShow:':
-                    case 'onHide:':
-                        this.addDefaultEvent(component[property], property);
+                    case 'onClick':
+                    case 'onFocus':
+                    case 'onBlur':
+                    case 'onShow':
+                    case 'onHide':
+                    case 'onMouseDown':
+                    case 'onMouseUp':
+                    case 'onMouseOut':
+                        this.addDefaultEvent(component, property);
                         break;
                     case 'onChange':
-                        this.addChangeEvent(component[property], property);
+                        this.addChangeEvent(component, property);
+                        break;
+                    default:
+                        component[property] = function() {};
                         break;
                 }
             }

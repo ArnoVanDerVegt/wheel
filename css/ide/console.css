@@ -110,6 +110,9 @@ body.ide .console-content {
 .console-content .console-lines .console-line i.error {
     color:                          var(--console-error);
 }
+.console-content .console-lines .console-line.warning {
+    color:                          var(--console-warning);
+}
 .console-content .console-lines .console-line i.error b {
     text-decoration:                underline;
 }

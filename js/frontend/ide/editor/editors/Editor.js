@@ -129,6 +129,9 @@ exports.Editor = class extends DOMNode {
     }
 
     pathAndFilenameEqual(p, filename) {
+        if (p === null) {
+            return (path.removeSlashes(this._filename) === path.removeSlashes(filename));
+        }
         return (path.removeSlashes(this._filename) === path.removeSlashes(filename)) &&
             (path.removeSlashes(this._path) === path.removeSlashes(p));
     }

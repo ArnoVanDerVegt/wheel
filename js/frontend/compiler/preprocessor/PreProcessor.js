@@ -20,17 +20,22 @@ const removePadding = function(s) {
 
 exports.PreProcessor = class PreProcessor {
     constructor(opts) {
-        this._documentPath    = opts.documentPath || '';
-        this._projectFilename = opts.projectFilename;
-        this._projectPath     = path.getPathAndFilename(opts.projectFilename || '').path;
-        this._linter          = opts.linter;
-        this._getFileData     = opts.getFileData;
-        this._filesDone       = {};
-        this._fileCount       = 0;
-        this._sortedFiles     = null;
-        this._defines         = new Defines();
-        this._resources       = new ProjectResources({projectFilename: this._projectFilename});
-        this._lineCount       = 0;
+        this._documentPath      = opts.documentPath || '';
+        this._projectFilename   = opts.projectFilename;
+        this._projectPath       = path.getPathAndFilename(opts.projectFilename || '').path;
+        this._linter            = opts.linter;
+        this._getFileData       = opts.getFileData;
+        this._getEditorFileData = opts.getEditorFileData;
+        this._filesDone         = {};
+        this._fileCount         = 0;
+        this._sortedFiles       = null;
+        this._defines           = new Defines();
+        this._lineCount         = 0;
+        this._resources         = new ProjectResources({
+            projectFilename:   this._projectFilename,
+            getFileData:       this._getFileData,
+            getEditorFileData: this._getEditorFileData
+        });
     }
 
     compileInclude(iterator, token, tokenFilename, includes) {

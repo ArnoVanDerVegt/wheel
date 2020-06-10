@@ -168,6 +168,10 @@ exports.CompileAndRun = class extends DOMUtils {
         callback('');
     }
 
+    getEditorFileData(filename, callback) {
+        callback(null);
+    }
+
     setSource(source) {
         this._source = source;
     }
@@ -317,11 +321,12 @@ exports.CompileAndRun = class extends DOMUtils {
                     linter.reset();
                 }
                 this._preProcessor = new PreProcessor({
-                    documentPath:    documentPath,
-                    projectFilename: this._projectFilename,
-                    linter:          linter,
-                    getFileData:     this.getFileData.bind(this),
-                    setImage:        this.onSetImage.bind(this)
+                    documentPath:      documentPath,
+                    projectFilename:   this._projectFilename,
+                    linter:            linter,
+                    getFileData:       this.getFileData.bind(this),
+                    getEditorFileData: this.getEditorFileData.bind(this),
+                    setImage:          this.onSetImage.bind(this)
                 });
                 this.onCreatedPreProcessor(this._preProcessor);
                 this._preProcessor.processFile({filename: this._projectFilename, token: null}, 0, 0, this.filesProcessed.bind(this, title));

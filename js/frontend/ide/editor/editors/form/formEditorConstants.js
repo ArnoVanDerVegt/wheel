@@ -180,33 +180,36 @@ exports.PROPERTIES_BY_TYPE = {
 // Component properties...
 exports.EVENTS_BY_TYPE = {
     FORM: [
-        {name: 'onShow',   params: ['windowHandle']},
-        {name: 'onHide',   params: ['windowHandle']}
+        {name: 'onShow',      params: ['windowHandle']},
+        {name: 'onHide',      params: ['windowHandle']}
     ],
     BUTTON: [
-        {name: 'onClick',  params: ['windowHandle']},
-        {name: 'onFocus',  params: ['windowHandle']},
-        {name: 'onBlur',   params: ['windowHandle']}
+        {name: 'onClick',     params: ['windowHandle']},
+        {name: 'onFocus',     params: ['windowHandle']},
+        {name: 'onBlur',      params: ['windowHandle']},
+        {name: 'onMouseDown', params: ['windowHandle']},
+        {name: 'onMouseUp',   params: ['windowHandle']},
+        {name: 'onMouseOut',  params: ['windowHandle']}
     ],
     SELECTBUTTON: [
-        {name: 'onChange', params: ['windowHandle', 'value']},
-        {name: 'onFocus',  params: ['windowHandle']},
-        {name: 'onBlur',   params: ['windowHandle']}
+        {name: 'onChange',    params: ['windowHandle', 'value']},
+        {name: 'onFocus',     params: ['windowHandle']},
+        {name: 'onBlur',      params: ['windowHandle']}
     ],
     LABEL: [
     ],
     CHECKBOX: [
-        {name: 'onChange', params: ['windowHandle', 'value']},
-        {name: 'onFocus',  params: ['windowHandle']},
-        {name: 'onBlur',   params: ['windowHandle']}
+        {name: 'onChange',    params: ['windowHandle', 'value']},
+        {name: 'onFocus',     params: ['windowHandle']},
+        {name: 'onBlur',      params: ['windowHandle']}
     ],
     STATUSLIGHT: [
     ],
     PANEL: [
     ],
     TABS: [
-        {name: 'onChange', params: ['windowHandle', 'value']},
-        {name: 'onFocus',  params: ['windowHandle']},
-        {name: 'onBlur',   params: ['windowHandle']}
+        {name: 'onChange',    params: ['windowHandle', 'value']},
+        {name: 'onFocus',     params: ['windowHandle']},
+        {name: 'onBlur',      params: ['windowHandle']}
     ]
 };

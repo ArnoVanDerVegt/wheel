@@ -10,7 +10,9 @@ const ProjectResource = require('./ProjectResource').ProjectResource;
 exports.FormResource = class extends ProjectResource {
     constructor(opts) {
         super(opts);
-        this._wfrm = null;
+        this._getFileData       = opts.getFileData;
+        this._getEditorFileData = opts.getEditorFileData;
+        this._wfrm              = null;
     }
 
     canSave() {
@@ -21,11 +23,7 @@ exports.FormResource = class extends ProjectResource {
         return true;
     }
 
-    getWFrm() {
-        return this._wfrm;
-    }
-
-    getData(callback) {
+    loadFromDataProvider(callback) {
         this._getDataProvider().getData(
             'post',
             'ide/file',
@@ -40,5 +38,27 @@ exports.FormResource = class extends ProjectResource {
                 callback({});
             }).bind(this)
         );
+    }
+
+    getWFrm() {
+        return this._wfrm;
+    }
+
+    getData(callback) {
+        if (this._getEditorFileData) {
+            this._getEditorFileData(
+                path.join(this._projectPath, this._filename),
+                (function(data) {
+                    if (data) {
+                        this._wfrm = data;
+                        callback({});
+                    } else {
+                        this.loadFromDataProvider(callback);
+                    }
+                }).bind(this)
+            );
+        } else {
+            this.loadFromDataProvider(callback);
+        }
     }
 };

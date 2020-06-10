@@ -106,13 +106,16 @@ exports.Compiler = class extends CompileBlock {
     getEventInfo() {
         let eventInfo = {};
         this._formResources.forEach(function(formResource) {
-            formResource.getWFrm().forEach(function(component) {
-                for (let property in component) {
-                    if (property.substr(0, 2) === 'on') {
-                        eventInfo[component[property]] = null;
+            let wfrm = formResource.getWFrm();
+            if (wfrm) {
+                wfrm.forEach(function(component) {
+                    for (let property in component) {
+                        if (property.substr(0, 2) === 'on') {
+                            eventInfo[component[property]] = null;
+                        }
                     }
-                }
-            });
+                });
+            }
         });
         return eventInfo;
     }

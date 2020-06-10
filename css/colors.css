@@ -194,6 +194,7 @@ body.ide {
     --console-success:              #44BD32;
     --console-vm:                   #74B9FF;
     --console-error:                #D63031;
+    --console-warning:              #F9CA24;
 
     --resizer-background:           rgba(0, 0, 0, 0.5);
 }
@@ -391,6 +392,7 @@ body.ide.dark {
     --console-success:              #1ABC9C;
     --console-vm:                   #00A8FF;
     --console-error:                #E84118;
+    --console-warning:              #6C5CE7;
 
     --resizer-background:           rgba(255, 255, 255, 0.5);
 }

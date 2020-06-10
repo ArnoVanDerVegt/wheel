@@ -604,7 +604,6 @@ exports.IDE = class extends CompileAndRun {
             if (formDialogs[i]) {
                 formDialogs[i].hide();
                 formDialogs[i] = null;
-                console.log(formDialogs[i]);
             }
         }
     }
@@ -701,7 +700,8 @@ exports.IDE = class extends CompileAndRun {
     }
 
     getEditor(path, filename) {
-        return this._editor.findEditor(path, filename);
+        let editor = this._editor;
+        return editor.findEditor(path, filename) || editor.findEditor((path === '') ? null : path, filename);
     }
 
     getCompileSilent() {
@@ -728,16 +728,18 @@ exports.IDE = class extends CompileAndRun {
         setTimeout(
             function() {
                 // Debug: Check for tabs...
-                let s     = editor.getValue();
-                let lines = s.split('\n');
-                s = '';
-                for (let i = 0; i < lines.length; i++) {
-                    s += lines[i].trimRight() + '\n';
-                }
-                if (s.indexOf('\t') !== -1) {
-                    console.log('Tabs!!!!!');
-                    console.log(s.split('\t').join('@@@@'));
-                    s = s.split('\t').join('    ');
+                let s = editor.getValue();
+                if (['.whlp', '.whl'].indexOf(path.getExtension(pathAndFilename.filename)) !== -1) {
+                    let lines = s.split('\n');
+                    s = '';
+                    for (let i = 0; i < lines.length; i++) {
+                        s += lines[i].trimRight() + '\n';
+                    }
+                    if (s.indexOf('\t') !== -1) {
+                        console.log('Tabs!!!!!');
+                        console.log(s.split('\t').join('@@@@'));
+                        s = s.split('\t').join('    ');
+                    }
                 }
                 callback(s);
             },
@@ -746,18 +748,41 @@ exports.IDE = class extends CompileAndRun {
         return true;
     }
 
+    getEditorFileData(filename, callback) {
+        let projectPath       = path.getPathAndFilename(this._projectFilename).path;
+        let documentPath      = this._settings.getDocumentPath();
+        let fullProjectPath1  = path.join(projectPath, filename);
+        let fullProjectPath2  = path.join(projectPath, path.getPathAndFilename(filename).filename);
+        let fullDocumentPath1 = path.join(documentPath, filename);
+        let fullDocumentPath2 = path.join(documentPath, path.getPathAndFilename(filename).filename);
+        if (this.getEditorFile(filename,          callback) ||
+            this.getEditorFile(fullProjectPath1,  callback) ||
+            this.getEditorFile(fullDocumentPath1, callback) ||
+            this.getEditorFile(fullProjectPath2,  callback) ||
+            this.getEditorFile(fullDocumentPath2, callback)) {
+            return;
+        }
+        callback(null);
+    }
+
     getFileData(filename, token, callback) {
-        let projectPath      = path.getPathAndFilename(this._projectFilename).path;
-        let documentPath     = this._settings.getDocumentPath();
-        let fullProjectPath  = path.join(projectPath, filename);
-        let fullDocumentPath = path.join(documentPath, filename);
-        if (this.getEditorFile(fullProjectPath, callback) || this.getEditorFile(fullDocumentPath, callback)) {
+        let projectPath       = path.getPathAndFilename(this._projectFilename).path;
+        let documentPath      = this._settings.getDocumentPath();
+        let fullProjectPath1  = path.join(projectPath, filename);
+        let fullProjectPath2  = path.join(projectPath, path.getPathAndFilename(filename).filename);
+        let fullDocumentPath1 = path.join(documentPath, filename);
+        let fullDocumentPath2 = path.join(documentPath, path.getPathAndFilename(filename).filename);
+        if (this.getEditorFile(filename,          callback) ||
+            this.getEditorFile(fullProjectPath1,  callback) ||
+            this.getEditorFile(fullDocumentPath1, callback) ||
+            this.getEditorFile(fullProjectPath2,  callback) ||
+            this.getEditorFile(fullDocumentPath2, callback)) {
             return;
         }
         getDataProvider().getData(
             'post',
             'ide/file',
-            {filename: [fullDocumentPath, fullProjectPath]},
+            {filename: [fullDocumentPath1, fullProjectPath1, fullDocumentPath2, fullProjectPath2]},
             (function(data) {
                 try {
                     data = JSON.parse(data);

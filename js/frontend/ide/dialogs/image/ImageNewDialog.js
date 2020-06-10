@@ -8,7 +8,7 @@ const ImageDialog = require('./ImageDialog').ImageDialog;
 
 exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
-        opts.applyTitle = 'Create new EV3 image';
+        opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
         this.createWindow(
             'image-dialog new-image',
