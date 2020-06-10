@@ -29,48 +29,49 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Procedures</h2>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <p>
-            A procedure allows you to execute a group of commands multiple times.
-            <br/>
-            <br/>
-            The declaration of a procedure starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
-            round open and close bracket.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProcedure</span><span class="operator">(</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Procedures</h2>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <p>
+                A procedure allows you to execute a group of commands multiple times.
+                <br/>
+                <br/>
+                The declaration of a procedure starts with the <i>proc</i> keyword followed by the name of the procedure followed by a
+                round open and close bracket.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProcedure</span><span class="operator">(</span><span class="operator">)</span>
     <span class="comment">; your commands go here...</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            Once you've declared your procedure you can call it like this:
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <p>
+                Once you've declared your procedure you can call it like this:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">myProcedure</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            Procedures can not be nested.
-        </p>
-        <a id="Themainprocedure"></a>
-        <h4 class="">The main procedure</h4>
-        <p>
-            Every program has to have at least one procedure which must be called "main".
-            The <i>main</i> procedure is called when the program starts.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <p>
+                Procedures can not be nested.
+            </p>
+            <a id="Themainprocedure"></a>
+            <h4 class="">The main procedure</h4>
+            <p>
+                Every program has to have at least one procedure which must be called "main".
+                The <i>main</i> procedure is called when the program starts.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="comment">; your commands go here...</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Parameters"></a>
-        <h4 class="">Parameters</h4>
-        <p>
-            A procedure can have parameters which can be declared after the procedure name.
-            The parameter type is followed by the name of the parameter.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProc</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+            <a id="Parameters"></a>
+            <h4 class="">Parameters</h4>
+            <p>
+                A procedure can have parameters which can be declared after the procedure name.
+                The parameter type is followed by the name of the parameter.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProc</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"The number is:"</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">n</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -79,10 +80,10 @@
     <span class="variable">myProc</span><span class="operator">(</span><span class="number">10</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            Multiple parameters are comma separated:
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProc</span><span class="operator">(</span><span class="type">number</span> <span class="variable">a</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">b</span><span class="operator">)</span>
+            <p>
+                Multiple parameters are comma separated:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myProc</span><span class="operator">(</span><span class="type">number</span> <span class="variable">a</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">b</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"Number A is:"</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"Number B is:"</span><span class="operator">)</span>
@@ -95,12 +96,12 @@
     <span class="variable">myProc</span><span class="operator">(</span><span class="variable">a</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Functions"></a>
-        <h4 class="">Functions</h4>
-        <p>
-            A procedure can return a value.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myFunc</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Functions"></a>
+            <h4 class="">Functions</h4>
+            <p>
+                A procedure can return a value.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">myFunc</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">ret</span> <span class="number">15</span>
 <span class="keyword">end</span>
 
@@ -109,16 +110,16 @@
     <span class="variable">n</span> <span class="operator">=</span> <span class="variable">myFunc</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Procedurepointers"></a>
-        <h4 class="">Procedure pointers</h4>
-        <p>
-            A procedure pointer can also be stored in a variable.
-            <br/>
-            <br/>
-            Once a procedure has been assigned then the following procedure which is assigned to the same variable must have the
-            same profile. The number of parameters and parameter types must be an exact match of the first assignment!
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="register">ptr</span>
+            <a id="Procedurepointers"></a>
+            <h4 class="">Procedure pointers</h4>
+            <p>
+                A procedure pointer can also be stored in a variable.
+                <br/>
+                <br/>
+                Once a procedure has been assigned then the following procedure which is assigned to the same variable must have the
+                same profile. The number of parameters and parameter types must be an exact match of the first assignment!
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="register">ptr</span>
 
 <span class="keyword">proc</span> <span class="variable">one</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"One"</span><span class="operator">)</span>
@@ -135,6 +136,11 @@
    <span class="register">ptr</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

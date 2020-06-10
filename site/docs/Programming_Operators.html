@@ -29,103 +29,104 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Operators</h2>
-        <a id="Operators"></a>
-        <h4 class="">Operators</h4>
-        <p>
-            With an operator you can tell the compiler to perform a mathematical or string operation to preduce a new value.
-            <br/>
-            The operators are applied in a specific order, the operator precedence.
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> Operator </th>
-                <th> Sign </th>
-                <th> Precedence </th>
-            </th>
-            <tr>
-                <td>Multiply</td>
-                <td>"*"</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>Divide</td>
-                <td>"/"</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Add</td>
-                <td>"+"</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Subtract</td>
-                <td>"-"</td>
-                <td>4</td>
-            </tr>
-        </table>
-        <p>
-            A multiplication is executed before a division, a division is executed before an addition, etc.
-        </p>
-        <a id="Assignment"></a>
-        <h4 class="">Assignment</h4>
-        <p>
-            With the assignment operator "=" you can assign a value, this operator is applicable to <i>numeric</i>, <i>string</i>, <i>record</i> and <i>array</i> types. 
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Operators</h2>
+            <a id="Operators"></a>
+            <h4 class="">Operators</h4>
+            <p>
+                With an operator you can tell the compiler to perform a mathematical or string operation to preduce a new value.
+                <br/>
+                The operators are applied in a specific order, the operator precedence.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Operator </th>
+                    <th> Sign </th>
+                    <th> Precedence </th>
+                </th>
+                <tr>
+                    <td>Multiply</td>
+                    <td>"*"</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Divide</td>
+                    <td>"/"</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Add</td>
+                    <td>"+"</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Subtract</td>
+                    <td>"-"</td>
+                    <td>4</td>
+                </tr>
+            </table>
+            <p>
+                A multiplication is executed before a division, a division is executed before an addition, etc.
+            </p>
+            <a id="Assignment"></a>
+            <h4 class="">Assignment</h4>
+            <p>
+                With the assignment operator "=" you can assign a value, this operator is applicable to <i>numeric</i>, <i>string</i>, <i>record</i> and <i>array</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">=</span> <span class="number">15</span> <span class="comment">; Assign the value 15 to the number n</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Addition"></a>
-        <h4 class="">Addition</h4>
-        <p>
-            With the addition operator "+" you can multiply a value, this operator is applicable to <i>numeric</i> and <i>string</i> types. 
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Addition"></a>
+            <h4 class="">Addition</h4>
+            <p>
+                With the addition operator "+" you can multiply a value, this operator is applicable to <i>numeric</i> and <i>string</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">+</span> <span class="number">15</span> <span class="comment">; Add the value 15 to the number n</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Subtraction"></a>
-        <h4 class="">Subtraction</h4>
-        <p>
-            With the subtraction operator "-" you can subtract a value, this operator is only applicable to <i>numeric</i> types. 
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Subtraction"></a>
+            <h4 class="">Subtraction</h4>
+            <p>
+                With the subtraction operator "-" you can subtract a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">-</span> <span class="number">15</span> <span class="comment">; Subtract 15 from the number n</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Multiplication"></a>
-        <h4 class="">Multiplication</h4>
-        <p>
-            With the multiplication operator "*" you can multiply a value, this operator is only applicable to <i>numeric</i> types. 
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Multiplication"></a>
+            <h4 class="">Multiplication</h4>
+            <p>
+                With the multiplication operator "*" you can multiply a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">*</span> <span class="number">15</span> <span class="comment">; Multiply n with 15</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Division"></a>
-        <h4 class="">Division</h4>
-        <p>
-            With the division operator "/" you can divide a value, this operator is only applicable to <i>numeric</i> types. 
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Division"></a>
+            <h4 class="">Division</h4>
+            <p>
+                With the division operator "/" you can divide a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">/</span> <span class="number">15</span> <span class="comment">; Divide n with 15</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Shortnotation"></a>
-        <h4 class="">Short notation</h4>
-        <p>
-            When the operation is applied to the same number as the source value then an operator can be written is a shorter manner.
-            <br/>
-            The following example shows the same operations as the examples above but in a shorter notation:
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Shortnotation"></a>
+            <h4 class="">Short notation</h4>
+            <p>
+                When the operation is applied to the same number as the source value then an operator can be written is a shorter manner.
+                <br/>
+                The following example shows the same operations as the examples above but in a shorter notation:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span> <span class="operator">+</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Add the value 15 to the number n</span>
   <span class="variable">n</span> <span class="operator">-</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Subtract 15 from the number n</span>
@@ -133,17 +134,22 @@
   <span class="variable">n</span> <span class="operator">/</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Divide n with 15</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Shortincreaseanddecrease"></a>
-        <h4 class="">Short increase and decrease</h4>
-        <p>
-            When increasing or decreasing with one there's an even shorter notation possible:
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Shortincreaseanddecrease"></a>
+            <h4 class="">Short increase and decrease</h4>
+            <p>
+                When increasing or decreasing with one there's an even shorter notation possible:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
   <span class="type">number</span> <span class="variable">n</span>
   <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span> <span class="comment">; Increase n with 1</span>
   <span class="variable">n</span><span class="operator">-</span><span class="operator">-</span> <span class="comment">; Decrease n with 1</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -29,171 +29,177 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>String</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thestringmodule."></a>
-            <div>The string module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 6<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_STRING</td><td>10</td></tr>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>String</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thestringmodule."></a>
+                <div>The string module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 6<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_STRING</td><td>10</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Systemmodulecalls."></a>
+                <div>System module calls.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 9<br/></div>
+                <table class="help-table constants">
+                    <tr><td>STRING_NUMBER_TO_STRING</td><td>3</td></tr>
+                    <tr><td>STRING_STRING_TO_NUMBER</td><td>4</td></tr>
+                    <tr><td>STRING_INDEX_OF</td><td>5</td></tr>
+                    <tr><td>STRING_SUB_STRING</td><td>6</td></tr>
+                    <tr><td>STRING_LENGTH</td><td>7</td></tr>
+                    <tr><td>STRING_EQUAL</td><td>8</td></tr>
+                    <tr><td>STRING_TO_UPPER_CASE</td><td>9</td></tr>
+                    <tr><td>STRING_TO_LOWER_CASE</td><td>10</td></tr>
+                    <tr><td>STRING_GET_CHAR_CODE_AT</td><td>11</td></tr>
+                    <tr><td>STRING_SET_CHAR_CODE_AT</td><td>12</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Convertanumbertoastring."></a>
+            <h5 class="title-with-source">numberToString</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 21<br/></div>
+            <p>Convert a number to a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">numberToString</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to convert.</td></tr>
+                <tr><td>s</td><td>string</td><td>The string in which the number is stored.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Systemmodulecalls."></a>
-            <div>System module calls.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 9<br/></div>
-            <table class="help-table constants">
-                <tr><td>STRING_NUMBER_TO_STRING</td><td>3</td></tr>
-                <tr><td>STRING_STRING_TO_NUMBER</td><td>4</td></tr>
-                <tr><td>STRING_INDEX_OF</td><td>5</td></tr>
-                <tr><td>STRING_SUB_STRING</td><td>6</td></tr>
-                <tr><td>STRING_LENGTH</td><td>7</td></tr>
-                <tr><td>STRING_EQUAL</td><td>8</td></tr>
-                <tr><td>STRING_TO_UPPER_CASE</td><td>9</td></tr>
-                <tr><td>STRING_TO_LOWER_CASE</td><td>10</td></tr>
-                <tr><td>STRING_GET_CHAR_CODE_AT</td><td>11</td></tr>
-                <tr><td>STRING_SET_CHAR_CODE_AT</td><td>12</td></tr>
+            <hr/>
+            <a id="Convertanumbertoastring."></a>
+            <h5 class="title-with-source">stringToNumber</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 29<br/></div>
+            <p>Convert a number to a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">stringToNumber</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td>The string to convert.</td></tr>
             </table>
-        </p>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Convertanumbertoastring."></a>
-        <h5 class="title-with-source">numberToString</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 21<br/></div>
-        <p>Convert a number to a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">numberToString</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <hr/>
+            <a id="Findonestringinanotherstring."></a>
+            <h5 class="title-with-source">indexOf</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 37<br/></div>
+            <p>Find one string in another string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">indexOf</span><span class="operator">(</span><span class="type">string</span> <span class="variable">haystack</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">needle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">startIndex</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>n</td><td>number</td><td>The number to convert.</td></tr>
-            <tr><td>s</td><td>string</td><td>The string in which the number is stored.</td></tr>
-        </table>
-        <hr/>
-        <a id="Convertanumbertoastring."></a>
-        <h5 class="title-with-source">stringToNumber</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 29<br/></div>
-        <p>Convert a number to a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">stringToNumber</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>haystack</td><td>string</td><td>The haystack string.</td></tr>
+                <tr><td>needle</td><td>string</td><td>The string to find in the haystack.</td></tr>
+                <tr><td>startIndex</td><td>number</td><td>From which character to start searching</td></tr>
+            </table>
+            <div><b>Return:</b> The position of the needle in the haystack, -1 if not found.<br/><br/></div>
+            <hr/>
+            <a id="Copypartofastringtoanotherstring."></a>
+            <h5 class="title-with-source">subString</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 47<br/></div>
+            <p>Copy part of a string to another string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">subString</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">start</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">length</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">result</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td>The string to convert.</td></tr>
-        </table>
-        <hr/>
-        <a id="Findonestringinanotherstring."></a>
-        <h5 class="title-with-source">indexOf</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 37<br/></div>
-        <p>Find one string in another string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">indexOf</span><span class="operator">(</span><span class="type">string</span> <span class="variable">haystack</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">needle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">startIndex</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td>The source string.</td></tr>
+                <tr><td>start</td><td>number</td><td>The start index in the source string.</td></tr>
+                <tr><td>length</td><td>number</td><td>The length of the part of the string to copy.</td></tr>
+                <tr><td>result</td><td>string</td><td>The result string.</td></tr>
+            </table>
+            <hr/>
+            <a id="Getthelengthofastring."></a>
+            <h5 class="title-with-source">length</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 57<br/></div>
+            <p>Get the length of a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">length</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>haystack</td><td>string</td><td>The haystack string.</td></tr>
-            <tr><td>needle</td><td>string</td><td>The string to find in the haystack.</td></tr>
-            <tr><td>startIndex</td><td>number</td><td>From which character to start searching</td></tr>
-        </table>
-        <div><b>Return:</b> The position of the needle in the haystack, -1 if not found.<br/><br/></div>
-        <hr/>
-        <a id="Copypartofastringtoanotherstring."></a>
-        <h5 class="title-with-source">subString</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 47<br/></div>
-        <p>Copy part of a string to another string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">subString</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">start</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">length</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">result</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td>The string.</td></tr>
+            </table>
+            <div><b>Return:</b> The length.<br/><br/></div>
+            <hr/>
+            <a id="Comparetwostrings."></a>
+            <h5 class="title-with-source">compare</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 65<br/></div>
+            <p>Compare two strings.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">compare</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s1</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s2</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td>The source string.</td></tr>
-            <tr><td>start</td><td>number</td><td>The start index in the source string.</td></tr>
-            <tr><td>length</td><td>number</td><td>The length of the part of the string to copy.</td></tr>
-            <tr><td>result</td><td>string</td><td>The result string.</td></tr>
-        </table>
-        <hr/>
-        <a id="Getthelengthofastring."></a>
-        <h5 class="title-with-source">length</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 57<br/></div>
-        <p>Get the length of a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">length</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s1</td><td>string</td><td>A string.</td></tr>
+                <tr><td>s2</td><td>string</td><td>A string.</td></tr>
+            </table>
+            <div><b>Return:</b> 0 if not equal.<br/><br/></div>
+            <hr/>
+            <a id="Uppercaseastring."></a>
+            <h5 class="title-with-source">toUpperCase</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 74<br/></div>
+            <p>Upper case a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">toUpperCase</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td>The string.</td></tr>
-        </table>
-        <div><b>Return:</b> The length.<br/><br/></div>
-        <hr/>
-        <a id="Comparetwostrings."></a>
-        <h5 class="title-with-source">compare</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 65<br/></div>
-        <p>Compare two strings.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">compare</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s1</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s2</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="Lowercaseastring."></a>
+            <h5 class="title-with-source">toLowerCase</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 80<br/></div>
+            <p>Lower case a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">toLowerCase</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s1</td><td>string</td><td>A string.</td></tr>
-            <tr><td>s2</td><td>string</td><td>A string.</td></tr>
-        </table>
-        <div><b>Return:</b> 0 if not equal.<br/><br/></div>
-        <hr/>
-        <a id="Uppercaseastring."></a>
-        <h5 class="title-with-source">toUpperCase</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 74<br/></div>
-        <p>Upper case a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">toUpperCase</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="Getacharcodefromanindexinastring."></a>
+            <h5 class="title-with-source">getCharCodeAt</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 86<br/></div>
+            <p>Get a char code from an index in a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getCharCodeAt</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">index</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Lowercaseastring."></a>
-        <h5 class="title-with-source">toLowerCase</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 80<br/></div>
-        <p>Lower case a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">toLowerCase</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td>The string.</td></tr>
+                <tr><td>index</td><td>number</td><td></td></tr>
+            </table>
+            <div><b>Return:</b> The char code.<br/><br/></div>
+            <hr/>
+            <a id="Setacharcodeinastring."></a>
+            <h5 class="title-with-source">setCharCodeAt</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 94<br/></div>
+            <p>Set a char code in a string.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setCharCodeAt</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">index</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">charCode</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Getacharcodefromanindexinastring."></a>
-        <h5 class="title-with-source">getCharCodeAt</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 86<br/></div>
-        <p>Get a char code from an index in a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getCharCodeAt</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">index</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td>The string.</td></tr>
-            <tr><td>index</td><td>number</td><td></td></tr>
-        </table>
-        <div><b>Return:</b> The char code.<br/><br/></div>
-        <hr/>
-        <a id="Setacharcodeinastring."></a>
-        <h5 class="title-with-source">setCharCodeAt</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/string.whl, line: 94<br/></div>
-        <p>Set a char code in a string.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setCharCodeAt</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">index</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">charCode</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>s</td><td>string</td><td>The string.</td></tr>
-            <tr><td>index</td><td>number</td><td>The index in the string.</td></tr>
-            <tr><td>charCode</td><td>number</td><td>The char code.</td></tr>
-        </table>
-        <hr/>
-    </div></div>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>s</td><td>string</td><td>The string.</td></tr>
+                <tr><td>index</td><td>number</td><td>The index in the string.</td></tr>
+                <tr><td>charCode</td><td>number</td><td>The char code.</td></tr>
+            </table>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

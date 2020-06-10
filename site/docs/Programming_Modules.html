@@ -29,76 +29,82 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Modules</h2>
-        <a id="Modules"></a>
-        <h4 class="">Modules</h4>
-        <p>
-            Modules provide a way to access standard functions from the brick like motors, sensors and the screen.
-            <br/>
-            <br/>
-            The module command can be used to call blocks from your wheel code.
-            <br/>
-            <br/>
-            Each module has a unique numeric id. The VM calls the module based on the id passed.
-            Within a module procedures can be called. The <i>addr</i> command can be used to let the <i>src</i> register point to
-            a block of data which can then be used by the module.
-            <br/>
-            <br/>
-            The following example shows a call to the <i>light</i> module, the <i>src</i> register is pointed to the <i>color</i> variable.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">light</span><span class="operator">(</span><span class="type">number</span> <span class="variable">color</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">pattern</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Modules</h2>
+            <a id="Modules"></a>
+            <h4 class="">Modules</h4>
+            <p>
+                Modules provide a way to access standard functions from the brick like motors, sensors and the screen.
+                <br/>
+                <br/>
+                The module command can be used to call blocks from your wheel code.
+                <br/>
+                <br/>
+                Each module has a unique numeric id. The VM calls the module based on the id passed.
+                Within a module procedures can be called. The <i>addr</i> command can be used to let the <i>src</i> register point to
+                a block of data which can then be used by the module.
+                <br/>
+                <br/>
+                The following example shows a call to the <i>light</i> module, the <i>src</i> register is pointed to the <i>color</i> variable.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">light</span><span class="operator">(</span><span class="type">number</span> <span class="variable">color</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">pattern</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">color</span>
     <span class="keyword">mod</span>  <span class="variable">MODULE_LIGHT</span><span class="operator">,</span> <span class="variable">LIGHT_UPDATE</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Standardmodules"></a>
-        <h4 class="">Standard modules</h4>
-        <p>
-            Wheel comes with the following standard modules:
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> Module   </th>
-                <th> Function                   </th>
-            </th>
-            <tr>
-                <td>Button</td>
-                <td>Read the EV3 buttons</td>
-            </tr>
-            <tr>
-                <td>File</td>
-                <td>Reading and writing files</td>
-            </tr>
-            <tr>
-                <td>Light</td>
-                <td>Control the EV3 light</td>
-            </tr>
-            <tr>
-                <td>Math</td>
-                <td>Math functions</td>
-            </tr>
-            <tr>
-                <td>Motor</td>
-                <td>Control EV3 motors</td>
-            </tr>
-            <tr>
-                <td>Screen</td>
-                <td>Drawing functions</td>
-            </tr>
-            <tr>
-                <td>Sensor</td>
-                <td>Read and configure sensors</td>
-            </tr>
-            <tr>
-                <td>Sound</td>
-                <td>Play tones or samples</td>
-            </tr>
-            <tr>
-                <td>Standard</td>
-                <td>Core functions</td>
-            </tr>
-        </table>
-    </div></div>
+            <a id="Standardmodules"></a>
+            <h4 class="">Standard modules</h4>
+            <p>
+                Wheel comes with the following standard modules:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Module   </th>
+                    <th> Function                   </th>
+                </th>
+                <tr>
+                    <td>Button</td>
+                    <td>Read the EV3 buttons</td>
+                </tr>
+                <tr>
+                    <td>File</td>
+                    <td>Reading and writing files</td>
+                </tr>
+                <tr>
+                    <td>Light</td>
+                    <td>Control the EV3 light</td>
+                </tr>
+                <tr>
+                    <td>Math</td>
+                    <td>Math functions</td>
+                </tr>
+                <tr>
+                    <td>Motor</td>
+                    <td>Control EV3 motors</td>
+                </tr>
+                <tr>
+                    <td>Screen</td>
+                    <td>Drawing functions</td>
+                </tr>
+                <tr>
+                    <td>Sensor</td>
+                    <td>Read and configure sensors</td>
+                </tr>
+                <tr>
+                    <td>Sound</td>
+                    <td>Play tones or samples</td>
+                </tr>
+                <tr>
+                    <td>Standard</td>
+                    <td>Core functions</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

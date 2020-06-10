@@ -29,80 +29,86 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Sound</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thesoundmodule."></a>
-            <div>The sound module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 7<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_SOUND</td><td>5</td></tr>
-            </table>
-        </p>
-        <p>
-            <a id="Modulecallsforplayingsounds"></a>
-            <div>Module calls for playing sounds<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 10<br/></div>
-            <table class="help-table constants">
-                <tr><td>SOUND_PLAY_TONE</td><td>0</td></tr>
-                <tr><td>SOUND_PLAY_SAMPLE</td><td>1</td></tr>
-            </table>
-        </p>
-        <p>
-            <a id="Tonefrequencies"></a>
-            <div>Tone frequencies<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 14<br/></div>
-            <table class="help-table constants">
-                <tr><td>TONE_C4</td><td>262</td></tr>
-                <tr><td>TONE_C4_CIS</td><td>277</td></tr>
-                <tr><td>TONE_D4</td><td>294</td></tr>
-                <tr><td>TONE_D4_DIS</td><td>311</td></tr>
-                <tr><td>TONE_E4</td><td>330</td></tr>
-                <tr><td>TONE_F4</td><td>349</td></tr>
-                <tr><td>TONE_F4_FIS</td><td>370</td></tr>
-                <tr><td>TONE_G4</td><td>392</td></tr>
-                <tr><td>TONE_G4_GIS</td><td>415</td></tr>
-                <tr><td>TONE_A4</td><td>440</td></tr>
-                <tr><td>TONE_A4_AIS</td><td>466</td></tr>
-                <tr><td>TONE_B4</td><td>494</td></tr>
-                <tr><td>TONE_C5</td><td>523</td></tr>
-                <tr><td>TONE_C5_CIS</td><td>554</td></tr>
-                <tr><td>TONE_D5</td><td>587</td></tr>
-                <tr><td>TONE_D5_DIS</td><td>622</td></tr>
-                <tr><td>TONE_E5</td><td>659</td></tr>
-            </table>
-        </p>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Playatone."></a>
-        <h5 class="title-with-source">playTone</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 33<br/></div>
-        <p>Play a tone.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">playTone</span><span class="operator">(</span><span class="type">number</span> <span class="variable">frequency</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">duration</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Sound</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thesoundmodule."></a>
+                <div>The sound module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 7<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_SOUND</td><td>5</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Modulecallsforplayingsounds"></a>
+                <div>Module calls for playing sounds<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 10<br/></div>
+                <table class="help-table constants">
+                    <tr><td>SOUND_PLAY_TONE</td><td>0</td></tr>
+                    <tr><td>SOUND_PLAY_SAMPLE</td><td>1</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Tonefrequencies"></a>
+                <div>Tone frequencies<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 14<br/></div>
+                <table class="help-table constants">
+                    <tr><td>TONE_C4</td><td>262</td></tr>
+                    <tr><td>TONE_C4_CIS</td><td>277</td></tr>
+                    <tr><td>TONE_D4</td><td>294</td></tr>
+                    <tr><td>TONE_D4_DIS</td><td>311</td></tr>
+                    <tr><td>TONE_E4</td><td>330</td></tr>
+                    <tr><td>TONE_F4</td><td>349</td></tr>
+                    <tr><td>TONE_F4_FIS</td><td>370</td></tr>
+                    <tr><td>TONE_G4</td><td>392</td></tr>
+                    <tr><td>TONE_G4_GIS</td><td>415</td></tr>
+                    <tr><td>TONE_A4</td><td>440</td></tr>
+                    <tr><td>TONE_A4_AIS</td><td>466</td></tr>
+                    <tr><td>TONE_B4</td><td>494</td></tr>
+                    <tr><td>TONE_C5</td><td>523</td></tr>
+                    <tr><td>TONE_C5_CIS</td><td>554</td></tr>
+                    <tr><td>TONE_D5</td><td>587</td></tr>
+                    <tr><td>TONE_D5_DIS</td><td>622</td></tr>
+                    <tr><td>TONE_E5</td><td>659</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Playatone."></a>
+            <h5 class="title-with-source">playTone</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 33<br/></div>
+            <p>Play a tone.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">playTone</span><span class="operator">(</span><span class="type">number</span> <span class="variable">frequency</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">duration</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>frequency</td><td>number</td><td>The frequency.</td></tr>
-            <tr><td>duration</td><td>number</td><td>The duration in milliseconds.</td></tr>
-            <tr><td>volume</td><td>number</td><td>The volume.</td></tr>
-        </table>
-        <hr/>
-        <a id="Playasample."></a>
-        <h5 class="title-with-source">playSample</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 42<br/></div>
-        <p>Play a sample.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">playSample</span><span class="operator">(</span><span class="type">string</span> <span class="variable">filename</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>frequency</td><td>number</td><td>The frequency.</td></tr>
+                <tr><td>duration</td><td>number</td><td>The duration in milliseconds.</td></tr>
+                <tr><td>volume</td><td>number</td><td>The volume.</td></tr>
+            </table>
+            <hr/>
+            <a id="Playasample."></a>
+            <h5 class="title-with-source">playSample</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sound.whl, line: 42<br/></div>
+            <p>Play a sample.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">playSample</span><span class="operator">(</span><span class="type">string</span> <span class="variable">filename</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>filename</td><td>string</td><td>The filename.</td></tr>
-            <tr><td>volume</td><td>number</td><td>The volume.</td></tr>
-        </table>
-        <hr/>
-    </div></div>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>filename</td><td>string</td><td>The filename.</td></tr>
+                <tr><td>volume</td><td>number</td><td>The volume.</td></tr>
+            </table>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

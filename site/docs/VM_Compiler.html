@@ -29,75 +29,81 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Compiler</h2>
-        <a id="Compiler"></a>
-        <h4 class="">Compiler</h4>
-        <p>
-            The Wheel compiler is the part of the program which converts the source code to for the virtual machine executable code.
-        </p>
-        <a id="Tokenizer"></a>
-        <h4 class="">Tokenizer</h4>
-        <p>
-            Each file which is loaded is first split into separate tokens, a token can consist of one
-            or more characters. For example the character "5" is a number token, "if", "proc", "to", etc. are keyword tokens.
-            <br/>
-            In the first step the main file is loaded and the <i>#include</i> statemens are checked,
-            when one or more <i>#include</i> statements are found then the same happens with the included files.
-            <br/>
-            <br/>
-            The PreProcssor also checks if there are <i>#define</i> statements.
-            It makes a list of all defined constants and their values.
-            <br/>
-            <br/>
-            When the preprocessor is finished then it checks all tokens against the list of defined constants and replaces the
-            define keys with their associated values.
-            After applying the defines the preprocessor returns a single list of tokens of all tokens of all included files in the project.
-        </p>
-        <a id="Syntaxvalidator"></a>
-        <h4 class="">Syntax validator</h4>
-        <p>
-            Before the compilation begins all tokens are checked with the syntax validator.
-            The syntax validator checks if a token is followed by a correct token within a scope
-            starting from the root scope.
-        </p>
-        <a id="Compiler"></a>
-        <h4 class="">Compiler</h4>
-        <p>
-            The token list is compiled with a <i>recursive descent parser</i>. This parser compiles the scope blocks.
-        </p>
-        <a id="Optimizations"></a>
-        <h4 class="">Optimizations</h4>
-        <p>
-            The compiler uses three methods of code optimization:
-        </p>
-        <a id="Deadcodeelimination"></a>
-        <h4 class="">Dead code elimination</h4>
-        <p>
-            The code is compiled twice.
-            When the code is compiled the first time then each procedure call is registered.
-            In de second compile pass all procedures which are not called will be omitted from the output.
-        </p>
-        <a id="Peepholeoptimization"></a>
-        <h4 class="">Peephole optimization</h4>
-        <p>
-            When a command is added to the output then it will be checked against the previously added command or
-            commands. Some commands can be merged into a single command, the peephole optimizer keeps working on
-            the last command until the last commands can no longer be optimized.
-        </p>
-        <a id="Numericexpressionoptimizer"></a>
-        <h4 class="">Numeric expression optimizer</h4>
-        <p>
-            When the compiler compiles a numeric expression such as <i>a = b + 5 + 7</i> then an expression tree is build.
-            Before generation code from this three all branches are checked for constants. If there are two adjacent leaf nodes
-            found with numeric constants then those two constant nodes will be replaced with a single node.
-            The example expression will be modified to the following expression: <i>a = b + 12</i>.
-        </p>
-        <a id="Output"></a>
-        <h4 class="">Output</h4>
-        <p>
-            These commands can be outputted in text or to a <i>.rtf</i> file. The <i>.rtf</i> format is a file format which can be read by the EV3.
-        </p>
-    </div></div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Compiler</h2>
+            <a id="Compiler"></a>
+            <h4 class="">Compiler</h4>
+            <p>
+                The Wheel compiler is the part of the program which converts the source code to for the virtual machine executable code.
+            </p>
+            <a id="Tokenizer"></a>
+            <h4 class="">Tokenizer</h4>
+            <p>
+                Each file which is loaded is first split into separate tokens, a token can consist of one
+                or more characters. For example the character "5" is a number token, "if", "proc", "to", etc. are keyword tokens.
+                <br/>
+                In the first step the main file is loaded and the <i>#include</i> statemens are checked,
+                when one or more <i>#include</i> statements are found then the same happens with the included files.
+                <br/>
+                <br/>
+                The PreProcssor also checks if there are <i>#define</i> statements.
+                It makes a list of all defined constants and their values.
+                <br/>
+                <br/>
+                When the preprocessor is finished then it checks all tokens against the list of defined constants and replaces the
+                define keys with their associated values.
+                After applying the defines the preprocessor returns a single list of tokens of all tokens of all included files in the project.
+            </p>
+            <a id="Syntaxvalidator"></a>
+            <h4 class="">Syntax validator</h4>
+            <p>
+                Before the compilation begins all tokens are checked with the syntax validator.
+                The syntax validator checks if a token is followed by a correct token within a scope
+                starting from the root scope.
+            </p>
+            <a id="Compiler"></a>
+            <h4 class="">Compiler</h4>
+            <p>
+                The token list is compiled with a <i>recursive descent parser</i>. This parser compiles the scope blocks.
+            </p>
+            <a id="Optimizations"></a>
+            <h4 class="">Optimizations</h4>
+            <p>
+                The compiler uses three methods of code optimization:
+            </p>
+            <a id="Deadcodeelimination"></a>
+            <h4 class="">Dead code elimination</h4>
+            <p>
+                The code is compiled twice.
+                When the code is compiled the first time then each procedure call is registered.
+                In de second compile pass all procedures which are not called will be omitted from the output.
+            </p>
+            <a id="Peepholeoptimization"></a>
+            <h4 class="">Peephole optimization</h4>
+            <p>
+                When a command is added to the output then it will be checked against the previously added command or
+                commands. Some commands can be merged into a single command, the peephole optimizer keeps working on
+                the last command until the last commands can no longer be optimized.
+            </p>
+            <a id="Numericexpressionoptimizer"></a>
+            <h4 class="">Numeric expression optimizer</h4>
+            <p>
+                When the compiler compiles a numeric expression such as <i>a = b + 5 + 7</i> then an expression tree is build.
+                Before generation code from this three all branches are checked for constants. If there are two adjacent leaf nodes
+                found with numeric constants then those two constant nodes will be replaced with a single node.
+                The example expression will be modified to the following expression: <i>a = b + 12</i>.
+            </p>
+            <a id="Output"></a>
+            <h4 class="">Output</h4>
+            <p>
+                These commands can be outputted in text or to a <i>.rtf</i> file. The <i>.rtf</i> format is a file format which can be read by the EV3.
+            </p>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

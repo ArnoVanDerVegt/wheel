@@ -29,119 +29,125 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Sensor multi</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thesensormultiplexermodule."></a>
-            <div>The sensor multiplexer module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 11<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_SENSOR_MULTI</td><td>33</td></tr>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Sensor multi</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thesensormultiplexermodule."></a>
+                <div>The sensor multiplexer module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 11<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_SENSOR_MULTI</td><td>33</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Thesensortypeforthemultiplexer.Settingthetypedisplaysthemultiplexerinthesimulatorforthegivenport."></a>
+                <div>The sensor type for the multiplexer. Setting the type displays the multiplexer in the simulator for the given port.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 14<br/></div>
+                <table class="help-table constants">
+                    <tr><td>SENSOR_TYPE_MULTIPLEXER</td><td>64</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Modulecallsforsensormultiplexerfunctions."></a>
+                <div>Module calls for sensor multiplexer functions.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 17<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_SENSOR_MULTI_SET_WRITE_OFFSET</td><td>0</td></tr>
+                    <tr><td>MODULE_SENSOR_MULTI_START</td><td>1</td></tr>
+                    <tr><td>MODULE_SENSOR_MULTI_STOP</td><td>2</td></tr>
+                    <tr><td>MODULE_SENSOR_MULTI_STOP_ALL</td><td>3</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Startupdatingtouchsensorsonthegivenport."></a>
+            <h5 class="title-with-source">msStart</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 29<br/></div>
+            <p>Start updating touch sensors on the given port.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart</span><span class="operator">(</span><span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>port</td><td>number</td><td></td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Thesensortypeforthemultiplexer.Settingthetypedisplaysthemultiplexerinthesimulatorforthegivenport."></a>
-            <div>The sensor type for the multiplexer. Setting the type displays the multiplexer in the simulator for the given port.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 14<br/></div>
-            <table class="help-table constants">
-                <tr><td>SENSOR_TYPE_MULTIPLEXER</td><td>64</td></tr>
+            <hr/>
+            <a id="Startupdatingtouchsensorsonport0."></a>
+            <h5 class="title-with-source">msStart0</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 40<br/></div>
+            <p>Start updating touch sensors on port 0.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart0</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Startupdatingtouchsensorsonport1."></a>
+            <h5 class="title-with-source">msStart1</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 47<br/></div>
+            <p>Start updating touch sensors on port 1.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart1</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Startupdatingtouchsensorsonport2."></a>
+            <h5 class="title-with-source">msStart2</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 54<br/></div>
+            <p>Start updating touch sensors on port 2.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart2</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Startupdatingtouchsensorsonport3."></a>
+            <h5 class="title-with-source">msStart3</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 61<br/></div>
+            <p>Start updating touch sensors on port 3.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart3</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Stopupdatingtouchsensorsonthegivenport."></a>
+            <h5 class="title-with-source">msStop</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 68<br/></div>
+            <p>Stop updating touch sensors on the given port.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop</span><span class="operator">(</span><span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>port</td><td>number</td><td></td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Modulecallsforsensormultiplexerfunctions."></a>
-            <div>Module calls for sensor multiplexer functions.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 17<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_SENSOR_MULTI_SET_WRITE_OFFSET</td><td>0</td></tr>
-                <tr><td>MODULE_SENSOR_MULTI_START</td><td>1</td></tr>
-                <tr><td>MODULE_SENSOR_MULTI_STOP</td><td>2</td></tr>
-                <tr><td>MODULE_SENSOR_MULTI_STOP_ALL</td><td>3</td></tr>
-            </table>
-        </p>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Startupdatingtouchsensorsonthegivenport."></a>
-        <h5 class="title-with-source">msStart</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 29<br/></div>
-        <p>Start updating touch sensors on the given port.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart</span><span class="operator">(</span><span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
+            <hr/>
+            <a id="Stopupdatingtouchsensorsonport0."></a>
+            <h5 class="title-with-source">msStop0</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 74<br/></div>
+            <p>Stop updating touch sensors on port 0.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop0</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>port</td><td>number</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Startupdatingtouchsensorsonport0."></a>
-        <h5 class="title-with-source">msStart0</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 40<br/></div>
-        <p>Start updating touch sensors on port 0.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart0</span><span class="operator">(</span><span class="operator">)</span>
+            <hr/>
+            <a id="Stopupdatingtouchsensorsonport1."></a>
+            <h5 class="title-with-source">msStop1</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 79<br/></div>
+            <p>Stop updating touch sensors on port 1.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop1</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <hr/>
-        <a id="Startupdatingtouchsensorsonport1."></a>
-        <h5 class="title-with-source">msStart1</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 47<br/></div>
-        <p>Start updating touch sensors on port 1.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart1</span><span class="operator">(</span><span class="operator">)</span>
+            <hr/>
+            <a id="Stopupdatingtouchsensorsonport2."></a>
+            <h5 class="title-with-source">msStop2</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 84<br/></div>
+            <p>Stop updating touch sensors on port 2.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop2</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <hr/>
-        <a id="Startupdatingtouchsensorsonport2."></a>
-        <h5 class="title-with-source">msStart2</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 54<br/></div>
-        <p>Start updating touch sensors on port 2.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart2</span><span class="operator">(</span><span class="operator">)</span>
+            <hr/>
+            <a id="Stopupdatingtouchsensorsonport3."></a>
+            <h5 class="title-with-source">msStop3</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 89<br/></div>
+            <p>Stop updating touch sensors on port 3.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop3</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <hr/>
-        <a id="Startupdatingtouchsensorsonport3."></a>
-        <h5 class="title-with-source">msStart3</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 61<br/></div>
-        <p>Start updating touch sensors on port 3.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStart3</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Stopupdatingtouchsensorsonthegivenport."></a>
-        <h5 class="title-with-source">msStop</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 68<br/></div>
-        <p>Stop updating touch sensors on the given port.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop</span><span class="operator">(</span><span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>port</td><td>number</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Stopupdatingtouchsensorsonport0."></a>
-        <h5 class="title-with-source">msStop0</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 74<br/></div>
-        <p>Stop updating touch sensors on port 0.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop0</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Stopupdatingtouchsensorsonport1."></a>
-        <h5 class="title-with-source">msStop1</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 79<br/></div>
-        <p>Stop updating touch sensors on port 1.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop1</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Stopupdatingtouchsensorsonport2."></a>
-        <h5 class="title-with-source">msStop2</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 84<br/></div>
-        <p>Stop updating touch sensors on port 2.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop2</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Stopupdatingtouchsensorsonport3."></a>
-        <h5 class="title-with-source">msStop3</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/sensorMulti.whl, line: 89<br/></div>
-        <p>Stop updating touch sensors on port 3.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">msStop3</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-    </div></div>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

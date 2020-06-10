@@ -29,20 +29,21 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Conditions</h2>
-        <a id="Conditions"></a>
-        <h4 class="">Conditions</h4>
-        <p>
-            With a <i>condition</i> statement you can execute a block of code if an expression evaluates as true.
-        </p>
-        <a id="If"></a>
-        <h4 class="">If</h4>
-        <p>
-            The <i>if</i> statement lets you compare two values,
-            when the condition is <i>true</i> then the code between <i>if</i>...<i>end</i> will be executed.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Conditions</h2>
+            <a id="Conditions"></a>
+            <h4 class="">Conditions</h4>
+            <p>
+                With a <i>condition</i> statement you can execute a block of code if an expression evaluates as true.
+            </p>
+            <a id="If"></a>
+            <h4 class="">If</h4>
+            <p>
+                The <i>if</i> statement lets you compare two values,
+                when the condition is <i>true</i> then the code between <i>if</i>...<i>end</i> will be executed.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">5</span>
 
     <span class="keyword">if</span> <span class="variable">n</span> <span class="operator">=</span><span class="operator">=</span> <span class="number">5</span>
@@ -50,13 +51,13 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Booleans"></a>
-        <h4 class="">Booleans</h4>
-        <p>
-            When there is no condition specified in an <i>if</i> statement then the value is compared to 0.
-            The condition evaluates as <i>true</i> when the value is not equal to 0.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Booleans"></a>
+            <h4 class="">Booleans</h4>
+            <p>
+                When there is no condition specified in an <i>if</i> statement then the value is compared to 0.
+                The condition evaluates as <i>true</i> when the value is not equal to 0.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">b</span>
 
     <span class="keyword">if</span> <span class="variable">b</span>
@@ -64,12 +65,12 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Not"></a>
-        <h4 class="">Not</h4>
-        <p>
-            It's also possible to execute a block if an expression evaluates to <i>false</i>, this can be done with the <i>not</i> keyword.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Not"></a>
+            <h4 class="">Not</h4>
+            <p>
+                It's also possible to execute a block if an expression evaluates to <i>false</i>, this can be done with the <i>not</i> keyword.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">b</span>
 
     <span class="keyword">if</span> <span class="keyword">not</span> <span class="variable">b</span>
@@ -77,12 +78,12 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Else"></a>
-        <h4 class="">Else</h4>
-        <p>
-            With the <i>else</i> statement you can execute a block of code if the <i>if</i> condition is false.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Else"></a>
+            <h4 class="">Else</h4>
+            <p>
+                With the <i>else</i> statement you can execute a block of code if the <i>if</i> condition is false.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
 
     <span class="keyword">if</span> <span class="variable">n</span> <span class="operator">=</span><span class="operator">=</span> <span class="number">4</span>
@@ -92,12 +93,12 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Logicaloperators"></a>
-        <h4 class="">Logical operators</h4>
-        <p>
-            With a <i>logical</i> operator you can compare multiple values, there are two <i>logical</i> operators: <i>and</i> and <i>or</i>.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Logicaloperators"></a>
+            <h4 class="">Logical operators</h4>
+            <p>
+                With a <i>logical</i> operator you can compare multiple values, there are two <i>logical</i> operators: <i>and</i> and <i>or</i>.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
     <span class="type">number</span> <span class="variable">b</span>
 
@@ -112,13 +113,13 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Select"></a>
-        <h4 class="">Select</h4>
-        <p>
-            With a <i>select</i> you can compare a value to one or more values to select a block of code to execute.
-            The code is executed until another case or the end of the <i>select</i> block is reached.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">printMessage</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+            <a id="Select"></a>
+            <h4 class="">Select</h4>
+            <p>
+                With a <i>select</i> you can compare a value to one or more values to select a block of code to execute.
+                The code is executed until another case or the end of the <i>select</i> block is reached.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">printMessage</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
 
     <span class="keyword">select</span> <span class="variable">n</span>
@@ -138,49 +139,54 @@
     <span class="variable">printMessage</span><span class="operator">(</span><span class="number">2</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Assemblyoperatorcommands"></a>
-        <h4 class="">Assembly operator commands</h4>
-        <p>
-            The operator is the oposite of the condition,
-            if the condition evaluates to <i>true</i> then the code is skipped with a jump.
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> Condition        </th>
-                <th> Sign  </th>
-                <th> Operator </th>
-            </th>
-            <tr>
-                <td>Not equal</td>
-                <td>!=</td>
-                <td>je</td>
-            </tr>
-            <tr>
-                <td>Equal</td>
-                <td>==</td>
-                <td>jne</td>
-            </tr>
-            <tr>
-                <td>Greater or equal</td>
-                <td>&gt;=</td>
-                <td>jl</td>
-            </tr>
-            <tr>
-                <td>Less or equal</td>
-                <td>&lt;=</td>
-                <td>jg</td>
-            </tr>
-            <tr>
-                <td>Greater</td>
-                <td>&gt;</td>
-                <td>jle</td>
-            </tr>
-            <tr>
-                <td>Less</td>
-                <td>&lt;</td>
-                <td>jge</td>
-            </tr>
-        </table>
-    </div></div>
+            <a id="Assemblyoperatorcommands"></a>
+            <h4 class="">Assembly operator commands</h4>
+            <p>
+                The operator is the oposite of the condition,
+                if the condition evaluates to <i>true</i> then the code is skipped with a jump.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Condition        </th>
+                    <th> Sign  </th>
+                    <th> Operator </th>
+                </th>
+                <tr>
+                    <td>Not equal</td>
+                    <td>!=</td>
+                    <td>je</td>
+                </tr>
+                <tr>
+                    <td>Equal</td>
+                    <td>==</td>
+                    <td>jne</td>
+                </tr>
+                <tr>
+                    <td>Greater or equal</td>
+                    <td>&gt;=</td>
+                    <td>jl</td>
+                </tr>
+                <tr>
+                    <td>Less or equal</td>
+                    <td>&lt;=</td>
+                    <td>jg</td>
+                </tr>
+                <tr>
+                    <td>Greater</td>
+                    <td>&gt;</td>
+                    <td>jle</td>
+                </tr>
+                <tr>
+                    <td>Less</td>
+                    <td>&lt;</td>
+                    <td>jge</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

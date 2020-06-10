@@ -131,9 +131,15 @@ exports.HelpDialog = class extends Dialog {
                     '            </ul>',
                     '        </div>',
                     '    </div>',
-                    '    <div class="content-center"><div class="' + className + '">',
-                    '    ' + lines,
-                    '    </div></div>',
+                    '    <div class="content-center">',
+                    '        <div class="' + className + '">',
+                    '        ' + lines,
+                    '        </div>',
+                    '        <div class="footer">',
+                    '            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>',
+                    '            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>',
+                    '        </div>',
+                    '    </div>',
                     '</body>',
                     '</html>'
                 ].join('\n');
@@ -150,7 +156,7 @@ exports.HelpDialog = class extends Dialog {
                     'ide/file-save',
                     {
                         filename: 'site/docs/' + filename,
-                        data:     getTemplateFile(file, helpBuilderText.buildFile({file: file}).join('\n    '), 'help-file')
+                        data:     getTemplateFile(file, helpBuilderText.buildFile({file: file}).join('\n        '), 'help-file')
                     },
                     processFile
                 );
@@ -164,7 +170,7 @@ exports.HelpDialog = class extends Dialog {
                     {
                         subject: 'Documentation'
                     },
-                    helpBuilderText.buildMainIndex(getHelpData(), this._documentPath).join('\n    '),
+                    helpBuilderText.buildMainIndex(getHelpData(), this._documentPath).join('\n        '),
                     'help-files'
                 )
             },

@@ -29,156 +29,157 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Screen</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thescreenmodule."></a>
-            <div>The screen module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 7<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_SCREEN</td><td>2</td></tr>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Screen</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thescreenmodule."></a>
+                <div>The screen module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 7<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_SCREEN</td><td>2</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Screensizeinformtion."></a>
+                <div>Screen size informtion.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 10<br/></div>
+                <table class="help-table constants">
+                    <tr><td>SCREEN_WIDTH</td><td>178</td></tr>
+                    <tr><td>SCREEN_HEIGHT</td><td>128</td></tr>
+                    <tr><td>SCREEN_CENTER_X</td><td>90</td></tr>
+                    <tr><td>SCREEN_CENTER_Y</td><td>64</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Modulecallstodrawonthescreen."></a>
+                <div>Module calls to draw on the screen.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 16<br/></div>
+                <table class="help-table constants">
+                    <tr><td>SCREEN_UPDATE</td><td>0</td></tr>
+                    <tr><td>SCREEN_CLEAR</td><td>1</td></tr>
+                    <tr><td>SCREEN_FILL</td><td>2</td></tr>
+                    <tr><td>SCREEN_FILL_COLOR</td><td>3</td></tr>
+                    <tr><td>SCREEN_TEXT_SIZE</td><td>4</td></tr>
+                    <tr><td>SCREEN_TEXT_ALIGN</td><td>5</td></tr>
+                    <tr><td>SCREEN_DRAW_PIXEL</td><td>6</td></tr>
+                    <tr><td>SCREEN_DRAW_NUMBER</td><td>7</td></tr>
+                    <tr><td>SCREEN_DRAW_TEXT</td><td>8</td></tr>
+                    <tr><td>SCREEN_DRAW_LINE</td><td>9</td></tr>
+                    <tr><td>SCREEN_DRAW_RECT</td><td>10</td></tr>
+                    <tr><td>SCREEN_DRAW_CIRCLE</td><td>11</td></tr>
+                    <tr><td>SCREEN_DRAW_IMAGE</td><td>12</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Thetwocolors."></a>
+                <div>The two colors.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 31<br/></div>
+                <table class="help-table constants">
+                    <tr><td>WHITE</td><td>0</td></tr>
+                    <tr><td>BLACK</td><td>1</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Therearethreetextsizessupported."></a>
+                <div>There are three text sizes supported.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 35<br/></div>
+                <table class="help-table constants">
+                    <tr><td>TEXT_SIZE_1</td><td>0</td></tr>
+                    <tr><td>TEXT_SIZE_2</td><td>1</td></tr>
+                    <tr><td>TEXT_SIZE_3</td><td>2</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Textalignmentoptions."></a>
+                <div>Text alignment options.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 40<br/></div>
+                <table class="help-table constants">
+                    <tr><td>TEXT_ALIGN_LEFT</td><td>0</td></tr>
+                    <tr><td>TEXT_ALIGN_CENTER</td><td>1</td></tr>
+                    <tr><td>TEXT_ALIGN_RIGHT</td><td>2</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Updatethescreen."></a>
+            <h5 class="title-with-source">updateScreen</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 45<br/></div>
+            <p>Update the screen.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">updateScreen</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Cleartheentirescreen."></a>
+            <h5 class="title-with-source">clearScreen</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 50<br/></div>
+            <p>Clear the entire screen.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">clearScreen</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Enableordisablefilling,usedfordrawingrectanglesorcircles."></a>
+            <h5 class="title-with-source">setFill</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 55<br/></div>
+            <p>Enable or disable filling, used for drawing rectangles or circles.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFill</span><span class="operator">(</span><span class="type">number</span> <span class="variable">fill</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>fill</td><td>number</td><td>Enable or disable: <i>TRUE</i> or <i>FALSE</i>.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Screensizeinformtion."></a>
-            <div>Screen size informtion.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 10<br/></div>
-            <table class="help-table constants">
-                <tr><td>SCREEN_WIDTH</td><td>178</td></tr>
-                <tr><td>SCREEN_HEIGHT</td><td>128</td></tr>
-                <tr><td>SCREEN_CENTER_X</td><td>90</td></tr>
-                <tr><td>SCREEN_CENTER_Y</td><td>64</td></tr>
+            <hr/>
+            <a id="Setthefillcolor."></a>
+            <h5 class="title-with-source">setFillColor</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 62<br/></div>
+            <p>Set the fill color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFillColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">fillColor</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>fillColor</td><td>number</td><td>The color: <i>WHITE</i> or <i>WHITE</i></td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Modulecallstodrawonthescreen."></a>
-            <div>Module calls to draw on the screen.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 16<br/></div>
-            <table class="help-table constants">
-                <tr><td>SCREEN_UPDATE</td><td>0</td></tr>
-                <tr><td>SCREEN_CLEAR</td><td>1</td></tr>
-                <tr><td>SCREEN_FILL</td><td>2</td></tr>
-                <tr><td>SCREEN_FILL_COLOR</td><td>3</td></tr>
-                <tr><td>SCREEN_TEXT_SIZE</td><td>4</td></tr>
-                <tr><td>SCREEN_TEXT_ALIGN</td><td>5</td></tr>
-                <tr><td>SCREEN_DRAW_PIXEL</td><td>6</td></tr>
-                <tr><td>SCREEN_DRAW_NUMBER</td><td>7</td></tr>
-                <tr><td>SCREEN_DRAW_TEXT</td><td>8</td></tr>
-                <tr><td>SCREEN_DRAW_LINE</td><td>9</td></tr>
-                <tr><td>SCREEN_DRAW_RECT</td><td>10</td></tr>
-                <tr><td>SCREEN_DRAW_CIRCLE</td><td>11</td></tr>
-                <tr><td>SCREEN_DRAW_IMAGE</td><td>12</td></tr>
+            <hr/>
+            <a id="Setthetextsize."></a>
+            <h5 class="title-with-source">setTextSize</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 69<br/></div>
+            <p>Set the text size.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setTextSize</span><span class="operator">(</span><span class="type">number</span> <span class="variable">textSize</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>textSize</td><td>number</td><td>The size: <i>TEXT_SIZE_1</i>, <i>TEXT_SIZE_2</i> or <i>TEXT_SIZE_3</i>.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Thetwocolors."></a>
-            <div>The two colors.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 31<br/></div>
-            <table class="help-table constants">
-                <tr><td>WHITE</td><td>0</td></tr>
-                <tr><td>BLACK</td><td>1</td></tr>
+            <hr/>
+            <a id="Setthetextalignment."></a>
+            <h5 class="title-with-source">setTextAlign</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 76<br/></div>
+            <p>Set the text alignment.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTextAlign</span><span class="operator">(</span><span class="type">number</span> <span class="variable">textAlign</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>textAlign</td><td>number</td><td>The size: <i>TEXT_ALIGN_LEFT</i>, <i>TEXT_ALIGN_CENTER</i> or <i>TEXT_ALIGN_RIGHT</i>.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Therearethreetextsizessupported."></a>
-            <div>There are three text sizes supported.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 35<br/></div>
-            <table class="help-table constants">
-                <tr><td>TEXT_SIZE_1</td><td>0</td></tr>
-                <tr><td>TEXT_SIZE_2</td><td>1</td></tr>
-                <tr><td>TEXT_SIZE_3</td><td>2</td></tr>
+            <hr/>
+            <a id="Drawapixelwiththecurrentfillcolor."></a>
+            <h5 class="title-with-source">drawPixel</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 83<br/></div>
+            <p>Draw a pixel with the current fill color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawPixel</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x coordinate, a value equal or greater than 0 and less than 178, values out of range are ignored.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y coordinate, a value equal or greater than 0 and less than 128, values out of range are ignored.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Textalignmentoptions."></a>
-            <div>Text alignment options.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 40<br/></div>
-            <table class="help-table constants">
-                <tr><td>TEXT_ALIGN_LEFT</td><td>0</td></tr>
-                <tr><td>TEXT_ALIGN_CENTER</td><td>1</td></tr>
-                <tr><td>TEXT_ALIGN_RIGHT</td><td>2</td></tr>
-            </table>
-        </p>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Updatethescreen."></a>
-        <h5 class="title-with-source">updateScreen</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 45<br/></div>
-        <p>Update the screen.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">updateScreen</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Cleartheentirescreen."></a>
-        <h5 class="title-with-source">clearScreen</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 50<br/></div>
-        <p>Clear the entire screen.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">clearScreen</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <hr/>
-        <a id="Enableordisablefilling,usedfordrawingrectanglesorcircles."></a>
-        <h5 class="title-with-source">setFill</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 55<br/></div>
-        <p>Enable or disable filling, used for drawing rectangles or circles.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFill</span><span class="operator">(</span><span class="type">number</span> <span class="variable">fill</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>fill</td><td>number</td><td>Enable or disable: <i>TRUE</i> or <i>FALSE</i>.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthefillcolor."></a>
-        <h5 class="title-with-source">setFillColor</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 62<br/></div>
-        <p>Set the fill color.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFillColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">fillColor</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>fillColor</td><td>number</td><td>The color: <i>WHITE</i> or <i>WHITE</i></td></tr>
-        </table>
-        <hr/>
-        <a id="Setthetextsize."></a>
-        <h5 class="title-with-source">setTextSize</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 69<br/></div>
-        <p>Set the text size.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setTextSize</span><span class="operator">(</span><span class="type">number</span> <span class="variable">textSize</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>textSize</td><td>number</td><td>The size: <i>TEXT_SIZE_1</i>, <i>TEXT_SIZE_2</i> or <i>TEXT_SIZE_3</i>.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthetextalignment."></a>
-        <h5 class="title-with-source">setTextAlign</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 76<br/></div>
-        <p>Set the text alignment.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTextAlign</span><span class="operator">(</span><span class="type">number</span> <span class="variable">textAlign</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>textAlign</td><td>number</td><td>The size: <i>TEXT_ALIGN_LEFT</i>, <i>TEXT_ALIGN_CENTER</i> or <i>TEXT_ALIGN_RIGHT</i>.</td></tr>
-        </table>
-        <hr/>
-        <a id="Drawapixelwiththecurrentfillcolor."></a>
-        <h5 class="title-with-source">drawPixel</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 83<br/></div>
-        <p>Draw a pixel with the current fill color.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawPixel</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x coordinate, a value equal or greater than 0 and less than 178, values out of range are ignored.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y coordinate, a value equal or greater than 0 and less than 128, values out of range are ignored.</td></tr>
-        </table>
-        <p>The following demo draws black and white pixels:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAAAQ0lEQVRIx2MIRQCtVXDQgFP8PwI0MCAAqeqpZc6gM3+w2TtU3DPU3Tlc3T/S/DXq39FwGA2f0XAb6uKj4TkazkSIAwDO5LLMEl7JwQAAAABJRU5ErkJggg=="/></p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Pixel demo"</span>
+            <p>The following demo draws black and white pixels:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAAAQ0lEQVRIx2MIRQCtVXDQgFP8PwI0MCAAqeqpZc6gM3+w2TtU3DPU3Tlc3T/S/DXq39FwGA2f0XAb6uKj4TkazkSIAwDO5LLMEl7JwQAAAABJRU5ErkJggg=="/></p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Pixel demo"</span>
 
 <span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
@@ -214,22 +215,22 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-        <a id="Drawnumberwiththecurrentfillcolor."></a>
-        <h5 class="title-with-source">drawNumber</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 91<br/></div>
-        <p>Draw number with the current fill color.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawNumber</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+            <hr/>
+            <a id="Drawnumberwiththecurrentfillcolor."></a>
+            <h5 class="title-with-source">drawNumber</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 91<br/></div>
+            <p>Draw number with the current fill color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawNumber</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x coordinate.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y coordinate.</td></tr>
-            <tr><td>n</td><td>number</td><td></td></tr>
-        </table>
-        <p>Draw a text with the active fill and color settings.</p>
-        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x coordinate.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y coordinate.</td></tr>
+                <tr><td>n</td><td>number</td><td></td></tr>
+            </table>
+            <p>Draw a text with the active fill and color settings.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -270,37 +271,37 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-        <a id="Drawtextwiththecurrentfillcolor."></a>
-        <h5 class="title-with-source">drawText</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 99<br/></div>
-        <p>Draw text with the current fill color.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
+            <hr/>
+            <a id="Drawtextwiththecurrentfillcolor."></a>
+            <h5 class="title-with-source">drawText</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 99<br/></div>
+            <p>Draw text with the current fill color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x coordinate.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y coordinate.</td></tr>
-            <tr><td>s</td><td>string</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Drawlinewiththecurrentfillcolor."></a>
-        <h5 class="title-with-source">drawLine</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 107<br/></div>
-        <p>Draw line with the current fill color.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawLine</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x1</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y1</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x2</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y2</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x coordinate.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y coordinate.</td></tr>
+                <tr><td>s</td><td>string</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="Drawlinewiththecurrentfillcolor."></a>
+            <h5 class="title-with-source">drawLine</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 107<br/></div>
+            <p>Draw line with the current fill color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawLine</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x1</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y1</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x2</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y2</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x1</td><td>number</td><td>The x coordinate of the start point.</td></tr>
-            <tr><td>y1</td><td>number</td><td>The y coordinate of the start point.</td></tr>
-            <tr><td>x2</td><td>number</td><td>The x coordinate of the end point.</td></tr>
-            <tr><td>y2</td><td>number</td><td>The y coordinate of the end point.</td></tr>
-        </table>
-        <p>The following demo creates black and white lines:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAADXUlEQVRIx2zUz2oTURQG8DO5cRIhmCwHkU5eQJh2lUXtTRFcufIFHBFcasWFLdrMDYXWRbEILgRt8wjudNlbAhZBydqNGQk4G3USZtEOvZnjuZM0/08gix+ZL9+cOwx4OBoBo6lCY5EbAsJFngE4W+RZgHiRWwDJIi8DIF/gVfL2vFMd8MJ5z+j+0bxndf/+vFvUP0rmvVwAUMjnvFoCQK8964ZwyRvBrGd0TwwvZr2QAeof9We9VND9VeLNeLlEQQF6xzMuXVPvudGadgOE3rMXnk17hkHaM7qY9kIWBHmg1LSXLAbkF+h5U152C/TNFTYaUy6FAxJayMNw0g0GkoIibEVnk25mGaR7jvrxpOetLDgAaKukNumlsgVS90Te4BPuSjftGWM7bE943RA3tCdeEIVjN0wTXN0fG3E/Grtp5WnLEk6xk9S2x54vOybk9J7pho/GXpLSSp9njjwI+cgfMPDpA3iKrThqj3y3wCiG/Bx7ST+4dCNPp25pRzvx1l5cuum4DvipB3TCh5eeXxdSxwCnoCD65w19eZdBBah/k4JiFR0P/Y51g7AIoDjdGL/VGvor16WYbtpTYevn84Ezpy4qw54e2lHwfuDZ2ybFbGrHPeyo+M/Ar+5bOWBCO12gvKVnXuorjluBVUgdD/AgOGykfrdZl0xqtxG7GMW/n6T+pmACnZYhwaeAoqptfdbOHjkVwweoUc4OYg8Pjr5qv/LuRC4BFAW5KmJi9zor2q8/vAY+sC6QY5fjr2T1Oye/ue/QCl4O+5zQBa2V++T3nsoNShl6ksNO79tHFMbf1zlBKUPHc67WlhmKzCdnk1LSYUgjsfllHUXuR1PYOqUoQaVv1pzaeovCfrzKfGKPoqhekZLs3TIXPJJKJ4hBftdA9M+rttj+YAPYavS/CdjIRK6OHR88H0ZOP2cqz3YSpTMmHRVsGHuoM6acRlCYDwuGfDTyf511cAQwDMMwbP+tMQH+vV7iyBTzff6f8/T8vW/nk3l2/nmvvO/y0Pwsb81n8tz8Z1+yX9vH7u/2vXwIT8qf8Cp8Kw/Hz/G2fA7Py//0xfplfbT+Wt+1H9On7d/09fp9PjB/qG/MT+Yz85/40vxqPjZ/q+/ND+eT88/46vx2Pjx/rm/Pz+fzABgptHASvhUIAAAAAElFTkSuQmCC"/></p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Line demo"</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x1</td><td>number</td><td>The x coordinate of the start point.</td></tr>
+                <tr><td>y1</td><td>number</td><td>The y coordinate of the start point.</td></tr>
+                <tr><td>x2</td><td>number</td><td>The x coordinate of the end point.</td></tr>
+                <tr><td>y2</td><td>number</td><td>The y coordinate of the end point.</td></tr>
+            </table>
+            <p>The following demo creates black and white lines:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAADXUlEQVRIx2zUz2oTURQG8DO5cRIhmCwHkU5eQJh2lUXtTRFcufIFHBFcasWFLdrMDYXWRbEILgRt8wjudNlbAhZBydqNGQk4G3USZtEOvZnjuZM0/08gix+ZL9+cOwx4OBoBo6lCY5EbAsJFngE4W+RZgHiRWwDJIi8DIF/gVfL2vFMd8MJ5z+j+0bxndf/+vFvUP0rmvVwAUMjnvFoCQK8964ZwyRvBrGd0TwwvZr2QAeof9We9VND9VeLNeLlEQQF6xzMuXVPvudGadgOE3rMXnk17hkHaM7qY9kIWBHmg1LSXLAbkF+h5U152C/TNFTYaUy6FAxJayMNw0g0GkoIibEVnk25mGaR7jvrxpOetLDgAaKukNumlsgVS90Te4BPuSjftGWM7bE943RA3tCdeEIVjN0wTXN0fG3E/Grtp5WnLEk6xk9S2x54vOybk9J7pho/GXpLSSp9njjwI+cgfMPDpA3iKrThqj3y3wCiG/Bx7ST+4dCNPp25pRzvx1l5cuum4DvipB3TCh5eeXxdSxwCnoCD65w19eZdBBah/k4JiFR0P/Y51g7AIoDjdGL/VGvor16WYbtpTYevn84Ezpy4qw54e2lHwfuDZ2ybFbGrHPeyo+M/Ar+5bOWBCO12gvKVnXuorjluBVUgdD/AgOGykfrdZl0xqtxG7GMW/n6T+pmACnZYhwaeAoqptfdbOHjkVwweoUc4OYg8Pjr5qv/LuRC4BFAW5KmJi9zor2q8/vAY+sC6QY5fjr2T1Oye/ue/QCl4O+5zQBa2V++T3nsoNShl6ksNO79tHFMbf1zlBKUPHc67WlhmKzCdnk1LSYUgjsfllHUXuR1PYOqUoQaVv1pzaeovCfrzKfGKPoqhekZLs3TIXPJJKJ4hBftdA9M+rttj+YAPYavS/CdjIRK6OHR88H0ZOP2cqz3YSpTMmHRVsGHuoM6acRlCYDwuGfDTyf511cAQwDMMwbP+tMQH+vV7iyBTzff6f8/T8vW/nk3l2/nmvvO/y0Pwsb81n8tz8Z1+yX9vH7u/2vXwIT8qf8Cp8Kw/Hz/G2fA7Py//0xfplfbT+Wt+1H9On7d/09fp9PjB/qG/MT+Yz85/40vxqPjZ/q+/ND+eT88/46vx2Pjx/rm/Pz+fzABgptHASvhUIAAAAAElFTkSuQmCC"/></p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Line demo"</span>
 
 <span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
@@ -329,23 +330,23 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-        <a id="Drawrectangewiththecurrentfillcolorandfillsetting."></a>
-        <h5 class="title-with-source">drawRect</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 117<br/></div>
-        <p>Draw rectange with the current fill color and fill setting.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawRect</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">width</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">height</span><span class="operator">)</span>
+            <hr/>
+            <a id="Drawrectangewiththecurrentfillcolorandfillsetting."></a>
+            <h5 class="title-with-source">drawRect</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 117<br/></div>
+            <p>Draw rectange with the current fill color and fill setting.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawRect</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">width</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">height</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x left position of the rectangle.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y top position of the rectangle.</td></tr>
-            <tr><td>width</td><td>number</td><td>The width.</td></tr>
-            <tr><td>height</td><td>number</td><td>The height.</td></tr>
-        </table>
-        <p>The following demo draws black and white rectangles with and without a border:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAAAWUlEQVRIx2P4jwANDAgwfMUPQBmM/xvkYSpA4veh7L+j4qPio+LDXhxbOTAYyytaiWOCeoSSA8NX3B7K/MdQ/wC5UlCAsplGxUfFR8WHvTi2cmAwlle0FQcA54uqzEY9ODcAAAAASUVORK5CYII="/></p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Rectangle demo"</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x left position of the rectangle.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y top position of the rectangle.</td></tr>
+                <tr><td>width</td><td>number</td><td>The width.</td></tr>
+                <tr><td>height</td><td>number</td><td>The height.</td></tr>
+            </table>
+            <p>The following demo draws black and white rectangles with and without a border:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAAAWUlEQVRIx2P4jwANDAgwfMUPQBmM/xvkYSpA4veh7L+j4qPio+LDXhxbOTAYyytaiWOCeoSSA8NX3B7K/MdQ/wC5UlCAsplGxUfFR8WHvTi2cmAwlle0FQcA54uqzEY9ODcAAAAASUVORK5CYII="/></p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Rectangle demo"</span>
 
 <span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
@@ -378,22 +379,22 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-        <a id="Drawcirclewiththecurrentfillcolorandfillsetting."></a>
-        <h5 class="title-with-source">drawCircle</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 127<br/></div>
-        <p>Draw circle with the current fill color and fill setting.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawCircle</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">radius</span><span class="operator">)</span>
+            <hr/>
+            <a id="Drawcirclewiththecurrentfillcolorandfillsetting."></a>
+            <h5 class="title-with-source">drawCircle</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 127<br/></div>
+            <p>Draw circle with the current fill color and fill setting.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">drawCircle</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">radius</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x horizontal center of the circle.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y vertical center of the circle.</td></tr>
-            <tr><td>radius</td><td>number</td><td>The radius.</td></tr>
-        </table>
-        <p>The following demo draws black and white circles with and without a border:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAABcElEQVRIx93US2oDMQwAUDsuZHbTZXfpEXqAgnuU3sS+SY9SQw/QI6S7LpNdAvNRI8mqFwYlhgSSGGysx/zwSDJQRjRl3JZH/+8+Fd+HL3EHY/FfGMV7gOIfAD67B0jicwD4RudwKz4d5o7d4tvEB5zsDiC/OF87sS/xseIbDNh7/AzxNQaBfEXfm/0TcKHY4zYd8YDBmpy2P7rPgGNDTtut7hMFO3RL2/15faBgQHe0He/DL3durf+xNU9a81DN5zr/9Xqp60uvx7p+1Xqv+4PeT+r+cwX98BSvRyiXpNvykNhRfPFlfBUfjSv+ZBw5J0Pxd2MSOoMXt9GYl+yYEuKLw+zYZ3yb+EOegXPTiXf5nsC5acUfMUDPuSn+jEtE55IL2d/yIrE/4pEeRk7ble7W0EeR07bXfUFBhz7zsZ/R+Sh5Dbnm3H345c6t9T+25klrHqr5XOe/Xi91fen1WNevWu91f9D7Sd1/rqAfnu5/VlqqzO8y17oAAAAASUVORK5CYII="/></p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Circle demo"</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x horizontal center of the circle.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y vertical center of the circle.</td></tr>
+                <tr><td>radius</td><td>number</td><td>The radius.</td></tr>
+            </table>
+            <p>The following demo draws black and white circles with and without a border:<br/><br/><br/><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAABcElEQVRIx93US2oDMQwAUDsuZHbTZXfpEXqAgnuU3sS+SY9SQw/QI6S7LpNdAvNRI8mqFwYlhgSSGGysx/zwSDJQRjRl3JZH/+8+Fd+HL3EHY/FfGMV7gOIfAD67B0jicwD4RudwKz4d5o7d4tvEB5zsDiC/OF87sS/xseIbDNh7/AzxNQaBfEXfm/0TcKHY4zYd8YDBmpy2P7rPgGNDTtut7hMFO3RL2/15faBgQHe0He/DL3durf+xNU9a81DN5zr/9Xqp60uvx7p+1Xqv+4PeT+r+cwX98BSvRyiXpNvykNhRfPFlfBUfjSv+ZBw5J0Pxd2MSOoMXt9GYl+yYEuKLw+zYZ3yb+EOegXPTiXf5nsC5acUfMUDPuSn+jEtE55IL2d/yIrE/4pEeRk7ble7W0EeR07bXfUFBhz7zsZ/R+Sh5Dbnm3H345c6t9T+25klrHqr5XOe/Xi91fen1WNevWu91f9D7Sd1/rqAfnu5/VlqqzO8y17oAAAAASUVORK5CYII="/></p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Circle demo"</span>
 
 <span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
@@ -426,21 +427,21 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-        <a id="Drawanimage."></a>
-        <h5 class="title-with-source">drawImage</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 136<br/></div>
-        <p>Draw an image.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">drawImage</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">filename</span><span class="operator">)</span>
+            <hr/>
+            <a id="Drawanimage."></a>
+            <h5 class="title-with-source">drawImage</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/screen.whl, line: 136<br/></div>
+            <p>Draw an image.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">drawImage</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">filename</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>x</td><td>number</td><td>The x left position.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y top position.</td></tr>
-            <tr><td>filename</td><td>string</td><td>The filename, should have an .rgf extension.</td></tr>
-        </table>
-        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>x</td><td>number</td><td>The x left position.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y top position.</td></tr>
+                <tr><td>filename</td><td>string</td><td>The filename, should have an .rgf extension.</td></tr>
+            </table>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
 
 <span class="meta">#image</span> <span class="string">"test.rgf"</span>
@@ -459,7 +460,12 @@
     <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <hr/>
-    </div></div>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

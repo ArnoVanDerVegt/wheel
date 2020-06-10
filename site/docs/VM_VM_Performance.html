@@ -29,29 +29,35 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>VM Performance</h2>
-        <a id="EV3VM"></a>
-        <h4 class="">EV3 VM</h4>
-        <p>
-            The VM running on the EV3 is programmed with LMS assembly.
-            It is a very thin layer between the Wheel code and the EV3 VM.
-            The performance of Wheel code should be about the same as code created from LabView.
-            <br/>
-            <br/>
-            The Wheel compiler adds code for runtime range checking, turning this feature off will improve the code performance
-            however it's a very usefull feature to make sure that your code is programmed correctly so keeping it turned on
-            during development is advised.
-        </p>
-        <a id="ApplicationVM"></a>
-        <h4 class="">Application VM</h4>
-        <p>
-            The VM in the application is implemented in JavaScript.
-            <br/>
-            <br/>
-            The application tries to read each motor position and sensor value every 20 milliseconds.
-            If the read does not respond withing 50ms then the sensor read is performed again in the next read loop.
-        </p>
-    </div></div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>VM Performance</h2>
+            <a id="EV3VM"></a>
+            <h4 class="">EV3 VM</h4>
+            <p>
+                The VM running on the EV3 is programmed with LMS assembly.
+                It is a very thin layer between the Wheel code and the EV3 VM.
+                The performance of Wheel code should be about the same as code created from LabView.
+                <br/>
+                <br/>
+                The Wheel compiler adds code for runtime range checking, turning this feature off will improve the code performance
+                however it's a very usefull feature to make sure that your code is programmed correctly so keeping it turned on
+                during development is advised.
+            </p>
+            <a id="ApplicationVM"></a>
+            <h4 class="">Application VM</h4>
+            <p>
+                The VM in the application is implemented in JavaScript.
+                <br/>
+                <br/>
+                The application tries to read each motor position and sensor value every 20 milliseconds.
+                If the read does not respond withing 50ms then the sensor read is performed again in the next read loop.
+            </p>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

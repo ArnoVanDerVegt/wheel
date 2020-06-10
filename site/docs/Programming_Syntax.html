@@ -29,62 +29,63 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Syntax</h2>
-        <a id="Syntax"></a>
-        <h4 class="">Syntax</h4>
-        <p>
-            The Wheel syntax looks a little bit like <i>Pascal</i> or <i>Basic</i>.
-        </p>
-        <a id="Onecommandperline"></a>
-        <h4 class="">One command per line</h4>
-        <p>
-            Wheel only allows a single command or expression per line, the only exception is an assignment of a record or array.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Syntax</h2>
+            <a id="Syntax"></a>
+            <h4 class="">Syntax</h4>
+            <p>
+                The Wheel syntax looks a little bit like <i>Pascal</i> or <i>Basic</i>.
+            </p>
+            <a id="Onecommandperline"></a>
+            <h4 class="">One command per line</h4>
+            <p>
+                Wheel only allows a single command or expression per line, the only exception is an assignment of a record or array.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            An example of a multi line variable assignment:
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <p>
+                An example of a multi line variable assignment:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span>
                <span class="operator">[</span><span class="number">90</span><span class="operator">,</span> <span class="number">100</span><span class="operator">,</span> <span class="number">110</span><span class="operator">]</span><span class="operator">,</span>
                <span class="operator">[</span><span class="number">220</span><span class="operator">,</span> <span class="number">230</span><span class="operator">,</span> <span class="number">240</span><span class="operator">]</span>
            <span class="operator">]</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Comments"></a>
-        <h4 class="">Comments</h4>
-        <p>
-            A semicolon (";") marks the beginning of a comment.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Comments"></a>
+            <h4 class="">Comments</h4>
+            <p>
+                A semicolon (";") marks the beginning of a comment.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="comment">; This is a comment and will not be executed...</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            Comments should be placed after the command or expression.
-            Wheel only supports single line comments, everything after the simicolon is seen as a comment text.
-        </p>
-        <a id="Codeblocks"></a>
-        <h4 class="">Code blocks</h4>
-        <p>
-            Wheel uses a block structure which begins with the declaration of the type or command followed by an
-            expression and closed with an <i>end</i> statement.
-        </p>
-        <pre class="wheel"><span class="variable">struct</span> <span class="variable">MyStruct</span>
+            <p>
+                Comments should be placed after the command or expression.
+                Wheel only supports single line comments, everything after the simicolon is seen as a comment text.
+            </p>
+            <a id="Codeblocks"></a>
+            <h4 class="">Code blocks</h4>
+            <p>
+                Wheel uses a block structure which begins with the declaration of the type or command followed by an
+                expression and closed with an <i>end</i> statement.
+            </p>
+            <pre class="wheel"><span class="variable">struct</span> <span class="variable">MyStruct</span>
     <span class="type">number</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            Some statements can be nested:
-        </p>
-        <pre class="wheel"><span class="variable">struct</span> <span class="variable">MyStruct</span>
+            <p>
+                Some statements can be nested:
+            </p>
+            <pre class="wheel"><span class="variable">struct</span> <span class="variable">MyStruct</span>
     <span class="type">number</span>
 <span class="keyword">end</span>
 
@@ -101,32 +102,37 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Numbers"></a>
-        <h4 class="">Numbers</h4>
-        <p>
-            Number values can be declared as decimal, binary or hexadecimal.
-        </p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+            <a id="Numbers"></a>
+            <h4 class="">Numbers</h4>
+            <p>
+                Number values can be declared as decimal, binary or hexadecimal.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
     <span class="type">number</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">0b01001</span>
     <span class="type">number</span> <span class="variable">h</span> <span class="operator">=</span> <span class="number">0x2AE</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Metacommands"></a>
-        <h4 class="">Meta commands</h4>
-        <p>
-            Meta commands are parsed by the preprocessor.
-            <br/>
-            A meta command starts with the "#" character and must be the first command on the line.
-            <br/>
-            With the <i>include</i> command you can import an existing file like a library.
-        </p>
-        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <a id="Metacommands"></a>
+            <h4 class="">Meta commands</h4>
+            <p>
+                Meta commands are parsed by the preprocessor.
+                <br/>
+                A meta command starts with the "#" character and must be the first command on the line.
+                <br/>
+                With the <i>include</i> command you can import an existing file like a library.
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">5</span><span class="operator">,</span> <span class="number">90</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

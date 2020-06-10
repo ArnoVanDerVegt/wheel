@@ -29,75 +29,76 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Loops</h2>
-        <a id="For..to,step"></a>
-        <h4 class="">For..to, step</h4>
-        <p>
-            With the <i>to</i> command, the counter is <i>increased</i> while the counter value is <i>less</i> or <i>equal</i> than the <i>to</i> value.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Loops</h2>
+            <a id="For..to,step"></a>
+            <h4 class="">For..to, step</h4>
+            <p>
+                With the <i>to</i> command, the counter is <i>increased</i> while the counter value is <i>less</i> or <i>equal</i> than the <i>to</i> value.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
 
 <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> <span class="keyword">to</span> <span class="number">10</span>
     <span class="comment">; This code block will be executed 10 times...</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            When the <i>step</i> values is added then the counter will be increased with the <i>step</i> value:
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+            <p>
+                When the <i>step</i> values is added then the counter will be increased with the <i>step</i> value:
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
 
 <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> <span class="keyword">to</span> <span class="number">10</span> <span class="keyword">step</span> <span class="number">2</span>
     <span class="comment">; This code block will be executed 5 times...</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="For..downto,step"></a>
-        <h4 class="">For..downto, step</h4>
-        <p>
-            With the <i>downto</i> command, the counter is <i>decreased</i> while the counter value is <i>greater</i> or <i>equal</i> than the <i>downto</i> value.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+            <a id="For..downto,step"></a>
+            <h4 class="">For..downto, step</h4>
+            <p>
+                With the <i>downto</i> command, the counter is <i>decreased</i> while the counter value is <i>greater</i> or <i>equal</i> than the <i>downto</i> value.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
 
 <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">7</span> <span class="keyword">downto</span> <span class="number">2</span>
     <span class="comment">; This code block will be executed 6 times...</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            The <i>downto</i> loop can also have a step value:
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
+            <p>
+                The <i>downto</i> loop can also have a step value:
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">i</span>
 
 <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">9</span> <span class="keyword">downto</span> <span class="number">0</span> <span class="keyword">step</span> <span class="number">3</span>
     <span class="comment">; This code block will be executed 4 times...</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Repeat"></a>
-        <h4 class="">Repeat</h4>
-        <p>
-            Repeat a block of code endless.
-        </p>
-        <pre class="wheel"><span class="keyword">repeat</span>
+            <a id="Repeat"></a>
+            <h4 class="">Repeat</h4>
+            <p>
+                Repeat a block of code endless.
+            </p>
+            <pre class="wheel"><span class="keyword">repeat</span>
     <span class="comment">; This code block will be repeated endless</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="While"></a>
-        <h4 class="">While</h4>
-        <p>
-            Repeat a block of code while a condition evaluates as true.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
+            <a id="While"></a>
+            <h4 class="">While</h4>
+            <p>
+                Repeat a block of code while a condition evaluates as true.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
 
 <span class="keyword">while</span> <span class="variable">n</span> <span class="operator">!</span><span class="operator">=</span> <span class="number">0</span>
     <span class="variable">n</span> <span class="operator">-</span><span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Break"></a>
-        <h4 class="">Break</h4>
-        <p>
-            With the <i>break</i> command you can jump out of the inner most loop.
-            You can use the <i>break</i> statement in combination with <i>for</i>, <i>repeat</i> and <i>while</i> loops.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
+            <a id="Break"></a>
+            <h4 class="">Break</h4>
+            <p>
+                With the <i>break</i> command you can jump out of the inner most loop.
+                You can use the <i>break</i> statement in combination with <i>for</i>, <i>repeat</i> and <i>while</i> loops.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
 
 <span class="keyword">repeat</span>
     <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span>
@@ -106,11 +107,11 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-        <p>
-            A <i>break</i> command can also refer to a specific loop. The code will continue after the <i>end</i> statement which
-            belongs to the <i>repeat</i> statement.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
+            <p>
+                A <i>break</i> command can also refer to a specific loop. The code will continue after the <i>end</i> statement which
+                belongs to the <i>repeat</i> statement.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>
 
 <span class="keyword">repeat</span> <span class="variable">main_loop</span>
     <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span>
@@ -122,6 +123,11 @@
     <span class="keyword">repeat</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

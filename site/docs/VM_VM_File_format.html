@@ -29,167 +29,173 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>VM File format</h2>
-        <a id="Rtf"></a>
-        <h4 class="">Rtf</h4>
-        <p>
-            The standard EV3 File block can read data from a <i>.rft</i> file.
-            The Wheel VM reads code from an <i>.rtf</i> file with the following structure:
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> Size </th>
-                <th> Expected value   </th>
-                <th> Description                  </th>
-            </th>
-            <tr>
-                <td>1</td>
-                <td>Wheel VM Program</td>
-                <td>Header</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#VERSION</td>
-                <td>Version marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>Version value</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#NAME</td>
-                <td>Program name</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Name</td>
-                <td>Program name value</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#STRINGS</td>
-                <td>String marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Count</td>
-                <td>Number of strings</td>
-            </tr>
-            <tr>
-                <td>[String data]</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#CONSTANTS</td>
-                <td>Constant marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Count</td>
-                <td>Number of constants</td>
-            </tr>
-            <tr>
-                <td>[Constant data]</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#HEAP</td>
-                <td>Heap marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Number value</td>
-                <td>Heap size value</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#REG_CODE</td>
-                <td>Code register value marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Number value</td>
-                <td>Initial code register value</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#REG_STACK</td>
-                <td>Stack register value marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Number value</td>
-                <td>Initial stack register value</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>#COMMANDS</td>
-                <td>Command values marker</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Count</td>
-                <td>Number of commands</td>
-            </tr>
-            <tr>
-                <td>[Command data]</td>
-            </tr>
-        </table>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            Each constant constists of at least three values: the offset, the number of constants followed by the constants.
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> Size </th>
-                <th> Expected value </th>
-                <th> Description                                       </th>
-            </th>
-            <tr>
-                <td>1</td>
-                <td>Offset</td>
-                <td>The absolute memory location of the constant data</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Count</td>
-                <td>Number of constants</td>
-            </tr>
-            <tr>
-                <td>[Constant values]</td>
-            </tr>
-        </table>
-        <a id="Commands"></a>
-        <h4 class="">Commands</h4>
-        <p>
-            A single command is stored as 3 numbers:
-        </p>
-        <p>
-            The first number is 8 bits, the 4 high bits store the command, followed by two bits for the first parameter type
-            followed by two bits for the second parameter type.
-            A command and parameter type information can be stored in a single byte.
-        </p>
-        <table class="help-table">
-            <tr>
-                <th> 8 </th>
-                <th> 7 </th>
-                <th> 6 </th>
-                <th> 5 </th>
-                <th> 4 </th>
-                <th> 3 </th>
-                <th> 2 </th>
-                <th> 1   </th>
-            </th>
-            <tr>
-                <td colspan="4"> Command</td>
-                <td colspan="2"> Type1</td>
-                <td colspan="2"> Type2</td>
-            </tr>
-        </table>
-    </div></div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>VM File format</h2>
+            <a id="Rtf"></a>
+            <h4 class="">Rtf</h4>
+            <p>
+                The standard EV3 File block can read data from a <i>.rft</i> file.
+                The Wheel VM reads code from an <i>.rtf</i> file with the following structure:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Size </th>
+                    <th> Expected value   </th>
+                    <th> Description                  </th>
+                </th>
+                <tr>
+                    <td>1</td>
+                    <td>Wheel VM Program</td>
+                    <td>Header</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#VERSION</td>
+                    <td>Version marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>Version value</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#NAME</td>
+                    <td>Program name</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Name</td>
+                    <td>Program name value</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#STRINGS</td>
+                    <td>String marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Count</td>
+                    <td>Number of strings</td>
+                </tr>
+                <tr>
+                    <td>[String data]</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#CONSTANTS</td>
+                    <td>Constant marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Count</td>
+                    <td>Number of constants</td>
+                </tr>
+                <tr>
+                    <td>[Constant data]</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#HEAP</td>
+                    <td>Heap marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Number value</td>
+                    <td>Heap size value</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#REG_CODE</td>
+                    <td>Code register value marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Number value</td>
+                    <td>Initial code register value</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#REG_STACK</td>
+                    <td>Stack register value marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Number value</td>
+                    <td>Initial stack register value</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>#COMMANDS</td>
+                    <td>Command values marker</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Count</td>
+                    <td>Number of commands</td>
+                </tr>
+                <tr>
+                    <td>[Command data]</td>
+                </tr>
+            </table>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                Each constant constists of at least three values: the offset, the number of constants followed by the constants.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Size </th>
+                    <th> Expected value </th>
+                    <th> Description                                       </th>
+                </th>
+                <tr>
+                    <td>1</td>
+                    <td>Offset</td>
+                    <td>The absolute memory location of the constant data</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Count</td>
+                    <td>Number of constants</td>
+                </tr>
+                <tr>
+                    <td>[Constant values]</td>
+                </tr>
+            </table>
+            <a id="Commands"></a>
+            <h4 class="">Commands</h4>
+            <p>
+                A single command is stored as 3 numbers:
+            </p>
+            <p>
+                The first number is 8 bits, the 4 high bits store the command, followed by two bits for the first parameter type
+                followed by two bits for the second parameter type.
+                A command and parameter type information can be stored in a single byte.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> 8 </th>
+                    <th> 7 </th>
+                    <th> 6 </th>
+                    <th> 5 </th>
+                    <th> 4 </th>
+                    <th> 3 </th>
+                    <th> 2 </th>
+                    <th> 1   </th>
+                </th>
+                <tr>
+                    <td colspan="4"> Command</td>
+                    <td colspan="2"> Type1</td>
+                    <td colspan="2"> Type2</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

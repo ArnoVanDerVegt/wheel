@@ -29,176 +29,182 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>System</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thesystemmodule."></a>
-            <div>The system module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 7<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_SYSTEM</td><td>9</td></tr>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>System</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thesystemmodule."></a>
+                <div>The system module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 7<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_SYSTEM</td><td>9</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Systemmodulecalls."></a>
+                <div>System module calls.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 10<br/></div>
+                <table class="help-table constants">
+                    <tr><td>SYSTEM_GET_BATTERY_VOLTAGE</td><td>0</td></tr>
+                    <tr><td>SYSTEM_GET_BATTERY_CURRENT</td><td>1</td></tr>
+                    <tr><td>SYSTEM_GET_BATTERY_LEVEL</td><td>2</td></tr>
+                    <tr><td>SYSTEM_GET_VOLUME</td><td>3</td></tr>
+                    <tr><td>SYSTEM_SET_VOLUME</td><td>4</td></tr>
+                    <tr><td>SYSTEM_GET_POWER_OFF_MINUTES</td><td>5</td></tr>
+                    <tr><td>SYSTEM_SET_POWER_OFF_MINUTES</td><td>6</td></tr>
+                    <tr><td>SYSTEM_GET_BRICKNAME</td><td>7</td></tr>
+                    <tr><td>SYSTEM_SET_BRICKNAME</td><td>8</td></tr>
+                    <tr><td>SYSTEM_GET_MEMORY_TOTAL</td><td>9</td></tr>
+                    <tr><td>SYSTEM_GET_MEMORY_FREE</td><td>10</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Getthebatteryvoltage."></a>
+            <h5 class="title-with-source">getBatteryVoltage</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 23<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the battery voltage.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryVoltage</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <div><b>Return:</b> The battery voltage.<br/><br/></div>
+            <hr/>
+            <a id="Getthebatterycurrent."></a>
+            <h5 class="title-with-source">getBatteryCurrent</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 30<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the battery current.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryCurrent</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <div><b>Return:</b> The battery current.<br/><br/></div>
+            <hr/>
+            <a id="Getthebatterylevel."></a>
+            <h5 class="title-with-source">getBatteryLevel</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 37<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+        <span class="p">P</span>
+            </div>
+            <p>Get the battery level.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryLevel</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <div><b>Return:</b> The battery level.<br/><br/></div>
+            <hr/>
+            <a id="Getthesoundvolume."></a>
+            <h5 class="title-with-source">getVolume</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 44<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the sound volume.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getVolume</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <div><b>Return:</b> The sound volume.<br/><br/></div>
+            <hr/>
+            <a id="Getthesoundvolume."></a>
+            <h5 class="title-with-source">setVolume</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 51<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the sound volume.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setVolume</span><span class="operator">(</span><span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>volume</td><td>number</td><td>The sound volume.</td></tr>
             </table>
-        </p>
-        <p>
-            <a id="Systemmodulecalls."></a>
-            <div>System module calls.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 10<br/></div>
-            <table class="help-table constants">
-                <tr><td>SYSTEM_GET_BATTERY_VOLTAGE</td><td>0</td></tr>
-                <tr><td>SYSTEM_GET_BATTERY_CURRENT</td><td>1</td></tr>
-                <tr><td>SYSTEM_GET_BATTERY_LEVEL</td><td>2</td></tr>
-                <tr><td>SYSTEM_GET_VOLUME</td><td>3</td></tr>
-                <tr><td>SYSTEM_SET_VOLUME</td><td>4</td></tr>
-                <tr><td>SYSTEM_GET_POWER_OFF_MINUTES</td><td>5</td></tr>
-                <tr><td>SYSTEM_SET_POWER_OFF_MINUTES</td><td>6</td></tr>
-                <tr><td>SYSTEM_GET_BRICKNAME</td><td>7</td></tr>
-                <tr><td>SYSTEM_SET_BRICKNAME</td><td>8</td></tr>
-                <tr><td>SYSTEM_GET_MEMORY_TOTAL</td><td>9</td></tr>
-                <tr><td>SYSTEM_GET_MEMORY_FREE</td><td>10</td></tr>
+            <hr/>
+            <a id="Getthepowerofftime."></a>
+            <h5 class="title-with-source">getPowerOffMinutes</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 59<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the power off time.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getPowerOffMinutes</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <div><b>Return:</b> The time in minutes.<br/><br/></div>
+            <hr/>
+            <a id="Setthepowerofftime."></a>
+            <h5 class="title-with-source">setPowerOffMinutes</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 66<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Set the power off time.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setPowerOffMinutes</span><span class="operator">(</span><span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>time</td><td>number</td><td>The power off time.</td></tr>
             </table>
-        </p>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Getthebatteryvoltage."></a>
-        <h5 class="title-with-source">getBatteryVoltage</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 23<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the battery voltage.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryVoltage</span><span class="operator">(</span><span class="operator">)</span>
+            <hr/>
+            <a id="Getthebrickname."></a>
+            <h5 class="title-with-source">getBrickName</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 74<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the brick name.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBrickName</span><span class="operator">(</span><span class="type">string</span> <span class="variable">brickName</span><span class="operator">)</span>
 </pre>
-        <div><b>Return:</b> The battery voltage.<br/><br/></div>
-        <hr/>
-        <a id="Getthebatterycurrent."></a>
-        <h5 class="title-with-source">getBatteryCurrent</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 30<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the battery current.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryCurrent</span><span class="operator">(</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>brickName</td><td>string</td><td>The brick name.</td></tr>
+            </table>
+            <hr/>
+            <a id="Setthebrickname."></a>
+            <h5 class="title-with-source">setBrickName</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 82<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Set the brick name.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBrickName</span><span class="operator">(</span><span class="type">string</span> <span class="variable">brickName</span><span class="operator">)</span>
 </pre>
-        <div><b>Return:</b> The battery current.<br/><br/></div>
-        <hr/>
-        <a id="Getthebatterylevel."></a>
-        <h5 class="title-with-source">getBatteryLevel</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 37<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-    <span class="p">P</span>
-        </div>
-        <p>Get the battery level.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBatteryLevel</span><span class="operator">(</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>brickName</td><td>string</td><td>The brick name.</td></tr>
+            </table>
+            <hr/>
+            <a id="GetthetotalavailablememoryinKB."></a>
+            <h5 class="title-with-source">getMemoryTotal</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 90<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the total available memory in KB.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getMemoryTotal</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <div><b>Return:</b> The battery level.<br/><br/></div>
-        <hr/>
-        <a id="Getthesoundvolume."></a>
-        <h5 class="title-with-source">getVolume</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 44<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the sound volume.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getVolume</span><span class="operator">(</span><span class="operator">)</span>
+            <div><b>Return:</b> The total memory.<br/><br/></div>
+            <hr/>
+            <a id="GetthefreeavailablememoryinKB."></a>
+            <h5 class="title-with-source">getMemoryFree</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 97<br/></div>
+            <div class="devices">
+        <span class="e">E</span>
+            </div>
+            <p>Get the free available memory in KB.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getMemoryFree</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-        <div><b>Return:</b> The sound volume.<br/><br/></div>
-        <hr/>
-        <a id="Getthesoundvolume."></a>
-        <h5 class="title-with-source">setVolume</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 51<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
+            <div><b>Return:</b> The free memory.<br/><br/></div>
+            <hr/>
         </div>
-        <p>Get the sound volume.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setVolume</span><span class="operator">(</span><span class="type">number</span> <span class="variable">volume</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>volume</td><td>number</td><td>The sound volume.</td></tr>
-        </table>
-        <hr/>
-        <a id="Getthepowerofftime."></a>
-        <h5 class="title-with-source">getPowerOffMinutes</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 59<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
         </div>
-        <p>Get the power off time.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getPowerOffMinutes</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <div><b>Return:</b> The time in minutes.<br/><br/></div>
-        <hr/>
-        <a id="Setthepowerofftime."></a>
-        <h5 class="title-with-source">setPowerOffMinutes</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 66<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Set the power off time.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setPowerOffMinutes</span><span class="operator">(</span><span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>time</td><td>number</td><td>The power off time.</td></tr>
-        </table>
-        <hr/>
-        <a id="Getthebrickname."></a>
-        <h5 class="title-with-source">getBrickName</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 74<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the brick name.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getBrickName</span><span class="operator">(</span><span class="type">string</span> <span class="variable">brickName</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>brickName</td><td>string</td><td>The brick name.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthebrickname."></a>
-        <h5 class="title-with-source">setBrickName</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 82<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Set the brick name.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBrickName</span><span class="operator">(</span><span class="type">string</span> <span class="variable">brickName</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>brickName</td><td>string</td><td>The brick name.</td></tr>
-        </table>
-        <hr/>
-        <a id="GetthetotalavailablememoryinKB."></a>
-        <h5 class="title-with-source">getMemoryTotal</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 90<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the total available memory in KB.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getMemoryTotal</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <div><b>Return:</b> The total memory.<br/><br/></div>
-        <hr/>
-        <a id="GetthefreeavailablememoryinKB."></a>
-        <h5 class="title-with-source">getMemoryFree</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/system.whl, line: 97<br/></div>
-        <div class="devices">
-    <span class="e">E</span>
-        </div>
-        <p>Get the free available memory in KB.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getMemoryFree</span><span class="operator">(</span><span class="operator">)</span>
-</pre>
-        <div><b>Return:</b> The free memory.<br/><br/></div>
-        <hr/>
-    </div></div>
+    </div>
 </body>
 </html>

@@ -29,195 +29,201 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Component/Checkbox</h2>
-        <a id="Constants"></a>
-        <h4 class="">Constants</h4>
-        <p>
-            <a id="Thecheckboxcomponentmodule."></a>
-            <div>The checkbox component module.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 8<br/></div>
-            <table class="help-table constants">
-                <tr><td>MODULE_COMPONENT_CHECKBOX</td><td>68</td></tr>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Component/Checkbox</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Thecheckboxcomponentmodule."></a>
+                <div>The checkbox component module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 8<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_COMPONENT_CHECKBOX</td><td>68</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Modulecallsforbuttoncomponentfunctions."></a>
+                <div>Module calls for button component functions.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 11<br/></div>
+                <table class="help-table constants">
+                    <tr><td>CHECKBOX_COMPONENT_SET_TAB_INDEX</td><td>0</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_HIDDEN</td><td>1</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_DISABLED</td><td>2</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_X</td><td>3</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_Y</td><td>4</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_TEXT</td><td>5</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_HINT</td><td>6</td></tr>
+                    <tr><td>CHECKBOX_COMPONENT_SET_CHECKED</td><td>7</td></tr>
+                </table>
+            </p>
+            <a id="Events"></a>
+            <h4 class="">Events</h4>
+        <a id="Calledwhenanothercheckboxisselected."></a>
+            <h5 class="title-with-source">onChange</h5>
+            <p>Called when an other checkbox is selected.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onChange</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
+                </tr>
+                <tr>
+                    <th>value</th><th>number</th>`TRUE` when checked, `FALSE` if not checked.</th>
+                </tr>
             </table>
-        </p>
-        <p>
-            <a id="Modulecallsforbuttoncomponentfunctions."></a>
-            <div>Module calls for button component functions.<br/></div>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 11<br/></div>
-            <table class="help-table constants">
-                <tr><td>CHECKBOX_COMPONENT_SET_TAB_INDEX</td><td>0</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_HIDDEN</td><td>1</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_DISABLED</td><td>2</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_X</td><td>3</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_Y</td><td>4</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_TEXT</td><td>5</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_HINT</td><td>6</td></tr>
-                <tr><td>CHECKBOX_COMPONENT_SET_CHECKED</td><td>7</td></tr>
+        <a id="Calledwhenthecheckboxisfocussed."></a>
+            <h5 class="title-with-source">onFocus</h5>
+            <p>Called when the checkbox is focussed.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onFocus</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
+                </tr>
             </table>
-        </p>
-        <a id="Events"></a>
-        <h4 class="">Events</h4>
-    <a id="Calledwhenanothercheckboxisselected."></a>
-        <h5 class="title-with-source">onChange</h5>
-        <p>Called when an other checkbox is selected.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onChange</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+        <a id="Calledwhenthecheckboxloosesfocus."></a>
+            <h5 class="title-with-source">onBlur</h5>
+            <p>Called when the checkbox looses focus.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onBlur</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr>
-                <th>Name</th><th>Type</th>Description</th>
-            </tr>
-            <tr>
-                <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
-            </tr>
-            <tr>
-                <th>value</th><th>number</th>`TRUE` when checked, `FALSE` if not checked.</th>
-            </tr>
-        </table>
-    <a id="Calledwhenthecheckboxisfocussed."></a>
-        <h5 class="title-with-source">onFocus</h5>
-        <p>Called when the checkbox is focussed.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onFocus</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr>
-                <th>Name</th><th>Type</th>Description</th>
-            </tr>
-            <tr>
-                <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
-            </tr>
-        </table>
-    <a id="Calledwhenthecheckboxloosesfocus."></a>
-        <h5 class="title-with-source">onBlur</h5>
-        <p>Called when the checkbox looses focus.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onBlur</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr>
-                <th>Name</th><th>Type</th>Description</th>
-            </tr>
-            <tr>
-                <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
-            </tr>
-        </table>
-    <hr/>
-        <a id="Procedures"></a>
-        <h4 class="">Procedures</h4>
-        <a id="Setthetabindexofthecheckbox."></a>
-        <h5 class="title-with-source">setTabIndex</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 31<br/></div>
-        <p>Set the tab index of the checkbox.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTabIndex</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">tabIndex</span><span class="operator">)</span>
-</pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>tabIndex</td><td>number</td><td>The tab index.</td></tr>
-        </table>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the checkbox.</th>
+                </tr>
+            </table>
         <hr/>
-        <a id="Hidethecheckbox."></a>
-        <h5 class="title-with-source">setHidden</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 40<br/></div>
-        <p>Hide the checkbox.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">tabIndex</span><span class="operator">)</span>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Setthetabindexofthecheckbox."></a>
+            <h5 class="title-with-source">setTabIndex</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 31<br/></div>
+            <p>Set the tab index of the checkbox.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTabIndex</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">tabIndex</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>tabIndex</td><td>number</td><td></td></tr>
-        </table>
-        <hr/>
-        <a id="Disablethecheckbox."></a>
-        <h5 class="title-with-source">setDisabled</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 49<br/></div>
-        <p>Disable the checkbox.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>tabIndex</td><td>number</td><td>The tab index.</td></tr>
+            </table>
+            <hr/>
+            <a id="Hidethecheckbox."></a>
+            <h5 class="title-with-source">setHidden</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 40<br/></div>
+            <p>Hide the checkbox.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">tabIndex</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>disabled</td><td>number</td><td>Disabled <i>TRUE</i> or <i>FALSE</i>.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthexpositionofthecheckbox."></a>
-        <h5 class="title-with-source">setX</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 58<br/></div>
-        <p>Set the x position of the checkbox.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>tabIndex</td><td>number</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="Disablethecheckbox."></a>
+            <h5 class="title-with-source">setDisabled</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 49<br/></div>
+            <p>Disable the checkbox.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>x</td><td>number</td><td>The x position in pixels.</td></tr>
-        </table>
-        <hr/>
-        <a id="Settheypositionofthecheckbox."></a>
-        <h5 class="title-with-source">setY</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 67<br/></div>
-        <p>Set the y position of the checkbox.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>disabled</td><td>number</td><td>Disabled <i>TRUE</i> or <i>FALSE</i>.</td></tr>
+            </table>
+            <hr/>
+            <a id="Setthexpositionofthecheckbox."></a>
+            <h5 class="title-with-source">setX</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 58<br/></div>
+            <p>Set the x position of the checkbox.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>y</td><td>number</td><td>The y position in pixels.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthecheckboxtext."></a>
-        <h5 class="title-with-source">setText</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 76<br/></div>
-        <p>Set the checkbox text.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>x</td><td>number</td><td>The x position in pixels.</td></tr>
+            </table>
+            <hr/>
+            <a id="Settheypositionofthecheckbox."></a>
+            <h5 class="title-with-source">setY</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 67<br/></div>
+            <p>Set the y position of the checkbox.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>text</td><td>string</td><td>The checkbox label text.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthecheckboxhint."></a>
-        <h5 class="title-with-source">setHint</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 85<br/></div>
-        <p>Set the checkbox hint.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHint</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">hint</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>y</td><td>number</td><td>The y position in pixels.</td></tr>
+            </table>
+            <hr/>
+            <a id="Setthecheckboxtext."></a>
+            <h5 class="title-with-source">setText</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 76<br/></div>
+            <p>Set the checkbox text.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>hint</td><td>string</td><td>The checkbox hint.</td></tr>
-        </table>
-        <hr/>
-        <a id="Setthecheckboxvalue."></a>
-        <h5 class="title-with-source">setChecked</h5>
-        <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 94<br/></div>
-        <p>Set the checkbox value.</p>
-        <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setChecked</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">checked</span><span class="operator">)</span>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>text</td><td>string</td><td>The checkbox label text.</td></tr>
+            </table>
+            <hr/>
+            <a id="Setthecheckboxhint."></a>
+            <h5 class="title-with-source">setHint</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 85<br/></div>
+            <p>Set the checkbox hint.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHint</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">hint</span><span class="operator">)</span>
 </pre>
-        <div>Parameters:<br/></div>
-        <table class="help-table">
-            <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-            <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
-            <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-            <tr><td>checked</td><td>number</td><td></td></tr>
-        </table>
-        <hr/>
-    </div></div>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>hint</td><td>string</td><td>The checkbox hint.</td></tr>
+            </table>
+            <hr/>
+            <a id="Setthecheckboxvalue."></a>
+            <h5 class="title-with-source">setChecked</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 94<br/></div>
+            <p>Set the checkbox value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setChecked</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">checked</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>checked</td><td>number</td><td></td></tr>
+            </table>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

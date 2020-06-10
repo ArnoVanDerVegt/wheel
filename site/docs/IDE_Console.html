@@ -29,21 +29,22 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Console</h2>
-        <a id="Console"></a>
-        <h4 class="">Console</h4>
-        <p>
-            The console displays the program status. The following messages can appear:
-        </p>
-        <a id="Logging"></a>
-        <h4 class="">Logging</h4>
-        <p>
-            You can also log your own messages in the console from your program.
-            There are three methods defined in the <i>Standard</i> module: <i>printN</i>, <i>printS</i> and <i>clearConsole</i>.
-            The <i>printN</i> procedure prints a number, the <i>printS</i> procedure prints a string and <i>clearConsole</i> empties the console.
-        </p>
-        <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Console</h2>
+            <a id="Console"></a>
+            <h4 class="">Console</h4>
+            <p>
+                The console displays the program status. The following messages can appear:
+            </p>
+            <a id="Logging"></a>
+            <h4 class="">Logging</h4>
+            <p>
+                You can also log your own messages in the console from your program.
+                There are three methods defined in the <i>Standard</i> module: <i>printN</i>, <i>printS</i> and <i>clearConsole</i>.
+                The <i>printN</i> procedure prints a number, the <i>printS</i> procedure prints a string and <i>clearConsole</i> empties the console.
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"Hello console"</span><span class="operator">)</span> <span class="comment">; Print a string...</span>
@@ -53,6 +54,11 @@
     <span class="proc">printN</span><span class="operator">(</span><span class="number">2</span><span class="operator">)</span> <span class="comment">; Print a number</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>

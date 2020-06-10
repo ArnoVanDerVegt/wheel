@@ -29,49 +29,50 @@
             </ul>
         </div>
     </div>
-    <div class="content-center"><div class="help-file">
-        <h2>Variables</h2>
-        <a id="Variables"></a>
-        <h4 class="">Variables</h4>
-        <p>
-            The wheel VM only uses one primitive data type: <i>number</i>.
-            <br/>
-            <br/>
-            Wheel supports three other data types: <i>string</i>, <i>record</i>, <i>array</i> and <i>pointer</i>.
-            <br/>
-            <br/>
-            These types are all based on the primitive <i>number</i> type.
-            <br/>
-            A variable is declared by the type followed by the name of the variable.
-        </p>
-        <a id="Numbertype"></a>
-        <h4 class="">Number type</h4>
-        <p>
-            A <i>number</i> variable can be used for integers and floating point values.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Variables</h2>
+            <a id="Variables"></a>
+            <h4 class="">Variables</h4>
+            <p>
+                The wheel VM only uses one primitive data type: <i>number</i>.
+                <br/>
+                <br/>
+                Wheel supports three other data types: <i>string</i>, <i>record</i>, <i>array</i> and <i>pointer</i>.
+                <br/>
+                <br/>
+                These types are all based on the primitive <i>number</i> type.
+                <br/>
+                A variable is declared by the type followed by the name of the variable.
+            </p>
+            <a id="Numbertype"></a>
+            <h4 class="">Number type</h4>
+            <p>
+                A <i>number</i> variable can be used for integers and floating point values.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span>
 </pre>
-        <a id="Stringtype"></a>
-        <h4 class="">String type</h4>
-        <p>
-            A <i>string</i> value is a <i>number</i> representing the index in a string list contained in the program file.
-        </p>
-        <pre class="wheel"><span class="type">string</span> <span class="variable">n</span>
+            <a id="Stringtype"></a>
+            <h4 class="">String type</h4>
+            <p>
+                A <i>string</i> value is a <i>number</i> representing the index in a string list contained in the program file.
+            </p>
+            <pre class="wheel"><span class="type">string</span> <span class="variable">n</span>
 </pre>
-        <a id="Array"></a>
-        <h4 class="">Array</h4>
-        <p>
-            An <i>array</i> represents a list. Arrays can be declared by defining the size between brackets after the variable name.
-            The size must a positive number of at least 1 or higher.
-        </p>
-        <pre class="wheel"><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">10</span><span class="operator">]</span>
+            <a id="Array"></a>
+            <h4 class="">Array</h4>
+            <p>
+                An <i>array</i> represents a list. Arrays can be declared by defining the size between brackets after the variable name.
+                The size must a positive number of at least 1 or higher.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">10</span><span class="operator">]</span>
 </pre>
-        <a id="Record"></a>
-        <h4 class="">Record</h4>
-        <p>
-            A record is a representation of a group of variables.
-        </p>
-        <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
+            <a id="Record"></a>
+            <h4 class="">Record</h4>
+            <p>
+                A record is a representation of a group of variables.
+            </p>
+            <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
     <span class="type">number</span> <span class="variable">x</span>
     <span class="type">number</span> <span class="variable">y</span>
 <span class="variable">endr</span>
@@ -83,12 +84,12 @@
     <span class="variable">p.y</span> <span class="operator">=</span> <span class="number">5</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Globalscope"></a>
-        <h4 class="">Global scope</h4>
-        <p>
-            When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
-        </p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Global variable demo"</span>
+            <a id="Globalscope"></a>
+            <h4 class="">Global scope</h4>
+            <p>
+                When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Global variable demo"</span>
 
 <span class="type">number</span> <span class="variable">n</span>
 
@@ -96,24 +97,24 @@
     <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Localscope"></a>
-        <h4 class="">Local scope</h4>
-        <p>
-            A variable declared inside a procedure can only be accesed inside that procedure.
-        </p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Local variable demo"</span>
+            <a id="Localscope"></a>
+            <h4 class="">Local scope</h4>
+            <p>
+                A variable declared inside a procedure can only be accesed inside that procedure.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Local variable demo"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
     <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">end</span>
 </pre>
-        <a id="Parametervariables"></a>
-        <h4 class="">Parameter variables</h4>
-        <p>
-            All procedures except the main procedure can have one or more parameters.
-        </p>
-        <pre class="wheel"><span class="meta">#project</span> <span class="string">"Parameter demo"</span>
+            <a id="Parametervariables"></a>
+            <h4 class="">Parameter variables</h4>
+            <p>
+                All procedures except the main procedure can have one or more parameters.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Parameter demo"</span>
 
 <span class="keyword">proc</span> <span class="variable">first</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -126,6 +127,11 @@
     <span class="variable">second</span><span class="operator">(</span><span class="number">17</span><span class="operator">,</span> <span class="number">18</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-    </div></div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
 </body>
 </html>
