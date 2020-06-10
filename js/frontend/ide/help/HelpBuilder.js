@@ -243,7 +243,7 @@ class HelpBuilder {
             params.push(param.type + ' ' + param.name);
         }
         let wheelSyntax = new WheelSyntax();
-        let s           = 'proc ' + proc.name + '(' + params.join(',') + ')';
+        let s           = 'proc ' + proc.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (proc.ret) {
             new DOMNode({}).create(parentNode, {innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
@@ -268,6 +268,30 @@ class HelpBuilder {
             new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines(proc.example)});
         }
         new Hr({parentNode: parentNode});
+    }
+
+    addEvent(parentNode, event) {
+        new A({parentNode: parentNode, id: event.description.split(' ').join('')});
+        this.addSubSubSubTitle(parentNode, event.name, 'title-with-source');
+        new P({parentNode: parentNode, innerHTML: event.description});
+        let params = [];
+        for (let i = 0; i < event.params.length; i++) {
+            let param = event.params[i];
+            params.push(param.type + ' ' + param.name);
+        }
+        let wheelSyntax = new WheelSyntax();
+        let s           = 'proc ' + event.name + '(' + params.join(', ') + ')';
+        new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
+        if (event.params.length) {
+            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
+            let head = ['Name', 'Type', 'Description'];
+            let body = [];
+            for (let i = 0; i < event.params.length; i++) {
+                let param = event.params[i];
+                body.push([param.name, param.type, param.description]);
+            }
+            new Table({parentNode, className: 'help-table', head: head, body: body});
+        }
     }
 
     addImages(helpText) {
@@ -497,94 +521,103 @@ class HelpBuilder {
         let wheelSyntax = new WheelSyntax();
         let sections    = file.sections;
         for (let i = 0; i < sections.length; i++) {
-            let section = sections[i];
-            let title   = section.title;
-            if (title !== '') {
-                new A({parentNode: parentNode, id: title.split(' ').join('')});
-                this.addSubSubTitle(parentNode, title);
-                let content = section.content;
-                for (let j = 0; j < content.length; j++) {
-                    switch (content[j].type) {
-                        case 'text':
-                            let lines = [];
-                            content[j].text.forEach(function(line) {
-                                lines.push((line.trim() === '') ? '<br/>' : line);
-                            });
-                            new P({parentNode: parentNode, innerHTML: lines.join(' ')});
-                            break;
-                        case 'load':
-                            let buttons = [];
-                            while (content[j].type === 'load') {
-                                let button  = Object.assign({}, opts);
-                                button.title = content[j].text[0];
-                                button.src   = content[j].text[1];
-                                buttons.push(button);
-                                j++;
-                            }
-                            j--;
-                            this.addLoadButton(buttons);
-                            break;
-                        case 'link':
-                            this.addLink({
-                                parentNode: parentNode,
-                                title:      content[j].text[0],
-                                src:        content[j].text[1]
-                            });
-                            break;
-                        case 'see':
-                            this.addSee({
-                                parentNode: parentNode,
-                                see:        content[j].text
-                            });
-                            break;
-                        case 'example':
-                            new Pre({
-                                parentNode: parentNode,
-                                className:  'wheel',
-                                innerHTML:  wheelSyntax.parseLines(content[j].text)
-                            });
-                            break;
-                        case 'error':
-                            new Pre({
-                                parentNode: parentNode,
-                                className:  'error',
-                                innerHTML:  content[j].text.join('\n')
-                            });
-                            break;
-                        case 'list':
-                            new Ul({
-                                parentNode: parentNode,
-                                list:       content[j].text
-                            });
-                            break;
-                        case 'table':
-                            new Table({
-                                parentNode: parentNode,
-                                className:  'help-table',
-                                head:       content[j].text.head,
-                                body:       content[j].text.body
-                            });
-                            break;
-                        case 'image':
-                            new Img({
-                                parentNode: parentNode,
-                                src:        getImage(content[j].text) || content[j].text
-                            });
-                            break;
-                        case 'const':
-                            this.addConstants(parentNode, content[j].text);
-                            break;
-                        case 'proc':
-                            this.addProc(parentNode, content[j].text);
-                            break;
-                        case 'var':
-                            this.addVar(parentNode, content[j].text);
-                            break;
-                        case 'record':
-                            this.addRecord(parentNode, content[j].text);
-                            break;
-                    }
+            let section   = sections[i];
+            let title     = section.title;
+            let lastEvent = false;
+            if (title === '') {
+                continue;
+            }
+            new A({parentNode: parentNode, id: title.split(' ').join('')});
+            this.addSubSubTitle(parentNode, title);
+            let content = section.content;
+            for (let j = 0; j < content.length; j++) {
+                switch (content[j].type) {
+                    case 'text':
+                        let lines = [];
+                        content[j].text.forEach(function(line) {
+                            lines.push((line.trim() === '') ? '<br/>' : line);
+                        });
+                        new P({parentNode: parentNode, innerHTML: lines.join(' ')});
+                        break;
+                    case 'load':
+                        let buttons = [];
+                        while (content[j].type === 'load') {
+                            let button  = Object.assign({}, opts);
+                            button.title = content[j].text[0];
+                            button.src   = content[j].text[1];
+                            buttons.push(button);
+                            j++;
+                        }
+                        j--;
+                        this.addLoadButton(buttons);
+                        break;
+                    case 'link':
+                        this.addLink({
+                            parentNode: parentNode,
+                            title:      content[j].text[0],
+                            src:        content[j].text[1]
+                        });
+                        break;
+                    case 'see':
+                        this.addSee({
+                            parentNode: parentNode,
+                            see:        content[j].text
+                        });
+                        break;
+                    case 'example':
+                        new Pre({
+                            parentNode: parentNode,
+                            className:  'wheel',
+                            innerHTML:  wheelSyntax.parseLines(content[j].text)
+                        });
+                        break;
+                    case 'error':
+                        new Pre({
+                            parentNode: parentNode,
+                            className:  'error',
+                            innerHTML:  content[j].text.join('\n')
+                        });
+                        break;
+                    case 'list':
+                        new Ul({
+                            parentNode: parentNode,
+                            list:       content[j].text
+                        });
+                        break;
+                    case 'table':
+                        new Table({
+                            parentNode: parentNode,
+                            className:  'help-table',
+                            head:       content[j].text.head,
+                            body:       content[j].text.body
+                        });
+                        break;
+                    case 'image':
+                        new Img({
+                            parentNode: parentNode,
+                            src:        getImage(content[j].text) || content[j].text
+                        });
+                        break;
+                    case 'const':
+                        this.addConstants(parentNode, content[j].text);
+                        break;
+                    case 'event':
+                        lastEvent = true;
+                        this.addEvent(parentNode, content[j].text);
+                        break;
+                    case 'proc':
+                        this.addProc(parentNode, content[j].text);
+                        break;
+                    case 'var':
+                        this.addVar(parentNode, content[j].text);
+                        break;
+                    case 'record':
+                        this.addRecord(parentNode, content[j].text);
+                        break;
                 }
+            }
+            if (lastEvent) {
+                new Hr({parentNode: parentNode});
             }
         }
     }

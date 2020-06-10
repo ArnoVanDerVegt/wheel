@@ -24,6 +24,8 @@ exports.FormDialog = class extends Dialog {
         this._title                  = '';
         this._width                  = 300;
         this._height                 = 300;
+        this._onHideEvent            = null; // Wheel event for hiding...
+        this._onShowEvent            = null; // Wheel event for showing...
         let children = this.getChildren(opts);
         this.createWindow('form-dialog', this._title, children);
     }
@@ -57,6 +59,24 @@ exports.FormDialog = class extends Dialog {
         component[property] = function(value) {
             vm.runEvent(entryPoint, [win.getUiId(), value]);
         };
+    }
+
+    addFormEvents(component) {
+        let vm  = this._vm;
+        let win = this._win;
+        ['onShow', 'onHide'].forEach(
+            function(event) {
+                if (event in component) {
+                    let entryPoint = this._program.getEventInfo(component[event]);
+                    if (entryPoint) {
+                        this['_' + event + 'Event'] = function() {
+                            vm.runEvent(entryPoint, [win.getUiId()]);
+                        };
+                    }
+                }
+            },
+            this
+        );
     }
 
     getComponentEvents(component) {
@@ -99,6 +119,7 @@ exports.FormDialog = class extends Dialog {
                     this._width  = component.width;
                     this._height = component.height;
                     this._title  = component.title;
+                    this.addFormEvents(component);
                 } else if (parent) {
                     component.event = win.getUiId() + '_' + parseInt(component.uid, 16);
                     component.id    = win.addComponent.bind(win);
@@ -154,11 +175,13 @@ exports.FormDialog = class extends Dialog {
     }
 
     onHide() {
+        this._onHideEvent && this._onHideEvent();
         super.onHide();
         this._onHide(this._win.getUiId());
     }
 
     show() {
+        this._onShowEvent && this._onShowEvent();
         super.show();
         return this;
     }

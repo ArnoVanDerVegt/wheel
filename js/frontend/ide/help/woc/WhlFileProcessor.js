@@ -111,6 +111,50 @@ exports.WhlFileProcessor = class extends FileProcessor {
         return this.addTypedText(section, 'const', constant);
     }
 
+    processEvent(section, line) {
+        let event       = {
+                id:          this.getNextId(),
+                name:        '',
+                description: '',
+                params:      []
+            };
+        let description = '';
+        let i           = line.indexOf(' ');
+        if (i !== -1) {
+            event.name        = line.substr(0, i).trim();
+            event.description = line.substr(i - line.length).trim();
+        } else {
+            event.name        = line;
+        }
+        let nextLine = this.peekLine().trim();
+        while (this.getComment(nextLine).indexOf('@param') === 0) {
+            let paramLine = this.getComment(this.readLine()).trim();
+            paramLine = paramLine.substr(6, paramLine.length - 6).trim();
+            let i           = paramLine.indexOf(' ');
+            let param       = paramLine.substr(0, i);
+            let j           = i + 1;
+            while ((j < paramLine.length) && (paramLine[j] === ' ')) {
+                j++;
+            }
+            j = paramLine.indexOf(' ', j);
+            let paramType   = paramLine.substr(i, j - i).trim();
+            let description = paramLine.substr(j, paramLine.length - j).trim();
+            nextLine = this.peekLine().trim();
+            while (this.getTextComment(nextLine)) {
+                this.readLine(true);
+                description += '\n' + nextLine;
+                nextLine = this.peekLine().trim();
+            }
+            event.params.push({
+                name:        param.trim(),
+                type:        paramType.trim(),
+                description: description.trim()
+            });
+        }
+        nextLine = this.readLine(true);
+        return this.addTypedText(section, 'event', event);
+    }
+
     processProc(section, wocByName, line) {
         let nextLine           = this.peekLine().trim();
         let descriptionByParam = {};
@@ -203,6 +247,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
         let constantsSection = {id: this.getNextId(), title: 'Constants',  content: []};
         let varSection       = {id: this.getNextId(), title: 'Variables',  content: []};
         let recordSection    = {id: this.getNextId(), title: 'Records',    content: []};
+        let eventSection     = {id: this.getNextId(), title: 'Events',     content: []};
         let procSection      = {id: this.getNextId(), title: 'Procedures', content: []};
         while (this._index < this._lines.length) {
             let line = this.readLine();
@@ -227,6 +272,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
                         case '@record':
                             this.processRecord(recordSection, line.substr(j, line.length - j).trim());
                             break;
+                        case '@event':
+                            this.processEvent(eventSection, line.substr(j, line.length - j).trim());
+                            break;
                         case '@proc':
                             try {
                                 this.processProc(procSection, wocByName, line.substr(j, line.length - j).trim());
@@ -246,6 +294,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
         }
         if (varSection.content.length) {
             this.addSection(varSection);
+        }
+        if (eventSection.content.length) {
+            this.addSection(eventSection);
         }
         if (procSection.content.length) {
             this.addSection(procSection);

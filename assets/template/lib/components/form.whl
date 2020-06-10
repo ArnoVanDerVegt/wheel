@@ -12,8 +12,14 @@ namespace components.form
 #define FORM_COMPONENT_HIDE       1
 #define FORM_COMPONENT_SET_TITLE  2
 
+; @event onShow              Called when the form is shown.
+; @param windowHandle number The handle of the window which is shown.
+
+; @event onHide              Called when the form is hidden.
+; @param windowHandle number The handle of the window which is hidden.
+
 ; @proc             Show a form.
-; @param formName   The filename of the form file.
+; @param filename   The filename of the form file.
 ; @return           The form handle.
 proc show(string filename)
     addr filename

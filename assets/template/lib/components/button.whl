@@ -17,6 +17,24 @@ namespace components.button
 #define BUTTON_COMPONENT_SET_TITLE      6
 #define BUTTON_COMPONENT_SET_HINT       7
 
+; @event onClick             Called when the button is clicked.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onFocus             Called when the button is focussed.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onBlur              Called when the button looses focus.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseDown         Called when the mouse is pressed on the button.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseUp           Called when the mouse is released from the button.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseOut          Called when the mouse moves from inside to outside the button.
+; @param windowHandle number The handle of the parent window of the button.
+
 ; @proc                   Set the tab index of the button.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

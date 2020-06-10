@@ -17,6 +17,16 @@ namespace components.checkbox
 #define CHECKBOX_COMPONENT_SET_HINT       6
 #define CHECKBOX_COMPONENT_SET_CHECKED    7
 
+; @event onChange            Called when an other checkbox is selected.
+; @param windowHandle number The handle of the parent window of the checkbox.
+; @param value        number `TRUE` when checked, `FALSE` if not checked.
+
+; @event onFocus             Called when the checkbox is focussed.
+; @param windowHandle number The handle of the parent window of the checkbox.
+
+; @event onBlur              Called when the checkbox looses focus.
+; @param windowHandle number The handle of the parent window of the checkbox.
+
 ; @proc                   Set the tab index of the checkbox.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

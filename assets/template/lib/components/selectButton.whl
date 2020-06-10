@@ -16,6 +16,16 @@ namespace components.selectButton
 #define SELECT_BUTTON_COMPONENT_SET_COLOR      5
 #define SELECT_BUTTON_COMPONENT_SET_ACTIVE     6
 
+; @event onChange            Called when an other button is selected.
+; @param windowHandle number The handle of the parent window of the selectButton.
+; @param value        number Index of the selected button, the index of the first button is 0, the second is 1, etc..
+
+; @event onFocus             Called when the selectButton is focussed.
+; @param windowHandle number The handle of the parent window of the selectButton.
+
+; @event onBlur              Called when the selectButton looses focus.
+; @param windowHandle number The handle of the parent window of the selectButton.
+
 ; @proc                   Set the tab index of the select button.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
