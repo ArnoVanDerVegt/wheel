@@ -160,7 +160,7 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="record">Point</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="variable">{1</span><span class="operator">,</span> <span class="variable">2}</span>
+    <span class="record">Point</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">}</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #16 "[" Expected.</pre>
@@ -195,7 +195,7 @@
 <span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="record">Rec</span> <span class="variable">r</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="variable">test</span><span class="operator">(</span><span class="string">"wrong"</span><span class="variable">{}</span><span class="operator">)</span>
+    <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="string">"wrong"</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #18 Number constant expected, got ""wrong"".</pre>
@@ -224,7 +224,7 @@
 <span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="record">Rec</span> <span class="variable">r</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="variable">test</span><span class="operator">(</span><span class="variable">{1}</span><span class="operator">)</span>
+    <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="number">1</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #19 String constant expected, got "1".</pre>
@@ -337,7 +337,7 @@
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="variable">test</span><span class="operator">(</span><span class="variable">{1}</span><span class="operator">)</span>
+    <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="number">1</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #26 Type mismatch.</pre>

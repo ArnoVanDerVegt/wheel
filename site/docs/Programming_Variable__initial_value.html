@@ -93,7 +93,7 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 <span class="comment">; Now we can declare a variable and immediately assign a value:</span>
-<span class="record">Point</span> <span class="variable">point</span> <span class="operator">=</span> <span class="variable">{12</span><span class="operator">,</span> <span class="variable">13}</span>
+<span class="record">Point</span> <span class="variable">point</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">12</span><span class="operator">,</span> <span class="number">13</span><span class="operator">}</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">point.x</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">point.y</span><span class="operator">)</span>
@@ -110,12 +110,11 @@
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="comment">; A local record array:</span>
-    <span class="record">Point</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="variable">{34</span><span class="operator">,</span> <span class="variable">834}</span><span class="operator">,</span> <span class="variable">{45</span><span class="operator">,</span> <span class="variable">167}</span><span class="operator">]</span>
+    <span class="record">Point</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="operator">{</span><span class="number">34</span><span class="operator">,</span> <span class="number">834</span><span class="operator">}</span><span class="operator">,</span> <span class="operator">{</span><span class="number">45</span><span class="operator">,</span> <span class="number">167</span><span class="operator">}</span><span class="operator">]</span>
 <span class="keyword">end</span>
 </pre>
             <div class="see-also-block">
-                <span>See also: </span>
-        <div class="breaker"></div>
+                <span class="see-also-label">See also: </span>
                 <a href="Module_Bit.html" class="see-also">Constants(Bit)</a>
                 <a href="Module_Button.html" class="see-also">Constants(Button)</a>
                 <a href="Module_Component_Button.html" class="see-also">Constants(Component/Button)</a>
