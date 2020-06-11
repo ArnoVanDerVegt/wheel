@@ -190,11 +190,16 @@ exports.ideRoutes = {
                 res.send(JSON.stringify(result));
                 break;
             case '.wfrm':
-                result.data = {wfrm: fs.readFileSync(filename).toString()};
-                let whlFilename = filename.substr(0, filename.length - extension.length) + '.whl';
-                whlFilename = this._findFile(whlFilename);
+                result.data = {wfrm: fs.readFileSync(filename).toString(), isProject: false};
+                let whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whl');
                 if (whlFilename !== null) {
                     result.data.whl = fs.readFileSync(whlFilename).toString();
+                } else {
+                    whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whlp');
+                    if (whlFilename !== null) {
+                        result.data.whl       = fs.readFileSync(whlFilename).toString();
+                        result.data.isProject = true;
+                    }
                 }
                 res.send(JSON.stringify(result));
                 break;

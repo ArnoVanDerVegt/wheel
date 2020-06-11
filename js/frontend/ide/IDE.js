@@ -509,8 +509,9 @@ exports.IDE = class extends CompileAndRun {
             return;
         }
         dispatcher
-            .dispatch('Console.Error',  opts)
-            .dispatch('Compile.Failed', this._projectFilename);
+            .dispatch('Console.Error',               opts)
+            .dispatch('Compile.Failed',              this._projectFilename)
+            .dispatch('Settings.Set.ConsoleVisible', true);
         this._compileAndRun = false;
     }
 

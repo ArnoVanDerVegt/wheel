@@ -21,8 +21,9 @@ exports.Console = class extends DOMNode {
         this._ui              = opts.ui;
         this._settings        = opts.settings;
         this._getDataProvider = opts.getDataProvider;
-        dispatcher.on('Console.Breakpoint',   this, this.onBreakpoint);
-        dispatcher.on('Console.RuntimeError', this, this.onRuntimeError);
+        dispatcher
+            .on('Console.Breakpoint',   this, this.onBreakpoint)
+            .on('Console.RuntimeError', this, this.onRuntimeError);
         this.initDOM(document.body);
     }
 

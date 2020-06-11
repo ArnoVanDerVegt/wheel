@@ -8,8 +8,8 @@
     border-radius:                  2px;
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content {
-    margin-top:                     -260px;
-    height:                         520px;
+    margin-top:                     -280px;
+    height:                         560px;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .new-file-text {
     position:                       absolute;
@@ -22,6 +22,12 @@
     position:                       absolute;
     top:                            104px;
     -webkit-user-select:            none;
+}
+.dialog-background.file-new-dialog .dialog-center .dialog-content .new-file-text .file-new-row a.checkbox {
+    float:                          left;
+    width:                          22px;
+    height:                         22px;
+    margin:                         6px 0 0 0;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .include-files {
     left:                           160px;
@@ -45,7 +51,7 @@
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-file-label,
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-files {
-    top:                            144px;
+    top:                            188px;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .include-files h3 {
     float:                          left;

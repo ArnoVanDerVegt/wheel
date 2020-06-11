@@ -72,7 +72,7 @@ exports.HelpDialog = class extends Dialog {
                             this.addButton({
                                 ref:       this.setRef('saveTextFilesButton'),
                                 tabIndex:  1027,
-                                value:     'Save text files',
+                                value:     'Save html files',
                                 color:     'blue',
                                 onClick:   this.onRebuildText.bind(this)
                             }) :

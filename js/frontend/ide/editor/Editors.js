@@ -294,7 +294,7 @@ exports.Editors = class extends DOMNode {
             } else {
                 textOpts.value = new SourceBuilder({}).generateSourceFromFormData(opts.data);
             }
-            textOpts.filename = path.replaceExtension(opts.filename, '.whl');
+            textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (opts.value.isProject ? 'p' : ''));
             textOpts.mode     = 'text/x-wheel';
             textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
             let pathAndFilename = path.getPathAndFilename(path.join(opts.path, textOpts.filename));

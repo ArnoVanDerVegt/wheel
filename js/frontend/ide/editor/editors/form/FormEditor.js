@@ -245,9 +245,10 @@ exports.FormEditor = class extends Editor {
     }
 
     getEditor() {
-        let filename = path.replaceExtension(this._formEditorState.getFilename(), '.whl');
-        let editor   = this._editors.findEditor(this._formEditorState.getPath(), filename);
-        return editor;
+        let whlFilename  = path.replaceExtension(this._formEditorState.getFilename(), '.whl');
+        let whlpFilename = path.replaceExtension(this._formEditorState.getFilename(), '.whlp');
+        return this._editors.findEditor(this._formEditorState.getPath(), whlFilename) ||
+            this._editors.findEditor(this._formEditorState.getPath(), whlpFilename);
     }
 
     clearSelection() {

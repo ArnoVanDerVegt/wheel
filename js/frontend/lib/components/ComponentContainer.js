@@ -5,6 +5,7 @@
 const Component   = require('./Component').Component;
 const Button      = require('./Button').Button;
 const TextInput   = require('./TextInput').TextInput;
+const Checkbox    = require('./Checkbox').Checkbox;
 const ToolOptions = require('./ToolOptions').ToolOptions;
 
 exports.ComponentContainer = class extends Component {
@@ -34,6 +35,15 @@ exports.ComponentContainer = class extends Component {
 
     addTextInput(opts) {
         opts.type = TextInput;
+        opts.ui   = this._ui;
+        if (!('uiId' in opts)) {
+            opts.uiId = this._uiId;
+        }
+        return opts;
+    }
+
+    addCheckbox(opts) {
+        opts.type = Checkbox;
         opts.ui   = this._ui;
         if (!('uiId' in opts)) {
             opts.uiId = this._uiId;

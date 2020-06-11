@@ -22,7 +22,10 @@ const getShowProcNameFromFormName = function(formName) {
     };
 
 const getFormCode = function(filename) {
+        let pathAndFilename = path.getPathAndFilename(filename);
         return [
+            '#resource "' + path.replaceExtension(pathAndFilename.filename, '.wfrm') + '"',
+            '',
             '; @proc Show the form',
             '; @ret  The handle to the form.',
             'proc show' + getShowProcNameFromFilename(filename) + '()',

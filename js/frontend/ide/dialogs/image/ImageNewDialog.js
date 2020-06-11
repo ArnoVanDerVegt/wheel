@@ -80,7 +80,14 @@ exports.ImageNewDialog = class extends ImageDialog {
             this._filename += '.rgf';
         }
         let filename = path.join(this._activeDirectory, this._filename);
-        dispatcher.dispatch('Create.Image', filename, this._width, this._height);
+        dispatcher.dispatch(
+            'Create.Image',
+            {
+                filename: filename,
+                width:    this._width,
+                height:   this._height
+            }
+        );
         this.hide();
     }
 

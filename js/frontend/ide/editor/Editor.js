@@ -47,7 +47,6 @@ exports.Editor = class extends DOMUtils {
             .on('Dialog.File.SaveAs', this, this._saveAs);
         // Create calls...
         dispatcher
-            .on('Create.Project', this, this._addProjectFile)
             .on('Create.File',    this, this._addFile)
             .on('Create.Image',   this, this._addImageFile)
             .on('Create.Form',    this, this._addFormFile);
@@ -57,83 +56,51 @@ exports.Editor = class extends DOMUtils {
         this._editors.add(opts);
     }
 
-    _addFile(filename, includeFiles, lines) {
-        let pathAndFilename = path.getPathAndFilename(filename);
-        let file            = [];
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
-        }
-        file.push('');
-        if (lines) {
-            file = file.concat(lines);
-        }
+    _addFile(opts) {
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
         this._editors.add({
-            value:    file.join('\n'),
+            value:    opts.value,
             path:     pathAndFilename.path,
             filename: pathAndFilename.filename,
             changed:  true
         });
     }
 
-    _addProjectFile(filename, desciption, includeFiles) {
-        let file = [
-                '#project "' + desciption + '"',
-                ''
-            ];
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
-        }
-        file.push(
-            '',
-            'proc main()',
-            'end'
-        );
-        let pathAndFilename = path.getPathAndFilename(filename);
-        this._editors.add({
-            value:    file.join('\n'),
-            path:     pathAndFilename.path,
-            filename: pathAndFilename.filename,
-            changed:  true
-        });
-    }
-
-    _addImageFile(filename, width, height) {
+    _addImageFile(opts) {
         let image = [];
-        for (let y = 0; y < height; y++) {
+        for (let y = 0; y < opts.height; y++) {
             let line = [];
-            for (let x = 0; x < width; x++) {
+            for (let x = 0; x < opts.width; x++) {
                 line.push(0);
             }
             image.push(line);
         }
-        let value = {
-                width:  width,
-                height: height,
-                image:  image
-            };
-        let pathAndFilename = path.getPathAndFilename(filename);
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
         this._editors.add({
-            value:    value,
             path:     pathAndFilename.path,
             filename: pathAndFilename.filename,
-            changed:  true
+            changed:  true,
+            value:    {
+                width:  opts.width,
+                height: opts.height,
+                image:  image
+            }
         });
     }
 
-    _addFormFile(filename, width, height) {
-        let value = {
-                width:  width,
-                height: height,
-                data:   {}
-            };
-        let pathAndFilename = path.getPathAndFilename(filename);
+    _addFormFile(opts) {
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
         this._editors.add({
-            value:    value,
             path:     pathAndFilename.path,
             filename: pathAndFilename.filename,
-            width:    width,
-            height:   height,
-            changed:  true
+            width:    opts.width,
+            height:   opts.height,
+            changed:  true,
+            value:    {
+                width:  opts.width,
+                height: opts.height,
+                data:   {}
+            }
         });
     }
 

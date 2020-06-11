@@ -2,11 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher   = require('../../../lib/dispatcher').dispatcher;
-const DOMNode      = require('../../../lib/dom').DOMNode;
-const path         = require('../../../lib/path');
-const Dialog       = require('../../../lib/components/Dialog').Dialog;
-const IncludeFiles = require('./components/IncludeFiles').IncludeFiles;
+const dispatcher    = require('../../../lib/dispatcher').dispatcher;
+const DOMNode       = require('../../../lib/dom').DOMNode;
+const path          = require('../../../lib/path');
+const Dialog        = require('../../../lib/components/Dialog').Dialog;
+const SourceBuilder = require('../../editor/editors/form/SourceBuilder');
+const IncludeFiles  = require('./components/IncludeFiles').IncludeFiles;
 
 exports.FileNewDialog = class extends Dialog {
     constructor(opts) {
@@ -17,7 +18,7 @@ exports.FileNewDialog = class extends Dialog {
             'Confirm',
             [
                 {
-                    className: 'new-file-text project',
+                    className: 'new-file-text',
                     children: [
                         {
                             className: 'file-new-row',
@@ -34,6 +35,7 @@ exports.FileNewDialog = class extends Dialog {
                             ]
                         },
                         {
+                            ref:       this.setRef('descriptionRow'),
                             className: 'file-new-row',
                             children: [
                                 {
@@ -45,6 +47,20 @@ exports.FileNewDialog = class extends Dialog {
                                     tabIndex:  2,
                                     className: 'description',
                                     onKeyUp:   this.onDescriptionKeyUp.bind(this)
+                                })
+                            ]
+                        },
+                        {
+                            ref:       this.setRef('createFormRow'),
+                            className: 'file-new-row',
+                            children: [
+                                {
+                                    className: 'form-label',
+                                    innerHTML: 'Create a form'
+                                },
+                                this.addCheckbox({
+                                    ref:      this.setRef('createForm'),
+                                    tabIndex: 3
                                 })
                             ]
                         }
@@ -82,13 +98,93 @@ exports.FileNewDialog = class extends Dialog {
         dispatcher.on('Dialog.File.New.Show', this, this.onShow);
     }
 
+    addIncludes(file, includeFiles) {
+        for (let i = 0; i < includeFiles.length; i++) {
+            file.push('#include "' + includeFiles[i] + '"');
+        }
+    }
+
+    addProject(filename) {
+        if (path.getExtension(filename) !== '.whlp') {
+            filename += '.whlp';
+        }
+        let file            = ['#project "' + this._description + '"', ''];
+        let includeFiles    = this._includeFilesElement.getIncludeFiles();
+        let createForm      = this._refs.createForm.getChecked();
+        let pathAndFilename = path.getPathAndFilename(filename);
+        let formFilename;
+        let formName;
+        if (createForm) {
+            formFilename = path.replaceExtension(path.getPathAndFilename(filename).filename, '.wfrm');
+            formName     = path.replaceExtension(formFilename, '');
+            includeFiles.unshift('lib/components/form.whl');
+            if (includeFiles.indexOf('lib/standard.whl') === -1) {
+                includeFiles.push('lib/standard.whl');
+            }
+        }
+        this.addIncludes(file, includeFiles);
+        if (createForm) {
+            file.push('');
+            file.push.apply(file, SourceBuilder.getFormCode(formFilename));
+            file.push(
+                'proc main()',
+                '    ' + SourceBuilder.getShowProcNameFromFormName(formName) + '()',
+                '    halt()',
+                'end'
+            );
+        } else {
+            if (includeFiles.length) {
+                file.push('');
+            }
+            file.push(
+                'proc main()',
+                'end'
+            );
+        }
+        dispatcher.dispatch(
+            'Create.File',
+            {
+                filename: filename,
+                value:    file.join('\n')
+            }
+        );
+        if (createForm) {
+            dispatcher.dispatch(
+                'Create.Form',
+                {
+                    filename: path.replaceExtension(filename, '.wfrm'),
+                    width:    400,
+                    height:   320
+                }
+            );
+        }
+    }
+
+    addFile(filename) {
+        if (path.getExtension(filename) !== '.whl') {
+            filename += '.whl';
+        }
+        let file = [];
+        this.addIncludes(file, this._includeFilesElement.getIncludeFiles());
+        dispatcher.dispatch(
+            'Create.File',
+            {
+                filename: filename,
+                value:    file.join('\n')
+            }
+        );
+    }
+
     onShow(type, activeDirectory) {
-        let refs = this._refs;
-        type                          = (type || 'file').toLowerCase();
-        this._type                    = type;
-        this._activeDirectory         = activeDirectory;
-        this._dialogElement.className = 'dialog-background file-new-dialog ' + type.toLowerCase();
-        refs.title.innerHTML          = 'Create new ' + ((type === 'project') ? 'project file' : ' file');
+        type = (type || 'file').toLowerCase();
+        let refs        = this._refs;
+        let projectType = (type === 'project');
+        this._type                        = type;
+        this._activeDirectory             = activeDirectory;
+        this._dialogElement.className     = 'dialog-background file-new-dialog ' + type.toLowerCase();
+        refs.descriptionRow.style.display = projectType ? 'block' : 'none';
+        refs.createFormRow.style.display  = projectType ? 'block' : 'none';
+        refs.title.innerHTML              = 'Create new ' + (projectType ? 'project file' : ' file');
         refs.buttonApply.setValue((type === 'project') ? 'Create project file' : 'Create file');
         super.show();
         this._includeFilesElement.reset();
@@ -105,17 +201,13 @@ exports.FileNewDialog = class extends Dialog {
         if (!this.validate()) {
             return;
         }
+        let value    = '';
+        let file;
         let filename = (this._activeDirectory ? this._activeDirectory + '/' : '') + this._filename;
         if (this._type === 'project') {
-            if (path.getExtension(filename) !== '.whlp') {
-                filename += '.whlp';
-            }
-            dispatcher.dispatch('Create.Project', filename, this._description, this._includeFilesElement.getIncludeFiles());
+            this.addProject(filename);
         } else {
-            if (path.getExtension(filename) !== '.whl') {
-                filename += '.whl';
-            }
-            dispatcher.dispatch('Create.File', filename, this._includeFilesElement.getIncludeFiles());
+            this.addFile(filename);
         }
         this.hide();
     }

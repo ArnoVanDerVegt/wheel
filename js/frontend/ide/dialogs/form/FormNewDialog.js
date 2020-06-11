@@ -39,15 +39,19 @@ exports.FormNewDialog = class extends ImageNewDialog {
         dispatcher
             .dispatch(
                 'Create.File',
-                whlFilename,
-                ['lib/components/form.whl'],
-                SourceBuilder.getFormCode(this._filename)
+                {
+                    filename: whlFilename,
+                    value:    ['#include "lib/components/form.whl"', ''].
+                        concat(SourceBuilder.getFormCode(this._filename)).join('\n')
+                }
             )
             .dispatch(
                 'Create.Form',
-                formFilename,
-                this._width,
-                this._height
+                {
+                    filename: formFilename,
+                    width:    this._width,
+                    height:   this._height
+                }
             );
         this.hide();
     }

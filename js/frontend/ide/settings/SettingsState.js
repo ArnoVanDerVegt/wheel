@@ -42,6 +42,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ActiveDevice',                this, this._setActiveDevice)
             .on('Settings.Set.DeviceAlias',                 this, this._setDeviceAlias)
             .on('Settings.Set.DevicePortAlias',             this, this._setDevicePortAlias)
+            .on('Settings.Set.ConsoleVisible',              this, this._setConsoleVisible)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -400,11 +401,15 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
-    _toggleShowConsole() {
-        this._show.console = !this._show.console;
+    _setConsoleVisible(visible) {
+        this._show.console = visible;
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
+    }
+
+    _toggleShowConsole() {
+        this._setConsoleVisible(!this._show.console);
     }
 
     _toggleShowProperties() {
