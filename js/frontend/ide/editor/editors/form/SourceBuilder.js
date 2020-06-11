@@ -159,23 +159,59 @@ exports.SourceBuilder = class {
 
     generateEventsFromData(data, lines) {
         let procedures = [];
-        lines.forEach(function(line) {
-            let s = line.trim();
-            if (s.indexOf('proc') === 0) {
-                s = s.substr(4, s.length - 4).trim();
-                let j = s.indexOf('(');
-                procedures.push(s.substr(0, j).trim());
-            }
-        });
+        const findProcedures = function() {
+                lines.forEach(function(line, index) {
+                    let s = line.trim();
+                    if (s.indexOf('proc') === 0) {
+                        s = s.substr(4, s.length - 4).trim();
+                        let j = s.indexOf('(');
+                        procedures.push({
+                            name:  s.substr(0, j).trim(),
+                            index: index
+                        });
+                    }
+                });
+            };
+        const findProc = function(proc) {
+                for (let i = 0; i < procedures.length; i++) {
+                    if (procedures[i].name === proc) {
+                        return proc;
+                    }
+                }
+                return null;
+            };
+        const insertProc = function(proc, procLines) {
+                let found = false;
+                for (let i = 0; i < procedures.length; i++) {
+                    // Try to insert in alpha order...
+                    if (proc < procedures[i].name) {
+                        let index = procedures[i].index;
+                        // Insert before the comments of the proc...
+                        while ((index > 0) && (lines[index - 1].trim().substr(0, 1) === ';')) {
+                            index--;
+                        }
+                        procLines.reverse();
+                        procLines.forEach(function(procLine) {
+                            lines.splice(index, 0, procLine);
+                        });
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    procLines.pop();
+                    procLines.unshift('');
+                    lines.push.apply(lines, procLines);
+                }
+                findProcedures();
+            };
+        findProcedures();
         for (let i = 0; i < data.length; i++) {
             let component = data[i];
             for (let j in component) {
                 let value = component[j];
-                if ((j.substr(0, 2) === 'on') && value) {
-                    if (procedures.indexOf(value) === -1) {
-                        procedures.push(value);
-                        lines.push.apply(lines, this.generateEventProc(component.type, j, value));
-                    }
+                if ((j.substr(0, 2) === 'on') && value && !findProc(value)) {
+                    insertProc(value, this.generateEventProc(component.type, j, value));
                 }
             }
         }
