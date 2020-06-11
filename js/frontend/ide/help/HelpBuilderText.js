@@ -461,12 +461,9 @@ class HelpBuilderText {
         let output = this._output;
         output.push(
             '    <div class="see-also-block">',
-            '        <span>See also: </span>'
+            '        <span class="see-also-label">See also: </span>'
         );
-        if (seeList.length > 1) {
-            output.push('<div class="breaker"></div>');
-            seeList.sort();
-        }
+        seeList.sort();
         let files = this._helpData.files;
         seeList.forEach(
             function(see) {
@@ -749,6 +746,7 @@ class HelpBuilderText {
                 let file     = files[fileIndex];
                 let filename = getFilename(file.subject);
                 fileIndex++;
+                dispatcher.dispatch('Console.Log', {message: 'Writing: <i>' + 'site/docs/' + filename + '</i>'});
                 getDataProvider().getData(
                     'post',
                     'ide/file-save',
@@ -759,6 +757,7 @@ class HelpBuilderText {
                     processFile
                 );
             }).bind(this);
+        dispatcher.dispatch('Console.Log', {message: 'Writing: <i>site/docs/index.html</i>'});
         getDataProvider().getData(
             'post',
             'ide/file-save',

@@ -251,6 +251,8 @@ exports.WheelSyntax = class {
                 case ')':
                 case '[':
                 case ']':
+                case '{':
+                case '}':
                 case ':':
                 case '+':
                 case '-':

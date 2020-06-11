@@ -520,10 +520,12 @@ div.quarter li {
     width:                          660px;
     margin:                         8px 0 8px 0;
 }
-.help-file div.see-also-block span {
+.help-file div.see-also-block span,
+.help-file div.see-also-block span.see-also-label {
     float:                          left;
 }
 .help-file div.see-also-block a.see-also {
+    float:                          left;
     height:                         20px;
     line-height:                    18px;
     padding:                        0 10px 0 10px;

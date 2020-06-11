@@ -10,6 +10,7 @@ With `Wheel` you can open and edit the following files:
 +------------------------------+-----------+--------------------------------------------+
 | @image images/files/whlp.svg | whlp      | Wheel project files.                       |
 | @image images/files/whl.svg  | whl       | Wheel source files.                        |
+| @image images/files/form.svg | wfrm      | Wheel form files.                          |
 +------------------------------+-----------+--------------------------------------------+
 
 @section Assembly file
