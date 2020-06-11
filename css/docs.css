@@ -523,7 +523,7 @@ div.quarter li {
 .help-file div.see-also-block span {
     float:                          left;
 }
-.help-file div.see-also-block span.see-also {
+.help-file div.see-also-block a.see-also {
     height:                         20px;
     line-height:                    18px;
     padding:                        0 10px 0 10px;
@@ -534,7 +534,8 @@ div.quarter li {
     -webkit-user-select:            none;
     cursor:                         pointer;
     white-space:                    nowrap;
+    text-decoration:                none;
 }
-.help-file div.see-also-block span.see-also:hover {
+.help-file div.see-also-block a.see-also:hover {
     text-decoration:                underline;
 }

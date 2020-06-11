@@ -67,6 +67,15 @@ exports.HelpDialog = class extends Dialog {
                                 color:     'blue',
                                 onClick:   this.onRebuild.bind(this)
                             }) :
+                            null,
+                        ('electron' in window) ?
+                            this.addButton({
+                                ref:       this.setRef('saveTextFilesButton'),
+                                tabIndex:  1027,
+                                value:     'Save text files',
+                                color:     'blue',
+                                onClick:   this.onRebuildText.bind(this)
+                            }) :
                             null
                     ]
                 }
@@ -94,88 +103,13 @@ exports.HelpDialog = class extends Dialog {
         new WocFileLoader().load(function(loadedFiles) { setHelp(new Woc().build(loadedFiles)); });
     }
 
-    onGenerateAllHelp() {
-        let helpBuilderText = new HelpBuilderText.HelpBuilderText({});
-        let files           = getHelpData().files;
-        let fileIndex       = 0;
-        let getTemplateFile = function(file, lines, className) {
-                return [
-                    '<!doctype html>',
-                    '<html>',
-                    '<head>',
-                    '    <meta charset="utf-8"/>',
-                    '    <title>Wheel - ' + file.subject + '</title>',
-                    '    <meta name="description" content="' + file.subject + '"/>',
-                    '    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">',
-                    '    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />',
-                    '    <link rel="stylesheet" href="../../css/fonts.css"/>',
-                    '    <link rel="stylesheet" href="../../css/index.css"/>',
-                    '    <link rel="stylesheet" href="../../css/docs.css"/>',
-                    '    <link rel="stylesheet" href="../../css/source.css"/>',
-                    '</head>',
-                    '<body>',
-                    '    <div class="header">',
-                    '        <div class="header-center">',
-                    '            <h2>',
-                    '                <a href="../../index.html">',
-                    '                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>',
-                    '                    <span>Wheel IDE</span>',
-                    '                </a>',
-                    '            </h2>',
-                    '            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>',
-                    '            <ul>',
-                    '                <li><a href="index.html">Documentation</a></li>',
-                    '                <li><a href="../source.html">Source</a></li>',
-                    '                <li><a href="../screenshots.html">Screenshots</a></li>',
-                    '                <li><a href="../install.html">Install</a></li>',
-                    '            </ul>',
-                    '        </div>',
-                    '    </div>',
-                    '    <div class="content-center">',
-                    '        <div class="' + className + '">',
-                    '        ' + lines,
-                    '        </div>',
-                    '        <div class="footer">',
-                    '            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>',
-                    '            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>',
-                    '        </div>',
-                    '    </div>',
-                    '</body>',
-                    '</html>'
-                ].join('\n');
-            };
-        let processFile     = function() {
-                if (fileIndex >= files.length) {
-                    return;
-                }
-                let file     = files[fileIndex];
-                let filename = HelpBuilderText.getFilename(file.subject);
-                fileIndex++;
-                getDataProvider().getData(
-                    'post',
-                    'ide/file-save',
-                    {
-                        filename: 'site/docs/' + filename,
-                        data:     getTemplateFile(file, helpBuilderText.buildFile({file: file}).join('\n        '), 'help-file')
-                    },
-                    processFile
-                );
-            };
-        getDataProvider().getData(
-            'post',
-            'ide/file-save',
-            {
-                filename: 'site/docs/index.html',
-                data:     getTemplateFile(
-                    {
-                        subject: 'Documentation'
-                    },
-                    helpBuilderText.buildMainIndex(getHelpData(), this._documentPath).join('\n        '),
-                    'help-files'
-                )
-            },
-            processFile
-        );
+    onRebuildText() {
+        let refs            = this._refs;
+        let helpBuilderText = new HelpBuilderText.HelpBuilderText({helpData: getHelpData()});
+        refs.saveTextFilesButton.setDisabled(true);
+        helpBuilderText.generateAllHelp(function() {
+            refs.saveTextFilesButton.setDisabled(false);
+        });
     }
 
     onShowFileIndex(fileIndex) {
@@ -205,7 +139,6 @@ exports.HelpDialog = class extends Dialog {
     }
 
     onShow(opts) {
-        this.onGenerateAllHelp();
         this._documentPath = this._settings.getDocumentPath();
         this.show();
         if (opts && ('fileIndex' in opts)) {
