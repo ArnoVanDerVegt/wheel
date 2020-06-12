@@ -61,6 +61,7 @@ class DropHandler {
                     case '.woc':
                     case '.whl':
                     case '.whlp':
+                    case '.wfrm':
                         dispatcher.dispatch('FileDrop.Open', filename, data, false);
                         break;
                     case '.rgf':
