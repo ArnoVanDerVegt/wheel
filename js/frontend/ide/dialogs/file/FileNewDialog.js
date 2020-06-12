@@ -12,7 +12,9 @@ const IncludeFiles  = require('./components/IncludeFiles').IncludeFiles;
 exports.FileNewDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this._ui = opts.ui;
+        this._ui         = opts.ui;
+        this._formWidth  = 400;
+        this._formHeight = 320;
         this.createWindow(
             'file-new-dialog',
             'Confirm',
@@ -61,6 +63,13 @@ exports.FileNewDialog = class extends Dialog {
                                 this.addCheckbox({
                                     ref:      this.setRef('createForm'),
                                     tabIndex: 3
+                                }),
+                                this.addButton({
+                                    ref:      this.setRef('formSizeButton'),
+                                    tabIndex: 4,
+                                    value:    'Size: 400x320',
+                                    color:    'gray',
+                                    onClick:  this.onClickFormSize.bind(this)
                                 })
                             ]
                         }
@@ -95,7 +104,9 @@ exports.FileNewDialog = class extends Dialog {
                 }
             ]
         );
-        dispatcher.on('Dialog.File.New.Show', this, this.onShow);
+        dispatcher
+            .on('Dialog.File.New.Show', this, this.onShow)
+            .on('OnSetFormSize',        this, this.onUpdateFormSize);
     }
 
     addIncludes(file, includeFiles) {
@@ -153,8 +164,8 @@ exports.FileNewDialog = class extends Dialog {
                 'Create.Form',
                 {
                     filename: path.replaceExtension(filename, '.wfrm'),
-                    width:    400,
-                    height:   320
+                    width:    this._formWidth,
+                    height:   this._formHeight
                 }
             );
         }
@@ -195,6 +206,16 @@ exports.FileNewDialog = class extends Dialog {
             .setValue('')
             .setClassName('')
             .focus();
+    }
+
+    onClickFormSize() {
+        dispatcher.dispatch('Dialog.Form.SetSize', this._formWidth, this._formHeight);
+    }
+
+    onUpdateFormSize(width, height) {
+        this._formWidth  = width;
+        this._formHeight = height;
+        this._refs.formSizeButton.setValue('Size: ' + width + 'x' + height);
     }
 
     onApply() {

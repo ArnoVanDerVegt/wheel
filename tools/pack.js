@@ -351,6 +351,7 @@ const files = [
         './js/frontend/ide/editor/editors/form/ComponentBuilder',
         './js/frontend/ide/editor/editors/form/state/UndoStack',
         './js/frontend/ide/editor/editors/form/state/FormEditorState',
+        './js/frontend/ide/dialogs/form/FormSizeDialog',
         './js/frontend/ide/dialogs/form/FormNewDialog',
         './js/frontend/ide/dialogs/form/FormDialog',
         './js/frontend/ide/dialogs/VolumeDialog',

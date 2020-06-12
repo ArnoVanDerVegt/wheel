@@ -264,6 +264,7 @@ require('./js/frontend/ide/dialogs/image/ImageNewDialog');
 require('./js/frontend/ide/dialogs/image/ImageResizeDialog');
 require('./js/frontend/ide/dialogs/image/ImageLoadDialog');
 require('./js/frontend/ide/dialogs/form/ComponentFormContainer.js');
+require('./js/frontend/ide/dialogs/form/FormSizeDialog');
 require('./js/frontend/ide/dialogs/form/FormNewDialog');
 require('./js/frontend/ide/dialogs/form/FormDialog');
 require('./js/frontend/ide/dialogs/VolumeDialog');

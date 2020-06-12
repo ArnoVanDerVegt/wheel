@@ -9,6 +9,10 @@ const SourceBuilder  = require('../../editor/editors/form/SourceBuilder');
 
 exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
+        opts.minWidth     = 128;
+        opts.maxWidth     = 800;
+        opts.minHeight    = 128;
+        opts.maxHeight    = 600;
         opts.title        = 'New form';
         opts.applyTitle   = 'Create new form';
         opts.dispatchShow = 'Dialog.Form.New.Show';
@@ -54,31 +58,5 @@ exports.FormNewDialog = class extends ImageNewDialog {
                 }
             );
         this.hide();
-    }
-
-    validateWidth() {
-        let result = true;
-        let refs   = this._refs;
-        this._width = parseInt(refs.width.getValue().trim(), 10);
-        if (isNaN(this._width) || (this._width < 128) || (this._width > 800)) {
-            refs.width.setClassName('invalid');
-            result = false;
-        } else {
-            refs.width.setClassName('');
-        }
-        return result;
-    }
-
-    validateHeight() {
-        let result = true;
-        let refs   = this._refs;
-        this._height = parseInt(refs.height.getValue().trim(), 10);
-        if (isNaN(this._height) || (this._height < 128) || (this._height > 600)) {
-            refs.height.setClassName('invalid');
-            result = false;
-        } else {
-            refs.height.setClassName('');
-        }
-        return result;
     }
 };

@@ -120,6 +120,10 @@
     outline:                        none;
     padding:                        0 0 0 8px;
 }
+.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.button {
+    margin:                         0 0 0 32px;
+    padding:                        0;
+}
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.description {
     width:                          408px;
 }

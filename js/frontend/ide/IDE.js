@@ -34,6 +34,7 @@ const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').Ima
 const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
 const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
 const FormNewDialog              = require('./dialogs/form/FormNewDialog').FormNewDialog;
+const FormSizeDialog             = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
 const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
 const EV3ConnectListDialog       = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
 const PoweredUpConnectListDialog = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
@@ -452,6 +453,7 @@ exports.IDE = class extends CompileAndRun {
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
         new FormNewDialog             ({getImage: getImage, ui: this._ui});
+        new FormSizeDialog            ({getImage: getImage, ui: this._ui});
         new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
         new StatisticsDialog          ({getImage: getImage, ui: this._ui});
         new VolumeDialog              ({getImage: getImage, ui: this._ui});

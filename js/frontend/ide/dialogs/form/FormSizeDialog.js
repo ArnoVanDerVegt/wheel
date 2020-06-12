@@ -1,16 +1,20 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher  = require('../../../lib/dispatcher').dispatcher;
-const ImageDialog = require('./ImageDialog').ImageDialog;
+const ImageDialog = require('../image/ImageDialog').ImageDialog;
 
-exports.ImageResizeDialog = class extends ImageDialog {
+exports.FormSizeDialog = class extends ImageDialog {
     constructor(opts) {
+        opts.minWidth  = 128;
+        opts.maxWidth  = 800;
+        opts.minHeight = 128;
+        opts.maxHeight = 600;
         super(opts);
         this.createWindow(
             'image-dialog',
-            'Resize image',
+            'Set form size',
             [
                 {
                     className: 'image-dialog-text',
@@ -38,7 +42,7 @@ exports.ImageResizeDialog = class extends ImageDialog {
                 }
             ]
         );
-        dispatcher.on('Dialog.Image.Resize.Show', this, this.onShow);
+        dispatcher.on('Dialog.Form.SetSize', this, this.onShow);
     }
 
     onShow(width, height) {
@@ -53,7 +57,7 @@ exports.ImageResizeDialog = class extends ImageDialog {
         if (!this.validate()) {
             return;
         }
-        dispatcher.dispatch('ResizeImage', this._width, this._height);
+        dispatcher.dispatch('OnSetFormSize', this._width, this._height);
         this.hide();
     }
 };
