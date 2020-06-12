@@ -523,6 +523,13 @@ class HelpBuilderText {
         output.push('    </ul>');
     }
 
+    addNamespace(namespace) {
+        this._output.push(
+            '<h5 class="title-with-source">Namespace</h5>',
+            '<div class="source-location">' + namespace + '<br/></div>'
+        );
+    }
+
     buildFile(opts) {
         this._output.length = 0;
         this._documentPath  = opts.documentPath || '';
@@ -532,6 +539,9 @@ class HelpBuilderText {
         let subjects    = [];
         let wheelSyntax = new WheelSyntax();
         let sections    = file.sections;
+        if (file.namespace) {
+            this.addNamespace(file.namespace);
+        }
         for (let i = 0; i < sections.length; i++) {
             let section   = sections[i];
             let title     = section.title;

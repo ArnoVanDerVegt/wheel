@@ -410,6 +410,7 @@ div.quarter li {
     width:                          100%;
     color:                          #383838;
     opacity:                        0.5;
+    margin:                         0 0 8px 0;
 }
 .help-file h2 {
     margin:                         0 0 12px 0;
@@ -427,7 +428,6 @@ div.quarter li {
 .help-file h5 {
     font-size:                      17px;
     font-weight:                    bold;
-    opacity:                        0.8;
     margin-bottom:                  12px;
 }
 .help-file h5.title-with-source {

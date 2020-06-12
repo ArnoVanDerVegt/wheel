@@ -244,6 +244,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
     process(wocByName) {
         let device           = false;
         let mod              = false;
+        let namespace        = false;
         let constantsSection = {id: this.getNextId(), title: 'Constants',  content: []};
         let varSection       = {id: this.getNextId(), title: 'Variables',  content: []};
         let recordSection    = {id: this.getNextId(), title: 'Records',    content: []};
@@ -284,6 +285,10 @@ exports.WhlFileProcessor = class extends FileProcessor {
                             break;
                     }
                 }
+            } else if (line.indexOf('namespace') === 0) {
+                line = line.substr(10 - line.length).trim();
+                let i = line.indexOf(' ');
+                namespace = (i === -1) ? line : line.substr(0, i);
             }
         }
         if (constantsSection.content.length) {
@@ -304,9 +309,10 @@ exports.WhlFileProcessor = class extends FileProcessor {
         if (mod && (this._sections.length)) {
             this.addKeyword(mod, this._sections[0].content[0].text);
             this._help.files.push({
-                subject:  'Module:' + mod,
-                sections: this._sections,
-                device:   device
+                subject:   'Module:' + mod,
+                namespace: namespace,
+                device:    device,
+                sections:  this._sections
             });
         }
     }

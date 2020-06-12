@@ -505,6 +505,26 @@ class HelpBuilder {
         new DOMNode({}).create(opts.parentNode, node);
     }
 
+    addNamespace(parentNode, namespace) {
+        new DOMNode({}).create(
+            parentNode,
+            {
+                type:      H,
+                size:      5,
+                innerHTML: 'Namespace',
+                title:     'Namespace',
+                className: 'title-with-source'
+            }
+        );
+        new DOMNode({}).create(
+            parentNode,
+            {
+                innerHTML: namespace + '<br/>',
+                className: 'source-location'
+            }
+        );
+    }
+
     onClickSee(fileIndex) {
         this._dialog.onShowFileIndex(fileIndex);
     }
@@ -517,6 +537,9 @@ class HelpBuilder {
         let subjects    = [];
         let wheelSyntax = new WheelSyntax();
         let sections    = file.sections;
+        if (file.namespace) {
+            this.addNamespace(parentNode, file.namespace);
+        }
         for (let i = 0; i < sections.length; i++) {
             let section   = sections[i];
             let title     = section.title;
