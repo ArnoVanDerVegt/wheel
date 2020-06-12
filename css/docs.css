@@ -406,6 +406,8 @@ div.quarter li {
 .help-file h3,
 .help-file h4,
 .help-file h5 {
+    float:                          left;
+    width:                          100%;
     color:                          #383838;
     opacity:                        0.5;
 }
