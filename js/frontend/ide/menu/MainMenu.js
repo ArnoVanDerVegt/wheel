@@ -362,7 +362,8 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
-        menuOptions[8].setChecked(settings.getAutoInstall());
+        menuOptions[8].setEnabled('electron' in window);
+        menuOptions[8].setChecked(('electron' in window) && settings.getAutoInstall());
         return this;
     }
 
