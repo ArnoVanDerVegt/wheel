@@ -126,6 +126,10 @@ exports.Scope = class {
         if (record) {
             return record;
         }
+        record = this._recordsByName[this._namespace.getCurrentNamespace() + name];
+        if (record) {
+            return record;
+        }
         let vr = this._varsByName[name];
         if (vr) {
             return vr;

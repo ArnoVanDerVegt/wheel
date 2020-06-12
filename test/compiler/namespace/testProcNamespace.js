@@ -1,5 +1,5 @@
 /**
- * Wheel, copyright (c) 2017 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const testLogs    = require('../../utils').testLogs;
@@ -8,7 +8,7 @@ const testCodeAndMemory = require('../../utils').testCodeAndMemory;
 const assert      = require('assert');
 
 describe(
-    'Test namespace',
+    'Test proc namespace',
     function() {
         describe(
             'Test namespace declarations',

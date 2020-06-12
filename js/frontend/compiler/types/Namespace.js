@@ -134,6 +134,9 @@ exports.Namespace = class {
             }
             i++;
         }
+        namespacedTokens.forEach(function(token, index) {
+            token.index = index;
+        });
         return namespacedTokens;
     }
 };
