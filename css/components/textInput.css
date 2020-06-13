@@ -4,3 +4,14 @@ input[type="text"] {
     color:                          var(--text-input-color);
     background-color:               var(--text-input-background);
 }
+::-webkit-input-placeholder {
+    color:                          var(--text-input-placeholder);
+}
+
+:-ms-input-placeholder {
+    color:                          var(--text-input-placeholder);
+}
+
+::placeholder {
+    color:                          var(--text-input-placeholder);
+}

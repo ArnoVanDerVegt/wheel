@@ -30,9 +30,10 @@ exports.FileRenameDialog = class extends Dialog {
                                     innerHTML: 'New name'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
+                                    ref:         this.setRef('filename'),
+                                    tabIndex:    1,
+                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                    placeholder: 'Enter filename'
                                 })
                             ]
                         }

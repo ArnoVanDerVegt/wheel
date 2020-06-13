@@ -23,10 +23,11 @@ exports.DevicePortAliasDialog = class extends Dialog {
                     className: 'device-alias-row',
                     children: [
                         this.addTextInput({
-                            ref:       this.setRef('alias'),
-                            tabIndex:  1,
-                            onKeyUp:   this.onAliasKeyUp.bind(this),
-                            maxLength: 32
+                            ref:         this.setRef('alias'),
+                            tabIndex:    1,
+                            onKeyUp:     this.onAliasKeyUp.bind(this),
+                            maxLength:   32,
+                            placeholder: 'Enter port alias'
                         })
                     ]
                 },

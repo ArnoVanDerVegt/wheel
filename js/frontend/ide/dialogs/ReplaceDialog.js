@@ -23,9 +23,10 @@ exports.ReplaceDialog = class extends Dialog {
                                     innerHTML: 'Replace'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('replace'),
-                                    tabIndex: 10,
-                                    onKeyUp:  this.onReplaceKeyUp.bind(this)
+                                    ref:         this.setRef('replace'),
+                                    tabIndex:    10,
+                                    onKeyUp:     this.onReplaceKeyUp.bind(this),
+                                    placeholder: 'Enter text'
                                 })
                             ]
                         },
@@ -36,9 +37,10 @@ exports.ReplaceDialog = class extends Dialog {
                                     innerHTML: 'With'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('with'),
-                                    tabIndex: 11,
-                                    onKeyUp:  this.onWithKeyUp.bind(this)
+                                    ref:         this.setRef('with'),
+                                    tabIndex:    11,
+                                    onKeyUp:     this.onWithKeyUp.bind(this),
+                                    placeholder: 'Enter text'
                                 })
                             ]
                         },

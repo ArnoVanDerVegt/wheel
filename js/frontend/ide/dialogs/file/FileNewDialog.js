@@ -30,9 +30,10 @@ exports.FileNewDialog = class extends Dialog {
                                     innerHTML: 'Filename'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
+                                    ref:         this.setRef('filename'),
+                                    tabIndex:    1,
+                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                    placeholder: 'Enter filename'
                                 })
                             ]
                         },
@@ -45,10 +46,11 @@ exports.FileNewDialog = class extends Dialog {
                                     innerHTML: 'Description'
                                 },
                                 this.addTextInput({
-                                    ref:       this.setRef('description'),
-                                    tabIndex:  2,
-                                    className: 'description',
-                                    onKeyUp:   this.onDescriptionKeyUp.bind(this)
+                                    ref:         this.setRef('description'),
+                                    tabIndex:    2,
+                                    className:   'description',
+                                    onKeyUp:     this.onDescriptionKeyUp.bind(this),
+                                    placeholder: 'Enter description'
                                 })
                             ]
                         },

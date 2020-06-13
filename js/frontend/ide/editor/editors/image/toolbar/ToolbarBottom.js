@@ -34,12 +34,13 @@ exports.ToolbarBottom = class extends Toolbar {
                         children: [
                             this.addLabel('Text:'),
                             {
-                                ref:      imageEditor.setRef('text'),
-                                type:     TextInput,
-                                ui:       this._ui,
-                                uiId:     1,
-                                tabIndex: tabIndex.IMAGE_TEXT,
-                                onKeyUp:  imageEditor.onKeyUp.bind(imageEditor)
+                                ref:         imageEditor.setRef('text'),
+                                type:        TextInput,
+                                ui:          this._ui,
+                                uiId:        1,
+                                tabIndex:    tabIndex.IMAGE_TEXT,
+                                onKeyUp:     imageEditor.onKeyUp.bind(imageEditor),
+                                placeholder: 'Enter text'
                             },
                             this.addToolOptions({
                                 uiId:          1,

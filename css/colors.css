@@ -139,6 +139,7 @@ body.ide {
     --text-input-color:             #383838;
     --text-input-background:        #FFFFFF;
     --text-input-invalid-border:    1px solid #E84118;
+    --text-input-placeholder:       rgba(0, 0, 0, 0.15);
 
     --files-hover-background:       #00A8FF;
     --files-hover-border:           1px solid #0097E6;
@@ -340,6 +341,7 @@ body.ide.dark {
     --text-input-color:             #D8E4F0; /* #F0F0F0 */
     --text-input-background:        #565B60; /* #606060 */
     --text-input-invalid-border:    1px solid #E84118;
+    --text-input-placeholder:       rgba(255, 255, 255, 0.15);
 
     --files-hover-background:       #3A3D40; /* 404040 */
     --files-hover-border:           1px solid #484C50; /* #505050 */

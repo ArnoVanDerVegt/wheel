@@ -74,10 +74,11 @@ exports.FileDialog = class extends Dialog {
                             className: 'current-file'
                         },
                         this.addTextInput({
-                            ref:       this.setRef('currentFileInput'),
-                            tabIndex:  2048,
-                            className: 'current-file-input',
-                            onKeyUp:   this.onCurrentFileInputKeyUp.bind(this)
+                            ref:         this.setRef('currentFileInput'),
+                            tabIndex:    2048,
+                            className:   'current-file-input',
+                            onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
+                            placeholder: 'Enter filename'
                         })
                     ]
                 }

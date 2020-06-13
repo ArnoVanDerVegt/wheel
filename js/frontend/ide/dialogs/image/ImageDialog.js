@@ -67,9 +67,10 @@ exports.ImageDialog = class extends Dialog {
                     innerHTML: 'Width'
                 },
                 this.addTextInput({
-                    ref:      this.setRef('width'),
-                    tabIndex: 10,
-                    onKeyUp:  this.onWidthKeyUp.bind(this)
+                    ref:         this.setRef('width'),
+                    tabIndex:    10,
+                    onKeyUp:     this.onWidthKeyUp.bind(this),
+                    placeholder: 'Enter width'
                 })
             ]
         };
@@ -84,9 +85,10 @@ exports.ImageDialog = class extends Dialog {
                     innerHTML: 'Height'
                 },
                 this.addTextInput({
-                    ref:      this.setRef('height'),
-                    tabIndex: 11,
-                    onKeyUp:  this.onHeightKeyUp.bind(this)
+                    ref:         this.setRef('height'),
+                    tabIndex:    11,
+                    onKeyUp:     this.onHeightKeyUp.bind(this),
+                    placeholder: 'Enter height'
                 })
             ]
         };

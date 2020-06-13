@@ -25,9 +25,10 @@ exports.ImageNewDialog = class extends ImageDialog {
                                     innerHTML: 'Filename'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
+                                    ref:         this.setRef('filename'),
+                                    tabIndex:    1,
+                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                    placeholder: 'Enter filename'
                                 })
                             ]
                         },
