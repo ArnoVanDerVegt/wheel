@@ -239,6 +239,7 @@ require('./js/frontend/ide/help/helpData');
 require('./js/frontend/ide/help/HelpBuilder');
 require('./js/frontend/ide/help/HelpBuilderText');
 require('./js/frontend/ide/dialogs/AlertDialog');
+require('./js/frontend/ide/dialogs/SettingsDialog');
 require('./js/frontend/ide/dialogs/hint/HintDialog');
 require('./js/frontend/ide/dialogs/hint/WelcomeHintDialog');
 require('./js/frontend/ide/dialogs/ConfirmDialog');

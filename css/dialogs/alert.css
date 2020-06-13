@@ -21,6 +21,9 @@
 .dialog-background.alert-dialog img {
     display:                        none;
 }
+.dialog-background.alert-dialog img.dialog-content-image {
+    display:                        block;
+}
 .dialog-background.alert-dialog.with-image img {
     display:                        block;
     width:                          64px;

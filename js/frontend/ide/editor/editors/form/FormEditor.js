@@ -19,7 +19,8 @@ exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
         opts.getOwnerByParentId = getFormComponentContainerByParentId;
-        this._sourceBuilder   = new SourceBuilder({});
+        this._settings        = opts.settings;
+        this._sourceBuilder   = new SourceBuilder({settings: opts.settings});
         this._formEditorState = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)

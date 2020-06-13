@@ -14,6 +14,13 @@ exports.Button = class extends Component {
     }
 
     initDOM(parentNode) {
+        let style = this._style || {};
+        if (this._width && (parseInt(this._width, 10) >= 20)) {
+            style.width = this._width + 'px';
+        }
+        if (this._height && (parseInt(this._height, 10) >= 20)) {
+            style.height = this._height + 'px';
+        }
         this.create(
             parentNode,
             {
@@ -25,7 +32,7 @@ exports.Button = class extends Component {
                 disabled:  this._disabled ? 'disabled' : '',
                 value:     this._value || '',
                 title:     this._title || '',
-                style:     this._style || {}
+                style:     style
             }
         );
     }
@@ -51,6 +58,20 @@ exports.Button = class extends Component {
         }
         if ('disabled' in opts) {
             element.disabled  = opts.disabled ? 'disabled' : '';
+        }
+        if ('width' in opts) {
+            if (parseInt(opts.width, 10) >= 20) {
+                this.setWidth(opts.width + 'px');
+            } else {
+                this.setWidth('auto');
+            }
+        }
+        if ('height' in opts) {
+            if (parseInt(opts.height, 10) >= 20) {
+                this.setHeight(opts.height + 'px');
+            } else {
+                this.setHeight('auto');
+            }
         }
         super.onEvent(opts);
     }

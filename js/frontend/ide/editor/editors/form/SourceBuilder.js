@@ -42,6 +42,7 @@ exports.getShowProcNameFromFormName = getShowProcNameFromFormName;
 exports.SourceBuilder = class {
     constructor(opts) {
         this._lastDefines = null;
+        this._settings    = opts.settings;
     }
 
     getConstantFromName(name) {
@@ -163,11 +164,16 @@ exports.SourceBuilder = class {
         if (!event) {
             return [];
         }
-        let proc = 'proc ' + procName + '(';
-        lines.push('; @proc                   ' + componentType + ' ' + eventType + ' event.');
+        let addComments = this._settings.getCreateEventComments();
+        let proc        = 'proc ' + procName + '(';
+        if (addComments) {
+            lines.push('; @proc                   ' + componentType + ' ' + eventType + ' event.');
+        }
         event.params.forEach(function(param) {
             proc += param.type + ' ' + param.name + ', ';
-            lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
+            if (addComments) {
+                lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
+            }
         });
         proc = proc.substr(0, proc.length - 2) + ')';
         lines.push(proc);

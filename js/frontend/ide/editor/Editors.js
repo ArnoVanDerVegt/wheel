@@ -292,7 +292,7 @@ exports.Editors = class extends DOMNode {
             if (opts.value.whl) {
                 textOpts.value = opts.value.whl;
             } else {
-                textOpts.value = new SourceBuilder({}).generateSourceFromFormData(opts.data);
+                textOpts.value = new SourceBuilder({settings: this._settings}).generateSourceFromFormData(opts.data);
             }
             textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (opts.value.isProject ? 'p' : ''));
             textOpts.mode     = 'text/x-wheel';

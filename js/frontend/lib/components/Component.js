@@ -44,6 +44,8 @@ exports.Component = class extends DOMNode {
         this._disabled      = ('disabled' in opts) ? opts.disabled : false;
         this._hidden        = ('hidden'   in opts) ? opts.hidden   : false;
         this._color         = ('color'    in opts) ? opts.color    : 'green';
+        this._width         = ('width'    in opts) ? opts.width    : false;
+        this._height        = ('height'   in opts) ? opts.height   : false;
         this._style         = opts.style || {};
         this._className     = opts.className     || '';
         this._baseClassName = opts.baseClassName || '';
@@ -142,6 +144,14 @@ exports.Component = class extends DOMNode {
         this._title         = title;
         this._element.title = title;
         return this;
+    }
+
+    setWidth(width) {
+        this._element.style.width = width;
+    }
+
+    setHeight(height) {
+        this._element.style.height = height;
     }
 
     remove() {

@@ -50,6 +50,18 @@ const posNumberValidator = function(value) {
         return true;
     };
 
+const posNumberOrEmptyValidator = function(value) {
+        if (value.length < 1) {
+            return true;
+        }
+        for (let i = 0; i < value.length; i++) {
+            if (NUMERIC.indexOf(value[i]) === -1) {
+                return false;
+            }
+        }
+        return true;
+    };
+
 const numberValidator = function(value) {
         if (!value.length || ((value.length === 1) && (NUMERIC.indexOf(value) === -1))) {
             return false;
@@ -104,6 +116,8 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'boolean',     name: 'disabled'},
         {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',    options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+        {type: 'text',        name: 'height',   options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
         {type: 'color',       name: 'color'},
         {type: 'text',        name: 'value'},
         {type: 'text',        name: 'title'}

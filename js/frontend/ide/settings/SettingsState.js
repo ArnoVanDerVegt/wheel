@@ -44,6 +44,13 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DevicePortAlias',             this, this._setDevicePortAlias)
             .on('Settings.Set.ConsoleVisible',              this, this._setConsoleVisible)
             .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
+            .on('Settings.Set.CreateEventComments',         this, this._setCreateEventComments)
+            .on('Settings.Set.CreateVMTextOutput',          this, this._setCreateVMTextOutput)
+            .on('Settings.Set.SetLinter',                   this, this._setLinter)
+            .on('Settings.Set.SetShowFileTree',             this, this._setShowFileTree)
+            .on('Settings.Set.ShowSimulatorOnRun',          this, this._setShowSimulatorOnRun)
+            .on('Settings.Set.DarkMode',                    this, this._setDarkMode)
+            .on('Settings.Set.SensorAutoReset',             this, this._setSensorAutoReset)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -67,6 +74,7 @@ exports.SettingsState = class extends Emitter {
     _save() {
         let settings = {
                 documentPath:          this._documentPath,
+                createEventComments:   this._createEventComments,
                 createVMTextOutput:    this._createVMTextOutput,
                 linter:                this._linter,
                 recentProject:         this._recentProject,
@@ -201,6 +209,10 @@ exports.SettingsState = class extends Emitter {
 
     getCreateVMTextOutput() {
         return this._createVMTextOutput;
+    }
+
+    getCreateEventComments() {
+        return this._createEventComments;
     }
 
     getLinter() {
@@ -400,13 +412,6 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.AliasPortChanged');
     }
 
-    _toggleShowFileTree() {
-        this._show.fileTree = !this._show.fileTree;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
-    }
-
     _setConsoleVisible(visible) {
         this._show.console = visible;
         this._updateViewSettings();
@@ -418,6 +423,57 @@ exports.SettingsState = class extends Emitter {
         this._formGridSize = formGridSize;
         this._save();
         this.emit('Settings.Grid.Size', formGridSize);
+    }
+
+    _setCreateEventComments(createEventComments) {
+        this._createEventComments = createEventComments;
+        this._save();
+    }
+
+    _setCreateVMTextOutput(createVMTextOutput) {
+        this._createVMTextOutput = createVMTextOutput;
+        this._save();
+        this.emit('Settings.Compile');
+    }
+
+    _setLinter(linter) {
+        this._linter = linter;
+        this._save();
+        this.emit('Settings.Compile');
+    }
+
+    _setShowFileTree(showFileTree) {
+        this._show.fileTree = showFileTree;
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
+    _setShowSimulatorOnRun(showSimulatorOnRun) {
+        this._show.simulatorOnRun = !this._show.simulatorOnRun;
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
+    _setDarkMode(darkMode) {
+        this._darkMode = darkMode;
+        this._save();
+        this._updateViewSettings();
+        this.emit('Settings.View');
+    }
+
+    _setSensorAutoReset(sensorAutoReset) {
+        this._sensorAutoReset = sensorAutoReset;
+        this._save();
+        this.emit('Settings.Simulator');
+    }
+
+    _toggleShowFileTree() {
+        this._show.fileTree = !this._show.fileTree;
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
     }
 
     _toggleShowConsole() {
@@ -445,10 +501,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     _toggleShowSimulatorOnRun() {
-        this._show.simulatorOnRun = !this._show.simulatorOnRun;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._setShowSimulatorOnRun(!this._show.simulatorOnRun);
     }
 
     _toggleCreateVMTextOutput() {
@@ -476,16 +529,11 @@ exports.SettingsState = class extends Emitter {
     }
 
     _toggleDarkMode() {
-        this._darkMode = !this._darkMode;
-        this._save();
-        this._updateViewSettings();
-        this.emit('Settings.View');
+        this._setDarkMode(!this._darkMode);
     }
 
     _toggleAutoReset() {
-        this._sensorAutoReset = !this._sensorAutoReset;
-        this._save();
-        this.emit('Settings.Simulator');
+        this._setSensorAutoReset(!this._sensorAutoReset);
     }
 
     _togglePoweredUpAutoConnect() {
@@ -533,6 +581,7 @@ exports.SettingsState = class extends Emitter {
         this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                   : {};
         this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this._poweredUp.deviceCount      : 1;
         this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput          : false;
+        this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments         : true;
         this._linter                     = ('linter'                in data)             ? data.linter                      : true;
         this._recentProject              = ('recentProject'         in data)             ? data.recentProject               : '';
         this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                 : false;

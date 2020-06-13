@@ -29,6 +29,7 @@ const EV3ControlDialog           = require('./dialogs/directcontrol/EV3ControlDi
 const PoweredUpControlDialog     = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
 const ConfirmDialog              = require('./dialogs/ConfirmDialog').ConfirmDialog;
 const AlertDialog                = require('./dialogs/AlertDialog').AlertDialog;
+const SettingsDialog             = require('./dialogs/SettingsDialog').SettingsDialog;
 const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
 const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
 const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
@@ -449,6 +450,7 @@ exports.IDE = class extends CompileAndRun {
         new EV3ControlDialog          ({getImage: getImage, ui: this._ui, device: this._ev3});
         new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpControlDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new SettingsDialog            ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog         ({getImage: getImage, ui: this._ui});
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
