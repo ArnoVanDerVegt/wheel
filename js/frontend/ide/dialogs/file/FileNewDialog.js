@@ -128,10 +128,10 @@ exports.FileNewDialog = class extends Dialog {
         if (createForm) {
             formFilename = path.replaceExtension(path.getPathAndFilename(filename).filename, '.wfrm');
             formName     = path.replaceExtension(formFilename, '');
-            includeFiles.unshift('lib/components/form.whl');
             if (includeFiles.indexOf('lib/standard.whl') === -1) {
                 includeFiles.push('lib/standard.whl');
             }
+            includeFiles.push('lib/components/form.whl');
         }
         this.addIncludes(file, includeFiles);
         if (createForm) {

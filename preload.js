@@ -267,6 +267,7 @@ require('./js/frontend/ide/dialogs/form/ComponentFormContainer.js');
 require('./js/frontend/ide/dialogs/form/FormSizeDialog');
 require('./js/frontend/ide/dialogs/form/FormNewDialog');
 require('./js/frontend/ide/dialogs/form/FormDialog');
+require('./js/frontend/ide/dialogs/form/FormGridSizeDialog');
 require('./js/frontend/ide/dialogs/VolumeDialog');
 require('./js/frontend/ide/dialogs/help/components/WocFileLoader');
 require('./js/frontend/ide/dialogs/help/HelpDialog');

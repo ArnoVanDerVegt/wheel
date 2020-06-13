@@ -17,8 +17,8 @@ exports.SettingsState = class extends Emitter {
         this._documentPath     = '';
         this._userDocumentPath = (opts.userDocumentPath || '').split('\\').join('/');
         this._plugins          = new PluginsState({settings: this});
-        this.onLoad({});
         // Update...
+        this.onLoad({});
         dispatcher
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             // Setters...
@@ -43,6 +43,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DeviceAlias',                 this, this._setDeviceAlias)
             .on('Settings.Set.DevicePortAlias',             this, this._setDevicePortAlias)
             .on('Settings.Set.ConsoleVisible',              this, this._setConsoleVisible)
+            .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -111,6 +112,7 @@ exports.SettingsState = class extends Emitter {
                     deviceCount:       this._poweredUp.deviceCount
                 },
                 sensorAutoReset:       this._sensorAutoReset,
+                formGridSize:          this._formGridSize,
                 plugins:               this._plugins.toJSON()
             };
         if (this._getDataProvider) {
@@ -280,6 +282,10 @@ exports.SettingsState = class extends Emitter {
         return this._sensorAutoReset;
     }
 
+    getFormGridSize() {
+        return this._formGridSize;
+    }
+
     _setRecentProject(recentProject) {
         this._recentProject = recentProject;
         this._save();
@@ -408,6 +414,12 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
+    _setFormGridSize(formGridSize) {
+        this._formGridSize = formGridSize;
+        this._save();
+        this.emit('Settings.Grid.Size', formGridSize);
+    }
+
     _toggleShowConsole() {
         this._setConsoleVisible(!this._show.console);
     }
@@ -533,6 +545,7 @@ exports.SettingsState = class extends Emitter {
         this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
         this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias             : {};
         this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset             : true;
+        this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                : 10;
         if (this._show.simulator) {
             this._show.properties = false;
         } else if (this._show.properties) {

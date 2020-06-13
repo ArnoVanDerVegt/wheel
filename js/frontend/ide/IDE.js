@@ -52,6 +52,7 @@ const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDial
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
 const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
+const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const Properties                 = require('./properties/Properties').Properties;
 const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
@@ -462,6 +463,7 @@ exports.IDE = class extends CompileAndRun {
         new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
+        new FormGridSizeDialog        ({getImage: getImage, ui: this._ui});
         new WelcomeHintDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});

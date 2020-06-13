@@ -59,6 +59,7 @@ exports.FORM_COPY                   = 4257;
 exports.FORM_PASTE                  = 4258;
 exports.FORM_DELETE                 = 4259;
 exports.FORM_COMPONENT              = 4260;
+exports.FORM_VIEW_GRID              = 4300;
 
 // Wheel editor, toolbar bottom
 exports.WHEEL_EDITOR_FIND_TEXT      = 4256;

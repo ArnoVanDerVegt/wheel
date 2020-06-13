@@ -416,9 +416,26 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
     overflow:                       hidden;
     cursor:                         default;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid10 {
     background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
-    background-position:            0 0;
+    background-position:            5px 5px;
     background-size:                10px 10px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid12 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            6px 6px;
+    background-size:                12px 12px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid16 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            8px 8px;
+    background-size:                16px 16px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid20 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            10px 10px;
+    background-size:                20px 20px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form .button,
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.form .label,

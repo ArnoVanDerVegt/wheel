@@ -17,6 +17,7 @@ let nextId = 0;
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
+        this._settings           = opts.settings;
         this._loading            = !!opts.data;
         this._clipboard          = null;
         this._path               = opts.path;
@@ -132,6 +133,11 @@ exports.FormEditorState = class extends Emitter {
             id:       id,
             position: {x: component.x, y: component.y}
         });
+        let formGridSize = this._settings.getFormGridSize();
+        if (formGridSize) {
+            position.x = Math.round(position.x / formGridSize) * formGridSize;
+            position.y = Math.round(position.y / formGridSize) * formGridSize;
+        }
         component.x = position.x;
         component.y = position.y;
     }

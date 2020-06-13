@@ -77,6 +77,19 @@ exports.SourceBuilder = class {
         return -1;
     }
 
+    generateIncludesFromData(data, includeForComponent) {
+        let includes = [];
+        data.forEach(function(component) {
+            if (component.type in includeForComponent) {
+                let include = includeForComponent[component.type];
+                if (includes.indexOf(include) === -1) {
+                    includes.push(include);
+                }
+            }
+        });
+        return includes;
+    }
+
     generateDefinesFromData(data) {
         let form = data[0];
         let i    = form.name.indexOf('.');
@@ -157,7 +170,7 @@ exports.SourceBuilder = class {
         return [proc, 'end', ''];
     }
 
-    generateEventsFromData(data, lines) {
+    generateEventsFromData(lines, data) {
         let procedures = [];
         const findProcedures = function() {
                 lines.forEach(function(line, index) {
@@ -237,9 +250,8 @@ exports.SourceBuilder = class {
         } else {
             insertPosition = firstDefine;
         }
-
         // Then insert the new sorted and formated #define list...
-        defines           = this.generateDefinesFromData(opts.data);
+        defines = this.generateDefinesFromData(opts.data);
         this._lastDefines = defines;
         if (insertPosition === -1) {
             defines.forEach(function(define) {
@@ -251,10 +263,33 @@ exports.SourceBuilder = class {
                 lines.splice(insertPosition, 0, define.line);
             });
         }
+        this.updateLinesWithIncludes(lines, opts);
         // Add the event procedures...
-        this.generateEventsFromData(opts.data, lines);
+        this.generateEventsFromData(lines, opts.data);
         // Get the updated defines...
         return lines.join('\n');
+    }
+
+    updateLinesWithIncludes(lines, opts) {
+        let currentIncludes = [];
+        let lastIndex       = 0;
+        lines.forEach(function(line, index) {
+            line = line.trim();
+            if (line.indexOf('#include ') === 0) {
+                let i = line.indexOf('"');
+                let j = line.indexOf('"', i + 1);
+                if ((i !== -1) && (j !== -1)) {
+                    currentIncludes.push(line.substr(i + 1, j - i - 1));
+                }
+                lastIndex = index;
+            }
+        });
+        let includes = this.generateIncludesFromData(opts.data, opts.includeForComponent);
+        includes.forEach(function(include) {
+            if (currentIncludes.indexOf(include) === -1) {
+                lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
+            }
+        });
     }
 
     updateLinesWithDefines(lines, defines) {

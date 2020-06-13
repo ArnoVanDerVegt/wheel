@@ -74,6 +74,10 @@ exports.FormComponentContainer = class extends DOMNode {
         return this._formElement;
     }
 
+    setClassName(className) {
+        this._formElement.className = className;
+    }
+
     setFormElement(element) {
         this._formElement = element;
         element.addEventListener('click',     this.onClick.bind(this));

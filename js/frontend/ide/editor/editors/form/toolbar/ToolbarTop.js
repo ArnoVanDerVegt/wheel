@@ -83,7 +83,23 @@ exports.ToolbarTop = class extends Toolbar {
                             {title: 'Panel',         icon: 'icon-panel'},
                             {title: 'Tabs',          icon: 'icon-tabs'}
                         ]
-                    })
+                    }),
+                    {
+                        className: 'top-options right',
+                        children: [
+                            this.addLabel('Grid:'),
+                            this.addButton({
+                                ref:       formEditor.setRef('gridToggle'),
+                                uiId:      formEditor.getUIId.bind(formEditor),
+                                tabIndex:  tabIndex.FORM_VIEW_GRID,
+                                icon:      'icon-grid',
+                                className: 'toolbar-button active',
+                                color:     ' ',
+                                title:     'Grid',
+                                onClick:   formEditor.onSelectGrid.bind(formEditor)
+                            })
+                        ]
+                    }
                 ]
             }
         );

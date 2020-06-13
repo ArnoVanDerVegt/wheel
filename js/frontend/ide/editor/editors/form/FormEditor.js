@@ -83,11 +83,12 @@ exports.FormEditor = class extends Editor {
                 className: 'resource-content-wrapper',
                 children: [
                     {
+                        ref:             this.setRef('grid'),
                         type:            FormComponent,
                         ui:              this._ui,
                         id:              this.setFormComponent.bind(this),
                         formEditorState: this._formEditorState,
-                        className:       'resource with-shadow form'
+                        className:       'resource with-shadow form grid' + this._settings.getFormGridSize()
                     }
                 ]
             }
@@ -96,8 +97,9 @@ exports.FormEditor = class extends Editor {
         let editor          = this.getEditor();
         if (editor && !formEditorState.getLoading()) {
             editor.setValue(this._sourceBuilder.addComponent({
-                source:    editor.getValue(),
-                data:      formEditorState.getData()
+                source:              editor.getValue(),
+                data:                formEditorState.getData(),
+                includeForComponent: formEditorConstants.INCLUDE_FOR_COMPONENT
             }));
         }
     }
@@ -208,6 +210,17 @@ exports.FormEditor = class extends Editor {
         this._refs.cursorPosition.innerHTML = '';
     }
 
+    onSelectGrid() {
+        let refs = this._refs;
+        dispatcher.dispatch(
+            'Dialog.SelectGridSize.Show',
+            this._settings.getFormGridSize(),
+            function(formGridSize) {
+                refs.grid.setClassName('resource with-shadow form grid' + formGridSize);
+            }
+        );
+    }
+
     getCanUndo() {
         return this._formEditorState.getHasUndo();
     }
@@ -266,8 +279,9 @@ exports.FormEditor = class extends Editor {
             return;
         }
         editor.setValue(this._sourceBuilder.addComponent({
-            source:    editor.getValue(),
-            data:      formEditorState.getData()
+            source:              editor.getValue(),
+            data:                formEditorState.getData(),
+            includeForComponent: formEditorConstants.INCLUDE_FOR_COMPONENT
         }));
     }
 

@@ -70,6 +70,17 @@ const posNumberValidatorWithMin = function(min) {
         };
     };
 
+exports.INCLUDE_FOR_COMPONENT = {
+        form:         'lib/components/form.whl',
+        button:       'lib/components/button.whl',
+        selectButton: 'lib/components/selectButton.whl',
+        label:        'lib/components/label.whl',
+        checkbox:     'lib/components/checkbox.whl',
+        statusLight:  'lib/components/statusLight.whl',
+        panel:        'lib/components/panel.whl',
+        tabs:         'lib/components/tabs.whl'
+    };
+
 // Component properties...
 exports.PROPERTIES_BY_TYPE = {
     FORM: [
