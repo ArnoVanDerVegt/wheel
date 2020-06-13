@@ -191,36 +191,178 @@ exports.PROPERTIES_BY_TYPE = {
 // Component properties...
 exports.EVENTS_BY_TYPE = {
     FORM: [
-        {name: 'onShow',      params: ['windowHandle']},
-        {name: 'onHide',      params: ['windowHandle']}
+        {
+            name: 'onShow',
+            code: [
+                '    printS("Show {name} form.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window'}
+            ]
+        },
+        {
+            name: 'onHide',
+            code: [
+            '    printS("Hide {name} form.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        }
     ],
     BUTTON: [
-        {name: 'onClick',     params: ['windowHandle']},
-        {name: 'onFocus',     params: ['windowHandle']},
-        {name: 'onBlur',      params: ['windowHandle']},
-        {name: 'onMouseDown', params: ['windowHandle']},
-        {name: 'onMouseUp',   params: ['windowHandle']},
-        {name: 'onMouseOut',  params: ['windowHandle']}
+        {
+            name: 'onClick',
+            code: [
+                '    printS("Click {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onFocus',
+            code: [
+                '    printS("Focus {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onBlur',
+            code: [
+                '    printS("Blur {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onMouseDown',
+            code: [
+                '    printS("Mousedown {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onMouseUp',
+            code: [
+                '    printS("Mouseup {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onMouseOut',
+            code: [
+                '    printS("Mouseout {name} button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        }
     ],
     SELECTBUTTON: [
-        {name: 'onChange',    params: ['windowHandle', 'value']},
-        {name: 'onFocus',     params: ['windowHandle']},
-        {name: 'onBlur',      params: ['windowHandle']}
+        {
+            name: 'onChange',
+            code: [
+                '    printS("Change {name} select button, value:")',
+                '    printN(value)'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                {name: 'value',        type: 'number', comment: 'New active button.'}
+            ]
+        },
+        {
+            name: 'onFocus',
+            code: [
+                '    printS("Focus {name} select button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onBlur',
+            code: [
+                '    printS("Blur {name} select button.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        }
     ],
     LABEL: [
     ],
     CHECKBOX: [
-        {name: 'onChange',    params: ['windowHandle', 'value']},
-        {name: 'onFocus',     params: ['windowHandle']},
-        {name: 'onBlur',      params: ['windowHandle']}
+        {
+            name: 'onChange',
+            code: [
+                '    printS("Change {name} checkbox, value:")',
+                '    printN(value)'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                {name: 'value',        type: 'number', comment: 'The checkbox value.'}
+            ]
+        },
+        {
+            name: 'onFocus',
+            code: [
+                '    printS("Focus {name} select checkbox.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onBlur',
+            code: [
+                '    printS("Blur {name} select checkbox.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        }
     ],
     STATUSLIGHT: [
     ],
     PANEL: [
     ],
     TABS: [
-        {name: 'onChange',    params: ['windowHandle', 'value']},
-        {name: 'onFocus',     params: ['windowHandle']},
-        {name: 'onBlur',      params: ['windowHandle']}
+        {
+            name: 'onChange',
+            code: [
+                '    printS("Change {name} tabs, value:")',
+                '    printN(value)'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                {name: 'value',        type: 'number', comment: 'The active tab.'}
+            ]
+        },
+        {
+            name: 'onFocus',
+            code: [
+                '    printS("Focus {name} tabs.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        },
+        {
+            name: 'onBlur',
+            code: [
+                '    printS("Blur {name} tabs.")'
+            ],
+            params: [
+                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+            ]
+        }
     ]
 };

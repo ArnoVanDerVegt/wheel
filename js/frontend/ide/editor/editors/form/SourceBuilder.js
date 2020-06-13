@@ -26,8 +26,8 @@ const getFormCode = function(filename) {
         return [
             '#resource "' + path.replaceExtension(pathAndFilename.filename, '.wfrm') + '"',
             '',
-            '; @proc Show the form',
-            '; @ret  The handle to the form.',
+            '; @proc                   Show the form.',
+            '; @ret                    The handle to the form.',
             'proc show' + getShowProcNameFromFilename(filename) + '()',
             '    ret components.form.show("' + filename + '")',
             'end',
@@ -150,7 +150,8 @@ exports.SourceBuilder = class {
         return result;
     }
 
-    generateEventProc(componentType, eventType, procName) {
+    generateEventProc(componentName, componentType, eventType, procName) {
+        let lines  = [];
         let events = formEditorConstants.EVENTS_BY_TYPE[componentType.toUpperCase()] || [];
         let event  = null;
         for (let i = 0; i < events.length; i++) {
@@ -163,11 +164,20 @@ exports.SourceBuilder = class {
             return [];
         }
         let proc = 'proc ' + procName + '(';
+        lines.push('; @proc                   ' + componentType + ' ' + eventType + ' event.');
         event.params.forEach(function(param) {
-            proc += 'number ' + param + ', ';
+            proc += param.type + ' ' + param.name + ', ';
+            lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
         });
         proc = proc.substr(0, proc.length - 2) + ')';
-        return [proc, 'end', ''];
+        lines.push(proc);
+        if (event.code) {
+            event.code.forEach(function(code) {
+                lines.push(code.replace('{name}', componentName));
+            });
+        }
+        lines.push('end', '');
+        return lines;
     }
 
     generateEventsFromData(lines, data) {
@@ -224,7 +234,7 @@ exports.SourceBuilder = class {
             for (let j in component) {
                 let value = component[j];
                 if ((j.substr(0, 2) === 'on') && value && !findProc(value)) {
-                    insertProc(value, this.generateEventProc(component.type, j, value));
+                    insertProc(value, this.generateEventProc(component.name, component.type, j, value));
                 }
             }
         }
