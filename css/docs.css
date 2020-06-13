@@ -392,7 +392,6 @@ div.quarter li {
 .help-file pre.error {
     float:                          left;
     clear:                          both;
-    border:                         0;
     border-radius:                  2px;
     background-color:               var(--ui-background2);
 }

@@ -24,6 +24,7 @@ In the following examples the same procedure `setX` is used in two different nam
 
 @example
 namespace components.button
+
 proc setX(number windowHandle, number componentHandle, number x)
     addr windowHandle
     mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_X
@@ -32,6 +33,7 @@ end
 
 @example
 namespace components.panel
+
 proc setX(number windowHandle, number componentHandle, number x)
     addr windowHandle
     mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_X
