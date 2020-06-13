@@ -71,6 +71,19 @@ body.ide .console-content {
     text-overflow:                  ellipsis;
     cursor:                         default;
 }
+.console-content .console-lines .console-line span {
+    float:                          left;
+}
+.console-content .console-lines .console-line span.count {
+    height:                         14px;
+    line-height:                    14px;
+    border-radius:                  10px;
+    background:                     var(--color-green);
+    color:                          #FFFFFF;
+    padding:                        0 6px 0 6px;
+    font-size:                      11px;
+    margin:                         4.5px 4px 0 0;
+}
 .console-content .console-lines .console-line.closed,
 .console-content .console-lines .console-line.open {
     padding-left:                   24px;

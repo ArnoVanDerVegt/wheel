@@ -18,6 +18,7 @@ class LogMessage extends DOMNode {
         this._messageId       = opts.messageId;
         this._message         = opts.message;
         this._className       = opts.className || '';
+        this._count           = 1;
         this.initDOM(opts.parentNode);
     }
 
@@ -25,19 +26,28 @@ class LogMessage extends DOMNode {
         this.create(
             parentNode,
             {
-                type:      'span',
                 id:        this.setElement.bind(this),
                 className: this.getClassName(),
                 innerHTML: this._message,
                 style: {
                     display: this._parentMessageId ? 'none' : 'block'
-                }
+                },
+                children: [
+                    {
+                        ref:  this.setRef('count'),
+                        type: 'span'
+                    }
+                ]
             }
         );
     }
 
     getParentMessageId() {
         return this._parentMessageId;
+    }
+
+    getMessage() {
+        return this._message;
     }
 
     getMessageId() {
@@ -62,6 +72,13 @@ class LogMessage extends DOMNode {
 
     setVisible(visible) {
         this._element.style.display = visible ? 'block' : 'none';
+    }
+
+    addCount() {
+        this._count++;
+        let count = this._refs.count;
+        count.className = 'count';
+        count.innerHTML = this._count;
     }
 
     onClickLineInfo() {
@@ -92,6 +109,7 @@ exports.getMessageId = function() {
 exports.Log = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._lastMessage  = null;
         this._messages     = [];
         this._preProcessor = null;
         dispatcher
@@ -127,6 +145,7 @@ exports.Log = class extends DOMNode {
             element.scrollTop = 0;
             element.innerHTML = '';
         }
+        this._lastMessage     = null;
         this._messages.length = 0;
     }
 
@@ -134,8 +153,10 @@ exports.Log = class extends DOMNode {
         if (!this._element) {
             return;
         }
-        this._messages.push(
-            new LogMessage({
+        if (this._lastMessage && (this._lastMessage.getMessage() === opts.message)) {
+            this._lastMessage.addCount();
+        } else {
+            this._lastMessage = new LogMessage({
                 parentNode:      this._element,
                 log:             this,
                 message:         opts.message,
@@ -143,8 +164,9 @@ exports.Log = class extends DOMNode {
                 parentMessageId: opts.parentMessageId,
                 lineInfo:        opts.lineInfo,
                 className:       'console-line ' + (opts.className || '')
-            })
-        );
+            });
+            this._messages.push(this._lastMessage);
+        }
         this.scrollToLast();
     }
 
