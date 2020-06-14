@@ -8,16 +8,16 @@ This project contains an IDE, Compiler and Virtual machine.
 
 Try the [Online demo](http://arnovandervegt.github.io/wheel/site/ide/ide.html).
 
-# NodeJS version
+## NodeJS
 
 The NodeJS version can be started with the following command: `$ node server.js`.
 The NodeJS version only supports PoweredUp.
 
-# Electron version
+## Electron
 
 The electron version can be started with the command: `npm start`.
 
-# Tools
+## Tools
 
 The tools to pack all files can be found in the `tools` directory:
 
