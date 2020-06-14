@@ -1,8 +1,9 @@
-const express    = require('express');
-const ideRoutes  = require('./js/backend/routes/ide').ideRoutes;
-const app        = express();
-const bodyParser = require('body-parser');
-const port       = 3001;
+const express         = require('express');
+const ideRoutes       = require('./js/backend/routes/ide').ideRoutes;
+const poweredUpRoutes = require('./js/backend/routes/poweredUp').poweredUpRoutes;
+const app             = express();
+const bodyParser      = require('body-parser');
+const port            = 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -27,6 +28,17 @@ app.post('/ide/settings-save',              ideRoutes.settingsSave.bind(ideRoute
 app.get ('/ide/changes',                    ideRoutes.changes.bind(ideRoutes));
 app.get ('/ide/user-info',                  ideRoutes.userInfo.bind(ideRoutes));
 app.post('/ide/exec',                       ideRoutes.exec.bind(ideRoutes));
+
+app.post('/powered-up/device-list',         poweredUpRoutes.deviceList.bind(poweredUpRoutes));
+app.post('/powered-up/connect',             poweredUpRoutes.connect.bind(poweredUpRoutes));
+app.post('/powered-up/disconnect',          poweredUpRoutes.disconnect.bind(poweredUpRoutes));
+app.post('/powered-up/connecting',          poweredUpRoutes.connecting.bind(poweredUpRoutes));
+app.post('/powered-up/connected',           poweredUpRoutes.connected.bind(poweredUpRoutes));
+app.post('/powered-up/update',              poweredUpRoutes.update.bind(poweredUpRoutes));
+app.post('/powered-up/stop-all-motors',     poweredUpRoutes.stopAllMotors.bind(poweredUpRoutes));
+app.post('/powered-up/stop-polling',        poweredUpRoutes.stopPolling.bind(poweredUpRoutes));
+app.post('/powered-up/resume-polling',      poweredUpRoutes.resumePolling.bind(poweredUpRoutes));
+app.post('/powered-up/set-mode',            poweredUpRoutes.setMode.bind(poweredUpRoutes));
 
 app.use(express.static('./'));
 

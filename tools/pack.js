@@ -22,6 +22,7 @@ const cssFiles = [
         '../css/components/hint.css',
         '../css/components/resizer.css',
         '../css/components/dropdown.css',
+        '../css/components/progressBar.css',
         '../css/ide/setup.css',
         '../css/ide/ide.css',
         '../css/ide/editor.css',

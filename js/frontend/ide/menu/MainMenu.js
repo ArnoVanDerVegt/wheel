@@ -66,7 +66,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initStorage() {
-        if (platform.isElectron()) {
+        if (platform.isElectron() || platform.isNode()) {
             return this;
         }
         this.create(
