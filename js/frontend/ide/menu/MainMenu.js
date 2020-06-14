@@ -240,9 +240,9 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled(platform.isElectron()); // Connect
-        menuOptions[1].setEnabled(false);                 // Disconnect
-        menuOptions[3].setEnabled(false);                 // Direct control
+        menuOptions[0].setEnabled(platform.isElectron() || platform.isNode());  // Connect
+        menuOptions[1].setEnabled(false);                                       // Disconnect
+        menuOptions[3].setEnabled(false);                                       // Direct control
         return this;
     }
 
