@@ -3,9 +3,9 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 exports.isElectron = function() {
-    return ('electron' in window);
+    return (typeof window === 'object') && ('electron' in window);
 };
 
 exports.isNode = function() {
-    return (document.location.hostname === '127.0.0.1');
+    return (typeof document === 'object') && (document.location.hostname === '127.0.0.1');
 };

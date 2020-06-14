@@ -36,7 +36,7 @@ describe(
                         assert.equal(settings.getShowConsole(),               true);
                         assert.equal(settings.getShowSimulator(),             true);
                         assert.equal(settings.getShowSimulatorOnRun(),        true);
-                        assert.equal(settings.getCreateVMTextOutput(),        true);
+                        assert.equal(settings.getCreateVMTextOutput(),        false);
                         assert.equal(settings.getLinter(),                    true);
                         assert.equal(settings.getDontShowWelcomeHintDialog(), false);
                     }
@@ -168,7 +168,7 @@ describe(
                         settings.on('Settings.Compile', this, function() { done = true; });
                         dispatcher.dispatch('Settings.Toggle.CreateVMTextOutput');
                         assert.equal(done,                             true);
-                        assert.equal(settings.getCreateVMTextOutput(), false);
+                        assert.equal(settings.getCreateVMTextOutput(), true);
                     }
                 );
                 it(
