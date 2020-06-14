@@ -138,4 +138,4 @@ exports.Updater = class extends DOMNode {
         this._currentData     = templates.files[this._currentFilename];
         this.createPath(this._currentFilepath, this.onCreatedPath.bind(this));
     }
-}
+};

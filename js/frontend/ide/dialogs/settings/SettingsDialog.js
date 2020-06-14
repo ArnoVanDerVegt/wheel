@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode         = require('../../../lib/dom').DOMNode;
+const platform        = require('../../../lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const Button          = require('../../../lib/components/Button').Button;
@@ -19,6 +20,20 @@ exports.SettingsDialog = class extends Dialog {
         super(opts);
         this._settings        = opts.settings;
         this._updateFunctions = [];
+        let showUpdate = platform.isElectron() || platform.isNode();
+        let tabs       = [];
+        if (showUpdate) {
+            tabs.push({title: 'Update', onClick: this.onClickTab.bind(this, 'panelUpdate')});
+        }
+        tabs.push.apply(
+            tabs,
+            [
+                {title: 'Editor',    onClick: this.onClickTab.bind(this, 'panelEditor')},
+                {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'panelCompiler')},
+                {title: 'View',      onClick: this.onClickTab.bind(this, 'panelView')},
+                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')}
+            ]
+        );
         this.createWindow(
             'settings-dialog',
             'Settings',
@@ -33,17 +48,11 @@ exports.SettingsDialog = class extends Dialog {
                             ui:       this._ui,
                             uiId:     this._uiId,
                             tabIndex: 1,
-                            tabs: [
-                                {title: 'Update',    onClick: this.onClickTab.bind(this, 'panelUpdate')},
-                                {title: 'Editor',    onClick: this.onClickTab.bind(this, 'panelEditor')},
-                                {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'panelCompiler')},
-                                {title: 'View',      onClick: this.onClickTab.bind(this, 'panelView')},
-                                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')}
-                            ]
+                            tabs:     tabs
                         },
                         {
                             ref:       this.setRef('panelUpdate'),
-                            className: 'tab-panel panel-update visible',
+                            className: 'tab-panel panel-update',
                             children: [
                                 {
                                     type:     Updater,
@@ -188,6 +197,7 @@ exports.SettingsDialog = class extends Dialog {
         this._updateFunctions.forEach(function(updateFunction) {
             updateFunction();
         });
+        this.onClickTab('panelUpdate');
         this.show();
     }
 };
