@@ -267,7 +267,7 @@ exports.Setup = class extends DOMNode {
     }
 
     hide() {
-        this._setupElement.className = 'setup hidden';
+        this._setupElement.parentNode.removeChild(this._setupElement);
         this._ui.popUIId();
         return this;
     }
@@ -280,8 +280,9 @@ exports.Setup = class extends DOMNode {
         let index = this._fileIndex;
         if (index >= this._files.length) {
             this._progressElement.style.display = 'none';
-            this._onFinished();
+            console.log('Finished');
             setTimeout(this.hide.bind(this), 500);
+            this._onFinished();
             dispatcher.dispatch('Dialog.Help.Rebuild');
             return;
         }

@@ -16,6 +16,10 @@ exports.ProgressBar = class extends Component {
         this._progressElement.style.width = progress + '%';
     }
 
+    getElement() {
+        return this._refs.element;
+    }
+
     setProgressElement(element) {
         this._progressElement = element;
     }
@@ -24,6 +28,7 @@ exports.ProgressBar = class extends Component {
         this.create(
             parentNode,
             {
+                ref:       this.setRef('element'),
                 className: 'progress-bar',
                 children: [
                     {

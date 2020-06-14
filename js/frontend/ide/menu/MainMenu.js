@@ -138,14 +138,12 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},
                 {title: 'Settings',                                               dispatch: 'Dialog.Settings.Show'},
-                {title: 'Setup',                                                  dispatch: 'Menu.File.Setup'},
                 {title: '-'},
                 {title: 'Exit Wheel',                   hotkey: ['command', 'Q'], dispatch: 'Menu.File.Exit'}
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[ 9].setEnabled(platform.isElectron()); // Setup
-        menuOptions[10].setEnabled(platform.isElectron()); // Exit Wheel
+        menuOptions[9].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 

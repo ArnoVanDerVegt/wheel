@@ -40,6 +40,7 @@
     z-index:                        50;
     display:                        none;
     padding:                        4px 0 0 0;
+    font-size:                      13px;
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel.visible {
     display:                        block;
@@ -64,6 +65,29 @@
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting .description {
     float:                          left;
     width:                          calc(100% - 40);
-    font-size:                      13px;
     line-height:                    22px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {
+    float:                          left;
+    width:                          calc(100% - 40px);
+    margin:                         8px 0 4px 8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .current-file,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update-button {
+    float:                          left;
+    width:                          100%;
+    min-height:                     20px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .current-file {
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar {
+    height:                         16px;
+    visibility:                     hidden;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar .bar {
+    margin:                         0;
 }

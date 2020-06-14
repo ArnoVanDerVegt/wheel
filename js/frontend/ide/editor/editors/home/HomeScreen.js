@@ -122,7 +122,7 @@ exports.HomeScreen = class extends DOMNode {
                                         dispatcher.dispatch(
                                             'Dialog.Alert.Show',
                                             {
-                                                title: 'Browser version',
+                                                title: (platform.isNode() ? 'Node' : 'Browser') + ' version',
                                                 lines: [
                                                     'The browser version can not connect to your EV3...',
                                                     'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
@@ -140,7 +140,7 @@ exports.HomeScreen = class extends DOMNode {
                                 tabIndex:  tabIndex.HOME_SCREEN + 5,
                                 poweredUp: this._poweredUp,
                                 onClick: function() {
-                                    if (platform.isElectron()) {
+                                    if (platform.isElectron() || platform.isNode()) {
                                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                                     } else {
                                         dispatcher.dispatch(

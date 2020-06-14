@@ -47,7 +47,7 @@ app.listen(
     function() {
         console.log('');
         console.log('Wheel IDE is running.');
-        console.log('You can start Wheel at http://127.0.0.1:' + port + '/index.html in your browser...');
+        console.log('You can start Wheel at http://127.0.0.1:' + port + '/site/ide/ide.html in your browser...');
         console.log('');
     }
 );

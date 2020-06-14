@@ -1,17 +1,23 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../lib/dispatcher').dispatcher;
-const Dialog     = require('../../lib/components/Dialog').Dialog;
-const Tabs       = require('../../lib/components/Tabs').Tabs;
-const Checkbox   = require('../../lib/components/Checkbox').Checkbox;
-const Img        = require('../../lib/components/basic/Img').Img;
-const getImage   = require('../data/images').getImage;
+const DOMNode         = require('../../../lib/dom').DOMNode;
+const dispatcher      = require('../../../lib/dispatcher').dispatcher;
+const Dialog          = require('../../../lib/components/Dialog').Dialog;
+const Button          = require('../../../lib/components/Button').Button;
+const Tabs            = require('../../../lib/components/Tabs').Tabs;
+const Checkbox        = require('../../../lib/components/Checkbox').Checkbox;
+const Img             = require('../../../lib/components/basic/Img').Img;
+const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const path            = require('../../../lib/path');
+const getImage        = require('../../data/images').getImage;
+const Updater         = require('./components/Updater').Updater;
 
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
+        this._settings        = opts.settings;
         this._updateFunctions = [];
         this.createWindow(
             'settings-dialog',
@@ -28,6 +34,7 @@ exports.SettingsDialog = class extends Dialog {
                             uiId:     this._uiId,
                             tabIndex: 1,
                             tabs: [
+                                {title: 'Update',    onClick: this.onClickTab.bind(this, 'panelUpdate')},
                                 {title: 'Editor',    onClick: this.onClickTab.bind(this, 'panelEditor')},
                                 {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'panelCompiler')},
                                 {title: 'View',      onClick: this.onClickTab.bind(this, 'panelView')},
@@ -35,8 +42,20 @@ exports.SettingsDialog = class extends Dialog {
                             ]
                         },
                         {
+                            ref:       this.setRef('panelUpdate'),
+                            className: 'tab-panel panel-update visible',
+                            children: [
+                                {
+                                    type:     Updater,
+                                    ui:       this._ui,
+                                    uiId:     this._uiId,
+                                    settings: this._settings
+                                }
+                            ]
+                        },
+                        {
                             ref:       this.setRef('panelEditor'),
-                            className: 'tab-panel panel-editor visible',
+                            className: 'tab-panel panel-editor',
                             children: [
                                 this.addBooleanSetting({
                                     description: 'Add comments to generated event procedures',
@@ -142,6 +161,7 @@ exports.SettingsDialog = class extends Dialog {
                     },
                     type:     Checkbox,
                     ui:       this._ui,
+                    uiId:     this._uiId,
                     tabIndex: opts.tabIndex,
                     onChange: function(value) {
                         dispatcher.dispatch(opts.signal, value);
