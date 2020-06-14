@@ -301,7 +301,7 @@ exports.Editor = class extends DOMUtils {
                 break;
         }
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: filename, arrayBuffer: (type === 'arrayBuffer')},
             (function(data) {

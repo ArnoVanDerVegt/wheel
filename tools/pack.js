@@ -84,6 +84,7 @@ const libraryFiles = [
     ];
 
 const files = [
+        './js/frontend/lib/platform',
         './js/frontend/ide/plugins/pluginUuid',
         './js/browser/routes/ide',
         './js/shared/vm/modules/buttonModuleConstants',
@@ -511,61 +512,63 @@ const files = [
         './js/frontend/ide/CompileAndRunOutput',
         './js/frontend/ide/CompileAndRunInstall',
         './js/frontend/ide/IDE',
+        './js/frontend/ide/Setup',
         './js/frontend/lib/UIState',
         './js/frontend/vm/ev3/EV3State',
         './js/frontend/vm/poweredup/PoweredUpState'
     ];
 
-let output = '(function() {\n' +
-                'let exportsByUrl = {};\n' +
-                'let e;\n' +
-                'const getFullPath = function(id, url) {\n' +
-                '    let u = url;\n' +
-                '    let i;\n' +
-                '    let done = false;\n' +
-                '    if (id.substr(0, 2) === \'./\') {\n' +
-                '        i    = url.lastIndexOf(\'/\');\n' +
-                '        u    = u.substr(0, i);\n' +
-                '        id   = id.substr(2 - id.length);\n' +
-                '        done = true;\n' +
-                '    }\n' +
-                '    if (id.substr(0, 3) === \'../\') {\n' +
-                '        if (!done) {\n' +
-                '            i = u.lastIndexOf(\'/\');\n' +
-                '            u = u.substr(0, i);\n' +
-                '        }\n' +
-                '        i  = u.lastIndexOf(\'/\');\n' +
-                '        u  = u.substr(0, i);\n' +
-                '        id = id.substr(3 - id.length);\n' +
-                '        while (id.substr(0, 3) === \'../\') {\n' +
-                '            i  = u.lastIndexOf(\'/\');\n' +
-                '            u  = u.substr(0, i);\n' +
-                '            id = id.substr(3 - id.length);\n' +
-                '        }\n' +
-                '    }\n' +
-                '    u += \'/\' + id;\n' +
-                '    return u;\n' +
-                '}\n' +
-                'const require = function(url, id) {\n' +
-                '    let origId = id;\n' +
-                '    let r      = exportsByUrl[getFullPath(id, url)];\n' +
-                '    if (r) {\n' +
-                '        return r;\n' +
-                '    }\n' +
-                '    while (id.substr(0, 2) === \'./\') {\n' +
-                '        id = id.substr(2 - id.length);\n' +
-                '    }\n' +
-                '    while (id.substr(0, 3) === \'../\') {\n' +
-                '        id = id.substr(3 - id.length);\n' +
-                '    }\n' +
-                '    for (let i in exportsByUrl) {\n' +
-                '        if (i.substr(-id.length) === id) {\n' +
-                '            return exportsByUrl[i];\n' +
-                '        }\n' +
-                '    }\n' +
-                '    console.error(\'Failed to load:\', origId, id);\n' +
-                '    return {};\n' +
-                '};\n';
+let output = [
+        '(function() {',
+        '    let exportsByUrl = {};',
+        '    let e;',
+        '    const getFullPath = function(id, url) {',
+        '        let u = url;',
+        '        let i;',
+        '        let done = false;',
+        '        if (id.substr(0, 2) === \'./\') {',
+        '            i    = url.lastIndexOf(\'/\');',
+        '            u    = u.substr(0, i);',
+        '            id   = id.substr(2 - id.length);',
+        '            done = true;',
+        '        }',
+        '        if (id.substr(0, 3) === \'../\') {',
+        '            if (!done) {',
+        '                i = u.lastIndexOf(\'/\');',
+        '                u = u.substr(0, i);',
+        '            }',
+        '            i  = u.lastIndexOf(\'/\');',
+        '            u  = u.substr(0, i);',
+        '            id = id.substr(3 - id.length);',
+        '            while (id.substr(0, 3) === \'../\') {',
+        '                i  = u.lastIndexOf(\'/\');',
+        '                u  = u.substr(0, i);',
+        '                id = id.substr(3 - id.length);',
+        '            }',
+        '        }',
+        '        u += \'/\' + id;',
+        '        return u;',
+        '    }',
+        '    const require = function(url, id) {',
+        '        let origId = id;',
+        '        let r      = exportsByUrl[getFullPath(id, url)];',
+        '        if (r) {',
+        '            return r;',
+        '        }',
+        '        while (id.substr(0, 2) === \'./\') {',
+        '            id = id.substr(2 - id.length);',
+        '        }',
+        '        while (id.substr(0, 3) === \'../\') {',
+        '            id = id.substr(3 - id.length);',
+        '        }',
+        '        for (let i in exportsByUrl) {',
+        '            if (i.substr(-id.length) === id) {',
+        '                return exportsByUrl[i];',
+        '            }',
+        '        }',
+        '        console.error(\'Failed to load:\', origId, id);',
+        '        return {};',
+        '    };'].join('\n');
 
 console.log('Appending js files...');
 
@@ -583,25 +586,47 @@ files.forEach(function(filename) {
     output += 'exportsByUrl[\'' + filename + '\'] = (function(require,exports){\n' + text + ';return exports;\n})(require.bind(this,\'' + filename + '\'), {});\n';
 });
 
-output += 'let settings;\n' +
-    'let ui;\n' +
-    'const onLoadedSettings = function() {\n' +
-    '    const IDE            = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;\n' +
-    '    const EV3State       = exportsByUrl[\'./js/frontend/vm/ev3/EV3State\'].EV3State;\n' +
-    '    const PoweredUpState = exportsByUrl[\'./js/frontend/vm/poweredup/PoweredUpState\'].PoweredUpState;\n' +
-    '    new IDE({\n' +
-    '        ui:        ui,\n' +
-    '        settings:  settings,\n' +
-    '        ev3:       new EV3State({}),\n' +
-    '        poweredUp: new PoweredUpState({})\n' +
-    '    });\n' +
-    '};\n' +
-    'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;\n' +
-    'const UIState         = exportsByUrl[\'./js/frontend/lib/UIState\'].UIState;\n' +
-    'const SettingsState   = exportsByUrl[\'./js/frontend/ide/settings/SettingsState\'].SettingsState;\n' +
-    'ui       = new UIState();\n' +
-    'settings = new SettingsState({getDataProvider: getDataProvider});\n' +
-    'settings.load(onLoadedSettings);\n';
+output += [
+    'const platform        = exportsByUrl[\'./js/frontend/lib/platform\'];',
+    'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;',
+    'const UIState         = exportsByUrl[\'./js/frontend/lib/UIState\'].UIState;',
+    'const SettingsState   = exportsByUrl[\'./js/frontend/ide/settings/SettingsState\'].SettingsState;',
+    'let settings;',
+    'let ui;',
+    'const onFinishedSetup = function() {',
+    '        const IDE            = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;',
+    '        const EV3State       = exportsByUrl[\'./js/frontend/vm/ev3/EV3State\'].EV3State;',
+    '        const PoweredUpState = exportsByUrl[\'./js/frontend/vm/poweredup/PoweredUpState\'].PoweredUpState;',
+    '        new IDE({',
+    '            ui:        ui,',
+    '            settings:  settings,',
+    '            ev3:       new EV3State({}),',
+    '            poweredUp: new PoweredUpState({})',
+    '        });',
+    '    };',
+    'const onNeedsSetup = function() {',
+    '        const Setup = exportsByUrl[\'./js/frontend/ide/Setup\'].Setup;',
+    '        new Setup({',
+    '            ui:         ui,',
+    '            settings:   settings,',
+    '            onFinished: onFinishedSetup',
+    '        });',
+    '    };',
+    'const onLoadedSettings = function() {',
+    '        if (platform.isNode()) {',
+    '            if (settings.getDocumentPathExists()) {',
+    '                onFinishedSetup();',
+    '            } else {',
+    '                onNeedsSetup();',
+    '            }',
+    '        } else {',
+    '            onFinishedSetup();',
+    '        }',
+    '    };',
+    'ui       = new UIState();',
+    'settings = new SettingsState({getDataProvider: getDataProvider});',
+    'settings.load(onLoadedSettings);'
+].join('\n');
 
 output += '})();';
 
@@ -617,6 +642,8 @@ cssFiles.forEach(function(filename) {
 });
 
 fs.writeFileSync(distName + '.css', output);
+
+const MINIFY_JS = true;
 
 function removeOldIncludes() {
     console.log('Removing old files.');
@@ -654,7 +681,9 @@ function removeFiles() {
     console.log('Deleting temp js and css...');
     exec('rm ' + distName + '.min.css', function() {});
     exec('rm ' + distName + '.css', function() {});
-    exec('rm ' + distName + '.min.js', function() {});
+    if (MINIFY_JS) {
+        exec('rm ' + distName + '.min.js', function() {});
+    }
     exec('rm ' + distName + '.js', function() {});
     updateIncludes();
 }
@@ -666,12 +695,20 @@ function copyDistCss() {
 
 function copyDistJs() {
     console.log('Moving js...');
-    exec('cp ' + distName + '.min.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    if (MINIFY_JS) {
+        exec('cp ' + distName + '.min.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    } else {
+        exec('cp ' + distName + '.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    }
 }
 
 function terser() {
-    console.log('Minifying js...');
-    exec('terser ' + distName + '.js --compress --mangle > ' + distName + '.min.js', copyDistJs);
+    if (MINIFY_JS) {
+        console.log('Minifying js...');
+        exec('terser ' + distName + '.js --compress --mangle > ' + distName + '.min.js', copyDistJs);
+    } else {
+        copyDistJs();
+    }
 }
 
 console.log('Minifying css...');

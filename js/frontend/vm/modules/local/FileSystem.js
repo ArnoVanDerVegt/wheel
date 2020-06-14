@@ -28,7 +28,7 @@ exports.FileSystem = class {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/path-exists',
             {path: path.join(outputPath, this.getValidatedFilename(filename))},
             createJSONCallback(function(data) {
@@ -57,7 +57,7 @@ exports.FileSystem = class {
             let outputPath = this._vm.getOutputPath();
             let vm         = this._vm.sleep(10000);
             getDataProvider().getData(
-                'post',
+                'get',
                 'ide/file',
                 {filename: path.join(outputPath, this.getValidatedFilename(filename))},
                 createJSONCallback(function(data) {

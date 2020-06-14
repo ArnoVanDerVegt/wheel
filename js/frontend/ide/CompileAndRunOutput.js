@@ -98,7 +98,7 @@ exports.CompileAndRunOutput = class {
         let filename        = resource.getFilename();
         let pathAndFilename = path.getPathAndFilename(filename);
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: path.join(documentPath, filename)},
             this.onResourceData.bind(this, resource, outputPath, filename, pathAndFilename)

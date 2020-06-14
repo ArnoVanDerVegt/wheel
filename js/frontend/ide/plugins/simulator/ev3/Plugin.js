@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../../../lib/platform');
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../../lib/dom').DOMNode;
 const Button          = require('../../../../lib/components/Button').Button;
@@ -44,7 +45,7 @@ exports.Plugin = class extends SimulatorPlugin {
                                                 type: 'canvas',
                                                 ui:   this._ui
                                             },
-                                            ('electron' in window) ?
+                                            (platform.isElectron()) ?
                                                 {
                                                     type:     Button,
                                                     ui:       this._ui,

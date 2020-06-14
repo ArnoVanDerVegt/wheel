@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const MainMenu    = require('../../lib/components/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
@@ -65,7 +66,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initStorage() {
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             return this;
         }
         this.create(
@@ -143,8 +144,8 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[ 9].setEnabled('electron' in window); // Setup
-        menuOptions[10].setEnabled('electron' in window); // Exit Wheel
+        menuOptions[ 9].setEnabled(platform.isElectron()); // Setup
+        menuOptions[10].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 
@@ -215,10 +216,10 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled('electron' in window); // Connect
-        menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[2].setEnabled('electron' in window); // Autoconnect
-        menuOptions[7].setEnabled(false);                // Install compiled files
+        menuOptions[0].setEnabled(platform.isElectron()); // Connect
+        menuOptions[1].setEnabled(false);                 // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron()); // Autoconnect
+        menuOptions[7].setEnabled(false);                 // Install compiled files
         return this;
     }
 
@@ -239,9 +240,9 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled('electron' in window); // Connect
-        menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[3].setEnabled(false);                // Direct control
+        menuOptions[0].setEnabled(platform.isElectron()); // Connect
+        menuOptions[1].setEnabled(false);                 // Disconnect
+        menuOptions[3].setEnabled(false);                 // Direct control
         return this;
     }
 
@@ -363,8 +364,8 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
-        menuOptions[8].setEnabled('electron' in window);
-        menuOptions[8].setChecked(('electron' in window) && settings.getAutoInstall());
+        menuOptions[8].setEnabled(platform.isElectron());
+        menuOptions[8].setChecked(platform.isElectron() && settings.getAutoInstall());
         return this;
     }
 

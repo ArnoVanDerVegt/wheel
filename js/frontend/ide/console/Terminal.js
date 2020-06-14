@@ -52,7 +52,7 @@ exports.Terminal = class extends DOMNode {
     initUsername() {
         const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/user-info',
             {},
             (function(data) {

@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform     = require('../../lib/platform');
 const dispatcher   = require('../../lib/dispatcher').dispatcher;
 const Emitter      = require('../../lib/Emitter').Emitter;
 const PluginsState = require('./PluginsState').PluginsState;
@@ -550,12 +551,13 @@ exports.SettingsState = class extends Emitter {
                 data = {};
             }
         }
-        let electron = (typeof window !== 'undefined') && ('electron' in window);
+        let electron = platform.isElectron();
         this._version                    = data.version;
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
         this._os                         = data.os || {};
+        this._userDocumentPath           = ('userDocumentPath'      in data)             ? data.userDocumentPath            : this._userDocumentPath;
         this._show                       = ('show'                  in data)             ? data.show                        : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
         this._show.console               = ('console'               in this._show)       ? this._show.console               : true;

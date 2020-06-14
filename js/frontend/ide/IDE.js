@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Downloader                 = require('../ev3/Downloader');
+const platform                   = require('../lib/platform');
 const path                       = require('../lib/path');
 const Http                       = require('../lib/Http').Http;
 const dispatcher                 = require('../lib/dispatcher').dispatcher;
@@ -212,7 +213,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     initWelcome() {
-        if (!('electron' in window) && !this._settings.getDontShowWelcomeHintDialog()) {
+        if (!platform.isElectron() && !this._settings.getDontShowWelcomeHintDialog()) {
             dispatcher.dispatch('Dialog.WelcomeHint.Show', {});
         }
         return this;
@@ -381,7 +382,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuAboutWebsite() {
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             const shell = require('electron').shell;
             shell.openExternal('https://arnovandervegt.github.io/wheel/');
         } else {
@@ -390,7 +391,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuAboutReportIssue() {
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             const shell = require('electron').shell;
             shell.openExternal('https://github.com/ArnoVanDerVegt/wheel/issues');
         } else {
@@ -439,7 +440,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     initDialogs() {
-        if (!('electron' in window)) {
+        if (!platform.isElectron()) {
             new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
         new FileNewDialog             ({getImage: getImage, ui: this._ui});
@@ -787,7 +788,7 @@ exports.IDE = class extends CompileAndRun {
             return;
         }
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: [fullDocumentPath1, fullProjectPath1, fullDocumentPath2, fullProjectPath2]},
             (function(data) {

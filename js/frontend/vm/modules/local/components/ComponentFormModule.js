@@ -41,7 +41,7 @@ exports.ComponentFormModule = class extends VMModule {
             return;
         }
         this._getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: formFilename},
             (function(data) {

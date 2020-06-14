@@ -55,6 +55,7 @@ require('./js/backend/routes/ev3');
 require('./js/backend/routes/ide');
 require('./js/frontend/ev3/Downloader');
 const dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
+require('./js/frontend/lib/platform');
 require('./js/frontend/lib/Emitter');
 require('./js/frontend/lib/path');
 require('./js/frontend/lib/dom');

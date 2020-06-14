@@ -25,7 +25,7 @@ exports.FormResource = class extends ProjectResource {
 
     loadFromDataProvider(callback) {
         this._getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: path.join(this._projectPath, this._filename)},
             (function(data) {

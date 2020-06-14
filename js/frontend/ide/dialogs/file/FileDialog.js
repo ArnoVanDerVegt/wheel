@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../../lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const path            = require('../../../lib/path');
 const Files           = require('../../../lib/components/files/Files').Files;
@@ -27,7 +28,7 @@ exports.FileDialog = class extends Dialog {
                     className: 'current-path',
                     innerHTML: ''
                 },
-                ('electron' in window) ?
+                platform.isElectron() ?
                     this.addToolOptions({
                         uiId:     this.getUIId.bind(this),
                         tabIndex: 1,

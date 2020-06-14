@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode         = require('../lib/dom').DOMNode;
+const platform        = require('../lib/platform');
 const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const Button          = require('../lib/components/Button').Button;
@@ -135,7 +136,7 @@ exports.Setup = class extends DOMNode {
                                         value:     'Install wheel files',
                                         onClick:   this.onInstallWheelFiles.bind(this)
                                     },
-                                    (settings.getIsInApplicationsFolder() || (settings.getOS().platform !== 'darwin')) ?
+                                    (settings.getIsInApplicationsFolder() || (settings.getOS().platform !== 'darwin') || platform.isNode()) ?
                                         null :
                                         {
                                             ref:       this.setRef('moveToApplicationFolder'),
