@@ -57,12 +57,14 @@
                 In the following examples the same procedure <i>setX</i> is used in two different namespaces:
             </p>
             <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components.button</span>
+
 <span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">windowHandle</span>
     <span class="keyword">mod</span>  <span class="variable">MODULE_COMPONENT_BUTTON</span><span class="operator">,</span> <span class="variable">BUTTON_COMPONENT_SET_X</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components.panel</span>
+
 <span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">windowHandle</span>
     <span class="keyword">mod</span>  <span class="variable">MODULE_COMPONENT_PANEL</span><span class="operator">,</span> <span class="variable">PANEL_COMPONENT_SET_X</span>

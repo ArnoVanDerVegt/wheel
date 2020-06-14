@@ -7,8 +7,15 @@ Wheel is made possible by various awesome open source projects and information s
 
 @section EV3, Powered Up
 @link LMS hacker tools|https://github.com/ev3dev/lms-hacker-tools
-
 @link Node Powered Up|https://github.com/nathankellenicki/node-poweredup
 
 @section Motor information
 @link Philo's Lego® motors information page|https://www.philohome.com/motors/motorcomp.htm
+
+@section Software
+@link NodeJS|https://nodejs.org/en/
+@link Electron|https://www.electronjs.org/
+
+@section EV3 Documentation
+@link Lego® Mindstorms EV3 communication developer kit|https://arnovandervegt.github.io/wheel/site/docs/lego_mindstorms_ev3_communication_developer_kit.pdf
+@link Lego® Mindstorms EV3 firmware developer kit|https://arnovandervegt.github.io/wheel/site/docs/lego_mindstorms_ev3_firmware_developer_kit.pdf

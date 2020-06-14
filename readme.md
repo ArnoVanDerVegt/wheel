@@ -10,7 +10,7 @@ Try the [Online demo](http://arnovandervegt.github.io/wheel/site/ide/ide.html).
 
 # NodeJS version
 
-The NodeJS version can be started with the following command: `$ node ide.js`.
+The NodeJS version can be started with the following command: `$ node server.js`.
 The NodeJS version only supports PoweredUp.
 
 # Electron version
