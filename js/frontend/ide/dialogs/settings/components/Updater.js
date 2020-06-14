@@ -17,8 +17,9 @@ exports.Updater = class extends DOMNode {
         this._settings     = opts.settings;
         this._ui           = opts.ui;
         this._uiId         = opts.uiId;
-        this._documentPath = this._settings.getDocumentPath();
+        this._documentPath = this.getDocumentPath();
         this.initDOM(opts.parentNode);
+        dispatcher.on('Updater.Confirm.UpdateFiles', this, this.onInstallWheelFilesConfirmed);
     }
 
     initDOM(parentNode) {
@@ -30,7 +31,7 @@ exports.Updater = class extends DOMNode {
                     {
                         ref:       this.setRef('currentFile'),
                         className: 'current-file',
-                        innerHTML: 'Path: ' + this._documentPath
+                        innerHTML: 'Path: ' + this._settings.getDocumentPath()
                     },
                     {
                         ref:   this.setRef('progressBar'),
@@ -57,6 +58,14 @@ exports.Updater = class extends DOMNode {
             }
         );
         this._refs.progressBar.getElement().style.visibility = 'hidden';
+    }
+
+    getDocumentPath() {
+        let documentPath = this._settings.getDocumentPath();
+        if (documentPath.toLowerCase().substr(-6) === '/wheel') {
+            documentPath = documentPath.substr(0, documentPath.length - 6);
+        }
+        return documentPath;
     }
 
     setCurrentFileElement(element) {
@@ -91,6 +100,19 @@ exports.Updater = class extends DOMNode {
     }
 
     onInstallWheelFiles() {
+        dispatcher.dispatch(
+            'Dialog.Confirm.Show',
+            'Update files',
+            [
+                'Warning! If you have modified any standard Wheel files then',
+                'the changes will be overwritten. Do you wish to continue?'
+            ],
+            'Updater.Confirm.UpdateFiles',
+            'cancel'
+        );
+    }
+
+    onInstallWheelFilesConfirmed() {
         this._fileIndex = 0;
         this._refs.installWheelFilesButton.setDisabled(true);
         this.installFile();
@@ -104,7 +126,7 @@ exports.Updater = class extends DOMNode {
         let refs  = this._refs;
         let index = this._fileIndex;
         if (index >= this._files.length) {
-            refs.currentFile.innerHTML = 'Path: ' + this._documentPath;
+            refs.currentFile.innerHTML = 'Path: ' + this._settings.getDocumentPath();
             refs.progressBar.getElement().style.visibility = 'hidden';
             refs.installWheelFilesButton.setDisabled(false);
             return;

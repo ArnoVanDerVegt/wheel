@@ -280,7 +280,6 @@ exports.Setup = class extends DOMNode {
         let index = this._fileIndex;
         if (index >= this._files.length) {
             this._progressElement.style.display = 'none';
-            console.log('Finished');
             setTimeout(this.hide.bind(this), 500);
             this._onFinished();
             dispatcher.dispatch('Dialog.Help.Rebuild');

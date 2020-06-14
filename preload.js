@@ -440,7 +440,6 @@ const PoweredUpState = require('./js/frontend/vm/poweredup/PoweredUpState').Powe
             if (ide) {
                 return;
             }
-            console.log('!!!!!');
             ide = new IDE({
                 ui:        ui,
                 settings:  settings,
@@ -450,7 +449,6 @@ const PoweredUpState = require('./js/frontend/vm/poweredup/PoweredUpState').Powe
         };
 
     const onLoadedSettings = function() {
-            console.log('----->!!!!');
             if (setup) {
                 return;
             }

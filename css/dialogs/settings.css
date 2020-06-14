@@ -1,7 +1,7 @@
 .dialog-background.settings-dialog .dialog-center .dialog-content {
     margin:                         0 auto 0 auto;
     margin-top:                     -300px;
-    width:                          600px;
+    width:                          580px;
     height:                         600px;
     background-color:               var(--ui-background2);
     position:                       relative;
