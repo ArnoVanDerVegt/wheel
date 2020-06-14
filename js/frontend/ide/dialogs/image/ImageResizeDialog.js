@@ -44,8 +44,8 @@ exports.ImageResizeDialog = class extends ImageDialog {
     onShow(width, height) {
         super.show();
         let refs = this._refs;
-        refs.width.value  = width;
-        refs.height.value = height;
+        refs.width.setValue(width);
+        refs.height.setValue(height);
         refs.width.focus();
     }
 

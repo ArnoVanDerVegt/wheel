@@ -113,6 +113,8 @@ exports.WheelEditor = class extends Editor {
 
     show() {
         super.show();
+        this._codeMirror.setOption('viewportMargin', Infinity);
+        this._codeMirror.refresh();
         dispatcher.dispatch('Screen.Ready');
     }
 

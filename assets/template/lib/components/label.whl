@@ -1,0 +1,60 @@
+; @module Component/Label
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.label
+
+; @const The form component module.
+#define MODULE_COMPONENT_LABEL        67
+
+; @const Module calls for label component functions.
+#define LABEL_COMPONENT_SET_TAB_INDEX  0
+#define LABEL_COMPONENT_SET_HIDDEN     1
+#define LABEL_COMPONENT_SET_X          2
+#define LABEL_COMPONENT_SET_Y          3
+#define LABEL_COMPONENT_SET_TEXT       4
+
+; @proc                   Set the tab index of the label.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param tabIndex         The tab index.
+proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_TAB_INDEX
+end
+
+; @proc                   Hide the label.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the label.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the label.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_Y
+end
+
+; @proc                   Set label text.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param text             The label text.
+proc setText(number windowHandle, number componentHandle, string text)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_TEXT
+end

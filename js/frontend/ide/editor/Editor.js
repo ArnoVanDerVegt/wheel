@@ -47,76 +47,61 @@ exports.Editor = class extends DOMUtils {
             .on('Dialog.File.SaveAs', this, this._saveAs);
         // Create calls...
         dispatcher
-            .on('Create.Project', this, this._addProjectFile)
             .on('Create.File',    this, this._addFile)
-            .on('Create.Image',   this, this._addImageFile);
+            .on('Create.Image',   this, this._addImageFile)
+            .on('Create.Form',    this, this._addFormFile);
     }
 
     add(opts) {
         this._editors.add(opts);
     }
 
-    _addFile(filename, includeFiles) {
-        let pathAndFilename = path.getPathAndFilename(filename);
-        let file            = [];
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
-        }
-        file.push('');
+    _addFile(opts) {
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
         this._editors.add({
-            value:    file.join('\n'),
+            value:    opts.value,
             path:     pathAndFilename.path,
             filename: pathAndFilename.filename,
             changed:  true
         });
     }
 
-    _addProjectFile(filename, desciption, includeFiles) {
-        let file = [
-                '#project "' + desciption + '"',
-                ''
-            ];
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
+    _addImageFile(opts) {
+        let image = [];
+        for (let y = 0; y < opts.height; y++) {
+            let line = [];
+            for (let x = 0; x < opts.width; x++) {
+                line.push(0);
+            }
+            image.push(line);
         }
-        file.push(
-            '',
-            'proc main()',
-            'end'
-        );
-        let pathAndFilename = path.getPathAndFilename(filename);
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
         this._editors.add({
-            value:    file.join('\n'),
             path:     pathAndFilename.path,
             filename: pathAndFilename.filename,
-            changed:  true
+            changed:  true,
+            value:    {
+                width:  opts.width,
+                height: opts.height,
+                image:  image
+            }
         });
     }
 
-    _addImageFile(filename, width, height) {
-        let callback = (function() {
-                let image = [];
-                for (let y = 0; y < height; y++) {
-                    let line = [];
-                    for (let x = 0; x < width; x++) {
-                        line.push(0);
-                    }
-                    image.push(line);
-                }
-                let value = {
-                        width:  width,
-                        height: height,
-                        image:  image
-                    };
-                let pathAndFilename = path.getPathAndFilename(filename);
-                this._editors.add({
-                    value:    value,
-                    path:     pathAndFilename.path,
-                    filename: pathAndFilename.filename,
-                    changed:  true
-                });
-            }).bind(this);
-        callback();
+    _addFormFile(opts) {
+        let pathAndFilename = path.getPathAndFilename(opts.filename);
+        this._editors.add({
+            path:     pathAndFilename.path,
+            filename: pathAndFilename.filename,
+            width:    opts.width,
+            height:   opts.height,
+            changed:  true,
+            value:    {
+                width:  opts.width,
+                height: opts.height,
+                data:   {}
+            }
+        });
     }
 
     hideBreakpoint() {
@@ -316,7 +301,7 @@ exports.Editor = class extends DOMUtils {
                 break;
         }
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
             {filename: filename, arrayBuffer: (type === 'arrayBuffer')},
             (function(data) {
@@ -330,12 +315,14 @@ exports.Editor = class extends DOMUtils {
         );
     }
 
-    _saveAs(filename) {
-        let pathAndFilename = path.getPathAndFilename(filename);
-        // Check if there's already a file open with the same path and filename...
-        let existingEditor = this._editorsState.findByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
-        if (existingEditor) {
-            this._editors.close(pathAndFilename);
+    _saveAs(filename, filenameChanged) {
+        if (filenameChanged) {
+            let pathAndFilename = path.getPathAndFilename(filename);
+            // Check if there's already a file open with the same path and filename...
+            let existingEditor = this._editorsState.findByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
+            if (existingEditor) {
+                this._editors.close(pathAndFilename);
+            }
         }
         let editor = this._editors.getActiveEditor();
         if (editor) {
@@ -356,5 +343,9 @@ exports.Editor = class extends DOMUtils {
     callActiveEditor(func) {
         let activeEditor = this.getActiveEditor();
         activeEditor && activeEditor[func] && activeEditor[func]();
+    }
+
+    findEditor(path, filename) {
+        return this._editorsState.findByPathAndFilename(path, filename);
     }
 };

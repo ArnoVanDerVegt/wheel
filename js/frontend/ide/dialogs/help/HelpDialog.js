@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../../lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const Button          = require('../../../lib/components/Button').Button;
@@ -11,6 +12,7 @@ const getHelpData     = require('../../help/helpData').getHelpData;
 const setHelp         = require('../../help/helpData').setHelp;
 const Woc             = require('../../help/woc/Woc').Woc;
 const helpBuilder     = require('../../help/HelpBuilder').helpBuilder;
+const HelpBuilderText = require('../../help/HelpBuilderText');
 const getImage        = require('../../data/images').getImage;
 const WocFileLoader   = require('./components/WocFileLoader').WocFileLoader;
 
@@ -59,12 +61,21 @@ exports.HelpDialog = class extends Dialog {
                             color:   'dark-green',
                             onClick:  this.hide.bind(this)
                         }),
-                        ('electron' in window) ?
+                        platform.isElectron() ?
                             this.addButton({
                                 tabIndex:  1026,
                                 value:     'Rebuild',
                                 color:     'blue',
                                 onClick:   this.onRebuild.bind(this)
+                            }) :
+                            null,
+                        platform.isElectron() ?
+                            this.addButton({
+                                ref:       this.setRef('saveTextFilesButton'),
+                                tabIndex:  1027,
+                                value:     'Save html files',
+                                color:     'blue',
+                                onClick:   this.onRebuildText.bind(this)
                             }) :
                             null
                     ]
@@ -91,6 +102,15 @@ exports.HelpDialog = class extends Dialog {
 
     onRebuild() {
         new WocFileLoader().load(function(loadedFiles) { setHelp(new Woc().build(loadedFiles)); });
+    }
+
+    onRebuildText() {
+        let refs            = this._refs;
+        let helpBuilderText = new HelpBuilderText.HelpBuilderText({helpData: getHelpData()});
+        refs.saveTextFilesButton.setDisabled(true);
+        helpBuilderText.generateAllHelp(function() {
+            refs.saveTextFilesButton.setDisabled(false);
+        });
     }
 
     onShowFileIndex(fileIndex) {

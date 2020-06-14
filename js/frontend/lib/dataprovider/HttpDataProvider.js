@@ -4,6 +4,7 @@
 **/
 const Http      = require('../Http').Http;
 const path      = require('../path');
+const platform  = require('../platform');
 const ideRoutes = require('../../../browser/routes/ide').ideRoutes;
 
 let pathByIndex = {};
@@ -32,17 +33,29 @@ const routes = {
 
 exports.HttpDataProvider = class {
     getData(method, uri, params, callback) {
-        let currentPath;
-        let files = require('./js/frontend/ide/data/templates').files;
-        if (uri in routes) {
-            setTimeout(
-                function() {
-                    routes[uri](params, callback);
-                },
-                1
-            );
-            return;
+        if (platform.isNode()) {
+            let http = new Http({onLoad: callback});
+            if (uri.substr(0, 1) !== '/') {
+                uri = '/' + uri;
+            }
+            if (method === 'get') {
+                http.get(uri, params);
+            } else {
+                http.post(uri, params);
+            }
+        } else {
+            let currentPath;
+            let files = require('./js/frontend/ide/data/templates').files;
+            if (uri in routes) {
+                setTimeout(
+                    function() {
+                        routes[uri](params, callback);
+                    },
+                    1
+                );
+                return;
+            }
+            console.error('Unknown route:', uri);
         }
-        console.error('Unknown route:', uri);
     }
 };

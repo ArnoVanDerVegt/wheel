@@ -11,11 +11,12 @@ const Var          = require('../types/Var');
 
 exports.CompileRecord = class extends CompileScope {
     compile(iterator) {
-        let linter     = this._compiler.getLinter();
+        let compiler   = this._compiler;
+        let linter     = compiler.getLinter();
         let type       = null;
         let end        = false;
         let token      = iterator.skipWhiteSpace().next();
-        let record     = new Record(null, token.lexeme).setToken(token);
+        let record     = new Record(null, this.getNamespacedRecordName(token.lexeme), false, compiler.getNamespace()).setToken(token);
         let expectType = true;
         let pointer    = false;
         linter && linter.addRecord(token);
@@ -97,5 +98,9 @@ exports.CompileRecord = class extends CompileScope {
         if (!record.checkUnion()) {
             throw errors.createError(err.UNION_SIZE_MISMATCH, token, 'Union size mismatch.');
         }
+    }
+
+    getNamespacedRecordName(name) {
+        return this._compiler.getNamespace().getCurrentNamespace() + name;
     }
 };

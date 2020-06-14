@@ -1,0 +1,50 @@
+/**
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
+ * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+**/
+const formEditorConstants = require('../formEditorConstants');
+
+exports.PropertyList = class {
+    constructor(opts) {
+        this._componentList   = opts.componentList;
+        this._component       = opts.component;
+        this._formEditorState = opts.formEditorState;
+    }
+
+    getComponentList() {
+        return this._componentList;
+    }
+
+    getComponentId() {
+        return this._component.id;
+    }
+
+    getComponentUid() {
+        return this._component.uid;
+    }
+
+    getList() {
+        return [].concat(formEditorConstants.PROPERTIES_BY_TYPE[this._component.type.toUpperCase()]);
+    }
+
+    getProperty(name) {
+        let component = this._component;
+        if (name in component) {
+            return component[name];
+        }
+        let info = formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()];
+        if (!info) {
+            return '';
+        }
+        switch (info.type) {
+            case 'boolean':
+                return false;
+            case 'text':
+                if (info.options && (info.options.type === 'number')) {
+                    return 0;
+                }
+                break;
+        }
+        return '';
+    }
+};

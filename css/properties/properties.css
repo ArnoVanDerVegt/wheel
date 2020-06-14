@@ -1,0 +1,270 @@
+body.ide.no-properties div.properties {
+    display:                        none;
+}
+.properties {
+    position:                       absolute;
+    right:                          0;
+    top:                            40px;
+    width:                          304px;
+    height:                         calc(100% - 24px);
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-width:                   0 0 0 1px;
+    z-index:                        1;
+}
+.properties .tabs {
+    top:                            48px;
+    z-index:                        100;
+}
+.properties .properties-options {
+    float:                          left;
+    width:                          100%;
+    height:                         40px;
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    background-color:               var(--ui-background2);
+}
+.properties .properties-options .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+.properties .properties-options .dropdown {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+    width:                          calc(100% - 140px);
+}
+.properties .component-uid {
+    position:                       absolute;
+    left:                           0;
+    top:                            calc(40px + 47px);
+    width:                          100%;
+    height:                         32px;
+    line-height:                    32px;
+    text-align:                     center;
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 1px 0;
+    color:                          var(--ui-text1);
+    font-size:                      12px;
+    font-family:                    monospace;
+}
+/* Properties, events */
+.properties .properties-container,
+.properties .events-container {
+    position:                       absolute;
+    left:                           0;
+    top:                            calc(40px + 47px + 32px);
+    width:                          100%;
+    height:                         calc(100% - 56px - 47px);
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    display:                        none;
+    z-index:                        50;
+}
+.properties .properties-container.visible {
+    display:                        block;
+}
+.properties .events-container.visible {
+    display:                        block;
+}
+.properties .properties-container .property-separator,
+.properties .events-container .event-separator {
+    position:                       absolute;
+    top:                            0;
+    border:                         var(--ui-border1);
+    border-width:                   0 1px 0 0;
+    border-style:                   dotted;
+    width:                          50%;
+    height:                         100%;
+    pointer-events:                 none;
+}
+.properties .properties-container .property,
+.properties .events-container .event {
+    float:                          left;
+    width:                          100%;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    border-style:                   dotted;
+    cursor:                         pointer;
+}
+.properties .properties-container .property.focus,
+.properties .events-container .event.focus {
+    background-color:               var(--ui-background2);
+}
+.properties .properties-container .property .property-name,
+.properties .properties-container .property .property-value,
+.properties .events-container .event .event-name,
+.properties .events-container .event .event-value {
+    float:                          left;
+    width:                          50%;
+    height:                         28px;
+    font-size:                      15px;
+    line-height:                    28px;
+    padding:                        0;
+}
+.properties .properties-container .property .property-name,
+.properties .events-container .event .event-name {
+    padding:                        0 0 0 8px;
+    position:                       relative;
+    -webkit-user-select:            none;
+}
+/* Text input */
+.properties .properties-container .property .property-value .text-input {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    border:                         1px solid transparent;
+    padding:                        0 0 0 8px;
+    line-height:                    26px;
+    outline:                        none;
+    font-size:                      15px;
+    background-color:               transparent;
+}
+.properties .properties-container .property .property-value .text-input:focus {
+    border:                         var(--focus-border-dotted);
+}
+.properties .properties-container .property .property-value .text-input:focus.invalid,
+.properties .properties-container .property .property-value .text-input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+/* Icon select */
+.properties .properties-container .property .property-value .icon-select,
+.properties .properties-container .property .property-value .checkbox {
+    float:                          left;
+    position:                       relative;
+}
+.properties .properties-container .property .property-value a.icon-select img {
+    position:                       relative;
+    top:                            -2px;
+}
+.properties .properties-container .property .property-value a.icon-select {
+    margin:                         1px 0 0 6px;
+}
+/* Boolean */
+.properties .properties-container .property .property-value .checkbox {
+    margin:                         3px 0 0 6px;
+}
+/* List */
+.properties .properties-container .property .property-name.list-focus,
+.properties .properties-container .property .property-value.list-focus {
+    height:                         156px;
+}
+.properties .properties-container .property .property-value a.list-selected,
+.properties .properties-container .property .property-value a.list-selected:visited {
+    outline:                        none;
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    padding:                        0 0 0 8px;
+    text-decoration:                none;
+    color:                          var(--ui-text1);
+}
+.properties .properties-container .property .property-value a.list-selected {
+    width:                          calc(100% - 40px);
+}
+.properties .properties-container .property .property-name .list-content {
+    display:                        none;
+    position:                       absolute;
+    width:                          303px;
+    height:                         calc(100% - 28px);
+    left:                           0px;
+    top:                            28px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content {
+    display:                        block;
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 0 0;
+    border-style:                   dotted;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    line-height:                    26px;
+    font-size:                      15px;
+    padding:                        0 0 0 8px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:hover {
+    background-color:               var(--files-hover-background);
+    color:                          var(--files-hover-color);
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active:hover {
+    background-color:               var(--files-selected-background);
+    color:                          var(--files-hover-color);
+}
+.properties .properties-container .property a.list-item-button.add,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button {
+    float:                          right;
+    width:                          24px;
+    height:                         28px;
+    text-align:                     center;
+    color:                          inherit;
+    text-decoration:                none;
+    opacity:                        0.25;
+}
+.properties .properties-container .property a.list-item-button.add {
+    font-weight:                    bold;
+    font-size:                      20px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content.remove-last .list-item a.list-item-button.delete {
+    visibility:                     hidden;
+}
+.properties .properties-container .property .property-name.list-focus .list-content.remove-last .list-item:last-child a.list-item-button.delete {
+    visibility:                     visible;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:first-child a.list-item-button.up,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:last-child a.list-item-button.down {
+    visibility:                     hidden;
+}
+.properties .properties-container .property a.list-item-button.add,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item a.list-item-button.delete {
+    margin-right:                   16px;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active a,
+.properties .properties-container .property .property-name.list-focus .list-content .list-item:hover a {
+    opacity:                        1;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item span.list-item-title {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item input[type="text"].list-item-input {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    outline:                        none;
+    border:                         0;
+    height:                         24px;
+    line-height:                    24px;
+    font-size:                      15px;
+    margin:                         2px 0 0 0;
+    display:                        none;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active input[type="text"].list-item-input {
+    display:                        block;
+}
+.properties .properties-container .property .property-name.list-focus .list-content .list-item.active span.list-item-title {
+    display:                        none;
+}
+/* Events */
+.properties .events-container .event .event-value .button {
+    margin:                         2px 0 0 8px;
+    width:                          28px;
+
+}
+.properties .events-container .event .event-value .current-value {
+    float:                          right;
+    width:                          calc(100% - 42px);
+    height:                         100%;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    direction:                      rtl;
+    padding:                        0 8px 0 0;
+}
+

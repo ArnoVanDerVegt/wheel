@@ -5,6 +5,14 @@
 const Dialog = require('../../../lib/components/Dialog').Dialog;
 
 exports.ImageDialog = class extends Dialog {
+    constructor(opts) {
+        super(opts);
+        this._minWidth  = ('minWidth'  in opts) ? opts.minWidth  :   1;
+        this._maxWidth  = ('maxWidth'  in opts) ? opts.maxWidth  : 178;
+        this._minHeight = ('minHeight' in opts) ? opts.minHeight :   1;
+        this._maxHeight = ('maxHeight' in opts) ? opts.maxHeight : 128;
+    }
+
     show() {
         let refs = this._refs;
         refs.width
@@ -19,8 +27,8 @@ exports.ImageDialog = class extends Dialog {
     validateWidth() {
         let result = true;
         let refs   = this._refs;
-        this._width = parseInt(refs.width.getValue().trim(),  10);
-        if (isNaN(this._width) || (this._width < 1) || (this._width > 178)) {
+        this._width = parseInt(refs.width.getValue().trim(), 10);
+        if (isNaN(this._width) || (this._width < this._minWidth) || (this._width > this._maxWidth)) {
             refs.width.setClassName('invalid');
             result = false;
         } else {
@@ -33,7 +41,7 @@ exports.ImageDialog = class extends Dialog {
         let result = true;
         let refs   = this._refs;
         this._height = parseInt(refs.height.getValue().trim(), 10);
-        if (isNaN(this._height) || (this._height < 1) || (this._height > 128)) {
+        if (isNaN(this._height) || (this._height < this._minHeight) || (this._height > this._maxHeight)) {
             refs.height.setClassName('invalid');
             result = false;
         } else {
@@ -55,12 +63,14 @@ exports.ImageDialog = class extends Dialog {
             className: 'image-dialog-row',
             children: [
                 {
+                    className: 'form-label',
                     innerHTML: 'Width'
                 },
                 this.addTextInput({
-                    ref:      this.setRef('width'),
-                    tabIndex: 10,
-                    onKeyUp:  this.onWidthKeyUp.bind(this)
+                    ref:         this.setRef('width'),
+                    tabIndex:    10,
+                    onKeyUp:     this.onWidthKeyUp.bind(this),
+                    placeholder: 'Enter width'
                 })
             ]
         };
@@ -71,12 +81,14 @@ exports.ImageDialog = class extends Dialog {
             className: 'image-dialog-row',
             children: [
                 {
+                    className: 'form-label',
                     innerHTML: 'Height'
                 },
                 this.addTextInput({
-                    ref:      this.setRef('height'),
-                    tabIndex: 11,
-                    onKeyUp:  this.onHeightKeyUp.bind(this)
+                    ref:         this.setRef('height'),
+                    tabIndex:    11,
+                    onKeyUp:     this.onHeightKeyUp.bind(this),
+                    placeholder: 'Enter height'
                 })
             ]
         };

@@ -9,7 +9,6 @@ const exec             = require('child_process').exec;
 const RgfImage         = require('../../shared/lib/RgfImage').RgfImage;
 const settings         = require('./settings');
 const DirectoryWatcher = require('../DirectoryWatcher').DirectoryWatcher;
-const ipcRenderer      = require('electron').ipcRenderer;
 
 const genericPath = function(p) {
         return p.split('\\').join('/');
@@ -24,6 +23,7 @@ const createResultCallback = function(result, res) {
     };
 
 exports.ideRoutes = {
+    _node:             false,
     _directoryWatcher: null,
     _settings:         null,
     _cwd:              path.join(__dirname, '/../../..'),
@@ -161,8 +161,8 @@ exports.ideRoutes = {
     },
 
     file: function(req, res) {
-        let filename = this._findFile(req.body.filename);
-        let result   = {success: true, filename: req.body.filename, data: null};
+        let filename = this._findFile(req.query.filename);
+        let result   = {success: true, filename: req.query.filename, data: null};
         if (filename === null) {
             result.success = false;
             res.send(JSON.stringify(result));
@@ -189,6 +189,20 @@ exports.ideRoutes = {
                 result.data = fs.readFileSync(filename);
                 res.send(JSON.stringify(result));
                 break;
+            case '.wfrm':
+                result.data = {wfrm: fs.readFileSync(filename).toString(), isProject: false};
+                let whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whl');
+                if (whlFilename !== null) {
+                    result.data.whl = fs.readFileSync(whlFilename).toString();
+                } else {
+                    whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whlp');
+                    if (whlFilename !== null) {
+                        result.data.whl       = fs.readFileSync(whlFilename).toString();
+                        result.data.isProject = true;
+                    }
+                }
+                res.send(JSON.stringify(result));
+                break;
             default:
                 try {
                     result.data = fs.readFileSync(filename).toString();
@@ -211,22 +225,21 @@ exports.ideRoutes = {
         let filename = req.body.filename;
         let data     = req.body.data;
         let result   = {success: true};
-        switch (filename.substr(-4)) {
-            case '.rgf':
-                if (typeof data === 'string') {
-                    try {
-                        data = JSON.parse(data);
-                    } catch (error) {
-                        result.success = false;
-                    }
+        if (filename.substr(-4) === '.rgf') {
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    result.success = false;
                 }
-                if (result.success) {
-                    data = new RgfImage().pack(data);
-                }
-                break;
-            case '.rsf':
-                data = new Uint8Array(data);
-                break;
+            }
+            if (result.success) {
+                data = new RgfImage().pack(data);
+            }
+        } else if (filename.substr(-4) === '.rsf') {
+            data = new Uint8Array(data);
+        } else if (filename.substr(-5) === '.wfrm') {
+            data = JSON.stringify(data, null, 4);
         }
         if (result.success) {
             fs.writeFile(filename, data, createResultCallback(result, res));
@@ -263,15 +276,15 @@ exports.ideRoutes = {
     filesInPath: function(req, res) {
         let filelist      = [];
         let readFilesSync = function(dir) {
-            let files = fs.readdirSync(dir);
-            files.forEach(function(file) {
-                if (fs.statSync(dir + '/' + file).isDirectory()) {
-                    readFilesSync(dir + '/' + file);
-                } else if ((file.substr(-4) === '.woc') || (file.substr(-4) === '.whl') || (file.substr(-5) === '.whlp')) {
-                    filelist.push(genericPath(path.join(dir, file)));
-                }
-            });
-        };
+                let files = fs.readdirSync(dir);
+                files.forEach(function(file) {
+                    if (fs.statSync(dir + '/' + file).isDirectory()) {
+                        readFilesSync(dir + '/' + file);
+                    } else if ((file.substr(-4) === '.woc') || (file.substr(-4) === '.whl') || (file.substr(-5) === '.whlp')) {
+                        filelist.push(genericPath(path.join(dir, file)));
+                    }
+                });
+            };
         readFilesSync(this._documentPath);
         res.send(JSON.stringify(filelist));
     },
@@ -316,7 +329,7 @@ exports.ideRoutes = {
     pathExists: function(req, res) {
         let result = {success: false};
         try {
-            result.exists  = fs.existsSync(req.body.path);
+            result.exists  = fs.existsSync(req.query.path);
             result.success = true;
         } catch (error) {
             result.error = error.toString();
@@ -334,6 +347,13 @@ exports.ideRoutes = {
         if (!result) {
             result = settings.loadFromFile();
             if (!result) {
+                result = {};
+            }
+        }
+        if (typeof result === 'string') {
+            try {
+                result = JSON.parse(result);
+            } catch (error) {
                 result = {};
             }
         }
@@ -361,18 +381,25 @@ exports.ideRoutes = {
         if (!this.directoryWatcher && result.documentPathExists) {
             this.directoryWatcher = new DirectoryWatcher(this._documentPath);
         }
-        ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
-        ipcRenderer.send('postMessage', {command: 'settings', settings: result});
+        if (this._node) {
+            result.userDocumentPath = os.homedir();
+        } else {
+            const ipcRenderer = require('electron').ipcRenderer;
+            ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
+            ipcRenderer.send('postMessage', {command: 'settings', settings: result});
+        }
+        res.send(JSON.stringify(result));
     },
 
     settingsSave: function(req, res) {
-        let result = {success: true};
-        let data   = req.body.settings;
-        if (this._documentPath !== genericPath(data.documentPath)) {
-            this.directoryWatcher = new DirectoryWatcher(genericPath(data.documentPath));
+        let result       = {success: true};
+        let data         = req.body.settings;
+        let documentPath = this._node ? this._documentPath : data.documentPath;
+        if (this._documentPath !== genericPath(documentPath)) {
+            this.directoryWatcher = new DirectoryWatcher(genericPath(documentPath));
         }
         let windowPosition = this._getSettings().windowPosition;
-        this._documentPath                = genericPath(data.documentPath);
+        this._documentPath                = genericPath(documentPath);
         this._cwd                         = this._getSettings().documentPath;
         this._settings                    = req.body.settings;
         this._settings.documentPathExists = fs.existsSync(this._documentPath);
@@ -433,5 +460,9 @@ exports.ideRoutes = {
                 res.send(JSON.stringify(result));
             }
         );
+    },
+
+    setNode(node) {
+        this._node = node;
     }
 };

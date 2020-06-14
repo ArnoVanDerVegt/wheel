@@ -22,17 +22,18 @@ class CompileBlock extends CompileScope {
         super(opts);
         if (!keywordCompiler) {
             keywordCompiler = {};
-            keywordCompiler[t.LEXEME_PROC  ] = require('../keyword/CompileProc'  ).CompileProc;
-            keywordCompiler[t.LEXEME_RECORD] = require('../keyword/CompileRecord').CompileRecord;
-            keywordCompiler[t.LEXEME_ADDR  ] = require('../keyword/CompileAddr'  ).CompileAddr;
-            keywordCompiler[t.LEXEME_MOD   ] = require('../keyword/CompileModule').CompileModule;
-            keywordCompiler[t.LEXEME_FOR   ] = require('../keyword/CompileFor'   ).CompileFor;
-            keywordCompiler[t.LEXEME_WHILE ] = require('../keyword/CompileWhile' ).CompileWhile;
-            keywordCompiler[t.LEXEME_REPEAT] = require('../keyword/CompileRepeat').CompileRepeat;
-            keywordCompiler[t.LEXEME_BREAK ] = require('../keyword/CompileBreak' ).CompileBreak;
-            keywordCompiler[t.LEXEME_RET   ] = require('../keyword/CompileRet'   ).CompileRet;
-            keywordCompiler[t.LEXEME_IF    ] = require('../keyword/CompileIf'    ).CompileIf;
-            keywordCompiler[t.LEXEME_SELECT] = require('../keyword/CompileSelect').CompileSelect;
+            keywordCompiler[t.LEXEME_NAMESPACE] = require('../keyword/CompileNamespace').CompileNamespace;
+            keywordCompiler[t.LEXEME_PROC     ] = require('../keyword/CompileProc'     ).CompileProc;
+            keywordCompiler[t.LEXEME_RECORD   ] = require('../keyword/CompileRecord'   ).CompileRecord;
+            keywordCompiler[t.LEXEME_ADDR     ] = require('../keyword/CompileAddr'     ).CompileAddr;
+            keywordCompiler[t.LEXEME_MOD      ] = require('../keyword/CompileModule'   ).CompileModule;
+            keywordCompiler[t.LEXEME_FOR      ] = require('../keyword/CompileFor'      ).CompileFor;
+            keywordCompiler[t.LEXEME_WHILE    ] = require('../keyword/CompileWhile'    ).CompileWhile;
+            keywordCompiler[t.LEXEME_REPEAT   ] = require('../keyword/CompileRepeat'   ).CompileRepeat;
+            keywordCompiler[t.LEXEME_BREAK    ] = require('../keyword/CompileBreak'    ).CompileBreak;
+            keywordCompiler[t.LEXEME_RET      ] = require('../keyword/CompileRet'      ).CompileRet;
+            keywordCompiler[t.LEXEME_IF       ] = require('../keyword/CompileIf'       ).CompileIf;
+            keywordCompiler[t.LEXEME_SELECT   ] = require('../keyword/CompileSelect'   ).CompileSelect;
         }
     }
 
@@ -130,13 +131,16 @@ class CompileBlock extends CompileScope {
     }
 
     compileBlock(iterator, endStatements) {
-        let program = this._program;
-        let scope   = this._scope;
-        let end     = false;
-        let token   = null;
-        let opts    = {compiler: this._compiler, program: program, scope: scope};
+        let compiler = this._compiler;
+        let program  = this._program;
+        let scope    = this._scope;
+        let end      = false;
+        let token    = null;
+        let opts     = {compiler: compiler, program: program, scope: scope};
         while (!end && !iterator.finished()) {
             token = iterator.skipWhiteSpace().next();
+            // Check if the token belongs to the next file, if so then reset the namespace to the root.
+            compiler.getNamespace().checkCurrentFileIndex(token);
             program.nextBlockId(token, scope);
             switch (token.cls) {
                 case t.TOKEN_TYPE:

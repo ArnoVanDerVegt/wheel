@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform                       = require('../../../../lib/platform');
 const dispatcher                     = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode                        = require('../../../../lib/dom').DOMNode;
 const path                           = require('../../../../lib/path');
@@ -93,10 +94,18 @@ exports.HomeScreen = class extends DOMNode {
                             }),
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/rgf.svg'),
-                                title:    'New image &raquo;',
+                                title:    'New image EV3 &raquo;',
                                 tabIndex: tabIndex.HOME_SCREEN + 3,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
+                                }
+                            }),
+                            this.addHomeScreenTile({
+                                icon:     getImage('images/files/form.svg'),
+                                title:    'New form &raquo;',
+                                tabIndex: tabIndex.HOME_SCREEN + 3,
+                                onClick: function() {
+                                    dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
                                 }
                             }),
                             {
@@ -107,13 +116,13 @@ exports.HomeScreen = class extends DOMNode {
                                 tabIndex: tabIndex.HOME_SCREEN + 4,
                                 ev3:      this._ev3,
                                 onClick: function() {
-                                    if ('electron' in window) {
+                                    if (platform.isElectron()) {
                                         dispatcher.dispatch('Dialog.ConnectEV3.Show');
                                     } else {
                                         dispatcher.dispatch(
                                             'Dialog.Alert.Show',
                                             {
-                                                title: 'Browser version',
+                                                title: (platform.isNode() ? 'Node' : 'Browser') + ' version',
                                                 lines: [
                                                     'The browser version can not connect to your EV3...',
                                                     'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
@@ -131,7 +140,7 @@ exports.HomeScreen = class extends DOMNode {
                                 tabIndex:  tabIndex.HOME_SCREEN + 5,
                                 poweredUp: this._poweredUp,
                                 onClick: function() {
-                                    if ('electron' in window) {
+                                    if (platform.isElectron() || platform.isNode()) {
                                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                                     } else {
                                         dispatcher.dispatch(

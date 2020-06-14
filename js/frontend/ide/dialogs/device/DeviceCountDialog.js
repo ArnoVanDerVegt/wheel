@@ -33,7 +33,7 @@ exports.DeviceCountDialog = class extends Dialog {
                     children: [
                         this.addButton({
                             tabIndex: 128,
-                            value:    'Ok',
+                            value:    'Set device count',
                             onClick:  this.onApply.bind(this)
                         })
                     ]

@@ -1,0 +1,50 @@
+; @module Component/StatusLight
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.statusLight
+
+; @const The status light component module.
+#define MODULE_COMPONENT_STATUS_LIGHT        69
+
+; @const Module calls for status light component functions.
+#define STATUS_LIGHT_COMPONENT_SET_HIDDEN     0
+#define STATUS_LIGHT_COMPONENT_SET_X          1
+#define STATUS_LIGHT_COMPONENT_SET_Y          2
+#define STATUS_LIGHT_COMPONENT_SET_COLOR      3
+
+; @proc                   Hide the status light.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number tabIndex)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the status light.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the status light.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_Y
+end
+
+; @proc                   Set the status light color.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param color            The status light color.
+proc setColor(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_COLOR
+end

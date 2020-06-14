@@ -296,54 +296,6 @@ body.ide.dark .icon-button.icon-size4 {
     background-image:               url('images/buttons/size4White.svg');
     background-position:            0 0;
 }
-.icon-button.icon-select {
-    background-image:               url('images/buttons/selectBlack.svg');
-    background-position:            0 0;
-}
-body.ide.dark .icon-button.icon-select {
-    background-image:               url('images/buttons/selectWhite.svg');
-    background-position:            0 0;
-}
-.icon-button.icon-grid {
-    background-image:               url('images/buttons/gridBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-grid {
-    background-image:               url('images/buttons/gridWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-binary {
-    background-image:               url('images/buttons/binaryBlack.svg');
-    background-position:            1px 1px;
-}
-body.ide.dark .icon-button.icon-binary {
-    background-image:               url('images/buttons/binaryWhite.svg');
-    background-position:            1px 1px;
-}
-.icon-button.icon-copy {
-    background-image:               url('images/buttons/copyBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-copy {
-    background-image:               url('images/buttons/copyWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-paste {
-    background-image:               url('images/buttons/pasteBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-paste {
-    background-image:               url('images/buttons/pasteWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-undo {
-    background-image:               url('images/buttons/undoBlack.svg');
-    background-position:            2px 1px;
-}
-body.ide.dark .icon-button.icon-undo {
-    background-image:               url('images/buttons/undoWhite.svg');
-    background-position:            2px 1px;
-}
 .icon-button.icon-text {
     background-image:               url('images/buttons/textBlack.svg');
     background-position:            0 0;
@@ -380,46 +332,6 @@ body.ide.dark .icon-button.icon-text {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="9" y1="7" x2="4" y2="18" style="stroke:rgb(0,0,0);stroke-width:2" stroke-linecap="round" />    <circle cx="9" cy="7" r="6" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">4</text></svg>');
     background-position:            0 0;
 }
-.icon-button.icon-play {
-    background-image:               url('images/buttons/playBlack.svg');
-    background-position:            0 0;
-}
-body.ide.dark .icon-button.icon-play {
-    background-image:               url('images/buttons/playWhite.svg');
-    background-position:            0 0;
-}
-.icon-button.icon-volume {
-    background-image:               url('images/buttons/volumeBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-volume {
-    background-image:               url('images/buttons/volumeWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-fade-in {
-    background-image:               url('images/buttons/fadeInBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-fade-in {
-    background-image:               url('images/buttons/fadeInWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-fade-out {
-    background-image:               url('images/buttons/fadeOutBlack.svg');
-    background-position:            2px 2px;
-}
-body.ide.dark .icon-button.icon-fade-out {
-    background-image:               url('images/buttons/fadeOutWhite.svg');
-    background-position:            2px 2px;
-}
-.icon-button.icon-delete {
-    background-image:               url('images/buttons/deleteBlack.svg');
-    background-position:            0 0;
-}
-body.ide.dark .icon-button.icon-delete {
-    background-image:               url('images/buttons/deleteWhite.svg');
-    background-position:            0 0;
-}
 .icon-button.icon-list {
     background-image:               url('images/buttons/listBlack.svg');
     background-position:            0 0;
@@ -436,8 +348,189 @@ body.ide.dark .icon-button.icon-list-detail {
     background-image:               url('images/buttons/listDetailWhite.svg');
     background-position:            0 0;
 }
+
+
+input[type="button"].icon-button.icon-move {
+    background-image:               url('images/buttons/moveBlack.svg');
+    background-position:            1.5px 3.5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-move {
+    background-image:               url('images/buttons/moveWhite.svg');
+    background-position:            1.5px 3.5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonBlack.svg');
+    background-position:            2px 4.5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonWhite.svg');
+    background-position:            2px 4.5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+    background-position:            2px 4.5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+    background-position:            2px 4.5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-label {
+    background-image:               url('images/buttons/labelBlack.svg');
+    background-position:            3px 5px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-label {
+    background-image:               url('images/buttons/labelWhite.svg');
+    background-position:            3px 5px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxBlack.svg');
+    background-position:            3px 4px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxWhite.svg');
+    background-position:            3px 4px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsBlack.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsWhite.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-panel {
+    background-image:               url('images/buttons/panelBlack.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-panel {
+    background-image:               url('images/buttons/panelWhite.svg');
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+}
+input[type="button"].icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightBlack.svg');
+    background-position:            2px 3px;
+    background-size:                24px 24px;
+}
+body.ide.dark input[type="button"].icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightWhite.svg');
+    background-position:            2px 3px;
+    background-size:                24px 24px;
+}
+
 input[type="button"].icon-button.icon-copy,
 input[type="button"].icon-button.icon-copy.in-active,
 input[type="button"].icon-button.icon-play {
     margin-left:                    12px;
+}
+
+
+input[type="button"].icon-button.icon-select {
+    background-image:               url('images/buttons/selectBlack.svg');
+    background-position:            0 0;
+}
+body.ide.dark input[type="button"].icon-button.icon-select {
+    background-image:               url('images/buttons/selectWhite.svg');
+    background-position:            0 0;
+}
+input[type="button"].icon-button.icon-grid {
+    background-image:               url('images/buttons/gridBlack.svg');
+    background-position:            3px 3px;
+    background-size:                21px 21px;
+}
+body.ide.dark input[type="button"].icon-button.icon-grid {
+    background-image:               url('images/buttons/gridWhite.svg');
+    background-position:            3px 3px;
+    background-size:                21px 21px;
+}
+input[type="button"].icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryBlack.svg');
+    background-position:            3px 3px;
+    background-size:                22px 22px;
+}
+body.ide.dark input[type="button"].icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryWhite.svg');
+    background-position:            3px 3px;
+    background-size:                22px 22px;
+}
+input[type="button"].icon-button.icon-copy {
+    background-image:               url('images/buttons/copyBlack.svg');
+    background-position:            3.5px 3.5px;
+    background-size:                20px 20px;
+}
+body.ide.dark input[type="button"].icon-button.icon-copy {
+    background-image:               url('images/buttons/copyWhite.svg');
+    background-position:            3.5px 3.5px;
+    background-size:                20px 20px;
+}
+input[type="button"].icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteBlack.svg');
+    background-position:            3.5px 3.5px;
+    background-size:                20px 20px;
+}
+body.ide.dark input[type="button"].icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteWhite.svg');
+    background-position:            3.5px 3.5px;
+    background-size:                20px 20px;
+}
+input[type="button"].icon-button.icon-undo {
+    background-image:               url('images/buttons/undoBlack.svg');
+    background-position:            2px 1px;
+}
+body.ide.dark input[type="button"].icon-button.icon-undo {
+    background-image:               url('images/buttons/undoWhite.svg');
+    background-position:            2px 1px;
+}
+input[type="button"].icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark input[type="button"].icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteWhite.svg');
+    background-position:            2px 2px;
+}
+input[type="button"].icon-button.icon-play {
+    background-image:               url('images/buttons/playBlack.svg');
+    background-position:            3px 2px;
+}
+body.ide.dark input[type="button"].icon-button.icon-play {
+    background-image:               url('images/buttons/playWhite.svg');
+    background-position:            3px 2px;
+}
+input[type="button"].icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark input[type="button"].icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeWhite.svg');
+    background-position:            2px 2px;
+}
+input[type="button"].icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark input[type="button"].icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInWhite.svg');
+    background-position:            2px 2px;
+}
+input[type="button"].icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutBlack.svg');
+    background-position:            2px 2px;
+}
+body.ide.dark input[type="button"].icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutWhite.svg');
+    background-position:            2px 2px;
 }

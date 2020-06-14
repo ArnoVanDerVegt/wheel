@@ -2,21 +2,23 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const path        = require('../../lib/path');
-const DOMNode     = require('../../lib/dom').DOMNode;
-const Tabs        = require('../../lib/components/Tabs').Tabs;
-const Button      = require('../../lib/components/Button').Button;
-const tabIndex    = require('../tabIndex');
-const HomeScreen  = require('./editors/home/HomeScreen').HomeScreen;
-const WheelEditor = require('./editors/text/WheelEditor').WheelEditor;
-const VMViewer    = require('./editors/text/VMViewer').VMViewer;
-const TextEditor  = require('./editors/text/TextEditor').TextEditor;
-const LmsEditor   = require('./editors/text/LmsEditor').LmsEditor;
-const SoundEditor = require('./editors/sound/SoundEditor').SoundEditor;
-const SoundLoader = require('./editors/sound/SoundLoader').SoundLoader;
-const ImageEditor = require('./editors/image/ImageEditor').ImageEditor;
-const ImageLoader = require('./editors/image/ImageLoader').ImageLoader;
+const dispatcher    = require('../../lib/dispatcher').dispatcher;
+const path          = require('../../lib/path');
+const DOMNode       = require('../../lib/dom').DOMNode;
+const Tabs          = require('../../lib/components/Tabs').Tabs;
+const Button        = require('../../lib/components/Button').Button;
+const tabIndex      = require('../tabIndex');
+const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
+const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
+const VMViewer      = require('./editors/text/VMViewer').VMViewer;
+const TextEditor    = require('./editors/text/TextEditor').TextEditor;
+const LmsEditor     = require('./editors/text/LmsEditor').LmsEditor;
+const SoundEditor   = require('./editors/sound/SoundEditor').SoundEditor;
+const SoundLoader   = require('./editors/sound/SoundLoader').SoundLoader;
+const ImageEditor   = require('./editors/image/ImageEditor').ImageEditor;
+const ImageLoader   = require('./editors/image/ImageLoader').ImageLoader;
+const FormEditor    = require('./editors/form/FormEditor').FormEditor;
+const SourceBuilder = require('./editors/form/SourceBuilder').SourceBuilder;
 
 exports.Editors = class extends DOMNode {
     constructor(opts) {
@@ -249,20 +251,6 @@ exports.Editors = class extends DOMNode {
         }
     }
 
-    addEditor(opts, editor) {
-        this._editorsState.add(editor);
-        this.onClickTab(opts.filename, opts.path);
-        this._refs.tabs.add({
-            title:   opts.filename,
-            meta:    opts.path,
-            onClick: this.onClickTab.bind(this),
-            onClose: (function(title, meta) {
-                (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
-            }).bind(this)
-        });
-        dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
-    }
-
     activateFile(opts) {
         let editor = this._editorsState.findByPathAndFilename(opts.path || '', opts.filename);
         if (!editor) {
@@ -279,6 +267,45 @@ exports.Editors = class extends DOMNode {
         return editor;
     }
 
+    addEditor(opts, editor) {
+        this._editorsState.add(editor);
+        this._refs.tabs.add({
+            title:   opts.filename,
+            meta:    opts.path,
+            onClick: this.onClickTab.bind(this),
+            onClose: (function(title, meta) {
+                (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
+            }).bind(this)
+        });
+        this.onClickTab(opts.filename, opts.path);
+        dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
+    }
+
+    addForm(opts) {
+        try {
+            opts.data = JSON.parse(opts.value.wfrm);
+        } catch (error) {
+            opts.data = null;
+        }
+        if (opts.data !== null) {
+            let textOpts = Object.assign({}, opts);
+            if (opts.value.whl) {
+                textOpts.value = opts.value.whl;
+            } else {
+                textOpts.value = new SourceBuilder({settings: this._settings}).generateSourceFromFormData(opts.data);
+            }
+            textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (opts.value.isProject ? 'p' : ''));
+            textOpts.mode     = 'text/x-wheel';
+            textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
+            let pathAndFilename = path.getPathAndFilename(path.join(opts.path, textOpts.filename));
+            // Check if the file is already open in an editor...
+            if (!this.findEditor(pathAndFilename.path, pathAndFilename.filename)) {
+                this.addEditor(textOpts, new WheelEditor(textOpts));
+            }
+        }
+        this.addEditor(opts, new FormEditor(opts));
+    }
+
     add(opts) {
         let extension = path.getExtension(opts.filename);
         if ([
@@ -287,7 +314,7 @@ exports.Editors = class extends DOMNode {
                 '.bmp', '.png', '.jpg', '.jpeg', '.gif',
                 '.whl', '.whlp', '.vm',
                 '.txt', '.woc',
-                '.lms'
+                '.lms', '.wfrm'
             ].indexOf(extension) === -1) {
             return null;
         }
@@ -308,6 +335,9 @@ exports.Editors = class extends DOMNode {
                 break;
             case '.rsf':
                 this.addEditor(opts, new SoundEditor(opts));
+                break;
+            case '.wfrm':
+                this.addForm(opts);
                 break;
             case '.mp3':
             case '.wav':
@@ -367,7 +397,7 @@ exports.Editors = class extends DOMNode {
         let canPaste    = false;
         let canCompile  = this._editorsState.hasCompilableFile();
         if (activeEditor) {
-            canSave     = (['.whl', '.whlp', '.rgf', '.rsf'].indexOf(path.getExtension(activeEditor.getFilename())) !== -1);
+            canSave     = (['.whl', '.whlp', '.rgf', '.rsf', '.wfrm'].indexOf(path.getExtension(activeEditor.getFilename())) !== -1);
             canFind     = activeEditor.getCanFind();
             canFindNext = (activeEditor.getFindText() !== null);
             canUndo     = activeEditor.getCanUndo();
@@ -401,5 +431,9 @@ exports.Editors = class extends DOMNode {
             return null;
         }
         return this._editorsState.findByPathAndFilename(activeTab.meta, activeTab.title);
+    }
+
+    findEditor(path, filename) {
+        return this._editorsState.findByPathAndFilename(path, filename);
     }
 };

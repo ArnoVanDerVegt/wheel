@@ -1,5 +1,17 @@
 input[type="text"] {
+    border-radius:                  2px;
     border:                         var(--text-input-border);
     color:                          var(--text-input-color);
     background-color:               var(--text-input-background);
+}
+::-webkit-input-placeholder {
+    color:                          var(--text-input-placeholder);
+}
+
+:-ms-input-placeholder {
+    color:                          var(--text-input-placeholder);
+}
+
+::placeholder {
+    color:                          var(--text-input-placeholder);
 }

@@ -77,24 +77,6 @@ exports.Simulator = class extends DOMNode {
                         settings:  this._settings,
                         simulator: this
                     },
-                    /*{
-                        id:        this.setAutoResetPanel.bind(this),
-                        className: 'auto-reset',
-                        children: [
-                            {
-                                id:       this.setAutoResetCheckbox.bind(this),
-                                ui:       this._ui,
-                                uiId:     1,
-                                type:     Checkbox,
-                                tabIndex: tabIndex.SENSOR_AUTO_RESET,
-                                checked:  true
-                            },
-                            {
-                                className: 'label',
-                                innerHTML: 'Auto reset sensor value'
-                            }
-                        ]
-                    },*/
                     {
                         className: 'plugin-container',
                         children:  this.initPlugins()

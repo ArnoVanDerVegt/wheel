@@ -60,11 +60,12 @@ exports.ToolbarBottom = class extends Toolbar {
                     className: 'label find'
                 },
                 {
-                    ref:       wheelEditor.setRef('findText'),
-                    type:      TextInput,
-                    ui:        this._ui,
-                    tabIndex:  tabIndex.WHEEL_EDITOR_FIND_TEXT,
-                    onKeyUp:   wheelEditor.onFindKeyUp.bind(wheelEditor)
+                    ref:         wheelEditor.setRef('findText'),
+                    type:        TextInput,
+                    ui:          this._ui,
+                    tabIndex:    tabIndex.WHEEL_EDITOR_FIND_TEXT,
+                    onKeyUp:     wheelEditor.onFindKeyUp.bind(wheelEditor),
+                    placeholder: 'Enter find text'
                 },
                 {
                     type:      Button,
@@ -101,11 +102,12 @@ exports.ToolbarBottom = class extends Toolbar {
                     className: 'label find'
                 },
                 {
-                    ref:       wheelEditor.setRef('replaceText'),
-                    type:      TextInput,
-                    ui:        this._ui,
-                    tabIndex:  tabIndex.WHEEL_EDITOR_REPLACE_TEXT,
-                    onKeyUp:   wheelEditor.onReplaceKeyUp.bind(wheelEditor)
+                    ref:         wheelEditor.setRef('replaceText'),
+                    type:        TextInput,
+                    ui:          this._ui,
+                    tabIndex:    tabIndex.WHEEL_EDITOR_REPLACE_TEXT,
+                    onKeyUp:     wheelEditor.onReplaceKeyUp.bind(wheelEditor),
+                    placeholder: 'Enter replace text'
                 },
                 {
                     type:      Button,

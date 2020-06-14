@@ -1,0 +1,10 @@
+.checkbox-and-label {
+    height:                         24px;
+}
+.checkbox-and-label .checkbox {
+    float:                          left;
+}
+.checkbox-and-label .label {
+    float:                          left;
+    margin:                         0 0 0 4px;
+}

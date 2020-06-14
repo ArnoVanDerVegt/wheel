@@ -41,9 +41,12 @@ exports.Component = class extends DOMNode {
         this._selected      = opts.selected;
         this._focus         = opts.focus;
         this._open          = opts.open;
-        this._disabled      = opts.disabled;
-        this._hidden        = ('hidden' in opts) ? opts.hidden : false;
-        this._color         = ('color'  in opts) ? opts.color  : 'green';
+        this._disabled      = ('disabled' in opts) ? opts.disabled : false;
+        this._hidden        = ('hidden'   in opts) ? opts.hidden   : false;
+        this._color         = ('color'    in opts) ? opts.color    : 'green';
+        this._width         = ('width'    in opts) ? opts.width    : false;
+        this._height        = ('height'   in opts) ? opts.height   : false;
+        this._style         = opts.style || {};
         this._className     = opts.className     || '';
         this._baseClassName = opts.baseClassName || '';
         this._parentNode    = opts.parentNode;
@@ -56,8 +59,9 @@ exports.Component = class extends DOMNode {
         this._onMouseUp     = opts.onMouseUp;
         this._onMouseOut    = opts.onMouseOut;
         this._onGlobalUIId  = ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        this._dispatchEvent = null;
         if (opts.event) {
-            dispatcher.on(opts.event, this, this.onEvent);
+            this._dispatchEvent = dispatcher.on(opts.event, this, this.onEvent);
         }
         (typeof this._id === 'function') && this._id(this);
     }
@@ -86,6 +90,11 @@ exports.Component = class extends DOMNode {
         this._className         = className;
         this._element.className = this.getClassName();
         return this;
+    }
+
+    setColor(color) {
+        this._color             = color;
+        this._element.className = this.getClassName();
     }
 
     setDisabled(disabled) {
@@ -131,8 +140,23 @@ exports.Component = class extends DOMNode {
         return this;
     }
 
+    setTitle(title) {
+        this._title         = title;
+        this._element.title = title;
+        return this;
+    }
+
+    setWidth(width) {
+        this._element.style.width = width;
+    }
+
+    setHeight(height) {
+        this._element.style.height = height;
+    }
+
     remove() {
         (typeof this._onGlobalUIId === 'function') && this._onGlobalUIId();
+        this._dispatchEvent && this._dispatchEvent();
     }
 
     onGlobalUIId() {
@@ -149,6 +173,25 @@ exports.Component = class extends DOMNode {
     }
 
     onEvent(opts) {
+        let element = this._element;
+        if (!element) {
+            return;
+        }
+        if ('hidden' in opts) {
+            this.setHidden(opts.hidden);
+        }
+        if ('disabled' in opts) {
+            this.setDisabled(opts.disabled);
+        }
+        if ('x' in opts) {
+            element.style.left = opts.x + 'px';
+        }
+        if ('y' in opts) {
+            element.style.top = opts.y + 'px';
+        }
+        if ('pointerEvents' in opts) {
+            element.style.pointerEvents = opts.pointerEvents;
+        }
     }
 
     onFocus() {
@@ -165,7 +208,7 @@ exports.Component = class extends DOMNode {
 
     onClick(event) {
         if (!this._disabled) {
-            this._onClick  && this._onClick();
+            this._onClick  && this._onClick(event);
             this._dispatch && dispatcher.dispatch(this._dispatch);
         }
     }

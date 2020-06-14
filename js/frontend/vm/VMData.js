@@ -93,6 +93,22 @@ class VMData {
         this._keepRet         = true;
     }
 
+    getRegisters() {
+        let result = [];
+        let data   = this._data;
+        for (let i = 0; i <= $.REG_RANGE1; i++) {
+            result[i] = data[i];
+        }
+        return result;
+    }
+
+    setRegisters(registers) {
+        let data = this._data;
+        for (let i = 0; i <= $.REG_RANGE1; i++) {
+            data[i] = registers[i];
+        }
+    }
+
     keepRet() {
         let keepRet = this._keepRet;
         this._keepRet = false;

@@ -407,9 +407,10 @@ exports.FileTree = class extends DOMNode {
 
     onGetFiles(parentNode, p, files) {
         parentNode.style.paddingLeft = (p.split('/').length * 4) + 'px';
+        let fullPathOpen = this._fullPathOpen;
         files.forEach(
             function(file) {
-                if (file.name[0] === '.') {
+                if ((file.name[0] === '.') || ((p in fullPathOpen) && !fullPathOpen[p])) {
                     return;
                 }
                 let childNodes = parentNode.childNodes;
@@ -558,8 +559,11 @@ exports.FileTree = class extends DOMNode {
 
     showOpenDirectories() {
         let fullPathItem = this._fullPathItem;
+        let fullPathOpen = this._fullPathOpen;
         for (let fullPath in this._fullPathOpen) {
-            if (fullPathItem[fullPath]) {
+            if ((fullPath in fullPathOpen) && !fullPathOpen[fullPath]) {
+                continue;
+            } else if (fullPathItem[fullPath]) {
                 fullPathItem[fullPath].setOpen(true);
             }
         }

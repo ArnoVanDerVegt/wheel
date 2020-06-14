@@ -22,6 +22,7 @@ const forToAssignmentScopeTokens   = require('./syntaxForToAssignment').forToAss
 const numericAssignmentScopeTokens = require('./syntaxNumericAssignment').numericAssignmentScopeTokens;
 const booleanScopeTokens           = require('./syntaxBoolean').booleanScopeTokens;
 const assignmentScopeTokens        = require('./syntaxAssignment').assignmentScopeTokens;
+const namespaceScopeTokens         = require('./syntaxNamespace').namespaceScopeTokens;
 const blockScopeTokens             = require('./syntaxBlock').blockScopeTokens;
 
 let assignOperateScope = {
@@ -64,6 +65,13 @@ let breakScope = {
         endLexeme: [t.LEXEME_NEWLINE]
     };
 
+// Namespace <namespace>
+let namespaceScope = {
+        name:      'namespace',
+        tokens:    namespaceScopeTokens(),
+        endLexeme: [t.LEXEME_NEWLINE]
+    };
+
 // Block
 let blockScope = {};
 blockScope[t.LEXEME_IF        ] = function() { return [ifScope,     ifScopeCondition   ]; };
@@ -71,6 +79,7 @@ blockScope[t.LEXEME_ELSEIF    ] = function() { return [ifScope,     ifScopeCondi
 blockScope[t.LEXEME_SELECT    ] = function() { return [selectScope, selectValueScope   ]; };
 blockScope[t.LEXEME_WHILE     ] = function() { return [whileScope,  whileScopeCondition]; };
 blockScope[t.LEXEME_FOR       ] = function() { return [forScope,    toScope            ]; };
+blockScope[t.LEXEME_NAMESPACE ] = function() { return [namespaceScope           ];        };
 blockScope[t.LEXEME_REPEAT    ] = function() { return [repeatScope              ];        };
 blockScope[t.LEXEME_RECORD    ] = function() { return [recordScope              ];        };
 blockScope[t.LEXEME_ADDR      ] = function() { return [addrScope                ];        };

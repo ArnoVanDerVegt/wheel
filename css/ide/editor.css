@@ -289,7 +289,8 @@
     min-width:                      100%;
     min-height:                     100%;
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource {
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource {
     position:                       absolute;
     left:                           50%;
     top:                            50%;
@@ -300,7 +301,8 @@
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
     background-color:               var(--ui-background1);
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow {
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.with-shadow {
     box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
 }
 .editor .source-wrapper .resource-wrapper .resource-content .resource-overlay {
@@ -368,9 +370,9 @@ input[type="button"].button.clear,
     display:                        none;
 }
 /* Show the extra run button if there are no simulator items visible... */
-body.no-simulator .editor-wrapper input[type="button"].button.run,
-body.no-simulator .editor-wrapper input[type="button"].button.continue,
-body.no-simulator .editor-wrapper .continue-button-wrapper {
+body.no-right-panel .editor-wrapper input[type="button"].button.run,
+body.no-right-panel .editor-wrapper input[type="button"].button.continue,
+body.no-right-panel .editor-wrapper .continue-button-wrapper {
     display:                        block;
 }
 
@@ -408,4 +410,40 @@ body.no-simulator .editor-wrapper .continue-button-wrapper {
 .simulator .tool-options {
     float:                          right;
     margin:                         8px 4px 0 0;
+}
+
+/* Form editor */
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
+    overflow:                       hidden;
+    cursor:                         default;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid10 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            5px 5px;
+    background-size:                10px 10px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid12 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            6px 6px;
+    background-size:                12px 12px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid16 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            8px 8px;
+    background-size:                16px 16px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid20 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            10px 10px;
+    background-size:                20px 20px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .button,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label .checkbox,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels {
+    cursor:                         move;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels .tab-panel {
+    cursor:                         default;
 }

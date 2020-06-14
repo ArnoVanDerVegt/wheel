@@ -156,10 +156,10 @@ end
 @end
 
 @section #resource
-@keyword resource,rgf,rtf,rbf,rsf
+@keyword resource,rgf,rtf,rbf,rsf,wfrm
 
 With the `#resource` command you can declare a resource which will be downloaded to the EV3 when you
-install your compiled program. There are four valid resource file extensions: `.rtf`, `.rgf`, `.rsf`, `.rbf`.
+install your compiled program. There are four valid resource file extensions: `.rtf`, `.rgf`, `.rsf`, `.rbf`, `.wfrm`.
 
 The resource file should exist within the Wheel path.
 

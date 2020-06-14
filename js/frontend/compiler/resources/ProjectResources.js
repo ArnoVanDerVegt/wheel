@@ -6,12 +6,16 @@ const errors          = require('../errors');
 const ProjectResource = require('./ProjectResource').ProjectResource;
 const ImageResource   = require('./ImageResource').ImageResource;
 const TextResource    = require('./TextResource').TextResource;
+const FormResource    = require('./FormResource').FormResource;
+const path            = require('../../lib/path');
 
 exports.ProjectResources = class {
     constructor(opts) {
-        this._getDataProvider = opts.getDataProvider || false;
-        this._projectFilename = opts.projectFilename;
-        this._resources       = [];
+        this._getFileData       = opts.getFileData;
+        this._getEditorFileData = opts.getEditorFileData;
+        this._getDataProvider   = opts.getDataProvider || false;
+        this._projectFilename   = opts.projectFilename;
+        this._resources         = [];
     }
 
     add(filename, data, token) {
@@ -23,7 +27,7 @@ exports.ProjectResources = class {
             }
         }
         if (data) {
-            switch (filename.substr(-4)) {
+            switch (path.getExtension(filename)) {
                 case '.rgf':
                     resources.push(new ImageResource({
                         filename:        filename,
@@ -46,6 +50,14 @@ exports.ProjectResources = class {
                     }));
                     break;
             }
+        } else if (path.getExtension(filename) === '.wfrm') {
+            resources.push(new FormResource({
+                filename:          filename,
+                data:              null,
+                getDataProvider:   this._getDataProvider,
+                getFileData:       this._getFileData,
+                getEditorFileData: this._getEditorFileData
+            }));
         } else {
             resources.push(new ProjectResource({
                 filename:        filename,

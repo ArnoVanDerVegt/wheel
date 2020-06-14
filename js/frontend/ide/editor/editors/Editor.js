@@ -129,6 +129,9 @@ exports.Editor = class extends DOMNode {
     }
 
     pathAndFilenameEqual(p, filename) {
+        if (p === null) {
+            return (path.removeSlashes(this._filename) === path.removeSlashes(filename));
+        }
         return (path.removeSlashes(this._filename) === path.removeSlashes(filename)) &&
             (path.removeSlashes(this._path) === path.removeSlashes(p));
     }
@@ -171,9 +174,11 @@ exports.Editor = class extends DOMNode {
 
     onFileSaved(filename) {
         this._onFileSaved && clearTimeout(this._onFileSaved);
-        this._fileSavedElement.className     = 'bottom-options';
-        this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
-        this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
-        this._changed                        = false;
+        if (this._fileSavedElement && this._filenameSavedElement) {
+            this._fileSavedElement.className     = 'bottom-options';
+            this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
+            this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
+        }
+        this._changed = false;
     }
 };

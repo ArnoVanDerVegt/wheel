@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Downloader                 = require('../ev3/Downloader');
+const platform                   = require('../lib/platform');
 const path                       = require('../lib/path');
 const Http                       = require('../lib/Http').Http;
 const dispatcher                 = require('../lib/dispatcher').dispatcher;
@@ -29,10 +30,13 @@ const EV3ControlDialog           = require('./dialogs/directcontrol/EV3ControlDi
 const PoweredUpControlDialog     = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
 const ConfirmDialog              = require('./dialogs/ConfirmDialog').ConfirmDialog;
 const AlertDialog                = require('./dialogs/AlertDialog').AlertDialog;
+const SettingsDialog             = require('./dialogs/settings/SettingsDialog').SettingsDialog;
 const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
 const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
 const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
 const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
+const FormNewDialog              = require('./dialogs/form/FormNewDialog').FormNewDialog;
+const FormSizeDialog             = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
 const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
 const EV3ConnectListDialog       = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
 const PoweredUpConnectListDialog = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
@@ -49,19 +53,29 @@ const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog')
 const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
+const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
+const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
+const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
+const Properties                 = require('./properties/Properties').Properties;
+const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
+const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
         super(opts);
         let ui       = opts.ui;
         let settings = opts.settings;
-        this._ui           = opts.ui;
-        this._settings     = settings;
-        this._local        = (document.location.hostname === '127.0.0.1') || window.electron;
-        this._title        = 'No program selected.';
-        this._linter       = null;
-        this._editorsState = new EditorsState();
-        this._editor       = new Editor({
+        this._ui                     = opts.ui;
+        this._compileAndRunOutput    = new CompileAndRunOutput({settings: settings});
+        this._compileAndRunInstall   = new CompileAndRunInstall({settings: settings});
+        this._componentFormContainer = new ComponentFormContainer();
+        this._formDialogs            = [];
+        this._settings               = settings;
+        this._local                  = (document.location.hostname === '127.0.0.1') || window.electron;
+        this._title                  = 'No program selected.';
+        this._linter                 = null;
+        this._editorsState           = new EditorsState();
+        this._editor                 = new Editor({
             ui:           ui,
             settings:     settings,
             ev3:          this._ev3,
@@ -90,6 +104,10 @@ exports.IDE = class extends CompileAndRun {
             getImage:      getImage
         });
         new Hint({
+            ui:            ui,
+            settings:      settings
+        });
+        new Properties({
             ui:            ui,
             settings:      settings
         });
@@ -122,6 +140,7 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.File.NewFile',                  this, this.onMenuFileNewFile)
             .on('Menu.File.NewProjectFile',           this, this.onMenuFileNewProjectFile)
             .on('Menu.File.NewImageFile',             this, this.onMenuFileNewImageFile)
+            .on('Menu.File.NewFormFile',              this, this.onMenuFileNewFormFile)
             .on('Menu.File.Open',                     this, this.onMenuFileOpen)
             .on('Menu.File.SaveAs',                   this, this.onSaveAs)
             .on('Menu.File.Exit',                     this, this.onExit)
@@ -139,8 +158,6 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
             .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
-            .on('Menu.Download.InstallVM',            this, this.onMenuDownloadInstallVM)
-            .on('Menu.Download.InstallSineTable',     this, this.onMenuDownloadInstallSineTable)
             .on('Menu.Compile.Compile',               this, this.onMenuCompileCompile)
             .on('Menu.Compile.CompileAndRun',         this, this.onMenuCompileCompileAndRun)
             .on('Menu.Compile.Run',                   this, this.run)
@@ -154,7 +171,9 @@ exports.IDE = class extends CompileAndRun {
             .on('FileTree.NewFile',                   this, this.onMenuFileNewFile)
             .on('FileTree.NewProjectFile',            this, this.onMenuFileNewProjectFile)
             .on('FileTree.NewImageFile',              this, this.onMenuFileNewImageFile)
-            .on('Compile.Silent',                     this, this.onCompileSilent);
+            .on('Compile.Silent',                     this, this.onCompileSilent)
+            .on('Form.Show',                          this, this.onShowForm)
+            .on('VM.Stop',                            this, this.onVMStop);
         // EV3...
         let ev3 = this._ev3;
         ev3
@@ -194,7 +213,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     initWelcome() {
-        if (!('electron' in window) && !this._settings.getDontShowWelcomeHintDialog()) {
+        if (!platform.isElectron() && !this._settings.getDontShowWelcomeHintDialog()) {
             dispatcher.dispatch('Dialog.WelcomeHint.Show', {});
         }
         return this;
@@ -234,6 +253,10 @@ exports.IDE = class extends CompileAndRun {
 
     onMenuFileNewImageFile(activeDirectory) {
         dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, this._settings.getDocumentPath());
+    }
+
+    onMenuFileNewFormFile(activeDirectory) {
+        dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, this._settings.getDocumentPath());
     }
 
     onMenuFileOpen() {
@@ -342,12 +365,6 @@ exports.IDE = class extends CompileAndRun {
         );
     }
 
-    onMenuDownloadInstallVM() {
-    }
-
-    onMenuDownloadInstallSineTable() {
-    }
-
     // About menu...
     onMenuAboutVersion() {
         let settings = this._settings;
@@ -365,7 +382,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuAboutWebsite() {
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             const shell = require('electron').shell;
             shell.openExternal('https://arnovandervegt.github.io/wheel/');
         } else {
@@ -374,7 +391,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onMenuAboutReportIssue() {
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             const shell = require('electron').shell;
             shell.openExternal('https://github.com/ArnoVanDerVegt/wheel/issues');
         } else {
@@ -383,10 +400,30 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onCompileSilent() {
-        // Compile silent...
+        // Compile silent, don't show any messages...
         this._compileSilent = true;
         this._compileAndRun = false;
         this.compile(this._settings.getDocumentPath());
+    }
+
+    onShowForm(data) {
+        if (!this._vm || !this._vm.running()) {
+            return;
+        }
+        let componentFormContainer = this._componentFormContainer;
+        let formDialogs            = this._formDialogs;
+        let index                  = formDialogs.length;
+        formDialogs.push(new FormDialog({
+            ui:                     this._ui,
+            vm:                     this._vm,
+            program:                this._program,
+            componentFormContainer: componentFormContainer,
+            data:                   data,
+            onHide: function(uiId) {
+                componentFormContainer.removeWindow(uiId);
+                formDialogs[index] = null;
+            }
+        }).show());
     }
 
     callOnActiveEditor(func) {
@@ -403,7 +440,7 @@ exports.IDE = class extends CompileAndRun {
     }
 
     initDialogs() {
-        if (!('electron' in window)) {
+        if (!platform.isElectron()) {
             new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
         new FileNewDialog             ({getImage: getImage, ui: this._ui});
@@ -414,10 +451,13 @@ exports.IDE = class extends CompileAndRun {
         new EV3ControlDialog          ({getImage: getImage, ui: this._ui, device: this._ev3});
         new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpControlDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new SettingsDialog            ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog         ({getImage: getImage, ui: this._ui});
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
+        new FormNewDialog             ({getImage: getImage, ui: this._ui});
+        new FormSizeDialog            ({getImage: getImage, ui: this._ui});
         new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
         new StatisticsDialog          ({getImage: getImage, ui: this._ui});
         new VolumeDialog              ({getImage: getImage, ui: this._ui});
@@ -426,6 +466,7 @@ exports.IDE = class extends CompileAndRun {
         new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
+        new FormGridSizeDialog        ({getImage: getImage, ui: this._ui});
         new WelcomeHintDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
@@ -475,8 +516,9 @@ exports.IDE = class extends CompileAndRun {
             return;
         }
         dispatcher
-            .dispatch('Console.Error',  opts)
-            .dispatch('Compile.Failed', this._projectFilename);
+            .dispatch('Console.Error',               opts)
+            .dispatch('Compile.Failed',              this._projectFilename)
+            .dispatch('Settings.Set.ConsoleVisible', true);
         this._compileAndRun = false;
     }
 
@@ -530,12 +572,21 @@ exports.IDE = class extends CompileAndRun {
         if (this._settings.getCreateVMTextOutput()) {
             this.showOutput(program);
         }
-        this.saveOutput(new Rtf(program).getOutput());
+        this._compileAndRunOutput
+            .setProjectFilename(this._projectFilename)
+            .setPreProcessor(this._preProcessor)
+            .setSimulatorModules(this._simulatorModules)
+            .saveOutput(new Rtf(program).getOutput());
         if (this._compileAndRun) {
             this._compileAndRun = false;
             setTimeout(this.run.bind(this), 200);
         }
-        this.installProgram();
+        this._compileAndRunInstall
+            .setEV3(this._ev3)
+            .setProgram(this._program)
+            .setPreProcessor(this._preProcessor)
+            .setProjectFilename(this._projectFilename)
+            .installProgram();
     }
 
     onBeforeRun(program) {
@@ -551,6 +602,17 @@ exports.IDE = class extends CompileAndRun {
             this._vm.stop();
             dispatcher.dispatch('Button.Run.Change', {value: 'Run'});
             this.simulatorLoaded();
+        }
+    }
+
+    onVMStop() {
+        // Close all open windows when the VM stops...
+        let formDialogs = this._formDialogs;
+        for (let i = 0; i < formDialogs.length; i++) {
+            if (formDialogs[i]) {
+                formDialogs[i].hide();
+                formDialogs[i] = null;
+            }
         }
     }
 
@@ -592,136 +654,6 @@ exports.IDE = class extends CompileAndRun {
 
     onEditorsChanged() {
         this.setChangedWhileRunning(true);
-    }
-
-    onResourceData(resource, outputPath, filename, pathAndFilename, data) {
-        try {
-            data = JSON.parse(data);
-        } catch (error) {
-            data = {success: false};
-        }
-        let resourceMessageId = this._resourceMessageId;
-        if (!data.success) {
-            dispatcher.dispatch(
-                'Console.Log',
-                {
-                    parentMessageId: resourceMessageId,
-                    message:         'Failed to load resource <i>' + filename + '</i>',
-                    className:       'error'
-                }
-            );
-            return;
-        }
-        let saveData = null;
-        switch (path.getExtension(filename)) {
-            case '.rgf':
-                saveData = data.data;
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Loaded resource <i>' + filename + '</i>'
-                    }
-                );
-                resource.setData(data.data.image);
-                break;
-            case '.rsf':
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Loaded resource <i>' + filename + '</i>'
-                    }
-                );
-                resource.setData(data.data);
-                break;
-        }
-        if (saveData === null) {
-            return;
-        }
-        let documentPath = this._settings.getDocumentPath();
-        getDataProvider().getData(
-            'post',
-            'ide/file-save',
-            {
-                filename: path.join(outputPath, pathAndFilename.filename),
-                data:     saveData
-            },
-            function() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        parentMessageId: resourceMessageId,
-                        message:         'Saved resource ' +
-                            '<i>' + path.removePath(documentPath, path.join(outputPath, pathAndFilename.filename)) + '</i>'
-                    }
-                );
-            }
-        );
-    }
-
-    saveResource(outputPath, resource) {
-        let documentPath    = this._settings.getDocumentPath();
-        let filename        = resource.getFilename();
-        let pathAndFilename = path.getPathAndFilename(filename);
-        getDataProvider().getData(
-            'post',
-            'ide/file',
-            {filename: path.join(documentPath, filename)},
-            this.onResourceData.bind(this, resource, outputPath, filename, pathAndFilename)
-        );
-    }
-
-    saveResources(outputPath, resources) {
-        this._resourceMessageId = Log.getMessageId();
-        let resourcesList = resources.getResources();
-        if (resourcesList.length > 0) {
-            dispatcher.dispatch(
-                'Console.Log',
-                {
-                    message:   'Processing ' + resourcesList.length + ' resource' + ((resourcesList.length > 1) ? 's' : ''),
-                    messageId: this._resourceMessageId
-                }
-            );
-        }
-        resourcesList.forEach(
-            function(resource) {
-                resource.getData((function(data) {
-                    if (data === null) {
-                        this.saveResource(outputPath, resource);
-                    }
-                }).bind(this));
-            },
-            this
-        );
-    }
-
-    saveOutput(data) {
-        let dataProvider    = getDataProvider();
-        let pathAndFilename = path.getPathAndFilename(this._projectFilename);
-        let filename        = path.replaceExtension(pathAndFilename.filename, '.rtf');
-        let outputPath      = path.join(pathAndFilename.path, 'output');
-        let outputFilename  = path.join(outputPath, filename);
-        let resources       = this._preProcessor.getResources();
-        this._outputPath = outputPath;
-        dataProvider.getData(
-            'post',
-            'ide/path-create',
-            {path: outputPath},
-            function() {
-                dataProvider.getData(
-                    'post',
-                    'ide/file-save',
-                    {filename: outputFilename, data: data},
-                    function() {
-                        resources.save(outputPath);
-                        dispatcher.dispatch('Compile.SaveOutput', outputFilename);
-                    }
-                );
-            }
-        );
-        this.saveResources(outputPath, resources);
-        this._simulatorModules.setResources(resources);
     }
 
     showLinterMessages() {
@@ -771,78 +703,13 @@ exports.IDE = class extends CompileAndRun {
         });
     }
 
-    installProgram() {
-        if (!this._ev3.getConnected() || !this._settings.getAutoInstall()) {
-            return;
-        }
-        let messageId       = Log.getMessageId();
-        let program         = this._program;
-        let remoteDirectory = Downloader.getRemoteDirectory(this._projectFilename);
-        let filename        = path.getPathAndFilename(this._projectFilename).filename;
-        let resources       = this._preProcessor.getResources();
-        new Downloader.Downloader().download({
-            ev3:             this._ev3,
-            program:         this._program,
-            localPath:       this._settings.getDocumentPath(),
-            resources:       resources,
-            remoteDirectory: remoteDirectory,
-            remotePath:      '../prjs/',
-            onCreatedDirectory() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Created remote directory <i>' + remoteDirectory + '</i>',
-                        className: 'ok'
-                    }
-                );
-            },
-            onDownloadedVM() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Downloaded VM.',
-                        className: 'ok'
-                    }
-                );
-            },
-            onDownloadedProgram() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Downloaded program.',
-                        className: 'ok'
-                    }
-                );
-                let resourceCount = resources.getResources().length;
-                if (resourceCount) {
-                    dispatcher.dispatch(
-                        'Console.Log',
-                        {
-                            message:   'Downloading ' + resourceCount + ' resource' + (resourceCount ? 's' : ''),
-                            messageId: messageId
-                        }
-                    );
-                }
-            },
-            onDownloadedFile: function(filename, result) {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:         'Downloaded file <i>' + filename + '</i>',
-                        parentMessageId: messageId
-                    }
-                );
-            },
-            onDownloadReady: function() {
-                dispatcher.dispatch(
-                    'Console.Log',
-                    {
-                        message:   'Download finished.',
-                        className: 'ok'
-                    }
-                );
-            }
-        });
+    getNextWinUiId() {
+        return this._componentFormContainer.peekUiId();
+    }
+
+    getEditor(path, filename) {
+        let editor = this._editor;
+        return editor.findEditor(path, filename) || editor.findEditor((path === '') ? null : path, filename);
     }
 
     getCompileSilent() {
@@ -869,16 +736,18 @@ exports.IDE = class extends CompileAndRun {
         setTimeout(
             function() {
                 // Debug: Check for tabs...
-                let s     = editor.getValue();
-                let lines = s.split('\n');
-                s = '';
-                for (let i = 0; i < lines.length; i++) {
-                    s += lines[i].trimRight() + '\n';
-                }
-                if (s.indexOf('\t') !== -1) {
-                    console.log('Tabs!!!!!');
-                    console.log(s.split('\t').join('@@@@'));
-                    s = s.split('\t').join('    ');
+                let s = editor.getValue();
+                if (['.whlp', '.whl'].indexOf(path.getExtension(pathAndFilename.filename)) !== -1) {
+                    let lines = s.split('\n');
+                    s = '';
+                    for (let i = 0; i < lines.length; i++) {
+                        s += lines[i].trimRight() + '\n';
+                    }
+                    if (s.indexOf('\t') !== -1) {
+                        console.log('Tabs!!!!!');
+                        console.log(s.split('\t').join('@@@@'));
+                        s = s.split('\t').join('    ');
+                    }
                 }
                 callback(s);
             },
@@ -887,18 +756,41 @@ exports.IDE = class extends CompileAndRun {
         return true;
     }
 
+    getEditorFileData(filename, callback) {
+        let projectPath       = path.getPathAndFilename(this._projectFilename).path;
+        let documentPath      = this._settings.getDocumentPath();
+        let fullProjectPath1  = path.join(projectPath, filename);
+        let fullProjectPath2  = path.join(projectPath, path.getPathAndFilename(filename).filename);
+        let fullDocumentPath1 = path.join(documentPath, filename);
+        let fullDocumentPath2 = path.join(documentPath, path.getPathAndFilename(filename).filename);
+        if (this.getEditorFile(filename,          callback) ||
+            this.getEditorFile(fullProjectPath1,  callback) ||
+            this.getEditorFile(fullDocumentPath1, callback) ||
+            this.getEditorFile(fullProjectPath2,  callback) ||
+            this.getEditorFile(fullDocumentPath2, callback)) {
+            return;
+        }
+        callback(null);
+    }
+
     getFileData(filename, token, callback) {
-        let projectPath      = path.getPathAndFilename(this._projectFilename).path;
-        let documentPath     = this._settings.getDocumentPath();
-        let fullProjectPath  = path.join(projectPath, filename);
-        let fullDocumentPath = path.join(documentPath, filename);
-        if (this.getEditorFile(fullProjectPath, callback) || this.getEditorFile(fullDocumentPath, callback)) {
+        let projectPath       = path.getPathAndFilename(this._projectFilename).path;
+        let documentPath      = this._settings.getDocumentPath();
+        let fullProjectPath1  = path.join(projectPath, filename);
+        let fullProjectPath2  = path.join(projectPath, path.getPathAndFilename(filename).filename);
+        let fullDocumentPath1 = path.join(documentPath, filename);
+        let fullDocumentPath2 = path.join(documentPath, path.getPathAndFilename(filename).filename);
+        if (this.getEditorFile(filename,          callback) ||
+            this.getEditorFile(fullProjectPath1,  callback) ||
+            this.getEditorFile(fullDocumentPath1, callback) ||
+            this.getEditorFile(fullProjectPath2,  callback) ||
+            this.getEditorFile(fullDocumentPath2, callback)) {
             return;
         }
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/file',
-            {filename: [fullDocumentPath, fullProjectPath]},
+            {filename: [fullDocumentPath1, fullProjectPath1, fullDocumentPath2, fullProjectPath2]},
             (function(data) {
                 try {
                     data = JSON.parse(data);

@@ -22,9 +22,10 @@ exports.DirectoryNewDialog = class extends Dialog {
                                     innerHTML: 'Directory'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('directory'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onDirectoryKeyUp.bind(this)
+                                    ref:         this.setRef('directory'),
+                                    tabIndex:    1,
+                                    onKeyUp:     this.onDirectoryKeyUp.bind(this),
+                                    placeholder: 'Enter directory name'
                                 })
                             ]
                         }

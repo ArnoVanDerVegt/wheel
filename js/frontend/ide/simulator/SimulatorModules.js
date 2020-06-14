@@ -2,20 +2,21 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const standardModuleConstants    = require('../../../shared/vm/modules/standardModuleConstants');
-const screenModuleConstants      = require('../../../shared/vm/modules/screenModuleConstants');
-const lightModuleConstants       = require('../../../shared/vm/modules/lightModuleConstants');
-const buttonModuleConstants      = require('../../../shared/vm/modules/buttonModuleConstants');
-const soundModuleConstants       = require('../../../shared/vm/modules/soundModuleConstants');
-const motorModuleConstants       = require('../../../shared/vm/modules/motorModuleConstants');
-const sensorModuleConstants      = require('../../../shared/vm/modules/sensorModuleConstants');
-const pspModuleConstants         = require('../../../shared/vm/modules/pspModuleConstants');
-const multiplexerModuleConstants = require('../../../shared/vm/modules/multiplexerModuleConstants');
-const deviceModuleConstants      = require('../../../shared/vm/modules/deviceModuleConstants');
-const poweredUpModuleConstants   = require('../../../shared/vm/modules/poweredUpModuleConstants');
-const Sound                      = require('../../../shared/lib/Sound').Sound;
-const dispatcher                 = require('../../lib/dispatcher').dispatcher;
-const pluginUuid                 = require('../plugins/pluginUuid');
+const standardModuleConstants      = require('../../../shared/vm/modules/standardModuleConstants');
+const screenModuleConstants        = require('../../../shared/vm/modules/screenModuleConstants');
+const lightModuleConstants         = require('../../../shared/vm/modules/lightModuleConstants');
+const buttonModuleConstants        = require('../../../shared/vm/modules/buttonModuleConstants');
+const soundModuleConstants         = require('../../../shared/vm/modules/soundModuleConstants');
+const motorModuleConstants         = require('../../../shared/vm/modules/motorModuleConstants');
+const sensorModuleConstants        = require('../../../shared/vm/modules/sensorModuleConstants');
+const pspModuleConstants           = require('../../../shared/vm/modules/pspModuleConstants');
+const multiplexerModuleConstants   = require('../../../shared/vm/modules/multiplexerModuleConstants');
+const deviceModuleConstants        = require('../../../shared/vm/modules/deviceModuleConstants');
+const poweredUpModuleConstants     = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const componentFormModuleConstants = require('../../../shared/vm/modules/components/componentFormModuleConstants');
+const Sound                        = require('../../../shared/lib/Sound').Sound;
+const dispatcher                   = require('../../lib/dispatcher').dispatcher;
+const pluginUuid                   = require('../plugins/pluginUuid');
 
 const callOnObject = function() {
         let args   = Array.from(arguments);
@@ -32,6 +33,7 @@ const callOnObject = function() {
 
 exports.SimulatorModules = class {
     constructor(opts) {
+        this._ide       = opts.ide;
         this._settings  = opts.settings;
         this._simulator = null;
         this._resources = null;
@@ -303,6 +305,11 @@ exports.SimulatorModules = class {
         return this;
     }
 
+    setupComponentFormModule(vm) {
+        this._modules[componentFormModuleConstants.MODULE_FORM].setIDE(this._ide);
+        return this;
+    }
+
     setupModules(opts) {
         while (this._events.length) {
             this._events.pop()();
@@ -322,6 +329,7 @@ exports.SimulatorModules = class {
             .setupPspModule(vm)
             .setupMultiplexerModule(vm)
             .setupDeviceModule(vm)
-            .setupPoweredUpModule(vm);
+            .setupPoweredUpModule(vm)
+            .setupComponentFormModule(vm);
     }
 };

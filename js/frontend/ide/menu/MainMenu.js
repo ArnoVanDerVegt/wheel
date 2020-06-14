@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const MainMenu    = require('../../lib/components/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
@@ -65,7 +66,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initStorage() {
-        if ('electron' in window) {
+        if (platform.isElectron() || platform.isNode()) {
             return this;
         }
         this.create(
@@ -128,6 +129,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
                 {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
                 {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New form',                                               dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},
@@ -135,14 +137,13 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},
-                {title: 'Setup',                                                  dispatch: 'Menu.File.Setup'},
+                {title: 'Settings',                                               dispatch: 'Dialog.Settings.Show'},
                 {title: '-'},
                 {title: 'Exit Wheel',                   hotkey: ['command', 'Q'], dispatch: 'Menu.File.Exit'}
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[7].setEnabled('electron' in window); // Setup
-        menuOptions[8].setEnabled('electron' in window); // Exit Wheel
+        menuOptions[9].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 
@@ -213,10 +214,10 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled('electron' in window); // Connect
-        menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[2].setEnabled('electron' in window); // Autoconnect
-        menuOptions[7].setEnabled(false);                // Install compiled files
+        menuOptions[0].setEnabled(platform.isElectron()); // Connect
+        menuOptions[1].setEnabled(false);                 // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron()); // Autoconnect
+        menuOptions[7].setEnabled(false);                 // Install compiled files
         return this;
     }
 
@@ -237,9 +238,9 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled('electron' in window); // Connect
-        menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[3].setEnabled(false);                // Direct control
+        menuOptions[0].setEnabled(platform.isElectron() || platform.isNode());  // Connect
+        menuOptions[1].setEnabled(false);                                       // Disconnect
+        menuOptions[3].setEnabled(false);                                       // Direct control
         return this;
     }
 
@@ -277,6 +278,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Show files',                   hotkey: ['command', 'D'], dispatch: 'Settings.Toggle.ShowFileTree'},
                 {title: 'Show console',                 hotkey: ['command', 'B'], dispatch: 'Settings.Toggle.ShowConsole'},
+                {title: 'Show properties',                                        dispatch: 'Settings.Toggle.ShowProperties'},
                 {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
@@ -335,9 +337,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[4].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[6].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[7].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 
@@ -360,7 +362,8 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
-        menuOptions[8].setChecked(settings.getAutoInstall());
+        menuOptions[8].setEnabled(platform.isElectron());
+        menuOptions[8].setChecked(platform.isElectron() && settings.getAutoInstall());
         return this;
     }
 
@@ -407,9 +410,10 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
         menuOptions[1].setChecked(settings.getShowConsole());
-        menuOptions[2].setChecked(settings.getShowSimulator());
-        menuOptions[3].setChecked(settings.getShowSimulatorOnRun());
-        menuOptions[4].setChecked(settings.getDarkMode());
+        menuOptions[2].setChecked(settings.getShowProperties());
+        menuOptions[3].setChecked(settings.getShowSimulator());
+        menuOptions[4].setChecked(settings.getShowSimulatorOnRun());
+        menuOptions[5].setChecked(settings.getDarkMode());
         return this;
     }
 

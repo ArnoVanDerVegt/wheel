@@ -59,6 +59,7 @@ function scriptHint(editor, getToken, options) {
 }
 
 const wheelLexemes = [
+        'namespace',
         'addr',
         'and',
         'break',

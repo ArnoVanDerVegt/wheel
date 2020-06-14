@@ -8,8 +8,8 @@
     border-radius:                  2px;
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content {
-    margin-top:                     -260px;
-    height:                         520px;
+    margin-top:                     -272px;
+    height:                         544px;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .new-file-text {
     position:                       absolute;
@@ -22,6 +22,12 @@
     position:                       absolute;
     top:                            104px;
     -webkit-user-select:            none;
+}
+.dialog-background.file-new-dialog .dialog-center .dialog-content .new-file-text .file-new-row a.checkbox {
+    float:                          left;
+    width:                          22px;
+    height:                         22px;
+    margin:                         6px 0 0 0;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .include-files {
     left:                           160px;
@@ -39,10 +45,13 @@
     height:                         32px;
     line-height:                    32px;
     -webkit-user-select:            none;
+    width:                          128px;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-file-label,
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-files {
-    top:                            144px;
+    top:                            188px;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .include-files h3 {
     float:                          left;
@@ -102,10 +111,18 @@
     width:                          128px;
     -webkit-user-select:            none;
 }
+.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div.form-label {
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input {
     width:                          180px;
     outline:                        none;
     padding:                        0 0 0 8px;
+}
+.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.button {
+    margin:                         0 0 0 32px;
+    padding:                        0;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.description {
     width:                          408px;

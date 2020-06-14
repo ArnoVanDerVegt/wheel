@@ -70,7 +70,7 @@
 }
 .resource-options .tool-options-toolbar:hover,
 .resource-options .tool-options-toolbar.focus {
-    max-width:                      224px;
+    max-width:                      320px;
 }
 .resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
 .resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active {

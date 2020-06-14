@@ -53,6 +53,14 @@ exports.SOUND_FADE_OUT              = 4282;
 // Sound editor, toolbar bottom
 exports.SOUND_ZOOM                  = 4290;
 
+// Form editor, toolbar top
+exports.FORM_UNDO                   = 4256;
+exports.FORM_COPY                   = 4257;
+exports.FORM_PASTE                  = 4258;
+exports.FORM_DELETE                 = 4259;
+exports.FORM_COMPONENT              = 4260;
+exports.FORM_VIEW_GRID              = 4300;
+
 // Wheel editor, toolbar bottom
 exports.WHEEL_EDITOR_FIND_TEXT      = 4256;
 exports.WHEEL_EDITOR_FIND_BUTTON    = 4257;
@@ -64,6 +72,11 @@ exports.WHEEL_EDITOR_REPLACE_BUTTON = 4260;
 exports.VM_VIEWER_SELECT_TEXT       = 4256;
 exports.VM_VIEWER_SELECT_RTF        = 4257;
 exports.VM_VIEWER_SELECT_AND_COPY   = 4258;
+
+// Above properties
+exports.PROPERTIES_LIST             = 4513;
+
+exports.CLOSE_PROPERTIES_BUTTON     = 4514;
 
 // Above simulator
 exports.SIMULATOR_RUN_BUTTON        = 4513;

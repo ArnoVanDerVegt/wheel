@@ -34,6 +34,10 @@ exports.Dialog = class extends ComponentContainer {
         this._dialogElement = element;
     }
 
+    setDialogContentElement(element) {
+        this._dialogContentElement = element;
+    }
+
     show() {
         this._ui.pushUIId(this._uiId);
         let dialogNode = this._dialogNode;
@@ -62,6 +66,7 @@ exports.Dialog = class extends ComponentContainer {
                 try {
                     document.body.removeChild(dialogNode);
                     this._ui.popUIId();
+                    this.onHide();
                 } catch (error) {
                     // Ignore if node is already removed...
                 }
@@ -117,6 +122,9 @@ exports.Dialog = class extends ComponentContainer {
     onApply() {
     }
 
+    onHide() {
+    }
+
     onDontShowAgain(dontShowAgain) {
     }
 
@@ -151,6 +159,7 @@ exports.Dialog = class extends ComponentContainer {
                         className: 'dialog-center',
                         children: [
                             {
+                                id:        this.setDialogContentElement.bind(this),
                                 className: 'dialog-content',
                                 children: [
                                     {

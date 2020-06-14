@@ -74,12 +74,22 @@ body.ide {
     --color-green:                  #4CD137;
     --color-green-pressed:          #44BD32;
     --color-green-active:           #4CD137;
-    --color-green-in-active:        #CAD5E0; /* #E0E0E0 */
+    --color-green-in-active:        #CAD5E0;
 
     --color-blue:                   #00A8FF;
     --color-blue-pressed:           #0097E6;
     --color-blue-active:            #00A8FF;
-    --color-blue-in-active:         #CAD5E0; /* #E0E0E0 */
+    --color-blue-in-active:         #CAD5E0;
+
+    --color-red:                    #E74C3C;
+    --color-red-pressed:            #C0392B;
+    --color-red-active:             #E74C3C;
+    --color-red-in-active:          #CAD5E0;
+
+    --color-yellow:                 #F1C40F;
+    --color-yellow-pressed:         #F39C12;
+    --color-yellow-active:          #F1C40F;
+    --color-yellow-in-active:       #CAD5E0;
 
     --color-dark-green:             #95A5A6;
     --color-dark-green-pressed:     #BDC3C7;
@@ -129,6 +139,7 @@ body.ide {
     --text-input-color:             #383838;
     --text-input-background:        #FFFFFF;
     --text-input-invalid-border:    1px solid #E84118;
+    --text-input-placeholder:       rgba(0, 0, 0, 0.15);
 
     --files-hover-background:       #00A8FF;
     --files-hover-border:           1px solid #0097E6;
@@ -184,6 +195,7 @@ body.ide {
     --console-success:              #44BD32;
     --console-vm:                   #74B9FF;
     --console-error:                #D63031;
+    --console-warning:              #F9CA24;
 
     --resizer-background:           rgba(0, 0, 0, 0.5);
 }
@@ -251,11 +263,11 @@ body.ide.dark {
     --source-woc-keyword-style:     italic;
     --source-woc-keyword-weight:    normal;
 
-    --source-woc-default-color:     #D8E4F0; /* #F0F0F0 */
+    --source-woc-default-color:     #D8E4F0;
     --source-woc-default-style:     normal;
     --source-woc-default-weight:    normal;
 
-    --home-background:              #656A70; /* #707070 */
+    --home-background:              #656A70;
     --home-title-color:             #FFFFFF;
 
     --focus-border-solid:           1px solid #D1DCE8; /* #E8E8E8 */
@@ -264,14 +276,22 @@ body.ide.dark {
     --color-green:                  #4CD137;
     --color-green-pressed:          #44BD32;
     --color-green-active:           #4CD137;
-    --color-green-in-active:        #656A70; /* #707070 */
-
-    --color-dark-green:             #44BD32;
+    --color-green-in-active:        #656A70;
 
     --color-blue:                   #00A8FF;
     --color-blue-pressed:           #0097E6;
     --color-blue-active:            #00A8FF;
-    --color-blue-in-active:         #656A70; /* #707070 */
+    --color-blue-in-active:         #656A70;
+
+    --color-red:                    #E84118;
+    --color-red-pressed:            #C23616;
+    --color-red-active:             #E84118;
+    --color-red-in-active:          #656A70;
+
+    --color-yellow:                 #F9CA24;
+    --color-yellow-pressed:         #FFC312;
+    --color-yellow-active:          #F9CA24;
+    --color-yellow-in-active:       #656A70;
 
     --color-dark-green:             #95A5A6;
     --color-dark-green-pressed:     #4CD137;
@@ -321,6 +341,7 @@ body.ide.dark {
     --text-input-color:             #D8E4F0; /* #F0F0F0 */
     --text-input-background:        #565B60; /* #606060 */
     --text-input-invalid-border:    1px solid #E84118;
+    --text-input-placeholder:       rgba(255, 255, 255, 0.15);
 
     --files-hover-background:       #3A3D40; /* 404040 */
     --files-hover-border:           1px solid #484C50; /* #505050 */
@@ -373,6 +394,7 @@ body.ide.dark {
     --console-success:              #1ABC9C;
     --console-vm:                   #00A8FF;
     --console-error:                #E84118;
+    --console-warning:              #6C5CE7;
 
     --resizer-background:           rgba(255, 255, 255, 0.5);
 }

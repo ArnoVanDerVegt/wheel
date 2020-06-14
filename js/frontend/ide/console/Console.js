@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../lib/dom').DOMNode;
 const Tabs        = require('../../lib/components/Tabs').Tabs;
@@ -21,8 +22,9 @@ exports.Console = class extends DOMNode {
         this._ui              = opts.ui;
         this._settings        = opts.settings;
         this._getDataProvider = opts.getDataProvider;
-        dispatcher.on('Console.Breakpoint',   this, this.onBreakpoint);
-        dispatcher.on('Console.RuntimeError', this, this.onRuntimeError);
+        dispatcher
+            .on('Console.Breakpoint',   this, this.onBreakpoint)
+            .on('Console.RuntimeError', this, this.onRuntimeError);
         this.initDOM(document.body);
     }
 
@@ -33,7 +35,7 @@ exports.Console = class extends DOMNode {
                 {title: 'Global vars', onClick: this.onClickGlobalVarsTab.bind(this)},
                 {title: 'Local vars',  onClick: this.onClickLocalVarsTab.bind(this)}
             ];
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             tabs.push({title: 'Terminal', onClick: this.onClickTerminalTab.bind(this)});
         }
         this.create(
@@ -104,14 +106,14 @@ exports.Console = class extends DOMNode {
                                 type:   Registers,
                                 ui:     this._ui
                             },
-                            ('electron' in window) ?
+                            platform.isElectron() ?
                                 {
                                     ref:      this.setRef('terminal'),
                                     type:     Terminal,
                                     ui:       this._ui
                                 } :
                                 null,
-                            ('electron' in window) ?
+                            platform.isElectron() ?
                                 {
                                     ref:      this.setRef('newVersion'),
                                     type:     NewVersion,

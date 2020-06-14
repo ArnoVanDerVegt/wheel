@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform     = require('../../lib/platform');
 const dispatcher   = require('../../lib/dispatcher').dispatcher;
 const Emitter      = require('../../lib/Emitter').Emitter;
 const pluginUuid   = require('../plugins/pluginUuid');
@@ -57,7 +58,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3 Motors',
                 path:    'ev3motors',
-                visible: true,
+                visible: !platform.isNode(),
                 order:   1
             },
             {
@@ -65,7 +66,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3',
                 path:    'ev3',
-                visible: true,
+                visible: !platform.isNode(),
                 order:   2
             },
             {
@@ -73,7 +74,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3 Sensors',
                 path:    'ev3sensors',
-                visible: true,
+                visible: !platform.isNode(),
                 order:   3
             },
             {
@@ -97,7 +98,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'PoweredUp',
                 name:    'Hub',
                 path:    'poweredup',
-                visible: false,
+                visible: platform.isNode(),
                 order:   6
             }
         ];

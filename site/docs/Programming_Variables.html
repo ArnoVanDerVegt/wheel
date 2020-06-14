@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Programming:Variables</title>
+    <meta name="description" content="Programming:Variables"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Variables</h2>
+            <a id="Variables"></a>
+            <h4 class="">Variables</h4>
+            <p>
+                The wheel VM only uses one primitive data type: <i>number</i>.
+                <br/>
+                <br/>
+                Wheel supports three other data types: <i>string</i>, <i>record</i>, <i>array</i> and <i>pointer</i>.
+                <br/>
+                <br/>
+                These types are all based on the primitive <i>number</i> type.
+                <br/>
+                A variable is declared by the type followed by the name of the variable.
+            </p>
+            <a id="Numbertype"></a>
+            <h4 class="">Number type</h4>
+            <p>
+                A <i>number</i> variable can be used for integers and floating point values.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span>
+</pre>
+            <a id="Stringtype"></a>
+            <h4 class="">String type</h4>
+            <p>
+                A <i>string</i> value is a <i>number</i> representing the index in a string list contained in the program file.
+            </p>
+            <pre class="wheel"><span class="type">string</span> <span class="variable">n</span>
+</pre>
+            <a id="Array"></a>
+            <h4 class="">Array</h4>
+            <p>
+                An <i>array</i> represents a list. Arrays can be declared by defining the size between brackets after the variable name.
+                The size must a positive number of at least 1 or higher.
+            </p>
+            <pre class="wheel"><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">10</span><span class="operator">]</span>
+</pre>
+            <a id="Record"></a>
+            <h4 class="">Record</h4>
+            <p>
+                A record is a representation of a group of variables.
+            </p>
+            <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
+    <span class="type">number</span> <span class="variable">x</span>
+    <span class="type">number</span> <span class="variable">y</span>
+<span class="variable">endr</span>
+
+<span class="record">Point</span> <span class="variable">p</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">p.x</span> <span class="operator">=</span> <span class="number">10</span>
+    <span class="variable">p.y</span> <span class="operator">=</span> <span class="number">5</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Globalscope"></a>
+            <h4 class="">Global scope</h4>
+            <p>
+                When a variable is declared outside of a procedure then it's accessible in the entire scope of the program after the declaration.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Global variable demo"</span>
+
+<span class="type">number</span> <span class="variable">n</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Localscope"></a>
+            <h4 class="">Local scope</h4>
+            <p>
+                A variable declared inside a procedure can only be accesed inside that procedure.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Local variable demo"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">n</span>
+    <span class="variable">n</span> <span class="operator">=</span> <span class="number">10</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Parametervariables"></a>
+            <h4 class="">Parameter variables</h4>
+            <p>
+                All procedures except the main procedure can have one or more parameters.
+            </p>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Parameter demo"</span>
+
+<span class="keyword">proc</span> <span class="variable">first</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">second</span><span class="operator">(</span><span class="type">number</span> <span class="variable">i</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">j</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">first</span><span class="operator">(</span><span class="number">15</span><span class="operator">)</span>
+    <span class="variable">second</span><span class="operator">(</span><span class="number">17</span><span class="operator">,</span> <span class="number">18</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Module_Bit.html" class="see-also">Constants(Bit)</a>
+                <a href="Module_Button.html" class="see-also">Constants(Button)</a>
+                <a href="Module_Component_Button.html" class="see-also">Constants(Component/Button)</a>
+                <a href="Module_Component_Checkbox.html" class="see-also">Constants(Component/Checkbox)</a>
+                <a href="Module_Component_Form.html" class="see-also">Constants(Component/Form)</a>
+                <a href="Module_Component_Label.html" class="see-also">Constants(Component/Label)</a>
+                <a href="Module_Component_Panel.html" class="see-also">Constants(Component/Panel)</a>
+                <a href="Module_Component_SelectButton.html" class="see-also">Constants(Component/SelectButton)</a>
+                <a href="Module_Component_StatusLight.html" class="see-also">Constants(Component/StatusLight)</a>
+                <a href="Module_Component_Tabs.html" class="see-also">Constants(Component/Tabs)</a>
+                <a href="Module_Device.html" class="see-also">Constants(Device)</a>
+                <a href="Module_File.html" class="see-also">Constants(File)</a>
+                <a href="Module_Light.html" class="see-also">Constants(Light)</a>
+                <a href="Module_Math.html" class="see-also">Constants(Math)</a>
+                <a href="Module_Motor.html" class="see-also">Constants(Motor)</a>
+                <a href="Module_PSP.html" class="see-also">Constants(PSP)</a>
+                <a href="Module_PoweredUp.html" class="see-also">Constants(PoweredUp)</a>
+                <a href="Module_Screen.html" class="see-also">Constants(Screen)</a>
+                <a href="Module_Sensor_multi.html" class="see-also">Constants(Sensor multi)</a>
+                <a href="Module_Sensor.html" class="see-also">Constants(Sensor)</a>
+                <a href="Module_Sound.html" class="see-also">Constants(Sound)</a>
+                <a href="Module_Standard.html" class="see-also">Constants(Standard)</a>
+                <a href="Module_String.html" class="see-also">Constants(String)</a>
+                <a href="Module_System.html" class="see-also">Constants(System)</a>
+                <a href="VM_VM_File_format.html" class="see-also">Constants(VM File format)</a>
+                <a href="Module_Bit.html" class="see-also">procedures(Bit)</a>
+                <a href="Module_Button.html" class="see-also">procedures(Button)</a>
+                <a href="Module_Component_Button.html" class="see-also">procedures(Component/Button)</a>
+                <a href="Module_Component_Checkbox.html" class="see-also">procedures(Component/Checkbox)</a>
+                <a href="Module_Component_Form.html" class="see-also">procedures(Component/Form)</a>
+                <a href="Module_Component_Label.html" class="see-also">procedures(Component/Label)</a>
+                <a href="Module_Component_Panel.html" class="see-also">procedures(Component/Panel)</a>
+                <a href="Module_Component_SelectButton.html" class="see-also">procedures(Component/SelectButton)</a>
+                <a href="Module_Component_StatusLight.html" class="see-also">procedures(Component/StatusLight)</a>
+                <a href="Module_Component_Tabs.html" class="see-also">procedures(Component/Tabs)</a>
+                <a href="Module_Device.html" class="see-also">procedures(Device)</a>
+                <a href="Module_File.html" class="see-also">procedures(File)</a>
+                <a href="Module_Light.html" class="see-also">procedures(Light)</a>
+                <a href="Module_Math.html" class="see-also">procedures(Math)</a>
+                <a href="Module_Motor.html" class="see-also">procedures(Motor)</a>
+                <a href="Module_PSP.html" class="see-also">procedures(PSP)</a>
+                <a href="Module_PoweredUp.html" class="see-also">procedures(PoweredUp)</a>
+                <a href="Programming_Procedures.html" class="see-also">procedures(Procedures)</a>
+                <a href="Module_Screen.html" class="see-also">procedures(Screen)</a>
+                <a href="Module_Sensor_multi.html" class="see-also">procedures(Sensor multi)</a>
+                <a href="Module_Sensor.html" class="see-also">procedures(Sensor)</a>
+                <a href="Module_Sound.html" class="see-also">procedures(Sound)</a>
+                <a href="Module_Standard.html" class="see-also">procedures(Standard)</a>
+                <a href="Module_String.html" class="see-also">procedures(String)</a>
+                <a href="Module_System.html" class="see-also">procedures(System)</a>
+                <a href="Programming_Syntax.html" class="see-also">syntax(Syntax)</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,17 +6,23 @@ const cssFiles = [
         '../css/components/contextMenu.css',
         '../css/components/closeButton.css',
         '../css/components/button.css',
+        '../css/components/statusLight.css',
         '../css/components/tree.css',
         '../css/components/fileTree.css',
         '../css/components/slider.css',
         '../css/components/tabs.css',
+        '../css/components/tabPanel.css',
+        '../css/components/panel.css',
         '../css/components/checkbox.css',
+        '../css/components/checkboxAndLabel.css',
         '../css/components/iconSelect.css',
         '../css/components/radio.css',
         '../css/components/textInput.css',
         '../css/components/toolOptions.css',
         '../css/components/hint.css',
         '../css/components/resizer.css',
+        '../css/components/dropdown.css',
+        '../css/components/progressBar.css',
         '../css/ide/setup.css',
         '../css/ide/ide.css',
         '../css/ide/editor.css',
@@ -32,8 +38,10 @@ const cssFiles = [
         '../css/simulator/motors.css',
         '../css/simulator/psp.css',
         '../css/simulator/graph.css',
+        '../css/properties/properties.css',
         '../css/dialogs.css',
         '../css/dialogs/alert.css',
+        '../css/dialogs/settings.css',
         '../css/dialogs/daisyChain.css',
         '../css/dialogs/directControl.css',
         '../css/dialogs/explore.css',
@@ -55,6 +63,8 @@ const cssFiles = [
         '../css/dialogs/graph.css',
         '../css/dialogs/deviceAlias.css',
         '../css/dialogs/deviceCount.css',
+        '../css/dialogs/form.css',
+        '../css/dialogs/formGridSize.css',
         '../css/colors.css',
         '../css/source.css',
         '../css/codemirror/codemirror.css',
@@ -75,6 +85,7 @@ const libraryFiles = [
     ];
 
 const files = [
+        './js/frontend/lib/platform',
         './js/frontend/ide/plugins/pluginUuid',
         './js/browser/routes/ide',
         './js/shared/vm/modules/buttonModuleConstants',
@@ -93,6 +104,14 @@ const files = [
         './js/shared/vm/modules/multiplexerModuleConstants',
         './js/shared/vm/modules/pspModuleConstants',
         './js/shared/vm/modules/poweredUpModuleConstants',
+        './js/shared/vm/modules/components/componentFormModuleConstants',
+        './js/shared/vm/modules/components/componentButtonModuleConstants',
+        './js/shared/vm/modules/components/componentCheckboxModuleConstants',
+        './js/shared/vm/modules/components/componentLabelModuleConstants',
+        './js/shared/vm/modules/components/componentSelectButtonModuleConstants',
+        './js/shared/vm/modules/components/componentStatusLightModuleConstants',
+        './js/shared/vm/modules/components/componentPanelModuleConstants',
+        './js/shared/vm/modules/components/componentTabsModuleConstants',
         './js/shared/lib/RgfImage',
         './js/shared/lib/Sound',
         './js/shared/device/modules/DeviceModule',
@@ -146,11 +165,13 @@ const files = [
         './js/frontend/compiler/syntax/syntaxBoolean',
         './js/frontend/compiler/syntax/syntaxAssignment',
         './js/frontend/compiler/syntax/syntaxBlock',
+        './js/frontend/compiler/syntax/syntaxNamespace',
         './js/frontend/compiler/syntax/SyntaxValidator',
         './js/frontend/compiler/types/Var',
         './js/frontend/compiler/types/Scope',
         './js/frontend/compiler/types/Record',
         './js/frontend/compiler/types/Proc',
+        './js/frontend/compiler/types/Namespace',
         './js/frontend/compiler/compiler/CompileData',
         './js/frontend/compiler/expression/MathExpression',
         './js/frontend/compiler/expression/VarExpression',
@@ -165,10 +186,12 @@ const files = [
         './js/frontend/compiler/resources/ProjectResource',
         './js/frontend/compiler/resources/ImageResource',
         './js/frontend/compiler/resources/TextResource',
+        './js/frontend/compiler/resources/FormResource',
         './js/frontend/compiler/resources/ProjectResources',
         './js/frontend/compiler/preprocessor/Defines',
         './js/frontend/compiler/preprocessor/MetaCompiler',
         './js/frontend/compiler/preprocessor/PreProcessor',
+        './js/frontend/compiler/keyword/CompileNamespace',
         './js/frontend/compiler/keyword/CompileAddr',
         './js/frontend/compiler/keyword/CompileBreak',
         './js/frontend/compiler/keyword/CompileFor',
@@ -180,6 +203,7 @@ const files = [
         './js/frontend/compiler/keyword/CompileRet',
         './js/frontend/compiler/keyword/CompileSelect',
         './js/frontend/compiler/keyword/CompileWhile',
+        './js/frontend/compiler/CompilerUseInfo',
         './js/frontend/compiler/Compiler',
         './js/frontend/ide/settings/PluginsState',
         './js/frontend/ide/settings/SettingsState',
@@ -203,6 +227,14 @@ const files = [
         './js/frontend/vm/modules/local/MultiplexerModule',
         './js/frontend/vm/modules/local/PspModule',
         './js/frontend/vm/modules/local/DeviceModule',
+        './js/frontend/vm/modules/local/components/ComponentFormModule',
+        './js/frontend/vm/modules/local/components/ComponentButtonModule',
+        './js/frontend/vm/modules/local/components/ComponentCheckboxModule',
+        './js/frontend/vm/modules/local/components/ComponentLabelModule',
+        './js/frontend/vm/modules/local/components/ComponentSelectButtonModule',
+        './js/frontend/vm/modules/local/components/ComponentStatusLightModule',
+        './js/frontend/vm/modules/local/components/ComponentPanelModule',
+        './js/frontend/vm/modules/local/components/ComponentTabsModule',
         './js/frontend/vm/BasicLayerState',
         './js/frontend/vm/ev3/LayerState',
         './js/frontend/vm/poweredup/LayerState',
@@ -229,15 +261,21 @@ const files = [
         './js/frontend/lib/components/Component',
         './js/frontend/lib/components/ContextMenu',
         './js/frontend/lib/components/Tabs',
+        './js/frontend/lib/components/TabPanel',
+        './js/frontend/lib/components/Panel',
         './js/frontend/lib/components/Menu',
         './js/frontend/lib/components/MainMenuItem',
         './js/frontend/lib/components/MainMenu',
+        './js/frontend/lib/components/Label',
         './js/frontend/lib/components/Button',
+        './js/frontend/lib/components/StatusLight',
+        './js/frontend/lib/components/Dropdown',
         './js/frontend/lib/components/Resizer',
         './js/frontend/lib/components/CloseButton',
         './js/frontend/lib/components/IconSelect',
         './js/frontend/lib/components/TextInput',
         './js/frontend/lib/components/Checkbox',
+        './js/frontend/lib/components/CheckboxAndLabel',
         './js/frontend/lib/components/Radio',
         './js/frontend/lib/components/Slider',
         './js/frontend/lib/components/Hint',
@@ -274,6 +312,7 @@ const files = [
         './js/frontend/ide/data/texts',
         './js/frontend/ide/tabIndex',
         './js/frontend/ide/help/components/IndexList',
+        './js/frontend/ide/help/components/IndexListText',
         './js/frontend/ide/help/woc/FileProcessor',
         './js/frontend/ide/help/woc/SubjectFileProcessor',
         './js/frontend/ide/help/woc/WhlFileProcessor',
@@ -281,7 +320,18 @@ const files = [
         './js/frontend/ide/help/woc/Woc',
         './js/frontend/ide/help/woc/WheelSyntax',
         './js/frontend/ide/help/HelpBuilder',
+        './js/frontend/ide/help/HelpBuilderText',
+        './js/frontend/ide/editor/editors/form/formEditorConstants',
+        './js/frontend/ide/editor/editors/form/state/EventList',
+        './js/frontend/ide/editor/editors/form/state/PropertyList',
+        './js/frontend/ide/editor/editors/form/state/ComponentList',
+        './js/frontend/ide/editor/editors/form/SourceBuilder',
+        './js/frontend/ide/editor/editors/form/ComponentBuilder',
+        './js/frontend/ide/editor/editors/form/state/UndoStack',
+        './js/frontend/ide/editor/editors/form/state/FormEditorState',
         './js/frontend/ide/dialogs/AlertDialog',
+        './js/frontend/ide/dialogs/settings/components/Updater',
+        './js/frontend/ide/dialogs/settings/SettingsDialog',
         './js/frontend/ide/dialogs/hint/HintDialog',
         './js/frontend/ide/dialogs/hint/WelcomeHintDialog',
         './js/frontend/ide/dialogs/ConfirmDialog',
@@ -306,6 +356,11 @@ const files = [
         './js/frontend/ide/dialogs/image/ImageNewDialog',
         './js/frontend/ide/dialogs/image/ImageResizeDialog',
         './js/frontend/ide/dialogs/image/ImageLoadDialog',
+        './js/frontend/ide/dialogs/form/ComponentFormContainer',
+        './js/frontend/ide/dialogs/form/FormSizeDialog',
+        './js/frontend/ide/dialogs/form/FormNewDialog',
+        './js/frontend/ide/dialogs/form/FormDialog',
+        './js/frontend/ide/dialogs/form/FormGridSizeDialog',
         './js/frontend/ide/dialogs/VolumeDialog',
         './js/frontend/ide/dialogs/help/components/WocFileLoader',
         './js/frontend/ide/dialogs/help/HelpDialog',
@@ -364,6 +419,11 @@ const files = [
         './js/frontend/ide/editor/editors/sound/SoundLoader',
         './js/frontend/ide/editor/editors/sound/SoundEditorState',
         './js/frontend/ide/editor/editors/sound/SoundEditor',
+        './js/frontend/ide/editor/editors/form/toolbar/ToolbarTop',
+        './js/frontend/ide/editor/editors/form/toolbar/ToolbarBottom',
+        './js/frontend/ide/editor/editors/form/FormComponentContainer',
+        './js/frontend/ide/editor/editors/form/FormComponent',
+        './js/frontend/ide/editor/editors/form/FormEditor',
         './js/frontend/ide/editor/Editors',
         './js/frontend/ide/editor/EditorsState',
         './js/frontend/ide/editor/Editor',
@@ -380,6 +440,14 @@ const files = [
         './js/frontend/ide/console/Terminal',
         './js/frontend/ide/console/NewVersion',
         './js/frontend/ide/console/Console',
+        './js/frontend/ide/properties/PropertiesToolbar',
+        './js/frontend/ide/properties/Property',
+        './js/frontend/ide/properties/Event',
+        './js/frontend/ide/properties/types/BooleanProperty',
+        './js/frontend/ide/properties/types/ColorProperty',
+        './js/frontend/ide/properties/types/TextProperty',
+        './js/frontend/ide/properties/types/TextListProperty',
+        './js/frontend/ide/properties/Properties',
         './js/frontend/ide/simulator/SimulatorToolbar',
         './js/frontend/ide/simulator/SimulatorModules',
         './js/frontend/ide/plugins/simulator/lib/SimulatorPlugin',
@@ -443,62 +511,66 @@ const files = [
         './js/frontend/ide/simulator/Simulator',
         './js/frontend/vm/BasicDeviceState',
         './js/frontend/ide/CompileAndRun',
+        './js/frontend/ide/CompileAndRunOutput',
+        './js/frontend/ide/CompileAndRunInstall',
         './js/frontend/ide/IDE',
+        './js/frontend/ide/Setup',
         './js/frontend/lib/UIState',
         './js/frontend/vm/ev3/EV3State',
         './js/frontend/vm/poweredup/PoweredUpState'
     ];
 
-let output = '(function() {\n' +
-                'let exportsByUrl = {};\n' +
-                'let e;\n' +
-                'const getFullPath = function(id, url) {\n' +
-                '    let u = url;\n' +
-                '    let i;\n' +
-                '    let done = false;\n' +
-                '    if (id.substr(0, 2) === \'./\') {\n' +
-                '        i    = url.lastIndexOf(\'/\');\n' +
-                '        u    = u.substr(0, i);\n' +
-                '        id   = id.substr(2 - id.length);\n' +
-                '        done = true;\n' +
-                '    }\n' +
-                '    if (id.substr(0, 3) === \'../\') {\n' +
-                '        if (!done) {\n' +
-                '            i = u.lastIndexOf(\'/\');\n' +
-                '            u = u.substr(0, i);\n' +
-                '        }\n' +
-                '        i  = u.lastIndexOf(\'/\');\n' +
-                '        u  = u.substr(0, i);\n' +
-                '        id = id.substr(3 - id.length);\n' +
-                '        while (id.substr(0, 3) === \'../\') {\n' +
-                '            i  = u.lastIndexOf(\'/\');\n' +
-                '            u  = u.substr(0, i);\n' +
-                '            id = id.substr(3 - id.length);\n' +
-                '        }\n' +
-                '    }\n' +
-                '    u += \'/\' + id;\n' +
-                '    return u;\n' +
-                '}\n' +
-                'const require = function(url, id) {\n' +
-                '    let origId = id;\n' +
-                '    let r      = exportsByUrl[getFullPath(id, url)];\n' +
-                '    if (r) {\n' +
-                '        return r;\n' +
-                '    }\n' +
-                '    while (id.substr(0, 2) === \'./\') {\n' +
-                '        id = id.substr(2 - id.length);\n' +
-                '    }\n' +
-                '    while (id.substr(0, 3) === \'../\') {\n' +
-                '        id = id.substr(3 - id.length);\n' +
-                '    }\n' +
-                '    for (let i in exportsByUrl) {\n' +
-                '        if (i.substr(-id.length) === id) {\n' +
-                '            return exportsByUrl[i];\n' +
-                '        }\n' +
-                '    }\n' +
-                '    console.error(\'Failed to load:\', origId, id);\n' +
-                '    return {};\n' +
-                '};\n';
+let output = [
+        '(function() {',
+        '    let exportsByUrl = {};',
+        '    let e;',
+        '    const getFullPath = function(id, url) {',
+        '        let u = url;',
+        '        let i;',
+        '        let done = false;',
+        '        if (id.substr(0, 2) === \'./\') {',
+        '            i    = url.lastIndexOf(\'/\');',
+        '            u    = u.substr(0, i);',
+        '            id   = id.substr(2 - id.length);',
+        '            done = true;',
+        '        }',
+        '        if (id.substr(0, 3) === \'../\') {',
+        '            if (!done) {',
+        '                i = u.lastIndexOf(\'/\');',
+        '                u = u.substr(0, i);',
+        '            }',
+        '            i  = u.lastIndexOf(\'/\');',
+        '            u  = u.substr(0, i);',
+        '            id = id.substr(3 - id.length);',
+        '            while (id.substr(0, 3) === \'../\') {',
+        '                i  = u.lastIndexOf(\'/\');',
+        '                u  = u.substr(0, i);',
+        '                id = id.substr(3 - id.length);',
+        '            }',
+        '        }',
+        '        u += \'/\' + id;',
+        '        return u;',
+        '    }',
+        '    const require = function(url, id) {',
+        '        let origId = id;',
+        '        let r      = exportsByUrl[getFullPath(id, url)];',
+        '        if (r) {',
+        '            return r;',
+        '        }',
+        '        while (id.substr(0, 2) === \'./\') {',
+        '            id = id.substr(2 - id.length);',
+        '        }',
+        '        while (id.substr(0, 3) === \'../\') {',
+        '            id = id.substr(3 - id.length);',
+        '        }',
+        '        for (let i in exportsByUrl) {',
+        '            if (i.substr(-id.length) === id) {',
+        '                return exportsByUrl[i];',
+        '            }',
+        '        }',
+        '        console.error(\'Failed to load:\', origId, id);',
+        '        return {};',
+        '    };'].join('\n');
 
 console.log('Appending js files...');
 
@@ -516,25 +588,47 @@ files.forEach(function(filename) {
     output += 'exportsByUrl[\'' + filename + '\'] = (function(require,exports){\n' + text + ';return exports;\n})(require.bind(this,\'' + filename + '\'), {});\n';
 });
 
-output += 'let settings;\n' +
-    'let ui;\n' +
-    'const onLoadedSettings = function() {\n' +
-    '    const IDE            = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;\n' +
-    '    const EV3State       = exportsByUrl[\'./js/frontend/vm/ev3/EV3State\'].EV3State;\n' +
-    '    const PoweredUpState = exportsByUrl[\'./js/frontend/vm/poweredup/PoweredUpState\'].PoweredUpState;\n' +
-    '    new IDE({\n' +
-    '        ui:        ui,\n' +
-    '        settings:  settings,\n' +
-    '        ev3:       new EV3State({}),\n' +
-    '        poweredUp: new PoweredUpState({})\n' +
-    '    });\n' +
-    '};\n' +
-    'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;\n' +
-    'const UIState         = exportsByUrl[\'./js/frontend/lib/UIState\'].UIState;\n' +
-    'const SettingsState   = exportsByUrl[\'./js/frontend/ide/settings/SettingsState\'].SettingsState;\n' +
-    'ui       = new UIState();\n' +
-    'settings = new SettingsState({getDataProvider: getDataProvider});\n' +
-    'settings.load(onLoadedSettings);\n';
+output += [
+    'const platform        = exportsByUrl[\'./js/frontend/lib/platform\'];',
+    'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;',
+    'const UIState         = exportsByUrl[\'./js/frontend/lib/UIState\'].UIState;',
+    'const SettingsState   = exportsByUrl[\'./js/frontend/ide/settings/SettingsState\'].SettingsState;',
+    'let settings;',
+    'let ui;',
+    'const onFinishedSetup = function() {',
+    '        const IDE            = exportsByUrl[\'./js/frontend/ide/IDE\'].IDE;',
+    '        const EV3State       = exportsByUrl[\'./js/frontend/vm/ev3/EV3State\'].EV3State;',
+    '        const PoweredUpState = exportsByUrl[\'./js/frontend/vm/poweredup/PoweredUpState\'].PoweredUpState;',
+    '        new IDE({',
+    '            ui:        ui,',
+    '            settings:  settings,',
+    '            ev3:       new EV3State({}),',
+    '            poweredUp: new PoweredUpState({})',
+    '        });',
+    '    };',
+    'const onNeedsSetup = function() {',
+    '        const Setup = exportsByUrl[\'./js/frontend/ide/Setup\'].Setup;',
+    '        new Setup({',
+    '            ui:         ui,',
+    '            settings:   settings,',
+    '            onFinished: onFinishedSetup',
+    '        });',
+    '    };',
+    'const onLoadedSettings = function() {',
+    '        if (platform.isNode()) {',
+    '            if (settings.getDocumentPathExists()) {',
+    '                onFinishedSetup();',
+    '            } else {',
+    '                onNeedsSetup();',
+    '            }',
+    '        } else {',
+    '            onFinishedSetup();',
+    '        }',
+    '    };',
+    'ui       = new UIState();',
+    'settings = new SettingsState({getDataProvider: getDataProvider});',
+    'settings.load(onLoadedSettings);'
+].join('\n');
 
 output += '})();';
 
@@ -550,6 +644,8 @@ cssFiles.forEach(function(filename) {
 });
 
 fs.writeFileSync(distName + '.css', output);
+
+const MINIFY_JS = true;
 
 function removeOldIncludes() {
     console.log('Removing old files.');
@@ -587,7 +683,9 @@ function removeFiles() {
     console.log('Deleting temp js and css...');
     exec('rm ' + distName + '.min.css', function() {});
     exec('rm ' + distName + '.css', function() {});
-    exec('rm ' + distName + '.min.js', function() {});
+    if (MINIFY_JS) {
+        exec('rm ' + distName + '.min.js', function() {});
+    }
     exec('rm ' + distName + '.js', function() {});
     updateIncludes();
 }
@@ -599,12 +697,20 @@ function copyDistCss() {
 
 function copyDistJs() {
     console.log('Moving js...');
-    exec('cp ' + distName + '.min.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    if (MINIFY_JS) {
+        exec('cp ' + distName + '.min.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    } else {
+        exec('cp ' + distName + '.js ../site/ide/' + distName + '.min.js', copyDistCss);
+    }
 }
 
 function terser() {
-    console.log('Minifying js...');
-    exec('terser ' + distName + '.js --compress --mangle > ' + distName + '.min.js', copyDistJs);
+    if (MINIFY_JS) {
+        console.log('Minifying js...');
+        exec('terser ' + distName + '.js --compress --mangle > ' + distName + '.min.js', copyDistJs);
+    } else {
+        copyDistJs();
+    }
 }
 
 console.log('Minifying css...');

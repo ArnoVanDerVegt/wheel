@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform   = require('../../platform');
 const dispatcher = require('../../dispatcher').dispatcher;
 const Item       = require('./Item').Item;
 
@@ -111,7 +112,7 @@ exports.Directory = class extends Item {
         this.onCancelEvent(event);
         this._nameElement.focus();
         let menuItems = this._contextMenu.getMenuItems();
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             menuItems[0].setDisabled(false); // New file
             menuItems[1].setDisabled(false); // New image
             menuItems[2].setDisabled(false); // New project

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Programming:Operators</title>
+    <meta name="description" content="Programming:Operators"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Operators</h2>
+            <a id="Operators"></a>
+            <h4 class="">Operators</h4>
+            <p>
+                With an operator you can tell the compiler to perform a mathematical or string operation to preduce a new value.
+                <br/>
+                The operators are applied in a specific order, the operator precedence.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Operator </th>
+                    <th> Sign </th>
+                    <th> Precedence </th>
+                </th>
+                <tr>
+                    <td>Multiply</td>
+                    <td>"*"</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Divide</td>
+                    <td>"/"</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Add</td>
+                    <td>"+"</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Subtract</td>
+                    <td>"-"</td>
+                    <td>4</td>
+                </tr>
+            </table>
+            <p>
+                A multiplication is executed before a division, a division is executed before an addition, etc.
+            </p>
+            <a id="Assignment"></a>
+            <h4 class="">Assignment</h4>
+            <p>
+                With the assignment operator "=" you can assign a value, this operator is applicable to <i>numeric</i>, <i>string</i>, <i>record</i> and <i>array</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">=</span> <span class="number">15</span> <span class="comment">; Assign the value 15 to the number n</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Addition"></a>
+            <h4 class="">Addition</h4>
+            <p>
+                With the addition operator "+" you can multiply a value, this operator is applicable to <i>numeric</i> and <i>string</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">+</span> <span class="number">15</span> <span class="comment">; Add the value 15 to the number n</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Subtraction"></a>
+            <h4 class="">Subtraction</h4>
+            <p>
+                With the subtraction operator "-" you can subtract a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">-</span> <span class="number">15</span> <span class="comment">; Subtract 15 from the number n</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Multiplication"></a>
+            <h4 class="">Multiplication</h4>
+            <p>
+                With the multiplication operator "*" you can multiply a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">*</span> <span class="number">15</span> <span class="comment">; Multiply n with 15</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Division"></a>
+            <h4 class="">Division</h4>
+            <p>
+                With the division operator "/" you can divide a value, this operator is only applicable to <i>numeric</i> types. 
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">=</span> <span class="variable">n</span> <span class="operator">/</span> <span class="number">15</span> <span class="comment">; Divide n with 15</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Shortnotation"></a>
+            <h4 class="">Short notation</h4>
+            <p>
+                When the operation is applied to the same number as the source value then an operator can be written is a shorter manner.
+                <br/>
+                The following example shows the same operations as the examples above but in a shorter notation:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span> <span class="operator">+</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Add the value 15 to the number n</span>
+  <span class="variable">n</span> <span class="operator">-</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Subtract 15 from the number n</span>
+  <span class="variable">n</span> <span class="operator">*</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Multiply n with 15</span>
+  <span class="variable">n</span> <span class="operator">/</span><span class="operator">=</span> <span class="number">15</span> <span class="comment">; Divide n with 15</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Shortincreaseanddecrease"></a>
+            <h4 class="">Short increase and decrease</h4>
+            <p>
+                When increasing or decreasing with one there's an even shorter notation possible:
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+  <span class="type">number</span> <span class="variable">n</span>
+  <span class="variable">n</span><span class="operator">+</span><span class="operator">+</span> <span class="comment">; Increase n with 1</span>
+  <span class="variable">n</span><span class="operator">-</span><span class="operator">-</span> <span class="comment">; Decrease n with 1</span>
+<span class="keyword">end</span>
+</pre>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

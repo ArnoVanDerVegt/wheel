@@ -8,9 +8,10 @@ const Component  = require('./Component').Component;
 exports.TextInput = class extends Component {
     constructor(opts) {
         super(opts);
-        this._value     = opts.value || '';
-        this._visible   = ('visible' in opts) ? opts.visible : true;
-        this._maxLength = opts.maxLength || 524288;
+        this._value       = opts.value || '';
+        this._visible     = ('visible' in opts) ? opts.visible : true;
+        this._maxLength   = opts.maxLength || 524288;
+        this._placeholder = opts.placeholder;
         this.initDOM(opts.parentNode);
     }
 
@@ -18,13 +19,14 @@ exports.TextInput = class extends Component {
         this.create(
             parentNode,
             {
-                id:        this.setElement.bind(this),
-                type:      'input',
-                inputType: 'text',
-                tabIndex:  this._tabIndex,
-                className: this._className,
-                value:     this._value,
-                maxLength: this._maxLength
+                id:          this.setElement.bind(this),
+                type:        'input',
+                inputType:   'text',
+                tabIndex:    this._tabIndex,
+                className:   this._className,
+                value:       this._value,
+                maxLength:   this._maxLength,
+                placeholder: this._placeholder || ''
             }
         );
     }

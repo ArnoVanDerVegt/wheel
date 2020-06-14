@@ -36,7 +36,8 @@ input {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
     font-family:                    latolight;
     -webkit-user-select:            none;
 }
@@ -62,8 +63,8 @@ body.ide div.editor-wrapper .toolbar .tabs {
 body.ide.no-console div.editor-wrapper {
     bottom:                         0;
 }
-/* No simulator */
-body.ide.no-simulator div.editor-wrapper {
+/* No simulator & No properties */
+body.ide.no-right-panel div.editor-wrapper {
     right:                          0;
 }
 /* No file tree */
@@ -110,13 +111,14 @@ body.ide div.editor-wrapper .editor {
 }
 .main-menu .storage .progress-bar {
     width:                          0;
+    height:                         16px;
     opacity:                        0;
     transition:                     width 0.3s, opacity 0.3s;
 }
 .main-menu .storage:hover {
     opacity:                        1;
 }
-.main-menu .storage:hover .progress-bar {
+.main-menu .storage .progress-bar {
     opacity:                        1;
     width:                          64px;
 }

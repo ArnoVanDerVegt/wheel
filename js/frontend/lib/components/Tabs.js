@@ -153,7 +153,7 @@ exports.Tabs = class extends DOMNode {
         super(opts);
         this._ui             = opts.ui;
         this._tabs           = [];
-        this._active         = opts.active;
+        this._active         = opts.active || 0;
         this._activeTab      = null;
         this._tabIndex       = opts.tabIndex;
         this._wrapperElement = null;
@@ -161,6 +161,8 @@ exports.Tabs = class extends DOMNode {
         this._contextMenu    = null;
         this._ui             = opts.ui;
         this._uiId           = opts.uiId;
+        this._onClick        = opts.onClick;
+        this._onChange       = opts.onChange;
         this._onGlobalUIId   = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode, opts.tabs || []);
         this.initContextMenu(opts.contextMenuOptions);
@@ -214,6 +216,13 @@ exports.Tabs = class extends DOMNode {
     }
 
     add(opts) {
+        if (typeof opts === 'string') {
+            opts = {
+                title: opts
+            };
+        }
+        let tabs  = this._tabs;
+        let index = tabs.length;
         this._tabs.push(new Tab({
             tabs:       this,
             parentNode: this._tabsElement,
@@ -225,13 +234,14 @@ exports.Tabs = class extends DOMNode {
                 } :
                 false,
             onClick: (function(title, meta) {
-                this.onClickTab(title, meta);
-                opts.onClick(title, meta);
+                this.onClickTab(title, meta, index);
+                opts.onClick && opts.onClick(title, meta);
             }).bind(this)
         }));
-        this
-            .setActiveTab(opts.title, opts.meta)
-            .updateTabIndex();
+        if (this._tabs.length - 1 === this._active) {
+            this.setActiveTab(opts.title, opts.meta);
+        }
+        this.updateTabIndex();
         return this;
     }
 
@@ -239,16 +249,14 @@ exports.Tabs = class extends DOMNode {
         this.updateTabIndex(this._ui.getActiveUIId() !== this._uiId);
     }
 
-    onClickTab(title, meta) {
+    onClickTab(title, meta, index) {
         this.setActiveTab(title, meta);
+        this._onClick  && this._onClick(index);
+        this._onChange && this._onChange(index);
     }
 
     getContextMenu() {
         return this._contextMenu;
-    }
-
-    getActiveTab() {
-        return this._activeTab;
     }
 
     getActiveTab() {
@@ -290,8 +298,14 @@ exports.Tabs = class extends DOMNode {
         this._tabs = [];
         tabs.forEach(
             function(tab) {
-                tab.parentNode = tabsElement;
-                this.add(tab);
+                let opts = tab;
+                if (typeof tab === 'string') {
+                    opts = {
+                        title: tab
+                    };
+                }
+                opts.parentNode = tabsElement;
+                this.add(opts);
             },
             this
         );
