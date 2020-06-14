@@ -34,14 +34,23 @@
         <div class="content">
             <h1>Installing the Wheel source code</h1>
             <p>
-                To run a local version you need the have <a href="https://nodejs.org/en/">nodejs</a> installed.
+                To run a local version you need the have <a href="https://nodejs.org/">NodeJS</a> installed.
             </p>
             <a href="https://github.com/ArnoVanDerVegt/wheel" class="start">Download the source code &raquo;</a>
             <h3>Nodejs</h3>
-            The easiest way to run Wheel is by starting a local nodejs server and use a browser.
+            <p>
+                The easiest way to run Wheel is by starting a local NodeJS server and use a browser.<br/>
+                If you run Wheel with NodeJS then only PoweredUp is supported.<br/>
+                <br/>
+                First, you have to install all dependencies by running:
+            </p>
+            <pre>
+$ npm install</pre>
+            <p>
+                Then you can start the server with:
+            </p>
             <pre>
 $ node server.js</pre>
-
             <h3>Electron - Mac</h3>
             <pre>
 $ npm install --global electron
@@ -55,7 +64,7 @@ $ npm install --global electron
 $ npm install --global electron-rebuild
 $ npm install
 $ npm run electron-rebuild</pre>
-            <h3>Starting Wheel</h3>
+            <h3>Starting the Wheel Electron application</h3>
             <p>
                 After the installation you can start Wheel with the following command:
             </p>
