@@ -161,7 +161,7 @@ exports.SourceBuilder = class {
         }
         includes.forEach(function(include) {
             lines.push('#include "' + include + '"');
-        })
+        });
         let defines = this.generateDefinesFromComponents(components);
         lines.push('');
         defines.forEach(function(define) {

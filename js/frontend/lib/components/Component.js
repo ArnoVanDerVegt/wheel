@@ -16,7 +16,7 @@ exports.COLORS = COLORS;
 
 exports.getComponentColor = function(color) {
     return (color in COLORS) ? COLORS[color] : color;
-}
+};
 
 exports.Component = class extends DOMNode {
     constructor(opts) {

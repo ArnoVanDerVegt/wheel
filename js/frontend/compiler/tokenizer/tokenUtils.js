@@ -78,7 +78,11 @@ exports.getLineFromToken = function(token, tokens) {
             break;
         }
     }
-    return {left: left, lexeme: token.lexeme, right: right};
+    return {
+        left:   (left         + '').split('~').join('.'),
+        lexeme: (token.lexeme + '').split('~').join('.'),
+        right:  (right        + '').split('~').join('.')
+    };
 };
 
 exports.removeParenthesis = function(tokens, startIndex, endIndex) {

@@ -41,7 +41,9 @@ exports.Compiler = class extends CompileBlock {
 
     buildTokens(tokens) {
         new SyntaxValidator().validate(tokens);
-        tokens = this._namespace.compileNamespaces(tokens);
+        let namespaceTokens = this._namespace.compileNamespaces(tokens);
+        tokens.length = 0;
+        tokens.push.apply(tokens, namespaceTokens);
         this._useInfo = new CompilerUseInfo(this);
         this._pass    = 0;
         this.compile(tokens);
