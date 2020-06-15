@@ -7,10 +7,13 @@ const DOMNode    = require('../dom').DOMNode;
 
 let COLORS = {};
 COLORS[0] = 'gray';
-COLORS[1] = 'yellow';
-COLORS[2] = 'green';
-COLORS[3] = 'blue';
-COLORS[4] = 'red';
+// Black
+COLORS[2] = 'blue';
+COLORS[3] = 'green';
+COLORS[4] = 'yellow';
+COLORS[5] = 'red';
+// White
+// Brown
 
 exports.COLORS = COLORS;
 
