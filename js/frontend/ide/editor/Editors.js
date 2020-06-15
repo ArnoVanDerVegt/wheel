@@ -282,25 +282,50 @@ exports.Editors = class extends DOMNode {
     }
 
     addForm(opts) {
+        let textOpts = Object.assign({}, opts);
+        const addSourceEditor = (function(textOpts) {
+                textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (textOpts.isProject ? 'p' : ''));
+                textOpts.mode     = 'text/x-wheel';
+                textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
+                let pathAndFilename = path.getPathAndFilename(path.join(opts.path, textOpts.filename));
+                // Check if the file is already open in an editor...
+                if (!this.findEditor(pathAndFilename.path, pathAndFilename.filename)) {
+                    this.addEditor(textOpts, new WheelEditor(textOpts));
+                }
+            }).bind(this);
+        const addSource = (function(isProject) {
+                textOpts.value     = opts.value.whl;
+                textOpts.isProject = isProject;
+                textOpts.value     = new SourceBuilder({settings: this._settings})
+                    .generateSourceFromFormData({components: opts.data, project: isProject})
+                    .getSource();
+                addSourceEditor(textOpts);
+            }).bind(this);
         try {
             opts.data = JSON.parse(opts.value.wfrm);
         } catch (error) {
             opts.data = null;
         }
         if (opts.data !== null) {
-            let textOpts = Object.assign({}, opts);
             if (opts.value.whl) {
-                textOpts.value = opts.value.whl;
+                textOpts.value     = opts.value.whl;
+                textOpts.isProject = opts.value.isProject;
+                addSourceEditor(textOpts);
             } else {
-                textOpts.value = new SourceBuilder({settings: this._settings}).generateSourceFromFormData(opts.data);
-            }
-            textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (opts.value.isProject ? 'p' : ''));
-            textOpts.mode     = 'text/x-wheel';
-            textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
-            let pathAndFilename = path.getPathAndFilename(path.join(opts.path, textOpts.filename));
-            // Check if the file is already open in an editor...
-            if (!this.findEditor(pathAndFilename.path, pathAndFilename.filename)) {
-                this.addEditor(textOpts, new WheelEditor(textOpts));
+                dispatcher.dispatch(
+                    'Dialog.Confirm.Show',
+                    {
+                        applyTitle:     'Create include file',
+                        applyCallback:  addSource.bind(this, false),
+                        cancelTitle:    'Create project file',
+                        cancelCallback: addSource.bind(this, true),
+                        title:          'Whl file not found.',
+                        lines: [
+                            'The source file for this form can\'t be found.',
+                            'Do you want to create an include file or a project file?'
+                        ]
+                    }
+                );
             }
         }
         this.addEditor(opts, new FormEditor(opts));

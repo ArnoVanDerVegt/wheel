@@ -209,12 +209,14 @@ exports.FileDialog = class extends Dialog {
                             this._save = save;
                             dispatcher.dispatch(
                                 'Dialog.Confirm.Show',
-                                'File exists',
-                                [
-                                    'The file "' + saveFilename + '" already exists.',
-                                    'Do you want to overwrite it?'
-                                ],
-                                'Dialog.Confirm.Save'
+                                {
+                                    title: 'File exists',
+                                    lines: [
+                                        'The file "' + saveFilename + '" already exists.',
+                                        'Do you want to overwrite it?'
+                                    ],
+                                    dispatchApply: 'Dialog.Confirm.Save'
+                                }
                             );
                         }
                     } else {

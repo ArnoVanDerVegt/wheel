@@ -3,9 +3,9 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const Component  = require('./Component').Component;
+const Component  = require('./Component');
 
-exports.StatusLight = class extends Component {
+exports.StatusLight = class extends Component.Component {
     constructor(opts) {
         super(opts);
         this._baseClassName = 'status-light';
@@ -29,7 +29,7 @@ exports.StatusLight = class extends Component {
             this.setClassName(opts.className);
         }
         if ('color' in opts) {
-            this.setColor(opts.color);
+            this.setColor(Component.getComponentColor(opts.color));
         }
         super.onEvent(opts);
     }

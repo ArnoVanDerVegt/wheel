@@ -29,6 +29,7 @@ exports.FormEditor = class extends Editor {
             .on('AddComponent',    this, this.onAddComponent)
             .on('AddUndo',         this, this.onAddUndo)
             .on('RenameForm',      this, this.onRenameForm)
+            .on('RenameComponent', this, this.onRenameComponent)
             .on('RenameEvents',    this, this.onRenameEvents)
             .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.updateElements)
@@ -97,11 +98,11 @@ exports.FormEditor = class extends Editor {
         let formEditorState = this._formEditorState;
         let editor          = this.getEditor();
         if (editor && !formEditorState.getLoading()) {
-            editor.setValue(this._sourceBuilder.addComponent({
-                source:              editor.getValue(),
-                data:                formEditorState.getData(),
-                includeForComponent: formEditorConstants.INCLUDE_FOR_COMPONENT
-            }));
+            editor.setValue(this._sourceBuilder
+                .setSource(editor.getValue())
+                .addComponent({components: formEditorState.getData()})
+                .getSource()
+            );
         }
     }
 
@@ -110,8 +111,9 @@ exports.FormEditor = class extends Editor {
     }
 
     onChangeForm() {
-        this.setSize();
-        this.updateSource();
+        this
+            .setSize()
+            .updateSource();
     }
 
     onChangeEvent() {
@@ -165,27 +167,31 @@ exports.FormEditor = class extends Editor {
         this._formEditorState.setTool(tool);
     }
 
-    onRenameForm(oldName, newName) {
+    onRenameForm(opts) {
         let editor = this.getEditor();
         if (!editor) {
             return;
         }
-        editor.setValue(this._sourceBuilder.updateFormName({
-            source:  editor.getValue(),
-            oldName: oldName,
-            newName: newName
-        }));
+        editor.setValue(this._sourceBuilder
+            .setSource(editor.getValue())
+            .updateFormName(opts)
+            .updateEventNames(opts)
+            .getSource()
+        );
     }
 
-    onRenameEvents(renameEvents) {
+    onRenameComponent(opts) {
         let editor = this.getEditor();
         if (!editor) {
             return;
         }
-        editor.setValue(this._sourceBuilder.updateEventNames({
-            source:       editor.getValue(),
-            renameEvents: renameEvents
-        }));
+        opts.formName = this._formEditorState.getFormComponent().name;
+        editor.setValue(this._sourceBuilder
+            .setSource(editor.getValue())
+            .updateComponentName(opts)
+            .updateEventNames(opts)
+            .getSource()
+        );
     }
 
     onSelectComponent(component) {
@@ -238,7 +244,7 @@ exports.FormEditor = class extends Editor {
         let formEditorState = this._formEditorState;
         let formComponent   = formEditorState.getFormComponent();
         let width           = Math.max(parseInt(formComponent.width  || '128', 10), 128);
-        let height          = Math.max(parseInt(formComponent.height || '128', 10), 128);
+        let height          = Math.max(parseInt(formComponent.height || '128', 10), 64);
         let element         = this._refs.resourceContentWrapper;
         element.style.width  = (width  + 64)  + 'px';
         element.style.height = (height + 64)  + 'px';
@@ -251,7 +257,7 @@ exports.FormEditor = class extends Editor {
         let element = component.getFormElement();
         element.addEventListener('mousemove', this.onMouseMove.bind(this));
         element.addEventListener('mouseout',  this.onMouseOut.bind(this));
-        this.setSize();
+        return this.setSize();
     }
 
     getValue() {
@@ -279,11 +285,11 @@ exports.FormEditor = class extends Editor {
         if (!editor || formEditorState.getLoading()) {
             return;
         }
-        editor.setValue(this._sourceBuilder.addComponent({
-            source:              editor.getValue(),
-            data:                formEditorState.getData(),
-            includeForComponent: formEditorConstants.INCLUDE_FOR_COMPONENT
-        }));
+        editor.setValue(this._sourceBuilder
+            .setSource(editor.getValue())
+            .addComponent({components: formEditorState.getData()})
+            .getSource()
+        );
     }
 
     updateElements() {

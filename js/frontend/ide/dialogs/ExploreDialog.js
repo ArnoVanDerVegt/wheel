@@ -290,9 +290,11 @@ exports.ExploreDialog = class extends Dialog {
         this._deleteFilename = path.join(remoteFiles.getPath(), remoteFiles.getFilename());
         dispatcher.dispatch(
             'Dialog.Confirm.Show',
-            'Confirm delete',
-            ['Are you sure you want to delete "' + this._deleteFilename + '"?'],
-            'Dialog.Confirm.DeleteItem'
+            {
+                title:         'Confirm delete',
+                lines:         ['Are you sure you want to delete "' + this._deleteFilename + '"?'],
+                dispatchApply: 'Dialog.Confirm.DeleteItem'
+            }
         );
     }
 

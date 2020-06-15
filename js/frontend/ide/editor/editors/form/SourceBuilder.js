@@ -43,6 +43,16 @@ exports.SourceBuilder = class {
     constructor(opts) {
         this._lastDefines = null;
         this._settings    = opts.settings;
+        this._lines       = [];
+    }
+
+    setSource(source) {
+        this._lines = source.split('\n');
+        return this;
+    }
+
+    getSource() {
+        return this._lines.join('\n');
     }
 
     getConstantFromName(name) {
@@ -78,8 +88,9 @@ exports.SourceBuilder = class {
         return -1;
     }
 
-    generateIncludesFromData(data, includeForComponent) {
-        let includes = [];
+    generateIncludesFromComponents(data) {
+        let includes            = [];
+        let includeForComponent = formEditorConstants.INCLUDE_FOR_COMPONENT;
         data.forEach(function(component) {
             if (component.type in includeForComponent) {
                 let include = includeForComponent[component.type];
@@ -91,7 +102,7 @@ exports.SourceBuilder = class {
         return includes;
     }
 
-    generateDefinesFromData(data) {
+    generateDefinesFromComponents(data) {
         let form = data[0];
         let i    = form.name.indexOf('.');
         if (i !== -1) {
@@ -128,27 +139,63 @@ exports.SourceBuilder = class {
         return defines;
     }
 
-    generateIncludes() {
-        return [
-            '#include "lib/components/button.whl"',
-            '#include "lib/components/selectButton.whl"',
-            '#include "lib/components/label.whl"',
-            '#include "lib/components/checkbox.whl"',
-            '#include "lib/components/statusLight.whl"',
-            '#include "lib/components/tabs.whl"',
-            '#include "lib/components/panel.whl"'
-        ].join('\n');
-    }
-
     generateSourceFromFormData(data) {
-        let result  = '; Component includes...\n' + this.generateIncludes() + '\n\n';
-        let defines = this.generateDefinesFromData(data);
-        result += '; Component uid defines...\n';
+        this._lines = [];
+        let components = data.components;
+        let lines      = this._lines;
+        let includes   = this.generateIncludesFromComponents(components);
+        let formName   = false;
+        for (let i = 0; i < components.length; i++) {
+            let component = components[i];
+            if (component.type === 'form') {
+                formName = component.name;
+                break;
+            }
+        }
+        if (data.project) {
+            lines.push(
+                '#project "' + formName + '"',
+                '',
+                '#include "lib/standard.whl"'
+            );
+        }
+        includes.forEach(function(include) {
+            lines.push('#include "' + include + '"');
+        })
+        let defines = this.generateDefinesFromComponents(components);
+        lines.push('');
         defines.forEach(function(define) {
-            result += define.line + '\n';
+            lines.push(define.line);
         });
         this._lastDefines = defines;
-        return result;
+        lines.push(
+            '',
+            '#resource "' + formName + '.wfrm"'
+        );
+        if (formName) {
+            lines.push('');
+            if (this._settings.getCreateEventComments()) {
+                lines.push(
+                    '; @proc                   Show the form.',
+                    '; @ret                    The handle to the form.'
+                );
+            }
+            lines.push(
+                'proc show' + getShowProcNameFromFilename(formName) + '()',
+                '    ret components.form.show("' + formName + '.wfrm")',
+                'end'
+            );
+        }
+        if (data.project) {
+            lines.push(
+                '',
+                'proc main()',
+                '    show' + getShowProcNameFromFilename(formName) + '()',
+                '    halt()',
+                'end'
+            );
+        }
+        return this;
     }
 
     generateEventProc(componentName, componentType, eventType, procName) {
@@ -248,11 +295,11 @@ exports.SourceBuilder = class {
 
     generateUpdatedSource(opts) {
         let defines = this._lastDefines;
-        let lines   = opts.source.split('\n');
+        let lines   = this._lines;
         let i       = 0;
         // First, remove all the existing #defines...
         if (!defines) {
-            defines = this.generateDefinesFromData(opts.data);
+            defines = this.generateDefinesFromComponents(opts.components);
         }
         let firstDefine    = this.updateLinesWithDefines(lines, defines);
         let insertPosition = -1;
@@ -267,7 +314,7 @@ exports.SourceBuilder = class {
             insertPosition = firstDefine;
         }
         // Then insert the new sorted and formated #define list...
-        defines = this.generateDefinesFromData(opts.data);
+        defines = this.generateDefinesFromComponents(opts.components);
         this._lastDefines = defines;
         if (insertPosition === -1) {
             defines.forEach(function(define) {
@@ -281,7 +328,7 @@ exports.SourceBuilder = class {
         }
         this.updateLinesWithIncludes(lines, opts);
         // Add the event procedures...
-        this.generateEventsFromData(lines, opts.data);
+        this.generateEventsFromData(lines, opts.components);
         // Get the updated defines...
         return lines.join('\n');
     }
@@ -300,7 +347,7 @@ exports.SourceBuilder = class {
                 lastIndex = index;
             }
         });
-        let includes = this.generateIncludesFromData(opts.data, opts.includeForComponent);
+        let includes = this.generateIncludesFromComponents(opts.components);
         includes.forEach(function(include) {
             if (currentIncludes.indexOf(include) === -1) {
                 lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
@@ -337,11 +384,14 @@ exports.SourceBuilder = class {
     }
 
     updateEventNames(opts) {
+        if (!opts.renameEvents.length) {
+            return this;
+        }
         let eventsByOldName = {};
         opts.renameEvents.forEach(function(renameEvent) {
             eventsByOldName[renameEvent.oldName] = renameEvent;
         });
-        let lines = opts.source.split('\n');
+        let lines = this._lines;
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             if (line.trim().indexOf('proc') === 0) {
@@ -356,11 +406,11 @@ exports.SourceBuilder = class {
                 }
             }
         }
-        return lines.join('\n');
+        return this;
     }
 
     updateFormName(opts) {
-        let lines   = opts.source.split('\n');
+        let lines   = this._lines;
         let oldName = getShowProcNameFromFormName(opts.oldName);
         let newName = getShowProcNameFromFormName(opts.newName);
         for (let i = 0; i < lines.length; i++) {
@@ -372,13 +422,69 @@ exports.SourceBuilder = class {
                 break;
             }
         }
-        return lines.join('\n');
+        return this;
+    }
+
+    updateComponentName(opts) {
+        let oldName = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.oldName);
+        let newName = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.newName);
+        if (oldName === newName) {
+            return this;
+        }
+        const getDefineInfo = function(line) {
+                let i = line.indexOf('#define');
+                if (i !== -1) {
+                    let s = line.substr(7, line.length - 7).trim();
+                    i = s.indexOf(' ');
+                    if (i !== -1) {
+                        return {key: s.substr(0, i).trim(), value: s.substr(i, s.length - i).trim()};
+                    }
+                }
+                return null;
+            };
+        // Scan all lines for existing defines and get the maximum key length...
+        let lines     = this._lines;
+        let maxLength = newName.length;
+        for (let i = 0; i < lines.length; i++) {
+            let line       = lines[i].trim();
+            let defineInfo = getDefineInfo(line);
+            if (defineInfo) {
+                maxLength = Math.max(maxLength, defineInfo.key.length);
+            }
+        }
+        let space = '';
+        while (space.length < maxLength) {
+            space += ' ';
+        }
+        // Update all defines with the new alignment and rename the define key...
+        let defines = {};
+        let i       = 0;
+        while (i < lines.length) {
+            let line       = lines[i].trim();
+            let defineInfo = getDefineInfo(line);
+            if (defineInfo) {
+                if (defineInfo.key in defines) {
+                    lines.splice(i, 1); // Remove duplicate define...
+                } else {
+                    if (defineInfo.key === oldName) {
+                        defineInfo.key = newName;
+                    }
+                    lines[i] = '#define ' + (defineInfo.key + space).substr(0, maxLength) + ' ' + defineInfo.value;
+                    defines[defineInfo.key] = true;
+                    i++;
+                }
+            } else {
+                i++;
+            }
+        }
+        return this;
     }
 
     /**
      * Add a new component uid to the defines in the source...
     **/
     addComponent(opts) {
-        return this.generateUpdatedSource(opts);
+        this.generateUpdatedSource(opts);
+        return this;
     }
 };

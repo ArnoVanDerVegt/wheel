@@ -3,9 +3,9 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const Component  = require('./Component').Component;
+const Component  = require('./Component');
 
-exports.Button = class extends Component {
+exports.Button = class extends Component.Component {
     constructor(opts) {
         super(opts);
         this._icon          = opts.icon;
@@ -48,7 +48,7 @@ exports.Button = class extends Component {
             this.setClassName(opts.className);
         }
         if ('color' in opts) {
-            this.setColor(opts.color);
+            this.setColor(Component.getComponentColor(opts.color));
         }
         if ('value' in opts) {
             this.setValue(opts.value);

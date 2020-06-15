@@ -11,7 +11,7 @@ exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
         opts.minWidth     = 128;
         opts.maxWidth     = 800;
-        opts.minHeight    = 128;
+        opts.minHeight    =  64;
         opts.maxHeight    = 600;
         opts.title        = 'New form';
         opts.applyTitle   = 'Create new form';

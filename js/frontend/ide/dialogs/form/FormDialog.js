@@ -8,6 +8,7 @@ const Button              = require('../../../lib/components/Button').Button;
 const Label               = require('../../../lib/components/Label').Label;
 const ToolOptions         = require('../../../lib/components/ToolOptions').ToolOptions;
 const CheckboxAndLabel    = require('../../../lib/components/CheckboxAndLabel').CheckboxAndLabel;
+const StatusLight         = require('../../../lib/components/StatusLight').StatusLight;
 const TabPanel            = require('../../../lib/components/TabPanel').TabPanel;
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
@@ -149,6 +150,10 @@ exports.FormDialog = class extends Dialog {
                             component.type = CheckboxAndLabel;
                             parent.push(this.getComponentEvents(component));
                             break;
+                        case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:
+                            component.type = StatusLight;
+                            parent.push(this.getComponentEvents(component));
+                            break;
                         case formEditorConstants.COMPONENT_TYPE_TABS:
                             component.type     = TabPanel;
                             component.children = [];
@@ -165,6 +170,7 @@ exports.FormDialog = class extends Dialog {
             },
             this
         );
+console.log('result:', result);
         return result;
     }
 

@@ -30,7 +30,7 @@ exports.ConfirmDialog = class extends Dialog {
                             ref:       this.setRef('buttonCancel'),
                             tabIndex:  129,
                             value:     'Cancel',
-                            onClick:   this.hide.bind(this)
+                            onClick:   this.onCancel.bind(this)
                         })
                     ]
                 }
@@ -40,19 +40,31 @@ exports.ConfirmDialog = class extends Dialog {
     }
 
     onApply() {
+        this._applyCallback && this._applyCallback();
         this._dispatchApply && dispatcher.dispatch(this._dispatchApply);
         this.hide();
     }
 
-    onShow(title, lines, dispatchApply, focus) {
+    onCancel() {
+        this._cancelCallback && this._cancelCallback();
+        this._dispatchCancel && dispatcher.dispatch(this._dispatchCancel);
+        this.hide();
+    }
+
+    onShow(opts) {
         let refs = this._refs;
-        this._dispatchApply  = dispatchApply || 'Confirm.Close';
-        refs.title.innerHTML = title         || 'Title';
-        refs.text.innerHTML  = (lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
+        this._dispatchApply  = ('dispatchApply'  in opts) ? opts.dispatchApply  : false;
+        this._dispatchCancel = ('dispatchCancel' in opts) ? opts.dispatchCancel : false;
+        this._applyCallback  = ('applyCallback'  in opts) ? opts.applyCallback  : false;
+        this._cancelCallback = ('cancelCallback' in opts) ? opts.cancelCallback : false;
+        refs.title.innerHTML = opts.title         || 'Title';
+        refs.text.innerHTML  = (opts.lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
+        refs.buttonApply.setValue(opts.applyTitle || 'Ok');
+        refs.buttonCancel.setValue(opts.cancelTitle || 'Cancel');
         this.show();
-        if (focus === 'apply') {
+        if (opts.focus === 'apply') {
             refs.buttonApply.focus();
-        } else if (focus === 'cancel') {
+        } else if (opts.focus === 'cancel') {
             refs.buttonCancel.focus();
         }
     }

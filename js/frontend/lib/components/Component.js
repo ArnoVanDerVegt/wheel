@@ -5,6 +5,19 @@
 const dispatcher = require('../dispatcher').dispatcher;
 const DOMNode    = require('../dom').DOMNode;
 
+let COLORS = {};
+COLORS[0] = 'gray';
+COLORS[1] = 'yellow';
+COLORS[2] = 'green';
+COLORS[3] = 'blue';
+COLORS[4] = 'red';
+
+exports.COLORS = COLORS;
+
+exports.getComponentColor = function(color) {
+    return (color in COLORS) ? COLORS[color] : color;
+}
+
 exports.Component = class extends DOMNode {
     constructor(opts) {
         super(opts);

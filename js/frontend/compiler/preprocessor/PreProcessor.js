@@ -229,8 +229,8 @@ exports.PreProcessor = class PreProcessor {
         dispatcher.dispatch('PreProcessor.Database', {defines: this._defines, files: files});
         files.forEach(
             function(file, fileIndex) {
-                tokens = tokens.concat(this.getDefinedOffsetTokens(file.tokens, tokenOffset, fileIndex));
-                tokenOffset += file.tokens.length;
+                tokens = tokens.concat(this.getDefinedOffsetTokens(file.tokens || [], tokenOffset, fileIndex));
+                tokenOffset += file.tokens ? file.tokens.length : 0;
             },
             this
         );

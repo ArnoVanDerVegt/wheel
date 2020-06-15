@@ -102,13 +102,15 @@ exports.Updater = class extends DOMNode {
     onInstallWheelFiles() {
         dispatcher.dispatch(
             'Dialog.Confirm.Show',
-            'Update files',
-            [
-                'Warning! If you have modified any standard Wheel files then',
-                'the changes will be overwritten. Do you wish to continue?'
-            ],
-            'Updater.Confirm.UpdateFiles',
-            'cancel'
+            {
+                dispatchApply: 'Updater.Confirm.UpdateFiles',
+                focus:         'cancel',
+                title:         'Update files',
+                lines: [
+                    'Warning! If you have modified any standard Wheel files then',
+                    'the changes will be overwritten. Do you wish to continue?'
+                ]
+            }
         );
     }
 

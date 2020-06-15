@@ -302,13 +302,6 @@ exports.FormEditorState = class extends Emitter {
                 value:    component[property]
             });
         }
-        if ((component.type === 'form') && (property === 'name')) {
-            this.emit('RenameForm', component[property], value);
-        }
-        component[property] = value;
-        if (component.type === 'form') {
-            this.emit('ChangeForm');
-        }
         if (property === 'name') {
             let renameEvents = [];
             if (id === this._formId) {
@@ -321,7 +314,18 @@ exports.FormEditorState = class extends Emitter {
             } else {
                 this.updateEventsForComponent(renameEvents, component);
             }
-            this.emit('RenameEvents', renameEvents);
+            this.emit(
+                (component.type === 'form') ? 'RenameForm' : 'RenameComponent',
+                {
+                    oldName:      component[property],
+                    newName:      value,
+                    renameEvents: renameEvents
+                }
+            );
+        }
+        component[property] = value;
+        if (component.type === 'form') {
+            this.emit('ChangeForm');
         }
     }
 

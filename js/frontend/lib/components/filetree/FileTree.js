@@ -341,13 +341,15 @@ exports.FileTree = class extends DOMNode {
         };
         dispatcher.dispatch(
             'Dialog.Confirm.Show',
-            'Confirm delete',
-            [
-                p,
-                'Are you sure you want to delete this ' + (type || 'file') + '?'
-            ],
-            'Dialog.Confirm.DeleteFileConfirmed',
-            'cancel'
+            {
+                dispatchApply: 'Dialog.Confirm.DeleteFileConfirmed',
+                focus:         'cancel',
+                title:         'Confirm delete',
+                lines: [
+                    p,
+                    'Are you sure you want to delete this ' + (type || 'file') + '?'
+                ]
+            }
         );
     }
 
