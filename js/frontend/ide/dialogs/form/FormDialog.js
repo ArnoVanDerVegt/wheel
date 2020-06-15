@@ -170,7 +170,6 @@ exports.FormDialog = class extends Dialog {
             },
             this
         );
-console.log('result:', result);
         return result;
     }
 
