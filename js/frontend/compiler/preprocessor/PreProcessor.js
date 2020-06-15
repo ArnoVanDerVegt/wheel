@@ -40,7 +40,7 @@ exports.PreProcessor = class PreProcessor {
 
     compileInclude(iterator, token, tokenFilename, includes) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
@@ -64,7 +64,7 @@ exports.PreProcessor = class PreProcessor {
             this._linter.addTokens(tokens);
         }
         while (token) {
-            token = iterator.skipWhiteSpace().next(true);
+            token = iterator.skipWhiteSpace().next();
             if (!token) {
                 break;
             }

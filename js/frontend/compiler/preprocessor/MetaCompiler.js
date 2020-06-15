@@ -27,7 +27,7 @@ exports.MetaCompiler = class {
 
     compileDefine(iterator, token, tokenFilename) {
         token.done      = true;
-        token           = iterator.skipWhiteSpace().next(true);
+        token           = iterator.skipWhiteSpace().next();
         if (token.cls !== t.TOKEN_IDENTIFIER) {
             token.filename = tokenFilename;
             throw errors.createError(err.IDENTIFIER_EXPECTED, token, 'Identifier expected.');
@@ -35,7 +35,7 @@ exports.MetaCompiler = class {
         this._linter && this._linter.addDefine(token);
         token.done      = true;
         let defineKey   = token.lexeme;
-        token           = iterator.skipWhiteSpace().next(true);
+        token           = iterator.skipWhiteSpace().next();
         token.done      = true;
         if ([t.TOKEN_NUMBER, t.TOKEN_STRING].indexOf(token.cls) === -1) {
             token.filename = tokenFilename;
@@ -51,7 +51,7 @@ exports.MetaCompiler = class {
 
     compileImage(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
@@ -106,7 +106,7 @@ exports.MetaCompiler = class {
 
     compileText(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
@@ -141,7 +141,7 @@ exports.MetaCompiler = class {
 
     compileResource(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;

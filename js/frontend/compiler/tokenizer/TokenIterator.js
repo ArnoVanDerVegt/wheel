@@ -21,14 +21,15 @@ exports.Iterator = class {
         return (this._index >= this._tokens.length);
     }
 
-    next(ignoreEnd) {
+    next() {
         if (this._index < this._tokens.length) {
             return this._tokens[this._index++];
         }
-        if (ignoreEnd) {
-            return null;
-        }
-        throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
+        return null;
+        //if (ignoreEnd) {
+        //    return null;
+        //}
+        //throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
     }
 
     peek() {
