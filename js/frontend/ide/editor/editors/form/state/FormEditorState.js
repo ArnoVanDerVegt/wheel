@@ -247,7 +247,7 @@ exports.FormEditorState = class extends Emitter {
         if (saveUndo) {
             this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
-        this.emit('DeleteComponent', id);
+        this.emit('DeleteComponent', {id: id, name: component.name, formName: this.getFormName()});
         dispatcher.dispatch('Properties.ComponentList', {value: null, items: this._componentList.getItems()});
     }
 
@@ -327,6 +327,7 @@ exports.FormEditorState = class extends Emitter {
         if (component.type === 'form') {
             this.emit('ChangeForm');
         }
+        dispatcher.dispatch('Properties.ComponentList', {items: this._componentList.getItems()});
     }
 
     onChangeEvent(id, event, value) {

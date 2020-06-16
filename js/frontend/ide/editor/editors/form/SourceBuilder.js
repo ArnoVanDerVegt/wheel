@@ -41,9 +41,8 @@ exports.getShowProcNameFromFormName = getShowProcNameFromFormName;
 
 exports.SourceBuilder = class {
     constructor(opts) {
-        this._lastDefines = null;
-        this._settings    = opts.settings;
-        this._lines       = [];
+        this._settings  = opts.settings;
+        this._lines     = [];
     }
 
     setSource(source) {
@@ -88,10 +87,22 @@ exports.SourceBuilder = class {
         return -1;
     }
 
-    generateIncludesFromComponents(data) {
+    getDefineInfo(line) {
+        let i = line.indexOf('#define');
+        if (i !== -1) {
+            let s = line.substr(7, line.length - 7).trim();
+            i = s.indexOf(' ');
+            if (i !== -1) {
+                return {key: s.substr(0, i).trim(), value: s.substr(i, s.length - i).trim()};
+            }
+        }
+        return null;
+    }
+
+    generateIncludesFromComponents(components) {
         let includes            = [];
         let includeForComponent = formEditorConstants.INCLUDE_FOR_COMPONENT;
-        data.forEach(function(component) {
+        components.forEach(function(component) {
             if (component.type in includeForComponent) {
                 let include = includeForComponent[component.type];
                 if (includes.indexOf(include) === -1) {
@@ -99,11 +110,12 @@ exports.SourceBuilder = class {
                 }
             }
         });
+        includes.sort();
         return includes;
     }
 
-    generateDefinesFromComponents(data) {
-        let form = data[0];
+    generateDefinesFromComponents(components) {
+        let form = components[0];
         let i    = form.name.indexOf('.');
         if (i !== -1) {
             form.name = form.name.substr(0, i);
@@ -115,8 +127,10 @@ exports.SourceBuilder = class {
                 /* eslint-disable no-invalid-this */
                 return this.name;
             };
-        let defines   = [];
-        let addDefine = function(name, uid) {
+        let defines       = [];
+        let definesByName = {};
+        let addDefine     = function(name, uid) {
+                definesByName[name] = uid;
                 defines.push({
                     name:     name,
                     uid:      uid,
@@ -126,8 +140,8 @@ exports.SourceBuilder = class {
             };
         let formName = this.getConstantFromName(form.name);
         addDefine(formName + '_FORM', form.uid);
-        for (i = 1; i < data.length; i++) {
-            let component = data[i];
+        for (i = 1; i < components.length; i++) {
+            let component = components[i];
             addDefine(formName + '_' + this.getConstantFromName(component.name), component.uid);
         }
         defines.sort();
@@ -136,7 +150,10 @@ exports.SourceBuilder = class {
             let define = defines[i];
             define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
         }
-        return defines;
+        return {
+            definesByName: definesByName,
+            list:          defines
+        };
     }
 
     generateSourceFromFormData(data) {
@@ -164,10 +181,9 @@ exports.SourceBuilder = class {
         });
         let defines = this.generateDefinesFromComponents(components);
         lines.push('');
-        defines.forEach(function(define) {
+        defines.list.forEach(function(define) {
             lines.push(define.line);
         });
-        this._lastDefines = defines;
         lines.push(
             '',
             '#resource "' + formName + '.wfrm"'
@@ -294,43 +310,63 @@ exports.SourceBuilder = class {
     }
 
     generateUpdatedSource(opts) {
-        let defines = this._lastDefines;
-        let lines   = this._lines;
-        let i       = 0;
-        // First, remove all the existing #defines...
-        if (!defines) {
-            defines = this.generateDefinesFromComponents(opts.components);
-        }
-        let firstDefine    = this.updateLinesWithDefines(lines, defines);
+        let lines = this._lines;
+        this
+            .updateLinesWithIncludes(lines, opts)
+            .generateEventsFromData(lines, opts.components);
+        let defines        = this.generateDefinesFromComponents(opts.components);
         let insertPosition = -1;
-        if (firstDefine === -1) {
-            insertPosition = this.getLastInclude(lines);
+        let i              = 0;
+        while (i < lines.length) {
+            let defineInfo = this.getDefineInfo(lines[i]);
+            if (defineInfo && (defineInfo.key in defines.definesByName)) {
+                lines.splice(i, 1);
+                insertPosition = i;
+            } else {
+                i++;
+            }
+        }
+        if (insertPosition === -1) {
+            i = 0;
+            while (i < lines.length) {
+                if (lines[i].trim().indexOf('#include') === 0) {
+                    insertPosition = i;
+                }
+                i++;
+            }
             if (insertPosition !== -1) {
                 insertPosition++;
                 lines.splice(insertPosition, 0, '');
                 insertPosition++;
             }
-        } else {
-            insertPosition = firstDefine;
         }
-        // Then insert the new sorted and formated #define list...
-        defines = this.generateDefinesFromComponents(opts.components);
-        this._lastDefines = defines;
         if (insertPosition === -1) {
-            defines.forEach(function(define) {
+            defines.list.forEach(function(define) {
                 lines.push(define.line);
             });
         } else {
-            defines.reverse();
-            defines.forEach(function(define) {
+            defines.list.reverse();
+            defines.list.forEach(function(define) {
                 lines.splice(insertPosition, 0, define.line);
             });
         }
-        this.updateLinesWithIncludes(lines, opts);
-        // Add the event procedures...
-        this.generateEventsFromData(lines, opts.components);
-        // Get the updated defines...
         return lines.join('\n');
+    }
+
+    deleteComponent(opts) {
+        let lines  = this._lines;
+        let define = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.name);
+        let i      = 0;
+        while (i < lines.length) {
+            let defineInfo = this.getDefineInfo(lines[i]);
+            if (defineInfo && (defineInfo.key === define)) {
+                lines.splice(i, 1);
+                break;
+            } else {
+                i++;
+            }
+        }
+        return this;
     }
 
     updateLinesWithIncludes(lines, opts) {
@@ -353,6 +389,7 @@ exports.SourceBuilder = class {
                 lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
             }
         });
+        return this;
     }
 
     updateLinesWithDefines(lines, defines) {
@@ -413,6 +450,9 @@ exports.SourceBuilder = class {
         let lines   = this._lines;
         let oldName = getShowProcNameFromFormName(opts.oldName);
         let newName = getShowProcNameFromFormName(opts.newName);
+        if (newName === '') {
+            return this;
+        }
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i].trim();
             if ((line.indexOf('proc') === 0) && (line.indexOf(' ' + oldName) !== -1)) {
@@ -431,23 +471,12 @@ exports.SourceBuilder = class {
         if (oldName === newName) {
             return this;
         }
-        const getDefineInfo = function(line) {
-                let i = line.indexOf('#define');
-                if (i !== -1) {
-                    let s = line.substr(7, line.length - 7).trim();
-                    i = s.indexOf(' ');
-                    if (i !== -1) {
-                        return {key: s.substr(0, i).trim(), value: s.substr(i, s.length - i).trim()};
-                    }
-                }
-                return null;
-            };
         // Scan all lines for existing defines and get the maximum key length...
         let lines     = this._lines;
         let maxLength = newName.length;
         for (let i = 0; i < lines.length; i++) {
             let line       = lines[i].trim();
-            let defineInfo = getDefineInfo(line);
+            let defineInfo = this.getDefineInfo(line);
             if (defineInfo) {
                 maxLength = Math.max(maxLength, defineInfo.key.length);
             }
@@ -461,7 +490,7 @@ exports.SourceBuilder = class {
         let i       = 0;
         while (i < lines.length) {
             let line       = lines[i].trim();
-            let defineInfo = getDefineInfo(line);
+            let defineInfo = this.getDefineInfo(line);
             if (defineInfo) {
                 if (defineInfo.key in defines) {
                     lines.splice(i, 1); // Remove duplicate define...

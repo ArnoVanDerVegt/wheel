@@ -133,7 +133,12 @@ exports.FileNewDialog = class extends Dialog {
             if (includeFiles.indexOf('lib/standard.whl') === -1) {
                 includeFiles.push('lib/standard.whl');
             }
-            includeFiles.push('lib/components/form.whl');
+            if (includeFiles.indexOf('lib/components/component.whl') === -1) {
+                includeFiles.push('lib/components/component.whl');
+            }
+            if (includeFiles.indexOf('lib/components/form.whl') === -1) {
+                includeFiles.push('lib/components/form.whl');
+            }
         }
         this.addIncludes(file, includeFiles);
         if (createForm) {

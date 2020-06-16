@@ -223,13 +223,13 @@ exports.FormComponentContainer = class extends DOMNode {
         this.addElement(opts);
     }
 
-    onDeleteComponent(id) {
+    onDeleteComponent(opts) {
         let elementById = this._elementById;
-        if (!elementById[id]) {
+        if (!elementById[opts.id]) {
             return;
         }
-        elementById[id].remove();
-        delete elementById[id];
+        elementById[opts.id].remove();
+        delete elementById[opts.id];
     }
 
     addElement(opts) {

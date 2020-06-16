@@ -30,11 +30,10 @@ exports.FormEditor = class extends Editor {
             .on('AddUndo',         this, this.onAddUndo)
             .on('RenameForm',      this, this.onRenameForm)
             .on('RenameComponent', this, this.onRenameComponent)
-            .on('RenameEvents',    this, this.onRenameEvents)
+            .on('DeleteComponent', this, this.onDeleteComponent)
             .on('ChangeForm',      this, this.updateElements)
             .on('AddForm',         this, this.updateElements)
             .on('AddComponent',    this, this.updateElements)
-            .on('DeleteComponent', this, this.updateElements)
             .on('SelectComponent', this, this.updateElements)
             .on('Undo',            this, this.updateElements);
         this.initDom(opts.parentNode);
@@ -192,6 +191,22 @@ exports.FormEditor = class extends Editor {
             .updateEventNames(opts)
             .getSource()
         );
+    }
+
+    onDeleteComponent(opts) {
+        if (!('name' in opts)) {
+            throw new Error('Missing name in onDeleteComponent.');
+        }
+        let editor = this.getEditor();
+        if (!editor) {
+            return;
+        }
+        editor.setValue(this._sourceBuilder
+            .setSource(editor.getValue())
+            .deleteComponent(opts)
+            .getSource()
+        );
+        this.updateElements();
     }
 
     onSelectComponent(component) {

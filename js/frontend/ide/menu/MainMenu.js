@@ -133,7 +133,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},
-                {title: 'Save as..',                                              dispatch: 'Menu.File.SaveAs'},
+                {title: 'Save as...',                                             dispatch: 'Menu.File.SaveAs'},
                 {title: '-'},
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},

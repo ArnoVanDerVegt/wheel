@@ -175,7 +175,7 @@ exports.FormDialog = class extends Dialog {
 
     setDialogContentElement(element) {
         super.setDialogContentElement(element);
-        let height = this._height + 64;
+        let height = parseInt(this._height, 10) + 64;
         element.style.marginTop = (height / -2) + 'px';
         element.style.width     = this._width  + 'px';
         element.style.height    = height + 'px';
