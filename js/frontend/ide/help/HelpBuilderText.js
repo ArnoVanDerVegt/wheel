@@ -564,9 +564,17 @@ class HelpBuilderText {
                         );
                         output.push('    </p>');
                         break;
-
                     case 'load':
-                        // Unsupported function in text docs.
+                        let url = content[j].text[1];
+                        if (url.substr(-5) === '.wfrm') {
+                            url = url.substr(0, url.length - 4) + 'whlp';
+                        }
+                        output.push(
+                            '    <div class="link-box">',
+                            '        <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/' + url + '" ' +
+                            '           target="_wheelLink" class="start">View on Github »</a>',
+                            '    </div>'
+                        );
                         break;
                     case 'link':
                         this.addLink({title: content[j].text[0], src: content[j].text[1]});

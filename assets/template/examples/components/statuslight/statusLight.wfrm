@@ -1,0 +1,25 @@
+[
+    {
+        "type": "form",
+        "uid": "0x3C3B7DC9",
+        "name": "statusLight",
+        "title": "StatusLight example",
+        "width": 400,
+        "height": "70",
+        "id": 1
+    },
+    {
+        "x": 40,
+        "y": 30,
+        "parentId": 1,
+        "id": 2,
+        "uid": "0x219A30F3",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "statusLight",
+        "name": "StatusLight",
+        "text": "StatusLight1",
+        "color": "gray"
+    }
+]

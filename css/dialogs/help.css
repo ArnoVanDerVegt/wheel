@@ -8,6 +8,10 @@
     border-radius:                  2px;
     -webkit-user-select:            none;
 }
+.dialog-background.help-dialog .dialog-center .dialog-content .buttons .button.blue {
+    float:                          right;
+    margin:                         0 0 0 8px;
+}
 .dialog-background.help-dialog .dialog-center .dialog-content .breaker,
 .dialog-background.help-dialog .dialog-center .dialog-content .legend {
     float:                          left;
