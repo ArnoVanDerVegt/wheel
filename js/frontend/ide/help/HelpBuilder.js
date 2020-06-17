@@ -697,7 +697,7 @@ class HelpBuilder {
         return this;
     }
 
-    buildSubjectIndex(parentNode, helpData, prefix, title) {
+    buildSubjectIndex(parentNode, helpData, prefix, notPrefix, title) {
         let files     = helpData.files;
         let helpFiles = [];
         for (let i = 0; i < files.length; i++) {
@@ -707,12 +707,8 @@ class HelpBuilder {
             }
             let show = (file.subject.indexOf(prefix) === 0);
             let name = file.subject.substr(prefix.length - file.subject.length);
-            if (file.subject.indexOf('/') !== -1) {
-                if (prefix === 'Module:') {
-                    show = false;
-                } else {
-                    name = name.substr(1 - name.length);
-                }
+            if (notPrefix && (file.subject.indexOf(notPrefix) === 0)) {
+                show = false;
             }
             if (show) {
                 helpFiles.push({
@@ -732,19 +728,19 @@ class HelpBuilder {
         this._dialog   = dialog;
         this
             .addLegend(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Programming:',       'Programming')
-            .buildSubjectIndex(parentNode, helpData, 'IDE:',               'IDE')
-            .buildSubjectIndex(parentNode, helpData, 'VM:',                'Compiler and VM')
+            .buildSubjectIndex(parentNode, helpData, 'Programming:',       false,               'Programming')
+            .buildSubjectIndex(parentNode, helpData, 'IDE:',               false,               'IDE')
+            .buildSubjectIndex(parentNode, helpData, 'VM:',                false,               'Compiler and VM')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Example:',           'Examples')
-            .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       'EV3 examples')
-            .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples')
+            .buildSubjectIndex(parentNode, helpData, 'Example:',           false,               'Examples')
+            .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       false,               'EV3 examples')
+            .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', false,               'Powered Up examples')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Component_Example:', 'IDE Component examples')
-            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
-            .buildSubjectIndex(parentNode, helpData, 'Module:Component',   'IDE Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Component_Example:', false,               'IDE Component examples')
+            .buildSubjectIndex(parentNode, helpData, 'Module:',            'Module:Component/', 'Modules')
+            .buildSubjectIndex(parentNode, helpData, 'Module:Component/',  false,               'IDE Modules')
             .addSeparator(parentNode)
-            .buildSubjectIndex(parentNode, helpData, 'Miscellaneous:',     'Miscellaneous');
+            .buildSubjectIndex(parentNode, helpData, 'Miscellaneous:',     false,               'Miscellaneous');
     }
 
     addLegend(parentNode) {

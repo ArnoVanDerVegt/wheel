@@ -671,7 +671,7 @@ class HelpBuilderText {
         return this;
     }
 
-    buildSubjectIndex(helpData, prefix, title) {
+    buildSubjectIndex(helpData, prefix, notPrefix, title) {
         let files     = helpData.files;
         let helpFiles = [];
         for (let i = 0; i < files.length; i++) {
@@ -681,13 +681,8 @@ class HelpBuilderText {
             }
             let show = (file.subject.indexOf(prefix) === 0);
             let name = file.subject.substr(prefix.length - file.subject.length);
-            let j    = file.subject.indexOf('/');
-            if (show && (j !== -1)) {
-                if (j === 0) {
-                    name = name.substr(1 - name.length);
-                } else {
-                    show = (prefix === 'Module:Component/');
-                }
+            if (notPrefix && (file.subject.indexOf(notPrefix) === 0)) {
+                show = false;
             }
             if (show) {
                 helpFiles.push({
@@ -708,19 +703,19 @@ class HelpBuilderText {
         this._helpData      = helpData;
         this
             .addLegend()
-            .buildSubjectIndex(helpData, 'Programming:',       'Programming')
-            .buildSubjectIndex(helpData, 'IDE:',               'IDE')
-            .buildSubjectIndex(helpData, 'VM:',                'Compiler and VM')
+            .buildSubjectIndex(helpData, 'Programming:',       false,               'Programming')
+            .buildSubjectIndex(helpData, 'IDE:',               false,               'IDE')
+            .buildSubjectIndex(helpData, 'VM:',                false,               'Compiler and VM')
             .addSeparator('')
-            .buildSubjectIndex(helpData, 'Example:',           'Examples')
-            .buildSubjectIndex(helpData, 'EV3_Example:',       'EV3 examples')
-            .buildSubjectIndex(helpData, 'PoweredUp_Example:', 'Powered Up examples')
+            .buildSubjectIndex(helpData, 'Example:',           false,               'Examples')
+            .buildSubjectIndex(helpData, 'EV3_Example:',       false,               'EV3 examples')
+            .buildSubjectIndex(helpData, 'PoweredUp_Example:', false,               'Powered Up examples')
             .addSeparator('')
-            .buildSubjectIndex(helpData, 'Component_Example:', 'IDE Component examples')
-            .buildSubjectIndex(helpData, 'Module:',            'Modules')
-            .buildSubjectIndex(helpData, 'Module:Component/',  'IDE Modules')
+            .buildSubjectIndex(helpData, 'Component_Example:', false,               'IDE Component examples')
+            .buildSubjectIndex(helpData, 'Module:',            'Module:Component/', 'Modules')
+            .buildSubjectIndex(helpData, 'Module:Component/',  false,               'IDE Modules')
             .addSeparator('')
-            .buildSubjectIndex(helpData, 'Miscellaneous:',     'Miscellaneous');
+            .buildSubjectIndex(helpData, 'Miscellaneous:',     false,               'Miscellaneous');
         return this._output;
     }
 

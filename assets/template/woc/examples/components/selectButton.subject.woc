@@ -45,4 +45,6 @@ end
 @section Screenshot
 @image images/components/selectButton.png
 
+@load Open the selectButton example|examples/components/selectbutton/selectButton.wfrm
+
 @see standard

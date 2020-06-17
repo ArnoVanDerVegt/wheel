@@ -19,5 +19,6 @@ describe(
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.label.setX',        'x',        'number');
         testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.label.setY',        'y',        'number');
         testComponentCall(it, 'Should set text',     LIB_FILENAME, 'components.label.setText',     'text',     'string');
+        testComponentCall(it, 'Should set number',   LIB_FILENAME, 'components.label.setNumber',   'number',   'number');
     }
 );

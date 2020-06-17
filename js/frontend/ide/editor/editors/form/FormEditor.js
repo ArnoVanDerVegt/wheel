@@ -99,7 +99,7 @@ exports.FormEditor = class extends Editor {
         if (editor && !formEditorState.getLoading()) {
             editor.setValue(this._sourceBuilder
                 .setSource(editor.getValue())
-                .addComponent({components: formEditorState.getData()})
+                .updateComponents({components: formEditorState.getData()})
                 .getSource()
             );
         }
@@ -173,7 +173,7 @@ exports.FormEditor = class extends Editor {
         }
         editor.setValue(this._sourceBuilder
             .setSource(editor.getValue())
-            .updateFormName(opts)
+            .updateFormNameAndRemoveDefines(opts)
             .updateEventNames(opts)
             .getSource()
         );
@@ -302,7 +302,7 @@ exports.FormEditor = class extends Editor {
         }
         editor.setValue(this._sourceBuilder
             .setSource(editor.getValue())
-            .addComponent({components: formEditorState.getData()})
+            .updateComponents({components: formEditorState.getData()})
             .getSource()
         );
     }

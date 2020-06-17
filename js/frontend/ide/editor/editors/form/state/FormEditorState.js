@@ -317,6 +317,7 @@ exports.FormEditorState = class extends Emitter {
             this.emit(
                 (component.type === 'form') ? 'RenameForm' : 'RenameComponent',
                 {
+                    components:   this._componentList.getList(),
                     oldName:      component[property],
                     newName:      value,
                     renameEvents: renameEvents

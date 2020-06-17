@@ -78,11 +78,10 @@ describe(
                         {type: 'checkbox', name: 'checkbox', uid: '0x005'},
                         {type: 'button',   name: 'button1',  uid: '0x913'}
                     ];
-                let defines       = sourceBuilder.generateDefinesFromComponents(components);
+                let defines       = sourceBuilder.generateDefinesFromComponents('myForm', components);
                 assert.deepEqual(
                     defines.definesByName,
                     {
-                        MY_FORM_FORM:     '0x123',
                         MY_FORM_CHECKBOX: '0x005',
                         MY_FORM_BUTTON1:  '0x913'
                     }
@@ -93,9 +92,6 @@ describe(
                 assert.equal(defines.list[1].line, '#define MY_FORM_CHECKBOX 0x005');
                 assert.equal(defines.list[1].name, 'MY_FORM_CHECKBOX');
                 assert.equal(defines.list[1].uid,  '0x005');
-                assert.equal(defines.list[2].line, '#define MY_FORM_FORM     0x123');
-                assert.equal(defines.list[2].name, 'MY_FORM_FORM');
-                assert.equal(defines.list[2].uid,  '0x123');
             }
         );
     }

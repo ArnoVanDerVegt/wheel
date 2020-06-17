@@ -99,6 +99,22 @@ exports.SourceBuilder = class {
         return null;
     }
 
+    getFormNameFromComponents(components) {
+        let formName = '';
+        for (let i = 0; i < components.length; i++) {
+            let component = components[i];
+            if (component.type === 'form') {
+                formName = component.name;
+                let j = formName.indexOf('.');
+                if (j !== -1) {
+                    formName = formName.substr(0, j);
+                }
+                break;
+            }
+        }
+        return formName;
+    }
+
     generateIncludesFromComponents(components) {
         let includes            = [];
         let includeForComponent = formEditorConstants.INCLUDE_FOR_COMPONENT;
@@ -114,12 +130,7 @@ exports.SourceBuilder = class {
         return includes;
     }
 
-    generateDefinesFromComponents(components) {
-        let form = components[0];
-        let i    = form.name.indexOf('.');
-        if (i !== -1) {
-            form.name = form.name.substr(0, i);
-        }
+    generateDefinesFromComponents(formName, components) {
         let maxLength = 0;
         let toString  = function() {
                 /* eslint-disable no-invalid-this */
@@ -132,24 +143,26 @@ exports.SourceBuilder = class {
         let addDefine     = function(name, uid) {
                 definesByName[name] = uid;
                 defines.push({
+                    line:     '',
                     name:     name,
                     uid:      uid,
-                    line:     '',
                     toString: toString
                 });
             };
-        let formName = this.getConstantFromName(form.name);
-        addDefine(formName + '_FORM', form.uid);
-        for (i = 1; i < components.length; i++) {
-            let component = components[i];
-            addDefine(formName + '_' + this.getConstantFromName(component.name), component.uid);
-        }
+        formName = this.getConstantFromName(formName);
+        components.forEach(
+            function(component) {
+                if (component.type !== 'form') {
+                    addDefine(formName + '_' + this.getConstantFromName(component.name), component.uid);
+                }
+            },
+            this
+        );
         defines.sort();
         let space = '                                                                      ';
-        for (i = 0; i < defines.length; i++) {
-            let define = defines[i];
+        defines.forEach(function(define) {
             define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
-        }
+        });
         return {
             definesByName: definesByName,
             list:          defines
@@ -161,14 +174,7 @@ exports.SourceBuilder = class {
         let components = data.components;
         let lines      = this._lines;
         let includes   = this.generateIncludesFromComponents(components);
-        let formName   = false;
-        for (let i = 0; i < components.length; i++) {
-            let component = components[i];
-            if (component.type === 'form') {
-                formName = component.name;
-                break;
-            }
-        }
+        let formName   = this.getFormNameFromComponents(components);
         if (data.project) {
             lines.push(
                 '#project "' + formName + '"',
@@ -179,7 +185,7 @@ exports.SourceBuilder = class {
         includes.forEach(function(include) {
             lines.push('#include "' + include + '"');
         });
-        let defines = this.generateDefinesFromComponents(components);
+        let defines = this.generateDefinesFromComponents(formName, components);
         lines.push('');
         defines.list.forEach(function(define) {
             lines.push(define.line);
@@ -316,7 +322,8 @@ exports.SourceBuilder = class {
         this
             .updateLinesWithIncludes(lines, opts)
             .generateEventsFromData(lines, opts.components);
-        let defines        = this.generateDefinesFromComponents(opts.components);
+        let formName       = this.getFormNameFromComponents(opts.components);
+        let defines        = this.generateDefinesFromComponents(formName, opts.components);
         let insertPosition = -1;
         let i              = 0;
         while (i < lines.length) {
@@ -337,9 +344,7 @@ exports.SourceBuilder = class {
                 i++;
             }
             if (insertPosition !== -1) {
-                insertPosition++;
-                lines.splice(insertPosition, 0, '');
-                insertPosition++;
+                insertPosition += 2;
             }
         }
         if (insertPosition === -1) {
@@ -352,7 +357,11 @@ exports.SourceBuilder = class {
                 lines.splice(insertPosition, 0, define.line);
             });
         }
-        return lines.join('\n');
+        i = insertPosition + defines.list.length;
+        if ((i < lines.length) && (lines[i].trim() !== '')) {
+            lines.splice(i, 0, '');
+        }
+        return this;
     }
 
     deleteComponent(opts) {
@@ -420,20 +429,27 @@ exports.SourceBuilder = class {
         return this;
     }
 
-    updateFormName(opts) {
+    updateFormNameAndRemoveDefines(opts) {
         let lines   = this._lines;
         let oldName = getShowProcNameFromFormName(opts.oldName);
         let newName = getShowProcNameFromFormName(opts.newName);
         if (newName === '') {
             return this;
         }
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim();
-            if ((line.indexOf('proc') === 0) && (line.indexOf(' ' + oldName) !== -1)) {
-                line = lines[i];
-                let j = line.indexOf(oldName);
-                lines[i] = line.substr(0, j) + newName + line.substr(j + oldName.length, line.length - j - oldName.length);
-                break;
+        let defines = this.generateDefinesFromComponents(opts.oldName, opts.components);
+        let i       = 0;
+        while (i < lines.length) {
+            let line       = lines[i].trim();
+            let defineInfo = this.getDefineInfo(line);
+            if (defineInfo && (defineInfo.key in defines.definesByName)) {
+               lines.splice(i, 1);
+            } else {
+                if ((line.indexOf('proc') === 0) && (line.indexOf(' ' + oldName) !== -1)) {
+                    let j = line.indexOf(oldName);
+                    lines[i] = line.substr(0, j) + newName + line.substr(j + oldName.length, line.length - j - oldName.length);
+                    break;
+                }
+                i++;
             }
         }
         return this;
@@ -486,8 +502,7 @@ exports.SourceBuilder = class {
     /**
      * Add a new component uid to the defines in the source...
     **/
-    addComponent(opts) {
-        this.generateUpdatedSource(opts);
-        return this;
+    updateComponents(opts) {
+        return this.generateUpdatedSource(opts);
     }
 };

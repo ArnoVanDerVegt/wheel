@@ -223,7 +223,7 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[33] = new LocalMultiplexerModule           ({vm: vm, device: device});
             // Components....
             modules[64] = new LocalComponentFormModule         ({vm: vm, device: device});
-            modules[65] = new LocalComponentFormModule         ({vm: vm, device: device});
+            modules[65] = new LocalComponentButtonModule       ({vm: vm, device: device});
             modules[66] = new LocalComponentSelectButtonModule ({vm: vm, device: device});
             modules[67] = new LocalComponentLabelModule        ({vm: vm, device: device});
             modules[68] = new LocalComponentCheckboxModule     ({vm: vm, device: device});
@@ -250,7 +250,7 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[33] = new RemoteMultiplexerModule          ({vm: vm, device: device});
             // Components....
             modules[64] = new RemoteComponentFormModule        ({vm: vm, device: device});
-            modules[65] = new RemoteComponentFormModule        ({vm: vm, device: device});
+            modules[65] = new RemoteComponentButtonModule      ({vm: vm, device: device});
             modules[66] = new RemoteComponentSelectButtonModule({vm: vm, device: device});
             modules[67] = new RemoteComponentLabelModule       ({vm: vm, device: device});
             modules[68] = new RemoteComponentCheckboxModule    ({vm: vm, device: device});

@@ -9,3 +9,4 @@ exports.LABEL_SET_HIDDEN    =  1;
 exports.LABEL_SET_X         =  2;
 exports.LABEL_SET_Y         =  3;
 exports.LABEL_SET_TEXT      =  4;
+exports.LABEL_SET_NUMBER    =  5;

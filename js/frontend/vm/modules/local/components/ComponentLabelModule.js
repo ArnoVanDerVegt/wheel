@@ -19,6 +19,7 @@ exports.ComponentLabelModule = class extends VMModule {
             case componentLabelModuleConstants.LABEL_SET_X:         property = 'x';        break;
             case componentLabelModuleConstants.LABEL_SET_Y:         property = 'y';        break;
             case componentLabelModuleConstants.LABEL_SET_TEXT:      property = 'text';     break;
+            case componentLabelModuleConstants.LABEL_SET_NUMBER:    property = 'number';   break;
         }
         if (property !== '') {
             label          = vmData.getRecordFromSrcOffset(['window', 'component', property]);

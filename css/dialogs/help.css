@@ -297,6 +297,7 @@
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file img.shadow {
     box-shadow:                     8px 8px 6px rgba(0, 0, 0, 0.05), 2px 2px 3px rgba(0, 0, 0, 0.25), -2px -2px 3px rgba(0, 0, 0, 0.25), -8px -8px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom:                  16px;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box {
     float:                          left;
@@ -312,6 +313,7 @@
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .example-loader {
     float:                          left;
     width:                          100%;
+    margin-bottom:                  16px;
 }
 .dialog-background.help-dialog .dialog-center .dialog-content .help-file .example-loader input[type="button"].button.blue {
     float:                          left;

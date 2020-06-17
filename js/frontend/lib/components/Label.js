@@ -35,6 +35,10 @@ exports.Label = class extends Component {
             this._text              = opts.text;
             this._element.innerHTML = opts.text;
         }
+        if ('number' in opts) {
+            this._text              = opts.number + '';
+            this._element.innerHTML = opts.number + '';
+        }
         super.onEvent(opts);
     }
 };

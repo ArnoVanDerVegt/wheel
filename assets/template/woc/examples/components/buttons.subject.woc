@@ -56,4 +56,6 @@ end
 @section Screenshot
 @image images/components/buttons.png
 
+@load Open the button example|examples/components/buttons/buttons.wfrm
+
 @see button,standard

@@ -64,7 +64,7 @@ exports.Checkbox = class extends Component {
         this.onCancelEvent(event);
         this._checked = !this._checked;
         this._element.focus();
-        this._onChange && this._onChange(this._checked ? 1 : 0);
+        (typeof this._onChange === 'function') && this._onChange(this._checked ? 1 : 0);
         this._element.className = this.getClassName();
     }
 
