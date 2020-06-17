@@ -230,7 +230,9 @@ exports.SourceBuilder = class {
         let addComments = this._settings.getCreateEventComments();
         let proc        = 'proc ' + procName + '(';
         if (addComments) {
-            lines.push('; @proc                   ' + componentType + ' ' + eventType + ' event.');
+            lines.push('; @proc                   ' +
+                componentType.substr(0, 1).toUpperCase() + componentType.substr(1, componentType.length - 1) +
+                ' ' + eventType + ' event.');
         }
         event.params.forEach(function(param) {
             proc += param.type + ' ' + param.name + ', ';
@@ -390,34 +392,6 @@ exports.SourceBuilder = class {
             }
         });
         return this;
-    }
-
-    updateLinesWithDefines(lines, defines) {
-        let firstDefine = -1;
-        let i           = 0;
-        while (i < lines.length) {
-            let line = lines[i].trim();
-            if (line.indexOf('#define') === 0) {
-                let found = false;
-                for (let j = 0; j < defines.length; j++) {
-                    let define = defines[j];
-                    if ((line.substr(-define.uid.length) === define.uid) && (line.indexOf(' ' + define.name + ' ') !== -1)) {
-                        if (firstDefine === -1) {
-                            firstDefine = i;
-                        }
-                        lines.splice(i, 1);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    i++;
-                }
-            } else {
-                i++;
-            }
-        }
-        return firstDefine;
     }
 
     updateEventNames(opts) {

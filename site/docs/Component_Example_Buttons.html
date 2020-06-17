@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Component_Example:Buttons</title>
+    <meta name="description" content="Component_Example:Buttons"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Buttons</h2>
+            <a id="Buttonsexample"></a>
+            <h4 class="">Buttons example</h4>
+            <p>
+                This example shows how to use the button component.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Buttons example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/component.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/form.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/button.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/statusLight.whl"</span>
+
+<span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_BLUE</span>  <span class="number">0x780ACFDE</span>
+<span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_GREEN</span> <span class="number">0x4F7DB0F4</span>
+<span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_RED</span>   <span class="number">0xD846C71A</span>
+<span class="meta">#define</span> <span class="define">BUTTONS_FORM</span>         <span class="number">0xEE85F567</span>
+<span class="meta">#define</span> <span class="define">BUTTONS_STATUS_LIGHT</span> <span class="number">0x18551397</span>
+
+<span class="meta">#resource</span> <span class="string">"buttons.wfrm"</span>
+
+<span class="comment">; @proc                   Button onClick event.</span>
+<span class="comment">; @param windowHandle     The handle to the active window.</span>
+<span class="keyword">proc</span> <span class="variable">onButtonsButtonBlueClick</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">BUTTONS_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_BLUE</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">; @proc                   Button onClick event.</span>
+<span class="comment">; @param windowHandle     The handle to the active window.</span>
+<span class="keyword">proc</span> <span class="variable">onButtonsButtonGreenClick</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">BUTTONS_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_GREEN</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">; @proc                   Button onClick event.</span>
+<span class="comment">; @param windowHandle     The handle to the active window.</span>
+<span class="keyword">proc</span> <span class="variable">onButtonsButtonRedClick</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">BUTTONS_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_RED</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">; @proc                   Show the form.</span>
+<span class="comment">; @ret                    The handle to the form.</span>
+<span class="keyword">proc</span> <span class="variable">showButtonsForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"buttons.wfrm"</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">showButtonsForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Screenshot"></a>
+            <h4 class="">Screenshot</h4>
+            <img src="data:image/png;base64,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" class="shadow"/>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Module_Button.html" class="see-also">button</a>
+                <a href="Module_Standard.html" class="see-also">standard</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+@subject Component_Example:SelectButton
+@device  I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section SelectButton example
+This example shows how to use the selectButton component.
+
+@section Code
+@example
+#project "SelectButton example"
+
+#include "lib/standard.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/selectButton.whl"
+#include "lib/components/statusLight.whl"
+
+#define SELECT_BUTTON_FORM          0x7A5619EF
+#define SELECT_BUTTON_SELECT_BUTTON 0xF121D096
+#define SELECT_BUTTON_STATUS_LIGHT  0x8FBC7C0A
+
+#resource "selectButton.wfrm"
+
+number buttonToColor[3] = [COMPONENT_COLOR_RED, COMPONENT_COLOR_GREEN, COMPONENT_COLOR_BLUE]
+
+; @proc                   SelectButton onChange event.
+; @param windowHandle     The handle to the active window.
+; @param value            New active button.
+proc onSelectButtonSelectButtonChange(number windowHandle, number value)
+    components.statusLight.setColor(windowHandle, SELECT_BUTTON_STATUS_LIGHT, buttonToColor[value])
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showSelectButtonForm()
+    ret components.form.show("selectButton.wfrm")
+end
+
+proc main()
+    showSelectButtonForm()
+    halt()
+end
+@end
+
+@section Screenshot
+@image images/components/selectButton.png
+
+@see standard

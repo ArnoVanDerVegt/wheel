@@ -4,7 +4,6 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section Pixels example
 This example shows how draw black and white pixels.
-@see screen,Modules
 
 @section Code
 @example
@@ -58,4 +57,4 @@ end
 
 @load Open the pixel example|examples/ev3/screen/pixel.whlp
 
-@see screen,standard
+@see screen,standard,Modules

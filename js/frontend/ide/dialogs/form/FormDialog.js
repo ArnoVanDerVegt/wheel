@@ -131,7 +131,7 @@ exports.FormDialog = class extends Dialog {
                     component.style = {
                         position: 'absolute',
                         left:     component.x + 'px',
-                        top:      (component.y + ((component.parentId === 1) ? 64 : 0)) + 'px'
+                        top:      (parseInt(component.y, 10) + ((component.parentId === 1) ? 64 : 0)) + 'px'
                     };
                     switch (component.type) {
                         case formEditorConstants.COMPONENT_TYPE_BUTTON:

@@ -587,7 +587,12 @@ class HelpBuilderText {
                         this.addTable(content[j].text.head, content[j].text.body);
                         break;
                     case 'image':
-                        output.push('    <img src="' + (getImage(content[j].text) || content[j].text) + '"/>');
+                        output.push(
+                            '    <img ' +
+                            'src="' + (getImage(content[j].text) || content[j].text) + '" ' +
+                            'class="' + ((content[j].text.indexOf('components/') !== -1) ? 'shadow' : '') + '"' +
+                            '/>'
+                        );
                         break;
                     case 'const':
                         this.addConstants(content[j].text);
@@ -711,8 +716,10 @@ class HelpBuilderText {
             .buildSubjectIndex(helpData, 'EV3_Example:',       'EV3 examples')
             .buildSubjectIndex(helpData, 'PoweredUp_Example:', 'Powered Up examples')
             .addSeparator('')
+            .buildSubjectIndex(helpData, 'Component_Example:', 'IDE Component examples')
             .buildSubjectIndex(helpData, 'Module:',            'Modules')
-            .buildSubjectIndex(helpData, 'Module:Component/',   'IDE Modules')
+            .buildSubjectIndex(helpData, 'Module:Component/',  'IDE Modules')
+            .addSeparator('')
             .buildSubjectIndex(helpData, 'Miscellaneous:',     'Miscellaneous');
         return this._output;
     }

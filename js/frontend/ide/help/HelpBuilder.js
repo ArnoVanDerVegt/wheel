@@ -615,7 +615,8 @@ class HelpBuilder {
                     case 'image':
                         new Img({
                             parentNode: parentNode,
-                            src:        getImage(content[j].text) || content[j].text
+                            src:        getImage(content[j].text) || content[j].text,
+                            className:  (content[j].text.indexOf('components/') !== -1) ? 'shadow' : ''
                         });
                         break;
                     case 'const':
@@ -739,8 +740,10 @@ class HelpBuilder {
             .buildSubjectIndex(parentNode, helpData, 'EV3_Example:',       'EV3 examples')
             .buildSubjectIndex(parentNode, helpData, 'PoweredUp_Example:', 'Powered Up examples')
             .addSeparator(parentNode)
+            .buildSubjectIndex(parentNode, helpData, 'Component_Example:', 'IDE Component examples')
             .buildSubjectIndex(parentNode, helpData, 'Module:',            'Modules')
             .buildSubjectIndex(parentNode, helpData, 'Module:Component',   'IDE Modules')
+            .addSeparator(parentNode)
             .buildSubjectIndex(parentNode, helpData, 'Miscellaneous:',     'Miscellaneous');
     }
 
