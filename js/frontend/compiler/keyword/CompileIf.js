@@ -89,7 +89,7 @@ exports.CompileIf = class extends CompileBlock {
             }
         }
         if (program.getCodeUsed()) { // Check if code is removed by optimizer...
-            elseIndex.forEach(function(index) {
+            elseIndex.forEach((index) => {
                 program.setCommandParamValue2(index, program.getLength() - 1);
             });
         }

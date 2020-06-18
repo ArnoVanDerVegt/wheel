@@ -22,13 +22,13 @@ exports.MotorModule = class extends VMModule {
                 break;
             case motorModuleConstants.MOTOR_GET_TYPE:
                 motor          = vmData.getRecordFromSrcOffset(['layer', 'id']);
-                motor.callback = (function(value) {
+                motor.callback = (value) => {
                     if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
                     } else {
                         vmData.setNumberAtRet(value);
                     }
-                }).bind(this);
+                };
                 this.emit('Motor.GetType', motor);
                 break;
             case motorModuleConstants.MOTOR_RESET:

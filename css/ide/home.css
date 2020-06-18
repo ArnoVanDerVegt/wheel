@@ -30,6 +30,7 @@
     height:                         440px;
     transform:                      translate(-50%, -50%);
     z-index:                        100;
+    padding:                        40px 0 100px 0;
 }
 .home-screen-content.with-theme {
     height:                         540px;

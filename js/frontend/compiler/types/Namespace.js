@@ -29,7 +29,7 @@ exports.Namespace = class {
             return;
         }
         let n = this._namespace;
-        namespace.forEach(function(name) {
+        namespace.forEach((name) => {
             if (!(name in n)) {
                 n[name] = {};
             }
@@ -134,7 +134,7 @@ exports.Namespace = class {
             }
             i++;
         }
-        namespacedTokens.forEach(function(token, index) {
+        namespacedTokens.forEach((token, index) => {
             token.index = index;
         });
         return namespacedTokens;

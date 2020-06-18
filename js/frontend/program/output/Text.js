@@ -123,17 +123,17 @@ exports.Text = class {
             text += '#STRINGS\n' +
                         '    ' + program.getStringCount() + ',' + program.getStringLength() + '\n' +
                         '    ' + stringList.length + '\n';
-            stringList.forEach(function(string) {
+            stringList.forEach((string) => {
                 text += '    "' + string + '"\n';
             });
             let constants = program.getConstants();
             text += '#CONSTANTS\n' +
                         '    ' + constants.length + '\n';
-            constants.forEach(function(constant) {
+            constants.forEach((constant) => {
                 text += '    offset: ' + ('0000' + constant.offset).substr(-4) + '\n';
                 let s = '    data:   [';
                 let first = true;
-                constant.data.forEach(function(n) {
+                constant.data.forEach((n) => {
                     if (first) {
                         first = false;
                     } else {

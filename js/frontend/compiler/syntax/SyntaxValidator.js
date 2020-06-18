@@ -268,7 +268,7 @@ exports.SyntaxValidator = class {
                     }
                 }
                 if (currentScope.scope && (token1.lexeme in currentScope.scope)) {
-                    currentScope.scope[token1.lexeme]().forEach(function(scope) {
+                    currentScope.scope[token1.lexeme]().forEach((scope) => {
                         scopeStack.push(scope);
                     });
                 }

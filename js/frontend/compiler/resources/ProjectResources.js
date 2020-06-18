@@ -85,7 +85,7 @@ exports.ProjectResources = class {
 
     getFilenameList() {
         let list = [];
-        this._resources.forEach(function(projectResource) {
+        this._resources.forEach((projectResource) => {
             list.push(projectResource.getFilename());
         });
         list.sort();
@@ -97,7 +97,7 @@ exports.ProjectResources = class {
     }
 
     save(outputPath) {
-        this._resources.forEach(function(projectResource) {
+        this._resources.forEach((projectResource) => {
             projectResource.save(outputPath);
         });
     }

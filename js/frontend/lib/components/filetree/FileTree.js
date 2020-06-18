@@ -220,11 +220,11 @@ exports.FileTree = class extends DOMNode {
             clearTimeout(this._changeTimeout);
         }
         this._changeTimeout = setTimeout(
-            (function() {
+            () => {
                 this._changeTimeout = null;
                 this.onChangePath(this._changePath, function() {});
                 this._changePath = '';
-            }).bind(this),
+            },
             100
         );
     }
@@ -276,7 +276,7 @@ exports.FileTree = class extends DOMNode {
             };
         forEachKey(this._fullPathOpen, addNewItem.bind(nodeToGet, nodeToGet));
         // Add all files found in directory...
-        let pathListCallback = (function(parentNode, p, fileList) {
+        let pathListCallback = (parentNode, p, fileList) => {
                 if ((p === foundPath) || this._fullPathLoaded[p]) {
                     filesInPath.push({path: p, fileList: fileList, toString: function() { return this.path; }});
                     fileList.forEach(
@@ -292,10 +292,10 @@ exports.FileTree = class extends DOMNode {
                     );
                 }
                 getNode(); // Next directory...
-            }).bind(this);
+            };
         // Load all files in directory...
         let nodeIndex = 0;
-        let getNode   = (function() {
+        let getNode   = () => {
                 if (nodeIndex < nodeToGet.length) {
                     this.getFiles(null, nodeToGet[nodeIndex], pathListCallback);
                     nodeIndex++;
@@ -306,7 +306,7 @@ exports.FileTree = class extends DOMNode {
                     }
                     callback();
                 }
-            }).bind(this);
+            };
         getNode();
     }
 
@@ -357,7 +357,7 @@ exports.FileTree = class extends DOMNode {
         let path         = this._deleteInfo.path;
         let fullPathItem = this._fullPathItem;
         let selected     = this._selected;
-        let callback     = (function(data) {
+        let callback     = (data) => {
                 try {
                     data = (typeof data === 'string') ? JSON.parse(data) : data;
                 } catch (error) {
@@ -381,7 +381,7 @@ exports.FileTree = class extends DOMNode {
                         }
                     );
                 }
-            }).bind(this);
+            };
         if (selected instanceof Directory) {
             getDataProvider().getData(
                 'post',

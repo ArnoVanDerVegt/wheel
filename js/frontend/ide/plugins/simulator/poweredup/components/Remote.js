@@ -93,18 +93,18 @@ exports.Remote = class extends BasicHub {
     }
 
     initButton(element, className, buttons) {
-        let onMouseDown = (function(event) {
+        let onMouseDown = (event) => {
                 this._buttons    = buttons;
                 element.className = className + ' pressed';
                 event.stopPropagation();
                 event.preventDefault();
-            }).bind(this);
-        let onMouseUp   = (function(event) {
+            };
+        let onMouseUp   = (event) => {
                 this._buttons     = 0;
                 element.className = className;
                 event.stopPropagation();
                 event.preventDefault();
-            }).bind(this);
+            };
         element.addEventListener('mousedown', onMouseDown);
         element.addEventListener('mouseout',  onMouseUp);
         element.addEventListener('mouseup',   onMouseUp);

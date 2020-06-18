@@ -90,7 +90,7 @@ class CompileData {
         if (typeof arraySize === 'number') {
             this.readArrayContentToData(iterator, vr, data, vr.getArraySize());
         } else {
-            const readArray = (function(index) {
+            const readArray = (index) => {
                     if (index === arraySize.length - 1) {
                         this.readArrayContentToData(iterator, vr, data, arraySize[index]);
                     } else {
@@ -116,8 +116,7 @@ class CompileData {
                             throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                         }
                     }
-                }).bind(this);
-
+                };
             readArray(0);
         }
     }

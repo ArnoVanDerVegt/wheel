@@ -24,7 +24,7 @@ const Chart = class extends Component {
             let max            = null;
             let optimizedCount = 0;
 
-            occurenceData.forEach(function(o, index) {
+            occurenceData.forEach((o, index) => {
                 if (max === null) {
                     max = o.count;
                 }

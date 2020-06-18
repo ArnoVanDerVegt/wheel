@@ -76,7 +76,7 @@ class HelpBuilder {
 
     addConstants(parentNode, constant) {
         let body = [];
-        constant.values.forEach(function(value) {
+        constant.values.forEach((value) => {
             body.push([value.key, value.value]);
         });
         let node = {
@@ -495,9 +495,9 @@ class HelpBuilder {
                     type:      'span',
                     className: 'see-also',
                     innerHTML: see.title,
-                    id: (function(element) {
+                    id: (element) => {
                         element.addEventListener('click', this.onClickSee.bind(this, see.fileIndex));
-                    }).bind(this)
+                    }
                 });
             },
             this
@@ -554,7 +554,7 @@ class HelpBuilder {
                 switch (content[j].type) {
                     case 'text':
                         let lines = [];
-                        content[j].text.forEach(function(line) {
+                        content[j].text.forEach((line) => {
                             lines.push((line.trim() === '') ? '<br/>' : line);
                         });
                         new P({parentNode: parentNode, innerHTML: lines.join(' ')});
@@ -658,7 +658,7 @@ class HelpBuilder {
                     }
                 };
             };
-        file.sections.forEach(function(section) {
+        file.sections.forEach((section) => {
             if (section.title !== '') {
                 node.children.push({
                     id: function(element) {
@@ -668,7 +668,7 @@ class HelpBuilder {
                     innerHTML: section.title,
                     title:     section.title
                 });
-                section.content.forEach(function(content) {
+                section.content.forEach((content) => {
                     if (['const', 'proc'].indexOf(content.type) !== -1) {
                         let id = content.text.description.split(' ').join('');
                         node.children.push({

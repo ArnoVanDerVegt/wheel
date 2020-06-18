@@ -58,11 +58,11 @@ exports.ComponentContainer = class extends Component {
             opts.uiId = this._uiId;
         }
         let baseClassName = opts.baseClassName || 'tool-options';
-        opts.options.forEach(function(option) {
-            option.onFocus = function() {
+        opts.options.forEach((option) => {
+            option.onFocus = () => {
                 this._parentNode.className = baseClassName + ' focus';
             };
-            option.onBlur = function() {
+            option.onBlur = () => {
                 this._parentNode.className = baseClassName;
             };
         });

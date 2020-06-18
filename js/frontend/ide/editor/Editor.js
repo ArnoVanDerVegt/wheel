@@ -240,14 +240,14 @@ exports.Editor = class extends DOMUtils {
     getBreakpoints() {
         let sortedFiles           = this._preProcessor.getSortedFiles();
         let fileIndexBySortedFile = {};
-        sortedFiles.forEach(function(sortedFile, index) {
+        sortedFiles.forEach((sortedFile, index) => {
             fileIndexBySortedFile[sortedFile.filename] = index;
         });
         let breakpoints       = [];
         let editorBreakpoints = this._editorsState.getBreakpoints();
         for (let filename in editorBreakpoints) {
             let fileIndex = fileIndexBySortedFile[filename];
-            editorBreakpoints[filename].forEach(function(breakpoint) {
+            editorBreakpoints[filename].forEach((breakpoint) => {
                 breakpoint.fileIndex = fileIndex;
                 breakpoints.push(breakpoint);
             });
@@ -304,14 +304,14 @@ exports.Editor = class extends DOMUtils {
             'get',
             'ide/file',
             {filename: filename, arrayBuffer: (type === 'arrayBuffer')},
-            (function(data) {
+            (data) => {
                 this.onLoadFile(filename, data, type, cursorPosition);
                 if (extension === '.whlp') {
                     dispatcher
                         .dispatch('Settings.Set.RecentProject', filename)
                         .dispatch('Compile.Silent');
                 }
-            }).bind(this)
+            }
         );
     }
 

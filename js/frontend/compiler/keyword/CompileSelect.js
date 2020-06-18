@@ -84,7 +84,7 @@ exports.CompileSelect = class extends CompileBlock {
         }
         if (program.getCodeUsed()) {
             let index = program.getLength() - 1;
-            exitJumps.forEach(function(exitJump) {
+            exitJumps.forEach((exitJump) => {
                 program.setCommandParamValue2(exitJump, index);
             });
         }

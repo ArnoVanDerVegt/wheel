@@ -26,9 +26,9 @@ const getEV3 = function() {
 
 exports.ev3Routes = {
     deviceList: function(req, res) {
-        getSerialPortConstructor().list().then(function(ports) {
+        getSerialPortConstructor().list().then((ports) => {
             let list = [];
-            ports.forEach(function(port) {
+            ports.forEach((port) => {
                 list.push(port.path);
             });
             res.send(JSON.stringify({result: true, list: list}));
@@ -40,7 +40,7 @@ exports.ev3Routes = {
         res.send(JSON.stringify({connecting: true, deviceName: deviceName}));
     },
     disconnect: function(req, res) {
-        getEV3().disconnect(function() {});
+        getEV3().disconnect(() => {});
         res.send(JSON.stringify({}));
     },
     connecting: function(req, res) {
@@ -63,7 +63,7 @@ exports.ev3Routes = {
         if (ev3.getConnected()) {
             ev3.setLayerCount(req.body.layerCount);
             let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
-            queue.forEach(function(params) {
+            queue.forEach((params) => {
                 ev3.module(params.module, params.command, params.data);
             });
             result.state = ev3.getState();
@@ -100,7 +100,7 @@ exports.ev3Routes = {
                         files: [],
                         path:  currentPath[index]
                     };
-                files.forEach(function(file) {
+                files.forEach((file) => {
                     if ((file !== './') && !(virtualRoot && (file === '../'))) {
                         let directory = !((file.length > 31) && (file.substr(32, 1) === ' '));
                         let size      = '';

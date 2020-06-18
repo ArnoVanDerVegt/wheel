@@ -15,7 +15,6 @@ This example shows how to use the selectButton component.
 #include "lib/components/selectButton.whl"
 #include "lib/components/statusLight.whl"
 
-#define SELECT_BUTTON_FORM          0x7A5619EF
 #define SELECT_BUTTON_SELECT_BUTTON 0xF121D096
 #define SELECT_BUTTON_STATUS_LIGHT  0x8FBC7C0A
 

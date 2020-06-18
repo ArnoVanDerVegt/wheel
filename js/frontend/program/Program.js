@@ -740,7 +740,7 @@ exports.Program = class {
 
     setBreakpoints(breakpoints) {
         let breakpointHash = {};
-        breakpoints.forEach(function(breakpoint) {
+        breakpoints.forEach((breakpoint) => {
             breakpoint.done = false;
             breakpointHash[breakpoint.fileIndex + '_' + breakpoint.lineNum] = breakpoint;
         });

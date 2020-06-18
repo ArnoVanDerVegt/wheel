@@ -87,7 +87,6 @@ exports.ToolbarTop = class extends Toolbar {
                     {
                         className: 'top-options right',
                         children: [
-                            this.addLabel('Grid:'),
                             this.addButton({
                                 ref:       formEditor.setRef('gridToggle'),
                                 uiId:      formEditor.getUIId.bind(formEditor),

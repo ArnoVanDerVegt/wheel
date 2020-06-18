@@ -44,7 +44,7 @@ exports.ComponentFormModule = class extends VMModule {
             'get',
             'ide/file',
             {filename: formFilename},
-            (function(data) {
+            (data) => {
                 let formData;
                 try {
                     data     = JSON.parse(data);
@@ -57,7 +57,7 @@ exports.ComponentFormModule = class extends VMModule {
                     return;
                 }
                 this.showLoadError(formFilename);
-            }).bind(this)
+            }
         );
     }
 

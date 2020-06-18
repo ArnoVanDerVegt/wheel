@@ -322,7 +322,7 @@ exports.Plugin = class extends SimulatorPlugin {
     addChart(chart) {
         this._charts.push(chart);
         let charts = [];
-        this._charts.forEach(function(chart) {
+        this._charts.forEach((chart) => {
             charts.push(chart.toJSON());
         });
         dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);

@@ -184,9 +184,9 @@ exports.IconSelect = class extends DOMNode {
                     className: 'option',
                     children: [
                         {
-                            id: (function(element) {
+                            id: (element) => {
                                 element.addEventListener('click', this.onClickOption.bind(this, index));
-                            }).bind(this),
+                            },
                             type: 'img',
                             src:  option.icon
                         }

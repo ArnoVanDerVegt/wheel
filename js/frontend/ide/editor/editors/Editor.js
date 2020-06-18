@@ -144,10 +144,10 @@ exports.Editor = class extends DOMNode {
                 filename: path.join(this._path, this._filename),
                 data:     this.getValue()
             },
-            (function() {
+            () => {
                 this.onFileSaved(this._filename);
                 callback && callback();
-            }).bind(this)
+            }
         );
     }
 
@@ -156,7 +156,7 @@ exports.Editor = class extends DOMNode {
         let pathAndFilename    = path.getPathAndFilename(filename);
         this._path     = pathAndFilename.path;
         this._filename = pathAndFilename.filename;
-        this.save(function() {
+        this.save(() => {
             dispatcher.dispatch('Editor.Renamed', oldPathAndFilename, pathAndFilename);
         });
     }

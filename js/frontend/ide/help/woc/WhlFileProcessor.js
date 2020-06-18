@@ -78,7 +78,7 @@ exports.WhlFileProcessor = class extends FileProcessor {
                 }
                 let fields = this.getVarInfoFromLine(nextLine);
                 if (fieldCommentLine !== '') {
-                    fields.forEach(function(field) {
+                    fields.forEach((field) => {
                         field.description = fieldCommentLine;
                     });
                 }

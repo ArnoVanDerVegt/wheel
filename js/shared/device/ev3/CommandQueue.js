@@ -105,7 +105,7 @@ exports.CommandQueue = class {
 
     getLayers() {
         let layers = this._layers;
-        layers.forEach(function(layer) {
+        layers.forEach((layer) => {
             for (let i = 4; i < 8; i++) {
                 let port = layer[i];
                 if (port.assigned !== null) {

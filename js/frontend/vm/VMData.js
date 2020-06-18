@@ -11,7 +11,7 @@ class VMData {
             data[i] = 0;
         }
         data[$.REG_STACK] = opts.globalSize;
-        opts.constants.forEach(function(constant) {
+        opts.constants.forEach((constant) => {
             for (let i = 0; i < constant.data.length; i++) {
                 data[constant.offset + i] = constant.data[i];
             }

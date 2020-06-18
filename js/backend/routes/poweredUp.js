@@ -31,7 +31,7 @@ exports.poweredUpRoutes = {
     },
 
     disconnect: function(req, res) {
-        getPoweredUp().disconnect(function() {});
+        getPoweredUp().disconnect(() => {});
         res.send(JSON.stringify({}));
     },
 
@@ -54,7 +54,7 @@ exports.poweredUpRoutes = {
     update: function(req, res) {
         let result = {error: false, connected: true};
         let queue  = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
-        queue.forEach(function(params) {
+        queue.forEach((params) => {
             poweredUp.module(params.module, params.command, params.data);
         });
         result.state = poweredUp.getState();

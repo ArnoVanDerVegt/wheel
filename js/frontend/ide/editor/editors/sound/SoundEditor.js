@@ -269,13 +269,13 @@ exports.SoundEditor = class extends Editor {
                 data:       this._value.data,
                 offset1:    offset1,
                 offset2:    offset2,
-                onFinished: (function() {
+                onFinished: () => {
                     clearInterval(soundEditorState.getPlayingInterval());
                     soundEditorState.setPlayingInterval(null);
                     this._sound                       = null;
                     this._refs.position.style.display = 'none';
                     this.updateElements();
-                }).bind(this)
+                }
             }
         );
         this.updateElements();
@@ -418,7 +418,7 @@ exports.SoundEditor = class extends Editor {
                 {element: this._resourceOverlayElement,      margin: 0}
             ];
         let width = this.getZoomWidth();
-        elements.forEach(function(e) {
+        elements.forEach((e) => {
             let element = e.element;
             element.width        = width + e.margin;
             element.height       = 256;

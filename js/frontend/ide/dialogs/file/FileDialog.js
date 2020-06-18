@@ -109,9 +109,9 @@ exports.FileDialog = class extends Dialog {
                 this.getFiles(
                     false,
                     false,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
             case 'openDirectory':
@@ -127,9 +127,9 @@ exports.FileDialog = class extends Dialog {
                 this.getFiles(
                     false,
                     opts.path,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
             case 'saveFile':
@@ -149,9 +149,9 @@ exports.FileDialog = class extends Dialog {
                 this.getFiles(
                     false,
                     path,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
         }
@@ -188,10 +188,10 @@ exports.FileDialog = class extends Dialog {
                     if (path.getExtension(saveFilename) === '') {
                         saveFilename += this._extension;
                     }
-                    let save = (function() {
+                    let save = () => {
                             dispatcher.dispatch('Dialog.File.SaveAs', saveFilename, this._startFilename === saveFilename);
                             this.hide();
-                        }).bind(this);
+                        };
                     let existingFile = this.getFileExists(this._refs.files.getFiles(), filename);
                     if (existingFile && (filename.toLowerCase() !== this._startFilename.toLowerCase())) {
                         if (existingFile.directory) {
@@ -287,14 +287,14 @@ exports.FileDialog = class extends Dialog {
             'get',
             'ide/files',
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = (typeof data === 'string') ? JSON.parse(data) : data;
                     this.onPath(json.path);
                     callback(json.path, json.files);
                 } catch (error) {
                 }
-            }).bind(this)
+            }
         );
     }
 

@@ -18,7 +18,7 @@ class HelpLink extends DOMNode {
     initDOM(parentNode) {
         let deviceChildren = [];
         if (this._device) {
-            this._device.split(',').forEach(function(device) {
+            this._device.split(',').forEach((device) => {
                 if (!device) {
                     return;
                 }
@@ -43,9 +43,9 @@ class HelpLink extends DOMNode {
     setElement(element) {
         element.addEventListener(
             'click',
-            (function() {
+            () => {
                 this._dialog.onShowFileIndex(this._index);
-            }).bind(this)
+            }
         );
     }
 }

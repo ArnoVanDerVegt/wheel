@@ -151,13 +151,13 @@ exports.ContextMenu = class extends Component {
             element.style.top = (y - element.offsetHeight) + 'px';
         }
         setTimeout(
-            (function() {
+            () => {
                 if (x > window.innerHeight / 2) {
                     x -= element.offsetWidth;
                     element.style.left = x + 'px';
                 }
                 element.className = this.getClassName();
-            }).bind(this),
+            },
             50
         );
     }

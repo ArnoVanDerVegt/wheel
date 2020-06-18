@@ -149,15 +149,15 @@ exports.TextListProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
-                    id: (function(element) {
+                    id: (element) => {
                         element.addEventListener(
                             'click',
-                            (function(event) {
+                            (event) => {
                                 event.preventDefault();
                                 this.onClickAdd();
-                            }).bind(this)
+                            }
                         );
-                    }).bind(this),
+                    },
                     type:      'a',
                     href:      '#',
                     className: 'list-item-button add',
@@ -234,7 +234,7 @@ exports.TextListProperty = class extends Property {
     }
 
     setActiveItem(activeItem) {
-        this._items.forEach(function(item) {
+        this._items.forEach((item) => {
             item.setActive(item === activeItem);
         });
     }
@@ -297,7 +297,7 @@ exports.TextListProperty = class extends Property {
 
     onChange() {
         let value = [];
-        this._items.forEach(function(item) {
+        this._items.forEach((item) => {
             value.push(item.getTitle());
         });
         this._onChange(value);

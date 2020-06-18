@@ -132,13 +132,13 @@ exports.Plugin = class extends Plugin {
         let poweredUp = this._poweredUp;
         if (!this._buttons) {
             this._buttons = {
-                readButton: (function(layer) {
+                readButton: (layer) => {
                     let device = this.getDeviceByLayer(layer);
                     if (device && device.getButtons) {
                         return device.getButtons();
                     }
                     return 0;
-                }).bind(this)
+                }
             };
         }
         return this._buttons;

@@ -91,7 +91,7 @@ exports.ideRoutes = {
         }
         fs.readdir(
             this._currentPath[index],
-            (function(error, files) {
+            (error, files) => {
                 let result = {
                         files: [],
                         path:  genericPath(this._currentPath[index])
@@ -122,7 +122,7 @@ exports.ideRoutes = {
                     }
                 }
                 res.send(JSON.stringify(result));
-            }).bind(this)
+            }
         );
     },
 
@@ -277,7 +277,7 @@ exports.ideRoutes = {
         let filelist      = [];
         let readFilesSync = function(dir) {
                 let files = fs.readdirSync(dir);
-                files.forEach(function(file) {
+                files.forEach((file) => {
                     if (fs.statSync(dir + '/' + file).isDirectory()) {
                         readFilesSync(dir + '/' + file);
                     } else if ((file.substr(-4) === '.woc') || (file.substr(-4) === '.whl') || (file.substr(-5) === '.whlp')) {

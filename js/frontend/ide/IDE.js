@@ -196,18 +196,18 @@ exports.IDE = class extends CompileAndRun {
         this._resizeDebounce = null;
         window.addEventListener(
             'resize',
-            (function(event) {
+            (event) => {
                 if (this._resizeDebounce) {
                     clearTimeout(this._resizeDebounce);
                 }
                 this._resizeDebounce = setTimeout(
-                    (function() {
+                    () => {
                         this._resizeDebounce = null;
                         dispatcher.dispatch('Settings.Set.WindowSize', window.outerWidth, window.outerHeight);
-                    }).bind(this),
+                    },
                     100
                 );
-            }).bind(this)
+            }
         );
         return this;
     }
@@ -368,7 +368,7 @@ exports.IDE = class extends CompileAndRun {
     // About menu...
     onMenuAboutVersion() {
         let settings = this._settings;
-        settings.load(function() {
+        settings.load(() => {
             let os = settings.getOS();
             dispatcher.dispatch(
                 'Dialog.Alert.Show',
@@ -535,11 +535,11 @@ exports.IDE = class extends CompileAndRun {
 
     onGetSource(callback) {
         this._editor.getValue(
-            (function(info) {
+            (info) => {
                 this._projectFilename = info.filename;
                 this._source          = info.source;
                 callback();
-            }).bind(this),
+            },
             this._compileSilent
         );
     }
@@ -668,7 +668,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher
             .dispatch('Console.Log',     {message: message})
             .dispatch('Compile.Warning', this._projectFilename);
-        messages.forEach(function(message) {
+        messages.forEach((message) => {
             let token    = message.token;
             let location = path.removePath(documentPath, sortedFiles[token.fileIndex].filename) + '(line:' + (token.lineNum + 1) + ') ';
             let type     = Linter.TYPE_TO_STR[message.type] + ': ';
@@ -791,7 +791,7 @@ exports.IDE = class extends CompileAndRun {
             'get',
             'ide/file',
             {filename: [fullDocumentPath1, fullProjectPath1, fullDocumentPath2, fullProjectPath2]},
-            (function(data) {
+            (data) => {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
@@ -811,7 +811,7 @@ exports.IDE = class extends CompileAndRun {
                     return;
                 }
                 callback(data.data);
-            }).bind(this)
+            }
         );
     }
 

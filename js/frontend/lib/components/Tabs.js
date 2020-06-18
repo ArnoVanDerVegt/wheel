@@ -233,10 +233,10 @@ exports.Tabs = class extends DOMNode {
                     opts.onClose(title, meta);
                 } :
                 false,
-            onClick: (function(title, meta) {
+            onClick: (title, meta) => {
                 this.onClickTab(title, meta, index);
                 opts.onClick && opts.onClick(title, meta);
-            }).bind(this)
+            }
         }));
         if (this._tabs.length - 1 === this._active) {
             this.setActiveTab(opts.title, opts.meta);
@@ -331,7 +331,7 @@ exports.Tabs = class extends DOMNode {
 
     updateTabIndex(disabled) {
         let tabIndex = this._tabIndex;
-        this._tabs.forEach(function(tab) {
+        this._tabs.forEach((tab) => {
             tab.setTabIndex(disabled ? -1 : tabIndex);
             tab.setDisabled(disabled);
             tabIndex += 2;

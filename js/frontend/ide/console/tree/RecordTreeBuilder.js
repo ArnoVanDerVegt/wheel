@@ -59,7 +59,7 @@ exports.RecordTreeBuilder = class {
         if (typeof arraySize === 'number') {
             arraySize = [arraySize];
         }
-        const buildArray = (function(index, children) {
+        const buildArray = (index, children) => {
                 if (index === arraySize.length - 1) {
                     for (let i = 0; i < arraySize[index]; i++) {
                         let treeNodeChild = {title: getArrayIndex(i)};
@@ -77,7 +77,7 @@ exports.RecordTreeBuilder = class {
                         children.push(child);
                     }
                 }
-            }).bind(this);
+            };
         buildArray(0, treeNode.children);
     }
 

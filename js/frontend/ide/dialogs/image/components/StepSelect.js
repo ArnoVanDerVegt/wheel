@@ -97,7 +97,7 @@ exports.StepSelect = class extends Step {
         let image = new Image();
         image.addEventListener(
             'load',
-            (function() {
+            () => {
                 let width  = image.naturalWidth;
                 let height = image.naturalHeight;
                 this._naturalWidth                       = width;
@@ -110,7 +110,7 @@ exports.StepSelect = class extends Step {
                 this.setSelectedArea(0, 0, width, height);
                 this.updateInputs();
                 this.validate();
-            }).bind(this)
+            }
         );
         image.src = opts.value;
         super.show();

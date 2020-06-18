@@ -11,7 +11,7 @@ const IndexList       = require('./components/IndexList').IndexList;
 const IndexListText   = require('./components/IndexListText').IndexListText;
 
 const getFilename = function(subject) {
-        [':', '_', '/', ',', ' '].forEach(function(c) {
+        [':', '_', '/', ',', ' '].forEach((c) => {
             subject = subject.split(c).join('_');
         });
         return subject + '.html';
@@ -135,7 +135,7 @@ class HelpBuilderText {
         );
 
         let body = [];
-        constant.values.forEach(function(value) {
+        constant.values.forEach((value) => {
             output.push('            <tr><td>' + value.key + '</td><td>' + value.value + '</td></tr>');
         });
         output.push(
@@ -480,13 +480,13 @@ class HelpBuilderText {
             '    <table class="help-table">',
             '        <tr>'
         );
-        head.forEach(function(h) {
+        head.forEach((h) => {
             output.push('            <th>' + h + '</th>');
         });
         output.push('        </th>');
-        body.forEach(function(r) {
+        body.forEach((r) => {
             output.push('        <tr>');
-            r.forEach(function(c) {
+            r.forEach((c) => {
                 const loaderText = '<span class="image-loader">';
                 const svgHeader  = 'data:image/svg+xml,';
                 let i = c.indexOf(loaderText);
@@ -517,7 +517,7 @@ class HelpBuilderText {
     addList(list) {
         let output = this._output;
         output.push('    <ul>');
-        list.forEach(function(item) {
+        list.forEach((item) => {
             output.push('        <li>' + item + '</li>');
         });
         output.push('    </ul>');
@@ -642,7 +642,7 @@ class HelpBuilderText {
                     }
                 };
             };
-        file.sections.forEach(function(section) {
+        file.sections.forEach((section) => {
             if (section.title !== '') {
                 node.children.push({
                     id: function(element) {
@@ -652,7 +652,7 @@ class HelpBuilderText {
                     innerHTML: section.title,
                     title:     section.title
                 });
-                section.content.forEach(function(content) {
+                section.content.forEach((content) => {
                     if (['const', 'proc'].indexOf(content.type) !== -1) {
                         let id = content.text.description.split(' ').join('');
                         node.children.push({
@@ -758,7 +758,7 @@ class HelpBuilderText {
         let helpData    = this._helpData;
         let files       = helpData.files;
         let fileIndex   = 0;
-        let processFile = (function() {
+        let processFile = () => {
                 if (fileIndex >= files.length) {
                     readyCallback();
                     return;
@@ -776,7 +776,7 @@ class HelpBuilderText {
                     },
                     processFile
                 );
-            }).bind(this);
+            };
         dispatcher.dispatch('Console.Log', {message: 'Writing: <i>site/docs/index.html</i>'});
         getDataProvider().getData(
             'post',

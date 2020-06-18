@@ -58,7 +58,7 @@ exports.EV3State = class extends BasicDeviceState {
             'post',
             'ev3/connect',
             {deviceName: deviceName},
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     if (json.connecting) {
@@ -71,7 +71,7 @@ exports.EV3State = class extends BasicDeviceState {
                     console.error(error);
                     this._connecting = false;
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -93,7 +93,7 @@ exports.EV3State = class extends BasicDeviceState {
                 layerCount: this._layerCount,
                 queue:      this._queue
             },
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     if (json.connected) {
@@ -110,7 +110,7 @@ exports.EV3State = class extends BasicDeviceState {
                 if (!this._noTimeout) {
                     this._updateTimeout = setTimeout(this.update.bind(this), 20);
                 }
-            }).bind(this)
+            }
         );
         this._queue = [];
     }
@@ -119,12 +119,12 @@ exports.EV3State = class extends BasicDeviceState {
         if (this._connecting) {
             return;
         }
-        let callback = (function() {
+        let callback = () => {
                 this._dataProvider.getData(
                     'post',
                     'ev3/connecting',
                     {},
-                    (function(data) {
+                    (data) => {
                         try {
                             let json = JSON.parse(data);
                             if (json.connected) {
@@ -141,9 +141,9 @@ exports.EV3State = class extends BasicDeviceState {
                             console.error(error);
                             this._connecting = false;
                         }
-                    }).bind(this)
+                    }
                 );
-            }).bind(this);
+            };
         callback();
     }
 
@@ -156,10 +156,10 @@ exports.EV3State = class extends BasicDeviceState {
             'post',
             'ev3/disconnect',
             {},
-            (function(data) {
+            (data) => {
                 this._connected = false;
                 this.emit('EV3.Disconnected');
-            }).bind(this)
+            }
         );
     }
 

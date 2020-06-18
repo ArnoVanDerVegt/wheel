@@ -22,7 +22,7 @@ exports.HelpDialog = class extends Dialog {
         this._needsRebuild = false;
         this._settings     = opts.settings;
         this._documentPath = '';
-        new WocFileLoader().load(function(loadedFiles) { setHelp(new Woc().build(loadedFiles)); });
+        new WocFileLoader().load((loadedFiles) => { setHelp(new Woc().build(loadedFiles)); });
         this.createWindow(
             'help-dialog',
             'Help',
@@ -101,14 +101,14 @@ exports.HelpDialog = class extends Dialog {
     }
 
     onRebuild() {
-        new WocFileLoader().load(function(loadedFiles) { setHelp(new Woc().build(loadedFiles)); });
+        new WocFileLoader().load((loadedFiles) => { setHelp(new Woc().build(loadedFiles)); });
     }
 
     onRebuildText() {
         let refs            = this._refs;
         let helpBuilderText = new HelpBuilderText.HelpBuilderText({helpData: getHelpData()});
         refs.saveTextFilesButton.setDisabled(true);
-        helpBuilderText.generateAllHelp(function() {
+        helpBuilderText.generateAllHelp(() => {
             refs.saveTextFilesButton.setDisabled(false);
         });
     }

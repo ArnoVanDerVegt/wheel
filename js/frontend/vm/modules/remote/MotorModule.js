@@ -60,7 +60,7 @@ exports.MotorModule = class extends VMModule {
         let device = this._device();
         let vm     = this._vm;
         device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
-        let callback = (function() {
+        let callback = () => {
                 vm.sleep(50);
                 if (!device.getQueueLength()) {
                     let port = this.getMotorPort(motor);
@@ -69,7 +69,7 @@ exports.MotorModule = class extends VMModule {
                     }
                 }
                 setTimeout(callback, 1);
-            }).bind(this);
+            };
         callback();
     }
 
@@ -77,7 +77,7 @@ exports.MotorModule = class extends VMModule {
         let device = this._device();
         let vm     = this._vm;
         vm.sleep(1000);
-        const callback = function() {
+        const callback = () => {
                 if (device.getQueueLength()) {
                     vm.sleep(1000);
                     setTimeout(callback, 1);
@@ -125,7 +125,7 @@ exports.MotorModule = class extends VMModule {
                 break;
             case motorModuleConstants.MOTOR_GET_TYPE:
                 motor          = vmData.getRecordFromSrcOffset(['layer', 'id']);
-                motor.callback = (function(value) {
+                motor.callback = (value) => {
                     if (!this._device().getConnected() && (value === -1)) {
                         vmData.setNumberAtRet(7);
                     } else if (value === -1) {
@@ -133,7 +133,7 @@ exports.MotorModule = class extends VMModule {
                     } else {
                         vmData.setNumberAtRet(7 + value);
                     }
-                }).bind(this);
+                };
                 this.emit('Motor.GetType', motor);
                 break;
             case motorModuleConstants.MOTOR_RESET:

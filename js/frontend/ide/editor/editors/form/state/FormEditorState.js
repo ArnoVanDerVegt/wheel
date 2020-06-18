@@ -208,7 +208,7 @@ exports.FormEditorState = class extends Emitter {
 
     propertiesFromComponentToOpts(componentId, propertyList, opts) {
         let component = this.getComponentById(componentId);
-        propertyList.getList().forEach(function(property) {
+        propertyList.getList().forEach((property) => {
             if (property.name && (property.name in component)) {
                 opts[property.name] = component[property.name];
             }

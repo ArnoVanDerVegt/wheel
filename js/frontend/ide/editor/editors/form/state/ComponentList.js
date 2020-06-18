@@ -171,7 +171,7 @@ exports.ComponentList = class {
 
     changeTabs(component, value) {
         let componentsById       = this._componentsById;
-        let findNestedComponents = (function(children, parentId) {
+        let findNestedComponents = (children, parentId) => {
                 for (let id in componentsById) {
                     let component = componentsById[id];
                     if (component.parentId === parentId) {
@@ -186,7 +186,7 @@ exports.ComponentList = class {
                         this.emit('DeleteComponent', id);
                     }
                 }
-            }).bind(this);
+            };
         if (value.length > component.tabs.length) {
             component.containerId.push(nextId + 1);
             this._undoStack.undoStackPush({

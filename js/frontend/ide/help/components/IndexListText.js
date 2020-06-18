@@ -21,7 +21,7 @@ class HelpLink {
                 '                <a href="' + HelpBuilderText.getFilename(this._subject) + '">' + this._title + '</a>'
             ];
         if (this._device) {
-            this._device.split(',').forEach(function(device) {
+            this._device.split(',').forEach((device) => {
                 if (!device) {
                     return;
                 }

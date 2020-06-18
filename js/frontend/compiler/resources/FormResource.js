@@ -28,7 +28,7 @@ exports.FormResource = class extends ProjectResource {
             'get',
             'ide/file',
             {filename: path.join(this._projectPath, this._filename)},
-            (function(data) {
+            (data) => {
                 try {
                     data       = JSON.parse(data);
                     this._wfrm = JSON.parse(data.data.wfrm);
@@ -36,7 +36,7 @@ exports.FormResource = class extends ProjectResource {
                     this._wfrm = null;
                 }
                 callback({});
-            }).bind(this)
+            }
         );
     }
 
@@ -48,14 +48,14 @@ exports.FormResource = class extends ProjectResource {
         if (this._getEditorFileData) {
             this._getEditorFileData(
                 path.join(this._projectPath, this._filename),
-                (function(data) {
+                (data) => {
                     if (data) {
                         this._wfrm = data;
                         callback({});
                     } else {
                         this.loadFromDataProvider(callback);
                     }
-                }).bind(this)
+                }
             );
         } else {
             this.loadFromDataProvider(callback);

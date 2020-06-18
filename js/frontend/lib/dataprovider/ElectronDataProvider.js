@@ -94,6 +94,6 @@ exports.ElectronDataProvider = class {
         } else {
             req.body = params;
         }
-        setTimeout(function() { routes[uri](req, res); }, 0);
+        setTimeout(() => { routes[uri](req, res); }, 0);
     }
 };

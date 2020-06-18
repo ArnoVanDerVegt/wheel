@@ -56,12 +56,12 @@ exports.UndoStack = class {
         let componentList    = this._componentList;
         let componentBuilder = this._componentBuilder;
         let component;
-        let addComponent = (function(component) {
+        let addComponent = (component) => {
                 component.owner = this._getOwnerByParentId(component.parentId);
                 componentList.setComponentById(component, component.id);
                 componentBuilder.addComponentForType(component, component.type);
                 return component;
-            }).bind(this);
+            };
         switch (item.action) {
             case formEditorConstants.ACTION_ADD_COMPONENT:
                 this._formEditorState.deleteComponentById(item.id, false);

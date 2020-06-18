@@ -21,7 +21,7 @@ exports.PluginsState = class extends Emitter {
 
     _updatePluginByUuid() {
         let pluginByUuid = {};
-        this._plugins.forEach(function(plugin) { pluginByUuid[plugin.uuid] = plugin; });
+        this._plugins.forEach((plugin) => { pluginByUuid[plugin.uuid] = plugin; });
         this._pluginByUuid = pluginByUuid;
     }
 
@@ -106,7 +106,7 @@ exports.PluginsState = class extends Emitter {
 
     getSortedPlugins() {
         let plugins  = [];
-        this._plugins.forEach(function(plugin) {
+        this._plugins.forEach((plugin) => {
             plugins.push(Object.assign(
                 {
                     toString: function() {
@@ -128,10 +128,10 @@ exports.PluginsState = class extends Emitter {
     load(data) {
         let plugins           = this.getDefaultPlugins();
         let pluginIndexByUuid = {};
-        plugins.forEach(function(plugin, index) {
+        plugins.forEach((plugin, index) => {
             pluginIndexByUuid[plugin.uuid] = index;
         });
-        data.forEach(function(plugin) {
+        data.forEach((plugin) => {
             if (plugin.uuid in pluginIndexByUuid) {
                 let index         = pluginIndexByUuid[plugin.uuid];
                 let defaultPlugin = plugins[index];

@@ -5,6 +5,19 @@
 @section Buttons example
 This example shows how to use the button component.
 
+
+When the blue button is clicked then the `onButtonsButtonBlueClick` procedure is called,
+when the green button is clicked then the `onButtonsButtonGreenClick` procedure is called,
+when the red button is clicked then the `onButtonsButtonRedClick` procedure is called.
+
+
+All the `click` event procedures have a `windowHandle` parameter, the value of this paramerer
+is equal to the return value of the `showButtonsForm` procedure.
+
+
+The `windowHandle` has to be used to address the components on the form, in this example it's
+used to change the color of the status light with the `components.statusLight.setColor`  procedure.
+
 @section Code
 @example
 #project "Buttons example"
@@ -18,7 +31,6 @@ This example shows how to use the button component.
 #define BUTTONS_BUTTON_BLUE  0x780ACFDE
 #define BUTTONS_BUTTON_GREEN 0x4F7DB0F4
 #define BUTTONS_BUTTON_RED   0xD846C71A
-#define BUTTONS_FORM         0xEE85F567
 #define BUTTONS_STATUS_LIGHT 0x18551397
 
 #resource "buttons.wfrm"
@@ -58,4 +70,4 @@ end
 
 @load Open the button example|examples/components/buttons/buttons.wfrm
 
-@see button,standard
+@see namespace,button,standard

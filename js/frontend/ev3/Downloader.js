@@ -39,7 +39,7 @@ exports.Downloader = class {
                         currentIndex++;
                         downloadFile();
                     };
-                resource.getDownloadData(function(data) {
+                resource.getDownloadData((data) => {
                     if (data) {
                         ev3.downloadData(
                             data,
@@ -67,10 +67,10 @@ exports.Downloader = class {
         opts.ev3.downloadData(
             new Rtf(opts.program).getOutput(opts.program),
             path.join(remotePath, 'program.rtf'),
-            (function(result) {
+            (result) => {
                 opts.onDownloadedProgram();
                 this._download(opts);
-            }).bind(this)
+            }
         );
     }
 
@@ -81,20 +81,20 @@ exports.Downloader = class {
         opts.ev3.download(
             path.join(opts.localPath, 'vm/vm.rbf'),
             path.join(remotePath, programFilename + '.rbf'),
-            (function(result) {
+            (result) => {
                 opts.onDownloadedVM();
                 this._downloadProgram(opts);
-            }).bind(this)
+            }
         );
     }
 
     _createRemoteDirectory(opts) {
         opts.ev3.createDir(
             path.join(opts.remotePath, opts.remoteDirectory),
-            (function() {
+            () => {
                 opts.onCreatedDirectory();
                 this._downloadVM(opts);
-            }).bind(this)
+            }
         );
     }
 

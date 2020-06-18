@@ -199,9 +199,9 @@ exports.CompileAndRun = class extends DOMUtils {
     getModules(vm) {
         let modules    = [];
         let fileSystem = new FileSystem({vm: vm});
-        let device     = (function() {
+        let device     = () => {
                 return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
-            }).bind(this);
+            };
         this._localModules = !device().getConnected();
         if (this._localModules) {
             modules[ 0] = new LocalStandardModule              ({vm: vm, device: device});
@@ -338,7 +338,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this._changedWhileRunning = false;
         title || (title = 'Simulator');
         this.stop();
-        this.onGetSource((function() {
+        this.onGetSource(() => {
             this.onBeforeCompile();
             this._simulatorModules.reset();
             try {
@@ -363,7 +363,7 @@ exports.CompileAndRun = class extends DOMUtils {
                     this.onCompilerError(error);
                 }
             }
-        }).bind(this));
+        });
     }
 
     run() {
