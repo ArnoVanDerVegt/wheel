@@ -115,11 +115,11 @@ exports.Iterator = class {
     }
 
     nextUntilLexeme(lexeme) {
-        return this.nextUntilCondition(function(token) { return lexeme.indexOf(token.lexeme) !== -1; });
+        return this.nextUntilCondition((token) => { return lexeme.indexOf(token.lexeme) !== -1; });
     }
 
     nextUntilTokenCls(cls) {
-        return this.nextUntilCondition(function(token) { return cls.indexOf(token.cls) !== -1; });
+        return this.nextUntilCondition((token) => { return cls.indexOf(token.cls) !== -1; });
     }
 
     skipWhiteSpace() {

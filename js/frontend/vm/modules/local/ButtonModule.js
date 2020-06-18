@@ -19,7 +19,7 @@ exports.ButtonModule = class extends VMModule {
             case buttonModuleConstants.BUTTON_WAIT_FOR_PRESS:
                 vm.sleep(1000);
                 let interval = setInterval(
-                        (function() {
+                        () => {
                             this.emit(
                                 'Button.WaitForPress',
                                 function(button) {
@@ -31,7 +31,7 @@ exports.ButtonModule = class extends VMModule {
                                     vm.sleep(0);
                                 }
                             );
-                        }).bind(this),
+                        },
                         50
                     );
                 break;

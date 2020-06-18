@@ -54,7 +54,7 @@ exports.SimulatorModules = class {
         if (!resource) {
             return;
         }
-        resource.getData(function(data) {
+        resource.getData((data) => {
             data && display.drawImage(image.x, image.y, data);
         });
     }
@@ -81,7 +81,7 @@ exports.SimulatorModules = class {
         if (!resource) {
             return;
         }
-        resource.getData(function(data) {
+        resource.getData((data) => {
             vm.sleep(1000000);
             data = data.data;
             new Sound().create(
@@ -133,10 +133,10 @@ exports.SimulatorModules = class {
         if (!screenModule) {
             return this;
         }
-        const getDisplay = (function() {
+        const getDisplay = () => {
                 let device = this.getActiveDevicePlugin();
                 return device && device.getDisplay ? device.getDisplay() : null;
-            }).bind(this);
+            };
         let self = this;
         this._events.push(
             screenModule.addEventListener('Screen.Update',     this, function()          { callOnObject(getDisplay(), 'updateScreen');                                          }),
@@ -161,10 +161,10 @@ exports.SimulatorModules = class {
         if (!lightModule) {
             return this;
         }
-        const getLight = (function(layer) {
+        const getLight = (layer) => {
                 let device = this.getActiveDevicePlugin();
                 return (device && device.getLight) ? device.getLight(layer) : null;
-            }).bind(this);
+            };
         this._events.push(
             lightModule.addEventListener('Light.Light', this, function(l) { callOnObject(getLight(l.layer), 'setColor', l.mode); })
         );
@@ -176,10 +176,10 @@ exports.SimulatorModules = class {
         if (!buttonModule) {
             return this;
         }
-        const getButtons = (function(layer) {
+        const getButtons = (layer) => {
                 let device = this.getActiveDevicePlugin();
                 return (device && device.getButtons) ? device.getButtons(layer) : 0;
-            }).bind(this);
+            };
         this._events.push(
             buttonModule.addEventListener('Button.Button',       this, function(b) { b.callback(callOnObject(getButtons(), 'readButton', b.layer)); }),
             buttonModule.addEventListener('Button.WaitForPress', this, function(b) { b.callback(callOnObject(getButtons(), 'readButton', b.layer)); })
@@ -192,10 +192,10 @@ exports.SimulatorModules = class {
         if (!soundModule) {
             return this;
         }
-        const getSound = (function() {
+        const getSound = () => {
                 let device = this.getActiveDevicePlugin();
                 return device && device.getSound ? device.getSound() : null;
-            }).bind(this);
+            };
         let self = this;
         this._events.push(
             soundModule.addEventListener('Sound.PlayTone',   this, function(tone)   { callOnObject(getSound(), 'playTone', tone); }),
@@ -209,9 +209,9 @@ exports.SimulatorModules = class {
         if (!motorModule) {
             return this;
         }
-        const getMotors = (function() {
+        const getMotors = () => {
                 return this.getActiveMotorsPlugin();
-            }).bind(this);
+            };
         this._events.push(
             motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType', motor);                   }),
             motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                  }),
@@ -235,9 +235,9 @@ exports.SimulatorModules = class {
         if (!sensorModule) {
             return this;
         }
-        const getSensors = (function() {
+        const getSensors = () => {
                 return this.getActiveSensorsPlugin();
-            }).bind(this);
+            };
         this._events.push(
             sensorModule.addEventListener('Sensor.SetType', this, function(sensor) { callOnObject(getSensors(), 'setType', sensor);                  }),
             sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
@@ -295,9 +295,9 @@ exports.SimulatorModules = class {
         if (!poweredUpModule) {
             return this;
         }
-        const getPoweredUpDevice = (function() {
+        const getPoweredUpDevice = () => {
                 return this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_POWERED_UP_UUID);
-            }).bind(this);
+            };
         this._events.push(
             poweredUpModule.addEventListener('PoweredUp.Start',     this, function(readAddress) {}),
             poweredUpModule.addEventListener('PoweredUp.SetDevice', this, function(device) { getPoweredUpDevice().setDeviceType(device.layer, device.type); })

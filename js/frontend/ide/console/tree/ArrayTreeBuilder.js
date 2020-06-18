@@ -54,7 +54,7 @@ exports.ArrayTreeBuilder = class {
                 title:    '[' + arraySize.join('][') + ']',
                 children: []
             };
-        const buildArray = (function(index, children) {
+        const buildArray = (index, children) => {
                 if (index === arraySize.length - 1) {
                     this.buildArray(vr, arraySize[index], children);
                 } else {
@@ -67,7 +67,7 @@ exports.ArrayTreeBuilder = class {
                         children.push(child);
                     }
                 }
-            }).bind(this);
+            };
         this._offset = baseOffset + vr.getOffset();
         buildArray(0, tree.children);
         return tree;

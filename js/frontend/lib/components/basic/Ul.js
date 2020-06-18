@@ -18,7 +18,7 @@ exports.Ul = class extends DOMNode {
                 className: this._className,
                 children:  []
             };
-        this._list.forEach(function(item) {
+        this._list.forEach((item) => {
             node.children.push({
                 type:      'li',
                 innerHTML: item

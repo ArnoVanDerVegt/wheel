@@ -200,7 +200,7 @@ exports.PreProcessor = class PreProcessor {
             return [];
         }
         let defines = this._defines;
-        tokens.forEach(function(token) {
+        tokens.forEach((token) => {
             token.index += offset;
             if (token.cls === t.TOKEN_IDENTIFIER) {
                 let value = defines.get(token.lexeme);
@@ -243,7 +243,7 @@ exports.PreProcessor = class PreProcessor {
 
     getFormResources() {
         let result = [];
-        this._resources.getResources().forEach(function(resource) {
+        this._resources.getResources().forEach((resource) => {
             if (resource instanceof FormResource) {
                 result.push(resource);
             }

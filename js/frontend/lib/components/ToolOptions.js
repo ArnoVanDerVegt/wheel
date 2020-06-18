@@ -102,11 +102,11 @@ exports.ToolOptions = class extends DOMNode {
     setOptions(options) {
         let elements = this._elements;
         if (options.length === elements.length) {
-            elements.forEach(function(element, index) {
+            elements.forEach((element, index) => {
                 element.onEvent({value: options[index]});
             });
         } else {
-            elements.forEach(function(element) {
+            elements.forEach((element) => {
                 element.remove();
             });
             this._options = options;
@@ -133,13 +133,13 @@ exports.ToolOptions = class extends DOMNode {
         }
         if ('color' in opts) {
             this._color = opts.color;
-            elements.forEach(function(element) {
+            elements.forEach((element) => {
                 element.setColor(opts.color);
             });
         }
         if ('disabled' in opts) {
             this._disabled = opts.disabled;
-            elements.forEach(function(element) {
+            elements.forEach((element) => {
                 element.setDisabled(opts.disabled);
             });
         }

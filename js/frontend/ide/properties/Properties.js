@@ -91,7 +91,7 @@ exports.Properties = class extends DOMNode {
     }
 
     focusProperty(property) {
-        this._properties.forEach(function(p) {
+        this._properties.forEach((p) => {
             if ((p !== property) && p.setFocus) {
                 p.setFocus(false);
             }
@@ -99,7 +99,7 @@ exports.Properties = class extends DOMNode {
     }
 
     focusEvent(event) {
-        this._events.forEach(function(e) {
+        this._events.forEach((e) => {
             if ((e !== event) && e.setFocus) {
                 e.setFocus(false);
             }

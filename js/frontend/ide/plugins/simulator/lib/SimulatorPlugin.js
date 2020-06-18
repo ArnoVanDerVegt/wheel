@@ -41,7 +41,7 @@ exports.SimulatorPlugin = class extends DOMNode {
         let constants = this._constants;
         return {
             title: sensorMode,
-            onClick: (function() {
+            onClick: () => {
                 let mode      = null;
                 let menuItems = this[menu].getMenuItems();
                 for (let i = 0; i < menuItems.length; i++) {
@@ -57,7 +57,7 @@ exports.SimulatorPlugin = class extends DOMNode {
                     state.setMode(mode);
                     this._device.setMode(state.getLayer(), state.getId(), mode);
                 }
-            }).bind(this)
+            }
         };
     }
 

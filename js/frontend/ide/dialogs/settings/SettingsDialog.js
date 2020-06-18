@@ -163,8 +163,8 @@ exports.SettingsDialog = class extends Dialog {
             className: 'boolean-setting',
             children: [
                 {
-                    id: function(element) {
-                        updateFunctions.push(function() {
+                    id: (element) => {
+                        updateFunctions.push(() => {
                             element.setValue(!!settings[opts.getter]());
                         });
                     },
@@ -172,7 +172,7 @@ exports.SettingsDialog = class extends Dialog {
                     ui:       this._ui,
                     uiId:     this._uiId,
                     tabIndex: opts.tabIndex,
-                    onChange: function(value) {
+                    onChange: (value) => {
                         dispatcher.dispatch(opts.signal, value);
                     }
                 },
@@ -194,7 +194,7 @@ exports.SettingsDialog = class extends Dialog {
     }
 
     onShow(opts) {
-        this._updateFunctions.forEach(function(updateFunction) {
+        this._updateFunctions.forEach((updateFunction) => {
             updateFunction();
         });
         this.onClickTab('panelUpdate');

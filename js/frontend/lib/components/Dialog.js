@@ -46,9 +46,9 @@ exports.Dialog = class extends ComponentContainer {
         }
         document.body.appendChild(dialogNode);
         setTimeout(
-            (function() {
+            () => {
                 dialogNode.className = this.addClassName(dialogNode.className, 'show');
-            }).bind(this),
+            },
             5
         );
     }
@@ -61,7 +61,7 @@ exports.Dialog = class extends ComponentContainer {
         let dialogNode = this._dialogNode;
         dialogNode.className = this.removeClassName(dialogNode.className, 'show');
         this._hideTimeout = setTimeout(
-            (function() {
+            () => {
                 this._hideTimeout = null;
                 try {
                     document.body.removeChild(dialogNode);
@@ -70,7 +70,7 @@ exports.Dialog = class extends ComponentContainer {
                 } catch (error) {
                     // Ignore if node is already removed...
                 }
-            }).bind(this),
+            },
             200
         );
     }

@@ -214,7 +214,7 @@ exports.PoweredUp = class extends BasicDevice {
         let connectedHubs     = this._connectedHubs;
         let connectedHubUuids = {};
         let hubsByUuid        = this._hubsByUuid;
-        connectedHubs.forEach(function(connectedHub) {
+        connectedHubs.forEach((connectedHub) => {
             connectedHubUuids[connectedHub.uuid] = true;
         });
         this._hubs.forEach(

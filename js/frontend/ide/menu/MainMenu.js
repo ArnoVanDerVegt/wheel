@@ -295,7 +295,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'},
                 {title: '-'}
             ];
-        this._settings.getPlugins().getSortedPlugins().forEach(function(plugin) {
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
             if (lastGroup === null) {
                 lastGroup = plugin.group;
             } else if (lastGroup !== plugin.group) {
@@ -420,7 +420,7 @@ exports.MainMenu = class extends MainMenu {
     onUpdateSimulatorMenu(info) {
         let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
         menuOptions[0].setChecked(this._settings.getSensorAutoReset());
-        this._settings.getPlugins().getSortedPlugins().forEach(function(plugin, index) {
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin, index) => {
             menuOptions[1 + index].setChecked(plugin.visible);
         });
         return this;

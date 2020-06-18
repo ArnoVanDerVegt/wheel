@@ -108,7 +108,7 @@ exports.MainMenu = class extends DOMNode {
     }
 
     hideAllMenus() {
-        this._menus.forEach(function(menu) {
+        this._menus.forEach((menu) => {
             menu.setMenuVisible(false);
         });
     }

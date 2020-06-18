@@ -69,11 +69,11 @@ exports.PoweredUpState = class extends BasicDeviceState {
             'post',
             'powered-up/connect',
             {uuid: hub.uuid},
-            (function(data) {
+            (data) => {
                 if (!this._updating) {
                     this.update();
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -89,23 +89,23 @@ exports.PoweredUpState = class extends BasicDeviceState {
             return;
         }
         this._updating = true;
-        let callback = (function() {
+        let callback = () => {
                 this._dataProvider.getData(
                     'post',
                     'powered-up/update',
                     {
                         queue: this._queue
                     },
-                    (function(data) {
+                    (data) => {
                         this._queue.length = 0;
                         let json = JSON.parse(data);
                         this.updateLayerState(json);
                         if (!this._noTimeout) {
                             setTimeout(callback, 20);
                         }
-                    }).bind(this)
+                    }
                 );
-            }).bind(this);
+            };
         callback();
     }
 

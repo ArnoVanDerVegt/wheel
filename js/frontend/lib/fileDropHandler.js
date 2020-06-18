@@ -42,7 +42,7 @@ class DropHandler {
         let reader = new FileReader();
         reader.addEventListener(
             'load',
-            (function() {
+            () => {
                 let data = this.readData(reader.result);
                 if (data === null) {
                     return;
@@ -71,7 +71,7 @@ class DropHandler {
                         dispatcher.dispatch('FileDrop.Open', filename, this.readRsfData(data), false);
                         break;
                 }
-            }).bind(this)
+            }
         );
         reader.readAsDataURL(file);
     }

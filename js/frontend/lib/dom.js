@@ -13,7 +13,7 @@ const DOMUtils = class {
             let c     = element.className || '';
             let items = c.split(' ');
             c = '';
-            items.forEach(function(item) {
+            items.forEach((item) => {
                 if (item !== className) {
                     c += item + ' ';
                 }
@@ -140,9 +140,9 @@ const DOMNode = class extends DOMUtils {
     }
 
     setRef(id) {
-        return (function(element) {
+        return (element) => {
             this._refs[id] = element;
-        }).bind(this);
+        };
     }
 
     getRefs() {

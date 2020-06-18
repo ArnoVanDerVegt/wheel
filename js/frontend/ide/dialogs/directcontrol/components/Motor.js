@@ -102,11 +102,11 @@ exports.Motor = class extends DOMNode {
     setAssigned(assigned) {
         let element         = this._element;
         let className       = this._className;
-        let updateClassName = (function() {
+        let updateClassName = () => {
                 this.clearAssignedTimeout();
                 let disabled = !this._motorValidator.valid(assigned);
                 element.className = 'motor ' + (disabled ? 'disabled' : '') + ' ' + className;
-            }).bind(this);
+            };
         this.clearAssignedTimeout();
         if (this._motorValidator.waiting(assigned)) {
             this._assignedTimeout = setTimeout(updateClassName, 3000);

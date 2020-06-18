@@ -92,7 +92,7 @@ class LogMessage extends DOMNode {
         let messageId = this._messageId;
         let messages  = this._log.getMessages();
         this._element.className = this.getClassName();
-        messages.forEach(function(message) {
+        messages.forEach((message) => {
             if (message.getParentMessageId() === messageId) {
                 message.setVisible(open);
             }

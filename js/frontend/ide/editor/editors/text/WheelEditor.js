@@ -232,13 +232,13 @@ exports.WheelEditor = class extends Editor {
     }
 
     disableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker disabled';
         });
     }
 
     enableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker';
         });
     }
@@ -318,10 +318,10 @@ exports.WheelEditor = class extends Editor {
         if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'.indexOf(ch) === -1) {
             return;
         }
-        let callback = (function() {
+        let callback = () => {
                 CodeMirror.commands.autocomplete(cm, null, {completeSingle: true});
                 this._autoCompleteTimeout = null;
-            }).bind(this);
+            };
         this._autoCompleteTimeout = setTimeout(callback, 1000);
     }
 
@@ -338,7 +338,7 @@ exports.WheelEditor = class extends Editor {
             clearTimeout(wheelEditorState.getHintTimeout());
         }
         wheelEditorState.setHintTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setHintTimeout(null);
                 let codeMirror = this._codeMirror;
                 let coords     = codeMirror.coordsChar({left: event.clientX, top: event.clientY});
@@ -348,7 +348,7 @@ exports.WheelEditor = class extends Editor {
                 if ((typeof hint === 'string') && (hint.trim() !== '')) {
                     dispatcher.dispatch('Hint.Show', event, hint, wheelEditorState.getDatabase());
                 }
-            }).bind(this),
+            },
             300
         ));
     }
@@ -366,12 +366,12 @@ exports.WheelEditor = class extends Editor {
         let wheelEditorState = this._wheelEditorState;
         wheelEditorState.getCodeMirrorRefreshTimeout() && clearTimeout(wheelEditorState.getCodeMirrorRefreshTimeout());
         wheelEditorState.setCodeMirrorRefreshTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setCodeMirrorRefreshTimeout(null);
                 this._codeMirror.setOption('mode', wheelEditorState.getMode());
-            }).bind(this),
+            }),
             10
-        ));
+        );
     }
 
     hideReplaceOptions() {
@@ -452,7 +452,7 @@ exports.WheelEditor = class extends Editor {
 
     restoreCursor() {
         setTimeout(
-            (function() {
+            () => {
                 let lastCursor = this._lastCursor;
                 if (!lastCursor) {
                     return;
@@ -464,7 +464,7 @@ exports.WheelEditor = class extends Editor {
                 }
                 codeMirror.focus();
                 codeMirror.setCursor(lastCursor);
-            }).bind(this),
+            },
             0
         );
     }

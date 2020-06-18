@@ -239,7 +239,7 @@ exports.FormComponentContainer = class extends DOMNode {
         let element;
         let formEditorState = this._formEditorState;
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
-        opts.onMouseDown  = (function(event) { this.onComponentMouseDown(event, element, opts); }).bind(this);
+        opts.onMouseDown  = (event) => { this.onComponentMouseDown(event, element, opts); };
         opts.style        = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
         opts.parentNode   = this._formElement;
         opts.ui           = this._ui;
@@ -254,9 +254,9 @@ exports.FormComponentContainer = class extends DOMNode {
             formEditorState: formEditorState
         });
         if (opts.panelOpts) {
-            opts.panelOpts.onMouseDown = (function(event) {
+            opts.panelOpts.onMouseDown = (event) => {
                 this.onComponentMouseDown(event, element, opts);
-            }).bind(this);
+            };
         }
         element                    = new opts.componentConstructor(opts);
         this._elementById[opts.id] = element;

@@ -170,20 +170,20 @@ exports.BasicIODevice = class extends DOMNode {
             function(event) {
                 element.addEventListener(
                     event,
-                    (function(event) {
+                    (event) => {
                         if (debounceTimeout) {
                             clearTimeout(debounceTimeout);
                         }
                         debounceTimeout = setTimeout(
-                            (function() {
+                            () => {
                                 debounceTimeout = null;
                                 if (event.target.value !== '') {
                                     this.onChangeNumberValue(parseFloat(event.target.value, 10));
                                 }
-                            }).bind(this),
+                            },
                             500
                         );
-                    }).bind(this)
+                    }
                 );
             },
             this

@@ -91,7 +91,7 @@ exports.NewVersion = class extends DOMNode {
     getComparableVersion(version) {
         version = version.split('.');
         let result = '';
-        version.forEach(function(v) {
+        version.forEach((v) => {
             result += ('000' + v).substr(-3) + '-';
         });
         return result;

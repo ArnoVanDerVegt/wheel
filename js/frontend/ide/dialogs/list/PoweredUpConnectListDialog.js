@@ -25,7 +25,7 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
             'post',
             'powered-up/device-list',
             {},
-            (function(data) {
+            (data) => {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
@@ -38,7 +38,7 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
                     this.onDeviceList(data.list);
                 }
                 this._scanTimeout = setTimeout(this.getList.bind(this), 200);
-            }).bind(this)
+            }
         );
     }
 

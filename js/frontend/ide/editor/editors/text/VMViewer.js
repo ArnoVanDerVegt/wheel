@@ -124,7 +124,7 @@ exports.VMViewer = class extends Editor {
         let lastBlockId     = '';
         let backgroundClass = 'even';
         let lineClasses     = {};
-        lines.forEach(function(line, index) {
+        lines.forEach((line, index) => {
             let i = line.indexOf('|');
             if (i !== -1) {
                 let blockId = line.substr(5, 4);

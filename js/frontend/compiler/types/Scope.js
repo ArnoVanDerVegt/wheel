@@ -55,9 +55,9 @@ exports.Scope = class {
         }
         let offsets     = [];
         let offset      = this._size;
-        let checkRecord = function(record) {
+        let checkRecord = (record) => {
                 let vars = record.getVars();
-                vars.forEach(function(vr) {
+                vars.forEach((vr) => {
                     let type      = vr.getType();
                     let arraySize = vr.getArraySize();
                     arraySize = (arraySize === false) ? 1 : arraySize;
@@ -219,7 +219,7 @@ exports.Scope = class {
         this._size         = scope.getTotalSize();
         this._stackOffset  = this._size;
         this._stringsAdded = scope.getStringsAdded();
-        this._stringsAdded.forEach(function(stringAdded) {
+        this._stringsAdded.forEach((stringAdded) => {
             stringAdded.done = false;
         });
     }
@@ -294,7 +294,7 @@ exports.Scope = class {
 
     getTotalSize() {
         let totalSize = 0;
-        this._vars.forEach(function(vr) {
+        this._vars.forEach((vr) => {
             totalSize += vr.getTotalSize();
         });
         return totalSize;

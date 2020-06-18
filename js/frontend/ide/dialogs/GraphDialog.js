@@ -62,7 +62,7 @@ exports.GraphDialog = class extends Dialog {
 
     addToolOptions(opts) {
         let options = [];
-        opts.options.forEach(function(option) {
+        opts.options.forEach((option) => {
             options.push({value: option});
         });
         return {

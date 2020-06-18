@@ -121,11 +121,11 @@ exports.CompileAndRunOutput = class {
         resourcesList.forEach(
             function(resource) {
                 if (resource.canSave()) {
-                    resource.getData((function(data) {
+                    resource.getData((data) => {
                         if (data === null) {
                             this.saveResource(outputPath, resource);
                         }
-                    }).bind(this));
+                    });
                 } else {
                     let pathAndFilename = path.getPathAndFilename(resource.getFilename());
                     dispatcher.dispatch(

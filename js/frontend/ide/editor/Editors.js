@@ -129,11 +129,11 @@ exports.Editors = class extends DOMNode {
 
     onContextMenuCloseOthers(item) {
         let tabs = [];
-        this._refs.tabs.getTabs().forEach(function(tab) {
+        this._refs.tabs.getTabs().forEach((tab) => {
             tabs.push({path: tab.getMeta(), filename: tab.getTitle()});
         });
         let index = 0;
-        let close = (function(type) {
+        let close = (type) => {
                 if ((type === 'cancel') || (index >= tabs.length)) {
                     this._closeNextCallback = null;
                     return;
@@ -149,7 +149,7 @@ exports.Editors = class extends DOMNode {
                     }
                 }
                 this.closeEditor(tab.path, tab.filename);
-            }).bind(this);
+            };
         this._closeNextCallback = close;
         close();
     }
@@ -202,10 +202,10 @@ exports.Editors = class extends DOMNode {
         let editor = this._editorsState.findByPathAndFilename(path, filename);
         this._closeOpts = {path: path, filename: filename};
         if (editor.getChanged()) {
-            this._saveAndClose = (function() { // Yes
+            this._saveAndClose = () => { // Yes
                 editor.save();
                 this.close(this._closeOpts);
-            }).bind(this);
+            };
             setTimeout(
                 function() {
                     dispatcher.dispatch(
@@ -273,9 +273,9 @@ exports.Editors = class extends DOMNode {
             title:   opts.filename,
             meta:    opts.path,
             onClick: this.onClickTab.bind(this),
-            onClose: (function(title, meta) {
+            onClose: (title, meta) => {
                 (opts.filename === 'main.whlp') ? null : this.onEditorClose({path: meta, filename: title});
-            }).bind(this)
+            }
         });
         this.onClickTab(opts.filename, opts.path);
         dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
@@ -283,7 +283,7 @@ exports.Editors = class extends DOMNode {
 
     addForm(opts) {
         let textOpts = Object.assign({}, opts);
-        const addSourceEditor = (function(textOpts) {
+        const addSourceEditor = (textOpts) => {
                 textOpts.filename = path.replaceExtension(opts.filename, '.whl' + (textOpts.isProject ? 'p' : ''));
                 textOpts.mode     = 'text/x-wheel';
                 textOpts.gutters  = ['CodeMirror-linenumbers', 'breakpoints'];
@@ -292,15 +292,15 @@ exports.Editors = class extends DOMNode {
                 if (!this.findEditor(pathAndFilename.path, pathAndFilename.filename)) {
                     this.addEditor(textOpts, new WheelEditor(textOpts));
                 }
-            }).bind(this);
-        const addSource = (function(isProject) {
+            };
+        const addSource = (isProject) => {
                 textOpts.value     = opts.value.whl;
                 textOpts.isProject = isProject;
                 textOpts.value     = new SourceBuilder({settings: this._settings})
                     .generateSourceFromFormData({components: opts.data, project: isProject})
                     .getSource();
                 addSourceEditor(textOpts);
-            }).bind(this);
+            };
         try {
             opts.data = JSON.parse(opts.value.wfrm);
         } catch (error) {
@@ -369,9 +369,9 @@ exports.Editors = class extends DOMNode {
             case '.ogg':
                 this._soundLoader.load(
                     opts,
-                    (function(opts) {
+                    (opts) => {
                         this.addEditor(opts, new SoundEditor(opts));
-                    }).bind(this)
+                    }
                 );
                 break;
             case '.bmp':
@@ -381,9 +381,9 @@ exports.Editors = class extends DOMNode {
             case '.gif':
                 this._imageLoader.load(
                     opts,
-                    (function(opts) {
+                    (opts) => {
                         this.addEditor(opts, new ImageEditor(opts));
-                    }).bind(this)
+                    }
                 );
                 break;
             case '.whl':

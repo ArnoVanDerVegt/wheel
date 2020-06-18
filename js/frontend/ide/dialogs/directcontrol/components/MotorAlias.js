@@ -37,7 +37,7 @@ exports.MotorAlias = class extends DOMNode {
         this._element = element;
         element.addEventListener(
             'click',
-            (function() {
+            () => {
                 dispatcher.dispatch(
                     'Dialog.DevicePortAlias.Show',
                     {
@@ -46,7 +46,7 @@ exports.MotorAlias = class extends DOMNode {
                         alias:   this._settings.getDevicePortAlias(this.getDeviceUUID(), this._index)
                     }
                 );
-            }).bind(this)
+            }
         );
     }
 

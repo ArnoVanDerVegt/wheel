@@ -198,11 +198,11 @@ exports.EV3 = class extends BasicDevice {
         let commandQueue = new CommandQueue(
                 this,
                 function(data) {
-                    port.write(Buffer.from(data), function(error) {
+                    port.write(Buffer.from(data), (error) => {
                         if (error) {
                             console.error('Write err:', error);
                         }
-                        port.drain(function(error) {
+                        port.drain((error) => {
                             if (error) {
                                 console.error('Drain err:', error);
                             }
@@ -220,9 +220,9 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._connected = false;
-        this.getPort().close((function(err) {
+        this.getPort().close((err) => {
             this._port = null;
-        }).bind(this));
+        });
     }
 
     playtone(frequency, duration, volume, callback) {

@@ -21,7 +21,7 @@ exports.WocFileProcessor = class extends FileProcessor {
             wocByName[wocName.trim()] = woc;
         } else {
             wocName = wocName.split(',');
-            wocName.forEach(function(wocName) {
+            wocName.forEach((wocName) => {
                 if (wocName.trim() !== '') {
                     wocByName[wocName.trim()] = woc;
                 }

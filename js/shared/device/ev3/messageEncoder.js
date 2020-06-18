@@ -87,7 +87,7 @@
 
     exports.stringToHexString = function(s) {
         let result = '';
-        s.split('').map(function(c) {
+        s.split('').map((c) => {
             let hex = c.charCodeAt(0).toString(16);
             if (hex.length === 2) {
                 result += hex;

@@ -118,7 +118,7 @@ exports.SourceBuilder = class {
     generateIncludesFromComponents(components) {
         let includes            = [];
         let includeForComponent = formEditorConstants.INCLUDE_FOR_COMPONENT;
-        components.forEach(function(component) {
+        components.forEach((component) => {
             if (component.type in includeForComponent) {
                 let include = includeForComponent[component.type];
                 if (includes.indexOf(include) === -1) {
@@ -160,7 +160,7 @@ exports.SourceBuilder = class {
         );
         defines.sort();
         let space = '                                                                      ';
-        defines.forEach(function(define) {
+        defines.forEach((define) => {
             define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
         });
         return {
@@ -182,12 +182,12 @@ exports.SourceBuilder = class {
                 '#include "lib/standard.whl"'
             );
         }
-        includes.forEach(function(include) {
+        includes.forEach((include) => {
             lines.push('#include "' + include + '"');
         });
         let defines = this.generateDefinesFromComponents(formName, components);
         lines.push('');
-        defines.list.forEach(function(define) {
+        defines.list.forEach((define) => {
             lines.push(define.line);
         });
         lines.push(
@@ -240,7 +240,7 @@ exports.SourceBuilder = class {
                 componentType.substr(0, 1).toUpperCase() + componentType.substr(1, componentType.length - 1) +
                 ' ' + eventType + ' event.');
         }
-        event.params.forEach(function(param) {
+        event.params.forEach((param) => {
             proc += param.type + ' ' + param.name + ', ';
             if (addComments) {
                 lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
@@ -249,7 +249,7 @@ exports.SourceBuilder = class {
         proc = proc.substr(0, proc.length - 2) + ')';
         lines.push(proc);
         if (event.code) {
-            event.code.forEach(function(code) {
+            event.code.forEach((code) => {
                 lines.push(code.replace('{name}', componentName));
             });
         }
@@ -260,7 +260,7 @@ exports.SourceBuilder = class {
     generateEventsFromData(lines, data) {
         let procedures = [];
         const findProcedures = function() {
-                lines.forEach(function(line, index) {
+                lines.forEach((line, index) => {
                     let s = line.trim();
                     if (s.indexOf('proc') === 0) {
                         s = s.substr(4, s.length - 4).trim();
@@ -291,7 +291,7 @@ exports.SourceBuilder = class {
                             index--;
                         }
                         procLines.reverse();
-                        procLines.forEach(function(procLine) {
+                        procLines.forEach((procLine) => {
                             lines.splice(index, 0, procLine);
                         });
                         found = true;
@@ -348,12 +348,12 @@ exports.SourceBuilder = class {
             }
         }
         if (insertPosition === -1) {
-            defines.list.forEach(function(define) {
+            defines.list.forEach((define) => {
                 lines.push(define.line);
             });
         } else {
             defines.list.reverse();
-            defines.list.forEach(function(define) {
+            defines.list.forEach((define) => {
                 lines.splice(insertPosition, 0, define.line);
             });
         }
@@ -383,7 +383,7 @@ exports.SourceBuilder = class {
     updateLinesWithIncludes(lines, opts) {
         let currentIncludes = [];
         let lastIndex       = 0;
-        lines.forEach(function(line, index) {
+        lines.forEach((line, index) => {
             line = line.trim();
             if (line.indexOf('#include ') === 0) {
                 let i = line.indexOf('"');
@@ -395,7 +395,7 @@ exports.SourceBuilder = class {
             }
         });
         let includes = this.generateIncludesFromComponents(opts.components);
-        includes.forEach(function(include) {
+        includes.forEach((include) => {
             if (currentIncludes.indexOf(include) === -1) {
                 lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
             }
@@ -408,7 +408,7 @@ exports.SourceBuilder = class {
             return this;
         }
         let eventsByOldName = {};
-        opts.renameEvents.forEach(function(renameEvent) {
+        opts.renameEvents.forEach((renameEvent) => {
             eventsByOldName[renameEvent.oldName] = renameEvent;
         });
         let lines = this._lines;

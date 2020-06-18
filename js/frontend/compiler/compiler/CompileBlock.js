@@ -61,7 +61,7 @@ class CompileBlock extends CompileScope {
             case '#display':
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
-                    token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach(function(name) {
+                    token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach((name) => {
                         dispatcher.dispatch('Simulator.ShowPluginByName', name.trim());
                     });
                 } else {

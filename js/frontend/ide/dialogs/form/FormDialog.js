@@ -158,7 +158,7 @@ exports.FormDialog = class extends Dialog {
                             component.type     = TabPanel;
                             component.children = [];
                             let containerId = component.containerId;
-                            containerId.forEach(function(container) {
+                            containerId.forEach((container) => {
                                 let children = [];
                                 componentById[container] = children;
                                 component.children.push(children);

@@ -147,14 +147,14 @@ exports.ExploreDialog = class extends Dialog {
             'get',
             uri,
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     this.onLeftPath(json.path);
                     callback(json.path, json.files);
                 } catch (error) {
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -170,7 +170,7 @@ exports.ExploreDialog = class extends Dialog {
             'get',
             'ev3/files',
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     this.onRightPath(json.path);
@@ -185,7 +185,7 @@ exports.ExploreDialog = class extends Dialog {
                     );
                     this._refs.remoteFiles.setLoading(false);
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -270,7 +270,7 @@ exports.ExploreDialog = class extends Dialog {
         remoteFiles.setLoading(true);
         this._ev3.deleteFile(
             this._deleteFilename,
-            (function(result) {
+            (result) => {
                 if (result.error) {
                     dispatcher.dispatch(
                         'Dialog.Alert.Show',
@@ -281,7 +281,7 @@ exports.ExploreDialog = class extends Dialog {
                     );
                 }
                 this.onRemoteDirUpdated();
-            }).bind(this)
+            }
         );
     }
 

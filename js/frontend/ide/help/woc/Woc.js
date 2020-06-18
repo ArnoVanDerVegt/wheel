@@ -10,13 +10,13 @@ exports.Woc = class {
     build(filelist) {
         let help      = {keywords: {}, files: []};
         let wocByName = {};
-        filelist.forEach(function(file) {
+        filelist.forEach((file) => {
             let filename = file.filename;
             if (filename.substr(-4) === '.woc') {
                 new WocFileProcessor(help, filename, file.lines).process(wocByName);
             }
         });
-        filelist.forEach(function(file) {
+        filelist.forEach((file) => {
             let filename = file.filename;
             let lines    = file.lines;
             if ((filename.substr(-4) === '.whl') || (filename.substr(-5) === '.whlp')) {

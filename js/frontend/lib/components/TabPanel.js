@@ -96,7 +96,7 @@ exports.TabPanel = class extends Component {
 
     onClickTab(index) {
         this._active = index;
-        this._panels.forEach(function(panel, i) {
+        this._panels.forEach((panel, i) => {
             let className = 'tab-panel' + ((i === index) ? ' visible' : '');
             if (typeof panel.setClassName === 'function') {
                 panel.setClassName(className);
