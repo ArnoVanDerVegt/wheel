@@ -15,7 +15,6 @@ This example shows how to use the label component.
 #include "lib/components/label.whl"
 
 #define LABEL_COUNT 0x5EF685C3
-#define LABEL_FORM  0x843532C2
 #define LABEL_LABEL 0x3B44B2E3
 
 #resource "label.wfrm"
