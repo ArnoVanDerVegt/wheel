@@ -252,6 +252,43 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-name.list-focus .list-content .list-item.active span.list-item-title {
     display:                        none;
 }
+/* Rgb */
+.properties .properties-container .property .property-value .color-row {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+}
+.properties .properties-container .property .property-value .color-row .color-label,
+.properties .properties-container .property .property-value .color-row .color {
+    float:                          left;
+}
+.properties .properties-container .property .property-value .color-row .color-label {
+    width:                          44px;
+    height:                         28px;
+    line-height:                    28px;
+}
+.properties .properties-container .property .property-value .color-row .color-label.small {
+    font-size:                      11px;
+    padding:                        0 0 0 8px;
+}
+.properties .properties-container .property .property-value .color-row .color {
+    width:                          20px;
+    height:                         20px;
+    border:                         var(--ui-border1);
+    margin:                         4px 4px 0 4px;
+    border-radius:                  2px;
+}
+.properties .properties-container .property .property-value .color-row .text-input {
+    float:                          right;
+    width:                          calc(100% - 80px);
+    height:                         28px;
+    border:                         1px solid transparent;
+    padding:                        0 0 0 8px;
+    line-height:                    26px;
+    outline:                        none;
+    font-size:                      15px;
+    background-color:               transparent;
+}
 /* Events */
 .properties .events-container .event .event-value .button {
     margin:                         2px 0 0 8px;

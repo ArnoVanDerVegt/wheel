@@ -13,6 +13,7 @@ exports.BooleanProperty = class extends Property {
                 {
                     type:     Checkbox,
                     ref:      this.setRef('checkbox'),
+                    checked:  this._value,
                     ui:       this._ui,
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
@@ -23,7 +24,8 @@ exports.BooleanProperty = class extends Property {
     }
 
     setValue(checked) {
-        this._refs.setChecked(checked);
+        this._refs.checkbox.setChecked(checked);
+        this._value = !!checked;
     }
 
     onClick(event) {
@@ -32,6 +34,9 @@ exports.BooleanProperty = class extends Property {
     }
 
     onChange(checked) {
-        this._onChange && this._onChange(checked);
+        this._value = !!checked;
+        if (this._onChange) {
+            this._onChange(this._value);
+        }
     }
 };
