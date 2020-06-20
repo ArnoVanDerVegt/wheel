@@ -50,6 +50,7 @@ exports.ToolOptions = class extends DOMNode {
                 opts.value    = option;
                 opts.title    = option;
             } else {
+                opts.hint     = option.hint;
                 opts.dispatch = option.dispatch;
                 opts.event    = option.event;
                 opts.icon     = option.icon;

@@ -69,9 +69,9 @@ exports.GraphDialog = class extends Dialog {
             className: 'graph-dialog-row',
             children: [
                 super.addToolOptions({
+                    color:    'green',
                     tabIndex: opts.tabIndex,
                     label:    opts.title,
-                    color:    'green',
                     onSelect: opts.onSelect || function() {},
                     options:  options
                 })

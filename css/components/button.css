@@ -496,7 +496,6 @@ body.ide.dark .icon-button.icon-list-detail {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="4" y1="6" x2="16" y2="6" style="stroke:rgb(255,255,255);stroke-width:4" />    <line x1="4" y1="14" x2="16" y2="14" style="stroke:rgb(255,255,255);stroke-width:4" /></svg>');
     background-position:            0 0;
 }
-input[type="button"].icon-button.icon-copy,
 input[type="button"].icon-button.icon-copy.in-active,
 input[type="button"].icon-button.icon-play {
     margin-left:                    12px;
@@ -504,11 +503,11 @@ input[type="button"].icon-button.icon-play {
 
 input[type="button"].icon-button.icon-select {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <rect x="5" y="5" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)" stroke-dasharray="1 1"/></svg>');
-    background-position:            0 0;
+    background-position:            2px 2px;
 }
 body.ide.dark input[type="button"].icon-button.icon-select {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <rect x="5" y="5" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(255,255,255)" stroke-dasharray="1 1"/></svg>');
-    background-position:            0 0;
+    background-position:            2px 2px;
 }
 input[type="button"].icon-button.icon-grid {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="16" height="16" viewBox="0 -75 1000 1000" xmlns="http://www.w3.org/2000/svg">    <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M854 596.667v172h-172v-172h172zM854 340.667v172h-172v-172h172zM854 84.667v172h-172v-172h172zM598 596.667v172h-172v-172h172zM598 340.667v172h-172v-172h172zM598 84.667v172h-172v-172h172zM342 596.667v172h-172v-172h172zM342 340.667v172h-172v-172h172zM342 84.667v172h-172v-172h172zM854 852.667q34 0 59-25t25-59v-684q0-34-25-59t-59-25h-684q-34 0-59 25t-25 59v684q0 34 25 59t59 25h684z" /></svg>');
@@ -598,3 +597,21 @@ body.ide.dark input[type="button"].icon-button.icon-fade-out {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">    <rect x="13" y="8" width="5" height="4" style="fill:rgb(255,255,255);stroke-width:0" />    <rect x="7" y="6" width="5" height="8" style="fill:rgb(255,255,255);stroke-width:0" />    <rect x="1" y="4" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0" /></svg>');
     background-position:            2px 2px;
 }
+
+
+input {
+    position:                       relative;
+}
+input::after {
+    position:                       absolute;
+    color:                          var(--ui-text1);
+    content:                        "\2713";
+    left:                           0;
+    top:                            0;
+    width:                          16px;
+    height:                         16px;
+    text-align:                     center;
+    font-size:                      16px;
+    line-height:                    16px;
+}
+

@@ -30,10 +30,13 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-undo',
-                        title:     'Undo',
+                        hint:      {text: 'Undo'},
                         disabled:  true,
                         onClick:   soundEditor.onUndo.bind(soundEditor)
                     }),
+                    {
+                        className: 'space'
+                    },
                     this.addButton({
                         ref:       soundEditor.setRef('play'),
                         uiId:      soundEditor.getUIId.bind(soundEditor),
@@ -41,7 +44,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-play',
-                        title:     'Play',
+                        hint:      {text: 'Play'},
                         onClick:   soundEditor.onPlay.bind(soundEditor)
                     }),
                     // Copy, paste, delete...
@@ -52,7 +55,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-copy',
-                        title:     'Copy',
+                        hint:      {text: 'Copy'},
                         disabled:  true,
                         onClick:   soundEditor.onCopy.bind(soundEditor)
                     }),
@@ -63,7 +66,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-paste',
-                        title:     'Paste',
+                        hint:      {text: 'Paste'},
                         disabled:  true,
                         onClick:   soundEditor.onPaste.bind(soundEditor)
                     }),
@@ -74,12 +77,14 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-delete',
-                        title:     'Delete',
+                        hint:      {text: 'Delete'},
                         disabled:  true,
                         onClick:   soundEditor.onDelete.bind(soundEditor)
                     }),
-                    // Volumne...
-                    this.addLabel('Volume:'),
+                    {
+                        className: 'space'
+                    },
+                    // Volume...
                     this.addButton({
                         ref:       soundEditor.setRef('volume'),
                         uiId:      soundEditor.getUIId.bind(soundEditor),
@@ -87,7 +92,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-volume',
-                        title:     'Volume',
+                        hint:      {text: 'Change volume'},
                         onClick:   soundEditor.onVolume.bind(soundEditor)
                     }),
                     this.addButton({
@@ -97,7 +102,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-fade-in',
-                        title:     'Fade in',
+                        hint:      {text: 'Fade in'},
                         onClick:   soundEditor.onFadeIn.bind(soundEditor)
                     }),
                     this.addButton({
@@ -107,7 +112,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-fade-out',
-                        title:     'Fade out',
+                        hint:      {text: 'Fade out'},
                         onClick:   soundEditor.onFadeOut.bind(soundEditor)
                     })
                 ]

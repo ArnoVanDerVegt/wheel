@@ -5,6 +5,14 @@
 @section Checkbox example
 This example shows how to use the checkbox component.
 
+
+The `windowHandle` parameter refers to the active window. When the checkbox value changes
+then the `onCheckboxFormCheckboxChange` procedure is called.
+
+
+Since the status light is on the same window as the checkbox, the `windowHandle` parameter
+can be used to address the status light.
+
 @section Code
 @example
 #project "Checkbox example"

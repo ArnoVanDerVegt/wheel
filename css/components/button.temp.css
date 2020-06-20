@@ -440,11 +440,11 @@ input[type="button"].icon-button.icon-play {
 
 input[type="button"].icon-button.icon-select {
     background-image:               url('images/buttons/selectBlack.svg');
-    background-position:            0 0;
+    background-position:            2px 2px;
 }
 body.ide.dark input[type="button"].icon-button.icon-select {
     background-image:               url('images/buttons/selectWhite.svg');
-    background-position:            0 0;
+    background-position:            2px 2px;
 }
 input[type="button"].icon-button.icon-grid {
     background-image:               url('images/buttons/gridBlack.svg');

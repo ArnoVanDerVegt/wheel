@@ -34,11 +34,14 @@ exports.ToolbarTop = class extends Toolbar {
                                 tabIndex:  tabIndex.IMAGE_UNDO,
                                 icon:      'icon-undo',
                                 className: 'toolbar-button',
-                                title:     'Undo',
+                                hint:      {text: 'Undo'},
                                 color:     ' ',
                                 disabled:  true,
                                 onClick:   imageEditor.onUndo.bind(imageEditor)
                             }),
+                            {
+                                className: 'space'
+                            },
                             this.addButton({
                                 ref:       imageEditor.setRef('copy'),
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
@@ -46,7 +49,7 @@ exports.ToolbarTop = class extends Toolbar {
                                 className: 'toolbar-button',
                                 color:     ' ',
                                 icon:      'icon-copy',
-                                title:     'Copy',
+                                hint:      {text: 'Copy'},
                                 disabled:  true,
                                 onClick:   imageEditor.onCopy.bind(imageEditor)
                             }),
@@ -57,62 +60,70 @@ exports.ToolbarTop = class extends Toolbar {
                                 className: 'toolbar-button',
                                 color:     ' ',
                                 icon:      'icon-paste',
-                                title:     'Paste',
+                                hint:      {text: 'Space'},
                                 disabled:  true,
                                 onClick:   imageEditor.onPaste.bind(imageEditor)
                             }),
+                            {
+                                className: 'space'
+                            },
                             this.addToolOptions({
                                 uiId:          imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:      tabIndex.IMAGE_TOOL,
-                                label:         'Tool:',
                                 baseClassName: 'tool-options-toolbar',
                                 onSelect:      imageEditor.onSelectTool.bind(imageEditor),
                                 options: [
-                                    {title: 'Pen',    icon: 'icon-point'},
-                                    {title: 'Line',   icon: 'icon-line'},
-                                    {title: 'Rect',   icon: 'icon-rect'},
-                                    {title: 'Circle', icon: 'icon-circle'},
-                                    {title: 'Text',   icon: 'icon-text'},
-                                    {title: 'Select', icon: 'icon-select'}
+                                    {icon: 'icon-point',  hint: {text: 'Pen<br/>tool'}},
+                                    {icon: 'icon-line',   hint: {text: 'Line<br/>tool'}},
+                                    {icon: 'icon-rect',   hint: {text: 'Rectangle<br/>tool'}},
+                                    {icon: 'icon-circle', hint: {text: 'Circle<br/>tool'}},
+                                    {icon: 'icon-text',   hint: {text: 'Text<br/>tool'}},
+                                    {icon: 'icon-select', hint: {text: 'Select<br/>tool'}}
                                 ]
                             }),
+                            {
+                                className: 'space'
+                            },
                             this.addToolOptions({
                                 uiId:          imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:      tabIndex.IMAGE_FILL,
                                 tool:          1,
-                                label:         'Fill:',
                                 baseClassName: 'tool-options-toolbar',
                                 onSelect: imageEditor.onSelectFill.bind(imageEditor),
                                 options: [
-                                    {title: 'White',       icon: 'icon-fill-white'},
-                                    {title: 'Black',       icon: 'icon-fill-black'},
-                                    {title: 'Transparent', icon: 'icon-fill-transparent'}
+                                    {icon: 'icon-fill-white',       hint: {text: 'White<br/>fill'}},
+                                    {icon: 'icon-fill-black',       hint: {text: 'Black<br/>fill'}},
+                                    {icon: 'icon-fill-transparent', hint: {text: 'Transparent<br/>fill'}}
                                 ]
                             }),
+                            {
+                                className: 'space'
+                            },
                             this.addToolOptions({
                                 uiId:          imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:      tabIndex.IMAGE_STROKE,
                                 tool:          1,
-                                label:         'Stroke:',
                                 baseClassName: 'tool-options-toolbar',
                                 onSelect:      imageEditor.onSelectStroke.bind(imageEditor),
                                 options: [
-                                    {title: 'White',       icon: 'icon-line-white'},
-                                    {title: 'Black',       icon: 'icon-line-black'},
-                                    {title: 'Transparent', icon: 'icon-line-transparent'}
+                                    {icon: 'icon-line-white',       hint: {text: 'White<br/>stroke'}},
+                                    {icon: 'icon-line-black',       hint: {text: 'Black<br/>stroke'}},
+                                    {icon: 'icon-line-transparent', hint: {text: 'Transparent<br/>stroke'}}
                                 ]
                             }),
+                            {
+                                className: 'space'
+                            },
                             this.addToolOptions({
                                 uiId:          imageEditor.getUIId.bind(imageEditor),
                                 tabIndex:      tabIndex.IMAGE_DRAW_SIZE,
-                                label:         'Size:',
                                 baseClassName: 'tool-options-toolbar',
                                 onSelect:      imageEditor.onSelectSize.bind(imageEditor),
                                 options: [
-                                    {title: 'Size 1', icon: 'icon-size1'},
-                                    {title: 'Size 2', icon: 'icon-size2'},
-                                    {title: 'Size 3', icon: 'icon-size3'},
-                                    {title: 'Size 4', icon: 'icon-size4'}
+                                    {icon: 'icon-size1', hint: {text: 'Pen size 1'}},
+                                    {icon: 'icon-size2', hint: {text: 'Pen size 2'}},
+                                    {icon: 'icon-size3', hint: {text: 'Pen size 3'}},
+                                    {icon: 'icon-size4', hint: {text: 'Pen size 4'}}
                                 ]
                             })
                         ]
@@ -120,7 +131,6 @@ exports.ToolbarTop = class extends Toolbar {
                     {
                         className: 'top-options right',
                         children: [
-                            this.addLabel('View:'),
                             this.addButton({
                                 ref:       imageEditor.setRef('gridToggle'),
                                 uiId:      imageEditor.getUIId.bind(imageEditor),
@@ -128,7 +138,7 @@ exports.ToolbarTop = class extends Toolbar {
                                 icon:      'icon-grid',
                                 className: 'toolbar-button active',
                                 color:     ' ',
-                                title:     'Grid',
+                                hint:      {text: 'Grid'},
                                 onClick:   imageEditor.onSelectGrid.bind(imageEditor)
                             }),
                             this.addButton({
@@ -138,7 +148,7 @@ exports.ToolbarTop = class extends Toolbar {
                                 icon:      'icon-binary',
                                 className: 'toolbar-button',
                                 color:     ' ',
-                                title:     'Binary',
+                                hint:      {text: 'Binary'},
                                 onClick:   imageEditor.onSelectMeta.bind(imageEditor)
                             })
                         ]

@@ -30,10 +30,13 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-undo',
-                        title:     'Undo',
+                        hint:      {text: 'Undo'},
                         disabled:  true,
                         onClick:   formEditor.onUndo.bind(formEditor)
                     }),
+                    {
+                        className: 'space'
+                    },
                     // Copy, paste, delete...
                     this.addButton({
                         ref:       formEditor.setRef('copy'),
@@ -42,7 +45,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-copy',
-                        title:     'Copy',
+                        hint:      {text: 'Copy'},
                         disabled:  true,
                         onClick:   formEditor.onCopy.bind(formEditor)
                     }),
@@ -53,7 +56,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-paste',
-                        title:     'Paste',
+                        hint:      {text: 'Paste'},
                         disabled:  true,
                         onClick:   formEditor.onPaste.bind(formEditor)
                     }),
@@ -64,24 +67,26 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'toolbar-button',
                         color:     ' ',
                         icon:      'icon-delete',
-                        title:     'Delete',
+                        hint:      {text: 'Delete'},
                         disabled:  true,
                         onClick:   formEditor.onDelete.bind(formEditor)
                     }),
+                    {
+                        className: 'space'
+                    },
                     this.addToolOptions({
                         uiId:          formEditor.getUIId.bind(formEditor),
                         tabIndex:      tabIndex.FORM_COMPONENT,
-                        label:         'Component:',
                         baseClassName: 'tool-options-toolbar',
                         onSelect:      formEditor.onSelectComponent.bind(formEditor),
                         options: [
-                            {title: 'Button',        icon: 'icon-btn'},
-                            {title: 'Select button', icon: 'icon-select-btn'},
-                            {title: 'Label',         icon: 'icon-label'},
-                            {title: 'Checkbox',      icon: 'icon-checkbox'},
-                            {title: 'Status light',  icon: 'icon-status-light'},
-                            {title: 'Panel',         icon: 'icon-panel'},
-                            {title: 'Tabs',          icon: 'icon-tabs'}
+                            {icon: 'icon-btn',          hint: {text: 'Button<br/>component'}},
+                            {icon: 'icon-select-btn',   hint: {text: 'SelectButton<br/>component'}},
+                            {icon: 'icon-label',        hint: {text: 'Label<br/>component'}},
+                            {icon: 'icon-checkbox',     hint: {text: 'Checkbox<br/>component'}},
+                            {icon: 'icon-status-light', hint: {text: 'StatusLight<br/>component'}},
+                            {icon: 'icon-panel',        hint: {text: 'Panel<br/>component'}},
+                            {icon: 'icon-tabs',         hint: {text: 'Tabs<br/>component'}}
                         ]
                     }),
                     {

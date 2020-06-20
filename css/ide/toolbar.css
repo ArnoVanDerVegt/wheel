@@ -7,6 +7,14 @@
     border:                         var(--ui-border1);
     border-width:                   0 0 1px 0;
 }
+.resource-options .space {
+    float:                          left;
+    width:                          1px;
+    height:                         36px;
+    margin:                         5px 8px 0 8px;
+    border:                         2px solid rgba(0, 0, 0, 0.15);
+    border-color:                   transparent rgba(0, 0, 0, 0.1) transparent rgba(255, 255, 255, 0.1);
+}
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue,
 .resource-options .tool-options-toolbar input {
     opacity:                        0;

@@ -59,10 +59,12 @@ exports.ComponentContainer = class extends Component {
         }
         let baseClassName = opts.baseClassName || 'tool-options';
         opts.options.forEach((option) => {
-            option.onFocus = () => {
+            // Don't bind to this with fat arrow here!
+            option.onFocus = function() {
                 this._parentNode.className = baseClassName + ' focus';
             };
-            option.onBlur = () => {
+            // Don't bind to this with fat arrow here!
+            option.onBlur = function() {
                 this._parentNode.className = baseClassName;
             };
         });

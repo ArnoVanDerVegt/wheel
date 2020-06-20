@@ -33,3 +33,25 @@
 .hint.visible {
     display:                        block;
 }
+.hint.with-arrow {
+    font-size:                      10px;
+    text-align:                     center;
+}
+.hint.with-arrow::before,
+.hint.with-arrow::after {
+    position:                       absolute;
+    left:                           calc(50% - 10px);
+    content:                        ' ';
+}
+.hint.with-arrow::after {
+    top:                            -8.5px;
+    border-left:                    10px solid transparent;
+    border-right:                   10px solid transparent;
+    border-bottom:                  10px solid var(--ui-background1);
+}
+.hint.with-arrow::before {
+    top:                            -10px;
+    border-left:                    10px solid transparent;
+    border-right:                   10px solid transparent;
+    border-bottom:                  10px solid rgba(0, 0, 0, 0.25);
+}
