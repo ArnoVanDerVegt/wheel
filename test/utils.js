@@ -267,19 +267,45 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
             let win         = ~~(Math.random() * 100000);
             let component   = ~~(Math.random() * 100000);
             let value       = ~~(Math.random() * 100000);
+            if (type === 'rgb') {
+                value = {
+                    red: ~~(Math.random() * 256),
+                    grn: ~~(Math.random() * 256),
+                    blu: ~~(Math.random() * 256),
+                };
+            }
             let getFileData = function(filename, token, callback) {
                     setTimeout(
                         function() {
                             if (filename === 'lib.whl') {
                                 callback(fs.readFileSync(moduleFile).toString());
                             } else {
-                                let param = (type === 'string') ? ('"' + value + '"') : value;
-                                callback([
-                                    '#include "lib.whl"',
-                                    'proc main()',
-                                    '   ' + procName + '(' + win + ',' + component + ',' + param + ')',
-                                    'end'
-                                ].join('\n'));
+                                switch (type) {
+                                    case 'number':
+                                        callback([
+                                            '#include "lib.whl"',
+                                            'proc main()',
+                                            '   ' + procName + '(' + win + ',' + component + ',' + value + ')',
+                                            'end'
+                                        ].join('\n'));
+                                        break;
+                                    case 'string':
+                                        callback([
+                                            '#include "lib.whl"',
+                                            'proc main()',
+                                            '   ' + procName + '(' + win + ',' + component + ',"' + value + '")',
+                                            'end'
+                                        ].join('\n'));
+                                        break;
+                                    case 'rgb':
+                                        callback([
+                                            '#include "lib.whl"',
+                                            'proc main()',
+                                            '   ' + procName + '(' + win + ',' + component + ',' + value.red + ',' + value.grn + ',' + value.blu + ')',
+                                            'end'
+                                        ].join('\n'));
+                                        break;
+                                }
                             }
                         },
                         1
@@ -311,9 +337,13 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                     );
                     vm.setCommands(program.getCommands()).run();
                     // Check if the dispatcher received the message...
-                    let opts = {};
-                    opts[property] = value;
-                    assert.deepEqual(result, opts);
+                    if (type === 'rgb') {
+                        assert.deepEqual(result, value);
+                    } else {
+                        let opts = {};
+                        opts[property] = value;
+                        assert.deepEqual(result, opts);
+                    }
                     done();
                 };
             preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);

@@ -12,6 +12,8 @@ namespace components.statusLight
 #define STATUS_LIGHT_COMPONENT_SET_X          1
 #define STATUS_LIGHT_COMPONENT_SET_Y          2
 #define STATUS_LIGHT_COMPONENT_SET_COLOR      3
+#define STATUS_LIGHT_COMPONENT_SET_RGB_COLOR  4
+#define STATUS_LIGHT_COMPONENT_SET_RGB        5
 
 ; @proc                   Hide the status light.
 ; @param windowhandle     The handle of the window.
@@ -47,4 +49,24 @@ end
 proc setColor(number windowHandle, number componentHandle, number y)
     addr windowHandle
     mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_COLOR
+end
+
+; @proc                   Select RGB color mode.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param color            The RGB color mode.
+proc setRgbColor(number windowHandle, number componentHandle, number rgbColor)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_RGB_COLOR
+end
+
+; @proc                   Set the RGB color.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param red              The red color component, a value in the range of 0..255.
+; @param green            The green color component, a value in the range of 0..255.
+; @param blue             The blue color component, a value in the range of 0..255.
+proc setRgb(number windowHandle, number componentHandle, number red, number green, number blue)
+    addr windowHandle
+    mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_RGB
 end

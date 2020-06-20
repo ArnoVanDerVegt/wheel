@@ -14,10 +14,16 @@ exports.ComponentStatusLightModule = class extends VMModule {
         let statusLight = null;
         let opts        = {};
         switch (commandId) {
-            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_HIDDEN: property = 'hidden'; break;
-            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_X:      property = 'x';      break;
-            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_Y:      property = 'y';      break;
-            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_COLOR:  property = 'color';  break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_HIDDEN:    property = 'hidden';    break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_X:         property = 'x';         break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_Y:         property = 'y';         break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_COLOR:     property = 'color';     break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_RGB_COLOR: property = 'rgbColor';  break;
+            case componentStatusLightModuleConstants.STATUS_LIGHT_SET_RGB:
+                statusLight = vmData.getRecordFromSrcOffset(['window', 'component', 'red', 'grn', 'blu']);
+                let rgb = {red: statusLight.red, grn: statusLight.grn, blu: statusLight.blu};
+                dispatcher.dispatch(statusLight.window + '_' + statusLight.component, rgb);
+                break;
         }
         if (property !== '') {
             statusLight    = vmData.getRecordFromSrcOffset(['window', 'component', property]);
