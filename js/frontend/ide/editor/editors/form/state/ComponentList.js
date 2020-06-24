@@ -2,6 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const formEditorConstants = require('../formEditorConstants');
+
 exports.ComponentList = class {
     constructor(opts) {
         this._formEditorState   = opts.formEditorState;
@@ -11,6 +13,10 @@ exports.ComponentList = class {
 
     generateComponentUid() {
         return '0x' + ('00000000' + (Math.floor(Math.random() * 0xFFFFFFFF + 1)).toString(16)).substr(-8).toUpperCase();
+    }
+
+    setUndoStack(undoStack) {
+        this._undoStack = undoStack;
     }
 
     getNewComponentUid() {
@@ -75,6 +81,18 @@ exports.ComponentList = class {
             });
         }
         items.sort();
+        return items;
+    }
+
+    getItemsByParentId(parentId) {
+        let componentsById = this._componentsById;
+        let items          = [];
+        for (let id in componentsById) {
+            let component = componentsById[id];
+            if (component.parentId === parentId) {
+                items.push(component);
+            }
+        }
         return items;
     }
 
@@ -188,7 +206,7 @@ exports.ComponentList = class {
                 }
             };
         if (value.length > component.tabs.length) {
-            component.containerId.push(nextId + 1);
+            component.containerId.push(this._formEditorState.getNextId() + 1);
             this._undoStack.undoStackPush({
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id

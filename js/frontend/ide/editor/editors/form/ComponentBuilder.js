@@ -103,8 +103,11 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'name',        this._componentList.findComponentText(component.type, 'name', 'Tabs'))
             .addProperty(component, 'tabs',        ['Tab(1)', 'Tab(2)'])
             .addProperty(component, 'width',       200)
-            .addProperty(component, 'height',      128)
-            .addProperty(component, 'containerId', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
+            .addProperty(component, 'height',      128);
+        if (!('containerId' in component)) {
+            console.log('HERE!!');
+            this.addProperty(component, 'containerId', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
+        }
         return component;
     }
 

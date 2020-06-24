@@ -53,6 +53,7 @@ exports.UndoStack = class {
 
     undo() {
         let item             = this.undoStackPop();
+        let formEditorState  = this._formEditorState;
         let componentList    = this._componentList;
         let componentBuilder = this._componentBuilder;
         let component;
@@ -64,31 +65,42 @@ exports.UndoStack = class {
             };
         switch (item.action) {
             case formEditorConstants.ACTION_ADD_COMPONENT:
-                this._formEditorState.deleteComponentById(item.id, false);
+                formEditorState.deleteComponentById(item.id, false);
                 break;
             case formEditorConstants.ACTION_DELETE_COMPONENT:
                 component = addComponent(item.component);
                 this._activeComponentId = component.id;
-                this._formEditorState
+                formEditorState
                     .emit('AddComponent', Object.assign({}, component))
                     .updateComponents(component.id);
+                if (component.children) {
+                    component.children.forEach(
+                        function(component) {
+                            component = addComponent(component);
+                            formEditorState
+                                .emit('AddComponent', Object.assign({}, component))
+                                .updateComponents(component.id);
+                        },
+                        this
+                    );
+                }
                 break;
             case formEditorConstants.ACTION_CHANGE_POSITION:
                 component   = componentList.getComponentById(item.id);
                 component.x = item.position.x;
                 component.y = item.position.y;
-                this._formEditorState
+                formEditorState
                     .onSelectComponent(item.id)
                     .emit('ChangePosition', item.id, item.position);
                 break;
             case formEditorConstants.ACTION_CHANGE_PROPERTY:
                 component                = componentList.getComponentById(item.id);
                 component[item.property] = item.value;
-                this._formEditorState
+                formEditorState
                     .onSelectComponent(item.id)
                     .emit('ChangeProperty', item.id, item.property, item.value);
                 if (component.type === 'form') {
-                    this._formEditorState.emit('ChangeForm');
+                    formEditorState.emit('ChangeForm');
                 }
                 break;
             case formEditorConstants.ACTION_TAB_DELETE_TAB:
@@ -126,13 +138,13 @@ exports.UndoStack = class {
                             }
                         }
                         addComponent(component);
-                        this._formEditorState.emit('AddComponent', Object.assign({}, component));
+                        formEditorState.emit('AddComponent', Object.assign({}, component));
                     },
                     this
                 );
-                this._formEditorState.updateComponents(item.id);
+                formEditorState.updateComponents(item.id);
                 break;
         }
-        this._formEditorState.emit('Undo');
+        formEditorState.emit('Undo');
     }
 };

@@ -38,7 +38,7 @@ exports.FormComponentContainer = class extends DOMNode {
         this._onMouseDown      = opts.onMouseDown;
         this._ui               = opts.ui;
         this._className        = opts.className;
-        this._parentId         = opts.formEditorState.getNextId();
+        this._parentId         = opts.parentId || opts.formEditorState.getNextId();
         this._formEditorState  = opts.formEditorState;
         this._events           = [
             this._formEditorState.on('AddComponent',    this, this.onAddComponent),
@@ -209,14 +209,16 @@ exports.FormComponentContainer = class extends DOMNode {
                 opts.panelConstructor = exports.FormComponentContainer;
                 opts.panelOpts        = {
                     formEditorState: this._formEditorState,
-                    ui:              this._ui
+                    ui:              this._ui,
+                    containerId:     opts.containerId
                 };
                 break;
             case formEditorConstants.COMPONENT_TYPE_TABS:
                 opts.panelConstructor = exports.FormComponentContainer;
                 opts.panelOpts        = {
                     formEditorState: this._formEditorState,
-                    ui:              this._ui
+                    ui:              this._ui,
+                    containerId:     opts.containerId
                 };
                 break;
         }

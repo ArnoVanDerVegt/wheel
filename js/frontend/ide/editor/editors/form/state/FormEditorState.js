@@ -37,6 +37,7 @@ exports.FormEditorState = class extends Emitter {
             componentList:      this._componentList,
             getOwnerByParentId: this._getOwnerByParentId
         });
+        this._componentList.setUndoStack(this._undoStack);
         this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
@@ -243,8 +244,20 @@ exports.FormEditorState = class extends Emitter {
     }
 
     deleteComponentById(id, saveUndo) {
-        let component = this._componentList.deleteComponentById(id);
+        let componentList = this._componentList;
+        let component     = componentList.deleteComponentById(id);
         if (saveUndo) {
+            let children = [];
+            if (component.containerId) {
+                component.containerId.forEach(function(containerId) {
+                    let items = componentList.getItemsByParentId(containerId);
+                    children.push.apply(children, items);
+                    items.forEach(function(component) {
+                        componentList.deleteComponentById(component.id);
+                    });
+                });
+                component.children = children;
+            }
             this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
         this.emit('DeleteComponent', {id: id, name: component.name, formName: this.getFormName()});
