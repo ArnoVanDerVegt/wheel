@@ -96,14 +96,14 @@ exports.ComponentList = class {
         return items;
     }
 
-    getData() {
+    getData(renumIds) {
         /* eslint-disable no-invalid-this */
         let toString       = function() { return ('00000000' + this.id).substr(-8); };
         let result         = [];
         let componentsById = this._componentsById;
         let ids            = {};
         let nextId         = 0;
-        let getId = function(id) {
+        const getId = (id) => {
                 if (id in ids) {
                     return ids[id];
                 }
@@ -111,22 +111,36 @@ exports.ComponentList = class {
                 ids[id] = nextId;
                 return nextId;
             };
+        const updateParentId = (oldParentId, newParentId) => {
+                for (let id in componentsById) {
+                    if (componentsById[id].parentId === oldParentId) {
+                        componentsById[id].parentId = newParentId;
+                    }
+                }
+            };
         for (let id in componentsById) {
             let component = Object.assign({}, componentsById[id]);
             delete component.componentList;
             delete component.owner;
             delete component.propertyList;
             delete component.eventList;
-            component.id = getId(id);
-            if ('containerId' in component) {
-                let containerId = component.containerId;
-                for (let i = 0; i < containerId.length; i++) {
-                    containerId[i] = getId(containerId[i]);
+            if (renumIds) {
+                component.id = getId(id);
+                if ('containerId' in component) {
+                    let containerId = component.containerId;
+                    for (let i = 0; i < containerId.length; i++) {
+                        let oldParentId = containerId[i];
+                        let newParentId = getId(oldParentId);
+                        if (newParentId !== oldParentId) {
+                            updateParentId(oldParentId, newParentId);
+                        }
+                        containerId[i] = newParentId;
+                    }
                 }
             }
             if (component.type === 'form') {
                 delete(component.parentId);
-            } else {
+            } else if (renumIds) {
                 component.parentId = getId(component.parentId);
             }
             component.toString = toString;

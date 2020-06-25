@@ -276,7 +276,7 @@ exports.FormEditor = class extends Editor {
     }
 
     getValue() {
-        return this._formEditorState.getData();
+        return this._formEditorState.getData(true);
     }
 
     getEditor() {

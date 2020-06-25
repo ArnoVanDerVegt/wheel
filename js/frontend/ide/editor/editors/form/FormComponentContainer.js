@@ -22,7 +22,7 @@ const CONSTRUCTOR_BY_TYPE = {
 let formComponentContainerByParentId = {};
 
 exports.getFormComponentContainerByParentId = function(parentId) {
-    return formComponentContainerByParentId[parentId];
+    return formComponentContainerByParentId[parentId] || null;
 };
 
 exports.FormComponentContainer = class extends DOMNode {
@@ -38,7 +38,7 @@ exports.FormComponentContainer = class extends DOMNode {
         this._onMouseDown      = opts.onMouseDown;
         this._ui               = opts.ui;
         this._className        = opts.className;
-        this._parentId         = opts.parentId || opts.formEditorState.getNextId();
+        this._parentId         = this.initParentId(opts);
         this._formEditorState  = opts.formEditorState;
         this._events           = [
             this._formEditorState.on('AddComponent',    this, this.onAddComponent),
@@ -50,6 +50,17 @@ exports.FormComponentContainer = class extends DOMNode {
         this.initDOM(opts.parentNode);
         opts.id && opts.id(this);
         formComponentContainerByParentId[this._parentId] = this;
+    }
+
+    initParentId(opts) {
+        if (opts.parentId) {
+            return opts.parentId;
+        }
+        let parentId = opts.formEditorState.getNextId();
+        while (formComponentContainerByParentId[parentId]) {
+            parentId = opts.formEditorState.getNextId();
+        }
+        return parentId;
     }
 
     initDOM(parentNode) {
