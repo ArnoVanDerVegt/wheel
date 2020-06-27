@@ -7,8 +7,8 @@ const Component  = require('./Component').Component;
 
 exports.Label = class extends Component {
     constructor(opts) {
+        opts.baseClassName = 'label';
         super(opts);
-        this._design = opts.design;
         this._text   = opts.text;
         this._halign = opts.halign || 'left';
         this.initDOM(opts.parentNode);
@@ -22,7 +22,7 @@ exports.Label = class extends Component {
         this.create(
             parentNode,
             {
-                className: 'label' + (this._design ? ' design' : ''),
+                className: this.getClassName(),
                 id:        this.setElement.bind(this),
                 innerHTML: this._text,
                 style:     style

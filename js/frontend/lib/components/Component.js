@@ -57,6 +57,7 @@ exports.Component = class extends DOMNode {
         this._selected      = opts.selected;
         this._focus         = opts.focus;
         this._open          = opts.open;
+        this._design        = opts.design;
         this._disabled      = ('disabled' in opts) ? opts.disabled : false;
         this._hidden        = ('hidden'   in opts) ? opts.hidden   : false;
         this._color         = ('color'    in opts) ? opts.color    : 'green';
@@ -93,6 +94,7 @@ exports.Component = class extends DOMNode {
     getClassName() {
         return (this._baseClassName + ' ' +
             this._className + ' ' +
+            (this._design   ? 'design '   : '') +
             (this._disabled ? 'disabled ' : '') +
             (this._hidden   ? 'hidden '   : '') +
             (this._selected ? 'selected ' : '') +
