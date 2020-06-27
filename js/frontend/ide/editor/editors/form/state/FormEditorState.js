@@ -240,17 +240,28 @@ exports.FormEditorState = class extends Emitter {
     deleteComponentById(id, saveUndo) {
         let componentList = this._componentList;
         let component     = componentList.deleteComponentById(id);
+        let components    = [];
         let children      = componentList.getChildComponents(component);
         if (saveUndo) {
             if (children.length) {
                 component.children = children;
                 children.forEach((component) => {
+                    components.push({name: component.name, id: component.id});
                     componentList.deleteComponentById(component.id);
                 });
             }
             this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
-        this.emit('DeleteComponent', {id: id, name: component.name, formName: this.getFormName()});
+        components.push({id: id, name: component.name});
+        this.emit(
+            'DeleteComponent',
+            {
+                components: components, // For source builder to remove defines...
+                id:         id,
+                name:       component.name,
+                formName:   this.getFormName()
+            }
+        );
         dispatcher.dispatch('Properties.ComponentList', {value: null, items: this._componentList.getItems()});
     }
 

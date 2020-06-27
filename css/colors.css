@@ -198,6 +198,9 @@ body.ide {
     --console-warning:              #F9CA24;
 
     --resizer-background:           rgba(0, 0, 0, 0.5);
+
+    --design-background:            rgba(0, 0, 0, 0.05);
+    --design-border:                1px dashed rgba(0, 0, 0, 0.5);
 }
 
 body.ide.dark {
@@ -397,6 +400,9 @@ body.ide.dark {
     --console-warning:              #6C5CE7;
 
     --resizer-background:           rgba(255, 255, 255, 0.5);
+
+    --design-background:            rgba(255, 255, 255, 0.05);
+    --design-border:                1px dashed rgba(255, 255, 255, 0.5);
 }
 
 /* The entire scrollbar. */

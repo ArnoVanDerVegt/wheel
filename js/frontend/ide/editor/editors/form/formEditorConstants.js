@@ -146,6 +146,8 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'boolean',     name: 'hidden'},
         {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',    options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+        {type: 'halign',      name: 'halign'},
         {type: 'text',        name: 'text'}
     ],
     CHECKBOX: [

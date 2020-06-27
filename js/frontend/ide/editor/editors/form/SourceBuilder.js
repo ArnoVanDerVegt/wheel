@@ -366,17 +366,22 @@ exports.SourceBuilder = class {
 
     deleteComponent(opts) {
         let lines  = this._lines;
-        let define = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.name);
-        let i      = 0;
-        while (i < lines.length) {
-            let defineInfo = this.getDefineInfo(lines[i]);
-            if (defineInfo && (defineInfo.key === define)) {
-                lines.splice(i, 1);
-                break;
-            } else {
-                i++;
-            }
-        }
+        const deleteComponent = (name) => {
+                let define = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(name);
+                let i      = 0;
+                while (i < lines.length) {
+                    let defineInfo = this.getDefineInfo(lines[i]);
+                    if (defineInfo && (defineInfo.key === define)) {
+                        lines.splice(i, 1);
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+            };
+        opts.components.forEach((item) => {
+            deleteComponent(item.name);
+        });
         return this;
     }
 

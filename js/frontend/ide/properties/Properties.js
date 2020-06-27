@@ -10,6 +10,7 @@ const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
 const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
 const TextProperty      = require('./types/TextProperty').TextProperty;
 const TextListProperty  = require('./types/TextListProperty').TextListProperty;
+const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
 const ColorProperty     = require('./types/ColorProperty').ColorProperty;
 const RgbProperty       = require('./types/RgbProperty').RgbProperty;
 const Event             = require('./Event').Event;
@@ -167,6 +168,7 @@ exports.Properties = class extends DOMNode {
                     case 'boolean':  propertyConstructor = BooleanProperty;  break;
                     case 'text':     propertyConstructor = TextProperty;     break;
                     case 'textList': propertyConstructor = TextListProperty; break;
+                    case 'halign':   propertyConstructor = HAlignProperty;   break;
                     case 'color':    propertyConstructor = ColorProperty;    break;
                     case 'rgb':      propertyConstructor = RgbProperty;      break;
                 }

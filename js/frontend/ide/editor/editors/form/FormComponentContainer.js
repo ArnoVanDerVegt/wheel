@@ -28,6 +28,7 @@ exports.getFormComponentContainerByParentId = function(parentId) {
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._design           = opts.design;
         this._mouseDown        = false;
         this._mouseOffsetX     = 0;
         this._mouseOffsetY     = 0;
@@ -254,6 +255,7 @@ exports.FormComponentContainer = class extends DOMNode {
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
         opts.onMouseDown  = (event) => { this.onComponentMouseDown(event, element, opts); };
         opts.style        = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.design       = this._design;
         opts.parentNode   = this._formElement;
         opts.ui           = this._ui;
         opts.uiId         = 1;

@@ -10,6 +10,7 @@ exports.TabPanel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'tab-panels';
         super(opts);
+        this._design           = opts.design;
         this._containerId      = opts.containerId;
         this._panelConstructor = opts.panelConstructor || 'div';
         this._panelOpts        = opts.panelOpts || {};
@@ -31,8 +32,9 @@ exports.TabPanel = class extends Component {
             function(tab, index) {
                 let opts = Object.assign({}, this._panelOpts);
                 opts.type      = this._panelConstructor;
-                opts.id        = this.addPanel.bind(this);
+                opts.design    = this._design;
                 opts.parentId  = this._containerId ? this._containerId[index] : null;
+                opts.id        = this.addPanel.bind(this);
                 opts.className = 'tab-panel' + ((index === this._active) ? ' visible' : '');
                 opts.children  = this._children[index] || [];
                 children.push(opts);
@@ -82,6 +84,7 @@ exports.TabPanel = class extends Component {
     addTab() {
         let opts = Object.assign({}, this._panelOpts);
         opts.type      = this._panelConstructor;
+        opts.design    = this._design;
         opts.id        = this.addPanel.bind(this);
         opts.className = 'tab-panel';
         this.create(this._element, opts);

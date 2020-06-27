@@ -89,6 +89,7 @@ exports.FormEditor = class extends Editor {
                         ui:              this._ui,
                         id:              this.setFormComponent.bind(this),
                         formEditorState: this._formEditorState,
+                        design:          true,
                         className:       'resource with-shadow form grid' + this._settings.getFormGridSize()
                     }
                 ]
@@ -195,9 +196,6 @@ exports.FormEditor = class extends Editor {
     }
 
     onDeleteComponent(opts) {
-        if (!('name' in opts)) {
-            throw new Error('Missing name in onDeleteComponent.');
-        }
         let editor = this.getEditor();
         if (!editor) {
             return;

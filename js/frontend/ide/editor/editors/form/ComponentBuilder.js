@@ -64,8 +64,9 @@ exports.ComponentBuilder = class {
     addLabel(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LABEL)
-            .addProperty(component, 'name',    this._componentList.findComponentText(component.type, 'name', 'Label'))
-            .addProperty(component, 'text', component.text || component.name);
+            .addProperty(component, 'name',   this._componentList.findComponentText(component.type, 'name', 'Label'))
+            .addProperty(component, 'text',   component.text || component.name)
+            .addProperty(component, 'halign', 'left');
         return component;
     }
 
