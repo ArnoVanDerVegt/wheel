@@ -20,7 +20,7 @@ exports.TabPanel = class extends Component {
         this._panels           = [];
         this._active           = 0;
         this._onChange         = opts.onChange;
-        this._events           = [dispatcher.on('AddTabComponent', this, this.onAddTabComponent)];
+        this._events           = [];
         this.initDOM(opts.parentNode);
     }
 
@@ -129,13 +129,13 @@ exports.TabPanel = class extends Component {
             }
             this.onClickTab(this._panels.length - 1);
         }
+        if ('tab' in opts) {
+            this.onAddTabComponent(opts.tab);
+        }
         super.onEvent(opts);
     }
 
     onAddTabComponent(opts) {
-        if (opts.id !== this._id) {
-            return;
-        }
         this._tabs.push(opts.tab);
         this._refs.tabs.setTabs(this._tabs);
         this

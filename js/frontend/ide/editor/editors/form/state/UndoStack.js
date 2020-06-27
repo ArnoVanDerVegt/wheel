@@ -105,7 +105,8 @@ exports.UndoStack = class {
                 break;
             case formEditorConstants.ACTION_TAB_DELETE_TAB:
                 let parentMap = {};
-                let id        = nextId + 1;
+                let parentId  = formEditorState.getNextId() + 1;
+                let id        = parentId;
                 item.children.forEach(
                     function(component) {
                         if (!(component.parentId in parentMap)) {
@@ -123,15 +124,16 @@ exports.UndoStack = class {
                         }
                     }
                 );
-                dispatcher.dispatch('AddTabComponent', item);
+                componentList.addTab(item, parentId);
+                formEditorState.emit('ChangeProperty', item.id, 'tab', item);
                 item.children.forEach(
                     function(component) {
                         component.parentId = parentMap[component.parentId];
                         let containerId;
-                        if (component.type === 'panel') {
+                        if (component.type === formEditorConstants.COMPONENT_TYPE_PANEL) {
                             containerId = component.containerId;
                             containerId[i] = parentMap[containerId[0]];
-                        } else if (component.type === 'tabs') {
+                        } else if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
                             containerId = component.containerId;
                             for (let i = 0; i < containerId.length; i++) {
                                 containerId[i] = parentMap[containerId[i]];

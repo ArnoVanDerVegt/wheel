@@ -125,6 +125,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onAddUndo() {
+        this.updateElements();
         dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
     }
 
@@ -201,6 +202,7 @@ exports.FormEditor = class extends Editor {
         if (!editor) {
             return;
         }
+        opts.formName = this._formEditorState.getFormComponent().name;
         editor.setValue(this._sourceBuilder
             .setSource(editor.getValue())
             .deleteComponent(opts)

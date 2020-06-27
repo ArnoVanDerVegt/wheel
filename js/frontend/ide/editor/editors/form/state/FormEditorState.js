@@ -235,6 +235,10 @@ exports.FormEditorState = class extends Emitter {
             .updateComponents(component.id);
     }
 
+    addTab(opts) {
+        this._componentList.addTab(opts);
+    }
+
     deleteActiveComponent() {
         let activeComponentId = this._componentList.getActiveComponentId();
         if (!activeComponentId) {
@@ -304,8 +308,7 @@ exports.FormEditorState = class extends Emitter {
         if (!component) {
             return;
         }
-        if ((component.type === 'tabs') && (property === 'tabs')) {
-            // Todo: add undo...
+        if ((component.type === formEditorConstants.COMPONENT_TYPE_TABS) && (property === 'tabs')) {
             this.changeTabs(component, value);
         } else {
             this._undoStack.undoStackPush({

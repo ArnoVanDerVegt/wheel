@@ -215,7 +215,7 @@ exports.ComponentList = class {
                         delete child.owner;
                         delete componentsById[id];
                         children.push(child);
-                        this.emit('DeleteComponent', id);
+                        this._formEditorState.emit('DeleteComponent', component);
                     }
                 }
             };
@@ -225,6 +225,7 @@ exports.ComponentList = class {
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id
             });
+            this._formEditorState.emit('AddUndo');
         } else if (value.length < component.tabs.length) {
             let parentId = component.containerId.pop();
             let children = [];
@@ -235,6 +236,14 @@ exports.ComponentList = class {
                 tab:      component.tabs[component.tabs.length - 1],
                 children: children.reverse()
             });
+            this._formEditorState.emit('AddUndo');
+        }
+    }
+
+    addTab(opts, parentId) {
+        let component = this._componentsById[opts.id];
+        if (component && component.containerId) {
+            component.containerId.push(parentId);
         }
     }
 };
