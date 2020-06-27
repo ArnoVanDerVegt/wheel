@@ -5,15 +5,16 @@
 namespace components.label
 
 ; @const The form component module.
-#define MODULE_COMPONENT_LABEL        67
+#define MODULE_COMPONENT_LABEL           67
 
 ; @const Module calls for label component functions.
-#define LABEL_COMPONENT_SET_TAB_INDEX  0
-#define LABEL_COMPONENT_SET_HIDDEN     1
-#define LABEL_COMPONENT_SET_X          2
-#define LABEL_COMPONENT_SET_Y          3
-#define LABEL_COMPONENT_SET_TEXT       4
-#define LABEL_COMPONENT_SET_NUMBER     5
+#define LABEL_COMPONENT_SET_TAB_INDEX     0
+#define LABEL_COMPONENT_SET_HIDDEN        1
+#define LABEL_COMPONENT_SET_X             2
+#define LABEL_COMPONENT_SET_Y             3
+#define LABEL_COMPONENT_SET_TEXT          4
+#define LABEL_COMPONENT_SET_VALUE_NUMBER  5
+#define LABEL_COMPONENT_SET_VALUE_STRING  6
 
 ; @proc                   Set the tab index of the label.
 ; @param windowhandle     The handle of the window.
@@ -60,11 +61,20 @@ proc setText(number windowHandle, number componentHandle, string text)
     mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_TEXT
 end
 
-; @proc                   Set label text as a number.
+; @proc                   Set label value as a number.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
-; @param n                The label text.
-proc setNumber(number windowHandle, number componentHandle, number n)
+; @param n                The label value.
+proc setValueNumber(number windowHandle, number componentHandle, number n)
     addr windowHandle
-    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_NUMBER
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_VALUE_NUMBER
+end
+
+; @proc                   Set label value as a number.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param n                The label value.
+proc setValueString(number windowHandle, number componentHandle, string s)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_VALUE_STRING
 end

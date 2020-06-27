@@ -9,7 +9,8 @@ exports.Label = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'label';
         super(opts);
-        this._text   = opts.text;
+        this._text   = opts.text   || '';
+        this._value  = opts.value  || '';
         this._halign = opts.halign || 'left';
         this.initDOM(opts.parentNode);
     }
@@ -37,17 +38,25 @@ exports.Label = class extends Component {
 
     onEvent(opts) {
         let element = this._element;
+        let update  = false;
         if ('text' in opts) {
-            this._text              = opts.text;
-            this._element.innerHTML = opts.text;
+            this._text = opts.text;
+            update     = true;
+        }
+        if ('value' in opts) {
+            this._value = opts.value + '';
+            update      = true;
+        }
+        if (update) {
+            let text = this._text;
+            if (this._value.trim() !== '') {
+                text += ' ' + this._value;
+            }
+            this._element.innerHTML = text;
         }
         if ('halign' in opts) {
             this._halign                  = opts.halign;
             this._element.style.textAlign = this._halign;
-        }
-        if ('number' in opts) {
-            this._text              = opts.number + '';
-            this._element.innerHTML = opts.number + '';
         }
         if ('width' in opts) {
             if (parseInt(opts.width, 10) >= 20) {

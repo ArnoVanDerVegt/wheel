@@ -15,9 +15,9 @@ describe(
     'Test Panel component module',
     function() {
         testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.panel.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.panel.setX', 'x', 'number');
-        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.panel.setY', 'y', 'number');
-        testComponentCall(it, 'Should set width',  LIB_FILENAME, 'components.panel.setWidth', 'width', 'number');
+        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.panel.setX',      'x',      'number');
+        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.panel.setY',      'y',      'number');
+        testComponentCall(it, 'Should set width',  LIB_FILENAME, 'components.panel.setWidth',  'width',  'number');
         testComponentCall(it, 'Should set height', LIB_FILENAME, 'components.panel.setHeight', 'height', 'number');
     }
 );

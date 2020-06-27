@@ -8,22 +8,28 @@ const dispatcher                    = require('../../../../lib/dispatcher').disp
 
 exports.ComponentLabelModule = class extends VMModule {
     run(commandId) {
-        let vmData   = this._vmData;
-        let vm       = this._vm;
-        let property = '';
-        let label    = null;
-        let opts     = {};
+        let vmData       = this._vmData;
+        let vm           = this._vm;
+        let property     = '';
+        let propertyType = 'number';
+        let label        = null;
+        let opts         = {};
         switch (commandId) {
-            case componentLabelModuleConstants.LABEL_SET_TAB_INDEX: property = 'tabIndex'; break;
-            case componentLabelModuleConstants.LABEL_SET_HIDDEN:    property = 'hidden';   break;
-            case componentLabelModuleConstants.LABEL_SET_X:         property = 'x';        break;
-            case componentLabelModuleConstants.LABEL_SET_Y:         property = 'y';        break;
-            case componentLabelModuleConstants.LABEL_SET_TEXT:      property = 'text';     break;
-            case componentLabelModuleConstants.LABEL_SET_NUMBER:    property = 'number';   break;
+            case componentLabelModuleConstants.LABEL_SET_TAB_INDEX:    property = 'tabIndex';                          break;
+            case componentLabelModuleConstants.LABEL_SET_HIDDEN:       property = 'hidden';                            break;
+            case componentLabelModuleConstants.LABEL_SET_X:            property = 'x';                                 break;
+            case componentLabelModuleConstants.LABEL_SET_Y:            property = 'y';                                 break;
+            case componentLabelModuleConstants.LABEL_SET_TEXT:         property = 'text';     propertyType = 'string'; break;
+            case componentLabelModuleConstants.LABEL_SET_VALUE_NUMBER: property = 'value';                             break;
+            case componentLabelModuleConstants.LABEL_SET_VALUE_STRING: property = 'value';    propertyType = 'string'; break;
         }
         if (property !== '') {
-            label          = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = label[property];
+            label = vmData.getRecordFromSrcOffset(['window', 'component', property]);
+            if (propertyType === 'string') {
+                opts[property] = vmData.getStringList()[label[property]];
+            } else {
+                opts[property] = label[property];
+            }
             dispatcher.dispatch(label.window + '_' + label.component, opts);
         }
     }

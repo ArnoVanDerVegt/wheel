@@ -329,9 +329,9 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                         win + '_' + component,
                         this,
                         function(data) {
-                            if (type === 'string') {
-                                data[property] = vm.getVMData().getStringList()[data[property]];
-                            }
+                            // if (type === 'string') {
+                            //     data[property] = vm.getVMData().getStringList()[data[property]];
+                            // }
                             result = data;
                         }
                     );

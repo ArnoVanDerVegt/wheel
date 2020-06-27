@@ -8,24 +8,29 @@ const dispatcher                     = require('../../../../lib/dispatcher').dis
 
 exports.ComponentButtonModule = class extends VMModule {
     run(commandId) {
-        let vmData   = this._vmData;
-        let vm       = this._vm;
-        let property = '';
-        let button   = null;
-        let opts     = {};
+        let vmData       = this._vmData;
+        let vm           = this._vm;
+        let property     = '';
+        let propertyType = 'number';
+        let button       = null;
+        let opts         = {};
         switch (commandId) {
-            case componentButtonModuleConstants.BUTTON_SET_TAB_INDEX: property = 'tabIndex'; break;
-            case componentButtonModuleConstants.BUTTON_SET_HIDDEN:    property = 'hidden';   break;
-            case componentButtonModuleConstants.BUTTON_SET_DISABLED:  property = 'disabled'; break;
-            case componentButtonModuleConstants.BUTTON_SET_X:         property = 'x';        break;
-            case componentButtonModuleConstants.BUTTON_SET_Y:         property = 'y';        break;
-            case componentButtonModuleConstants.BUTTON_SET_COLOR:     property = 'color';    break;
-            case componentButtonModuleConstants.BUTTON_SET_TITLE:     property = 'value';    break;
-            case componentButtonModuleConstants.BUTTON_SET_HINT:      property = 'title';    break;
+            case componentButtonModuleConstants.BUTTON_SET_TAB_INDEX: property = 'tabIndex';                          break;
+            case componentButtonModuleConstants.BUTTON_SET_HIDDEN:    property = 'hidden';                            break;
+            case componentButtonModuleConstants.BUTTON_SET_DISABLED:  property = 'disabled';                          break;
+            case componentButtonModuleConstants.BUTTON_SET_X:         property = 'x';                                 break;
+            case componentButtonModuleConstants.BUTTON_SET_Y:         property = 'y';                                 break;
+            case componentButtonModuleConstants.BUTTON_SET_COLOR:     property = 'color';                             break;
+            case componentButtonModuleConstants.BUTTON_SET_TITLE:     property = 'value';    propertyType = 'string'; break;
+            case componentButtonModuleConstants.BUTTON_SET_HINT:      property = 'title';    propertyType = 'string'; break;
         }
         if (property !== '') {
-            button         = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = button[property];
+            button = vmData.getRecordFromSrcOffset(['window', 'component', property]);
+            if (propertyType === 'string') {
+                opts[property] = vmData.getStringList()[button[property]];
+            } else {
+                opts[property] = button[property];
+            }
             dispatcher.dispatch(button.window + '_' + button.component, opts);
         }
     }
