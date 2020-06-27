@@ -96,6 +96,24 @@ exports.ComponentList = class {
         return items;
     }
 
+    getChildComponents(component) {
+        let children = [];
+        const getChildren = (component) => {
+                if (!component.containerId) {
+                    return children;
+                }
+                component.containerId.forEach((containerId) => {
+                    let items = this.getItemsByParentId(containerId);
+                    children.push.apply(children, items);
+                    items.forEach((component) => {
+                        getChildren(component);
+                    });
+                });
+                return children;
+            };
+        return getChildren(component);
+    }
+
     getData(renumIds) {
         /* eslint-disable no-invalid-this */
         let toString       = function() { return ('00000000' + this.id).substr(-8); };
@@ -124,6 +142,7 @@ exports.ComponentList = class {
             delete component.owner;
             delete component.propertyList;
             delete component.eventList;
+            delete component.children;
             if (renumIds) {
                 component.id = getId(id);
                 if ('containerId' in component) {

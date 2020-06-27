@@ -105,7 +105,6 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'width',       200)
             .addProperty(component, 'height',      128);
         if (!('containerId' in component)) {
-            console.log('HERE!!');
             this.addProperty(component, 'containerId', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
         }
         return component;

@@ -12,11 +12,10 @@ const EventList           = require('./EventList').EventList;
 const PropertyList        = require('./PropertyList').PropertyList;
 const UndoStack           = require('./UndoStack').UndoStack;
 
-let nextId = 0;
-
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
+        this._nextId             = 0;
         this._settings           = opts.settings;
         this._loading            = !!opts.data;
         this._clipboard          = null;
@@ -72,21 +71,12 @@ exports.FormEditorState = class extends Emitter {
             .updateComponents(component.id)
             .onSelectComponent(component.id);
         if (opts.data) {
+            this._nextId = 0;
             let data = opts.data;
-            let ids  = {};
-            ids[1] = this._formId;
             for (let i = 1; i < data.length; i++) {
                 let component = data[i];
-                ids[component.id]  = nextId;
-                component.parentId = ids[component.parentId];
-                component.owner    = this._getOwnerByParentId(component.parentId);
-                if ('containerId' in component) {
-                    let containerId = component.containerId;
-                    for (let j = 0; j < containerId.length; j++) {
-                        ids[containerId[j]] = nextId + j + 2;
-                        containerId[j]      = nextId + j + 2;
-                    }
-                }
+                component.owner = this._getOwnerByParentId(component.parentId);
+                this._nextId    = Math.max(this._nextId, component.parentId);
                 this.addComponent(component);
             }
         }
@@ -95,12 +85,12 @@ exports.FormEditorState = class extends Emitter {
     }
 
     peekId() {
-        return nextId + 1;
+        return this._nextId + 1;
     }
 
     getNextId() {
-        nextId++;
-        return nextId;
+        this._nextId++;
+        return this._nextId;
     }
 
     getLoading() {
@@ -199,8 +189,8 @@ exports.FormEditorState = class extends Emitter {
         return this._undoStack.getLength();
     }
 
-    getData() {
-        return this._componentList.getData();
+    getData(renumIds) {
+        return this._componentList.getData(renumIds);
     }
 
     getComponentList() {
@@ -250,17 +240,13 @@ exports.FormEditorState = class extends Emitter {
     deleteComponentById(id, saveUndo) {
         let componentList = this._componentList;
         let component     = componentList.deleteComponentById(id);
+        let children      = componentList.getChildComponents(component);
         if (saveUndo) {
-            let children = [];
-            if (component.containerId) {
-                component.containerId.forEach(function(containerId) {
-                    let items = componentList.getItemsByParentId(containerId);
-                    children.push.apply(children, items);
-                    items.forEach(function(component) {
-                        componentList.deleteComponentById(component.id);
-                    });
-                });
+            if (children.length) {
                 component.children = children;
+                children.forEach((component) => {
+                    componentList.deleteComponentById(component.id);
+                });
             }
             this._undoStack.undoStackPush({action: formEditorConstants.ACTION_DELETE_COMPONENT, component: component});
         }
