@@ -79,6 +79,7 @@ exports.ToolbarTop = class extends Toolbar {
                         tabIndex:      tabIndex.FORM_COMPONENT,
                         baseClassName: 'tool-options-toolbar',
                         onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
+                        collapse:      true,
                         options: [
                             {icon: 'icon-btn',          hint: {text: 'Standard<br/>components'}},
                             {icon: 'icon-image',        hint: {text: 'Graphics<br/>components'}}

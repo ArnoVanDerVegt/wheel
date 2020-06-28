@@ -18,6 +18,7 @@ exports.ToolOptions = class extends DOMNode {
         this._parentNode    = opts.parentNode;
         this._options       = opts.options;
         this._label         = opts.label;
+        this._collapse      = opts.collapse;
         this._style         = opts.style         || {};
         this._color         = opts.color         || 'blue';
         this._disabled      = opts.disabled      || false;
@@ -171,5 +172,8 @@ exports.ToolOptions = class extends DOMNode {
         }
         this._onSelect && this._onSelect(tool);
         this._onChange && this._onChange(tool);
+        if (this._collapse) {
+            this._element.className = this._baseClassName + ' ' + (this._className || '');
+        }
     }
 };

@@ -19,7 +19,7 @@ const CONSTRUCTOR_BY_TYPE = {
         tabs:         require('../../../../lib/components/TabPanel').TabPanel,
         rectangle:    require('../../../../lib/components/Rectangle').Rectangle,
         circle:       require('../../../../lib/components/Circle').Circle,
-        image:        require('../../../../lib/components/Rectangle').Image
+        image:        require('../../../../lib/components/Image').Image
     };
 
 let formComponentContainerByParentId = {};

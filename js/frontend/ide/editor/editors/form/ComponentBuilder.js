@@ -138,7 +138,9 @@ exports.ComponentBuilder = class {
     addImage(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_IMAGE)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Image'));
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Image'))
+            .addProperty(component, 'width',        64)
+            .addProperty(component, 'height',       64);
         return component;
     }
 

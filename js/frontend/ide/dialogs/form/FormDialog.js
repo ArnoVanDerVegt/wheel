@@ -10,6 +10,9 @@ const ToolOptions         = require('../../../lib/components/ToolOptions').ToolO
 const CheckboxAndLabel    = require('../../../lib/components/CheckboxAndLabel').CheckboxAndLabel;
 const StatusLight         = require('../../../lib/components/StatusLight').StatusLight;
 const TabPanel            = require('../../../lib/components/TabPanel').TabPanel;
+const Rectangle           = require('../../../lib/components/Rectangle').Rectangle;
+const Circle              = require('../../../lib/components/Circle').Circle;
+const Image               = require('../../../lib/components/Image').Image;
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
 
@@ -163,6 +166,18 @@ exports.FormDialog = class extends Dialog {
                                 componentById[container] = children;
                                 component.children.push(children);
                             });
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_RECTANGLE:
+                            component.type = Rectangle;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_CIRCLE:
+                            component.type = Circle;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_IMAGE:
+                            component.type = Image;
                             parent.push(this.getComponentEvents(component));
                             break;
                     }

@@ -7,11 +7,11 @@ const Component  = require('./Component').Component;
 
 exports.Image = class extends Component {
     constructor(opts) {
-        opts.baseClassName = 'label';
+        opts.baseClassName = 'image';
         super(opts);
         this._width  = opts.width  || 20;
         this._height = opts.height || 20;
-        this._height = opts.src    || '';
+        this._src    = opts.src    || '';
         this.initDOM(opts.parentNode);
     }
 
@@ -22,13 +22,29 @@ exports.Image = class extends Component {
         this.create(
             parentNode,
             {
-                type:      'img',
                 className: this.getClassName(),
                 id:        this.setElement.bind(this),
-                src:       this._src,
-                style:     style
+                style:     style,
+                children: [
+                    {
+                        id:     this.setImageElement.bind(this),
+                        type:   'img',
+                        src:    this._src,
+                        width:  this._width,
+                        height: this._height,
+                        style: {
+                            display: 'none'
+                        }
+                    }
+                ]
             }
         );
+    }
+
+    setImageElement(imageElement) {
+        this._imageElement = imageElement;
+        imageElement.addEventListener('load',  this.onImageLoad.bind(this));
+        imageElement.addEventListener('error', this.onImageError.bind(this));
     }
 
     remove() {
@@ -36,20 +52,28 @@ exports.Image = class extends Component {
         this._element.parentNode.removeChild(this._element);
     }
 
+    onImageLoad(event) {
+        this._imageElement.style.display = 'block';
+    }
+
+    onImageError(event) {
+        this._imageElement.style.display = 'none';
+    }
+
     onEvent(opts) {
         let element = this._element;
         let style   = element.style;
         if ('width' in opts) {
-            this._width  = parseInt(opts.width, 10);
-            style.width  = this._width + 'px';
+            this._width            = parseInt(opts.width, 10);
+            style.width            = this._width + 'px';
         }
         if ('height' in opts) {
-            this._height = parseInt(opts.height, 10);
-            style.height = this._height + 'px';
+            this._height           = parseInt(opts.height, 10);
+            style.height           = this._height + 'px';
         }
         if ('src' in opts) {
-            this._src    = opts.borderRadius;
-            element.src  = this._src;
+            this._src              = opts.src;
+            this._imageElement.src = this._src;
         }
         super.onEvent(opts);
     }
