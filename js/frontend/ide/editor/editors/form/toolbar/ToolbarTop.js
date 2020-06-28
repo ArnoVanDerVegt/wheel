@@ -78,7 +78,21 @@ exports.ToolbarTop = class extends Toolbar {
                         uiId:          formEditor.getUIId.bind(formEditor),
                         tabIndex:      tabIndex.FORM_COMPONENT,
                         baseClassName: 'tool-options-toolbar',
-                        onSelect:      formEditor.onSelectComponent.bind(formEditor),
+                        onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
+                        options: [
+                            {icon: 'icon-btn',          hint: {text: 'Standard<br/>components'}},
+                            {icon: 'icon-image',        hint: {text: 'Graphics<br/>components'}}
+                        ]
+                    }),
+                    {
+                        className: 'space'
+                    },
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('standardTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar standard',
+                        onSelect:      formEditor.onSelectStandardComponent.bind(formEditor),
                         options: [
                             {icon: 'icon-btn',          hint: {text: 'Button<br/>component'}},
                             {icon: 'icon-select-btn',   hint: {text: 'SelectButton<br/>component'}},
@@ -87,6 +101,21 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-status-light', hint: {text: 'StatusLight<br/>component'}},
                             {icon: 'icon-panel',        hint: {text: 'Panel<br/>component'}},
                             {icon: 'icon-tabs',         hint: {text: 'Tabs<br/>component'}}
+                        ]
+                    }),
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('graphicsTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar graphics',
+                        onSelect:      formEditor.onSelectGraphicsComponent.bind(formEditor),
+                        style: {
+                            display: 'none'
+                        },
+                        options: [
+                            {icon: 'icon-rect',     hint: {text: 'Rectangle<br/>component'}},
+                            {icon: 'icon-circle',   hint: {text: 'Circle<br/>component'}},
+                            {icon: 'icon-image',    hint: {text: 'Image<br/>component'}}
                         ]
                     }),
                     {

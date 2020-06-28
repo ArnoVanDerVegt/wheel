@@ -253,6 +253,13 @@ body.ide.no-properties div.properties {
     display:                        none;
 }
 /* Rgb */
+.properties .properties-container .property .property-value.rgb {
+    overflow:                       hidden;
+}
+.properties .properties-container .property .property-name.color-focus,
+.properties .properties-container .property .property-value.color-focus {
+    height:                         156px;
+}
 .properties .properties-container .property .property-value .color-row {
     float:                          left;
     width:                          100%;

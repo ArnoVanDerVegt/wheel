@@ -37,7 +37,9 @@ exports.FormEditorState = class extends Emitter {
             getOwnerByParentId: this._getOwnerByParentId
         });
         this._componentList.setUndoStack(this._undoStack);
-        this._component          = formEditorConstants.COMPONENT_TYPE_BUTTON;
+        this._componentTypes     = formEditorConstants.COMPONENT_TYPES_STANDARD;
+        this._standardComponent  = formEditorConstants.COMPONENT_TYPE_BUTTON;
+        this._graphicsComponent  = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
             dispatcher.on('Properties.Event.Change',      this, this.onChangeEvent),
@@ -105,8 +107,30 @@ exports.FormEditorState = class extends Emitter {
         return this._filename;
     }
 
-    setComponent(component) {
-        this._component = component;
+    /**
+     * Select the types of component: COMPONENT_TYPES_STANDARD, COMPONENT_TYPES_GRAPHICS
+    **/
+    setComponentTypes(componentTypes) {
+        this._componentTypes = componentTypes;
+    }
+
+    getActiveAddComponentType() {
+        switch (this._componentTypes) {
+            case formEditorConstants.COMPONENT_TYPES_STANDARD:
+                return this._standardComponent;
+
+            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:
+                return this._graphicsComponent;
+        }
+        return formEditorConstants.COMPONENT_TYPE_BUTTON;
+    }
+
+    setStandardComponent(standardComponent) {
+        this._standardComponent = standardComponent;
+    }
+
+    setGraphicsComponent(graphicsComponent) {
+        this._graphicsComponent = graphicsComponent;
     }
 
     getUndoStackLength() {
@@ -218,7 +242,7 @@ exports.FormEditorState = class extends Emitter {
         this._componentList
             .setComponentById(component, component.id)
             .setActiveComponentId(component.id);
-        this._componentBuilder.addComponentForType(component, opts.type || this._component);
+        this._componentBuilder.addComponentForType(component, opts.type || this.getActiveAddComponentType());
         this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
             .emit('AddComponent', Object.assign({}, component))

@@ -84,7 +84,7 @@ exports.ExploreDialog = class extends Dialog {
                 this.addButton({
                     ref:        this.setRef('delete'),
                     className:  'delete',
-                    icon:       'icon-delete',
+                    icon:       'icon-delete-default',
                     title:      'Delete',
                     onClick:    this.onDeleteItem.bind(this),
                     disabled:   true

@@ -85,6 +85,10 @@ exports.ToolOptions = class extends DOMNode {
         );
     }
 
+    getElement() {
+        return this._element;
+    }
+
     setElement(element) {
         this._element = element;
         if (this._onMouseDown) {

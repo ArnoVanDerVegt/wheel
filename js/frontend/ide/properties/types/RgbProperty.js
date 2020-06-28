@@ -7,7 +7,8 @@ const Property = require('../Property').Property;
 exports.RgbProperty = class extends Property {
     initPropertyValue() {
         return {
-            className: 'property-value',
+            ref:       this.setRef('value'),
+            className: 'property-value rgb',
             children: [
                 this.initColorRow({
                     ref:       'color',
@@ -72,6 +73,11 @@ exports.RgbProperty = class extends Property {
         };
     }
 
+    setPropertyElement(element) {
+        this._propertyElement = element;
+        element.addEventListener('click', this.onClickElement.bind(this));
+    }
+
     setInputElement(ref, element) {
         if (!this._inputElements) {
             this._inputElements = {};
@@ -119,6 +125,17 @@ exports.RgbProperty = class extends Property {
         refs.bluInput.value                   = color.blu;
     }
 
+    setFocus(focus) {
+        let refs = this._refs;
+        if (focus) {
+            refs.value.className            = 'property-value color-focus';
+            this._propertyElement.className = 'property focus';
+        } else {
+            refs.value.className            = 'property-value rgb';
+            this._propertyElement.className = 'property';
+        }
+    }
+
     validateElement(value) {
         let v = parseInt(value, 10);
         if (isNaN(v)) {
@@ -134,6 +151,11 @@ exports.RgbProperty = class extends Property {
             inputElement.value     = this._value[ref];
             inputElement.className = 'text-input';
         }
+    }
+
+    onClickElement(event) {
+        this._properties.focusProperty(this);
+        this.setFocus(true);
     }
 
     onClick(event) {

@@ -209,7 +209,20 @@ exports.FormEditor = class extends Editor {
         this.updateElements();
     }
 
-    onSelectComponent(component) {
+    onSelectComponentTypes(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPES_STANDARD,
+                formEditorConstants.COMPONENT_TYPES_GRAPHICS
+            ];
+        if (component in components) {
+            let refs = this._refs;
+            refs.standardTools.getElement().style.display = (component === 0) ? 'block' : 'none';
+            refs.graphicsTools.getElement().style.display = (component === 1) ? 'block' : 'none';
+            this._formEditorState.setComponentTypes(components[component]);
+        }
+    }
+
+    onSelectStandardComponent(component) {
         const components = [
                 formEditorConstants.COMPONENT_TYPE_BUTTON,
                 formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
@@ -220,7 +233,18 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPE_TABS
             ];
         if (component in components) {
-            this._formEditorState.setComponent(components[component]);
+            this._formEditorState.setStandardComponent(components[component]);
+        }
+    }
+
+    onSelectGraphicsComponent(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_RECTANGLE,
+                formEditorConstants.COMPONENT_TYPE_CIRCLE,
+                formEditorConstants.COMPONENT_TYPE_IMAGE
+            ];
+        if (component in components) {
+            this._formEditorState.setGraphicsComponent(components[component]);
         }
     }
 

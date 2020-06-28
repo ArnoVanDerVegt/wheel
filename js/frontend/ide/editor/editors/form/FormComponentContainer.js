@@ -16,7 +16,10 @@ const CONSTRUCTOR_BY_TYPE = {
         checkbox:     require('../../../../lib/components/CheckboxAndLabel').CheckboxAndLabel,
         statusLight:  require('../../../../lib/components/StatusLight').StatusLight,
         panel:        require('../../../../lib/components/Panel').Panel,
-        tabs:         require('../../../../lib/components/TabPanel').TabPanel
+        tabs:         require('../../../../lib/components/TabPanel').TabPanel,
+        rectangle:    require('../../../../lib/components/Rectangle').Rectangle,
+        circle:       require('../../../../lib/components/Circle').Circle,
+        image:        require('../../../../lib/components/Rectangle').Image
     };
 
 let formComponentContainerByParentId = {};

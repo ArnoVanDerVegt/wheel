@@ -4,6 +4,10 @@
 **/
 
 // Component types...
+exports.COMPONENT_TYPES_STANDARD     = 'standard';
+exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
+
+// Standard components...
 exports.COMPONENT_TYPE_FORM          = 'form';
 exports.COMPONENT_TYPE_BUTTON        = 'button';
 exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
@@ -12,6 +16,11 @@ exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
 exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
 exports.COMPONENT_TYPE_PANEL         = 'panel';
 exports.COMPONENT_TYPE_TABS          = 'tabs';
+
+// Graphics components...
+exports.COMPONENT_TYPE_RECTANGLE     = 'rectangle';
+exports.COMPONENT_TYPE_CIRCLE        = 'circle';
+exports.COMPONENT_TYPE_IMAGE         = 'image';
 
 // Edit actions for undo...
 exports.ACTION_ADD_COMPONENT         = 0;
@@ -100,24 +109,24 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
         {type: 'text',        name: 'title'},
-        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
     ],
     BUTTON: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',    options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
         {type: 'color',       name: 'color'},
         {type: 'text',        name: 'value'},
         {type: 'text',        name: 'title'}
@@ -127,26 +136,26 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'color',       name: 'color'},
-        {type: 'textList',    name: 'options',  options: {sort: true, remove: true}}
+        {type: 'textList',    name: 'options',      options: {sort: true, remove: true}}
     ],
     LABEL: [
         {type: 'type',        name: null},
         {type: 'uid',         name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',    options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
         {type: 'halign',      name: 'halign'},
         {type: 'text',        name: 'text'},
         {type: 'text',        name: 'value'}
@@ -155,12 +164,12 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'type',        name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
         {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'text',        name: 'text'},
         {type: 'boolean',     name: 'checked'}
     ],
@@ -168,10 +177,10 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'type',        name: null},
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'color',       name: 'color'},
         {type: 'boolean',     name: 'rgbColor'},
         {type: 'rgb',         name: 'rgb'}
@@ -182,13 +191,13 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'containerId', name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
     ],
     TABS: [
         {type: 'type',        name: null},
@@ -196,14 +205,57 @@ exports.PROPERTIES_BY_TYPE = {
         {type: 'id',          name: null},
         {type: 'parentId',    name: null},
         {type: 'containerId', name: null},
-        {type: 'text',        name: 'name',     options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex', options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
         {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',    options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',   options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
-        {type: 'textList',    name: 'tabs',     options: {removeLast: true}}
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
+        {type: 'textList',    name: 'tabs',         options: {removeLast: true}}
+    ],
+    RECTANGLE: [
+        {type: 'type',        name: null},
+        {type: 'uid',         name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'boolean',     name: 'hidden'},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'rgb',         name: 'fillColor'},
+        {type: 'rgb',         name: 'borderColor'},
+        {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'borderRadius', options: {validator: posNumberValidator,             type: 'number'}}
+    ],
+    CIRCLE: [
+        {type: 'type',        name: null},
+        {type: 'uid',         name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'boolean',     name: 'hidden'},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'radius',       options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'rgb',         name: 'fillColor'},
+        {type: 'rgb',         name: 'borderColor'},
+        {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}}
+    ],
+    IMAGE: [
+        {type: 'type',        name: null},
+        {type: 'uid',         name: null},
+        {type: 'id',          name: null},
+        {type: 'parentId',    name: null},
+        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+        {type: 'boolean',     name: 'hidden'},
+        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
+        {type: 'text',        name: 'src'}
     ]
 };
 
@@ -383,5 +435,12 @@ exports.EVENTS_BY_TYPE = {
                 {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
             ]
         }
+    ],
+    RECTANGLE: [
+    ],
+    CIRCLE:
+    [
+    ],
+    IMAGE: [
     ]
 };

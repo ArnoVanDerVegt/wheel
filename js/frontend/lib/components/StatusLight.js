@@ -61,11 +61,4 @@ exports.StatusLight = class extends Component.Component {
         }
         super.onEvent(opts);
     }
-
-    getColorFromRgb(rgb) {
-        if (typeof rgb !== 'object') {
-            rgb = {red: 0, grn: 0, blu: 0};
-        }
-        return 'rgb(' + rgb.red + ',' + rgb.grn + ',' + rgb.blu + ')';
-    }
 };

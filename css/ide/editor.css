@@ -385,6 +385,7 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
     margin:                         8px 2px 0 8px;
 }
 .icon-button.icon-delete,
+.icon-button.icon-delete-default,
 .icon-button.icon-volume,
 .icon-button.icon-fade-in,
 .icon-button.icon-fade-out,
