@@ -8,8 +8,9 @@
     -webkit-user-select:            none;
 }
 .home-screen .home-screen-image-clip {
-    float:                          left;
-    position:                       relative;
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
     width:                          100%;
     height:                         100%;
     overflow:                       hidden;
@@ -21,19 +22,20 @@
     bottom:                         -230px;
     -webkit-user-select:            none;
 }
+.home-screen-content-wrapper {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    min-height:                     100%;
+}
 .home-screen-content {
     position:                       absolute;
     left:                           50%;
     top:                            50%;
     width:                          300px;
     max-width:                      100%;
-    height:                         500px;
     transform:                      translate(-50%, -50%);
     z-index:                        100;
-    padding:                        40px 0 100px 0;
-}
-.home-screen-content.with-theme {
-    height:                         540px;
 }
 .home-screen-content h1 {
     width:                          100%;

@@ -22,16 +22,170 @@ exports.HomeScreen = class extends DOMNode {
         this._settings     = opts.settings;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
+        this._tileCount    = 0;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
         dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
     }
 
-    initDOM(parentNode) {
+    initTiles() {
         let ui              = this._ui;
         let settings        = this._settings;
         let activeDirectory = settings.getDocumentPath();
         let showThemeTile   = !settings.getDontShowThemeTile();
+        const addTile = () => {
+                this._tileCount++;
+            };
+        return [
+            {
+                type:      'h1',
+                children: [
+                    {
+                        type:      'img',
+                        src:       getImage('images/logos/wheelWhite.svg'),
+                        width:     32,
+                        height:    32
+                    },
+                    {
+                        type:      'span',
+                        innerHTML: 'Wheel'
+                    }
+                ]
+            },
+            (settings.getRecentProject() ?
+                {
+                    id:       addTile(),
+                    ref:      this.setRef('firstTile'),
+                    ui:       ui,
+                    icon:     getImage('images/files/recentWhlp.svg'),
+                    title:    'Open recent project &raquo;',
+                    settings: this._settings,
+                    type:     HomeScreenRecentProjectTile,
+                    tabIndex: tabIndex.HOME_SCREEN
+                } :
+                null),
+            (settings.getRecentForm() ?
+                {
+                    id:       addTile(),
+                    ref:      this.setRef(settings.getRecentProject() ? 'secondTile' : 'firstTile'),
+                    ui:       ui,
+                    icon:     getImage('images/files/recentWFrm.svg'),
+                    title:    'Open recent form &raquo;',
+                    settings: this._settings,
+                    type:     HomeScreenRecentFormTile,
+                    tabIndex: tabIndex.HOME_SCREEN + 1
+                } :
+                null),
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/whlp.svg'),
+                title:    'Create new project &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 2,
+                onClick: function() {
+                    dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
+                }
+            }),
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/whl.svg'),
+                title:    'New file &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 3,
+                onClick: function() {
+                    dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
+                }
+            }),
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/rgf.svg'),
+                title:    'New image EV3 &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 4,
+                onClick: function() {
+                    dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
+                }
+            }),
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/form.svg'),
+                title:    'New form &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 5,
+                onClick: function() {
+                    dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
+                }
+            }),
+            {
+                id:       addTile(),
+                ui:       ui,
+                icon:     getImage('images/files/ev3.svg'),
+                title:    'Connect to EV3 &raquo;',
+                type:     HomeScreenConnectEV3Tile,
+                tabIndex: tabIndex.HOME_SCREEN + 6,
+                ev3:      this._ev3,
+                onClick: function() {
+                    if (platform.isElectron()) {
+                        dispatcher.dispatch('Dialog.ConnectEV3.Show');
+                    } else {
+                        dispatcher.dispatch(
+                            'Dialog.Alert.Show',
+                            {
+                                title: (platform.isNode() ? 'Node' : 'Browser') + ' version',
+                                lines: [
+                                    'The browser version can not connect to your EV3...',
+                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
+                                ]
+                            }
+                        );
+                    }
+                }
+            },
+            {
+                id:        addTile(),
+                ui:        ui,
+                icon:      getImage('images/files/poweredUp.svg'),
+                title:     'Connect to Powered Up &raquo;',
+                type:      HomeScreenConnectPoweredUpTile,
+                tabIndex:  tabIndex.HOME_SCREEN + 7,
+                poweredUp: this._poweredUp,
+                onClick: function() {
+                    if (platform.isElectron() || platform.isNode()) {
+                        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
+                    } else {
+                        dispatcher.dispatch(
+                            'Dialog.Alert.Show',
+                            {
+                                title: 'Browser version',
+                                lines: [
+                                    'The browser version can not connect to your Powered Up devices...',
+                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
+                                ]
+                            }
+                        );
+                    }
+                }
+            },
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/help.svg'),
+                title:    'Open documentation &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 8,
+                onClick: function() {
+                    dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
+                }
+            }),
+            showThemeTile ?
+                {
+                    id:       addTile(),
+                    ui:       ui,
+                    icon:     getImage('images/misc/theme.svg'),
+                    title:    'Theme',
+                    settings: this._settings,
+                    type:     HomeScreenThemeTile,
+                    tabIndex: tabIndex.HOME_SCREEN + 9
+                } :
+                null
+        ];
+    }
+
+    initDOM(parentNode) {
         this.create(
             parentNode,
             {
@@ -49,148 +203,22 @@ exports.HomeScreen = class extends DOMNode {
                         ]
                     },
                     {
-                        className: 'home-screen-content',// + (showThemeTile ? ' with-theme' : ''),
+                        ref:       this.setRef('homeScreenContentWrapper'),
+                        className: 'home-screen-content-wrapper',
                         children: [
                             {
-                                type:      'h1',
-                                children: [
-                                    {
-                                        type:      'img',
-                                        src:       getImage('images/logos/wheelWhite.svg'),
-                                        width:     32,
-                                        height:    32
-                                    },
-                                    {
-                                        type:      'span',
-                                        innerHTML: 'Wheel'
-                                    }
-                                ]
-                            },
-                            (settings.getRecentProject() ?
-                                {
-                                    ref:      this.setRef('firstTile'),
-                                    ui:       ui,
-                                    icon:     getImage('images/files/recentWhlp.svg'),
-                                    title:    'Open recent project &raquo;',
-                                    settings: this._settings,
-                                    type:     HomeScreenRecentProjectTile,
-                                    tabIndex: tabIndex.HOME_SCREEN
-                                } :
-                                null),
-                            (settings.getRecentForm() ?
-                                {
-                                    ref:      this.setRef(settings.getRecentProject() ? 'secondTile' : 'firstTile'),
-                                    ui:       ui,
-                                    icon:     getImage('images/files/recentWFrm.svg'),
-                                    title:    'Open recent form &raquo;',
-                                    settings: this._settings,
-                                    type:     HomeScreenRecentFormTile,
-                                    tabIndex: tabIndex.HOME_SCREEN + 1
-                                } :
-                                null),
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/whlp.svg'),
-                                title:    'Create new project &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 2,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
-                                }
-                            }),
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/whl.svg'),
-                                title:    'New file &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 3,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
-                                }
-                            }),
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/rgf.svg'),
-                                title:    'New image EV3 &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 4,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
-                                }
-                            }),
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/form.svg'),
-                                title:    'New form &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 5,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
-                                }
-                            }),
-                            {
-                                ui:       ui,
-                                icon:     getImage('images/files/ev3.svg'),
-                                title:    'Connect to EV3 &raquo;',
-                                type:     HomeScreenConnectEV3Tile,
-                                tabIndex: tabIndex.HOME_SCREEN + 6,
-                                ev3:      this._ev3,
-                                onClick: function() {
-                                    if (platform.isElectron()) {
-                                        dispatcher.dispatch('Dialog.ConnectEV3.Show');
-                                    } else {
-                                        dispatcher.dispatch(
-                                            'Dialog.Alert.Show',
-                                            {
-                                                title: (platform.isNode() ? 'Node' : 'Browser') + ' version',
-                                                lines: [
-                                                    'The browser version can not connect to your EV3...',
-                                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
-                                                ]
-                                            }
-                                        );
-                                    }
-                                }
-                            },
-                            {
-                                ui:        ui,
-                                icon:      getImage('images/files/poweredUp.svg'),
-                                title:     'Connect to Powered Up &raquo;',
-                                type:      HomeScreenConnectPoweredUpTile,
-                                tabIndex:  tabIndex.HOME_SCREEN + 7,
-                                poweredUp: this._poweredUp,
-                                onClick: function() {
-                                    if (platform.isElectron() || platform.isNode()) {
-                                        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-                                    } else {
-                                        dispatcher.dispatch(
-                                            'Dialog.Alert.Show',
-                                            {
-                                                title: 'Browser version',
-                                                lines: [
-                                                    'The browser version can not connect to your Powered Up devices...',
-                                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
-                                                ]
-                                            }
-                                        );
-                                    }
-                                }
-                            },
-                            this.addHomeScreenTile({
-                                icon:     getImage('images/files/help.svg'),
-                                title:    'Open documentation &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 8,
-                                onClick: function() {
-                                    dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
-                                }
-                            }),
-                            showThemeTile ?
-                                {
-                                    ui:       ui,
-                                    icon:     getImage('images/misc/theme.svg'),
-                                    title:    'Theme',
-                                    settings: this._settings,
-                                    type:     HomeScreenThemeTile,
-                                    tabIndex: tabIndex.HOME_SCREEN + 9
-                                } :
-                                null
+                                ref:       this.setRef('homeScreenContent'),
+                                className: 'home-screen-content',
+                                children:  this.initTiles()
+                            }
                         ]
                     }
                 ]
             }
         );
+        let height = (Math.ceil(this._tileCount / 2) * 96 + 48) + 'px';
+        this._refs.homeScreenContentWrapper.style.height = height;
+        this._refs.homeScreenContent.style.height        = height;
     }
 
     addHomeScreenTile(opts) {
