@@ -26,6 +26,9 @@ require('./js/shared/vm/modules/components/componentSelectButtonModuleConstants'
 require('./js/shared/vm/modules/components/componentStatusLightModuleConstants');
 require('./js/shared/vm/modules/components/componentPanelModuleConstants');
 require('./js/shared/vm/modules/components/componentTabsModuleConstants');
+require('./js/shared/vm/modules/components/componentRectangleModuleConstants');
+require('./js/shared/vm/modules/components/componentCircleModuleConstants');
+require('./js/shared/vm/modules/components/componentImageModuleConstants');
 require('./js/shared/lib/RgfImage');
 require('./js/shared/lib/Sound');
 require('./js/shared/device/BasicDevice');
@@ -152,6 +155,9 @@ require('./js/frontend/vm/modules/local/components/ComponentSelectButtonModule')
 require('./js/frontend/vm/modules/local/components/ComponentStatusLightModule');
 require('./js/frontend/vm/modules/local/components/ComponentPanelModule');
 require('./js/frontend/vm/modules/local/components/ComponentTabsModule');
+require('./js/frontend/vm/modules/local/components/ComponentRectangleModule');
+require('./js/frontend/vm/modules/local/components/ComponentCircleModule');
+require('./js/frontend/vm/modules/local/components/ComponentImageModule');
 require('./js/frontend/vm/BasicLayerState');
 require('./js/frontend/vm/ev3/LayerState');
 require('./js/frontend/vm/poweredup/LayerState');

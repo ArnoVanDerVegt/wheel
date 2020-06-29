@@ -306,10 +306,15 @@ exports.Editor = class extends DOMUtils {
             {filename: filename, arrayBuffer: (type === 'arrayBuffer')},
             (data) => {
                 this.onLoadFile(filename, data, type, cursorPosition);
-                if (extension === '.whlp') {
-                    dispatcher
-                        .dispatch('Settings.Set.RecentProject', filename)
-                        .dispatch('Compile.Silent');
+                switch (extension) {
+                    case '.whlp':
+                        dispatcher
+                            .dispatch('Settings.Set.RecentProject', filename)
+                            .dispatch('Compile.Silent');
+                        break;
+                    case '.wfrm':
+                        dispatcher.dispatch('Settings.Set.RecentForm', filename);
+                        break;
                 }
             }
         );

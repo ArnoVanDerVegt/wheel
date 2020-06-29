@@ -24,6 +24,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             // Setters...
             .on('Settings.Set.RecentProject',               this, this._setRecentProject)
+            .on('Settings.Set.RecentForm',                  this, this._setRecentForm)
             .on('Settings.Set.DocumentPath',                this, this._setDocumentPath)
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
@@ -79,6 +80,7 @@ exports.SettingsState = class extends Emitter {
                 createVMTextOutput:    this._createVMTextOutput,
                 linter:                this._linter,
                 recentProject:         this._recentProject,
+                recentForm:            this._recentForm,
                 activeDevice:          this._activeDevice,
                 deviceAlias:           this._deviceAlias,
                 devicePortAlias:       this._devicePortAlias,
@@ -244,6 +246,10 @@ exports.SettingsState = class extends Emitter {
         return this._recentProject;
     }
 
+    getRecentForm() {
+        return this._recentForm;
+    }
+
     getFilesDetail() {
         return this._filesDetail;
     }
@@ -303,6 +309,12 @@ exports.SettingsState = class extends Emitter {
         this._recentProject = recentProject;
         this._save();
         this.emit('Settings.RecentProject');
+    }
+
+    _setRecentForm(recentForm) {
+        this._recentForm = recentForm;
+        this._save();
+        this.emit('Settings.RecentForm');
     }
 
     _setDocumentPath(documentPath) {
@@ -586,6 +598,7 @@ exports.SettingsState = class extends Emitter {
         this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments         : true;
         this._linter                     = ('linter'                in data)             ? data.linter                      : true;
         this._recentProject              = ('recentProject'         in data)             ? data.recentProject               : '';
+        this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                  : '';
         this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                 : false;
         this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail            : false;
         this._remoteFilesDetail          = ('remoteFilesDetail'     in data)             ? data.remoteFilesDetail           : false;

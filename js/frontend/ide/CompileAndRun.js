@@ -32,6 +32,9 @@ const LocalComponentCheckboxModule      = require('../vm/modules/local/component
 const LocalComponentStatusLightModule   = require('../vm/modules/local/components/ComponentStatusLightModule' ).ComponentStatusLightModule;
 const LocalComponentPanelModule         = require('../vm/modules/local/components/ComponentPanelModule'       ).ComponentPanelModule;
 const LocalComponentTabsModule          = require('../vm/modules/local/components/ComponentTabsModule'        ).ComponentTabsModule;
+const LocalComponentRectangleModule     = require('../vm/modules/local/components/ComponentRectangleModule'   ).ComponentRectangleModule;
+const LocalComponentCircleModule        = require('../vm/modules/local/components/ComponentCircleModule'      ).ComponentCircleModule;
+const LocalComponentImageModule         = require('../vm/modules/local/components/ComponentImageModule'       ).ComponentImageModule;
 const RemoteStandardModule              = require('../vm/modules/remote/StandardModule'                       ).StandardModule;
 const RemoteScreenModule                = require('../vm/modules/remote/ScreenModule'                         ).ScreenModule;
 const RemoteMotorModule                 = require('../vm/modules/remote/MotorModule'                          ).MotorModule;
@@ -56,6 +59,9 @@ const RemoteComponentCheckboxModule     = LocalComponentCheckboxModule;
 const RemoteComponentStatusLightModule  = LocalComponentStatusLightModule;
 const RemoteComponentPanelModule        = LocalComponentPanelModule;
 const RemoteComponentTabsModule         = LocalComponentTabsModule;
+const RemoteComponentRectangleModule    = LocalComponentRectangleModule;
+const RemoteComponentCircleModule       = LocalComponentCircleModule;
+const RemoteComponentImageModule        = LocalComponentImageModule;
 const Simulator                         = require('./simulator/Simulator').Simulator;
 const SimulatorModules                  = require('./simulator/SimulatorModules').SimulatorModules;
 const pluginUuid                        = require('./plugins/pluginUuid');
@@ -230,6 +236,9 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[69] = new LocalComponentStatusLightModule  ({vm: vm, device: device});
             modules[70] = new LocalComponentPanelModule        ({vm: vm, device: device});
             modules[71] = new LocalComponentTabsModule         ({vm: vm, device: device});
+            modules[72] = new LocalComponentRectangleModule    ({vm: vm, device: device});
+            modules[73] = new LocalComponentCircleModule       ({vm: vm, device: device});
+            modules[74] = new LocalComponentImageModule        ({vm: vm, device: device});
         } else {
             modules[ 0] = new RemoteStandardModule             ({vm: vm, device: device});
             modules[ 1] = new RemoteMathModule                 ({vm: vm, device: device});
@@ -257,6 +266,9 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[69] = new RemoteComponentStatusLightModule ({vm: vm, device: device});
             modules[70] = new RemoteComponentPanelModule       ({vm: vm, device: device});
             modules[71] = new RemoteComponentTabsModule        ({vm: vm, device: device});
+            modules[72] = new RemoteComponentRectangleModule   ({vm: vm, device: device});
+            modules[73] = new RemoteComponentCircleModule      ({vm: vm, device: device});
+            modules[74] = new RemoteComponentImageModule       ({vm: vm, device: device});
         }
         return modules;
     }

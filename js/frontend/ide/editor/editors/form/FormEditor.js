@@ -212,12 +212,14 @@ exports.FormEditor = class extends Editor {
     onSelectComponentTypes(component) {
         const components = [
                 formEditorConstants.COMPONENT_TYPES_STANDARD,
+                formEditorConstants.COMPONENT_TYPES_PANEL,
                 formEditorConstants.COMPONENT_TYPES_GRAPHICS
             ];
         if (component in components) {
             let refs = this._refs;
             refs.standardTools.getElement().style.display = (component === 0) ? 'block' : 'none';
-            refs.graphicsTools.getElement().style.display = (component === 1) ? 'block' : 'none';
+            refs.panelTools.getElement().style.display    = (component === 1) ? 'block' : 'none';
+            refs.graphicsTools.getElement().style.display = (component === 2) ? 'block' : 'none';
             this._formEditorState.setComponentTypes(components[component]);
         }
     }
@@ -234,6 +236,16 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setStandardComponent(components[component]);
+        }
+    }
+
+    onSelectPanelComponent(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_TABS,
+                formEditorConstants.COMPONENT_TYPE_PANEL
+            ];
+        if (component in components) {
+            this._formEditorState.setPanelComponent(components[component]);
         }
     }
 

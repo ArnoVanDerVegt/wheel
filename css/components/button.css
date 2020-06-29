@@ -460,7 +460,7 @@ input[type="button"].icon-button.icon-delete {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="4" y1="4" x2="16" y2="16" style="stroke:rgb(0,0,0);stroke-width:3" />    <line x1="4" y1="16" x2="16" y2="4" style="stroke:rgb(0,0,0);stroke-width:3" /></svg>');
 }
 body.ide.dark input[type="button"].icon-button.icon-delete {
-    background-image:               url('images/buttons/deleteWhite.svg');
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="4" y1="4" x2="16" y2="16" style="stroke:rgb(255,255,255);stroke-width:3" />    <line x1="4" y1="16" x2="16" y2="4" style="stroke:rgb(255,255,255);stroke-width:3" /></svg>');
 }
 input[type="button"].icon-button.icon-copy {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="16" height="16" viewBox="0 50 1000 1000" xmlns="http://www.w3.org/2000/svg">    <g transform="scale(1,-1) translate(0, -1000)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z" />    </g></svg>');

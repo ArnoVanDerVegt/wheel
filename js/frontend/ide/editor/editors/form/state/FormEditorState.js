@@ -39,6 +39,7 @@ exports.FormEditorState = class extends Emitter {
         this._componentList.setUndoStack(this._undoStack);
         this._componentTypes     = formEditorConstants.COMPONENT_TYPES_STANDARD;
         this._standardComponent  = formEditorConstants.COMPONENT_TYPE_BUTTON;
+        this._panelComponent     = formEditorConstants.COMPONENT_TYPE_TABS;
         this._graphicsComponent  = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
@@ -116,17 +117,19 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveAddComponentType() {
         switch (this._componentTypes) {
-            case formEditorConstants.COMPONENT_TYPES_STANDARD:
-                return this._standardComponent;
-
-            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:
-                return this._graphicsComponent;
+            case formEditorConstants.COMPONENT_TYPES_STANDARD: return this._standardComponent;
+            case formEditorConstants.COMPONENT_TYPES_PANEL:    return this._panelComponent;
+            case formEditorConstants.COMPONENT_TYPES_GRAPHICS: return this._graphicsComponent;
         }
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
     }
 
     setStandardComponent(standardComponent) {
         this._standardComponent = standardComponent;
+    }
+
+    setPanelComponent(panelComponent) {
+        this._panelComponent = panelComponent;
     }
 
     setGraphicsComponent(graphicsComponent) {

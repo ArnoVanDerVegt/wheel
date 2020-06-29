@@ -13,6 +13,7 @@ const HomeScreenConnectEV3Tile       = require('./HomeScreenConnectEV3Tile').Hom
 const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
 const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScreenThemeTile;
 const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
+const HomeScreenRecentFormTile       = require('./HomeScreenRecentFormTile').HomeScreenRecentFormTile;
 
 exports.HomeScreen = class extends DOMNode {
     constructor(opts) {
@@ -76,10 +77,21 @@ exports.HomeScreen = class extends DOMNode {
                                     tabIndex: tabIndex.HOME_SCREEN
                                 } :
                                 null),
+                            (settings.getRecentForm() ?
+                                {
+                                    ref:      this.setRef(settings.getRecentProject() ? 'secondTile' : 'firstTile'),
+                                    ui:       ui,
+                                    icon:     getImage('images/files/recentWFrm.svg'),
+                                    title:    'Open recent form &raquo;',
+                                    settings: this._settings,
+                                    type:     HomeScreenRecentFormTile,
+                                    tabIndex: tabIndex.HOME_SCREEN + 1
+                                } :
+                                null),
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/whlp.svg'),
                                 title:    'Create new project &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 1,
+                                tabIndex: tabIndex.HOME_SCREEN + 2,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
                                 }
@@ -87,7 +99,7 @@ exports.HomeScreen = class extends DOMNode {
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/whl.svg'),
                                 title:    'New file &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 2,
+                                tabIndex: tabIndex.HOME_SCREEN + 3,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
                                 }
@@ -95,7 +107,7 @@ exports.HomeScreen = class extends DOMNode {
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/rgf.svg'),
                                 title:    'New image EV3 &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 3,
+                                tabIndex: tabIndex.HOME_SCREEN + 4,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
                                 }
@@ -103,7 +115,7 @@ exports.HomeScreen = class extends DOMNode {
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/form.svg'),
                                 title:    'New form &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 3,
+                                tabIndex: tabIndex.HOME_SCREEN + 5,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
                                 }
@@ -113,7 +125,7 @@ exports.HomeScreen = class extends DOMNode {
                                 icon:     getImage('images/files/ev3.svg'),
                                 title:    'Connect to EV3 &raquo;',
                                 type:     HomeScreenConnectEV3Tile,
-                                tabIndex: tabIndex.HOME_SCREEN + 4,
+                                tabIndex: tabIndex.HOME_SCREEN + 6,
                                 ev3:      this._ev3,
                                 onClick: function() {
                                     if (platform.isElectron()) {
@@ -137,7 +149,7 @@ exports.HomeScreen = class extends DOMNode {
                                 icon:      getImage('images/files/poweredUp.svg'),
                                 title:     'Connect to Powered Up &raquo;',
                                 type:      HomeScreenConnectPoweredUpTile,
-                                tabIndex:  tabIndex.HOME_SCREEN + 5,
+                                tabIndex:  tabIndex.HOME_SCREEN + 7,
                                 poweredUp: this._poweredUp,
                                 onClick: function() {
                                     if (platform.isElectron() || platform.isNode()) {
@@ -159,7 +171,7 @@ exports.HomeScreen = class extends DOMNode {
                             this.addHomeScreenTile({
                                 icon:     getImage('images/files/help.svg'),
                                 title:    'Open documentation &raquo;',
-                                tabIndex: tabIndex.HOME_SCREEN + 6,
+                                tabIndex: tabIndex.HOME_SCREEN + 8,
                                 onClick: function() {
                                     dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
                                 }
@@ -171,7 +183,7 @@ exports.HomeScreen = class extends DOMNode {
                                     title:    'Theme',
                                     settings: this._settings,
                                     type:     HomeScreenThemeTile,
-                                    tabIndex: tabIndex.HOME_SCREEN + 7
+                                    tabIndex: tabIndex.HOME_SCREEN + 9
                                 } :
                                 null
                         ]

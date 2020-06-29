@@ -81,8 +81,9 @@ exports.ToolbarTop = class extends Toolbar {
                         onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
                         collapse:      true,
                         options: [
-                            {icon: 'icon-btn',          hint: {text: 'Standard<br/>components'}},
-                            {icon: 'icon-image',        hint: {text: 'Graphics<br/>components'}}
+                            {icon: 'icon-btn',   hint: {text: 'Standard<br/>components'}},
+                            {icon: 'icon-tabs',  hint: {text: 'Panel<br/>components'}},
+                            {icon: 'icon-image', hint: {text: 'Graphics<br/>components'}}
                         ]
                     }),
                     {
@@ -99,9 +100,21 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-select-btn',   hint: {text: 'SelectButton<br/>component'}},
                             {icon: 'icon-label',        hint: {text: 'Label<br/>component'}},
                             {icon: 'icon-checkbox',     hint: {text: 'Checkbox<br/>component'}},
-                            {icon: 'icon-status-light', hint: {text: 'StatusLight<br/>component'}},
-                            {icon: 'icon-panel',        hint: {text: 'Panel<br/>component'}},
-                            {icon: 'icon-tabs',         hint: {text: 'Tabs<br/>component'}}
+                            {icon: 'icon-status-light', hint: {text: 'StatusLight<br/>component'}}
+                        ]
+                    }),
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('panelTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar panels',
+                        onSelect:      formEditor.onSelectPanelComponent.bind(formEditor),
+                        style: {
+                            display: 'none'
+                        },
+                        options: [
+                            {icon: 'icon-tabs',  hint: {text: 'Tabs<br/>component'}},
+                            {icon: 'icon-panel', hint: {text: 'Panel<br/>component'}}
                         ]
                     }),
                     this.addToolOptions({

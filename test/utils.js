@@ -28,6 +28,9 @@ const LocalComponentCheckboxModule     = require('../js/frontend/vm/modules/loca
 const LocalComponentStatusLightModule  = require('../js/frontend/vm/modules/local/components/ComponentStatusLightModule' ).ComponentStatusLightModule;
 const LocalComponentPanelModule        = require('../js/frontend/vm/modules/local/components/ComponentPanelModule'       ).ComponentPanelModule;
 const LocalComponentTabsModule         = require('../js/frontend/vm/modules/local/components/ComponentTabsModule'        ).ComponentTabsModule;
+const LocalComponentRectangleModule    = require('../js/frontend/vm/modules/local/components/ComponentRectangleModule'   ).ComponentRectangleModule;
+const LocalComponentCircleModule       = require('../js/frontend/vm/modules/local/components/ComponentCircleModule'      ).ComponentCircleModule;
+const LocalComponentImageModule        = require('../js/frontend/vm/modules/local/components/ComponentImageModule'       ).ComponentImageModule;
 const MockFileSystem                   = require('./mock/MockFileSystem').MockFileSystem;
 const MockDataProvider                 = require('./mock/MockDataProvider').MockDataProvider;
 const MockIDE                          = require('./mock/MockIDE').MockIDE;
@@ -65,6 +68,9 @@ const createModules = function(vm) {
         modules[69] = new LocalComponentStatusLightModule ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         modules[70] = new LocalComponentPanelModule       ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         modules[71] = new LocalComponentTabsModule        ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[72] = new LocalComponentRectangleModule   ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[73] = new LocalComponentCircleModule      ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
+        modules[74] = new LocalComponentImageModule       ({vm: vm, ide: mockIDE, getDataProvider: function() { return mockDataProvider; }});
         return modules;
     };
 

@@ -5,6 +5,7 @@
 
 // Component types...
 exports.COMPONENT_TYPES_STANDARD     = 'standard';
+exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
 
 // Standard components...
@@ -14,6 +15,8 @@ exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
 exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
 exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
+
+// Panel components...
 exports.COMPONENT_TYPE_PANEL         = 'panel';
 exports.COMPONENT_TYPE_TABS          = 'tabs';
 
@@ -99,7 +102,10 @@ exports.INCLUDE_FOR_COMPONENT = {
         checkbox:     'lib/components/checkbox.whl',
         statusLight:  'lib/components/statusLight.whl',
         panel:        'lib/components/panel.whl',
-        tabs:         'lib/components/tabs.whl'
+        tabs:         'lib/components/tabs.whl',
+        rectangle:    'lib/components/rectangle.whl',
+        circle:       'lib/components/circle.whl',
+        image:        'lib/components/image.whl'
     };
 
 // Component properties...
