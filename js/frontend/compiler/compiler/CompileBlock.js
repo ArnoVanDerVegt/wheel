@@ -137,6 +137,7 @@ class CompileBlock extends CompileScope {
         let end      = false;
         let token    = null;
         let opts     = {compiler: compiler, program: program, scope: scope};
+        compiler.incDepth();
         while (!end && !iterator.finished()) {
             token = iterator.skipWhiteSpace().next();
             // Check if the token belongs to the next file, if so then reset the namespace to the root.
@@ -205,6 +206,7 @@ class CompileBlock extends CompileScope {
                     break;
             }
         }
+        compiler.decDepth();
         return token;
     }
 }

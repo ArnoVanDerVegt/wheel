@@ -335,21 +335,14 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                         win + '_' + component,
                         this,
                         function(data) {
-                            // if (type === 'string') {
-                            //     data[property] = vm.getVMData().getStringList()[data[property]];
-                            // }
                             result = data;
                         }
                     );
                     vm.setCommands(program.getCommands()).run();
                     // Check if the dispatcher received the message...
-                    if (type === 'rgb') {
-                        assert.deepEqual(result, value);
-                    } else {
-                        let opts = {};
-                        opts[property] = value;
-                        assert.deepEqual(result, opts);
-                    }
+                    let opts = {};
+                    opts[property] = value;
+                    assert.deepEqual(result, opts);
                     done();
                 };
             preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);

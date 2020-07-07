@@ -907,15 +907,14 @@ describe(
                 );
             }
         );
-        // Todo: fix end of file error handling by checking parse depth in combination with null token.
-        // testError(
-        //     it,
-        //     'Should throw UNEXPECTED_END_OF_FILE',
-        //     [
-        //         'proc main()'
-        //     ],
-        //     'Error: #' + errors.UNEXPECTED_END_OF_FILE + ' Unexpected end of file.'
-        // );
+        testError(
+            it,
+            'Should throw UNEXPECTED_END_OF_FILE',
+            [
+                'proc main()'
+            ],
+            'Error: #' + errors.UNEXPECTED_END_OF_FILE + ' Unexpected end of file.'
+        );
         describe(
             'Meta',
             function() {

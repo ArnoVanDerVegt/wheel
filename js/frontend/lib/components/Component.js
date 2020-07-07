@@ -74,6 +74,7 @@ exports.Component = class extends DOMNode {
         this._onKeyUp       = opts.onKeyUp;
         this._onMouseDown   = opts.onMouseDown;
         this._onMouseUp     = opts.onMouseUp;
+        this._onMouseMove   = opts.onMouseMove;
         this._onMouseOut    = opts.onMouseOut;
         this._onGlobalUIId  = ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this._dispatchEvent = null;
@@ -153,6 +154,7 @@ exports.Component = class extends DOMNode {
         element.addEventListener('keyup',     this.onKeyUp.bind(this));
         element.addEventListener('mousedown', this.onMouseDown.bind(this));
         element.addEventListener('mouseup',   this.onMouseUp.bind(this));
+        element.addEventListener('mousemove', this.onMouseMove.bind(this));
         element.addEventListener('mouseout',  this.onMouseOut.bind(this));
         if (this._hidden) {
             element.style.display = 'none';
@@ -222,18 +224,18 @@ exports.Component = class extends DOMNode {
     onFocus() {
         this._focus             = true;
         this._element.className = this.getClassName();
-        this._onFocus && this._onFocus.call(this);
+        (typeof this._onFocus === 'function') && this._onFocus.call(this);
     }
 
     onBlur() {
         this._focus             = false;
         this._element.className = this.getClassName();
-        this._onBlur && this._onBlur.call(this);
+        (typeof this._onBlur === 'function') && this._onBlur.call(this);
     }
 
     onClick(event) {
         if (!this._disabled) {
-            this._onClick  && this._onClick(event);
+            (typeof this._onClick === 'function') && this._onClick(event);
             this._dispatch && dispatcher.dispatch(this._dispatch);
         }
     }
@@ -241,34 +243,44 @@ exports.Component = class extends DOMNode {
     onKeyDown() {
         if (!this._disabled) {
             this._element.focus();
-            this._onKeyDown && this._onKeyDown(event);
+            (typeof this._onKeyDown === 'function') && this._onKeyDown(event);
         }
     }
 
     onKeyUp() {
         if (!this._disabled) {
-            this._onKeyUp && this._onKeyUp(event);
+            (typeof this._onKeyUp === 'function') && this._onKeyUp(event);
         }
     }
 
     onMouseDown() {
         if (!this._disabled) {
             this._element.focus();
-            this._onMouseDown && this._onMouseDown(event);
+            (typeof this._onMouseDown === 'function') && this._onMouseDown(event);
         }
     }
 
     onMouseUp() {
         this.onCancelEvent(event);
         if (!this._disabled) {
-            this._onMouseUp && this._onMouseUp(event);
+            (typeof this._onMouseUp === 'function') && this._onMouseUp(event);
         }
     }
 
     onMouseOut() {
         this.onCancelEvent(event);
         if (!this._disabled) {
-            this._onMouseOut && this._onMouseOut(event);
+            (typeof this._onMouseOut === 'function') && this._onMouseOut(event);
+        }
+    }
+
+    onMouseMove() {
+        if (typeof this._onMouseMove !== 'function') {
+            return;
+        }
+        this.onCancelEvent(event);
+        if (!this._disabled) {
+            this._onMouseMove(event);
         }
     }
 

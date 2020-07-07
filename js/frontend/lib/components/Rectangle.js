@@ -7,6 +7,7 @@ const Component  = require('./Component').Component;
 
 exports.Rectangle = class extends Component {
     constructor(opts) {
+        console.log('init:', opts);
         super(opts);
         this._width        = opts.width  || 20;
         this._height       = opts.height || 20;

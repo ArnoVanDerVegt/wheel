@@ -284,7 +284,7 @@ exports.AssignmentExpression = class {
         if (destVrOrType.getArraySize() === false) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
-        let iterator = new Iterator([].concat(opts.srcExpression.tokens));
+        let iterator = new Iterator({tokens: [].concat(opts.srcExpression.tokens), compiler: this._compiler});
         let data     = [];
         iterator.next(); // Skip "["
         compileData.readArrayToData(iterator, destVrOrType, data);
@@ -307,7 +307,7 @@ exports.AssignmentExpression = class {
         if (!(destVrOrType.getType() instanceof Record)) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
-        let iterator = new Iterator([].concat(opts.srcExpression.tokens));
+        let iterator = new Iterator({tokens: [].concat(opts.srcExpression.tokens), compiler: this._compiler});
         let data     = [];
         iterator.next(); // Skip "{"
         compileData.readRecordToData(iterator, destVrOrType.getType(), data);

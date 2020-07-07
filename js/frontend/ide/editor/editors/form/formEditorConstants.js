@@ -110,343 +110,491 @@ exports.INCLUDE_FOR_COMPONENT = {
 
 // Component properties...
 exports.PROPERTIES_BY_TYPE = {
-    FORM: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'title'},
-        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
-    ],
-    BUTTON: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-        {type: 'color',       name: 'color'},
-        {type: 'text',        name: 'value'},
-        {type: 'text',        name: 'title'}
-    ],
-    SELECTBUTTON: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'color',       name: 'color'},
-        {type: 'textList',    name: 'options',      options: {sort: true, remove: true}}
-    ],
-    LABEL: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-        {type: 'halign',      name: 'halign'},
-        {type: 'text',        name: 'text'},
-        {type: 'text',        name: 'value'}
-    ],
-    CHECKBOX: [
-        {type: 'type',        name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'boolean',     name: 'disabled'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'text'},
-        {type: 'boolean',     name: 'checked'}
-    ],
-    STATUSLIGHT: [
-        {type: 'type',        name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'color',       name: 'color'},
-        {type: 'boolean',     name: 'rgbColor'},
-        {type: 'rgb',         name: 'rgb'}
-    ],
-    PANEL: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'containerId', name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
-    ],
-    TABS: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'containerId', name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
-        {type: 'textList',    name: 'tabs',         options: {removeLast: true}}
-    ],
-    RECTANGLE: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'rgb',         name: 'fillColor'},
-        {type: 'rgb',         name: 'borderColor'},
-        {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'borderRadius', options: {validator: posNumberValidator,             type: 'number'}}
-    ],
-    CIRCLE: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'radius',       options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'rgb',         name: 'fillColor'},
-        {type: 'rgb',         name: 'borderColor'},
-        {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}}
-    ],
-    IMAGE: [
-        {type: 'type',        name: null},
-        {type: 'uid',         name: null},
-        {type: 'id',          name: null},
-        {type: 'parentId',    name: null},
-        {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-        {type: 'boolean',     name: 'hidden'},
-        {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
-        {type: 'text',        name: 'src'}
-    ]
-};
-
-// Component properties...
-exports.EVENTS_BY_TYPE = {
-    FORM: [
-        {
-            name: 'onShow',
-            code: [
-                '    printS("Show {name} form.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window'}
-            ]
-        },
-        {
-            name: 'onHide',
-            code: [
-            '    printS("Hide {name} form.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        }
-    ],
-    BUTTON: [
-        {
-            name: 'onClick',
-            code: [
-                '    printS("Click {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onFocus',
-            code: [
-                '    printS("Focus {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onBlur',
-            code: [
-                '    printS("Blur {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onMouseDown',
-            code: [
-                '    printS("Mousedown {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onMouseUp',
-            code: [
-                '    printS("Mouseup {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onMouseOut',
-            code: [
-                '    printS("Mouseout {name} button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        }
-    ],
-    SELECTBUTTON: [
-        {
-            name: 'onChange',
-            code: [
-                '    printS("Change {name} select button, value:")',
-                '    printN(value)'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
-                {name: 'value',        type: 'number', comment: 'New active button.'}
-            ]
-        },
-        {
-            name: 'onFocus',
-            code: [
-                '    printS("Focus {name} select button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onBlur',
-            code: [
-                '    printS("Blur {name} select button.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        }
-    ],
-    LABEL: [
-    ],
-    CHECKBOX: [
-        {
-            name: 'onChange',
-            code: [
-                '    printS("Change {name} checkbox, value:")',
-                '    printN(value)'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
-                {name: 'value',        type: 'number', comment: 'The checkbox value.'}
-            ]
-        },
-        {
-            name: 'onFocus',
-            code: [
-                '    printS("Focus {name} select checkbox.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onBlur',
-            code: [
-                '    printS("Blur {name} select checkbox.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        }
-    ],
-    STATUSLIGHT: [
-    ],
-    PANEL: [
-    ],
-    TABS: [
-        {
-            name: 'onChange',
-            code: [
-                '    printS("Change {name} tabs, value:")',
-                '    printN(value)'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
-                {name: 'value',        type: 'number', comment: 'The active tab.'}
-            ]
-        },
-        {
-            name: 'onFocus',
-            code: [
-                '    printS("Focus {name} tabs.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        },
-        {
-            name: 'onBlur',
-            code: [
-                '    printS("Blur {name} tabs.")'
-            ],
-            params: [
-                {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-            ]
-        }
-    ],
-    RECTANGLE: [
-    ],
-    CIRCLE:
-    [
-    ],
-    IMAGE: [
-    ]
+    FORM: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'title'},
+            {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onShow',
+                code: [
+                    '    printS("Show {name} form.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window'}
+                ]
+            },
+            {
+                name: 'onHide',
+                code: [
+                '    printS("Hide {name} form.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    BUTTON: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'color',       name: 'color'},
+            {type: 'text',        name: 'value'},
+            {type: 'text',        name: 'title'}
+        ],
+        events: [
+            {
+                name: 'onClick',
+                code: [
+                    '    printS("Click {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseDown',
+                code: [
+                    '    printS("Mousedown {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseUp',
+                code: [
+                    '    printS("Mouseup {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseOut',
+                code: [
+                    '    printS("Mouseout {name} button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    SELECTBUTTON: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'color',       name: 'color'},
+            {type: 'textList',    name: 'options',      options: {sort: true, remove: true}}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} select button, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'New active button.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} select button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} select button.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    LABEL: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'halign',      name: 'halign'},
+            {type: 'text',        name: 'text'},
+            {type: 'text',        name: 'value'}
+        ]
+    },
+    CHECKBOX: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'text'},
+            {type: 'boolean',     name: 'checked'}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} checkbox, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'The checkbox value.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} select checkbox.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} select checkbox.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    STATUSLIGHT: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'color',       name: 'color'},
+            {type: 'boolean',     name: 'rgbColor'},
+            {type: 'rgb',         name: 'rgb'}
+        ],
+        events: [
+        ]
+    },
+    PANEL: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'containerId', name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+        ]
+    },
+    TABS: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'containerId', name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
+            {type: 'textList',    name: 'tabs',         options: {removeLast: true}}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} tabs, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'The active tab.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} tabs.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} tabs.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    RECTANGLE: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'rgb',         name: 'fillColor'},
+            {type: 'rgb',         name: 'borderColor'},
+            {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'borderRadius', options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onClick',
+                code: [
+                    '    printS("Click {name} rectangle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseDown',
+                code: [
+                    '    printS("Mousedown {name} rectangle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseUp',
+                code: [
+                    '    printS("Mouseup {name} rectangle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseMove',
+                code: [
+                    '    printS("Mousemove {name} rectangle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseOut',
+                code: [
+                    '    printS("Mouseout {name} rectangle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    CIRCLE: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'radius',       options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'rgb',         name: 'fillColor'},
+            {type: 'rgb',         name: 'borderColor'},
+            {type: 'text',        name: 'borderWidth',  options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onClick',
+                code: [
+                    '    printS("Click {name} circle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseDown',
+                code: [
+                    '    printS("Mousedown {name} circle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseUp',
+                code: [
+                    '    printS("Mouseup {name} circle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseMove',
+                code: [
+                    '    printS("Mousemove {name} circle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseOut',
+                code: [
+                    '    printS("Mouseout {name} circle.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    IMAGE: {
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'src'}
+        ],
+        events: [
+            {
+                name: 'onClick',
+                code: [
+                    '    printS("Click {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseDown',
+                code: [
+                    '    printS("Mousedown {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseUp',
+                code: [
+                    '    printS("Mouseup {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseMove',
+                code: [
+                    '    printS("Mousemove {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseOut',
+                code: [
+                    '    printS("Mouseout {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    }
 };

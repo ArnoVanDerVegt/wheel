@@ -7,9 +7,10 @@ const err    = require('../errors').errors;
 const t      = require('./tokenizer');
 
 exports.Iterator = class {
-    constructor(tokens) {
-        this._tokens = tokens;
-        this._index  = 0;
+    constructor(opts) {
+        this._tokens   = opts.tokens;
+        this._compiler = opts.compiler;
+        this._index    = 0;
     }
 
     setIndexToToken(token) {
@@ -25,11 +26,10 @@ exports.Iterator = class {
         if (this._index < this._tokens.length) {
             return this._tokens[this._index++];
         }
+        if (this._compiler.getDepth() > 0) {
+            throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
+        }
         return null;
-        //if (ignoreEnd) {
-        //    return null;
-        //}
-        //throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
     }
 
     peek() {

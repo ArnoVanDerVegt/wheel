@@ -76,7 +76,7 @@ exports.ToolbarTop = class extends Toolbar {
                     },
                     this.addToolOptions({
                         uiId:          formEditor.getUIId.bind(formEditor),
-                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        tabIndex:      tabIndex.FORM_COMPONENT_TYPES,
                         baseClassName: 'tool-options-toolbar',
                         onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
                         collapse:      true,

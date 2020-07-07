@@ -55,7 +55,7 @@ exports.PreProcessor = class PreProcessor {
         let tokenizer    = new Tokenizer();
         let tokens       = tokenizer.tokenize(data).getTokens();
         let includes     = [];
-        let iterator     = new Iterator(tokens);
+        let iterator     = new Iterator({tokens: tokens, compiler: this});
         let metaCompiler = new MetaCompiler.MetaCompiler(this._defines, this._resources, this._linter);
         let token        = true;
         this._tokens = tokens;
@@ -147,6 +147,10 @@ exports.PreProcessor = class PreProcessor {
         if (this._fileCount === 0) {
             this.processResources(finishedCallback);
         }
+    }
+
+    getDepth() {
+        return 0;
     }
 
     getBaseFilename(filename) {

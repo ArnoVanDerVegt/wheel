@@ -62,6 +62,7 @@ exports.FormDialog = class extends Dialog {
         }
         let vm  = this._vm;
         let win = this._win;
+        console.log('====>', property);
         component[property] = function(value) {
             vm.runEvent(entryPoint, [win.getUiId(), value]);
         };
@@ -97,6 +98,7 @@ exports.FormDialog = class extends Dialog {
                     case 'onHide':
                     case 'onMouseDown':
                     case 'onMouseUp':
+                    case 'onMouseMove':
                     case 'onMouseOut':
                         this.addDefaultEvent(component, property);
                         break;

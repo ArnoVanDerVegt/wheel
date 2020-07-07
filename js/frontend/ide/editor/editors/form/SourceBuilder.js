@@ -222,7 +222,7 @@ exports.SourceBuilder = class {
 
     generateEventProc(componentName, componentType, eventType, procName) {
         let lines  = [];
-        let events = formEditorConstants.EVENTS_BY_TYPE[componentType.toUpperCase()] || [];
+        let events = formEditorConstants.PROPERTIES_BY_TYPE[componentType.toUpperCase()].events || [];
         let event  = null;
         for (let i = 0; i < events.length; i++) {
             if (events[i].name === eventType) {

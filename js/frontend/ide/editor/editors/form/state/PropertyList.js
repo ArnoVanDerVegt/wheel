@@ -24,7 +24,7 @@ exports.PropertyList = class {
     }
 
     getList() {
-        return [].concat(formEditorConstants.PROPERTIES_BY_TYPE[this._component.type.toUpperCase()]);
+        return [].concat(formEditorConstants.PROPERTIES_BY_TYPE[this._component.type.toUpperCase()].properties);
     }
 
     getProperty(name) {
@@ -32,7 +32,7 @@ exports.PropertyList = class {
         if (name in component) {
             return component[name];
         }
-        let info = formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()];
+        let info = formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()].properties;
         if (!info) {
             return '';
         }

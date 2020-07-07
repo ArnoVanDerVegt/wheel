@@ -24,10 +24,12 @@ exports.Compiler = class extends CompileBlock {
         this._rangeCheck    = true;
         this._namespace     = new Namespace({});
         this._eventInfo     = {};
+        this._depth         = 0;
     }
 
     compile(tokens) {
-        let iterator = new Iterator(tokens);
+        let iterator = new Iterator({tokens: tokens, compiler: this});
+        this._depth     = 0;
         this._compiler  = this;
         this._program   = new Program(this);
         this._scope     = new Scope(null, 'global', true, this._namespace);
@@ -62,6 +64,18 @@ exports.Compiler = class extends CompileBlock {
         let t      = new tokenizer.Tokenizer();
         let tokens = t.tokenize(source).getTokens();
         return this.buildTokens(tokens);
+    }
+
+    incDepth() {
+        this._depth++;
+    }
+
+    decDepth() {
+        this._depth--;
+    }
+
+    getDepth() {
+        return this._depth;
     }
 
     setFormResources(formResources) {

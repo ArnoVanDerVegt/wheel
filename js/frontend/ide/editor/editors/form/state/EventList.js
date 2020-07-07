@@ -27,7 +27,7 @@ exports.EventList = class {
     }
 
     getList() {
-        return [].concat(formEditorConstants.EVENTS_BY_TYPE[this._component.type.toUpperCase()]);
+        return [].concat(formEditorConstants.PROPERTIES_BY_TYPE[this._component.type.toUpperCase()].events);
     }
 
     getEvent(name) {

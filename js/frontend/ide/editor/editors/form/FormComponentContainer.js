@@ -210,7 +210,7 @@ exports.FormComponentContainer = class extends DOMNode {
         event.stopPropagation();
         dispatcher
             .dispatch('Properties.Select.Properties', opts.propertyList, this._formEditorState)
-            .dispatch('Properties.Select.Events', opts.eventList, this._formEditorState)
+            .dispatch('Properties.Select.Events',     opts.eventList,    this._formEditorState)
             .dispatch('Properties.ComponentList', {value: opts.id});
     }
 
@@ -280,6 +280,6 @@ exports.FormComponentContainer = class extends DOMNode {
         this._elementById[opts.id] = element;
         dispatcher
             .dispatch('Properties.Select.Properties', opts.propertyList, formEditorState)
-            .dispatch('Properties.Select.Events', opts.eventList, formEditorState);
+            .dispatch('Properties.Select.Events',     opts.eventList,    formEditorState);
     }
 };

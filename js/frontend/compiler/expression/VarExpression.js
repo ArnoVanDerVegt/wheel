@@ -270,7 +270,7 @@ exports.VarExpression = class {
     **/
     compileProcCall(opts, result) {
         let scope       = this._scope;
-        let iterator    = new Iterator(opts.expression.tokens);
+        let iterator    = new Iterator({tokens: opts.expression.tokens, compiler: this._compiler});
         let CompileCall = require('../compiler/CompileCall').CompileCall;
         iterator.skipWhiteSpace().next();
         new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile(iterator, null, opts.identifier);

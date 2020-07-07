@@ -21,7 +21,7 @@ exports.ComponentStatusLightModule = class extends VMModule {
             case componentStatusLightModuleConstants.STATUS_LIGHT_SET_RGB_COLOR: property = 'rgbColor';  break;
             case componentStatusLightModuleConstants.STATUS_LIGHT_SET_RGB:
                 statusLight = vmData.getRecordFromSrcOffset(['window', 'component', 'red', 'grn', 'blu']);
-                let rgb = {red: statusLight.red, grn: statusLight.grn, blu: statusLight.blu};
+                let rgb = {rgb: {red: statusLight.red, grn: statusLight.grn, blu: statusLight.blu}};
                 dispatcher.dispatch(statusLight.window + '_' + statusLight.component, rgb);
                 break;
         }
