@@ -15,7 +15,6 @@ exports.ComponentCheckboxModule = class extends VMModule {
         let checkbox     = null;
         let opts         = {};
         switch (commandId) {
-            case componentCheckboxModuleConstants.CHECKBOX_SET_TAB_INDEX: property = 'tabIndex';                           break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_HIDDEN:    property = 'hidden';                             break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_DISABLED:  property = 'disabled';                           break;
             case componentCheckboxModuleConstants.CHECKBOX_SET_X:         property = 'x';                                  break;

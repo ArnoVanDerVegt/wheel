@@ -81,9 +81,10 @@ exports.ToolbarTop = class extends Toolbar {
                         onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
                         collapse:      true,
                         options: [
-                            {icon: 'icon-btn',   hint: {text: 'Standard<br/>components'}},
-                            {icon: 'icon-tabs',  hint: {text: 'Panel<br/>components'}},
-                            {icon: 'icon-image', hint: {text: 'Graphics<br/>components'}}
+                            {icon: 'icon-btn',       hint: {text: 'Standard<br/>components'}},
+                            {icon: 'icon-tabs',      hint: {text: 'Panel<br/>components'}},
+                            {icon: 'icon-image',     hint: {text: 'Graphics<br/>components'}},
+                            {icon: 'icon-pu-sensor', hint: {text: 'Sensor and motor<br/>components'}}
                         ]
                     }),
                     {
@@ -130,6 +131,21 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-rect',     hint: {text: 'Rectangle<br/>component'}},
                             {icon: 'icon-circle',   hint: {text: 'Circle<br/>component'}},
                             {icon: 'icon-image',    hint: {text: 'Image<br/>component'}}
+                        ]
+                    }),
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('ioTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar graphics',
+                        onSelect:      formEditor.onSelectIOComponent.bind(formEditor),
+                        style: {
+                            display: 'none'
+                        },
+                        options: [
+                            {icon: 'icon-pu-sensor',  hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
+                            {icon: 'icon-ev3-sensor', hint: {text: 'EV3 sensor<br/>display component'}},
+                            {icon: 'icon-ev3-motor',  hint: {text: 'EV3 motor<br/>display component'}}
                         ]
                     }),
                     {

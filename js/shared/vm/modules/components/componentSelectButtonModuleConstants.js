@@ -4,10 +4,9 @@
 **/
 exports.MODULE_SELECT_BUTTON        = 66;
 
-exports.SELECT_BUTTON_SET_TAB_INDEX =  0;
-exports.SELECT_BUTTON_SET_HIDDEN    =  1;
-exports.SELECT_BUTTON_SET_DISABLED  =  2;
-exports.SELECT_BUTTON_SET_X         =  3;
-exports.SELECT_BUTTON_SET_Y         =  4;
-exports.SELECT_BUTTON_SET_COLOR     =  5;
-exports.SELECT_BUTTON_SET_ACTIVE    =  6;
+exports.SELECT_BUTTON_SET_HIDDEN    =  0;
+exports.SELECT_BUTTON_SET_DISABLED  =  1;
+exports.SELECT_BUTTON_SET_X         =  2;
+exports.SELECT_BUTTON_SET_Y         =  3;
+exports.SELECT_BUTTON_SET_COLOR     =  4;
+exports.SELECT_BUTTON_SET_ACTIVE    =  5;

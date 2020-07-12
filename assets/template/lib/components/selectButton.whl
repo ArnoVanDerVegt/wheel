@@ -8,13 +8,12 @@ namespace components.selectButton
 #define MODULE_COMPONENT_SELECT_BUTTON        66
 
 ; @const Module calls for button component functions.
-#define SELECT_BUTTON_COMPONENT_SET_TAB_INDEX  0
-#define SELECT_BUTTON_COMPONENT_SET_HIDDEN     1
-#define SELECT_BUTTON_COMPONENT_SET_DISABLED   2
-#define SELECT_BUTTON_COMPONENT_SET_X          3
-#define SELECT_BUTTON_COMPONENT_SET_Y          4
-#define SELECT_BUTTON_COMPONENT_SET_COLOR      5
-#define SELECT_BUTTON_COMPONENT_SET_ACTIVE     6
+#define SELECT_BUTTON_COMPONENT_SET_HIDDEN     0
+#define SELECT_BUTTON_COMPONENT_SET_DISABLED   1
+#define SELECT_BUTTON_COMPONENT_SET_X          2
+#define SELECT_BUTTON_COMPONENT_SET_Y          3
+#define SELECT_BUTTON_COMPONENT_SET_COLOR      4
+#define SELECT_BUTTON_COMPONENT_SET_ACTIVE     5
 
 ; @event onChange            Called when an other button is selected.
 ; @param windowHandle number The handle of the parent window of the selectButton.
@@ -25,15 +24,6 @@ namespace components.selectButton
 
 ; @event onBlur              Called when the selectButton looses focus.
 ; @param windowHandle number The handle of the parent window of the selectButton.
-
-; @proc                   Set the tab index of the select button.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_SELECT_BUTTON, SELECT_BUTTON_COMPONENT_SET_TAB_INDEX
-end
 
 ; @proc                   Hide the select button.
 ; @param windowhandle     The handle of the window.

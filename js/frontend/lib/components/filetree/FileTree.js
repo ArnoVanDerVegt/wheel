@@ -467,15 +467,13 @@ exports.FileTree = class extends DOMNode {
     }
 
     onSelectDirectory(directory) {
-        if (this._selected === directory) {
-            this._selected.setSelected(true);
-        } else {
-            if (this._selected) {
-                this._selected.setSelected(false);
-            }
-            this._selected = directory;
-            this._selected.setSelected(true);
+        if (this._selected && (this._selected !== directory)) {
+            this._selected.setSelected(false);
         }
+        this._selected = directory;
+        directory.setSelected(true);
+        directory.setOpen(!directory.getOpen());
+        this.setFullPathOpen(directory.getFullPath(), directory.getOpen());
         let path = directory.getPath() + '/' + directory.getName();
         this._activeDirectory = path;
         if (directory.getOpen() && !(path in this._fullPathLoaded)) {

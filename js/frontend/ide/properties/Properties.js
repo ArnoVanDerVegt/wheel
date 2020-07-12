@@ -191,6 +191,10 @@ exports.Properties = class extends DOMNode {
         this.clear(eventsContainer);
         eventList.getList().forEach(
             function(event) {
+                if (!event) {
+                    console.warn('Warning invalid event:', event, 'eventList:', eventList);
+                    return;
+                }
                 eventByName[event.name] = new Event({
                     eventList:     eventList,
                     parentNode:    eventsContainer,
@@ -199,6 +203,7 @@ exports.Properties = class extends DOMNode {
                     name:          event.name,
                     value:         component[event.name] || '',
                     onChange: function(value) {
+                        console.log('Change event:', id, event.name, value);
                         dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
                     }
                 });

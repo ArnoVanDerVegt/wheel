@@ -15,7 +15,6 @@ exports.ComponentLabelModule = class extends VMModule {
         let label        = null;
         let opts         = {};
         switch (commandId) {
-            case componentLabelModuleConstants.LABEL_SET_TAB_INDEX:    property = 'tabIndex';                          break;
             case componentLabelModuleConstants.LABEL_SET_HIDDEN:       property = 'hidden';                            break;
             case componentLabelModuleConstants.LABEL_SET_X:            property = 'x';                                 break;
             case componentLabelModuleConstants.LABEL_SET_Y:            property = 'y';                                 break;

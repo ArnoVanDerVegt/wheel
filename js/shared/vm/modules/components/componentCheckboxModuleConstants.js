@@ -4,11 +4,10 @@
 **/
 exports.MODULE_CHECKBOX        = 68;
 
-exports.CHECKBOX_SET_TAB_INDEX =  0;
-exports.CHECKBOX_SET_HIDDEN    =  1;
-exports.CHECKBOX_SET_DISABLED  =  2;
-exports.CHECKBOX_SET_X         =  3;
-exports.CHECKBOX_SET_Y         =  4;
-exports.CHECKBOX_SET_TEXT      =  5;
-exports.CHECKBOX_SET_HINT      =  6;
-exports.CHECKBOX_SET_CHECKED   =  7;
+exports.CHECKBOX_SET_HIDDEN    =  0;
+exports.CHECKBOX_SET_DISABLED  =  1;
+exports.CHECKBOX_SET_X         =  2;
+exports.CHECKBOX_SET_Y         =  3;
+exports.CHECKBOX_SET_TEXT      =  4;
+exports.CHECKBOX_SET_HINT      =  5;
+exports.CHECKBOX_SET_CHECKED   =  6;

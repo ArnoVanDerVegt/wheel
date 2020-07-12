@@ -60,6 +60,7 @@
     padding:                        0 0 0 5px;
     color:                          var(--ui-text1);
     cursor:                         pointer;
+    background-color:               var(--text-input-background);
 }
 .dropdown .dropdown-list-item:hover {
     background-color:               var(--files-hover-background);

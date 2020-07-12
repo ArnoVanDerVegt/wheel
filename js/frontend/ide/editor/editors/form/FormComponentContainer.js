@@ -4,6 +4,7 @@
 **/
 const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../../../lib/dom').DOMNode;
+const getImage            = require('../../../data/images').getImage;
 const FormEditorState     = require('./state/FormEditorState');
 const EventList           = require('./state/EventList').EventList;
 const PropertyList        = require('./state/PropertyList').PropertyList;
@@ -19,7 +20,10 @@ const CONSTRUCTOR_BY_TYPE = {
         tabs:         require('../../../../lib/components/TabPanel').TabPanel,
         rectangle:    require('../../../../lib/components/Rectangle').Rectangle,
         circle:       require('../../../../lib/components/Circle').Circle,
-        image:        require('../../../../lib/components/Image').Image
+        image:        require('../../../../lib/components/Image').Image,
+        puDevice:     require('../../../../lib/components/io/PoweredUpDevice').PoweredUpDevice,
+        ev3Motor:     require('../../../../lib/components/io/EV3Motor').EV3Motor,
+        ev3Sensor:    require('../../../../lib/components/io/EV3Sensor').EV3Sensor
     };
 
 let formComponentContainerByParentId = {};
@@ -258,6 +262,7 @@ exports.FormComponentContainer = class extends DOMNode {
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
         opts.onMouseDown  = (event) => { this.onComponentMouseDown(event, element, opts); };
         opts.style        = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.getImage     = getImage;
         opts.design       = this._design;
         opts.parentNode   = this._formElement;
         opts.ui           = this._ui;

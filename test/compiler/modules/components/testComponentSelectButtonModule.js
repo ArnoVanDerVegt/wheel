@@ -14,7 +14,6 @@ const LIB_FILENAME = 'assets/template/lib/components/selectButton.whl';
 describe(
     'Test SelectButton component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.selectButton.setTabIndex', 'tabIndex', 'number');
         testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.selectButton.setHidden',   'hidden',   'number');
         testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.selectButton.setDisabled', 'disabled', 'number');
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.selectButton.setX',        'x',        'number');

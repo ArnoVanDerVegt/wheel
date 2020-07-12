@@ -116,11 +116,11 @@ exports.SourceBuilder = class {
     }
 
     generateIncludesFromComponents(components) {
-        let includes            = [];
-        let includeForComponent = formEditorConstants.INCLUDE_FOR_COMPONENT;
+        let includes         = [];
+        let propertiesByType = formEditorConstants.PROPERTIES_BY_TYPE;
         components.forEach((component) => {
-            if (component.type in includeForComponent) {
-                let include = includeForComponent[component.type];
+            if (component.type.toUpperCase() in propertiesByType) {
+                let include = propertiesByType[component.type.toUpperCase()].include;
                 if (includes.indexOf(include) === -1) {
                     includes.push(include);
                 }
@@ -231,6 +231,7 @@ exports.SourceBuilder = class {
             }
         }
         if (!event) {
+            console.log('generateEventProc: exit, event not found.');
             return [];
         }
         let addComments = this._settings.getCreateEventComments();
@@ -306,14 +307,20 @@ exports.SourceBuilder = class {
                 findProcedures();
             };
         findProcedures();
+        let found = false;
         for (let i = 0; i < data.length; i++) {
             let component = data[i];
             for (let j in component) {
                 let value = component[j];
                 if ((j.substr(0, 2) === 'on') && value && !findProc(value)) {
+                    found = true;
                     insertProc(value, this.generateEventProc(component.name, component.type, j, value));
                 }
             }
+        }
+        if (!found) {
+            console.log('No events inserted.');
+            console.log('    data:', data);
         }
     }
 

@@ -41,6 +41,7 @@ exports.FormEditorState = class extends Emitter {
         this._standardComponent  = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._panelComponent     = formEditorConstants.COMPONENT_TYPE_TABS;
         this._graphicsComponent  = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
+        this._ioComponent        = formEditorConstants.COMPONENT_TYPE_PU_DEVICE;
         this._dispatch           = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
             dispatcher.on('Properties.Event.Change',      this, this.onChangeEvent),
@@ -62,7 +63,7 @@ exports.FormEditorState = class extends Emitter {
         let component = this._componentBuilder.addFormComponent({
             type:   'form',
             uid:    form ? form.uid    : this._componentList.getNewComponentUid(),
-            name:   form ? form.name   : formName,
+            name:   form ? form.name   : (formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length)),
             title:  form ? form.title  : formName,
             width:  form ? form.width  : opts.width,
             height: form ? form.height : opts.height
@@ -120,6 +121,7 @@ exports.FormEditorState = class extends Emitter {
             case formEditorConstants.COMPONENT_TYPES_STANDARD: return this._standardComponent;
             case formEditorConstants.COMPONENT_TYPES_PANEL:    return this._panelComponent;
             case formEditorConstants.COMPONENT_TYPES_GRAPHICS: return this._graphicsComponent;
+            case formEditorConstants.COMPONENT_TYPES_IO:       return this._ioComponent;
         }
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
     }
@@ -134,6 +136,10 @@ exports.FormEditorState = class extends Emitter {
 
     setGraphicsComponent(graphicsComponent) {
         this._graphicsComponent = graphicsComponent;
+    }
+
+    setIOComponent(ioComponent) {
+        this._ioComponent = ioComponent;
     }
 
     getUndoStackLength() {
@@ -374,6 +380,7 @@ exports.FormEditorState = class extends Emitter {
     onChangeEvent(id, event, value) {
         let component = this._componentList.getComponentById(id);
         if (!component) {
+            console.error('Component not found:', id);
             return;
         }
         let newValue = !component[event];
@@ -408,7 +415,7 @@ exports.FormEditorState = class extends Emitter {
                 });
             dispatcher
                 .dispatch('Properties.Select.Properties', propertyList, this)
-                .dispatch('Properties.Select.Events', eventList, this);
+                .dispatch('Properties.Select.Events',     eventList,    this);
         }
         return this;
     }

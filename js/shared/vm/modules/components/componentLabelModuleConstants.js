@@ -4,10 +4,9 @@
 **/
 exports.MODULE_LABEL           = 67;
 
-exports.LABEL_SET_TAB_INDEX    =  0;
-exports.LABEL_SET_HIDDEN       =  1;
-exports.LABEL_SET_X            =  2;
-exports.LABEL_SET_Y            =  3;
-exports.LABEL_SET_TEXT         =  4;
-exports.LABEL_SET_VALUE_NUMBER =  5;
-exports.LABEL_SET_VALUE_STRING =  6;
+exports.LABEL_SET_HIDDEN       =  0;
+exports.LABEL_SET_X            =  1;
+exports.LABEL_SET_Y            =  2;
+exports.LABEL_SET_TEXT         =  3;
+exports.LABEL_SET_VALUE_NUMBER =  4;
+exports.LABEL_SET_VALUE_STRING =  5;

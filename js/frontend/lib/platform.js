@@ -9,3 +9,8 @@ exports.isElectron = function() {
 exports.isNode = function() {
     return (typeof document === 'object') && (document.location.hostname === '127.0.0.1');
 };
+
+exports.forceWebVersion = function() {
+    return (typeof document === 'object') &&
+        (document.location.host === 'github.com') || (document.location.href.indexOf('pu') !== -1);
+};

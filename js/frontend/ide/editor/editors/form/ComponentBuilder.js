@@ -144,6 +144,27 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addPuDevice(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PU_DEVICE)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'PuDevice'));
+        return component;
+    }
+
+    addEV3Motor(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_MOTOR)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Motor'));
+        return component;
+    }
+
+    addEV3Sensor(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_SENSOR)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Sensor'));
+        return component;
+    }
+
     addComponentForType(component, type) {
         this
             .addProperty(component, 'tabIndex', 0)
@@ -160,6 +181,9 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_RECTANGLE:     return this.addRectangle      (component);
             case formEditorConstants.COMPONENT_TYPE_CIRCLE:        return this.addCircle         (component);
             case formEditorConstants.COMPONENT_TYPE_IMAGE:         return this.addImage          (component);
+            case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:     return this.addPuDevice       (component);
+            case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:     return this.addEV3Motor       (component);
+            case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:    return this.addEV3Sensor      (component);
         }
         return null;
     }

@@ -1,0 +1,124 @@
+#project "EV3 Sensor display example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/sensor.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/ev3Sensor.whl"
+#include "lib/components/button.whl"
+
+#define EV3_SENSOR_BUTTON_COLOR_SENSOR      0x0E0BB1B4
+#define EV3_SENSOR_BUTTON_GYRO_SENSOR       0x64B32E1A
+#define EV3_SENSOR_BUTTON_INFRARED_SENSOR   0x629590C3
+#define EV3_SENSOR_BUTTON_PORT1             0x095752E5
+#define EV3_SENSOR_BUTTON_PORT2             0xF8C666E1
+#define EV3_SENSOR_BUTTON_PORT3             0x9E4738E0
+#define EV3_SENSOR_BUTTON_PORT4             0xD5607567
+#define EV3_SENSOR_BUTTON_RANDOM_VALUE      0xB6DE6F34
+#define EV3_SENSOR_BUTTON_SOUND_SENSOR      0x092D2336
+#define EV3_SENSOR_BUTTON_TOUCH_SENSOR      0x335646DB
+#define EV3_SENSOR_BUTTON_ULTRASONIC_SENSOR 0x67BA14B6
+#define EV3_SENSOR_EV3_SENSOR               0x81642D50
+
+#resource "ev3Sensor.wfrm"
+
+number sensorType = -1
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonColorSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_COLOR)
+    components.ev3Sensor.setValue(windowHandle, EV3_SENSOR_EV3_SENSOR, 0)
+    sensorType = SENSOR_TYPE_COLOR
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonGyroSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_GYRO)
+    components.ev3Sensor.setValue(windowHandle, EV3_SENSOR_EV3_SENSOR, 0)
+    sensorType = SENSOR_TYPE_GYRO
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonInfraredSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_INFRARED)
+    sensorType = SENSOR_TYPE_INFRARED
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonPort1Click(number windowHandle)
+    components.ev3Sensor.setPort(windowHandle, EV3_SENSOR_EV3_SENSOR, 0)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonPort2Click(number windowHandle)
+    components.ev3Sensor.setPort(windowHandle, EV3_SENSOR_EV3_SENSOR, 1)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonPort3Click(number windowHandle)
+    components.ev3Sensor.setPort(windowHandle, EV3_SENSOR_EV3_SENSOR, 2)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonPort4Click(number windowHandle)
+    components.ev3Sensor.setPort(windowHandle, EV3_SENSOR_EV3_SENSOR, 3)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonRandomValueClick(number windowHandle)
+    number max = 500
+    select sensorType
+        case SENSOR_TYPE_TOUCH:
+            max = 1
+        case SENSOR_TYPE_COLOR:
+            max = 7
+        case SENSOR_TYPE_NXT_SOUND:
+            max = 100
+        case SENSOR_TYPE_GYRO:
+            max = 360
+    end
+    components.ev3Sensor.setValue(windowHandle, EV3_SENSOR_EV3_SENSOR, random(0, max))
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonSoundSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_NXT_SOUND)
+    components.ev3Sensor.setValue(windowHandle, EV3_SENSOR_EV3_SENSOR, 0)
+    sensorType = SENSOR_TYPE_NXT_SOUND
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonTouchSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_TOUCH)
+    components.ev3Sensor.setValue(windowHandle, EV3_SENSOR_EV3_SENSOR, 0)
+    sensorType = SENSOR_TYPE_TOUCH
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3SensorButtonUltrasonicSensorClick(number windowHandle)
+    components.ev3Sensor.setType(windowHandle, EV3_SENSOR_EV3_SENSOR, SENSOR_TYPE_ULTRASONIC)
+    sensorType = SENSOR_TYPE_ULTRASONIC
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showEv3SensorForm()
+    ret components.form.show("ev3Sensor.wfrm")
+end
+
+proc main()
+    showEv3SensorForm()
+    halt()
+end

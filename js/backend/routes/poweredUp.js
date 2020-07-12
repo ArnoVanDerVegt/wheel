@@ -2,9 +2,12 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const PoweredUp = require('../../shared/device/poweredup/PoweredUp').PoweredUp;
+const pup       = require('../../shared/device/poweredup/PoweredUp');
+const PoweredUp = pup.PoweredUp;
 
 let poweredUp = null;
+
+pup.setLibrary(require('node-poweredup').Consts, require('node-poweredup'));
 
 const getPoweredUp = function() {
         if (poweredUp) {

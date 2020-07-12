@@ -1,0 +1,110 @@
+#project "EV3 Motor example"
+
+#include "lib/standard.whl"
+#include "lib/motor.whl"
+#include "lib/math.whl"
+#include "lib/components/component.whl"
+#include "lib/components/ev3Motor.whl"
+#include "lib/components/form.whl"
+#include "lib/components/button.whl"
+#include "lib/components/poweredUpDevice.whl"
+
+#define EV3_MOTOR_BUTTON_LARGE        0x633A40E8
+#define EV3_MOTOR_BUTTON_PORT_A       0xC567C6E5
+#define EV3_MOTOR_BUTTON_PORT_B       0x011DD648
+#define EV3_MOTOR_BUTTON_PORT_C       0x199F79BC
+#define EV3_MOTOR_BUTTON_PORT_D       0x37535A60
+#define EV3_MOTOR_BUTTON_RANDOM_SPEED 0x9625A7F9
+#define EV3_MOTOR_BUTTON_RANDOM_VALUE 0xA60B3B8A
+#define EV3_MOTOR_BUTTON_READY_GREEN  0xB6FDD44C
+#define EV3_MOTOR_BUTTON_READY_NONE   0x926E3269
+#define EV3_MOTOR_BUTTON_READY_RED    0x22DDF042
+#define EV3_MOTOR_BUTTON_READY_YELLOW 0xB20A4405
+#define EV3_MOTOR_BUTTON_SMALL        0x8401C9E6
+#define EV3_MOTOR_EV3_MOTOR           0xB4825AB2
+
+
+#resource "ev3Motor.wfrm"
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonLargeClick(number windowHandle)
+    components.ev3Motor.setType(windowHandle, EV3_MOTOR_EV3_MOTOR, MOTOR_LARGE)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonPortAClick(number windowHandle)
+    components.ev3Motor.setPort(windowHandle, EV3_MOTOR_EV3_MOTOR, 0)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonPortBClick(number windowHandle)
+    components.ev3Motor.setPort(windowHandle, EV3_MOTOR_EV3_MOTOR, 1)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonPortCClick(number windowHandle)
+    components.ev3Motor.setPort(windowHandle, EV3_MOTOR_EV3_MOTOR, 2)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonPortDClick(number windowHandle)
+    components.ev3Motor.setPort(windowHandle, EV3_MOTOR_EV3_MOTOR, 3)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonRandomSpeedClick(number windowHandle)
+    components.ev3Motor.setSpeed(windowHandle, EV3_MOTOR_EV3_MOTOR, random(-100, 100))
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonRandomValueClick(number windowHandle)
+    components.ev3Motor.setValue(windowHandle, EV3_MOTOR_EV3_MOTOR, random(-5000, 5000))
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonReadyGreenClick(number windowHandle)
+    components.ev3Motor.setReady(windowHandle, EV3_MOTOR_EV3_MOTOR, 3)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonReadyNoneClick(number windowHandle)
+    components.ev3Motor.setReady(windowHandle, EV3_MOTOR_EV3_MOTOR, 0)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonReadyRedClick(number windowHandle)
+    components.ev3Motor.setReady(windowHandle, EV3_MOTOR_EV3_MOTOR, 1)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonReadyYellowClick(number windowHandle)
+    components.ev3Motor.setReady(windowHandle, EV3_MOTOR_EV3_MOTOR, 2)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onEv3MotorButtonSmallClick(number windowHandle)
+    components.ev3Motor.setType(windowHandle, EV3_MOTOR_EV3_MOTOR, MOTOR_MEDIUM)
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showEv3MotorForm()
+    ret components.form.show("ev3Motor.wfrm")
+end
+
+proc main()
+    showEv3MotorForm()
+    halt()
+end

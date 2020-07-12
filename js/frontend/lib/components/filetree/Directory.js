@@ -67,10 +67,6 @@ exports.Directory = class extends Item {
     }
 
     setSelected(selected) {
-        if (selected === this._selected) {
-            this.setOpen(!this._open);
-            this._fileTree.setFullPathOpen(this._fullPath, this._open);
-        }
         this._selected              = selected;
         this._nameElement.className = this.getNameClassName();
     }

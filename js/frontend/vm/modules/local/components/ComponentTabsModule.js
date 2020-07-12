@@ -14,7 +14,6 @@ exports.ComponentTabsModule = class extends VMModule {
         let tabs     = null;
         let opts     = {};
         switch (commandId) {
-            case componentTabsModuleConstants.TABS_SET_TAB_INDEX: property = 'tabIndex'; break;
             case componentTabsModuleConstants.TABS_SET_HIDDEN:    property = 'hidden';   break;
             case componentTabsModuleConstants.TABS_SET_DISABLED:  property = 'disabled'; break;
             case componentTabsModuleConstants.TABS_SET_X:         property = 'x';        break;

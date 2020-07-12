@@ -8,14 +8,13 @@ namespace components.button
 #define MODULE_COMPONENT_BUTTON        65
 
 ; @const Module calls for button component functions.
-#define BUTTON_COMPONENT_SET_TAB_INDEX  0
-#define BUTTON_COMPONENT_SET_HIDDEN     1
-#define BUTTON_COMPONENT_SET_DISABLED   2
-#define BUTTON_COMPONENT_SET_X          3
-#define BUTTON_COMPONENT_SET_Y          4
-#define BUTTON_COMPONENT_SET_COLOR      5
-#define BUTTON_COMPONENT_SET_TITLE      6
-#define BUTTON_COMPONENT_SET_HINT       7
+#define BUTTON_COMPONENT_SET_HIDDEN     0
+#define BUTTON_COMPONENT_SET_DISABLED   1
+#define BUTTON_COMPONENT_SET_X          2
+#define BUTTON_COMPONENT_SET_Y          3
+#define BUTTON_COMPONENT_SET_COLOR      4
+#define BUTTON_COMPONENT_SET_TITLE      5
+#define BUTTON_COMPONENT_SET_HINT       6
 
 ; @event onClick             Called when the button is clicked.
 ; @param windowHandle number The handle of the parent window of the button.
@@ -34,15 +33,6 @@ namespace components.button
 
 ; @event onMouseOut          Called when the mouse moves from inside to outside the button.
 ; @param windowHandle number The handle of the parent window of the button.
-
-; @proc                   Set the tab index of the button.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_TAB_INDEX
-end
 
 ; @proc                   Hide the button.
 ; @param windowhandle     The handle of the window.

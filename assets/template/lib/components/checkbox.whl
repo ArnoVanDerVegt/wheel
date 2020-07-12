@@ -8,14 +8,13 @@ namespace components.checkbox
 #define MODULE_COMPONENT_CHECKBOX        68
 
 ; @const Module calls for button component functions.
-#define CHECKBOX_COMPONENT_SET_TAB_INDEX  0
-#define CHECKBOX_COMPONENT_SET_HIDDEN     1
-#define CHECKBOX_COMPONENT_SET_DISABLED   2
-#define CHECKBOX_COMPONENT_SET_X          3
-#define CHECKBOX_COMPONENT_SET_Y          4
-#define CHECKBOX_COMPONENT_SET_TEXT       5
-#define CHECKBOX_COMPONENT_SET_HINT       6
-#define CHECKBOX_COMPONENT_SET_CHECKED    7
+#define CHECKBOX_COMPONENT_SET_HIDDEN     0
+#define CHECKBOX_COMPONENT_SET_DISABLED   1
+#define CHECKBOX_COMPONENT_SET_X          2
+#define CHECKBOX_COMPONENT_SET_Y          3
+#define CHECKBOX_COMPONENT_SET_TEXT       4
+#define CHECKBOX_COMPONENT_SET_HINT       5
+#define CHECKBOX_COMPONENT_SET_CHECKED    6
 
 ; @event onChange            Called when an other checkbox is selected.
 ; @param windowHandle number The handle of the parent window of the checkbox.
@@ -26,15 +25,6 @@ namespace components.checkbox
 
 ; @event onBlur              Called when the checkbox looses focus.
 ; @param windowHandle number The handle of the parent window of the checkbox.
-
-; @proc                   Set the tab index of the checkbox.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_CHECKBOX, CHECKBOX_COMPONENT_SET_TAB_INDEX
-end
 
 ; @proc                   Hide the checkbox.
 ; @param windowhandle     The handle of the window.

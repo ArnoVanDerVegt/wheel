@@ -179,11 +179,20 @@ exports.Plugin = class extends Plugin {
     setDeviceType(layer, type) {
         let motors = this._motors;
         for (let i = 0; i < 4; i++) {
-            motors[layer * 4 + i].getState().setType(-1);
+            let motor = motors[layer * 4 + i];
+            if (motor) {
+                motor.getState().setType(-1);
+            }
         }
         if (type === poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB) {
-            motors[layer * 4    ].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
-            motors[layer * 4 + 1].getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
+            let motor = motors[layer * 4];
+            if (motor) {
+                motor.getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
+            }
+            motor = motors[layer * 4 + 1];
+            if (motor) {
+                motor.getState().setType(poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR);
+            }
         }
         let device = this.getDeviceStateByLayer(layer);
         if (device && device.setType) {
@@ -234,7 +243,7 @@ exports.Plugin = class extends Plugin {
     showLayer(layer) {
         this._technicHub.clear();
         this._uuidElement.innerHTML = '';
-        this.setDeviceType(this.getDeviceTypeByLayer(layer));
+        this.setDeviceType(layer, this.getDeviceTypeByLayer(layer));
         this.showMotors();
     }
 

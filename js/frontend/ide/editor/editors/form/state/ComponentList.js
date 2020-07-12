@@ -15,6 +15,20 @@ exports.ComponentList = class {
         return '0x' + ('00000000' + (Math.floor(Math.random() * 0xFFFFFFFF + 1)).toString(16)).substr(-8).toUpperCase();
     }
 
+    getComponentClone(id) {
+        let component = Object.assign({}, this._componentsById[id]);
+        delete component.componentList;
+        delete component.owner;
+        delete component.propertyList;
+        delete component.eventList;
+        delete component.children;
+        if ('containerId' in component) {
+            // Make a new copy of the containerId array:
+            component.containerId = [].concat(component.containerId);
+        }
+        return component;
+    }
+
     setUndoStack(undoStack) {
         this._undoStack = undoStack;
     }
@@ -88,7 +102,8 @@ exports.ComponentList = class {
         let componentsById = this._componentsById;
         let items          = [];
         for (let id in componentsById) {
-            let component = componentsById[id];
+            // let component = componentsById[id];
+            let component = this.getComponentClone(id);
             if (component.parentId === parentId) {
                 items.push(component);
             }
@@ -118,7 +133,7 @@ exports.ComponentList = class {
         /* eslint-disable no-invalid-this */
         let toString       = function() { return ('00000000' + this.id).substr(-8); };
         let result         = [];
-        let componentsById = this._componentsById;
+        let componentsById = {};
         let ids            = {};
         let nextId         = 0;
         const getId = (id) => {
@@ -136,13 +151,11 @@ exports.ComponentList = class {
                     }
                 }
             };
+        for (let id in this._componentsById) {
+            componentsById[id] = this.getComponentClone(id);
+        }
         for (let id in componentsById) {
-            let component = Object.assign({}, componentsById[id]);
-            delete component.componentList;
-            delete component.owner;
-            delete component.propertyList;
-            delete component.eventList;
-            delete component.children;
+            let component = componentsById[id];
             if (renumIds) {
                 component.id = getId(id);
                 if ('containerId' in component) {
@@ -199,11 +212,14 @@ exports.ComponentList = class {
         if ((id === null) || !componentsById[id]) {
             return null;
         }
-        let component = Object.assign({}, componentsById[id]);
-        component.parentId = component.owner.getParentId();
-        delete component.owner;
-        delete componentsById[id];
-        this._activeComponentId = null;
+        let parentId  = componentsById[id].owner.getParentId();
+        let component = this.getComponentClone(id);
+        component.parentId = parentId;
+        // let component = Object.assign({}, componentsById[id]);
+        // component.parentId = component.owner.getParentId();
+        // delete component.owner;
+        // delete componentsById[id];
+        // this._activeComponentId = null;
         return component;
     }
 
@@ -215,7 +231,8 @@ exports.ComponentList = class {
         let component = this._componentsById[id];
         if (component) {
             this._activeComponentId = id;
-            return component;
+            return this.getComponentClone(id);
+            // return component;
         }
         return false;
     }
@@ -230,10 +247,11 @@ exports.ComponentList = class {
                         for (let i = 0; i < containerId.length; i++) {
                             findNestedComponents(children, containerId[i]);
                         }
-                        let child = Object.assign({}, component);
-                        delete child.owner;
-                        delete componentsById[id];
-                        children.push(child);
+                        // let child = Object.assign({}, component);
+                        // delete child.owner;
+                        // delete componentsById[id];
+                        // children.push(child);
+                        children.push(this.getComponentClone(id));
                         this._formEditorState.emit('DeleteComponent', component);
                     }
                 }

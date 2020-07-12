@@ -7,6 +7,7 @@
 exports.COMPONENT_TYPES_STANDARD     = 'standard';
 exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
+exports.COMPONENT_TYPES_IO           = 'io';
 
 // Standard components...
 exports.COMPONENT_TYPE_FORM          = 'form';
@@ -24,6 +25,11 @@ exports.COMPONENT_TYPE_TABS          = 'tabs';
 exports.COMPONENT_TYPE_RECTANGLE     = 'rectangle';
 exports.COMPONENT_TYPE_CIRCLE        = 'circle';
 exports.COMPONENT_TYPE_IMAGE         = 'image';
+
+// Sensor/motor components...
+exports.COMPONENT_TYPE_PU_DEVICE     = 'puDevice';
+exports.COMPONENT_TYPE_EV3_MOTOR     = 'ev3Motor';
+exports.COMPONENT_TYPE_EV3_SENSOR    = 'ev3Sensor';
 
 // Edit actions for undo...
 exports.ACTION_ADD_COMPONENT         = 0;
@@ -94,23 +100,10 @@ const posNumberValidatorWithMin = function(min) {
         };
     };
 
-exports.INCLUDE_FOR_COMPONENT = {
-        form:         'lib/components/form.whl',
-        button:       'lib/components/button.whl',
-        selectButton: 'lib/components/selectButton.whl',
-        label:        'lib/components/label.whl',
-        checkbox:     'lib/components/checkbox.whl',
-        statusLight:  'lib/components/statusLight.whl',
-        panel:        'lib/components/panel.whl',
-        tabs:         'lib/components/tabs.whl',
-        rectangle:    'lib/components/rectangle.whl',
-        circle:       'lib/components/circle.whl',
-        image:        'lib/components/image.whl'
-    };
-
 // Component properties...
 exports.PROPERTIES_BY_TYPE = {
     FORM: {
+        include:   'lib/components/form.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -143,6 +136,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     BUTTON: {
+        include:    'lib/components/button.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -218,6 +212,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SELECTBUTTON: {
+        include:    'lib/components/selectButton.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -265,6 +260,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     LABEL: {
+        include:    'lib/components/label.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -279,9 +275,12 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'halign',      name: 'halign'},
             {type: 'text',        name: 'text'},
             {type: 'text',        name: 'value'}
+        ],
+        events: [
         ]
     },
     CHECKBOX: {
+        include:    'lib/components/checkbox.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'id',          name: null},
@@ -328,6 +327,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     STATUSLIGHT: {
+        include:    'lib/components/statusLight.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'id',          name: null},
@@ -344,6 +344,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     PANEL: {
+        include:    'lib/components/panel.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -360,6 +361,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TABS: {
+        include:    'lib/components/tabs.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -408,6 +410,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     RECTANGLE: {
+        include:    'lib/components/rectangle.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -473,6 +476,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CIRCLE: {
+        include:    'lib/components/circle.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -536,6 +540,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     IMAGE: {
+        include:    'lib/components/image.whl',
         properties: [
             {type: 'type',        name: null},
             {type: 'uid',         name: null},
@@ -595,6 +600,51 @@ exports.PROPERTIES_BY_TYPE = {
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
                 ]
             }
+        ]
+    },
+    PUDEVICE: {
+        include:    'lib/components/poweredUpDevice.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+        ]
+    },
+    EV3MOTOR: {
+        include:    'lib/components/ev3Motor.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+        ]
+    },
+    EV3SENSOR: {
+        include:    'lib/components/ev3Sensor.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
         ]
     }
 };

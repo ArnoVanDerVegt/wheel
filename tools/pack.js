@@ -25,6 +25,7 @@ const cssFiles = [
         '../css/components/progressBar.css',
         '../css/components/label.css',
         '../css/components/image.css',
+        '../css/components/ioDevice.css',
         '../css/ide/setup.css',
         '../css/ide/ide.css',
         '../css/ide/editor.css',
@@ -83,7 +84,8 @@ const libraryFiles = [
         '../js/frontend/lib/codemirror/mode/wheel.js',
         '../js/frontend/lib/codemirror/mode/vm.js',
         '../js/frontend/lib/codemirror/mode/woc.js',
-        '../js/frontend/lib/codemirror/mode/lms.js'
+        '../js/frontend/lib/codemirror/mode/lms.js',
+        '../js/frontend/lib/poweredup/poweredup.js'
     ];
 
 const files = [
@@ -117,6 +119,9 @@ const files = [
         './js/shared/vm/modules/components/componentRectangleModuleConstants',
         './js/shared/vm/modules/components/componentCircleModuleConstants',
         './js/shared/vm/modules/components/componentImageModuleConstants',
+        './js/shared/vm/modules/components/componentPUDeviceModuleConstants',
+        './js/shared/vm/modules/components/componentEV3MotorModuleConstants',
+        './js/shared/vm/modules/components/componentEV3SensorModuleConstants',
         './js/shared/lib/RgfImage',
         './js/shared/lib/Sound',
         './js/shared/device/modules/DeviceModule',
@@ -136,6 +141,8 @@ const files = [
         './js/shared/device/modules/DeviceModule',
         './js/shared/device/modules/PoweredUpModule',
         './js/shared/device/BasicDevice',
+        './js/shared/device/poweredup/PoweredUp',
+        './js/browser/routes/poweredUp',
         './js/frontend/lib/dispatcher',
         './js/frontend/lib/Emitter',
         './js/frontend/lib/path',
@@ -243,6 +250,9 @@ const files = [
         './js/frontend/vm/modules/local/components/ComponentRectangleModule',
         './js/frontend/vm/modules/local/components/ComponentCircleModule',
         './js/frontend/vm/modules/local/components/ComponentImageModule',
+        './js/frontend/vm/modules/local/components/ComponentPUDeviceModule',
+        './js/frontend/vm/modules/local/components/ComponentEV3MotorModule',
+        './js/frontend/vm/modules/local/components/ComponentEV3SensorModule',
         './js/frontend/vm/BasicLayerState',
         './js/frontend/vm/ev3/LayerState',
         './js/frontend/vm/poweredup/LayerState',
@@ -295,6 +305,10 @@ const files = [
         './js/frontend/lib/components/Rectangle',
         './js/frontend/lib/components/Circle',
         './js/frontend/lib/components/Image',
+        './js/frontend/lib/components/io/BasicIODevice',
+        './js/frontend/lib/components/io/PoweredUpDevice',
+        './js/frontend/lib/components/io/EV3Sensor',
+        './js/frontend/lib/components/io/EV3Motor',
         './js/frontend/lib/components/files/File',
         './js/frontend/lib/components/files/FileDetail',
         './js/frontend/lib/components/files/Files',
@@ -401,6 +415,7 @@ const files = [
         './js/frontend/ide/editor/editors/home/HomeScreenConnectEV3Tile',
         './js/frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile',
         './js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile',
+        './js/frontend/ide/editor/editors/home/HomeScreenRecentFormTile',
         './js/frontend/ide/editor/editors/home/HomeScreenThemeTile',
         './js/frontend/ide/editor/editors/home/HomeScreen',
         './js/frontend/ide/editor/editors/text/toolbar/BluetoothState',
@@ -658,7 +673,7 @@ cssFiles.forEach(function(filename) {
 
 fs.writeFileSync(distName + '.css', output);
 
-const MINIFY_JS = true;
+const MINIFY_JS = false;
 
 function removeOldIncludes() {
     console.log('Removing old files.');

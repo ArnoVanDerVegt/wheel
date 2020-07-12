@@ -14,7 +14,6 @@ const LIB_FILENAME = 'assets/template/lib/components/tabs.whl';
 describe(
     'Test Tabs component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.tabs.setTabIndex', 'tabIndex', 'number');
         testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.tabs.setHidden',   'hidden',   'number');
         testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.tabs.setDisabled', 'disabled', 'number');
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.tabs.setX',        'x',        'number');

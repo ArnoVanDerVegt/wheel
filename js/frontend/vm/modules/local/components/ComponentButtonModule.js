@@ -15,7 +15,6 @@ exports.ComponentButtonModule = class extends VMModule {
         let button       = null;
         let opts         = {};
         switch (commandId) {
-            case componentButtonModuleConstants.BUTTON_SET_TAB_INDEX: property = 'tabIndex';                          break;
             case componentButtonModuleConstants.BUTTON_SET_HIDDEN:    property = 'hidden';                            break;
             case componentButtonModuleConstants.BUTTON_SET_DISABLED:  property = 'disabled';                          break;
             case componentButtonModuleConstants.BUTTON_SET_X:         property = 'x';                                 break;

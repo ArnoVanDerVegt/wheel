@@ -14,7 +14,6 @@ const LIB_FILENAME = 'assets/template/lib/components/checkbox.whl';
 describe(
     'Test Checkbox component module',
     function() {
-        testComponentCall(it, 'Should set tabIndex', LIB_FILENAME, 'components.checkbox.setTabIndex', 'tabIndex', 'number');
         testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.checkbox.setHidden',   'hidden',   'number');
         testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.checkbox.setDisabled', 'disabled', 'number');
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.checkbox.setX',        'x',        'number');

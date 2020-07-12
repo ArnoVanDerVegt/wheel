@@ -8,22 +8,12 @@ namespace components.label
 #define MODULE_COMPONENT_LABEL           67
 
 ; @const Module calls for label component functions.
-#define LABEL_COMPONENT_SET_TAB_INDEX     0
-#define LABEL_COMPONENT_SET_HIDDEN        1
-#define LABEL_COMPONENT_SET_X             2
-#define LABEL_COMPONENT_SET_Y             3
-#define LABEL_COMPONENT_SET_TEXT          4
-#define LABEL_COMPONENT_SET_VALUE_NUMBER  5
-#define LABEL_COMPONENT_SET_VALUE_STRING  6
-
-; @proc                   Set the tab index of the label.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_TAB_INDEX
-end
+#define LABEL_COMPONENT_SET_HIDDEN        0
+#define LABEL_COMPONENT_SET_X             1
+#define LABEL_COMPONENT_SET_Y             2
+#define LABEL_COMPONENT_SET_TEXT          3
+#define LABEL_COMPONENT_SET_VALUE_NUMBER  4
+#define LABEL_COMPONENT_SET_VALUE_STRING  5
 
 ; @proc                   Hide the label.
 ; @param windowhandle     The handle of the window.

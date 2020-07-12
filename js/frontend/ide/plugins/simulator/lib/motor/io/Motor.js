@@ -137,7 +137,7 @@ exports.Motor = class extends BasicIODevice {
         if (speed < 0) {
             let w = (-speed / 100) * 24;
             element.style.display = 'block';
-            element.style.left    = (29 - w) + 'px';
+            element.style.left    = (30 - w) + 'px';
             element.style.width   = w + 'px';
         } else if (speed === 0) {
             element.style.display = 'none';

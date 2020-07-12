@@ -30,6 +30,70 @@ input[type="button"].icon-button.in-active.green {
     background-color:               var(--color-green-in-active);
 }
 
+input[type="button"].button.yellow,
+input[type="button"].icon-button.yellow {
+    border:                         1px solid var(--color-yellow);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-yellow);
+}
+input[type="button"].button.yellow:active,
+input[type="button"].icon-button.yellow:active {
+    border-color:                   var(--color-yellow-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.yellow.focus:active,
+input[type="button"].icon-button.yellow.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-yellow-pressed);
+}
+input[type="button"].button.active.focus.yellow,
+input[type="button"].icon-button.active.focus.yellow {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-yellow-active);
+}
+input[type="button"].button.active.yellow,
+input[type="button"].icon-button.active.yellow {
+    border-color:                   var(--color-yellow-active);
+    background-color:               var(--color-yellow-active);
+}
+input[type="button"].button.in-active.yellow,
+input[type="button"].icon-button.in-active.yellow {
+    border-color:                   var(--color-yellow-in-active);
+    background-color:               var(--color-yellow-in-active);
+}
+
+input[type="button"].button.red,
+input[type="button"].icon-button.red {
+    border:                         1px solid var(--color-red);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-red);
+}
+input[type="button"].button.red:active,
+input[type="button"].icon-button.red:active {
+    border-color:                   var(--color-red-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.red.focus:active,
+input[type="button"].icon-button.red.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-red-pressed);
+}
+input[type="button"].button.active.focus.red,
+input[type="button"].icon-button.active.focus.red {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-red-active);
+}
+input[type="button"].button.active.red,
+input[type="button"].icon-button.active.red {
+    border-color:                   var(--color-red-active);
+    background-color:               var(--color-red-active);
+}
+input[type="button"].button.in-active.red,
+input[type="button"].icon-button.in-active.red {
+    border-color:                   var(--color-red-in-active);
+    background-color:               var(--color-red-in-active);
+}
+
 input[type="button"].button.blue,
 input[type="button"].icon-button.blue {
     border:                         1px solid var(--color-blue);
@@ -416,11 +480,27 @@ body.ide.dark input[type="button"].icon-button.icon-status-light {
 }
 input[type="button"].icon-button.icon-image {
     background-image:               url('images/buttons/imageBlack.svg');
-    background-position:            2px 3px;
 }
 body.ide.dark input[type="button"].icon-button.icon-image {
     background-image:               url('images/buttons/imageWhite.svg');
-    background-position:            2px 3px;
+}
+input[type="button"].icon-button.icon-pu-sensor {
+    background-image:               url('images/buttons/puSensorBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-pu-sensor {
+    background-image:               url('images/buttons/ev3SensorWhite.svg');
+}
+input[type="button"].icon-button.icon-ev3-sensor {
+    background-image:               url('images/buttons/ev3SensorBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-ev3-sensor {
+    background-image:               url('images/buttons/puSensorWhite.svg');
+}
+input[type="button"].icon-button.icon-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorWhite.svg');
 }
 
 body.ide.dark input[type="button"].icon-button.icon-move,
@@ -432,6 +512,12 @@ body.ide.dark input[type="button"].icon-button.icon-tabs,
 body.ide.dark input[type="button"].icon-button.icon-panel,
 body.ide.dark input[type="button"].icon-button.icon-status-light,
 body.ide.dark input[type="button"].icon-button.icon-image,
+body.ide.dark input[type="button"].icon-button.icon-pu-sensor,
+body.ide.dark input[type="button"].icon-button.icon-ev3-sensor,
+body.ide.dark input[type="button"].icon-button.icon-ev3-motor,
+input[type="button"].icon-button.icon-pu-sensor,
+input[type="button"].icon-button.icon-ev3-sensor,
+input[type="button"].icon-button.icon-ev3-motor,
 input[type="button"].icon-button.icon-move,
 input[type="button"].icon-button.icon-btn,
 input[type="button"].icon-button.icon-select-btn,
@@ -444,6 +530,16 @@ input[type="button"].icon-button.icon-image {
     background-size:                24px 24px;
 }
 
+body.ide.dark input[type="button"].icon-button.icon-image,
+body.ide.dark input[type="button"].icon-button.icon-pu-sensor,
+body.ide.dark input[type="button"].icon-button.icon-ev3-sensor,
+body.ide.dark input[type="button"].icon-button.icon-ev3-motor,
+input[type="button"].icon-button.icon-image,
+input[type="button"].icon-button.icon-pu-sensor,
+input[type="button"].icon-button.icon-ev3-sensor,
+input[type="button"].icon-button.icon-ev3-motor {
+    background-position:            2.5px 3.5px;
+}
 input[type="button"].icon-button.icon-copy,
 input[type="button"].icon-button.icon-copy.in-active,
 input[type="button"].icon-button.icon-play {

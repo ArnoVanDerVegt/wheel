@@ -4,11 +4,10 @@
 **/
 exports.MODULE_TABS        = 71;
 
-exports.TABS_SET_TAB_INDEX =  0;
-exports.TABS_SET_HIDDEN    =  1;
-exports.TABS_SET_DISABLED  =  2;
-exports.TABS_SET_X         =  3;
-exports.TABS_SET_Y         =  4;
-exports.TABS_SET_WIDTH     =  5;
-exports.TABS_SET_HEIGHT    =  6;
-exports.TABS_SET_ACTIVE    =  7;
+exports.TABS_SET_HIDDEN    =  0;
+exports.TABS_SET_DISABLED  =  1;
+exports.TABS_SET_X         =  2;
+exports.TABS_SET_Y         =  3;
+exports.TABS_SET_WIDTH     =  4;
+exports.TABS_SET_HEIGHT    =  5;
+exports.TABS_SET_ACTIVE    =  6;

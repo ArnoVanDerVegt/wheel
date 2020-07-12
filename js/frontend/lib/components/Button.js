@@ -50,6 +50,7 @@ exports.Button = class extends Component.Component {
             this.setClassName(opts.className);
         }
         if ('color' in opts) {
+            console.log('opts.color:', opts.color, '=>', Component.getComponentColor(opts.color));
             this.setColor(Component.getComponentColor(opts.color));
         }
         if ('value' in opts) {

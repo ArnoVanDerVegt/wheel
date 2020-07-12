@@ -118,3 +118,7 @@
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item.selected a {
     color:                          var(--ui-text1);
 }
+.dialog-background.list-dialog .dialog-center .dialog-content .buttons .button.blue {
+    margin-right:                   0;
+    float:                          right;
+}

@@ -53,13 +53,15 @@
                     <tr><td>STATUS_LIGHT_COMPONENT_SET_X</td><td>1</td></tr>
                     <tr><td>STATUS_LIGHT_COMPONENT_SET_Y</td><td>2</td></tr>
                     <tr><td>STATUS_LIGHT_COMPONENT_SET_COLOR</td><td>3</td></tr>
+                    <tr><td>STATUS_LIGHT_COMPONENT_SET_RGB_COLOR</td><td>4</td></tr>
+                    <tr><td>STATUS_LIGHT_COMPONENT_SET_RGB</td><td>5</td></tr>
                 </table>
             </p>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Hidethestatuslight."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 17<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 19<br/></div>
             <p>Hide the status light.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">tabIndex</span><span class="operator">)</span>
 </pre>
@@ -73,7 +75,7 @@
             <hr/>
             <a id="Setthexpositionofthestatuslight."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 26<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 28<br/></div>
             <p>Set the x position of the status light.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -87,7 +89,7 @@
             <hr/>
             <a id="Settheypositionofthestatuslight."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 35<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 37<br/></div>
             <p>Set the y position of the status light.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -101,7 +103,7 @@
             <hr/>
             <a id="Setthestatuslightcolor."></a>
             <h5 class="title-with-source">setColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 44<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 46<br/></div>
             <p>Set the status light color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -111,6 +113,36 @@
                 <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
                 <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
                 <tr><td>y</td><td>number</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="SelectRGBcolormode."></a>
+            <h5 class="title-with-source">setRgbColor</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 55<br/></div>
+            <p>Select RGB color mode.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setRgbColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">rgbColor</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>rgbColor</td><td>number</td><td></td></tr>
+            </table>
+            <hr/>
+            <a id="SettheRGBcolor."></a>
+            <h5 class="title-with-source">setRgb</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/statusLight.whl, line: 64<br/></div>
+            <p>Set the RGB color.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setRgb</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">red</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">green</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">blue</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>red</td><td>number</td><td>The red color component, a value in the range of 0..255.</td></tr>
+                <tr><td>green</td><td>number</td><td>The green color component, a value in the range of 0..255.</td></tr>
+                <tr><td>blue</td><td>number</td><td>The blue color component, a value in the range of 0..255.</td></tr>
             </table>
             <hr/>
         </div>

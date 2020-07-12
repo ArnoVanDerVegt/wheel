@@ -1,0 +1,169 @@
+#project "Powered up device example"
+
+#include "lib/standard.whl"
+#include "lib/poweredUp.whl"
+#include "lib/math.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/poweredUpDevice.whl"
+#include "lib/components/button.whl"
+#include "lib/components/checkbox.whl"
+
+#define PUB_DEVICE_BUTTON_BASIC_MOTOR      0x542DC532
+#define PUB_DEVICE_BUTTON_BOOST_DISTANCE   0xCA72F645
+#define PUB_DEVICE_BUTTON_BOOST_TACHO      0x88D53A52
+#define PUB_DEVICE_BUTTON_CONTROL_PLUS_L   0x84278412
+#define PUB_DEVICE_BUTTON_CONTROL_PLUS_X_L 0xDF36944B
+#define PUB_DEVICE_BUTTON_LED_LIGHTS       0x37DBDEDA
+#define PUB_DEVICE_BUTTON_MOVE_HUB_MOTOR   0x6593E233
+#define PUB_DEVICE_BUTTON_PORT1            0x3AE76DB0
+#define PUB_DEVICE_BUTTON_PORT2            0x060562B3
+#define PUB_DEVICE_BUTTON_PORT3            0xF2A6E79C
+#define PUB_DEVICE_BUTTON_PORT4            0x7E6E8716
+#define PUB_DEVICE_BUTTON_RANDOM_SPEED     0x8BC78D2D
+#define PUB_DEVICE_BUTTON_RANDOM_VALUE     0x75F7345F
+#define PUB_DEVICE_BUTTON_READY_GREEN      0x7EC8FADD
+#define PUB_DEVICE_BUTTON_READY_NONE       0xC0485A78
+#define PUB_DEVICE_BUTTON_READY_RED        0xBD30707A
+#define PUB_DEVICE_BUTTON_READY_YELLOW     0xAD90ABA2
+#define PUB_DEVICE_BUTTON_TRAIN_MOTOR      0xF427C03A
+#define PUB_DEVICE_CHECKBOX_COLOR_MODE     0xD19B050A
+#define PUB_DEVICE_PU_DEVICE               0xBD28939D
+
+#resource "pubDevice.wfrm"
+
+number colorMode = FALSE
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonBasicMotorClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_BASIC_MOTOR)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonBoostDistanceClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_BOOST_DISTANCE)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonBoostTachoClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonControlPlusLClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonControlPlusXLClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonLedLightsClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_LED_LIGHTS)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonMoveHubMotorClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonPort1Click(number windowHandle)
+    components.puDevice.setPort(windowHandle, PUB_DEVICE_PU_DEVICE, 0)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonPort2Click(number windowHandle)
+    components.puDevice.setPort(windowHandle, PUB_DEVICE_PU_DEVICE, 1)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonPort3Click(number windowHandle)
+    components.puDevice.setPort(windowHandle, PUB_DEVICE_PU_DEVICE, 2)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonPort4Click(number windowHandle)
+    components.puDevice.setPort(windowHandle, PUB_DEVICE_PU_DEVICE, 3)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonRandomSpeedClick(number windowHandle)
+    components.puDevice.setSpeed(windowHandle, PUB_DEVICE_PU_DEVICE, random(-100, 100))
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonRandomValueClick(number windowHandle)
+    number value
+    if colorMode
+        value = random(0, 7)
+    else
+        value = random(-5000, 5000)
+    end
+    components.puDevice.setValue(windowHandle, PUB_DEVICE_PU_DEVICE, value)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonReadyGreenClick(number windowHandle)
+    components.puDevice.setReady(windowHandle, PUB_DEVICE_PU_DEVICE, 3)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonReadyNoneClick(number windowHandle)
+    components.puDevice.setReady(windowHandle, PUB_DEVICE_PU_DEVICE, 0)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonReadyRedClick(number windowHandle)
+    components.puDevice.setReady(windowHandle, PUB_DEVICE_PU_DEVICE, 1)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonReadyYellowClick(number windowHandle)
+    components.puDevice.setReady(windowHandle, PUB_DEVICE_PU_DEVICE, 2)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onPubDeviceButtonTrainMotorClick(number windowHandle)
+    components.puDevice.setType(windowHandle, PUB_DEVICE_PU_DEVICE, POWERED_UP_DEVICE_TRAIN_MOTOR)
+end
+
+; @proc                   Checkbox onChange event.
+; @param windowHandle     The handle to the active window.
+; @param value            The checkbox value.
+proc onPubDeviceCheckboxColorModeChange(number windowHandle, number value)
+    colorMode = value
+    components.puDevice.setColorMode(windowHandle, PUB_DEVICE_PU_DEVICE, value)
+    components.puDevice.setValue(windowHandle, PUB_DEVICE_PU_DEVICE, 0)
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showPubDeviceForm()
+    ret components.form.show("pubDevice.wfrm")
+end
+
+proc main()
+    showPubDeviceForm()
+    halt()
+end

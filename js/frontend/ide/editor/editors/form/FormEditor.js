@@ -213,13 +213,15 @@ exports.FormEditor = class extends Editor {
         const components = [
                 formEditorConstants.COMPONENT_TYPES_STANDARD,
                 formEditorConstants.COMPONENT_TYPES_PANEL,
-                formEditorConstants.COMPONENT_TYPES_GRAPHICS
+                formEditorConstants.COMPONENT_TYPES_GRAPHICS,
+                formEditorConstants.COMPONENT_TYPES_IO
             ];
         if (component in components) {
             let refs = this._refs;
             refs.standardTools.getElement().style.display = (component === 0) ? 'block' : 'none';
             refs.panelTools.getElement().style.display    = (component === 1) ? 'block' : 'none';
             refs.graphicsTools.getElement().style.display = (component === 2) ? 'block' : 'none';
+            refs.ioTools.getElement().style.display       = (component === 3) ? 'block' : 'none';
             this._formEditorState.setComponentTypes(components[component]);
         }
     }
@@ -257,6 +259,17 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setGraphicsComponent(components[component]);
+        }
+    }
+
+    onSelectIOComponent(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_PU_DEVICE,
+                formEditorConstants.COMPONENT_TYPE_EV3_SENSOR,
+                formEditorConstants.COMPONENT_TYPE_EV3_MOTOR
+            ];
+        if (component in components) {
+            this._formEditorState.setIOComponent(components[component]);
         }
     }
 

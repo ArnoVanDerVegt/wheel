@@ -36,6 +36,19 @@
             <h4 class="">Buttons example</h4>
             <p>
                 This example shows how to use the button component.
+                <br/>
+                <br/>
+                When the blue button is clicked then the <i>onButtonsButtonBlueClick</i> procedure is called,
+                when the green button is clicked then the <i>onButtonsButtonGreenClick</i> procedure is called,
+                when the red button is clicked then the <i>onButtonsButtonRedClick</i> procedure is called.
+                <br/>
+                <br/>
+                All the <i>click</i> event procedures have a <i>windowHandle</i> parameter, the value of this paramerer
+                is equal to the return value of the <i>showButtonsForm</i> procedure.
+                <br/>
+                <br/>
+                The <i>windowHandle</i> has to be used to address the components on the form, in this example it's
+                used to change the color of the status light with the <i>components.statusLight.setColor</i>  procedure.
             </p>
             <a id="Code"></a>
             <h4 class="">Code</h4>
@@ -50,7 +63,6 @@
 <span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_BLUE</span>  <span class="number">0x780ACFDE</span>
 <span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_GREEN</span> <span class="number">0x4F7DB0F4</span>
 <span class="meta">#define</span> <span class="define">BUTTONS_BUTTON_RED</span>   <span class="number">0xD846C71A</span>
-<span class="meta">#define</span> <span class="define">BUTTONS_FORM</span>         <span class="number">0xEE85F567</span>
 <span class="meta">#define</span> <span class="define">BUTTONS_STATUS_LIGHT</span> <span class="number">0x18551397</span>
 
 <span class="meta">#resource</span> <span class="string">"buttons.wfrm"</span>

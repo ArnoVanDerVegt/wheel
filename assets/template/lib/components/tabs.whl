@@ -8,14 +8,13 @@ namespace components.tabs
 #define MODULE_COMPONENT_TABS        71
 
 ; @const Module calls for button component functions.
-#define TABS_COMPONENT_SET_TAB_INDEX  0
-#define TABS_COMPONENT_SET_HIDDEN     1
-#define TABS_COMPONENT_SET_DISABLED   2
-#define TABS_COMPONENT_SET_X          3
-#define TABS_COMPONENT_SET_Y          4
-#define TABS_COMPONENT_SET_WIDTH      5
-#define TABS_COMPONENT_SET_HEIGHT     6
-#define TABS_COMPONENT_SET_ACTIVE     7
+#define TABS_COMPONENT_SET_HIDDEN     0
+#define TABS_COMPONENT_SET_DISABLED   1
+#define TABS_COMPONENT_SET_X          2
+#define TABS_COMPONENT_SET_Y          3
+#define TABS_COMPONENT_SET_WIDTH      4
+#define TABS_COMPONENT_SET_HEIGHT     5
+#define TABS_COMPONENT_SET_ACTIVE     6
 
 ; @event onChange            Called when an other tab is selected.
 ; @param windowHandle number The handle of the parent window of the tabs.
@@ -26,15 +25,6 @@ namespace components.tabs
 
 ; @event onBlur              Called when the tabs loose focus.
 ; @param windowHandle number The handle of the parent window of the tabs.
-
-; @proc                   Set the tab index of the tabs.
-; @param windowhandle     The handle of the window.
-; @param componentHandle  The handle of the component.
-; @param tabIndex         The tab index.
-proc setTabIndex(number windowHandle, number componentHandle, number tabIndex)
-    addr windowHandle
-    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_TAB_INDEX
-end
 
 ; @proc                   Hide the tabs.
 ; @param windowhandle     The handle of the window.

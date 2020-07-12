@@ -13,6 +13,9 @@ const TabPanel            = require('../../../lib/components/TabPanel').TabPanel
 const Rectangle           = require('../../../lib/components/Rectangle').Rectangle;
 const Circle              = require('../../../lib/components/Circle').Circle;
 const Image               = require('../../../lib/components/Image').Image;
+const PoweredUpDevice     = require('../../../lib/components/io/PoweredUpDevice').PoweredUpDevice;
+const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Motor;
+const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
 
@@ -62,7 +65,6 @@ exports.FormDialog = class extends Dialog {
         }
         let vm  = this._vm;
         let win = this._win;
-        console.log('====>', property);
         component[property] = function(value) {
             vm.runEvent(entryPoint, [win.getUiId(), value]);
         };
@@ -129,11 +131,12 @@ exports.FormDialog = class extends Dialog {
                     this._title  = component.title;
                     this.addFormEvents(component);
                 } else if (parent) {
-                    component.event = win.getUiId() + '_' + parseInt(component.uid, 16);
-                    component.id    = win.addComponent.bind(win);
-                    component.ui    = this._ui;
-                    component.uiId  = this._uiId;
-                    component.style = {
+                    component.getImage = getImage;
+                    component.event    = win.getUiId() + '_' + parseInt(component.uid, 16);
+                    component.id       = win.addComponent.bind(win);
+                    component.ui       = this._ui;
+                    component.uiId     = this._uiId;
+                    component.style    = {
                         position: 'absolute',
                         left:     component.x + 'px',
                         top:      (parseInt(component.y, 10) + ((component.parentId === 1) ? 64 : 0)) + 'px'
@@ -180,6 +183,18 @@ exports.FormDialog = class extends Dialog {
                             break;
                         case formEditorConstants.COMPONENT_TYPE_IMAGE:
                             component.type = Image;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:
+                            component.type = PoweredUpDevice;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:
+                            component.type = EV3Motor;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:
+                            component.type = EV3Sensor;
                             parent.push(this.getComponentEvents(component));
                             break;
                     }

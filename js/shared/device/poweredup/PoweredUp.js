@@ -5,8 +5,6 @@
 const sensorModuleConstants    = require('../../vm/modules/sensorModuleConstants');
 const poweredUpModuleConstants = require('../../vm/modules/poweredUpModuleConstants');
 const BasicDevice              = require('../BasicDevice').BasicDevice;
-const poweredUpConstants       = require('node-poweredup').Consts;
-const PoweredUP                = require('node-poweredup');
 
 const PORT_TO_INDEX            = {A: 0, B: 1, C: 2, D: 3};
 
@@ -18,9 +16,21 @@ const DIRECTION_REVERSE        =  -1;
 const DIRECTION_NONE           =   0;
 const DIRECTION_FORWARD        =   1;
 
+let poweredUpConstants = null; // Set with dependency injection...
+let PoweredUP          = null; // Set with dependency injection...
+
+/**
+ * Dependency injection for nodejs or browser library...
+**/
+exports.setLibrary = function(pupConstants, pup) {
+    poweredUpConstants = pupConstants;
+    PoweredUP          = pup;
+};
+
 exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
         super(opts);
+        this._gettingHubs   = false;
         this._layerCount    = 0;
         this._scanning      = false;
         this._connectedHubs = [];
@@ -63,8 +73,13 @@ exports.PoweredUp = class extends BasicDevice {
         return result;
     }
 
+    scan() {
+        this._poweredUP.scan(); // Start scanning for hubs
+    }
+
     _addHub(hub) {
         if ([
+                poweredUpConstants.HubType.HUB,
                 poweredUpConstants.HubType.MOVE_HUB,
                 poweredUpConstants.HubType.REMOTE_CONTROL,
                 poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
@@ -231,6 +246,21 @@ exports.PoweredUp = class extends BasicDevice {
         );
     }
 
+    /**
+     * For the web version...
+    **/
+    getHubs() {
+        if (this._gettingHubs) {
+            return;
+        }
+        this._gettingHubs = true;
+        setInterval(() => {
+            let hubs = this._poweredUP.getHubs();
+            hubs.forEach(this._addHub.bind(this));
+            console.log(hubs);
+        }, 2000);
+    }
+
     getChanged() {
         return this._changed;
     }
@@ -284,6 +314,10 @@ exports.PoweredUp = class extends BasicDevice {
     connect(uuid, callback) {
         if (uuid in this._hubsByUuid) {
             let hub = this._hubsByUuid[uuid];
+            if (!hub) {
+                callback(null);
+                return;
+            }
             if (!hub.connected && !hub.connecting) {
                 hub.connecting  = true;
                 hub.connectTime = Date.now();

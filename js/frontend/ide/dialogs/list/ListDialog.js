@@ -51,13 +51,17 @@ exports.ListDialog = class extends Dialog {
                             color:    'dark-green',
                             onClick:  this.hide.bind(this)
                         })
-                    ]
+                    ].concat(this.getExtraButtons())
                 }
             ]
         );
         if (opts && opts.signal) {
             dispatcher.on(opts.signal, this, this.onShow);
         }
+    }
+
+    getExtraButtons() {
+        return [];
     }
 
     getList() {
