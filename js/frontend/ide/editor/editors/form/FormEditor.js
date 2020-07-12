@@ -13,15 +13,17 @@ const FormEditorState                     = require('./state/FormEditorState').F
 const formEditorConstants                 = require('./formEditorConstants');
 const FormComponent                       = require('./FormComponent').FormComponent;
 const getFormComponentContainerByParentId = require('./FormComponentContainer').getFormComponentContainerByParentId;
+const getNextComponentParentId            = require('./FormComponentContainer').getNextComponentParentId;
 const SourceBuilder                       = require('./SourceBuilder').SourceBuilder;
 
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
         opts.getOwnerByParentId = getFormComponentContainerByParentId;
-        this._settings        = opts.settings;
-        this._sourceBuilder   = new SourceBuilder({settings: opts.settings});
-        this._formEditorState = new FormEditorState(opts);
+        opts.nextParentId       = getNextComponentParentId();
+        this._settings          = opts.settings;
+        this._sourceBuilder     = new SourceBuilder({settings: opts.settings});
+        this._formEditorState   = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
             .on('ChangeEvent',     this, this.onChangeEvent)
@@ -67,6 +69,7 @@ exports.FormEditor = class extends Editor {
     }
 
     remove() {
+        this._refs.grid.remove();
         this._formEditorState.remove();
         super.remove();
     }
@@ -84,11 +87,12 @@ exports.FormEditor = class extends Editor {
                 className: 'resource-content-wrapper',
                 children: [
                     {
-                        ref:             this.setRef('grid'),
                         type:            FormComponent,
+                        ref:             this.setRef('grid'),
                         ui:              this._ui,
                         id:              this.setFormComponent.bind(this),
                         formEditorState: this._formEditorState,
+                        form:            true,
                         design:          true,
                         className:       'resource with-shadow form grid' + this._settings.getFormGridSize()
                     }

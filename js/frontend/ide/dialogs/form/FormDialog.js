@@ -117,10 +117,21 @@ exports.FormDialog = class extends Dialog {
     }
 
     getChildren(opts) {
-        let result = [];
-        let componentById = {
-                1: result
-            };
+        let result        = [];
+        let componentById = {};
+        let mainParentId  = null;
+        opts.data.forEach(
+            function(component) {
+                if ('parentId' in component) {
+                    if (mainParentId === null) {
+                        mainParentId = component.parentId;
+                    } else {
+                        mainParentId = Math.min(mainParentId, component.parentId);
+                    }
+                }
+            }
+        );
+        componentById[mainParentId] = result;
         opts.data.forEach(
             function(component) {
                 let win    = this._win;
@@ -139,7 +150,7 @@ exports.FormDialog = class extends Dialog {
                     component.style    = {
                         position: 'absolute',
                         left:     component.x + 'px',
-                        top:      (parseInt(component.y, 10) + ((component.parentId === 1) ? 64 : 0)) + 'px'
+                        top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
                     };
                     switch (component.type) {
                         case formEditorConstants.COMPONENT_TYPE_BUTTON:

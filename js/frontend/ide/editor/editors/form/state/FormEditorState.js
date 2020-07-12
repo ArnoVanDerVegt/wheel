@@ -16,6 +16,7 @@ exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
         this._nextId             = 0;
+        this._nextParentId       = opts.nextParentId;
         this._settings           = opts.settings;
         this._loading            = !!opts.data;
         this._clipboard          = null;
@@ -48,6 +49,7 @@ exports.FormEditorState = class extends Emitter {
             dispatcher.on('Properties.Select.Properties', this, this.onSelectProperties),
             dispatcher.on('Properties.SelectComponent',   this, this.onSelectComponent)
         ];
+        this.initData(opts.data || []);
         setTimeout(this.initForm.bind(this, opts), 50);
     }
 
@@ -55,6 +57,29 @@ exports.FormEditorState = class extends Emitter {
         while (this._dispatch.length) {
             this._dispatch.pop()();
         }
+    }
+
+    initData(data) {
+        let nextParentId = this._nextParentId;
+        let minId        = 10240;
+        data.forEach((item) => {
+            minId = Math.min(minId, item.id, item.parentId || 10240);
+            if ('containerId' in item) {
+                for (let i = 0; i < item.containerId.length; i++) {
+                    minId = Math.min(minId, item.containerId[i]);
+                }
+            }
+        });
+        nextParentId -= minId;
+        data.forEach((item) => {
+            item.id       += nextParentId;
+            item.parentId += nextParentId;
+            if ('containerId' in item) {
+                for (let i = 0; i < item.containerId.length; i++) {
+                    item.containerId[i] += nextParentId;
+                }
+            }
+        });
     }
 
     initForm(opts) {

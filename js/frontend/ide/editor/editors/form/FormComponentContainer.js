@@ -32,6 +32,14 @@ exports.getFormComponentContainerByParentId = function(parentId) {
     return formComponentContainerByParentId[parentId] || null;
 };
 
+exports.getNextComponentParentId = function() {
+    let parentId = 1;
+    while (formComponentContainerByParentId[parentId]) {
+        parentId += 10240;
+    }
+    return parentId;
+}
+
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
@@ -46,7 +54,6 @@ exports.FormComponentContainer = class extends DOMNode {
         this._onMouseDown      = opts.onMouseDown;
         this._ui               = opts.ui;
         this._className        = opts.className;
-        this._parentId         = this.initParentId(opts);
         this._formEditorState  = opts.formEditorState;
         this._events           = [
             this._formEditorState.on('AddComponent',    this, this.onAddComponent),
@@ -55,20 +62,17 @@ exports.FormComponentContainer = class extends DOMNode {
             this._formEditorState.on('ChangeProperty',  this, this.onChangeProperty),
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty)
         ];
+        // If the container is a form then the parentId will have and interval of 10240:
+        // the first container parentId is 10241, the second 20481, the third 30721, etc.
+        // The components on the form which can have children will have a parentId in between,
+        // for example: 20482, 20483, 20484, etc.
+        this._parentId = opts.form ? exports.getNextComponentParentId() : opts.parentId;
+        if (!this._parentId) {
+            throw new Error('Invalid parent id for form: ' + this._parentId);
+        }
+        formComponentContainerByParentId[this._parentId] = this;
         this.initDOM(opts.parentNode);
         opts.id && opts.id(this);
-        formComponentContainerByParentId[this._parentId] = this;
-    }
-
-    initParentId(opts) {
-        if (opts.parentId) {
-            return opts.parentId;
-        }
-        let parentId = opts.formEditorState.getNextId();
-        while (formComponentContainerByParentId[parentId]) {
-            parentId = opts.formEditorState.getNextId();
-        }
-        return parentId;
     }
 
     initDOM(parentNode) {
@@ -87,6 +91,13 @@ exports.FormComponentContainer = class extends DOMNode {
             events.pop()();
         }
         this._formElement.parentNode.removeChild(this._formElement);
+        // Remove garbage in the range of the form ids:
+        let maxId = ~~(this._parentId / 10240) * 10240 + 10240;
+        for (let id in formComponentContainerByParentId) {
+            if ((id >= this._parentId) && (id < maxId)) {
+                delete formComponentContainerByParentId[id];
+            }
+        }
     }
 
     getFormElement() {
