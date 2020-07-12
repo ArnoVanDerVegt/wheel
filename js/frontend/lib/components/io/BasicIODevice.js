@@ -73,7 +73,7 @@ exports.BasicIODevice = class extends Component.Component {
                         ref:       this.setRef('color'),
                         type:      'img',
                         className: 'color',
-                        src:       this._getImage('images/constants/colorYellow.svg')
+                        src:       this._getImage('images/constants/colorNone.svg')
                     }
                 ]
             }

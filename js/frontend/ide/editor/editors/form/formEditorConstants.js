@@ -612,7 +612,36 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',        name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {
+                type: 'dropdown',
+                name: 'port',
+                options: {
+                    list: [
+                        {title: '1', value: 0},
+                        {title: '2', value: 1},
+                        {title: '3', value: 2},
+                        {title: '4', value: 3}
+                    ]
+                }
+            },
+            {
+                type: 'dropdown',
+                name: 'device',
+                options: {
+                    list: [
+                        {title: 'Basic motor',     value:  1},
+                        {title: 'Train motor',     value:  2},
+                        {title: 'Led lights',      value:  8},
+                        {title: 'Tacho motor',     value: 38},
+                        {title: 'Move hub motor',  value: 39},
+                        {title: 'Ctrl+ L motor',   value: 46},
+                        {title: 'Ctrl+ XL motor',  value: 47},
+                        {title: 'Distance sensor', value: 37}
+                    ]
+                }
+            },
+            {type: 'boolean',     name: 'colorMode'}
         ],
         events: [
         ]
@@ -627,7 +656,29 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',        name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {
+                type: 'dropdown',
+                name: 'port',
+                options: {
+                    list: [
+                        {title: 'A', value: 0},
+                        {title: 'B', value: 1},
+                        {title: 'C', value: 2},
+                        {title: 'D', value: 3}
+                    ]
+                }
+            },
+            {
+                type: 'dropdown',
+                name: 'device',
+                options: {
+                    list: [
+                        {title: 'Medium motor', value:  7},
+                        {title: 'Large motor',  value:  8}
+                    ]
+                }
+            }
         ],
         events: [
         ]
@@ -642,7 +693,33 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',        name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}}
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {
+                type: 'dropdown',
+                name: 'port',
+                options: {
+                    list: [
+                        {title: '1', value: 0},
+                        {title: '2', value: 1},
+                        {title: '3', value: 2},
+                        {title: '4', value: 3}
+                    ]
+                }
+            },
+            {
+                type: 'dropdown',
+                name: 'device',
+                options: {
+                    list: [
+                        {title: 'Touch sensor',      value:  1},
+                        {title: 'Sound sensor',      value:  3},
+                        {title: 'Color sensor',      value:  4},
+                        {title: 'Ultrasonic sensor', value:  5},
+                        {title: 'Gyro sensor',       value: 32},
+                        {title: 'Infrared sensor',   value: 33}
+                    ]
+                }
+            }
         ],
         events: [
         ]

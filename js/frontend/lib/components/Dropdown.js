@@ -52,6 +52,7 @@ exports.Dropdown = class extends Component {
         this._value        = null;
         this._itemElements = [];
         this._tabIndex     = opts.tabIndex;
+        this._onChange     = opts.onChange;
         this.initDOM(opts.parentNode);
     }
 
@@ -96,6 +97,7 @@ exports.Dropdown = class extends Component {
         );
         if (this._items.length) {
             this.setValue(this._items[0].value);
+            this.updateHeight();
         }
     }
 
@@ -132,6 +134,9 @@ exports.Dropdown = class extends Component {
             this._value = null;
         }
         this._valueElement.innerHTML = title;
+        if (typeof this._onChange === 'function') {
+            this._onChange(value);
+        }
         return this;
     }
 
@@ -155,10 +160,26 @@ exports.Dropdown = class extends Component {
             if (!this._value) {
                 this.setValue(items[0].value);
             }
+            this.updateHeight();
         } else {
             this._valueElement.innerHTML = '';
             this._value                  = null;
         }
+    }
+
+    updateHeight() {
+        let list  = this._refs.list;
+        let items = this._items;
+        if (items.length >= 9) {
+            list.style.height = '208px';
+        } else {
+            list.style.height = (items.length * 24 + 2) + 'px';
+        }
+    }
+
+    focus() {
+        this._valueElement.focus();
+        return this;
     }
 
     close() {

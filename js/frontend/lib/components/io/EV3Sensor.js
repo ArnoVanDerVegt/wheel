@@ -13,7 +13,8 @@ exports.EV3Sensor = class extends BasicIODevice {
             .setReadyVisible(false)
             .setSpeedVisible(false)
             .setColorVisible(false)
-            .setPort(0);
+            .setPort(opts.port || 0);
+        this.setType(opts.device || sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH);
     }
 
     setType(type) {
@@ -79,5 +80,12 @@ exports.EV3Sensor = class extends BasicIODevice {
             this.setValueVisible(this._canSetValue);
             super.setValue(value);
         }
+    }
+
+    onEvent(opts) {
+        if ('device' in opts) {
+            opts.type = opts.device;
+        }
+        super.onEvent(opts);
     }
 };

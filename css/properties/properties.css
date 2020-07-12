@@ -144,6 +144,11 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property .property-value .checkbox {
     margin:                         3px 0 0 6px;
 }
+/* Boolean */
+.properties .properties-container .property .property-value .dropdown {
+    margin:                         2px 0 0 6px;
+    width:                          calc(100% - 12px);
+}
 /* List */
 .properties .properties-container .property .property-name.list-focus,
 .properties .properties-container .property .property-value.list-focus {

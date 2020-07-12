@@ -15,7 +15,10 @@ exports.PoweredUpDevice = class extends BasicIODevice {
             .setReadyVisible(false)
             .setSpeedVisible(false)
             .setColorVisible(false)
-            .setPort(0);
+            .setPort(opts.port || 0);
+        this._colorMode = !!opts.colorMode;
+        this.setType(opts.device || poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
+        this.setValue(0);
     }
 
     setType(type) {
@@ -92,6 +95,9 @@ exports.PoweredUpDevice = class extends BasicIODevice {
     }
 
     onEvent(opts) {
+        if ('device' in opts) {
+            opts.type = opts.device;
+        }
         super.onEvent(opts);
         if ('colorMode' in opts) {
             this._canSetColor = (this._type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE);

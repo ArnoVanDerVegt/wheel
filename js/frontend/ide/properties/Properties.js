@@ -8,6 +8,7 @@ const DOMNode           = require('../../lib/dom').DOMNode;
 const tabIndex          = require('../tabIndex');
 const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
 const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
+const DropdownProperty  = require('./types/DropdownProperty').DropdownProperty;
 const TextProperty      = require('./types/TextProperty').TextProperty;
 const TextListProperty  = require('./types/TextListProperty').TextListProperty;
 const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
@@ -171,6 +172,7 @@ exports.Properties = class extends DOMNode {
                     case 'halign':   propertyConstructor = HAlignProperty;   break;
                     case 'color':    propertyConstructor = ColorProperty;    break;
                     case 'rgb':      propertyConstructor = RgbProperty;      break;
+                    case 'dropdown': propertyConstructor = DropdownProperty; break;
                 }
                 if (propertyConstructor) {
                     propertyByName[property.name] = new propertyConstructor(opts);
