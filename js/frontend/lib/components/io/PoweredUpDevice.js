@@ -8,7 +8,6 @@ const BasicIODevice            = require('./BasicIODevice').BasicIODevice;
 exports.PoweredUpDevice = class extends BasicIODevice {
     constructor(opts) {
         super(opts);
-        this._type      = null;
         this._colorMode = false;
         this
             .setValueVisible(false)
@@ -16,7 +15,6 @@ exports.PoweredUpDevice = class extends BasicIODevice {
             .setSpeedVisible(false)
             .setColorVisible(false)
             .setPort(opts.port || 0);
-        this._colorMode = !!opts.colorMode;
         this.setType(opts.device || poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
         this.setValue(0);
     }
@@ -89,7 +87,7 @@ exports.PoweredUpDevice = class extends BasicIODevice {
             this.setValueVisible(false);
             super.setColor(value);
         } else {
-            this.setValueVisible(this._canSetValue);
+            this.setValueVisible(true);
             super.setValue(value);
         }
     }

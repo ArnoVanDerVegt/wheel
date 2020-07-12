@@ -38,7 +38,7 @@ exports.getNextComponentParentId = function() {
         parentId += 10240;
     }
     return parentId;
-}
+};
 
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
@@ -63,9 +63,9 @@ exports.FormComponentContainer = class extends DOMNode {
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty)
         ];
         // If the container is a form then the parentId will have and interval of 10240:
-        // the first container parentId is 10241, the second 20481, the third 30721, etc.
-        // The components on the form which can have children will have a parentId in between,
-        // for example: 20482, 20483, 20484, etc.
+        // The first container parentId is 10241, the second 20481, the third 30721, etc.
+        // The components on the form which can have children will have a parentId in between.
+        // For example: 20482, 20483, 20484, etc.
         this._parentId = opts.form ? exports.getNextComponentParentId() : opts.parentId;
         if (!this._parentId) {
             throw new Error('Invalid parent id for form: ' + this._parentId);

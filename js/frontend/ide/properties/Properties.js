@@ -139,12 +139,12 @@ exports.Properties = class extends DOMNode {
     }
 
     onSelectProperties(propertyList, formEditorState) {
-        this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
-        this._properties.length           = 0;
         let propertiesContainer = this._refs.propertiesContainer;
         let id                  = propertyList.getComponentId();
         let propertyByName      = {};
         let component           = formEditorState.getComponentById(id);
+        this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
+        this._properties.length           = 0;
         this.clear(propertiesContainer);
         propertyList.getList().forEach(
             function(property) {
@@ -227,6 +227,7 @@ exports.Properties = class extends DOMNode {
     onChangeComponentList(opts) {
         if (opts.value === null) {
             let refs = this._refs;
+            refs.componentUid.innerHTML = '0x00000000';
             this
                 .clear(refs.propertiesContainer)
                 .clear(refs.eventsContainer);

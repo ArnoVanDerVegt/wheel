@@ -214,12 +214,12 @@ exports.ComponentList = class {
         }
         let parentId  = componentsById[id].owner.getParentId();
         let component = this.getComponentClone(id);
-        component.parentId = parentId;
+        component.parentId      = parentId;
+        this._activeComponentId = null;
         // let component = Object.assign({}, componentsById[id]);
         // component.parentId = component.owner.getParentId();
         // delete component.owner;
         // delete componentsById[id];
-        // this._activeComponentId = null;
         return component;
     }
 
