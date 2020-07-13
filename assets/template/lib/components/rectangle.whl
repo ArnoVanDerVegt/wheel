@@ -18,6 +18,21 @@ namespace components.rectangle
 #define RECTANGLE_SET_BORDER_WIDTH    7
 #define RECTANGLE_SET_BORDER_RADIUS   8
 
+; @event onClick             Called when the rectangle is clicked.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseDown         Called when the mouse is pressed on the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseUp           Called when the mouse is released on the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseMove         Called when the mouse moves over the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseOut           Called when the mouse moves out of the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
 ; @proc                   Hide the rectangle.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

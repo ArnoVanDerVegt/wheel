@@ -16,7 +16,7 @@ namespace components.checkbox
 #define CHECKBOX_COMPONENT_SET_HINT       5
 #define CHECKBOX_COMPONENT_SET_CHECKED    6
 
-; @event onChange            Called when an other checkbox is selected.
+; @event onChange            Called when the checkbox is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the checkbox.
 ; @param value        number `TRUE` when checked, `FALSE` if not checked.
 

@@ -15,6 +15,21 @@ namespace components.image
 #define IMAGE_COMPONENT_SET_HEIGHT  4
 #define IMAGE_COMPONENT_SET_SRC     5
 
+; @event onClick             Called when the image is clicked.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseDown         Called when the mouse is pressed on the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseUp           Called when the mouse is released on the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseMove         Called when the mouse moves over the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseOut           Called when the mouse moves out of the image.
+; @param windowHandle number The handle of the parent window of the image.
+
 ; @proc                   Hide the image.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

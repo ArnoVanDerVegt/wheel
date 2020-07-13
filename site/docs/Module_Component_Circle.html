@@ -45,8 +45,8 @@
                 </table>
             </p>
             <p>
-                <a id="Modulecallsforrectanglecomponentfunctions."></a>
-                <div>Module calls for rectangle component functions.<br/></div>
+                <a id="Modulecallsforcirclecomponentfunctions."></a>
+                <div>Module calls for circle component functions.<br/></div>
                 <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 11<br/></div>
                 <table class="help-table constants">
                     <tr><td>CIRCLE_SET_HIDDEN</td><td>0</td></tr>
@@ -59,12 +59,85 @@
                     <tr><td>CIRCLE_SET_BORDER_RADIUS</td><td>7</td></tr>
                 </table>
             </p>
+            <a id="Events"></a>
+            <h4 class="">Events</h4>
+        <a id="Calledwhenthecircleisclicked."></a>
+            <h5 class="title-with-source">onClick</h5>
+            <p>Called when the circle is clicked.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onClick</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the circle.</th>
+                </tr>
+            </table>
+        <a id="Calledwhenthemouseispressedonthecircle."></a>
+            <h5 class="title-with-source">onMouseDown</h5>
+            <p>Called when the mouse is pressed on the circle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onMouseDown</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the circle.</th>
+                </tr>
+            </table>
+        <a id="Calledwhenthemouseisreleasedonthecircle."></a>
+            <h5 class="title-with-source">onMouseUp</h5>
+            <p>Called when the mouse is released on the circle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onMouseUp</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the circle.</th>
+                </tr>
+            </table>
+        <a id="Calledwhenthemousemovesoverthecircle."></a>
+            <h5 class="title-with-source">onMouseMove</h5>
+            <p>Called when the mouse moves over the circle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onMouseMove</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the circle.</th>
+                </tr>
+            </table>
+        <a id="Calledwhenthemousemovesoutofthecircle."></a>
+            <h5 class="title-with-source">onMouseOut</h5>
+            <p>Called when the mouse moves out of the circle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onMouseOut</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <th>windowHandle</th><th>number</th>The handle of the parent window of the circle.</th>
+                </tr>
+            </table>
+        <hr/>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
-            <a id="Hidetherectangle."></a>
+            <a id="Hidethecircle."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 21<br/></div>
-            <p>Hide the rectangle.</p>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 36<br/></div>
+            <p>Hide the circle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
@@ -75,10 +148,10 @@
                 <tr><td>hidden</td><td>number</td><td>Hidden <i>TRUE</i> or <i>FALSE</i>.</td></tr>
             </table>
             <hr/>
-            <a id="Setthexpositionoftherectangle."></a>
+            <a id="Setthexpositionofthecircle."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 30<br/></div>
-            <p>Set the x position of the rectangle.</p>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 45<br/></div>
+            <p>Set the x position of the circle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
@@ -89,10 +162,10 @@
                 <tr><td>x</td><td>number</td><td>The x position in pixels.</td></tr>
             </table>
             <hr/>
-            <a id="Settheypositionoftherectangle."></a>
+            <a id="Settheypositionofthecircle."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 39<br/></div>
-            <p>Set the y position of the rectangle.</p>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 54<br/></div>
+            <p>Set the y position of the circle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
@@ -103,10 +176,10 @@
                 <tr><td>y</td><td>number</td><td>The y position in pixels.</td></tr>
             </table>
             <hr/>
-            <a id="Settherectanglewidth."></a>
+            <a id="Setthecirclewidth."></a>
             <h5 class="title-with-source">setRadius</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 48<br/></div>
-            <p>Set the rectangle width.</p>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 63<br/></div>
+            <p>Set the circle width.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setRadius</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">radius</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
@@ -114,12 +187,12 @@
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
                 <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
                 <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-                <tr><td>radius</td><td>number</td><td>The rectangle radius.</td></tr>
+                <tr><td>radius</td><td>number</td><td>The circle radius.</td></tr>
             </table>
             <hr/>
             <a id="Setthefillcolor."></a>
             <h5 class="title-with-source">setFillColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 57<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 72<br/></div>
             <p>Set the fill color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFillColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">red</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">green</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">blue</span><span class="operator">)</span>
 </pre>
@@ -135,7 +208,7 @@
             <hr/>
             <a id="Setthebordercolor."></a>
             <h5 class="title-with-source">setBorderColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 68<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 83<br/></div>
             <p>Set the border color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">red</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">green</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">blue</span><span class="operator">)</span>
 </pre>
@@ -151,7 +224,7 @@
             <hr/>
             <a id="Settheborderwidth."></a>
             <h5 class="title-with-source">setBorderWidth</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 79<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 94<br/></div>
             <p>Set the border width.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderWidth</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">borderWidth</span><span class="operator">)</span>
 </pre>
@@ -165,7 +238,7 @@
             <hr/>
             <a id="Settheborderradius."></a>
             <h5 class="title-with-source">setBorderRadius</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 88<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/circle.whl, line: 103<br/></div>
             <p>Set the border radius.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderRadius</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">borderRadius</span><span class="operator">)</span>
 </pre>
