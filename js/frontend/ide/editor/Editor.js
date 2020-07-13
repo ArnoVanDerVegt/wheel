@@ -331,6 +331,15 @@ exports.Editor = class extends DOMUtils {
         }
         let editor = this._editors.getActiveEditor();
         if (editor) {
+            let f = path.removePath(this._settings.getDocumentPath(), filename);
+            switch (path.getExtension(f)) {
+                case '.wfrm':
+                    dispatcher.dispatch('Settings.Set.RecentForm', f);
+                    break;
+                case '.whlp':
+                    dispatcher.dispatch('Settings.Set.RecentProject', f);
+                    break;
+            }
             editor.saveAs(filename);
         }
     }

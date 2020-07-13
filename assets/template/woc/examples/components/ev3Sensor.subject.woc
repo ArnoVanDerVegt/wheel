@@ -1,0 +1,13 @@
+@subject Component_Example:EV3Sensor display
+@device  I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section EV3 Sensor display example
+This example shows how to use the EV3 sensor display component.
+
+@section Screenshot
+@image images/components/ev3Sensor.png
+
+@load Open the tabs example|examples/components/device/ev3Sensor.wfrm
+
+@see sensor

@@ -30,7 +30,7 @@
 #define PUB_DEVICE_CHECKBOX_COLOR_MODE     0xD19B050A
 #define PUB_DEVICE_PU_DEVICE               0xBD28939D
 
-#resource "pubDevice.wfrm"
+#resource "puDevice.wfrm"
 
 number colorMode = FALSE
 

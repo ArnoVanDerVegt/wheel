@@ -1,0 +1,13 @@
+@subject Component_Example:EV3Motor display
+@device  I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section EV3 Motor display example
+This example shows how to use the EV3 motor display component.
+
+@section Screenshot
+@image images/components/ev3Motor.png
+
+@load Open the tabs example|examples/components/device/ev3Motor.wfrm
+
+@see motor
