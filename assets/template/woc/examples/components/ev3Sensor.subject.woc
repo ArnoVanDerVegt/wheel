@@ -4,6 +4,14 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 @section EV3 Sensor display example
 This example shows how to use the EV3 sensor display component.
+The EV3 sensor component can only be used to display status information about sensors,
+it's not meant to read sensors.
+
+
+The component can display the following information:
+* A numeric value
+* A color value when the selected type is a color sensor.
+
 
 @section Screenshot
 @image images/components/ev3Sensor.png

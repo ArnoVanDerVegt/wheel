@@ -15,10 +15,10 @@ The Wheel VM reads code from an `.rtf` file with the following structure:
 | 1    | Name             | Program name value           |
 | 1    | #STRINGS         | String marker                |
 | 1    | Count            | Number of strings            |
-| [String data]                                          |
+|:3 [String data]                                        |
 | 1    | #CONSTANTS       | Constant marker              |
 | 1    | Count            | Number of constants          |
-| [Constant data]                                        |
+|:3 [Constant data]                                      |
 | 1    | #HEAP            | Heap marker                  |
 | 1    | Number value     | Heap size value              |
 | 1    | #REG_CODE        | Code register value marker   |
@@ -27,7 +27,7 @@ The Wheel VM reads code from an `.rtf` file with the following structure:
 | 1    | Number value     | Initial stack register value |
 | 1    | #COMMANDS        | Command values marker        |
 | 1    | Count            | Number of commands           |
-| [Command data]                                         |
+|:3 [Command data]                                       |
 +------+------------------+------------------------------+
 
 @section Constants
@@ -38,7 +38,7 @@ Each constant constists of at least three values: the offset, the number of cons
 +------+----------------+---------------------------------------------------+
 | 1    | Offset         | The absolute memory location of the constant data |
 | 1    | Count          | Number of constants                               |
-| [Constant values]                                                         |
+|:3 [Constant values]                                                       |
 +------+----------------+---------------------------------------------------+
 
 @section Commands
