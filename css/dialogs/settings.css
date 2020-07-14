@@ -1,8 +1,8 @@
 .dialog-background.settings-dialog .dialog-center .dialog-content {
     margin:                         0 auto 0 auto;
-    margin-top:                     -200px;
+    margin-top:                     -300px;
     width:                          580px;
-    height:                         400px;
+    height:                         600px;
     background-color:               var(--ui-background2);
     position:                       relative;
     border-radius:                  2px;
@@ -51,6 +51,9 @@
     margin:                         8px 0 4px 8px;
     opacity:                        0.25;
 }
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel h3 {
+    margin:                         0;
+}
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting {
     float:                          left;
     width:                          calc(100% - 40px);
@@ -64,9 +67,63 @@
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting .description {
     float:                          left;
-    width:                          calc(100% - 40);
+    width:                          calc(100% - 40px);
     line-height:                    22px;
 }
+/* Text property list */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"] {
+    float:                          left;
+    height:                         24px;
+    font-size:                      13px;
+    line-height:                    24px;
+    margin:                         0 0 4px 0;
+    outline:                        none;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list {
+    float:                          left;
+    width:                          100%;
+    height:                         200px;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    padding:                        16px 32px 16px 16px;
+    background-color:               var(--ui-background2);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting {
+    margin:                         8px 0 4px 8px;
+    width:                          calc(100% - 40px);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row {
+    float:                          left;
+    width:                          100%;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row.last {
+    margin-bottom:                  16px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .label {
+    float:                          left;
+    width:                          25%;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .button.blue {
+    margin:                         8px 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .close-button {
+    float:                          right;
+    background-color:               var(--text-input-background);
+    margin-left:                    16px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list .text-property-row:first-child .close-button.sort,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list .text-property-row:last-child .close-button.sort {
+    display:                        none;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row input[type="text"] {
+    float:                          left;
+    width:                          calc(75% - 80px);
+}
+/* Update */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {
     float:                          left;
     width:                          calc(100% - 40px);

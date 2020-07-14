@@ -82,10 +82,12 @@ exports.FileNewDialog = class extends Dialog {
                     innerHTML: 'Include files'
                 },
                 {
-                    id:   this.setIncludeFilesElement.bind(this),
-                    type: IncludeFiles,
-                    ui:   this._ui,
-                    uiId: this._uiId
+                    type:     IncludeFiles,
+                    ref:      this.setRef('includeFiles'),
+                    id:       this.setIncludeFilesElement.bind(this),
+                    ui:       this._ui,
+                    uiId:     this._uiId,
+                    settings: opts.settings
                 },
                 {
                     className: 'buttons',
@@ -204,6 +206,7 @@ exports.FileNewDialog = class extends Dialog {
         refs.createFormRow.style.display  = projectType ? 'block' : 'none';
         refs.title.innerHTML              = 'Create new ' + (projectType ? 'project file' : ' file');
         refs.buttonApply.setValue((type === 'project') ? 'Create project file' : 'Create file');
+        refs.includeFiles.update();
         super.show();
         this._includeFilesElement.reset();
         refs.description

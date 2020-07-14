@@ -2,18 +2,19 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode         = require('../../../lib/dom').DOMNode;
-const platform        = require('../../../lib/platform');
-const dispatcher      = require('../../../lib/dispatcher').dispatcher;
-const Dialog          = require('../../../lib/components/Dialog').Dialog;
-const Button          = require('../../../lib/components/Button').Button;
-const Tabs            = require('../../../lib/components/Tabs').Tabs;
-const Checkbox        = require('../../../lib/components/Checkbox').Checkbox;
-const Img             = require('../../../lib/components/basic/Img').Img;
-const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const path            = require('../../../lib/path');
-const getImage        = require('../../data/images').getImage;
-const Updater         = require('./components/Updater').Updater;
+const DOMNode             = require('../../../lib/dom').DOMNode;
+const platform            = require('../../../lib/platform');
+const dispatcher          = require('../../../lib/dispatcher').dispatcher;
+const Dialog              = require('../../../lib/components/Dialog').Dialog;
+const Button              = require('../../../lib/components/Button').Button;
+const Tabs                = require('../../../lib/components/Tabs').Tabs;
+const Checkbox            = require('../../../lib/components/Checkbox').Checkbox;
+const Img                 = require('../../../lib/components/basic/Img').Img;
+const getDataProvider     = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const path                = require('../../../lib/path');
+const getImage            = require('../../data/images').getImage;
+const Updater             = require('./components/Updater').Updater;
+const IncludeFilesSetting = require('./components/IncludeFilesSetting').IncludeFilesSetting;
 
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
@@ -31,7 +32,8 @@ exports.SettingsDialog = class extends Dialog {
                 {title: 'Editor',    onClick: this.onClickTab.bind(this, 'panelEditor')},
                 {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'panelCompiler')},
                 {title: 'View',      onClick: this.onClickTab.bind(this, 'panelView')},
-                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')}
+                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')},
+                {title: 'Dialogs',   onClick: this.onClickTab.bind(this, 'panelDialogs')}
             ]
         );
         this.createWindow(
@@ -71,7 +73,9 @@ exports.SettingsDialog = class extends Dialog {
                                     tabIndex:    1,
                                     getter:      'getCreateEventComments',
                                     signal:      'Settings.Set.CreateEventComments'
-                                })
+                                }),
+                                this.addHr(),
+                                this.addIncludeFilesSetting()
                             ]
                         },
                         {
@@ -134,6 +138,18 @@ exports.SettingsDialog = class extends Dialog {
                                     signal:      'Settings.Set.SensorAutoReset'
                                 })
                             ]
+                        },
+                        {
+                            ref:       this.setRef('panelDialogs'),
+                            className: 'tab-panel panel-dialogs',
+                            children: [
+                                this.addBooleanSetting({
+                                    description: 'Don\'t show welcome dialog on startup',
+                                    tabIndex:    1,
+                                    getter:      'getSensorAutoReset',
+                                    signal:      'Settings.Set.DontShowWelcomeHintDialog'
+                                })
+                            ]
                         }
                     ]
                 },
@@ -181,6 +197,15 @@ exports.SettingsDialog = class extends Dialog {
                     innerHTML: opts.description
                 }
             ]
+        };
+    }
+
+    addIncludeFilesSetting(opts) {
+        return {
+            type:     IncludeFilesSetting,
+            ui:       this._ui,
+            uiId:     this._uiId,
+            settings: this._settings
         };
     }
 

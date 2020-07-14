@@ -227,10 +227,10 @@ exports.Component = class extends DOMNode {
         (typeof this._onFocus === 'function') && this._onFocus.call(this);
     }
 
-    onBlur() {
+    onBlur(event) {
         this._focus             = false;
         this._element.className = this.getClassName();
-        (typeof this._onBlur === 'function') && this._onBlur.call(this);
+        (typeof this._onBlur === 'function') && this._onBlur.call(this, event);
     }
 
     onClick(event) {

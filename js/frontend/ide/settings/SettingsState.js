@@ -2,10 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform     = require('../../lib/platform');
-const dispatcher   = require('../../lib/dispatcher').dispatcher;
-const Emitter      = require('../../lib/Emitter').Emitter;
-const PluginsState = require('./PluginsState').PluginsState;
+const platform          = require('../../lib/platform');
+const dispatcher        = require('../../lib/dispatcher').dispatcher;
+const Emitter           = require('../../lib/Emitter').Emitter;
+const PluginsState      = require('./PluginsState').PluginsState;
+const IncludeFilesState = require('./IncludeFilesState').IncludeFilesState;
 
 exports.SettingsState = class extends Emitter {
     constructor(opts) {
@@ -18,6 +19,7 @@ exports.SettingsState = class extends Emitter {
         this._documentPath     = '';
         this._userDocumentPath = (opts.userDocumentPath || '').split('\\').join('/');
         this._plugins          = new PluginsState({settings: this});
+        this._includeFiles     = new IncludeFilesState({settings: this});
         // Update...
         this.onLoad({});
         dispatcher
@@ -124,7 +126,8 @@ exports.SettingsState = class extends Emitter {
                 },
                 sensorAutoReset:       this._sensorAutoReset,
                 formGridSize:          this._formGridSize,
-                plugins:               this._plugins.toJSON()
+                plugins:               this._plugins.toJSON(),
+                includeFiles:          this._includeFiles.toJSON()
             };
         if (this._getDataProvider) {
             this._getDataProvider().getData('post', 'ide/settings-save', {settings: settings});
@@ -152,6 +155,7 @@ exports.SettingsState = class extends Emitter {
 
     save() {
         this._save();
+        return this;
     }
 
     getVersion() {
@@ -280,6 +284,10 @@ exports.SettingsState = class extends Emitter {
 
     getPlugins() {
         return this._plugins;
+    }
+
+    getIncludeFiles() {
+        return this._includeFiles;
     }
 
     getActiveDevice() {
@@ -619,6 +627,11 @@ exports.SettingsState = class extends Emitter {
             this._plugins.load(data.plugins);
         } else {
             this._plugins.loadDefaults();
+        }
+        if ('includeFiles' in data) {
+            this._includeFiles.load(data.includeFiles);
+        } else {
+            this._includeFiles.loadDefaults();
         }
         this._updateViewSettings();
         dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);

@@ -443,7 +443,7 @@ exports.IDE = class extends CompileAndRun {
         if (!platform.isElectron()) {
             new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
-        new FileNewDialog             ({getImage: getImage, ui: this._ui});
+        new FileNewDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
         new FileRenameDialog          ({getImage: getImage, ui: this._ui});
         new ConfirmDialog             ({getImage: getImage, ui: this._ui});
         new AlertDialog               ({getImage: getImage, ui: this._ui});
