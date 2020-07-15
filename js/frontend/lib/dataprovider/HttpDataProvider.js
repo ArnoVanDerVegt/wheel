@@ -87,8 +87,7 @@ exports.HttpDataProvider = class {
                 http.post(uri, params);
             }
         } else {
-            let currentPath;
-            let files = require('./js/frontend/ide/data/templates').files;
+            require('./js/frontend/ide/data/templates').files;
             if (uri in routes) {
                 setTimeout(
                     function() {

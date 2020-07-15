@@ -238,9 +238,10 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled(platform.isElectron() || platform.isNode());  // Connect
-        menuOptions[1].setEnabled(false);                                       // Disconnect
-        menuOptions[3].setEnabled(false);                                       // Direct control
+        let available   = platform.isElectron() || platform.isNode() || window.PoweredUP.isWebBluetooth;
+        menuOptions[0].setEnabled(available);  // Connect
+        menuOptions[1].setEnabled(false);      // Disconnect
+        menuOptions[3].setEnabled(false);      // Direct control
         return this;
     }
 

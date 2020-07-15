@@ -257,7 +257,6 @@ exports.PoweredUp = class extends BasicDevice {
         setInterval(() => {
             let hubs = this._poweredUP.getHubs();
             hubs.forEach(this._addHub.bind(this));
-            console.log(hubs);
         }, 2000);
     }
 

@@ -364,7 +364,7 @@ const files = [
         './js/frontend/ide/dialogs/settings/components/IncludeFilesSetting',
         './js/frontend/ide/dialogs/settings/SettingsDialog',
         './js/frontend/ide/dialogs/hint/HintDialog',
-        './js/frontend/ide/dialogs/hint/WelcomeHintDialog',
+        './js/frontend/ide/dialogs/hint/OpenFormDialog',
         './js/frontend/ide/dialogs/ConfirmDialog',
         './js/frontend/ide/dialogs/ExploreDialog',
         './js/frontend/ide/dialogs/list/components/ListItem',
@@ -548,6 +548,7 @@ const files = [
         './js/frontend/ide/CompileAndRun',
         './js/frontend/ide/CompileAndRunOutput',
         './js/frontend/ide/CompileAndRunInstall',
+        './js/frontend/ide/IDEAssistant',
         './js/frontend/ide/IDE',
         './js/frontend/ide/Setup',
         './js/frontend/lib/UIState',
@@ -680,7 +681,7 @@ cssFiles.forEach(function(filename) {
 
 fs.writeFileSync(distName + '.css', output);
 
-const MINIFY_JS = false;
+const MINIFY_JS = (process.argv.indexOf('mini') !== -1);
 
 function removeOldIncludes() {
     console.log('Removing old files.');
@@ -750,4 +751,3 @@ function terser() {
 
 console.log('Minifying css...');
 exec('uglifycss ' + distName + '.css > ' + distName + '.min.css', terser);
-

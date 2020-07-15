@@ -38,7 +38,7 @@
     class LocalStorageFiles {
         constructor() {
             try {
-                let data = localStorage.getItem('WHEEL_FILES');
+                let data = localStorage.getItem('WHEEL_FILES') || '';
                 this.dispatchSize(data.length);
                 this._files = JSON.parse(data);
             } catch (error) {
@@ -57,7 +57,7 @@
             try {
                 let data = JSON.stringify(this._files);
                 this.dispatchSize(data.length);
-                localStorage.setItem('WHEEL_FILES', data);
+                localStorage.setItem('WHEEL_FILES', data) || '';
             } catch (error) {
             }
         }
@@ -135,6 +135,7 @@
 
     exports.ideRoutes = {
         files: function(params, callback) {
+            getLocalStorageFiles();
             let currentPath;
             if ('changePath' in params) {
                 currentPath = getPathByIndex(params.index);
@@ -170,16 +171,21 @@
             let extension  = path.getExtension(params.filename);
             let data       = null;
             let filenames  = (typeof params.filename === 'string') ? [params.filename] : params.filename;
+            let filename   = '';
+            const findFile = (filename) => {
+                    if (filename in files) {
+                        return atob(files[filename]);
+                    } else if ('Wheel' + filename in files) {
+                        return atob(files['Wheel' + filename]);
+                    } else if (filename in localFiles) {
+                        return localFiles[filename];
+                    }
+                    return null;
+                };
             for (let i = filenames.length - 1; i >= 0; i--) {
-                let filename = filenames[i];
-                if (filename in files) {
-                    data = atob(files[filename]);
-                    break;
-                } else if ('Wheel' + filename in files) {
-                    data = atob(files['Wheel' + filename]);
-                    break;
-                } else if (filename in localFiles) {
-                    data = localFiles[filename];
+                filename = filenames[i];
+                data     = findFile(filename);
+                if (data) {
                     break;
                 }
             }
@@ -194,6 +200,15 @@
                         rsf.push(data.charCodeAt(i));
                     }
                     data = {data: rsf};
+                    break;
+                case '.wfrm':
+                    let whlData  = findFile(path.replaceExtension(filename, '.whl'));
+                    let whlpData = findFile(path.replaceExtension(filename, '.whlp'));
+                    if (whlData || whlpData) {
+                        data = {wfrm: data, whl: whlData || whlpData, isProject: !!whlpData};
+                    } else {
+                        data = {wfrm: data, whl: whlData || whlpData};
+                    }
                     break;
             }
             callback(JSON.stringify({success: !!data, data: data}));

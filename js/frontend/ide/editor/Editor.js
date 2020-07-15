@@ -313,7 +313,9 @@ exports.Editor = class extends DOMUtils {
                             .dispatch('Compile.Silent');
                         break;
                     case '.wfrm':
-                        dispatcher.dispatch('Settings.Set.RecentForm', filename);
+                        dispatcher
+                            .dispatch('Settings.Set.RecentForm', filename)
+                            .dispatch('IDE.Assistant.OpenForm');
                         break;
                 }
             }

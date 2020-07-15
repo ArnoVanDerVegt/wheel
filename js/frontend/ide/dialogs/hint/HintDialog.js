@@ -8,8 +8,16 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 exports.HintDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
+        let buttons = [
+                this.addButton({
+                    value:    opts.okButton || 'Ok',
+                    tabIndex: 128,
+                    onClick:  this.onClose.bind(this)
+                })
+            ].concat(this.addCustomButtons());
+        buttons.push(this.addDontShowAgain(2));
         this.createWindow(
-            'hint-dialog',
+            'hint-dialog ' + (opts.dialogClassName || ''),
             'Title',
             [
                 {
@@ -18,14 +26,7 @@ exports.HintDialog = class extends Dialog {
                 },
                 {
                     className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:    'Ok',
-                            tabIndex: 128,
-                            onClick:  this.onClose.bind(this)
-                        }),
-                        this.addDontShowAgain(2)
-                    ]
+                    children:  buttons
                 }
             ]
         );
@@ -34,6 +35,10 @@ exports.HintDialog = class extends Dialog {
         this._dispatchDontShow = opts.dispatchDontShow;
         this._dispatchHide     = opts.dispatchHide;
         dispatcher.on(opts.signal || 'Dialog.Hint.Show', this, this.onShow);
+    }
+
+    addCustomButtons() {
+        return [];
     }
 
     onDontShowAgain(dontShowAgain) {

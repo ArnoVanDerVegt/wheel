@@ -21,9 +21,9 @@ exports.SettingsDialog = class extends Dialog {
         super(opts);
         this._settings        = opts.settings;
         this._updateFunctions = [];
-        let showUpdate = platform.isElectron() || platform.isNode();
-        let tabs       = [];
-        if (showUpdate) {
+        this._showUpdate      = platform.isElectron() || platform.isNode();
+        let tabs = [];
+        if (this._showUpdate) {
             tabs.push({title: 'Update', onClick: this.onClickTab.bind(this, 'panelUpdate')});
         }
         tabs.push.apply(
@@ -32,8 +32,7 @@ exports.SettingsDialog = class extends Dialog {
                 {title: 'Editor',    onClick: this.onClickTab.bind(this, 'panelEditor')},
                 {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'panelCompiler')},
                 {title: 'View',      onClick: this.onClickTab.bind(this, 'panelView')},
-                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')},
-                {title: 'Dialogs',   onClick: this.onClickTab.bind(this, 'panelDialogs')}
+                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'panelSimulator')}
             ]
         );
         this.createWindow(
@@ -52,18 +51,19 @@ exports.SettingsDialog = class extends Dialog {
                             tabIndex: 1,
                             tabs:     tabs
                         },
-                        {
-                            ref:       this.setRef('panelUpdate'),
-                            className: 'tab-panel panel-update',
-                            children: [
-                                {
-                                    type:     Updater,
-                                    ui:       this._ui,
-                                    uiId:     this._uiId,
-                                    settings: this._settings
-                                }
-                            ]
-                        },
+                        this._showUpdate ? {
+                                ref:       this.setRef('panelUpdate'),
+                                className: 'tab-panel panel-update',
+                                children: [
+                                    {
+                                        type:     Updater,
+                                        ui:       this._ui,
+                                        uiId:     this._uiId,
+                                        settings: this._settings
+                                    }
+                                ]
+                            } :
+                            null,
                         {
                             ref:       this.setRef('panelEditor'),
                             className: 'tab-panel panel-editor',
@@ -138,18 +138,6 @@ exports.SettingsDialog = class extends Dialog {
                                     signal:      'Settings.Set.SensorAutoReset'
                                 })
                             ]
-                        },
-                        {
-                            ref:       this.setRef('panelDialogs'),
-                            className: 'tab-panel panel-dialogs',
-                            children: [
-                                this.addBooleanSetting({
-                                    description: 'Don\'t show welcome dialog on startup',
-                                    tabIndex:    1,
-                                    getter:      'getSensorAutoReset',
-                                    signal:      'Settings.Set.DontShowWelcomeHintDialog'
-                                })
-                            ]
                         }
                     ]
                 },
@@ -222,7 +210,8 @@ exports.SettingsDialog = class extends Dialog {
         this._updateFunctions.forEach((updateFunction) => {
             updateFunction();
         });
-        this.onClickTab('panelUpdate');
+        this._refs.tabs.setActiveTab(this._showUpdate ? 'Update' : 'Editor');
+        this.onClickTab(this._showUpdate ? 'panelUpdate' : 'panelEditor');
         this.show();
     }
 };

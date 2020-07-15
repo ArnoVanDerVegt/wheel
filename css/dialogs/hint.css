@@ -7,6 +7,10 @@
     position:                       relative;
     border-radius:                  2px;
 }
+.dialog-background.hint-dialog.open-file .dialog-center .dialog-content {
+    margin-top:                     -100px;
+    height:                         200px;
+}
 .dialog-background.hint-dialog .dialog-center .dialog-content .hint-text {
     position:                       absolute;
     left:                           32px;

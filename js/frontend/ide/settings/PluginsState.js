@@ -58,7 +58,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3 Motors',
                 path:    'ev3motors',
-                visible: !platform.isNode(),
+                visible: false,
                 order:   1
             },
             {
@@ -66,7 +66,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3',
                 path:    'ev3',
-                visible: !platform.isNode(),
+                visible: false,
                 order:   2
             },
             {
@@ -74,7 +74,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'EV3',
                 name:    'EV3 Sensors',
                 path:    'ev3sensors',
-                visible: !platform.isNode(),
+                visible: false,
                 order:   3
             },
             {
@@ -98,7 +98,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'PoweredUp',
                 name:    'Hub',
                 path:    'poweredup',
-                visible: platform.isNode(),
+                visible: true,
                 order:   6
             }
         ];

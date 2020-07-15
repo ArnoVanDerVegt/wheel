@@ -94,15 +94,17 @@ exports.HomeScreen = class extends DOMNode {
                     dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
                 }
             }),
-            this.addHomeScreenTile({
-                id:       addTile(),
-                icon:     getImage('images/files/rgf.svg'),
-                title:    'New image EV3 &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 4,
-                onClick: function() {
-                    dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
-                }
-            }),
+            platform.isElectron() ?
+                this.addHomeScreenTile({
+                    id:       addTile(),
+                    icon:     getImage('images/files/rgf.svg'),
+                    title:    'New image EV3 &raquo;',
+                    tabIndex: tabIndex.HOME_SCREEN + 4,
+                    onClick: function() {
+                        dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
+                    }
+                }) :
+                null,
             this.addHomeScreenTile({
                 id:       addTile(),
                 icon:     getImage('images/files/form.svg'),
@@ -112,31 +114,19 @@ exports.HomeScreen = class extends DOMNode {
                     dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
                 }
             }),
-            {
-                id:       addTile(),
-                ui:       ui,
-                icon:     getImage('images/files/ev3.svg'),
-                title:    'Connect to EV3 &raquo;',
-                type:     HomeScreenConnectEV3Tile,
-                tabIndex: tabIndex.HOME_SCREEN + 6,
-                ev3:      this._ev3,
-                onClick: function() {
-                    if (platform.isElectron()) {
+            platform.isElectron() ? {
+                    id:       addTile(),
+                    ui:       ui,
+                    icon:     getImage('images/files/ev3.svg'),
+                    title:    'Connect to EV3 &raquo;',
+                    type:     HomeScreenConnectEV3Tile,
+                    tabIndex: tabIndex.HOME_SCREEN + 6,
+                    ev3:      this._ev3,
+                    onClick: function() {
                         dispatcher.dispatch('Dialog.ConnectEV3.Show');
-                    } else {
-                        dispatcher.dispatch(
-                            'Dialog.Alert.Show',
-                            {
-                                title: (platform.isNode() ? 'Node' : 'Browser') + ' version',
-                                lines: [
-                                    'The browser version can not connect to your EV3...',
-                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
-                                ]
-                            }
-                        );
                     }
-                }
-            },
+                } :
+                null,
             {
                 id:        addTile(),
                 ui:        ui,
@@ -146,16 +136,15 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:  tabIndex.HOME_SCREEN + 7,
                 poweredUp: this._poweredUp,
                 onClick: function() {
-                    if (platform.isElectron() || platform.isNode()) {
+                    if (window.PoweredUP.isWebBluetooth) {
                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                     } else {
                         dispatcher.dispatch(
                             'Dialog.Alert.Show',
                             {
-                                title: 'Browser version',
+                                title: 'Bluetooth not supported',
                                 lines: [
-                                    'The browser version can not connect to your Powered Up devices...',
-                                    'Please install the (free) <a href="../../site/install.html" target="_download">Electron version</a> to use all features.'
+                                    'Your browser does not support the Web Bluetooth specification.'
                                 ]
                             }
                         );

@@ -52,13 +52,14 @@ const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
 const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
 const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
-const WelcomeHintDialog          = require('./dialogs/hint/WelcomeHintDialog').WelcomeHintDialog;
 const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
 const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
+const OpenFormDialog             = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const Properties                 = require('./properties/Properties').Properties;
 const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
 const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
+const IDEAssistant               = require('./IDEAssistant').IDEAssistant;
 
 exports.IDE = class extends CompileAndRun {
     constructor(opts) {
@@ -111,13 +112,15 @@ exports.IDE = class extends CompileAndRun {
             ui:            ui,
             settings:      settings
         });
+        new IDEAssistant({
+            settings:      settings
+        });
         this
             .initGlobalRequire()
             .initEV3()
             .initDialogs()
             .initDispatcher()
-            .initWindowResizeListener()
-            .initWelcome();
+            .initWindowResizeListener();
     }
 
     initGlobalRequire() {
@@ -209,13 +212,6 @@ exports.IDE = class extends CompileAndRun {
                 );
             }
         );
-        return this;
-    }
-
-    initWelcome() {
-        if (!platform.isElectron() && !this._settings.getDontShowWelcomeHintDialog()) {
-            dispatcher.dispatch('Dialog.WelcomeHint.Show', {});
-        }
         return this;
     }
 
@@ -370,12 +366,20 @@ exports.IDE = class extends CompileAndRun {
         let settings = this._settings;
         settings.load(() => {
             let os = settings.getOS();
+            let info;
+            if (platform.isNode()) {
+                info = 'Version: ' + settings.getVersion() + ', Platform: NodeJS';
+            } else if (platform.isElectron()) {
+                info = 'Version: ' + settings.getVersion() + ', Platform: ' + os.platform + ', Arch: ' + os.arch;
+            } else {
+                info = 'Version: ' + settings.getVersion() + ', Platform: ' + navigator.product;
+            }
             dispatcher.dispatch(
                 'Dialog.Alert.Show',
                 {
                     title: 'Wheel',
                     image: 'images/logos/logo.png',
-                    lines: ['Version: ' + settings.getVersion() + ', Platform: ' + os.platform + ', Arch: ' + os.arch]
+                    lines: [info]
                 }
             );
         });
@@ -467,13 +471,13 @@ exports.IDE = class extends CompileAndRun {
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
         new FormGridSizeDialog        ({getImage: getImage, ui: this._ui});
-        new WelcomeHintDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceCountDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new HelpDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         new ExploreDialog             ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new DownloadDialog            ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
+        new OpenFormDialog            ({getImage: getImage, ui: this._ui});
         return this;
     }
 

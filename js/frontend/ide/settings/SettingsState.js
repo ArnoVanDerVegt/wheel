@@ -36,8 +36,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
-            .on('Settings.Set.DontShowWelcomeHintDialog',   this, this._setDontShowWelcomeHintDialog)
             .on('Settings.Set.DontShowThemeTile',           this, this._setDontShowThemeTile)
+            .on('Settings.Set.DontShowOpenForm',            this, this._setDontShowOpenForm)
             .on('Settings.Set.FilesDetail',                 this, this._setFilesDetail)
             .on('Settings.Set.LocalFilesDetail',            this, this._setLocalFilesDetail)
             .on('Settings.Set.RemoteFilesDetail',           this, this._setRemoteFilesDetail)
@@ -111,8 +111,8 @@ exports.SettingsState = class extends Emitter {
                     simulatorOnRun:    this._show.simulatorOnRun
                 },
                 dontShow:{
-                    welcomeHintDialog: this._dontShow.welcomeHintDialog,
-                    themeTile:         this._dontShow.themeTile
+                    themeTile:         this._dontShow.themeTile,
+                    openForm:          this._dontShow.openForm
                 },
                 ev3: {
                     autoConnect:       this._ev3.autoConnect,
@@ -206,12 +206,12 @@ exports.SettingsState = class extends Emitter {
         return this._show.simulatorOnRun;
     }
 
-    getDontShowWelcomeHintDialog() {
-        return this._dontShow.welcomeHintDialog;
-    }
-
     getDontShowThemeTile() {
         return this._dontShow.themeTile;
+    }
+
+    getDontShowOpenForm() {
+        return this._dontShow.openForm;
     }
 
     getCreateVMTextOutput() {
@@ -383,13 +383,13 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
-    _setDontShowWelcomeHintDialog(dontShowWelcomeHintDialog) {
-        this._dontShow.welcomeHintDialog = dontShowWelcomeHintDialog;
+    _setDontShowThemeTile(themeTile) {
+        this._dontShow.themeTile = themeTile;
         this._save();
     }
 
-    _setDontShowThemeTile(themeTile) {
-        this._dontShow.themeTile = themeTile;
+    _setDontShowOpenForm(openForm) {
+        this._dontShow.openForm = openForm;
         this._save();
     }
 
@@ -585,8 +585,8 @@ exports.SettingsState = class extends Emitter {
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator             : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun        : true;
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                    : {};
-        this._dontShow.welcomeHintDialog = ('welcomeHintDialog'     in this._dontShow)   ? this._dontShow.welcomeHintDialog : false;
         this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile         : false;
+        this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm          : false;
         this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                  : {};
         this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width           : 1200;
         this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height          : 800;
@@ -594,7 +594,7 @@ exports.SettingsState = class extends Emitter {
         this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x            : 0;
         this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y            : 0;
         this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                    : false;
-        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                : 0;
+        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                : 1;
         this._ev3                        = ('ev3'                   in data)             ? data.ev3                         : {};
         this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect            : false;
         this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall            : false;

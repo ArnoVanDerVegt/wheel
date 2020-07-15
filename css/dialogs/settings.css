@@ -113,7 +113,9 @@
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .close-button {
     float:                          right;
-    background-color:               var(--text-input-background);
+    color:                          var(--ui-text2);
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border3);
     margin-left:                    16px;
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list .text-property-row:first-child .close-button.sort,
