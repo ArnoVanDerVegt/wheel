@@ -345,7 +345,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Dialog.PoweredUpControl.Show',
             {
-                deviceCount: this._settings.getDaisyChainMode(),
+                deviceCount: this._settings.getDeviceCount() - 1,
                 withAlias:   true
             }
         );

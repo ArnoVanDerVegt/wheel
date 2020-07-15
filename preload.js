@@ -268,6 +268,7 @@ require('./js/frontend/ide/dialogs/settings/components/IncludeFilesSetting');
 require('./js/frontend/ide/dialogs/settings/SettingsDialog');
 require('./js/frontend/ide/dialogs/hint/HintDialog');
 require('./js/frontend/ide/dialogs/hint/OpenFormDialog');
+require('./js/frontend/ide/dialogs/hint/ConnectedDialog');
 require('./js/frontend/ide/dialogs/ConfirmDialog');
 require('./js/frontend/ide/dialogs/ExploreDialog');
 require('./js/frontend/ide/dialogs/list/components/ListItem');

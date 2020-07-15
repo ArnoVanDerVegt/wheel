@@ -117,6 +117,9 @@
     text-align:                     center;
     background-color:               var(--ui-background2);
 }
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.no-position .position {
+    color:                          var(--ui-background2);
+}
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .speed {
     top:                            72px;
     line-height:                    28px;

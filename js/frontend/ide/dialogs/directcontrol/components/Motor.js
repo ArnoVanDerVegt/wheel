@@ -104,8 +104,13 @@ exports.Motor = class extends DOMNode {
         let className       = this._className;
         let updateClassName = () => {
                 this.clearAssignedTimeout();
-                let disabled = !this._motorValidator.valid(assigned);
-                element.className = 'motor ' + (disabled ? 'disabled' : '') + ' ' + className;
+                let motorValidator = this._motorValidator;
+                let disabled       = !motorValidator.valid(assigned);
+                let hasPosition    = motorValidator.hasPosition(assigned);
+                element.className = 'motor' +
+                    (disabled    ? ' disabled' : '')             +
+                    (hasPosition ? ''          : ' no-position') +
+                    ' ' + className;
             };
         this.clearAssignedTimeout();
         if (this._motorValidator.waiting(assigned)) {

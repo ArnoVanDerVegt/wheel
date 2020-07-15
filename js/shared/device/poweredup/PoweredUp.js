@@ -16,6 +16,10 @@ const DIRECTION_REVERSE        =  -1;
 const DIRECTION_NONE           =   0;
 const DIRECTION_FORWARD        =   1;
 
+const FLOAT                    =   0;
+const HOLD                     = 126;
+const BRAKE                    = 127;
+
 let poweredUpConstants = null; // Set with dependency injection...
 let PoweredUP          = null; // Set with dependency injection...
 
@@ -67,7 +71,8 @@ exports.PoweredUp = class extends BasicDevice {
                 degrees:          0,
                 startDegrees:     null,
                 endDegrees:       null,
-                threshold:        45
+                threshold:        45,
+                on:               false
             });
         }
         return result;
@@ -282,8 +287,15 @@ exports.PoweredUp = class extends BasicDevice {
         return list;
     }
 
+    getLayerPort(layer, port) {
+        if (this._layers[layer] && this._layers[layer].ports[port]) {
+            return this._layers[layer].ports[port];
+        }
+        return {};
+    }
+
     getDevice(layer, port) {
-        const device = this._layers[layer].ports[port].device;
+        const device = this.getLayerPort(layer, port).device;
         if (!device || !device.connected) {
             return null;
         }
@@ -398,7 +410,6 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     motorMonitor() {
-        const time = Date.now();
         let layers = this._layers;
         for (let layer = 0; layer < 4; layer++) {
             for (let id = 0; id < 4; id++) {
@@ -415,7 +426,7 @@ exports.PoweredUp = class extends BasicDevice {
                         } else {
                             this.setDirection(port, DIRECTION_REVERSE);
                         }
-                    } else {
+                    } else if (!port.on) {
                         this.setDirection(port, DIRECTION_NONE);
                     }
                 }
@@ -435,7 +446,7 @@ exports.PoweredUp = class extends BasicDevice {
             motorDevice.setBrakingStyle(this.getPUBrake(brake));
         }
         if (motorDevice.rotateByDegrees) {
-            let port = this._layers[layer].ports[motor];
+            let port = this.getLayerPort(layer, motor);
             this.setDirection(port, DIRECTION_NONE);
             port.motorDevice      = motorDevice;
             port.moving           = true;
@@ -453,8 +464,10 @@ exports.PoweredUp = class extends BasicDevice {
         }
         let motorDevice = this.getDevice(layer, motor);
         if (motorDevice) {
+            this.getLayerPort(layer, motor).on = true; // Let the motor monitor know that this motor should not be stopped!
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
             motorDevice.setPower        && motorDevice.setPower(speed);
+            motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
             motorDevice.setBrightness   && motorDevice.setBrightness(speed);
         }
         callback && callback();
@@ -477,7 +490,7 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        this._layers[layer].ports[motor].threshold = threshold;
+        this.getLayerPort(layer, motor).threshold = threshold;
     }
 
     readTouchSensor(layer, port) {}
@@ -566,7 +579,7 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     setMode(layer, port, mode) {
-        this._layers[layer].ports[port].mode = mode;
+        this.getLayerPort(layer, port).mode = mode;
     }
 
     stopPolling() {}

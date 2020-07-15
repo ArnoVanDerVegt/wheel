@@ -10,6 +10,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
         const validDevices = [
                  1, // SIMPLE_MEDIUM_LINEAR_MOTOR
                  2, // TRAIN_MOTOR
+                 8, // POWERED_UP_DEVICE_LED_LIGHTS
                 38, // MEDIUM_LINEAR_MOTOR
                 39, // MOVE_HUB_MEDIUM_LINEAR_MOTOR
                 41, // DUPLO_TRAIN_BASE_MOTOR

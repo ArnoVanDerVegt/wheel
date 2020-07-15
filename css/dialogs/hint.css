@@ -8,8 +8,12 @@
     border-radius:                  2px;
 }
 .dialog-background.hint-dialog.open-file .dialog-center .dialog-content {
-    margin-top:                     -100px;
-    height:                         200px;
+    margin-top:                     -124px;
+    height:                         248px;
+}
+.dialog-background.hint-dialog.connected .dialog-center .dialog-content {
+    margin-top:                     -132px;
+    height:                         264px;
 }
 .dialog-background.hint-dialog .dialog-center .dialog-content .hint-text {
     position:                       absolute;

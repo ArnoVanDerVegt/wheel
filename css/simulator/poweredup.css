@@ -186,6 +186,9 @@
     background-color:               #FFFFFF;
     border:                         1px solid rgba(0, 0, 0, 0.5);
 }
+.powered-up .hub-hub-body.small-hub .hub-box {
+    left:                           32px;
+}
 .powered-up .hub-hub-body .hub-box .hub-button {
     position:                       absolute;
     left:                           32px;
