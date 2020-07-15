@@ -132,6 +132,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 modules:   modules
             });
         }
+        dispatcher.dispatch('Device.Connected');
     }
 
     onDeviceDisconnected() {

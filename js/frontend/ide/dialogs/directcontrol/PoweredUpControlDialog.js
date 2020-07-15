@@ -7,11 +7,27 @@ const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog
 
 exports.PoweredUpControlDialog = class extends DirectControlDialog {
     constructor(opts) {
+        const validDevices = [
+                 1, // SIMPLE_MEDIUM_LINEAR_MOTOR
+                 2, // TRAIN_MOTOR
+                38, // MEDIUM_LINEAR_MOTOR
+                39, // MOVE_HUB_MEDIUM_LINEAR_MOTOR
+                41, // DUPLO_TRAIN_BASE_MOTOR
+                46, // TECHNIC_LARGE_LINEAR_MOTOR
+                47, // TECHNIC_XLARGE_LINEAR_MOTOR
+                48  // TECHNIC_MEDIUM_ANGULAR_MOTOR
+            ];
+        const positionDevices = [
+                39, // MOVE_HUB_MEDIUM_LINEAR_MOTOR
+                46, // TECHNIC_LARGE_LINEAR_MOTOR
+                47, // TECHNIC_XLARGE_LINEAR_MOTOR
+                48  // TECHNIC_MEDIUM_ANGULAR_MOTOR
+            ];
         opts.hasSound       = false;
         opts.title          = 'Powered Up Direct control';
         opts.motorValidator = {
-            valid:       function(assigned) { return (assigned !== null) && ([1, 38, 8].indexOf(assigned) !== -1); },
-            hasPosition: function(assigned) { return (assigned !== null) && ([38].indexOf(assigned) !== -1); },
+            valid:       function(assigned) { return (assigned !== null) && (validDevices.indexOf(assigned) !== -1); },
+            hasPosition: function(assigned) { return (assigned !== null) && (positionDevices.indexOf(assigned) !== -1); },
             waiting:     function(assigned) { return false; }
         };
         super(opts);

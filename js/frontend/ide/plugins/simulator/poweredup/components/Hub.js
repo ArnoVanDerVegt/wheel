@@ -19,7 +19,7 @@ exports.Hub = class extends BasicHub {
                 children: [
                     {
                         ref:       this.setRef('hubBody'),
-                        className: 'hub-hub-body',
+                        className: 'hub-hub-body small-hub',
                         children: [
                             {
                                 className: 'hub-box',
@@ -41,10 +41,10 @@ exports.Hub = class extends BasicHub {
     }
 
     hide() {
-        this._refs.hubBody.className = 'hub-hub-body';
+        this._refs.hubBody.className = 'hub-hub-body small-hub';
     }
 
     show() {
-        this._refs.hubBody.className = 'hub-hub-body visible';
+        this._refs.hubBody.className = 'hub-hub-body small-hub visible';
     }
 };

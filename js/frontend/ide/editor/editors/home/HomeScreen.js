@@ -136,7 +136,7 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:  tabIndex.HOME_SCREEN + 7,
                 poweredUp: this._poweredUp,
                 onClick: function() {
-                    if (window.PoweredUP.isWebBluetooth) {
+                    if (!window.PoweredUP || !window.PoweredUP.isWebBluetooth) {
                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                     } else {
                         dispatcher.dispatch(

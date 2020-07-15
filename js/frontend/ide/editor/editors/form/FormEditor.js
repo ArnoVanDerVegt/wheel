@@ -241,7 +241,6 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT
             ];
         if (component in components) {
-            console.log(components[component]);
             this._formEditorState.setStandardComponent(components[component]);
         }
     }

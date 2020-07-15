@@ -13,8 +13,11 @@ exports.OpenFormDialog = class extends HintDialog {
         opts.dispatchDontShow = 'Settings.Set.DontShowOpenForm';
         opts.title            = 'Opening a form';
         opts.lines            = [
-            'You\'re opening a form, the property panel is not visible.',
-            'Do you want to show the property panel?'
+            'You\'re opening a form. The property panel is not visible.',
+            'Do you want to show the property panel?',
+            'This allows you to change items on the form.',
+            '',
+            'You can make the property panel visible from the view menu.'
         ];
         super(opts);
     }

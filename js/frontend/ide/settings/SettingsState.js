@@ -38,6 +38,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
             .on('Settings.Set.DontShowThemeTile',           this, this._setDontShowThemeTile)
             .on('Settings.Set.DontShowOpenForm',            this, this._setDontShowOpenForm)
+            .on('Settings.Set.DontShowConnected',           this, this._setDontShowConnected)
             .on('Settings.Set.FilesDetail',                 this, this._setFilesDetail)
             .on('Settings.Set.LocalFilesDetail',            this, this._setLocalFilesDetail)
             .on('Settings.Set.RemoteFilesDetail',           this, this._setRemoteFilesDetail)
@@ -112,7 +113,8 @@ exports.SettingsState = class extends Emitter {
                 },
                 dontShow:{
                     themeTile:         this._dontShow.themeTile,
-                    openForm:          this._dontShow.openForm
+                    openForm:          this._dontShow.openForm,
+                    connected:         this._dontShow.connected
                 },
                 ev3: {
                     autoConnect:       this._ev3.autoConnect,
@@ -212,6 +214,10 @@ exports.SettingsState = class extends Emitter {
 
     getDontShowOpenForm() {
         return this._dontShow.openForm;
+    }
+
+    getDontShowConnected() {
+        return this._dontShow.connected;
     }
 
     getCreateVMTextOutput() {
@@ -390,6 +396,11 @@ exports.SettingsState = class extends Emitter {
 
     _setDontShowOpenForm(openForm) {
         this._dontShow.openForm = openForm;
+        this._save();
+    }
+
+    _setDontShowConnected(connected) {
+        this._dontShow.connected = connected;
         this._save();
     }
 
@@ -587,6 +598,7 @@ exports.SettingsState = class extends Emitter {
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                    : {};
         this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile         : false;
         this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm          : false;
+        this._dontShow.connected         = ('connected'             in this._dontShow)   ? this._dontShow.connected         : false;
         this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                  : {};
         this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width           : 1200;
         this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height          : 800;

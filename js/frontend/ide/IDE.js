@@ -56,6 +56,7 @@ const FormDialog                 = require('./dialogs/form/FormDialog').FormDial
 const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const OpenFormDialog             = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
+const ConnectedDialog            = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
 const Properties                 = require('./properties/Properties').Properties;
 const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
 const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
@@ -475,9 +476,10 @@ exports.IDE = class extends CompileAndRun {
         new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DeviceCountDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
         new HelpDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new OpenFormDialog            ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new ConnectedDialog           ({getImage: getImage, ui: this._ui, settings: this._settings});
         new ExploreDialog             ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new DownloadDialog            ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
-        new OpenFormDialog            ({getImage: getImage, ui: this._ui});
         return this;
     }
 

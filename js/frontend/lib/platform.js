@@ -15,6 +15,4 @@ exports.isNode = function() {
     return !forceWebVersion() && (typeof document === 'object') && (document.location.hostname === '127.0.0.1');
 };
 
-exports.forceWebVersion = function() {
-    return forceWebVersion;
-};
+exports.forceWebVersion = forceWebVersion;

@@ -231,7 +231,6 @@ exports.SourceBuilder = class {
             }
         }
         if (!event) {
-            console.log('generateEventProc: exit, event not found.');
             return [];
         }
         let addComments = this._settings.getCreateEventComments();
@@ -317,10 +316,6 @@ exports.SourceBuilder = class {
                     insertProc(value, this.generateEventProc(component.name, component.type, j, value));
                 }
             }
-        }
-        if (!found) {
-            console.log('No events inserted.');
-            console.log('    data:', data);
         }
     }
 
