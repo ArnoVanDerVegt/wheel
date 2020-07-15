@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const componentPanelModuleConstants = require('../../../../../shared/vm/modules/components/componentPanelModuleConstants');
-const VMModule                      = require('./../../VMModule').VMModule;
 const dispatcher                    = require('../../../../lib/dispatcher').dispatcher;
+const VMModule                      = require('./../../VMModule').VMModule;
 
 exports.ComponentPanelModule = class extends VMModule {
     run(commandId) {

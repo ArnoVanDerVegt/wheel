@@ -79,3 +79,5 @@ exports.Panel = class extends Component {
         return 0;
     }
 };
+
+exports.Component = exports.Panel;

@@ -177,3 +177,5 @@ exports.ToolOptions = class extends DOMNode {
         }
     }
 };
+
+exports.Component = exports.ToolOptions;

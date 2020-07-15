@@ -79,6 +79,24 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addTextInput(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TEXT_INPUT)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'TextInput'))
+            .addProperty(component, 'width',        48);
+        return component;
+    }
+
+    addSlider(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_SLIDER)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Slider'))
+            .addProperty(component, 'maxValue',     100)
+            .addProperty(component, 'value',        0)
+            .addProperty(component, 'width',        128);
+        return component;
+    }
+
     addStatusLight(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
@@ -175,6 +193,8 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return this.addSelectButton   (component);
             case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
             case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return this.addCheckBox       (component);
+            case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:    return this.addTextInput      (component);
+            case formEditorConstants.COMPONENT_TYPE_SLIDER:        return this.addSlider         (component);
             case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return this.addStatusLight    (component);
             case formEditorConstants.COMPONENT_TYPE_PANEL:         return this.addPanel          (component);
             case formEditorConstants.COMPONENT_TYPE_TABS:          return this.addTabs           (component);

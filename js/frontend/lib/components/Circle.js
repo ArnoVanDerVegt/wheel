@@ -68,3 +68,5 @@ exports.Circle = class extends Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.Circle;

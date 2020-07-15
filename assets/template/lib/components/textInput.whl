@@ -1,0 +1,90 @@
+; @module Component/TextInput
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.textInput
+
+; @const The text input component module.
+#define MODULE_COMPONENT_TEXT_INPUT        69
+
+; @const Module calls for button component functions.
+#define TEXT_INPUT_COMPONENT_SET_HIDDEN       0
+#define TEXT_INPUT_COMPONENT_SET_DISABLED     1
+#define TEXT_INPUT_COMPONENT_SET_X            2
+#define TEXT_INPUT_COMPONENT_SET_Y            3
+#define TEXT_INPUT_COMPONENT_SET_TEXT_VALUE   4
+#define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE 5
+#define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER 6
+
+; @event onChange            Called when the text input is selected or unselected.
+; @param windowHandle number The handle of the parent window of the text input.
+; @param value        number `TRUE` when checked, `FALSE` if not checked.
+
+; @event onFocus             Called when the text input is focussed.
+; @param windowHandle number The handle of the parent window of the text input.
+
+; @event onBlur              Called when the text input looses focus.
+; @param windowHandle number The handle of the parent window of the text input.
+
+; @proc                   Hide the text input.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Disable the text input.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param disabled         Disabled `TRUE` or `FALSE`.
+proc setDisabled(number windowHandle, number componentHandle, number disabled)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_DISABLED
+end
+
+; @proc                   Set the x position of the text input.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the text input.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_Y
+end
+
+; @proc                   Set the text input text value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param text             The text input value.
+proc setTextValue(number windowHandle, number componentHandle, string text)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_TEXT_VALUE
+end
+
+; @proc                   Set the text input number value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param text             The text input value.
+proc setNumberValue(number windowHandle, number componentHandle, number value)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE
+end
+
+; @proc                   Set the text input place holder text.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param placeHolder      The text input hint.
+proc setPlaceHolder(number windowHandle, number componentHandle, string placeHolder)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER
+end

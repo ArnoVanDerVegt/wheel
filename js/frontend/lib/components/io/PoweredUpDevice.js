@@ -107,3 +107,5 @@ exports.PoweredUpDevice = class extends BasicIODevice {
         }
     }
 };
+
+exports.Component = exports.PoweredUpDevice;

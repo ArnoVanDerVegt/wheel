@@ -68,3 +68,5 @@ exports.Label = class extends Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.Label;

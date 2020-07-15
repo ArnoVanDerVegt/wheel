@@ -150,3 +150,5 @@ exports.TabPanel = class extends Component {
         return this._active;
     }
 };
+
+exports.Component = exports.TabPanel;

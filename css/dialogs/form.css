@@ -8,3 +8,10 @@
     position:                       relative;
     border-radius:                  2px;
 }
+.dialog-background.form-dialog .dialog-center .dialog-content input[type="text"] {
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}

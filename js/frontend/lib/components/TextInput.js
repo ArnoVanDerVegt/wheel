@@ -12,10 +12,20 @@ exports.TextInput = class extends Component {
         this._visible     = ('visible' in opts) ? opts.visible : true;
         this._maxLength   = opts.maxLength || 524288;
         this._placeholder = opts.placeholder;
+        this._numeric     = opts.numeric;
         this.initDOM(opts.parentNode);
     }
 
+    remove() {
+        super.remove();
+        this._element.parentNode.removeChild(this._element);
+    }
+
     initDOM(parentNode) {
+        let style = this._style || {};
+        if (this._width && (parseInt(this._width, 10) >= 20)) {
+            style.width = this._width + 'px';
+        }
         this.create(
             parentNode,
             {
@@ -26,9 +36,25 @@ exports.TextInput = class extends Component {
                 className:   this._className,
                 value:       this._value,
                 maxLength:   this._maxLength,
-                placeholder: this._placeholder || ''
+                placeholder: this._placeholder || '',
+                style:       style
             }
         );
+    }
+
+    validateInput(event) {
+        if (!this._numeric) {
+            return;
+        }
+        let element = this._element;
+        if (/^\d*\.?\d*$/.test(element.value)) {
+            element.oldValue          = element.value;
+            element.oldSelectionStart = element.selectionStart;
+            element.oldSelectionEnd   = element.selectionEnd;
+        } else if (element.hasOwnProperty('oldValue')) {
+            element.value = element.oldValue;
+            element.setSelectionRange(element.oldSelectionStart, element.oldSelectionEnd);
+        }
     }
 
     onEvent(opts) {
@@ -43,9 +69,15 @@ exports.TextInput = class extends Component {
         if ('className' in opts) {
             element.className = opts.className;
         }
+        super.onEvent(opts);
     }
 
     setElement(element) {
+        ['input', 'keydown', 'keyup', 'mousedown', 'mouseup', 'select', 'contextmenu', 'drop'].forEach(
+            (event) => {
+                element.addEventListener(event, this.validateInput.bind(this));
+            }
+        );
         if (!this._visible) {
             element.style.display = 'none';
         }
@@ -81,3 +113,5 @@ exports.TextInput = class extends Component {
         return this;
     }
 };
+
+exports.Component = exports.TextInput;

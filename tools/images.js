@@ -45,10 +45,11 @@ fs.writeFileSync('../js/frontend/ide/data/images.js', output);
 
 let css = fs.readFileSync('../css/components/button.css').toString();
 for (let file in fileByName) {
-    let i = css.indexOf(file);
     console.log('Check:', file);
-    if (i !== -1) {
+    let i = css.indexOf(file);
+    while (i !== -1) {
         css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
+        i   = css.indexOf(file);
     }
 }
 fs.writeFileSync('../css/components/button.css', css);

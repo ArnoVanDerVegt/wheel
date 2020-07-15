@@ -75,3 +75,5 @@ exports.Rectangle = class extends Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.Rectangle;

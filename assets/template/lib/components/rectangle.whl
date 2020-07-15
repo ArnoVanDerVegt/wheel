@@ -5,7 +5,7 @@
 namespace components.rectangle
 
 ; @const The form component module.
-#define MODULE_COMPONENT_RECTANGLE   72
+#define MODULE_COMPONENT_RECTANGLE   74
 
 ; @const Module calls for rectangle component functions.
 #define RECTANGLE_SET_HIDDEN          0

@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const componentLabelModuleConstants = require('../../../../../shared/vm/modules/components/componentLabelModuleConstants');
-const VMModule                      = require('./../../VMModule').VMModule;
 const dispatcher                    = require('../../../../lib/dispatcher').dispatcher;
+const VMModule                      = require('./../../VMModule').VMModule;
 
 exports.ComponentLabelModule = class extends VMModule {
     run(commandId) {

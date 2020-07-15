@@ -216,7 +216,6 @@ input[type="button"].icon-button {
     border-radius:                  3px;
     box-shadow:                     var(--button-shadow);
     background-repeat:              no-repeat;
-    /*background-position:            0 0;*/
     cursor:                         pointer;
     outline:                        none;
     transition:                     transform 0.1s, background-color 0.1s;
@@ -414,6 +413,42 @@ body.ide.dark .icon-button.icon-text {
     background-position:            1.5px 1px;
 }
 
+input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonWhite.svg');
+}
+input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+}
+input[type="button"].icon-button.icon-text-input {
+    background-image:               url('images/buttons/textInputBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-text-input {
+    background-image:               url('images/buttons/textInputWhite.svg');
+}
+input[type="button"].icon-button.icon-slider {
+    background-image:               url('images/buttons/sliderBlack.svg');
+}
+body.ide.dark input[type="button"].icon-button.icon-slider {
+    background-image:               url('images/buttons/sliderWhite.svg');
+}
+input[type="button"].icon-button.icon-btn,
+input[type="button"].icon-button.icon-select-btn,
+input[type="button"].icon-button.icon-text-input,
+input[type="button"].icon-button.icon-slider,
+body.ide.dark input[type="button"].icon-button.icon-btn,
+body.ide.dark input[type="button"].icon-button.icon-select-btn,
+body.ide.dark input[type="button"].icon-button.icon-text-input,
+body.ide.dark input[type="button"].icon-button.icon-slider {
+    background-position:            2px 4.5px;
+    background-size:                24px 24px;
+}
+
 input[type="button"].icon-button.icon-move {
     background-image:               url('images/buttons/moveBlack.svg');
     background-position:            1.5px 3.5px;
@@ -421,22 +456,6 @@ input[type="button"].icon-button.icon-move {
 body.ide.dark input[type="button"].icon-button.icon-move {
     background-image:               url('images/buttons/moveWhite.svg');
     background-position:            1.5px 3.5px;
-}
-input[type="button"].icon-button.icon-btn {
-    background-image:               url('images/buttons/buttonBlack.svg');
-    background-position:            2px 4.5px;
-}
-body.ide.dark input[type="button"].icon-button.icon-btn {
-    background-image:               url('images/buttons/buttonWhite.svg');
-    background-position:            2px 4.5px;
-}
-input[type="button"].icon-button.icon-select-btn {
-    background-image:               url('images/buttons/selectButtonBlack.svg');
-    background-position:            2px 4.5px;
-}
-body.ide.dark input[type="button"].icon-button.icon-select-btn {
-    background-image:               url('images/buttons/selectButtonWhite.svg');
-    background-position:            2px 4.5px;
 }
 input[type="button"].icon-button.icon-label {
     background-image:               url('images/buttons/labelBlack.svg');

@@ -78,6 +78,7 @@
     line-height:                    24px;
     margin:                         0 0 4px 0;
     outline:                        none;
+    border-radius:                  2px;
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list {
     float:                          left;

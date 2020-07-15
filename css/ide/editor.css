@@ -289,6 +289,13 @@
     min-width:                      100%;
     min-height:                     100%;
 }
+.editor .source-wrapper .resource-wrapper .resource-content .resource-content-wrapper input[type="text"] {
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource,
 .editor .source-wrapper .resource-wrapper .resource-content div.resource {
     position:                       absolute;

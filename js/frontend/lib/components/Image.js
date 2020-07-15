@@ -78,3 +78,5 @@ exports.Image = class extends Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.Image;

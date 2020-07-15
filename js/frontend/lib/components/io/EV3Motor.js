@@ -44,3 +44,5 @@ exports.EV3Motor = class extends BasicIODevice {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.EV3Motor;

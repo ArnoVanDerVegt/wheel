@@ -3,29 +3,49 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const DOMNode    = require('../dom').DOMNode;
+const Component  = require('./Component').Component;
 
-exports.Slider = class extends DOMNode {
+exports.Slider = class extends Component {
     constructor(opts) {
         super(opts);
-        this._mouseDown = false;
-        this._value     = opts.value || 0;
-        this._maxValue  = opts.maxValue;
-        this._onChange  = opts.onChange;
+        this._mouseDown     = false;
+        this._width         = opts.width    ||  96;
+        this._value         = opts.value    ||   0;
+        this._maxValue      = opts.maxValue || 100;
+        this._onChange      = opts.onChange;
+        this._disabled      = ('disabled' in opts) ? opts.disabled : false;
+        this._baseClassName = 'slider';
         this.initDOM(opts.parentNode);
-        (typeof opts.id === 'function') && opts.id(this);
     }
 
-    setSliderElement(element) {
-        this._sliderElement = element;
-        element.addEventListener('click',     this.onCancelEvent.bind(this));
-        element.addEventListener('mousemove', this.onMouseMove.bind(this));
-        element.addEventListener('mousedown', this.onMouseDown.bind(this));
-        element.addEventListener('mouseup',   this.onMouseUp.bind(this));
-        element.addEventListener('mouseout',  this.onMouseOut.bind(this));
-        element.addEventListener('keydown',   this.onKeyDown.bind(this));
-        element.addEventListener('focus',     this.onFocus.bind(this));
-        element.addEventListener('blur',      this.onBlur.bind(this));
+    initDOM(parentNode) {
+        let style = this._style || {};
+        style.width = this._width + 'px';
+        this.create(
+            parentNode,
+            {
+                id:        this.setElement.bind(this),
+                type:      'a',
+                href:      '#',
+                className: this.getClassName(),
+                style:     style,
+                children: [
+                    {
+                        ref:       this.setRef('sliderTrack'),
+                        type:      'span',
+                        className: 'slider-track',
+                        style: {
+                            width: (this._width - 24) + 'px'
+                        }
+                    },
+                    {
+                        id:        this.setButtonElement.bind(this),
+                        type:      'span',
+                        className: 'slider-button'
+                    }
+                ]
+            }
+        );
     }
 
     setButtonElement(element) {
@@ -38,12 +58,13 @@ exports.Slider = class extends DOMNode {
     }
 
     setValue(value) {
-        this._buttonElement.style.left = (7 + (62 / this._maxValue * value)) + 'px';
+        value                          = Math.min(Math.max(value, 0), this._maxValue);
+        this._buttonElement.style.left = (7 + ((this._width - 34) / this._maxValue * value)) + 'px';
         this._value                    = value;
     }
 
     getSliderPosition(event) {
-        let element = this._sliderElement;
+        let element = this._element;
         let offsetX = element.offsetLeft;
         let parent  = element.offsetParent;
         while (parent) {
@@ -56,8 +77,11 @@ exports.Slider = class extends DOMNode {
     }
 
     setButtonPos(event) {
-        let x     = Math.min(Math.max(this.getSliderPosition(event), 14), 78);
-        let value = Math.round((x - 14) * this._maxValue / 62);
+        if (this._disabled) {
+            return;
+        }
+        let x     = Math.min(Math.max(this.getSliderPosition(event), 14), (this._width - 18));
+        let value = Math.round((x - 14) * this._maxValue / (this._width - 34));
         if (value !== this._value) {
             this._value = value;
             this._onChange && this._onChange(Math.floor(value));
@@ -65,71 +89,95 @@ exports.Slider = class extends DOMNode {
         this._buttonElement.style.left = (x - 7) + 'px';
     }
 
+    setWidth(width) {
+        this._element.style.width          = width + 'px';
+        this._refs.sliderTrack.style.width = (width - 24) + 'px';
+        this.setValue(this._value);
+    }
+
+    onClick(event) {
+        this.onCancelEvent(event);
+    }
+
     onMouseMove(event) {
         this.onCancelEvent(event);
-        if (this._mouseDown) {
+        if (!this._disabled && this._mouseDown) {
             this.setButtonPos(event);
         }
+        super.onMouseMove(event);
     }
 
     onMouseDown(event) {
         this.onCancelEvent(event);
-        this._mouseDown = true;
-        this.setButtonPos(event);
-        this._sliderElement.focus();
+        if (!this._disabled) {
+            this._mouseDown = true;
+            this.setButtonPos(event);
+            this._element.focus();
+        }
+        super.onMouseDown(event);
     }
 
     onMouseUp(event) {
         this.onCancelEvent(event);
         this._mouseDown = false;
+        super.onMouseUp(event);
     }
 
     onMouseOut(event) {
         this.onCancelEvent(event);
         this._mouseDown = false;
+        super.onMouseOut(event);
     }
 
     onKeyDown(event) {
+        if (this._disabled) {
+            return;
+        }
         switch (event.keyCode) {
             case 37:
-                this.setValue(Math.max(this._value - this._maxValue / 78, 0));
+                this.setValue(Math.max(this._value - this._maxValue / (this._width - 18), 0));
                 this._onChange && this._onChange(Math.floor(this._value));
                 break;
             case 39:
-                this.setValue(Math.min(this._value + this._maxValue / 78, this._maxValue));
+                this.setValue(Math.min(this._value + this._maxValue / (this._width - 18), this._maxValue));
                 this._onChange && this._onChange(Math.floor(this._value));
                 break;
         }
     }
 
     onFocus(event) {
-        this._sliderElement.className = 'slider focus';
+        if (!this._disabled) {
+            this._element.className = 'slider focus';
+        }
+        super.onFocus(event);
     }
 
     onBlur(event) {
-        this._sliderElement.className = 'slider';
+        this._element.className = 'slider';
+        super.onBlur(event);
     }
 
-    initDOM(parentNode) {
-        this.create(
-            parentNode,
-            {
-                id:        this.setSliderElement.bind(this),
-                type:      'a',
-                href:      '#',
-                className: 'slider',
-                children: [
-                    {
-                        type:      'span',
-                        className: 'slider-track'
-                    },
-                    {
-                        id:        this.setButtonElement.bind(this),
-                        type:      'span',
-                        className: 'slider-button'
-                    }
-                ]
+    onEvent(opts) {
+        let element = this._element;
+        if ('value' in opts) {
+            this.setValue(opts.value);
+        }
+        if ('maxValue' in opts) {
+            this._maxValue = Math.max(opts.maxValue, 1);
+            this.setValue(this._value);
+        }
+        if ('disabled' in opts) {
+            element.disabled  = opts.disabled ? 'disabled' : '';
+        }
+        if ('width' in opts) {
+            let width = 48;
+            if (parseInt(opts.width, 10) >= 48) {
+                width = parseInt(width, 10);
             }
-        );
+            this.setWidth(Math.max(width, 48));
+        }
+        super.onEvent(opts);
     }
 };
+
+exports.Component = exports.Slider;

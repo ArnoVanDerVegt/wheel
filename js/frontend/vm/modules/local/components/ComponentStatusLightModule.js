@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const componentStatusLightModuleConstants = require('../../../../../shared/vm/modules/components/componentStatusLightModuleConstants');
-const VMModule                            = require('./../../VMModule').VMModule;
 const dispatcher                          = require('../../../../lib/dispatcher').dispatcher;
+const VMModule                            = require('./../../VMModule').VMModule;
 
 exports.ComponentStatusLightModule = class extends VMModule {
     run(commandId) {

@@ -5,7 +5,7 @@
 namespace components.statusLight
 
 ; @const The status light component module.
-#define MODULE_COMPONENT_STATUS_LIGHT        69
+#define MODULE_COMPONENT_STATUS_LIGHT        71
 
 ; @const Module calls for status light component functions.
 #define STATUS_LIGHT_COMPONENT_SET_HIDDEN     0

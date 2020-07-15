@@ -2,7 +2,7 @@
     {
         "type": "form",
         "uid": "0x7014896B",
-        "name": "PubDevice",
+        "name": "PuDevice",
         "title": "Powered up device display example",
         "width": "500",
         "height": "420",
@@ -36,7 +36,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonBasicMotorClick"
+        "onClick": "onPuDeviceButtonBasicMotorClick"
     },
     {
         "x": 120,
@@ -54,7 +54,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonTrainMotorClick"
+        "onClick": "onPuDeviceButtonTrainMotorClick"
     },
     {
         "x": 120,
@@ -72,7 +72,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonBoostTachoClick"
+        "onClick": "onPuDeviceButtonBoostTachoClick"
     },
     {
         "x": 120,
@@ -90,7 +90,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonMoveHubMotorClick"
+        "onClick": "onPuDeviceButtonMoveHubMotorClick"
     },
     {
         "x": 120,
@@ -108,7 +108,7 @@
         "color": "green",
         "width": "40",
         "height": "30",
-        "onClick": "onPubDeviceButtonPort1Click"
+        "onClick": "onPuDeviceButtonPort1Click"
     },
     {
         "x": 170,
@@ -126,7 +126,7 @@
         "color": "green",
         "width": "40",
         "height": "30",
-        "onClick": "onPubDeviceButtonPort2Click"
+        "onClick": "onPuDeviceButtonPort2Click"
     },
     {
         "x": 220,
@@ -144,7 +144,7 @@
         "color": "green",
         "width": "40",
         "height": "30",
-        "onClick": "onPubDeviceButtonPort3Click"
+        "onClick": "onPuDeviceButtonPort3Click"
     },
     {
         "x": 270,
@@ -162,7 +162,7 @@
         "color": "green",
         "width": "40",
         "height": "30",
-        "onClick": "onPubDeviceButtonPort4Click"
+        "onClick": "onPuDeviceButtonPort4Click"
     },
     {
         "x": 120,
@@ -180,7 +180,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonControlPlusLClick"
+        "onClick": "onPuDeviceButtonControlPlusLClick"
     },
     {
         "x": 120,
@@ -198,7 +198,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonControlPlusXLClick"
+        "onClick": "onPuDeviceButtonControlPlusXLClick"
     },
     {
         "x": 120,
@@ -216,7 +216,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonLedLightsClick"
+        "onClick": "onPuDeviceButtonLedLightsClick"
     },
     {
         "x": 120,
@@ -234,7 +234,7 @@
         "color": "green",
         "width": "190",
         "height": "30",
-        "onClick": "onPubDeviceButtonBoostDistanceClick"
+        "onClick": "onPuDeviceButtonBoostDistanceClick"
     },
     {
         "x": 320,
@@ -252,7 +252,7 @@
         "color": "gray",
         "width": "30",
         "height": "30",
-        "onClick": "onPubDeviceButtonReadyNoneClick"
+        "onClick": "onPuDeviceButtonReadyNoneClick"
     },
     {
         "x": 360,
@@ -270,7 +270,7 @@
         "color": "red",
         "width": "30",
         "height": "30",
-        "onClick": "onPubDeviceButtonReadyRedClick"
+        "onClick": "onPuDeviceButtonReadyRedClick"
     },
     {
         "x": 400,
@@ -288,7 +288,7 @@
         "color": "yellow",
         "width": "30",
         "height": "30",
-        "onClick": "onPubDeviceButtonReadyYellowClick"
+        "onClick": "onPuDeviceButtonReadyYellowClick"
     },
     {
         "x": 440,
@@ -306,7 +306,7 @@
         "color": "green",
         "width": "30",
         "height": "30",
-        "onClick": "onPubDeviceButtonReadyGreenClick"
+        "onClick": "onPuDeviceButtonReadyGreenClick"
     },
     {
         "x": 320,
@@ -321,7 +321,7 @@
         "name": "CheckboxColorMode",
         "text": "Color mode",
         "checked": false,
-        "onChange": "onPubDeviceCheckboxColorModeChange"
+        "onChange": "onPuDeviceCheckboxColorModeChange"
     },
     {
         "x": 320,
@@ -337,7 +337,7 @@
         "value": "Random speed",
         "title": "Random speed",
         "color": "green",
-        "onClick": "onPubDeviceButtonRandomSpeedClick",
+        "onClick": "onPuDeviceButtonRandomSpeedClick",
         "width": "150",
         "height": "30"
     },
@@ -357,6 +357,6 @@
         "color": "green",
         "width": "150",
         "height": "30",
-        "onClick": "onPubDeviceButtonRandomValueClick"
+        "onClick": "onPuDeviceButtonRandomValueClick"
     }
 ]

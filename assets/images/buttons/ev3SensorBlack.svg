@@ -1,7 +1,7 @@
-<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" baseProfile="full" height="18" version="1.1" viewBox="0 1 20 20" width="18">
-    <ns0:rect height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" width="16" x="1" y="1" />
-    <ns0:text style="font-family:latolight, Arial;font-size:7px;line-height:7px;" text-anchor="middle" x="9" y="8">EV3</ns0:text>
-    <ns0:path d="M3,9 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
-    <ns0:path d="M5,9 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
-    <ns0:path d="M7,9 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
-</ns0:svg>
+<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" height="18" version="1.1" viewBox="0 1 20 20" width="18">
+    <rect height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" width="16" x="1" y="1" />
+    <text style="font-family:latolight, Arial;font-size:7px;line-height:7px;" text-anchor="middle" x="9" y="8">EV3</text>
+    <path d="M3,9 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
+    <path d="M5,9 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
+    <path d="M7,9 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;" />
+</svg>

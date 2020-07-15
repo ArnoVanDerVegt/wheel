@@ -182,6 +182,9 @@ exports.Component = class extends DOMNode {
     }
 
     remove() {
+        if (this._element && this._element.parentNode) {
+            this._element.parentNode.removeChild(this._element);
+        }
         (typeof this._onGlobalUIId === 'function') && this._onGlobalUIId();
         this._dispatchEvent && this._dispatchEvent();
     }

@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const componentEV3SensorModuleConstants = require('../../../../../shared/vm/modules/components/componentEV3SensorModuleConstants');
-const VMModule                         = require('./../../VMModule').VMModule;
-const dispatcher                       = require('../../../../lib/dispatcher').dispatcher;
+const dispatcher                        = require('../../../../lib/dispatcher').dispatcher;
+const VMModule                          = require('./../../VMModule').VMModule;
 
 exports.ComponentEV3SensorModule = class extends VMModule {
     run(commandId) {

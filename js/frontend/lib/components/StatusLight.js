@@ -62,3 +62,5 @@ exports.StatusLight = class extends Component.Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.StatusLight;

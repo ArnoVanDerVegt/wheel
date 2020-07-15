@@ -10,22 +10,6 @@ const EventList           = require('./state/EventList').EventList;
 const PropertyList        = require('./state/PropertyList').PropertyList;
 const formEditorConstants = require('./formEditorConstants');
 
-const CONSTRUCTOR_BY_TYPE = {
-        button:       require('../../../../lib/components/Button').Button,
-        selectButton: require('../../../../lib/components/ToolOptions').ToolOptions,
-        label:        require('../../../../lib/components/Label').Label,
-        checkbox:     require('../../../../lib/components/CheckboxAndLabel').CheckboxAndLabel,
-        statusLight:  require('../../../../lib/components/StatusLight').StatusLight,
-        panel:        require('../../../../lib/components/Panel').Panel,
-        tabs:         require('../../../../lib/components/TabPanel').TabPanel,
-        rectangle:    require('../../../../lib/components/Rectangle').Rectangle,
-        circle:       require('../../../../lib/components/Circle').Circle,
-        image:        require('../../../../lib/components/Image').Image,
-        puDevice:     require('../../../../lib/components/io/PoweredUpDevice').PoweredUpDevice,
-        ev3Motor:     require('../../../../lib/components/io/EV3Motor').EV3Motor,
-        ev3Sensor:    require('../../../../lib/components/io/EV3Sensor').EV3Sensor
-    };
-
 let formComponentContainerByParentId = {};
 
 exports.getFormComponentContainerByParentId = function(parentId) {
@@ -230,7 +214,8 @@ exports.FormComponentContainer = class extends DOMNode {
     }
 
     onAddComponent(opts) {
-        opts.componentConstructor = CONSTRUCTOR_BY_TYPE[opts.type];
+        let propertiesByType = formEditorConstants.PROPERTIES_BY_TYPE;
+        opts.componentConstructor = require('../../../../' + propertiesByType[opts.type.toUpperCase()].component).Component;
         if (!opts.componentConstructor) {
             return;
         }

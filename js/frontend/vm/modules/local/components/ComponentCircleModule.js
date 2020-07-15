@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const componentCircleModuleConstants = require('../../../../../shared/vm/modules/components/componentCircleModuleConstants');
-const VMModule                       = require('./../../VMModule').VMModule;
 const dispatcher                     = require('../../../../lib/dispatcher').dispatcher;
+const VMModule                       = require('./../../VMModule').VMModule;
 
 exports.ComponentCircleModule = class extends VMModule {
     run(commandId) {

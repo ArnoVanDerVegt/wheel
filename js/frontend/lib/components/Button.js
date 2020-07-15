@@ -39,18 +39,12 @@ exports.Button = class extends Component.Component {
         );
     }
 
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
-    }
-
     onEvent(opts) {
         let element = this._element;
         if ('className' in opts) {
             this.setClassName(opts.className);
         }
         if ('color' in opts) {
-            console.log('opts.color:', opts.color, '=>', Component.getComponentColor(opts.color));
             this.setColor(Component.getComponentColor(opts.color));
         }
         if ('value' in opts) {
@@ -156,3 +150,5 @@ exports.Button = class extends Component.Component {
         element.addEventListener('mousemove', this.onMouseMove.bind(this));
     }
 };
+
+exports.Component = exports.Button;

@@ -8,6 +8,8 @@ const Button              = require('../../../lib/components/Button').Button;
 const Label               = require('../../../lib/components/Label').Label;
 const ToolOptions         = require('../../../lib/components/ToolOptions').ToolOptions;
 const CheckboxAndLabel    = require('../../../lib/components/CheckboxAndLabel').CheckboxAndLabel;
+const TextInput           = require('../../../lib/components/TextInput').TextInput;
+const Slider              = require('../../../lib/components/Slider').Slider;
 const StatusLight         = require('../../../lib/components/StatusLight').StatusLight;
 const TabPanel            = require('../../../lib/components/TabPanel').TabPanel;
 const Rectangle           = require('../../../lib/components/Rectangle').Rectangle;
@@ -167,6 +169,14 @@ exports.FormDialog = class extends Dialog {
                             break;
                         case formEditorConstants.COMPONENT_TYPE_CHECKBOX:
                             component.type = CheckboxAndLabel;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:
+                            component.type = TextInput;
+                            parent.push(this.getComponentEvents(component));
+                            break;
+                        case formEditorConstants.COMPONENT_TYPE_SLIDER:
+                            component.type = Slider;
                             parent.push(this.getComponentEvents(component));
                             break;
                         case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:

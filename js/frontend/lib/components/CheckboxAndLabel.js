@@ -65,3 +65,5 @@ exports.CheckboxAndLabel = class extends Component {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.CheckboxAndLabel;

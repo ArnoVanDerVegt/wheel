@@ -102,7 +102,6 @@ exports.ComponentList = class {
         let componentsById = this._componentsById;
         let items          = [];
         for (let id in componentsById) {
-            // let component = componentsById[id];
             let component = this.getComponentClone(id);
             if (component.parentId === parentId) {
                 items.push(component);
@@ -216,10 +215,7 @@ exports.ComponentList = class {
         let component = this.getComponentClone(id);
         component.parentId      = parentId;
         this._activeComponentId = null;
-        // let component = Object.assign({}, componentsById[id]);
-        // component.parentId = component.owner.getParentId();
-        // delete component.owner;
-        // delete componentsById[id];
+        delete this._componentsById[id];
         return component;
     }
 
@@ -232,7 +228,6 @@ exports.ComponentList = class {
         if (component) {
             this._activeComponentId = id;
             return this.getComponentClone(id);
-            // return component;
         }
         return false;
     }
@@ -247,11 +242,8 @@ exports.ComponentList = class {
                         for (let i = 0; i < containerId.length; i++) {
                             findNestedComponents(children, containerId[i]);
                         }
-                        // let child = Object.assign({}, component);
-                        // delete child.owner;
-                        // delete componentsById[id];
-                        // children.push(child);
                         children.push(this.getComponentClone(id));
+                        delete this._componentsById[id];
                         this._formEditorState.emit('DeleteComponent', component);
                     }
                 }

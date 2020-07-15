@@ -15,6 +15,8 @@ exports.COMPONENT_TYPE_BUTTON        = 'button';
 exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
 exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
+exports.COMPONENT_TYPE_TEXT_INPUT    = 'textInput';
+exports.COMPONENT_TYPE_SLIDER        = 'slider';
 exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
 
 // Panel components...
@@ -136,6 +138,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     BUTTON: {
+        component:  'lib/components/Button',
         include:    'lib/components/button.whl',
         properties: [
             {type: 'type',        name: null},
@@ -212,6 +215,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SELECTBUTTON: {
+        component:  'lib/components/ToolOptions',
         include:    'lib/components/selectButton.whl',
         properties: [
             {type: 'type',        name: null},
@@ -242,7 +246,7 @@ exports.PROPERTIES_BY_TYPE = {
             {
                 name: 'onFocus',
                 code: [
-                    '    printS("Focus {name} select button.")'
+                    '    printS("Focus {name} button.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
@@ -251,7 +255,7 @@ exports.PROPERTIES_BY_TYPE = {
             {
                 name: 'onBlur',
                 code: [
-                    '    printS("Blur {name} select button.")'
+                    '    printS("Blur {name} button.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
@@ -260,6 +264,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     LABEL: {
+        component:  'lib/components/Label',
         include:    'lib/components/label.whl',
         properties: [
             {type: 'type',        name: null},
@@ -280,6 +285,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CHECKBOX: {
+        component:  'lib/components/CheckboxAndLabel',
         include:    'lib/components/checkbox.whl',
         properties: [
             {type: 'type',        name: null},
@@ -309,7 +315,7 @@ exports.PROPERTIES_BY_TYPE = {
             {
                 name: 'onFocus',
                 code: [
-                    '    printS("Focus {name} select checkbox.")'
+                    '    printS("Focus {name} checkbox.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
@@ -318,7 +324,106 @@ exports.PROPERTIES_BY_TYPE = {
             {
                 name: 'onBlur',
                 code: [
-                    '    printS("Blur {name} select checkbox.")'
+                    '    printS("Blur {name} checkbox.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    TEXTINPUT: {
+        component:  'lib/components/TextInput',
+        include:    'lib/components/textInput.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'boolean',     name: 'numeric'},
+            {type: 'text',        name: 'value'}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} text input, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'The numeric value.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} text input.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} text input.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    SLIDER: {
+        component:  'lib/components/Slider',
+        include:    'lib/components/slider.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'boolean',     name: 'numeric'},
+            {type: 'text',        name: 'maxValue',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'value',        options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} slider, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'The numeric value.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} slider.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} slider.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
@@ -327,6 +432,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     STATUSLIGHT: {
+        component:  'lib/components/StatusLight',
         include:    'lib/components/statusLight.whl',
         properties: [
             {type: 'type',        name: null},
@@ -344,6 +450,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     PANEL: {
+        component:  'lib/components/Panel',
         include:    'lib/components/panel.whl',
         properties: [
             {type: 'type',        name: null},
@@ -361,6 +468,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TABS: {
+        component:  'lib/components/TabPanel',
         include:    'lib/components/tabs.whl',
         properties: [
             {type: 'type',        name: null},
@@ -410,6 +518,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     RECTANGLE: {
+        component:  'lib/components/Rectangle',
         include:    'lib/components/rectangle.whl',
         properties: [
             {type: 'type',        name: null},
@@ -476,6 +585,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CIRCLE: {
+        component:  'lib/components/Circle',
         include:    'lib/components/circle.whl',
         properties: [
             {type: 'type',        name: null},
@@ -540,6 +650,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     IMAGE: {
+        component:  'lib/components/Image',
         include:    'lib/components/image.whl',
         properties: [
             {type: 'type',        name: null},
@@ -603,6 +714,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     PUDEVICE: {
+        component:  'lib/components/io/PoweredUpDevice',
         include:    'lib/components/poweredUpDevice.whl',
         properties: [
             {type: 'type',        name: null},
@@ -647,6 +759,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     EV3MOTOR: {
+        component:  'lib/components/io/EV3Motor',
         include:    'lib/components/ev3Motor.whl',
         properties: [
             {type: 'type',        name: null},
@@ -684,6 +797,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     EV3SENSOR: {
+        component:  'lib/components/io/EV3Sensor',
         include:    'lib/components/ev3Sensor.whl',
         properties: [
             {type: 'type',        name: null},

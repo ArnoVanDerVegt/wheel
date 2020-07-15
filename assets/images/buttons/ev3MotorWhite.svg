@@ -1,7 +1,7 @@
-<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" baseProfile="full" height="18" version="1.1" viewBox="0 1 20 20" width="18">
-    <ns0:rect height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;" width="16" x="1" y="1" />
-    <ns0:text style="font-family:latolight, Arial;font-size:7px;line-height:7px;" text-anchor="middle" x="9" y="8">EV3</ns0:text>
-    <ns0:circle cx="9" cy="12" r="3" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;" />
-    <ns0:line style="stroke:rgb(255,255,255);stroke-width:0.5;" x1="7" x2="11" y1="10" y2="14" />
-    <ns0:line style="stroke:rgb(255,255,255);stroke-width:0.5;" x1="11" x2="7" y1="10" y2="14" />
-</ns0:svg>
+<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" height="18" version="1.1" viewBox="0 1 20 20" width="18">
+    <rect height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;" width="16" x="1" y="1" />
+    <text fill="rgb(255,255,255)" style="font-family:latolight, Arial;font-size:7px;line-height:7px;" text-anchor="middle" x="9" y="8">EV3</text>
+    <circle cx="9" cy="12" r="3" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;" />
+    <line style="stroke:rgb(255,255,255);stroke-width:0.5;" x1="7" x2="11" y1="10" y2="14" />
+    <line style="stroke:rgb(255,255,255);stroke-width:0.5;" x1="11" x2="7" y1="10" y2="14" />
+</svg>

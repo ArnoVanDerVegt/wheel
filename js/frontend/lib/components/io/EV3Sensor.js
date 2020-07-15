@@ -89,3 +89,5 @@ exports.EV3Sensor = class extends BasicIODevice {
         super.onEvent(opts);
     }
 };
+
+exports.Component = exports.EV3Sensor;

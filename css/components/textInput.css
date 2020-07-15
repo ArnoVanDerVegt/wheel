@@ -7,11 +7,9 @@ input[type="text"] {
 ::-webkit-input-placeholder {
     color:                          var(--text-input-placeholder);
 }
-
 :-ms-input-placeholder {
     color:                          var(--text-input-placeholder);
 }
-
 ::placeholder {
     color:                          var(--text-input-placeholder);
 }
