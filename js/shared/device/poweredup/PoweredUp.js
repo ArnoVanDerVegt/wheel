@@ -465,10 +465,27 @@ exports.PoweredUp = class extends BasicDevice {
         let motorDevice = this.getDevice(layer, motor);
         if (motorDevice) {
             this.getLayerPort(layer, motor).on = true; // Let the motor monitor know that this motor should not be stopped!
-            motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
-            motorDevice.setPower        && motorDevice.setPower(speed);
-            motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
-            motorDevice.setBrightness   && motorDevice.setBrightness(speed);
+            switch (motorDevice.type) {
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
+                    motorDevice.setPower        && motorDevice.setPower(speed);
+                    break;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR:
+                    motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
+                    motorDevice.setPower        && motorDevice.setPower(speed);
+                    break;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS:
+                    motorDevice.setBrightness   && motorDevice.setBrightness(speed);
+                    break;
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR:
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR:
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR:
+                    motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
+                    break;
+                default:
+                    console.log(motorDevice.type);
+                    break;
+            }
         }
         callback && callback();
     }

@@ -24,6 +24,7 @@ exports.SettingsState = class extends Emitter {
         this.onLoad({});
         dispatcher
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
+            .on('Settings.Load.New',                        this, this._loadNewSettings)
             // Setters...
             .on('Settings.Set.RecentProject',               this, this._setRecentProject)
             .on('Settings.Set.RecentForm',                  this, this._setRecentForm)
@@ -77,62 +78,8 @@ exports.SettingsState = class extends Emitter {
     }
 
     _save() {
-        let settings = {
-                documentPath:          this._documentPath,
-                createEventComments:   this._createEventComments,
-                createVMTextOutput:    this._createVMTextOutput,
-                linter:                this._linter,
-                recentProject:         this._recentProject,
-                recentForm:            this._recentForm,
-                activeDevice:          this._activeDevice,
-                deviceAlias:           this._deviceAlias,
-                devicePortAlias:       this._devicePortAlias,
-                darkMode:              this._darkMode,
-                windowSize: {
-                    width:             this._windowSize.width,
-                    height:            this._windowSize.height
-                },
-                windowPosition: {
-                    x:                 this._windowPosition.x,
-                    y:                 this._windowPosition.y
-                },
-                filesDetail:           this._filesDetail,
-                localFilesDetail:      this._localFilesDetail,
-                remoteFilesDetail:     this._remoteFilesDetail,
-                lastVersionCheckDate:  this._lastVersionCheckDate,
-                resizer: {
-                    consoleSize:       this._resizer.consoleSize,
-                    fileTreeSize:      this._resizer.fileTreeSize
-                },
-                show: {
-                    fileTree:          this._show.fileTree,
-                    console:           this._show.console,
-                    properties:        this._show.properties,
-                    simulator:         this._show.simulator,
-                    simulatorOnRun:    this._show.simulatorOnRun
-                },
-                dontShow:{
-                    themeTile:         this._dontShow.themeTile,
-                    openForm:          this._dontShow.openForm,
-                    connected:         this._dontShow.connected
-                },
-                ev3: {
-                    autoConnect:       this._ev3.autoConnect,
-                    autoInstall:       this._ev3.autoInstall,
-                    deviceName:        this._ev3.deviceName,
-                    daisyChainMode:    this._ev3.daisyChainMode
-                },
-                poweredUp: {
-                    autoConnect:       this._poweredUp.autoConnect,
-                    deviceCount:       this._poweredUp.deviceCount
-                },
-                sensorAutoReset:       this._sensorAutoReset,
-                formGridSize:          this._formGridSize,
-                plugins:               this._plugins.toJSON(),
-                includeFiles:          this._includeFiles.toJSON()
-            };
         if (this._getDataProvider) {
-            this._getDataProvider().getData('post', 'ide/settings-save', {settings: settings});
+            this._getDataProvider().getData('post', 'ide/settings-save', {settings: this.getSettings()});
         }
     }
 
@@ -158,6 +105,63 @@ exports.SettingsState = class extends Emitter {
     save() {
         this._save();
         return this;
+    }
+
+    getSettings() {
+        return {
+            documentPath:          this._documentPath,
+            createEventComments:   this._createEventComments,
+            createVMTextOutput:    this._createVMTextOutput,
+            linter:                this._linter,
+            recentProject:         this._recentProject,
+            recentForm:            this._recentForm,
+            activeDevice:          this._activeDevice,
+            deviceAlias:           this._deviceAlias,
+            devicePortAlias:       this._devicePortAlias,
+            darkMode:              this._darkMode,
+            windowSize: {
+                width:             this._windowSize.width,
+                height:            this._windowSize.height
+            },
+            windowPosition: {
+                x:                 this._windowPosition.x,
+                y:                 this._windowPosition.y
+            },
+            filesDetail:           this._filesDetail,
+            localFilesDetail:      this._localFilesDetail,
+            remoteFilesDetail:     this._remoteFilesDetail,
+            lastVersionCheckDate:  this._lastVersionCheckDate,
+            resizer: {
+                consoleSize:       this._resizer.consoleSize,
+                fileTreeSize:      this._resizer.fileTreeSize
+            },
+            show: {
+                fileTree:          this._show.fileTree,
+                console:           this._show.console,
+                properties:        this._show.properties,
+                simulator:         this._show.simulator,
+                simulatorOnRun:    this._show.simulatorOnRun
+            },
+            dontShow:{
+                themeTile:         this._dontShow.themeTile,
+                openForm:          this._dontShow.openForm,
+                connected:         this._dontShow.connected
+            },
+            ev3: {
+                autoConnect:       this._ev3.autoConnect,
+                autoInstall:       this._ev3.autoInstall,
+                deviceName:        this._ev3.deviceName,
+                daisyChainMode:    this._ev3.daisyChainMode
+            },
+            poweredUp: {
+                autoConnect:       this._poweredUp.autoConnect,
+                deviceCount:       this._poweredUp.deviceCount
+            },
+            sensorAutoReset:       this._sensorAutoReset,
+            formGridSize:          this._formGridSize,
+            plugins:               this._plugins.toJSON(),
+            includeFiles:          this._includeFiles.toJSON()
+        };
     }
 
     getVersion() {
@@ -574,6 +578,19 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.PoweredUp');
     }
 
+    _loadNewSettings(settings) {
+        this
+            .onLoad(settings)
+            .emit('Settings.Grid.Size', this._formGridSize)
+            .emit('Settings.AliasChanged')
+            .emit('Settings.AliasPortChanged')
+            .emit('Settings.Simulator')
+            .emit('Settings.View')
+            .emit('Settings.Compile')
+            .emit('Settings.EV3')
+            .emit('Settings.PoweredUp');
+    }
+
     onLoad(data) {
         if (typeof data === 'string') {
             try {
@@ -583,11 +600,13 @@ exports.SettingsState = class extends Emitter {
             }
         }
         let electron = platform.isElectron();
+        if ('os' in data) {
+            this._os = data.os;
+        }
         this._version                    = data.version;
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
-        this._os                         = data.os || {};
         this._userDocumentPath           = ('userDocumentPath'      in data)             ? data.userDocumentPath            : this._userDocumentPath;
         this._show                       = ('show'                  in data)             ? data.show                        : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
@@ -648,5 +667,6 @@ exports.SettingsState = class extends Emitter {
         this._updateViewSettings();
         dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);
         this._onLoad();
+        return this;
     }
 };

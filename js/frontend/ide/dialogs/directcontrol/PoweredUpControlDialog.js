@@ -2,27 +2,29 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../../lib/dispatcher').dispatcher;
-const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog;
+const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredUpModuleConstants');
+const dispatcher               = require('../../../lib/dispatcher').dispatcher;
+const DirectControlDialog      = require('./DirectControlDialog').DirectControlDialog;
 
 exports.PoweredUpControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         const validDevices = [
-                 1, // SIMPLE_MEDIUM_LINEAR_MOTOR
-                 2, // TRAIN_MOTOR
-                 8, // POWERED_UP_DEVICE_LED_LIGHTS
-                38, // MEDIUM_LINEAR_MOTOR
-                39, // MOVE_HUB_MEDIUM_LINEAR_MOTOR
-                41, // DUPLO_TRAIN_BASE_MOTOR
-                46, // TECHNIC_LARGE_LINEAR_MOTOR
-                47, // TECHNIC_XLARGE_LINEAR_MOTOR
-                48  // TECHNIC_MEDIUM_ANGULAR_MOTOR
+                poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_DUPLO_TRAIN_BASE_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR
             ];
         const positionDevices = [
-                39, // MOVE_HUB_MEDIUM_LINEAR_MOTOR
-                46, // TECHNIC_LARGE_LINEAR_MOTOR
-                47, // TECHNIC_XLARGE_LINEAR_MOTOR
-                48  // TECHNIC_MEDIUM_ANGULAR_MOTOR
+                poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR,
+                poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR
             ];
         opts.hasSound       = false;
         opts.title          = 'Powered Up Direct control';

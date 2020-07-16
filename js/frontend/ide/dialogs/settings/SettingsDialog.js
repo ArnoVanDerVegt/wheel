@@ -14,6 +14,8 @@ const getDataProvider     = require('../../../lib/dataprovider/dataProvider').ge
 const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const Updater             = require('./components/Updater').Updater;
+const ExportSettings      = require('./components/ExportSettings').ExportSettings;
+const BooleanSetting      = require('./components/BooleanSetting').BooleanSetting;
 const IncludeFilesSetting = require('./components/IncludeFilesSetting').IncludeFilesSetting;
 
 exports.SettingsDialog = class extends Dialog {
@@ -22,7 +24,9 @@ exports.SettingsDialog = class extends Dialog {
         this._settings        = opts.settings;
         this._updateFunctions = [];
         this._showUpdate      = platform.isElectron() || platform.isNode();
-        let tabs = [];
+        let tabs = [
+                {title: 'Export', onClick: this.onClickTab.bind(this, 'panelExport')}
+            ];
         if (this._showUpdate) {
             tabs.push({title: 'Update', onClick: this.onClickTab.bind(this, 'panelUpdate')});
         }
@@ -50,6 +54,13 @@ exports.SettingsDialog = class extends Dialog {
                             uiId:     this._uiId,
                             tabIndex: 1,
                             tabs:     tabs
+                        },
+                        {
+                            ref:       this.setRef('panelExport'),
+                            className: 'tab-panel panel-export',
+                            children: [
+                                this.addExportSettings()
+                            ]
                         },
                         this._showUpdate ? {
                                 ref:       this.setRef('panelUpdate'),
@@ -161,34 +172,15 @@ exports.SettingsDialog = class extends Dialog {
     }
 
     addBooleanSetting(opts) {
-        let updateFunctions = this._updateFunctions;
-        let settings        = this._settings;
-        return {
-            className: 'boolean-setting',
-            children: [
-                {
-                    id: (element) => {
-                        updateFunctions.push(() => {
-                            element.setValue(!!settings[opts.getter]());
-                        });
-                    },
-                    type:     Checkbox,
-                    ui:       this._ui,
-                    uiId:     this._uiId,
-                    tabIndex: opts.tabIndex,
-                    onChange: (value) => {
-                        dispatcher.dispatch(opts.signal, value);
-                    }
-                },
-                {
-                    className: 'description',
-                    innerHTML: opts.description
-                }
-            ]
-        };
+        opts.type            = BooleanSetting;
+        opts.updateFunctions = this._updateFunctions;
+        opts.settings        = this._settings;
+        opts.uiId            = this._uiId;
+        opts.ui              = this._ui;
+        return opts;
     }
 
-    addIncludeFilesSetting(opts) {
+    addIncludeFilesSetting() {
         return {
             type:     IncludeFilesSetting,
             ui:       this._ui,
@@ -197,8 +189,21 @@ exports.SettingsDialog = class extends Dialog {
         };
     }
 
+    addExportSettings() {
+        return {
+            type:     ExportSettings,
+            ref:      this.setRef('export'),
+            ui:       this._ui,
+            uiId:     this._uiId,
+            settings: this._settings
+        };
+    }
+
     onClickTab(tab) {
         let refs = this._refs;
+        if (tab === 'panelExport') {
+            this._refs.export.load();
+        }
         for (let i in refs) {
             if (i.substr(0, 5) === 'panel') {
                 refs[i].style.display = (i === tab) ? 'block' : 'none';
@@ -210,8 +215,8 @@ exports.SettingsDialog = class extends Dialog {
         this._updateFunctions.forEach((updateFunction) => {
             updateFunction();
         });
-        this._refs.tabs.setActiveTab(this._showUpdate ? 'Update' : 'Editor');
-        this.onClickTab(this._showUpdate ? 'panelUpdate' : 'panelEditor');
+        this._refs.tabs.setActiveTab('Export');
+        this.onClickTab('panelExport');
         this.show();
     }
 };
