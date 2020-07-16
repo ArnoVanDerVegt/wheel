@@ -4,7 +4,7 @@
 **/
 const forceWebVersion = function() {
         return (typeof document === 'object') &&
-            (document.location.host === 'github.com') || (document.location.href.indexOf('pu') !== -1);
+            ((document.location.host === 'github.com') || (document.location.href.indexOf('pu') !== -1));
     };
 
 exports.isElectron = function() {

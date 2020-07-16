@@ -32,13 +32,15 @@ describe(
                     'Should check defaults',
                     function() {
                         let settings = new SettingsState({});
-                        assert.equal(settings.getShowFileTree(),              true);
-                        assert.equal(settings.getShowConsole(),               true);
-                        assert.equal(settings.getShowSimulator(),             true);
-                        assert.equal(settings.getShowSimulatorOnRun(),        true);
-                        assert.equal(settings.getCreateVMTextOutput(),        false);
-                        assert.equal(settings.getLinter(),                    true);
-                        assert.equal(settings.getDontShowWelcomeHintDialog(), false);
+                        assert.equal(settings.getShowFileTree(),       true);
+                        assert.equal(settings.getShowConsole(),        true);
+                        assert.equal(settings.getShowSimulator(),      true);
+                        assert.equal(settings.getShowSimulatorOnRun(), true);
+                        assert.equal(settings.getCreateVMTextOutput(), false);
+                        assert.equal(settings.getLinter(),             true);
+                        assert.equal(settings.getDontShowThemeTile(),  false);
+                        assert.equal(settings.getDontShowOpenForm(),   false);
+                        assert.equal(settings.getDontShowConnected(),  false);
                     }
                 );
             }
@@ -128,9 +130,9 @@ describe(
                     'Should set active device',
                     function() {
                         let settings = new SettingsState({});
-                        assert.equal(settings.getActiveDevice(), 0);
-                        dispatcher.dispatch('Settings.Set.ActiveDevice', 1);
                         assert.equal(settings.getActiveDevice(), 1);
+                        dispatcher.dispatch('Settings.Set.ActiveDevice', 0);
+                        assert.equal(settings.getActiveDevice(), 0);
                     }
                 );
                 it(
@@ -344,12 +346,12 @@ describe(
             'Test don\'t show',
             function() {
                 it(
-                    'Should set dont show welcome hint',
+                    'Should set dont show connected',
                     function() {
                         let settings = new SettingsState({});
-                        assert.equal(settings.getDontShowWelcomeHintDialog(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowWelcomeHintDialog', true);
-                        assert.equal(settings.getDontShowWelcomeHintDialog(), true);
+                        assert.equal(settings.getDontShowConnected(), false);
+                        dispatcher.dispatch('Settings.Set.DontShowConnected', true);
+                        assert.equal(settings.getDontShowConnected(), true);
                     }
                 );
             }
