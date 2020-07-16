@@ -482,9 +482,6 @@ exports.PoweredUp = class extends BasicDevice {
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR:
                     motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
                     break;
-                default:
-                    console.log(motorDevice.type);
-                    break;
             }
         }
         callback && callback();
