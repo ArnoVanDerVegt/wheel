@@ -30,8 +30,8 @@ exports.FileTree = class extends DOMNode {
         this._changeTimeout  = null;
         this._style          = null;
         this
-            .initDOM(document.body)
-            .initContextMenu();
+            .initDOM(opts.parentNode)
+            .initContextMenu(opts.parentNode);
         this._ui
             .addEventListener('Global.UIId',         this, this.onGlobalUIId)
             .addEventListener('Global.Window.Focus', this, this.onGlobalWindowFocus);
@@ -81,10 +81,10 @@ exports.FileTree = class extends DOMNode {
         return this;
     }
 
-    initContextMenu() {
+    initContextMenu(parentNode) {
         this._fileContextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: document.body,
+            parentNode: parentNode,
             options: [
                 {title: 'Rename',           onClick: this.onContextMenuRename.bind(this)},
                 {title: 'Delete',           onClick: this.onContextMenuDelete.bind(this)},
@@ -96,7 +96,7 @@ exports.FileTree = class extends DOMNode {
         });
         this._directoryContextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: document.body,
+            parentNode: parentNode,
             options: [
                 {title: 'New file',         onClick: this.onContextMenuNewFile.bind(this)},
                 {title: 'New image',        onClick: this.onContextMenuNewImageFile.bind(this)},

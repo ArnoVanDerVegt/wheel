@@ -27,7 +27,7 @@ exports.Properties = class extends DOMNode {
         this._propertyByName = {};
         this._events         = [];
         this._eventByName    = {};
-        this.initDOM(opts.parentNode || document.body);
+        this.initDOM(opts.parentNode);
         dispatcher
             .on('Properties.Select.Properties', this, this.onSelectProperties)
             .on('Properties.Select.Events',     this, this.onSelectEvents)

@@ -33,7 +33,7 @@ exports.Hint = class extends Component {
         this._hidden        = true;
         this._hint          = '';
         this._database      = {preProcessor: null, compiler: null};
-        this.initDOM(document.body);
+        this.initDOM(opts.parentNode);
         dispatcher
             .on('Hint.Show',             this, this.onShow)
             .on('Hint.Hide',             this, this.onHide)

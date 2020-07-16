@@ -25,7 +25,7 @@ exports.Console = class extends DOMNode {
         dispatcher
             .on('Console.Breakpoint',   this, this.onBreakpoint)
             .on('Console.RuntimeError', this, this.onRuntimeError);
-        this.initDOM(document.body);
+        this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {

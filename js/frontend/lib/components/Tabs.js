@@ -164,8 +164,9 @@ exports.Tabs = class extends DOMNode {
         this._onClick        = opts.onClick;
         this._onChange       = opts.onChange;
         this._onGlobalUIId   = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
-        this.initDOM(opts.parentNode, opts.tabs || []);
-        this.initContextMenu(opts.contextMenuOptions);
+        this
+            .initDOM(opts.parentNode, opts.tabs || [])
+            .initContextMenu(opts.parentNode, opts.contextMenuOptions);
         (typeof opts.id === 'function') && opts.id(this);
     }
 
@@ -188,15 +189,16 @@ exports.Tabs = class extends DOMNode {
             this.setActiveTab(this._active.title, this._active.meta);
         }
         this.updateTabIndex();
+        return this;
     }
 
-    initContextMenu(options) {
+    initContextMenu(parentNode, options) {
         if (!options) {
             return;
         }
         this._contextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: document.body,
+            parentNode: parentNode,
             options:    options
         });
     }

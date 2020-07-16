@@ -2,6 +2,17 @@ body.ide.no-simulator div.simulator {
     display:                        none;
     -webkit-user-select:            none;
 }
+.simulator {
+    position:                       absolute;
+    right:                          0;
+    top:                            40px;
+    width:                          304px;
+    height:                         calc(100% - 24px);
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-width:                   0 0 0 1px;
+    z-index:                        1;
+}
 .simulator .motors,
 .simulator .sensors {
     float:                          left;
@@ -79,17 +90,6 @@ body.ide.no-simulator div.simulator {
     font-weight:                    bold;
     font-size:                      16px;
     line-height:                    39px;
-}
-.simulator {
-    position:                       absolute;
-    right:                          0;
-    top:                            40px;
-    width:                          304px;
-    height:                         calc(100% - 24px);
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    border-width:                   0 0 0 1px;
-    z-index:                        1;
 }
 .simulator .simulator-options {
     float:                          left;

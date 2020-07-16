@@ -9,6 +9,7 @@ const DOMNode     = require('../../../../lib/dom').DOMNode;
 exports.SimulatorPlugin = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._parentNode          = opts.parentNode;
         this._constants           = opts.constants;
         this._plugin              = opts.plugin;
         this._ui                  = opts.ui;
@@ -29,7 +30,7 @@ exports.SimulatorPlugin = class extends DOMNode {
         }
         let contextMenu = new ContextMenu({
                 ui:         this._ui,
-                parentNode: document.body,
+                parentNode: this._parentNode,
                 options:    options,
                 withCheck:  true
             });

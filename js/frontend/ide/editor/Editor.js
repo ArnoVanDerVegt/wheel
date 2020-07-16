@@ -12,6 +12,7 @@ const Editors         = require('./Editors').Editors;
 exports.Editor = class extends DOMUtils {
     constructor(opts) {
         super(opts);
+        (typeof opts.id === 'function') && opts.id(this);
         this._ui                           = opts.ui;
         this._settings                     = opts.settings;
         this._breakpoint                   = null;
@@ -22,7 +23,8 @@ exports.Editor = class extends DOMUtils {
             editorsState: this._editorsState,
             settings:     opts.settings,
             ev3:          opts.ev3,
-            poweredUp:    opts.poweredUp
+            poweredUp:    opts.poweredUp,
+            parentNode:   opts.parentNode
         });
         this._selectProjectCompileCallback = null; // Which project should be compiled?
         this._projectNewFileOptions        = [];   // List of projects where a new file can be added

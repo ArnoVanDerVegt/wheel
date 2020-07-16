@@ -72,7 +72,6 @@ const RemoteComponentImageModule        = LocalComponentImageModule;
 const RemoteComponentPUDeviceModule     = LocalComponentPUDeviceModule;
 const RemoteComponentEV3MotorModule     = LocalComponentEV3MotorModule;
 const RemoteComponentEV3SensorModule    = LocalComponentEV3SensorModule;
-const Simulator                         = require('./simulator/Simulator').Simulator;
 const SimulatorModules                  = require('./simulator/SimulatorModules').SimulatorModules;
 const pluginUuid                        = require('./plugins/pluginUuid');
 
@@ -98,13 +97,6 @@ exports.CompileAndRun = class extends DOMUtils {
         this._compileSilent       = false;
         this._compiling           = false;
         this._simulatorModules    = new SimulatorModules({settings: this._settings, ide: this});
-        this._simulator           = new Simulator({
-            ui:        opts.ui,
-            ev3:       ev3,
-            poweredUp: poweredUp,
-            settings:  settings,
-            onStop:    this.stop.bind(this)
-        });
         // EV3 events...
         ev3
             .addEventListener('EV3.Connected',    this, this.onDeviceConnected)

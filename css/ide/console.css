@@ -8,6 +8,7 @@ body.ide div.console-wrapper {
     padding:                        0;
     z-index:                        1;
     background-color:               var(--ui-background1);
+    overflow:                       hidden;
 }
 /* No simulator & No properties */
 body.ide.no-right-panel div.console-wrapper {

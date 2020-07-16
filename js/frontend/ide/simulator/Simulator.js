@@ -20,7 +20,7 @@ exports.Simulator = class extends DOMNode {
         this._layer     = 0;
         this._vm        = null;
         this._plugins   = {};
-        this.initDOM(opts.parentNode || document.body);
+        this.initDOM(opts.parentNode);
         dispatcher.on('Simulator.ShowPluginByName', this, this.onShowPluginByName);
     }
 

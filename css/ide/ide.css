@@ -11,7 +11,7 @@ html {
     height:                         100%;
     padding:                        0;
     margin:                         0;
-    position:                       relative;
+    position:                       absolute;
     font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
     overflow:                       hidden;
     background-color:               var(--ui-background2);
@@ -43,12 +43,17 @@ h5 {
 }
 
 /* Editor */
+body .root {
+    position:                       absolute;
+    left:                           0;
+    right:                          0;
+    width:                          100%;
+    height:                         100%;
+}
 body.ide div.editor-wrapper {
     position:                       absolute;
     top:                            40px;
-    /*bottom:                         256px;*/
     bottom:                         var(--console-height);
-    /*left:                           256px;*/
     left:                           var(--file-tree-width);
     right:                          304px;
     margin:                         0;

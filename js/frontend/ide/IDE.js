@@ -5,6 +5,7 @@
 const Downloader                 = require('../ev3/Downloader');
 const platform                   = require('../lib/platform');
 const path                       = require('../lib/path');
+const DOMNode                    = require('../lib/dom').DOMNode;
 const Http                       = require('../lib/Http').Http;
 const dispatcher                 = require('../lib/dispatcher').dispatcher;
 const Button                     = require('../lib/components/Button').Button;
@@ -57,6 +58,7 @@ const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').
 const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const OpenFormDialog             = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog            = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
+const Simulator                  = require('./simulator/Simulator').Simulator;
 const Properties                 = require('./properties/Properties').Properties;
 const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
 const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
@@ -77,51 +79,77 @@ exports.IDE = class extends CompileAndRun {
         this._title                  = 'No program selected.';
         this._linter                 = null;
         this._editorsState           = new EditorsState();
-        this._editor                 = new Editor({
-            ui:           ui,
-            settings:     settings,
-            ev3:          this._ev3,
-            poweredUp:    this._poweredUp,
-            editorsState: this._editorsState
-        });
-        new Console ({
-            ui:            ui,
-            settings:      settings
-        });
-        new MainMenu({
-            ui:            ui,
-            settings:      settings,
-            platform:      settings.getOS().platform,
-            tabIndex:      tabIndex.MAIN_MENU,
-            ev3:           this._ev3,
-            poweredUp:     this._poweredUp,
-            getImage:      getImage
-        });
-        new FileTree({
-            ui:            ui,
-            uiId:          1,
-            settings:      settings,
-            tabIndex:      tabIndex.FILE_TREE,
-            tabIndexClose: tabIndex.CLOSE_FILE_TREE,
-            getImage:      getImage
-        });
-        new Hint({
-            ui:            ui,
-            settings:      settings
-        });
-        new Properties({
-            ui:            ui,
-            settings:      settings
-        });
-        new IDEAssistant({
-            settings:      settings
-        });
+        new IDEAssistant({settings: settings});
         this
+            .initDOM()
             .initGlobalRequire()
             .initEV3()
             .initDialogs()
             .initDispatcher()
             .initWindowResizeListener();
+    }
+
+    initDOM() {
+        new DOMNode({}).create(
+            document.body,
+            {
+                className: 'root',
+                children: [
+                    {
+                        type:          MainMenu,
+                        tabIndex:      tabIndex.MAIN_MENU,
+                        getImage:      getImage,
+                        ui:            this._ui,
+                        settings:      this._settings,
+                        platform:      this._settings.getOS().platform,
+                        ev3:           this._ev3,
+                        poweredUp:     this._poweredUp
+                    },
+                    {
+                        type:          FileTree,
+                        uiId:          1,
+                        ui:            this._ui,
+                        settings:      this._settings,
+                        tabIndex:      tabIndex.FILE_TREE,
+                        tabIndexClose: tabIndex.CLOSE_FILE_TREE,
+                        getImage:      getImage
+                    },
+                    {
+                        id:            (editor) => { this._editor = editor; },
+                        type:          Editor,
+                        ui:            this._ui,
+                        settings:      this._settings,
+                        ev3:           this._ev3,
+                        poweredUp:     this._poweredUp,
+                        editorsState:  this._editorsState
+                    },
+                    {
+                        type:          Simulator,
+                        ui:            this._ui,
+                        ev3:           this._ev3,
+                        poweredUp:     this._poweredUp,
+                        settings:      this._settings,
+                        onStop:        this.stop.bind(this)
+                    },
+                    {
+                        type:          Properties,
+                        ui:            this._ui,
+                        settings:      this._settings
+                    },
+                    {
+                        type:          Hint,
+                        ui:            this._ui,
+                        settings:      this._settings
+                    },
+                    {
+                        type:          Console,
+                        ui:            this._ui,
+                        settings:      this._settings
+                    }
+                ]
+            }
+        );
+        return this;
     }
 
     initGlobalRequire() {

@@ -35,7 +35,7 @@ exports.Editors = class extends DOMNode {
             .on('Dialog.YesNoCancel.SaveAndClose', this, this.onCloseAndSave)
             .on('Dialog.YesNoCancel.Close',        this, this.onClose)
             .on('Dialog.YesNoCancel.Cancel',       this, this.onCloseCancel);
-        this.initDOM(document.body);
+        this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {

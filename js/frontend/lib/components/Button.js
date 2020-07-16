@@ -128,6 +128,7 @@ exports.Button = class extends Component.Component {
                 }
             } else {
                 div           = document.createElement('div');
+                div.id        = 'hint' + i;
                 div.className = 'hint with-arrow';
                 div._free     = false;
                 document.body.appendChild(div);
