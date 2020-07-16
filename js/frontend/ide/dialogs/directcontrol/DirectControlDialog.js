@@ -169,7 +169,12 @@ exports.DirectControlDialog = class extends Dialog {
     }
 
     onSelectLayer(layer) {
-        let refs = this._refs;
+        let motorElements = this._motorElements;
+        let layerState    = this._layerState[this._layer];
+        let refs          = this._refs;
+        for (let i = 0; i < 4; i++) {
+            layerState[i].speed = motorElements[i].getSpeed();
+        }
         this._layer           = layer;
         refs.brake.className  = 'brake';
         refs.motors.className = 'motors';
@@ -179,10 +184,10 @@ exports.DirectControlDialog = class extends Dialog {
         if (refs.volume) {
             refs.volume.className = 'volume hidden';
         }
-        let layerState = this._layerState[layer];
+        layerState = this._layerState[layer];
         for (let i = 0; i < 4; i++) {
             let state = layerState[i];
-            this._motorElements[i]
+            motorElements[i]
                 .clearAssignedTimeout()
                 .setAssigned(state.assigned)
                 .setPosition(state.position)

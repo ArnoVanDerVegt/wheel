@@ -24,11 +24,12 @@ exports.Slider = class extends Component {
         this.create(
             parentNode,
             {
-                id:        this.setElement.bind(this),
                 type:      'a',
                 href:      '#',
-                className: this.getClassName(),
                 style:     style,
+                id:        this.setElement.bind(this),
+                className: this.getClassName(),
+                tabIndex:  this._tabIndex,
                 children: [
                     {
                         ref:       this.setRef('sliderTrack'),

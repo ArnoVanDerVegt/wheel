@@ -66,14 +66,24 @@ exports.Motor = class extends DOMNode {
                         onChange:    this.onChange.bind(this)
                     },
                     {
-                        ref:         this.setRef('position'),
                         className:   'position',
-                        innerHTML:   '0'
+                        children: [
+                            {
+                                type:     Button,
+                                ref:      this.setRef('position'),
+                                ui:       this._ui,
+                                uiId:     this._uiId,
+                                tabIndex: this._tabIndex + 2,
+                                color:    'blue',
+                                value:    '0',
+                                onClick:  this.onClickReset.bind(this)
+                            }
+                        ]
                     },
                     {
                         type:        Button,
                         uiOwner:     this,
-                        tabIndex:    this._tabIndex + 2,
+                        tabIndex:    this._tabIndex + 3,
                         className:   'down',
                         value:       '↓',
                         onKeyDown:   this.onDownKeyPressed.bind(this),
@@ -122,8 +132,12 @@ exports.Motor = class extends DOMNode {
     }
 
     setPosition(position) {
-        this._refs.position.innerHTML = position;
+        this._refs.position.setValue(position);
         return this;
+    }
+
+    getSpeed() {
+        return this._speed;
     }
 
     setSpeed(speed) {
@@ -169,6 +183,10 @@ exports.Motor = class extends DOMNode {
 
     onDownReleased() {
         this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
+    }
+
+    onClickReset() {
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, this.getMotorData(0));
     }
 
     onChange(value) {
