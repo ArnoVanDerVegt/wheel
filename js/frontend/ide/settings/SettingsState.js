@@ -11,17 +11,17 @@ const IncludeFilesState = require('./IncludeFilesState').IncludeFilesState;
 exports.SettingsState = class extends Emitter {
     constructor(opts) {
         super(opts);
-        this._onLoad           = function() {};
-        this._os               = {};
-        this._isPackaged       = !!opts.isPackaged;
-        this._version          = null;
-        this._getDataProvider  = opts.getDataProvider;
-        this._documentPath     = '';
-        this._userDocumentPath = (opts.userDocumentPath || '').split('\\').join('/');
-        this._plugins          = new PluginsState({settings: this});
-        this._includeFiles     = new IncludeFilesState({settings: this});
+        this._onLoad             = function() {};
+        this._os                 = {};
+        this._isPackaged         = !!opts.isPackaged;
+        this._version            = null;
+        this._getDataProvider    = opts.getDataProvider;
+        this._documentPath       = '';
+        this._systemDocumentPath = (opts.systemDocumentPath || '').split('\\').join('/');
+        this._plugins            = new PluginsState({settings: this});
+        this._includeFiles       = new IncludeFilesState({settings: this});
         // Update...
-        this.onLoad({});
+        //this.onLoad({});
         dispatcher
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             .on('Settings.Load.New',                        this, this._loadNewSettings)
@@ -74,7 +74,12 @@ exports.SettingsState = class extends Emitter {
 
     load(onLoad) {
         this._onLoad = onLoad;
-        this._getDataProvider().getData('get', 'ide/settings-load', {}, this.onLoad.bind(this));
+        this._getDataProvider().getData(
+            'get',
+            'ide/settings-load',
+            {systemDocumentPath: this._systemDocumentPath},
+            this.onLoad.bind(this)
+        );
     }
 
     _save() {
@@ -184,8 +189,8 @@ exports.SettingsState = class extends Emitter {
         return (this._documentPath === undefined) ? '' : this._documentPath;
     }
 
-    getUserDocumentPath() {
-        return this._userDocumentPath;
+    getSystemDocumentPath() {
+        return this._systemDocumentPath;
     }
 
     getOS() {
@@ -607,7 +612,7 @@ exports.SettingsState = class extends Emitter {
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
-        this._userDocumentPath           = ('userDocumentPath'      in data)             ? data.userDocumentPath            : this._userDocumentPath;
+        this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath          : this._systemDocumentPath;
         this._show                       = ('show'                  in data)             ? data.show                        : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
         this._show.console               = ('console'               in this._show)       ? this._show.console               : true;

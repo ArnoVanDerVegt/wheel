@@ -508,9 +508,9 @@ const PoweredUpState = require('./js/frontend/vm/poweredup/PoweredUpState').Powe
                         const getDataProvider = require('./js/frontend/lib/dataprovider/dataProvider').getDataProvider;
                         ui       = new UIState();
                         settings = new SettingsState({
-                            getDataProvider:  getDataProvider,
-                            userDocumentPath: data.data,
-                            isPackaged:       data.isPackaged
+                            getDataProvider:    getDataProvider,
+                            systemDocumentPath: data.data,
+                            isPackaged:         data.isPackaged
                         });
                         settings.load(onLoadedSettings);
                     }

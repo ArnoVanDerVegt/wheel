@@ -143,6 +143,7 @@ end
 
 proc main()
     drawMotors()
+    updateScreen()
     repeat
         number lastActiveMotor = activeMotor
         number lastSpeed       = activeSpeed
@@ -162,6 +163,7 @@ proc main()
             end
             updatePosition()
             updateSpeed(lastSpeed)
+            updateScreen()
             lastSpeed = activeSpeed
         end
     end

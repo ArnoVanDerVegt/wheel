@@ -22,13 +22,22 @@ const createResultCallback = function(result, res) {
         };
     };
 
+const getSystemDocumentPath = function() {
+        let p = os.homedir();
+        if (fs.existsSync(path.join(p, 'Documents'))) {
+            p = path.join(p, 'Documents');
+        }
+        return p;
+    };
+
 exports.ideRoutes = {
-    _node:             false,
-    _directoryWatcher: null,
-    _settings:         null,
-    _cwd:              path.join(__dirname, '/../../..'),
-    _currentPath:      {},
-    _documentPath:     genericPath(path.join(os.homedir(), 'Wheel')),
+    _node:               false,
+    _directoryWatcher:   null,
+    _settings:           null,
+    _cwd:                path.join(__dirname, '/../../..'),
+    _currentPath:        {},
+    _systemDocumentPath: genericPath(getSystemDocumentPath()),
+    _documentPath:       genericPath(path.join(getSystemDocumentPath(), 'Wheel')),
 
     _onIpcMessage: function(event, arg) {
         let data;
@@ -342,6 +351,52 @@ exports.ideRoutes = {
         fs.rename(req.body.oldName, req.body.newName, createResultCallback(result, res));
     },
 
+    updateSystemDocumentPath: function(req, result) {
+        // When using electron the userDocument path is provided from an ipc call to main.js!
+        if (req && req.query && req.query.systemDocumentPath) {
+            this._systemDocumentPath  = req.query.systemDocumentPath;
+            result.systemDocumentPath = this._systemDocumentPath
+        }
+        return this;
+    },
+
+    updateDocumentPath: function(result) {
+        if ('documentPath' in result) {
+            this._documentPath = result.documentPath;
+        }
+        // The generic path should always end with "/Wheel"...
+        if (['/Wheel', '\\Wheel'].indexOf(this._documentPath.substr(-6)) === -1) {
+            this._documentPath = genericPath(path.join(this._documentPath, 'Wheel'));
+        }
+        result.documentPath       = this._documentPath;
+        result.documentPathExists = fs.existsSync(this._documentPath);
+        return this;
+    },
+
+    updateOS: function(result) {
+        result.os = {
+            homedir:  genericPath(os.homedir()),
+            platform: os.platform(),
+            arch:     os.arch(),
+            pathSep:  path.sep
+        };
+        return this;
+    },
+
+    updateSearchPath: function(result) {
+        if (!('searchPath' in result)) {
+            result.searchPath = [];
+        }
+        return this;
+    },
+
+    updateRecentProject: function(result) {
+        if (typeof result.recentProject === 'string') {
+            result.recentProject = genericPath(result.recentProject);
+        }
+        return this;
+    },
+
     settingsLoad: function(req, res) {
         let result = settings.loadFromLocalStorage();
         if (!result) {
@@ -357,38 +412,28 @@ exports.ideRoutes = {
                 result = {};
             }
         }
-        result.os = {
-            homedir:  genericPath(os.homedir()),
-            platform: os.platform(),
-            arch:     os.arch(),
-            pathSep:  path.sep
-        };
-        if (!('searchPath' in result)) {
-            result.searchPath = [];
-        }
-        if (typeof result.recentProject === 'string') {
-            result.recentProject = genericPath(result.recentProject);
-        }
-        if (fs.existsSync(result.documentPath)) {
-            this._documentPath  = genericPath(result.documentPath);
-        } else {
-            this._documentPath  = genericPath(path.join(os.homedir(), 'Wheel'));
-            result.documentPath = this._documentPath;
-        }
-        result.documentPathExists = fs.existsSync(this._documentPath);
-        this._settings            = result;
-        this._res                 = res;
+        this
+            .updateSystemDocumentPath(req, result)
+            .updateDocumentPath(result)
+            .updateOS(result)
+            .updateSearchPath(result)
+            .updateRecentProject(result);
+        this._settings = result;
         if (!this.directoryWatcher && result.documentPathExists) {
             this.directoryWatcher = new DirectoryWatcher(this._documentPath);
         }
         if (this._node) {
-            result.userDocumentPath = os.homedir();
+            this._res                 = null;
+            result.systemDocumentPath = getSystemDocumentPath();
+            res.send(JSON.stringify(result));
         } else {
+            // Save the response callback.
+            // This callback will be called from the ipcRenderer on postMessage event handler.
+            this._res = res;
             const ipcRenderer = require('electron').ipcRenderer;
             ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
             ipcRenderer.send('postMessage', {command: 'settings', settings: result});
         }
-        res.send(JSON.stringify(result));
     },
 
     settingsSave: function(req, res) {

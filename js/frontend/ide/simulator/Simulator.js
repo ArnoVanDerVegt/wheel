@@ -12,6 +12,7 @@ const SimulatorToolbar = require('./SimulatorToolbar').SimulatorToolbar;
 exports.Simulator = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        (typeof opts.id === 'function') && opts.id(this);
         this._opts      = opts;
         this._ui        = opts.ui;
         this._ev3       = opts.ev3;

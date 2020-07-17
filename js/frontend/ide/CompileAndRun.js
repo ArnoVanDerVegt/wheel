@@ -87,6 +87,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this._outputPath          = '';
         this._projectFilename     = '';
         this._source              = '';
+        this._simulator           = null;
         this._sortedFiles         = null;
         this._tokens              = null;
         this._preProcessor        = null;

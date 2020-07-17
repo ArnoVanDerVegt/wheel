@@ -26,7 +26,7 @@ exports.Setup = class extends DOMNode {
         } else {
             this._ui.pushUIId(this._uiId);
         }
-        this._homedir    = settings.getUserDocumentPath();
+        this._homedir    = settings.getSystemDocumentPath();
         this._files      = null;
         this._onFinished = opts.onFinished;
         this.initDOM(document.body);

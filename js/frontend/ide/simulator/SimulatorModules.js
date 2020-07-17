@@ -135,7 +135,17 @@ exports.SimulatorModules = class {
         }
         const getDisplay = () => {
                 let device = this.getActiveDevicePlugin();
-                return device && device.getDisplay ? device.getDisplay() : null;
+                let result = device && device.getDisplay ? device.getDisplay() : null;
+                if (!result) {
+                    dispatcher.dispatch(
+                        'Console.Log',
+                        {
+                            message:   'Warning: no display available, only EV3 has a display!',
+                            className: 'warning'
+                        }
+                    );
+                }
+                return result;
             };
         let self = this;
         this._events.push(

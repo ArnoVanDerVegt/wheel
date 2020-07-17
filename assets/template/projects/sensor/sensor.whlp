@@ -111,6 +111,7 @@ end
 
 proc main()
     drawSensors()
+    updateScreen()
     repeat
         number i
         for i = 0 to 3
@@ -119,6 +120,7 @@ proc main()
                 if value != sensorStatus[i].value
                     sensorStatus[i].value = value
                     drawValue(i)
+                    updateScreen()
                 end
             end
         end

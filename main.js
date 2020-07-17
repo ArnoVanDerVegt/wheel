@@ -20,10 +20,10 @@ const moveToApplicationsFolder = function() {
             conflictHandler: function(conflictType) {
                 if (conflictType === 'exists') {
                     return dialog.showMessageBoxSync({
-                        type: 'question',
-                        buttons: ['Halt Move', 'Continue Move'],
+                        type:      'question',
+                        buttons:   ['Halt Move', 'Continue Move'],
                         defaultId: 0,
-                        message: 'An app of this name already exists'
+                        message:   'An app of this name already exists'
                     }) === 1;
                 }
                 return true;

@@ -124,6 +124,7 @@ exports.IDE = class extends CompileAndRun {
                         editorsState:  this._editorsState
                     },
                     {
+                        id:            (simulator) => { this._simulator = simulator; },
                         type:          Simulator,
                         ui:            this._ui,
                         ev3:           this._ev3,
