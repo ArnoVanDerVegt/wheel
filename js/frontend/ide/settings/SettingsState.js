@@ -21,7 +21,7 @@ exports.SettingsState = class extends Emitter {
         this._plugins            = new PluginsState({settings: this});
         this._includeFiles       = new IncludeFilesState({settings: this});
         // Update...
-        //this.onLoad({});
+        this.onLoad({});
         dispatcher
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             .on('Settings.Load.New',                        this, this._loadNewSettings)

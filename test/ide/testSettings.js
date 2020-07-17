@@ -311,10 +311,10 @@ describe(
                     'Should get user document path',
                     function() {
                         let done     = false;
-                        let settings = new SettingsState({userDocumentPath: '/user/'});
-                        assert.equal(settings.getUserDocumentPath(), '/user/');
-                        settings = new SettingsState({userDocumentPath: '\\user\\'});
-                        assert.equal(settings.getUserDocumentPath(), '/user/');
+                        let settings = new SettingsState({systemDocumentPath: '/user/'});
+                        assert.equal(settings.getSystemDocumentPath(), '/user/');
+                        settings = new SettingsState({systemDocumentPath: '\\user\\'});
+                        assert.equal(settings.getSystemDocumentPath(), '/user/');
                     }
                 );
             }
