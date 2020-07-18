@@ -8,6 +8,14 @@ const Emitter           = require('../../lib/Emitter').Emitter;
 const PluginsState      = require('./PluginsState').PluginsState;
 const IncludeFilesState = require('./IncludeFilesState').IncludeFilesState;
 
+const IMAGE_OPEN_VIEW   = 'View';
+const IMAGE_OPEN_IMPORT = 'Import';
+const IMAGE_OPEN_ASK    = 'Ask';
+
+exports.IMAGE_OPEN_VIEW   = IMAGE_OPEN_VIEW;
+exports.IMAGE_OPEN_IMPORT = IMAGE_OPEN_IMPORT;
+exports.IMAGE_OPEN_ASK    = IMAGE_OPEN_ASK;
+
 exports.SettingsState = class extends Emitter {
     /**
      * The systemDocument path is the "real" document path e.g.: "/Users/User/Documents".
@@ -52,6 +60,10 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ActiveDevice',                this, this._setActiveDevice)
             .on('Settings.Set.DeviceAlias',                 this, this._setDeviceAlias)
             .on('Settings.Set.DevicePortAlias',             this, this._setDevicePortAlias)
+            .on('Settings.Set.ImageOpen.Bmp',               this, this._setImageOpenBmp)
+            .on('Settings.Set.ImageOpen.Png',               this, this._setImageOpenPng)
+            .on('Settings.Set.ImageOpen.Jpg',               this, this._setImageOpenJpg)
+            .on('Settings.Set.ImageOpen.Gif',               this, this._setImageOpenGif)
             .on('Settings.Set.ConsoleVisible',              this, this._setConsoleVisible)
             .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
             .on('Settings.Set.CreateEventComments',         this, this._setCreateEventComments)
@@ -166,6 +178,12 @@ exports.SettingsState = class extends Emitter {
                 autoConnect:       this._poweredUp.autoConnect,
                 deviceCount:       this._poweredUp.deviceCount
             },
+            imageOpen: {
+                bmp:               this._imageOpen.bmp,
+                png:               this._imageOpen.png,
+                jpg:               this._imageOpen.jpg,
+                gif:               this._imageOpen.gif
+            },
             sensorAutoReset:       this._sensorAutoReset,
             formGridSize:          this._formGridSize,
             plugins:               this._plugins.toJSON(),
@@ -259,6 +277,33 @@ exports.SettingsState = class extends Emitter {
 
     getDeviceCount() {
         return this._poweredUp.deviceCount || 1;
+    }
+
+    getImageOpenBmp() {
+        return this._imageOpen.bmp;
+    }
+
+    getImageOpenPng() {
+        return this._imageOpen.png;
+    }
+
+    getImageOpenJpg() {
+        return this._imageOpen.jpg;
+    }
+
+    getImageOpenGif() {
+        return this._imageOpen.gif;
+    }
+
+    getImageOpenForExtension(extension) {
+        switch (extension) {
+            case '.bmp':  return this._imageOpen.bmp;
+            case '.png':  return this._imageOpen.png;
+            case '.jpg':  return this._imageOpen.jpg;
+            case '.jpeg': return this._imageOpen.jpeg;
+            case '.gif':  return this._imageOpen.gif;
+        }
+        return IMAGE_OPEN_ASK;
     }
 
     getDaisyChainMode() {
@@ -457,6 +502,26 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.AliasPortChanged');
     }
 
+    _setImageOpenBmp(imageOpenBmp) {
+        this._imageOpen.bmp = imageOpenBmp;
+        this._save();
+    }
+
+    _setImageOpenPng(imageOpenPng) {
+        this._imageOpen.png = imageOpenPng;
+        this._save();
+    }
+
+    _setImageOpenJpg(imageOpenJpg) {
+        this._imageOpen.jpg = imageOpenJpg;
+        this._save();
+    }
+
+    _setImageOpenGif(imageOpenGif) {
+        this._imageOpen.gif = imageOpenGif;
+        this._save();
+    }
+
     _setConsoleVisible(visible) {
         this._show.console = visible;
         this._updateViewSettings();
@@ -642,6 +707,11 @@ exports.SettingsState = class extends Emitter {
         this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this._ev3.daisyChainMode         : 0;
         this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                   : {};
         this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this._poweredUp.deviceCount      : 1;
+        this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                   : {};
+        this._imageOpen.bmp              = ('bmp'                   in this._imageOpen)  ? this._imageOpen.bmp              : 'View';
+        this._imageOpen.png              = ('png'                   in this._imageOpen)  ? this._imageOpen.png              : 'View';
+        this._imageOpen.jpg              = ('jpg'                   in this._imageOpen)  ? this._imageOpen.jpg              : 'View';
+        this._imageOpen.gif              = ('gif'                   in this._imageOpen)  ? this._imageOpen.gif              : 'View';
         this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput          : false;
         this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments         : true;
         this._linter                     = ('linter'                in data)             ? data.linter                      : true;

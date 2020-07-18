@@ -28,7 +28,7 @@ exports.Dialog = class extends ComponentContainer {
     }
 
     setCloseElement(element) {
-        element.addEventListener('click', this.hide.bind(this));
+        element.addEventListener('click', this.onClose.bind(this));
     }
 
     setHelpElement(element) {
@@ -123,6 +123,10 @@ exports.Dialog = class extends ComponentContainer {
                 fileIndex: item.fileIndex
             }
         );
+    }
+
+    onClose() {
+        this.hide();
     }
 
     onGlobalMouseUp(event) {

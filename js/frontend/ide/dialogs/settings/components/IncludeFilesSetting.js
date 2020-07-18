@@ -14,6 +14,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
         this._ui       = opts.ui;
         this._uiId     = opts.uiId;
         this._settings = opts.settings;
+        this._tabIndex = opts.tabIndex;
         this.initDOM(opts.parentNode);
         this.initIncludeFileList();
         this._settings.on('Settings.IncludeFiles', this, this.initIncludeFileList);
@@ -42,7 +43,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                                 color:    'blue',
                                 ui:       this._ui,
                                 uiId:     this._uiId,
-                                tabIndex: 32,
+                                tabIndex: this._tabIndex + 1024,
                                 value:    'Add include file',
                                 onClick:  this.onAddInclude.bind(this)
                             },
@@ -51,7 +52,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                                 color:    'blue',
                                 ui:       this._ui,
                                 uiId:     this._uiId,
-                                tabIndex: 33,
+                                tabIndex: this._tabIndex + 1025,
                                 value:    'Restore default includes',
                                 onClick:  this.onRestoreDefaults.bind(this)
                             }
@@ -80,6 +81,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             className: 'sort',
                             ui:        this._ui,
                             uiId:      this._uiId,
+                            tabIndex:  this._tabIndex + index * 5 + 2,
                             title:     '▲',
                             onClick:   this.onSortUp.bind(this, index)
                         },
@@ -92,6 +94,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             value:     includeFile.file,
                             ui:        this._ui,
                             uiId:      this._uiId,
+                            tabIndex:  this._tabIndex + index * 5,
                             onBlur:    this.onChangeFile.bind(this, index)
                         }
                     ]
@@ -107,6 +110,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             className: 'sort',
                             ui:        this._ui,
                             uiId:      this._uiId,
+                            tabIndex:  this._tabIndex + index * 5 + 3,
                             title:     '▼',
                             onClick:   this.onSortDown.bind(this, index)
                         },
@@ -114,6 +118,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             type:      CloseButton,
                             ui:        this._ui,
                             uiId:      this._uiId,
+                            tabIndex:  this._tabIndex + index * 5 + 4,
                             onClick:   this.onDelete.bind(this, index)
                         },
                         {
@@ -125,6 +130,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             value:     includeFile.description,
                             ui:        this._ui,
                             uiId:      this._uiId,
+                            tabIndex:  this._tabIndex + index * 5 + 1,
                             onBlur:    this.onChangeDescription.bind(this, index)
                         }
                     ]

@@ -133,6 +133,36 @@
     float:                          left;
     width:                          calc(75% - 80px);
 }
+/* Image open settings */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings {
+    float:                          left;
+    margin:                         8px 0 16px 8px;
+    width:                          calc(100% - 40px);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings .image-setting-row {
+    float:                          left;
+    width:                          100%;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings .image-setting-row.description {
+    line-height:                    18px;
+    margin-bottom:                  16px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row .label {
+    float:                          left;
+    width:                          100px;
+    text-align:                     right;
+    line-height:                    18px;
+    padding:                        0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio a.radio-option {
+    float:                          left;
+    width:                          auto;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio a.radio-option {
+    padding-right:                  8px;
+    margin-right:                   4px;
+}
 /* Update */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {
     float:                          left;

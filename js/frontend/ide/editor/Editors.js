@@ -7,6 +7,7 @@ const path          = require('../../lib/path');
 const DOMNode       = require('../../lib/dom').DOMNode;
 const Tabs          = require('../../lib/components/Tabs').Tabs;
 const Button        = require('../../lib/components/Button').Button;
+const SettingsState = require('../settings/SettingsState');
 const tabIndex      = require('../tabIndex');
 const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
 const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
@@ -332,6 +333,46 @@ exports.Editors = class extends DOMNode {
         this.addEditor(opts, new FormEditor(opts));
     }
 
+    addImage(opts) {
+        const importImage = () => {
+                this._imageLoader.load(
+                    opts,
+                    (opts) => {
+                        this._refs.homeScreen.hide();
+                        this.addEditor(opts, new ImageEditor(opts));
+                    }
+                );
+            };
+        const addImageViewer = () => {
+                this._refs.homeScreen.hide();
+                this.addEditor(opts, new ImageViewer(opts));
+            };
+        switch (this._settings.getImageOpenForExtension(opts.extension)) {
+            case SettingsState.IMAGE_OPEN_IMPORT:
+                importImage();
+                break;
+            case SettingsState.IMAGE_OPEN_VIEW:
+                addImageViewer();
+                break;
+            case SettingsState.IMAGE_OPEN_ASK:
+                dispatcher.dispatch(
+                    'Dialog.Confirm.Show',
+                    {
+                        title: 'How do you want to load this image?',
+                        lines: [
+                            'You can convert the image "' + opts.filename + '" to',
+                            'a monochrome image for the EV3 in the editor or view it...'
+                        ],
+                        applyTitle:     'Convert image for EV3',
+                        applyCallback:  importImage,
+                        cancelTitle:    'View the image',
+                        cancelCallback: addImageViewer
+                    }
+                );
+                break;
+        }
+    }
+
     add(opts) {
         let extension = path.getExtension(opts.filename);
         if ([
@@ -344,9 +385,10 @@ exports.Editors = class extends DOMNode {
             ].indexOf(extension) === -1) {
             return null;
         }
-        this._refs.homeScreen.hide();
+        let refs   = this._refs;
         let editor = this.activateFile(opts);
         if (editor) {
+            refs.homeScreen.hide();
             return editor;
         }
         opts.ev3        = this._ev3;
@@ -355,14 +397,18 @@ exports.Editors = class extends DOMNode {
         opts.settings   = this._settings;
         opts.editors    = this;
         opts.parentNode = this._refs.sourceWrapper;
+        opts.extension  = extension;
         switch (extension) {
             case '.rgf':
+                refs.homeScreen.hide();
                 this.addEditor(opts, new ImageEditor(opts));
                 break;
             case '.rsf':
+                refs.homeScreen.hide();
                 this.addEditor(opts, new SoundEditor(opts));
                 break;
             case '.wfrm':
+                refs.homeScreen.hide();
                 this.addForm(opts);
                 break;
             case '.mp3':
@@ -371,6 +417,7 @@ exports.Editors = class extends DOMNode {
                 this._soundLoader.load(
                     opts,
                     (opts) => {
+                        refs.homeScreen.hide();
                         this.addEditor(opts, new SoundEditor(opts));
                     }
                 );
@@ -380,37 +427,38 @@ exports.Editors = class extends DOMNode {
             case '.jpg':
             case '.jpeg':
             case '.gif':
-                this._imageLoader.load(
-                    opts,
-                    (opts) => {
-                        this.addEditor(opts, new ImageEditor(opts));
-                    }
-                );
+                this.addImage(opts);
                 break;
             case '.svg':
+                refs.homeScreen.hide();
                 this.addEditor(opts, new ImageViewer(opts));
                 break;
             case '.whl':
             case '.whlp':
                 opts.mode    = 'text/x-wheel';
                 opts.gutters = ['CodeMirror-linenumbers', 'breakpoints'];
+                refs.homeScreen.hide();
                 this.addEditor(opts, new WheelEditor(opts));
                 break;
             case '.woc':
                 opts.mode    = 'text/x-woc';
                 opts.gutters = [];
+                refs.homeScreen.hide();
                 this.addEditor(opts, new WheelEditor(opts));
                 break;
             case '.vm':
+                refs.homeScreen.hide();
                 this.addEditor(opts, new VMViewer(opts));
                 break;
             case '.txt':
             case '.rtf':
+                refs.homeScreen.hide();
                 this.addEditor(opts, new TextEditor(opts));
                 break;
             case '.lms':
                 opts.mode    = 'text/x-lms';
                 opts.gutters = [];
+                refs.homeScreen.hide();
                 this.addEditor(opts, new LmsEditor(opts));
                 break;
         }

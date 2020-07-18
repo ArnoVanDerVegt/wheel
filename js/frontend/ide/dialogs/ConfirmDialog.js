@@ -40,25 +40,43 @@ exports.ConfirmDialog = class extends Dialog {
     }
 
     onApply() {
-        this._applyCallback && this._applyCallback();
-        this._dispatchApply && dispatcher.dispatch(this._dispatchApply);
         this.hide();
+        // Add a timeout to make sure that the dialog uiId is popped from the stack when the callback is called!
+        setTimeout(
+            () => {
+                this._applyCallback && this._applyCallback();
+                this._dispatchApply && dispatcher.dispatch(this._dispatchApply);
+            },
+            500
+        );
     }
 
     onCancel() {
-        this._cancelCallback && this._cancelCallback();
-        this._dispatchCancel && dispatcher.dispatch(this._dispatchCancel);
         this.hide();
+        // Add a timeout to make sure that the dialog uiId is popped from the stack when the callback is called!
+        setTimeout(
+            () => {
+                this._cancelCallback && this._cancelCallback();
+                this._dispatchCancel && dispatcher.dispatch(this._dispatchCancel);
+            },
+            500
+        );
+    }
+
+    onClose() {
+        this._onCloseCallback && this._onCloseCallback();
+        super.onClose();
     }
 
     onShow(opts) {
         let refs = this._refs;
-        this._dispatchApply  = ('dispatchApply'  in opts) ? opts.dispatchApply  : false;
-        this._dispatchCancel = ('dispatchCancel' in opts) ? opts.dispatchCancel : false;
-        this._applyCallback  = ('applyCallback'  in opts) ? opts.applyCallback  : false;
-        this._cancelCallback = ('cancelCallback' in opts) ? opts.cancelCallback : false;
-        refs.title.innerHTML = opts.title         || 'Title';
-        refs.text.innerHTML  = (opts.lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
+        this._onCloseCallback = ('onCloseCallback' in opts) ? opts.onCloseCallback : false;
+        this._dispatchApply   = ('dispatchApply'   in opts) ? opts.dispatchApply   : false;
+        this._dispatchCancel  = ('dispatchCancel'  in opts) ? opts.dispatchCancel  : false;
+        this._applyCallback   = ('applyCallback'   in opts) ? opts.applyCallback   : false;
+        this._cancelCallback  = ('cancelCallback'  in opts) ? opts.cancelCallback  : false;
+        refs.title.innerHTML  = opts.title || 'Title';
+        refs.text.innerHTML   = (opts.lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
         refs.buttonApply.setValue(opts.applyTitle || 'Ok');
         refs.buttonCancel.setValue(opts.cancelTitle || 'Cancel');
         this.show();

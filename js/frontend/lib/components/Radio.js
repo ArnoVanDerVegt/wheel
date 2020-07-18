@@ -12,6 +12,7 @@ class RadioOption extends DOMNode {
         this._option   = opts.option;
         this._radio    = opts.radio;
         this._tabIndex = opts.tabIndex;
+        this._onChange = opts.onChange;
         this.initDOM(opts.parentNode);
         opts.radio.addRadioElement(this);
     }
@@ -61,6 +62,7 @@ class RadioOption extends DOMNode {
         this._element.focus();
         if (this._focus) {
             this._radio.setValue(this._option.value);
+            (typeof this._onChange === 'function') && this._onChange(this._option.value);
         }
     }
 
@@ -109,15 +111,15 @@ exports.Radio = class extends DOMNode {
     initDOM(parentNode) {
         let children = [];
         this._options.forEach(
-            function(option, index) {
+            (option, index) => {
                 children.push({
                     type:     RadioOption,
                     tabIndex: this._tabIndex + index,
                     radio:    this,
+                    onChange: this._onChange,
                     option:   option
                 });
-            },
-            this
+            }
         );
         this.create(
             parentNode,

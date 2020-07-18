@@ -17,6 +17,7 @@ const Updater             = require('./components/Updater').Updater;
 const ExportSettings      = require('./components/ExportSettings').ExportSettings;
 const BooleanSetting      = require('./components/BooleanSetting').BooleanSetting;
 const IncludeFilesSetting = require('./components/IncludeFilesSetting').IncludeFilesSetting;
+const ImageOpenSettings   = require('./components/ImageOpenSettings').ImageOpenSettings;
 
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
@@ -86,7 +87,9 @@ exports.SettingsDialog = class extends Dialog {
                                     signal:      'Settings.Set.CreateEventComments'
                                 }),
                                 this.addHr(),
-                                this.addIncludeFilesSetting()
+                                this.addIncludeFilesSetting(),
+                                this.addHr(),
+                                this.addImageOpenSettings()
                             ]
                         },
                         {
@@ -158,7 +161,7 @@ exports.SettingsDialog = class extends Dialog {
                         this.addButton({
                             value:    'Ok',
                             onClick:  this.hide.bind(this),
-                            tabIndex: 128
+                            tabIndex: 4096
                         })
                     ]
                 }
@@ -183,6 +186,17 @@ exports.SettingsDialog = class extends Dialog {
     addIncludeFilesSetting() {
         return {
             type:     IncludeFilesSetting,
+            tabIndex: 16,
+            ui:       this._ui,
+            uiId:     this._uiId,
+            settings: this._settings
+        };
+    }
+
+    addImageOpenSettings() {
+        return {
+            type:     ImageOpenSettings,
+            tabIndex: 2048,
             ui:       this._ui,
             uiId:     this._uiId,
             settings: this._settings
