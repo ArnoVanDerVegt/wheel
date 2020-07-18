@@ -354,6 +354,24 @@ describe(
                         assert.equal(settings.getDontShowConnected(), true);
                     }
                 );
+                it(
+                    'Should set dont show open form',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getDontShowOpenForm(), false);
+                        dispatcher.dispatch('Settings.Set.DontShowOpenForm', true);
+                        assert.equal(settings.getDontShowOpenForm(), true);
+                    }
+                );
+                it(
+                    'Should set dont show theme tile',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getDontShowThemeTile(), false);
+                        dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
+                        assert.equal(settings.getDontShowThemeTile(), true);
+                    }
+                );
             }
         );
         describe(
