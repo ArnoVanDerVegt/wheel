@@ -409,5 +409,48 @@ describe(
                 );
             }
         );
+        describe(
+            'Test image open options',
+            function() {
+                it(
+                    'Should check initial open options',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getImageOpenBmp(), 'View');
+                        assert.equal(settings.getImageOpenPng(), 'View');
+                        assert.equal(settings.getImageOpenJpg(), 'View');
+                        assert.equal(settings.getImageOpenGif(), 'View');
+                    }
+                );
+                it(
+                    'Should validate options',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getValidatedImageOpenOption('View'),   'View');
+                        assert.equal(settings.getValidatedImageOpenOption('Import'), 'Import');
+                        assert.equal(settings.getValidatedImageOpenOption('Ask'),    'Ask');
+                        assert.equal(settings.getValidatedImageOpenOption('Wrong'),  'View');
+                    }
+                );
+                it(
+                    'Should set options',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getImageOpenBmp(), 'View');
+                        dispatcher.dispatch('Settings.Set.ImageOpen.Bmp', 'Ask');
+                        assert.equal(settings.getImageOpenBmp(), 'Ask');
+                        assert.equal(settings.getImageOpenPng(), 'View');
+                        dispatcher.dispatch('Settings.Set.ImageOpen.Png', 'Ask');
+                        assert.equal(settings.getImageOpenPng(), 'Ask');
+                        assert.equal(settings.getImageOpenJpg(), 'View');
+                        dispatcher.dispatch('Settings.Set.ImageOpen.Jpg', 'Ask');
+                        assert.equal(settings.getImageOpenJpg(), 'Ask');
+                        assert.equal(settings.getImageOpenGif(), 'View');
+                        dispatcher.dispatch('Settings.Set.ImageOpen.Gif', 'Ask');
+                        assert.equal(settings.getImageOpenGif(), 'Ask');
+                    }
+                );
+            }
+        );
     }
 );

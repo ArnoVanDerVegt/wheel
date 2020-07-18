@@ -2,15 +2,17 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform          = require('../../lib/platform');
-const dispatcher        = require('../../lib/dispatcher').dispatcher;
-const Emitter           = require('../../lib/Emitter').Emitter;
-const PluginsState      = require('./PluginsState').PluginsState;
-const IncludeFilesState = require('./IncludeFilesState').IncludeFilesState;
+const platform           = require('../../lib/platform');
+const dispatcher         = require('../../lib/dispatcher').dispatcher;
+const Emitter            = require('../../lib/Emitter').Emitter;
+const PluginsState       = require('./PluginsState').PluginsState;
+const IncludeFilesState  = require('./IncludeFilesState').IncludeFilesState;
 
-const IMAGE_OPEN_VIEW   = 'View';
-const IMAGE_OPEN_IMPORT = 'Import';
-const IMAGE_OPEN_ASK    = 'Ask';
+const IMAGE_OPEN_VIEW    = 'View';
+const IMAGE_OPEN_IMPORT  = 'Import';
+const IMAGE_OPEN_ASK     = 'Ask';
+
+const IMAGE_OPEN_OPTIONS = [IMAGE_OPEN_VIEW, IMAGE_OPEN_IMPORT, IMAGE_OPEN_ASK];
 
 exports.IMAGE_OPEN_VIEW   = IMAGE_OPEN_VIEW;
 exports.IMAGE_OPEN_IMPORT = IMAGE_OPEN_IMPORT;
@@ -279,6 +281,10 @@ exports.SettingsState = class extends Emitter {
         return this._poweredUp.deviceCount || 1;
     }
 
+    getValidatedDeviceCount(deviceCount) {
+        return ((deviceCount >= 1) && (deviceCount <= 4)) ? deviceCount : 1;
+    }
+
     getImageOpenBmp() {
         return this._imageOpen.bmp;
     }
@@ -295,6 +301,10 @@ exports.SettingsState = class extends Emitter {
         return this._imageOpen.gif;
     }
 
+    getValidatedImageOpenOption(option) {
+        return (IMAGE_OPEN_OPTIONS.indexOf(option) === -1) ? IMAGE_OPEN_VIEW : option;
+    }
+
     getImageOpenForExtension(extension) {
         switch (extension) {
             case '.bmp':  return this._imageOpen.bmp;
@@ -308,6 +318,10 @@ exports.SettingsState = class extends Emitter {
 
     getDaisyChainMode() {
         return this._ev3.daisyChainMode;
+    }
+
+    getValidatedDaisyChainMode(daisyChainMode) {
+        return ((daisyChainMode >= 0) && (daisyChainMode < 4)) ? daisyChainMode : 0;
     }
 
     getRecentProject() {
@@ -395,7 +409,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     _setDaisyChainMode(daisyChainMode) {
-        this._ev3.daisyChainMode = daisyChainMode;
+        this._ev3.daisyChainMode = this.getValidatedDaisyChainMode(daisyChainMode);
         this._save();
         this.emit('Settings.EV3');
     }
@@ -406,7 +420,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     _setDeviceCount(deviceCount) {
-        this._poweredUp.deviceCount = deviceCount || 1;
+        this._poweredUp.deviceCount = this.getValidatedDeviceCount(deviceCount || 1);
         this._save();
         this.emit('Settings.PoweredUp');
     }
@@ -503,22 +517,22 @@ exports.SettingsState = class extends Emitter {
     }
 
     _setImageOpenBmp(imageOpenBmp) {
-        this._imageOpen.bmp = imageOpenBmp;
+        this._imageOpen.bmp = this.getValidatedImageOpenOption(imageOpenBmp);
         this._save();
     }
 
     _setImageOpenPng(imageOpenPng) {
-        this._imageOpen.png = imageOpenPng;
+        this._imageOpen.png = this.getValidatedImageOpenOption(imageOpenPng);
         this._save();
     }
 
     _setImageOpenJpg(imageOpenJpg) {
-        this._imageOpen.jpg = imageOpenJpg;
+        this._imageOpen.jpg = this.getValidatedImageOpenOption(imageOpenJpg);
         this._save();
     }
 
     _setImageOpenGif(imageOpenGif) {
-        this._imageOpen.gif = imageOpenGif;
+        this._imageOpen.gif = this.getValidatedImageOpenOption(imageOpenGif);
         this._save();
     }
 
@@ -681,53 +695,53 @@ exports.SettingsState = class extends Emitter {
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
-        this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath          : this._systemDocumentPath;
-        this._show                       = ('show'                  in data)             ? data.show                        : {};
-        this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree              : true;
-        this._show.console               = ('console'               in this._show)       ? this._show.console               : true;
-        this._show.properties            = ('properties'            in this._show)       ? this._show.properties            : false;
-        this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator             : true;
-        this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun        : true;
-        this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                    : {};
-        this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile         : false;
-        this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm          : false;
-        this._dontShow.connected         = ('connected'             in this._dontShow)   ? this._dontShow.connected         : false;
-        this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                  : {};
-        this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width           : 1200;
-        this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height          : 800;
-        this._windowPosition             = ('windowPosition'        in data)             ? data.windowPosition              : {};
-        this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x            : 0;
-        this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y            : 0;
-        this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                    : false;
-        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                : 1;
-        this._ev3                        = ('ev3'                   in data)             ? data.ev3                         : {};
-        this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect            : false;
-        this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall            : false;
-        this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName             : '';
-        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this._ev3.daisyChainMode         : 0;
-        this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                   : {};
-        this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this._poweredUp.deviceCount      : 1;
-        this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                   : {};
-        this._imageOpen.bmp              = ('bmp'                   in this._imageOpen)  ? this._imageOpen.bmp              : 'View';
-        this._imageOpen.png              = ('png'                   in this._imageOpen)  ? this._imageOpen.png              : 'View';
-        this._imageOpen.jpg              = ('jpg'                   in this._imageOpen)  ? this._imageOpen.jpg              : 'View';
-        this._imageOpen.gif              = ('gif'                   in this._imageOpen)  ? this._imageOpen.gif              : 'View';
-        this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput          : false;
-        this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments         : true;
-        this._linter                     = ('linter'                in data)             ? data.linter                      : true;
-        this._recentProject              = ('recentProject'         in data)             ? data.recentProject               : '';
-        this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                  : '';
-        this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                 : false;
-        this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail            : false;
-        this._remoteFilesDetail          = ('remoteFilesDetail'     in data)             ? data.remoteFilesDetail           : false;
-        this._lastVersionCheckDate       = ('lastVersionCheckDate') in data              ? data.lastVersionCheckDate        : '';
-        this._resizer                    = ('resizer'               in data)             ? data.resizer                     : {};
-        this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize        : 192;
-        this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize       : 192;
-        this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                 : {};
-        this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias             : {};
-        this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset             : true;
-        this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                : 10;
+        this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath                                   : this._systemDocumentPath;
+        this._show                       = ('show'                  in data)             ? data.show                                                 : {};
+        this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
+        this._show.console               = ('console'               in this._show)       ? this._show.console                                        : true;
+        this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;
+        this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
+        this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;
+        this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                                             : {};
+        this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile                                  : false;
+        this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm                                   : false;
+        this._dontShow.connected         = ('connected'             in this._dontShow)   ? this._dontShow.connected                                  : false;
+        this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                                           : {};
+        this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width                                    : 1200;
+        this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height                                   : 800;
+        this._windowPosition             = ('windowPosition'        in data)             ? data.windowPosition                                       : {};
+        this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x                                     : 0;
+        this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y                                     : 0;
+        this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                                             : false;
+        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                                         : 1;
+        this._ev3                        = ('ev3'                   in data)             ? data.ev3                                                  : {};
+        this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect                                     : false;
+        this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall                                     : false;
+        this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName                                      : '';
+        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this.getValidatedDaisyChainMode(this._ev3.daisyChainMode) : 0;
+        this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                                            : {};
+        this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this.getValidatedDeviceCount(this._poweredUp.deviceCount) : 1;
+        this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                                            : {};
+        this._imageOpen.bmp              = ('bmp'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.bmp)     : 'View';
+        this._imageOpen.png              = ('png'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.png)     : 'View';
+        this._imageOpen.jpg              = ('jpg'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.jpg)     : 'View';
+        this._imageOpen.gif              = ('gif'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.gif)     : 'View';
+        this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput                                   : false;
+        this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments                                  : true;
+        this._linter                     = ('linter'                in data)             ? data.linter                                               : true;
+        this._recentProject              = ('recentProject'         in data)             ? data.recentProject                                        : '';
+        this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                                           : '';
+        this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                                          : false;
+        this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail                                     : false;
+        this._remoteFilesDetail          = ('remoteFilesDetail'     in data)             ? data.remoteFilesDetail                                    : false;
+        this._lastVersionCheckDate       = ('lastVersionCheckDate') in data              ? data.lastVersionCheckDate                                 : '';
+        this._resizer                    = ('resizer'               in data)             ? data.resizer                                              : {};
+        this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize                                 : 192;
+        this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize                                : 192;
+        this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                                          : {};
+        this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias                                      : {};
+        this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset                                      : true;
+        this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                         : 10;
         if (this._show.simulator) {
             this._show.properties = false;
         } else if (this._show.properties) {

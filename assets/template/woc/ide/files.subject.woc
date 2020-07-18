@@ -22,16 +22,22 @@ The virtual machine which can be executed on the EV3 brick is written in assembl
 +------------------------------+-----------+--------------------------------------------+
 
 @section Image files
-When you open an image file with the `.png`, `.gif`, `.jpg`, `.jpeg` or `.bmp` extension then an import wizard will be
+When you open an image file with the `.png`, `.gif`, `.jpg`, `.jpeg` or `.bmp` extension then an import wizard can be
 started to convert the color image to a black and white image.
+
+
+The way images are handled can be configured from the `Editor` tab in the `Settings dialog`.
+This dialog can be found in the `File` menu. You can select if the image type should be opened with
+the import dialog, should be viewed or if you should be prompted with a dialog on how to handle the loading.
 +------------------------------+-----------+--------------------------------------------+
 | Icon                         | Extension | Description                                |
 +------------------------------+-----------+--------------------------------------------+
 | @image images/files/rgf.svg  | rgf       | Robot graphic file, momochrome image file. |
-| @image images/files/png.svg  | png       | Image file.                                |
-| @image images/files/gif.svg  | gif       | Image file.                                |
-| @image images/files/jpg.svg  | jpg/jpeg  | Image file.                                |
-| @image images/files/bmp.svg  | bmp       | Image file.                                |
+| @image images/files/png.svg  | png       | Image file, can be converted or viewed.    |
+| @image images/files/gif.svg  | gif       | Image file, can be converted or viewed.    |
+| @image images/files/jpg.svg  | jpg/jpeg  | Image file, can be converted or viewed.    |
+| @image images/files/bmp.svg  | bmp       | Image file, can be converted or viewed.    |
+| @image images/files/svg.svg  | svg       | Image file, can be viewed.                 |
 +------------------------------+-----------+--------------------------------------------+
 
 @section Sound files
