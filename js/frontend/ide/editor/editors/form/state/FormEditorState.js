@@ -16,7 +16,7 @@ exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
         this._nextId             = 0;
-        this._nextParentId       = opts.nextParentId;
+        this._nextParentId       = ('nextParentId' in opts) ? opts.nextParentId : 1;
         this._settings           = opts.settings;
         this._loading            = !!opts.data;
         this._clipboard          = null;
@@ -113,12 +113,12 @@ exports.FormEditorState = class extends Emitter {
         } else {
             this.getNextId();
         }
+        this._undoStack.setEnabled(true);
+        this._loading = false;
         this
             .emit('AddForm', Object.assign({}, component))
             .updateComponents(component.id)
             .onSelectComponent(component.id);
-        this._undoStack.setEnabled(true);
-        this._loading = false;
     }
 
     peekId() {
