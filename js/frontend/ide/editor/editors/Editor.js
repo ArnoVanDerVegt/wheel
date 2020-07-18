@@ -99,6 +99,10 @@ exports.Editor = class extends DOMNode {
         return false;
     }
 
+    getEditor() {
+        return null;
+    }
+
     clearAllBreakpoints() {
     }
 

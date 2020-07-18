@@ -15,6 +15,7 @@ const TextEditor    = require('./editors/text/TextEditor').TextEditor;
 const LmsEditor     = require('./editors/text/LmsEditor').LmsEditor;
 const SoundEditor   = require('./editors/sound/SoundEditor').SoundEditor;
 const SoundLoader   = require('./editors/sound/SoundLoader').SoundLoader;
+const ImageViewer   = require('./editors/imageviewer/ImageViewer').ImageViewer;
 const ImageEditor   = require('./editors/image/ImageEditor').ImageEditor;
 const ImageLoader   = require('./editors/image/ImageLoader').ImageLoader;
 const FormEditor    = require('./editors/form/FormEditor').FormEditor;
@@ -336,7 +337,7 @@ exports.Editors = class extends DOMNode {
         if ([
                 '.rgf', '.rsf', '.rtf',
                 '.mp3', '.wav', '.ogg',
-                '.bmp', '.png', '.jpg', '.jpeg', '.gif',
+                '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.svg',
                 '.whl', '.whlp', '.vm',
                 '.txt', '.woc',
                 '.lms', '.wfrm'
@@ -385,6 +386,9 @@ exports.Editors = class extends DOMNode {
                         this.addEditor(opts, new ImageEditor(opts));
                     }
                 );
+                break;
+            case '.svg':
+                this.addEditor(opts, new ImageViewer(opts));
                 break;
             case '.whl':
             case '.whlp':

@@ -94,6 +94,10 @@
 .editor .source-wrapper .resource-wrapper .resource-options.top .label {
     height:                         48px;
     line-height:                    48px;
+    max-width:                      calc(100% - 32px);
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
 }
 .editor .source-wrapper .code-mirror-wrapper .resource-options .label.find {
     width:                          56px;
@@ -297,6 +301,7 @@
     padding:                        0 0 0 8px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource,
+.editor .source-wrapper .resource-wrapper .resource-content img.resource,
 .editor .source-wrapper .resource-wrapper .resource-content div.resource {
     position:                       absolute;
     left:                           50%;
@@ -309,8 +314,12 @@
     background-color:               var(--ui-background1);
 }
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow,
+.editor .source-wrapper .resource-wrapper .resource-content img.resource.with-shadow,
 .editor .source-wrapper .resource-wrapper .resource-content div.resource.with-shadow {
     box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.error.with-shadow {
+    padding:                        16px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content .resource-overlay {
     position:                       absolute;
