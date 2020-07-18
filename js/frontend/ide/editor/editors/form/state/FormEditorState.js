@@ -50,7 +50,8 @@ exports.FormEditorState = class extends Emitter {
             dispatcher.on('Properties.SelectComponent',   this, this.onSelectComponent)
         ];
         this.initData(opts.data || []);
-        setTimeout(this.initForm.bind(this, opts), 50);
+        let initTime = ('initTime' in opts) ? opts.initTime : 50;
+        setTimeout(this.initForm.bind(this, opts), initTime);
     }
 
     remove() {
@@ -95,10 +96,6 @@ exports.FormEditorState = class extends Emitter {
             });
         component.id = this._formId;
         this._componentList.setComponentById(component, this._formId);
-        this
-            .emit('AddForm', Object.assign({}, component))
-            .updateComponents(component.id)
-            .onSelectComponent(component.id);
         if (opts.data) {
             this._nextId = 1;
             let data = opts.data;
@@ -116,6 +113,10 @@ exports.FormEditorState = class extends Emitter {
         } else {
             this.getNextId();
         }
+        this
+            .emit('AddForm', Object.assign({}, component))
+            .updateComponents(component.id)
+            .onSelectComponent(component.id);
         this._undoStack.setEnabled(true);
         this._loading = false;
     }
