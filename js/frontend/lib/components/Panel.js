@@ -9,6 +9,9 @@ exports.Panel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'panel';
         super(opts);
+        this._settings         = opts.settings;
+        this._getDataProvider  = opts.getDataProvider;
+        this._getFormPath      = opts.getFormPath;
         this._panelConstructor = opts.panelConstructor || 'div';
         this._panelOpts        = opts.panelOpts || {};
         this._width            = opts.width     || 128;
@@ -24,6 +27,7 @@ exports.Panel = class extends Component {
     initPanel() {
         this._panels.length = 0;
         let opts = Object.assign({}, this._panelOpts);
+        opts.settings  = this._settings;
         opts.type      = this._panelConstructor;
         opts.id        = this.addPanel.bind(this);
         opts.className = 'panel-panel';
@@ -51,16 +55,11 @@ exports.Panel = class extends Component {
         while (events.length) {
             events.pop()();
         }
-        this._element.parentNode.removeChild(this._element);
+        super.remove();
     }
 
     addPanel(panel) {
         this._panels.push(panel);
-    }
-
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
     }
 
     onEvent(opts) {

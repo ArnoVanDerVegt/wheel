@@ -5,6 +5,7 @@
 const dispatcher                          = require('../../../../lib/dispatcher').dispatcher;
 const path                                = require('../../../../lib/path');
 const TabPanel                            = require('../../../../lib/components/TabPanel').TabPanel;
+const getDataProvider                     = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const Editor                              = require('../Editor').Editor;
 const Clipboard                           = require('../Clipboard');
 const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
@@ -89,12 +90,14 @@ exports.FormEditor = class extends Editor {
                     {
                         type:            FormComponent,
                         ref:             this.setRef('grid'),
+                        settings:        this._settings,
                         ui:              this._ui,
                         id:              this.setFormComponent.bind(this),
                         formEditorState: this._formEditorState,
                         form:            true,
                         design:          true,
-                        className:       'resource with-shadow form grid' + this._settings.getFormGridSize()
+                        className:       'resource with-shadow form grid' + this._settings.getFormGridSize(),
+                        getDataProvider: getDataProvider
                     }
                 ]
             }
@@ -372,5 +375,11 @@ exports.FormEditor = class extends Editor {
         refs.paste.setDisabled(!this.getCanPaste());
         dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
         return this;
+    }
+
+    saveAs(filename) {
+        super.saveAs(filename);
+        this._formEditorState.setPath(path.getPathAndFilename(filename).path);
+        dispatcher.dispatch('Editor.Changed.Filename', filename);
     }
 };

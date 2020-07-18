@@ -16,11 +16,6 @@ exports.TextInput = class extends Component {
         this.initDOM(opts.parentNode);
     }
 
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
-    }
-
     initDOM(parentNode) {
         let style = this._style || {};
         if (this._width && (parseInt(this._width, 10) >= 20)) {

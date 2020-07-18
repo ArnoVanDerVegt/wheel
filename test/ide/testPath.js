@@ -235,6 +235,12 @@ describe(
                         assert.equal(path.removePath('/match', '/match/path'), 'path');
                     }
                 );
+                it(
+                    'Should remove same path as filename',
+                    function() {
+                        assert.equal(path.removePath('/match', '/match'), '');
+                    }
+                );
             }
         );
         describe(

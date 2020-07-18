@@ -41,11 +41,6 @@ exports.CheckboxAndLabel = class extends Component {
         );
     }
 
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
-    }
-
     setDisabled(disabled) {
         super.setDisabled(disabled);
         this._refs.checkbox.setDisabled(disabled);

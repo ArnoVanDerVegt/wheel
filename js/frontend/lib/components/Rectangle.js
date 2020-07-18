@@ -35,11 +35,6 @@ exports.Rectangle = class extends Component {
         );
     }
 
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
-    }
-
     onEvent(opts) {
         let element = this._element;
         let style   = element.style;

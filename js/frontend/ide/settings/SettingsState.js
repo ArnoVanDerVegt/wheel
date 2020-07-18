@@ -9,6 +9,10 @@ const PluginsState      = require('./PluginsState').PluginsState;
 const IncludeFilesState = require('./IncludeFilesState').IncludeFilesState;
 
 exports.SettingsState = class extends Emitter {
+    /**
+     * The systemDocument path is the "real" document path e.g.: "/Users/User/Documents".
+     * The documentPath is the path where Wheel is installed e.g.: "/Users/User/Documents/Wheel".
+    **/
     constructor(opts) {
         super(opts);
         this._onLoad             = function() {};

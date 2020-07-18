@@ -50,7 +50,9 @@ class Tab extends DOMNode {
     }
 
     remove() {
-        this._element.parentNode.removeChild(this._element);
+        if (this._element && this._element.parentNode) {
+            this._element.parentNode.removeChild(this._element);
+        }
     }
 
     getTitle() {

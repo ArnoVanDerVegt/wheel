@@ -23,6 +23,7 @@ exports.IconSelect = class extends DOMNode {
     }
 
     remove() {
+        super.remove();
         this._onGlobalUIId();
     }
 

@@ -77,7 +77,7 @@ exports.ComponentList = class {
     getList() {
         let result = [];
         for (let id in this._componentsById) {
-            result.push(this._componentsById[id]);
+            result.push(this.getComponentClone(id));
         }
         return result;
     }

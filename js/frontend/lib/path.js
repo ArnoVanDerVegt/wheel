@@ -120,6 +120,9 @@ exports.addRootPath = function(path) {
 };
 
 exports.removePath = function(path, filename) {
+    if (path === filename) {
+        return '';
+    }
     if ((path !== '') && (filename.indexOf(path) === 0)) {
         return filename.substr(path.length + 1 - filename.length);
     }

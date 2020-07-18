@@ -661,6 +661,7 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'naturalSize'},
             {type: 'text',        name: 'width',        options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'height',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'src'}

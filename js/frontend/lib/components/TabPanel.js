@@ -10,6 +10,9 @@ exports.TabPanel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'tab-panels';
         super(opts);
+        this._settings         = opts.settings;
+        this._getDataProvider  = opts.getDataProvider;
+        this._getFormPath      = opts.getFormPath;
         this._design           = opts.design;
         this._containerId      = opts.containerId;
         this._panelConstructor = opts.panelConstructor || 'div';
@@ -31,12 +34,15 @@ exports.TabPanel = class extends Component {
         this._tabs.forEach(
             function(tab, index) {
                 let opts = Object.assign({}, this._panelOpts);
-                opts.type      = this._panelConstructor;
-                opts.design    = this._design;
-                opts.parentId  = this._containerId ? this._containerId[index] : null;
-                opts.id        = this.addPanel.bind(this);
-                opts.className = 'tab-panel' + ((index === this._active) ? ' visible' : '');
-                opts.children  = this._children[index] || [];
+                opts.type            = this._panelConstructor;
+                opts.getDataProvider = this._getDataProvider;
+                opts.getFormPath     = this._getFormPath;
+                opts.settings        = this._settings;
+                opts.design          = this._design;
+                opts.parentId        = this._containerId ? this._containerId[index] : null;
+                opts.id              = this.addPanel.bind(this);
+                opts.className       = 'tab-panel' + ((index === this._active) ? ' visible' : '');
+                opts.children        = this._children[index] || [];
                 children.push(opts);
             },
             this
@@ -74,7 +80,7 @@ exports.TabPanel = class extends Component {
         while (events.length) {
             events.pop()();
         }
-        this._element.parentNode.removeChild(this._element);
+        super.remove();
     }
 
     addPanel(panel) {
@@ -92,11 +98,6 @@ exports.TabPanel = class extends Component {
         this._refs.tabs.setActiveTab(this._tabs[active], '');
         this.onClickTab(active);
         return this;
-    }
-
-    remove() {
-        super.remove();
-        this._element.parentNode.removeChild(this._element);
     }
 
     onClickTab(index) {

@@ -4,6 +4,7 @@
 **/
 const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../../../lib/dom').DOMNode;
+const path                = require('../../../../lib/path');
 const getImage            = require('../../../data/images').getImage;
 const FormEditorState     = require('./state/FormEditorState');
 const EventList           = require('./state/EventList').EventList;
@@ -27,7 +28,9 @@ exports.getNextComponentParentId = function() {
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._settings         = opts.settings;
         this._design           = opts.design;
+        this._getDataProvider  = opts.getDataProvider;
         this._mouseDown        = false;
         this._mouseOffsetX     = 0;
         this._mouseOffsetY     = 0;
@@ -111,6 +114,12 @@ exports.FormComponentContainer = class extends DOMNode {
 
     getElementById(id) {
         return this._elementById[id];
+    }
+
+    getFormPath() {
+        let documentPath = this._settings.getDocumentPath();
+        let formPath     = path.removePath(documentPath, this._formEditorState.getPath());
+        return path.join(documentPath, formPath);
     }
 
     resetMouseElement() {
@@ -256,19 +265,22 @@ exports.FormComponentContainer = class extends DOMNode {
         let element;
         let formEditorState = this._formEditorState;
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
-        opts.onMouseDown  = (event) => { this.onComponentMouseDown(event, element, opts); };
-        opts.style        = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
-        opts.getImage     = getImage;
-        opts.design       = this._design;
-        opts.parentNode   = this._formElement;
-        opts.ui           = this._ui;
-        opts.uiId         = 1;
-        opts.propertyList = new PropertyList({
+        opts.onMouseDown     = (event) => { this.onComponentMouseDown(event, element, opts); };
+        opts.style           = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.getImage        = getImage;
+        opts.getFormPath     = this.getFormPath.bind(this);
+        opts.getDataProvider = this._getDataProvider;
+        opts.settings        = this._settings;
+        opts.design          = this._design;
+        opts.parentNode      = this._formElement;
+        opts.ui              = this._ui;
+        opts.uiId            = 1;
+        opts.propertyList    = new PropertyList({
             component:       component,
             componentList:   formEditorState.getComponentList(),
             formEditorState: formEditorState
         });
-        opts.eventList    = new EventList({
+        opts.eventList       = new EventList({
             component:       component,
             formEditorState: formEditorState
         });

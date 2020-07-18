@@ -86,13 +86,13 @@ exports.FormEditorState = class extends Emitter {
         let formName  = path.replaceExtension(opts.filename, '');
         let form      = opts.data ? opts.data[0] : null;
         let component = this._componentBuilder.addFormComponent({
-            type:   'form',
-            uid:    form ? form.uid    : this._componentList.getNewComponentUid(),
-            name:   form ? form.name   : (formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length)),
-            title:  form ? form.title  : formName,
-            width:  form ? form.width  : opts.width,
-            height: form ? form.height : opts.height
-        });
+                type:   formEditorConstants.COMPONENT_TYPE_FORM,
+                uid:    form ? form.uid    : this._componentList.getNewComponentUid(),
+                name:   form ? form.name   : (formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length)),
+                title:  form ? form.title  : formName,
+                width:  form ? form.width  : opts.width,
+                height: form ? form.height : opts.height
+            });
         component.id = this._formId;
         this._componentList.setComponentById(component, this._formId);
         this
@@ -100,14 +100,21 @@ exports.FormEditorState = class extends Emitter {
             .updateComponents(component.id)
             .onSelectComponent(component.id);
         if (opts.data) {
-            this._nextId = 0;
+            this._nextId = 1;
             let data = opts.data;
             for (let i = 1; i < data.length; i++) {
                 let component = data[i];
                 component.owner = this._getOwnerByParentId(component.parentId);
-                this._nextId    = Math.max(this._nextId, component.parentId);
+                if (typeof component.parentId === 'number') {
+                    this._nextId = Math.max(this._nextId, component.parentId);
+                }
+                if (typeof component.id === 'number') {
+                    this._nextId = Math.max(this._nextId, component.id);
+                }
                 this.addComponent(component);
             }
+        } else {
+            this.getNextId();
         }
         this._undoStack.setEnabled(true);
         this._loading = false;
@@ -124,6 +131,13 @@ exports.FormEditorState = class extends Emitter {
 
     getLoading() {
         return this._loading;
+    }
+
+    /**
+     * Used to change the path when the file is saved...
+    **/
+    setPath(path) {
+        this._path = path;
     }
 
     getPath() {

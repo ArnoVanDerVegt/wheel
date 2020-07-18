@@ -355,7 +355,7 @@ exports.ideRoutes = {
         // When using electron the userDocument path is provided from an ipc call to main.js!
         if (req && req.query && req.query.systemDocumentPath) {
             this._systemDocumentPath  = req.query.systemDocumentPath;
-            result.systemDocumentPath = this._systemDocumentPath
+            result.systemDocumentPath = this._systemDocumentPath;
         }
         return this;
     },
