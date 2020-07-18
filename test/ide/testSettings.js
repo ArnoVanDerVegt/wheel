@@ -223,6 +223,16 @@ describe(
                     }
                 );
                 it(
+                    'Should validate daisy chain mode',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getValidatedDaisyChainMode(-1), 0);
+                        assert.equal(settings.getValidatedDaisyChainMode(0),  0);
+                        assert.equal(settings.getValidatedDaisyChainMode(3),  3);
+                        assert.equal(settings.getValidatedDaisyChainMode(4),  0);
+                    }
+                );
+                it(
                     'Should set device name',
                     function() {
                         let done     = false;
@@ -386,6 +396,16 @@ describe(
                         assert.equal(settings.getDeviceCount(), 1);
                         dispatcher.dispatch('Settings.Set.DeviceCount', 2);
                         assert.equal(settings.getDeviceCount(), 2);
+                    }
+                );
+                it(
+                    'Should validate device count',
+                    function() {
+                        let settings = new SettingsState({});
+                        assert.equal(settings.getValidatedDeviceCount(0), 1);
+                        assert.equal(settings.getValidatedDeviceCount(1), 1);
+                        assert.equal(settings.getValidatedDeviceCount(4), 4);
+                        assert.equal(settings.getValidatedDeviceCount(5), 1);
                     }
                 );
             }
