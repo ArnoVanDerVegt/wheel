@@ -2,9 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const formEditorConstants = require('./formEditorConstants');
-const EventList           = require('./state/EventList').EventList;
-const PropertyList        = require('./state/PropertyList').PropertyList;
+const poweredUpModuleConstants = require('../../../../../shared/vm/modules/poweredUpModuleConstants');
+const sensorModuleConstants    = require('../../../../../shared/vm/modules/sensorModuleConstants');
+const formEditorConstants      = require('./formEditorConstants');
+const EventList                = require('./state/EventList').EventList;
+const PropertyList             = require('./state/PropertyList').PropertyList;
 
 exports.ComponentBuilder = class {
     constructor(opts) {
@@ -165,21 +167,27 @@ exports.ComponentBuilder = class {
     addPuDevice(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PU_DEVICE)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'PuDevice'));
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'PuDevice'))
+            .addProperty(component, 'port',         1)
+            .addProperty(component, 'device',       poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR)
         return component;
     }
 
     addEV3Motor(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_MOTOR)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Motor'));
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Motor'))
+            .addProperty(component, 'port',         0)
+            .addProperty(component, 'device',       7); // Todo: use constant for Medium motor...
         return component;
     }
 
     addEV3Sensor(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_SENSOR)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Sensor'));
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Sensor'))
+            .addProperty(component, 'port',         0)
+            .addProperty(component, 'device',       sensorModuleConstants.SENSOR_TYPE_TOUCH);
         return component;
     }
 

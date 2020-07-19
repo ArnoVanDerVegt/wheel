@@ -75,6 +75,7 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'space'
                     },
                     this.addToolOptions({
+                        ref:           formEditor.setRef('toolType'),
                         uiId:          formEditor.getUIId.bind(formEditor),
                         tabIndex:      tabIndex.FORM_COMPONENT_TYPES,
                         baseClassName: 'tool-options-toolbar',
@@ -84,7 +85,7 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-btn',       hint: {text: 'Standard<br/>components'}},
                             {icon: 'icon-tabs',      hint: {text: 'Panel<br/>components'}},
                             {icon: 'icon-image',     hint: {text: 'Graphics<br/>components'}},
-                            {icon: 'icon-pu-sensor', hint: {text: 'Sensor and motor<br/>components'}}
+                            {icon: 'icon-pu-device', hint: {text: 'Sensor and motor<br/>components'}}
                         ]
                     }),
                     {
@@ -116,8 +117,8 @@ exports.ToolbarTop = class extends Toolbar {
                             display: 'none'
                         },
                         options: [
-                            {icon: 'icon-tabs',  hint: {text: 'Tabs<br/>component'}},
-                            {icon: 'icon-panel', hint: {text: 'Panel<br/>component'}}
+                            {icon: 'icon-panel', hint: {text: 'Panel<br/>component'}},
+                            {icon: 'icon-tabs',  hint: {text: 'Tabs<br/>component'}}
                         ]
                     }),
                     this.addToolOptions({
@@ -139,13 +140,13 @@ exports.ToolbarTop = class extends Toolbar {
                         ref:           formEditor.setRef('ioTools'),
                         uiId:          formEditor.getUIId.bind(formEditor),
                         tabIndex:      tabIndex.FORM_COMPONENT,
-                        baseClassName: 'tool-options-toolbar graphics',
+                        baseClassName: 'tool-options-toolbar io-tools',
                         onSelect:      formEditor.onSelectIOComponent.bind(formEditor),
                         style: {
                             display: 'none'
                         },
                         options: [
-                            {icon: 'icon-pu-sensor',  hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
+                            {icon: 'icon-pu-device',  hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
                             {icon: 'icon-ev3-sensor', hint: {text: 'EV3 sensor<br/>display component'}},
                             {icon: 'icon-ev3-motor',  hint: {text: 'EV3 motor<br/>display component'}}
                         ]

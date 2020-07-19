@@ -39,6 +39,9 @@ exports.FormEditor = class extends Editor {
             .on('AddComponent',    this, this.updateElements)
             .on('SelectComponent', this, this.updateElements)
             .on('Undo',            this, this.updateElements);
+        this._events = [
+            dispatcher.on('FormEditor.Select.Tool', this, this.onSelectFormEditorTool)
+        ];
         this.initDom(opts.parentNode);
     }
 
@@ -70,6 +73,9 @@ exports.FormEditor = class extends Editor {
     }
 
     remove() {
+        while (this._events.length) {
+            this._events.pop()();
+        }
         this._refs.grid.remove();
         this._formEditorState.remove();
         super.remove();
@@ -172,7 +178,14 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectTool(tool) {
-        this._formEditorState.setTool(tool);
+        let formEditorState = this._formEditorState;
+        formEditorState.setTool(tool);
+    }
+
+    onSelectFormEditorTool(opts) {
+        let refs = this._refs;
+        refs.toolType.onSelectTool(opts.toolGroup);
+        refs[opts.toolType].onSelectTool(opts.toolIndex);
     }
 
     onRenameForm(opts) {
@@ -245,16 +258,18 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setStandardComponent(components[component]);
+            this.updateComponentPanel(0, component);
         }
     }
 
     onSelectPanelComponent(component) {
         const components = [
-                formEditorConstants.COMPONENT_TYPE_TABS,
-                formEditorConstants.COMPONENT_TYPE_PANEL
+                formEditorConstants.COMPONENT_TYPE_PANEL,
+                formEditorConstants.COMPONENT_TYPE_TABS
             ];
         if (component in components) {
             this._formEditorState.setPanelComponent(components[component]);
+            this.updateComponentPanel(1, component);
         }
     }
 
@@ -266,6 +281,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setGraphicsComponent(components[component]);
+            this.updateComponentPanel(2, component);
         }
     }
 
@@ -277,6 +293,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setIOComponent(components[component]);
+            this.updateComponentPanel(3, component);
         }
     }
 
@@ -348,6 +365,16 @@ exports.FormEditor = class extends Editor {
 
     render() {
         return this;
+    }
+
+    updateComponentPanel(toolGroup, toolIndex) {
+        dispatcher.dispatch(
+            'FormEditor.Select.ToolbarTool',
+            {
+                toolGroup: toolGroup,
+                toolIndex: toolIndex
+            }
+        );
     }
 
     updateSource() {

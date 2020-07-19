@@ -407,6 +407,7 @@ require('./js/frontend/ide/properties/types/TextProperty');
 require('./js/frontend/ide/properties/types/TextListProperty');
 require('./js/frontend/ide/properties/types/RgbProperty');
 require('./js/frontend/ide/properties/Properties');
+require('./js/frontend/ide/properties/Components');
 require('./js/frontend/ide/simulator/SimulatorToolbar');
 require('./js/frontend/ide/simulator/SimulatorModules');
 require('./js/frontend/ide/plugins/simulator/lib/SimulatorPlugin');

@@ -14,16 +14,16 @@ exports.EV3Sensor = class extends BasicIODevice {
             .setSpeedVisible(false)
             .setColorVisible(false)
             .setPort(opts.port || 0);
-        this.setType(opts.device || sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH);
+        this.setDevice(opts.device || sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH);
     }
 
-    setType(type) {
+    setDevice(device) {
         this._canSetSpeed = false;
         this._canSetValue = false;
         this._canSetReady = false;
         this._canSetColor = false;
         let image = false;
-        switch (type) {
+        switch (device) {
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
                 image             = 'images/ev3/microphone.png';
                 this._canSetValue = true;
@@ -80,13 +80,6 @@ exports.EV3Sensor = class extends BasicIODevice {
             this.setValueVisible(this._canSetValue);
             super.setValue(value);
         }
-    }
-
-    onEvent(opts) {
-        if ('device' in opts) {
-            opts.type = opts.device;
-        }
-        super.onEvent(opts);
     }
 };
 

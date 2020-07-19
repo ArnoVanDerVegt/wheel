@@ -29,6 +29,12 @@ exports.ToolOptions = class extends DOMNode {
         this.initDOM();
     }
 
+    remove() {
+        if (this._element && this._element.parentNode) {
+            this._element.parentNode.removeChild(this._element);
+        }
+    }
+
     initOptions() {
         let options  = this._options;
         let children = [];

@@ -13,12 +13,12 @@ exports.EV3Motor = class extends BasicIODevice {
         opts.canSetColor = false;
         super(opts);
         this.setSpeedVisible(true);
-        this.setType(opts.device || 7);
+        this.setDevice(opts.device || 7);
     }
 
-    setType(type) {
+    setDevice(device) {
         let image = false;
-        switch (type) {
+        switch (device) {
             case 7: image = 'images/ev3/motorMedium.png'; break;
             case 8: image = 'images/ev3/motorLarge.png';  break;
         }
@@ -35,13 +35,6 @@ exports.EV3Motor = class extends BasicIODevice {
         if ((port >= 0) && (port < 4)) {
             super.setPort(String.fromCharCode(65 + port));
         }
-    }
-
-    onEvent(opts) {
-        if ('device' in opts) {
-            opts.type = opts.device;
-        }
-        super.onEvent(opts);
     }
 };
 

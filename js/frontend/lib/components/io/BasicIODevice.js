@@ -179,13 +179,13 @@ exports.BasicIODevice = class extends Component.Component {
         }
     }
 
-    setType(type) {
+    setDevice(type) {
     }
 
     onEvent(opts) {
         super.onEvent(opts);
-        if ('type' in opts) {
-            this.setType(opts.type);
+        if ('device' in opts) {
+            this.setDevice(opts.device);
         }
         if ('port' in opts) {
             this.setPort(opts.port);

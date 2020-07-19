@@ -1,5 +1,5 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher        = require('../../lib/dispatcher').dispatcher;
@@ -15,6 +15,7 @@ const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
 const ColorProperty     = require('./types/ColorProperty').ColorProperty;
 const RgbProperty       = require('./types/RgbProperty').RgbProperty;
 const Event             = require('./Event').Event;
+const Components        = require('./Components').Components;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
@@ -61,6 +62,10 @@ exports.Properties = class extends DOMNode {
                             {
                                 title:   'Events',
                                 onClick: this.onClickEvents.bind(this)
+                            },
+                            {
+                                title:   'Components',
+                                onClick: this.onClickComponents.bind(this)
                             }
                         ]
                     },
@@ -86,6 +91,12 @@ exports.Properties = class extends DOMNode {
                                 className: 'event-separator'
                             }
                         ]
+                    },
+                    {
+                        type: Components,
+                        ref:  this.setRef('componentsContainer'),
+                        ui:   this._ui,
+                        uiId: this._uiId
                     }
                 ]
             }
@@ -130,12 +141,21 @@ exports.Properties = class extends DOMNode {
         let refs = this._refs;
         refs.propertiesContainer.style.display = 'block';
         refs.eventsContainer.style.display     = 'none';
+        refs.componentsContainer.setVisible(false);
     }
 
     onClickEvents() {
         let refs = this._refs;
         refs.propertiesContainer.style.display = 'none';
         refs.eventsContainer.style.display     = 'block';
+        refs.componentsContainer.setVisible(false);
+    }
+
+    onClickComponents() {
+        let refs = this._refs;
+        refs.propertiesContainer.style.display = 'none';
+        refs.eventsContainer.style.display     = 'none';
+        refs.componentsContainer.setVisible(true);
     }
 
     onSelectProperties(propertyList, formEditorState) {

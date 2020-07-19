@@ -149,6 +149,10 @@ exports.FormEditorState = class extends Emitter {
         return this._filename;
     }
 
+    getComponentTypes() {
+        return this._componentTypes;
+    }
+
     /**
      * Select the types of component: COMPONENT_TYPES_STANDARD, COMPONENT_TYPES_GRAPHICS
     **/
@@ -294,7 +298,7 @@ exports.FormEditorState = class extends Emitter {
         this._componentBuilder.addComponentForType(component, opts.type || this.getActiveAddComponentType());
         this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
-            .emit('AddComponent', Object.assign({}, component))
+            .emit('AddComponent', component)
             .updateComponents(component.id);
     }
 

@@ -39,7 +39,7 @@ const ListItem = class extends DOMNode {
         onMouseDown(event) {
             this.onCancelEvent(event);
             this._dropdown
-                .setValue(this._value)
+                .setValueAndChange(this._value)
                 .dispatchValue();
             setTimeout(this._dropdown.close.bind(this._dropdown), 500);
         }
@@ -134,6 +134,11 @@ exports.Dropdown = class extends Component {
             this._value = null;
         }
         this._valueElement.innerHTML = title;
+        return this;
+    }
+
+    setValueAndChange(value) {
+        this.setValue(value);
         if (typeof this._onChange === 'function') {
             this._onChange(value);
         }
@@ -245,11 +250,11 @@ exports.Dropdown = class extends Component {
                 }
                 if (value) {
                     this
-                        .setValue(value)
+                        .setValueAndChange(value)
                         .dispatchValue();
                 } else {
                     this
-                        .setValue(items[0].value)
+                        .setValueAndChange(items[0].value)
                         .dispatchValue();
                 }
                 refs.dropdown.className = 'dropdown focus';
@@ -264,7 +269,7 @@ exports.Dropdown = class extends Component {
                 }
                 if (value) {
                     this
-                        .setValue(value)
+                        .setValueAndChange(value)
                         .dispatchValue();
                 }
                 refs.dropdown.className = 'dropdown focus';

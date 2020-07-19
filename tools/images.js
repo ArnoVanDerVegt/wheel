@@ -43,13 +43,24 @@ output += 'exports.getImage = function(src) { return files[src.toLowerCase()] ||
 
 fs.writeFileSync('../js/frontend/ide/data/images.js', output);
 
-let css = fs.readFileSync('../css/components/button.css').toString();
-for (let file in fileByName) {
-    console.log('Check:', file);
-    let i = css.indexOf(file);
-    while (i !== -1) {
-        css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
-        i   = css.indexOf(file);
-    }
-}
-fs.writeFileSync('../css/components/button.css', css);
+const updateCssImages = (inputFilename, outputFilename) => {
+        let css = fs.readFileSync(inputFilename).toString();
+        for (let file in fileByName) {
+            console.log('Check:', file);
+            let i = css.indexOf(file);
+            while (i !== -1) {
+                css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
+                i   = css.indexOf(file);
+            }
+        }
+        fs.writeFileSync(outputFilename, css);
+    };
+updateCssImages(
+    '../css/components/button.temp.css',
+    '../css/components/button.css'
+);
+updateCssImages(
+    '../css/properties/properties.temp.css',
+    '../css/properties/properties.css'
+);
+

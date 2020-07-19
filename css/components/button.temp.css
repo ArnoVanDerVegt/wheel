@@ -503,17 +503,17 @@ input[type="button"].icon-button.icon-image {
 body.ide.dark input[type="button"].icon-button.icon-image {
     background-image:               url('images/buttons/imageWhite.svg');
 }
-input[type="button"].icon-button.icon-pu-sensor {
-    background-image:               url('images/buttons/puSensorBlack.svg');
+input[type="button"].icon-button.icon-pu-device {
+    background-image:               url('images/buttons/puDeviceBlack.svg');
 }
-body.ide.dark input[type="button"].icon-button.icon-pu-sensor {
-    background-image:               url('images/buttons/ev3SensorWhite.svg');
+body.ide.dark input[type="button"].icon-button.icon-pu-device {
+    background-image:               url('images/buttons/puDeviceWhite.svg');
 }
 input[type="button"].icon-button.icon-ev3-sensor {
     background-image:               url('images/buttons/ev3SensorBlack.svg');
 }
 body.ide.dark input[type="button"].icon-button.icon-ev3-sensor {
-    background-image:               url('images/buttons/puSensorWhite.svg');
+    background-image:               url('images/buttons/ev3SensorWhite.svg');
 }
 input[type="button"].icon-button.icon-ev3-motor {
     background-image:               url('images/buttons/ev3MotorBlack.svg');
@@ -531,10 +531,10 @@ body.ide.dark input[type="button"].icon-button.icon-tabs,
 body.ide.dark input[type="button"].icon-button.icon-panel,
 body.ide.dark input[type="button"].icon-button.icon-status-light,
 body.ide.dark input[type="button"].icon-button.icon-image,
-body.ide.dark input[type="button"].icon-button.icon-pu-sensor,
+body.ide.dark input[type="button"].icon-button.icon-pu-device,
 body.ide.dark input[type="button"].icon-button.icon-ev3-sensor,
 body.ide.dark input[type="button"].icon-button.icon-ev3-motor,
-input[type="button"].icon-button.icon-pu-sensor,
+input[type="button"].icon-button.icon-pu-device,
 input[type="button"].icon-button.icon-ev3-sensor,
 input[type="button"].icon-button.icon-ev3-motor,
 input[type="button"].icon-button.icon-move,
@@ -550,11 +550,11 @@ input[type="button"].icon-button.icon-image {
 }
 
 body.ide.dark input[type="button"].icon-button.icon-image,
-body.ide.dark input[type="button"].icon-button.icon-pu-sensor,
+body.ide.dark input[type="button"].icon-button.icon-pu-device,
 body.ide.dark input[type="button"].icon-button.icon-ev3-sensor,
 body.ide.dark input[type="button"].icon-button.icon-ev3-motor,
 input[type="button"].icon-button.icon-image,
-input[type="button"].icon-button.icon-pu-sensor,
+input[type="button"].icon-button.icon-pu-device,
 input[type="button"].icon-button.icon-ev3-sensor,
 input[type="button"].icon-button.icon-ev3-motor {
     background-position:            2.5px 3.5px;

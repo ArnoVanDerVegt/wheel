@@ -32,8 +32,8 @@ describe(
                     'Should check defaults',
                     function() {
                         let settings = new SettingsState({});
+                        assert.equal(settings.getConsoleVisible(),      true);
                         assert.equal(settings.getShowFileTree(),       true);
-                        assert.equal(settings.getShowConsole(),        true);
                         assert.equal(settings.getShowSimulator(),      true);
                         assert.equal(settings.getShowSimulatorOnRun(), true);
                         assert.equal(settings.getCreateVMTextOutput(), false);
@@ -100,8 +100,8 @@ describe(
                         let settings = new SettingsState({});
                         settings.on('Settings.View', this, function() { done = true; });
                         dispatcher.dispatch('Settings.Toggle.ShowConsole');
-                        assert.equal(done,                      true);
-                        assert.equal(settings.getShowConsole(), false);
+                        assert.equal(done,                         true);
+                        assert.equal(settings.getConsoleVisible(), false);
                     }
                 );
                 it(
