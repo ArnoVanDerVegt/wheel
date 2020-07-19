@@ -105,7 +105,7 @@ exports.Components = class extends DOMNode {
                             {image: 'ev3-sensor',  hint: 'EV3 sensor<br/>component'},
                             {image: 'ev3-motor',   hint: 'EV3 motor<br/>component'}
                         ]
-                    }),
+                    })
                 ]
             }
         );

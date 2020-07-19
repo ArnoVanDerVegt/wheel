@@ -113,8 +113,10 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PANEL)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Panel'))
             .addProperty(component, 'width',        200)
-            .addProperty(component, 'height',       128)
-            .addProperty(component, 'containerId',  [this._formEditorState.peekId()]);
+            .addProperty(component, 'height',       128);
+        if (!('containerIds' in component)) {
+            this.addProperty(component, 'containerIds', [this._formEditorState.peekId()]);
+        }
         return component;
     }
 
@@ -125,8 +127,8 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'tabs',         ['Tab(1)', 'Tab(2)'])
             .addProperty(component, 'width',        200)
             .addProperty(component, 'height',       128);
-        if (!('containerId' in component)) {
-            this.addProperty(component, 'containerId', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
+        if (!('containerIds' in component)) {
+            this.addProperty(component, 'containerIds', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
         }
         return component;
     }
@@ -169,7 +171,7 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PU_DEVICE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'PuDevice'))
             .addProperty(component, 'port',         1)
-            .addProperty(component, 'device',       poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR)
+            .addProperty(component, 'device',       poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
         return component;
     }
 

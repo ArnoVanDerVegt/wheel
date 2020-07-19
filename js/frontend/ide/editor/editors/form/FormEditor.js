@@ -2,29 +2,27 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher                          = require('../../../../lib/dispatcher').dispatcher;
-const path                                = require('../../../../lib/path');
-const TabPanel                            = require('../../../../lib/components/TabPanel').TabPanel;
-const getDataProvider                     = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
-const Editor                              = require('../Editor').Editor;
-const Clipboard                           = require('../Clipboard');
-const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
-const ToolbarBottom                       = require('./toolbar/ToolbarBottom').ToolbarBottom;
-const FormEditorState                     = require('./state/FormEditorState').FormEditorState;
-const formEditorConstants                 = require('./formEditorConstants');
-const FormComponent                       = require('./FormComponent').FormComponent;
-const getFormComponentContainerByParentId = require('./FormComponentContainer').getFormComponentContainerByParentId;
-const getNextComponentParentId            = require('./FormComponentContainer').getNextComponentParentId;
-const SourceBuilder                       = require('./SourceBuilder').SourceBuilder;
+const dispatcher                             = require('../../../../lib/dispatcher').dispatcher;
+const path                                   = require('../../../../lib/path');
+const TabPanel                               = require('../../../../lib/components/TabPanel').TabPanel;
+const getDataProvider                        = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
+const Editor                                 = require('../Editor').Editor;
+const Clipboard                              = require('../Clipboard');
+const ToolbarTop                             = require('./toolbar/ToolbarTop').ToolbarTop;
+const ToolbarBottom                          = require('./toolbar/ToolbarBottom').ToolbarBottom;
+const FormEditorState                        = require('./state/FormEditorState').FormEditorState;
+const formEditorConstants                    = require('./formEditorConstants');
+const FormComponent                          = require('./FormComponent').FormComponent;
+const getFormComponentContainerByContainerId = require('./FormComponentContainer').getFormComponentContainerByContainerId;
+const SourceBuilder                          = require('./SourceBuilder').SourceBuilder;
 
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
-        opts.getOwnerByParentId = getFormComponentContainerByParentId;
-        opts.nextParentId       = getNextComponentParentId();
-        this._settings          = opts.settings;
-        this._sourceBuilder     = new SourceBuilder({settings: opts.settings});
-        this._formEditorState   = new FormEditorState(opts);
+        opts.getOwnerByContainerId = getFormComponentContainerByContainerId;
+        this._settings             = opts.settings;
+        this._sourceBuilder        = new SourceBuilder({settings: opts.settings});
+        this._formEditorState      = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
             .on('ChangeEvent',     this, this.onChangeEvent)
@@ -100,6 +98,7 @@ exports.FormEditor = class extends Editor {
                         ui:              this._ui,
                         id:              this.setFormComponent.bind(this),
                         formEditorState: this._formEditorState,
+                        containerId:     1,
                         form:            true,
                         design:          true,
                         className:       'resource with-shadow form grid' + this._settings.getFormGridSize(),
@@ -162,10 +161,10 @@ exports.FormEditor = class extends Editor {
             let element           = this._formComponent.getElementById(activeComponentId);
             if (element && (element instanceof TabPanel)) {
                 parentId = parentId[element.getActive()];
-                owner    = getFormComponentContainerByParentId(parentId);
+                owner    = getFormComponentContainerByContainerId(parentId);
             }
         } else {
-            owner = getFormComponentContainerByParentId(parentId);
+            owner = getFormComponentContainerByContainerId(parentId);
             // Todo: show active tab panel!
         }
         if (owner) {

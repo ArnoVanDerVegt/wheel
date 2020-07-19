@@ -22,9 +22,9 @@ exports.ComponentList = class {
         delete component.propertyList;
         delete component.eventList;
         delete component.children;
-        if ('containerId' in component) {
-            // Make a new copy of the containerId array:
-            component.containerId = [].concat(component.containerId);
+        if ('containerIds' in component) {
+            // Make a new copy of the containerIds array:
+            component.containerIds = [].concat(component.containerIds);
         }
         return component;
     }
@@ -113,10 +113,10 @@ exports.ComponentList = class {
     getChildComponents(component) {
         let children = [];
         const getChildren = (component) => {
-                if (!component.containerId) {
+                if (!component.containerIds) {
                     return children;
                 }
-                component.containerId.forEach((containerId) => {
+                component.containerIds.forEach((containerId) => {
                     let items = this.getItemsByParentId(containerId);
                     children.push.apply(children, items);
                     items.forEach((component) => {
@@ -157,15 +157,15 @@ exports.ComponentList = class {
             let component = componentsById[id];
             if (renumIds) {
                 component.id = getId(id);
-                if ('containerId' in component) {
-                    let containerId = component.containerId;
-                    for (let i = 0; i < containerId.length; i++) {
-                        let oldParentId = containerId[i];
+                if ('containerIds' in component) {
+                    let containerIds = component.containerIds;
+                    for (let i = 0; i < containerIds.length; i++) {
+                        let oldParentId = containerIds[i];
                         let newParentId = getId(oldParentId);
                         if (newParentId !== oldParentId) {
                             updateParentId(oldParentId, newParentId);
                         }
-                        containerId[i] = newParentId;
+                        containerIds[i] = newParentId;
                     }
                 }
             }
@@ -211,7 +211,7 @@ exports.ComponentList = class {
         if ((id === null) || !componentsById[id]) {
             return null;
         }
-        let parentId  = componentsById[id].owner.getParentId();
+        let parentId  = componentsById[id].owner.getContainerId();
         let component = this.getComponentClone(id);
         component.parentId      = parentId;
         this._activeComponentId = null;
@@ -238,9 +238,9 @@ exports.ComponentList = class {
                 for (let id in componentsById) {
                     let component = componentsById[id];
                     if (component.parentId === parentId) {
-                        let containerId = component.containerId || [];
-                        for (let i = 0; i < containerId.length; i++) {
-                            findNestedComponents(children, containerId[i]);
+                        let containerIds = component.containerIds || [];
+                        for (let i = 0; i < containerIds.length; i++) {
+                            findNestedComponents(children, containerIds[i]);
                         }
                         children.push(this.getComponentClone(id));
                         delete this._componentsById[id];
@@ -249,14 +249,14 @@ exports.ComponentList = class {
                 }
             };
         if (value.length > component.tabs.length) {
-            component.containerId.push(this._formEditorState.getNextId() + 1);
+            component.containerIds.push(this._formEditorState.getNextId() + 1);
             this._undoStack.undoStackPush({
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id
             });
             this._formEditorState.emit('AddUndo');
         } else if (value.length < component.tabs.length) {
-            let parentId = component.containerId.pop();
+            let parentId = component.containerIds.pop();
             let children = [];
             findNestedComponents(children, parentId);
             this._undoStack.undoStackPush({
@@ -271,8 +271,8 @@ exports.ComponentList = class {
 
     addTab(opts, parentId) {
         let component = this._componentsById[opts.id];
-        if (component && component.containerId) {
-            component.containerId.push(parentId);
+        if (component && component.containerIds) {
+            component.containerIds.push(parentId);
         }
     }
 };

@@ -11,18 +11,20 @@ const EventList           = require('./state/EventList').EventList;
 const PropertyList        = require('./state/PropertyList').PropertyList;
 const formEditorConstants = require('./formEditorConstants');
 
-let formComponentContainerByParentId = {};
+/**
+ * - All components except for the form have a parentId.
+ *
+ * - If a component can contain other components then it has a list called `containerIds`.
+ * - The child component(s) of that component have a parentId which is equal to a value
+ *   in the `componentIds` list.
+ *
+ * - The form component does not have a `containerIds` property.
+**/
 
-exports.getFormComponentContainerByParentId = function(parentId) {
-    return formComponentContainerByParentId[parentId] || null;
-};
+let formComponentContainerByContainerId = {};
 
-exports.getNextComponentParentId = function() {
-    let parentId = 1;
-    while (formComponentContainerByParentId[parentId]) {
-        parentId += 10240;
-    }
-    return parentId;
+exports.getFormComponentContainerByContainerId = (containerId) => {
+    return formComponentContainerByContainerId[containerId] || null;
 };
 
 exports.FormComponentContainer = class extends DOMNode {
@@ -49,15 +51,11 @@ exports.FormComponentContainer = class extends DOMNode {
             this._formEditorState.on('ChangeProperty',  this, this.onChangeProperty),
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty)
         ];
-        // If the container is a form then the parentId will have and interval of 10240:
-        // The first container parentId is 10241, the second 20481, the third 30721, etc.
-        // The components on the form which can have children will have a parentId in between.
-        // For example: 20482, 20483, 20484, etc.
-        this._parentId = opts.form ? exports.getNextComponentParentId() : opts.parentId;
-        if (!this._parentId) {
-            throw new Error('Invalid parent id for form: ' + this._parentId);
+        if (!opts.containerId) {
+            throw new Error('Missing container id');
         }
-        formComponentContainerByParentId[this._parentId] = this;
+        this._containerId                                     = opts.containerId;
+        formComponentContainerByContainerId[opts.containerId] = this;
         this.initDOM(opts.parentNode);
         opts.id && opts.id(this);
     }
@@ -78,13 +76,13 @@ exports.FormComponentContainer = class extends DOMNode {
             events.pop()();
         }
         this._formElement.parentNode.removeChild(this._formElement);
-        // Remove garbage in the range of the form ids:
-        let maxId = ~~(this._parentId / 10240) * 10240 + 10240;
-        for (let id in formComponentContainerByParentId) {
-            if ((id >= this._parentId) && (id < maxId)) {
-                delete formComponentContainerByParentId[id];
-            }
-        }
+        // - Remove garbage in the range of the form ids:
+        // - let maxId = ~~(this._parentId / 10240) * 10240 + 10240;
+        // - for (let id in formComponentContainerByParentId) {
+        // -     if ((id >= this._parentId) && (id < maxId)) {
+        // -         delete formComponentContainerByParentId[id];
+        // -     }
+        // - }
     }
 
     getFormElement() {
@@ -108,8 +106,8 @@ exports.FormComponentContainer = class extends DOMNode {
         this._formElement.className = className + ' parent';
     }
 
-    getParentId() {
-        return this._parentId;
+    getContainerId() {
+        return this._containerId;
     }
 
     getElementById(id) {
@@ -174,7 +172,7 @@ exports.FormComponentContainer = class extends DOMNode {
                 x:        event.offsetX,
                 y:        event.offsetY,
                 owner:    this,
-                parentId: this._parentId
+                parentId: this._containerId
             });
         }
     }
@@ -234,7 +232,7 @@ exports.FormComponentContainer = class extends DOMNode {
                 opts.panelOpts        = {
                     formEditorState: this._formEditorState,
                     ui:              this._ui,
-                    containerId:     opts.containerId
+                    containerIds:    opts.containerIds
                 };
                 break;
             case formEditorConstants.COMPONENT_TYPE_TABS:
@@ -242,7 +240,7 @@ exports.FormComponentContainer = class extends DOMNode {
                 opts.panelOpts        = {
                     formEditorState: this._formEditorState,
                     ui:              this._ui,
-                    containerId:     opts.containerId
+                    containerIds:    opts.containerIds
                 };
                 break;
         }

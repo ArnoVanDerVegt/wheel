@@ -6,12 +6,12 @@ const formEditorConstants = require('../formEditorConstants');
 
 exports.UndoStack = class {
     constructor(opts) {
-        this._getOwnerByParentId = opts.getOwnerByParentId;
-        this._componentBuilder   = opts.componentBuilder;
-        this._componentList      = opts.componentList;
-        this._formEditorState    = opts.formEditorState;
-        this._undoStack          = [];
-        this._enabled            = false;
+        this._getOwnerByContainerId = opts.getOwnerByContainerId;
+        this._componentBuilder      = opts.componentBuilder;
+        this._componentList         = opts.componentList;
+        this._formEditorState       = opts.formEditorState;
+        this._undoStack             = [];
+        this._enabled               = false;
     }
 
     setEnabled(enabled) {
@@ -58,7 +58,7 @@ exports.UndoStack = class {
         let componentBuilder = this._componentBuilder;
         let component;
         let addComponent = (component) => {
-                component.owner = this._getOwnerByParentId(component.parentId);
+                component.owner = this._getOwnerByContainerId(component.parentId);
                 componentList.setComponentById(component, component.id);
                 componentBuilder.addComponentForType(component, component.type);
                 return component;
@@ -113,11 +113,11 @@ exports.UndoStack = class {
                             parentMap[component.parentId] = id;
                             id++;
                         }
-                        let containerId = component.containerId;
-                        if (containerId) {
-                            for (let i = 0; i < containerId.length; i++) {
-                                if (!(containerId[i] in parentMap)) {
-                                    parentMap[containerId[i]] = id;
+                        let containerIds = component.containerIds;
+                        if (containerIds) {
+                            for (let i = 0; i < containerIds.length; i++) {
+                                if (!(containerIds[i] in parentMap)) {
+                                    parentMap[containerIds[i]] = id;
                                     id++;
                                 }
                             }
@@ -129,14 +129,14 @@ exports.UndoStack = class {
                 item.children.forEach(
                     function(component) {
                         component.parentId = parentMap[component.parentId];
-                        let containerId;
+                        let containerIds;
                         if (component.type === formEditorConstants.COMPONENT_TYPE_PANEL) {
-                            containerId = component.containerId;
-                            containerId[i] = parentMap[containerId[0]];
+                            containerIds = component.containerIds;
+                            containerIds[i] = parentMap[containerIds[0]];
                         } else if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
-                            containerId = component.containerId;
-                            for (let i = 0; i < containerId.length; i++) {
-                                containerId[i] = parentMap[containerId[i]];
+                            containerIds = component.containerIds;
+                            for (let i = 0; i < containerIds.length; i++) {
+                                containerIds[i] = parentMap[containerIds[i]];
                             }
                         }
                         addComponent(component);

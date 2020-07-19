@@ -187,10 +187,10 @@ exports.FormDialog = class extends Dialog {
                         case formEditorConstants.COMPONENT_TYPE_TABS:
                             component.type     = TabPanel;
                             component.children = [];
-                            let containerId = component.containerId;
-                            containerId.forEach((container) => {
+                            let containerIds = component.containerIds;
+                            containerIds.forEach((containerId) => {
                                 let children = [];
-                                componentById[container] = children;
+                                componentById[containerId] = children;
                                 component.children.push(children);
                             });
                             parent.push(this.getComponentEvents(component));

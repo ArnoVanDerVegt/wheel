@@ -14,7 +14,7 @@ exports.TabPanel = class extends Component {
         this._getDataProvider  = opts.getDataProvider;
         this._getFormPath      = opts.getFormPath;
         this._design           = opts.design;
-        this._containerId      = opts.containerId;
+        this._containerIds     = opts.containerIds;
         this._panelConstructor = opts.panelConstructor || 'div';
         this._panelOpts        = opts.panelOpts || {};
         this._width            = opts.width     || 128;
@@ -39,7 +39,7 @@ exports.TabPanel = class extends Component {
                 opts.getFormPath     = this._getFormPath;
                 opts.settings        = this._settings;
                 opts.design          = this._design;
-                opts.parentId        = this._containerId ? this._containerId[index] : null;
+                opts.containerId     = this._containerIds ? this._containerIds[index] : null;
                 opts.id              = this.addPanel.bind(this);
                 opts.className       = 'tab-panel' + ((index === this._active) ? ' visible' : '');
                 opts.children        = this._children[index] || [];
@@ -89,6 +89,7 @@ exports.TabPanel = class extends Component {
 
     addTab() {
         let opts = Object.assign({}, this._panelOpts);
+        opts.panel     = true;
         opts.type      = this._panelConstructor;
         opts.design    = this._design;
         opts.id        = this.addPanel.bind(this);
