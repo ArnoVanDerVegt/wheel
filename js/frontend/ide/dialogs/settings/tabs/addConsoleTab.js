@@ -28,7 +28,7 @@ exports.tab = (settingsDialog, opts) => {
                     dispatcher.dispatch('Settings.Set.Console.ShowOnLevel', value);
                 }
             }),
-            settingsDialog.addTitle('Maximum size (10..10000'),
+            settingsDialog.addTitle('Maximum size (10..10000)'),
             settingsDialog.addTextInputSetting({
                 label:    'Message count',
                 tabIndex: 2,
