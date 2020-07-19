@@ -2,6 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const Console = require('./console/Console');
+
 exports.CompileAndRunInstall = class {
     constructor(opts) {
         this._settings = opts.settings;
@@ -47,8 +49,8 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Created remote directory <i>' + remoteDirectory + '</i>',
-                        className: 'ok'
+                        type:    Console.MESSAGE_TYPE_HINT,
+                        message: 'Created remote directory <i>' + remoteDirectory + '</i>'
                     }
                 );
             },
@@ -56,8 +58,8 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Downloaded VM.',
-                        className: 'ok'
+                        type:    Console.MESSAGE_TYPE_HINT,
+                        message: 'Downloaded VM.'
                     }
                 );
             },
@@ -65,8 +67,8 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Downloaded program.',
-                        className: 'ok'
+                        type:    Console.MESSAGE_TYPE_HINT,
+                        message: 'Downloaded program.'
                     }
                 );
                 let resourceCount = resources.getResources().length;
@@ -74,6 +76,7 @@ exports.CompileAndRunInstall = class {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
+                            type:      Console.MESSAGE_TYPE_INFO,
                             message:   'Downloading ' + resourceCount + ' resource' + (resourceCount ? 's' : ''),
                             messageId: messageId
                         }
@@ -84,6 +87,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
+                        type:            Console.MESSAGE_TYPE_INFO,
                         message:         'Downloaded file <i>' + filename + '</i>',
                         parentMessageId: messageId
                     }
@@ -93,8 +97,8 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Download finished.',
-                        className: 'ok'
+                        type:    Console.MESSAGE_TYPE_HINT,
+                        message: 'Download finished.'
                     }
                 );
             }

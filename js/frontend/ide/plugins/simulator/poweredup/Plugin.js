@@ -6,6 +6,7 @@ const poweredUpModuleConstants = require('../../../../../shared/vm/modules/power
 const dispatcher               = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode                  = require('../../../../lib/dom').DOMNode;
 const TextInput                = require('../../../../lib/components/TextInput').TextInput;
+const Console                  = require('../../../console/Console');
 const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin                   = require('../lib/motor/Plugin').Plugin;
 const MotorOrSensor            = require('./io/MotorOrSensor').MotorOrSensor;
@@ -217,8 +218,8 @@ exports.Plugin = class extends Plugin {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Error: Can\'t assign motor type to <i>Move Hub</i> port "A" or "B".',
-                        className: 'error'
+                        type:      Console.MESSAGE_TYPE_ERROR,
+                        message:   'Error: Can\'t assign motor type to <i>Move Hub</i> port "A" or "B".'
                     }
                 );
                 this._assignmentError = true;

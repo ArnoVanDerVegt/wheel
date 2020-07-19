@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Component = require('../Component').Component;
-const ListItem  = require('./ListItem').ListItem;
+const Component   = require('../Component').Component;
+const LoadingDots = require('../LoadingDots').LoadingDots;
+const ListItem    = require('./ListItem').ListItem;
 
 exports.List = class extends Component {
     constructor(opts) {
@@ -25,7 +26,12 @@ exports.List = class extends Component {
             {
                 ref:       this.setRef('list'),
                 className: this.getClassName(),
-                children:  this.initListItems()
+                children:  [
+                    {
+                        ref:  this.setRef('loadingDots'),
+                        type: LoadingDots
+                    }
+                ].concat(this.initListItems())
             }
         );
     }
@@ -73,9 +79,10 @@ exports.List = class extends Component {
 
     clear() {
         let list = this._refs.list;
-        while (list.childNodes.length) {
-            list.removeChild(list.childNodes[0]);
+        while (list.childNodes.length > 1) {
+            list.removeChild(list.childNodes[1]);
         }
+        this._refs.loadingDots.setVisible(true);
     }
 
     focus() {
@@ -87,6 +94,7 @@ exports.List = class extends Component {
     setItems(items) {
         let index = this.getSelectedIndex();
         this.clear();
+        this._refs.loadingDots.setVisible(items.length === 0);
         this._items     = items;
         this._listItems = this.initListItems();
         if (this._listItems[index]) {

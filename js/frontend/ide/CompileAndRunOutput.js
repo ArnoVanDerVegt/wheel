@@ -6,6 +6,7 @@ const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvi
 const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const Log             = require('./console/Log');
+const Console         = require('./console/Console');
 
 exports.CompileAndRunOutput = class {
     constructor(opts) {
@@ -38,9 +39,9 @@ exports.CompileAndRunOutput = class {
             dispatcher.dispatch(
                 'Console.Log',
                 {
+                    type:            Console.MESSAGE_TYPE_ERROR,
                     parentMessageId: resourceMessageId,
-                    message:         'Failed to load resource <i>' + filename + '</i>',
-                    className:       'error'
+                    message:         'Failed to load resource <i>' + filename + '</i>'
                 }
             );
             return;
@@ -52,6 +53,7 @@ exports.CompileAndRunOutput = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
+                        type:            Console.MESSAGE_TYPE_INFO,
                         parentMessageId: resourceMessageId,
                         message:         'Loaded resource <i>' + filename + '</i>'
                     }
@@ -62,6 +64,7 @@ exports.CompileAndRunOutput = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
+                        type:            Console.MESSAGE_TYPE_INFO,
                         parentMessageId: resourceMessageId,
                         message:         'Loaded resource <i>' + filename + '</i>'
                     }
@@ -84,6 +87,7 @@ exports.CompileAndRunOutput = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
+                        type:            Console.MESSAGE_TYPE_HINT,
                         parentMessageId: resourceMessageId,
                         message:         'Saved resource ' +
                             '<i>' + path.removePath(documentPath, path.join(outputPath, pathAndFilename.filename)) + '</i>'
@@ -112,6 +116,7 @@ exports.CompileAndRunOutput = class {
             dispatcher.dispatch(
                 'Console.Log',
                 {
+                    type:      Console.MESSAGE_TYPE_INFO,
                     message:   'Processing ' + resourcesList.length + ' resource' + ((resourcesList.length > 1) ? 's' : ''),
                     messageId: this._resourceMessageId
                 }
@@ -131,8 +136,9 @@ exports.CompileAndRunOutput = class {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            message: 'Processed resource ' +
-                                '<i>' + path.removePath(documentPath, path.join(outputPath, pathAndFilename.filename)) + '</i>',
+                            type:            Console.MESSAGE_TYPE_INFO,
+                            message:         'Processed resource ' +
+                                                '<i>' + path.removePath(documentPath, path.join(outputPath, pathAndFilename.filename)) + '</i>',
                             parentMessageId: this._resourceMessageId
                         }
                     );

@@ -20,6 +20,7 @@ const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Mo
 const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
+const Console             = require('../../console/Console');
 
 exports.FormDialog = class extends Dialog {
     constructor(opts) {
@@ -46,8 +47,8 @@ exports.FormDialog = class extends Dialog {
             dispatcher.dispatch(
                 'Console.Log',
                 {
-                    message:   'Warning: failed to find callback "' + component[property] + '" for <i>' + component.name + '.' + property + '</i> event.',
-                    className: 'warning'
+                    type:    Console.MESSAGE_TYPE_WARNING,
+                    message: 'Warning: failed to find callback "' + component[property] + '" for <i>' + component.name + '.' + property + '</i> event.'
                 }
             );
             component[property] = function() {};

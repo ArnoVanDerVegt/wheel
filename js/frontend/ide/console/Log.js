@@ -163,7 +163,7 @@ exports.Log = class extends DOMNode {
                 messageId:       opts.messageId,
                 parentMessageId: opts.parentMessageId,
                 lineInfo:        opts.lineInfo,
-                className:       'console-line ' + (opts.className || '')
+                className:       'console-line ' + (opts.type || '').toLowerCase()
             });
             this._messages.push(this._lastMessage);
         }

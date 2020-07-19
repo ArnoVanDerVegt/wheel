@@ -63,8 +63,8 @@ exports.Image = class extends Component {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        message:   'Error: File "' + filename + '" not found.',
-                        className: 'error'
+                        type:    'Error',
+                        message: 'Error: File "' + filename + '" not found.'
                     }
                 );
             },

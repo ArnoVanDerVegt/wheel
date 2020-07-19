@@ -14,7 +14,13 @@ exports.TextResource = class extends ProjectResource {
             return;
         }
         let filename = this._filename;
-        dispatcher.dispatch('Console.Log', {message: 'Writing text <i>' + filename + '</i>...'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    'Info',
+                message: 'Writing text <i>' + filename + '</i>...'
+            }
+        );
         this._getDataProvider().getData(
             'post',
             'ide/file-save',

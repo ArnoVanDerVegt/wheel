@@ -16,6 +16,10 @@ Wheel is made possible by various awesome open source projects and information s
 @link NodeJS|https://nodejs.org/
 @link Electron|https://www.electronjs.org/
 
+@section IDE Resources
+@link CSS Effects|https://github.com/emilkowalski/css-effects-snippets
+@link Flat UI colors|https://flatuicolors.com/
+
 @section EV3 Documentation
 @link Lego® Mindstorms EV3 communication developer kit|https://arnovandervegt.github.io/wheel/site/docs/lego_mindstorms_ev3_communication_developer_kit.pdf
 @link Lego® Mindstorms EV3 firmware developer kit|https://arnovandervegt.github.io/wheel/site/docs/lego_mindstorms_ev3_firmware_developer_kit.pdf

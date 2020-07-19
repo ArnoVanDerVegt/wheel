@@ -6,6 +6,7 @@ const platform        = require('../../../../lib/platform');
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../../lib/dom').DOMNode;
 const Button          = require('../../../../lib/components/Button').Button;
+const Console         = require('../../../console/Console');
 const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Display         = require('./io/Display').Display;
 const Buttons         = require('./io/Buttons').Buttons;
@@ -131,6 +132,12 @@ exports.Plugin = class extends SimulatorPlugin {
         const clipboard   = require('electron').clipboard;
         const nativeImage = require('electron').nativeImage;
         clipboard.writeImage(nativeImage.createFromDataURL(this._canvas.toDataURL('image/png')));
-        dispatcher.dispatch('Console.Log', {message: 'Copied display to clipboard.'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_INFO,
+                message: 'Copied display to clipboard.'
+            }
+        );
     }
 };

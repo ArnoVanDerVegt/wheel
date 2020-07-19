@@ -20,7 +20,7 @@ const tabIndex                   = require('./tabIndex');
 const CompileAndRun              = require('./CompileAndRun').CompileAndRun;
 const EditorsState               = require('./editor/EditorsState').EditorsState;
 const Editor                     = require('./editor/Editor').Editor;
-const Console                    = require('./console/Console').Console;
+const Console                    = require('./console/Console');
 const Log                        = require('./console/Log');
 const MainMenu                   = require('./menu/MainMenu').MainMenu;
 const FileDialog                 = require('./dialogs/file/FileDialog').FileDialog;
@@ -143,7 +143,7 @@ exports.IDE = class extends CompileAndRun {
                         settings:      this._settings
                     },
                     {
-                        type:          Console,
+                        type:          Console.Console,
                         ui:            this._ui,
                         settings:      this._settings
                     }
@@ -521,19 +521,43 @@ exports.IDE = class extends CompileAndRun {
     }
 
     onEV3Connecting() {
-        dispatcher.dispatch('Console.Log', {message: 'Connecting to EV3...'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_INFO,
+                message: 'Connecting to EV3...'
+            }
+        );
     }
 
     onEV3Connected() {
-        dispatcher.dispatch('Console.Log', {message: 'Connected to EV3.', className: 'ok'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_HINT,
+                message: 'Connected to EV3.'
+            }
+        );
     }
 
     onPoweredUpConnecting(hub) {
-        dispatcher.dispatch('Console.Log', {message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_INFO,
+                message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'
+            }
+        );
     }
 
     onPoweredUpConnected() {
-        dispatcher.dispatch('Console.Log', {message: 'Connected to Powered Up.', className: 'ok'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_INFO,
+                message: 'Connected to Powered Up.', className: 'ok'
+            }
+        );
     }
 
     onCreatedPreProcessor(preProcessor) {
@@ -598,10 +622,10 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
+                type:    Console.MESSAGE_TYPE_INFO,
                 message: time + ' <i>' + pathAndFilename.filename + '</i> ' +
                     'Compiled ' + lineCount + ' lines, ' +
-                    'generated ' + program.getLength() + ' commands.',
-                className: 'ok'
+                    'generated ' + program.getLength() + ' commands.'
             }
         );
         if (this._settings.getCreateVMTextOutput()) {
@@ -701,7 +725,13 @@ exports.IDE = class extends CompileAndRun {
         let documentPath = this._settings.getDocumentPath();
         let message      = messages.length + ' Linter warning' + ((messages.length > 1) ? 's' : '') + ':';
         dispatcher
-            .dispatch('Console.Log',     {message: message})
+            .dispatch(
+                'Console.Log',
+                {
+                    type:    Console.MESSAGE_TYPE_INFO,
+                    message: message
+                }
+            )
             .dispatch('Compile.Warning', this._projectFilename);
         messages.forEach((message) => {
             let token    = message.token;
@@ -711,15 +741,30 @@ exports.IDE = class extends CompileAndRun {
                 case Linter.WHITE_SPACE:
                     message = location + type + ' found ' + message.expected.found + ' spaces, ' +
                                 'expected ' + message.expected.expected + ' spaces.';
-                    dispatcher.dispatch('Console.Log', {message: message});
+                    dispatcher.dispatch(
+                        'Console.Log',
+                        {
+                            type:    Console.MESSAGE_TYPE_HINT,
+                            message: message
+                        }
+                    );
                     break;
                 case Linter.TAB:
-                    dispatcher.dispatch('Console.Log', {message: location + type + ' Tab: Invalid whitespace character.'});
+                    dispatcher.dispatch(
+                        'Console.Log',
+                        {
+                            type:    Console.MESSAGE_TYPE_HINT,
+                            message: location + type + ' Tab: Invalid whitespace character.'
+                        }
+                    );
                     break;
                 default:
                     dispatcher.dispatch(
                         'Console.Log',
-                        {message: location + type + '"' + token.origLexeme + '" expected "' + message.expected + '".'}
+                        {
+                            type:    Console.MESSAGE_TYPE_HINT,
+                            message: location + type + '"' + token.origLexeme + '" expected "' + message.expected + '".'
+                        }
                     );
                     break;
             }
@@ -838,8 +883,8 @@ exports.IDE = class extends CompileAndRun {
                         dispatcher.dispatch(
                             'Console.Log',
                             {
-                                message:   'Error: File "' + filename + '" not found.',
-                                className: 'error'
+                                type:    Console.MESSAGE_TYPE_ERROR,
+                                message: 'Error: File "' + filename + '" not found.'
                             }
                         );
                     }

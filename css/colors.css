@@ -192,10 +192,9 @@ body.ide {
 
     --image-selection-border:       2px solid #E84118;;
 
-    --console-success:              #44BD32;
-    --console-vm:                   #74B9FF;
-    --console-error:                #D63031;
+    --console-hint:                 #44BD32;
     --console-warning:              #F9CA24;
+    --console-error:                #D63031;
 
     --resizer-background:           rgba(0, 0, 0, 0.5);
 
@@ -394,10 +393,9 @@ body.ide.dark {
 
     --image-selection-border:       2px solid #E84118;;
 
-    --console-success:              #1ABC9C;
-    --console-vm:                   #00A8FF;
-    --console-error:                #E84118;
+    --console-hint:                 #1ABC9C;
     --console-warning:              #6C5CE7;
+    --console-error:                #E84118;
 
     --resizer-background:           rgba(255, 255, 255, 0.5);
 

@@ -4,6 +4,7 @@
 **/
 const standardModuleConstants = require('../../../../shared/vm/modules/standardModuleConstants');
 const dispatcher              = require('./../../../lib/dispatcher').dispatcher;
+const Console                 = require('./../../../ide/console/Console');
 const $                       = require('../../../program/commands');
 const VMModule                = require('./../VMModule').VMModule;
 
@@ -27,13 +28,20 @@ exports.StandardModule = class extends VMModule {
                 break;
             case standardModuleConstants.STANDARD_PRINT_NUMBER:
                 let printNumber = vmData.getRecordFromSrcOffset(['n']);
-                this.emit('Console.Log', {message: printNumber.n, pos: {lineNumber: 0, filename: ''}});
+                this.emit(
+                    'Console.Log',
+                    {
+                        type:    Console.MESSAGE_TYPE_INFO,
+                        message: printNumber.n, pos: {lineNumber: 0, filename: ''}
+                    }
+                );
                 break;
             case standardModuleConstants.STANDARD_PRINT_STRING:
                 let printString = vmData.getRecordFromSrcOffset(['s']);
                 this.emit(
                     'Console.Log',
                     {
+                        type:    Console.MESSAGE_TYPE_INFO,
                         message: sanitizeString(vmData.getStringList()[printString.s]),
                         pos:     {lineNumber: 0, filename: ''}
                     }

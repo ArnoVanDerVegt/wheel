@@ -16,6 +16,11 @@ const Registers   = require('./Registers').Registers;
 const Log         = require('./Log').Log;
 const Terminal    = require('./Terminal').Terminal;
 
+exports.MESSAGE_TYPE_INFO    = 'Info';
+exports.MESSAGE_TYPE_HINT    = 'Hint';
+exports.MESSAGE_TYPE_WARNING = 'Warning';
+exports.MESSAGE_TYPE_ERROR   = 'Error';
+
 exports.Console = class extends DOMNode {
     constructor(opts) {
         super(opts);

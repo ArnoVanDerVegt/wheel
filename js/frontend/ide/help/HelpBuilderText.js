@@ -6,6 +6,7 @@ const dispatcher      = require('../../lib/dispatcher').dispatcher;
 const path            = require('../../lib/path');
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../data/images').getImage;
+const Console         = require('../console/Console');
 const WheelSyntax     = require('./woc/WheelSyntax').WheelSyntax;
 const IndexList       = require('./components/IndexList').IndexList;
 const IndexListText   = require('./components/IndexListText').IndexListText;
@@ -766,7 +767,13 @@ class HelpBuilderText {
                 let file     = files[fileIndex];
                 let filename = getFilename(file.subject);
                 fileIndex++;
-                dispatcher.dispatch('Console.Log', {message: 'Writing: <i>' + 'site/docs/' + filename + '</i>'});
+                dispatcher.dispatch(
+                    'Console.Log',
+                    {
+                        type:    Console.MESSAGE_TYPE_HINT,
+                        message: 'Writing: <i>' + 'site/docs/' + filename + '</i>'
+                    }
+                );
                 getDataProvider().getData(
                     'post',
                     'ide/file-save',
@@ -777,7 +784,13 @@ class HelpBuilderText {
                     processFile
                 );
             };
-        dispatcher.dispatch('Console.Log', {message: 'Writing: <i>site/docs/index.html</i>'});
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    Console.MESSAGE_TYPE_HINT,
+                message: 'Writing: <i>site/docs/index.html</i>'
+            }
+        );
         getDataProvider().getData(
             'post',
             'ide/file-save',

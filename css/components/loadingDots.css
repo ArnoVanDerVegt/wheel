@@ -1,0 +1,35 @@
+.loading-dots {
+    position:                       absolute;
+    left:                           50%;
+    top:                            50%;
+    width:                          57px;
+    height:                         38px;
+    margin:                         -19px 0 0 -28.5px;
+}
+.loading-dots > div, .loading-dots:before, .loading-dots:after {
+    display:                        inline-block;
+    width:                          13px;
+    height:                         13px;
+    background-color:               #3498DB;
+    margin-bottom:                  -5px;
+    border-radius:                  50%;
+    animation:                      bouncing-loader 0.6s infinite alternate;
+}
+.loading-dots > div, .loading-dots:before, .loading-dots:after {
+    content:                        "";
+}
+.loading-dots > div {
+    margin:                         0 5px;
+}
+.loading-dots > div {
+    animation-delay:                0.2s;
+}
+.loading-dots:after {
+    animation-delay:                0.4s;
+}
+@keyframes bouncing-loader {
+    to {
+        opacity:                    0.1;
+        transform:                  translate3d(0, 16px, 0);
+    }
+}

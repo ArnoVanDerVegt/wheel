@@ -221,6 +221,7 @@ require('./js/frontend/lib/components/Hint');
 require('./js/frontend/lib/components/Rectangle');
 require('./js/frontend/lib/components/Circle');
 require('./js/frontend/lib/components/Image');
+require('./js/frontend/lib/components/LoadingDots');
 require('./js/frontend/lib/components/io/BasicIODevice');
 require('./js/frontend/lib/components/io/PoweredUpDevice');
 require('./js/frontend/lib/components/io/EV3Motor');
