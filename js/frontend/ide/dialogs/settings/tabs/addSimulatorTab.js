@@ -8,10 +8,10 @@ exports.tab = (settingsDialog, opts) => {
         className: 'tab-panel tab-simulator',
         children: [
             settingsDialog.addCheckboxSetting({
-                description: 'Auto reset sensor value',
-                tabIndex:    1,
-                getter:      'getSensorAutoReset',
-                signal:      'Settings.Set.SensorAutoReset'
+                label:    'Auto reset sensor value',
+                tabIndex: 1,
+                getter:   'getSensorAutoReset',
+                signal:   'Settings.Set.SensorAutoReset'
             })
         ]
     };

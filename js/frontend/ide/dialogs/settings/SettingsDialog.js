@@ -105,13 +105,17 @@ exports.SettingsDialog = class extends Dialog {
         opts.type            = CheckboxSetting;
         opts.updateFunctions = this._updateFunctions;
         opts.settings        = this._settings;
-        opts.uiId            = this._uiId;
         opts.ui              = this._ui;
+        opts.uiId            = this._uiId;
         return opts;
     }
 
     addTextInputSetting(opts) {
-        opts.type = TextInputSetting;
+        opts.type            = TextInputSetting;
+        opts.updateFunctions = this._updateFunctions;
+        opts.settings        = this._settings;
+        opts.ui              = this._ui;
+        opts.uiId            = this._uiId;
         return opts;
     }
 

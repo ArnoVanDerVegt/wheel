@@ -54,28 +54,47 @@
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel h3 {
     margin:                         0;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting {
+/* Checkbox setting & Text input setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting {
     float:                          left;
     width:                          calc(100% - 40px);
     margin:                         8px 0 4px 8px;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting .checkbox {
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting .label,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting .label {
+    float:                          left;
+    line-height:                    22px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting .label {
+    width:                          112px;
+    text-align:                     right;
+    margin:                         0 8px 0 0;
+}
+/* Checkbox setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting .checkbox {
     float:                          left;
     width:                          22px;
     height:                         22px;
     margin:                         0 8px 0 0;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .boolean-setting .description {
+/* Text input setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting {
+    margin:                         8px 0 4px 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting input[type="text"] {
     float:                          left;
-    width:                          calc(100% - 40px);
-    line-height:                    22px;
+    margin:                         0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting input[type="text"].numeric {
+    width:                          64px;
 }
 /* Title */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .title-row {
     float:                          left;
     width:                          100%;
     padding:                        8px 0 0 8px;
-    margin:                         0 0 8px 0;
+    margin:                         0 0 4px 0;
 }
 /* Text property list */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"] {
@@ -83,9 +102,13 @@
     height:                         24px;
     font-size:                      13px;
     line-height:                    24px;
+    padding:                        0 0 0 8px;
     margin:                         0 0 4px 0;
     outline:                        none;
     border-radius:                  2px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"].invalid {
+    border:                         var(--text-input-invalid-border);
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .spacer {
     float:                          left;
@@ -159,7 +182,7 @@
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row .label {
     float:                          left;
-    width:                          100px;
+    width:                          112px;
     text-align:                     right;
     line-height:                    18px;
     padding:                        0 8px 0 0;

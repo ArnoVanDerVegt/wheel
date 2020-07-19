@@ -50,4 +50,4 @@ class Dispatcher {
 
 exports.Dispatcher = Dispatcher;
 exports.dispatcher = new Dispatcher();
-
+window.dispatcher = exports.dispatcher;

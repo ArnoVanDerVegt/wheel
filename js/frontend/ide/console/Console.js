@@ -88,38 +88,39 @@ exports.Console = class extends DOMNode {
                         className: 'console-content',
                         children: [
                             {
-                                id:     this.setLogElement.bind(this),
-                                type:   Log,
-                                ui:     this._ui
+                                type:     Log,
+                                id:       this.setLogElement.bind(this),
+                                ui:       this._ui,
+                                settings: this._settings
                             },
                             {
-                                ref:    this.setRef('globals'),
-                                type:   Vars,
-                                ui:     this._ui,
-                                global: true
+                                type:     Vars,
+                                ref:      this.setRef('globals'),
+                                ui:       this._ui,
+                                global:   true
                             },
                             {
-                                ref:    this.setRef('locals'),
-                                type:   Vars,
-                                ui:     this._ui,
-                                global: false
+                                type:     Vars,
+                                ref:      this.setRef('locals'),
+                                ui:       this._ui,
+                                global:   false
                             },
                             {
-                                ref:    this.setRef('registers'),
-                                type:   Registers,
-                                ui:     this._ui
+                                type:     Registers,
+                                ref:      this.setRef('registers'),
+                                ui:       this._ui
                             },
                             platform.isElectron() ?
                                 {
-                                    ref:      this.setRef('terminal'),
                                     type:     Terminal,
+                                    ref:      this.setRef('terminal'),
                                     ui:       this._ui
                                 } :
                                 null,
                             platform.isElectron() ?
                                 {
-                                    ref:      this.setRef('newVersion'),
                                     type:     NewVersion,
+                                    ref:      this.setRef('newVersion'),
                                     ui:       this._ui,
                                     console:  this,
                                     settings: this._settings
@@ -207,7 +208,6 @@ exports.Console = class extends DOMNode {
         }
         let incoming = SettingsState.CONSOLE_LOG_LEVELS.indexOf(incomingType);
         let level    = SettingsState.CONSOLE_LOG_LEVELS.indexOf(settings.getConsoleShowOnLevel());
-        console.log('incoming:', incoming, 'level:', level);
         if (incoming >= level) {
             dispatcher.dispatch('Settings.Set.Console.Visible', true);
             this.hide().show(this._logElement);

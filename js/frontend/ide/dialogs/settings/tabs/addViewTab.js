@@ -9,7 +9,7 @@ exports.tab = (settingsDialog) => {
         children: [
             settingsDialog.addTitle('General'),
             settingsDialog.addCheckboxSetting({
-                description: 'Dark mode',
+                label:       'Dark mode',
                 tabIndex:    1,
                 getter:      'getDarkMode',
                 signal:      'Settings.Set.DarkMode'
@@ -17,20 +17,20 @@ exports.tab = (settingsDialog) => {
             settingsDialog.addHr(),
             settingsDialog.addTitle('Panels'),
             settingsDialog.addCheckboxSetting({
-                description: 'Show files',
+                label:       'Show files',
                 tabIndex:    2,
                 getter:      'getShowFileTree',
                 signal:      'Settings.Set.SetShowFileTree'
             }),
             settingsDialog.addCheckboxSetting({
-                description: 'Show console',
+                label:       'Show console',
                 tabIndex:    3,
                 getter:      'getConsoleVisible',
                 signal:      'Settings.Set.Console.Visible'
             }),
             settingsDialog.addCheckboxSetting({
                 ref:         settingsDialog.setRef('showSimulator'),
-                description: 'Show simulator',
+                label:       'Show simulator',
                 tabIndex:    4,
                 getter:      'getShowSimulator',
                 signal:      'Settings.Set.ShowSimulator',
@@ -45,7 +45,7 @@ exports.tab = (settingsDialog) => {
             }),
             settingsDialog.addCheckboxSetting({
                 ref:         settingsDialog.setRef('showProperties'),
-                description: 'Show component properties',
+                label:       'Show component properties',
                 tabIndex:    5,
                 getter:      'getShowProperties',
                 signal:      'Settings.Set.ShowProperties',
@@ -61,7 +61,7 @@ exports.tab = (settingsDialog) => {
             settingsDialog.addHr(),
             settingsDialog.addTitle('Simulator'),
             settingsDialog.addCheckboxSetting({
-                description: 'Show simulator on run',
+                label:       'Show simulator on run',
                 tabIndex:    6,
                 getter:      'getShowSimulatorOnRun',
                 signal:      'Settings.Set.ShowSimulatorOnRun'
@@ -69,13 +69,13 @@ exports.tab = (settingsDialog) => {
             settingsDialog.addHr(),
             settingsDialog.addTitle('Hint dialogs'),
             settingsDialog.addCheckboxSetting({
-                description: 'A form was openend but the property editor is not visible',
+                label:       'A form was openend but the property editor is not visible',
                 tabIndex:    7,
                 getter:      'getDontShowOpenForm',
                 signal:      'Settings.Set.DontShowOpenForm'
             }),
             settingsDialog.addCheckboxSetting({
-                description: 'Connected to device but simulator is not visible',
+                label:       'Connected to device but simulator is not visible',
                 tabIndex:    8,
                 getter:      'getDontShowConnected',
                 signal:      'Settings.Set.DontShowConnected'

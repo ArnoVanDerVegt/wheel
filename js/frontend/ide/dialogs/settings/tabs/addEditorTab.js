@@ -11,7 +11,7 @@ exports.tab = (settingsDialog, opts) => {
         className: 'tab-panel tab-editor',
         children: [
             settingsDialog.addCheckboxSetting({
-                description:    'Add comments to generated event procedures',
+                label:          'Add comments to generated event procedures',
                 tabIndex:       1,
                 getter:         'getCreateEventComments',
                 signal:         'Settings.Set.CreateEventComments'

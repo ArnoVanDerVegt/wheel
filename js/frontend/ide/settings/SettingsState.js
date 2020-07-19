@@ -30,17 +30,25 @@ const CONSOLE_LOG_LEVELS           = [
         CONSOLE_MESSAGE_TYPE_ERROR
     ];
 
-// Export constants...
-exports.CONSOLE_MESSAGE_TYPE_INFO    = CONSOLE_MESSAGE_TYPE_INFO;
-exports.CONSOLE_MESSAGE_TYPE_HINT    = CONSOLE_MESSAGE_TYPE_HINT;
-exports.CONSOLE_MESSAGE_TYPE_WARNING = CONSOLE_MESSAGE_TYPE_WARNING;
-exports.CONSOLE_MESSAGE_TYPE_ERROR   = CONSOLE_MESSAGE_TYPE_ERROR;
-exports.CONSOLE_NEVER                = CONSOLE_NEVER;
-exports.CONSOLE_LOG_LEVELS           = CONSOLE_LOG_LEVELS;
+const CONSOLE_MIN_MESSAGE_COUNT      = 10;
+const CONSOLE_MAX_MESSAGE_COUNT      = 10000;
+const CONSOLE_DEFAULT_MESSAGE_COUNT  = 100;
 
-exports.IMAGE_OPEN_VIEW              = IMAGE_OPEN_VIEW;
-exports.IMAGE_OPEN_IMPORT            = IMAGE_OPEN_IMPORT;
-exports.IMAGE_OPEN_ASK               = IMAGE_OPEN_ASK;
+// Export constants...
+exports.CONSOLE_MESSAGE_TYPE_INFO     = CONSOLE_MESSAGE_TYPE_INFO;
+exports.CONSOLE_MESSAGE_TYPE_HINT     = CONSOLE_MESSAGE_TYPE_HINT;
+exports.CONSOLE_MESSAGE_TYPE_WARNING  = CONSOLE_MESSAGE_TYPE_WARNING;
+exports.CONSOLE_MESSAGE_TYPE_ERROR    = CONSOLE_MESSAGE_TYPE_ERROR;
+exports.CONSOLE_NEVER                 = CONSOLE_NEVER;
+exports.CONSOLE_LOG_LEVELS            = CONSOLE_LOG_LEVELS;
+
+exports.CONSOLE_MIN_MESSAGE_COUNT     = CONSOLE_MIN_MESSAGE_COUNT;
+exports.CONSOLE_MAX_MESSAGE_COUNT     = CONSOLE_MAX_MESSAGE_COUNT;
+exports.CONSOLE_DEFAULT_MESSAGE_COUNT = CONSOLE_DEFAULT_MESSAGE_COUNT;
+
+exports.IMAGE_OPEN_VIEW               = IMAGE_OPEN_VIEW;
+exports.IMAGE_OPEN_IMPORT             = IMAGE_OPEN_IMPORT;
+exports.IMAGE_OPEN_ASK                = IMAGE_OPEN_ASK;
 
 exports.SettingsState = class extends Emitter {
     /**
@@ -92,6 +100,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ImageOpen.Gif',               this, this._setImageOpenGif)
             .on('Settings.Set.Console.Visible',             this, this._setConsoleVisible)
             .on('Settings.Set.Console.ShowOnLevel',         this, this._setConsoleShowOnLevel)
+            .on('Settings.Set.Console.MessageCount',        this, this._setConsoleMessageCount)
             .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
             .on('Settings.Set.CreateEventComments',         this, this._setCreateEventComments)
             .on('Settings.Set.CreateVMTextOutput',          this, this._setCreateVMTextOutput)
@@ -185,7 +194,8 @@ exports.SettingsState = class extends Emitter {
             },
             console: {
                 visible:           this._console.visible,
-                showOnLevel:       this._console.showOnLevel
+                showOnLevel:       this._console.showOnLevel,
+                messageCount:      this._console.messageCount
             },
             show: {
                 fileTree:          this._show.fileTree,
@@ -255,6 +265,10 @@ exports.SettingsState = class extends Emitter {
 
     getConsoleShowOnLevel() {
         return this._console.showOnLevel;
+    }
+
+    getConsoleMessageCount() {
+        return this._console.messageCount;
     }
 
     getShowFileTree() {
@@ -342,6 +356,13 @@ exports.SettingsState = class extends Emitter {
             return level;
         }
         return CONSOLE_MESSAGE_TYPE_ERROR;
+    }
+
+    getValidatedMessageCount(messageCount) {
+        if ((messageCount >= CONSOLE_MIN_MESSAGE_COUNT) && (messageCount <= CONSOLE_MAX_MESSAGE_COUNT)) {
+            return messageCount;
+        }
+        return CONSOLE_DEFAULT_MESSAGE_COUNT;
     }
 
     getImageOpenForExtension(extension) {
@@ -587,6 +608,11 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
+    _setConsoleMessageCount(messageCount) {
+        this._console.messageCount = this.getValidatedMessageCount(messageCount);
+        this._save();
+    }
+
     _setFormGridSize(formGridSize) {
         this._formGridSize = formGridSize;
         this._save();
@@ -743,6 +769,7 @@ exports.SettingsState = class extends Emitter {
         this._console                    = ('console'               in data)             ? data.console                                              : {};
         this._console.visible            = ('visible'               in this._console)    ? this._console.visible                                     : true;
         this._console.showOnLevel        = ('showOnLevel'           in this._console)    ? this.getValidatedShowOnLevel(this._console.showOnLevel)   : CONSOLE_MESSAGE_TYPE_ERROR;
+        this._console.messageCount       = ('messageCount'          in this._console)    ? this.getValidatedMessageCount(this._console.messageCount) : CONSOLE_DEFAULT_MESSAGE_COUNT;
         this._show                       = ('show'                  in data)             ? data.show                                                 : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
         this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;

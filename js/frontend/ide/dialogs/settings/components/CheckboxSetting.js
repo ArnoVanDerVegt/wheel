@@ -16,7 +16,7 @@ exports.CheckboxSetting = class extends DOMNode {
         this._tabIndex        = opts.tabIndex;
         this._getter          = opts.getter;
         this._signal          = opts.signal;
-        this._description     = opts.description;
+        this._label           = opts.label;
         this._onChange        = opts.onChange;
         this.initDOM(opts.parentNode);
     }
@@ -25,7 +25,7 @@ exports.CheckboxSetting = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'boolean-setting',
+                className: 'checkbox-setting',
                 children: [
                     {
                         ref: this.setRef('checkbox'),
@@ -44,8 +44,8 @@ exports.CheckboxSetting = class extends DOMNode {
                         }
                     },
                     {
-                        className: 'description',
-                        innerHTML: this._description
+                        className: 'label',
+                        innerHTML: this._label
                     }
                 ]
             }

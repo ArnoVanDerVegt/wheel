@@ -114,6 +114,7 @@ exports.getMessageId = function() {
 exports.Log = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._settings     = opts.settings;
         this._lastMessage  = null;
         this._messages     = [];
         this._preProcessor = null;
@@ -155,14 +156,19 @@ exports.Log = class extends DOMNode {
     }
 
     onLog(opts) {
-        if (!this._element) {
+        let element = this._element;
+        if (!element) {
             return;
         }
         if (this._lastMessage && (this._lastMessage.getMessage() === opts.message) && (this._lastMessage.getType() === opts.type)) {
             this._lastMessage.addCount();
         } else {
+            let maxMessageCount = this._settings.getConsoleMessageCount();
+            while (element.childNodes.length && (element.childNodes.length > maxMessageCount)) {
+                element.removeChild(element.childNodes[0]);
+            }
             this._lastMessage = new LogMessage({
-                parentNode:      this._element,
+                parentNode:      element,
                 log:             this,
                 message:         opts.message,
                 messageId:       opts.messageId,

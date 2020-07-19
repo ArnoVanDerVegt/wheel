@@ -9,17 +9,17 @@ exports.tab = (settingsDialog) => {
         children: [
             settingsDialog.addTitle('Validation'),
             settingsDialog.addCheckboxSetting({
-                description: 'Linter',
-                tabIndex:    1,
-                getter:      'getLinter',
-                signal:      'Settings.Set.SetLinter'
+                label:    'Linter',
+                tabIndex: 1,
+                getter:   'getLinter',
+                signal:   'Settings.Set.SetLinter'
             }),
             settingsDialog.addTitle('Output'),
             settingsDialog.addCheckboxSetting({
-                description: 'Create VM text output',
-                tabIndex:    2,
-                getter:      'getCreateVMTextOutput',
-                signal:      'Settings.Set.CreateVMTextOutput'
+                label:    'Create VM text output',
+                tabIndex: 2,
+                getter:   'getCreateVMTextOutput',
+                signal:   'Settings.Set.CreateVMTextOutput'
             })
         ]
     };
