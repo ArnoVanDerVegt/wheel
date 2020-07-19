@@ -95,7 +95,11 @@ describe(
                 it(
                     'Should create FormEditorState instance',
                     function() {
-                        let formEditorState = new FormEditorState({path: 'hello/world', filename: 'test.wfrm'});
+                        let formEditorState = new FormEditorState({
+                                getOwnerByContainerId: () => { return false; },
+                                path:                 'hello/world',
+                                filename:             'test.wfrm'
+                            });
                         assert.equal(formEditorState instanceof FormEditorState, true);
                     }
                 );
@@ -103,15 +107,16 @@ describe(
                     'Should peek initial Id',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                initTime: 2,
-                                path:     'hello/world',
-                                filename: 'test.wfrm'
+                                getOwnerByContainerId: () => { return false; },
+                                initTime:              2,
+                                path:                  'hello/world',
+                                filename:              'test.wfrm'
                             });
                         formEditorState.on(
                             'AddForm',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(), 2);
+                                assert.equal(formEditorState.peekId(), 1);
                                 done();
                             }
                         );
@@ -127,17 +132,17 @@ describe(
                     'Should load an empty form',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                initTime: 2,
-                                path:     'hello/world',
-                                filename: 'test.wfrm',
-                                data:     EMPTY_FORM
+                                getOwnerByContainerId: () => { return false; },
+                                initTime:              2,
+                                path:                  'hello/world',
+                                filename:              'test.wfrm',
+                                data:                  EMPTY_FORM
                             });
                         formEditorState.on(
                             'AddForm',
                             this,
                             () => {
-                                assert.equal(formEditorState.getLoading(),  false);
-                                assert.equal(formEditorState.peekId(),      2);
+                                assert.equal(formEditorState.peekId(),      1);
                                 assert.equal(formEditorState.getFormName(), 'label'); // Form name is only ready after init!
                                 done();
                             }
@@ -152,17 +157,17 @@ describe(
                     'Should load a form with one component',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByParentId: () => { return 1; },
-                                initTime:           2,
-                                path:               'hello/world',
-                                filename:           'test.wfrm',
-                                data:               FORM_WITH_ONE_COMPONENT
+                                getOwnerByContainerId: () => { return false; },
+                                initTime:              2,
+                                path:                  'hello/world',
+                                filename:              'test.wfrm',
+                                data:                  FORM_WITH_ONE_COMPONENT
                             });
                         formEditorState.on(
                             'AddForm',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(), 4);
+                                assert.equal(formEditorState.peekId(), 1);
                                 done();
                             }
                         );
@@ -173,17 +178,17 @@ describe(
                     'Should load a form with two components',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByParentId: () => { return 1; },
-                                initTime:           2,
-                                path:               'hello/world',
-                                filename:           'test.wfrm',
-                                data:               FORM_WITH_TWO_COMPONENTS
+                                getOwnerByContainerId: () => { return false; },
+                                initTime:              2,
+                                path:                  'hello/world',
+                                filename:              'test.wfrm',
+                                data:                  FORM_WITH_TWO_COMPONENTS
                             });
                         formEditorState.on(
                             'AddForm',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(), 5);
+                                assert.equal(formEditorState.peekId(), 1);
                                 done();
                             }
                         );
