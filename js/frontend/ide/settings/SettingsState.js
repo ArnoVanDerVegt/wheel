@@ -2,21 +2,45 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform           = require('../../lib/platform');
-const dispatcher         = require('../../lib/dispatcher').dispatcher;
-const Emitter            = require('../../lib/Emitter').Emitter;
-const PluginsState       = require('./PluginsState').PluginsState;
-const IncludeFilesState  = require('./IncludeFilesState').IncludeFilesState;
+const platform                     = require('../../lib/platform');
+const dispatcher                   = require('../../lib/dispatcher').dispatcher;
+const Emitter                      = require('../../lib/Emitter').Emitter;
+const PluginsState                 = require('./PluginsState').PluginsState;
+const IncludeFilesState            = require('./IncludeFilesState').IncludeFilesState;
 
-const IMAGE_OPEN_VIEW    = 'View';
-const IMAGE_OPEN_IMPORT  = 'Import';
-const IMAGE_OPEN_ASK     = 'Ask';
+// How to handle an image when opened:
+const IMAGE_OPEN_VIEW              = 'View';
+const IMAGE_OPEN_IMPORT            = 'Import';
+const IMAGE_OPEN_ASK               = 'Ask';
 
-const IMAGE_OPEN_OPTIONS = [IMAGE_OPEN_VIEW, IMAGE_OPEN_IMPORT, IMAGE_OPEN_ASK];
+const IMAGE_OPEN_OPTIONS           = [IMAGE_OPEN_VIEW, IMAGE_OPEN_IMPORT, IMAGE_OPEN_ASK];
 
-exports.IMAGE_OPEN_VIEW   = IMAGE_OPEN_VIEW;
-exports.IMAGE_OPEN_IMPORT = IMAGE_OPEN_IMPORT;
-exports.IMAGE_OPEN_ASK    = IMAGE_OPEN_ASK;
+// Console log levels:
+const CONSOLE_MESSAGE_TYPE_INFO    = 'Info';
+const CONSOLE_MESSAGE_TYPE_HINT    = 'Hint';
+const CONSOLE_MESSAGE_TYPE_WARNING = 'Warning';
+const CONSOLE_MESSAGE_TYPE_ERROR   = 'Error';
+
+const CONSOLE_NEVER                = 'Never';
+
+const CONSOLE_LOG_LEVELS           = [
+        CONSOLE_MESSAGE_TYPE_INFO,
+        CONSOLE_MESSAGE_TYPE_HINT,
+        CONSOLE_MESSAGE_TYPE_WARNING,
+        CONSOLE_MESSAGE_TYPE_ERROR
+    ];
+
+// Export constants...
+exports.CONSOLE_MESSAGE_TYPE_INFO    = CONSOLE_MESSAGE_TYPE_INFO;
+exports.CONSOLE_MESSAGE_TYPE_HINT    = CONSOLE_MESSAGE_TYPE_HINT;
+exports.CONSOLE_MESSAGE_TYPE_WARNING = CONSOLE_MESSAGE_TYPE_WARNING;
+exports.CONSOLE_MESSAGE_TYPE_ERROR   = CONSOLE_MESSAGE_TYPE_ERROR;
+exports.CONSOLE_NEVER                = CONSOLE_NEVER;
+exports.CONSOLE_LOG_LEVELS           = CONSOLE_LOG_LEVELS;
+
+exports.IMAGE_OPEN_VIEW              = IMAGE_OPEN_VIEW;
+exports.IMAGE_OPEN_IMPORT            = IMAGE_OPEN_IMPORT;
+exports.IMAGE_OPEN_ASK               = IMAGE_OPEN_ASK;
 
 exports.SettingsState = class extends Emitter {
     /**
@@ -66,7 +90,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ImageOpen.Png',               this, this._setImageOpenPng)
             .on('Settings.Set.ImageOpen.Jpg',               this, this._setImageOpenJpg)
             .on('Settings.Set.ImageOpen.Gif',               this, this._setImageOpenGif)
-            .on('Settings.Set.ConsoleVisible',              this, this._setConsoleVisible)
+            .on('Settings.Set.Console.Visible',             this, this._setConsoleVisible)
+            .on('Settings.Set.Console.ShowOnLevel',         this, this._setConsoleShowOnLevel)
             .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
             .on('Settings.Set.CreateEventComments',         this, this._setCreateEventComments)
             .on('Settings.Set.CreateVMTextOutput',          this, this._setCreateVMTextOutput)
@@ -117,7 +142,7 @@ exports.SettingsState = class extends Emitter {
         noSimulator                      && items.push('no-simulator');
         noProperties                     && items.push('no-properties');
         this._show.fileTree              || items.push('no-file-tree');
-        this._show.console               || items.push('no-console');
+        this._console.visible            || items.push('no-console');
         this._darkMode                   && items.push('dark');
         (this._os.platform === 'darwin') || items.push('scroll-bar');
         if (document.body) {
@@ -158,9 +183,12 @@ exports.SettingsState = class extends Emitter {
                 consoleSize:       this._resizer.consoleSize,
                 fileTreeSize:      this._resizer.fileTreeSize
             },
+            console: {
+                visible:           this._console.visible,
+                showOnLevel:       this._console.showOnLevel
+            },
             show: {
                 fileTree:          this._show.fileTree,
-                console:           this._show.console,
                 properties:        this._show.properties,
                 simulator:         this._show.simulator,
                 simulatorOnRun:    this._show.simulatorOnRun
@@ -221,12 +249,16 @@ exports.SettingsState = class extends Emitter {
         return this._os;
     }
 
-    getShowFileTree() {
-        return this._show.fileTree;
+    getConsoleVisible() {
+        return this._console.visible;
     }
 
-    getShowConsole() {
-        return this._show.console;
+    getConsoleShowOnLevel() {
+        return this._console.showOnLevel;
+    }
+
+    getShowFileTree() {
+        return this._show.fileTree;
     }
 
     getShowSimulator() {
@@ -303,6 +335,13 @@ exports.SettingsState = class extends Emitter {
 
     getValidatedImageOpenOption(option) {
         return (IMAGE_OPEN_OPTIONS.indexOf(option) === -1) ? IMAGE_OPEN_VIEW : option;
+    }
+
+    getValidatedShowOnLevel(level) {
+        if ((level === CONSOLE_NEVER) || (CONSOLE_LOG_LEVELS.indexOf(level) !== -1)) {
+            return level;
+        }
+        return CONSOLE_MESSAGE_TYPE_ERROR;
     }
 
     getImageOpenForExtension(extension) {
@@ -537,10 +576,15 @@ exports.SettingsState = class extends Emitter {
     }
 
     _setConsoleVisible(visible) {
-        this._show.console = visible;
+        this._console.visible = visible;
         this._updateViewSettings();
         this._save();
         this.emit('Settings.View');
+    }
+
+    _setConsoleShowOnLevel(level) {
+        this._console.showOnLevel = this.getValidatedShowOnLevel(level);
+        this._save();
     }
 
     _setFormGridSize(formGridSize) {
@@ -601,7 +645,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     _toggleShowConsole() {
-        this._setConsoleVisible(!this._show.console);
+        this._setConsoleVisible(!this._console.visible);
     }
 
     _toggleShowProperties() {
@@ -696,9 +740,11 @@ exports.SettingsState = class extends Emitter {
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
         this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath                                   : this._systemDocumentPath;
+        this._console                    = ('console'               in data)             ? data.console                                              : {};
+        this._console.visible            = ('visible'               in this._console)    ? this._console.visible                                     : true;
+        this._console.showOnLevel        = ('showOnLevel'           in this._console)    ? this.getValidatedShowOnLevel(this._console.showOnLevel)   : CONSOLE_MESSAGE_TYPE_ERROR;
         this._show                       = ('show'                  in data)             ? data.show                                                 : {};
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
-        this._show.console               = ('console'               in this._show)       ? this._show.console                                        : true;
         this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;

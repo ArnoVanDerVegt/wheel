@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Console = require('./console/Console');
+const SettingsState = require('./settings/SettingsState');
 
 exports.CompileAndRunInstall = class {
     constructor(opts) {
@@ -49,7 +49,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:    Console.MESSAGE_TYPE_HINT,
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                         message: 'Created remote directory <i>' + remoteDirectory + '</i>'
                     }
                 );
@@ -58,7 +58,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:    Console.MESSAGE_TYPE_HINT,
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                         message: 'Downloaded VM.'
                     }
                 );
@@ -67,7 +67,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:    Console.MESSAGE_TYPE_HINT,
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                         message: 'Downloaded program.'
                     }
                 );
@@ -76,7 +76,7 @@ exports.CompileAndRunInstall = class {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            type:      Console.MESSAGE_TYPE_INFO,
+                            type:      SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                             message:   'Downloading ' + resourceCount + ' resource' + (resourceCount ? 's' : ''),
                             messageId: messageId
                         }
@@ -87,7 +87,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:            Console.MESSAGE_TYPE_INFO,
+                        type:            SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                         message:         'Downloaded file <i>' + filename + '</i>',
                         parentMessageId: messageId
                     }
@@ -97,7 +97,7 @@ exports.CompileAndRunInstall = class {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:    Console.MESSAGE_TYPE_HINT,
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                         message: 'Download finished.'
                     }
                 );

@@ -27,11 +27,6 @@ exports.IncludeFilesSetting = class extends DOMNode {
                 className: 'text-property-setting',
                 children: [
                     {
-                        type:      'h3',
-                        className: 'text-property-row',
-                        innerHTML: 'Include file options'
-                    },
-                    {
                         ref:       this.setRef('includeFileList'),
                         className: 'text-property-list'
                     },

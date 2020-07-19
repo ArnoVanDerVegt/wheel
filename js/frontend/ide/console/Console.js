@@ -2,24 +2,20 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform    = require('../../lib/platform');
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const DOMNode     = require('../../lib/dom').DOMNode;
-const Tabs        = require('../../lib/components/Tabs').Tabs;
-const Button      = require('../../lib/components/Button').Button;
-const Resizer     = require('../../lib/components/Resizer').Resizer;
-const CloseButton = require('../../lib/components/CloseButton').CloseButton;
-const tabIndex    = require('../tabIndex');
-const Vars        = require('./Vars').Vars;
-const NewVersion  = require('./NewVersion').NewVersion;
-const Registers   = require('./Registers').Registers;
-const Log         = require('./Log').Log;
-const Terminal    = require('./Terminal').Terminal;
-
-exports.MESSAGE_TYPE_INFO    = 'Info';
-exports.MESSAGE_TYPE_HINT    = 'Hint';
-exports.MESSAGE_TYPE_WARNING = 'Warning';
-exports.MESSAGE_TYPE_ERROR   = 'Error';
+const platform             = require('../../lib/platform');
+const dispatcher           = require('../../lib/dispatcher').dispatcher;
+const DOMNode              = require('../../lib/dom').DOMNode;
+const Tabs                 = require('../../lib/components/Tabs').Tabs;
+const Button               = require('../../lib/components/Button').Button;
+const Resizer              = require('../../lib/components/Resizer').Resizer;
+const CloseButton          = require('../../lib/components/CloseButton').CloseButton;
+const SettingsState        = require('../settings/SettingsState');
+const tabIndex             = require('../tabIndex');
+const Vars                 = require('./Vars').Vars;
+const NewVersion           = require('./NewVersion').NewVersion;
+const Registers            = require('./Registers').Registers;
+const Log                  = require('./Log').Log;
+const Terminal             = require('./Terminal').Terminal;
 
 exports.Console = class extends DOMNode {
     constructor(opts) {
@@ -29,7 +25,9 @@ exports.Console = class extends DOMNode {
         this._getDataProvider = opts.getDataProvider;
         dispatcher
             .on('Console.Breakpoint',   this, this.onBreakpoint)
-            .on('Console.RuntimeError', this, this.onRuntimeError);
+            .on('Console.RuntimeError', this, this.onRuntimeError)
+            .on('Console.Log',          this, this.onLog)
+            .on('Console.Error',        this, this.onError);
         this.initDOM(opts.parentNode);
     }
 
@@ -192,6 +190,29 @@ exports.Console = class extends DOMNode {
 
     onCloseConsole() {
         dispatcher.dispatch('Settings.Toggle.ShowConsole');
+    }
+
+    onLog(message) {
+        this.showForIncoming(message.type);
+    }
+
+    onError(message) {
+        this.showForIncoming(SettingsState.CONSOLE_MESSAGE_TYPE_ERROR);
+    }
+
+    showForIncoming(incomingType) {
+        let settings = this._settings;
+        if (settings.getConsoleShowOnLevel() === SettingsState.CONSOLE_NEVER) {
+            return;
+        }
+        let incoming = SettingsState.CONSOLE_LOG_LEVELS.indexOf(incomingType);
+        let level    = SettingsState.CONSOLE_LOG_LEVELS.indexOf(settings.getConsoleShowOnLevel());
+        console.log('incoming:', incoming, 'level:', level);
+        if (incoming >= level) {
+            dispatcher.dispatch('Settings.Set.Console.Visible', true);
+            this.hide().show(this._logElement);
+            this._refs.tabs.setActiveTab('Console');
+        }
     }
 
     show(active) {

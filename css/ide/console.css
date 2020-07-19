@@ -79,7 +79,7 @@ body.ide .console-content {
     height:                         14px;
     line-height:                    14px;
     border-radius:                  10px;
-    background:                     var(--color-green);
+    background:                     var(--color-blue);
     color:                          #FFFFFF;
     padding:                        0 6px 0 6px;
     font-size:                      11px;
@@ -113,22 +113,22 @@ body.ide .console-content {
     cursor:                         pointer;
 }
 /* Hint */
-.console-content .console-lines .console-line.hint {
+.console-content .console-lines .console-line.type-hint {
     color:                          var(--console-hint);
 }
 /* Warning */
-.console-content .console-lines .console-line.warning {
+.console-content .console-lines .console-line.type-warning {
     color:                          var(--console-warning);
 }
-.console-content .console-lines .console-line.warning span.count {
+.console-content .console-lines .console-line.type-warning span.count {
     background-color:               var(--console-warning);
 }
 /* Error */
-.console-content .console-lines .console-line.error,
+.console-content .console-lines .console-line.type-error,
 .console-content .console-lines .console-line i.error {
     color:                          var(--console-error);
 }
-.console-content .console-lines .console-line.error span.count {
+.console-content .console-lines .console-line.type-error span.count {
     background-color:               var(--console-error);
 }
 .console-content .console-lines .console-line i.error b {

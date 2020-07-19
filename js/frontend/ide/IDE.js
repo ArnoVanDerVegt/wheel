@@ -20,7 +20,8 @@ const tabIndex                   = require('./tabIndex');
 const CompileAndRun              = require('./CompileAndRun').CompileAndRun;
 const EditorsState               = require('./editor/EditorsState').EditorsState;
 const Editor                     = require('./editor/Editor').Editor;
-const Console                    = require('./console/Console');
+const Console                    = require('./console/Console').Console;
+const SettingsState              = require('./settings/SettingsState');
 const Log                        = require('./console/Log');
 const MainMenu                   = require('./menu/MainMenu').MainMenu;
 const FileDialog                 = require('./dialogs/file/FileDialog').FileDialog;
@@ -143,7 +144,7 @@ exports.IDE = class extends CompileAndRun {
                         settings:      this._settings
                     },
                     {
-                        type:          Console.Console,
+                        type:          Console,
                         ui:            this._ui,
                         settings:      this._settings
                     }
@@ -524,7 +525,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                 message: 'Connecting to EV3...'
             }
         );
@@ -534,7 +535,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_HINT,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                 message: 'Connected to EV3.'
             }
         );
@@ -544,7 +545,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                 message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'
             }
         );
@@ -554,7 +555,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                 message: 'Connected to Powered Up.', className: 'ok'
             }
         );
@@ -575,9 +576,9 @@ exports.IDE = class extends CompileAndRun {
             return;
         }
         dispatcher
-            .dispatch('Console.Error',               opts)
-            .dispatch('Compile.Failed',              this._projectFilename)
-            .dispatch('Settings.Set.ConsoleVisible', true);
+            .dispatch('Console.Error',                opts)
+            .dispatch('Compile.Failed',               this._projectFilename)
+            .dispatch('Settings.Set.Console.Visible', true);
         this._compileAndRun = false;
     }
 
@@ -622,7 +623,7 @@ exports.IDE = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                 message: time + ' <i>' + pathAndFilename.filename + '</i> ' +
                     'Compiled ' + lineCount + ' lines, ' +
                     'generated ' + program.getLength() + ' commands.'
@@ -728,7 +729,7 @@ exports.IDE = class extends CompileAndRun {
             .dispatch(
                 'Console.Log',
                 {
-                    type:    Console.MESSAGE_TYPE_INFO,
+                    type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                     message: message
                 }
             )
@@ -744,7 +745,7 @@ exports.IDE = class extends CompileAndRun {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            type:    Console.MESSAGE_TYPE_HINT,
+                            type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                             message: message
                         }
                     );
@@ -753,7 +754,7 @@ exports.IDE = class extends CompileAndRun {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            type:    Console.MESSAGE_TYPE_HINT,
+                            type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                             message: location + type + ' Tab: Invalid whitespace character.'
                         }
                     );
@@ -762,7 +763,7 @@ exports.IDE = class extends CompileAndRun {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            type:    Console.MESSAGE_TYPE_HINT,
+                            type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                             message: location + type + '"' + token.origLexeme + '" expected "' + message.expected + '".'
                         }
                     );
@@ -883,7 +884,7 @@ exports.IDE = class extends CompileAndRun {
                         dispatcher.dispatch(
                             'Console.Log',
                             {
-                                type:    Console.MESSAGE_TYPE_ERROR,
+                                type:    SettingsState.CONSOLE_MESSAGE_TYPE_ERROR,
                                 message: 'Error: File "' + filename + '" not found.'
                             }
                         );

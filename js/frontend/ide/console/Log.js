@@ -17,6 +17,7 @@ class LogMessage extends DOMNode {
         this._parentMessageId = opts.parentMessageId;
         this._messageId       = opts.messageId;
         this._message         = opts.message;
+        this._type            = opts.type;
         this._className       = opts.className || '';
         this._count           = 1;
         this.initDOM(opts.parentNode);
@@ -52,6 +53,10 @@ class LogMessage extends DOMNode {
 
     getMessageId() {
         return this._messageId;
+    }
+
+    getType() {
+        return this._type;
     }
 
     getClassName() {
@@ -153,7 +158,7 @@ exports.Log = class extends DOMNode {
         if (!this._element) {
             return;
         }
-        if (this._lastMessage && (this._lastMessage.getMessage() === opts.message)) {
+        if (this._lastMessage && (this._lastMessage.getMessage() === opts.message) && (this._lastMessage.getType() === opts.type)) {
             this._lastMessage.addCount();
         } else {
             this._lastMessage = new LogMessage({
@@ -163,7 +168,8 @@ exports.Log = class extends DOMNode {
                 messageId:       opts.messageId,
                 parentMessageId: opts.parentMessageId,
                 lineInfo:        opts.lineInfo,
-                className:       'console-line ' + (opts.type || '').toLowerCase()
+                type:            opts.type,
+                className:       'console-line type-' + (opts.type || '').toLowerCase()
             });
             this._messages.push(this._lastMessage);
         }

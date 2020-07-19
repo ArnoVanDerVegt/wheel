@@ -6,7 +6,7 @@ const dispatcher      = require('../../lib/dispatcher').dispatcher;
 const path            = require('../../lib/path');
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../data/images').getImage;
-const Console         = require('../console/Console');
+const SettingsState   = require('../settings/SettingsState');
 const WheelSyntax     = require('./woc/WheelSyntax').WheelSyntax;
 const IndexList       = require('./components/IndexList').IndexList;
 const IndexListText   = require('./components/IndexListText').IndexListText;
@@ -770,7 +770,7 @@ class HelpBuilderText {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
-                        type:    Console.MESSAGE_TYPE_HINT,
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                         message: 'Writing: <i>' + 'site/docs/' + filename + '</i>'
                     }
                 );
@@ -787,7 +787,7 @@ class HelpBuilderText {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_HINT,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                 message: 'Writing: <i>site/docs/index.html</i>'
             }
         );

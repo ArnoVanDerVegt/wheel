@@ -6,7 +6,7 @@ const DOMNode    = require('../../../../lib/dom').DOMNode;
 const dispatcher = require('../../../../lib/dispatcher').dispatcher;
 const Checkbox   = require('../../../../lib/components/Checkbox').Checkbox;
 
-exports.BooleanSetting = class extends DOMNode {
+exports.CheckboxSetting = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._updateFunctions = opts.updateFunctions;
@@ -17,6 +17,7 @@ exports.BooleanSetting = class extends DOMNode {
         this._getter          = opts.getter;
         this._signal          = opts.signal;
         this._description     = opts.description;
+        this._onChange        = opts.onChange;
         this.initDOM(opts.parentNode);
     }
 
@@ -27,7 +28,8 @@ exports.BooleanSetting = class extends DOMNode {
                 className: 'boolean-setting',
                 children: [
                     {
-                        id: (element) => {
+                        ref: this.setRef('checkbox'),
+                        id:  (element) => {
                             this._updateFunctions.push(() => {
                                 element.setValue(!!this._settings[this._getter]());
                             });
@@ -38,6 +40,7 @@ exports.BooleanSetting = class extends DOMNode {
                         tabIndex: this._tabIndex,
                         onChange: (value) => {
                             dispatcher.dispatch(this._signal, value);
+                            this._onChange && this._onChange(value);
                         }
                     },
                     {
@@ -47,5 +50,13 @@ exports.BooleanSetting = class extends DOMNode {
                 ]
             }
         );
+    }
+
+    getChecked() {
+        return this._refs.checkbox.getValue();
+    }
+
+    setChecked(checked) {
+        this._refs.checkbox.setValue(checked);
     }
 };

@@ -6,7 +6,7 @@ const platform        = require('../../../../lib/platform');
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../../lib/dom').DOMNode;
 const Button          = require('../../../../lib/components/Button').Button;
-const Console         = require('../../../console/Console');
+const SettingsState   = require('../../../settings/SettingsState');
 const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Display         = require('./io/Display').Display;
 const Buttons         = require('./io/Buttons').Buttons;
@@ -135,7 +135,7 @@ exports.Plugin = class extends SimulatorPlugin {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    Console.MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
                 message: 'Copied display to clipboard.'
             }
         );

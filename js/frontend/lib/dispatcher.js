@@ -50,3 +50,4 @@ class Dispatcher {
 
 exports.Dispatcher = Dispatcher;
 exports.dispatcher = new Dispatcher();
+

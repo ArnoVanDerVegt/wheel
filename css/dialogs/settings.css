@@ -70,6 +70,13 @@
     width:                          calc(100% - 40px);
     line-height:                    22px;
 }
+/* Title */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .title-row {
+    float:                          left;
+    width:                          100%;
+    padding:                        8px 0 0 8px;
+    margin:                         0 0 8px 0;
+}
 /* Text property list */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"] {
     float:                          left;
@@ -79,6 +86,11 @@
     margin:                         0 0 4px 0;
     outline:                        none;
     border-radius:                  2px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .spacer {
+    float:                          left;
+    width:                          100%;
+    height:                         32px;
 }
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list {
     float:                          left;
@@ -133,35 +145,39 @@
     float:                          left;
     width:                          calc(75% - 80px);
 }
-/* Image open settings */
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings {
+/* Description row */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .description-row {
     float:                          left;
-    margin:                         8px 0 16px 8px;
-    width:                          calc(100% - 40px);
+    width:                          100%;
+    line-height:                    18px;
+    margin:                         0 0 16px 8px;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings .image-setting-row {
+/* Radio row */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row {
     float:                          left;
     width:                          100%;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings .image-setting-row.description {
-    line-height:                    18px;
-    margin-bottom:                  16px;
-}
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row .label {
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row .label {
     float:                          left;
     width:                          100px;
     text-align:                     right;
     line-height:                    18px;
     padding:                        0 8px 0 0;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio,
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio a.radio-option {
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio a.radio-option {
     float:                          left;
     width:                          auto;
 }
-.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-setting-row div.radio a.radio-option {
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio a.radio-option {
     padding-right:                  8px;
     margin-right:                   4px;
+}
+/* Image open settings */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings {
+    float:                          left;
+    margin:                         0;
+    width:                          100%;
 }
 /* Update */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {

@@ -410,7 +410,7 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._viewMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
-        menuOptions[1].setChecked(settings.getShowConsole());
+        menuOptions[1].setChecked(settings.getConsoleVisible());
         menuOptions[2].setChecked(settings.getShowProperties());
         menuOptions[3].setChecked(settings.getShowSimulator());
         menuOptions[4].setChecked(settings.getShowSimulatorOnRun());

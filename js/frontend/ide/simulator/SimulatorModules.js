@@ -16,7 +16,7 @@ const poweredUpModuleConstants     = require('../../../shared/vm/modules/powered
 const componentFormModuleConstants = require('../../../shared/vm/modules/components/componentFormModuleConstants');
 const Sound                        = require('../../../shared/lib/Sound').Sound;
 const dispatcher                   = require('../../lib/dispatcher').dispatcher;
-const Console                      = require('../console/Console');
+const SettingsState                = require('../settings/SettingsState');
 const pluginUuid                   = require('../plugins/pluginUuid');
 
 const callOnObject = function() {
@@ -141,7 +141,7 @@ exports.SimulatorModules = class {
                     dispatcher.dispatch(
                         'Console.Log',
                         {
-                            type:      Console.MESSAGE_TYPE_WARNING,
+                            type:      SettingsState.CONSOLE_MESSAGE_TYPE_WARNING,
                             message:   'Warning: no display available, only EV3 has a display!'
                         }
                     );
