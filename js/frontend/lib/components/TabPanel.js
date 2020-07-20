@@ -10,43 +10,42 @@ exports.TabPanel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'tab-panels';
         super(opts);
-        this._settings         = opts.settings;
-        this._getDataProvider  = opts.getDataProvider;
-        this._getFormPath      = opts.getFormPath;
-        this._design           = opts.design;
-        this._containerIds     = opts.containerIds;
-        this._panelConstructor = opts.panelConstructor || 'div';
-        this._panelOpts        = opts.panelOpts || {};
-        this._width            = opts.width     || 128;
-        this._height           = opts.height    ||  80;
-        this._children         = opts.children  || [];
-        this._tabs             = opts.tabs;
-        this._panels           = [];
-        this._active           = 0;
-        this._onChange         = opts.onChange;
-        this._events           = [];
+        this._containerIdsForForm = opts.containerIdsForForm;
+        this._settings            = opts.settings;
+        this._getDataProvider     = opts.getDataProvider;
+        this._getFormPath         = opts.getFormPath;
+        this._design              = opts.design;
+        this._containerIds        = opts.containerIds;
+        this._panelConstructor    = opts.panelConstructor || 'div';
+        this._panelOpts           = opts.panelOpts || {};
+        this._width               = opts.width     || 128;
+        this._height              = opts.height    ||  80;
+        this._children            = opts.children  || [];
+        this._tabs                = opts.tabs;
+        this._panels              = [];
+        this._active              = 0;
+        this._onChange            = opts.onChange;
+        this._events              = [];
         this.initDOM(opts.parentNode);
     }
 
     initPanels() {
         this._panels.length = 0;
         let children = [];
-        this._tabs.forEach(
-            function(tab, index) {
-                let opts = Object.assign({}, this._panelOpts);
-                opts.type            = this._panelConstructor;
-                opts.getDataProvider = this._getDataProvider;
-                opts.getFormPath     = this._getFormPath;
-                opts.settings        = this._settings;
-                opts.design          = this._design;
-                opts.containerId     = this._containerIds ? this._containerIds[index] : null;
-                opts.id              = this.addPanel.bind(this);
-                opts.className       = 'tab-panel' + ((index === this._active) ? ' visible' : '');
-                opts.children        = this._children[index] || [];
-                children.push(opts);
-            },
-            this
-        );
+        this._tabs.forEach((tab, index) => {
+            let opts = Object.assign({}, this._panelOpts);
+            opts.type                = this._panelConstructor;
+            opts.containerIdsForForm = this._containerIdsForForm;
+            opts.getDataProvider     = this._getDataProvider;
+            opts.getFormPath         = this._getFormPath;
+            opts.settings            = this._settings;
+            opts.design              = this._design;
+            opts.containerId         = this._containerIds ? this._containerIds[index] : null;
+            opts.id                  = this.addPanel.bind(this);
+            opts.className           = 'tab-panel' + ((index === this._active) ? ' visible' : '');
+            opts.children            = this._children[index] || [];
+            children.push(opts);
+        });
         return children;
     }
 

@@ -11,51 +11,36 @@ const EventList           = require('./state/EventList').EventList;
 const PropertyList        = require('./state/PropertyList').PropertyList;
 const formEditorConstants = require('./formEditorConstants');
 
-/**
- * - All components except for the form have a parentId.
- *
- * - If a component can contain other components then it has a list called `containerIds`.
- * - The child component(s) of that component have a parentId which is equal to a value
- *   in the `componentIds` list.
- *
- * - The form component does not have a `containerIds` property.
-**/
-
-let formComponentContainerByContainerId = {};
-
-exports.getFormComponentContainerByContainerId = (containerId) => {
-    return formComponentContainerByContainerId[containerId] || null;
-};
-
 exports.FormComponentContainer = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._settings         = opts.settings;
-        this._design           = opts.design;
-        this._getDataProvider  = opts.getDataProvider;
-        this._mouseDown        = false;
-        this._mouseOffsetX     = 0;
-        this._mouseOffsetY     = 0;
-        this._mouseElement     = null;
-        this._mouseComponentId = null;
-        this._mouseMoved       = false;
-        this._elementById      = {};
-        this._onMouseDown      = opts.onMouseDown;
-        this._ui               = opts.ui;
-        this._className        = opts.className;
-        this._formEditorState  = opts.formEditorState;
-        this._events           = [
+        if (!opts.containerId) {
+            throw new Error('Missing container id');
+        }
+        this._containerIdsForForm = opts.containerIdsForForm;
+        this._containerId         = opts.containerId;
+        this._settings            = opts.settings;
+        this._design              = opts.design;
+        this._getDataProvider     = opts.getDataProvider;
+        this._mouseDown           = false;
+        this._mouseOffsetX        = 0;
+        this._mouseOffsetY        = 0;
+        this._mouseElement        = null;
+        this._mouseComponentId    = null;
+        this._mouseMoved          = false;
+        this._elementById         = {};
+        this._onMouseDown         = opts.onMouseDown;
+        this._ui                  = opts.ui;
+        this._className           = opts.className;
+        this._formEditorState     = opts.formEditorState;
+        this._events              = [
             this._formEditorState.on('AddComponent',    this, this.onAddComponent),
             this._formEditorState.on('DeleteComponent', this, this.onDeleteComponent),
             this._formEditorState.on('ChangePosition',  this, this.onChangePosition),
             this._formEditorState.on('ChangeProperty',  this, this.onChangeProperty),
             dispatcher.on('Properties.Property.Change', this, this.onChangeProperty)
         ];
-        if (!opts.containerId) {
-            throw new Error('Missing container id');
-        }
-        this._containerId                                     = opts.containerId;
-        formComponentContainerByContainerId[opts.containerId] = this;
+        this._containerIdsForForm.addContainerId(this._containerId, this);
         this.initDOM(opts.parentNode);
         opts.id && opts.id(this);
     }
@@ -222,6 +207,7 @@ exports.FormComponentContainer = class extends DOMNode {
 
     onAddComponent(opts) {
         let propertiesByType = formEditorConstants.PROPERTIES_BY_TYPE;
+        opts.containerIdsForForm  = this._containerIdsForForm;
         opts.componentConstructor = require('../../../../' + propertiesByType[opts.type.toUpperCase()].component).Component;
         if (!opts.componentConstructor) {
             return;
@@ -263,22 +249,23 @@ exports.FormComponentContainer = class extends DOMNode {
         let element;
         let formEditorState = this._formEditorState;
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
-        opts.onMouseDown     = (event) => { this.onComponentMouseDown(event, element, opts); };
-        opts.style           = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
-        opts.getImage        = getImage;
-        opts.getFormPath     = this.getFormPath.bind(this);
-        opts.getDataProvider = this._getDataProvider;
-        opts.settings        = this._settings;
-        opts.design          = this._design;
-        opts.parentNode      = this._formElement;
-        opts.ui              = this._ui;
-        opts.uiId            = 1;
-        opts.propertyList    = new PropertyList({
+        opts.onMouseDown         = (event) => { this.onComponentMouseDown(event, element, opts); };
+        opts.style               = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.getImage            = getImage;
+        opts.getFormPath         = this.getFormPath.bind(this);
+        opts.getDataProvider     = this._getDataProvider;
+        opts.settings            = this._settings;
+        opts.design              = this._design;
+        opts.parentNode          = this._formElement;
+        opts.ui                  = this._ui;
+        opts.containerIdsForForm = this._containerIdsForForm;
+        opts.uiId                = 1;
+        opts.propertyList        = new PropertyList({
             component:       component,
             componentList:   formEditorState.getComponentList(),
             formEditorState: formEditorState
         });
-        opts.eventList       = new EventList({
+        opts.eventList           = new EventList({
             component:       component,
             formEditorState: formEditorState
         });

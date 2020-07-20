@@ -2,9 +2,10 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../js/frontend/lib/dispatcher').dispatcher;
-const FormEditorState = require('../../js/frontend/ide/editor/editors/form/state/FormEditorState').FormEditorState;
-const assert          = require('assert');
+const dispatcher          = require('../../js/frontend/lib/dispatcher').dispatcher;
+const ContainerIdsForForm = require('../../js/frontend/ide/editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
+const FormEditorState     = require('../../js/frontend/ide/editor/editors/form/state/FormEditorState').FormEditorState;
+const assert              = require('assert');
 
 afterEach(function() {
     dispatcher.reset();
@@ -96,9 +97,9 @@ describe(
                     'Should create FormEditorState instance',
                     function() {
                         let formEditorState = new FormEditorState({
-                                getOwnerByContainerId: () => { return false; },
-                                path:                 'hello/world',
-                                filename:             'test.wfrm'
+                                containerIdsForForm: new ContainerIdsForForm(),
+                                path:                'hello/world',
+                                filename:            'test.wfrm'
                             });
                         assert.equal(formEditorState instanceof FormEditorState, true);
                     }
@@ -107,10 +108,10 @@ describe(
                     'Should peek initial Id',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByContainerId: () => { return false; },
-                                initTime:              2,
-                                path:                  'hello/world',
-                                filename:              'test.wfrm'
+                                containerIdsForForm: new ContainerIdsForForm(),
+                                initTime:            2,
+                                path:                'hello/world',
+                                filename:            'test.wfrm'
                             });
                         formEditorState.on(
                             'AddForm',
@@ -132,17 +133,17 @@ describe(
                     'Should load an empty form',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByContainerId: () => { return false; },
-                                initTime:              2,
-                                path:                  'hello/world',
-                                filename:              'test.wfrm',
-                                data:                  EMPTY_FORM
+                                containerIdsForForm: new ContainerIdsForForm(),
+                                initTime:            2,
+                                path:                'hello/world',
+                                filename:            'test.wfrm',
+                                data:                EMPTY_FORM
                             });
                         formEditorState.on(
-                            'AddForm',
+                            'Loaded',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(),      1);
+                                assert.equal(formEditorState.peekId(),      2);
                                 assert.equal(formEditorState.getFormName(), 'label'); // Form name is only ready after init!
                                 done();
                             }
@@ -157,17 +158,17 @@ describe(
                     'Should load a form with one component',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByContainerId: () => { return false; },
-                                initTime:              2,
-                                path:                  'hello/world',
-                                filename:              'test.wfrm',
-                                data:                  FORM_WITH_ONE_COMPONENT
+                                containerIdsForForm: new ContainerIdsForForm(),
+                                initTime:            2,
+                                path:                'hello/world',
+                                filename:            'test.wfrm',
+                                data:                FORM_WITH_ONE_COMPONENT
                             });
                         formEditorState.on(
-                            'AddForm',
+                            'Loaded',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(), 1);
+                                assert.equal(formEditorState.peekId(), 4);
                                 done();
                             }
                         );
@@ -178,17 +179,17 @@ describe(
                     'Should load a form with two components',
                     function(done) {
                         let formEditorState = new FormEditorState({
-                                getOwnerByContainerId: () => { return false; },
-                                initTime:              2,
-                                path:                  'hello/world',
-                                filename:              'test.wfrm',
-                                data:                  FORM_WITH_TWO_COMPONENTS
+                                containerIdsForForm: new ContainerIdsForForm(),
+                                initTime:            2,
+                                path:                'hello/world',
+                                filename:            'test.wfrm',
+                                data:                FORM_WITH_TWO_COMPONENTS
                             });
                         formEditorState.on(
-                            'AddForm',
+                            'Loaded',
                             this,
                             () => {
-                                assert.equal(formEditorState.peekId(), 1);
+                                assert.equal(formEditorState.peekId(), 5);
                                 done();
                             }
                         );

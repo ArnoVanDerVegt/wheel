@@ -6,12 +6,12 @@ const formEditorConstants = require('../formEditorConstants');
 
 exports.UndoStack = class {
     constructor(opts) {
-        this._getOwnerByContainerId = opts.getOwnerByContainerId;
-        this._componentBuilder      = opts.componentBuilder;
-        this._componentList         = opts.componentList;
-        this._formEditorState       = opts.formEditorState;
-        this._undoStack             = [];
-        this._enabled               = false;
+        this._containerIdsForForm = opts.containerIdsForForm;
+        this._componentBuilder    = opts.componentBuilder;
+        this._componentList       = opts.componentList;
+        this._formEditorState     = opts.formEditorState;
+        this._undoStack           = [];
+        this._enabled             = false;
     }
 
     setEnabled(enabled) {
@@ -58,7 +58,7 @@ exports.UndoStack = class {
         let componentBuilder = this._componentBuilder;
         let component;
         let addComponent = (component) => {
-                component.owner = this._getOwnerByContainerId(component.parentId);
+                component.owner = this._containerIdsForForm.getFormComponentContainerByContainerId(component.parentId);
                 componentList.setComponentById(component, component.id);
                 componentBuilder.addComponentForType(component, component.type);
                 return component;

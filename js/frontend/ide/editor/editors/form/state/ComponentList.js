@@ -224,8 +224,7 @@ exports.ComponentList = class {
     }
 
     selectComponentById(id) {
-        let component = this._componentsById[id];
-        if (component) {
+        if (this._componentsById[id]) {
             this._activeComponentId = id;
             return this.getComponentClone(id);
         }

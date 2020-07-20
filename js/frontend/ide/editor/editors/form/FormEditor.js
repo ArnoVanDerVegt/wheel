@@ -13,16 +13,17 @@ const ToolbarBottom                          = require('./toolbar/ToolbarBottom'
 const FormEditorState                        = require('./state/FormEditorState').FormEditorState;
 const formEditorConstants                    = require('./formEditorConstants');
 const FormComponent                          = require('./FormComponent').FormComponent;
-const getFormComponentContainerByContainerId = require('./FormComponentContainer').getFormComponentContainerByContainerId;
 const SourceBuilder                          = require('./SourceBuilder').SourceBuilder;
+const ContainerIdsForForm                    = require('./ContainerIdsForForm').ContainerIdsForForm;
 
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
-        opts.getOwnerByContainerId = getFormComponentContainerByContainerId;
-        this._settings             = opts.settings;
-        this._sourceBuilder        = new SourceBuilder({settings: opts.settings});
-        this._formEditorState      = new FormEditorState(opts);
+        opts.containerIdsForForm  = new ContainerIdsForForm();
+        this._containerIdsForForm = opts.containerIdsForForm;
+        this._settings            = opts.settings;
+        this._sourceBuilder       = new SourceBuilder({settings: opts.settings});
+        this._formEditorState     = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
             .on('ChangeEvent',     this, this.onChangeEvent)
@@ -92,17 +93,18 @@ exports.FormEditor = class extends Editor {
                 className: 'resource-content-wrapper',
                 children: [
                     {
-                        type:            FormComponent,
-                        ref:             this.setRef('grid'),
-                        settings:        this._settings,
-                        ui:              this._ui,
-                        id:              this.setFormComponent.bind(this),
-                        formEditorState: this._formEditorState,
-                        containerId:     1,
-                        form:            true,
-                        design:          true,
-                        className:       'resource with-shadow form grid' + this._settings.getFormGridSize(),
-                        getDataProvider: getDataProvider
+                        type:                FormComponent,
+                        ref:                 this.setRef('grid'),
+                        containerIdsForForm: this._containerIdsForForm,
+                        settings:            this._settings,
+                        ui:                  this._ui,
+                        id:                  this.setFormComponent.bind(this),
+                        formEditorState:     this._formEditorState,
+                        containerId:         1,
+                        form:                true,
+                        design:              true,
+                        className:           'resource with-shadow form grid' + this._settings.getFormGridSize(),
+                        getDataProvider:     getDataProvider
                     }
                 ]
             }
@@ -161,10 +163,10 @@ exports.FormEditor = class extends Editor {
             let element           = this._formComponent.getElementById(activeComponentId);
             if (element && (element instanceof TabPanel)) {
                 parentId = parentId[element.getActive()];
-                owner    = getFormComponentContainerByContainerId(parentId);
+                owner    = this._containerIdsForForm.getFormComponentContainerByContainerId(parentId);
             }
         } else {
-            owner = getFormComponentContainerByContainerId(parentId);
+            owner = this._containerIdsForForm.getFormComponentContainerByContainerId(parentId);
             // Todo: show active tab panel!
         }
         if (owner) {

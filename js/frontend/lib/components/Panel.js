@@ -9,32 +9,33 @@ exports.Panel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'panel';
         super(opts);
-        this._settings         = opts.settings;
-        this._containerIds     = opts.containerIds;
-        this._getDataProvider  = opts.getDataProvider;
-        this._getFormPath      = opts.getFormPath;
-        this._panelConstructor = opts.panelConstructor || 'div';
-        this._panelOpts        = opts.panelOpts || {};
-        this._width            = opts.width     || 128;
-        this._height           = opts.height    ||  80;
-        this._children         = opts.children  || [];
-        this._tabs             = opts.tabs;
-        this._panels           = [];
-        this._active           = 0;
-        this._events           = [];
+        this._containerIdsForForm = opts.containerIdsForForm;
+        this._settings            = opts.settings;
+        this._containerIds        = opts.containerIds;
+        this._getDataProvider     = opts.getDataProvider;
+        this._getFormPath         = opts.getFormPath;
+        this._panelConstructor    = opts.panelConstructor || 'div';
+        this._panelOpts           = opts.panelOpts || {};
+        this._width               = opts.width     || 128;
+        this._height              = opts.height    ||  80;
+        this._children            = opts.children  || [];
+        this._tabs                = opts.tabs;
+        this._panels              = [];
+        this._active              = 0;
+        this._events              = [];
         this.initDOM(opts.parentNode);
     }
 
     initPanel() {
         this._panels.length = 0;
         let opts = Object.assign({}, this._panelOpts);
-        opts.panel       = true;
-        opts.settings    = this._settings;
-        opts.type        = this._panelConstructor;
-        opts.id          = this.addPanel.bind(this);
-        opts.className   = 'panel-panel';
-        opts.children    = this._children[0] || [];
-        opts.containerId = this._containerIds[0];
+        opts.containerIdsForForm = this._containerIdsForForm;
+        opts.settings            = this._settings;
+        opts.type                = this._panelConstructor;
+        opts.id                  = this.addPanel.bind(this);
+        opts.children            = this._children[0] || [];
+        opts.containerId         = this._containerIds[0];
+        opts.className           = 'panel-panel';
         return [opts];
     }
 

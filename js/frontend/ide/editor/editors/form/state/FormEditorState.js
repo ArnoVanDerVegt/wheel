@@ -20,21 +20,21 @@ exports.FormEditorState = class extends Emitter {
         this._clipboard             = null;
         this._path                  = opts.path;
         this._filename              = opts.filename;
-        this._getOwnerByContainerId = opts.getOwnerByContainerId;
-        this._nextId                = this.getNextFreeContainerId();
+        this._containerIdsForForm   = opts.containerIdsForForm;
+        this._nextId                = 0;
         this._formId                = this.peekId();
         this._componentList         = new ComponentList({
-            formEditorState:       this
+            formEditorState:     this
         });
         this._componentBuilder      = new ComponentBuilder({
-            formEditorState:       this,
-            componentList:         this._componentList
+            formEditorState:     this,
+            componentList:       this._componentList
         });
         this._undoStack             = new UndoStack({
-            formEditorState:       this,
-            componentBuilder:      this._componentBuilder,
-            componentList:         this._componentList,
-            getOwnerByContainerId: this._getOwnerByContainerId
+            formEditorState:     this,
+            componentBuilder:    this._componentBuilder,
+            componentList:       this._componentList,
+            containerIdsForForm: this._containerIdsForForm
         });
         this._componentList.setUndoStack(this._undoStack);
         this._componentTypes        = formEditorConstants.COMPONENT_TYPES_STANDARD;
@@ -48,7 +48,6 @@ exports.FormEditorState = class extends Emitter {
             dispatcher.on('Properties.Select.Properties', this, this.onSelectProperties),
             dispatcher.on('Properties.SelectComponent',   this, this.onSelectComponent)
         ];
-        this.initData(opts.data || []);
         let initTime = ('initTime' in opts) ? opts.initTime : 50;
         setTimeout(this.initForm.bind(this, opts), initTime);
     }
@@ -57,28 +56,6 @@ exports.FormEditorState = class extends Emitter {
         while (this._dispatch.length) {
             this._dispatch.pop()();
         }
-    }
-
-    initData(data) {
-        let minId = 10240;
-        data.forEach((item) => {
-            minId = Math.min(minId, item.id, item.parentId || 10240);
-            if ('containerIds' in item) {
-                for (let i = 0; i < item.containerIds.length; i++) {
-                    minId = Math.min(minId, item.containerIds[i]);
-                }
-            }
-        });
-        let offsetId = this.peekId() - minId;
-        data.forEach((item) => {
-            item.id       += offsetId;
-            item.parentId += offsetId;
-            if ('containerIds' in item) {
-                for (let i = 0; i < item.containerIds.length; i++) {
-                    item.containerIds[i] += offsetId;
-                }
-            }
-        });
     }
 
     initForm(opts) {
@@ -103,7 +80,7 @@ exports.FormEditorState = class extends Emitter {
             let data = opts.data;
             for (let i = 1; i < data.length; i++) {
                 let component = data[i];
-                component.owner = this._getOwnerByContainerId(component.parentId);
+                component.owner = this._containerIdsForForm.getFormComponentContainerByContainerId(component.parentId);
                 if (typeof component.parentId === 'number') {
                     this._nextId = Math.max(this._nextId, component.parentId);
                 }
@@ -115,6 +92,7 @@ exports.FormEditorState = class extends Emitter {
         }
         this._undoStack.setEnabled(true);
         this._loading = false;
+        this.emit('Loaded', this);
         dispatcher.dispatch('FormEditor.Select.ToolbarTool', {toolGroup: 0, toolIndex: 0});
     }
 
@@ -125,14 +103,6 @@ exports.FormEditorState = class extends Emitter {
     getNextId() {
         this._nextId++;
         return this._nextId;
-    }
-
-    getNextFreeContainerId() {
-        let id = 0;
-        while (this._getOwnerByContainerId(id)) {
-            id += 10240;
-        }
-        return id;
     }
 
     getLoading() {
@@ -303,7 +273,7 @@ exports.FormEditorState = class extends Emitter {
         this._componentBuilder.addComponentForType(component, opts.type || this.getActiveAddComponentType());
         this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
-            .emit('AddComponent', component)
+            .emit('AddComponent', Object.assign({}, component))
             .updateComponents(component.id);
     }
 

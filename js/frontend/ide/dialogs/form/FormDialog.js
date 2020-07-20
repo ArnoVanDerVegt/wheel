@@ -20,6 +20,7 @@ const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Mo
 const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
+const ContainerIdsForForm = require('../../editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
 const SettingsState       = require('../../settings/SettingsState');
 
 exports.FormDialog = class extends Dialog {
@@ -30,6 +31,7 @@ exports.FormDialog = class extends Dialog {
         this._program                = opts.program;
         this._onHide                 = opts.onHide;
         this._componentFormContainer = opts.componentFormContainer;
+        this._containerIdsForForm    = new ContainerIdsForForm();
         this._win                    = this._componentFormContainer.addWindow();
         this._title                  = '';
         this._width                  = 300;
@@ -145,12 +147,13 @@ exports.FormDialog = class extends Dialog {
                     this._title  = component.title;
                     this.addFormEvents(component);
                 } else if (parent) {
-                    component.getImage = getImage;
-                    component.event    = win.getUiId() + '_' + parseInt(component.uid, 16);
-                    component.id       = win.addComponent.bind(win);
-                    component.ui       = this._ui;
-                    component.uiId     = this._uiId;
-                    component.style    = {
+                    component.containerIdsForForm = this._containerIdsForForm;
+                    component.getImage            = getImage;
+                    component.event               = win.getUiId() + '_' + parseInt(component.uid, 16);
+                    component.id                  = win.addComponent.bind(win);
+                    component.ui                  = this._ui;
+                    component.uiId                = this._uiId;
+                    component.style               = {
                         position: 'absolute',
                         left:     component.x + 'px',
                         top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
