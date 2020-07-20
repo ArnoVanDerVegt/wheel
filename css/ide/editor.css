@@ -91,6 +91,10 @@
     line-height:                    42px;
     font-size:                      13px;
 }
+.editor .source-wrapper .resource-wrapper .resource-options .bottom-options .label,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bottom-options .label {
+    line-height:                    38px;
+}
 .editor .source-wrapper .resource-wrapper .resource-options.top .label {
     height:                         48px;
     line-height:                    48px;
@@ -417,9 +421,9 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 .resource-options .tool-options-toolbar {
     margin:                         8px 2px 0 2px;
 }
-.resource-options.bottom.viewer .tool-options,
-.resource-options.bottom.viewer .tool-options-toolbar {
-    margin:                         8px 2px 0 8px;
+.resource-options .bottom-options .tool-options,
+.resource-options .bottom-options .tool-options-toolbar {
+    margin:                         4px 2px 0 8px;
 }
 .resource-options.bottom.viewer .select-and-copy {
     margin:                         8px 2px 0 8px;

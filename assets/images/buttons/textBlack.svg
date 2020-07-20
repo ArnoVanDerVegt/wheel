@@ -1,3 +1,5 @@
-<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-    <text x="4" y="16" style="font-family:verdana;font-size:18px;" fill="rgb(0,0,0)">T</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <g transform="translate(1.5, 3.5)">
+        <text x="3" y="16" style="font-family:verdana;font-size:20px;" fill="rgb(0,0,0)">T</text>
+    </g>
 </svg>

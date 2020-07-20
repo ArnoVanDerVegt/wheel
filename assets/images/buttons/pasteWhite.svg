@@ -1,5 +1,5 @@
-<svg version="1.1" baseProfile="full" width="16" height="16" viewBox="0 50 1000 1000" xmlns="http://www.w3.org/2000/svg">
-    <g transform="scale(1,-1) translate(0, -1000)">
-        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z" />
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <g transform="scale(0.018,-0.018) translate(130, -1125)">
+        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z"/>
     </g>
 </svg>

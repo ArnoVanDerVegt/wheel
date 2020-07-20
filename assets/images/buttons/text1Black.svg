@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <g transform="translate(1.5, 3.5)">
+        <text x="3" y="16" style="font-family:verdana;font-size:20px;" fill="rgb(0,0,0)">T</text>
+        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>
+        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">1</text>
+    </g>
+</svg>

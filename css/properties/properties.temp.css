@@ -343,8 +343,8 @@ input[type="button"].component-button {
     border:                         2px solid transparent;
     border-radius:                  24px;
     background-repeat:              no-repeat;
-    background-size:                38px 38px;
-    background-position:            3px 6px;
+    background-size:                44px 44px;
+    background-position:            0 0;
     background-color:               transparent;
     margin:                         0 4px 4px 0;
     box-shadow:                     none;
@@ -390,7 +390,6 @@ input[type="button"].component-button.component-status-light {
 body.ide.dark input[type="button"].component-button.component-status-light {
     background-image:               url('images/buttons/statusLightWhite.svg');
 }
-
 input[type="button"].component-button.component-panel {
     background-image:               url('images/buttons/panelBlack.svg');
 }
@@ -403,24 +402,12 @@ input[type="button"].component-button.component-tabs {
 body.ide.dark input[type="button"].component-button.component-tabs {
     background-image:               url('images/buttons/tabsWhite.svg');
 }
-input[type="button"].component-button.component-panel,
-input[type="button"].component-button.component-tabs,
-body.ide.dark input[type="button"].component-button.component-panel,
-body.ide.dark input[type="button"].component-button.component-tabs {
-    background-position:            3px 3px;
-}
-
 input[type="button"].component-button.component-slider {
     background-image:               url('images/buttons/sliderBlack.svg');
 }
 body.ide.dark input[type="button"].component-button.component-slider {
     background-image:               url('images/buttons/sliderWhite.svg');
 }
-input[type="button"].component-button.component-slider,
-body.ide.dark input[type="button"].component-button.component-slider {
-    background-position:            3px 7px;
-}
-
 input[type="button"].component-button.component-label {
     background-image:               url('images/buttons/labelBlack.svg');
 }
@@ -433,13 +420,6 @@ input[type="button"].component-button.component-checkbox {
 body.ide.dark input[type="button"].component-button.component-checkbox {
     background-image:               url('images/buttons/checkboxWhite.svg');
 }
-input[type="button"].component-button.component-label,
-input[type="button"].component-button.component-checkbox,
-body.ide.dark input[type="button"].component-button.component-label,
-body.ide.dark input[type="button"].component-button.component-checkbox {
-    background-position:            4.5px 5px;
-}
-
 input[type="button"].component-button.component-rectangle {
     background-image:               url('images/buttons/rectBlack.svg');
 }
@@ -452,13 +432,6 @@ input[type="button"].component-button.component-circle {
 body.ide.dark input[type="button"].component-button.component-circle {
     background-image:               url('images/buttons/circleWhite.svg');
 }
-input[type="button"].component-button.component-rectangle,
-input[type="button"].component-button.component-circle,
-body.ide.dark input[type="button"].component-button.component-rectangle,
-body.ide.dark input[type="button"].component-button.component-circle {
-    background-position:            3px 3px;
-}
-
 input[type="button"].component-button.component-image {
     background-image:               url('images/buttons/imageBlack.svg');
 }
@@ -482,15 +455,4 @@ input[type="button"].component-button.component-ev3-motor {
 }
 body.ide.dark input[type="button"].component-button.component-ev3-motor {
     background-image:               url('images/buttons/ev3MotorWhite.svg');
-}
-input[type="button"].component-button.component-image,
-input[type="button"].component-button.component-pu-sensor,
-input[type="button"].component-button.component-ev3-sensor,
-input[type="button"].component-button.component-ev3-motor,
-body.ide.dark input[type="button"].component-button.component-image,
-body.ide.dark input[type="button"].component-button.component-pu-sensor,
-body.ide.dark input[type="button"].component-button.component-ev3-sensor,
-body.ide.dark input[type="button"].component-button.component-ev3-motor {
-    background-size:                35px 35px;
-    background-position:            5.5px 7px;
 }
