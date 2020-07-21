@@ -1,27 +1,61 @@
-.loading-dots {
+.loading-dots,
+.loading-dots.design .design {
     position:                       absolute;
-    left:                           50%;
-    top:                            50%;
-    width:                          57px;
+    width:                          50px;
     height:                         38px;
-    margin:                         -19px 0 0 -28.5px;
 }
-.loading-dots > div, .loading-dots:before, .loading-dots:after {
+.loading-dots .design {
+    display:                        none;
+}
+.loading-dots.design .design {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    border:                         var(--design-border);
+    content:                        " ";
+    display:                        block;
+    pointer-events:                 none;
+}
+.loading-dots > div:first-child,
+.loading-dots:before,
+.loading-dots:after {
     display:                        inline-block;
     width:                          13px;
     height:                         13px;
-    background-color:               #3498DB;
+    background-color:               rgba(128, 128, 128, 0.5);
     margin-bottom:                  -5px;
     border-radius:                  50%;
     animation:                      bouncing-loader 0.6s infinite alternate;
 }
-.loading-dots > div, .loading-dots:before, .loading-dots:after {
+.loading-dots.blue > div:first-child,
+.loading-dots.blue:before,
+.loading-dots.blue:after {
+    background-color:               var(--color-blue);
+}
+.loading-dots.red > div:first-child,
+.loading-dots.red:before,
+.loading-dots.red:after {
+    background-color:               var(--color-red);
+}
+.loading-dots.green > div:first-child,
+.loading-dots.green:before,
+.loading-dots.green:after {
+    background-color:               var(--color-green);
+}
+.loading-dots.yellow > div:first-child,
+.loading-dots.yellow:before,
+.loading-dots.yellow:after {
+    background-color:               var(--color-yellow);
+}
+.loading-dots > div:first-child,
+.loading-dots:before,
+.loading-dots:after {
     content:                        "";
 }
-.loading-dots > div {
+.loading-dots > div:first-child {
     margin:                         0 5px;
 }
-.loading-dots > div {
+.loading-dots > div:first-child {
     animation-delay:                0.2s;
 }
 .loading-dots:after {

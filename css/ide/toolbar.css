@@ -4,7 +4,7 @@
     height:                         40px;
     background-color:               var(--ui-background2);
     margin:                         0;
-    border:                         var(--ui-border1);
+    border:                         transparent;
     border-width:                   0 0 1px 0;
 }
 .resource-options .space {
@@ -19,14 +19,16 @@
 .resource-options .tool-options-toolbar input {
     opacity:                        0;
     transition:                     opacity .5s;
+    background-position:            -2px -2px;
+    background-size:                32px 32px;
 }
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue,
 .resource-options .tool-options-toolbar input,
 .resource-options input.toolbar-button {
     background-color:               transparent;
-    border:                         2px solid transparent;
     width:                          32px;
     height:                         32px;
+    border:                         2px solid transparent;
     border-radius:                  16px;
     box-shadow:                     none;
     transition:                     border-color 0.2s;
@@ -42,7 +44,8 @@
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue:hover,
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue.focus,
 .resource-options .tool-options-toolbar input:hover {
-    border:                         2px solid var(--color-blue);
+    border:                         2px solid transparent;
+    background-color:               var(--color-blue);
 }
 .resource-options input.toolbar-button.active,
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue.active,
@@ -50,12 +53,11 @@
     z-index:                        100;
     opacity:                        1;
 }
-/*.resource-options input.toolbar-button.active,*/
-.resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
-.resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active,
 .resource-options .tool-options-toolbar:hover input.active,
-.resource-options .tool-options-toolbar.focus input.active {
-    border-color:                   var(--color-green);
+.resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
+.resource-options .tool-options-toolbar.focus input.active,
+.resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active {
+    border-color:                   transparent;
 }
 .resource-options .tool-options-toolbar input[type="button"].icon-button.blue.active,
 .resource-options .tool-options-toolbar input.active {

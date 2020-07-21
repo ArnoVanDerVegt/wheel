@@ -41,6 +41,7 @@ exports.FormEditorState = class extends Emitter {
         this._standardComponent     = formEditorConstants.COMPONENT_TYPE_BUTTON;
         this._panelComponent        = formEditorConstants.COMPONENT_TYPE_TABS;
         this._graphicsComponent     = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
+        this._statusComponent       = formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT;
         this._ioComponent           = formEditorConstants.COMPONENT_TYPE_PU_DEVICE;
         this._dispatch              = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
@@ -140,6 +141,7 @@ exports.FormEditorState = class extends Emitter {
             case formEditorConstants.COMPONENT_TYPES_STANDARD: return this._standardComponent;
             case formEditorConstants.COMPONENT_TYPES_PANEL:    return this._panelComponent;
             case formEditorConstants.COMPONENT_TYPES_GRAPHICS: return this._graphicsComponent;
+            case formEditorConstants.COMPONENT_TYPES_STATUS:   return this._statusComponent;
             case formEditorConstants.COMPONENT_TYPES_IO:       return this._ioComponent;
         }
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
@@ -155,6 +157,10 @@ exports.FormEditorState = class extends Emitter {
 
     setGraphicsComponent(graphicsComponent) {
         this._graphicsComponent = graphicsComponent;
+    }
+
+    setStatusComponent(statusComponent) {
+        this._statusComponent = statusComponent;
     }
 
     setIOComponent(ioComponent) {
@@ -223,6 +229,7 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getCanCopy() {
+        // Todo: add types...
         switch (this.getActiveComponentType()) {
             case formEditorConstants.COMPONENT_TYPE_BUTTON:        return true;
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return true;

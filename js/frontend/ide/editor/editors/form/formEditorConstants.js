@@ -7,6 +7,7 @@
 exports.COMPONENT_TYPES_STANDARD     = 'standard';
 exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
+exports.COMPONENT_TYPES_STATUS       = 'status';
 exports.COMPONENT_TYPES_IO           = 'io';
 
 // Standard components...
@@ -15,9 +16,9 @@ exports.COMPONENT_TYPE_BUTTON        = 'button';
 exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
 exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
+exports.COMPONENT_TYPE_RADIO         = 'radio';
 exports.COMPONENT_TYPE_TEXT_INPUT    = 'textInput';
 exports.COMPONENT_TYPE_SLIDER        = 'slider';
-exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
 
 // Panel components...
 exports.COMPONENT_TYPE_PANEL         = 'panel';
@@ -27,6 +28,11 @@ exports.COMPONENT_TYPE_TABS          = 'tabs';
 exports.COMPONENT_TYPE_RECTANGLE     = 'rectangle';
 exports.COMPONENT_TYPE_CIRCLE        = 'circle';
 exports.COMPONENT_TYPE_IMAGE         = 'image';
+
+// Status components...
+exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
+exports.COMPONENT_TYPE_PROGRESS_BAR  = 'progress';
+exports.COMPONENT_TYPE_LOADING_DOTS  = 'loadingDots';
 
 // Sensor/motor components...
 exports.COMPONENT_TYPE_PU_DEVICE     = 'puDevice';
@@ -332,6 +338,55 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ]
     },
+    RADIO: {
+        component:  'lib/components/Radio',
+        include:    'lib/components/radio.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'textList',    name: 'options',      options: {sort: true, remove: true}},
+            {type: 'text',        name: 'value'} // Todo: validate based on options!
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} radio, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'New active button.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} radio.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} radio.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
     TEXTINPUT: {
         component:  'lib/components/TextInput',
         include:    'lib/components/textInput.whl',
@@ -445,6 +500,22 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'color',       name: 'color'},
             {type: 'boolean',     name: 'rgbColor'},
             {type: 'rgb',         name: 'rgb'}
+        ],
+        events: [
+        ]
+    },
+    LOADINGDOTS: {
+        component:  'lib/components/LoadingDots',
+        include:    'lib/components/loadingDots.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'color',       name: 'color'}
         ],
         events: [
         ]

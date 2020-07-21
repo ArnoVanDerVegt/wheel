@@ -336,6 +336,8 @@ body.ide.no-properties div.properties {
     color:                          var(--ui-text1);
     opacity:                        0.65;
 }
+input[type="button"].component-button:active,
+input[type="button"].component-button:focus,
 input[type="button"].component-button {
     float:                          left;
     width:                          48px;
@@ -349,110 +351,142 @@ input[type="button"].component-button {
     margin:                         0 4px 4px 0;
     box-shadow:                     none;
     opacity:                        0.6;
-    transition:                     opacity 0.3s, border-color 0.3s;
+    transition:                     opacity 0.3s, background-color 0.3s;
 }
 input[type="button"].active.component-button:focus,
 input[type="button"].active.component-button {
-    border:                         2px solid var(--color-green);
+    background-color:               var(--color-blue);
     opacity:                        1;
 }
 input[type="button"].component-button:hover {
     opacity:                        1;
 }
 input[type="button"].component-button:focus {
-    border:                         2px solid var(--color-blue);
-}
-
-input[type="button"].component-button:focus {
-    border:                         2px solid var(--color-blue);
+    background-color:               var(--color-blue);
 }
 input[type="button"].component-button.component-btn {
     background-image:               url('images/buttons/buttonBlack.svg');
 }
+input[type="button"].active.component-button.component-btn,
 body.ide.dark input[type="button"].component-button.component-btn {
     background-image:               url('images/buttons/buttonWhite.svg');
 }
 input[type="button"].component-button.component-select-btn {
     background-image:               url('images/buttons/selectButtonBlack.svg');
 }
+input[type="button"].active.component-button.component-select-btn,
 body.ide.dark input[type="button"].component-button.component-select-btn {
     background-image:               url('images/buttons/selectButtonWhite.svg');
 }
 input[type="button"].component-button.component-text-input {
     background-image:               url('images/buttons/textInputBlack.svg');
 }
+input[type="button"].active.component-button.component-text-input,
 body.ide.dark input[type="button"].component-button.component-text-input {
     background-image:               url('images/buttons/textInputWhite.svg');
 }
 input[type="button"].component-button.component-status-light {
     background-image:               url('images/buttons/statusLightBlack.svg');
 }
+input[type="button"].active.component-button.component-status-light,
 body.ide.dark input[type="button"].component-button.component-status-light {
     background-image:               url('images/buttons/statusLightWhite.svg');
 }
 input[type="button"].component-button.component-panel {
     background-image:               url('images/buttons/panelBlack.svg');
 }
+input[type="button"].active.component-button.component-panel,
 body.ide.dark input[type="button"].component-button.component-panel {
     background-image:               url('images/buttons/panelWhite.svg');
 }
 input[type="button"].component-button.component-tabs {
     background-image:               url('images/buttons/tabsBlack.svg');
 }
+input[type="button"].active.component-button.component-tabs,
 body.ide.dark input[type="button"].component-button.component-tabs {
     background-image:               url('images/buttons/tabsWhite.svg');
 }
 input[type="button"].component-button.component-slider {
     background-image:               url('images/buttons/sliderBlack.svg');
 }
+input[type="button"].active.component-button.component-slider,
 body.ide.dark input[type="button"].component-button.component-slider {
     background-image:               url('images/buttons/sliderWhite.svg');
 }
 input[type="button"].component-button.component-label {
     background-image:               url('images/buttons/labelBlack.svg');
 }
+input[type="button"].active.component-button.component-label,
 body.ide.dark input[type="button"].component-button.component-label {
     background-image:               url('images/buttons/labelWhite.svg');
 }
 input[type="button"].component-button.component-checkbox {
     background-image:               url('images/buttons/checkboxBlack.svg');
 }
+input[type="button"].active.component-button.component-checkbox,
 body.ide.dark input[type="button"].component-button.component-checkbox {
     background-image:               url('images/buttons/checkboxWhite.svg');
 }
 input[type="button"].component-button.component-rectangle {
     background-image:               url('images/buttons/rectBlack.svg');
 }
+input[type="button"].active.component-button.component-rectangle,
 body.ide.dark input[type="button"].component-button.component-rectangle {
     background-image:               url('images/buttons/rectWhite.svg');
 }
 input[type="button"].component-button.component-circle {
     background-image:               url('images/buttons/circleBlack.svg');
 }
+input[type="button"].active.component-button.component-circle,
 body.ide.dark input[type="button"].component-button.component-circle {
     background-image:               url('images/buttons/circleWhite.svg');
 }
 input[type="button"].component-button.component-image {
     background-image:               url('images/buttons/imageBlack.svg');
 }
+input[type="button"].active.component-button.component-image,
 body.ide.dark input[type="button"].component-button.component-image {
     background-image:               url('images/buttons/imageWhite.svg');
 }
 input[type="button"].component-button.component-pu-device {
     background-image:               url('images/buttons/puDeviceBlack.svg');
 }
+input[type="button"].active.component-button.component-pu-device,
 body.ide.dark input[type="button"].component-button.component-pu-device {
     background-image:               url('images/buttons/puDeviceWhite.svg');
 }
 input[type="button"].component-button.component-ev3-sensor {
     background-image:               url('images/buttons/ev3SensorBlack.svg');
 }
+input[type="button"].active.component-button.component-ev3-sensor,
 body.ide.dark input[type="button"].component-button.component-ev3-sensor {
     background-image:               url('images/buttons/ev3SensorWhite.svg');
 }
 input[type="button"].component-button.component-ev3-motor {
     background-image:               url('images/buttons/ev3MotorBlack.svg');
 }
+input[type="button"].active.component-button.component-ev3-motor,
 body.ide.dark input[type="button"].component-button.component-ev3-motor {
     background-image:               url('images/buttons/ev3MotorWhite.svg');
+}
+input[type="button"].component-button.component-radio {
+    background-image:               url('images/buttons/radioBlack.svg');
+}
+input[type="button"].active.component-button.component-radio,
+body.ide.dark input[type="button"].component-button.component-radio {
+    background-image:               url('images/buttons/radioWhite.svg');
+}
+input[type="button"].component-button.component-loading {
+    background-image:               url('images/buttons/loadingBlack.svg');
+}
+input[type="button"].active.component-button.component-loading,
+body.ide.dark input[type="button"].component-button.component-loading {
+    background-image:               url('images/buttons/loadingWhite.svg');
+}
+input[type="button"].component-button.component-progress {
+    background-image:               url('images/buttons/progressBlack.svg');
+}
+input[type="button"].active.component-button.component-progress,
+body.ide.dark input[type="button"].component-button.component-progress {
+    background-image:               url('images/buttons/progressWhite.svg');
 }

@@ -235,6 +235,7 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPES_STANDARD,
                 formEditorConstants.COMPONENT_TYPES_PANEL,
                 formEditorConstants.COMPONENT_TYPES_GRAPHICS,
+                formEditorConstants.COMPONENT_TYPES_STATUS,
                 formEditorConstants.COMPONENT_TYPES_IO
             ];
         if (component in components) {
@@ -242,7 +243,8 @@ exports.FormEditor = class extends Editor {
             refs.standardTools.getElement().style.display = (component === 0) ? 'block' : 'none';
             refs.panelTools.getElement().style.display    = (component === 1) ? 'block' : 'none';
             refs.graphicsTools.getElement().style.display = (component === 2) ? 'block' : 'none';
-            refs.ioTools.getElement().style.display       = (component === 3) ? 'block' : 'none';
+            refs.statusTools.getElement().style.display   = (component === 3) ? 'block' : 'none';
+            refs.ioTools.getElement().style.display       = (component === 4) ? 'block' : 'none';
             this._formEditorState.setComponentTypes(components[component]);
         }
     }
@@ -253,9 +255,9 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
                 formEditorConstants.COMPONENT_TYPE_LABEL,
                 formEditorConstants.COMPONENT_TYPE_CHECKBOX,
+                formEditorConstants.COMPONENT_TYPE_RADIO,
                 formEditorConstants.COMPONENT_TYPE_TEXT_INPUT,
-                formEditorConstants.COMPONENT_TYPE_SLIDER,
-                formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT
+                formEditorConstants.COMPONENT_TYPE_SLIDER
             ];
         if (component in components) {
             this._formEditorState.setStandardComponent(components[component]);
@@ -286,6 +288,18 @@ exports.FormEditor = class extends Editor {
         }
     }
 
+    onSelectStatusComponent(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT,
+                formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR,
+                formEditorConstants.COMPONENT_TYPE_LOADING_DOTS
+            ];
+        if (component in components) {
+            this._formEditorState.setStatusComponent(components[component]);
+            this.updateComponentPanel(3, component);
+        }
+    }
+
     onSelectIOComponent(component) {
         const components = [
                 formEditorConstants.COMPONENT_TYPE_PU_DEVICE,
@@ -294,7 +308,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setIOComponent(components[component]);
-            this.updateComponentPanel(3, component);
+            this.updateComponentPanel(4, component);
         }
     }
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>
+    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:rgb(255,255,255);"/>
+    <text x="8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>
+    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>
+    <text x="8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>
+    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>
+    <text x="8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text>
+</svg>

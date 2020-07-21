@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">
-    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>
-    <text x="12" y="11.5" style="font-family:latolight, Arial;font-size:7px;line-height:7px;" text-anchor="middle">PU</text>
-    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>
-    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>
-    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>
+    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>
+    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">PU</text>
+    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>
+    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>
+    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>
 </svg>

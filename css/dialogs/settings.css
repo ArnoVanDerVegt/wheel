@@ -72,6 +72,20 @@
     margin:                         0 8px 0 0;
 }
 /* Checkbox setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version {
+    float:                          left;
+    width:                          100%;
+    margin:                         16px 0 16px 8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version img {
+    float:                          left;
+    margin:                         0 16px 0 0;
+    width:                          64px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version .version-info {
+    float:                          left;
+}
+/* Checkbox setting */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting .checkbox {
     float:                          left;
     width:                          22px;

@@ -75,9 +75,9 @@ exports.Components = class extends DOMNode {
                             {image: 'select-btn',   hint: 'Select button<br/>component'},
                             {image: 'label',        hint: 'Label<br/>component'},
                             {image: 'checkbox',     hint: 'Checkbox<br/>component'},
+                            {image: 'radio',        hint: 'Radio<br/>component'},
                             {image: 'text-input',   hint: 'Text input<br/>component'},
-                            {image: 'slider',       hint: 'Slider<br/>component'},
-                            {image: 'status-light', hint: 'Status light<br/>component'}
+                            {image: 'slider',       hint: 'Slider<br/>component'}
                         ]
                     }),
                     this.initTitle('Panel components'),
@@ -95,6 +95,15 @@ exports.Components = class extends DOMNode {
                             {image: 'rectangle',   hint: 'Rectangle<br/>component'},
                             {image: 'circle',      hint: 'Circle<br/>component'},
                             {image: 'image',       hint: 'Image<br/>component'}
+                        ]
+                    }),
+                    this.initTitle('Status components'),
+                    this.initGroup({
+                        toolType: 'statusTools',
+                        items: [
+                            {image: 'status-light', hint: 'Status light<br/>component'},
+                            {image: 'progress',     hint: 'Progress bar<br/>component'},
+                            {image: 'loading',      hint: 'Loading dots<br/>component'}
                         ]
                     }),
                     this.initTitle('Device display components'),

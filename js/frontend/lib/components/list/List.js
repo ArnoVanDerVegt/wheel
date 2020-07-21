@@ -28,8 +28,10 @@ exports.List = class extends Component {
                 className: this.getClassName(),
                 children:  [
                     {
+                        type: LoadingDots,
                         ref:  this.setRef('loadingDots'),
-                        type: LoadingDots
+                        ui:   this._ui,
+                        uiId: this._uiId
                     }
                 ].concat(this.initListItems())
             }

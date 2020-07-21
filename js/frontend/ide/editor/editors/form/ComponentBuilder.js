@@ -81,6 +81,14 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addRadio(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_RADIO)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Radio'))
+            .addProperty(component, 'options',      ['Red', 'Blue', 'Lime']);
+        return component;
+    }
+
     addTextInput(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TEXT_INPUT)
@@ -103,6 +111,15 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
+            .addProperty(component, 'text',         component.text  || component.name)
+            .addProperty(component, 'color',        component.color || 'gray');
+        return component;
+    }
+
+    addLoadingDots(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LOADING_DOTS)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'LoadingDots'))
             .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'color',        component.color || 'gray');
         return component;
@@ -203,9 +220,11 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return this.addSelectButton   (component);
             case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
             case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return this.addCheckBox       (component);
+            case formEditorConstants.COMPONENT_TYPE_RADIO:         return this.addRadio          (component);
             case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:    return this.addTextInput      (component);
             case formEditorConstants.COMPONENT_TYPE_SLIDER:        return this.addSlider         (component);
             case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return this.addStatusLight    (component);
+            case formEditorConstants.COMPONENT_TYPE_LOADING_DOTS:  return this.addLoadingDots    (component);
             case formEditorConstants.COMPONENT_TYPE_PANEL:         return this.addPanel          (component);
             case formEditorConstants.COMPONENT_TYPE_TABS:          return this.addTabs           (component);
             case formEditorConstants.COMPONENT_TYPE_RECTANGLE:     return this.addRectangle      (component);

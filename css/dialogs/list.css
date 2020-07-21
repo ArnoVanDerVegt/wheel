@@ -101,6 +101,12 @@
     color:                          #FFFFFF;
     padding:                        0 8px 0 8px;
 }
+.dialog-background.list-dialog .dialog-center .dialog-content .item-list .loading-dots {
+    position:                       absolute;
+    left:                           50%;
+    top:                            50%;
+    margin:                         -19px 0 0 -25px;
+}
 .dialog-background.list-dialog .dialog-center .dialog-content .item-list .list-item div.item-state.green {
     background-color:               var(--color-green);
 }

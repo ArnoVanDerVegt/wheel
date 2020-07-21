@@ -3,10 +3,11 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const DOMNode    = require('../dom').DOMNode;
+const Component  = require('./Component');
 
-exports.LoadingDots = class extends DOMNode {
+exports.LoadingDots = class extends Component.Component {
     constructor(opts) {
+        opts.baseClassName = 'loading-dots';
         super(opts);
         this.initDOM(opts.parentNode);
     }
@@ -15,10 +16,15 @@ exports.LoadingDots = class extends DOMNode {
         this.create(
             parentNode,
             {
+                id:        this.setElement.bind(this),
                 ref:       this.setRef('dots'),
-                className: 'loading-dots',
+                className: this.getClassName(),
+                style:     this._style,
                 children: [
-                    {}
+                    {},
+                    {
+                        className: 'design'
+                    }
                 ]
             }
         );
@@ -27,4 +33,13 @@ exports.LoadingDots = class extends DOMNode {
     setVisible(visible) {
         this._refs.dots.style.display = visible ? 'block' : 'none';
     }
+
+    onEvent(opts) {
+        if ('color' in opts) {
+            this.setColor(Component.getComponentColor(opts.color));
+        }
+        super.onEvent(opts);
+    }
 };
+
+exports.Component = exports.LoadingDots;

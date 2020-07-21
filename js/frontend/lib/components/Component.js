@@ -92,6 +92,10 @@ exports.Component = class extends DOMNode {
         return this._uiId;
     }
 
+    getDesign() {
+        return this._design;
+    }
+
     getColorFromRgb(rgb) {
         if (typeof rgb !== 'object') {
             rgb = {red: 0, grn: 0, blu: 0};
