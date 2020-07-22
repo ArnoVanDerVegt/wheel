@@ -5,16 +5,16 @@
 namespace components.textInput
 
 ; @const The text input component module.
-#define MODULE_COMPONENT_TEXT_INPUT        69
+#define MODULE_COMPONENT_TEXT_INPUT           70
 
 ; @const Module calls for button component functions.
-#define TEXT_INPUT_COMPONENT_SET_HIDDEN       0
-#define TEXT_INPUT_COMPONENT_SET_DISABLED     1
-#define TEXT_INPUT_COMPONENT_SET_X            2
-#define TEXT_INPUT_COMPONENT_SET_Y            3
-#define TEXT_INPUT_COMPONENT_SET_TEXT_VALUE   4
-#define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE 5
-#define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER 6
+#define TEXT_INPUT_COMPONENT_SET_HIDDEN        0
+#define TEXT_INPUT_COMPONENT_SET_DISABLED      1
+#define TEXT_INPUT_COMPONENT_SET_X             2
+#define TEXT_INPUT_COMPONENT_SET_Y             3
+#define TEXT_INPUT_COMPONENT_SET_TEXT_VALUE    4
+#define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE  5
+#define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER  6
 
 ; @event onChange            Called when the text input is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the text input.

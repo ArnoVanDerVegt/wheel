@@ -1,11 +1,11 @@
-; @module Component/TextInput
+; @module Component/Slider
 ; @device I
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 namespace components.slider
 
 ; @const The slider component module.
-#define MODULE_COMPONENT_SLIDER        70
+#define MODULE_COMPONENT_SLIDER        71
 
 ; @const Module calls for button component functions.
 #define SLIDER_COMPONENT_SET_HIDDEN     0

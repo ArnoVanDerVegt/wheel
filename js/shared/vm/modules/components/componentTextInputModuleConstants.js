@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-exports.MODULE_TEXT_INPUT           = 69;
+exports.MODULE_TEXT_INPUT           = 70;
 
 exports.TEXT_INPUT_SET_HIDDEN       =  0;
 exports.TEXT_INPUT_SET_DISABLED     =  1;

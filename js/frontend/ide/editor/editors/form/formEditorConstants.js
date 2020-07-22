@@ -4,21 +4,29 @@
 **/
 
 // Component types...
-exports.COMPONENT_TYPES_STANDARD     = 'standard';
+exports.COMPONENT_TYPES_INPUT        = 'input';
+exports.COMPONENT_TYPES_TEXT         = 'text';
 exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
 exports.COMPONENT_TYPES_STATUS       = 'status';
 exports.COMPONENT_TYPES_IO           = 'io';
 
-// Standard components...
 exports.COMPONENT_TYPE_FORM          = 'form';
+
+// Input components...
 exports.COMPONENT_TYPE_BUTTON        = 'button';
 exports.COMPONENT_TYPE_SELECT_BUTTON = 'selectButton';
-exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_CHECKBOX      = 'checkbox';
 exports.COMPONENT_TYPE_RADIO         = 'radio';
+exports.COMPONENT_TYPE_DROPDOWN      = 'dropdown';
 exports.COMPONENT_TYPE_TEXT_INPUT    = 'textInput';
 exports.COMPONENT_TYPE_SLIDER        = 'slider';
+
+// Text components...
+exports.COMPONENT_TYPE_LABEL         = 'label';
+exports.COMPONENT_TYPE_TITLE         = 'title';
+exports.COMPONENT_TYPE_TEXT          = 'text';
+exports.COMPONENT_TYPE_LIST_ITEMS    = 'listItems';
 
 // Panel components...
 exports.COMPONENT_TYPE_PANEL         = 'panel';
@@ -31,7 +39,7 @@ exports.COMPONENT_TYPE_IMAGE         = 'image';
 
 // Status components...
 exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
-exports.COMPONENT_TYPE_PROGRESS_BAR  = 'progress';
+exports.COMPONENT_TYPE_PROGRESS_BAR  = 'progressBar';
 exports.COMPONENT_TYPE_LOADING_DOTS  = 'loadingDots';
 
 // Sensor/motor components...
@@ -143,6 +151,7 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ]
     },
+    /* ================================= INPUT COMPONENTS ================================= */
     BUTTON: {
         component:  'lib/components/Button',
         include:    'lib/components/button.whl',
@@ -269,27 +278,6 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ]
     },
-    LABEL: {
-        component:  'lib/components/Label',
-        include:    'lib/components/label.whl',
-        properties: [
-            {type: 'type',        name: null},
-            {type: 'uid',         name: null},
-            {type: 'id',          name: null},
-            {type: 'parentId',    name: null},
-            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
-            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'boolean',     name: 'hidden'},
-            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-            {type: 'halign',      name: 'halign'},
-            {type: 'text',        name: 'text'},
-            {type: 'text',        name: 'value'}
-        ],
-        events: [
-        ]
-    },
     CHECKBOX: {
         component:  'lib/components/CheckboxAndLabel',
         include:    'lib/components/checkbox.whl',
@@ -364,7 +352,7 @@ exports.PROPERTIES_BY_TYPE = {
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
-                    {name: 'value',        type: 'number', comment: 'New active button.'}
+                    {name: 'value',        type: 'number', comment: 'New active item.'}
                 ]
             },
             {
@@ -380,6 +368,55 @@ exports.PROPERTIES_BY_TYPE = {
                 name: 'onBlur',
                 code: [
                     '    printS("Blur {name} radio.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    DROPDOWN: {
+        component:  'lib/components/Dropdown',
+        include:    'lib/components/dropdown.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'boolean',     name: 'disabled'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'textList',    name: 'items',        options: {sort: true, remove: true}},
+            {type: 'text',        name: 'value'} // Todo: validate based on options!
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} dropdown, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'New active item.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} dropdown.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} dropdown.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
@@ -486,110 +523,81 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ]
     },
-    STATUSLIGHT: {
-        component:  'lib/components/StatusLight',
-        include:    'lib/components/statusLight.whl',
+    /* ================================= TEXT COMPONENTS ================================= */
+    LABEL: {
+        component:  'lib/components/Label',
+        include:    'lib/components/label.whl',
         properties: [
             {type: 'type',        name: null},
+            {type: 'uid',         name: null},
             {type: 'id',          name: null},
             {type: 'parentId',    name: null},
             {type: 'text',        name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'color',       name: 'color'},
-            {type: 'boolean',     name: 'rgbColor'},
-            {type: 'rgb',         name: 'rgb'}
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'halign',      name: 'halign'},
+            {type: 'text',        name: 'text'},
+            {type: 'text',        name: 'value'}
         ],
         events: [
         ]
     },
-    LOADINGDOTS: {
-        component:  'lib/components/LoadingDots',
-        include:    'lib/components/loadingDots.whl',
+    TITLE: {
+        component:  'lib/components/Title',
+        include:    'lib/components/title.whl',
         properties: [
             {type: 'type',        name: null},
+            {type: 'uid',         name: null},
             {type: 'id',          name: null},
             {type: 'parentId',    name: null},
             {type: 'text',        name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',     name: 'hidden'},
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'color',       name: 'color'}
+            {type: 'text',        name: 'text'}
         ],
         events: [
         ]
     },
-    PANEL: {
-        component:  'lib/components/Panel',
-        include:    'lib/components/panel.whl',
+    TEXT: {
+        component:  'lib/components/Text',
+        include:    'lib/components/text.whl',
         properties: [
-            {type: 'type',         name: null},
-            {type: 'uid',          name: null},
-            {type: 'id',           name: null},
-            {type: 'parentId',     name: null},
-            {type: 'containerIds', name: null},
-            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
-            {type: 'text',         name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'boolean',      name: 'hidden'},
-            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',         name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-            {type: 'text',         name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
+            {type: 'halign',      name: 'halign'},
+            {type: 'text',        name: 'text'}
         ],
         events: [
         ]
     },
-    TABS: {
-        component:  'lib/components/TabPanel',
-        include:    'lib/components/tabs.whl',
+    LISTITEMS: {
+        component:  'lib/components/ListItems',
+        include:    'lib/components/listItems.whl',
         properties: [
-            {type: 'type',         name: null},
-            {type: 'uid',          name: null},
-            {type: 'id',           name: null},
-            {type: 'parentId',     name: null},
-            {type: 'containerIds', name: null},
-            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
-            {type: 'text',         name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'boolean',      name: 'hidden'},
-            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
-            {type: 'text',         name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
-            {type: 'text',         name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
-            {type: 'textList',     name: 'tabs',         options: {removeLast: true}}
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'textList',    name: 'items',        options: {sort: true, remove: true}}
         ],
         events: [
-            {
-                name: 'onChange',
-                code: [
-                    '    printS("Change {name} tabs, value:")',
-                    '    printN(value)'
-                ],
-                params: [
-                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
-                    {name: 'value',        type: 'number', comment: 'The active tab.'}
-                ]
-            },
-            {
-                name: 'onFocus',
-                code: [
-                    '    printS("Focus {name} tabs.")'
-                ],
-                params: [
-                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-                ]
-            },
-            {
-                name: 'onBlur',
-                code: [
-                    '    printS("Blur {name} tabs.")'
-                ],
-                params: [
-                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
-                ]
-            }
         ]
     },
+    /* ================================= GRAPHICS COMPONENTS ================================= */
     RECTANGLE: {
         component:  'lib/components/Rectangle',
         include:    'lib/components/rectangle.whl',
@@ -787,6 +795,129 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ]
     },
+    /* ================================= STATUS COMPONENTS ================================= */
+    STATUSLIGHT: {
+        component:  'lib/components/StatusLight',
+        include:    'lib/components/statusLight.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'color',       name: 'color'},
+            {type: 'boolean',     name: 'rgbColor'},
+            {type: 'rgb',         name: 'rgb'}
+        ],
+        events: [
+        ]
+    },
+    PROGRESSBAR: {
+        component:  'lib/components/ProgressBar',
+        include:    'lib/components/progressBar.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'value',        options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+        ]
+    },
+    LOADINGDOTS: {
+        component:  'lib/components/LoadingDots',
+        include:    'lib/components/loadingDots.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',     name: 'hidden'},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'color',       name: 'color'}
+        ],
+        events: [
+        ]
+    },
+    /* ================================= PANEL COMPONENTS ================================= */
+    PANEL: {
+        component:  'lib/components/Panel',
+        include:    'lib/components/panel.whl',
+        properties: [
+            {type: 'type',         name: null},
+            {type: 'uid',          name: null},
+            {type: 'id',           name: null},
+            {type: 'parentId',     name: null},
+            {type: 'containerIds', name: null},
+            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',         name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',      name: 'hidden'},
+            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+            {type: 'text',         name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}}
+        ],
+        events: [
+        ]
+    },
+    TABS: {
+        component:  'lib/components/TabPanel',
+        include:    'lib/components/tabs.whl',
+        properties: [
+            {type: 'type',         name: null},
+            {type: 'uid',          name: null},
+            {type: 'id',           name: null},
+            {type: 'parentId',     name: null},
+            {type: 'containerIds', name: null},
+            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',         name: 'tabIndex',     options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'boolean',      name: 'hidden'},
+            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'width',        options: {validator: posNumberValidatorWithMin(128), type: 'number'}},
+            {type: 'text',         name: 'height',       options: {validator: posNumberValidatorWithMin(40),  type: 'number'}},
+            {type: 'textList',     name: 'tabs',         options: {removeLast: true}}
+        ],
+        events: [
+            {
+                name: 'onChange',
+                code: [
+                    '    printS("Change {name} tabs, value:")',
+                    '    printN(value)'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'},
+                    {name: 'value',        type: 'number', comment: 'The active tab.'}
+                ]
+            },
+            {
+                name: 'onFocus',
+                code: [
+                    '    printS("Focus {name} tabs.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onBlur',
+                code: [
+                    '    printS("Blur {name} tabs.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    /* ================================= DEVICE DISPLAY COMPONENTS ================================= */
     PUDEVICE: {
         component:  'lib/components/io/PoweredUpDevice',
         include:    'lib/components/poweredUpDevice.whl',

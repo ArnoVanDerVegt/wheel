@@ -5,7 +5,7 @@
 namespace components.image
 
 ; @const The form component module.
-#define MODULE_COMPONENT_IMAGE     76
+#define MODULE_COMPONENT_IMAGE     98
 
 ; @const Module calls for image component functions.
 #define IMAGE_COMPONENT_SET_HIDDEN  0

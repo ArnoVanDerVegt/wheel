@@ -246,6 +246,7 @@ input.icon-button.icon-point.focus,
 body.ide.dark input.icon-button.icon-point {
     background-image:               url('images/buttons/pointWhite.svg');
 }
+
 input.icon-button.icon-circle {
     background-image:               url('images/buttons/circleBlack.svg');
 }
@@ -254,6 +255,14 @@ input.icon-button.icon-circle.focus,
 body.ide.dark input.icon-button.icon-circle {
     background-image:               url('images/buttons/circleWhite.svg');
 }
+input.icon-button.icon-circle-stripe {
+    background-image:               url('images/buttons/circleStripeBlack.svg');
+}
+input.icon-button.icon-circle-stripe:hover,
+input.icon-button.icon-circle-stripe.focus,
+body.ide.dark input.icon-button.icon-circle-stripe {
+    background-image:               url('images/buttons/circleStripeWhite.svg');
+}
 input.icon-button.icon-rect {
     background-image:               url('images/buttons/rectBlack.svg');
 }
@@ -261,6 +270,14 @@ input.icon-button.icon-rect:hover,
 input.icon-button.icon-rect.focus,
 body.ide.dark input.icon-button.icon-rect {
     background-image:               url('images/buttons/rectWhite.svg');
+}
+input.icon-button.icon-rect-stripe {
+    background-image:               url('images/buttons/rectStripeBlack.svg');
+}
+input.icon-button.icon-rect-stripe:hover,
+input.icon-button.icon-rect-stripe.focus,
+body.ide.dark input.icon-button.icon-rect-stripe {
+    background-image:               url('images/buttons/rectStripeWhite.svg');
 }
 input.icon-button.icon-line {
     background-image:               url('images/buttons/lineBlack.svg');
@@ -349,6 +366,14 @@ input.icon-button.icon-text:hover,
 input.icon-button.icon-text.focus,
 body.ide.dark input.icon-button.icon-text {
     background-image:               url('images/buttons/textWhite.svg');
+}
+input.icon-button.icon-header {
+    background-image:               url('images/buttons/headerBlack.svg');
+}
+input.icon-button.icon-header:hover,
+input.icon-button.icon-header.focus,
+body.ide.dark input.icon-button.icon-header {
+    background-image:               url('images/buttons/headerWhite.svg');
 }
 input.icon-button.icon-btn {
     background-image:               url('images/buttons/buttonBlack.svg');
@@ -597,6 +622,22 @@ input.icon-button.icon-radio:hover,
 input.icon-button.icon-radio.focus,
 body.ide.dark input.icon-button.icon-radio {
     background-image:               url('images/buttons/radioWhite.svg');
+}
+input.icon-button.icon-dropdown {
+    background-image:               url('images/buttons/dropdownBlack.svg');
+}
+input.icon-button.icon-dropdown:hover,
+input.icon-button.icon-dropdown.focus,
+body.ide.dark input.icon-button.icon-dropdown {
+    background-image:               url('images/buttons/dropdownWhite.svg');
+}
+input.icon-button.icon-list-items {
+    background-image:               url('images/buttons/listItemsBlack.svg');
+}
+input.icon-button.icon-list-items:hover,
+input.icon-button.icon-list-items.focus,
+body.ide.dark input.icon-button.icon-list-items {
+    background-image:               url('images/buttons/listItemsWhite.svg');
 }
 
 .icon-button.icon-line-transparent {

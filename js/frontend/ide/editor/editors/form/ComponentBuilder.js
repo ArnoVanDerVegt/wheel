@@ -44,6 +44,8 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    /* ================================= INPUT COMPONENTS ================================= */
+
     addButtonComponent(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_BUTTON)
@@ -63,15 +65,6 @@ exports.ComponentBuilder = class {
         return component;
     }
 
-    addLabel(component) {
-        this
-            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LABEL)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Label'))
-            .addProperty(component, 'text',         component.text || component.name)
-            .addProperty(component, 'halign',       'left');
-        return component;
-    }
-
     addCheckBox(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_CHECKBOX)
@@ -86,6 +79,14 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_RADIO)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Radio'))
             .addProperty(component, 'options',      ['Red', 'Blue', 'Lime']);
+        return component;
+    }
+
+    addDropdown(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_DROPDOWN)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Dropdown'))
+            .addProperty(component, 'items',        ['Red', 'Blue', 'Lime']);
         return component;
     }
 
@@ -107,23 +108,45 @@ exports.ComponentBuilder = class {
         return component;
     }
 
-    addStatusLight(component) {
+    /* ================================= TEXT COMPONENTS ================================= */
+
+    addLabel(component) {
         this
-            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
-            .addProperty(component, 'text',         component.text  || component.name)
-            .addProperty(component, 'color',        component.color || 'gray');
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LABEL)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Label'))
+            .addProperty(component, 'text',         component.text || component.name)
+            .addProperty(component, 'halign',       'left');
         return component;
     }
 
-    addLoadingDots(component) {
+    addTitle(component) {
         this
-            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LOADING_DOTS)
-            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'LoadingDots'))
-            .addProperty(component, 'text',         component.text  || component.name)
-            .addProperty(component, 'color',        component.color || 'gray');
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TITLE)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Title'))
+            .addProperty(component, 'text',         component.text || component.name)
+            .addProperty(component, 'halign',       'left');
         return component;
     }
+
+    addText(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TEXT)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Text'))
+            .addProperty(component, 'text',         component.text  || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum, felis et aliquam malesuada, nisl ligula fringilla arcu, ac finibus augue arcu in justo. Sed convallis id sapien nec dictum. Sed metus elit, malesuada sit amet molestie in, sagittis in neque. Proin ultricies velit vitae interdum fringilla. Vivamus purus nibh, lacinia ut auctor id, auctor at est.')
+            .addProperty(component, 'width',        component.width || 300)
+            .addProperty(component, 'halign',       'left');
+        return component;
+    }
+
+    addListItems(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LIST_ITEMS)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ListItems'))
+            .addProperty(component, 'items',        ['Left', 'Right', 'Down']);
+        return component;
+    }
+
+    /* ================================= PANEL COMPONENTS ================================= */
 
     addPanel(component) {
         this
@@ -149,6 +172,8 @@ exports.ComponentBuilder = class {
         }
         return component;
     }
+
+    /* ================================= GRAPHICS COMPONENTS ================================= */
 
     addRectangle(component) {
         this
@@ -183,6 +208,38 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    /* ================================= STATUS COMPONENTS ================================= */
+
+    addStatusLight(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
+            .addProperty(component, 'text',         component.text  || component.name)
+            .addProperty(component, 'color',        component.color || 'gray');
+        return component;
+    }
+
+    addProgressBar(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ProgressBar'))
+            .addProperty(component, 'text',         component.text  || component.name)
+            .addProperty(component, 'width',        100)
+            .addProperty(component, 'value',        50);
+        return component;
+    }
+
+    addLoadingDots(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LOADING_DOTS)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'LoadingDots'))
+            .addProperty(component, 'text',         component.text  || component.name)
+            .addProperty(component, 'color',        component.color || 'gray');
+        return component;
+    }
+
+    /* ================================= DEVICE DISPLAY COMPONENTS ================================= */
+
     addPuDevice(component) {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PU_DEVICE)
@@ -216,20 +273,31 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'hidden',   false)
             .addProperty(component, 'disabled', false);
         switch (type) {
+            // Input components...
             case formEditorConstants.COMPONENT_TYPE_BUTTON:        return this.addButtonComponent(component);
             case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return this.addSelectButton   (component);
-            case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
             case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return this.addCheckBox       (component);
             case formEditorConstants.COMPONENT_TYPE_RADIO:         return this.addRadio          (component);
+            case formEditorConstants.COMPONENT_TYPE_DROPDOWN:      return this.addDropdown       (component);
             case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:    return this.addTextInput      (component);
             case formEditorConstants.COMPONENT_TYPE_SLIDER:        return this.addSlider         (component);
+            // Text components...
+            case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
+            case formEditorConstants.COMPONENT_TYPE_TITLE:         return this.addTitle          (component);
+            case formEditorConstants.COMPONENT_TYPE_TEXT:          return this.addText           (component);
+            case formEditorConstants.COMPONENT_TYPE_LIST_ITEMS:    return this.addListItems      (component);
+            // Status components...
             case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return this.addStatusLight    (component);
+            case formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR:  return this.addProgressBar    (component);
             case formEditorConstants.COMPONENT_TYPE_LOADING_DOTS:  return this.addLoadingDots    (component);
+            // Panel components...
             case formEditorConstants.COMPONENT_TYPE_PANEL:         return this.addPanel          (component);
             case formEditorConstants.COMPONENT_TYPE_TABS:          return this.addTabs           (component);
+            // Graphics components...
             case formEditorConstants.COMPONENT_TYPE_RECTANGLE:     return this.addRectangle      (component);
             case formEditorConstants.COMPONENT_TYPE_CIRCLE:        return this.addCircle         (component);
             case formEditorConstants.COMPONENT_TYPE_IMAGE:         return this.addImage          (component);
+            // Device display components...
             case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:     return this.addPuDevice       (component);
             case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:     return this.addEV3Motor       (component);
             case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:    return this.addEV3Sensor      (component);

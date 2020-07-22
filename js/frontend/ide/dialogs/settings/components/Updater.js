@@ -95,7 +95,7 @@ exports.Updater = class extends DOMNode {
     }
 
     onCreatedFile() {
-        dispatcher.dispatch('Settings.Update.Progress', this._fileIndex * 100 / this._files.length);
+        dispatcher.dispatch('Settings.Update.Progress', {value: this._fileIndex * 100 / this._files.length});
         setTimeout(this.installFile.bind(this), 1);
     }
 

@@ -5,15 +5,15 @@
 namespace components.statusLight
 
 ; @const The status light component module.
-#define MODULE_COMPONENT_STATUS_LIGHT        71
+#define MODULE_COMPONENT_STATUS_LIGHT        104
 
 ; @const Module calls for status light component functions.
-#define STATUS_LIGHT_COMPONENT_SET_HIDDEN     0
-#define STATUS_LIGHT_COMPONENT_SET_X          1
-#define STATUS_LIGHT_COMPONENT_SET_Y          2
-#define STATUS_LIGHT_COMPONENT_SET_COLOR      3
-#define STATUS_LIGHT_COMPONENT_SET_RGB_COLOR  4
-#define STATUS_LIGHT_COMPONENT_SET_RGB        5
+#define STATUS_LIGHT_COMPONENT_SET_HIDDEN      0
+#define STATUS_LIGHT_COMPONENT_SET_X           1
+#define STATUS_LIGHT_COMPONENT_SET_Y           2
+#define STATUS_LIGHT_COMPONENT_SET_COLOR       3
+#define STATUS_LIGHT_COMPONENT_SET_RGB_COLOR   4
+#define STATUS_LIGHT_COMPONENT_SET_RGB         5
 
 ; @proc                   Hide the status light.
 ; @param windowhandle     The handle of the window.

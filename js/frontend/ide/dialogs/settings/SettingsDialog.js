@@ -28,6 +28,7 @@ exports.SettingsDialog = class extends Dialog {
         super(opts);
         this._settings        = opts.settings;
         this._updateFunctions = [];
+        opts.uiId             = this._uiId;
         this.createWindow(
             'settings-dialog',
             'Settings',

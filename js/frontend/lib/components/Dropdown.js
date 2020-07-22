@@ -47,8 +47,9 @@ const ListItem = class extends DOMNode {
 
 exports.Dropdown = class extends Component {
     constructor(opts) {
+        opts.baseClassName = 'dropdown';
         super(opts);
-        this._items        = opts.items || [];
+        this._items        = this.getUpdatedItems(opts.items);
         this._value        = null;
         this._itemElements = [];
         this._tabIndex     = opts.tabIndex;
@@ -76,8 +77,10 @@ exports.Dropdown = class extends Component {
         this.create(
             parentNode,
             {
+                id:        this.setElement.bind(this),
                 ref:       this.setRef('dropdown'),
-                className: 'dropdown',
+                className: this.getClassName(),
+                style:     this._style,
                 children: [
                     {
                         id:        this.setValueElement.bind(this),
@@ -105,14 +108,29 @@ exports.Dropdown = class extends Component {
         this._itemElements.push(item);
     }
 
+    getUpdatedItems(items) {
+        let result = [];
+        (items || []).forEach((item, index) => {
+            if (typeof item === 'string') {
+                result.push({title: item, value: index});
+            } else {
+                result.push(item);
+            }
+        });
+        return result;
+    }
+
     setValueElement(element) {
         this._valueElement = element;
-        element.addEventListener('focus',     this.onFocus.bind(this));
-        element.addEventListener('blur',      this.onBlur.bind(this));
-        element.addEventListener('mousedown', this.onMouseDown.bind(this));
-        element.addEventListener('mouseup',   this.onMouseUp.bind(this));
-        element.addEventListener('click',     this.onClick.bind(this));
-        element.addEventListener('keyup',     this.onKeyUp.bind(this));
+        if (this._design) {
+            return;
+        }
+        element.addEventListener('focus',     this.onValueFocus.bind(this));
+        element.addEventListener('blur',      this.onValueBlur.bind(this));
+        element.addEventListener('mousedown', this.onValueMouseDown.bind(this));
+        element.addEventListener('mouseup',   this.onValueMouseUp.bind(this));
+        element.addEventListener('click',     this.onValueClick.bind(this));
+        element.addEventListener('keyup',     this.onValueKeyUp.bind(this));
     }
 
     setValue(value) {
@@ -147,7 +165,7 @@ exports.Dropdown = class extends Component {
 
     setItems(items) {
         this._itemElements = [];
-        this._items        = items;
+        this._items        = this.getUpdatedItems(items);
         let refs = this._refs;
         let list = refs.list;
         while (list.childNodes.length) {
@@ -191,7 +209,7 @@ exports.Dropdown = class extends Component {
         this._refs.dropdown.className = 'dropdown';
     }
 
-    onFocus(event) {
+    onValueFocus(event) {
         this.onCancelEvent(event);
         if (this._items.length) {
             this._refs.dropdown.className = 'dropdown focus';
@@ -205,22 +223,23 @@ exports.Dropdown = class extends Component {
         if ('value' in opts) {
             this.setValue(opts.value);
         }
+        super.onEvent(opts);
     }
 
-    onBlur(event) {
+    onValueBlur(event) {
         this.onCancelEvent(event);
         this._refs.dropdown.className = 'dropdown';
     }
 
-    onMouseDown(event) {
+    onValueMouseDown(event) {
         this.onCancelEvent(event);
     }
 
-    onMouseUp(event) {
+    onValueMouseUp(event) {
         this.onCancelEvent(event);
     }
 
-    onClick(event) {
+    onValueClick(event) {
         this.onCancelEvent(event);
         this._valueElement.focus();
         if (this._items.length) {
@@ -228,7 +247,10 @@ exports.Dropdown = class extends Component {
         }
     }
 
-    onKeyUp(event) {
+    onValueKeyUp(event) {
+        if (this._design) {
+            return;
+        }
         if (!this._items.length) {
             return;
         }
@@ -283,3 +305,5 @@ exports.Dropdown = class extends Component {
         }
     }
 };
+
+exports.Component = exports.Dropdown;

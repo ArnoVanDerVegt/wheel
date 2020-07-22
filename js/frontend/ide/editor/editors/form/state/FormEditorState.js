@@ -37,8 +37,9 @@ exports.FormEditorState = class extends Emitter {
             containerIdsForForm: this._containerIdsForForm
         });
         this._componentList.setUndoStack(this._undoStack);
-        this._componentTypes        = formEditorConstants.COMPONENT_TYPES_STANDARD;
-        this._standardComponent     = formEditorConstants.COMPONENT_TYPE_BUTTON;
+        this._componentTypes        = formEditorConstants.COMPONENT_TYPES_INPUT;
+        this._inputComponent        = formEditorConstants.COMPONENT_TYPE_BUTTON;
+        this._textComponent         = formEditorConstants.COMPONENT_TYPE_LABEL;
         this._panelComponent        = formEditorConstants.COMPONENT_TYPE_TABS;
         this._graphicsComponent     = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
         this._statusComponent       = formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT;
@@ -138,7 +139,8 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveAddComponentType() {
         switch (this._componentTypes) {
-            case formEditorConstants.COMPONENT_TYPES_STANDARD: return this._standardComponent;
+            case formEditorConstants.COMPONENT_TYPES_INPUT:    return this._inputComponent;
+            case formEditorConstants.COMPONENT_TYPES_TEXT:     return this._textComponent;
             case formEditorConstants.COMPONENT_TYPES_PANEL:    return this._panelComponent;
             case formEditorConstants.COMPONENT_TYPES_GRAPHICS: return this._graphicsComponent;
             case formEditorConstants.COMPONENT_TYPES_STATUS:   return this._statusComponent;
@@ -147,8 +149,12 @@ exports.FormEditorState = class extends Emitter {
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
     }
 
-    setStandardComponent(standardComponent) {
-        this._standardComponent = standardComponent;
+    setInputComponent(inputComponent) {
+        this._inputComponent = inputComponent;
+    }
+
+    setTextComponent(textComponent) {
+        this._textComponent = textComponent;
     }
 
     setPanelComponent(panelComponent) {

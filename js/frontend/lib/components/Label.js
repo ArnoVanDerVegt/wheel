@@ -20,6 +20,7 @@ exports.Label = class extends Component {
         if (this._width && (parseInt(this._width, 10) >= 20)) {
             style.width = this._width + 'px';
         }
+        style.textAlign = this._halign;
         this.create(
             parentNode,
             {

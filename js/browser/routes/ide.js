@@ -50,7 +50,7 @@
 
         dispatchSize(size) {
             let dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
-            dispatcher.dispatch('LocalStorage.Size', Math.min(size / (1024 * 1024) * 100, 100));
+            dispatcher.dispatch('LocalStorage.Size', {value: Math.min(size / (1024 * 1024) * 100, 100)});
         }
 
         _save() {

@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-exports.MODULE_LABEL           = 67;
+exports.MODULE_LABEL           = 80;
 
 exports.LABEL_SET_HIDDEN       =  0;
 exports.LABEL_SET_X            =  1;

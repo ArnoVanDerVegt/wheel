@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-exports.MODULE_CHECKBOX        = 68;
+exports.MODULE_CHECKBOX        = 67;
 
 exports.CHECKBOX_SET_HIDDEN    =  0;
 exports.CHECKBOX_SET_DISABLED  =  1;

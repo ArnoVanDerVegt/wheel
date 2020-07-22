@@ -232,7 +232,8 @@ exports.FormEditor = class extends Editor {
 
     onSelectComponentTypes(component) {
         const components = [
-                formEditorConstants.COMPONENT_TYPES_STANDARD,
+                formEditorConstants.COMPONENT_TYPES_INPUT,
+                formEditorConstants.COMPONENT_TYPES_TEXT,
                 formEditorConstants.COMPONENT_TYPES_PANEL,
                 formEditorConstants.COMPONENT_TYPES_GRAPHICS,
                 formEditorConstants.COMPONENT_TYPES_STATUS,
@@ -240,28 +241,42 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             let refs = this._refs;
-            refs.standardTools.getElement().style.display = (component === 0) ? 'block' : 'none';
-            refs.panelTools.getElement().style.display    = (component === 1) ? 'block' : 'none';
-            refs.graphicsTools.getElement().style.display = (component === 2) ? 'block' : 'none';
-            refs.statusTools.getElement().style.display   = (component === 3) ? 'block' : 'none';
-            refs.ioTools.getElement().style.display       = (component === 4) ? 'block' : 'none';
+            refs.inputTools.getElement().style.display    = (component === 0) ? 'block' : 'none';
+            refs.textTools.getElement().style.display     = (component === 1) ? 'block' : 'none';
+            refs.panelTools.getElement().style.display    = (component === 2) ? 'block' : 'none';
+            refs.graphicsTools.getElement().style.display = (component === 3) ? 'block' : 'none';
+            refs.statusTools.getElement().style.display   = (component === 4) ? 'block' : 'none';
+            refs.ioTools.getElement().style.display       = (component === 5) ? 'block' : 'none';
             this._formEditorState.setComponentTypes(components[component]);
         }
     }
 
-    onSelectStandardComponent(component) {
+    onSelectInputComponent(component) {
         const components = [
                 formEditorConstants.COMPONENT_TYPE_BUTTON,
                 formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
-                formEditorConstants.COMPONENT_TYPE_LABEL,
                 formEditorConstants.COMPONENT_TYPE_CHECKBOX,
                 formEditorConstants.COMPONENT_TYPE_RADIO,
+                formEditorConstants.COMPONENT_TYPE_DROPDOWN,
                 formEditorConstants.COMPONENT_TYPE_TEXT_INPUT,
                 formEditorConstants.COMPONENT_TYPE_SLIDER
             ];
         if (component in components) {
-            this._formEditorState.setStandardComponent(components[component]);
+            this._formEditorState.setInputComponent(components[component]);
             this.updateComponentPanel(0, component);
+        }
+    }
+
+    onSelectTextComponent(component) {
+        const components = [
+                formEditorConstants.COMPONENT_TYPE_LABEL,
+                formEditorConstants.COMPONENT_TYPE_TITLE,
+                formEditorConstants.COMPONENT_TYPE_TEXT,
+                formEditorConstants.COMPONENT_TYPE_LIST_ITEMS
+            ];
+        if (component in components) {
+            this._formEditorState.setTextComponent(components[component]);
+            this.updateComponentPanel(1, component);
         }
     }
 
@@ -272,7 +287,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setPanelComponent(components[component]);
-            this.updateComponentPanel(1, component);
+            this.updateComponentPanel(2, component);
         }
     }
 
@@ -284,7 +299,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setGraphicsComponent(components[component]);
-            this.updateComponentPanel(2, component);
+            this.updateComponentPanel(3, component);
         }
     }
 
@@ -296,7 +311,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setStatusComponent(components[component]);
-            this.updateComponentPanel(3, component);
+            this.updateComponentPanel(4, component);
         }
     }
 
@@ -308,7 +323,7 @@ exports.FormEditor = class extends Editor {
             ];
         if (component in components) {
             this._formEditorState.setIOComponent(components[component]);
-            this.updateComponentPanel(4, component);
+            this.updateComponentPanel(5, component);
         }
     }
 

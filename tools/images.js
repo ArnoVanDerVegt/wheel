@@ -44,9 +44,13 @@ output += 'exports.getImage = function(src) { return files[src.toLowerCase()] ||
 fs.writeFileSync('../js/frontend/ide/data/images.js', output);
 
 const updateCssImages = (inputFilename, outputFilename) => {
+        console.log('============= Process images =============');
+        console.log('Input:  ', inputFilename);
+        console.log('output: ', outputFilename);
+        console.log('Images:');
         let css = fs.readFileSync(inputFilename).toString();
         for (let file in fileByName) {
-            console.log('Check:', file);
+            console.log('    >', file);
             let i = css.indexOf(file);
             while (i !== -1) {
                 css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
@@ -60,7 +64,7 @@ updateCssImages(
     '../css/components/button.css'
 );
 updateCssImages(
-    '../css/properties/properties.temp.css',
-    '../css/properties/properties.css'
+    '../css/ide/components.temp.css',
+    '../css/ide/components.css'
 );
 

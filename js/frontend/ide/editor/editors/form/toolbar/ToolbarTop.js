@@ -82,9 +82,10 @@ exports.ToolbarTop = class extends Toolbar {
                         onSelect:      formEditor.onSelectComponentTypes.bind(formEditor),
                         collapse:      true,
                         options: [
-                            {icon: 'icon-btn',          hint: {text: 'Standard<br/>components'}},
+                            {icon: 'icon-btn',          hint: {text: 'Input<br/>components'}},
+                            {icon: 'icon-text',         hint: {text: 'Text<br/>components'}},
                             {icon: 'icon-tabs',         hint: {text: 'Panel<br/>components'}},
-                            {icon: 'icon-image',        hint: {text: 'Graphics<br/>components'}},
+                            {icon: 'icon-rect-stripe',  hint: {text: 'Graphics<br/>components'}},
                             {icon: 'icon-status-light', hint: {text: 'Status<br/>components'}},
                             {icon: 'icon-pu-device',    hint: {text: 'Sensor and motor<br/>components'}}
                         ]
@@ -93,19 +94,32 @@ exports.ToolbarTop = class extends Toolbar {
                         className: 'space'
                     },
                     this.addToolOptions({
-                        ref:           formEditor.setRef('standardTools'),
+                        ref:           formEditor.setRef('inputTools'),
                         uiId:          formEditor.getUIId.bind(formEditor),
                         tabIndex:      tabIndex.FORM_COMPONENT,
-                        baseClassName: 'tool-options-toolbar standard',
-                        onSelect:      formEditor.onSelectStandardComponent.bind(formEditor),
+                        baseClassName: 'tool-options-toolbar input',
+                        onSelect:      formEditor.onSelectInputComponent.bind(formEditor),
                         options: [
                             {icon: 'icon-btn',          hint: {text: 'Button<br/>component'}},
                             {icon: 'icon-select-btn',   hint: {text: 'SelectButton<br/>component'}},
-                            {icon: 'icon-label',        hint: {text: 'Label<br/>component'}},
                             {icon: 'icon-checkbox',     hint: {text: 'Checkbox<br/>component'}},
                             {icon: 'icon-radio',        hint: {text: 'Radio<br/>component'}},
+                            {icon: 'icon-dropdown',     hint: {text: 'Dropdown<br/>component'}},
                             {icon: 'icon-text-input',   hint: {text: 'Text input<br/>component'}},
                             {icon: 'icon-slider',       hint: {text: 'Slider<br/>component'}}
+                        ]
+                    }),
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('textTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar text',
+                        onSelect:      formEditor.onSelectTextComponent.bind(formEditor),
+                        options: [
+                            {icon: 'icon-label',        hint: {text: 'Label<br/>component'}},
+                            {icon: 'icon-header',       hint: {text: 'Title<br/>component'}},
+                            {icon: 'icon-text',         hint: {text: 'Text<br/>component'}},
+                            {icon: 'icon-list-items',   hint: {text: 'Items list<br/>component'}}
                         ]
                     }),
                     this.addToolOptions({
@@ -118,8 +132,8 @@ exports.ToolbarTop = class extends Toolbar {
                             display: 'none'
                         },
                         options: [
-                            {icon: 'icon-panel', hint: {text: 'Panel<br/>component'}},
-                            {icon: 'icon-tabs',  hint: {text: 'Tabs<br/>component'}}
+                            {icon: 'icon-panel',        hint: {text: 'Panel<br/>component'}},
+                            {icon: 'icon-tabs',         hint: {text: 'Tabs<br/>component'}}
                         ]
                     }),
                     this.addToolOptions({
@@ -132,9 +146,9 @@ exports.ToolbarTop = class extends Toolbar {
                             display: 'none'
                         },
                         options: [
-                            {icon: 'icon-rect',     hint: {text: 'Rectangle<br/>component'}},
-                            {icon: 'icon-circle',   hint: {text: 'Circle<br/>component'}},
-                            {icon: 'icon-image',    hint: {text: 'Image<br/>component'}}
+                            {icon: 'icon-rect-stripe',   hint: {text: 'Rectangle<br/>component'}},
+                            {icon: 'icon-circle-stripe', hint: {text: 'Circle<br/>component'}},
+                            {icon: 'icon-image',         hint: {text: 'Image<br/>component'}}
                         ]
                     }),
 
@@ -163,9 +177,9 @@ exports.ToolbarTop = class extends Toolbar {
                             display: 'none'
                         },
                         options: [
-                            {icon: 'icon-pu-device',  hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
-                            {icon: 'icon-ev3-sensor', hint: {text: 'EV3 sensor<br/>display component'}},
-                            {icon: 'icon-ev3-motor',  hint: {text: 'EV3 motor<br/>display component'}}
+                            {icon: 'icon-pu-device',    hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
+                            {icon: 'icon-ev3-sensor',   hint: {text: 'EV3 sensor<br/>display component'}},
+                            {icon: 'icon-ev3-motor',    hint: {text: 'EV3 motor<br/>display component'}}
                         ]
                     }),
                     {

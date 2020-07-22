@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-exports.MODULE_TABS        = 73;
+exports.MODULE_TABS        = 89;
 
 exports.TABS_SET_HIDDEN    =  0;
 exports.TABS_SET_DISABLED  =  1;

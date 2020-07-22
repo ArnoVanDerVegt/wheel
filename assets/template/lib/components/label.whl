@@ -5,7 +5,7 @@
 namespace components.label
 
 ; @const The form component module.
-#define MODULE_COMPONENT_LABEL           67
+#define MODULE_COMPONENT_LABEL           80
 
 ; @const Module calls for label component functions.
 #define LABEL_COMPONENT_SET_HIDDEN        0
