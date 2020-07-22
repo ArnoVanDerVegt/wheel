@@ -78,6 +78,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_RADIO)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Radio'))
+            .addProperty(component, 'horizontal',   false)
             .addProperty(component, 'options',      ['Red', 'Blue', 'Lime']);
         return component;
     }

@@ -149,6 +149,24 @@ exports.FormEditorState = class extends Emitter {
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
     }
 
+    getActiveComponentIndices() {
+        switch (this._componentTypes) {
+            case formEditorConstants.COMPONENT_TYPES_INPUT:
+                return {toolGroup: 0, toolIndex: formEditorConstants.INPUT_COMPONENTS.indexOf(this._inputComponent)};
+            case formEditorConstants.COMPONENT_TYPES_TEXT:
+                return {toolGroup: 1, toolIndex: formEditorConstants.TEXT_COMPONENTS.indexOf(this._textComponent)};
+            case formEditorConstants.COMPONENT_TYPES_PANEL:
+                return {toolGroup: 2, toolIndex: formEditorConstants.PANEL_COMPONENTS.indexOf(this._panelComponent)};
+            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:
+                return {toolGroup: 3, toolIndex: formEditorConstants.GRAPHICS_COMPONENTS.indexOf(this._graphicsComponent)};
+            case formEditorConstants.COMPONENT_TYPES_STATUS:
+                return {toolGroup: 4, toolIndex: formEditorConstants.STATUS_COMPONENTS.indexOf(this._statusComponent)};
+            case formEditorConstants.IO_DISPLAY_COMPONENTS:
+                return {toolGroup: 5, toolIndex: formEditorConstants.INPUT_COMPONENTS.indexOf(this._ioComponent)};
+        }
+        return {toolGroup: 0, toolIndex: 0};
+    }
+
     setInputComponent(inputComponent) {
         this._inputComponent = inputComponent;
     }

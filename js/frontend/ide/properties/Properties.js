@@ -52,6 +52,7 @@ exports.Properties = class extends DOMNode {
                     },
                     {
                         type: Tabs,
+                        ref:  this.setRef('tabs'),
                         ui:   this._ui,
                         uiId: 1,
                         tabs: [
@@ -244,12 +245,16 @@ exports.Properties = class extends DOMNode {
     }
 
     onChangeComponentList(opts) {
+        let refs = this._refs;
         if (opts.value === null) {
-            let refs = this._refs;
             refs.componentUid.innerHTML = '0x00000000';
             this
                 .clear(refs.propertiesContainer)
                 .clear(refs.eventsContainer);
+        }
+        if (this._settings.getAutoSelectProperties()) {
+            this.onClickProperties();
+            refs.tabs.setActiveTab('Properties');
         }
     }
 };

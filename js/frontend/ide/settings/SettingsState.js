@@ -109,6 +109,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ShowSimulatorOnRun',          this, this._setShowSimulatorOnRun)
             .on('Settings.Set.DarkMode',                    this, this._setDarkMode)
             .on('Settings.Set.SensorAutoReset',             this, this._setSensorAutoReset)
+            .on('Settings.Set.AutoSelectProperties',        this, this._setAutoSelectProperties)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -225,6 +226,7 @@ exports.SettingsState = class extends Emitter {
                 gif:               this._imageOpen.gif
             },
             sensorAutoReset:       this._sensorAutoReset,
+            autoSelectProperties:  this._autoSelectProperties,
             formGridSize:          this._formGridSize,
             plugins:               this._plugins.toJSON(),
             includeFiles:          this._includeFiles.toJSON()
@@ -447,6 +449,10 @@ exports.SettingsState = class extends Emitter {
         return this._sensorAutoReset;
     }
 
+    getAutoSelectProperties() {
+        return this._autoSelectProperties;
+    }
+
     getFormGridSize() {
         return this._formGridSize;
     }
@@ -663,6 +669,11 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.Simulator');
     }
 
+    _setAutoSelectProperties(autoSelectProperties) {
+        this._autoSelectProperties = autoSelectProperties;
+        this._save();
+    }
+
     _toggleShowFileTree() {
         this._show.fileTree = !this._show.fileTree;
         this._updateViewSettings();
@@ -814,6 +825,7 @@ exports.SettingsState = class extends Emitter {
         this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                                          : {};
         this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias                                      : {};
         this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset                                      : true;
+        this._autoSelectProperties       = ('autoSelectProperties'  in data)             ? data.autoSelectProperties                                 : true;
         this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                         : 10;
         if (this._show.simulator) {
             this._show.properties = false;

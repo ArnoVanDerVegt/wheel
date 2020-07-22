@@ -22,30 +22,70 @@ exports.COMPONENT_TYPE_DROPDOWN      = 'dropdown';
 exports.COMPONENT_TYPE_TEXT_INPUT    = 'textInput';
 exports.COMPONENT_TYPE_SLIDER        = 'slider';
 
+exports.INPUT_COMPONENTS             = [
+    exports.COMPONENT_TYPE_BUTTON,
+    exports.COMPONENT_TYPE_SELECT_BUTTON,
+    exports.COMPONENT_TYPE_CHECKBOX,
+    exports.COMPONENT_TYPE_RADIO,
+    exports.COMPONENT_TYPE_DROPDOWN,
+    exports.COMPONENT_TYPE_TEXT_INPUT,
+    exports.COMPONENT_TYPE_SLIDER
+];
+
 // Text components...
 exports.COMPONENT_TYPE_LABEL         = 'label';
 exports.COMPONENT_TYPE_TITLE         = 'title';
 exports.COMPONENT_TYPE_TEXT          = 'text';
 exports.COMPONENT_TYPE_LIST_ITEMS    = 'listItems';
 
+exports.TEXT_COMPONENTS = [
+    exports.COMPONENT_TYPE_LABEL,
+    exports.COMPONENT_TYPE_TITLE,
+    exports.COMPONENT_TYPE_TEXT,
+    exports.COMPONENT_TYPE_LIST_ITEMS
+];
+
 // Panel components...
 exports.COMPONENT_TYPE_PANEL         = 'panel';
 exports.COMPONENT_TYPE_TABS          = 'tabs';
+
+exports.PANEL_COMPONENTS = [
+    exports.COMPONENT_TYPE_PANEL,
+    exports.COMPONENT_TYPE_TABS
+];
 
 // Graphics components...
 exports.COMPONENT_TYPE_RECTANGLE     = 'rectangle';
 exports.COMPONENT_TYPE_CIRCLE        = 'circle';
 exports.COMPONENT_TYPE_IMAGE         = 'image';
 
+exports.GRAPHICS_COMPONENTS = [
+    exports.COMPONENT_TYPE_RECTANGLE,
+    exports.COMPONENT_TYPE_CIRCLE,
+    exports.COMPONENT_TYPE_IMAGE
+];
+
 // Status components...
 exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
 exports.COMPONENT_TYPE_PROGRESS_BAR  = 'progressBar';
 exports.COMPONENT_TYPE_LOADING_DOTS  = 'loadingDots';
 
+exports.STATUS_COMPONENTS = [
+    exports.COMPONENT_TYPE_STATUS_LIGHT,
+    exports.COMPONENT_TYPE_PROGRESS_BAR,
+    exports.COMPONENT_TYPE_LOADING_DOTS
+];
+
 // Sensor/motor components...
 exports.COMPONENT_TYPE_PU_DEVICE     = 'puDevice';
 exports.COMPONENT_TYPE_EV3_MOTOR     = 'ev3Motor';
 exports.COMPONENT_TYPE_EV3_SENSOR    = 'ev3Sensor';
+
+exports.IO_DISPLAY_COMPONENTS = [
+    exports.COMPONENT_TYPE_PU_DEVICE,
+    exports.COMPONENT_TYPE_EV3_MOTOR,
+    exports.COMPONENT_TYPE_EV3_SENSOR
+];
 
 // Edit actions for undo...
 exports.ACTION_ADD_COMPONENT         = 0;
@@ -341,6 +381,7 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'textList',    name: 'options',      options: {sort: true, remove: true}},
+            {type: 'boolean',     name: 'horizontal'},
             {type: 'text',        name: 'value'} // Todo: validate based on options!
         ],
         events: [

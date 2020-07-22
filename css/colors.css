@@ -340,7 +340,7 @@ body.ide.dark {
     --tab-focus-border:             1px dotted #FFFFFF;
 
     --text-input-border:            1px solid #1D1E20; /* #202020 */
-    --text-input-color:             #D8E4F0; /* #F0F0F0 */
+    --text-input-color:             #F0F0F0;
     --text-input-background:        #565B60; /* #606060 */
     --text-input-invalid-border:    1px solid #E84118;
     --text-input-placeholder:       rgba(255, 255, 255, 0.15);

@@ -129,13 +129,14 @@ exports.SettingsDialog = class extends Dialog {
                     innerHTML: opts.label
                 },
                 {
-                    type:     Radio,
-                    ui:       this._ui,
-                    uiId:     this._uiId,
-                    tabIndex: opts.tabIndex,
-                    value:    opts.value,
-                    onChange: opts.onChange,
-                    options:  opts.options
+                    type:       Radio,
+                    ui:         this._ui,
+                    uiId:       this._uiId,
+                    tabIndex:   opts.tabIndex,
+                    value:      opts.value,
+                    horizontal: true,
+                    onChange:   opts.onChange,
+                    options:    opts.options
                 }
             ]
         };

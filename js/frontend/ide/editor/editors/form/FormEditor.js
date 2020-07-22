@@ -240,27 +240,21 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPES_IO
             ];
         if (component in components) {
-            let refs = this._refs;
+            let formEditorState = this._formEditorState;
+            let refs            = this._refs;
             refs.inputTools.getElement().style.display    = (component === 0) ? 'block' : 'none';
             refs.textTools.getElement().style.display     = (component === 1) ? 'block' : 'none';
             refs.panelTools.getElement().style.display    = (component === 2) ? 'block' : 'none';
             refs.graphicsTools.getElement().style.display = (component === 3) ? 'block' : 'none';
             refs.statusTools.getElement().style.display   = (component === 4) ? 'block' : 'none';
             refs.ioTools.getElement().style.display       = (component === 5) ? 'block' : 'none';
-            this._formEditorState.setComponentTypes(components[component]);
+            formEditorState.setComponentTypes(components[component]);
+            dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorState.getActiveComponentIndices());
         }
     }
 
     onSelectInputComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_BUTTON,
-                formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON,
-                formEditorConstants.COMPONENT_TYPE_CHECKBOX,
-                formEditorConstants.COMPONENT_TYPE_RADIO,
-                formEditorConstants.COMPONENT_TYPE_DROPDOWN,
-                formEditorConstants.COMPONENT_TYPE_TEXT_INPUT,
-                formEditorConstants.COMPONENT_TYPE_SLIDER
-            ];
+        const components = formEditorConstants.INPUT_COMPONENTS;
         if (component in components) {
             this._formEditorState.setInputComponent(components[component]);
             this.updateComponentPanel(0, component);
@@ -268,12 +262,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectTextComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_LABEL,
-                formEditorConstants.COMPONENT_TYPE_TITLE,
-                formEditorConstants.COMPONENT_TYPE_TEXT,
-                formEditorConstants.COMPONENT_TYPE_LIST_ITEMS
-            ];
+        const components = formEditorConstants.TEXT_COMPONENTS;
         if (component in components) {
             this._formEditorState.setTextComponent(components[component]);
             this.updateComponentPanel(1, component);
@@ -281,10 +270,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectPanelComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_PANEL,
-                formEditorConstants.COMPONENT_TYPE_TABS
-            ];
+        const components = formEditorConstants.PANEL_COMPONENTS;
         if (component in components) {
             this._formEditorState.setPanelComponent(components[component]);
             this.updateComponentPanel(2, component);
@@ -292,11 +278,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectGraphicsComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_RECTANGLE,
-                formEditorConstants.COMPONENT_TYPE_CIRCLE,
-                formEditorConstants.COMPONENT_TYPE_IMAGE
-            ];
+        const components = formEditorConstants.GRAPHICS_COMPONENTS;
         if (component in components) {
             this._formEditorState.setGraphicsComponent(components[component]);
             this.updateComponentPanel(3, component);
@@ -304,11 +286,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectStatusComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT,
-                formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR,
-                formEditorConstants.COMPONENT_TYPE_LOADING_DOTS
-            ];
+        const components = formEditorConstants.STATUS_COMPONENTS;
         if (component in components) {
             this._formEditorState.setStatusComponent(components[component]);
             this.updateComponentPanel(4, component);
@@ -316,11 +294,7 @@ exports.FormEditor = class extends Editor {
     }
 
     onSelectIOComponent(component) {
-        const components = [
-                formEditorConstants.COMPONENT_TYPE_PU_DEVICE,
-                formEditorConstants.COMPONENT_TYPE_EV3_SENSOR,
-                formEditorConstants.COMPONENT_TYPE_EV3_MOTOR
-            ];
+        const components = formEditorConstants.IO_DISPLAY_COMPONENTS;
         if (component in components) {
             this._formEditorState.setIOComponent(components[component]);
             this.updateComponentPanel(5, component);

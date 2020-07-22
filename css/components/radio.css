@@ -26,6 +26,10 @@
     outline:                        none;
     padding:                        0 8px 0 0;
 }
+.radio.horizontal .radio-option {
+    clear:                          none;
+    margin-bottom:                  0;
+}
 .radio .radio-option:last-child {
     margin:                         0;
 }

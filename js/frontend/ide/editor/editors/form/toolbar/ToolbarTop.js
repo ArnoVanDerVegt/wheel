@@ -115,6 +115,9 @@ exports.ToolbarTop = class extends Toolbar {
                         tabIndex:      tabIndex.FORM_COMPONENT,
                         baseClassName: 'tool-options-toolbar text',
                         onSelect:      formEditor.onSelectTextComponent.bind(formEditor),
+                        style: {
+                            display: 'none'
+                        },
                         options: [
                             {icon: 'icon-label',        hint: {text: 'Label<br/>component'}},
                             {icon: 'icon-header',       hint: {text: 'Title<br/>component'}},

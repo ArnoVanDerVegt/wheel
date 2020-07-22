@@ -8,6 +8,7 @@ exports.IDEAssistant = class {
     constructor(opts) {
         this._settings = opts.settings;
         dispatcher
+            .on('Create.Form',            this, this.onOpenForm)
             .on('IDE.Assistant.OpenForm', this, this.onOpenForm)
             .on('Device.Connected',       this, this.onConnectedDevice);
     }
@@ -16,17 +17,29 @@ exports.IDEAssistant = class {
      * The user opens a form file but the property panel is not visible...
     **/
     onOpenForm() {
-        if (!this._settings.getShowProperties() && !this._settings.getDontShowOpenForm()) {
-            dispatcher.dispatch('Dialog.Hint.OpenForm', {});
-        }
+        // Add a timeout to allow the active window to close...
+        setTimeout(
+            () => {
+                if (!this._settings.getShowProperties() && !this._settings.getDontShowOpenForm()) {
+                    dispatcher.dispatch('Dialog.Hint.OpenForm', {});
+                }
+            },
+            500
+        );
     }
 
     /**
      * A device was connected...
     **/
     onConnectedDevice() {
-        if (!this._settings.getShowSimulator() && !this._settings.getDontShowConnected()) {
-            dispatcher.dispatch('Dialog.Hint.Connected', {});
-        }
+        // Add a timeout to allow the active window to close...
+        setTimeout(
+            () => {
+                if (!this._settings.getShowSimulator() && !this._settings.getDontShowConnected()) {
+                    dispatcher.dispatch('Dialog.Hint.Connected', {});
+                }
+            },
+            500
+        );
     }
 };

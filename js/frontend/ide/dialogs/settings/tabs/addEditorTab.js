@@ -10,11 +10,18 @@ exports.tab = (settingsDialog, opts) => {
         ref:       settingsDialog.setRef('tabEditor'),
         className: 'tab-panel tab-editor',
         children: [
+            settingsDialog.addTitle('Form editor'),
             settingsDialog.addCheckboxSetting({
                 label:          'Add comments to generated event procedures',
                 tabIndex:       1,
                 getter:         'getCreateEventComments',
                 signal:         'Settings.Set.CreateEventComments'
+            }),
+            settingsDialog.addCheckboxSetting({
+                label:          'Switch to properties when a component is selected or changed',
+                tabIndex:       2,
+                getter:         'getAutoSelectProperties',
+                signal:         'Settings.Set.AutoSelectProperties'
             }),
             settingsDialog.addHr(),
             settingsDialog.addTitle('Include file options'),
@@ -34,7 +41,8 @@ exports.tab = (settingsDialog, opts) => {
                 ui:             opts.ui,
                 uiId:           opts.uiId,
                 settings:       opts.settings
-            }
+            },
+            settingsDialog.addSpacer()
         ]
     };
 };

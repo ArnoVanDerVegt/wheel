@@ -182,7 +182,7 @@ exports.Dialog = class extends ComponentContainer {
     }
 
     onTitleMouseUp(event) {
-        onGlobalMouseUp(event);
+        this.onGlobalMouseUp(event);
     }
 
     createWindow(className, title, children) {

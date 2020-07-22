@@ -101,6 +101,7 @@ exports.Radio = class extends Component {
         this._onChange      = opts.onChange;
         this._tabIndex      = opts.tabIndex;
         this._value         = opts.value;
+        this._horizontal    = opts.horizontal;
         this._radioElements = [];
         this._options       = this.getOptionsWithTitles(opts.options);
         this.initDOM(opts.parentNode);
@@ -128,6 +129,10 @@ exports.Radio = class extends Component {
                 children:  children
             }
         );
+    }
+
+    getClassName() {
+        return super.getClassName() + ' ' + (this._horizontal ? 'horizontal' : 'vertical');
     }
 
     getOptionsWithTitles(options) {
@@ -194,6 +199,10 @@ exports.Radio = class extends Component {
     onEvent(opts) {
         if ('options' in opts) {
             this.setOptions(opts.options);
+        }
+        if ('horizontal' in opts) {
+            this._horizontal        = opts.horizontal;
+            this._element.className = this.getClassName();
         }
         super.onEvent(opts);
     }
