@@ -235,6 +235,7 @@ const files = [
         './js/frontend/ide/settings/IncludeFilesState',
         './js/frontend/ide/settings/SettingsState',
         './js/frontend/vm/modules/VMModule',
+        './js/frontend/vm/modules/VMIDEModule',
         './js/frontend/vm/modules/local/FileSystem',
         './js/frontend/vm/modules/local/ButtonModule',
         './js/frontend/vm/modules/local/FileModule',

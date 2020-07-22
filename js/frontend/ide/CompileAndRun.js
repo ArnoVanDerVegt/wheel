@@ -311,13 +311,13 @@ exports.CompileAndRun = class extends DOMUtils {
             // Components....
             modules[componentFormModuleConstants.MODULE_FORM                    ] = new LocalComponentFormModule         ({vm: vm, device: device});
             // Input components...
-            modules[componentButtonModuleConstants      .MODULE_BUTTON          ] = new LocalComponentButtonModule       ({vm: vm, device: device});
-            modules[componentSelectButtonModuleConstants.MODULE_SELECT_BUTTON   ] = new LocalComponentSelectButtonModule ({vm: vm, device: device});
-            modules[componentCheckboxModuleConstants    .MODULE_CHECKBOX        ] = new LocalComponentCheckboxModule     ({vm: vm, device: device});
-            modules[componentRadioModuleConstants       .MODULE_RADIO           ] = new LocalComponentRadioModule        ({vm: vm, device: device});
-            modules[componentDropdownModuleConstants    .MODULE_DROPDOWN        ] = new LocalComponentDropdownModule     ({vm: vm, device: device});
-            modules[componentTextInputModuleConstants   .MODULE_TEXT_INPUT      ] = new LocalComponentTextInputModule    ({vm: vm, device: device});
-            modules[componentSliderModuleConstants      .MODULE_SLIDER          ] = new LocalComponentSliderModule       ({vm: vm, device: device});
+            modules[componentButtonModuleConstants      .MODULE_BUTTON          ] = new LocalComponentButtonModule       ({vm: vm, device: device, ide: this});
+            modules[componentSelectButtonModuleConstants.MODULE_SELECT_BUTTON   ] = new LocalComponentSelectButtonModule ({vm: vm, device: device, ide: this});
+            modules[componentCheckboxModuleConstants    .MODULE_CHECKBOX        ] = new LocalComponentCheckboxModule     ({vm: vm, device: device, ide: this});
+            modules[componentRadioModuleConstants       .MODULE_RADIO           ] = new LocalComponentRadioModule        ({vm: vm, device: device, ide: this});
+            modules[componentDropdownModuleConstants    .MODULE_DROPDOWN        ] = new LocalComponentDropdownModule     ({vm: vm, device: device, ide: this});
+            modules[componentTextInputModuleConstants   .MODULE_TEXT_INPUT      ] = new LocalComponentTextInputModule    ({vm: vm, device: device, ide: this});
+            modules[componentSliderModuleConstants      .MODULE_SLIDER          ] = new LocalComponentSliderModule       ({vm: vm, device: device, ide: this});
             // Text components...
             modules[componentLabelModuleConstants       .MODULE_LABEL           ] = new LocalComponentLabelModule        ({vm: vm, device: device});
             modules[componentTitleModuleConstants       .MODULE_TITLE           ] = new LocalComponentTitleModule        ({vm: vm, device: device});
@@ -356,13 +356,13 @@ exports.CompileAndRun = class extends DOMUtils {
             // Components....
             modules[componentFormModuleConstants.MODULE_FORM                    ] = new RemoteComponentFormModule        ({vm: vm, device: device});
             // Input components...
-            modules[componentButtonModuleConstants      .MODULE_BUTTON          ] = new RemoteComponentButtonModule      ({vm: vm, device: device});
-            modules[componentSelectButtonModuleConstants.MODULE_SELECT_BUTTON   ] = new RemoteComponentSelectButtonModule({vm: vm, device: device});
-            modules[componentCheckboxModuleConstants    .MODULE_CHECKBOX        ] = new RemoteComponentCheckboxModule    ({vm: vm, device: device});
-            modules[componentRadioModuleConstants       .MODULE_RADIO           ] = new RemoteComponentRadioModule       ({vm: vm, device: device});
-            modules[componentDropdownModuleConstants    .MODULE_DROPDOWN        ] = new RemoteComponentDropdownModule    ({vm: vm, device: device});
-            modules[componentTextInputModuleConstants   .MODULE_TEXT_INPUT      ] = new RemoteComponentTextInputModule   ({vm: vm, device: device});
-            modules[componentSliderModuleConstants      .MODULE_SLIDER          ] = new RemoteComponentSliderModule      ({vm: vm, device: device});
+            modules[componentButtonModuleConstants      .MODULE_BUTTON          ] = new RemoteComponentButtonModule      ({vm: vm, device: device, ide: this});
+            modules[componentSelectButtonModuleConstants.MODULE_SELECT_BUTTON   ] = new RemoteComponentSelectButtonModule({vm: vm, device: device, ide: this});
+            modules[componentCheckboxModuleConstants    .MODULE_CHECKBOX        ] = new RemoteComponentCheckboxModule    ({vm: vm, device: device, ide: this});
+            modules[componentRadioModuleConstants       .MODULE_RADIO           ] = new RemoteComponentRadioModule       ({vm: vm, device: device, ide: this});
+            modules[componentDropdownModuleConstants    .MODULE_DROPDOWN        ] = new RemoteComponentDropdownModule    ({vm: vm, device: device, ide: this});
+            modules[componentTextInputModuleConstants   .MODULE_TEXT_INPUT      ] = new RemoteComponentTextInputModule   ({vm: vm, device: device, ide: this});
+            modules[componentSliderModuleConstants      .MODULE_SLIDER          ] = new RemoteComponentSliderModule      ({vm: vm, device: device, ide: this});
             // Text components...
             modules[componentLabelModuleConstants       .MODULE_LABEL           ] = new RemoteComponentLabelModule       ({vm: vm, device: device});
             modules[componentTitleModuleConstants       .MODULE_TITLE           ] = new RemoteComponentTitleModule       ({vm: vm, device: device});

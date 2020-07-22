@@ -115,6 +115,7 @@ const createModules = function(vm) {
            .writeString(handle, 'Hello world')
            .writeNumber(handle, 15)
            .close(handle);
+        modules.mockIDE = mockIDE;
         modules[standardModuleConstants             .MODULE_STANDARD     ] = new LocalStandardModule              ({vm: vm});
         modules[mathModuleConstants                 .MODULE_MATH         ] = new LocalMathModule                  ({vm: vm});
         modules[screenModuleConstants               .MODULE_SCREEN       ] = new LocalScreenModule                ({vm: vm});
@@ -352,6 +353,68 @@ exports.testRangeCheckError = function(it, message, source) {
     );
 };
 
+const getGetFileDataCallback = function(moduleFile, procName, win, component, value, type) {
+        return function(filename, token, callback) {
+            setTimeout(
+                function() {
+                    if (filename === 'lib.whl') {
+                        callback(fs.readFileSync(moduleFile).toString());
+                    } else {
+                        switch (type) {
+                            case 'number':
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '   ' + procName + '(' + win + ',' + component + ',' + value + ')',
+                                    'end'
+                                ].join('\n'));
+                                break;
+                            case 'string':
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '   ' + procName + '(' + win + ',' + component + ',"' + value + '")',
+                                    'end'
+                                ].join('\n'));
+                                break;
+                            case 'rgb':
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '   ' + procName + '(' + win + ',' + component + ',' + value.red + ',' + value.grn + ',' + value.blu + ')',
+                                    'end'
+                                ].join('\n'));
+                                break;
+                            case 'getNumber':
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '    number n',
+                                    '    n = ' + procName + '(' + win + ',' + component + ')',
+                                    '    addr n',
+                                    '    mod  0, 1',
+                                    'end'
+                                ].join('\n'));
+                                break;
+                            case 'getString':
+                                callback([
+                                    '#include "lib.whl"',
+                                    'proc main()',
+                                    '    string s',
+                                    '    ' + procName + '(' + win + ',' + component + ',s)',
+                                    '    addr s',
+                                    '    mod  0, 2',
+                                    'end'
+                                ].join('\n'));
+                                break;
+                        }
+                    }
+                },
+                1
+            );
+        };
+    };
+
 exports.testComponentCall = function(it, message, moduleFile, procName, property, type) {
     it(
         message,
@@ -359,50 +422,19 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
             let win         = ~~(Math.random() * 100000);
             let component   = ~~(Math.random() * 100000);
             let value       = ~~(Math.random() * 100000);
-            if (type === 'rgb') {
-                value = {
-                    red: ~~(Math.random() * 256),
-                    grn: ~~(Math.random() * 256),
-                    blu: ~~(Math.random() * 256),
-                };
+            switch (type) {
+                case 'rgb':
+                    value = {
+                        red: ~~(Math.random() * 256),
+                        grn: ~~(Math.random() * 256),
+                        blu: ~~(Math.random() * 256),
+                    };
+                    break;
+                case 'getString':
+                    value += '';
+                    break;
             }
-            let getFileData = function(filename, token, callback) {
-                    setTimeout(
-                        function() {
-                            if (filename === 'lib.whl') {
-                                callback(fs.readFileSync(moduleFile).toString());
-                            } else {
-                                switch (type) {
-                                    case 'number':
-                                        callback([
-                                            '#include "lib.whl"',
-                                            'proc main()',
-                                            '   ' + procName + '(' + win + ',' + component + ',' + value + ')',
-                                            'end'
-                                        ].join('\n'));
-                                        break;
-                                    case 'string':
-                                        callback([
-                                            '#include "lib.whl"',
-                                            'proc main()',
-                                            '   ' + procName + '(' + win + ',' + component + ',"' + value + '")',
-                                            'end'
-                                        ].join('\n'));
-                                        break;
-                                    case 'rgb':
-                                        callback([
-                                            '#include "lib.whl"',
-                                            'proc main()',
-                                            '   ' + procName + '(' + win + ',' + component + ',' + value.red + ',' + value.grn + ',' + value.blu + ')',
-                                            'end'
-                                        ].join('\n'));
-                                        break;
-                                }
-                            }
-                        },
-                        1
-                    );
-                };
+            let getFileData  = getGetFileDataCallback(moduleFile, procName, win, component, value, type);
             let preProcessor = new PreProcessor({getFileData: getFileData});
             let preProcessed = function() {
                     dispatcher.reset();
@@ -414,7 +446,9 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                             constants:  program.getConstants(),
                             stringList: program.getStringList()
                         });
-                    vm.setModules(createModules(vm));
+                    let modules = createModules(vm);
+                    vm.setModules(modules);
+                    modules.mockIDE.setTestValue(value);
                     // Start listening to the dispatcher:
                     let result = null;
                     dispatcher.on(
@@ -424,11 +458,26 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                             result = data;
                         }
                     );
+                    // getNumber and getString tests log their results...
+                    let logsReceived = [];
+                    modules[0].on('Console.Log', this, function(opts) {
+                        logsReceived.push(opts.message);
+                    });
                     vm.setCommands(program.getCommands()).run();
-                    // Check if the dispatcher received the message...
-                    let opts = {};
-                    opts[property] = value;
-                    assert.deepEqual(result, opts);
+                    if (type === 'getNumber') {
+                        assert.equal(logsReceived.length,    1);
+                        assert.equal(typeof logsReceived[0], 'number');
+                        assert.equal(logsReceived[0],        value);
+                    } else if (type === 'getString') {
+                        assert.equal(logsReceived.length,    1);
+                        assert.equal(typeof logsReceived[0], 'string');
+                        assert.equal(logsReceived[0],        value);
+                    } else {
+                        // Check if the dispatcher received the message...
+                        let opts = {};
+                        opts[property] = value;
+                        assert.deepEqual(result, opts);
+                    }
                     done();
                 };
             preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);

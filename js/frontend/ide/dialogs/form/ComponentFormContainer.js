@@ -4,12 +4,17 @@
 **/
 let Win = class {
         constructor(opts) {
-            this._uiId       = opts.uiId;
-            this._components = [];
+            this._uiId           = opts.uiId;
+            this._components     = [];
+            this._componentsById = {};
         }
 
         getUiId() {
             return this._uiId;
+        }
+
+        getComponentById(id) {
+            return this._componentsById[id];
         }
 
         remove() {
@@ -19,7 +24,8 @@ let Win = class {
             }
         }
 
-        addComponent(component) {
+        addComponent(id, component) {
+            this._componentsById[parseInt(id, 16)] = component;
             this._components.push(component);
         }
     };
@@ -27,13 +33,17 @@ let Win = class {
 exports.ComponentFormContainer = class {
     constructor() {
         this._nextUiId = 10240;
-        this._forms    = {};
+        this._windows  = {};
     }
 
     getNextUiId() {
         let uiId = this._nextUiId;
         this._nextUiId++;
         return uiId;
+    }
+
+    getWindowByUiId(uiId) {
+        return this._windows[uiId];
     }
 
     peekUiId() {
@@ -43,16 +53,16 @@ exports.ComponentFormContainer = class {
     addWindow() {
         let uiId = this.getNextUiId();
         let win  = new Win({uiId: uiId});
-        this._forms[uiId] = win;
+        this._windows[uiId] = win;
         return win;
     }
 
     removeWindow(uiId) {
-        let win = this._forms[uiId];
+        let win = this._windows[uiId];
         if (!win) {
             return;
         }
         win.remove();
-        delete this._forms[uiId];
+        delete this._windows[uiId];
     }
 };

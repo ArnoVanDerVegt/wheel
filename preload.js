@@ -135,6 +135,7 @@ require('./js/frontend/compiler/keyword/CompileWhile');
 require('./js/frontend/compiler/CompilerUseInfo');
 require('./js/frontend/compiler/Compiler');
 require('./js/frontend/vm/modules/VMModule');
+require('./js/frontend/vm/modules/VMIDEModule');
 require('./js/frontend/vm/modules/local/FileSystem');
 require('./js/frontend/vm/modules/local/ButtonModule');
 require('./js/frontend/vm/modules/local/FileModule');

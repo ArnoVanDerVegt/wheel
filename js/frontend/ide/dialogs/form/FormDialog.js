@@ -137,96 +137,93 @@ exports.FormDialog = class extends Dialog {
             }
         );
         componentById[mainParentId] = result;
-        opts.data.forEach(
-            function(component) {
-                let win    = this._win;
-                let parent = componentById[component.parentId];
-                if (component.type === formEditorConstants.COMPONENT_TYPE_FORM) {
-                    this._width  = component.width;
-                    this._height = component.height;
-                    this._title  = component.title;
-                    this.addFormEvents(component);
-                } else if (parent) {
-                    component.containerIdsForForm = this._containerIdsForForm;
-                    component.getImage            = getImage;
-                    component.event               = win.getUiId() + '_' + parseInt(component.uid, 16);
-                    component.id                  = win.addComponent.bind(win);
-                    component.ui                  = this._ui;
-                    component.uiId                = this._uiId;
-                    component.style               = {
-                        position: 'absolute',
-                        left:     component.x + 'px',
-                        top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
-                    };
-                    switch (component.type) {
-                        case formEditorConstants.COMPONENT_TYPE_BUTTON:
-                            component.type = Button;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_LABEL:
-                            component.type = Label;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON:
-                            component.type = ToolOptions;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_CHECKBOX:
-                            component.type = CheckboxAndLabel;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:
-                            component.type = TextInput;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_SLIDER:
-                            component.type = Slider;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:
-                            component.type = StatusLight;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_TABS:
-                            component.type     = TabPanel;
-                            component.children = [];
-                            let containerIds = component.containerIds;
-                            containerIds.forEach((containerId) => {
-                                let children = [];
-                                componentById[containerId] = children;
-                                component.children.push(children);
-                            });
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_RECTANGLE:
-                            component.type = Rectangle;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_CIRCLE:
-                            component.type = Circle;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_IMAGE:
-                            component.type = Image;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:
-                            component.type = PoweredUpDevice;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:
-                            component.type = EV3Motor;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                        case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:
-                            component.type = EV3Sensor;
-                            parent.push(this.getComponentEvents(component));
-                            break;
-                    }
+        opts.data.forEach((component) => {
+            let win    = this._win;
+            let parent = componentById[component.parentId];
+            if (component.type === formEditorConstants.COMPONENT_TYPE_FORM) {
+                this._width  = component.width;
+                this._height = component.height;
+                this._title  = component.title;
+                this.addFormEvents(component);
+            } else if (parent) {
+                component.containerIdsForForm = this._containerIdsForForm;
+                component.getImage            = getImage;
+                component.event               = win.getUiId() + '_' + parseInt(component.uid, 16);
+                component.id                  = win.addComponent.bind(win, component.uid);
+                component.ui                  = this._ui;
+                component.uiId                = this._uiId;
+                component.style               = {
+                    position: 'absolute',
+                    left:     component.x + 'px',
+                    top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
+                };
+                switch (component.type) {
+                    case formEditorConstants.COMPONENT_TYPE_BUTTON:
+                        component.type = Button;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_LABEL:
+                        component.type = Label;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON:
+                        component.type = ToolOptions;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_CHECKBOX:
+                        component.type = CheckboxAndLabel;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:
+                        component.type = TextInput;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_SLIDER:
+                        component.type = Slider;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:
+                        component.type = StatusLight;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_TABS:
+                        component.type     = TabPanel;
+                        component.children = [];
+                        let containerIds = component.containerIds;
+                        containerIds.forEach((containerId) => {
+                            let children = [];
+                            componentById[containerId] = children;
+                            component.children.push(children);
+                        });
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_RECTANGLE:
+                        component.type = Rectangle;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_CIRCLE:
+                        component.type = Circle;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_IMAGE:
+                        component.type = Image;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:
+                        component.type = PoweredUpDevice;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:
+                        component.type = EV3Motor;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:
+                        component.type = EV3Sensor;
+                        parent.push(this.getComponentEvents(component));
+                        break;
                 }
-            },
-            this
-        );
+            }
+        });
         return result;
     }
 

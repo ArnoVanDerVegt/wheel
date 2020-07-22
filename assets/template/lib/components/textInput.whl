@@ -12,9 +12,11 @@ namespace components.textInput
 #define TEXT_INPUT_COMPONENT_SET_DISABLED      1
 #define TEXT_INPUT_COMPONENT_SET_X             2
 #define TEXT_INPUT_COMPONENT_SET_Y             3
-#define TEXT_INPUT_COMPONENT_SET_TEXT_VALUE    4
-#define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE  5
-#define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER  6
+#define TEXT_INPUT_COMPONENT_GET_TEXT_VALUE    4
+#define TEXT_INPUT_COMPONENT_SET_TEXT_VALUE    5
+#define TEXT_INPUT_COMPONENT_GET_NUMBER_VALUE  6
+#define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE  7
+#define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER  8
 
 ; @event onChange            Called when the text input is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the text input.
@@ -62,6 +64,15 @@ proc setY(number windowHandle, number componentHandle, number y)
     mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_Y
 end
 
+; @proc                   Get the text input text value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param text             The string to store the text value.
+proc getTextValue(number windowHandle, number componentHandle, string text)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_GET_TEXT_VALUE
+end
+
 ; @proc                   Set the text input text value.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
@@ -69,6 +80,15 @@ end
 proc setTextValue(number windowHandle, number componentHandle, string text)
     addr windowHandle
     mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_TEXT_VALUE
+end
+
+; @proc                   Set the text input number value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The value as a number.
+proc getNumberValue(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_GET_NUMBER_VALUE
 end
 
 ; @proc                   Set the text input number value.

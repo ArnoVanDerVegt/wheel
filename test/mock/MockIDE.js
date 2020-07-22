@@ -14,4 +14,24 @@ exports.MockIDE = class {
     getNextWinUiId() {
         return 10240;
     }
+
+    setTestValue(testValue) {
+        this._testValue = testValue;
+    }
+
+    getComponentFormContainer() {
+        return {
+            getWindowByUiId: () => {
+                return {
+                    getComponentById: () => {
+                        return {
+                            getValue: () => {
+                                return this._testValue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 };

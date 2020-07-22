@@ -788,6 +788,10 @@ exports.IDE = class extends CompileAndRun {
         return this._componentFormContainer.peekUiId();
     }
 
+    getComponentFormContainer() {
+        return this._componentFormContainer;
+    }
+
     getEditor(path, filename) {
         let editor = this._editor;
         return editor.findEditor(path, filename) || editor.findEditor((path === '') ? null : path, filename);
