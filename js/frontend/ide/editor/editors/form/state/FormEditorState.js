@@ -79,18 +79,20 @@ exports.FormEditorState = class extends Emitter {
             .onSelectComponent(component.id)
             .getNextId(); // Skip the form Id!
         if (opts.data) {
-            let data = opts.data;
+            let data   = opts.data;
+            let nextId = 0;
             for (let i = 1; i < data.length; i++) {
                 let component = data[i];
                 component.owner = this._containerIdsForForm.getFormComponentContainerByContainerId(component.parentId);
                 if (typeof component.parentId === 'number') {
-                    this._nextId = Math.max(this._nextId, component.parentId);
+                    nextId = Math.max(nextId, component.parentId);
                 }
                 if (typeof component.id === 'number') {
-                    this._nextId = Math.max(this._nextId, component.id);
+                    nextId = Math.max(nextId, component.id);
                 }
                 this.addComponent(component);
             }
+            this._nextId = Math.max(nextId, this._nextId);
         }
         this._undoStack.setEnabled(true);
         this._loading = false;

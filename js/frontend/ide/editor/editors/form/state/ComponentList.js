@@ -211,7 +211,7 @@ exports.ComponentList = class {
         if ((id === null) || !componentsById[id]) {
             return null;
         }
-        let parentId  = componentsById[id].owner.getContainerId();
+        let parentId  = componentsById[id].owner ? componentsById[id].owner.getContainerId() : 0;
         let component = this.getComponentClone(id);
         component.parentId      = parentId;
         this._activeComponentId = null;
