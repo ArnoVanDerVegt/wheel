@@ -19,5 +19,6 @@ describe(
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.radio.setX',        'x',        'number');
         testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.radio.setY',        'y',        'number');
         testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.radio.setValue',    'value',    'number');
+        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.radio.getValue',    null,       'getNumber');
     }
 );

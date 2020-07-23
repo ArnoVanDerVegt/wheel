@@ -11,3 +11,4 @@ exports.TABS_SET_Y         =  3;
 exports.TABS_SET_WIDTH     =  4;
 exports.TABS_SET_HEIGHT    =  5;
 exports.TABS_SET_ACTIVE    =  6;
+exports.TABS_GET_ACTIVE    =  7;

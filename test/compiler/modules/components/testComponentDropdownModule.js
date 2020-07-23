@@ -19,5 +19,6 @@ describe(
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.dropdown.setX',        'x',        'number');
         testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.dropdown.setY',        'y',        'number');
         testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.dropdown.setValue',    'value',    'number');
+        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.dropdown.getValue',    null,       'getNumber');
     }
 );

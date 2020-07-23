@@ -21,5 +21,6 @@ describe(
         testComponentCall(it, 'Should set text',     LIB_FILENAME, 'components.checkbox.setText',     'text',     'string');
         testComponentCall(it, 'Should set hint',     LIB_FILENAME, 'components.checkbox.setHint',     'title',    'string');
         testComponentCall(it, 'Should set checked',  LIB_FILENAME, 'components.checkbox.setChecked',  'checked',  'number');
+        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.checkbox.getValue',    null,       'getNumber');
     }
 );

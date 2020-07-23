@@ -4,15 +4,16 @@
 **/
 const componentTabsModuleConstants = require('../../../../../shared/vm/modules/components/componentTabsModuleConstants');
 const dispatcher                   = require('../../../../lib/dispatcher').dispatcher;
-const VMModule                     = require('./../../VMModule').VMModule;
+const VMIDEModule                  = require('./../../VMIDEModule').VMIDEModule;
 
-exports.ComponentTabsModule = class extends VMModule {
+exports.ComponentTabsModule = class extends VMIDEModule {
     run(commandId) {
         let vmData   = this._vmData;
         let vm       = this._vm;
         let property = '';
         let tabs     = null;
         let opts     = {};
+        let component;
         switch (commandId) {
             case componentTabsModuleConstants.TABS_SET_HIDDEN:    property = 'hidden';   break;
             case componentTabsModuleConstants.TABS_SET_DISABLED:  property = 'disabled'; break;
@@ -21,6 +22,16 @@ exports.ComponentTabsModule = class extends VMModule {
             case componentTabsModuleConstants.TABS_SET_WIDTH:     property = 'width';    break;
             case componentTabsModuleConstants.TABS_SET_HEIGHT:    property = 'height';   break;
             case componentTabsModuleConstants.TABS_SET_ACTIVE:    property = 'active';   break;
+            case componentTabsModuleConstants.TABS_GET_ACTIVE:
+                opts      = vmData.getRecordFromSrcOffset(['window', 'component']);
+                component = this.getComponent(opts.window, opts.component);
+                if (component) {
+                    let n = parseInt(component.getValue(), 10);
+                    if (!isNaN(n)) {
+                        vmData.setNumberAtRet(n);
+                    }
+                }
+                break;
         }
         if (property !== '') {
             tabs           = vmData.getRecordFromSrcOffset(['window', 'component', property]);

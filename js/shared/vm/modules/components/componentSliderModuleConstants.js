@@ -9,3 +9,4 @@ exports.SLIDER_SET_DISABLED =  1;
 exports.SLIDER_SET_X        =  2;
 exports.SLIDER_SET_Y        =  3;
 exports.SLIDER_SET_VALUE    =  4;
+exports.SLIDER_GET_VALUE    =  5;

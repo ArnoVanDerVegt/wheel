@@ -10,3 +10,4 @@ exports.SELECT_BUTTON_SET_X         =  2;
 exports.SELECT_BUTTON_SET_Y         =  3;
 exports.SELECT_BUTTON_SET_COLOR     =  4;
 exports.SELECT_BUTTON_SET_ACTIVE    =  5;
+exports.SELECT_BUTTON_GET_ACTIVE    =  6;

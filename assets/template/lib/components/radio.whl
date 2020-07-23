@@ -13,6 +13,7 @@ namespace components.radio
 #define RADIO_COMPONENT_SET_X          2
 #define RADIO_COMPONENT_SET_Y          3
 #define RADIO_COMPONENT_SET_VALUE      4
+#define RADIO_COMPONENT_GET_VALUE      5
 
 ; @event onChange            Called when an other item is selected.
 ; @param windowHandle number The handle of the parent window of the radio.
@@ -67,4 +68,13 @@ end
 proc setValue(number windowHandle, number componentHandle, number value)
     addr windowHandle
     mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_VALUE
+end
+
+; @proc                   Get the value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The value.
+proc getValue(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_GET_VALUE
 end

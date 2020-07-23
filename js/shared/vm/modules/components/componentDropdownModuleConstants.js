@@ -9,3 +9,4 @@ exports.DROPDOWN_SET_DISABLED  =  1;
 exports.DROPDOWN_SET_X         =  2;
 exports.DROPDOWN_SET_Y         =  3;
 exports.DROPDOWN_SET_VALUE     =  4;
+exports.DROPDOWN_GET_VALUE     =  5;

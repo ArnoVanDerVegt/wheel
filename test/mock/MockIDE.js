@@ -3,6 +3,11 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 exports.MockIDE = class {
+    constructor() {
+        this._windowHandle = null;
+        this._componentId  = null;
+    }
+
     getProjectFilename() {
         return '';
     }
@@ -19,11 +24,21 @@ exports.MockIDE = class {
         this._testValue = testValue;
     }
 
-    getComponentFormContainer() {
+    getWindowHandle() {
+        return this._windowHandle;
+    }
+
+    getComponentId() {
+        return this._componentId;
+    }
+
+    getComponentFormContainer(windowHandle, componentId) {
         return {
-            getWindowByUiId: () => {
+            getWindowByUiId: (windowHandle) => {
+                this._windowHandle = windowHandle;
                 return {
-                    getComponentById: () => {
+                    getComponentById: (componentId) => {
+                        this._componentId = componentId;
                         return {
                             getValue: () => {
                                 return this._testValue;

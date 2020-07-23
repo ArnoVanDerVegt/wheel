@@ -4,15 +4,16 @@
 **/
 const componentSelectButtonModuleConstants = require('../../../../../shared/vm/modules/components/componentSelectButtonModuleConstants');
 const dispatcher                           = require('../../../../lib/dispatcher').dispatcher;
-const VMModule                             = require('./../../VMModule').VMModule;
+const VMIDEModule                          = require('./../../VMIDEModule').VMIDEModule;
 
-exports.ComponentSelectButtonModule = class extends VMModule {
+exports.ComponentSelectButtonModule = class extends VMIDEModule {
     run(commandId) {
         let vmData       = this._vmData;
         let vm           = this._vm;
         let property     = '';
         let selectButton = null;
         let opts         = {};
+        let component;
         switch (commandId) {
             case componentSelectButtonModuleConstants.SELECT_BUTTON_SET_HIDDEN:    property = 'hidden';   break;
             case componentSelectButtonModuleConstants.SELECT_BUTTON_SET_DISABLED:  property = 'disabled'; break;
@@ -20,6 +21,16 @@ exports.ComponentSelectButtonModule = class extends VMModule {
             case componentSelectButtonModuleConstants.SELECT_BUTTON_SET_Y:         property = 'y';        break;
             case componentSelectButtonModuleConstants.SELECT_BUTTON_SET_COLOR:     property = 'color';    break;
             case componentSelectButtonModuleConstants.SELECT_BUTTON_SET_ACTIVE:    property = 'active';   break;
+            case componentSelectButtonModuleConstants.SELECT_BUTTON_GET_ACTIVE:
+                opts      = vmData.getRecordFromSrcOffset(['window', 'component']);
+                component = this.getComponent(opts.window, opts.component);
+                if (component) {
+                    let n = parseInt(component.getValue(), 10);
+                    if (!isNaN(n)) {
+                        vmData.setNumberAtRet(n);
+                    }
+                }
+                break;
         }
         if (property !== '') {
             selectButton   = vmData.getRecordFromSrcOffset(['window', 'component', property]);

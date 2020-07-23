@@ -20,5 +20,6 @@ describe(
         testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.selectButton.setY',        'y',        'number');
         testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.selectButton.setColor',    'color',    'number');
         testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.selectButton.setActive',   'active',   'number');
+        testComponentCall(it, 'Should get active',   LIB_FILENAME, 'components.selectButton.getActive',   null,       'getNumber');
     }
 );

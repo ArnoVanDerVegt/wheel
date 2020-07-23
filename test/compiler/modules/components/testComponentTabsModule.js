@@ -21,5 +21,6 @@ describe(
         testComponentCall(it, 'Should set width',    LIB_FILENAME, 'components.tabs.setWidth',    'width',    'number');
         testComponentCall(it, 'Should set height',   LIB_FILENAME, 'components.tabs.setHeight',   'height',   'number');
         testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.tabs.setActive',   'active',   'number');
+        testComponentCall(it, 'Should get active',   LIB_FILENAME, 'components.tabs.getActive',   null,       'getNumber');
     }
 );

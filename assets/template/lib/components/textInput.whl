@@ -82,7 +82,7 @@ proc setTextValue(number windowHandle, number componentHandle, string text)
     mod  MODULE_COMPONENT_TEXT_INPUT, TEXT_INPUT_COMPONENT_SET_TEXT_VALUE
 end
 
-; @proc                   Set the text input number value.
+; @proc                   Get the text input number value.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @return                 The value as a number.

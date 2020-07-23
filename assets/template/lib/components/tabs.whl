@@ -15,6 +15,7 @@ namespace components.tabs
 #define TABS_COMPONENT_SET_WIDTH      4
 #define TABS_COMPONENT_SET_HEIGHT     5
 #define TABS_COMPONENT_SET_ACTIVE     6
+#define TABS_COMPONENT_GET_ACTIVE     7
 
 ; @event onChange            Called when an other tab is selected.
 ; @param windowHandle number The handle of the parent window of the tabs.
@@ -87,4 +88,13 @@ end
 proc setActive(number windowHandle, number componentHandle, number active)
     addr windowHandle
     mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_ACTIVE
+end
+
+; @proc                   Get the active tab.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The active tab.
+proc getActive(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_GET_ACTIVE
 end

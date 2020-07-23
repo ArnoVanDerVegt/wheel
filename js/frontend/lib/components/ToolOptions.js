@@ -137,6 +137,10 @@ exports.ToolOptions = class extends DOMNode {
         }
     }
 
+    getValue() {
+        return this._tool;
+    }
+
     onEvent(opts) {
         let element  = this._element;
         let elements = this._elements;

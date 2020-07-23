@@ -19,5 +19,6 @@ describe(
         testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.slider.setX',        'x',        'number');
         testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.slider.setY',        'y',        'number');
         testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.slider.setValue',    'value',    'number');
+        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.slider.getValue',    null,       'getNumber');
     }
 );

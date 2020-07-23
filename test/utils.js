@@ -102,20 +102,29 @@ const MockDataProvider                     = require('./mock/MockDataProvider').
 const MockIDE                              = require('./mock/MockIDE').MockIDE;
 const fs                                   = require('fs');
 
-const createModules = function(vm) {
-        let modules          = [];
+const createMocks = () => {
         let mockIDE          = new MockIDE();
         let mockDataProvider = new MockDataProvider();
         let mockFileSystem   = new MockFileSystem();
         let handle           = mockFileSystem.open('test.rtf');
-        const getDataProvider = function() { return mockDataProvider; };
         mockFileSystem
            .writeNumber(handle, 45)
            .writeNumber(handle, 99)
            .writeString(handle, 'Hello world')
            .writeNumber(handle, 15)
            .close(handle);
-        modules.mockIDE = mockIDE;
+        return {
+            mockIDE:          mockIDE,
+            mockDataProvider: mockDataProvider,
+            mockFileSystem:   mockFileSystem
+        };
+    };
+
+const createModules = (vm, mocks) => {
+        const mockIDE        = mocks.mockIDE;
+        const mockFileSystem = mocks.mockFileSystem;
+        const getDataProvider = function() { return mocks.mockDataProvider; };
+        let modules = [];
         modules[standardModuleConstants             .MODULE_STANDARD     ] = new LocalStandardModule              ({vm: vm});
         modules[mathModuleConstants                 .MODULE_MATH         ] = new LocalMathModule                  ({vm: vm});
         modules[screenModuleConstants               .MODULE_SCREEN       ] = new LocalScreenModule                ({vm: vm});
@@ -161,6 +170,7 @@ const createModules = function(vm) {
         return modules;
     };
 
+exports.createMocks   = createMocks;
 exports.createModules = createModules;
 
 exports.testCodeAndMemory = function(it, message, source, code, memory) {
@@ -193,7 +203,7 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
                     constants:  program.getConstants(),
                     stringList: program.getStringList()
                 });
-            vm.setModules(createModules(vm));
+            vm.setModules(createModules(vm, createMocks()));
             vm.setCommands(program.getCommands()).run();
             let data = vm.getVMData().getData();
             for (let i = 0; i < data.length; i++) {
@@ -224,7 +234,7 @@ exports.testLogs = function(it, message, source, logs, callback) {
                     stringList: program.getStringList()
                 });
             let logsReceived = [];
-            let modules      = createModules(vm);
+            let modules      = createModules(vm, createMocks());
             modules[0].on('Console.Log', this, function(opts) {
                 logsReceived.push(opts.message);
             });
@@ -278,7 +288,7 @@ exports.testModuleCall = function(it, message, source, module, event, params) {
                     constants:  program.getConstants(),
                     stringList: program.getStringList()
                 });
-            let modules = createModules(vm);
+            let modules = createModules(vm, createMocks());
             modules[module].on(event, this, function(message) {
                 called = true;
                 for (let p in params) {
@@ -303,7 +313,7 @@ exports.testCompile = function(source, linter) {
             constants:  program.getConstants(),
             stringList: program.getStringList()
         });
-    let modules = createModules(vm);
+    let modules = createModules(vm, createMocks());
     vm.setModules(modules);
     vm.getVMData().setHeap(program.getHeap());
     return {
@@ -446,9 +456,10 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                             constants:  program.getConstants(),
                             stringList: program.getStringList()
                         });
-                    let modules = createModules(vm);
+                    let mocks   = createMocks();
+                    let modules = createModules(vm, mocks);
                     vm.setModules(modules);
-                    modules.mockIDE.setTestValue(value);
+                    mocks.mockIDE.setTestValue(value);
                     // Start listening to the dispatcher:
                     let result = null;
                     dispatcher.on(
@@ -465,13 +476,17 @@ exports.testComponentCall = function(it, message, moduleFile, procName, property
                     });
                     vm.setCommands(program.getCommands()).run();
                     if (type === 'getNumber') {
-                        assert.equal(logsReceived.length,    1);
-                        assert.equal(typeof logsReceived[0], 'number');
-                        assert.equal(logsReceived[0],        value);
+                        assert.equal(logsReceived.length,             1);
+                        assert.equal(typeof logsReceived[0],          'number');
+                        assert.equal(logsReceived[0],                 value);
+                        assert.equal(mocks.mockIDE.getWindowHandle(), win);
+                        assert.equal(mocks.mockIDE.getComponentId(),  component);
                     } else if (type === 'getString') {
-                        assert.equal(logsReceived.length,    1);
-                        assert.equal(typeof logsReceived[0], 'string');
-                        assert.equal(logsReceived[0],        value);
+                        assert.equal(logsReceived.length,             1);
+                        assert.equal(typeof logsReceived[0],          'string');
+                        assert.equal(logsReceived[0],                 value);
+                        assert.equal(mocks.mockIDE.getWindowHandle(), win);
+                        assert.equal(mocks.mockIDE.getComponentId(),  component);
                     } else {
                         // Check if the dispatcher received the message...
                         let opts = {};

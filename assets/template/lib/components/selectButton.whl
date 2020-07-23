@@ -14,6 +14,7 @@ namespace components.selectButton
 #define SELECT_BUTTON_COMPONENT_SET_Y          3
 #define SELECT_BUTTON_COMPONENT_SET_COLOR      4
 #define SELECT_BUTTON_COMPONENT_SET_ACTIVE     5
+#define SELECT_BUTTON_COMPONENT_GET_ACTIVE     6
 
 ; @event onChange            Called when an other button is selected.
 ; @param windowHandle number The handle of the parent window of the selectButton.
@@ -77,4 +78,13 @@ end
 proc setActive(number windowHandle, number componentHandle, number active)
     addr windowHandle
     mod  MODULE_COMPONENT_SELECT_BUTTON, SELECT_BUTTON_COMPONENT_SET_ACTIVE
+end
+
+; @proc                   Get the active button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The active button.
+proc getActive(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SELECT_BUTTON, SELECT_BUTTON_COMPONENT_GET_ACTIVE
 end

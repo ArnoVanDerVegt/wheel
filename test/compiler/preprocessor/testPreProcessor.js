@@ -8,6 +8,7 @@ const compiler      = require('../../../js/frontend/compiler/Compiler');
 const Text          = require('../../../js/frontend/program/output/Text').Text;
 const VM            = require('../../../js/frontend/vm/VM').VM;
 const createModules = require('../../utils').createModules;
+const createMocks   = require('../../utils').createMocks;
 const assert        = require('assert');
 
 const testDefineNumber = function(defineValue, callback) {
@@ -33,7 +34,7 @@ const testDefineNumber = function(defineValue, callback) {
                         constants:  program.getConstants(),
                         stringList: program.getStringList()
                     });
-                vm.setModules(createModules(vm));
+                vm.setModules(createModules(vm, createMocks()));
                 dispatcher.on('Console.Log', this, callback);
                 vm.setCommands(program.getCommands()).run();
             };
@@ -98,7 +99,7 @@ describe(
                             }
                         );
                         assert.equal(preProcessor.getLineCount(), 7);
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                     };
                 preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
@@ -154,7 +155,7 @@ describe(
                                 assert.equal(message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
@@ -214,7 +215,7 @@ describe(
                                 assert.equal(message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
@@ -283,7 +284,7 @@ describe(
                         });
                         assert.deepEqual(files, ['/test1.whl', '/test2.whl', '/main.whl']);
                         let logs    = [];
-                        let modules = createModules(vm);
+                        let modules = createModules(vm, createMocks());
                         vm.setModules(modules);
                         modules[0].on(
                             'Console.Log',
@@ -336,7 +337,7 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
