@@ -5,6 +5,7 @@
 const dispatcher          = require('../../js/frontend/lib/dispatcher').dispatcher;
 const ContainerIdsForForm = require('../../js/frontend/ide/editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
 const FormEditorState     = require('../../js/frontend/ide/editor/editors/form/state/FormEditorState').FormEditorState;
+const formEditorConstants = require('../../js/frontend/ide/editor/editors/form/formEditorConstants');
 const assert              = require('assert');
 
 afterEach(() => {
@@ -347,6 +348,60 @@ describe(
                                     }
                                 }
                                 assert.equal(formEditorState.getUndoStackLength(), 0);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test adding',
+            () => {
+                it(
+                    'Should add a component',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                assert.equal(formEditorState.getData().length, 4);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component and undo',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                let data = formEditorState.getData();
+                                assert.equal(data[0].id,  1);
+                                assert.equal(data[1].id,  2);
+                                assert.equal(data[2].id,  3);
+                                assert.equal(data[3].id,  4);
+                                assert.equal(data.length, 4);
+                                formEditorState.undo();
+                                data = formEditorState.getData();
+                                assert.equal(data.length, 3);
+                                assert.equal(data[0].id,  1);
+                                assert.equal(data[1].id,  2);
+                                assert.equal(data[2].id,  3);
                                 done();
                             }
                         );
