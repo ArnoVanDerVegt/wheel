@@ -340,6 +340,7 @@ const files = [
         './js/frontend/lib/components/Title',
         './js/frontend/lib/components/Text',
         './js/frontend/lib/components/ListItems',
+        './js/frontend/lib/components/nonvisual/NonVisualComponent',
         './js/frontend/lib/components/nonvisual/Interval',
         './js/frontend/lib/components/nonvisual/Timeout',
         './js/frontend/lib/components/io/BasicIODevice',

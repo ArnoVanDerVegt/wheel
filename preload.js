@@ -227,6 +227,7 @@ require('./js/frontend/lib/components/Rectangle');
 require('./js/frontend/lib/components/Circle');
 require('./js/frontend/lib/components/Image');
 require('./js/frontend/lib/components/LoadingDots');
+require('./js/frontend/lib/components/nonvisual/NonVisualComponent');
 require('./js/frontend/lib/components/nonvisual/Interval');
 require('./js/frontend/lib/components/nonvisual/Timeout');
 require('./js/frontend/lib/components/io/BasicIODevice');

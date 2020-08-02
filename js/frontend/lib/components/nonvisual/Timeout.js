@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('../Component');
+const dispatcher         = require('../../dispatcher').dispatcher;
+const NonVisualComponent = require('./NonVisualComponent').NonVisualComponent;
 
-exports.Timeout = class extends Component.Component {
+exports.Timeout = class extends NonVisualComponent {
     constructor(opts) {
         super(opts);
         this._onTimeout     = opts.onTimeout;

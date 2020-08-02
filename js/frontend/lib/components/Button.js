@@ -88,19 +88,12 @@ exports.Button = class extends Component.Component {
             this._hintDiv     = hintDiv;
             hintDiv.innerHTML = this._hint.text;
         }
-        let element = this._element;
-        let offsetX = element.offsetLeft;
-        let offsetY = element.offsetTop;
-        let parent  = element.offsetParent;
-        while (parent) {
-            offsetX += parent.offsetLeft;
-            offsetY += parent.offsetTop;
-            parent = parent.offsetParent;
-        }
+        let element  = this._element;
+        let position = this.getElementPosition();
         hintDiv.style.zIndex = 99999;
         hintDiv.style.display = 'block';
-        hintDiv.style.left    = offsetX + (-hintDiv.offsetWidth / 2 + element.offsetWidth / 2 + (this._hint.offsetX || 0)) + 'px';
-        hintDiv.style.top     = (offsetY + 35) + 'px';
+        hintDiv.style.left    = position.x + (-hintDiv.offsetWidth / 2 + element.offsetWidth / 2 + (this._hint.offsetX || 0)) + 'px';
+        hintDiv.style.top     = (position.y + 35) + 'px';
     }
 
     onMouseOut() {
@@ -116,33 +109,6 @@ exports.Button = class extends Component.Component {
         if (!this._disabled && (typeof this._onMouseDown === 'function')) {
             this._element.focus();
             this._onMouseDown(event);
-        }
-    }
-
-    getHintDiv() {
-        for (let i = 0; i < 10; i++) {
-            let div = document.getElementById('hint' + i);
-            if (div) {
-                if (div._free) {
-                    return div;
-                }
-            } else {
-                div           = document.createElement('div');
-                div.id        = 'hint' + i;
-                div.className = 'hint with-arrow';
-                div._free     = false;
-                document.body.appendChild(div);
-                return div;
-            }
-        }
-        return null;
-    }
-
-    hideHintDiv() {
-        if (this._hintDiv) {
-            this._hintDiv.style.display = 'none';
-            this._hintDiv._free         = true;
-            this._hintDiv               = null;
         }
     }
 
