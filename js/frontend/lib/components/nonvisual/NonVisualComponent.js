@@ -10,6 +10,17 @@ exports.NonVisualComponent = class extends Component.Component {
         this._name = opts.name;
     }
 
+    initDOM(parentNode) {
+        this.create(
+            parentNode,
+            {
+                id:        this.setElement.bind(this),
+                className: this.getClassName(),
+                style:     this._style
+            }
+        );
+    }
+
     onMouseMove(event) {
         if (typeof WebKitCSSMatrix === 'undefined') {
             return; // No support, don't show the hint...

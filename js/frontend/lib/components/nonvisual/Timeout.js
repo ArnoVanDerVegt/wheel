@@ -22,16 +22,6 @@ exports.Timeout = class extends NonVisualComponent {
         }
     }
 
-    initDOM(parentNode) {
-        this.create(
-            parentNode,
-            {
-                id:        this.setElement.bind(this),
-                className: this.getClassName()
-            }
-        );
-    }
-
     onEvent(opts) {
         if ('time' in opts) {
             this._time = opts.time;

@@ -505,6 +505,7 @@ exports.PoweredUp = class extends BasicDevice {
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
             motorDevice.stop            && motorDevice.stop();
             motorDevice.setBrightness   && motorDevice.setBrightness(0);
+            motorDevice.brake           && motorDevice.brake();
         }
         callback && callback();
     }

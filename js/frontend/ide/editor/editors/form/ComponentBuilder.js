@@ -50,6 +50,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_BUTTON)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Button'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'value',        component.name)
             .addProperty(component, 'title',        component.name)
             .addProperty(component, 'color',        'green');
@@ -60,6 +61,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'SelectButton'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'options',      ['A', 'B'])
             .addProperty(component, 'color',        'green');
         return component;
@@ -69,6 +71,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_CHECKBOX)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Checkbox'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text || component.name)
             .addProperty(component, 'checked',      false);
         return component;
@@ -78,6 +81,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_RADIO)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Radio'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'horizontal',   false)
             .addProperty(component, 'options',      ['Red', 'Blue', 'Lime']);
         return component;
@@ -87,6 +91,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_DROPDOWN)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Dropdown'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'items',        ['Red', 'Blue', 'Lime']);
         return component;
     }
@@ -95,6 +100,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TEXT_INPUT)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'TextInput'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'width',        48);
         return component;
     }
@@ -103,6 +109,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_SLIDER)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Slider'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'maxValue',     100)
             .addProperty(component, 'value',        0)
             .addProperty(component, 'width',        128);
@@ -115,6 +122,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LABEL)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Label'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text || component.name)
             .addProperty(component, 'halign',       'left');
         return component;
@@ -124,6 +132,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TITLE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Title'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text || component.name)
             .addProperty(component, 'halign',       'left');
         return component;
@@ -133,6 +142,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TEXT)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Text'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text  || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum, felis et aliquam malesuada, nisl ligula fringilla arcu, ac finibus augue arcu in justo. Sed convallis id sapien nec dictum. Sed metus elit, malesuada sit amet molestie in, sagittis in neque. Proin ultricies velit vitae interdum fringilla. Vivamus purus nibh, lacinia ut auctor id, auctor at est.')
             .addProperty(component, 'width',        component.width || 300)
             .addProperty(component, 'halign',       'left');
@@ -143,6 +153,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LIST_ITEMS)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ListItems'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'items',        ['Left', 'Right', 'Down']);
         return component;
     }
@@ -153,6 +164,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PANEL)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Panel'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'width',        200)
             .addProperty(component, 'height',       128);
         if (!('containerIds' in component)) {
@@ -165,6 +177,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TABS)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Tabs'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'tabs',         ['Tab(1)', 'Tab(2)'])
             .addProperty(component, 'width',        200)
             .addProperty(component, 'height',       128);
@@ -180,6 +193,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_RECTANGLE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Rectangle'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'width',        64)
             .addProperty(component, 'height',       64)
             .addProperty(component, 'borderWidth',  2)
@@ -193,6 +207,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_CIRCLE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Circle'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'radius',       32)
             .addProperty(component, 'borderWidth',  2)
             .addProperty(component, 'borderColor',  {red:   0, grn:   0, blu:   0})
@@ -204,6 +219,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_IMAGE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Image'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'width',        64)
             .addProperty(component, 'height',       64);
         return component;
@@ -215,6 +231,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'color',        component.color || 'gray');
         return component;
@@ -224,6 +241,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ProgressBar'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'width',        100)
             .addProperty(component, 'value',        50);
@@ -234,6 +252,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LOADING_DOTS)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'LoadingDots'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'color',        component.color || 'gray');
         return component;
@@ -245,6 +264,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PU_DEVICE)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'PuDevice'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'port',         1)
             .addProperty(component, 'device',       poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
         return component;
@@ -254,6 +274,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_MOTOR)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Motor'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'port',         0)
             .addProperty(component, 'device',       7); // Todo: use constant for Medium motor...
         return component;
@@ -263,6 +284,7 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_EV3_SENSOR)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'EV3Sensor'))
+            .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'port',         0)
             .addProperty(component, 'device',       sensorModuleConstants.SENSOR_TYPE_TOUCH);
         return component;
@@ -272,6 +294,14 @@ exports.ComponentBuilder = class {
         this
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_INTERVAL)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Interval'))
+            .addProperty(component, 'time',         500);
+        return component;
+    }
+
+    addTimeout(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_TIMEOUT)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Timeout'))
             .addProperty(component, 'time',         500);
         return component;
     }
@@ -312,6 +342,7 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:    return this.addEV3Sensor      (component);
             // Non visual components...
             case formEditorConstants.COMPONENT_TYPE_INTERVAL:      return this.addInterval       (component);
+            case formEditorConstants.COMPONENT_TYPE_TIMEOUT:       return this.addTimeout        (component);
         }
         return null;
     }

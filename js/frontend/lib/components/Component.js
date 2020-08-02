@@ -271,6 +271,9 @@ exports.Component = class extends DOMNode {
         if ('y' in opts) {
             element.style.top = opts.y + 'px';
         }
+        if (('zIndex' in opts) && (opts.zIndex > 0)) {
+            element.style.zIndex = opts.zIndex;
+        }
         if ('pointerEvents' in opts) {
             element.style.pointerEvents = opts.pointerEvents;
         }
