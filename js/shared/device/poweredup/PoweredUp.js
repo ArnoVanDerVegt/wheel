@@ -377,18 +377,27 @@ exports.PoweredUp = class extends BasicDevice {
         return brake ? poweredUpConstants.BrakingStyle.HOLD : poweredUpConstants.BrakingStyle.FLOAT;
     }
 
-    setDirection(port, direction) {
+    setDirection(port, direction, gain) {
+        let motorDevice = port.motorDevice;
+        if (!motorDevice) {
+            return;
+        }
         if (port.currentDirection !== direction) {
+            if (motorDevice.setDecelerationTime) {
+                motorDevice.setDecelerationTime(0);
+            }
+            let speed = Math.abs(port.speed);
             switch (direction) {
                 case DIRECTION_REVERSE:
-                    port.motorDevice.setPower(-port.speed);
+                    motorDevice.setPower(-speed);
                     break;
                 case DIRECTION_NONE:
                     port.moving = false;
-                    port.motorDevice.setPower(0);
+                    motorDevice.setPower(0);
+                    motorDevice.brake();
                     break;
                 case DIRECTION_FORWARD:
-                    port.motorDevice.setPower(port.speed);
+                    motorDevice.setPower(speed);
                     break;
             }
             port.currentDirection = direction;
@@ -420,7 +429,7 @@ exports.PoweredUp = class extends BasicDevice {
                         if ((Math.abs(port.endDegrees - port.degrees) < port.threshold) ||
                             ((port.startDegrees < port.endDegrees) && (port.degrees >= port.endDegrees)) ||
                             ((port.startDegrees > port.endDegrees) && (port.degrees <= port.endDegrees))) {
-                            this.setDirection(port, DIRECTION_NONE);
+                            this.setDirection(port, DIRECTION_NONE, 0);
                         } else if (port.degrees < port.endDegrees) {
                             this.setDirection(port, DIRECTION_FORWARD);
                         } else {

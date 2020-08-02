@@ -60,7 +60,8 @@ exports.IncludeFiles = class extends DOMNode {
     }
 
     getIncludeFiles() {
-        let result = [];
+        let result       = [];
+        let includeFiles = this._settings.getIncludeFiles().getIncludeFiles();
         this._checkboxElements.forEach((checkboxElement, index) => {
             if (checkboxElement.getValue()) {
                 result.push(includeFiles[index].file);
@@ -82,6 +83,7 @@ exports.IncludeFiles = class extends DOMNode {
         while (childNodes.length) {
             includeFiles.removeChild(childNodes[0]);
         }
+        this._checkboxElements = [];
         children.forEach((child) => {
             this.create(includeFiles, child);
         });

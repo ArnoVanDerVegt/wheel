@@ -18,6 +18,7 @@ const Image               = require('../../../lib/components/Image').Image;
 const PoweredUpDevice     = require('../../../lib/components/io/PoweredUpDevice').PoweredUpDevice;
 const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Motor;
 const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
+const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
 const ContainerIdsForForm = require('../../editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
@@ -27,6 +28,9 @@ exports.FormDialog = class extends Dialog {
     constructor(opts) {
         opts.getImage = getImage;
         super(opts);
+        this._getDataProvider        = opts.getDataProvider;
+        this._settings               = opts.settings;
+        this._ide                    = opts.ide;
         this._vm                     = opts.vm;
         this._program                = opts.program;
         this._onHide                 = opts.onHide;
@@ -93,6 +97,12 @@ exports.FormDialog = class extends Dialog {
         );
     }
 
+    getFormPath() {
+        let p            = path.getPathAndFilename(this._ide.getProjectFilename()).path;
+        let documentPath = this._settings.getDocumentPath();
+        return path.join(documentPath, path.removePath(documentPath, p));
+    }
+
     getComponentEvents(component) {
         let vm = this._vm;
         for (let property in component) {
@@ -146,6 +156,8 @@ exports.FormDialog = class extends Dialog {
                 this._title  = component.title;
                 this.addFormEvents(component);
             } else if (parent) {
+                component.getFormPath         = this.getFormPath.bind(this);
+                component.getDataProvider     = this._getDataProvider;
                 component.containerIdsForForm = this._containerIdsForForm;
                 component.getImage            = getImage;
                 component.event               = win.getUiId() + '_' + parseInt(component.uid, 16);

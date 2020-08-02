@@ -77,6 +77,9 @@ exports.Image = class extends Component {
         if (typeof src !== 'string') {
             return;
         }
+        if (['.svg', '.gif', '.png', '.jpg', '.jpeg', '.bmp'].indexOf(path.getExtension(src)) === -1) {
+            return;
+        }
         if (src.substr(0, 7) === 'http://') {
             this._imageElement.src = src;
         } else if (typeof this._getFormPath === 'function') {

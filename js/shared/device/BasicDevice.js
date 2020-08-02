@@ -49,6 +49,7 @@ exports.BasicDevice = class {
     disconnect() {}
     playtone(frequency, duration, volume, callback) {}
     motorReset(layer, motor) {}
+    motorReverse(layer, motor) {}
     motorDegrees(layer, motor, speed, degrees, brake, callback) {}
     motorOn(layer, motor, speed, brake, callback) {}
     motorStop(layer, motor, brake, callback) {}

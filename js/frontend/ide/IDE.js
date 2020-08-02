@@ -449,10 +449,13 @@ exports.IDE = class extends CompileAndRun {
         let formDialogs            = this._formDialogs;
         let index                  = formDialogs.length;
         formDialogs.push(new FormDialog({
+            ide:                    this,
+            settings:               this._settings,
             ui:                     this._ui,
             vm:                     this._vm,
             program:                this._program,
             componentFormContainer: componentFormContainer,
+            getDataProvider:        getDataProvider,
             data:                   data,
             onHide: function(uiId) {
                 componentFormContainer.removeWindow(uiId);
@@ -859,12 +862,15 @@ exports.IDE = class extends CompileAndRun {
     }
 
     getFileData(filename, token, callback) {
+        const documentPath    = this._settings.getDocumentPath();
+        const addDocumentPath = (filename) => {
+                return path.join(documentPath, path.removePath(documentPath, filename));
+            };
         let projectPath       = path.getPathAndFilename(this._projectFilename).path;
-        let documentPath      = this._settings.getDocumentPath();
         let fullProjectPath1  = path.join(projectPath, filename);
         let fullProjectPath2  = path.join(projectPath, path.getPathAndFilename(filename).filename);
-        let fullDocumentPath1 = path.join(documentPath, filename);
-        let fullDocumentPath2 = path.join(documentPath, path.getPathAndFilename(filename).filename);
+        let fullDocumentPath1 = addDocumentPath(filename);
+        let fullDocumentPath2 = addDocumentPath(path.getPathAndFilename(filename).filename);
         if (this.getEditorFile(filename,          callback) ||
             this.getEditorFile(fullProjectPath1,  callback) ||
             this.getEditorFile(fullDocumentPath1, callback) ||
@@ -872,6 +878,8 @@ exports.IDE = class extends CompileAndRun {
             this.getEditorFile(fullDocumentPath2, callback)) {
             return;
         }
+        fullProjectPath1 = addDocumentPath(fullProjectPath1);
+        fullProjectPath2 = addDocumentPath(fullProjectPath2);
         getDataProvider().getData(
             'get',
             'ide/file',

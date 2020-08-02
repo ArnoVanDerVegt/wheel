@@ -15,18 +15,18 @@ exports.PoweredUpDevice = class extends BasicIODevice {
             .setSpeedVisible(false)
             .setColorVisible(false)
             .setPort(opts.port || 0);
-        this.setType(opts.device || poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
+        this.setDevice(opts.device || poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR);
         this.setValue(0);
     }
 
-    setType(type) {
+    setDevice(device) {
         this._canSetSpeed = true;
         this._canSetValue = true;
         this._canSetReady = true;
         this._canSetColor = false;
         let image = false;
-        this._type = type;
-        switch (type) {
+        this._device = device;
+        switch (device) {
             case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
                 image             = 'images/poweredup/motor.png';
                 this._canSetValue = false;
@@ -93,9 +93,6 @@ exports.PoweredUpDevice = class extends BasicIODevice {
     }
 
     onEvent(opts) {
-        if ('device' in opts) {
-            opts.type = opts.device;
-        }
         super.onEvent(opts);
         if ('colorMode' in opts) {
             this._canSetColor = (this._type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE);

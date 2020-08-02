@@ -120,6 +120,8 @@ const RemotePspModule                      = require('../vm/modules/remote/PspMo
 const RemoteMultiplexerModule              = require('../vm/modules/remote/MultiplexerModule'                    ).MultiplexerModule;
 const RemoteDeviceModule                   = require('../vm/modules/remote/DeviceModule'                         ).DeviceModule;
 const RemotePoweredUpModule                = require('../vm/modules/remote/PoweredUpModule'                      ).PoweredUpModule;
+// Form component...
+const RemoteComponentFormModule            = LocalComponentFormModule;
 // Input components...
 const RemoteComponentButtonModule          = LocalComponentButtonModule;
 const RemoteComponentSelectButtonModule    = LocalComponentSelectButtonModule;

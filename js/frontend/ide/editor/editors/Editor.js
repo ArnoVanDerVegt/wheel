@@ -141,14 +141,17 @@ exports.Editor = class extends DOMNode {
     }
 
     save(callback) {
+        let documentPath = this._settings.getDocumentPath();
+        let filename     = path.removePath(documentPath, path.join(this._path, this._filename));
         getDataProvider().getData(
             'post',
             'ide/file-save',
             {
-                filename: path.join(this._path, this._filename),
+                filename: path.join(documentPath, filename),
                 data:     this.getValue()
             },
-            () => {
+            (data) => {
+                console.log('Data:', data);
                 this.onFileSaved(this._filename);
                 callback && callback();
             }
