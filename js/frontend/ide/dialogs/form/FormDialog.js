@@ -18,6 +18,8 @@ const Image               = require('../../../lib/components/Image').Image;
 const PoweredUpDevice     = require('../../../lib/components/io/PoweredUpDevice').PoweredUpDevice;
 const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Motor;
 const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
+const Interval            = require('../../../lib/components/nonvisual/Interval').Interval;
+const Timeout             = require('../../../lib/components/nonvisual/Timeout').Timeout;
 const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
@@ -79,6 +81,18 @@ exports.FormDialog = class extends Dialog {
         };
     }
 
+    addTimeEvent(component, property) {
+        let entryPoint = this._program.getEventInfo(component[property]);
+        if (!entryPoint) {
+            return;
+        }
+        let vm  = this._vm;
+        let win = this._win;
+        component[property] = function() {
+            vm.runEvent(entryPoint, [win.getUiId()]);
+        };
+    }
+
     addFormEvents(component) {
         let vm  = this._vm;
         let win = this._win;
@@ -121,6 +135,10 @@ exports.FormDialog = class extends Dialog {
                         break;
                     case 'onChange':
                         this.addChangeEvent(component, property);
+                        break;
+                    case 'onInterval':
+                    case 'onTimeout':
+                        this.addTimeEvent(component, property);
                         break;
                     default:
                         component[property] = function() {};
@@ -231,6 +249,14 @@ exports.FormDialog = class extends Dialog {
                         break;
                     case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:
                         component.type = EV3Sensor;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_INTERVAL:
+                        component.type = Interval;
+                        parent.push(this.getComponentEvents(component));
+                        break;
+                    case formEditorConstants.COMPONENT_TYPE_TIMEOUT:
+                        component.type = Timeout;
                         parent.push(this.getComponentEvents(component));
                         break;
                 }

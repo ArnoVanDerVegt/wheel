@@ -268,6 +268,14 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addInterval(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_INTERVAL)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Interval'))
+            .addProperty(component, 'time',         500);
+        return component;
+    }
+
     addComponentForType(component, type) {
         this
             .addProperty(component, 'tabIndex', 0)
@@ -302,6 +310,8 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:     return this.addPuDevice       (component);
             case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:     return this.addEV3Motor       (component);
             case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:    return this.addEV3Sensor      (component);
+            // Non visual components...
+            case formEditorConstants.COMPONENT_TYPE_INTERVAL:      return this.addInterval       (component);
         }
         return null;
     }

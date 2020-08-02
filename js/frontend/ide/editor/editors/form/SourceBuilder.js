@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const path                = require('../../../../lib/path');
 const formEditorConstants = require('./formEditorConstants');
 
@@ -35,14 +36,23 @@ const getFormCode = function(filename) {
         ];
     };
 
-
 exports.getFormCode                 = getFormCode;
 exports.getShowProcNameFromFormName = getShowProcNameFromFormName;
 
 exports.SourceBuilder = class {
     constructor(opts) {
-        this._settings  = opts.settings;
-        this._lines     = [];
+        this._settings = opts.settings;
+        this._lines    = [];
+        this._database = null;
+        this._events   = [
+            dispatcher.on('Compiler.Database', this, this.onCompilerDatabase)
+        ];
+    }
+
+    remove() {
+        while (this._events.length) {
+            this._events.pop()();
+        }
     }
 
     setSource(source) {
@@ -230,7 +240,7 @@ exports.SourceBuilder = class {
                 break;
             }
         }
-        if (!event) {
+        if (!event || (this._database && this._database.findProc(procName))) {
             return [];
         }
         let addComments = this._settings.getCreateEventComments();
@@ -511,5 +521,9 @@ exports.SourceBuilder = class {
     **/
     updateComponents(opts) {
         return this.generateUpdatedSource(opts);
+    }
+
+    onCompilerDatabase(database) {
+        this._database = database;
     }
 };

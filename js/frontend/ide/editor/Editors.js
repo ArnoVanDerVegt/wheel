@@ -313,6 +313,9 @@ exports.Editors = class extends DOMNode {
                 textOpts.value     = opts.value.whl;
                 textOpts.isProject = opts.value.isProject;
                 addSourceEditor(textOpts);
+                if (textOpts.isProject) {
+                    dispatcher.dispatch('Compile.Silent');
+                }
             } else {
                 dispatcher.dispatch(
                     'Dialog.Confirm.Show',

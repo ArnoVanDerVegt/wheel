@@ -1,4 +1,9 @@
 /* Components */
+.components-container .components-content {
+    float:                          left;
+    width:                          100%;
+    height:                         780px;
+}
 .components-container .title,
 .components-container .group {
     float:                          left;
@@ -195,4 +200,18 @@ input[type="button"].component-button.component-list-items {
 input[type="button"].active.component-button.component-list-items,
 body.ide.dark input[type="button"].component-button.component-list-items {
     background-image:               url('images/buttons/listItemsWhite.svg');
+}
+input[type="button"].component-button.component-timer {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+input[type="button"].active.component-button.component-timer,
+body.ide.dark input[type="button"].component-button.component-timer {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+input[type="button"].component-button.component-clock {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+input[type="button"].active.component-button.component-clock,
+body.ide.dark input[type="button"].component-button.component-clock {
+    background-image:               url('images/buttons/clockWhite.svg');
 }

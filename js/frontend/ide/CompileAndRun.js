@@ -55,6 +55,10 @@ const componentLoadingDotsModuleConstants  = require('../../shared/vm/modules/co
 const componentPUDeviceModuleConstants     = require('../../shared/vm/modules/components/componentPUDeviceModuleConstants');
 const componentEV3MotorModuleConstants     = require('../../shared/vm/modules/components/componentEV3MotorModuleConstants');
 const componentEV3SensorModuleConstants    = require('../../shared/vm/modules/components/componentEV3SensorModuleConstants');
+// Non visual components...
+const componentIntervalModuleConstants     = require('../../shared/vm/modules/components/componentIntervalModuleConstants');
+const componentTimeoutModuleConstants      = require('../../shared/vm/modules/components/componentTimeoutModuleConstants');
+
 // Modules...
 const FileSystem                           = require('../vm/modules/local/FileSystem'                            ).FileSystem;
 const LocalStandardModule                  = require('../vm/modules/local/StandardModule'                        ).StandardModule;
@@ -103,6 +107,8 @@ const LocalComponentLoadingDotsModule      = require('../vm/modules/local/compon
 const LocalComponentPUDeviceModule         = require('../vm/modules/local/components/ComponentPUDeviceModule'    ).ComponentPUDeviceModule;
 const LocalComponentEV3MotorModule         = require('../vm/modules/local/components/ComponentEV3MotorModule'    ).ComponentEV3MotorModule;
 const LocalComponentEV3SensorModule        = require('../vm/modules/local/components/ComponentEV3SensorModule'   ).ComponentEV3SensorModule;
+// Non visual components...
+const LocalComponentIntervalModule         = require('../vm/modules/local/components/ComponentIntervalModule'    ).ComponentIntervalModule;
 // Remote components...
 const RemoteStandardModule                 = require('../vm/modules/remote/StandardModule'                       ).StandardModule;
 const RemoteScreenModule                   = require('../vm/modules/remote/ScreenModule'                         ).ScreenModule;
@@ -150,6 +156,8 @@ const RemoteComponentLoadingDotsModule     = LocalComponentLoadingDotsModule;
 const RemoteComponentPUDeviceModule        = LocalComponentPUDeviceModule;
 const RemoteComponentEV3MotorModule        = LocalComponentEV3MotorModule;
 const RemoteComponentEV3SensorModule       = LocalComponentEV3SensorModule;
+// Non visual components...
+const RemoteComponentIntervalModule        = LocalComponentIntervalModule;
 // Simulator events...
 const SimulatorModules                     = require('./simulator/SimulatorModules').SimulatorModules;
 const pluginUuid                           = require('./plugins/pluginUuid');
@@ -340,6 +348,8 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[componentPUDeviceModuleConstants    .MODULE_PU_DEVICE       ] = new LocalComponentPUDeviceModule     ({vm: vm, device: device});
             modules[componentEV3MotorModuleConstants    .MODULE_EV3_MOTOR       ] = new LocalComponentEV3MotorModule     ({vm: vm, device: device});
             modules[componentEV3SensorModuleConstants   .MODULE_EV3_SENSOR      ] = new LocalComponentEV3SensorModule    ({vm: vm, device: device});
+            // Non visual components...
+            modules[componentIntervalModuleConstants    .MODULE_INTERVAL        ] = new LocalComponentIntervalModule     ({vm: vm, device: device});
         } else {
             modules[standardModuleConstants             .MODULE_STANDARD        ] = new RemoteStandardModule             ({vm: vm, device: device});
             modules[mathModuleConstants                 .MODULE_MATH            ] = new RemoteMathModule                 ({vm: vm, device: device});
@@ -385,6 +395,8 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[componentPUDeviceModuleConstants    .MODULE_PU_DEVICE       ] = new RemoteComponentPUDeviceModule    ({vm: vm, device: device});
             modules[componentEV3MotorModuleConstants    .MODULE_EV3_MOTOR       ] = new RemoteComponentEV3MotorModule    ({vm: vm, device: device});
             modules[componentEV3SensorModuleConstants   .MODULE_EV3_SENSOR      ] = new RemoteComponentEV3SensorModule   ({vm: vm, device: device});
+            // Non visual components...
+            modules[componentIntervalModuleConstants    .MODULE_INTERVAL        ] = new RemoteComponentIntervalModule    ({vm: vm, device: device});
         }
         return modules;
     }

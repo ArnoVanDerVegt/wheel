@@ -44,6 +44,7 @@ exports.FormEditorState = class extends Emitter {
         this._graphicsComponent     = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
         this._statusComponent       = formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT;
         this._ioComponent           = formEditorConstants.COMPONENT_TYPE_PU_DEVICE;
+        this._nonVisualComponent    = formEditorConstants.COMPONENT_TYPE_INTERVAL;
         this._dispatch              = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
             dispatcher.on('Properties.Event.Change',      this, this.onChangeEvent),
@@ -141,12 +142,13 @@ exports.FormEditorState = class extends Emitter {
 
     getActiveAddComponentType() {
         switch (this._componentTypes) {
-            case formEditorConstants.COMPONENT_TYPES_INPUT:    return this._inputComponent;
-            case formEditorConstants.COMPONENT_TYPES_TEXT:     return this._textComponent;
-            case formEditorConstants.COMPONENT_TYPES_PANEL:    return this._panelComponent;
-            case formEditorConstants.COMPONENT_TYPES_GRAPHICS: return this._graphicsComponent;
-            case formEditorConstants.COMPONENT_TYPES_STATUS:   return this._statusComponent;
-            case formEditorConstants.COMPONENT_TYPES_IO:       return this._ioComponent;
+            case formEditorConstants.COMPONENT_TYPES_INPUT:      return this._inputComponent;
+            case formEditorConstants.COMPONENT_TYPES_TEXT:       return this._textComponent;
+            case formEditorConstants.COMPONENT_TYPES_PANEL:      return this._panelComponent;
+            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:   return this._graphicsComponent;
+            case formEditorConstants.COMPONENT_TYPES_STATUS:     return this._statusComponent;
+            case formEditorConstants.COMPONENT_TYPES_IO:         return this._ioComponent;
+            case formEditorConstants.COMPONENT_TYPES_NON_VISUAL: return this._nonVisualComponent;
         }
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
     }
@@ -164,7 +166,9 @@ exports.FormEditorState = class extends Emitter {
             case formEditorConstants.COMPONENT_TYPES_STATUS:
                 return {toolGroup: 4, toolIndex: formEditorConstants.STATUS_COMPONENTS.indexOf(this._statusComponent)};
             case formEditorConstants.IO_DISPLAY_COMPONENTS:
-                return {toolGroup: 5, toolIndex: formEditorConstants.INPUT_COMPONENTS.indexOf(this._ioComponent)};
+                return {toolGroup: 5, toolIndex: formEditorConstants.IO_DISPLAY_COMPONENTS.indexOf(this._ioComponent)};
+            case formEditorConstants.IO_NON_VISUAL_COMPONENTS:
+                return {toolGroup: 6, toolIndex: formEditorConstants.NON_VISUAL_COMPONENTS.indexOf(this._nonVisualComponent)};
         }
         return {toolGroup: 0, toolIndex: 0};
     }
@@ -191,6 +195,10 @@ exports.FormEditorState = class extends Emitter {
 
     setIOComponent(ioComponent) {
         this._ioComponent = ioComponent;
+    }
+
+    setNonVisualComponent(nonVisualComponent) {
+        this._nonVisualComponent = nonVisualComponent;
     }
 
     getUndoStackLength() {

@@ -639,6 +639,22 @@ input.icon-button.icon-list-items.focus,
 body.ide.dark input.icon-button.icon-list-items {
     background-image:               url('images/buttons/listItemsWhite.svg');
 }
+input.icon-button.icon-timer {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+input.icon-button.icon-timer:hover,
+input.icon-button.icon-timer.focus,
+body.ide.dark input.icon-button.icon-timer {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+input.icon-button.icon-clock {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+input.icon-button.icon-clock:hover,
+input.icon-button.icon-clock.focus,
+body.ide.dark input.icon-button.icon-clock {
+    background-image:               url('images/buttons/clockWhite.svg');
+}
 
 .icon-button.icon-line-transparent {
     background-image:               url('images/buttons/lineTransparent.svg');

@@ -1,4 +1,9 @@
 /* Components */
+.components-container .components-content {
+    float:                          left;
+    width:                          100%;
+    height:                         780px;
+}
 .components-container .title,
 .components-container .group {
     float:                          left;
@@ -195,4 +200,18 @@ input[type="button"].component-button.component-list-items {
 input[type="button"].active.component-button.component-list-items,
 body.ide.dark input[type="button"].component-button.component-list-items {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
+}
+input[type="button"].component-button.component-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+input[type="button"].active.component-button.component-timer,
+body.ide.dark input[type="button"].component-button.component-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+input[type="button"].component-button.component-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
+}
+input[type="button"].active.component-button.component-clock,
+body.ide.dark input[type="button"].component-button.component-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
 }

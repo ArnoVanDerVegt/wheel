@@ -77,6 +77,7 @@ exports.FormEditor = class extends Editor {
         }
         this._refs.grid.remove();
         this._formEditorState.remove();
+        this._sourceBuilder.remove();
         super.remove();
     }
 
@@ -237,17 +238,19 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPES_PANEL,
                 formEditorConstants.COMPONENT_TYPES_GRAPHICS,
                 formEditorConstants.COMPONENT_TYPES_STATUS,
-                formEditorConstants.COMPONENT_TYPES_IO
+                formEditorConstants.COMPONENT_TYPES_IO,
+                formEditorConstants.COMPONENT_TYPES_NON_VISUAL
             ];
         if (component in components) {
             let formEditorState = this._formEditorState;
             let refs            = this._refs;
-            refs.inputTools.getElement().style.display    = (component === 0) ? 'block' : 'none';
-            refs.textTools.getElement().style.display     = (component === 1) ? 'block' : 'none';
-            refs.panelTools.getElement().style.display    = (component === 2) ? 'block' : 'none';
-            refs.graphicsTools.getElement().style.display = (component === 3) ? 'block' : 'none';
-            refs.statusTools.getElement().style.display   = (component === 4) ? 'block' : 'none';
-            refs.ioTools.getElement().style.display       = (component === 5) ? 'block' : 'none';
+            refs.inputTools.getElement().style.display     = (component === 0) ? 'block' : 'none';
+            refs.textTools.getElement().style.display      = (component === 1) ? 'block' : 'none';
+            refs.panelTools.getElement().style.display     = (component === 2) ? 'block' : 'none';
+            refs.graphicsTools.getElement().style.display  = (component === 3) ? 'block' : 'none';
+            refs.statusTools.getElement().style.display    = (component === 4) ? 'block' : 'none';
+            refs.ioTools.getElement().style.display        = (component === 5) ? 'block' : 'none';
+            refs.nonVisualTools.getElement().style.display = (component === 6) ? 'block' : 'none';
             formEditorState.setComponentTypes(components[component]);
             dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorState.getActiveComponentIndices());
         }
@@ -298,6 +301,14 @@ exports.FormEditor = class extends Editor {
         if (component in components) {
             this._formEditorState.setIOComponent(components[component]);
             this.updateComponentPanel(5, component);
+        }
+    }
+
+    onSelectNonVisualComponent(component) {
+        const components = formEditorConstants.NON_VISUAL_COMPONENTS;
+        if (component in components) {
+            this._formEditorState.setNonVisualComponent(components[component]);
+            this.updateComponentPanel(6, component);
         }
     }
 

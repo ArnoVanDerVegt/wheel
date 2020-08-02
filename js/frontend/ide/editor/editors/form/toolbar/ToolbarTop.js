@@ -87,7 +87,8 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-tabs',         hint: {text: 'Panel<br/>components'}},
                             {icon: 'icon-rect-stripe',  hint: {text: 'Graphics<br/>components'}},
                             {icon: 'icon-status-light', hint: {text: 'Status<br/>components'}},
-                            {icon: 'icon-pu-device',    hint: {text: 'Sensor and motor<br/>components'}}
+                            {icon: 'icon-pu-device',    hint: {text: 'Sensor and motor<br/>components'}},
+                            {icon: 'icon-timer',        hint: {text: 'Non visual<br/>components'}}
                         ]
                     }),
                     {
@@ -183,6 +184,20 @@ exports.ToolbarTop = class extends Toolbar {
                             {icon: 'icon-pu-device',    hint: {text: 'Powered Up<br/>sensor or motor<br/>display component'}},
                             {icon: 'icon-ev3-sensor',   hint: {text: 'EV3 sensor<br/>display component'}},
                             {icon: 'icon-ev3-motor',    hint: {text: 'EV3 motor<br/>display component'}}
+                        ]
+                    }),
+                    this.addToolOptions({
+                        ref:           formEditor.setRef('nonVisualTools'),
+                        uiId:          formEditor.getUIId.bind(formEditor),
+                        tabIndex:      tabIndex.FORM_COMPONENT,
+                        baseClassName: 'tool-options-toolbar non-visual-tools',
+                        onSelect:      formEditor.onSelectNonVisualComponent.bind(formEditor),
+                        style: {
+                            display: 'none'
+                        },
+                        options: [
+                            {icon: 'icon-timer',        hint: {text: 'Interval<br/>component'}},
+                            {icon: 'icon-clock',        hint: {text: 'Timeout<br/>component'}}
                         ]
                     }),
                     {

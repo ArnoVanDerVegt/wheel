@@ -10,6 +10,7 @@ exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
 exports.COMPONENT_TYPES_STATUS       = 'status';
 exports.COMPONENT_TYPES_IO           = 'io';
+exports.COMPONENT_TYPES_NON_VISUAL   = 'nonVisual';
 
 exports.COMPONENT_TYPE_FORM          = 'form';
 
@@ -85,6 +86,15 @@ exports.IO_DISPLAY_COMPONENTS = [
     exports.COMPONENT_TYPE_PU_DEVICE,
     exports.COMPONENT_TYPE_EV3_MOTOR,
     exports.COMPONENT_TYPE_EV3_SENSOR
+];
+
+// Non visual components...
+exports.COMPONENT_TYPE_INTERVAL      = 'interval';
+exports.COMPONENT_TYPE_TIMEOUT       = 'timeout';
+
+exports.NON_VISUAL_COMPONENTS = [
+    exports.COMPONENT_TYPE_INTERVAL,
+    exports.COMPONENT_TYPE_TIMEOUT
 ];
 
 // Edit actions for undo...
@@ -1082,6 +1092,57 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ],
         events: [
+        ]
+    },
+    /* ================================= NON VISUAL COMPONENTS ================================= */
+    INTERVAL: {
+        component:  'lib/components/nonvisual/Interval',
+        include:    'lib/components/interval.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'time',         options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onInterval',
+                code: [
+                    '    printS("Interval {name}.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    TIMEOUT: {
+        component:  'lib/components/nonvisual/Timeout',
+        include:    'lib/components/timeout.whl',
+        properties: [
+            {type: 'type',        name: null},
+            {type: 'uid',         name: null},
+            {type: 'id',          name: null},
+            {type: 'parentId',    name: null},
+            {type: 'text',        name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',        name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',        name: 'time',         options: {validator: posNumberValidator,             type: 'number'}}
+        ],
+        events: [
+            {
+                name: 'onTimeout',
+                code: [
+                    '    printS("Timeout {name}.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
         ]
     }
 };

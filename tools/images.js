@@ -64,6 +64,10 @@ updateCssImages(
     '../css/components/button.css'
 );
 updateCssImages(
+    '../css/components/nonVisual.temp.css',
+    '../css/components/nonVisual.css'
+);
+updateCssImages(
     '../css/ide/components.temp.css',
     '../css/ide/components.css'
 );

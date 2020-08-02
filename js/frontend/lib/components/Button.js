@@ -106,16 +106,16 @@ exports.Button = class extends Component.Component {
     onMouseOut() {
         this.hideHintDiv();
         this.onCancelEvent(event);
-        if (!this._disabled) {
-            this._onMouseOut && this._onMouseOut(event);
+        if (!this._disabled && (typeof this._onMouseOut === 'function')) {
+            this._onMouseOut(event);
         }
     }
 
     onMouseDown() {
         this.hideHintDiv();
-        if (!this._disabled) {
+        if (!this._disabled && (typeof this._onMouseDown === 'function')) {
             this._element.focus();
-            this._onMouseDown && this._onMouseDown(event);
+            this._onMouseDown(event);
         }
     }
 
