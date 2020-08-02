@@ -19,7 +19,9 @@ exports.MotorModule = class extends VMModule {
             targetDegrees: 0,
             brake:         0,
             speed:         0,
-            time:          null
+            reverse:       1, // 1 is normal direction, -1 is reverse direction!
+            time:          null,
+            messageSent:   false
         };
     }
 
@@ -73,6 +75,14 @@ exports.MotorModule = class extends VMModule {
         callback();
     }
 
+    reverseMotor(motor) {
+        let motorPort = this.getMotorPort(motor);
+        if (!motorPort.reverse) {
+            motorPort.reverse = 1;
+        }
+        motorPort.reverse *= -1;
+    }
+
     waitForQueue() {
         let device = this._device();
         let vm     = this._vm;
@@ -94,6 +104,21 @@ exports.MotorModule = class extends VMModule {
         }
         this._device().module(motorModuleConstants.MODULE_MOTOR, commandId, motor);
         this.waitForQueue();
+    }
+
+    motorMoveTo(motor) {
+        if (!this.getLayerAndIdValid(motor)) {
+            return;
+        }
+        let motorPort = this.getMotorPort(motor);
+        motor.target *= motorPort.reverse;
+        motorPort.startDegrees  = motorPort.degrees;
+        motorPort.targetDegrees = motor.target;
+        motorPort.messageSent   = true;
+        motor.speed             = Math.abs(motorPort.speed || 0);
+        motor.brake             = motorPort.brake || 0;
+        motor.degrees           = motor.target - motorPort.degrees;
+        this.callModule(motorModuleConstants.MOTOR_MOVE_TO, 'Motor.MoveTo', motor);
     }
 
     run(commandId) {
@@ -142,16 +167,24 @@ exports.MotorModule = class extends VMModule {
                     this.resetMotorPosition(motor);
                 }
                 break;
-            case motorModuleConstants.MOTOR_MOVE_TO:
-                motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'target']);
+            case motorModuleConstants.MOTOR_REVERSE:
+                motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor)) {
-                    motorPort               = this.getMotorPort(motor);
-                    motorPort.startDegrees  = motorPort.degrees;
-                    motorPort.targetDegrees = motor.target;
-                    motor.speed             = Math.abs(motorPort.speed || 0);
-                    motor.brake             = motorPort.brake || 0;
-                    motor.degrees           = motor.target - motorPort.degrees;
-                    this.callModule(motorModuleConstants.MOTOR_MOVE_TO, 'Motor.MoveTo', motor);
+                    this.reverseMotor(motor);
+                }
+                break;
+            case motorModuleConstants.MOTOR_MOVE_TO:
+                this.motorMoveTo(vmData.getRecordFromSrcOffset(['layer', 'id', 'target']));
+                break;
+            case motorModuleConstants.MOTOR_MOVE_TO_BITS:
+                motor = vmData.getRecordFromSrcOffset(['layer', 'bits', 'target']);
+                let bit = 1;
+                for (let id = 0; id < 4; id++) {
+                    motor.id = id;
+                    if ((motor.bits & bit) === bit) {
+                        this.motorMoveTo(Object.assign({}, motor));
+                    }
+                    bit <<= 1;
                 }
                 break;
             case motorModuleConstants.MOTOR_ON:
@@ -206,14 +239,18 @@ exports.MotorModule = class extends VMModule {
                     let bit = 1;
                     for (let id = 0; id < 4; id++) {
                         motor.id = id;
-                        if (((motor.bits & bit) === bit) && !this.getMotorReady(motor)) {
-                            value = 0;
-                            break;
+                        if ((motor.bits & bit) === bit) {
+                            motorPort = this.getMotorPort(motor);
+                            if (motorPort.messageSent) {
+                                motorPort.messageSent = false;
+                                value                 = 0;
+                                break;
+                            } else if (!this.getMotorReady(motor)) {
+                                value                 = 0;
+                                break;
+                            }
                         }
                         bit <<= 1;
-                    }
-                    if (value) {
-                        this._vm.sleep(100);
                     }
                     vmData.setNumberAtRet(value);
                 } else {

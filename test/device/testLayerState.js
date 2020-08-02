@@ -20,10 +20,10 @@ describe(
                         assert.deepEqual(
                             layerState.getPorts(),
                             [
-                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true},
-                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true},
-                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true},
-                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true}
+                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true, reverse: 1},
+                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true, reverse: 1},
+                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true, reverse: 1},
+                                {mode: 0, value: 0, startDegrees: 0, targetDegrees: 0, assigned: 0, ready: true, reverse: 1}
                             ]
                         );
                     }

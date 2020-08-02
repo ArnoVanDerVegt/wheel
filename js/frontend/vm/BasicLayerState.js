@@ -18,7 +18,8 @@ exports.BasicLayerState = class {
             value:         0,
             assigned:      0,
             startDegrees:  0,
-            targetDegrees: 0
+            targetDegrees: 0,
+            reverse:       1
         };
     }
 

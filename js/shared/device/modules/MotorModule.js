@@ -45,9 +45,14 @@ exports.MotorModule = class extends DeviceModule {
             case motorModuleConstants.MOTOR_RESET:
                 this._device.motorReset(data.layer, data.id);
                 break;
+            case motorModuleConstants.MOTOR_REVERSE:
+                this._device.motorReverse(data.layer, data.id);
+                break;
             case motorModuleConstants.MOTOR_MOVE_TO:
                 this.clearStopTimer(data.layer, data.id);
                 this._device.motorDegrees(data.layer, data.id, data.speed, data.degrees, data.brake);
+                break;
+            case motorModuleConstants.MOTOR_MOVE_TO_BITS:
                 break;
             case motorModuleConstants.MOTOR_ON:
                 this.clearStopTimer(data.layer, data.id);

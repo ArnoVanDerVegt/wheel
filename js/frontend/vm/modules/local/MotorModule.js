@@ -34,8 +34,13 @@ exports.MotorModule = class extends VMModule {
             case motorModuleConstants.MOTOR_RESET:
                 this.emit('Motor.Reset', vmData.getRecordFromSrcOffset(['layer', 'id']));
                 break;
+            case motorModuleConstants.MOTOR_REVERSE:
+                this.emit('Motor.Reverse', vmData.getRecordFromSrcOffset(['layer', 'id']));
+                break;
             case motorModuleConstants.MOTOR_MOVE_TO:
                 this.emit('Motor.MoveTo', vmData.getRecordFromSrcOffset(['layer', 'id', 'target']));
+                break;
+            case motorModuleConstants.MOTOR_MOVE_TO_BITS:
                 break;
             case motorModuleConstants.MOTOR_ON:
                 this.emit('Motor.On', vmData.getRecordFromSrcOffset(['layer', 'id']));

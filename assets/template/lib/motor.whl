@@ -12,14 +12,16 @@
 #define MOTOR_SET_BRAKE       2
 #define MOTOR_GET_TYPE        3
 #define MOTOR_RESET           4
-#define MOTOR_MOVE_TO         5
-#define MOTOR_ON              6
-#define MOTOR_TIME_ON         7
-#define MOTOR_STOP            8
-#define MOTOR_READ            9
-#define MOTOR_READY          10
-#define MOTOR_READY_BITS     11
-#define MOTOR_THRESHOLD      12
+#define MOTOR_REVERSE         5
+#define MOTOR_MOVE_TO         6
+#define MOTOR_MOVE_TO_BITS    7
+#define MOTOR_ON              8
+#define MOTOR_TIME_ON         9
+#define MOTOR_STOP           10
+#define MOTOR_READ           11
+#define MOTOR_READY          12
+#define MOTOR_READY_BITS     13
+#define MOTOR_THRESHOLD      14
 
 ; @const Motor types.
 #define MOTOR_MEDIUM          7
@@ -31,21 +33,22 @@
 #define OUTPUT_C              2
 #define OUTPUT_D              3
 
-#define MOTOR_READY_BITS_A    0b0001
-#define MOTOR_READY_BITS_B    0b0010
-#define MOTOR_READY_BITS_AB   0b0011
-#define MOTOR_READY_BITS_C    0b0100
-#define MOTOR_READY_BITS_AC   0b0101
-#define MOTOR_READY_BITS_BC   0b0110
-#define MOTOR_READY_BITS_ABC  0b0111
-#define MOTOR_READY_BITS_D    0b1000
-#define MOTOR_READY_BITS_AD   0b1001
-#define MOTOR_READY_BITS_BD   0b1010
-#define MOTOR_READY_BITS_ABD  0b1011
-#define MOTOR_READY_BITS_CD   0b1100
-#define MOTOR_READY_BITS_ACD  0b1101
-#define MOTOR_READY_BITS_BCD  0b1110
-#define MOTOR_READY_BITS_ABCD 0b1111
+; @const Bits to identify the motor combinations for ready or to move multiple motors to a given position.
+#define MOTOR_BITS_A    0b0001
+#define MOTOR_BITS_B    0b0010
+#define MOTOR_BITS_AB   0b0011
+#define MOTOR_BITS_C    0b0100
+#define MOTOR_BITS_AC   0b0101
+#define MOTOR_BITS_BC   0b0110
+#define MOTOR_BITS_ABC  0b0111
+#define MOTOR_BITS_D    0b1000
+#define MOTOR_BITS_AD   0b1001
+#define MOTOR_BITS_BD   0b1010
+#define MOTOR_BITS_ABD  0b1011
+#define MOTOR_BITS_CD   0b1100
+#define MOTOR_BITS_ACD  0b1101
+#define MOTOR_BITS_BCD  0b1110
+#define MOTOR_BITS_ABCD 0b1111
 
 ; @const Brake or coast the motor.
 #define MOTOR_COAST           0
@@ -93,6 +96,14 @@ proc motorLayerReset(number layer, number id)
     mod  MODULE_MOTOR, MOTOR_RESET
 end
 
+; @proc             Reverse the motor move to direction.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorLayerReverse(number layer, number id)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_REVERSE
+end
+
 ; @proc             Move the motor to a given target angle.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
@@ -100,6 +111,15 @@ end
 proc motorLayerMoveTo(number layer, number id, number target)
     addr layer
     mod  MODULE_MOTOR, MOTOR_MOVE_TO
+end
+
+; @proc             Move the motor to a given target angle.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
+; @param target     The target angle.
+proc motorLayerMoveToBits(number layer, number bits, number target)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_MOVE_TO_BITS
 end
 
 ; @proc             Turn the motor on.
@@ -146,7 +166,7 @@ end
 
 ; @proc             Check if one or more motors reached their target.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
-; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 proc motorLayerReadyBits(number layer, number bits)
     addr layer
     mod  MODULE_MOTOR, MOTOR_READY_BITS
@@ -195,11 +215,24 @@ proc motorReset(number id)
     motorLayerReset(0, id)
 end
 
+; @proc             Reverse the motor move to direction.
+; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+proc motorReverse(number layer, number id)
+    motorLayerReverse(0, id)
+end
+
 ; @proc             Move the motor to a given target angle for the main device.
 ; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
 ; @param target     The target angle.
 proc motorMoveTo(number id, number target)
     motorLayerMoveTo(0, id, target)
+end
+
+; @proc             Move the motor to a given target angle.
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
+; @param target     The target angle.
+proc motorMoveToBits(number bits, number target)
+    motorLayerMoveToBits(0, bits, target)
 end
 
 ; @proc             Turn the motor of the main device on.
@@ -235,7 +268,7 @@ proc motorReady(number id)
 end
 
 ; @proc             Check if one or more motors reached their target.
-; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 proc motorReadyBits(number bits)
     ret motorLayerReadyBits(0, bits)
 end
@@ -250,7 +283,7 @@ proc motorThreshold(number id, number threshold)
 end
 
 ; @proc             Wait until the given motors have reached their targets.
-; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101
+; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 proc waitForMotors(number bits)
     while motorReadyBits(bits) == 0
     end

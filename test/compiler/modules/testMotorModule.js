@@ -2,11 +2,12 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher     = require('../../../js/frontend/lib/dispatcher').dispatcher;
-const testModuleCall = require('../../utils').testModuleCall;
-const testLogs       = require('../../utils').testLogs;
-const testCompile    = require('../../utils').testCompile;
-const assert         = require('assert');
+const dispatcher           = require('../../../js/frontend/lib/dispatcher').dispatcher;
+const motorModuleConstants = require('../../../js/shared/vm/modules/motorModuleConstants');
+const testModuleCall       = require('../../utils').testModuleCall;
+const testLogs             = require('../../utils').testLogs;
+const testCompile          = require('../../utils').testCompile;
+const assert               = require('assert');
 
 describe(
     'Test Motor module',
@@ -17,7 +18,7 @@ describe(
             [
                 'proc setType(number layer, number id, number type)',
                 '    addr layer',
-                '    mod  6, 0',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_SET_TYPE,
                 'end',
                 'proc main()',
                 '    setType(1, 0, 4)',
@@ -37,7 +38,7 @@ describe(
             [
                 'proc setSpeed(number layer, number id, number speed)',
                 '    addr layer',
-                '    mod  6, 1',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_SET_SPEED,
                 'end',
                 'proc main()',
                 '    setSpeed(0, 3, 75)',
@@ -57,7 +58,7 @@ describe(
             [
                 'proc setBrake(number layer, number id, number brake)',
                 '    addr layer',
-                '    mod  6, 2',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_SET_BRAKE,
                 'end',
                 'proc main()',
                 '    setBrake(0, 3, 0)',
@@ -78,7 +79,7 @@ describe(
                         'proc motorLayerType(number layer, number id)',
                         '    number result',
                         '    addr layer',
-                        '    mod  6, 3',
+                        '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_GET_TYPE,
                         'end',
                         'proc main()',
                         '    number a = motorLayerType(1, 3)',
@@ -87,8 +88,8 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[6]._device = function() { return { getConnected: function() { return true; }}; };
-                info.modules[6].on('Motor.GetType', this, function(motor) {
+                info.modules[motorModuleConstants.MODULE_MOTOR]._device = function() { return { getConnected: function() { return true; }}; };
+                info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.GetType', this, function(motor) {
                     assert.equal(motor.layer, 1);
                     assert.equal(motor.id, 3);
                     motor.callback(11);
@@ -106,7 +107,7 @@ describe(
                         'proc motorLayerType(number layer, number id)',
                         '    number result',
                         '    addr layer',
-                        '    mod  6, 3',
+                        '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_GET_TYPE,
                         'end',
                         'proc main()',
                         '    number a = motorLayerType(1, 3)',
@@ -115,8 +116,8 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[6]._device = function() { return { getConnected: function() { return false; }}; };
-                info.modules[6].on('Motor.GetType', this, function(motor) {
+                info.modules[motorModuleConstants.MODULE_MOTOR]._device = function() { return { getConnected: function() { return false; }}; };
+                info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.GetType', this, function(motor) {
                     assert.equal(motor.layer, 1);
                     assert.equal(motor.id, 3);
                     motor.callback(-1);
@@ -133,7 +134,7 @@ describe(
             [
                 'proc reset(number layer, number id)',
                 '    addr layer',
-                '    mod  6, 4',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_RESET,
                 'end',
                 'proc main()',
                 '    reset(1, 2)',
@@ -152,7 +153,7 @@ describe(
             [
                 'proc moveto(number layer, number id, number target)',
                 '    addr layer',
-                '    mod  6, 5',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_MOVE_TO,
                 'end',
                 'proc main()',
                 '    moveto(2, 2, 389)',
@@ -172,7 +173,7 @@ describe(
             [
                 'proc on(number layer, number id)',
                 '    addr layer',
-                '    mod  6, 6',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_ON,
                 'end',
                 'proc main()',
                 '    on(1, 2)',
@@ -191,7 +192,7 @@ describe(
             [
                 'proc timeOn(number layer, number id, number time)',
                 '    addr layer',
-                '    mod  6, 7',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_TIME_ON,
                 'end',
                 'proc main()',
                 '    timeOn(2, 0, 2000)',
@@ -211,7 +212,7 @@ describe(
             [
                 'proc stop(number layer, number id)',
                 '    addr layer',
-                '    mod  6, 8',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_STOP,
                 'end',
                 'proc main()',
                 '    stop(2, 1)',
@@ -231,7 +232,7 @@ describe(
                         'proc motorLayerRead(number layer, number id)',
                         '    number result',
                         '    addr layer',
-                        '    mod  6, 9',
+                        '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_READ,
                         '    ret  result',
                         'end',
                         'proc main()',
@@ -241,14 +242,14 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[6].on('Motor.Read', this, function(motor) {
+                info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.Read', this, function(motor) {
                     motor.callback(123);
                 });
                 info.modules[0].on('Console.Log', this, function(opts) {
                     assert.equal(opts.message, 123);
                 });
                 info.vm.setCommands(info.commands).run();
-                assert.equal(info.compiler.getUseInfo().getUsedModule(6, 9), true);
+                assert.equal(info.compiler.getUseInfo().getUsedModule(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_READ), true);
                 assert.equal(info.compiler.getUseInfo().getUsedModule(2, 3), false);
             }
         );
@@ -259,7 +260,7 @@ describe(
                         'proc motorLayerReady(number layer, number id)',
                         '    number result',
                         '    addr layer',
-                        '    mod  6, 10',
+                        '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_READY,
                         'end',
                         'proc main()',
                         '    number a = motorLayerReady(2, 3)',
@@ -268,7 +269,7 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[6].on('Motor.Ready', this, function(motor) {
+                info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.Ready', this, function(motor) {
                     assert.equal(motor.layer, 2);
                     assert.equal(motor.id, 3);
                     motor.callback(1);
@@ -286,7 +287,7 @@ describe(
                         'proc motorLayerReadyBits(number layer, number bits)',
                         '    number result',
                         '    addr layer',
-                        '    mod  6, 11',
+                        '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_READY_BITS,
                         'end',
                         'proc main()',
                         '    number a = motorLayerReadyBits(2, 11)',
@@ -295,7 +296,7 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[6].on('Motor.ReadyBits', this, function(motor) {
+                info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.ReadyBits', this, function(motor) {
                     assert.equal(motor.layer, 2);
                     assert.equal(motor.bits, 11);
                     motor.callback(1);
@@ -312,7 +313,7 @@ describe(
             [
                 'proc threshold(number layer, number id, number threshold)',
                 '    addr layer',
-                '    mod  6, 12',
+                '    mod  ' + motorModuleConstants.MODULE_MOTOR + ', ' + motorModuleConstants.MOTOR_THRESHOLD,
                 'end',
                 'proc main()',
                 '    threshold(2, 1, 45)',
