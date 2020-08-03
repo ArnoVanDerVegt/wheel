@@ -20,6 +20,8 @@ const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Mo
 const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
 const Interval            = require('../../../lib/components/nonvisual/Interval').Interval;
 const Timeout             = require('../../../lib/components/nonvisual/Timeout').Timeout;
+const AlertDialog         = require('../../../lib/components/nonvisual/AlertDialog').AlertDialog;
+const ConfirmDialog       = require('../../../lib/components/nonvisual/ConfirmDialog').ConfirmDialog;
 const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
@@ -81,7 +83,7 @@ exports.FormDialog = class extends Dialog {
         };
     }
 
-    addTimeEvent(component, property) {
+    addBasicEvent(component, property) {
         let entryPoint = this._program.getEventInfo(component[property]);
         if (!entryPoint) {
             return;
@@ -134,11 +136,15 @@ exports.FormDialog = class extends Dialog {
                         this.addDefaultEvent(component, property);
                         break;
                     case 'onChange':
+                        // Event with a value...
                         this.addChangeEvent(component, property);
                         break;
                     case 'onInterval':
                     case 'onTimeout':
-                        this.addTimeEvent(component, property);
+                    case 'onOk':
+                    case 'onCancel':
+                        // Basic event with only the window handle parameter...
+                        this.addBasicEvent(component, property);
                         break;
                     default:
                         component[property] = function() {};
@@ -164,6 +170,24 @@ exports.FormDialog = class extends Dialog {
                 }
             }
         );
+        let constructorByType = {};
+        constructorByType[formEditorConstants.COMPONENT_TYPE_BUTTON        ] = Button;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_LABEL         ] = Label;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON ] = ToolOptions;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_CHECKBOX      ] = CheckboxAndLabel;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_TEXT_INPUT    ] = TextInput;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_SLIDER        ] = Slider;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT  ] = StatusLight;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_RECTANGLE     ] = Rectangle;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_CIRCLE        ] = Circle;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_IMAGE         ] = Image;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_PU_DEVICE     ] = PoweredUpDevice;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_EV3_MOTOR     ] = EV3Motor;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_EV3_SENSOR    ] = EV3Sensor;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_INTERVAL      ] = Interval;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_TIMEOUT       ] = Timeout;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG  ] = AlertDialog;
+        constructorByType[formEditorConstants.COMPONENT_TYPE_CONFIRM_DIALOG] = ConfirmDialog;
         componentById[mainParentId] = result;
         opts.data.forEach((component) => {
             let win    = this._win;
@@ -187,78 +211,19 @@ exports.FormDialog = class extends Dialog {
                     left:     component.x + 'px',
                     top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
                 };
-                switch (component.type) {
-                    case formEditorConstants.COMPONENT_TYPE_BUTTON:
-                        component.type = Button;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_LABEL:
-                        component.type = Label;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON:
-                        component.type = ToolOptions;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_CHECKBOX:
-                        component.type = CheckboxAndLabel;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:
-                        component.type = TextInput;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_SLIDER:
-                        component.type = Slider;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:
-                        component.type = StatusLight;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_TABS:
-                        component.type     = TabPanel;
-                        component.children = [];
-                        let containerIds = component.containerIds;
-                        containerIds.forEach((containerId) => {
-                            let children = [];
-                            componentById[containerId] = children;
-                            component.children.push(children);
-                        });
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_RECTANGLE:
-                        component.type = Rectangle;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_CIRCLE:
-                        component.type = Circle;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_IMAGE:
-                        component.type = Image;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:
-                        component.type = PoweredUpDevice;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:
-                        component.type = EV3Motor;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:
-                        component.type = EV3Sensor;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_INTERVAL:
-                        component.type = Interval;
-                        parent.push(this.getComponentEvents(component));
-                        break;
-                    case formEditorConstants.COMPONENT_TYPE_TIMEOUT:
-                        component.type = Timeout;
-                        parent.push(this.getComponentEvents(component));
-                        break;
+                if (component.type in constructorByType) {
+                    component.type = constructorByType[component.type];
+                    parent.push(this.getComponentEvents(component));
+                } else if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
+                    component.type     = TabPanel;
+                    component.children = [];
+                    let containerIds = component.containerIds;
+                    containerIds.forEach((containerId) => {
+                        let children = [];
+                        componentById[containerId] = children;
+                        component.children.push(children);
+                    });
+                    parent.push(this.getComponentEvents(component));
                 }
             }
         });

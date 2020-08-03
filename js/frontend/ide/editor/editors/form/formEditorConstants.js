@@ -10,6 +10,7 @@ exports.COMPONENT_TYPES_PANEL        = 'panel';
 exports.COMPONENT_TYPES_GRAPHICS     = 'graphics';
 exports.COMPONENT_TYPES_STATUS       = 'status';
 exports.COMPONENT_TYPES_IO           = 'io';
+exports.COMPONENT_TYPES_DIALOG       = 'dialog';
 exports.COMPONENT_TYPES_NON_VISUAL   = 'nonVisual';
 
 exports.COMPONENT_TYPE_FORM          = 'form';
@@ -34,10 +35,10 @@ exports.INPUT_COMPONENTS             = [
 ];
 
 // Text components...
-exports.COMPONENT_TYPE_LABEL         = 'label';
-exports.COMPONENT_TYPE_TITLE         = 'title';
-exports.COMPONENT_TYPE_TEXT          = 'text';
-exports.COMPONENT_TYPE_LIST_ITEMS    = 'listItems';
+exports.COMPONENT_TYPE_LABEL          = 'label';
+exports.COMPONENT_TYPE_TITLE          = 'title';
+exports.COMPONENT_TYPE_TEXT           = 'text';
+exports.COMPONENT_TYPE_LIST_ITEMS     = 'listItems';
 
 exports.TEXT_COMPONENTS = [
     exports.COMPONENT_TYPE_LABEL,
@@ -47,8 +48,8 @@ exports.TEXT_COMPONENTS = [
 ];
 
 // Panel components...
-exports.COMPONENT_TYPE_PANEL         = 'panel';
-exports.COMPONENT_TYPE_TABS          = 'tabs';
+exports.COMPONENT_TYPE_PANEL          = 'panel';
+exports.COMPONENT_TYPE_TABS           = 'tabs';
 
 exports.PANEL_COMPONENTS = [
     exports.COMPONENT_TYPE_PANEL,
@@ -56,9 +57,9 @@ exports.PANEL_COMPONENTS = [
 ];
 
 // Graphics components...
-exports.COMPONENT_TYPE_RECTANGLE     = 'rectangle';
-exports.COMPONENT_TYPE_CIRCLE        = 'circle';
-exports.COMPONENT_TYPE_IMAGE         = 'image';
+exports.COMPONENT_TYPE_RECTANGLE      = 'rectangle';
+exports.COMPONENT_TYPE_CIRCLE         = 'circle';
+exports.COMPONENT_TYPE_IMAGE          = 'image';
 
 exports.GRAPHICS_COMPONENTS = [
     exports.COMPONENT_TYPE_RECTANGLE,
@@ -67,9 +68,9 @@ exports.GRAPHICS_COMPONENTS = [
 ];
 
 // Status components...
-exports.COMPONENT_TYPE_STATUS_LIGHT  = 'statusLight';
-exports.COMPONENT_TYPE_PROGRESS_BAR  = 'progressBar';
-exports.COMPONENT_TYPE_LOADING_DOTS  = 'loadingDots';
+exports.COMPONENT_TYPE_STATUS_LIGHT   = 'statusLight';
+exports.COMPONENT_TYPE_PROGRESS_BAR   = 'progressBar';
+exports.COMPONENT_TYPE_LOADING_DOTS   = 'loadingDots';
 
 exports.STATUS_COMPONENTS = [
     exports.COMPONENT_TYPE_STATUS_LIGHT,
@@ -78,9 +79,9 @@ exports.STATUS_COMPONENTS = [
 ];
 
 // Sensor/motor components...
-exports.COMPONENT_TYPE_PU_DEVICE     = 'puDevice';
-exports.COMPONENT_TYPE_EV3_MOTOR     = 'ev3Motor';
-exports.COMPONENT_TYPE_EV3_SENSOR    = 'ev3Sensor';
+exports.COMPONENT_TYPE_PU_DEVICE      = 'puDevice';
+exports.COMPONENT_TYPE_EV3_MOTOR      = 'ev3Motor';
+exports.COMPONENT_TYPE_EV3_SENSOR     = 'ev3Sensor';
 
 exports.IO_DISPLAY_COMPONENTS = [
     exports.COMPONENT_TYPE_PU_DEVICE,
@@ -88,9 +89,18 @@ exports.IO_DISPLAY_COMPONENTS = [
     exports.COMPONENT_TYPE_EV3_SENSOR
 ];
 
+// Dialog components...
+exports.COMPONENT_TYPE_ALERT_DIALOG   = 'alertDialog';
+exports.COMPONENT_TYPE_CONFIRM_DIALOG = 'confirmDialog';
+
+exports.DIALOG_COMPONENTS = [
+    exports.COMPONENT_TYPE_ALERT_DIALOG,
+    exports.COMPONENT_TYPE_CONFIRM_DIALOG
+];
+
 // Non visual components...
-exports.COMPONENT_TYPE_INTERVAL      = 'interval';
-exports.COMPONENT_TYPE_TIMEOUT       = 'timeout';
+exports.COMPONENT_TYPE_INTERVAL       = 'interval';
+exports.COMPONENT_TYPE_TIMEOUT        = 'timeout';
 
 exports.NON_VISUAL_COMPONENTS = [
     exports.COMPONENT_TYPE_INTERVAL,
@@ -1115,6 +1125,61 @@ exports.PROPERTIES_BY_TYPE = {
             }
         ],
         events: [
+        ]
+    },
+    /* ================================= DIALOG COMPONENTS ================================= */
+    ALERTDIALOG: {
+        component:  'lib/components/nonvisual/AlertDialog',
+        include:    'lib/components/alertDialog.whl',
+        properties: [
+            {type: 'type',         name: null},
+            {type: 'uid',          name: null},
+            {type: 'id',           name: null},
+            {type: 'parentId',     name: null},
+            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'title'},
+            {type: 'text',         name: 'text'}
+        ],
+        events: [
+        ]
+    },
+    CONFIRMDIALOG: {
+        component:  'lib/components/nonvisual/ConfirmDialog',
+        include:    'lib/components/confirmDialog.whl',
+        properties: [
+            {type: 'type',         name: null},
+            {type: 'uid',          name: null},
+            {type: 'id',           name: null},
+            {type: 'parentId',     name: null},
+            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
+            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'title'},
+            {type: 'text',         name: 'text'},
+            {type: 'text',         name: 'okTitle'},
+            {type: 'text',         name: 'cancelTitle'}
+        ],
+        events: [
+            {
+                name: 'onOk',
+                code: [
+                    '    printS("{name} ok.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onCancel',
+                code: [
+                    '    printS("{name} ok.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
         ]
     },
     /* ================================= NON VISUAL COMPONENTS ================================= */

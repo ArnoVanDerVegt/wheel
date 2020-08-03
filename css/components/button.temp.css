@@ -655,6 +655,22 @@ input.icon-button.icon-clock.focus,
 body.ide.dark input.icon-button.icon-clock {
     background-image:               url('images/buttons/clockWhite.svg');
 }
+input.icon-button.icon-alert-dialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+input.icon-button.icon-alert-dialog:hover,
+input.icon-button.icon-alert-dialog.focus,
+body.ide.dark input.icon-button.icon-alert-dialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+input.icon-button.icon-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+input.icon-button.icon-confirm-dialog:hover,
+input.icon-button.icon-confirm-dialog.focus,
+body.ide.dark input.icon-button.icon-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}
 
 .icon-button.icon-line-transparent {
     background-image:               url('images/buttons/lineTransparent.svg');

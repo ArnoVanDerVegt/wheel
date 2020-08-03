@@ -74,66 +74,74 @@ exports.Components = class extends DOMNode {
                             this.initGroup({
                                 toolType: 'inputTools',
                                 items: [
-                                    {image: 'btn',           hint: 'Button<br/>component'},
-                                    {image: 'select-btn',    hint: 'Select button<br/>component'},
-                                    {image: 'checkbox',      hint: 'Checkbox<br/>component'},
-                                    {image: 'radio',         hint: 'Radio<br/>component'},
-                                    {image: 'dropdown',      hint: 'Dropdown<br/>component'},
-                                    {image: 'text-input',    hint: 'Text input<br/>component'},
-                                    {image: 'slider',        hint: 'Slider<br/>component'}
+                                    {image: 'btn',            hint: 'Button<br/>component'},
+                                    {image: 'select-btn',     hint: 'Select button<br/>component'},
+                                    {image: 'checkbox',       hint: 'Checkbox<br/>component'},
+                                    {image: 'radio',          hint: 'Radio<br/>component'},
+                                    {image: 'dropdown',       hint: 'Dropdown<br/>component'},
+                                    {image: 'text-input',     hint: 'Text input<br/>component'},
+                                    {image: 'slider',         hint: 'Slider<br/>component'}
                                 ]
                             }),
                             this.initTitle('Text components'),
                             this.initGroup({
                                 toolType: 'textTools',
                                 items: [
-                                    {image: 'label',         hint: 'Label<br/>component'},
-                                    {image: 'header',        hint: 'Title<br/>component'},
-                                    {image: 'text',          hint: 'Text<br/>component'},
-                                    {image: 'list-items',    hint: 'Items list<br/>component'}
+                                    {image: 'label',          hint: 'Label<br/>component'},
+                                    {image: 'header',         hint: 'Title<br/>component'},
+                                    {image: 'text',           hint: 'Text<br/>component'},
+                                    {image: 'list-items',     hint: 'Items list<br/>component'}
                                 ]
                             }),
                             this.initTitle('Panel components'),
                             this.initGroup({
                                 toolType: 'panelTools',
                                 items: [
-                                    {image: 'panel',         hint: 'Panel<br/>component'},
-                                    {image: 'tabs',          hint: 'Tabs<br/>component'}
+                                    {image: 'panel',          hint: 'Panel<br/>component'},
+                                    {image: 'tabs',           hint: 'Tabs<br/>component'}
                                 ]
                             }),
                             this.initTitle('Graphics components'),
                             this.initGroup({
                                 toolType: 'graphicsTools',
                                 items: [
-                                    {image: 'rect-stripe',   hint: 'Rectangle<br/>component'},
-                                    {image: 'circle-stripe', hint: 'Circle<br/>component'},
-                                    {image: 'image',         hint: 'Image<br/>component'}
+                                    {image: 'rect-stripe',    hint: 'Rectangle<br/>component'},
+                                    {image: 'circle-stripe',  hint: 'Circle<br/>component'},
+                                    {image: 'image',          hint: 'Image<br/>component'}
                                 ]
                             }),
                             this.initTitle('Status components'),
                             this.initGroup({
                                 toolType: 'statusTools',
                                 items: [
-                                    {image: 'status-light',  hint: 'Status light<br/>component'},
-                                    {image: 'progress',      hint: 'Progress bar<br/>component'},
-                                    {image: 'loading',       hint: 'Loading dots<br/>component'}
+                                    {image: 'status-light',   hint: 'Status light<br/>component'},
+                                    {image: 'progress',       hint: 'Progress bar<br/>component'},
+                                    {image: 'loading',        hint: 'Loading dots<br/>component'}
                                 ]
                             }),
                             this.initTitle('Device display components'),
                             this.initGroup({
                                 toolType: 'ioTools',
                                 items: [
-                                    {image: 'pu-device',     hint: 'Powered Up device<br/>component'},
-                                    {image: 'ev3-sensor',    hint: 'EV3 sensor<br/>component'},
-                                    {image: 'ev3-motor',     hint: 'EV3 motor<br/>component'}
+                                    {image: 'pu-device',      hint: 'Powered Up device<br/>component'},
+                                    {image: 'ev3-sensor',     hint: 'EV3 sensor<br/>component'},
+                                    {image: 'ev3-motor',      hint: 'EV3 motor<br/>component'}
+                                ]
+                            }),
+                            this.initTitle('Dialog components'),
+                            this.initGroup({
+                                toolType: 'dialogTools',
+                                items: [
+                                    {image: 'alert-dialog',   hint: 'Alert dialog<br/>component'},
+                                    {image: 'confirm-dialog', hint: 'Confirm dialog<br/>component'}
                                 ]
                             }),
                             this.initTitle('Non visual components'),
                             this.initGroup({
                                 toolType: 'nonVisualTools',
                                 items: [
-                                    {image: 'timer',         hint: 'Interval<br/>component'},
-                                    {image: 'clock',         hint: 'Timeout<br/>component'}
+                                    {image: 'timer',          hint: 'Interval<br/>component'},
+                                    {image: 'clock',          hint: 'Timeout<br/>component'}
                                 ]
                             })
                         ]

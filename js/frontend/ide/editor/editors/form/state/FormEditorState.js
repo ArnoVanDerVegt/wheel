@@ -44,6 +44,7 @@ exports.FormEditorState = class extends Emitter {
         this._graphicsComponent     = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
         this._statusComponent       = formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT;
         this._ioComponent           = formEditorConstants.COMPONENT_TYPE_PU_DEVICE;
+        this._dialogComponent       = formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG;
         this._nonVisualComponent    = formEditorConstants.COMPONENT_TYPE_INTERVAL;
         this._dispatch              = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
@@ -148,6 +149,7 @@ exports.FormEditorState = class extends Emitter {
             case formEditorConstants.COMPONENT_TYPES_GRAPHICS:   return this._graphicsComponent;
             case formEditorConstants.COMPONENT_TYPES_STATUS:     return this._statusComponent;
             case formEditorConstants.COMPONENT_TYPES_IO:         return this._ioComponent;
+            case formEditorConstants.COMPONENT_TYPES_DIALOG:     return this._dialogComponent;
             case formEditorConstants.COMPONENT_TYPES_NON_VISUAL: return this._nonVisualComponent;
         }
         return formEditorConstants.COMPONENT_TYPE_BUTTON;
@@ -167,8 +169,10 @@ exports.FormEditorState = class extends Emitter {
                 return {toolGroup: 4, toolIndex: formEditorConstants.STATUS_COMPONENTS.indexOf(this._statusComponent)};
             case formEditorConstants.IO_DISPLAY_COMPONENTS:
                 return {toolGroup: 5, toolIndex: formEditorConstants.IO_DISPLAY_COMPONENTS.indexOf(this._ioComponent)};
-            case formEditorConstants.IO_NON_VISUAL_COMPONENTS:
-                return {toolGroup: 6, toolIndex: formEditorConstants.NON_VISUAL_COMPONENTS.indexOf(this._nonVisualComponent)};
+            case formEditorConstants.DIALOG_COMPONENTS:
+                return {toolGroup: 6, toolIndex: formEditorConstants.DIALOG_COMPONENTS.indexOf(this._dialogComponent)};
+            case formEditorConstants.NON_VISUAL_COMPONENTS:
+                return {toolGroup: 7, toolIndex: formEditorConstants.NON_VISUAL_COMPONENTS.indexOf(this._nonVisualComponent)};
         }
         return {toolGroup: 0, toolIndex: 0};
     }
@@ -195,6 +199,10 @@ exports.FormEditorState = class extends Emitter {
 
     setIOComponent(ioComponent) {
         this._ioComponent = ioComponent;
+    }
+
+    setDialogComponent(dialogComponent) {
+        this._dialogComponent = dialogComponent;
     }
 
     setNonVisualComponent(nonVisualComponent) {

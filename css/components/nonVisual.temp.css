@@ -35,3 +35,15 @@ body.ide.dark .non-visual.component-timer {
 body.ide.dark .non-visual.component-clock {
     background-image:               url('images/buttons/clockWhite.svg');
 }
+.non-visual.component-alert-dialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+body.ide.dark .non-visual.component-alert-dialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+.non-visual.component-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+body.ide.dark .non-visual.component-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}

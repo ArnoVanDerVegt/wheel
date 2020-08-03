@@ -239,6 +239,7 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPES_GRAPHICS,
                 formEditorConstants.COMPONENT_TYPES_STATUS,
                 formEditorConstants.COMPONENT_TYPES_IO,
+                formEditorConstants.COMPONENT_TYPES_DIALOG,
                 formEditorConstants.COMPONENT_TYPES_NON_VISUAL
             ];
         if (component in components) {
@@ -250,7 +251,8 @@ exports.FormEditor = class extends Editor {
             refs.graphicsTools.getElement().style.display  = (component === 3) ? 'block' : 'none';
             refs.statusTools.getElement().style.display    = (component === 4) ? 'block' : 'none';
             refs.ioTools.getElement().style.display        = (component === 5) ? 'block' : 'none';
-            refs.nonVisualTools.getElement().style.display = (component === 6) ? 'block' : 'none';
+            refs.dialogTools.getElement().style.display    = (component === 6) ? 'block' : 'none';
+            refs.nonVisualTools.getElement().style.display = (component === 7) ? 'block' : 'none';
             formEditorState.setComponentTypes(components[component]);
             dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorState.getActiveComponentIndices());
         }
@@ -304,11 +306,19 @@ exports.FormEditor = class extends Editor {
         }
     }
 
+    onSelectDialogComponent(component) {
+        const components = formEditorConstants.DIALOG_COMPONENTS;
+        if (component in components) {
+            this._formEditorState.setDialogComponent(components[component]);
+            this.updateComponentPanel(6, component);
+        }
+    }
+
     onSelectNonVisualComponent(component) {
         const components = formEditorConstants.NON_VISUAL_COMPONENTS;
         if (component in components) {
             this._formEditorState.setNonVisualComponent(components[component]);
-            this.updateComponentPanel(6, component);
+            this.updateComponentPanel(7, component);
         }
     }
 

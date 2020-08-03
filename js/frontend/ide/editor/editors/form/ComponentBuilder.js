@@ -306,6 +306,26 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addAlertDialog(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'AlertDialog'))
+            .addProperty(component, 'title',        'Alert title')
+            .addProperty(component, 'text',         'Alert text');
+        return component;
+    }
+
+    addConfirmDialog(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_CONFIRM_DIALOG)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ConfirmDialog'))
+            .addProperty(component, 'title',        'Confirm title')
+            .addProperty(component, 'text',         'Confirm text')
+            .addProperty(component, 'okTitle',      'Ok')
+            .addProperty(component, 'cancelTitle',  'Cancel');
+        return component;
+    }
+
     addComponentForType(component, type) {
         this
             .addProperty(component, 'tabIndex', 0)
@@ -313,36 +333,39 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'disabled', false);
         switch (type) {
             // Input components...
-            case formEditorConstants.COMPONENT_TYPE_BUTTON:        return this.addButtonComponent(component);
-            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return this.addSelectButton   (component);
-            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return this.addCheckBox       (component);
-            case formEditorConstants.COMPONENT_TYPE_RADIO:         return this.addRadio          (component);
-            case formEditorConstants.COMPONENT_TYPE_DROPDOWN:      return this.addDropdown       (component);
-            case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:    return this.addTextInput      (component);
-            case formEditorConstants.COMPONENT_TYPE_SLIDER:        return this.addSlider         (component);
+            case formEditorConstants.COMPONENT_TYPE_BUTTON:         return this.addButtonComponent(component);
+            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON:  return this.addSelectButton   (component);
+            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:       return this.addCheckBox       (component);
+            case formEditorConstants.COMPONENT_TYPE_RADIO:          return this.addRadio          (component);
+            case formEditorConstants.COMPONENT_TYPE_DROPDOWN:       return this.addDropdown       (component);
+            case formEditorConstants.COMPONENT_TYPE_TEXT_INPUT:     return this.addTextInput      (component);
+            case formEditorConstants.COMPONENT_TYPE_SLIDER:         return this.addSlider         (component);
             // Text components...
-            case formEditorConstants.COMPONENT_TYPE_LABEL:         return this.addLabel          (component);
-            case formEditorConstants.COMPONENT_TYPE_TITLE:         return this.addTitle          (component);
-            case formEditorConstants.COMPONENT_TYPE_TEXT:          return this.addText           (component);
-            case formEditorConstants.COMPONENT_TYPE_LIST_ITEMS:    return this.addListItems      (component);
+            case formEditorConstants.COMPONENT_TYPE_LABEL:          return this.addLabel          (component);
+            case formEditorConstants.COMPONENT_TYPE_TITLE:          return this.addTitle          (component);
+            case formEditorConstants.COMPONENT_TYPE_TEXT:           return this.addText           (component);
+            case formEditorConstants.COMPONENT_TYPE_LIST_ITEMS:     return this.addListItems      (component);
             // Status components...
-            case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return this.addStatusLight    (component);
-            case formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR:  return this.addProgressBar    (component);
-            case formEditorConstants.COMPONENT_TYPE_LOADING_DOTS:  return this.addLoadingDots    (component);
+            case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:   return this.addStatusLight    (component);
+            case formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR:   return this.addProgressBar    (component);
+            case formEditorConstants.COMPONENT_TYPE_LOADING_DOTS:   return this.addLoadingDots    (component);
             // Panel components...
-            case formEditorConstants.COMPONENT_TYPE_PANEL:         return this.addPanel          (component);
-            case formEditorConstants.COMPONENT_TYPE_TABS:          return this.addTabs           (component);
+            case formEditorConstants.COMPONENT_TYPE_PANEL:          return this.addPanel          (component);
+            case formEditorConstants.COMPONENT_TYPE_TABS:           return this.addTabs           (component);
             // Graphics components...
-            case formEditorConstants.COMPONENT_TYPE_RECTANGLE:     return this.addRectangle      (component);
-            case formEditorConstants.COMPONENT_TYPE_CIRCLE:        return this.addCircle         (component);
-            case formEditorConstants.COMPONENT_TYPE_IMAGE:         return this.addImage          (component);
+            case formEditorConstants.COMPONENT_TYPE_RECTANGLE:      return this.addRectangle      (component);
+            case formEditorConstants.COMPONENT_TYPE_CIRCLE:         return this.addCircle         (component);
+            case formEditorConstants.COMPONENT_TYPE_IMAGE:          return this.addImage          (component);
             // Device display components...
-            case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:     return this.addPuDevice       (component);
-            case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:     return this.addEV3Motor       (component);
-            case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:    return this.addEV3Sensor      (component);
+            case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:      return this.addPuDevice       (component);
+            case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:      return this.addEV3Motor       (component);
+            case formEditorConstants.COMPONENT_TYPE_EV3_SENSOR:     return this.addEV3Sensor      (component);
+            // Dialog components...
+            case formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG:   return this.addAlertDialog    (component);
+            case formEditorConstants.COMPONENT_TYPE_CONFIRM_DIALOG: return this.addConfirmDialog  (component);
             // Non visual components...
-            case formEditorConstants.COMPONENT_TYPE_INTERVAL:      return this.addInterval       (component);
-            case formEditorConstants.COMPONENT_TYPE_TIMEOUT:       return this.addTimeout        (component);
+            case formEditorConstants.COMPONENT_TYPE_INTERVAL:       return this.addInterval       (component);
+            case formEditorConstants.COMPONENT_TYPE_TIMEOUT:        return this.addTimeout        (component);
         }
         return null;
     }

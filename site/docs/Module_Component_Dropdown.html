@@ -54,6 +54,7 @@
                     <tr><td>DROPDOWN_COMPONENT_SET_X</td><td>2</td></tr>
                     <tr><td>DROPDOWN_COMPONENT_SET_Y</td><td>3</td></tr>
                     <tr><td>DROPDOWN_COMPONENT_SET_VALUE</td><td>4</td></tr>
+                    <tr><td>DROPDOWN_COMPONENT_GET_VALUE</td><td>5</td></tr>
                 </table>
             </p>
             <a id="Events"></a>
@@ -108,7 +109,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidethedropdowncomponent."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 28<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 29<br/></div>
             <p>Hide the dropdown component.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -122,7 +123,7 @@
             <hr/>
             <a id="Disablethedropdowncomponent."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 37<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 38<br/></div>
             <p>Disable the dropdown component.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -136,7 +137,7 @@
             <hr/>
             <a id="Setthexpositionofthedropdowncomponent."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 46<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 47<br/></div>
             <p>Set the x position of the dropdown component.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -150,7 +151,7 @@
             <hr/>
             <a id="Settheypositionofthedropdowncomponent."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 55<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 56<br/></div>
             <p>Set the y position of the dropdown component.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -164,7 +165,7 @@
             <hr/>
             <a id="Setthevalue."></a>
             <h5 class="title-with-source">setValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 64<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 65<br/></div>
             <p>Set the value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -175,6 +176,20 @@
                 <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
                 <tr><td>value</td><td>number</td><td>The active item.</td></tr>
             </table>
+            <hr/>
+            <a id="Getthevalue."></a>
+            <h5 class="title-with-source">getValue</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/dropdown.whl, line: 74<br/></div>
+            <p>Get the value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+            </table>
+            <div><b>Return:</b> The value.<br/><br/></div>
             <hr/>
         </div>
         <div class="footer">

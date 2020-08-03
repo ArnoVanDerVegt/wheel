@@ -52,20 +52,22 @@
                     <tr><td>MOTOR_SET_BRAKE</td><td>2</td></tr>
                     <tr><td>MOTOR_GET_TYPE</td><td>3</td></tr>
                     <tr><td>MOTOR_RESET</td><td>4</td></tr>
-                    <tr><td>MOTOR_MOVE_TO</td><td>5</td></tr>
-                    <tr><td>MOTOR_ON</td><td>6</td></tr>
-                    <tr><td>MOTOR_TIME_ON</td><td>7</td></tr>
-                    <tr><td>MOTOR_STOP</td><td>8</td></tr>
-                    <tr><td>MOTOR_READ</td><td>9</td></tr>
-                    <tr><td>MOTOR_READY</td><td>10</td></tr>
-                    <tr><td>MOTOR_READY_BITS</td><td>11</td></tr>
-                    <tr><td>MOTOR_THRESHOLD</td><td>12</td></tr>
+                    <tr><td>MOTOR_REVERSE</td><td>5</td></tr>
+                    <tr><td>MOTOR_MOVE_TO</td><td>6</td></tr>
+                    <tr><td>MOTOR_MOVE_TO_BITS</td><td>7</td></tr>
+                    <tr><td>MOTOR_ON</td><td>8</td></tr>
+                    <tr><td>MOTOR_TIME_ON</td><td>9</td></tr>
+                    <tr><td>MOTOR_STOP</td><td>10</td></tr>
+                    <tr><td>MOTOR_READ</td><td>11</td></tr>
+                    <tr><td>MOTOR_READY</td><td>12</td></tr>
+                    <tr><td>MOTOR_READY_BITS</td><td>13</td></tr>
+                    <tr><td>MOTOR_THRESHOLD</td><td>14</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Motortypes."></a>
                 <div>Motor types.<br/></div>
-                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 25<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 27<br/></div>
                 <table class="help-table constants">
                     <tr><td>MOTOR_MEDIUM</td><td>7</td></tr>
                     <tr><td>MOTOR_LARGE</td><td>8</td></tr>
@@ -74,7 +76,7 @@
             <p>
                 <a id="Themotoroutputs."></a>
                 <div>The motor outputs.<br/></div>
-                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 29<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 31<br/></div>
                 <table class="help-table constants">
                     <tr><td>OUTPUT_A</td><td>0</td></tr>
                     <tr><td>OUTPUT_B</td><td>1</td></tr>
@@ -83,9 +85,31 @@
                 </table>
             </p>
             <p>
+                <a id="Bitstoidentifythemotorcombinationsforreadyortomovemultiplemotorstoagivenposition."></a>
+                <div>Bits to identify the motor combinations for ready or to move multiple motors to a given position.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 37<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MOTOR_BITS_A</td><td>0b0001</td></tr>
+                    <tr><td>MOTOR_BITS_B</td><td>0b0010</td></tr>
+                    <tr><td>MOTOR_BITS_AB</td><td>0b0011</td></tr>
+                    <tr><td>MOTOR_BITS_C</td><td>0b0100</td></tr>
+                    <tr><td>MOTOR_BITS_AC</td><td>0b0101</td></tr>
+                    <tr><td>MOTOR_BITS_BC</td><td>0b0110</td></tr>
+                    <tr><td>MOTOR_BITS_ABC</td><td>0b0111</td></tr>
+                    <tr><td>MOTOR_BITS_D</td><td>0b1000</td></tr>
+                    <tr><td>MOTOR_BITS_AD</td><td>0b1001</td></tr>
+                    <tr><td>MOTOR_BITS_BD</td><td>0b1010</td></tr>
+                    <tr><td>MOTOR_BITS_ABD</td><td>0b1011</td></tr>
+                    <tr><td>MOTOR_BITS_CD</td><td>0b1100</td></tr>
+                    <tr><td>MOTOR_BITS_ACD</td><td>0b1101</td></tr>
+                    <tr><td>MOTOR_BITS_BCD</td><td>0b1110</td></tr>
+                    <tr><td>MOTOR_BITS_ABCD</td><td>0b1111</td></tr>
+                </table>
+            </p>
+            <p>
                 <a id="Brakeorcoastthemotor."></a>
                 <div>Brake or coast the motor.<br/></div>
-                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 51<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 54<br/></div>
                 <table class="help-table constants">
                     <tr><td>MOTOR_COAST</td><td>0</td></tr>
                     <tr><td>MOTOR_BRAKE</td><td>1</td></tr>
@@ -95,7 +119,7 @@
             <h4 class="">Procedures</h4>
             <a id="Setthemotortype."></a>
             <h5 class="title-with-source">motorLayerSetType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 55<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 58<br/></div>
             <p>Set the motor type.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerSetType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">type</span><span class="operator">)</span>
 </pre>
@@ -109,7 +133,7 @@
             <hr/>
             <a id="Setthemotorspeed."></a>
             <h5 class="title-with-source">motorLayerSetSpeed</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 64<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 67<br/></div>
             <p>Set the motor speed.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerSetSpeed</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">speed</span><span class="operator">)</span>
 </pre>
@@ -123,7 +147,7 @@
             <hr/>
             <a id="Setthemotorbrakeorcoast:0=coast,1=brake.Thedefaultvalueis1(brake)."></a>
             <h5 class="title-with-source">motorLayerSetBrake</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 73<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 76<br/></div>
             <p>Set the motor brake or coast: 0 = coast, 1 = brake. The default value is 1 (brake).</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerSetBrake</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">brake</span><span class="operator">)</span>
 </pre>
@@ -137,7 +161,7 @@
             <hr/>
             <a id="Gettheconnectedmotortype."></a>
             <h5 class="title-with-source">motorLayerGetType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 81<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 84<br/></div>
             <p>Get the connected motor type.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerGetType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -150,7 +174,7 @@
             <hr/>
             <a id="Resetthetachocountforthemotor."></a>
             <h5 class="title-with-source">motorLayerReset</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 89<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 92<br/></div>
             <p>Reset the tacho count for the motor.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerReset</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -161,9 +185,22 @@
                 <tr><td>id</td><td>number</td><td>The output, the first output is 0. Constants: <i>OUTPUT_A</i>, <i>OUTPUT_B</i>, <i>OUTPUT_C</i>, <i>OUTPUT_D</i>.</td></tr>
             </table>
             <hr/>
+            <a id="Reversethemotormovetodirection."></a>
+            <h5 class="title-with-source">motorLayerReverse</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 100<br/></div>
+            <p>Reverse the motor move to direction.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerReverse</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>layer</td><td>number</td><td>The layer, the daisy chained device. 0 is the primary brick.</td></tr>
+                <tr><td>id</td><td>number</td><td>The output, the first output is 0. Constants: <i>OUTPUT_A</i>, <i>OUTPUT_B</i>, <i>OUTPUT_C</i>, <i>OUTPUT_D</i>.</td></tr>
+            </table>
+            <hr/>
             <a id="Movethemotortoagiventargetangle."></a>
             <h5 class="title-with-source">motorLayerMoveTo</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 97<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 108<br/></div>
             <p>Move the motor to a given target angle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerMoveTo</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">target</span><span class="operator">)</span>
 </pre>
@@ -175,9 +212,23 @@
                 <tr><td>target</td><td>number</td><td>The target angle.</td></tr>
             </table>
             <hr/>
+            <a id="Movethemotortoagiventargetangle."></a>
+            <h5 class="title-with-source">motorLayerMoveToBits</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 117<br/></div>
+            <p>Move the motor to a given target angle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerMoveToBits</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">bits</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">target</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>layer</td><td>number</td><td>The layer, the daisy chained device. 0 is the primary brick.</td></tr>
+                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101</td></tr>
+                <tr><td>target</td><td>number</td><td>The target angle.</td></tr>
+            </table>
+            <hr/>
             <a id="Turnthemotoron."></a>
             <h5 class="title-with-source">motorLayerOn</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 106<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 126<br/></div>
             <p>Turn the motor on.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerOn</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -190,7 +241,7 @@
             <hr/>
             <a id="Turnthemotoronforagiventime."></a>
             <h5 class="title-with-source">motorLayerTimeOn</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 114<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 134<br/></div>
             <p>Turn the motor on for a given time.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerTimeOn</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
 </pre>
@@ -204,7 +255,7 @@
             <hr/>
             <a id="Stopthemotor."></a>
             <h5 class="title-with-source">motorLayerStop</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 123<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 143<br/></div>
             <p>Stop the motor.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerStop</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -217,7 +268,7 @@
             <hr/>
             <a id="Readamotorposition."></a>
             <h5 class="title-with-source">motorLayerRead</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 131<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 151<br/></div>
             <p>Read a motor position.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerRead</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -231,7 +282,7 @@
             <hr/>
             <a id="Checkifamotorreacheditstarget."></a>
             <h5 class="title-with-source">motorLayerReady</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 140<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 160<br/></div>
             <p>Check if a motor reached its target.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerReady</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -244,7 +295,7 @@
             <hr/>
             <a id="Checkifoneormoremotorsreachedtheirtarget."></a>
             <h5 class="title-with-source">motorLayerReadyBits</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 148<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 168<br/></div>
             <p>Check if one or more motors reached their target.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerReadyBits</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">bits</span><span class="operator">)</span>
 </pre>
@@ -252,12 +303,12 @@
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
                 <tr><td>layer</td><td>number</td><td>The layer, the daisy chained device. 0 is the primary brick.</td></tr>
-                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101</td></tr>
+                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101</td></tr>
             </table>
             <hr/>
             <a id="Setthethresholdforthemotortoreachthegivenangle,thisproconlyappliestoPoweredUp."></a>
             <h5 class="title-with-source">motorLayerThreshold</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 156<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 176<br/></div>
             <p>Set the threshold for the motor to reach the given angle, this proc only applies to Powered Up.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorLayerThreshold</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">threshold</span><span class="operator">)</span>
 </pre>
@@ -272,7 +323,7 @@
             <hr/>
             <a id="Setthemotortypeforthemaindevice."></a>
             <h5 class="title-with-source">motorSetType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 166<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 186<br/></div>
             <p>Set the motor type for the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorSetType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">type</span><span class="operator">)</span>
 </pre>
@@ -285,7 +336,7 @@
             <hr/>
             <a id="Setthemotorspeedforthemaindevice."></a>
             <h5 class="title-with-source">motorSetSpeed</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 173<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 193<br/></div>
             <p>Set the motor speed for the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorSetSpeed</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">speed</span><span class="operator">)</span>
 </pre>
@@ -298,7 +349,7 @@
             <hr/>
             <a id="Setthemotorbrakeorcoastforthemaindevice:0=coast,1=brake.Thedefaultvalueis1(brake)."></a>
             <h5 class="title-with-source">motorSetBrake</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 180<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 200<br/></div>
             <p>Set the motor brake or coast for the main device: 0 = coast, 1 = brake. The default value is 1 (brake).</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorSetBrake</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">brake</span><span class="operator">)</span>
 </pre>
@@ -311,7 +362,7 @@
             <hr/>
             <a id="Gettheconnectedmotortype."></a>
             <h5 class="title-with-source">motorGetType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 186<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 206<br/></div>
             <p>Get the connected motor type.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorGetType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -324,7 +375,7 @@
             <hr/>
             <a id="Resetthetachocountforthemotorforthemaindevice."></a>
             <h5 class="title-with-source">motorReset</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 193<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 213<br/></div>
             <p>Reset the tacho count for the motor for the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorReset</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -334,9 +385,22 @@
                 <tr><td>id</td><td>number</td><td>The output, the first output is 0. Constants: <i>OUTPUT_A</i>, <i>OUTPUT_B</i>, <i>OUTPUT_C</i>, <i>OUTPUT_D</i>.</td></tr>
             </table>
             <hr/>
+            <a id="Reversethemotormovetodirection."></a>
+            <h5 class="title-with-source">motorReverse</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 219<br/></div>
+            <p>Reverse the motor move to direction.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorReverse</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>layer</td><td>number</td><td></td></tr>
+                <tr><td>id</td><td>number</td><td>The output, the first output is 0. Constants: <i>OUTPUT_A</i>, <i>OUTPUT_B</i>, <i>OUTPUT_C</i>, <i>OUTPUT_D</i>.</td></tr>
+            </table>
+            <hr/>
             <a id="Movethemotortoagiventargetangleforthemaindevice."></a>
             <h5 class="title-with-source">motorMoveTo</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 199<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 225<br/></div>
             <p>Move the motor to a given target angle for the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorMoveTo</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">target</span><span class="operator">)</span>
 </pre>
@@ -347,9 +411,22 @@
                 <tr><td>target</td><td>number</td><td>The target angle.</td></tr>
             </table>
             <hr/>
+            <a id="Movethemotortoagiventargetangle."></a>
+            <h5 class="title-with-source">motorMoveToBits</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 232<br/></div>
+            <p>Move the motor to a given target angle.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorMoveToBits</span><span class="operator">(</span><span class="type">number</span> <span class="variable">bits</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">target</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101</td></tr>
+                <tr><td>target</td><td>number</td><td>The target angle.</td></tr>
+            </table>
+            <hr/>
             <a id="Turnthemotorofthemaindeviceon."></a>
             <h5 class="title-with-source">motorOn</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 206<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 239<br/></div>
             <p>Turn the motor of the main device on.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorOn</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -455,7 +532,7 @@
             <hr/>
             <a id="Turnthemotorofthemaindeviceonforagiventime."></a>
             <h5 class="title-with-source">motorTimeOn</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 212<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 245<br/></div>
             <p>Turn the motor of the main device on for a given time.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorTimeOn</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
 </pre>
@@ -468,7 +545,7 @@
             <hr/>
             <a id="Stopthemotoronthemaindevice."></a>
             <h5 class="title-with-source">motorStop</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 219<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 252<br/></div>
             <p>Stop the motor on the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorStop</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -480,7 +557,7 @@
             <hr/>
             <a id="Readamotorpositiononthemaindevice."></a>
             <h5 class="title-with-source">motorRead</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 225<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 258<br/></div>
             <p>Read a motor position on the main device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorRead</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -493,7 +570,7 @@
             <hr/>
             <a id="Checkifamotoronthemaindevicereacheditstarget."></a>
             <h5 class="title-with-source">motorReady</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 232<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 265<br/></div>
             <p>Check if a motor on the main device reached its target.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorReady</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">)</span>
 </pre>
@@ -505,19 +582,19 @@
             <hr/>
             <a id="Checkifoneormoremotorsreachedtheirtarget."></a>
             <h5 class="title-with-source">motorReadyBits</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 238<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 271<br/></div>
             <p>Check if one or more motors reached their target.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorReadyBits</span><span class="operator">(</span><span class="type">number</span> <span class="variable">bits</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101</td></tr>
+                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101</td></tr>
             </table>
             <hr/>
             <a id="Setthethresholdforthemotortoreachthegivenangle,thisproconlyappliestoPoweredUp."></a>
             <h5 class="title-with-source">motorThreshold</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 245<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 278<br/></div>
             <p>Set the threshold for the motor to reach the given angle, this proc only applies to Powered Up.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">motorThreshold</span><span class="operator">(</span><span class="type">number</span> <span class="variable">id</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">threshold</span><span class="operator">)</span>
 </pre>
@@ -531,14 +608,14 @@
             <hr/>
             <a id="Waituntilthegivenmotorshavereachedtheirtargets."></a>
             <h5 class="title-with-source">waitForMotors</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 253<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/motor.whl, line: 286<br/></div>
             <p>Wait until the given motors have reached their targets.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">waitForMotors</span><span class="operator">(</span><span class="type">number</span> <span class="variable">bits</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0x0101</td></tr>
+                <tr><td>bits</td><td>number</td><td>The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101</td></tr>
             </table>
             <hr/>
         </div>
