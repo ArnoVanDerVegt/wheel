@@ -112,6 +112,30 @@ exports.FileTree = class extends DOMNode {
                 {title: 'Reveal in finder', onClick: this.onContextMenuRevealInFinder.bind(this)}
             ]
         });
+        return this;
+    }
+
+    initRecentPaths() {
+        let index = 0;
+        const settings     = this._settings;
+        const recentPaths  = [].concat(settings.getRecentPaths());
+        const documentPath = settings.getDocumentPath();
+        const loadPath     = () => {
+                if (index >= recentPaths.length) {
+                    if (this._selected) {
+                        this._selected.setSelected(false);
+                        this._selected = null;
+                    }
+                    return;
+                }
+                let p = path.join(documentPath, recentPaths[index++]);
+                if (p in this._fullPathItem) {
+                    this.onSelectDirectory(this._fullPathItem[p], loadPath);
+                } else {
+                    loadPath();
+                }
+            };
+        loadPath();
     }
 
     clear() {
@@ -259,6 +283,9 @@ exports.FileTree = class extends DOMNode {
         this.onChangeDirectory([{path: outputFilename}]);
     }
 
+    /**
+     * Update all files and open directories in the given path...
+    **/
     onChangePath(p, callback) {
         let foundPath   = this.findLoadedPath(p);
         let directory   = this.findDirectoryItemFromPath(foundPath);
@@ -466,19 +493,28 @@ exports.FileTree = class extends DOMNode {
         this._selected.focus();
     }
 
-    onSelectDirectory(directory) {
+    onSelectDirectory(directory, callback) {
         if (this._selected && (this._selected !== directory)) {
             this._selected.setSelected(false);
         }
         this._selected = directory;
-        directory.setSelected(true);
+        if (typeof callback !== 'function') {
+            directory.setSelected(true);
+        }
         directory.setOpen(!directory.getOpen());
         this.setFullPathOpen(directory.getFullPath(), directory.getOpen());
         let path = directory.getPath() + '/' + directory.getName();
         this._activeDirectory = path;
         if (directory.getOpen() && !(path in this._fullPathLoaded)) {
             this._fullPathLoaded[path] = true;
-            this.getFiles(this._selected.getChildElement(), path, this.onGetFiles.bind(this));
+            this.getFiles(
+                this._selected.getChildElement(),
+                path,
+                (parentNode, p, files) => {
+                    this.onGetFiles(parentNode, p, files);
+                    (typeof callback === 'function') && callback();
+                }
+            );
         }
     }
 
@@ -512,6 +548,13 @@ exports.FileTree = class extends DOMNode {
 
     setFullPathOpen(path, open) {
         this._fullPathOpen[path] = open;
+        let openPaths = [];
+        for (let p in this._fullPathOpen) {
+            if (this._fullPathOpen[p]) {
+                openPaths.push(p);
+            }
+        }
+        dispatcher.dispatch('Settings.Set.RecentPaths', openPaths);
     }
 
     setTabIndex(tabIndex) {
@@ -534,7 +577,14 @@ exports.FileTree = class extends DOMNode {
 
     setFilesElement(element) {
         this._filesElement = element;
-        this.getFiles(element, false, this.onGetFiles.bind(this));
+        this.getFiles(
+            element,
+            false,
+            (parentNode, p, files) => {
+                this.onGetFiles(parentNode, p, files);
+                this.initRecentPaths();
+            }
+        );
     }
 
     getFiles(parentNode, path, callback) {

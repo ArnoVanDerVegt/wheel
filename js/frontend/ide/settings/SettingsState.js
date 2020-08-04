@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const platform                     = require('../../lib/platform');
+const path                         = require('../../lib/path');
 const dispatcher                   = require('../../lib/dispatcher').dispatcher;
 const Emitter                      = require('../../lib/Emitter').Emitter;
 const PluginsState                 = require('./PluginsState').PluginsState;
@@ -72,6 +73,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             .on('Settings.Load.New',                        this, this._loadNewSettings)
             // Setters...
+            .on('Settings.Set.RecentPaths',                 this, this._setRecentPaths)
             .on('Settings.Set.RecentProject',               this, this._setRecentProject)
             .on('Settings.Set.RecentForm',                  this, this._setRecentForm)
             .on('Settings.Set.DocumentPath',                this, this._setDocumentPath)
@@ -172,6 +174,7 @@ exports.SettingsState = class extends Emitter {
             createVMTextOutput:    this._createVMTextOutput,
             linter:                this._linter,
             recentProject:         this._recentProject,
+            recentPaths:           this._recentPaths,
             recentForm:            this._recentForm,
             activeDevice:          this._activeDevice,
             deviceAlias:           this._deviceAlias,
@@ -390,6 +393,10 @@ exports.SettingsState = class extends Emitter {
         return this._recentProject;
     }
 
+    getRecentPaths() {
+        return this._recentPaths;
+    }
+
     getRecentForm() {
         return this._recentForm;
     }
@@ -461,6 +468,15 @@ exports.SettingsState = class extends Emitter {
         this._recentProject = recentProject;
         this._save();
         this.emit('Settings.RecentProject');
+    }
+
+    _setRecentPaths(recentPaths) {
+        this._recentPaths.length = 0;
+        recentPaths.forEach((recentPath) => {
+            // Save the path relative to the document path...
+            this._recentPaths.push(path.removePath(this._documentPath, recentPath));
+        });
+        this._save();
     }
 
     _setRecentForm(recentForm) {
@@ -814,6 +830,7 @@ exports.SettingsState = class extends Emitter {
         this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments                                  : true;
         this._linter                     = ('linter'                in data)             ? data.linter                                               : true;
         this._recentProject              = ('recentProject'         in data)             ? data.recentProject                                        : '';
+        this._recentPaths                = ('recentPaths'           in data)             ? data.recentPaths                                          : [];
         this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                                           : '';
         this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                                          : false;
         this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail                                     : false;
