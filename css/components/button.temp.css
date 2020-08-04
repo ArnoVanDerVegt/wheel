@@ -216,7 +216,7 @@ input[type="button"].icon-button {
     border-radius:                  3px;
     box-shadow:                     var(--button-shadow);
     background-repeat:              no-repeat;
-    background-position:            2px 2px;
+    background-position:            0 0;
     background-size:                24px 24px;
     cursor:                         pointer;
     outline:                        none;
@@ -683,14 +683,20 @@ body.ide.dark input.icon-button.icon-confirm-dialog {
 }
 .icon-button.icon-list {
     background-image:               url('images/buttons/listWhite.svg');
-    background-position:            0 0;
 }
 .icon-button.icon-list-detail {
     background-image:               url('images/buttons/listDetailWhite.svg');
-    background-position:            0 0;
 }
 .icon-button.icon-delete-default {
     background-image:               url('images/buttons/deleteWhite.svg');
+}
+input[type="button"].icon-button.icon-add,
+input[type="button"].icon-button.icon-right,
+input[type="button"].icon-button.icon-list,
+input[type="button"].icon-button.icon-list-detail,
+input[type="button"].icon-button.icon-delete-default {
+    background-position:            0 0;
+    background-size:                22px 22px;
 }
 
 input.icon-button.icon-copy,

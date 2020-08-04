@@ -216,7 +216,7 @@ input[type="button"].icon-button {
     border-radius:                  3px;
     box-shadow:                     var(--button-shadow);
     background-repeat:              no-repeat;
-    background-position:            2px 2px;
+    background-position:            0 0;
     background-size:                24px 24px;
     cursor:                         pointer;
     outline:                        none;
@@ -357,7 +357,7 @@ input.icon-button.icon-size4 {
 input.icon-button.icon-size4:hover,
 input.icon-button.icon-size4.focus,
 body.ide.dark input.icon-button.icon-size4 {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="10" cy="10" r="5" fill="rgb(255,255,255)"/></svg>');
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="5" fill="rgb(255,255,255)"/></svg>');
 }
 input.icon-button.icon-text {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>    </g></svg>');
@@ -679,18 +679,24 @@ body.ide.dark input.icon-button.icon-confirm-dialog {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="10" y1="2" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="2" y1="10" x2="18" y2="10" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
 }
 .icon-button.icon-right {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(-1,1) translate(-22, 0)">        <line x1="5" y1="12" x2="17" y2="12" style="stroke:rgb(0,0,0);stroke-width:3"/>        <line x1="3.5" y1="12.5" x2="10" y2="6" style="stroke:rgb(0,0,0);stroke-width:2"/>        <line x1="3.5" y1="11.5" x2="10" y2="18" style="stroke:rgb(0,0,0);stroke-width:2"/>    </g></svg>');
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(-1,1) translate(-22, 0)">        <line x1="5" y1="12" x2="17" y2="12" style="stroke:rgb(255,255,255);stroke-width:3"/>        <line x1="3.5" y1="12.5" x2="10" y2="6" style="stroke:rgb(255,255,255);stroke-width:2"/>        <line x1="3.5" y1="11.5" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:2"/>    </g></svg>');
 }
 .icon-button.icon-list {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="7" x2="18" y2="7" style="stroke:rgb(255,255,255);stroke-width:2"/>    <line x1="6" y1="12" x2="18" y2="12" style="stroke:rgb(255,255,255);stroke-width:2"/>    <line x1="6" y1="17" x2="18" y2="17" style="stroke:rgb(255,255,255);stroke-width:2"/></svg>');
-    background-position:            0 0;
 }
 .icon-button.icon-list-detail {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="8" x2="18" y2="8" style="stroke:rgb(255,255,255);stroke-width:4"/>    <line x1="6" y1="16" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:4"/></svg>');
-    background-position:            0 0;
 }
 .icon-button.icon-delete-default {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
+}
+input[type="button"].icon-button.icon-add,
+input[type="button"].icon-button.icon-right,
+input[type="button"].icon-button.icon-list,
+input[type="button"].icon-button.icon-list-detail,
+input[type="button"].icon-button.icon-delete-default {
+    background-position:            0 0;
+    background-size:                22px 22px;
 }
 
 input.icon-button.icon-copy,
