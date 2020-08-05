@@ -140,6 +140,25 @@ exports.Editor = class extends DOMNode {
             (path.removeSlashes(this._path) === path.removeSlashes(p));
     }
 
+    showSaveError(message) {
+        let documentPath = this._settings.getDocumentPath();
+        if (documentPath.substr(-1) !== '/') {
+            documentPath += '/';
+        }
+        let i = message.indexOf(documentPath);
+        if (i !== -1) {
+            let j = documentPath.length;
+            message = message.substr(0, i) + message.substr(i + j, message.length - i - j);
+        }
+        dispatcher.dispatch(
+            'Dialog.Alert.Show',
+            {
+                title: 'Error: Failed to save file',
+                lines: [message]
+            }
+        );
+    }
+
     save(callback) {
         let documentPath = this._settings.getDocumentPath();
         let filename     = path.removePath(documentPath, path.join(this._path, this._filename));
@@ -151,8 +170,16 @@ exports.Editor = class extends DOMNode {
                 data:     this.getValue()
             },
             (data) => {
-                console.log('Data:', data);
-                this.onFileSaved(this._filename);
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    data = {success: false, error: 'Invalid data.'};
+                }
+                if (data.success) {
+                    this.onFileSaved(this._filename);
+                } else {
+                    this.showSaveError(data.error || 'Unknown error.');
+                }
                 callback && callback();
             }
         );
