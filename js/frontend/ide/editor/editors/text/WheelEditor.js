@@ -130,7 +130,9 @@ exports.WheelEditor = class extends Editor {
     }
 
     setValue(value, reset) {
-        this._codeMirror.setValue(value);
+        if (value !== this.getValue()) {
+            this._codeMirror.setValue(value);
+        }
         reset && this._codeMirror.clearHistory();
     }
 
