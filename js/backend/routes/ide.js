@@ -493,7 +493,7 @@ exports.ideRoutes = {
             {
                 cwd: this._cwd
             },
-            function(error, stdout, stderr) {
+            (error, stdout, stderr) => {
                 let result = {};
                 if (error) {
                     result.success = false;
@@ -507,7 +507,21 @@ exports.ideRoutes = {
         );
     },
 
-    setNode(node) {
+    setNode: function(node) {
         this._node = node;
+    },
+
+    revealInFinder: function(req, res) {
+        let result = {success: false};
+        exec(
+            (os.platform === 'darwin') ?
+                ('open "' + path.dirname(req.query.path) + '"') :
+                ('start "" "' + path.dirname(req.query.path) + '"'),
+            null,
+            (error, stdout, stderr) => {
+                result.error = error;
+            }
+        );
+        res.send(JSON.stringify(result));
     }
 };

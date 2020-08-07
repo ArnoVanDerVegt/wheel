@@ -4,6 +4,7 @@
 **/
 const getDataProvider = require('../../dataprovider/dataProvider').getDataProvider;
 const dispatcher      = require('../../dispatcher').dispatcher;
+const platform        = require('../../platform');
 const DOMNode         = require('../../dom').DOMNode;
 const path            = require('../../path');
 const CloseButton     = require('../CloseButton').CloseButton;
@@ -221,16 +222,26 @@ exports.FileTree = class extends DOMNode {
                         oldName: oldName,
                         newName: newName
                     },
-                    function() {
-                    }
+                    () => {}
                 );
             }
         );
     }
 
     onContextMenuRevealInFinder(item) {
-        let shell = require('electron').shell;
-        shell.showItemInFolder(item.getPath() + '/' + item.getName());
+        if (platform.isElectron()) {
+            const shell = require('electron').shell;
+            shell.showItemInFolder(item.getPath() + '/' + item.getName());
+        } else {
+            getDataProvider().getData(
+                'get',
+                'ide/reveal-in-finder',
+                {
+                    path: item.getPath() + '/' + item.getName()
+                },
+                () => {}
+            );
+        }
     }
 
     onChangeDirectory(data) {

@@ -34,6 +34,8 @@ const routes = {
         'ide/path-create':                ideRoutes.pathCreate,
         'ide/directory-create':           ideRoutes.directoryCreate,
         'ide/directory-delete':           ideRoutes.directoryDelete,
+        'ide/exec':                       ideRoutes.exec,
+        'ide/reveal-in-finder':           ideRoutes.revealInFinder,
         // Powered Up...
         'powered-up/scan':                poweredUpRoutes.scan,
         'powered-up/device-list':         poweredUpRoutes.deviceList,

@@ -26,6 +26,7 @@ const routes = {
         'ide/changes':                    ideRoutes.changes,
         'ide/user-info':                  ideRoutes.userInfo,
         'ide/exec':                       ideRoutes.exec,
+        'ide/reveal-in-finder':           ideRoutes.revealInFinder,
         // EV3...
         'ev3/device-list':                ev3Routes.deviceList,
         'ev3/connect':                    ev3Routes.connect,
