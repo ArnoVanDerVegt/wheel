@@ -81,28 +81,24 @@ exports.HomeScreen = class extends DOMNode {
                 icon:     getImage('images/files/whlp.svg'),
                 title:    'Create new project &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 2,
-                onClick: function() {
-                    dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
-                }
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'Project', activeDirectory)
             }),
             this.addHomeScreenTile({
                 id:       addTile(),
                 icon:     getImage('images/files/whl.svg'),
                 title:    'New file &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 3,
-                onClick: function() {
-                    dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
-                }
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'File', activeDirectory)
             }),
             platform.isElectron() ?
                 this.addHomeScreenTile({
-                    id:       addTile(),
-                    icon:     getImage('images/files/rgf.svg'),
-                    title:    'New image EV3 &raquo;',
-                    tabIndex: tabIndex.HOME_SCREEN + 4,
-                    onClick: function() {
-                        dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath());
-                    }
+                    id:             addTile(),
+                    icon:           getImage('images/files/rgf.svg'),
+                    title:          'New image EV3 &raquo;',
+                    tabIndex:       tabIndex.HOME_SCREEN + 4,
+                    settings:       settings,
+                    settingsGetter: settings.getShowEV3ImageTile.bind(settings),
+                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath())
                 }) :
                 null,
             this.addHomeScreenTile({
@@ -110,31 +106,32 @@ exports.HomeScreen = class extends DOMNode {
                 icon:     getImage('images/files/form.svg'),
                 title:    'New form &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 5,
-                onClick: function() {
-                    dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath());
-                }
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
             }),
-            platform.isElectron() ? {
-                    id:       addTile(),
-                    ui:       ui,
-                    icon:     getImage('images/files/ev3.svg'),
-                    title:    'Connect to EV3 &raquo;',
-                    type:     HomeScreenConnectEV3Tile,
-                    tabIndex: tabIndex.HOME_SCREEN + 6,
-                    ev3:      this._ev3,
-                    onClick: function() {
-                        dispatcher.dispatch('Dialog.ConnectEV3.Show');
-                    }
+            platform.isElectron() ?
+                {
+                    id:             addTile(),
+                    ui:             ui,
+                    icon:           getImage('images/files/ev3.svg'),
+                    title:          'Connect to EV3 &raquo;',
+                    type:           HomeScreenConnectEV3Tile,
+                    tabIndex:       tabIndex.HOME_SCREEN + 6,
+                    settings:       settings,
+                    settingsGetter: settings.getShowEV3Tile.bind(settings),
+                    ev3:            this._ev3,
+                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.ConnectEV3.Show')
                 } :
                 null,
             {
-                id:        addTile(),
-                ui:        ui,
-                icon:      getImage('images/files/poweredUp.svg'),
-                title:     'Connect to Powered Up &raquo;',
-                type:      HomeScreenConnectPoweredUpTile,
-                tabIndex:  tabIndex.HOME_SCREEN + 7,
-                poweredUp: this._poweredUp,
+                id:             addTile(),
+                ui:             ui,
+                icon:           getImage('images/files/poweredUp.svg'),
+                title:          'Connect to Powered Up &raquo;',
+                type:           HomeScreenConnectPoweredUpTile,
+                tabIndex:       tabIndex.HOME_SCREEN + 7,
+                settings:       settings,
+                settingsGetter: settings.getShowPoweredUpTile.bind(settings),
+                poweredUp:      this._poweredUp,
                 onClick: function() {
                     if (!window.PoweredUP || !window.PoweredUP.isWebBluetooth) {
                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
@@ -156,9 +153,7 @@ exports.HomeScreen = class extends DOMNode {
                 icon:     getImage('images/files/help.svg'),
                 title:    'Open documentation &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 8,
-                onClick: function() {
-                    dispatcher.dispatch('Dialog.Help.Show', {documentPath: settings.getDocumentPath()});
-                }
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
             }),
             showThemeTile ?
                 {

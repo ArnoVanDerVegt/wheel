@@ -2,6 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform = require('../../../../lib/platform');
+
 exports.tab = (settingsDialog) => {
     return {
         ref:       settingsDialog.setRef('tabView'),
@@ -79,6 +81,30 @@ exports.tab = (settingsDialog) => {
                 tabIndex:    8,
                 getter:      'getDontShowConnected',
                 signal:      'Settings.Set.DontShowConnected'
+            }),
+            settingsDialog.addHr(),
+            settingsDialog.addTitle('Home screen tiles'),
+            platform.isElectron() ?
+                settingsDialog.addCheckboxSetting({
+                    label:       'EV3 connect tile',
+                    tabIndex:    9,
+                    getter:      'getShowEV3Tile',
+                    signal:      'Settings.Set.ShowEV3Tile'
+                }) :
+                null,
+            platform.isElectron() ?
+                settingsDialog.addCheckboxSetting({
+                    label:       'EV3 image tile',
+                    tabIndex:    10,
+                    getter:      'getShowEV3ImageTile',
+                    signal:      'Settings.Set.ShowEV3ImageTile'
+                }) :
+                null,
+            settingsDialog.addCheckboxSetting({
+                label:       'Powered Up connect tile',
+                tabIndex:    11,
+                getter:      'getShowPoweredUpTile',
+                signal:      'Settings.Set.ShowPoweredUpTile'
             }),
             settingsDialog.addSpacer()
         ]

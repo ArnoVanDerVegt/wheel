@@ -181,6 +181,11 @@ exports.Editors = class extends DOMNode {
     }
 
     onEditorClose(opts) {
+        if (path.getExtension(opts.filename) === '.wfrm') {
+            dispatcher
+                .dispatch('Properties.Clear')
+                .dispatch('Properties.ComponentList', {items: []});
+        }
         this.closeEditor(opts.path, opts.filename);
     }
 

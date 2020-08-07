@@ -30,6 +30,7 @@ exports.Properties = class extends DOMNode {
         this._eventByName    = {};
         this.initDOM(opts.parentNode);
         dispatcher
+            .on('Properties.Clear',             this, this.onClear)
             .on('Properties.Select.Properties', this, this.onSelectProperties)
             .on('Properties.Select.Events',     this, this.onSelectEvents)
             .on('Properties.ChangePosition',    this, this.onChangePosition)
@@ -245,16 +246,20 @@ exports.Properties = class extends DOMNode {
     }
 
     onChangeComponentList(opts) {
-        let refs = this._refs;
         if (opts.value === null) {
-            refs.componentUid.innerHTML = '0x00000000';
-            this
-                .clear(refs.propertiesContainer)
-                .clear(refs.eventsContainer);
+            this.onClear();
         }
         if (this._settings.getAutoSelectProperties()) {
             this.onClickProperties();
-            refs.tabs.setActiveTab('Properties');
+            this._refs.tabs.setActiveTab('Properties');
         }
+    }
+
+    onClear() {
+        let refs = this._refs;
+        refs.componentUid.innerHTML = '0x00000000';
+        this
+            .clear(refs.propertiesContainer)
+            .clear(refs.eventsContainer);
     }
 };
