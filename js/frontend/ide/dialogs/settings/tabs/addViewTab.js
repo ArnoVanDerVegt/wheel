@@ -20,7 +20,7 @@ exports.tab = (settingsDialog) => {
                 label:       'Show files',
                 tabIndex:    2,
                 getter:      'getShowFileTree',
-                signal:      'Settings.Set.SetShowFileTree'
+                signal:      'Settings.Set.ShowFileTree'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'Show console',

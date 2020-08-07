@@ -60,6 +60,9 @@ exports.Editor = class extends DOMUtils {
 
     _addFile(opts) {
         let pathAndFilename = path.getPathAndFilename(opts.filename);
+        if (['.whl', '.whlp'].indexOf(path.getExtension(opts.filename)) !== -1) {
+            opts.value = this._settings.getSourceHeaderText() + '\n' + opts.value;
+        }
         this._editors.add({
             value:    opts.value,
             path:     pathAndFilename.path,

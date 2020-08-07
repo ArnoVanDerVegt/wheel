@@ -49,7 +49,9 @@ exports.TextInputSetting = class extends DOMNode {
     onChange() {
         let input = this._refs.input;
         let value = input.getValue();
-        if (this._validate(value)) {
+        if (!this._validate) {
+            this._onChange(value);
+        } else if (this._validate(value)) {
             input.setClassName(this._className);
             this._onChange(value);
         } else {

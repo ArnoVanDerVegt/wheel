@@ -15,6 +15,7 @@ const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const CheckboxSetting     = require('./components/CheckboxSetting').CheckboxSetting;
 const TextInputSetting    = require('./components/TextInputSetting').TextInputSetting;
+const TextAreaSetting     = require('./components/TextAreaSetting').TextAreaSetting;
 const addVersionTab       = require('./tabs/addVersionTab');
 const addExportTab        = require('./tabs/addExportTab');
 const addEditorTab        = require('./tabs/addEditorTab');
@@ -113,6 +114,15 @@ exports.SettingsDialog = class extends Dialog {
 
     addTextInputSetting(opts) {
         opts.type            = TextInputSetting;
+        opts.updateFunctions = this._updateFunctions;
+        opts.settings        = this._settings;
+        opts.ui              = this._ui;
+        opts.uiId            = this._uiId;
+        return opts;
+    }
+
+    addTextAreaSetting(opts) {
+        opts.type            = TextAreaSetting;
         opts.updateFunctions = this._updateFunctions;
         opts.settings        = this._settings;
         opts.ui              = this._ui;

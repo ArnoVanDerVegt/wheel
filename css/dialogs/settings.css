@@ -216,6 +216,15 @@
     margin:                         0;
     width:                          100%;
 }
+/* Textarea */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel textarea {
+    float:                          left;
+    width:                          100%;
+    height:                         128px;
+    margin:                         0 0 4px 8px;
+    font-family:                    monospace;
+    font-size:                      12px;
+}
 /* Update */
 .dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {
     float:                          left;

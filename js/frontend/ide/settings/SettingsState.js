@@ -2,38 +2,44 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform                     = require('../../lib/platform');
-const path                         = require('../../lib/path');
-const dispatcher                   = require('../../lib/dispatcher').dispatcher;
-const Emitter                      = require('../../lib/Emitter').Emitter;
-const PluginsState                 = require('./PluginsState').PluginsState;
-const IncludeFilesState            = require('./IncludeFilesState').IncludeFilesState;
+const platform                        = require('../../lib/platform');
+const path                            = require('../../lib/path');
+const dispatcher                      = require('../../lib/dispatcher').dispatcher;
+const Emitter                         = require('../../lib/Emitter').Emitter;
+const PluginsState                    = require('./PluginsState').PluginsState;
+const IncludeFilesState               = require('./IncludeFilesState').IncludeFilesState;
 
 // How to handle an image when opened:
-const IMAGE_OPEN_VIEW              = 'View';
-const IMAGE_OPEN_IMPORT            = 'Import';
-const IMAGE_OPEN_ASK               = 'Ask';
+const IMAGE_OPEN_VIEW                 = 'View';
+const IMAGE_OPEN_IMPORT               = 'Import';
+const IMAGE_OPEN_ASK                  = 'Ask';
 
-const IMAGE_OPEN_OPTIONS           = [IMAGE_OPEN_VIEW, IMAGE_OPEN_IMPORT, IMAGE_OPEN_ASK];
+const IMAGE_OPEN_OPTIONS              = [IMAGE_OPEN_VIEW, IMAGE_OPEN_IMPORT, IMAGE_OPEN_ASK];
 
 // Console log levels:
-const CONSOLE_MESSAGE_TYPE_INFO    = 'Info';
-const CONSOLE_MESSAGE_TYPE_HINT    = 'Hint';
-const CONSOLE_MESSAGE_TYPE_WARNING = 'Warning';
-const CONSOLE_MESSAGE_TYPE_ERROR   = 'Error';
+const CONSOLE_MESSAGE_TYPE_INFO       = 'Info';
+const CONSOLE_MESSAGE_TYPE_HINT       = 'Hint';
+const CONSOLE_MESSAGE_TYPE_WARNING    = 'Warning';
+const CONSOLE_MESSAGE_TYPE_ERROR      = 'Error';
 
-const CONSOLE_NEVER                = 'Never';
+const CONSOLE_NEVER                   = 'Never';
 
-const CONSOLE_LOG_LEVELS           = [
+const CONSOLE_LOG_LEVELS              = [
         CONSOLE_MESSAGE_TYPE_INFO,
         CONSOLE_MESSAGE_TYPE_HINT,
         CONSOLE_MESSAGE_TYPE_WARNING,
         CONSOLE_MESSAGE_TYPE_ERROR
     ];
 
-const CONSOLE_MIN_MESSAGE_COUNT      = 10;
-const CONSOLE_MAX_MESSAGE_COUNT      = 10000;
-const CONSOLE_DEFAULT_MESSAGE_COUNT  = 100;
+const CONSOLE_MIN_MESSAGE_COUNT       = 10;
+const CONSOLE_MAX_MESSAGE_COUNT       = 10000;
+const CONSOLE_DEFAULT_MESSAGE_COUNT   = 100;
+
+// Source file header
+const SOURCE_HEADER_TEXT              = [
+        'Wheel, copyright (c) {year} - present by {yourName}',
+        'Distributed under an {yourLicense}'
+    ];
 
 // Export constants...
 exports.CONSOLE_MESSAGE_TYPE_INFO     = CONSOLE_MESSAGE_TYPE_INFO;
@@ -81,8 +87,6 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
             .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
-            .on('Settings.Set.ShowProperties',              this, this._setShowProperties)
-            .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
             .on('Settings.Set.DontShowThemeTile',           this, this._setDontShowThemeTile)
@@ -106,12 +110,15 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.FormGridSize',                this, this._setFormGridSize)
             .on('Settings.Set.CreateEventComments',         this, this._setCreateEventComments)
             .on('Settings.Set.CreateVMTextOutput',          this, this._setCreateVMTextOutput)
-            .on('Settings.Set.SetLinter',                   this, this._setLinter)
-            .on('Settings.Set.SetShowFileTree',             this, this._setShowFileTree)
+            .on('Settings.Set.Linter',                      this, this._setLinter)
+            .on('Settings.Set.ShowFileTree',                this, this._setShowFileTree)
             .on('Settings.Set.ShowSimulatorOnRun',          this, this._setShowSimulatorOnRun)
+            .on('Settings.Set.ShowProperties',              this, this._setShowProperties)
+            .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
             .on('Settings.Set.DarkMode',                    this, this._setDarkMode)
             .on('Settings.Set.SensorAutoReset',             this, this._setSensorAutoReset)
             .on('Settings.Set.AutoSelectProperties',        this, this._setAutoSelectProperties)
+            .on('Settings.Set.SourceHeaderText',            this, this._setSourceHeaderText)
             // Toggle...
             .on('Settings.Toggle.ShowConsole',              this, this._toggleShowConsole)
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
@@ -230,6 +237,7 @@ exports.SettingsState = class extends Emitter {
             },
             sensorAutoReset:       this._sensorAutoReset,
             autoSelectProperties:  this._autoSelectProperties,
+            sourceHeaderText:      this._sourceHeaderText,
             formGridSize:          this._formGridSize,
             plugins:               this._plugins.toJSON(),
             includeFiles:          this._includeFiles.toJSON()
@@ -460,6 +468,11 @@ exports.SettingsState = class extends Emitter {
         return this._autoSelectProperties;
     }
 
+    getSourceHeaderText() {
+        let text = '; ' + this._sourceHeaderText.join('\n; ') + '\n';
+        return text.split('{year}').join(new Date().getFullYear());
+    }
+
     getFormGridSize() {
         return this._formGridSize;
     }
@@ -511,26 +524,6 @@ exports.SettingsState = class extends Emitter {
         this._windowSize.width  = width;
         this._windowSize.height = height;
         this._save();
-    }
-
-    _setShowSimulator(showSimulator) {
-        this._show.simulator = showSimulator;
-        if (showSimulator) {
-            this._show.properties = false;
-        }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
-    }
-
-    _setShowProperties(showProperties) {
-        this._show.properties = showProperties;
-        if (showProperties) {
-            this._show.simulator = false;
-        }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
     }
 
     _setResizerConsoleSize(consoleSize) {
@@ -672,6 +665,27 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.View');
     }
 
+    _setShowSimulator(showSimulator) {
+        this._show.simulator = showSimulator;
+        if (showSimulator) {
+            this._show.properties = false;
+        }
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
+    _setShowProperties(showProperties) {
+        this._show.properties = showProperties;
+        if (showProperties) {
+            this._show.simulator = false;
+        }
+        this._updateViewSettings();
+        this._save();
+        this.emit('Settings.View');
+    }
+
+
     _setDarkMode(darkMode) {
         this._darkMode = darkMode;
         this._save();
@@ -687,6 +701,11 @@ exports.SettingsState = class extends Emitter {
 
     _setAutoSelectProperties(autoSelectProperties) {
         this._autoSelectProperties = autoSelectProperties;
+        this._save();
+    }
+
+    _setSourceHeaderText(sourceHeaderText) {
+        this._sourceHeaderText = (typeof sourceHeaderText === 'string') ? sourceHeaderText.split('\n') : sourceHeaderText;
         this._save();
     }
 
@@ -843,6 +862,7 @@ exports.SettingsState = class extends Emitter {
         this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias                                      : {};
         this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset                                      : true;
         this._autoSelectProperties       = ('autoSelectProperties'  in data)             ? data.autoSelectProperties                                 : true;
+        this._sourceHeaderText           = ('sourceHeaderText'      in data)             ? data.sourceHeaderText                                     : SOURCE_HEADER_TEXT;
         this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                         : 10;
         if (this._show.simulator) {
             this._show.properties = false;

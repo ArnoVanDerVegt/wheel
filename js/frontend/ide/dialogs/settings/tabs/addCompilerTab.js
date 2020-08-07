@@ -12,7 +12,7 @@ exports.tab = (settingsDialog) => {
                 label:    'Linter',
                 tabIndex: 1,
                 getter:   'getLinter',
-                signal:   'Settings.Set.SetLinter'
+                signal:   'Settings.Set.Linter'
             }),
             settingsDialog.addTitle('Output'),
             settingsDialog.addCheckboxSetting({

@@ -406,6 +406,7 @@ const files = [
         './js/frontend/ide/dialogs/settings/components/IncludeFilesSetting',
         './js/frontend/ide/dialogs/settings/components/ImageOpenSettings',
         './js/frontend/ide/dialogs/settings/components/TextInputSetting',
+        './js/frontend/ide/dialogs/settings/components/TextAreaSetting',
         './js/frontend/ide/dialogs/settings/tabs/addVersionTab',
         './js/frontend/ide/dialogs/settings/tabs/addExportTab',
         './js/frontend/ide/dialogs/settings/tabs/addEditorTab',

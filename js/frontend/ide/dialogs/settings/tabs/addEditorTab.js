@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const IncludeFilesSetting = require('../components/IncludeFilesSetting').IncludeFilesSetting;
 const ImageOpenSettings   = require('../components/ImageOpenSettings').ImageOpenSettings;
 
@@ -22,6 +23,14 @@ exports.tab = (settingsDialog, opts) => {
                 tabIndex:       2,
                 getter:         'getAutoSelectProperties',
                 signal:         'Settings.Set.AutoSelectProperties'
+            }),
+            settingsDialog.addHr(),
+            settingsDialog.addTitle('Source file header text'),
+            settingsDialog.addTextAreaSetting({
+                label:    '',
+                tabIndex: 2049,
+                value:    opts.settings.getSourceHeaderText(),
+                onChange: dispatcher.dispatch.bind(dispatcher, 'Settings.Set.SourceHeaderText')
             }),
             settingsDialog.addHr(),
             settingsDialog.addTitle('Include file options'),
