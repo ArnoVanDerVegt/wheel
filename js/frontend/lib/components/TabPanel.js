@@ -128,10 +128,11 @@ exports.TabPanel = class extends Component {
             refs.tabs.setTabs(opts.tabs);
             if (opts.tabs.length > tabCount) {
                 this.addTab();
+                this.onClickTab(this._panels.length - 1);
             } else if (opts.tabs.length < tabCount) {
                 this._panels.pop().remove();
+                this.onClickTab(this._panels.length - 1);
             }
-            this.onClickTab(this._panels.length - 1);
         }
         if ('tab' in opts) {
             this.onAddTabComponent(opts.tab);
