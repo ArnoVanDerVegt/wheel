@@ -14,12 +14,12 @@ const LIB_FILENAME = 'assets/template/lib/components/selectButton.whl';
 describe(
     'Test SelectButton component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.selectButton.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.selectButton.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.selectButton.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.selectButton.setY',        'y',        'number');
-        testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.selectButton.setColor',    'color',    'number');
-        testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.selectButton.setActive',   'active',   'number');
-        testComponentCall(it, 'Should get active',   LIB_FILENAME, 'components.selectButton.getActive',   null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.selectButton.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.selectButton.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.selectButton.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.selectButton.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set color',    moduleFile: LIB_FILENAME, procName: 'components.selectButton.setColor',    property: 'color',    type: 'number'});
+        testComponentCall(it, {message: 'Should set active',   moduleFile: LIB_FILENAME, procName: 'components.selectButton.setActive',   property: 'active',   type: 'number'});
+        testComponentCall(it, {message: 'Should get active',   moduleFile: LIB_FILENAME, procName: 'components.selectButton.getActive',                         type: 'getNumber'});
     }
 );

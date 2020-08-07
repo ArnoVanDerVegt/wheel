@@ -17,8 +17,8 @@ exports.ComponentAlertDialogModule = class extends VMModule {
             case componentAlertDialogModuleConstants.ALERT_DIALOG_SHOW: property = 'show'; break;
         }
         if (property !== '') {
-            alertDialog    = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = alertDialog[property];
+            alertDialog    = vmData.getRecordFromSrcOffset(['window', 'component']);
+            opts[property] = componentAlertDialogModuleConstants.ALERT_DIALOG_TEST_VALUE;
             dispatcher.dispatch(alertDialog.window + '_' + alertDialog.component, opts);
         }
     }

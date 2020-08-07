@@ -14,14 +14,14 @@ const LIB_FILENAME = 'assets/template/lib/components/rectangle.whl';
 describe(
     'Test Rectangle component module',
     function() {
-        testComponentCall(it, 'Should set hidden',       LIB_FILENAME, 'components.rectangle.setHidden',       'hidden',       'number');
-        testComponentCall(it, 'Should set x',            LIB_FILENAME, 'components.rectangle.setX',            'x',            'number');
-        testComponentCall(it, 'Should set y',            LIB_FILENAME, 'components.rectangle.setY',            'y',            'number');
-        testComponentCall(it, 'Should set width',        LIB_FILENAME, 'components.rectangle.setWidth',        'width',        'number');
-        testComponentCall(it, 'Should set height',       LIB_FILENAME, 'components.rectangle.setHeight',       'height',       'number');
-        testComponentCall(it, 'Should set fillColor',    LIB_FILENAME, 'components.rectangle.setFillColor',    'fillColor',    'rgb');
-        testComponentCall(it, 'Should set borderColor',  LIB_FILENAME, 'components.rectangle.setBorderColor',  'borderColor',  'rgb');
-        testComponentCall(it, 'Should set borderWidth',  LIB_FILENAME, 'components.rectangle.setBorderWidth',  'borderWidth',  'number');
-        testComponentCall(it, 'Should set borderRadius', LIB_FILENAME, 'components.rectangle.setBorderRadius', 'borderRadius', 'number');
+        testComponentCall(it, {message: 'Should set hidden',       moduleFile: LIB_FILENAME, procName: 'components.rectangle.setHidden',       property: 'hidden',       type: 'number'});
+        testComponentCall(it, {message: 'Should set x',            moduleFile: LIB_FILENAME, procName: 'components.rectangle.setX',            property: 'x',            type: 'number'});
+        testComponentCall(it, {message: 'Should set y',            moduleFile: LIB_FILENAME, procName: 'components.rectangle.setY',            property: 'y',            type: 'number'});
+        testComponentCall(it, {message: 'Should set width',        moduleFile: LIB_FILENAME, procName: 'components.rectangle.setWidth',        property: 'width',        type: 'number'});
+        testComponentCall(it, {message: 'Should set height',       moduleFile: LIB_FILENAME, procName: 'components.rectangle.setHeight',       property: 'height',       type: 'number'});
+        testComponentCall(it, {message: 'Should set fillColor',    moduleFile: LIB_FILENAME, procName: 'components.rectangle.setFillColor',    property: 'fillColor',    type: 'rgb'});
+        testComponentCall(it, {message: 'Should set borderColor',  moduleFile: LIB_FILENAME, procName: 'components.rectangle.setBorderColor',  property: 'borderColor',  type: 'rgb'});
+        testComponentCall(it, {message: 'Should set borderWidth',  moduleFile: LIB_FILENAME, procName: 'components.rectangle.setBorderWidth',  property: 'borderWidth',  type: 'number'});
+        testComponentCall(it, {message: 'Should set borderRadius', moduleFile: LIB_FILENAME, procName: 'components.rectangle.setBorderRadius', property: 'borderRadius', type: 'number'});
     }
 );

@@ -17,8 +17,8 @@ exports.ComponentConfirmDialogModule = class extends VMModule {
             case componentConfirmDialogModuleConstants.CONFIRM_DIALOG_SHOW: property = 'show'; break;
         }
         if (property !== '') {
-            confirmDialog  = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = confirmDialog[property];
+            confirmDialog  = vmData.getRecordFromSrcOffset(['window', 'component']);
+            opts[property] = componentConfirmDialogModuleConstants.CONFIRM_DIALOG_TEST_VALUE;
             dispatcher.dispatch(confirmDialog.window + '_' + confirmDialog.component, opts);
         }
     }

@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/statusLight.whl';
 describe(
     'Test Status light component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.statusLight.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.statusLight.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.statusLight.setY',        'y',        'number');
-        testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.statusLight.setColor',    'color',    'number');
-        testComponentCall(it, 'Should set rgbColor', LIB_FILENAME, 'components.statusLight.setRgbColor', 'rgbColor', 'number');
-        testComponentCall(it, 'Should set rgb',      LIB_FILENAME, 'components.statusLight.setRgb',      'rgb',      'rgb');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.statusLight.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.statusLight.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.statusLight.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set color',    moduleFile: LIB_FILENAME, procName: 'components.statusLight.setColor',    property: 'color',    type: 'number'});
+        testComponentCall(it, {message: 'Should set rgbColor', moduleFile: LIB_FILENAME, procName: 'components.statusLight.setRgbColor', property: 'rgbColor', type: 'number'});
+        testComponentCall(it, {message: 'Should set rgb',      moduleFile: LIB_FILENAME, procName: 'components.statusLight.setRgb',      property: 'rgb',      type: 'rgb'});
     }
 );

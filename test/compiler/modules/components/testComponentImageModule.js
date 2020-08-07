@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/image.whl';
 describe(
     'Test Image component module',
     function() {
-        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.image.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.image.setX',      'x',      'number');
-        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.image.setY',      'y',      'number');
-        testComponentCall(it, 'Should set width',  LIB_FILENAME, 'components.image.setWidth',  'width',  'number');
-        testComponentCall(it, 'Should set height', LIB_FILENAME, 'components.image.setHeight', 'height', 'number');
-        testComponentCall(it, 'Should set src',    LIB_FILENAME, 'components.image.setSrc',    'src',    'string');
+        testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.image.setHidden', property: 'hidden', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.image.setX',      property: 'x',      type: 'number'});
+        testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.image.setY',      property: 'y',      type: 'number'});
+        testComponentCall(it, {message: 'Should set width',  moduleFile: LIB_FILENAME, procName: 'components.image.setWidth',  property: 'width',  type: 'number'});
+        testComponentCall(it, {message: 'Should set height', moduleFile: LIB_FILENAME, procName: 'components.image.setHeight', property: 'height', type: 'number'});
+        testComponentCall(it, {message: 'Should set src',    moduleFile: LIB_FILENAME, procName: 'components.image.setSrc',    property: 'src',    type: 'string'});
     }
 );

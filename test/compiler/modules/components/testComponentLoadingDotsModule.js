@@ -14,8 +14,8 @@ const LIB_FILENAME = 'assets/template/lib/components/loadingDots.whl';
 describe(
     'Test Loading dots component module',
     function() {
-        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.loadingDots.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.loadingDots.setX',      'x',      'number');
-        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.loadingDots.setY',      'y',      'number');
+        testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.loadingDots.setHidden', property: 'hidden', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.loadingDots.setX',      property: 'x',      type: 'number'});
+        testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.loadingDots.setY',      property: 'y',      type: 'number'});
     }
 );

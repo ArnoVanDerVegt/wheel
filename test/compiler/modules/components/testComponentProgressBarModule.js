@@ -14,10 +14,10 @@ const LIB_FILENAME = 'assets/template/lib/components/progressBar.whl';
 describe(
     'Test Progress bar component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.progressBar.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.progressBar.setX',      'x',      'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.progressBar.setY',      'y',      'number');
-        testComponentCall(it, 'Should set width',    LIB_FILENAME, 'components.progressBar.setWidth',  'width',  'number');
-        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.progressBar.setValue',  'value',  'number');
+        testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.progressBar.setHidden', property: 'hidden', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.progressBar.setX',      property: 'x',      type: 'number'});
+        testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.progressBar.setY',      property: 'y',      type: 'number'});
+        testComponentCall(it, {message: 'Should set width',  moduleFile: LIB_FILENAME, procName: 'components.progressBar.setWidth',  property: 'width',  type: 'number'});
+        testComponentCall(it, {message: 'Should set value',  moduleFile: LIB_FILENAME, procName: 'components.progressBar.setValue',  property: 'value',  type: 'number'});
     }
 );

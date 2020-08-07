@@ -61,7 +61,6 @@ const componentConfirmDialogModuleConstants = require('../../shared/vm/modules/c
 // Non visual components...
 const componentIntervalModuleConstants      = require('../../shared/vm/modules/components/componentIntervalModuleConstants');
 const componentTimeoutModuleConstants       = require('../../shared/vm/modules/components/componentTimeoutModuleConstants');
-
 // Modules...
 const FileSystem                            = require('../vm/modules/local/FileSystem'                             ).FileSystem;
 const LocalStandardModule                   = require('../vm/modules/local/StandardModule'                         ).StandardModule;

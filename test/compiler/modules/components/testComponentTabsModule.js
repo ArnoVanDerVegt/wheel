@@ -14,13 +14,13 @@ const LIB_FILENAME = 'assets/template/lib/components/tabs.whl';
 describe(
     'Test Tabs component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.tabs.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.tabs.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.tabs.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.tabs.setY',        'y',        'number');
-        testComponentCall(it, 'Should set width',    LIB_FILENAME, 'components.tabs.setWidth',    'width',    'number');
-        testComponentCall(it, 'Should set height',   LIB_FILENAME, 'components.tabs.setHeight',   'height',   'number');
-        testComponentCall(it, 'Should set active',   LIB_FILENAME, 'components.tabs.setActive',   'active',   'number');
-        testComponentCall(it, 'Should get active',   LIB_FILENAME, 'components.tabs.getActive',   null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.tabs.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.tabs.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.tabs.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.tabs.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set width',    moduleFile: LIB_FILENAME, procName: 'components.tabs.setWidth',    property: 'width',    type: 'number'});
+        testComponentCall(it, {message: 'Should set height',   moduleFile: LIB_FILENAME, procName: 'components.tabs.setHeight',   property: 'height',   type: 'number'});
+        testComponentCall(it, {message: 'Should set active',   moduleFile: LIB_FILENAME, procName: 'components.tabs.setActive',   property: 'active',   type: 'number'});
+        testComponentCall(it, {message: 'Should get active',   moduleFile: LIB_FILENAME, procName: 'components.tabs.getActive',                         type: 'getNumber'});
     }
 );

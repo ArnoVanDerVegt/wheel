@@ -14,12 +14,12 @@ const LIB_FILENAME = 'assets/template/lib/components/button.whl';
 describe(
     'Test Button component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.button.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.button.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.button.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.button.setY',        'y',        'number');
-        testComponentCall(it, 'Should set color',    LIB_FILENAME, 'components.button.setColor',    'color',    'number');
-        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.button.setTitle',    'value',    'string');
-        testComponentCall(it, 'Should set title',    LIB_FILENAME, 'components.button.setHint',     'title',    'string');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.button.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.button.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.button.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.button.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set color',    moduleFile: LIB_FILENAME, procName: 'components.button.setColor',    property: 'color',    type: 'number'});
+        testComponentCall(it, {message: 'Should set value',    moduleFile: LIB_FILENAME, procName: 'components.button.setTitle',    property: 'value',    type: 'string'});
+        testComponentCall(it, {message: 'Should set title',    moduleFile: LIB_FILENAME, procName: 'components.button.setHint',     property: 'title',    type: 'string'});
     }
 );

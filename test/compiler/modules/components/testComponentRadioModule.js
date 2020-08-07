@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/radio.whl';
 describe(
     'Test Radio component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.radio.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.radio.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.radio.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.radio.setY',        'y',        'number');
-        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.radio.setValue',    'value',    'number');
-        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.radio.getValue',    null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.radio.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.radio.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.radio.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.radio.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set value',    moduleFile: LIB_FILENAME, procName: 'components.radio.setValue',    property: 'value',    type: 'number'});
+        testComponentCall(it, {message: 'Should get value',    moduleFile: LIB_FILENAME, procName: 'components.radio.getValue',                          type: 'getNumber'});
     }
 );

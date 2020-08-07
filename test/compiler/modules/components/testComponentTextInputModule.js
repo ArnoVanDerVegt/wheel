@@ -14,14 +14,14 @@ const LIB_FILENAME = 'assets/template/lib/components/textInput.whl';
 describe(
     'Test Text input component module',
     function() {
-        testComponentCall(it, 'Should set hidden',       LIB_FILENAME, 'components.textInput.setHidden',      'hidden',      'number');
-        testComponentCall(it, 'Should set disabled',     LIB_FILENAME, 'components.textInput.setDisabled',    'disabled',    'number');
-        testComponentCall(it, 'Should set x',            LIB_FILENAME, 'components.textInput.setX',           'x',           'number');
-        testComponentCall(it, 'Should set y',            LIB_FILENAME, 'components.textInput.setY',           'y',           'number');
-        testComponentCall(it, 'Should get text value',   LIB_FILENAME, 'components.textInput.getTextValue',   null,          'getString');
-        testComponentCall(it, 'Should set text value',   LIB_FILENAME, 'components.textInput.setTextValue',   'text',        'string');
-        testComponentCall(it, 'Should get number value', LIB_FILENAME, 'components.textInput.getNumberValue', null,          'getNumber');
-        testComponentCall(it, 'Should set number value', LIB_FILENAME, 'components.textInput.setNumberValue', 'number',      'number');
-        testComponentCall(it, 'Should set place holder', LIB_FILENAME, 'components.textInput.setPlaceHolder', 'placeHolder', 'string');
+        testComponentCall(it, {message: 'Should set hidden',       moduleFile: LIB_FILENAME, procName: 'components.textInput.setHidden',      property: 'hidden',      type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled',     moduleFile: LIB_FILENAME, procName: 'components.textInput.setDisabled',    property: 'disabled',    type: 'number'});
+        testComponentCall(it, {message: 'Should set x',            moduleFile: LIB_FILENAME, procName: 'components.textInput.setX',           property: 'x',           type: 'number'});
+        testComponentCall(it, {message: 'Should set y',            moduleFile: LIB_FILENAME, procName: 'components.textInput.setY',           property: 'y',           type: 'number'});
+        testComponentCall(it, {message: 'Should get text value',   moduleFile: LIB_FILENAME, procName: 'components.textInput.getTextValue',                            type: 'getString'});
+        testComponentCall(it, {message: 'Should set text value',   moduleFile: LIB_FILENAME, procName: 'components.textInput.setTextValue',   property: 'text',        type: 'string'});
+        testComponentCall(it, {message: 'Should get number value', moduleFile: LIB_FILENAME, procName: 'components.textInput.getNumberValue',                          type: 'getNumber'});
+        testComponentCall(it, {message: 'Should set number value', moduleFile: LIB_FILENAME, procName: 'components.textInput.setNumberValue', property: 'number',      type: 'number'});
+        testComponentCall(it, {message: 'Should set place holder', moduleFile: LIB_FILENAME, procName: 'components.textInput.setPlaceHolder', property: 'placeHolder', type: 'string'});
     }
 );

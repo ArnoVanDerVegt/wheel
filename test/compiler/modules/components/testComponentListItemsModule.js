@@ -14,8 +14,8 @@ const LIB_FILENAME = 'assets/template/lib/components/listItems.whl';
 describe(
     'Test List items component module',
     function() {
-        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.listItems.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.listItems.setX',      'x',      'number');
-        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.listItems.setY',      'y',      'number');
+        testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.listItems.setHidden', property: 'hidden', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.listItems.setX',      property: 'x',      type: 'number'});
+        testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.listItems.setY',      property: 'y',      type: 'number'});
     }
 );

@@ -14,13 +14,13 @@ const LIB_FILENAME = 'assets/template/lib/components/circle.whl';
 describe(
     'Test Circle component module',
     function() {
-        testComponentCall(it, 'Should set hidden',       LIB_FILENAME, 'components.circle.setHidden',       'hidden',       'number');
-        testComponentCall(it, 'Should set x',            LIB_FILENAME, 'components.circle.setX',            'x',            'number');
-        testComponentCall(it, 'Should set y',            LIB_FILENAME, 'components.circle.setY',            'y',            'number');
-        testComponentCall(it, 'Should set radius',       LIB_FILENAME, 'components.circle.setRadius',       'radius',       'number');
-        testComponentCall(it, 'Should set fillColor',    LIB_FILENAME, 'components.circle.setFillColor',    'fillColor',    'rgb');
-        testComponentCall(it, 'Should set borderColor',  LIB_FILENAME, 'components.circle.setBorderColor',  'borderColor',  'rgb');
-        testComponentCall(it, 'Should set borderWidth',  LIB_FILENAME, 'components.circle.setBorderWidth',  'borderWidth',  'number');
-        testComponentCall(it, 'Should set borderRadius', LIB_FILENAME, 'components.circle.setBorderRadius', 'borderRadius', 'number');
+        testComponentCall(it, {message: 'Should set hidden',       moduleFile: LIB_FILENAME, procName: 'components.circle.setHidden',       property: 'hidden',       type: 'number'});
+        testComponentCall(it, {message: 'Should set x',            moduleFile: LIB_FILENAME, procName: 'components.circle.setX',            property: 'x',            type: 'number'});
+        testComponentCall(it, {message: 'Should set y',            moduleFile: LIB_FILENAME, procName: 'components.circle.setY',            property: 'y',            type: 'number'});
+        testComponentCall(it, {message: 'Should set radius',       moduleFile: LIB_FILENAME, procName: 'components.circle.setRadius',       property: 'radius',       type: 'number'});
+        testComponentCall(it, {message: 'Should set fillColor',    moduleFile: LIB_FILENAME, procName: 'components.circle.setFillColor',    property: 'fillColor',    type: 'rgb'});
+        testComponentCall(it, {message: 'Should set borderColor',  moduleFile: LIB_FILENAME, procName: 'components.circle.setBorderColor',  property: 'borderColor',  type: 'rgb'});
+        testComponentCall(it, {message: 'Should set borderWidth',  moduleFile: LIB_FILENAME, procName: 'components.circle.setBorderWidth',  property: 'borderWidth',  type: 'number'});
+        testComponentCall(it, {message: 'Should set borderRadius', moduleFile: LIB_FILENAME, procName: 'components.circle.setBorderRadius', property: 'borderRadius', type: 'number'});
     }
 );

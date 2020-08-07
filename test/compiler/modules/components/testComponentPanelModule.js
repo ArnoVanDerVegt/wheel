@@ -14,10 +14,10 @@ const LIB_FILENAME = 'assets/template/lib/components/panel.whl';
 describe(
     'Test Panel component module',
     function() {
-        testComponentCall(it, 'Should set hidden', LIB_FILENAME, 'components.panel.setHidden', 'hidden', 'number');
-        testComponentCall(it, 'Should set x',      LIB_FILENAME, 'components.panel.setX',      'x',      'number');
-        testComponentCall(it, 'Should set y',      LIB_FILENAME, 'components.panel.setY',      'y',      'number');
-        testComponentCall(it, 'Should set width',  LIB_FILENAME, 'components.panel.setWidth',  'width',  'number');
-        testComponentCall(it, 'Should set height', LIB_FILENAME, 'components.panel.setHeight', 'height', 'number');
+        testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.panel.setHidden', property: 'hidden', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.panel.setX',      property: 'x',      type: 'number'});
+        testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.panel.setY',      property: 'y',      type: 'number'});
+        testComponentCall(it, {message: 'Should set width',  moduleFile: LIB_FILENAME, procName: 'components.panel.setWidth',  property: 'width',  type: 'number'});
+        testComponentCall(it, {message: 'Should set height', moduleFile: LIB_FILENAME, procName: 'components.panel.setHeight', property: 'height', type: 'number'});
     }
 );

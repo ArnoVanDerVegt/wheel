@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/dropdown.whl';
 describe(
     'Test Dropdown component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.dropdown.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.dropdown.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.dropdown.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.dropdown.setY',        'y',        'number');
-        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.dropdown.setValue',    'value',    'number');
-        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.dropdown.getValue',    null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.dropdown.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.dropdown.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.dropdown.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.dropdown.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set value',    moduleFile: LIB_FILENAME, procName: 'components.dropdown.setValue',    property: 'value',    type: 'number'});
+        testComponentCall(it, {message: 'Should get value',    moduleFile: LIB_FILENAME, procName: 'components.dropdown.getValue',                          type: 'getNumber'});
     }
 );

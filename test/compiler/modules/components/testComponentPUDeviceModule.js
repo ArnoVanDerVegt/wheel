@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/poweredUpDevice.whl';
 describe(
     'Test PUDevice component module',
     function() {
-        testComponentCall(it, 'Should set type',       LIB_FILENAME, 'components.puDevice.setType',      'type',      'number');
-        testComponentCall(it, 'Should set port',       LIB_FILENAME, 'components.puDevice.setPort',      'port',      'number');
-        testComponentCall(it, 'Should set speed',      LIB_FILENAME, 'components.puDevice.setSpeed',     'speed',     'number');
-        testComponentCall(it, 'Should set value',      LIB_FILENAME, 'components.puDevice.setValue',     'value',     'number');
-        testComponentCall(it, 'Should set ready',      LIB_FILENAME, 'components.puDevice.setReady',     'ready',     'number');
-        testComponentCall(it, 'Should set color mode', LIB_FILENAME, 'components.puDevice.setColorMode', 'colorMode', 'number');
+        testComponentCall(it, {message: 'Should set type',       moduleFile: LIB_FILENAME, procName: 'components.puDevice.setType',      property: 'type',      type: 'number'});
+        testComponentCall(it, {message: 'Should set port',       moduleFile: LIB_FILENAME, procName: 'components.puDevice.setPort',      property: 'port',      type: 'number'});
+        testComponentCall(it, {message: 'Should set speed',      moduleFile: LIB_FILENAME, procName: 'components.puDevice.setSpeed',     property: 'speed',     type: 'number'});
+        testComponentCall(it, {message: 'Should set value',      moduleFile: LIB_FILENAME, procName: 'components.puDevice.setValue',     property: 'value',     type: 'number'});
+        testComponentCall(it, {message: 'Should set ready',      moduleFile: LIB_FILENAME, procName: 'components.puDevice.setReady',     property: 'ready',     type: 'number'});
+        testComponentCall(it, {message: 'Should set color mode', moduleFile: LIB_FILENAME, procName: 'components.puDevice.setColorMode', property: 'colorMode', type: 'number'});
     }
 );

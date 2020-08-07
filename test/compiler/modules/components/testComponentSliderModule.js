@@ -14,11 +14,11 @@ const LIB_FILENAME = 'assets/template/lib/components/slider.whl';
 describe(
     'Test Slider component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.slider.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.slider.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.slider.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.slider.setY',        'y',        'number');
-        testComponentCall(it, 'Should set value',    LIB_FILENAME, 'components.slider.setValue',    'value',    'number');
-        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.slider.getValue',    null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.slider.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.slider.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.slider.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.slider.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set value',    moduleFile: LIB_FILENAME, procName: 'components.slider.setValue',    property: 'value',    type: 'number'});
+        testComponentCall(it, {message: 'Should get value',    moduleFile: LIB_FILENAME, procName: 'components.slider.getValue',                          type: 'getNumber'});
     }
 );

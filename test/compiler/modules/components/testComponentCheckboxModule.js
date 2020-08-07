@@ -14,13 +14,13 @@ const LIB_FILENAME = 'assets/template/lib/components/checkbox.whl';
 describe(
     'Test Checkbox component module',
     function() {
-        testComponentCall(it, 'Should set hidden',   LIB_FILENAME, 'components.checkbox.setHidden',   'hidden',   'number');
-        testComponentCall(it, 'Should set disabled', LIB_FILENAME, 'components.checkbox.setDisabled', 'disabled', 'number');
-        testComponentCall(it, 'Should set x',        LIB_FILENAME, 'components.checkbox.setX',        'x',        'number');
-        testComponentCall(it, 'Should set y',        LIB_FILENAME, 'components.checkbox.setY',        'y',        'number');
-        testComponentCall(it, 'Should set text',     LIB_FILENAME, 'components.checkbox.setText',     'text',     'string');
-        testComponentCall(it, 'Should set hint',     LIB_FILENAME, 'components.checkbox.setHint',     'title',    'string');
-        testComponentCall(it, 'Should set checked',  LIB_FILENAME, 'components.checkbox.setChecked',  'checked',  'number');
-        testComponentCall(it, 'Should get value',    LIB_FILENAME, 'components.checkbox.getValue',    null,       'getNumber');
+        testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.checkbox.setHidden',   property: 'hidden',   type: 'number'});
+        testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.checkbox.setDisabled', property: 'disabled', type: 'number'});
+        testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.checkbox.setX',        property: 'x',        type: 'number'});
+        testComponentCall(it, {message: 'Should set y',        moduleFile: LIB_FILENAME, procName: 'components.checkbox.setY',        property: 'y',        type: 'number'});
+        testComponentCall(it, {message: 'Should set text',     moduleFile: LIB_FILENAME, procName: 'components.checkbox.setText',     property: 'text',     type: 'string'});
+        testComponentCall(it, {message: 'Should set hint',     moduleFile: LIB_FILENAME, procName: 'components.checkbox.setHint',     property: 'title',    type: 'string'});
+        testComponentCall(it, {message: 'Should set checked',  moduleFile: LIB_FILENAME, procName: 'components.checkbox.setChecked',  property: 'checked',  type: 'number'});
+        testComponentCall(it, {message: 'Should get value',    moduleFile: LIB_FILENAME, procName: 'components.checkbox.getValue',                          type: 'getNumber'});
     }
 );
