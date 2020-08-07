@@ -282,7 +282,7 @@ describe(
                         sortedFiles.forEach(function(sortedFile) {
                             files.push(sortedFile.filename);
                         });
-                        assert.deepEqual(files, ['/test1.whl', '/test2.whl', '/main.whl']);
+                        assert.deepEqual(files, ['test1.whl', 'test2.whl', 'main.whl']);
                         let logs    = [];
                         let modules = createModules(vm, createMocks());
                         vm.setModules(modules);

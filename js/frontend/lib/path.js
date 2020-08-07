@@ -74,30 +74,31 @@ exports.makePlatformPath = function(path) {
     return path.split('/').join('\\');
 };
 
-exports.addPath = function(p1, p2) {
-    if (p1 === '') {
-        return p2;
-    }
-    if (p2 === '') {
-        return p1;
-    }
-    return exports.removeSlashes(p1) + '/' + exports.removeSlashes(p2);
-};
-
 exports.join = function() {
     if (arguments.length === 1) {
         return arguments[0];
     }
-    let result = [];
+    let path = [];
     for (let i = 0, j = arguments.length - 1; i <= j; i++) {
-        if (i === 0) {
-            result.push(exports.removeRightSlashes(arguments[i]));
-        } else if (i === j) {
-            result.push(exports.removeLeftSlashes(arguments[i]));
-        } else {
-            result.push(exports.removeSlashes(arguments[i]));
+        if (arguments[i] !== '') {
+            if (i === 0) {
+                path.push(exports.removeRightSlashes(arguments[i]));
+            } else if (i === j) {
+                path.push(exports.removeLeftSlashes(arguments[i]));
+            } else {
+                path.push(exports.removeSlashes(arguments[i]));
+            }
         }
     }
+    path = path.join('/').split('/');
+    let result = [];
+    path.forEach((p) => {
+        if (p === '..') {
+            result.pop();
+        } else {
+            result.push(p);
+        }
+    });
     return result.join('/');
 };
 

@@ -181,30 +181,42 @@ describe(
             }
         );
         describe(
-            'Test add path',
+            'Test join',
             function() {
                 it(
                     'Should not change path',
                     function() {
-                        assert.equal(path.addPath('path', ''), 'path');
+                        assert.equal(path.join('path', ''), 'path');
                     }
                 );
                 it(
                     'Should not change path',
                     function() {
-                        assert.equal(path.addPath('', 'path'), 'path');
+                        assert.equal(path.join('', 'path'), 'path');
                     }
                 );
                 it(
                     'Should add path',
                     function() {
-                        assert.equal(path.addPath('path1', 'path2'), 'path1/path2');
+                        assert.equal(path.join('path1', 'path2'), 'path1/path2');
                     }
                 );
                 it(
                     'Should add path and remove slashes',
                     function() {
-                        assert.equal(path.addPath('/path1/', '/path2/'), 'path1/path2');
+                        assert.equal(path.join('/path1/', '/path2/'), '/path1/path2/');
+                    }
+                );
+                it(
+                    'Should add path with multiple parts',
+                    function() {
+                        assert.equal(path.join('/path1/path2/', '/path3/'), '/path1/path2/path3/');
+                    }
+                );
+                it(
+                    'Should add path with .. part',
+                    function() {
+                        assert.equal(path.join('/path1/../', '/path2/'), '/path2/');
                     }
                 );
             }
