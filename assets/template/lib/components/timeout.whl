@@ -24,7 +24,7 @@ end
 ; @proc                   Start the timeout.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
-proc pause(number windowHandle, number componentHandle)
+proc start(number windowHandle, number componentHandle)
     addr windowHandle
     mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_START
 end
@@ -34,5 +34,5 @@ end
 ; @param componentHandle  The handle of the component.
 proc cancel(number windowHandle, number componentHandle)
     addr windowHandle
-    mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_RESUME
+    mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_CANCEL
 end

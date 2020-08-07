@@ -13,14 +13,19 @@ exports.ComponentIntervalModule = class extends VMModule {
         let property = '';
         let interval = null;
         let opts     = {};
+        let value    = false;
         switch (commandId) {
-            case componentIntervalModuleConstants.INTERVAL_SET_TIME: property = 'time';   break;
-            case componentIntervalModuleConstants.INTERVAL_PAUSE:    property = 'pause';  break;
-            case componentIntervalModuleConstants.INTERVAL_RESUME:   property = 'resume'; break;
+            case componentIntervalModuleConstants.INTERVAL_SET_TIME: property = 'time';                 break;
+            case componentIntervalModuleConstants.INTERVAL_PAUSE:    property = 'pause';  value = true; break;
+            case componentIntervalModuleConstants.INTERVAL_RESUME:   property = 'resume'; value = true; break;
         }
         if (property !== '') {
-            interval       = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = interval[property];
+            interval = vmData.getRecordFromSrcOffset(['window', 'component', property]);
+            if (value) {
+                opts[property] = componentIntervalModuleConstants.INTERVAL_TEST_VALUE;
+            } else {
+                opts[property] = interval[property];
+            }
             dispatcher.dispatch(interval.window + '_' + interval.component, opts);
         }
     }

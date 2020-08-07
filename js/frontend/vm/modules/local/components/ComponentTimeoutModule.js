@@ -13,14 +13,19 @@ exports.ComponentTimeoutModule = class extends VMModule {
         let property = '';
         let timeout  = null;
         let opts     = {};
+        let value    = false;
         switch (commandId) {
-            case componentIntervalModuleConstants.TIMEOUT_SET_TIME: property = 'time';   break;
-            case componentIntervalModuleConstants.TIMEOUT_PAUSE:    property = 'start';  break;
-            case componentIntervalModuleConstants.TIMEOUT_RESUME:   property = 'cancel'; break;
+            case componentTimeoutModuleConstants.TIMEOUT_SET_TIME: property = 'time';                 break;
+            case componentTimeoutModuleConstants.TIMEOUT_START:    property = 'start';  value = true; break;
+            case componentTimeoutModuleConstants.TIMEOUT_CANCEL:   property = 'cancel'; value = true; break;
         }
         if (property !== '') {
-            timeout        = vmData.getRecordFromSrcOffset(['window', 'component', property]);
-            opts[property] = timeout[property];
+            timeout = vmData.getRecordFromSrcOffset(['window', 'component', property]);
+            if (value) {
+                opts[property] = componentTimeoutModuleConstants.TIMEOUT_TEST_VALUE;
+            } else {
+                opts[property] = timeout[property];
+            }
             dispatcher.dispatch(timeout.window + '_' + timeout.component, opts);
         }
     }

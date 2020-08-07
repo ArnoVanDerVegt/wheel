@@ -56,6 +56,9 @@ const componentEV3SensorModuleConstants     = require('../js/shared/vm/modules/c
 // Dialog components...
 const componentAlertDialogModuleConstants   = require('../js/shared/vm/modules/components/componentAlertDialogModuleConstants');
 const componentConfirmDialogModuleConstants = require('../js/shared/vm/modules/components/componentConfirmDialogModuleConstants');
+// Non visual components...
+const componentIntervalModuleConstants      = require('../js/shared/vm/modules/components/componentIntervalModuleConstants');
+const componentTimeoutModuleConstants       = require('../js/shared/vm/modules/components/componentTimeoutModuleConstants');
 // Modules...
 const LocalStandardModule                   = require('../js/frontend/vm/modules/local/StandardModule'                         ).StandardModule;
 const LocalScreenModule                     = require('../js/frontend/vm/modules/local/ScreenModule'                           ).ScreenModule;
@@ -102,6 +105,9 @@ const LocalComponentEV3SensorModule         = require('../js/frontend/vm/modules
 // Dialog components...
 const LocalComponentAlertDialogModule       = require('../js/frontend/vm/modules/local/components/ComponentAlertDialogModule'  ).ComponentAlertDialogModule;
 const LocalComponentConfirmDialogModule     = require('../js/frontend/vm/modules/local/components/ComponentConfirmDialogModule').ComponentConfirmDialogModule;
+// Non visual components...
+const LocalComponentIntervalModule          = require('../js/frontend/vm/modules/local/components/ComponentIntervalModule'     ).ComponentIntervalModule;
+const LocalComponentTimeoutModule           = require('../js/frontend/vm/modules/local/components/ComponentTimeoutModule'      ).ComponentTimeoutModule;
 // Mocks...
 const MockFileSystem                        = require('./mock/MockFileSystem').MockFileSystem;
 const MockDataProvider                      = require('./mock/MockDataProvider').MockDataProvider;
@@ -176,6 +182,9 @@ const createModules = (vm, mocks) => {
         // Dialog components...
         modules[componentAlertDialogModuleConstants  .MODULE_ALERT_DIALOG  ] = new LocalComponentAlertDialogModule  ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         modules[componentConfirmDialogModuleConstants.MODULE_CONFIRM_DIALOG] = new LocalComponentConfirmDialogModule({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
+        // Non visual components...
+        modules[componentIntervalModuleConstants     .MODULE_INTERVAL      ] = new LocalComponentIntervalModule     ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
+        modules[componentTimeoutModuleConstants      .MODULE_TIMEOUT       ] = new LocalComponentTimeoutModule      ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         return modules;
     };
 
