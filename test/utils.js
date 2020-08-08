@@ -45,6 +45,7 @@ const componentTabsModuleConstants          = require('../js/shared/vm/modules/c
 const componentRectangleModuleConstants     = require('../js/shared/vm/modules/components/componentRectangleModuleConstants');
 const componentCircleModuleConstants        = require('../js/shared/vm/modules/components/componentCircleModuleConstants');
 const componentImageModuleConstants         = require('../js/shared/vm/modules/components/componentImageModuleConstants');
+const componentIconModuleConstants          = require('../js/shared/vm/modules/components/componentIconModuleConstants');
 // Status components...
 const componentStatusLightModuleConstants   = require('../js/shared/vm/modules/components/componentStatusLightModuleConstants');
 const componentProgressBarModuleConstants   = require('../js/shared/vm/modules/components/componentProgressBarModuleConstants');
@@ -94,6 +95,7 @@ const LocalComponentTabsModule              = require('../js/frontend/vm/modules
 const LocalComponentRectangleModule         = require('../js/frontend/vm/modules/local/components/ComponentRectangleModule'    ).ComponentRectangleModule;
 const LocalComponentCircleModule            = require('../js/frontend/vm/modules/local/components/ComponentCircleModule'       ).ComponentCircleModule;
 const LocalComponentImageModule             = require('../js/frontend/vm/modules/local/components/ComponentImageModule'        ).ComponentImageModule;
+const LocalComponentIconModule              = require('../js/frontend/vm/modules/local/components/ComponentIconModule'         ).ComponentIconModule;
 // Status components...
 const LocalComponentStatusLightModule       = require('../js/frontend/vm/modules/local/components/ComponentStatusLightModule'  ).ComponentStatusLightModule;
 const LocalComponentProgressBarModule       = require('../js/frontend/vm/modules/local/components/ComponentProgressBarModule'  ).ComponentProgressBarModule;
@@ -171,6 +173,7 @@ const createModules = (vm, mocks) => {
         modules[componentRectangleModuleConstants    .MODULE_RECTANGLE     ] = new LocalComponentRectangleModule    ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         modules[componentCircleModuleConstants       .MODULE_CIRCLE        ] = new LocalComponentCircleModule       ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         modules[componentImageModuleConstants        .MODULE_IMAGE         ] = new LocalComponentImageModule        ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
+        modules[componentIconModuleConstants         .MODULE_ICON          ] = new LocalComponentIconModule         ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         // Status components...
         modules[componentStatusLightModuleConstants  .MODULE_STATUS_LIGHT  ] = new LocalComponentStatusLightModule  ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});
         modules[componentProgressBarModuleConstants  .MODULE_PROGRESS_BAR  ] = new LocalComponentProgressBarModule  ({vm: vm, ide: mockIDE, getDataProvider: getDataProvider});

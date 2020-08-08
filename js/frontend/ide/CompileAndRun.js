@@ -47,6 +47,7 @@ const componentTabsModuleConstants          = require('../../shared/vm/modules/c
 const componentRectangleModuleConstants     = require('../../shared/vm/modules/components/componentRectangleModuleConstants');
 const componentCircleModuleConstants        = require('../../shared/vm/modules/components/componentCircleModuleConstants');
 const componentImageModuleConstants         = require('../../shared/vm/modules/components/componentImageModuleConstants');
+const componentIconModuleConstants          = require('../../shared/vm/modules/components/componentIconModuleConstants');
 // Status components...
 const componentStatusLightModuleConstants   = require('../../shared/vm/modules/components/componentStatusLightModuleConstants');
 const componentProgressBarModuleConstants   = require('../../shared/vm/modules/components/componentProgressBarModuleConstants');
@@ -101,6 +102,7 @@ const LocalComponentTabsModule              = require('../vm/modules/local/compo
 const LocalComponentRectangleModule         = require('../vm/modules/local/components/ComponentRectangleModule'    ).ComponentRectangleModule;
 const LocalComponentCircleModule            = require('../vm/modules/local/components/ComponentCircleModule'       ).ComponentCircleModule;
 const LocalComponentImageModule             = require('../vm/modules/local/components/ComponentImageModule'        ).ComponentImageModule;
+const LocalComponentIconModule              = require('../vm/modules/local/components/ComponentIconModule'         ).ComponentIconModule;
 // Status components...
 const LocalComponentStatusLightModule       = require('../vm/modules/local/components/ComponentStatusLightModule'  ).ComponentStatusLightModule;
 const LocalComponentProgressBarModule       = require('../vm/modules/local/components/ComponentProgressBarModule'  ).ComponentProgressBarModule;
@@ -154,6 +156,7 @@ const RemoteComponentTabsModule             = LocalComponentTabsModule;
 const RemoteComponentRectangleModule        = LocalComponentRectangleModule;
 const RemoteComponentCircleModule           = LocalComponentCircleModule;
 const RemoteComponentImageModule            = LocalComponentImageModule;
+const RemoteComponentIconModule             = LocalComponentIconModule;
 // Status components...
 const RemoteComponentStatusLightModule      = LocalComponentStatusLightModule;
 const RemoteComponentProgressBarModule      = LocalComponentProgressBarModule;
@@ -350,6 +353,7 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[componentRectangleModuleConstants    .MODULE_RECTANGLE       ] = new LocalComponentRectangleModule     ({vm: vm, device: device});
             modules[componentCircleModuleConstants       .MODULE_CIRCLE          ] = new LocalComponentCircleModule        ({vm: vm, device: device});
             modules[componentImageModuleConstants        .MODULE_IMAGE           ] = new LocalComponentImageModule         ({vm: vm, device: device});
+            modules[componentIconModuleConstants         .MODULE_ICON            ] = new LocalComponentIconModule          ({vm: vm, device: device});
             // Status components...
             modules[componentStatusLightModuleConstants  .MODULE_STATUS_LIGHT    ] = new LocalComponentStatusLightModule   ({vm: vm, device: device});
             modules[componentProgressBarModuleConstants  .MODULE_PROGRESS_BAR    ] = new LocalComponentProgressBarModule   ({vm: vm, device: device});
@@ -401,6 +405,7 @@ exports.CompileAndRun = class extends DOMUtils {
             modules[componentRectangleModuleConstants    .MODULE_RECTANGLE       ] = new RemoteComponentRectangleModule    ({vm: vm, device: device});
             modules[componentCircleModuleConstants       .MODULE_CIRCLE          ] = new RemoteComponentCircleModule       ({vm: vm, device: device});
             modules[componentImageModuleConstants        .MODULE_IMAGE           ] = new RemoteComponentImageModule        ({vm: vm, device: device});
+            modules[componentIconModuleConstants         .MODULE_ICON            ] = new RemoteComponentIconModule         ({vm: vm, device: device});
             // Status components...
             modules[componentStatusLightModuleConstants  .MODULE_STATUS_LIGHT    ] = new RemoteComponentStatusLightModule  ({vm: vm, device: device});
             modules[componentProgressBarModuleConstants  .MODULE_PROGRESS_BAR    ] = new RemoteComponentProgressBarModule  ({vm: vm, device: device});
