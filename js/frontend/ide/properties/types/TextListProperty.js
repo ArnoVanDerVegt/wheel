@@ -143,6 +143,11 @@ exports.TextListProperty = class extends Property {
         this._focus = false;
     }
 
+    initDOM(parentNode) {
+        super.initDOM(parentNode);
+        this.updateTabs();
+    }
+
     initPropertyValue() {
         return {
             ref:       this.setRef('value'),
@@ -150,6 +155,10 @@ exports.TextListProperty = class extends Property {
             children: [
                 {
                     id: (element) => {
+                        element.addEventListener(
+                            'focus',
+                            this.setFocus.bind(this, true)
+                        );
                         element.addEventListener(
                             'click',
                             (event) => {
@@ -231,11 +240,24 @@ exports.TextListProperty = class extends Property {
             this._propertyElement.className = 'property';
             this.setActiveItem(null);
         }
+        this.updateTabs();
     }
 
     setActiveItem(activeItem) {
         this._items.forEach((item) => {
             item.setActive(item === activeItem);
+        });
+    }
+
+    getTabCount() {
+        return 128;
+    }
+
+    updateTabs() {
+        let elements = this._propertyElement.querySelectorAll('a');
+        let tabIndex = this._tabIndex;
+        elements.forEach((element) => {
+            element.tabIndex = tabIndex++;
         });
     }
 
@@ -301,5 +323,6 @@ exports.TextListProperty = class extends Property {
             value.push(item.getTitle());
         });
         this._onChange(value);
+        this.updateTabs();
     }
 };

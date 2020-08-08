@@ -79,6 +79,8 @@ exports.PROPERTIES_LIST             = 4513;
 
 exports.CLOSE_PROPERTIES_BUTTON     = 4514;
 
+exports.PROPERTIES_CONTAINER        = 4515;
+
 // Above simulator
 exports.SIMULATOR_RUN_BUTTON        = 4513;
 exports.SIMULATOR_CONTINUE_BUTTON   = 4514;

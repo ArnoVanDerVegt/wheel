@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Property = require('../Property').Property;
+const TextInput = require('../../../lib/components/TextInput').TextInput;
+const Property  = require('../Property').Property;
 
 exports.TextProperty = class extends Property {
     initPropertyValue() {
@@ -10,25 +11,27 @@ exports.TextProperty = class extends Property {
             className: 'property-value',
             children: [
                 {
+                    type:      TextInput,
                     id:        this.setInputElement.bind(this),
-                    type:      'input',
-                    inputType: 'text',
-                    className: 'text-input',
-                    value:     this._value
+                    ui:        this._ui,
+                    uiId:      1,
+                    tabIndex:  this._tabIndex,
+                    value:     this._value,
+                    onFocus:   this.onFocus.bind(this),
+                    onBlur:    this.onBlur.bind(this),
+                    onKeyUp:   this.onKeyUp.bind(this),
+                    className: 'text-input'
                 }
             ]
         };
     }
 
-    setInputElement(element) {
-        this._inputElement = element;
-        element.addEventListener('focus', this.onFocus.bind(this));
-        element.addEventListener('blur',  this.onBlur.bind(this));
-        element.addEventListener('keyup', this.onKeyUp.bind(this));
+    setInputElement(inputElement) {
+        this._inputElement = inputElement;
     }
 
     setValue(value) {
-        this._inputElement.value = value;
+        this._inputElement.setValue(value);
     }
 
     validate(value) {
@@ -47,10 +50,14 @@ exports.TextProperty = class extends Property {
     onBlur(event) {
         super.onBlur(event);
         let inputElement = this._inputElement;
-        if (!this.validate(inputElement.value)) {
-            inputElement.value     = this._value;
-            inputElement.className = 'text-input';
+        if (!this.validate(inputElement.getValue())) {
+            inputElement.setValue(this._value);
+            inputElement.setClassName('text-input');
         }
+    }
+
+    onFocus(event) {
+        super.onFocus(event);
     }
 
     onClick(event) {
@@ -65,13 +72,13 @@ exports.TextProperty = class extends Property {
             return;
         }
         let inputElement = this._inputElement;
-        let value        = inputElement.value;
+        let value        = inputElement.getValue();
         if (this.validate(value)) {
-            this._value            = value;
-            inputElement.className = 'text-input';
+            this._value = value;
+            inputElement.setClassName('text-input');
             this._onChange(value);
         } else {
-            inputElement.className = 'text-input invalid';
+            inputElement.setClassName('text-input invalid');
         }
     }
 };

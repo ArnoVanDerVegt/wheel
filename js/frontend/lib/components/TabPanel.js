@@ -88,11 +88,13 @@ exports.TabPanel = class extends Component {
 
     addTab() {
         let opts = Object.assign({}, this._panelOpts);
-        opts.panel     = true;
-        opts.type      = this._panelConstructor;
-        opts.design    = this._design;
-        opts.id        = this.addPanel.bind(this);
-        opts.className = 'tab-panel';
+        opts.panel               = true;
+        opts.containerId         = opts.containerIds[opts.containerIds.length - 1];
+        opts.containerIdsForForm = this._containerIdsForForm;
+        opts.type                = this._panelConstructor;
+        opts.design              = this._design;
+        opts.id                  = this.addPanel.bind(this);
+        opts.className           = 'tab-panel';
         this.create(this._element, opts);
         let active = this._tabs.length - 1;
         this._refs.tabs.setActiveTab(this._tabs[active], '');

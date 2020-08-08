@@ -326,10 +326,6 @@ exports.FormEditorState = class extends Emitter {
             .updateComponents(component.id);
     }
 
-    addTab(opts) {
-        this._componentList.addTab(opts);
-    }
-
     deleteActiveComponent() {
         let activeComponentId = this._componentList.getActiveComponentId();
         if (!activeComponentId) {

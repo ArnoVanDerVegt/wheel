@@ -216,7 +216,7 @@ input[type="button"].icon-button {
     border-radius:                  3px;
     box-shadow:                     var(--button-shadow);
     background-repeat:              no-repeat;
-    background-position:            0 0;
+    background-position:            2px 2px;
     background-size:                24px 24px;
     cursor:                         pointer;
     outline:                        none;

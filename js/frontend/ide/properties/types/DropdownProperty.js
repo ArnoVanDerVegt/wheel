@@ -14,6 +14,8 @@ exports.DropdownProperty = class extends Property {
                     type:     Dropdown,
                     ref:      this.setRef('dropdown'),
                     ui:       this._ui,
+                    uiId:     1,
+                    tabIndex: this._tabIndex,
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
                     onChange: this.onChange.bind(this),

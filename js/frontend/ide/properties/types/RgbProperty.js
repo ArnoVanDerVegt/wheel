@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const TextInput = require('../../../lib/components/TextInput').TextInput;
 const Property = require('../Property').Property;
 
 exports.RgbProperty = class extends Property {
@@ -19,19 +20,22 @@ exports.RgbProperty = class extends Property {
                     ref:       'red',
                     className: 'small',
                     label:     'Red',
-                    input:     true
+                    input:     true,
+                    tabIndex:  this._tabIndex
                 }),
                 this.initColorRow({
                     ref:       'grn',
                     className: 'small',
                     label:     'Green',
-                    input:     true
+                    input:     true,
+                    tabIndex:  this._tabIndex + 1
                 }),
                 this.initColorRow({
                     ref:       'blu',
                     className: 'small',
                     label:     'Blue',
-                    input:     true
+                    input:     true,
+                    tabIndex:  this._tabIndex + 2
                 })
             ]
         };
@@ -50,12 +54,18 @@ exports.RgbProperty = class extends Property {
             children: [
                 opts.input ?
                     {
+
+                        type:      TextInput,
                         id:        this.setInputElement.bind(this, opts.ref),
                         ref:       this.setRef(opts.ref + 'Input'),
-                        type:      'input',
-                        inputType: 'text',
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  opts.tabIndex,
                         className: 'text-input',
-                        value:     value[opts.ref]
+                        value:     value[opts.ref] + '',
+                        onFocus:   this.onFocus.bind(this, opts.ref),
+                        onBlur:    this.onBlur.bind (this, opts.ref),
+                        onKeyUp:   this.onKeyUp.bind(this, opts.ref)
                     } :
                     null,
                 {
@@ -78,14 +88,15 @@ exports.RgbProperty = class extends Property {
         element.addEventListener('click', this.onClickElement.bind(this));
     }
 
-    setInputElement(ref, element) {
+    getTabCount() {
+        return 3;
+    }
+
+    setInputElement(ref, inputElement) {
         if (!this._inputElements) {
             this._inputElements = {};
         }
-        this._inputElements[ref] = element;
-        element.addEventListener('focus', this.onFocus.bind(this, ref));
-        element.addEventListener('blur',  this.onBlur.bind (this, ref));
-        element.addEventListener('keyup', this.onKeyUp.bind(this, ref));
+        this._inputElements[ref] = inputElement;
     }
 
     getDefaultColor() {
@@ -114,15 +125,15 @@ exports.RgbProperty = class extends Property {
         color     = this.getDefaultColor();
         color.red = value.ref;
         refs.redColor.style.backgroundColor   = this.getColorFromValue(color);
-        refs.redInput.value                   = color.red;
+        refs.redInput.setValue(color.red);
         color     = this.getDefaultColor();
         color.grn = value.grn;
         refs.grnColor.style.backgroundColor   = this.getColorFromValue(color);
-        refs.grnInput.value                   = color.grn;
+        refs.grnInput.setValue(color.grn);
         color     = this.getDefaultColor();
         color.blu = value.blu;
         refs.bluColor.style.backgroundColor   = this.getColorFromValue(color);
-        refs.bluInput.value                   = color.blu;
+        refs.bluInput.setValue(color.blu);
     }
 
     setFocus(focus) {
@@ -144,12 +155,17 @@ exports.RgbProperty = class extends Property {
         return (v >= 0) && (v <= 255);
     }
 
+    onFocus(event) {
+        super.onFocus(event);
+        this.setFocus(true);
+    }
+
     onBlur(ref, event) {
         super.onBlur(event);
         let inputElement = this._inputElements[ref];
         if (!this.validateElement(inputElement.value)) {
-            inputElement.value     = this._value[ref];
-            inputElement.className = 'text-input';
+            inputElement.setValue(this._value[ref]);
+            inputElement.setClassName('text-input');
         }
     }
 
@@ -169,19 +185,19 @@ exports.RgbProperty = class extends Property {
             return;
         }
         let inputElement = this._inputElements[ref];
-        let text         = inputElement.value;
+        let text         = inputElement.getValue();
         if (this.validateElement(text)) {
             let refs  = this._refs;
             let color = this.getDefaultColor();
             let value = this.getValue();
-            inputElement.className                    = 'text-input';
+            inputElement.setClassName('text-input');
             color[ref]                                = parseInt(text, 10);
             value[ref]                                = parseInt(text, 10);
             refs[ref + 'Color'].style.backgroundColor = this.getColorFromValue(color);
             refs.colorColor.style.backgroundColor     = this.getColorFromValue(value);
             this._onChange(value);
         } else {
-            inputElement.className = 'text-input invalid';
+            inputElement.setClassName('text-input invalid');
         }
     }
 };

@@ -165,43 +165,42 @@ exports.Properties = class extends DOMNode {
         let id                  = propertyList.getComponentId();
         let propertyByName      = {};
         let component           = formEditorState.getComponentById(id);
+        let tab                 = tabIndex.PROPERTIES_CONTAINER;
         this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
         this._properties.length           = 0;
         this.clear(propertiesContainer);
-        propertyList.getList().forEach(
-            function(property) {
-                if (!property || (property.name === null)) {
-                    return;
-                }
-                let propertyConstructor = null;
-                let opts                = {
-                        parentNode:    propertiesContainer,
-                        properties:    this,
-                        ui:            this._ui,
-                        name:          property.name,
-                        options:       property.options,
-                        value:         propertyList.getProperty(property.name),
-                        componentList: propertyList.getComponentList(),
-                        component:     component,
-                        onChange:      function(value) {
-                            dispatcher.dispatch('Properties.Property.Change', id, property.name, value);
-                        }
-                    };
-                switch (property.type) {
-                    case 'boolean':  propertyConstructor = BooleanProperty;  break;
-                    case 'text':     propertyConstructor = TextProperty;     break;
-                    case 'textList': propertyConstructor = TextListProperty; break;
-                    case 'halign':   propertyConstructor = HAlignProperty;   break;
-                    case 'color':    propertyConstructor = ColorProperty;    break;
-                    case 'rgb':      propertyConstructor = RgbProperty;      break;
-                    case 'dropdown': propertyConstructor = DropdownProperty; break;
-                }
-                if (propertyConstructor) {
-                    propertyByName[property.name] = new propertyConstructor(opts);
-                }
-            },
-            this
-        );
+        propertyList.getList().forEach((property) => {
+            if (!property || (property.name === null)) {
+                return;
+            }
+            let propertyConstructor = null;
+            let opts                = {
+                    parentNode:    propertiesContainer,
+                    properties:    this,
+                    ui:            this._ui,
+                    name:          property.name,
+                    options:       property.options,
+                    value:         propertyList.getProperty(property.name),
+                    componentList: propertyList.getComponentList(),
+                    component:     component,
+                    onChange:      dispatcher.dispatch.bind(dispatcher, 'Properties.Property.Change', id, property.name),
+                    tabIndex:      tab
+                };
+            switch (property.type) {
+                case 'boolean':  propertyConstructor = BooleanProperty;  break;
+                case 'text':     propertyConstructor = TextProperty;     break;
+                case 'textList': propertyConstructor = TextListProperty; break;
+                case 'halign':   propertyConstructor = HAlignProperty;   break;
+                case 'color':    propertyConstructor = ColorProperty;    break;
+                case 'rgb':      propertyConstructor = RgbProperty;      break;
+                case 'dropdown': propertyConstructor = DropdownProperty; break;
+            }
+            if (propertyConstructor) {
+                let propertyComponent = new propertyConstructor(opts);
+                propertyByName[property.name] = propertyComponent;
+                tab += propertyComponent.getTabCount();
+            }
+        });
         this._propertyByName = propertyByName;
     }
 

@@ -171,8 +171,6 @@ exports.ComponentList = class {
             }
             if (component.type === 'form') {
                 delete(component.parentId);
-            } else if (renumIds) {
-                component.parentId = getId(component.parentId);
             }
             component.toString = toString;
             result.push(component);
@@ -248,7 +246,8 @@ exports.ComponentList = class {
                 }
             };
         if (value.length > component.tabs.length) {
-            component.containerIds.push(this._formEditorState.getNextId() + 1);
+            let nextId = this._formEditorState.getNextId();
+            component.containerIds.push(nextId);
             this._undoStack.undoStackPush({
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
                 id:     component.id
@@ -265,13 +264,6 @@ exports.ComponentList = class {
                 children: children.reverse()
             });
             this._formEditorState.emit('AddUndo');
-        }
-    }
-
-    addTab(opts, parentId) {
-        let component = this._componentsById[opts.id];
-        if (component && component.containerIds) {
-            component.containerIds.push(parentId);
         }
     }
 };

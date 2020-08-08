@@ -257,8 +257,8 @@ exports.FormComponentContainer = class extends DOMNode {
         opts.settings            = this._settings;
         opts.design              = this._design;
         opts.parentNode          = this._formElement;
-        opts.ui                  = this._ui;
         opts.containerIdsForForm = this._containerIdsForForm;
+        opts.ui                  = this._ui;
         opts.uiId                = 1;
         opts.propertyList        = new PropertyList({
             component:       component,

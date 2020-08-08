@@ -15,6 +15,8 @@ exports.HAlignProperty = class extends Property {
                     type:     IconSelect,
                     ref:      this.setRef('alignList'),
                     ui:       this._ui,
+                    uiId:     1,
+                    tabIndex: this._tabIndex,
                     value:    this._value,
                     onChange: this.onChange.bind(this),
                     onFocus:  this.onFocus.bind(this),

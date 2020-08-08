@@ -8,6 +8,7 @@ exports.Property = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._opts          = opts;
+        this._tabIndex      = opts.tabIndex;
         this._options       = opts.options || {};
         this._ui            = opts.ui;
         this._settings      = opts.settings;
@@ -56,6 +57,10 @@ exports.Property = class extends DOMNode {
     }
 
     setValue(value) {
+    }
+
+    getTabCount() {
+        return 1;
     }
 
     onClick() {

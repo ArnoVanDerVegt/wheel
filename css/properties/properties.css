@@ -137,6 +137,9 @@ body.ide.no-properties div.properties {
     float:                          left;
     position:                       relative;
 }
+.properties .properties-container .property .property-value a {
+    outline:                        none;
+}
 .properties .properties-container .property .property-value a.icon-select img {
     position:                       relative;
     top:                            -2px;
@@ -267,7 +270,7 @@ body.ide.no-properties div.properties {
 }
 .properties .properties-container .property .property-name.color-focus,
 .properties .properties-container .property .property-value.color-focus {
-    height:                         156px;
+    height:                         120px;
 }
 .properties .properties-container .property .property-value .color-row {
     float:                          left;

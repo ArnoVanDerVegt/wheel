@@ -15,6 +15,8 @@ exports.BooleanProperty = class extends Property {
                     ref:      this.setRef('checkbox'),
                     checked:  this._value,
                     ui:       this._ui,
+                    uiId:     1,
+                    tabIndex: this._tabIndex,
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
                     onChange: this.onChange.bind(this)
