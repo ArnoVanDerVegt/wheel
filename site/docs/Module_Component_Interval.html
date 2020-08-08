@@ -54,11 +54,28 @@
                     <tr><td>INTERVAL_COMPONENT_RESUME</td><td>2</td></tr>
                 </table>
             </p>
+            <a id="Events"></a>
+            <h4 class="">Events</h4>
+        <a id="Calledwhenintervaltimeisexpired."></a>
+            <h5 class="title-with-source">onInterval</h5>
+            <p>Called when interval time is expired.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onInterval</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <td>windowHandle</td><td>number</td>The handle of the parent window of the interval component.</td>
+                </tr>
+            </table>
+        <hr/>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Settheintervaltime."></a>
             <h5 class="title-with-source">setTime</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 16<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 19<br/></div>
             <p>Set the interval time.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTime</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
 </pre>
@@ -72,7 +89,7 @@
             <hr/>
             <a id="Pausetheinterval."></a>
             <h5 class="title-with-source">pause</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 25<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 28<br/></div>
             <p>Pause the interval.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">pause</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>
@@ -85,7 +102,7 @@
             <hr/>
             <a id="Resumetheinterval."></a>
             <h5 class="title-with-source">resume</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 33<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/interval.whl, line: 36<br/></div>
             <p>Resume the interval.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">resume</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>

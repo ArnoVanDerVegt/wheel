@@ -54,11 +54,28 @@
                     <tr><td>TIMEOUT_COMPONENT_CANCEL</td><td>2</td></tr>
                 </table>
             </p>
+            <a id="Events"></a>
+            <h4 class="">Events</h4>
+        <a id="Calledwhentimeouttimeisexpired."></a>
+            <h5 class="title-with-source">onTimeout</h5>
+            <p>Called when timeout time is expired.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">onTimeout</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th>Description</th>
+                </tr>
+                <tr>
+                    <td>windowHandle</td><td>number</td>The handle of the parent window of the timeout component.</td>
+                </tr>
+            </table>
+        <hr/>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Setthetimeouttime."></a>
             <h5 class="title-with-source">setTime</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 16<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 19<br/></div>
             <p>Set the timeout time.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTime</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
 </pre>
@@ -72,7 +89,7 @@
             <hr/>
             <a id="Startthetimeout."></a>
             <h5 class="title-with-source">start</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 25<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 28<br/></div>
             <p>Start the timeout.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">start</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>
@@ -85,7 +102,7 @@
             <hr/>
             <a id="Cancelthetimeout."></a>
             <h5 class="title-with-source">cancel</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 33<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/timeout.whl, line: 36<br/></div>
             <p>Cancel the timeout.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">cancel</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>

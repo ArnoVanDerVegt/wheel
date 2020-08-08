@@ -1174,7 +1174,7 @@ exports.PROPERTIES_BY_TYPE = {
             {
                 name: 'onCancel',
                 code: [
-                    '    printS("{name} ok.")'
+                    '    printS("{name} cancel.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}

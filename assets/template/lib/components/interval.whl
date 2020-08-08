@@ -12,6 +12,9 @@ namespace components.interval
 #define INTERVAL_COMPONENT_PAUSE      1
 #define INTERVAL_COMPONENT_RESUME     2
 
+; @event onInterval   Called when interval time is expired.
+; @param windowHandle number The handle of the parent window of the interval component.
+
 ; @proc                   Set the interval time.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

@@ -10,6 +10,12 @@ namespace components.confirmDialog
 ; @const Module calls for alert dialog component functions.
 #define CONFIRM_DIALOG_COMPONENT_SHOW     0
 
+; @event onOk         Called when the ok button is clicked.
+; @param windowHandle number The handle of the parent window of the dialog.
+
+; @event onCancel     Called when the cancel button is clicked.
+; @param windowHandle number The handle of the parent window of the dialog.
+
 ; @proc                   Show the confirm dialog.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
