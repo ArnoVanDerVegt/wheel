@@ -246,7 +246,6 @@ input.icon-button.icon-point.focus,
 body.ide.dark input.icon-button.icon-point {
     background-image:               url('images/buttons/pointWhite.svg');
 }
-
 input.icon-button.icon-circle {
     background-image:               url('images/buttons/circleBlack.svg');
 }
@@ -428,7 +427,7 @@ input.icon-button.icon-text3 {
 }
 input.icon-button.icon-text3:hover,
 input.icon-button.icon-text3.focus,
-body.ide.dark body.ide.dark input.icon-button.icon-text3 {
+body.ide.dark input.icon-button.icon-text3 {
     background-image:               url('images/buttons/text3White.svg');
 }
 input.icon-button.icon-move {

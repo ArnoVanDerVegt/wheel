@@ -37,6 +37,7 @@ const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoC
 const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
 const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
 const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
+const IconDialog                 = require('./dialogs/image/IconDialog').IconDialog;
 const FormNewDialog              = require('./dialogs/form/FormNewDialog').FormNewDialog;
 const FormSizeDialog             = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
 const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
@@ -494,6 +495,7 @@ exports.IDE = class extends CompileAndRun {
         new ImageNewDialog            ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
+        new IconDialog                ({getImage: getImage, ui: this._ui});
         new FormNewDialog             ({getImage: getImage, ui: this._ui});
         new FormSizeDialog            ({getImage: getImage, ui: this._ui});
         new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});

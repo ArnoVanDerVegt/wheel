@@ -320,6 +320,7 @@ require('./js/frontend/ide/dialogs/image/ImageDialog');
 require('./js/frontend/ide/dialogs/image/ImageNewDialog');
 require('./js/frontend/ide/dialogs/image/ImageResizeDialog');
 require('./js/frontend/ide/dialogs/image/ImageLoadDialog');
+require('./js/frontend/ide/dialogs/image/IconDialog');
 require('./js/frontend/ide/dialogs/form/ComponentFormContainer.js');
 require('./js/frontend/ide/dialogs/form/FormSizeDialog');
 require('./js/frontend/ide/dialogs/form/FormNewDialog');

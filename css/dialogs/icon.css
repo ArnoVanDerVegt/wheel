@@ -1,0 +1,42 @@
+/* Icon dialog */
+.dialog-background.icon-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -200px;
+    width:                          568px;
+    height:                         400px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.icon-dialog .dialog-center .dialog-content .icon-list {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+    height:                         256px;
+    line-height:                    28px;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    padding:                        8px;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+}
+.dialog-background.icon-dialog img {
+    display:                        none;
+}
+.dialog-background.icon-dialog img.dialog-content-image {
+    display:                        block;
+}
+.dialog-background.icon-dialog.with-image .dialog-center .dialog-content .icon-text {
+    margin-left:                    80px;
+    width:                          504px;
+}
+.dialog-background.icon-dialog.with-image .dialog-center .dialog-content .buttons input[type="button"].button {
+    float:                          right;
+}
+.dialog-background.icon-dialog .dialog-center .dialog-content a,
+.dialog-background.icon-dialog .dialog-center .dialog-content a:visited,
+.dialog-background.icon-dialog .dialog-center .dialog-content a:hover {
+    color:                          #3498DB;
+}

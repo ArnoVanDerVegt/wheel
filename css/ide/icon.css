@@ -1,705 +1,398 @@
-input[type="button"].button.green,
-input[type="button"].icon-button.green {
-    border:                         1px solid var(--color-green);
-    color:                          var(--button-text-color);
-    background-color:               var(--color-green);
+.i {
+    float:                          left;
+    width:                          64px;
+    height:                         64px;
+    background-position:            0 0;
+    background-size:                64px 64px;
+    background-repeat:              no-repeat;
+    border:                         var(--ui-border1);
+    border-radius:                  4px;
+    margin:                         0 4px 4px 0;
+    background-color:               transparent;
+    outline:                        none;
 }
-input[type="button"].button.green:active,
-input[type="button"].icon-button.green:active {
-    border-color:                   var(--color-green-pressed);
-    transform:                      translate(1px, 1px);
+.i:focus {
+    border:                         var(--focus-border-dotted);
+    border-radius:                  4px;
 }
-input[type="button"].button.green.focus:active,
-input[type="button"].icon-button.green.focus:active {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-green-pressed);
-}
-input[type="button"].button.active.focus.green,
-input[type="button"].icon-button.active.focus.green {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-green-active);
-}
-input[type="button"].button.active.green,
-input[type="button"].icon-button.active.green {
-    border-color:                   var(--color-green-active);
-    background-color:               var(--color-green-active);
-}
-input[type="button"].button.in-active.green,
-input[type="button"].icon-button.in-active.green {
-    border-color:                   var(--color-green-in-active);
-    background-color:               var(--color-green-in-active);
-}
-
-input[type="button"].button.yellow,
-input[type="button"].icon-button.yellow {
-    border:                         1px solid var(--color-yellow);
-    color:                          var(--button-text-color);
-    background-color:               var(--color-yellow);
-}
-input[type="button"].button.yellow:active,
-input[type="button"].icon-button.yellow:active {
-    border-color:                   var(--color-yellow-pressed);
-    transform:                      translate(1px, 1px);
-}
-input[type="button"].button.yellow.focus:active,
-input[type="button"].icon-button.yellow.focus:active {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-yellow-pressed);
-}
-input[type="button"].button.active.focus.yellow,
-input[type="button"].icon-button.active.focus.yellow {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-yellow-active);
-}
-input[type="button"].button.active.yellow,
-input[type="button"].icon-button.active.yellow {
-    border-color:                   var(--color-yellow-active);
-    background-color:               var(--color-yellow-active);
-}
-input[type="button"].button.in-active.yellow,
-input[type="button"].icon-button.in-active.yellow {
-    border-color:                   var(--color-yellow-in-active);
-    background-color:               var(--color-yellow-in-active);
-}
-
-input[type="button"].button.red,
-input[type="button"].icon-button.red {
-    border:                         1px solid var(--color-red);
-    color:                          var(--button-text-color);
-    background-color:               var(--color-red);
-}
-input[type="button"].button.red:active,
-input[type="button"].icon-button.red:active {
-    border-color:                   var(--color-red-pressed);
-    transform:                      translate(1px, 1px);
-}
-input[type="button"].button.red.focus:active,
-input[type="button"].icon-button.red.focus:active {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-red-pressed);
-}
-input[type="button"].button.active.focus.red,
-input[type="button"].icon-button.active.focus.red {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-red-active);
-}
-input[type="button"].button.active.red,
-input[type="button"].icon-button.active.red {
-    border-color:                   var(--color-red-active);
-    background-color:               var(--color-red-active);
-}
-input[type="button"].button.in-active.red,
-input[type="button"].icon-button.in-active.red {
-    border-color:                   var(--color-red-in-active);
-    background-color:               var(--color-red-in-active);
-}
-
-input[type="button"].button.blue,
-input[type="button"].icon-button.blue {
-    border:                         1px solid var(--color-blue);
-    color:                          var(--button-text-color);
+.i.active {
     background-color:               var(--color-blue);
 }
-input[type="button"].button.blue:active,
-input[type="button"].icon-button.blue:active {
-    border-color:                   var(--color-blue-pressed);
-    transform:                      translate(1px, 1px);
-}
-input[type="button"].button.blue.focus:active,
-input[type="button"].icon-button.blue.focus:active {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-blue-pressed);
-}
-input[type="button"].button.active.focus.blue,
-input[type="button"].icon-button.active.focus.blue {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-blue-active);
-}
-input[type="button"].button.active.blue,
-input[type="button"].icon-button.active.blue {
-    border-color:                   var(--color-blue-active);
-    background-color:               var(--color-blue-active);
-}
-input[type="button"].button.in-active.blue,
-input[type="button"].icon-button.in-active.blue {
-    border-color:                   var(--color-blue-in-active);
-    background-color:               var(--color-blue-in-active);
-}
-
-input[type="button"].button.gray {
-    border:                         var(--ui-border3);
-    color:                          var(--ui-color2);
-    background-color:               var(--ui-background4);
-}
-input[type="button"].button.gray:active {
-    border-color:                   var(--ui-border2);
-    transform:                      translate(1px, 1px);
-}
-input[type="button"].button.gray.focus:active, {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--ui-background4);
-}
-input[type="button"].button.active.focus.gray {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--ui-background4);
-}
-input[type="button"].button.active.gray {
-    border-color:                   var(--ui-border2);
-    background-color:               var(--ui-background4);
-}
-input[type="button"].button.in-active.gray {
-    border-color:                   var(--ui-border2);
-    background-color:               var(--ui-background4);
-}
-
-input[type="button"].button.dark-green {
-    border:                         2px solid var(--color-green);
-    color:                          var(--button-text-color);
-    background-color:               var(--color-dark-green);
-}
-input[type="button"].button.dark-green:active {
-    border-color:                   var(--color-dark-green-pressed);
-    transform:                      translate(1px, 1px);
-}
-input[type="button"].button.dark-green.focus:active {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-dark-green-pressed);
-}
-input[type="button"].button.active.focus.dark-green {
-    border-color:                   var(--focus-border-dotted);
-    background-color:               var(--color-dark-green-active);
-}
-input[type="button"].button.active.dark-green {
-    border-color:                   var(--color-dark-green-active);
-    background-color:               var(--color-dark-green-active);
-}
-input[type="button"].button.in-active.dark-green {
-    border-color:                   var(--color-dark-green-in-active);
-    background-color:               var(--color-dark-green-in-active);
-}
-
-input[type="button"].button.disabled,
-input[type="button"].icon-button.disabled {
-    opacity:                        var(--button-disabled-opacity);
-    cursor:                         default;
-    pointer-events:                 none;
-}
-
-input[type="button"].button {
-    float:                          left;
-    position:                       relative;
-    border-radius:                  3px;
-    box-shadow:                     var(--button-shadow);
-    transition:                     transform 0.1s, background-color 0.1s;
-    position:                       relative;
-    padding:                        0 8px 0 8px;
-    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
-    font-size:                      15px;
-    text-transform:                 none;
-    height:                         24px;
-    line-height:                    22px;
-    cursor:                         pointer;
-    outline:                        none;
-    border:                         0;
-    -webkit-user-select:            none;
-}
-input[type="button"].button.focus {
-    border:                         var(--focus-border-dotted);
-}
-
-/* Icon button */
-input[type="button"].icon-button {
-    float:                          left;
-    width:                          24px;
-    height:                         24px;
-    border:                         0;
-    border-radius:                  3px;
-    box-shadow:                     var(--button-shadow);
-    background-repeat:              no-repeat;
-    background-position:            2px 2px;
-    background-size:                24px 24px;
-    cursor:                         pointer;
-    outline:                        none;
-    transition:                     transform 0.1s, background-color 0.1s;
-}
-input[type="button"].icon-button.focus {
-    border:                         var(--focus-border-dotted);
-}
-input[type="button"].icon-button.disabled {
-    opacity:                        var(--button-disabled-opacity);
-    cursor:                         default;
-    pointer-events:                 none;
-}
-input[type="button"].icon-button.in-active {
-    opacity:                        var(--button-in-active-opacity);
-}
-
-.icon-button.icon-undo {
-    margin-left:                    8px;
-}
-
-input.icon-button.icon-point {
+.i-point {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M884 740.667q12-12 12-30t-12-30l-382-382-118 118 382 382q12 12 30 12t30-12zM298 340.667q52 0 90-38t38-90q0-70-50-120t-120-50q-104 0-170 86 30 0 57 23t27 61q0 52 38 90t90 38z"/>    </g></svg>');
 }
-input.icon-button.icon-point:hover,
-input.icon-button.icon-point.focus,
-body.ide.dark input.icon-button.icon-point {
+.i-point.active,
+body.ide.dark .i-point {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M884 740.667q12-12 12-30t-12-30l-382-382-118 118 382 382q12 12 30 12t30-12zM298 340.667q52 0 90-38t38-90q0-70-50-120t-120-50q-104 0-170 86 30 0 57 23t27 61q0 52 38 90t90 38z"/>    </g></svg>');
 }
-input.icon-button.icon-circle {
+.i-circle {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="6" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-circle:hover,
-input.icon-button.icon-circle.focus,
-body.ide.dark input.icon-button.icon-circle {
+.i-circle.active,
+body.ide.dark .i-circle {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="6" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-circle-stripe {
+.i-circle-stripe {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-circle-stripe:hover,
-input.icon-button.icon-circle-stripe.focus,
-body.ide.dark input.icon-button.icon-circle-stripe {
+.i-circle-stripe.active,
+body.ide.dark .i-circle-stripe {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-rect {
+.i-rect {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-rect:hover,
-input.icon-button.icon-rect.focus,
-body.ide.dark input.icon-button.icon-rect {
+.i-rect.active,
+body.ide.dark .i-rect {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-rect-stripe {
+.i-rect-stripe {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-rect-stripe:hover,
-input.icon-button.icon-rect-stripe.focus,
-body.ide.dark input.icon-button.icon-rect-stripe {
+.i-rect-stripe.active,
+body.ide.dark .i-rect-stripe {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-line {
+.i-line {
     background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="4.5" y1="4.5" x2="15.5" y2="15.5" style="stroke:rgb(0,0,0);stroke-width:1.5"/></svg>');
 }
-input.icon-button.icon-line:hover,
-input.icon-button.icon-line.focus,
-body.ide.dark input.icon-button.icon-line {
+.i-line.active,
+body.ide.dark .i-line {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:1.5"/></svg>');
 }
-input.icon-button.icon-fill-white {
+.i-fill-white {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-fill-white:hover,
-input.icon-button.icon-fill-white.focus,
-body.ide.dark input.icon-button.icon-fill-white {
+.i-fill-white.active,
+body.ide.dark .i-fill-white {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-fill-black {
+.i-fill-black {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(0,0,0);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-fill-black:hover,
-input.icon-button.icon-fill-black.focus,
-body.ide.dark input.icon-button.icon-fill-black {
+.i-fill-black.active,
+body.ide.dark .i-fill-black {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-fill-transparent {
+.i-fill-transparent {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="7" y1="7" x2="17" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <line x1="17" y1="7" x2="7" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-fill-transparent:hover,
-input.icon-button.icon-fill-transparent.focus,
-body.ide.dark input.icon-button.icon-fill-transparent {
+.i-fill-transparent.active,
+body.ide.dark .i-fill-transparent {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="7" y1="7" x2="17" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <line x1="17" y1="7" x2="7" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-line-white {
+.i-line-white {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(0,0,0);stroke-width:5"/>    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-line-white:hover,
-input.icon-button.icon-line-white.focus,
-body.ide.dark input.icon-button.icon-line-white {
+.i-line-white.active,
+body.ide.dark .i-line-white {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-line-black {
+.i-line-black {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(0,0,0);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-line-black:hover,
-input.icon-button.icon-line-black.focus,
-body.ide.dark input.icon-button.icon-line-black {
+.i-line-black.active,
+body.ide.dark .i-line-black {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-size1 {
+.i-size1 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="2" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-size1:hover,
-input.icon-button.icon-size1.focus,
-body.ide.dark input.icon-button.icon-size1 {
+.i-size1.active,
+body.ide.dark .i-size1 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="2" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-size2 {
+.i-size2 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="3" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-size2:hover,
-input.icon-button.icon-size2.focus,
-body.ide.dark input.icon-button.icon-size2 {
+.i-size2.active,
+body.ide.dark .i-size2 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="3" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-size3 {
+.i-size3 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="4" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-size3:hover,
-input.icon-button.icon-size3.focus,
-body.ide.dark input.icon-button.icon-size3 {
+.i-size3.active,
+body.ide.dark .i-size3 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="4" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-size4 {
+.i-size4 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="5" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-size4:hover,
-input.icon-button.icon-size4.focus,
-body.ide.dark input.icon-button.icon-size4 {
+.i-size4.active,
+body.ide.dark .i-size4 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="5" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-text {
+.i-text {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>    </g></svg>');
 }
-input.icon-button.icon-text:hover,
-input.icon-button.icon-text.focus,
-body.ide.dark input.icon-button.icon-text {
+.i-text.active,
+body.ide.dark .i-text {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>    </g></svg>');
 }
-input.icon-button.icon-header {
+.i-header {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(0,0,0)">H</text>    </g></svg>');
 }
-input.icon-button.icon-header:hover,
-input.icon-button.icon-header.focus,
-body.ide.dark input.icon-button.icon-header {
+.i-header.active,
+body.ide.dark .i-header {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(255,255,255)">H</text>    </g></svg>');
 }
-input.icon-button.icon-btn {
+.i-btn {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">Ok</text></svg>');
 }
-input.icon-button.icon-btn:hover,
-input.icon-button.icon-btn.focus,
-body.ide.dark input.icon-button.icon-btn {
+.i-btn.active,
+body.ide.dark .i-btn {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);">Ok</text></svg>');
 }
-input.icon-button.icon-select-btn {
+.i-select-btn {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(0,0,0);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
 }
-input.icon-button.icon-select-btn:hover,
-    input.icon-button.icon-select-btn.focus,
-body.ide.dark input.icon-button.icon-select-btn {
+.i-select-btn.active,
+body.ide.dark .i-select-btn {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(255,255,255);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
 }
-input.icon-button.icon-text-input {
+.i-text-input {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/></svg>');
 }
-input.icon-button.icon-text-input:hover,
-input.icon-button.icon-text-input.focus,
-body.ide.dark input.icon-button.icon-text-input {
+.i-text-input.active,
+body.ide.dark .i-text-input {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/></svg>');
 }
-input.icon-button.icon-slider {
+.i-slider {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:rgb(0,0,0);"/>    </g></svg>');
 }
-input.icon-button.icon-slider:hover,
-input.icon-button.icon-slider.focus,
-body.ide.dark input.icon-button.icon-slider {
+.i-slider.active,
+body.ide.dark .i-slider {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:rgb(255,255,255);"/>    </g></svg>');
 }
-input.icon-button.icon-text1 {
+.i-text1 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">1</text>    </g></svg>');
 }
-input.icon-button.icon-text1:hover,
-input.icon-button.icon-text1.focus,
-body.ide.dark input.icon-button.icon-text1 {
+.i-text1.active,
+body.ide.dark .i-text1 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">1</text>    </g></svg>');
 }
-input.icon-button.icon-text2 {
+.i-text2 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">2</text>    </g></svg>');
 }
-input.icon-button.icon-text2:hover,
-input.icon-button.icon-text2.focus,
-body.ide.dark input.icon-button.icon-text2 {
+.i-text2.active,
+body.ide.dark .i-text2 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">2</text>    </g></svg>');
 }
-input.icon-button.icon-text3 {
+.i-text3 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">3</text>    </g></svg>');
 }
-input.icon-button.icon-text3:hover,
-input.icon-button.icon-text3.focus,
-body.ide.dark input.icon-button.icon-text3 {
+.i-text3.active,
+body.ide.dark .i-text3 {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">3</text>    </g></svg>');
 }
-input.icon-button.icon-move {
+.i-move {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M598 298.667v-128h128l-214-214-214 214h128v128h172zM982 426.667l-214-214v128h-128v172h128v128zM384 512.667v-172h-128v-128l-214 214 214 214v-128h128zM426 554.667v128h-128l214 214 214-214h-128v-128h-172z"/>    </g></svg>');
 }
-input.icon-button.icon-move:hover,
-input.icon-button.icon-move.focus,
-body.ide.dark input.icon-button.icon-move {
+.i-move.active,
+body.ide.dark .i-move {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M598 298.667v-128h128l-214-214-214 214h128v128h172zM982 426.667l-214-214v128h-128v172h128v128zM384 512.667v-172h-128v-128l-214 214 214 214v-128h128zM426 554.667v128h-128l214 214 214-214h-128v-128h-172z"/>    </g></svg>');
 }
-input.icon-button.icon-label {
+.i-label {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;" text-anchor="middle">Label</text></svg>');
 }
-input.icon-button.icon-label:hover,
-input.icon-button.icon-label.focus,
-body.ide.dark input.icon-button.icon-label {
+.i-label.active,
+body.ide.dark .i-label {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;fill:rgb(255,255,255);" text-anchor="middle">Label</text></svg>');
 }
-input.icon-button.icon-checkbox {
+.i-checkbox {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(0,0,0)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-checkbox:hover,
-input.icon-button.icon-checkbox.focus,
-body.ide.dark input.icon-button.icon-checkbox {
+.i-checkbox.active,
+body.ide.dark .i-checkbox {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(255,255,255)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-tabs {
+.i-tabs {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
 }
-input.icon-button.icon-tabs:hover,
-input.icon-button.icon-tabs.focus,
-body.ide.dark input.icon-button.icon-tabs {
+.i-tabs.active,
+body.ide.dark .i-tabs {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
 }
-input.icon-button.icon-panel {
+.i-panel {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
 }
-input.icon-button.icon-panel:hover,
-input.icon-button.icon-panel.focus,
-body.ide.dark input.icon-button.icon-panel {
+.i-panel.active,
+body.ide.dark .i-panel {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
 }
-input.icon-button.icon-status-light {
+.i-status-light {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(0,0,0);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
 }
-input.icon-button.icon-status-light:hover,
-input.icon-button.icon-status-light.focus,
-body.ide.dark input.icon-button.icon-status-light {
+.i-status-light.active,
+body.ide.dark .i-status-light {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(255,255,255);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
 }
-input.icon-button.icon-image {
+.i-image {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-image:hover,
-input.icon-button.icon-image.focus,
-body.ide.dark input.icon-button.icon-image {
+.i-image.active,
+body.ide.dark .i-image {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-pu-device {
+.i-pu-device {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-pu-device:hover,
-input.icon-button.icon-pu-device.focus,
-body.ide.dark input.icon-button.icon-pu-device {
+.i-pu-device.active,
+body.ide.dark .i-pu-device {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-ev3-sensor {
+.i-ev3-sensor {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-ev3-sensor:hover,
-input.icon-button.icon-ev3-sensor.focus,
-body.ide.dark input.icon-button.icon-ev3-sensor {
+.i-ev3-sensor.active,
+body.ide.dark .i-ev3-sensor {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-ev3-motor {
+.i-ev3-motor {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-ev3-motor:hover,
-input.icon-button.icon-ev3-motor.focus,
-body.ide.dark input.icon-button.icon-ev3-motor {
+.i-ev3-motor.active,
+body.ide.dark .i-ev3-motor {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
 }
-input.icon-button.icon-select {
+.i-select {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)" stroke-dasharray="1 1"/></svg>');
 }
-input.icon-button.icon-select:hover,
-input.icon-button.icon-select.focus,
-body.ide.dark input.icon-button.icon-select {
+.i-select.active,
+body.ide.dark .i-select {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(255,255,255)" stroke-dasharray="1 1"/></svg>');
 }
-input.icon-button.icon-delete {
+.i-delete {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(0,0,0);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-delete:hover,
-input.icon-button.icon-delete.focus,
-body.ide.dark input.icon-button.icon-delete {
+.i-delete.active,
+body.ide.dark .i-delete {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
 }
-input.icon-button.icon-copy {
+.i-copy {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z"/>    </g></svg>');
 }
-input.icon-button.icon-copy:hover,
-input.icon-button.icon-copy.focus,
-body.ide.dark input.icon-button.icon-copy {
+.i-copy.active,
+body.ide.dark .i-copy {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z"/>    </g></svg>');
 }
-input.icon-button.icon-paste {
+.i-paste {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1125)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z"/>    </g></svg>');
 }
-input.icon-button.icon-paste:hover,
-input.icon-button.icon-paste.focus,
-body.ide.dark input.icon-button.icon-paste {
+.i-paste.active,
+body.ide.dark .i-paste {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1125)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z"/>    </g></svg>');
 }
-input.icon-button.icon-grid {
+.i-grid {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M854 596.667v172h-172v-172h172zM854 340.667v172h-172v-172h172zM854 84.667v172h-172v-172h172zM598 596.667v172h-172v-172h172zM598 340.667v172h-172v-172h172zM598 84.667v172h-172v-172h172zM342 596.667v172h-172v-172h172zM342 340.667v172h-172v-172h172zM342 84.667v172h-172v-172h172zM854 852.667q34 0 59-25t25-59v-684q0-34-25-59t-59-25h-684q-34 0-59 25t-25 59v684q0 34 25 59t59 25h684z"/>    </g></svg>');
 }
-input.icon-button.icon-grid:hover,
-input.icon-button.icon-grid.focus,
-body.ide.dark input.icon-button.icon-grid {
+.i-grid.active,
+body.ide.dark .i-grid {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M854 596.667v172h-172v-172h172zM854 340.667v172h-172v-172h172zM854 84.667v172h-172v-172h172zM598 596.667v172h-172v-172h172zM598 340.667v172h-172v-172h172zM598 84.667v172h-172v-172h172zM342 596.667v172h-172v-172h172zM342 340.667v172h-172v-172h172zM342 84.667v172h-172v-172h172zM854 852.667q34 0 59-25t25-59v-684q0-34-25-59t-59-25h-684q-34 0-59 25t-25 59v684q0 34 25 59t59 25h684z"/>    </g></svg>');
 }
-input.icon-button.icon-binary {
+.i-binary {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3" y="11" fill="rgb(0,0,0)" style="font-family:monospace;font-size:10px;line-height:7px;">010</text>    <text x="3" y="19" fill="rgb(0,0,0)" style="font-family:monospace;font-size:10px;line-height:7px;">110</text></svg>');
 }
-input.icon-button.icon-binary:hover,
-input.icon-button.icon-binary.focus,
-body.ide.dark input.icon-button.icon-binary {
+.i-binary.active,
+body.ide.dark .i-binary {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3" y="11" fill="rgb(255,255,255)" style="font-family:monospace;font-size:10px;line-height:7px;">010</text>    <text x="3" y="19" fill="rgb(255,255,255)" style="font-family:monospace;font-size:10px;line-height:7px;">110</text></svg>');
 }
-input.icon-button.icon-volume {
+.i-volume {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="5" height="10" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="4" width="5" height="16" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-volume:hover,
-input.icon-button.icon-volume.focus,
-body.ide.dark input.icon-button.icon-volume {
+.i-volume.active,
+body.ide.dark .i-volume {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="5" height="10" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="4" width="5" height="16" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-fade-in {
+.i-fade-in {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="10" width="5" height="4" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-fade-in:hover,
-input.icon-button.icon-fade-in.focus,
-body.ide.dark input.icon-button.icon-fade-in {
+.i-fade-in.active,
+body.ide.dark .i-fade-in {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="10" width="5" height="4" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-fade-out {
+.i-fade-out {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="15" y="10" width="5" height="4" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="3" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-fade-out:hover,
-input.icon-button.icon-fade-out.focus,
-body.ide.dark input.icon-button.icon-fade-out {
+.i-fade-out.active,
+body.ide.dark .i-fade-out {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="15" y="10" width="5" height="4" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="3" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
 }
-input.icon-button.icon-undo {
+.i-undo {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M534 596.667q146 0 262-86t162-222l-100-32q-34 104-123 169t-201 65q-124 0-220-80l156-154h-384v384l152-154q126 110 296 110z"/>    </g></svg>');
 }
-input.icon-button.icon-undo:hover,
-input.icon-button.icon-undo.focus,
-body.ide.dark input.icon-button.icon-undo {
+.i-undo.active,
+body.ide.dark .i-undo {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M534 596.667q146 0 262-86t162-222l-100-32q-34 104-123 169t-201 65q-124 0-220-80l156-154h-384v384l152-154q126 110 296 110z"/>    </g></svg>');
 }
-input.icon-button.icon-play {
+.i-play {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <polygon points="6,6 6,18 18,12" fill="rgb(0,0,0)"/></svg>');
 }
-input.icon-button.icon-play:hover,
-input.icon-button.icon-play.focus,
-body.ide.dark input.icon-button.icon-play {
+.i-play.active,
+body.ide.dark .i-play {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <polygon points="6,6 6,18 18,12" fill="rgb(255,255,255)"/></svg>');
 }
-input.icon-button.icon-progress {
+.i-progress {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(0,0,0);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(0,0,0);"/></svg>');
 }
-input.icon-button.icon-play:hover,
-input.icon-button.icon-play.focus,
-body.ide.dark input.icon-button.icon-progress {
+.i-progress.active,
+body.ide.dark .i-progress {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(255,255,255);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(255,255,255);"/></svg>');
 }
-input.icon-button.icon-loading {
+.i-loading {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(0,0,0);"/></svg>');
 }
-input.icon-button.icon-loading:hover,
-input.icon-button.icon-loading.focus,
-body.ide.dark input.icon-button.icon-loading {
+.i-loading.active,
+body.ide.dark .i-loading {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(255,255,255);"/></svg>');
 }
-input.icon-button.icon-radio {
+.i-radio {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:rgb(0,0,0);"/>    <text x="8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
 }
-input.icon-button.icon-radio:hover,
-input.icon-button.icon-radio.focus,
-body.ide.dark input.icon-button.icon-radio {
+.i-radio.active,
+body.ide.dark .i-radio {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:rgb(255,255,255);"/>    <text x="8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
 }
-input.icon-button.icon-dropdown {
+.i-dropdown {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(0,0,0,0.2);"/>    <text x="5" y="7.25" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
 }
-input.icon-button.icon-dropdown:hover,
-input.icon-button.icon-dropdown.focus,
-body.ide.dark input.icon-button.icon-dropdown {
+.i-dropdown.active,
+body.ide.dark .i-dropdown {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(255,255,255,0.2);"/>    <text x="5" y="7.25" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
 }
-input.icon-button.icon-list-items {
+.i-list-items {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
 }
-input.icon-button.icon-list-items:hover,
-input.icon-button.icon-list-items.focus,
-body.ide.dark input.icon-button.icon-list-items {
+.i-list-items.active,
+body.ide.dark .i-list-items {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
 }
-input.icon-button.icon-timer {
+.i-timer {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
 }
-input.icon-button.icon-timer:hover,
-input.icon-button.icon-timer.focus,
-body.ide.dark input.icon-button.icon-timer {
+.i-timer.active,
+body.ide.dark .i-timer {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
 }
-input.icon-button.icon-clock {
+.i-clock {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
 }
-input.icon-button.icon-clock:hover,
-input.icon-button.icon-clock.focus,
-body.ide.dark input.icon-button.icon-clock {
+.i-clock.active,
+body.ide.dark .i-clock {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
 }
-input.icon-button.icon-alert-dialog {
+.i-alert-dialog {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-alert-dialog:hover,
-input.icon-button.icon-alert-dialog.focus,
-body.ide.dark input.icon-button.icon-alert-dialog {
+.i-alert-dialog.active,
+body.ide.dark .i-alert-dialog {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-confirm-dialog {
+.i-confirm-dialog {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
 }
-input.icon-button.icon-confirm-dialog:hover,
-input.icon-button.icon-confirm-dialog.focus,
-body.ide.dark input.icon-button.icon-confirm-dialog {
+.i-confirm-dialog.active,
+body.ide.dark .i-confirm-dialog {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
-}
-
-.icon-button.icon-line-transparent {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(231,76,60);stroke-width:3"/></svg>');
-}
-.icon-button.icon-add {
-    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="10" y1="2" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="2" y1="10" x2="18" y2="10" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
-}
-.icon-button.icon-right {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(-1,1) translate(-22, 0)">        <line x1="5" y1="12" x2="17" y2="12" style="stroke:rgb(255,255,255);stroke-width:3"/>        <line x1="3.5" y1="12.5" x2="10" y2="6" style="stroke:rgb(255,255,255);stroke-width:2"/>        <line x1="3.5" y1="11.5" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:2"/>    </g></svg>');
-}
-.icon-button.icon-list {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="7" x2="18" y2="7" style="stroke:rgb(255,255,255);stroke-width:2"/>    <line x1="6" y1="12" x2="18" y2="12" style="stroke:rgb(255,255,255);stroke-width:2"/>    <line x1="6" y1="17" x2="18" y2="17" style="stroke:rgb(255,255,255);stroke-width:2"/></svg>');
-}
-.icon-button.icon-list-detail {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="8" x2="18" y2="8" style="stroke:rgb(255,255,255);stroke-width:4"/>    <line x1="6" y1="16" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:4"/></svg>');
-}
-.icon-button.icon-delete-default {
-    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
-}
-input[type="button"].icon-button.icon-add,
-input[type="button"].icon-button.icon-right,
-input[type="button"].icon-button.icon-list,
-input[type="button"].icon-button.icon-list-detail,
-input[type="button"].icon-button.icon-delete-default {
-    background-position:            0 0;
-    background-size:                22px 22px;
-}
-
-input.icon-button.icon-copy,
-input.icon-button.icon-copy.in-active,
-input.icon-button.icon-play {
-    margin-left:                    12px;
 }

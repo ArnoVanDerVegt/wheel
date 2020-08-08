@@ -71,4 +71,8 @@ updateCssImages(
     '../css/ide/components.temp.css',
     '../css/ide/components.css'
 );
+updateCssImages(
+    '../css/ide/icon.temp.css',
+    '../css/ide/icon.css'
+);
 
