@@ -20,12 +20,16 @@ exports.Text = class extends Component {
             style.width = this._width + 'px';
         }
         style.textAlign = this._halign;
+        let text = this._text;
+        if (typeof text === 'object') {
+            text = text.join('<br/>');
+        }
         this.create(
             parentNode,
             {
                 className: this.getClassName(),
                 id:        this.setElement.bind(this),
-                innerHTML: this._text,
+                innerHTML: text,
                 style:     style
             }
         );
@@ -34,7 +38,11 @@ exports.Text = class extends Component {
     onEvent(opts) {
         let element = this._element;
         if ('text' in opts) {
-            this._text              = opts.text;
+            let text = opts.text;
+            if (typeof text === 'object') {
+                text = text.join('<br/>');
+            }
+            this._text              = text;
             this._element.innerHTML = text;
         }
         if ('halign' in opts) {

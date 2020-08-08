@@ -422,6 +422,7 @@ require('./js/frontend/ide/properties/types/DropdownProperty');
 require('./js/frontend/ide/properties/types/HAlignProperty');
 require('./js/frontend/ide/properties/types/ColorProperty');
 require('./js/frontend/ide/properties/types/TextProperty');
+require('./js/frontend/ide/properties/types/TextAreaProperty');
 require('./js/frontend/ide/properties/types/TextListProperty');
 require('./js/frontend/ide/properties/types/RgbProperty');
 require('./js/frontend/ide/properties/Properties');

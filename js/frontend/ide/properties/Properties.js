@@ -10,6 +10,7 @@ const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
 const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
 const DropdownProperty  = require('./types/DropdownProperty').DropdownProperty;
 const TextProperty      = require('./types/TextProperty').TextProperty;
+const TextAreaProperty  = require('./types/TextAreaProperty').TextAreaProperty;
 const TextListProperty  = require('./types/TextListProperty').TextListProperty;
 const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
 const ColorProperty     = require('./types/ColorProperty').ColorProperty;
@@ -189,6 +190,7 @@ exports.Properties = class extends DOMNode {
             switch (property.type) {
                 case 'boolean':  propertyConstructor = BooleanProperty;  break;
                 case 'text':     propertyConstructor = TextProperty;     break;
+                case 'textarea': propertyConstructor = TextAreaProperty; break;
                 case 'textList': propertyConstructor = TextListProperty; break;
                 case 'halign':   propertyConstructor = HAlignProperty;   break;
                 case 'color':    propertyConstructor = ColorProperty;    break;

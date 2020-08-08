@@ -536,6 +536,7 @@ const files = [
         './js/frontend/ide/properties/types/HAlignProperty',
         './js/frontend/ide/properties/types/ColorProperty',
         './js/frontend/ide/properties/types/TextProperty',
+        './js/frontend/ide/properties/types/TextAreaProperty',
         './js/frontend/ide/properties/types/TextListProperty',
         './js/frontend/ide/properties/types/RgbProperty',
         './js/frontend/ide/properties/Components',

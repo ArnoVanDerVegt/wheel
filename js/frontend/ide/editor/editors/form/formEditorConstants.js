@@ -647,7 +647,7 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
             {type: 'halign',       name: 'halign'},
-            {type: 'text',         name: 'text'}
+            {type: 'textarea',     name: 'text'}
         ],
         events: [
         ]

@@ -318,7 +318,7 @@ class HelpBuilderText {
                 let param = event.params[i];
                 output.push(
                     '        <tr>',
-                    '            <th>' + param.name + '</th><th>' + param.type + '</th>' + param.description + '</th>',
+                    '            <td>' + param.name + '</td><td>' + param.type + '</td>' + param.description + '</td>',
                     '        </tr>'
                 );
             }

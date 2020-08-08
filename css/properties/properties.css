@@ -81,6 +81,7 @@ body.ide.no-properties div.properties {
     width:                          50%;
     height:                         100%;
     pointer-events:                 none;
+    z-index:                        5;
 }
 .properties .properties-container .property,
 .properties .events-container .event {
@@ -113,7 +114,8 @@ body.ide.no-properties div.properties {
     -webkit-user-select:            none;
 }
 /* Text input */
-.properties .properties-container .property .property-value .text-input {
+.properties .properties-container .property .property-value .text-input,
+.properties .properties-container .property .property-value .text-area {
     float:                          left;
     width:                          100%;
     height:                         28px;
@@ -124,12 +126,37 @@ body.ide.no-properties div.properties {
     font-size:                      15px;
     background-color:               transparent;
 }
-.properties .properties-container .property .property-value .text-input:focus {
+.properties .properties-container .property .property-value .text-input:focus,
+.properties .properties-container .property .property-value .text-area:focus {
     border:                         var(--focus-border-dotted);
 }
 .properties .properties-container .property .property-value .text-input:focus.invalid,
-.properties .properties-container .property .property-value .text-input.invalid {
+.properties .properties-container .property .property-value .text-input.invalid,
+.properties .properties-container .property .property-value .text-area:focus.invalid,
+.properties .properties-container .property .property-value .text-area.invalid {
     border:                         var(--text-input-invalid-border);
+}
+/* Text area */
+.properties .properties-container .property .property-name.text-area {
+    width:                          302px;
+    height:                         28px;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+}
+.properties .properties-container .property .property-name.text-area.focus {
+    background-color:               var(--ui-background2);
+}
+.properties .properties-container .property .property-value.text-area {
+    width:                          302px;
+    height:                         100px;
+}
+.properties .properties-container .property .property-value .text-area {
+    position:                       absolute;
+    height:                         100px;
+    resize:                         none;
+    background-color:               var(--text-input-background);
+    z-index:                        10;
+    line-height:                    20px;
 }
 /* Icon select */
 .properties .properties-container .property .property-value .icon-select,
