@@ -153,7 +153,8 @@ exports.ToolbarTop = class extends Toolbar {
                         options: [
                             {icon: 'icon-rect-stripe',     hint: {text: 'Rectangle<br/>component'}},
                             {icon: 'icon-circle-stripe',   hint: {text: 'Circle<br/>component'}},
-                            {icon: 'icon-image',           hint: {text: 'Image<br/>component'}}
+                            {icon: 'icon-image',           hint: {text: 'Image<br/>component'}},
+                            {icon: 'icon-icon',            hint: {text: 'Icon<br/>component'}}
                         ]
                     }),
 

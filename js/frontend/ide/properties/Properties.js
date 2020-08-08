@@ -15,6 +15,7 @@ const TextListProperty  = require('./types/TextListProperty').TextListProperty;
 const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
 const ColorProperty     = require('./types/ColorProperty').ColorProperty;
 const RgbProperty       = require('./types/RgbProperty').RgbProperty;
+const IconProperty      = require('./types/IconProperty').IconProperty;
 const Event             = require('./Event').Event;
 const Components        = require('./Components').Components;
 
@@ -196,6 +197,7 @@ exports.Properties = class extends DOMNode {
                 case 'color':    propertyConstructor = ColorProperty;    break;
                 case 'rgb':      propertyConstructor = RgbProperty;      break;
                 case 'dropdown': propertyConstructor = DropdownProperty; break;
+                case 'icon':     propertyConstructor = IconProperty;     break;
             }
             if (propertyConstructor) {
                 let propertyComponent = new propertyConstructor(opts);

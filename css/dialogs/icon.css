@@ -22,6 +22,11 @@
     border:                         var(--ui-border1);
     border-radius:                  2px;
 }
+.dialog-background.icon-dialog .dialog-center .dialog-content .icon-list .i {
+    border:                         var(--ui-border1);
+    border-radius:                  4px;
+    margin:                         0 4px 4px 0;
+}
 .dialog-background.icon-dialog img {
     display:                        none;
 }

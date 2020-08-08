@@ -225,6 +225,14 @@ exports.ComponentBuilder = class {
         return component;
     }
 
+    addIcon(component) {
+        this
+            .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_ICON)
+            .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Icon'))
+            .addProperty(component, 'zIndex',       0);
+        return component;
+    }
+
     /* ================================= STATUS COMPONENTS ================================= */
 
     addStatusLight(component) {
@@ -356,6 +364,7 @@ exports.ComponentBuilder = class {
             case formEditorConstants.COMPONENT_TYPE_RECTANGLE:      return this.addRectangle      (component);
             case formEditorConstants.COMPONENT_TYPE_CIRCLE:         return this.addCircle         (component);
             case formEditorConstants.COMPONENT_TYPE_IMAGE:          return this.addImage          (component);
+            case formEditorConstants.COMPONENT_TYPE_ICON:           return this.addIcon           (component);
             // Device display components...
             case formEditorConstants.COMPONENT_TYPE_PU_DEVICE:      return this.addPuDevice       (component);
             case formEditorConstants.COMPONENT_TYPE_EV3_MOTOR:      return this.addEV3Motor       (component);

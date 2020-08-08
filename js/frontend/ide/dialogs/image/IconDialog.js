@@ -135,7 +135,8 @@ exports.IconDialog = class extends Dialog {
                 {className: 'timer',            title: 'Timer'},
                 {className: 'clock',            title: 'Clock'},
                 {className: 'alert-dialog',     title: 'Alert-dialog'},
-                {className: 'confirm-dialog',   title: 'Confirm-dialog'}
+                {className: 'confirm-dialog',   title: 'Confirm-dialog'},
+                {className: 'icon',             title: 'Icon'}
             ];
         let children = [];
         icons.forEach((icon, index) => {
@@ -163,8 +164,8 @@ exports.IconDialog = class extends Dialog {
     }
 
     onApply() {
-        this._onApply && this._onApply(this._selected.getClassName());
         this.hide();
+        this._onApply && this._onApply(this._selected.getClassName());
     }
 
     onShow(opts) {

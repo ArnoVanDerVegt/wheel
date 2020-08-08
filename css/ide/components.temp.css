@@ -229,3 +229,10 @@ input[type="button"].active.component-button.component-confirm-dialog,
 body.ide.dark input[type="button"].component-button.component-confirm-dialog {
     background-image:               url('images/buttons/confirmDialogWhite.svg');
 }
+input[type="button"].component-button.component-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+input[type="button"].active.component-button.component-icon,
+body.ide.dark input[type="button"].component-button.component-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
+}

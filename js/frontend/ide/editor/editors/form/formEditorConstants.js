@@ -60,11 +60,13 @@ exports.PANEL_COMPONENTS = [
 exports.COMPONENT_TYPE_RECTANGLE      = 'rectangle';
 exports.COMPONENT_TYPE_CIRCLE         = 'circle';
 exports.COMPONENT_TYPE_IMAGE          = 'image';
+exports.COMPONENT_TYPE_ICON           = 'icon';
 
 exports.GRAPHICS_COMPONENTS = [
     exports.COMPONENT_TYPE_RECTANGLE,
     exports.COMPONENT_TYPE_CIRCLE,
-    exports.COMPONENT_TYPE_IMAGE
+    exports.COMPONENT_TYPE_IMAGE,
+    exports.COMPONENT_TYPE_ICON
 ];
 
 // Status components...
@@ -864,6 +866,69 @@ exports.PROPERTIES_BY_TYPE = {
                 name: 'onMouseOut',
                 code: [
                     '    printS("Mouseout {name} image.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            }
+        ]
+    },
+    ICON: {
+        component:  'lib/components/Icon',
+        include:    'lib/components/icon.whl',
+        properties: [
+            {type: 'type',         name: null},
+            {type: 'uid',          name: null},
+            {type: 'id',           name: null},
+            {type: 'parentId',     name: null},
+            {type: 'text',         name: 'name',         options: {validator: nameValidator}},
+            {type: 'boolean',      name: 'hidden'},
+            {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'icon',         name: 'icon'}
+        ],
+        events: [
+            {
+                name: 'onClick',
+                code: [
+                    '    printS("Click {name} icon.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseDown',
+                code: [
+                    '    printS("Mousedown {name} icon.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseUp',
+                code: [
+                    '    printS("Mouseup {name} icon.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseMove',
+                code: [
+                    '    printS("Mousemove {name} icon.")'
+                ],
+                params: [
+                    {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}
+                ]
+            },
+            {
+                name: 'onMouseOut',
+                code: [
+                    '    printS("Mouseout {name} icon.")'
                 ],
                 params: [
                     {name: 'windowHandle', type: 'number', comment: 'The handle to the active window.'}

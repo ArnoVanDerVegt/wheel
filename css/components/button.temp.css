@@ -670,6 +670,14 @@ input.icon-button.icon-confirm-dialog.focus,
 body.ide.dark input.icon-button.icon-confirm-dialog {
     background-image:               url('images/buttons/confirmDialogWhite.svg');
 }
+input.icon-button.icon-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+input.icon-button.icon-icon:hover,
+input.icon-button.icon-icon.focus,
+body.ide.dark input.icon-button.icon-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
+}
 
 .icon-button.icon-line-transparent {
     background-image:               url('images/buttons/lineTransparent.svg');

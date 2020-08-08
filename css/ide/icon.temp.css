@@ -5,11 +5,19 @@
     background-position:            0 0;
     background-size:                64px 64px;
     background-repeat:              no-repeat;
-    border:                         var(--ui-border1);
-    border-radius:                  4px;
-    margin:                         0 4px 4px 0;
     background-color:               transparent;
     outline:                        none;
+}
+.i.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
 }
 .i:focus {
     border:                         var(--focus-border-dotted);
@@ -395,4 +403,11 @@ body.ide.dark .i-alert-dialog {
 .i-confirm-dialog.active,
 body.ide.dark .i-confirm-dialog {
     background-image:               url('images/buttons/confirmDialogWhite.svg');
+}
+.i-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+.i-icon.active,
+body.ide.dark .i-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
 }

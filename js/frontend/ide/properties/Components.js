@@ -107,7 +107,8 @@ exports.Components = class extends DOMNode {
                                 items: [
                                     {image: 'rect-stripe',    hint: 'Rectangle<br/>component'},
                                     {image: 'circle-stripe',  hint: 'Circle<br/>component'},
-                                    {image: 'image',          hint: 'Image<br/>component'}
+                                    {image: 'image',          hint: 'Image<br/>component'},
+                                    {image: 'icon',           hint: 'Icon<br/>component'}
                                 ]
                             }),
                             this.initTitle('Status components'),

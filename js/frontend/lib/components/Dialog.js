@@ -44,6 +44,9 @@ exports.Dialog = class extends ComponentContainer {
     }
 
     show() {
+        if (this._ui.getActiveUIId() === this._uiId) {
+            return;
+        }
         let ui = this._ui;
         this._globalEvents.push(
             ui.addEventListener('Global.Mouse.Up',   this, this.onGlobalMouseUp),
@@ -83,6 +86,7 @@ exports.Dialog = class extends ComponentContainer {
                     this._ui.popUIId();
                     this.onHide();
                 } catch (error) {
+                    console.error(error);
                     // Ignore if node is already removed...
                 }
             },
