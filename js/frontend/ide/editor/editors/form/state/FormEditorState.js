@@ -271,9 +271,12 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getCanCopy() {
-        let type = this.getActiveComponentType().toUpperCase();
-        if (type in formEditorConstants.PROPERTIES_BY_TYPE) {
-            return formEditorConstants.PROPERTIES_BY_TYPE[type].canCopy;
+        let type = this.getActiveComponentType();
+        if (type) {
+            type = type.toUpperCase();
+            if (type in formEditorConstants.PROPERTIES_BY_TYPE) {
+                return formEditorConstants.PROPERTIES_BY_TYPE[type].canCopy;
+            }
         }
         return false;
     }
