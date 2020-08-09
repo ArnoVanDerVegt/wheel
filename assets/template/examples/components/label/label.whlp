@@ -25,7 +25,7 @@ proc main()
     windowHandle = showLabelForm()
     repeat
         count++
-        components.label.setNumber(windowHandle, LABEL_COUNT, count)
+        components.label.setValueNumber(windowHandle, LABEL_COUNT, count)
         sleep(500)
     end
 end
