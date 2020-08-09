@@ -118,6 +118,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ShowEV3Tile',                 this, this._setShowEV3Tile)
             .on('Settings.Set.ShowEV3ImageTile',            this, this._setShowEV3ImageTile)
             .on('Settings.Set.ShowPoweredUpTile',           this, this._setShowPoweredUpTile)
+            .on('Settings.Set.ShowNewFormTile',             this, this._setShowNewFormTile)
             .on('Settings.Set.DarkMode',                    this, this._setDarkMode)
             .on('Settings.Set.SensorAutoReset',             this, this._setSensorAutoReset)
             .on('Settings.Set.AutoSelectProperties',        this, this._setAutoSelectProperties)
@@ -218,7 +219,8 @@ exports.SettingsState = class extends Emitter {
                 simulatorOnRun:    this._show.simulatorOnRun,
                 ev3Tile:           this._show.ev3Tile,
                 ev3ImageTile:      this._show.ev3ImageTile,
-                poweredUpTile:     this._show.poweredUpTile
+                poweredUpTile:     this._show.poweredUpTile,
+                newFormTile:       this._show.newFormTile
             },
             dontShow:{
                 themeTile:         this._dontShow.themeTile,
@@ -320,6 +322,10 @@ exports.SettingsState = class extends Emitter {
 
     getShowPoweredUpTile() {
         return this._show.poweredUpTile;
+    }
+
+    getShowNewFormTile() {
+        return this._show.newFormTile;
     }
 
     getDontShowThemeTile() {
@@ -725,6 +731,12 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.HomeScreen');
     }
 
+    _setShowNewFormTile(showNewFormTile) {
+        this._show.newFormTile = showNewFormTile;
+        this._save();
+        this.emit('Settings.HomeScreen');
+    }
+
     _setDarkMode(darkMode) {
         this._darkMode = darkMode;
         this._save();
@@ -861,8 +873,9 @@ exports.SettingsState = class extends Emitter {
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;
         this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                        : true;
-        this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                        : true;
+        this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                   : true;
         this._show.poweredUpTile         = ('poweredUpTile'         in this._show)       ? this._show.poweredUpTile                                  : true;
+        this._show.newFormTile           = ('newFormTile'           in this._show)       ? this._show.newFormTile                                    : true;
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                                             : {};
         this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile                                  : false;
         this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm                                   : false;

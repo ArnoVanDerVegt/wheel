@@ -482,6 +482,7 @@ const files = [
         './js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile',
         './js/frontend/ide/editor/editors/home/HomeScreenRecentFormTile',
         './js/frontend/ide/editor/editors/home/HomeScreenThemeTile',
+        './js/frontend/ide/editor/editors/home/HomeScreenDocumentationTile',
         './js/frontend/ide/editor/editors/home/HomeScreen',
         './js/frontend/ide/editor/editors/text/toolbar/BluetoothState',
         './js/frontend/ide/editor/editors/text/toolbar/ToolbarBottom',

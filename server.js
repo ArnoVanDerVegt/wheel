@@ -28,6 +28,7 @@ app.post('/ide/settings-save',              ideRoutes.settingsSave.bind(ideRoute
 app.get ('/ide/changes',                    ideRoutes.changes.bind(ideRoutes));
 app.get ('/ide/user-info',                  ideRoutes.userInfo.bind(ideRoutes));
 app.post('/ide/exec',                       ideRoutes.exec.bind(ideRoutes));
+app.get ('/ide/reveal-in-finder',           ideRoutes.revealInFinder.bind(ideRoutes));
 
 app.post('/powered-up/device-list',         poweredUpRoutes.deviceList.bind(poweredUpRoutes));
 app.post('/powered-up/connect',             poweredUpRoutes.connect.bind(poweredUpRoutes));

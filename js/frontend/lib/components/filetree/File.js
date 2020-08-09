@@ -58,10 +58,10 @@ exports.File = class extends Item {
             menuItems[3].setDisabled(false); // Reveal in finder
         } else {
             let file = this._file;
-            menuItems[0].setDisabled(file.readonly); // Rename
-            menuItems[1].setDisabled(file.readonly); // Delete
-            menuItems[2].setDisabled(true);          // Copy path
-            menuItems[3].setDisabled(true);          // Reveal in finder
+            menuItems[0].setDisabled(file.readonly);      // Rename
+            menuItems[1].setDisabled(file.readonly);      // Delete
+            menuItems[2].setDisabled(true);               // Copy path
+            menuItems[3].setDisabled(!platform.isNode()); // Reveal in finder
         }
         this._contextMenu.show(event.pageX, event.pageY, this);
     }

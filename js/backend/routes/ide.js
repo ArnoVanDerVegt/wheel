@@ -137,6 +137,11 @@ exports.ideRoutes = {
 
     _findFile(filename) {
         let found    = false;
+        if ((typeof filename === 'string') && (filename.indexOf(',') !== -1)) {
+            let f = filename;
+            filename = filename.split(',');
+            filename.push(f);
+        }
         if (Array.isArray(filename)) {
             for (let i = 0; i < filename.length; i++) {
                 if (fs.existsSync(filename[i])) {
@@ -412,6 +417,7 @@ exports.ideRoutes = {
                 result = {};
             }
         }
+        this._currentPath = {}; // The application restarted, reset the paths!
         this
             .updateSystemDocumentPath(req, result)
             .updateDocumentPath(result)
@@ -514,7 +520,7 @@ exports.ideRoutes = {
     revealInFinder: function(req, res) {
         let result = {success: false};
         exec(
-            (os.platform === 'darwin') ?
+            (os.platform() === 'darwin') ?
                 ('open "' + path.dirname(req.query.path) + '"') :
                 ('start "" "' + path.dirname(req.query.path) + '"'),
             null,

@@ -14,6 +14,7 @@ const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile
 const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScreenThemeTile;
 const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
 const HomeScreenRecentFormTile       = require('./HomeScreenRecentFormTile').HomeScreenRecentFormTile;
+const HomeScreenDocumentationTile    = require('./HomeScreenDocumentationTile').HomeScreenDocumentationTile;
 
 exports.HomeScreen = class extends DOMNode {
     constructor(opts) {
@@ -102,11 +103,13 @@ exports.HomeScreen = class extends DOMNode {
                 }) :
                 null,
             this.addHomeScreenTile({
-                id:       addTile(),
-                icon:     getImage('images/files/form.svg'),
-                title:    'New form &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 5,
-                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
+                id:             addTile(),
+                icon:           getImage('images/files/form.svg'),
+                title:          'New form &raquo;',
+                settings:       settings,
+                settingsGetter: settings.getShowNewFormTile.bind(settings),
+                tabIndex:       tabIndex.HOME_SCREEN + 5,
+                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
             }),
             platform.isElectron() ?
                 {
@@ -150,6 +153,7 @@ exports.HomeScreen = class extends DOMNode {
             },
             this.addHomeScreenTile({
                 id:       addTile(),
+                type:     HomeScreenDocumentationTile,
                 icon:     getImage('images/files/help.svg'),
                 title:    'Open documentation &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 8,
@@ -206,7 +210,7 @@ exports.HomeScreen = class extends DOMNode {
     }
 
     addHomeScreenTile(opts) {
-        opts.type = HomeScreenTile;
+        opts.type = opts.type || HomeScreenTile;
         opts.ui   = this._ui;
         return opts;
     }

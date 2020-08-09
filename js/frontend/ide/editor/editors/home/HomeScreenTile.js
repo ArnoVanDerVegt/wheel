@@ -48,12 +48,7 @@ exports.HomeScreenTile = class extends DOMNode {
                                         className: 'title',
                                         innerHTML: this._title
                                     },
-                                    {
-                                        ref:       this.setRef('subTitle'),
-                                        type:      'span',
-                                        className: 'sub-title',
-                                        innerHTML: this._subTitle
-                                    }
+                                    this.getSubTitle()
                                 ]
                             }
                         ]
@@ -63,6 +58,15 @@ exports.HomeScreenTile = class extends DOMNode {
         );
         let visible = this._settingsGetter ? this._settingsGetter() : true;
         this._refs.homeScreenTile.style.display = visible ? 'block' : 'none';
+    }
+
+    getSubTitle() {
+        return {
+            ref:       this.setRef('subTitle'),
+            type:      'span',
+            className: 'sub-title',
+            innerHTML: this._subTitle
+        };
     }
 
     getIcon() {

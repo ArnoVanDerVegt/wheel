@@ -127,3 +127,8 @@
 .home-screen-content .home-screen-tile .home-screen-tile-content.focus .home-screen-tile-text .title {
     opacity:                        1;
 }
+.home-screen-content .home-screen-tile .progress-bar {
+    position:                       absolute;
+    left:                           96px;
+    top:                            48px;
+}

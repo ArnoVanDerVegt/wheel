@@ -106,6 +106,12 @@ exports.tab = (settingsDialog) => {
                 getter:      'getShowPoweredUpTile',
                 signal:      'Settings.Set.ShowPoweredUpTile'
             }),
+            settingsDialog.addCheckboxSetting({
+                label:       'New form tile',
+                tabIndex:    12,
+                getter:      'getShowNewFormTile',
+                signal:      'Settings.Set.ShowNewFormTile'
+            }),
             settingsDialog.addSpacer()
         ]
     };
