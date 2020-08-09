@@ -32,8 +32,8 @@
     <div class="content-center">
         <div class="help-file">
             <h2>Console</h2>
-            <a id="Console"></a>
-            <h4 class="">Console</h4>
+            <a id="Messages"></a>
+            <h4 class="">Messages</h4>
             <p>
                 The console displays the program status. The following messages can appear:
             </p>
@@ -41,12 +41,30 @@
                 <li>Compiler succeeded</li>
                 <li>Compiler error with details about the error</li>
                 <li>Compiler data output, information about created resources</li>
-                <li>EV3 Connection status</li>
+                <li>EV3 and Powered Up Connection status</li>
+                <li>Loading status messages</li>
+                <li>Custom messages from your own program</li>
             </ul>
+            <a id="Loglevels"></a>
+            <h4 class="">Log levels</h4>
+            <p>
+                There are different log level, the log level indicates the importance of the message.
+                The log levels are:
+            </p>
+            <ul>
+                <li>Info</li>
+                <li>Hint</li>
+                <li>Warning</li>
+                <li>Error</li>
+            </ul>
+            <p>
+                Some messages trigger the showing of the console panel. You can confige which log level message
+                triggers the showing of the console. The default setting to show the console is <i>Error</i>.
+            </p>
             <a id="Logging"></a>
             <h4 class="">Logging</h4>
             <p>
-                You can also log your own messages in the console from your program.
+                You can log your own messages in the console from your program.
                 There are three methods defined in the <i>Standard</i> module: <i>printN</i>, <i>printS</i> and <i>clearConsole</i>.
                 The <i>printN</i> procedure prints a number, the <i>printS</i> procedure prints a string and <i>clearConsole</i> empties the console.
             </p>
