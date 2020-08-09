@@ -1,0 +1,252 @@
+.dialog-background.settings-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -300px;
+    width:                          580px;
+    height:                         600px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+    height:                         calc(100% - 144px);
+    line-height:                    28px;
+}
+.dialog-background.settings-dialog.with-image img {
+    display:                        block;
+    width:                          64px;
+    margin-left:                    32px;
+}
+.dialog-background.settings-dialog.with-image .dialog-center .dialog-content .settings-text {
+    margin-left:                    80px;
+    width:                          504px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tabs {
+    z-index:                        1000;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel {
+    position:                       absolute;
+    top:                            39px;
+    width:                          100%;
+    height:                         calc(100% - 40px);
+    background-color:               var(--ui-background1);
+    border-radius:                  2px;
+    border:                         var(--ui-border1);
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    z-index:                        50;
+    display:                        none;
+    padding:                        4px 0 0 0;
+    font-size:                      13px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel.visible {
+    display:                        block;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel hr {
+    float:                          left;
+    width:                          calc(100% - 40px);
+    margin:                         8px 0 4px 8px;
+    opacity:                        0.25;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel h3 {
+    margin:                         0;
+}
+/* Checkbox setting & Text input setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting {
+    float:                          left;
+    width:                          calc(100% - 40px);
+    margin:                         8px 0 4px 8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting .label,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting .label {
+    float:                          left;
+    line-height:                    22px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting .label {
+    width:                          112px;
+    text-align:                     right;
+    margin:                         0 8px 0 0;
+}
+/* Checkbox setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version {
+    float:                          left;
+    width:                          100%;
+    margin:                         16px 0 16px 8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version img {
+    float:                          left;
+    margin:                         0 16px 0 0;
+    width:                          64px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .version .version-info {
+    float:                          left;
+}
+/* Checkbox setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .checkbox-setting .checkbox {
+    float:                          left;
+    width:                          22px;
+    height:                         22px;
+    margin:                         0 8px 0 0;
+}
+/* Text input setting */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting {
+    margin:                         8px 0 4px 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting input[type="text"] {
+    float:                          left;
+    margin:                         0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-input-setting input[type="text"].numeric {
+    width:                          64px;
+}
+/* Title */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .title-row {
+    float:                          left;
+    width:                          100%;
+    padding:                        8px 0 0 8px;
+    margin:                         0 0 4px 0;
+}
+/* Text property list */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"] {
+    float:                          left;
+    height:                         24px;
+    font-size:                      13px;
+    line-height:                    24px;
+    padding:                        0 0 0 8px;
+    margin:                         0 0 4px 0;
+    outline:                        none;
+    border-radius:                  2px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text input[type="text"].invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .spacer {
+    float:                          left;
+    width:                          100%;
+    height:                         32px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list {
+    float:                          left;
+    width:                          100%;
+    height:                         200px;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    padding:                        16px 32px 16px 16px;
+    background-color:               var(--ui-background2);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting {
+    margin:                         8px 0 4px 8px;
+    width:                          calc(100% - 40px);
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting textarea {
+    width:                          100%;
+    height:                         200px;
+    font-family:                    monospace;
+    font-size:                      12px;
+    padding:                        8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row {
+    float:                          left;
+    width:                          100%;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row.last {
+    margin-bottom:                  16px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .label {
+    float:                          left;
+    width:                          25%;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .button.blue {
+    margin:                         8px 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row .close-button {
+    float:                          right;
+    color:                          var(--ui-text2);
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border3);
+    margin-left:                    16px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list .text-property-row:first-child .close-button.sort,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-list .text-property-row:last-child .close-button.sort {
+    display:                        none;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .text-property-setting .text-property-row input[type="text"] {
+    float:                          left;
+    width:                          calc(75% - 80px);
+}
+/* Description row */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .description-row {
+    float:                          left;
+    width:                          100%;
+    line-height:                    18px;
+    margin:                         0 0 16px 8px;
+}
+/* Radio row */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row {
+    float:                          left;
+    width:                          100%;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row .label {
+    float:                          left;
+    width:                          112px;
+    text-align:                     right;
+    line-height:                    18px;
+    padding:                        0 8px 0 0;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio a.radio-option {
+    float:                          left;
+    width:                          auto;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .radio-row div.radio a.radio-option {
+    padding-right:                  8px;
+    margin-right:                   4px;
+}
+/* Image open settings */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .image-open-settings {
+    float:                          left;
+    margin:                         0;
+    width:                          100%;
+}
+/* Textarea */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel textarea {
+    float:                          left;
+    width:                          100%;
+    height:                         128px;
+    margin:                         0 0 4px 8px;
+    font-family:                    monospace;
+    font-size:                      12px;
+}
+/* Update */
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update {
+    float:                          left;
+    width:                          calc(100% - 40px);
+    margin:                         8px 0 4px 8px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .current-file,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar,
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update-button {
+    float:                          left;
+    width:                          100%;
+    min-height:                     20px;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .current-file {
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar {
+    height:                         16px;
+    visibility:                     hidden;
+}
+.dialog-background.settings-dialog .dialog-center .dialog-content .settings-text .tab-panel .update .progress-bar .bar {
+    margin:                         0;
+}

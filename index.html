@@ -17,8 +17,9 @@
                 <img src="assets/images/logos/wheelSite.svg" width="40"/>
                 <span>Wheel IDE</span>
             </h2>
-            <a href="site/ide/ide.html" class="start">Online demo &raquo;</a>
+            <a href="https://github.com/ArnoVanDerVegt/wheel" class="start">Download &raquo;</a>
             <ul>
+                <li><a href="site/docs/index.html">Documentation</a></li>
                 <li><a href="site/source.html">Source</a></li>
                 <li><a href="site/screenshots.html">Screenshots</a></li>
                 <li><a href="site/install.html">Install</a></li>
@@ -30,23 +31,31 @@
             <h1>Wheel</h1>
             <div class="two-thirds">
                 <p>
-                    Wheel is an IDE to build applications for the EV3.
-                    With Wheel you can create text based programs in a simple Pascal/Basic like language,
-                    compile them and run on your EV3 brick. You don't have to install different firmware or use a micro SD card.
+                    Wheel is an IDE to build applications for the EV3 and Powered Up.
+                    With Wheel you can create text based programs in a simple Pascal/Basic like language.
                 </p>
                 <p>
-                    When you install Wheel you don't have to install the LabView or Scratch applications to compile and upload programs.
+                    Wheel is <a href="https://github.com/ArnoVanDerVegt/wheel">open source</a>. The IDE and compiler are written in JavaScript.
                 </p>
+                <h2>EV3</h2>
                 <p>
-                    Wheel is open source. The IDE and compiler are written in JavaScript.
+                    Compile and run programs EV3 brick. You don't have to install different firmware or use a micro SD card.
+                    When you install Wheel you don't have to install the LabView or Scratch applications to compile and upload programs.<br/>
+                    <br/>
+                    Wheel comes with a virtual machine to run your programs on an EV3 brick.
+                </p>
+                <h2>Powered Up</h2>
+                <p>
+                    You can control your Powered Up robots, cars and trains with Wheel!
                 </p>
             </div>
             <div class="third">
-                <img src="images/ev3.png" width="100%"/>
+                <img src="images/ev3.png" alt="EV3" title="EV3" width="100%"/>
+                <img src="images/poweredup.png" alt="Powered Up" title="EV3" width="100%"/>
             </div>
             <div class="breaker"></div>
             <div class="full">
-                <a href="site/install.html" class="start green">Install Wheel for MacOS or Windows &raquo;</a>
+                <a href="site/ide/ide.html" class="start green">Online demo for Powered Up &raquo;</a>
             </div>
             <div class="full screenshot">
                 <img src="images/screenshot03.png"/>
@@ -86,12 +95,13 @@
                     <h2>Simulator Features</h2>
                     <ul>
                         <li>Direct motor control</li>
-                        <li>Display</li>
+                        <li>EV3 Display</li>
                         <li>View motor status</li>
                         <li>View sensor status</li>
                         <li>Simulate sensor input</li>
                         <li>Read button input</li>
                         <li>Connect to brick</li>
+                        <li>Connect to Powered Up</li>
                         <li>Supports daisy chaining</li>
                     </ul>
                 </div>
@@ -99,6 +109,7 @@
             <div class="breaker"></div>
         </div>
         <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
             <a href="site/license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
         </div>
     </div>

@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 (function() {
+    const LEXEME_NAMESPACE          = 'namespace';
     const LEXEME_PROC               = 'proc';
     const LEXEME_NUMBER             = 'number';
     const LEXEME_STRING             = 'string';
@@ -10,6 +11,7 @@
     const LEXEME_CASE               = 'case';
     const LEXEME_DEFAULT            = 'default';
     const LEXEME_ELSE               = 'else';
+    const LEXEME_ELSEIF             = 'elseif';
     const LEXEME_END                = 'end';
     const LEXEME_FOR                = 'for';
     const LEXEME_IF                 = 'if';
@@ -20,6 +22,7 @@
     const LEXEME_DOWNTO             = 'downto';
     const LEXEME_STEP               = 'step';
     const LEXEME_RECORD             = 'record';
+    const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
     const LEXEME_ADDR               = 'addr';
@@ -85,6 +88,7 @@
     const TOKEN_COMMENT             = 20;
     const TOKEN_WHITE_SPACE         = 21;
 
+    exports.LEXEME_NAMESPACE          = LEXEME_NAMESPACE;
     exports.LEXEME_PROC               = LEXEME_PROC;
     exports.LEXEME_NUMBER             = LEXEME_NUMBER;
     exports.LEXEME_STRING             = LEXEME_STRING;
@@ -92,6 +96,7 @@
     exports.LEXEME_CASE               = LEXEME_CASE;
     exports.LEXEME_DEFAULT            = LEXEME_DEFAULT;
     exports.LEXEME_ELSE               = LEXEME_ELSE;
+    exports.LEXEME_ELSEIF             = LEXEME_ELSEIF;
     exports.LEXEME_END                = LEXEME_END;
     exports.LEXEME_FOR                = LEXEME_FOR;
     exports.LEXEME_IF                 = LEXEME_IF;
@@ -102,6 +107,7 @@
     exports.LEXEME_DOWNTO             = LEXEME_DOWNTO;
     exports.LEXEME_STEP               = LEXEME_STEP;
     exports.LEXEME_RECORD             = LEXEME_RECORD;
+    exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
     exports.LEXEME_ADDR               = LEXEME_ADDR;
@@ -168,10 +174,12 @@
     exports.TOKEN_WHITE_SPACE         = TOKEN_WHITE_SPACE;
 
     const keywords = [
+            LEXEME_NAMESPACE,
             LEXEME_BREAK,
             LEXEME_CASE,
             LEXEME_DEFAULT,
             LEXEME_ELSE,
+            LEXEME_ELSEIF,
             LEXEME_END,
             LEXEME_FOR,
             LEXEME_IF,
@@ -183,6 +191,7 @@
             LEXEME_DOWNTO,
             LEXEME_STEP,
             LEXEME_RECORD,
+            LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,
             LEXEME_ADDR,
@@ -228,6 +237,8 @@
         token.is = is.bind(token);
         return token;
     }
+
+    exports.makeToken = makeToken;
 
     exports.Tokenizer = class {
         constructor() {
@@ -409,14 +420,14 @@
         removeTrailingSpaces(line) {
             let lines = line.split('\n');
             for (let i = 0; i < lines.length; i++) {
-                line = lines[i];
-                let j = line.length;
-                if ((j > 0) && (line.substr(j - 1, 1) === ' ')) {
-                    j--;
-                    while ((j > 0) && (line.substr(j, 1) === ' ')) {
-                        j--;
+                let line = lines[i];
+                if (line.trimEnd) {
+                    lines[i] = line.trimEnd();
+                } else {
+                    while (line.length && line[line.length - 1] === ' ') {
+                        line = line.substr(0, line.length - 1);
                     }
-                    lines[i] = line.substr(0, j);
+                    lines[i] = line;
                 }
             }
             return lines.join('\n');

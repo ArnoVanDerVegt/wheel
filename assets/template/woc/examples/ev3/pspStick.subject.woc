@@ -1,0 +1,75 @@
+@subject EV3_Example:PSP, Stick
+@device  E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section PSP Stick
+This example shows how to use the Mindsensors PSP device to read left and right joysticks.
+
+@section Code
+@example
+#project "PSP stick demo"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sensor.whl"
+#include "lib/screen.whl"
+#include "lib/psp.whl"
+
+#display "EV3, PSP"
+
+proc drawLeftPosition(number x, number y)
+    drawCircle(46 + x / 5, 64 + y / 5, 10)
+end
+
+proc drawRightPosition(number x, number y)
+    drawCircle(132 + x / 5, 64 + y / 5, 10)
+end
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    pspStart(INPUT_1)
+
+    drawLeftPosition(0, 0)
+    drawCircle(46, 64, 40)
+    drawRightPosition(0, 0)
+    drawCircle(132, 64, 40)
+    updateScreen()
+
+    number lastLeftX  = 0
+    number lastLeftY  = 0
+    number lastRightX = 0
+    number lastRightY = 0
+
+    repeat
+        number leftX  = pspData.stickLeftX
+        number leftY  = pspData.stickLeftY
+        number rightX = pspData.stickRightX
+        number rightY = pspData.stickRightY
+
+        if leftX != lastLeftX or leftY != lastLeftY
+            setFillColor(WHITE)
+            drawLeftPosition(lastLeftX, lastLeftY)
+            setFillColor(BLACK)
+            drawLeftPosition(leftX, leftY)
+            updateScreen()
+            lastLeftX = leftX
+            lastLeftY = leftY
+        end
+        if rightX != lastRightX or rightY != lastRightY
+            setFillColor(WHITE)
+            drawRightPosition(lastRightX, lastRightY)
+            setFillColor(BLACK)
+            drawRightPosition(rightX, rightY)
+            updateScreen()
+            lastRightX = rightX
+            lastRightY = rightY
+        end
+    end
+end
+@end
+
+@load Open the PSP stick example|examples/ev3/psp/stick.whlp
+
+@see pspStart,pspData,Modules

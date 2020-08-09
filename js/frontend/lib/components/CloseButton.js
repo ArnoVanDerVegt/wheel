@@ -10,6 +10,7 @@ exports.CloseButton = class extends Component {
         super(opts);
         this._baseClassName = 'close-button';
         this._color         = '';
+        this._title         = opts.title || '✖';
         this.initDOM(opts.parentNode);
     }
 
@@ -23,7 +24,7 @@ exports.CloseButton = class extends Component {
                 className: this.getClassName(),
                 tabIndex:  this._tabIndex,
                 disabled:  this._disabled ? 'disabled' : '',
-                value:     '✖'
+                value:     this._title
             }
         );
     }

@@ -4,19 +4,20 @@
 
 #include "lib/standard.whl"
 #include "lib/math.whl"
-#include "lib/screen.whl"
 
 proc main()
+    clearConsole()
+
+    ; Get a random value between -5 and +5:
     number n = random(1, 99) / 10 - 5
-    drawText(10, 10, "Number:")
-    drawNumber(80, 10, n)
+    printS("Number:")
+    printN(n)
 
-    drawText(10, 30, "Abs:")
-    drawNumber(80, 30, abs(n))
+    ; Print the absolute value in the console:
+    printS("Abs:")
+    printN(abs(n))
 
-    drawText(10, 50, "Neg:")
-    drawNumber(80, 50, neg(n))
-
-    ; Wait...
-    halt()
+    ; Print the negative number in the console:
+    printS("Neg:")
+    printN(neg(n))
 end

@@ -1,0 +1,37 @@
+@subject Example:String, indexOf
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String indexOf example
+This example declares tow strings: needle and haystack.
+Then the index of the needle in the haystack is printed in the console.
+
+@section Code
+@example
+#project "String indexOf example"
+
+#include "lib/standard.whl"
+#include "lib/string.whl"
+
+proc main()
+    ; Declare a string and print it in the console:
+    string haystack = "Hello, Hello, world"
+    string needle   = "Hello"
+    printS(haystack)
+
+    ; Find the needle string in the haystack and print the position in the console:
+    number n = indexOf(haystack, needle, 0)
+    printS("Index of:")
+    printN(n)
+
+    ; Get the index of the next occurence of the needle string and print it in the console:
+    n += 5
+    n = indexOf(haystack, needle, n)
+    printS("Next index of:")
+    printN(n)
+end
+@end
+
+@load Open indexOf example|examples/string/indexOf.whlp
+@load Open indexOf example for EV3|examples/ev3/string/indexOf.whlp
+
+@see string,indexOf,standard,Modules

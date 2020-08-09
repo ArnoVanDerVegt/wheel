@@ -44,8 +44,7 @@ describe(
                             assert.equal(opts.message, 22);
                         });
                         info.vm.setCommands(info.commands);
-                        assert.equal(info.vm.getModules().length, 12);
-                        assert.equal(info.vm.getBreakpoint(),     false);
+                        assert.equal(info.vm.getBreakpoint(), false);
                     }
                 );
                 it(
@@ -229,6 +228,7 @@ describe(
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(function() {});
                         assert.equal(info.vm.running(), true);
+                        info.vm.stop();
                     }
                 );
                 it(
@@ -244,6 +244,7 @@ describe(
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(function() {});
                         assert.equal(info.vm.running(), true);
+                        info.vm.stop();
                     }
                 );
             }

@@ -5,7 +5,10 @@
 const Var = require('./Var').Var;
 
 exports.Scope = class {
-    constructor(parentScope, name, global) {
+    constructor(parentScope, name, global, namespace) {
+        if (!namespace) {
+            throw new Error('No namespace');
+        }
         this._token             = null;
         this._program           = null;
         this._parentScope       = parentScope;
@@ -13,6 +16,7 @@ exports.Scope = class {
         this._name              = name;
         this._size              = 0;
         this._global            = !!global;
+        this._namespace         = namespace;
         this._varsLocked        = false;
         this._vars              = [];
         this._varsByName        = {};
@@ -51,9 +55,9 @@ exports.Scope = class {
         }
         let offsets     = [];
         let offset      = this._size;
-        let checkRecord = function(record) {
+        let checkRecord = (record) => {
                 let vars = record.getVars();
-                vars.forEach(function(vr) {
+                vars.forEach((vr) => {
                     let type      = vr.getType();
                     let arraySize = vr.getArraySize();
                     arraySize = (arraySize === false) ? 1 : arraySize;
@@ -122,6 +126,10 @@ exports.Scope = class {
         if (record) {
             return record;
         }
+        record = this._recordsByName[this._namespace.getCurrentNamespace() + name];
+        if (record) {
+            return record;
+        }
         let vr = this._varsByName[name];
         if (vr) {
             return vr;
@@ -130,14 +138,14 @@ exports.Scope = class {
         if (proc) {
             return proc;
         }
+        proc = this._procByName[this._namespace.getCurrentNamespace() + name];
+        if (proc) {
+            return proc;
+        }
         return this._parentScope ? this._parentScope.findIdentifier(name) : null;
     }
 
     findRecord(name) {
-        return this._recordsByName[name];
-    }
-
-    findProc(name) {
         return this._recordsByName[name];
     }
 
@@ -168,6 +176,10 @@ exports.Scope = class {
 
     findProc(name) {
         let proc = this._procByName[name];
+        if (proc) {
+            return proc;
+        }
+        proc = this._procByName[this._namespace.getCurrentNamespace() + name];
         if (proc) {
             return proc;
         }
@@ -207,7 +219,7 @@ exports.Scope = class {
         this._size         = scope.getTotalSize();
         this._stackOffset  = this._size;
         this._stringsAdded = scope.getStringsAdded();
-        this._stringsAdded.forEach(function(stringAdded) {
+        this._stringsAdded.forEach((stringAdded) => {
             stringAdded.done = false;
         });
     }
@@ -282,7 +294,7 @@ exports.Scope = class {
 
     getTotalSize() {
         let totalSize = 0;
-        this._vars.forEach(function(vr) {
+        this._vars.forEach((vr) => {
             totalSize += vr.getTotalSize();
         });
         return totalSize;

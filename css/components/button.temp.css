@@ -1,0 +1,713 @@
+input[type="button"].button.green,
+input[type="button"].icon-button.green {
+    border:                         1px solid var(--color-green);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-green);
+}
+input[type="button"].button.green:active,
+input[type="button"].icon-button.green:active {
+    border-color:                   var(--color-green-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.green.focus:active,
+input[type="button"].icon-button.green.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-green-pressed);
+}
+input[type="button"].button.active.focus.green,
+input[type="button"].icon-button.active.focus.green {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-green-active);
+}
+input[type="button"].button.active.green,
+input[type="button"].icon-button.active.green {
+    border-color:                   var(--color-green-active);
+    background-color:               var(--color-green-active);
+}
+input[type="button"].button.in-active.green,
+input[type="button"].icon-button.in-active.green {
+    border-color:                   var(--color-green-in-active);
+    background-color:               var(--color-green-in-active);
+}
+
+input[type="button"].button.yellow,
+input[type="button"].icon-button.yellow {
+    border:                         1px solid var(--color-yellow);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-yellow);
+}
+input[type="button"].button.yellow:active,
+input[type="button"].icon-button.yellow:active {
+    border-color:                   var(--color-yellow-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.yellow.focus:active,
+input[type="button"].icon-button.yellow.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-yellow-pressed);
+}
+input[type="button"].button.active.focus.yellow,
+input[type="button"].icon-button.active.focus.yellow {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-yellow-active);
+}
+input[type="button"].button.active.yellow,
+input[type="button"].icon-button.active.yellow {
+    border-color:                   var(--color-yellow-active);
+    background-color:               var(--color-yellow-active);
+}
+input[type="button"].button.in-active.yellow,
+input[type="button"].icon-button.in-active.yellow {
+    border-color:                   var(--color-yellow-in-active);
+    background-color:               var(--color-yellow-in-active);
+}
+
+input[type="button"].button.red,
+input[type="button"].icon-button.red {
+    border:                         1px solid var(--color-red);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-red);
+}
+input[type="button"].button.red:active,
+input[type="button"].icon-button.red:active {
+    border-color:                   var(--color-red-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.red.focus:active,
+input[type="button"].icon-button.red.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-red-pressed);
+}
+input[type="button"].button.active.focus.red,
+input[type="button"].icon-button.active.focus.red {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-red-active);
+}
+input[type="button"].button.active.red,
+input[type="button"].icon-button.active.red {
+    border-color:                   var(--color-red-active);
+    background-color:               var(--color-red-active);
+}
+input[type="button"].button.in-active.red,
+input[type="button"].icon-button.in-active.red {
+    border-color:                   var(--color-red-in-active);
+    background-color:               var(--color-red-in-active);
+}
+
+input[type="button"].button.blue,
+input[type="button"].icon-button.blue {
+    border:                         1px solid var(--color-blue);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-blue);
+}
+input[type="button"].button.blue:active,
+input[type="button"].icon-button.blue:active {
+    border-color:                   var(--color-blue-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.blue.focus:active,
+input[type="button"].icon-button.blue.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-blue-pressed);
+}
+input[type="button"].button.active.focus.blue,
+input[type="button"].icon-button.active.focus.blue {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-blue-active);
+}
+input[type="button"].button.active.blue,
+input[type="button"].icon-button.active.blue {
+    border-color:                   var(--color-blue-active);
+    background-color:               var(--color-blue-active);
+}
+input[type="button"].button.in-active.blue,
+input[type="button"].icon-button.in-active.blue {
+    border-color:                   var(--color-blue-in-active);
+    background-color:               var(--color-blue-in-active);
+}
+
+input[type="button"].button.gray {
+    border:                         var(--ui-border3);
+    color:                          var(--ui-color2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.gray:active {
+    border-color:                   var(--ui-border2);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.gray.focus:active, {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.focus.gray {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+input[type="button"].button.in-active.gray {
+    border-color:                   var(--ui-border2);
+    background-color:               var(--ui-background4);
+}
+
+input[type="button"].button.dark-green {
+    border:                         2px solid var(--color-green);
+    color:                          var(--button-text-color);
+    background-color:               var(--color-dark-green);
+}
+input[type="button"].button.dark-green:active {
+    border-color:                   var(--color-dark-green-pressed);
+    transform:                      translate(1px, 1px);
+}
+input[type="button"].button.dark-green.focus:active {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-dark-green-pressed);
+}
+input[type="button"].button.active.focus.dark-green {
+    border-color:                   var(--focus-border-dotted);
+    background-color:               var(--color-dark-green-active);
+}
+input[type="button"].button.active.dark-green {
+    border-color:                   var(--color-dark-green-active);
+    background-color:               var(--color-dark-green-active);
+}
+input[type="button"].button.in-active.dark-green {
+    border-color:                   var(--color-dark-green-in-active);
+    background-color:               var(--color-dark-green-in-active);
+}
+
+input[type="button"].button.disabled,
+input[type="button"].icon-button.disabled {
+    opacity:                        var(--button-disabled-opacity);
+    cursor:                         default;
+    pointer-events:                 none;
+}
+
+input[type="button"].button {
+    float:                          left;
+    position:                       relative;
+    border-radius:                  3px;
+    box-shadow:                     var(--button-shadow);
+    transition:                     transform 0.1s, background-color 0.1s;
+    position:                       relative;
+    padding:                        0 8px 0 8px;
+    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
+    font-size:                      15px;
+    text-transform:                 none;
+    height:                         24px;
+    line-height:                    22px;
+    cursor:                         pointer;
+    outline:                        none;
+    border:                         0;
+    -webkit-user-select:            none;
+}
+input[type="button"].button.focus {
+    border:                         var(--focus-border-dotted);
+}
+
+/* Icon button */
+input[type="button"].icon-button {
+    float:                          left;
+    width:                          24px;
+    height:                         24px;
+    border:                         0;
+    border-radius:                  3px;
+    box-shadow:                     var(--button-shadow);
+    background-repeat:              no-repeat;
+    background-position:            2px 2px;
+    background-size:                24px 24px;
+    cursor:                         pointer;
+    outline:                        none;
+    transition:                     transform 0.1s, background-color 0.1s;
+}
+input[type="button"].icon-button.focus {
+    border:                         var(--focus-border-dotted);
+}
+input[type="button"].icon-button.disabled {
+    opacity:                        var(--button-disabled-opacity);
+    cursor:                         default;
+    pointer-events:                 none;
+}
+input[type="button"].icon-button.in-active {
+    opacity:                        var(--button-in-active-opacity);
+}
+
+.icon-button.icon-undo {
+    margin-left:                    8px;
+}
+
+input.icon-button.icon-point {
+    background-image:               url('images/buttons/pointBlack.svg');
+}
+input.icon-button.icon-point:hover,
+input.icon-button.icon-point.focus,
+body.ide.dark input.icon-button.icon-point {
+    background-image:               url('images/buttons/pointWhite.svg');
+}
+input.icon-button.icon-circle {
+    background-image:               url('images/buttons/circleBlack.svg');
+}
+input.icon-button.icon-circle:hover,
+input.icon-button.icon-circle.focus,
+body.ide.dark input.icon-button.icon-circle {
+    background-image:               url('images/buttons/circleWhite.svg');
+}
+input.icon-button.icon-circle-stripe {
+    background-image:               url('images/buttons/circleStripeBlack.svg');
+}
+input.icon-button.icon-circle-stripe:hover,
+input.icon-button.icon-circle-stripe.focus,
+body.ide.dark input.icon-button.icon-circle-stripe {
+    background-image:               url('images/buttons/circleStripeWhite.svg');
+}
+input.icon-button.icon-rect {
+    background-image:               url('images/buttons/rectBlack.svg');
+}
+input.icon-button.icon-rect:hover,
+input.icon-button.icon-rect.focus,
+body.ide.dark input.icon-button.icon-rect {
+    background-image:               url('images/buttons/rectWhite.svg');
+}
+input.icon-button.icon-rect-stripe {
+    background-image:               url('images/buttons/rectStripeBlack.svg');
+}
+input.icon-button.icon-rect-stripe:hover,
+input.icon-button.icon-rect-stripe.focus,
+body.ide.dark input.icon-button.icon-rect-stripe {
+    background-image:               url('images/buttons/rectStripeWhite.svg');
+}
+input.icon-button.icon-line {
+    background-image:               url('images/buttons/lineBlack.svg');
+}
+input.icon-button.icon-line:hover,
+input.icon-button.icon-line.focus,
+body.ide.dark input.icon-button.icon-line {
+    background-image:               url('images/buttons/lineWhite.svg');
+}
+input.icon-button.icon-fill-white {
+    background-image:               url('images/buttons/fillWhiteBlack.svg');
+}
+input.icon-button.icon-fill-white:hover,
+input.icon-button.icon-fill-white.focus,
+body.ide.dark input.icon-button.icon-fill-white {
+    background-image:               url('images/buttons/fillWhiteWhite.svg');
+}
+input.icon-button.icon-fill-black {
+    background-image:               url('images/buttons/fillBlackBlack.svg');
+}
+input.icon-button.icon-fill-black:hover,
+input.icon-button.icon-fill-black.focus,
+body.ide.dark input.icon-button.icon-fill-black {
+    background-image:               url('images/buttons/fillBlackWhite.svg');
+}
+input.icon-button.icon-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentBlack.svg');
+}
+input.icon-button.icon-fill-transparent:hover,
+input.icon-button.icon-fill-transparent.focus,
+body.ide.dark input.icon-button.icon-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentWhite.svg');
+}
+input.icon-button.icon-line-white {
+    background-image:               url('images/buttons/lineWhiteWhite.svg');
+}
+input.icon-button.icon-line-white:hover,
+input.icon-button.icon-line-white.focus,
+body.ide.dark input.icon-button.icon-line-white {
+    background-image:               url('images/buttons/lineWhiteBlack.svg');
+}
+input.icon-button.icon-line-black {
+    background-image:               url('images/buttons/lineBlackBlack.svg');
+}
+input.icon-button.icon-line-black:hover,
+input.icon-button.icon-line-black.focus,
+body.ide.dark input.icon-button.icon-line-black {
+    background-image:               url('images/buttons/lineBlackWhite.svg');
+}
+input.icon-button.icon-size1 {
+    background-image:               url('images/buttons/size1Black.svg');
+}
+input.icon-button.icon-size1:hover,
+input.icon-button.icon-size1.focus,
+body.ide.dark input.icon-button.icon-size1 {
+    background-image:               url('images/buttons/size1White.svg');
+}
+input.icon-button.icon-size2 {
+    background-image:               url('images/buttons/size2Black.svg');
+}
+input.icon-button.icon-size2:hover,
+input.icon-button.icon-size2.focus,
+body.ide.dark input.icon-button.icon-size2 {
+    background-image:               url('images/buttons/size2White.svg');
+}
+input.icon-button.icon-size3 {
+    background-image:               url('images/buttons/size3Black.svg');
+}
+input.icon-button.icon-size3:hover,
+input.icon-button.icon-size3.focus,
+body.ide.dark input.icon-button.icon-size3 {
+    background-image:               url('images/buttons/size3White.svg');
+}
+input.icon-button.icon-size4 {
+    background-image:               url('images/buttons/size4Black.svg');
+}
+input.icon-button.icon-size4:hover,
+input.icon-button.icon-size4.focus,
+body.ide.dark input.icon-button.icon-size4 {
+    background-image:               url('images/buttons/size4White.svg');
+}
+input.icon-button.icon-text {
+    background-image:               url('images/buttons/textBlack.svg');
+}
+input.icon-button.icon-text:hover,
+input.icon-button.icon-text.focus,
+body.ide.dark input.icon-button.icon-text {
+    background-image:               url('images/buttons/textWhite.svg');
+}
+input.icon-button.icon-header {
+    background-image:               url('images/buttons/headerBlack.svg');
+}
+input.icon-button.icon-header:hover,
+input.icon-button.icon-header.focus,
+body.ide.dark input.icon-button.icon-header {
+    background-image:               url('images/buttons/headerWhite.svg');
+}
+input.icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonBlack.svg');
+}
+input.icon-button.icon-btn:hover,
+input.icon-button.icon-btn.focus,
+body.ide.dark input.icon-button.icon-btn {
+    background-image:               url('images/buttons/buttonWhite.svg');
+}
+input.icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+}
+input.icon-button.icon-select-btn:hover,
+    input.icon-button.icon-select-btn.focus,
+body.ide.dark input.icon-button.icon-select-btn {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+}
+input.icon-button.icon-text-input {
+    background-image:               url('images/buttons/textInputBlack.svg');
+}
+input.icon-button.icon-text-input:hover,
+input.icon-button.icon-text-input.focus,
+body.ide.dark input.icon-button.icon-text-input {
+    background-image:               url('images/buttons/textInputWhite.svg');
+}
+input.icon-button.icon-slider {
+    background-image:               url('images/buttons/sliderBlack.svg');
+}
+input.icon-button.icon-slider:hover,
+input.icon-button.icon-slider.focus,
+body.ide.dark input.icon-button.icon-slider {
+    background-image:               url('images/buttons/sliderWhite.svg');
+}
+input.icon-button.icon-text1 {
+    background-image:               url('images/buttons/text1Black.svg');
+}
+input.icon-button.icon-text1:hover,
+input.icon-button.icon-text1.focus,
+body.ide.dark input.icon-button.icon-text1 {
+    background-image:               url('images/buttons/text1White.svg');
+}
+input.icon-button.icon-text2 {
+    background-image:               url('images/buttons/text2Black.svg');
+}
+input.icon-button.icon-text2:hover,
+input.icon-button.icon-text2.focus,
+body.ide.dark input.icon-button.icon-text2 {
+    background-image:               url('images/buttons/text2White.svg');
+}
+input.icon-button.icon-text3 {
+    background-image:               url('images/buttons/text3Black.svg');
+}
+input.icon-button.icon-text3:hover,
+input.icon-button.icon-text3.focus,
+body.ide.dark input.icon-button.icon-text3 {
+    background-image:               url('images/buttons/text3White.svg');
+}
+input.icon-button.icon-move {
+    background-image:               url('images/buttons/moveBlack.svg');
+}
+input.icon-button.icon-move:hover,
+input.icon-button.icon-move.focus,
+body.ide.dark input.icon-button.icon-move {
+    background-image:               url('images/buttons/moveWhite.svg');
+}
+input.icon-button.icon-label {
+    background-image:               url('images/buttons/labelBlack.svg');
+}
+input.icon-button.icon-label:hover,
+input.icon-button.icon-label.focus,
+body.ide.dark input.icon-button.icon-label {
+    background-image:               url('images/buttons/labelWhite.svg');
+}
+input.icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxBlack.svg');
+}
+input.icon-button.icon-checkbox:hover,
+input.icon-button.icon-checkbox.focus,
+body.ide.dark input.icon-button.icon-checkbox {
+    background-image:               url('images/buttons/checkboxWhite.svg');
+}
+input.icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsBlack.svg');
+}
+input.icon-button.icon-tabs:hover,
+input.icon-button.icon-tabs.focus,
+body.ide.dark input.icon-button.icon-tabs {
+    background-image:               url('images/buttons/tabsWhite.svg');
+}
+input.icon-button.icon-panel {
+    background-image:               url('images/buttons/panelBlack.svg');
+}
+input.icon-button.icon-panel:hover,
+input.icon-button.icon-panel.focus,
+body.ide.dark input.icon-button.icon-panel {
+    background-image:               url('images/buttons/panelWhite.svg');
+}
+input.icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightBlack.svg');
+}
+input.icon-button.icon-status-light:hover,
+input.icon-button.icon-status-light.focus,
+body.ide.dark input.icon-button.icon-status-light {
+    background-image:               url('images/buttons/statusLightWhite.svg');
+}
+input.icon-button.icon-image {
+    background-image:               url('images/buttons/imageBlack.svg');
+}
+input.icon-button.icon-image:hover,
+input.icon-button.icon-image.focus,
+body.ide.dark input.icon-button.icon-image {
+    background-image:               url('images/buttons/imageWhite.svg');
+}
+input.icon-button.icon-pu-device {
+    background-image:               url('images/buttons/puDeviceBlack.svg');
+}
+input.icon-button.icon-pu-device:hover,
+input.icon-button.icon-pu-device.focus,
+body.ide.dark input.icon-button.icon-pu-device {
+    background-image:               url('images/buttons/puDeviceWhite.svg');
+}
+input.icon-button.icon-ev3-sensor {
+    background-image:               url('images/buttons/ev3SensorBlack.svg');
+}
+input.icon-button.icon-ev3-sensor:hover,
+input.icon-button.icon-ev3-sensor.focus,
+body.ide.dark input.icon-button.icon-ev3-sensor {
+    background-image:               url('images/buttons/ev3SensorWhite.svg');
+}
+input.icon-button.icon-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorBlack.svg');
+}
+input.icon-button.icon-ev3-motor:hover,
+input.icon-button.icon-ev3-motor.focus,
+body.ide.dark input.icon-button.icon-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorWhite.svg');
+}
+input.icon-button.icon-select {
+    background-image:               url('images/buttons/selectBlack.svg');
+}
+input.icon-button.icon-select:hover,
+input.icon-button.icon-select.focus,
+body.ide.dark input.icon-button.icon-select {
+    background-image:               url('images/buttons/selectWhite.svg');
+}
+input.icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteBlack.svg');
+}
+input.icon-button.icon-delete:hover,
+input.icon-button.icon-delete.focus,
+body.ide.dark input.icon-button.icon-delete {
+    background-image:               url('images/buttons/deleteWhite.svg');
+}
+input.icon-button.icon-copy {
+    background-image:               url('images/buttons/copyBlack.svg');
+}
+input.icon-button.icon-copy:hover,
+input.icon-button.icon-copy.focus,
+body.ide.dark input.icon-button.icon-copy {
+    background-image:               url('images/buttons/copyWhite.svg');
+}
+input.icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteBlack.svg');
+}
+input.icon-button.icon-paste:hover,
+input.icon-button.icon-paste.focus,
+body.ide.dark input.icon-button.icon-paste {
+    background-image:               url('images/buttons/pasteWhite.svg');
+}
+input.icon-button.icon-grid {
+    background-image:               url('images/buttons/gridBlack.svg');
+}
+input.icon-button.icon-grid:hover,
+input.icon-button.icon-grid.focus,
+body.ide.dark input.icon-button.icon-grid {
+    background-image:               url('images/buttons/gridWhite.svg');
+}
+input.icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryBlack.svg');
+}
+input.icon-button.icon-binary:hover,
+input.icon-button.icon-binary.focus,
+body.ide.dark input.icon-button.icon-binary {
+    background-image:               url('images/buttons/binaryWhite.svg');
+}
+input.icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeBlack.svg');
+}
+input.icon-button.icon-volume:hover,
+input.icon-button.icon-volume.focus,
+body.ide.dark input.icon-button.icon-volume {
+    background-image:               url('images/buttons/volumeWhite.svg');
+}
+input.icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInBlack.svg');
+}
+input.icon-button.icon-fade-in:hover,
+input.icon-button.icon-fade-in.focus,
+body.ide.dark input.icon-button.icon-fade-in {
+    background-image:               url('images/buttons/fadeInWhite.svg');
+}
+input.icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutBlack.svg');
+}
+input.icon-button.icon-fade-out:hover,
+input.icon-button.icon-fade-out.focus,
+body.ide.dark input.icon-button.icon-fade-out {
+    background-image:               url('images/buttons/fadeOutWhite.svg');
+}
+input.icon-button.icon-undo {
+    background-image:               url('images/buttons/undoBlack.svg');
+}
+input.icon-button.icon-undo:hover,
+input.icon-button.icon-undo.focus,
+body.ide.dark input.icon-button.icon-undo {
+    background-image:               url('images/buttons/undoWhite.svg');
+}
+input.icon-button.icon-play {
+    background-image:               url('images/buttons/playBlack.svg');
+}
+input.icon-button.icon-play:hover,
+input.icon-button.icon-play.focus,
+body.ide.dark input.icon-button.icon-play {
+    background-image:               url('images/buttons/playWhite.svg');
+}
+input.icon-button.icon-progress {
+    background-image:               url('images/buttons/progressBlack.svg');
+}
+input.icon-button.icon-play:hover,
+input.icon-button.icon-play.focus,
+body.ide.dark input.icon-button.icon-progress {
+    background-image:               url('images/buttons/progressWhite.svg');
+}
+input.icon-button.icon-loading {
+    background-image:               url('images/buttons/loadingBlack.svg');
+}
+input.icon-button.icon-loading:hover,
+input.icon-button.icon-loading.focus,
+body.ide.dark input.icon-button.icon-loading {
+    background-image:               url('images/buttons/loadingWhite.svg');
+}
+input.icon-button.icon-radio {
+    background-image:               url('images/buttons/radioBlack.svg');
+}
+input.icon-button.icon-radio:hover,
+input.icon-button.icon-radio.focus,
+body.ide.dark input.icon-button.icon-radio {
+    background-image:               url('images/buttons/radioWhite.svg');
+}
+input.icon-button.icon-dropdown {
+    background-image:               url('images/buttons/dropdownBlack.svg');
+}
+input.icon-button.icon-dropdown:hover,
+input.icon-button.icon-dropdown.focus,
+body.ide.dark input.icon-button.icon-dropdown {
+    background-image:               url('images/buttons/dropdownWhite.svg');
+}
+input.icon-button.icon-list-items {
+    background-image:               url('images/buttons/listItemsBlack.svg');
+}
+input.icon-button.icon-list-items:hover,
+input.icon-button.icon-list-items.focus,
+body.ide.dark input.icon-button.icon-list-items {
+    background-image:               url('images/buttons/listItemsWhite.svg');
+}
+input.icon-button.icon-timer {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+input.icon-button.icon-timer:hover,
+input.icon-button.icon-timer.focus,
+body.ide.dark input.icon-button.icon-timer {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+input.icon-button.icon-clock {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+input.icon-button.icon-clock:hover,
+input.icon-button.icon-clock.focus,
+body.ide.dark input.icon-button.icon-clock {
+    background-image:               url('images/buttons/clockWhite.svg');
+}
+input.icon-button.icon-alert-dialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+input.icon-button.icon-alert-dialog:hover,
+input.icon-button.icon-alert-dialog.focus,
+body.ide.dark input.icon-button.icon-alert-dialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+input.icon-button.icon-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+input.icon-button.icon-confirm-dialog:hover,
+input.icon-button.icon-confirm-dialog.focus,
+body.ide.dark input.icon-button.icon-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}
+input.icon-button.icon-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+input.icon-button.icon-icon:hover,
+input.icon-button.icon-icon.focus,
+body.ide.dark input.icon-button.icon-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
+}
+
+.icon-button.icon-line-transparent {
+    background-image:               url('images/buttons/lineTransparent.svg');
+}
+.icon-button.icon-add {
+    background-image:               url('images/buttons/add.svg');
+}
+.icon-button.icon-right {
+    background-image:               url('images/buttons/right.svg');
+}
+.icon-button.icon-list {
+    background-image:               url('images/buttons/listWhite.svg');
+}
+.icon-button.icon-list-detail {
+    background-image:               url('images/buttons/listDetailWhite.svg');
+}
+.icon-button.icon-delete-default {
+    background-image:               url('images/buttons/deleteWhite.svg');
+}
+input[type="button"].icon-button.icon-add,
+input[type="button"].icon-button.icon-right,
+input[type="button"].icon-button.icon-list,
+input[type="button"].icon-button.icon-list-detail,
+input[type="button"].icon-button.icon-delete-default {
+    background-position:            0 0;
+    background-size:                22px 22px;
+}
+
+input.icon-button.icon-copy,
+input.icon-button.icon-copy.in-active,
+input.icon-button.icon-play {
+    margin-left:                    12px;
+}

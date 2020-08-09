@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const $        = require('../commands');
 const lineFeed = String.fromCharCode(0x0D);
 
 exports.Rtf = class {
@@ -90,11 +91,12 @@ exports.Rtf = class {
             .addLine(commands.length);
         commands.forEach(
             function(command) {
-                let cmd    = command.getCmd();
-                let param1 = command.getParam1();
-                let param2 = command.getParam2();
-                let list   = [
-                        (cmd << 4) + (param1.getType() << 2) + param2.getType(),
+                let param1    = command.getParam1();
+                let param2    = command.getParam2();
+                let cmd       = command.getCmd();
+                let cmdPacked = (cmd << 4) + (param1.getType() << 2) + param2.getType();
+                let list      = [
+                        cmdPacked,
                         param1.getValue(),
                         param2.getValue()
                     ];

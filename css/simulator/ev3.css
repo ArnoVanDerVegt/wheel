@@ -42,9 +42,14 @@
     box-sizing:                     border-box;
 }
 .ev3 {
+    display:                        none;
     float:                          left;
     width:                          268px;
     height:                         336px;
+    margin-top:                     8px;
+}
+.ev3.visible {
+    display:                        block;
 }
 .ev3 .ev3-left,
 .ev3 .ev3-right {

@@ -22,17 +22,18 @@ class CompileBlock extends CompileScope {
         super(opts);
         if (!keywordCompiler) {
             keywordCompiler = {};
-            keywordCompiler[t.LEXEME_PROC  ] = require('../keyword/CompileProc'  ).CompileProc;
-            keywordCompiler[t.LEXEME_RECORD] = require('../keyword/CompileRecord').CompileRecord;
-            keywordCompiler[t.LEXEME_ADDR  ] = require('../keyword/CompileAddr'  ).CompileAddr;
-            keywordCompiler[t.LEXEME_MOD   ] = require('../keyword/CompileModule').CompileModule;
-            keywordCompiler[t.LEXEME_FOR   ] = require('../keyword/CompileFor'   ).CompileFor;
-            keywordCompiler[t.LEXEME_WHILE ] = require('../keyword/CompileWhile' ).CompileWhile;
-            keywordCompiler[t.LEXEME_REPEAT] = require('../keyword/CompileRepeat').CompileRepeat;
-            keywordCompiler[t.LEXEME_BREAK ] = require('../keyword/CompileBreak' ).CompileBreak;
-            keywordCompiler[t.LEXEME_RET   ] = require('../keyword/CompileRet'   ).CompileRet;
-            keywordCompiler[t.LEXEME_IF    ] = require('../keyword/CompileIf'    ).CompileIf;
-            keywordCompiler[t.LEXEME_SELECT] = require('../keyword/CompileSelect').CompileSelect;
+            keywordCompiler[t.LEXEME_NAMESPACE] = require('../keyword/CompileNamespace').CompileNamespace;
+            keywordCompiler[t.LEXEME_PROC     ] = require('../keyword/CompileProc'     ).CompileProc;
+            keywordCompiler[t.LEXEME_RECORD   ] = require('../keyword/CompileRecord'   ).CompileRecord;
+            keywordCompiler[t.LEXEME_ADDR     ] = require('../keyword/CompileAddr'     ).CompileAddr;
+            keywordCompiler[t.LEXEME_MOD      ] = require('../keyword/CompileModule'   ).CompileModule;
+            keywordCompiler[t.LEXEME_FOR      ] = require('../keyword/CompileFor'      ).CompileFor;
+            keywordCompiler[t.LEXEME_WHILE    ] = require('../keyword/CompileWhile'    ).CompileWhile;
+            keywordCompiler[t.LEXEME_REPEAT   ] = require('../keyword/CompileRepeat'   ).CompileRepeat;
+            keywordCompiler[t.LEXEME_BREAK    ] = require('../keyword/CompileBreak'    ).CompileBreak;
+            keywordCompiler[t.LEXEME_RET      ] = require('../keyword/CompileRet'      ).CompileRet;
+            keywordCompiler[t.LEXEME_IF       ] = require('../keyword/CompileIf'       ).CompileIf;
+            keywordCompiler[t.LEXEME_SELECT   ] = require('../keyword/CompileSelect'   ).CompileSelect;
         }
     }
 
@@ -60,13 +61,9 @@ class CompileBlock extends CompileScope {
             case '#display':
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
-                    let display = token.lexeme.substr(1, token.lexeme.length - 2).split(',');
-                    if (display.indexOf('sensors') !== -1) {
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorSensors', true);
-                    }
-                    if (display.indexOf('motors') !== -1) {
-                        dispatcher.dispatch('Settings.Set.ShowSimulatorMotors', true);
-                    }
+                    token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach((name) => {
+                        dispatcher.dispatch('Simulator.ShowPluginByName', name.trim());
+                    });
                 } else {
                     throw errors.createError(err.STRING_CONSTANT_EXPECTED, token, 'String constant expected.');
                 }
@@ -134,13 +131,17 @@ class CompileBlock extends CompileScope {
     }
 
     compileBlock(iterator, endStatements) {
-        let program = this._program;
-        let scope   = this._scope;
-        let end     = false;
-        let token   = null;
-        let opts    = {compiler: this._compiler, program: program, scope: scope};
+        let compiler = this._compiler;
+        let program  = this._program;
+        let scope    = this._scope;
+        let end      = false;
+        let token    = null;
+        let opts     = {compiler: compiler, program: program, scope: scope};
+        compiler.incDepth();
         while (!end && !iterator.finished()) {
             token = iterator.skipWhiteSpace().next();
+            // Check if the token belongs to the next file, if so then reset the namespace to the root.
+            compiler.getNamespace().checkCurrentFileIndex(token);
             program.nextBlockId(token, scope);
             switch (token.cls) {
                 case t.TOKEN_TYPE:
@@ -149,8 +150,10 @@ class CompileBlock extends CompileScope {
                 case t.TOKEN_KEYWORD:
                     if (token.is(t.LEXEME_END) || (endStatements && (endStatements.indexOf(token.lexeme) !== -1))) {
                         end = true;
-                    } else {
+                    } else if (keywordCompiler[token.lexeme]) {
                         new keywordCompiler[token.lexeme](opts).compile(iterator);
+                    } else {
+                        throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                     }
                     break;
                 case t.TOKEN_META:
@@ -203,6 +206,7 @@ class CompileBlock extends CompileScope {
                     break;
             }
         }
+        compiler.decDepth();
         return token;
     }
 }

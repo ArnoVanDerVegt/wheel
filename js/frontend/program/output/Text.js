@@ -50,6 +50,15 @@ exports.Text = class {
         }
         let param1 = command.getParam1();
         let param2 = command.getParam2();
+        if (!this._withLineNumber) {
+            let cmd       = command.getCmd();
+            let cmdPacked = (cmd << 4) + (param1.getType() << 2) + param2.getType();
+            if ([88, 84, 0, 64, 16, 101, 90, 106, 122].indexOf(cmdPacked) !== -1) {
+                num = '  ' + num;
+            } else {
+                num = '- ' + num;
+            }
+        }
         switch (command.getCmd()) {
             case $.CMD_SETF:
                 return num + ($.CMD_TO_STR[command.getCmd()] + space).substr(0, 8) +
@@ -114,17 +123,17 @@ exports.Text = class {
             text += '#STRINGS\n' +
                         '    ' + program.getStringCount() + ',' + program.getStringLength() + '\n' +
                         '    ' + stringList.length + '\n';
-            stringList.forEach(function(string) {
+            stringList.forEach((string) => {
                 text += '    "' + string + '"\n';
             });
             let constants = program.getConstants();
             text += '#CONSTANTS\n' +
                         '    ' + constants.length + '\n';
-            constants.forEach(function(constant) {
+            constants.forEach((constant) => {
                 text += '    offset: ' + ('0000' + constant.offset).substr(-4) + '\n';
                 let s = '    data:   [';
                 let first = true;
-                constant.data.forEach(function(n) {
+                constant.data.forEach((n) => {
                     if (first) {
                         first = false;
                     } else {

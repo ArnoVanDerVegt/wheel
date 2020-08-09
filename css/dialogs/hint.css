@@ -7,6 +7,14 @@
     position:                       relative;
     border-radius:                  2px;
 }
+.dialog-background.hint-dialog.open-file .dialog-center .dialog-content {
+    margin-top:                     -124px;
+    height:                         248px;
+}
+.dialog-background.hint-dialog.connected .dialog-center .dialog-content {
+    margin-top:                     -132px;
+    height:                         264px;
+}
 .dialog-background.hint-dialog .dialog-center .dialog-content .hint-text {
     position:                       absolute;
     left:                           32px;
@@ -15,4 +23,8 @@
     height:                         calc(56px);
     line-height:                    20px;
 }
-
+.dialog-background.hint-dialog .dialog-center .dialog-content a,
+.dialog-background.hint-dialog .dialog-center .dialog-content a:visited,
+.dialog-background.hint-dialog .dialog-center .dialog-content a:hover {
+    color:                          #3498DB;
+}

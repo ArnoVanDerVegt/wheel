@@ -7,6 +7,10 @@
     position:                       relative;
     border-radius:                  2px;
 }
+.dialog-background.direct-control-dialog .dialog-center .dialog-content.with-alias {
+    height:                         460px;
+    margin-top:                     -230px;
+}
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .brake,
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .volume {
     position:                       absolute;
@@ -58,6 +62,22 @@
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors.hidden {
     display:                        none;
 }
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor-alias {
+    float:                          left;
+    width:                          128px;
+    height:                         32px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-align:                     center;
+    text-overflow:                  ellipsis;
+    font-family:                    latolight;
+    font-size:                      18px;
+    margin:                         0 16px 0 0;
+    cursor:                         pointer;
+}
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor-alias.last {
+    margin:                         0;
+}
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor {
     float:                          left;
     position:                       relative;
@@ -76,6 +96,15 @@
     width:                          96px;
     height:                         48px;
     left:                           16px;
+}
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button.blue {
+    width:                          56px;
+    height:                         18px;
+    left:                           20px;
+    top:                            2px;
+    font-size:                      12px;
+    line-height:                    17px;
+    border-radius:                  10px;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button input {
     width:                          94px;
@@ -96,6 +125,9 @@
     height:                         24px;
     text-align:                     center;
     background-color:               var(--ui-background2);
+}
+.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.no-position .position .button.blue {
+    display:                        none;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .speed {
     top:                            72px;

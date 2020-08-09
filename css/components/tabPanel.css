@@ -1,0 +1,26 @@
+.tab-panels {
+    position:                       absolute;
+    min-width:                      128px;
+    min-height:                     80px;
+}
+.tab-panels .tabs {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    z-index:                        100;
+}
+.tab-panels .tab-panel {
+    position:                       absolute;
+    left:                           0;
+    top:                            39px;
+    width:                          100%;
+    height:                         calc(100% - 39px);
+    border:                         var(--ui-border1);
+    z-index:                        10;
+    display:                        none;
+    overflow:                       hidden;
+    background-color:               var(--ui-background1);
+}
+.tab-panels .tab-panel.visible {
+    display:                        block;
+}

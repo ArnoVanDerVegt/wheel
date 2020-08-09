@@ -1,0 +1,24 @@
+subcall modSensorMultiInit {
+    ARRAY(CREATE8,4,gMSData1_H) // ARRAY(INIT8,gMSData1_H,0,3,0,65,204)
+    ARRAY(INIT8,gMSData1_H,0,2,0,65)
+    ARRAY(INIT8,gMSData1_H,2,2,-51,0)
+
+    ARRAY(CREATE8,4,gMSData2_H) // ARRAY(INIT8,gMSData2_H,0,4,0,82,15,0)
+    ARRAY(INIT8,gMSData2_H,0,2,0,82,
+    ARRAY(INIT8,gMSData2_H,2,2,15,0)
+
+    ARRAY(CREATE8,2,gMSData3_H)
+    ARRAY(INIT8,gMSData3_H,0,2,0,64)
+
+    ARRAY(CREATE8,2,gMSData4_H)
+    ARRAY(INIT8,gMSData4_H,0,2,0,84)
+
+    MOVE8_8(0, gMSThreadStarted_8)
+
+    MOVE32_32(-1, gMSWriteOffset_32)
+    ARRAY(CREATE32, 4, gMSWriteOffset_H)
+    ARRAY_WRITE(gMSWriteOffset_H, 0, gMSWriteOffset_32)
+    ARRAY_WRITE(gMSWriteOffset_H, 1, gMSWriteOffset_32)
+    ARRAY_WRITE(gMSWriteOffset_H, 2, gMSWriteOffset_32)
+    ARRAY_WRITE(gMSWriteOffset_H, 3, gMSWriteOffset_32)
+}

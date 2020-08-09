@@ -1,3 +1,14 @@
+.progress-bar.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
 .progress-bar {
     float:                          left;
     width:                          64px;
@@ -10,12 +21,12 @@
     margin:                         17px 0 0 0;
     border-radius:                  4px;
     border:                         var(--ui-border1);
-    background-color:               var(--color-green);
+    background-color:               var(--color-red);
     overflow:                       hidden;
 }
 .progress-bar .bar .progress {
     float:                          left;
-    background-color:               var(--color-red);
+    background-color:               var(--color-green);
     width:                          50%;
     height:                         100%;
 }

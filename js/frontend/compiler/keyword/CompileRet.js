@@ -13,27 +13,32 @@ exports.CompileRet = class extends CompileScope {
         let retExpression       = iterator.nextUntilLexeme([t.LEXEME_NEWLINE]);
         let scope               = this._scope;
         let program             = this._program.nextBlockId(retExpression.tokens[0], scope);
-        let mathExpressionNode  = new MathExpression({
-                varExpression: this._varExpression,
-                compiler:      this._compiler,
-                program:       program,
-                scope:         scope
-            }).compile(retExpression, this._compiler.getPass());
-        if (mathExpressionNode.getValue()) {
-            let token = mathExpressionNode.getValue()[0];
-            if (token.cls === t.TOKEN_NUMBER) {
-               program.addCommand($.CMD_RET, $.T_NUM_C, token.value, 0, 0);
+
+        if (retExpression.tokens.length) {
+            let mathExpressionNode  = new MathExpression({
+                    varExpression: this._varExpression,
+                    compiler:      this._compiler,
+                    program:       program,
+                    scope:         scope
+                }).compile(retExpression, this._compiler.getPass());
+            if (mathExpressionNode.getValue()) {
+                let token = mathExpressionNode.getValue()[0];
+                if (token.cls === t.TOKEN_NUMBER) {
+                   program.addCommand($.CMD_RET, $.T_NUM_C, token.value, 0, 0);
+                } else {
+                    this._varExpression.compileExpressionToRegister(
+                        scope.findIdentifier(retExpression.tokens[0].lexeme),
+                        {tokens: mathExpressionNode.getValue()},
+                        $.REG_PTR
+                    );
+                    program.addCommand($.CMD_RET, $.T_NUM_P, 0, 0, 0);
+                }
             } else {
-                this._varExpression.compileExpressionToRegister(
-                    scope.findIdentifier(retExpression.tokens[0].lexeme),
-                    {tokens: mathExpressionNode.getValue()},
-                    $.REG_PTR
-                );
-                program.addCommand($.CMD_RET, $.T_NUM_P, 0, 0, 0);
+                mathExpressionNode.compile(t.LEXEME_NUMBER);
+                program.addCommand($.CMD_RET, $.T_NUM_L, scope.getStackOffset(), 0, 0);
             }
         } else {
-            mathExpressionNode.compile(t.LEXEME_NUMBER);
-            program.addCommand($.CMD_RET, $.T_NUM_L, scope.getStackOffset(), 0, 0);
+            program.addCommand($.CMD_RET, $.T_NUM_C, 0, 0, 0);
         }
     }
 };

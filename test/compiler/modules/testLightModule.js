@@ -15,12 +15,14 @@ describe(
             it,
             'Should set light pattern',
             [
-                'proc light(number color)',
+                'proc light(number mode)',
                 '    record Light',
-                '        number color',
+                '        number layer',
+                '        number mode',
                 '    end',
                 '    Light light',
-                '    light.color = color',
+                '    light.layer = 0',
+                '    light.mode  = mode',
                 '    addr light',
                 '    mod  3, 0',
                 'end',
@@ -31,7 +33,8 @@ describe(
             3, // Module id
             'Light.Light',
             {
-                color: 1
+                layer: 0,
+                mode:  1
             }
         );
     }

@@ -1,0 +1,36 @@
+@subject EV3_Example:Sound, sample
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Sound sample example
+This example shows how to include a sound sample file in a project and play the sample.
+
+
+When you upload this file to your EV3 device then the sample will also be uploaded.
+
+@section Code
+@example
+#project "Sound sample example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sound.whl"
+
+; Include the sample as resource:
+#resource "resources/sounds/information/start.rsf"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    playSample("start.rsf", 100)
+
+    halt()
+end
+@end
+
+@load Open the sound sample example|examples/ev3/sound/sample.whlp
+
+@see playSample,sound,Modules

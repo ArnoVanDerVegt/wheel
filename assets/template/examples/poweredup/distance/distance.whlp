@@ -1,0 +1,47 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Distance sensor example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/poweredUp.whl"
+#include "lib/light.whl"
+#include "lib/sensor.whl"
+
+#display "Hub"
+
+proc main()
+    ; Select the Powered Up device in the simulator...
+    selectDevice(DEVICE_POWERED_UP)
+
+    ; The following call selects the Move Hub in the simulator,
+    ; this is only necessary to run this demo without an actual connection to a device...
+    poweredUpSetDevice(LAYER_1, POWERED_UP_MOVE_HUB)
+
+    ; If you are using a Move Hub then this exemple expects the distance sensor to be
+    ; connected to port "C".
+    ; If you are using the Hub -which has only two ports- then you can change
+    ; the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+    number inputPort = POWERED_UP_PORT_C
+
+    sensorLayerSetType(LAYER_1, inputPort, POWERED_UP_DEVICE_BOOST_DISTANCE)
+    sensorLayerSetMode(LAYER_1, inputPort, POWERED_UP_SENSOR_MODE_DISTANCE)
+
+    number lastValue = -1
+
+    repeat
+        ; Read the color value:
+        number value = sensorLayerRead(LAYER_1, inputPort)
+
+        ; Check if the value is changed:
+        if value != lastValue
+            ; The value is changed!
+            lastValue = value
+
+            ; Display the new distance value...
+            clearConsole()
+            printS("Distance:")
+            printN(value)
+        end
+    end
+end

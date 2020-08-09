@@ -179,7 +179,7 @@ exports.Files = class extends Component {
     }
 
     setDisabled(disabled) {
-        this._fileElements.forEach(function(fileElement) {
+        this._fileElements.forEach((fileElement) => {
             fileElement.setDisabled(disabled);
         });
     }

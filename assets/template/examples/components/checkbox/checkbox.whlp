@@ -1,0 +1,34 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Checkbox example"
+
+#include "lib/standard.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/checkbox.whl"
+#include "lib/components/statusLight.whl"
+
+#define CHECKBOX_FORM_CHECKBOX     0xFD9D281F
+#define CHECKBOX_FORM_STATUS_LIGHT 0x112F9C00
+
+#resource "checkbox.wfrm"
+
+number colors[2] = [COMPONENT_COLOR_GRAY, COMPONENT_COLOR_YELLOW]
+
+; @proc                   Checkbox onChange event.
+; @param windowHandle     The handle to the active window.
+; @param value            The checkbox value.
+proc onCheckboxFormCheckboxChange(number windowHandle, number value)
+    components.statusLight.setColor(windowHandle, CHECKBOX_FORM_STATUS_LIGHT, colors[value])
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showCheckboxFormForm()
+    ret components.form.show("checkbox.wfrm")
+end
+
+proc main()
+    showCheckboxFormForm()
+    halt()
+end

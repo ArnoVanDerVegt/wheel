@@ -1,0 +1,60 @@
+@subject EV3_Example:Screen, pixels
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Pixels example
+This example shows how draw black and white pixels.
+
+@section Code
+@example
+#project "Screen pixel example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/screen.whl"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    ; Fill half the screen black...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 128)
+
+    number s
+    number x, y = 0
+
+    setFillColor(WHITE)
+
+    s = 1
+    while y < 128
+        ; Draw a line with white pixels...
+        setFillColor(WHITE)
+        for x = 0 to 89 step 2
+            drawPixel(x, y)
+        end
+        ; Draw a line with black pixels...
+        setFillColor(BLACK)
+        for x = 90 to 178 step 2
+            drawPixel(x, y)
+        end
+        y += s
+        s += 1
+    end
+
+    updateScreen()
+
+    ; Wait...
+    halt()
+end
+@end
+
+@section Screenshot
+@image images/display/pixel.png
+
+@load Open the pixel example|examples/ev3/screen/pixel.whlp
+
+@see screen,standard,Modules

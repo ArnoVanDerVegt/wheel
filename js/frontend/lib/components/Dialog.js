@@ -13,16 +13,22 @@ exports.Dialog = class extends ComponentContainer {
         if (opts.uiOwner) {
             opts.ui = opts.uiOwner.getUI();
         }
-        this._settings = opts.settings;
-        this._ui       = opts.ui;
-        this._uiId     = opts.ui.getNextUIId();
-        this._getImage = opts.getImage;
-        this._help     = opts.help;
-        this._ui.addEventListener('Global.Key.Up', this, this.onGlobalKeyUp);
+        this._titleMove      = false;
+        this._documentMouseX = null;
+        this._documentMouseY = null;
+        this._documentDeltaX = 0;
+        this._documentDeltaY = 0;
+        this._hideTimeout    = null;
+        this._settings       = opts.settings;
+        this._ui             = opts.ui;
+        this._uiId           = opts.ui.getNextUIId();
+        this._getImage       = opts.getImage;
+        this._help           = opts.help;
+        this._globalEvents   = [];
     }
 
     setCloseElement(element) {
-        element.addEventListener('click', this.hide.bind(this));
+        element.addEventListener('click', this.onClose.bind(this));
     }
 
     setHelpElement(element) {
@@ -33,28 +39,56 @@ exports.Dialog = class extends ComponentContainer {
         this._dialogElement = element;
     }
 
+    setDialogContentElement(element) {
+        this._dialogContentElement = element;
+    }
+
     show() {
-        this._ui.pushUIId(this._uiId);
+        if (this._ui.getActiveUIId() === this._uiId) {
+            return;
+        }
+        let ui = this._ui;
+        this._globalEvents.push(
+            ui.addEventListener('Global.Mouse.Up',   this, this.onGlobalMouseUp),
+            ui.addEventListener('Global.Mouse.Move', this, this.onGlobalMouseMove),
+            ui.addEventListener('Global.Key.Up',     this, this.onGlobalKeyUp)
+        );
+        ui.pushUIId(this._uiId);
         let dialogNode = this._dialogNode;
         if (dialogNode.parentNode !== null) {
             return;
         }
         document.body.appendChild(dialogNode);
         setTimeout(
-            (function() {
+            () => {
                 dialogNode.className = this.addClassName(dialogNode.className, 'show');
-            }).bind(this),
+            },
             5
         );
     }
 
     hide() {
-        this._ui.popUIId();
+        if (this._hideTimeout) {
+            clearTimeout(this._hideTimeout);
+            this._hideTimeout = null;
+        }
         let dialogNode = this._dialogNode;
         dialogNode.className = this.removeClassName(dialogNode.className, 'show');
-        setTimeout(
-            function() {
-                document.body.removeChild(dialogNode);
+        this._hideTimeout = setTimeout(
+            () => {
+                this._hideTimeout = null;
+                try {
+                    let globalEvents = this._globalEvents;
+                    while (globalEvents.length) {
+                        globalEvents.pop()();
+                    }
+                    document.body.removeChild(dialogNode);
+                    this._ui.popUIId();
+                    this.onHide();
+                } catch (error) {
+                    console.error(error);
+                    // Ignore if node is already removed...
+                }
             },
             200
         );
@@ -95,6 +129,37 @@ exports.Dialog = class extends ComponentContainer {
         );
     }
 
+    onClose() {
+        this.hide();
+    }
+
+    onGlobalMouseUp(event) {
+        let style = this._dialogContentElement.style;
+        style.pointerEvents  = 'auto';
+        style.transition     = 'transform 0.2s, opacity 0.2s';
+        this._titleMove      = false;
+        this._documentMouseX = null;
+    }
+
+    onGlobalMouseMove(event) {
+        if (this._documentMouseX === null) {
+            this._documentMouseX = event.x;
+            this._documentMouseY = event.y;
+            return;
+        }
+        if (this._titleMove) {
+            this._documentDeltaX += event.x - this._documentMouseX;
+            this._documentDeltaY += event.y - this._documentMouseY;
+            event.stopPropagation();
+            event.preventDefault();
+            let style = this._dialogContentElement.style;
+            style.transition = '';
+            style.transform  = 'translate(' + this._documentDeltaX + 'px,' + this._documentDeltaY + 'px)';
+        }
+        this._documentMouseX = event.x;
+        this._documentMouseY = event.y;
+    }
+
     onGlobalKeyUp(event) {
         if (this._uiId !== this._ui.getActiveUIId()) {
             return;
@@ -107,12 +172,30 @@ exports.Dialog = class extends ComponentContainer {
     onApply() {
     }
 
+    onHide() {
+    }
+
     onDontShowAgain(dontShowAgain) {
+    }
+
+    onTitleMouseDown(event) {
+        let style = this._dialogContentElement.style;
+        style.transition    = '';
+        style.pointerEvents = 'none';
+        this._titleMove     = true;
+    }
+
+    onTitleMouseUp(event) {
+        this.onGlobalMouseUp(event);
     }
 
     createWindow(className, title, children) {
         children.unshift(
             {
+                id: (element) => {
+                    element.addEventListener('mousedown', this.onTitleMouseDown.bind(this));
+                    element.addEventListener('mouseup',   this.onTitleMouseUp.bind(this));
+                },
                 ref:       this.setRef('title'),
                 type:      'h2',
                 className: 'dialog-title',
@@ -141,6 +224,7 @@ exports.Dialog = class extends ComponentContainer {
                         className: 'dialog-center',
                         children: [
                             {
+                                id:        this.setDialogContentElement.bind(this),
                                 className: 'dialog-content',
                                 children: [
                                     {

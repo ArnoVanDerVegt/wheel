@@ -4,7 +4,7 @@
 **/
 // Top bar
 exports.MAIN_MENU                   =    1;
-exports.HELP                        =    8;
+exports.HELP                        =   10;
 
 // File tree
 exports.DELETE_FILE                 =   12;
@@ -53,6 +53,15 @@ exports.SOUND_FADE_OUT              = 4282;
 // Sound editor, toolbar bottom
 exports.SOUND_ZOOM                  = 4290;
 
+// Form editor, toolbar top
+exports.FORM_UNDO                   = 4256;
+exports.FORM_COPY                   = 4257;
+exports.FORM_PASTE                  = 4258;
+exports.FORM_DELETE                 = 4259;
+exports.FORM_COMPONENT_TYPES        = 4260;
+exports.FORM_COMPONENT              = 4265;
+exports.FORM_VIEW_GRID              = 4300;
+
 // Wheel editor, toolbar bottom
 exports.WHEEL_EDITOR_FIND_TEXT      = 4256;
 exports.WHEEL_EDITOR_FIND_BUTTON    = 4257;
@@ -65,14 +74,23 @@ exports.VM_VIEWER_SELECT_TEXT       = 4256;
 exports.VM_VIEWER_SELECT_RTF        = 4257;
 exports.VM_VIEWER_SELECT_AND_COPY   = 4258;
 
+// Above properties
+exports.PROPERTIES_LIST             = 4513;
+
+exports.CLOSE_PROPERTIES_BUTTON     = 4514;
+
+exports.PROPERTIES_CONTAINER        = 4515;
+
 // Above simulator
 exports.SIMULATOR_RUN_BUTTON        = 4513;
 exports.SIMULATOR_CONTINUE_BUTTON   = 4514;
-exports.LAYER_1_BUTTON              = 4515;
-exports.LAYER_2_BUTTON              = 4516;
-exports.LAYER_3_BUTTON              = 4517;
-exports.LAYER_4_BUTTON              = 4518;
-exports.CLOSE_SIMULATOR_BUTTON      = 4519;
+exports.DEVICE_EV3_BUTTON           = 4515;
+exports.DEVICE_POWERED_UP_BUTTON    = 4516;
+exports.LAYER_1_BUTTON              = 4517;
+exports.LAYER_2_BUTTON              = 4518;
+exports.LAYER_3_BUTTON              = 4519;
+exports.LAYER_4_BUTTON              = 4520;
+exports.CLOSE_SIMULATOR_BUTTON      = 4521;
 
 // Simulator
 exports.LAYER_1_SENSOR_1            = 4792;
@@ -93,7 +111,10 @@ exports.LAYER_4_SENSOR_3            = 4806;
 exports.LAYER_4_SENSOR_4            = 4807;
 exports.SENSOR_AUTO_RESET           = 4808;
 
+// Plugins
+exports.SIMULATOR_PLUGINS           = 4832;
+
 // Console
-exports.CONSOLE_TABS                = 5024;
-exports.CONSOLE_CLEAR_BUTTON        = 5040;
-exports.CLOSE_CONSOLE               = 5041;
+exports.CONSOLE_TABS                = 6400;
+exports.CONSOLE_CLEAR_BUTTON        = 6432;
+exports.CLOSE_CONSOLE               = 6433;

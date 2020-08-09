@@ -2,18 +2,20 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const DOMNode     = require('../../lib/dom').DOMNode;
-const Tabs        = require('../../lib/components/Tabs').Tabs;
-const Button      = require('../../lib/components/Button').Button;
-const Resizer     = require('../../lib/components/Resizer').Resizer;
-const CloseButton = require('../../lib/components/CloseButton').CloseButton;
-const tabIndex    = require('../tabIndex');
-const Vars        = require('./Vars').Vars;
-const NewVersion  = require('./NewVersion').NewVersion;
-const Registers   = require('./Registers').Registers;
-const Log         = require('./Log').Log;
-const Terminal    = require('./Terminal').Terminal;
+const platform             = require('../../lib/platform');
+const dispatcher           = require('../../lib/dispatcher').dispatcher;
+const DOMNode              = require('../../lib/dom').DOMNode;
+const Tabs                 = require('../../lib/components/Tabs').Tabs;
+const Button               = require('../../lib/components/Button').Button;
+const Resizer              = require('../../lib/components/Resizer').Resizer;
+const CloseButton          = require('../../lib/components/CloseButton').CloseButton;
+const SettingsState        = require('../settings/SettingsState');
+const tabIndex             = require('../tabIndex');
+const Vars                 = require('./Vars').Vars;
+const NewVersion           = require('./NewVersion').NewVersion;
+const Registers            = require('./Registers').Registers;
+const Log                  = require('./Log').Log;
+const Terminal             = require('./Terminal').Terminal;
 
 exports.Console = class extends DOMNode {
     constructor(opts) {
@@ -21,9 +23,12 @@ exports.Console = class extends DOMNode {
         this._ui              = opts.ui;
         this._settings        = opts.settings;
         this._getDataProvider = opts.getDataProvider;
-        dispatcher.on('Console.Breakpoint',   this, this.onBreakpoint);
-        dispatcher.on('Console.RuntimeError', this, this.onRuntimeError);
-        this.initDOM(document.body);
+        dispatcher
+            .on('Console.Breakpoint',   this, this.onBreakpoint)
+            .on('Console.RuntimeError', this, this.onRuntimeError)
+            .on('Console.Log',          this, this.onLog)
+            .on('Console.Error',        this, this.onError);
+        this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {
@@ -33,7 +38,7 @@ exports.Console = class extends DOMNode {
                 {title: 'Global vars', onClick: this.onClickGlobalVarsTab.bind(this)},
                 {title: 'Local vars',  onClick: this.onClickLocalVarsTab.bind(this)}
             ];
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             tabs.push({title: 'Terminal', onClick: this.onClickTerminalTab.bind(this)});
         }
         this.create(
@@ -83,38 +88,39 @@ exports.Console = class extends DOMNode {
                         className: 'console-content',
                         children: [
                             {
-                                id:     this.setLogElement.bind(this),
-                                type:   Log,
-                                ui:     this._ui
+                                type:     Log,
+                                id:       this.setLogElement.bind(this),
+                                ui:       this._ui,
+                                settings: this._settings
                             },
                             {
-                                ref:    this.setRef('globals'),
-                                type:   Vars,
-                                ui:     this._ui,
-                                global: true
+                                type:     Vars,
+                                ref:      this.setRef('globals'),
+                                ui:       this._ui,
+                                global:   true
                             },
                             {
-                                ref:    this.setRef('locals'),
-                                type:   Vars,
-                                ui:     this._ui,
-                                global: false
+                                type:     Vars,
+                                ref:      this.setRef('locals'),
+                                ui:       this._ui,
+                                global:   false
                             },
                             {
-                                ref:    this.setRef('registers'),
-                                type:   Registers,
-                                ui:     this._ui
+                                type:     Registers,
+                                ref:      this.setRef('registers'),
+                                ui:       this._ui
                             },
-                            ('electron' in window) ?
+                            platform.isElectron() ?
                                 {
-                                    ref:      this.setRef('terminal'),
                                     type:     Terminal,
+                                    ref:      this.setRef('terminal'),
                                     ui:       this._ui
                                 } :
                                 null,
-                            ('electron' in window) ?
+                            platform.isElectron() ?
                                 {
-                                    ref:      this.setRef('newVersion'),
                                     type:     NewVersion,
+                                    ref:      this.setRef('newVersion'),
                                     ui:       this._ui,
                                     console:  this,
                                     settings: this._settings
@@ -185,6 +191,28 @@ exports.Console = class extends DOMNode {
 
     onCloseConsole() {
         dispatcher.dispatch('Settings.Toggle.ShowConsole');
+    }
+
+    onLog(message) {
+        this.showForIncoming(message.type);
+    }
+
+    onError(message) {
+        this.showForIncoming(SettingsState.CONSOLE_MESSAGE_TYPE_ERROR);
+    }
+
+    showForIncoming(incomingType) {
+        let settings = this._settings;
+        if (settings.getConsoleShowOnLevel() === SettingsState.CONSOLE_NEVER) {
+            return;
+        }
+        let incoming = SettingsState.CONSOLE_LOG_LEVELS.indexOf(incomingType);
+        let level    = SettingsState.CONSOLE_LOG_LEVELS.indexOf(settings.getConsoleShowOnLevel());
+        if (incoming >= level) {
+            dispatcher.dispatch('Settings.Set.Console.Visible', true);
+            this.hide().show(this._logElement);
+            this._refs.tabs.setActiveTab('Console');
+        }
     }
 
     show(active) {

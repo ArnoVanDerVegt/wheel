@@ -113,23 +113,30 @@ exports.BooleanExpression = class {
         this._scope         = opts.scope;
     }
 
-    compileToTree(tokens, startIndex, endIndex) {
+    compileToTree(tokens, startIndex, endIndex, not) {
+        if (tokens[startIndex].lexeme === t.LEXEME_NOT) {
+            // Found an expression like:
+            //     "if not (a == 1)"
+            // Or:
+            //     "if not a == 1"
+            // Or:
+            //     "if not a == 1 and b == 2"
+            startIndex++;
+            not = true;
+        }
         let operator            = null;
         let operatorIndex       = -1;
-        let not                 = false;
         let removedParenthesis  = tokenUtils.removeParenthesis(tokens, startIndex, endIndex);
         startIndex = removedParenthesis.startIndex;
         endIndex   = removedParenthesis.endIndex;
         let token = tokens[startIndex];
-        if ((token.cls === t.TOKEN_KEYWORD) && (token.lexeme === t.LEXEME_NOT)) {
-            not = true;
-        }
         for (let index = startIndex; index < endIndex; index++) {
             token = tokens[index];
             switch (token.cls) {
                 case t.TOKEN_PARENTHESIS_OPEN:
                     let indexAndExpression = tokenUtils.getIndexAfterTokenPairs(
-                            {tokens: tokens}, index + 1,
+                            {tokens: tokens},
+                            index + 1,
                             [t.TOKEN_PARENTHESIS_OPEN, t.TOKEN_PARENTHESIS_CLOSE]
                         );
                     index = indexAndExpression.index - 1;
@@ -142,9 +149,6 @@ exports.BooleanExpression = class {
                     break;
             }
         }
-        if (not && (operator === null)) {
-            startIndex++;
-        }
         if (operatorIndex === -1) {
             return new BooleanExpressionNode({
                     scope:         this._scope,
@@ -155,12 +159,14 @@ exports.BooleanExpression = class {
                 .setCompiler(this._compiler)
                 .setProgram(this._program);
         }
+        // The "not" operator is passed on to the next compileToTree call.
+        // This happens when there's an "and" or "or" found like: "if not a == 1 and b == 2"
         return new BooleanExpressionNode({
                 scope:         this._scope,
                 varExpression: this._varExpression,
-                left:          this.compileToTree(tokens, startIndex, operatorIndex),
-                right:         this.compileToTree(tokens, operatorIndex + 1, endIndex, operator),
-                not:           not,
+                left:          this.compileToTree(tokens, startIndex, operatorIndex, not),
+                right:         this.compileToTree(tokens, operatorIndex + 1, endIndex, false),
+                not:           false,
                 operator:      tokens[operatorIndex].lexeme
             })
             .setCompiler(this._compiler)
@@ -168,6 +174,6 @@ exports.BooleanExpression = class {
     }
 
     compile(expression) {
-        return this.compileToTree(expression.tokens, 0, expression.tokens.length);
+        return this.compileToTree(expression.tokens, 0, expression.tokens.length, false);
     }
 };

@@ -12,7 +12,7 @@ exports.ExploreDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._settings    = opts.settings;
-        this._brick       = opts.brick;
+        this._ev3         = opts.ev3;
         this._currentFile = null;
         this.createWindow(
             'ev3-file-viewer-dialog',
@@ -59,6 +59,7 @@ exports.ExploreDialog = class extends Dialog {
                     label:      false,
                     onSelect:   this.onSelectLeftDetail.bind(this),
                     className:  'left-view',
+                    color:      'green',
                     options: [
                         {title: 'Normal',   icon: 'icon-list'},
                         {title: 'Detailed', icon: 'icon-list-detail'}
@@ -83,7 +84,7 @@ exports.ExploreDialog = class extends Dialog {
                 this.addButton({
                     ref:        this.setRef('delete'),
                     className:  'delete',
-                    icon:       'icon-delete',
+                    icon:       'icon-delete-default',
                     title:      'Delete',
                     onClick:    this.onDeleteItem.bind(this),
                     disabled:   true
@@ -109,6 +110,7 @@ exports.ExploreDialog = class extends Dialog {
                     label:      false,
                     onSelect:   this.onSelectRightDetail.bind(this),
                     className:  'right-view',
+                    color:      'green',
                     options: [
                         {title: 'Normal',   icon: 'icon-list'},
                         {title: 'Detailed', icon: 'icon-list-detail'}
@@ -145,14 +147,14 @@ exports.ExploreDialog = class extends Dialog {
             'get',
             uri,
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     this.onLeftPath(json.path);
                     callback(json.path, json.files);
                 } catch (error) {
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -168,7 +170,7 @@ exports.ExploreDialog = class extends Dialog {
             'get',
             'ev3/files',
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = JSON.parse(data);
                     this.onRightPath(json.path);
@@ -183,7 +185,7 @@ exports.ExploreDialog = class extends Dialog {
                     );
                     this._refs.remoteFiles.setLoading(false);
                 }
-            }).bind(this)
+            }
         );
     }
 
@@ -242,7 +244,7 @@ exports.ExploreDialog = class extends Dialog {
         let remotePath    = remoteFiles.getPath();
         if (localFilename && (['.rbf', '.rgf', '.rtf', '.rsf'].indexOf(path.getExtension(localFilename)) !== -1)) {
             remoteFiles.setLoading(true);
-            this._brick.download(
+            this._ev3.download(
                 path.join(localPath,  localFilename),
                 path.join(remotePath, localFilename)
             );
@@ -266,9 +268,9 @@ exports.ExploreDialog = class extends Dialog {
         let remoteFiles = refs.remoteFiles;
         refs.delete.setDisabled(true);
         remoteFiles.setLoading(true);
-        this._brick.deleteFile(
+        this._ev3.deleteFile(
             this._deleteFilename,
-            (function(result) {
+            (result) => {
                 if (result.error) {
                     dispatcher.dispatch(
                         'Dialog.Alert.Show',
@@ -279,7 +281,7 @@ exports.ExploreDialog = class extends Dialog {
                     );
                 }
                 this.onRemoteDirUpdated();
-            }).bind(this)
+            }
         );
     }
 
@@ -288,9 +290,11 @@ exports.ExploreDialog = class extends Dialog {
         this._deleteFilename = path.join(remoteFiles.getPath(), remoteFiles.getFilename());
         dispatcher.dispatch(
             'Dialog.Confirm.Show',
-            'Confirm delete',
-            ['Are you sure you want to delete "' + this._deleteFilename + '"?'],
-            'Dialog.Confirm.DeleteItem'
+            {
+                title:         'Confirm delete',
+                lines:         ['Are you sure you want to delete "' + this._deleteFilename + '"?'],
+                dispatchApply: 'Dialog.Confirm.DeleteItem'
+            }
         );
     }
 
@@ -315,7 +319,7 @@ exports.ExploreDialog = class extends Dialog {
             let remoteFiles = this._refs.remoteFiles;
             remoteFiles.setLoading(true);
             directory = path.join(remoteFiles.getPath(), directory);
-            this._brick.createDir(directory, this.onRemoteDirUpdated.bind(this));
+            this._ev3.createDir(directory, this.onRemoteDirUpdated.bind(this));
         }
     }
 
@@ -335,14 +339,14 @@ exports.ExploreDialog = class extends Dialog {
     }
 
     onShow() {
-        this._brick.stopPolling();
+        this._ev3.stopPolling();
         this._refs.localFiles.load();
         this._refs.remoteFiles.load(true);
         this.show();
     }
 
     hide() {
-        this._brick.resumePolling();
+        this._ev3.resumePolling();
         super.hide();
     }
 };

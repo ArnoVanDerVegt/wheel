@@ -1,0 +1,46 @@
+@subject EV3_Example:Light
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Light example
+This example demonstrates how to read the EV3 buttons.
+
+@section IDE vs VM
+When this program is executed from the IDE the behaviour is slightly different than when executed from the VM on the brick.
+The VM on the brick can only flash while the IDE can flash or pulse.
+
+@section Code
+@example
+#project "EV3 Light example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/light.whl"
+
+#display "EV3"
+
+proc main()
+    ; Turn the red light on and wait 1 second...
+    light(LIGHT_RED)
+    sleep(1000)
+
+    ; Turn the yellow light on and wait 3 seconds...
+    light(LIGHT_ORANGE_FLASH)
+    sleep(3000)
+
+    ; Turn the yellow light on and wait 1 second...
+    light(LIGHT_ORANGE)
+    sleep(1000)
+
+    ; Turn the green pulse light on and wait 3 seconds...
+    light(LIGHT_GREEN_PULSE)
+    sleep(3000)
+
+    ; Turn the light off.
+    light(LIGHT_OFF)
+end
+@end
+
+@load Open the light example|examples/ev3/light/light.whlp
+
+@see light,standard,Modules

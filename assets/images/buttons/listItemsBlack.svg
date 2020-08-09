@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <text x="3.3" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>
+    <text x="7.8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>
+    <text x="3.3" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>
+    <text x="7.8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>
+    <text x="3.3" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>
+    <text x="7.8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text>
+</svg>

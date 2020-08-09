@@ -14,9 +14,9 @@ exports.Checkbox = class extends Component {
         this.initDOM(opts.parentNode);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
                 type:      'a',
@@ -64,7 +64,11 @@ exports.Checkbox = class extends Component {
         this.onCancelEvent(event);
         this._checked = !this._checked;
         this._element.focus();
-        this._onChange && this._onChange(this._checked);
+        (typeof this._onChange === 'function') && this._onChange(this._checked ? 1 : 0);
         this._element.className = this.getClassName();
+    }
+
+    focus() {
+        this._element.focus();
     }
 };

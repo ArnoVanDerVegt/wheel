@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const keywords = [
+        'namespace',
         'proc',
         'for',
         'repeat',
@@ -35,7 +36,9 @@ const keywords = [
         'jmpc',
         'copy',
         'else',
-        'struct',
+        'elseif',
+        'record',
+        'union',
         'or',
         'and',
         'call'
@@ -79,7 +82,8 @@ const sign = [
         '}',
         ':',
         '@',
-        '^'
+        '^',
+        '.'
     ];
 
 const meta = [
@@ -178,7 +182,7 @@ exports.WheelSyntax = class {
             line    = line.substr(0, i);
         }
         i = 0;
-        let addWord = (function(w) {
+        let addWord = (w) => {
                 w = w || word;
                 let grabNextWord = function() {
                         let j = i;
@@ -222,7 +226,7 @@ exports.WheelSyntax = class {
                     result += '<span class="number">' + w + '</span>';
                 }
                 word = '';
-            }).bind(this);
+            };
         while (i < line.length) {
             let c = line[i];
             switch (c) {
@@ -247,6 +251,8 @@ exports.WheelSyntax = class {
                 case ')':
                 case '[':
                 case ']':
+                case '{':
+                case '}':
                 case ':':
                 case '+':
                 case '-':

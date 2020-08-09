@@ -1,0 +1,72 @@
+@subject EV3_Example:PSP, Left/right buttons
+@device  E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section PSP Left and right buttons
+This example shows how to use the Mindsensors PSP device to read the left and right buttons.
+
+@section Code
+@example
+#project "PSP L/R demo"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sensor.whl"
+#include "lib/screen.whl"
+#include "lib/psp.whl"
+
+#display "EV3, PSP"
+
+proc drawButtonOutline(number x, number y)
+    drawRect(x, y, 22, 12)
+end
+
+proc drawButton(number x, number y, number fillColor)
+    setFillColor(toBit(fillColor))
+    drawRect(x, y, 20, 10)
+end
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    pspStart(INPUT_1)
+
+    number lastL1 = 0
+    number lastL2 = 0
+    number lastR1 = 0
+    number lastR2 = 0
+
+    drawButtonOutline(66, 43)
+    drawButtonOutline(66, 63)
+    drawButtonOutline(91, 43)
+    drawButtonOutline(91, 63)
+    updateScreen()
+
+    setFill(TRUE)
+
+    repeat
+        if pspData.buttonL1 != lastL1
+            lastL1 = pspData.buttonL1
+            drawButton(67, 44, lastL1)
+        end
+        if pspData.buttonL2 != lastL2
+            lastL2 = pspData.buttonL2
+            drawButton(67, 64, lastL2)
+        end
+        if pspData.buttonR1 != lastR1
+            lastR1 = pspData.buttonR1
+            drawButton(92, 44, lastR1)
+        end
+        if pspData.buttonR2 != lastR2
+            lastR2 = pspData.buttonR2
+            drawButton(92, 64, lastR2)
+        end
+        updateScreen()
+    end
+end
+@end
+
+@load Open the PSP left/right example|examples/ev3/psp/lr.whlp
+
+@see pspStart,pspData,Modules

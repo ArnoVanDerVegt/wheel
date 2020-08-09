@@ -1,0 +1,15 @@
+subcall modPSPInit {
+    ARRAY(CREATE8,4,gPSPData1_H) // ARRAY(INIT8,gPSPData1_H,0,3,0,65,204)
+    ARRAY(INIT8,gPSPData1_H,0,2,0,65)
+    ARRAY(INIT8,gPSPData1_H,2,2,-51,0)
+
+    ARRAY(CREATE8,4,gPSPData2_H) // ARRAY(INIT8,gPSPData2_H,0,3,0,65,73)
+    ARRAY(INIT8,gPSPData2_H,0,2,0,65)
+    ARRAY(INIT8,gPSPData2_H,2,2,73,0)
+
+    ARRAY(CREATE8,2,gPSPData3_H)
+    ARRAY(INIT8,gPSPData3_H,0,2,0,64)
+
+    MOVE8_8(0, gPSPThreadStarted_8)
+    MOVE32_32(-1, gPSPWriteOffset_32)
+}

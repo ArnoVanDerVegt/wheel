@@ -1,0 +1,31 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Label example"
+
+#include "lib/standard.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/label.whl"
+
+#define LABEL_COUNT 0x5EF685C3
+#define LABEL_LABEL 0x3B44B2E3
+
+#resource "label.wfrm"
+
+number count = 0
+number windowHandle
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showLabelForm()
+    ret components.form.show("label.wfrm")
+end
+
+proc main()
+    windowHandle = showLabelForm()
+    repeat
+        count++
+        components.label.setValueNumber(windowHandle, LABEL_COUNT, count)
+        sleep(500)
+    end
+end

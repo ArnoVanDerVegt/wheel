@@ -1,7 +1,0 @@
-<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-    <text x="2.5" y="15.5" style="font-family:times;font-size:20px;stroke:rgb(255,255,255);">T</text>
-    <text x="3.5" y="16.5" style="font-family:times;font-size:20px;stroke:rgb(255,255,255);">T</text>
-    <text x="3" y="16" style="font-family:times;font-size:20px;">T</text>
-    <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="white" />
-    <text x="11.5" y="17" style="font-family:monospace;font-size:9px;">3</text>
-</svg>

@@ -17,7 +17,7 @@ exports.MainMenu = class extends DOMNode {
         this._menus        = [];
         this._menuByHotkey = {};
         this._altPressed   = false;
-        this.initDOM();
+        this.initDOM(opts.parentNode);
         this._ui
             .addEventListener('Global.UIId',     this, this.onGlobalUIId)
             .addEventListener('Global.Key.Down', this, this.onGlobalKeyDown)
@@ -26,7 +26,7 @@ exports.MainMenu = class extends DOMNode {
 
     initDOM(parentNode) {
         this.create(
-            document.body,
+            parentNode,
             {
                 id:        this.setMainMenuElement.bind(this),
                 className: 'main-menu',
@@ -108,7 +108,7 @@ exports.MainMenu = class extends DOMNode {
     }
 
     hideAllMenus() {
-        this._menus.forEach(function(menu) {
+        this._menus.forEach((menu) => {
             menu.setMenuVisible(false);
         });
     }

@@ -7,3 +7,87 @@
     border:                         var(--ui-border1);
     border-width:                   0 0 1px 0;
 }
+.resource-options .space {
+    float:                          left;
+    width:                          1px;
+    height:                         36px;
+    margin:                         5px 8px 0 8px;
+    border:                         2px solid rgba(0, 0, 0, 0.15);
+    border-color:                   transparent rgba(0, 0, 0, 0.1) transparent rgba(255, 255, 255, 0.1);
+}
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue,
+.resource-options .tool-options-toolbar input {
+    opacity:                        0;
+    transition:                     opacity .5s;
+    background-position:            -2px -2px;
+    background-size:                32px 32px;
+}
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue,
+.resource-options .tool-options-toolbar input,
+.resource-options input.toolbar-button {
+    background-color:               transparent;
+    width:                          32px;
+    height:                         32px;
+    border:                         2px solid transparent;
+    border-radius:                  16px;
+    box-shadow:                     none;
+    transition:                     border-color 0.2s;
+}
+.resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue,
+.resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue,
+.resource-options .tool-options-toolbar:hover input,
+.resource-options .tool-options-toolbar.focus input {
+    opacity:                        1;
+}
+.resource-options input.toolbar-button:hover,
+.resource-options input.toolbar-button.focus,
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue:hover,
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue.focus,
+.resource-options .tool-options-toolbar input:hover {
+    border:                         2px solid transparent;
+    background-color:               var(--color-blue);
+}
+.resource-options input.toolbar-button.active,
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue.active,
+.resource-options .tool-options-toolbar input.active {
+    z-index:                        100;
+    opacity:                        1;
+}
+.resource-options .tool-options-toolbar:hover input.active,
+.resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
+.resource-options .tool-options-toolbar.focus input.active,
+.resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active {
+    border-color:                   transparent;
+}
+.resource-options .tool-options-toolbar input[type="button"].icon-button.blue.active,
+.resource-options .tool-options-toolbar input.active {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+}
+.resource-options.top .tool-options-toolbar input[type="button"].icon-button {
+    margin:                         0 2px 0 0;
+}
+.resource-options .tool-options-toolbar {
+    position:                       relative;
+    background-color:               transparent;
+    border-radius:                  12px;
+    box-shadow:                     none;
+    max-width:                      32px;
+    transition:                     max-width .5s;
+    height:                         32px;
+    overflow:                       hidden;
+}
+.resource-options .tool-options-toolbar:hover,
+.resource-options .tool-options-toolbar.focus {
+    max-width:                      320px;
+}
+.resource-options .tool-options-toolbar:hover input[type="button"].icon-button.blue.active,
+.resource-options .tool-options-toolbar.focus input[type="button"].icon-button.blue.active {
+    position:                       static;
+    left:                           auto;
+    top:                            auto;
+}
+.resource-options body.ide.dark .icon-button {
+    opacity:                        0.5;
+}

@@ -7,15 +7,20 @@ const DOMNode = require('../../../../lib/dom').DOMNode;
 exports.HomeScreenTile = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._uiId     = 1;
-        this._ui       = opts.ui;
-        this._title    = opts.title;
-        this._subTitle = opts.subTitle || '';
-        this._icon     = opts.icon;
-        this._onClick  = opts.onClick;
-        this._tabIndex = opts.tabIndex;
+        this._uiId           = 1;
+        this._ui             = opts.ui;
+        this._title          = opts.title;
+        this._subTitle       = opts.subTitle || '';
+        this._icon           = opts.icon;
+        this._onClick        = opts.onClick;
+        this._tabIndex       = opts.tabIndex;
+        this._settingsGetter = opts.settingsGetter;
         this.initDOM(opts.parentNode);
         opts.ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        if (opts.settings) {
+            this._settings = opts.settings;
+            opts.settings.on('Settings.HomeScreen', this, this.onChangeHomeScreen);
+        }
         (typeof opts.id === 'function') && opts.id(this);
     }
 
@@ -23,6 +28,7 @@ exports.HomeScreenTile = class extends DOMNode {
         this.create(
             parentNode,
             {
+                ref:       this.setRef('homeScreenTile'),
                 className: 'home-screen-tile',
                 children: [
                     {
@@ -42,12 +48,7 @@ exports.HomeScreenTile = class extends DOMNode {
                                         className: 'title',
                                         innerHTML: this._title
                                     },
-                                    {
-                                        ref:       this.setRef('subTitle'),
-                                        type:      'span',
-                                        className: 'sub-title',
-                                        innerHTML: this._subTitle
-                                    }
+                                    this.getSubTitle()
                                 ]
                             }
                         ]
@@ -55,6 +56,17 @@ exports.HomeScreenTile = class extends DOMNode {
                 ]
             }
         );
+        let visible = this._settingsGetter ? this._settingsGetter() : true;
+        this._refs.homeScreenTile.style.display = visible ? 'block' : 'none';
+    }
+
+    getSubTitle() {
+        return {
+            ref:       this.setRef('subTitle'),
+            type:      'span',
+            className: 'sub-title',
+            innerHTML: this._subTitle
+        };
     }
 
     getIcon() {
@@ -77,6 +89,13 @@ exports.HomeScreenTile = class extends DOMNode {
 
     onGlobalUIId() {
         this._element.tabIndex = (this._uiId === this._ui.getActiveUIId()) ? this._tabIndex : -1;
+    }
+
+    onChangeHomeScreen() {
+        if (!this._settingsGetter) {
+            return;
+        }
+        this._refs.homeScreenTile.style.display = this._settingsGetter() ? 'block' : 'none';
     }
 
     onFocus() {

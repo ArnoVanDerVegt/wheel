@@ -1,0 +1,102 @@
+; @module PSP
+; @device E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This module adds support for connecting a PSP wireless controller from Mindsensors.
+; http://www.mindsensors.com/ev3-and-nxt/31-psp-nx-v4-ref-combo-with-wireless-controller
+
+; @const The PSP controller module.
+#define MODULE_PSP                  32
+
+; @const Module calls for PSP functions.
+#define MODULE_PSP_SET_WRITE_OFFSET  0
+#define MODULE_PSP_START             1
+#define MODULE_PSP_STOP              2
+
+#define PSP_BUTTON_CIRCLE            1
+#define PSP_BUTTON_CROSS             2
+#define PSP_BUTTON_TRIANGLE          3
+#define PSP_BUTTON_SQUARE            4
+#define PSP_BUTTON_R1                5
+#define PSP_BUTTON_R2                6
+#define PSP_BUTTON_L1                7
+#define PSP_BUTTON_L2                8
+#define PSP_BUTTON_LEFT              9
+#define PSP_BUTTON_RIGHT            10
+#define PSP_BUTTON_UP               11
+#define PSP_BUTTON_DOWN             12
+#define PSP_BUTTON_START            13
+#define PSP_BUTTON_SELECT           14
+#define PSP_STICK_LEFT_X            15
+#define PSP_STICK_LEFT_Y            16
+#define PSP_STICK_RIGHT_X           17
+#define PSP_STICK_RIGHT_Y           18
+
+record PSPData
+    number buttonCircle
+    number buttonCross
+    number buttonTriangle
+    number buttonSquare
+    number buttonR1
+    number buttonR2
+    number buttonL1
+    number buttonL2
+    number buttonLeft
+    number buttonRight
+    number buttonUp
+    number buttonDown
+    number buttonStart
+    number buttonSelect
+    number stickLeftX
+    number stickLeftY
+    number stickRightX
+    number stickRightY
+    number anyButton
+end
+
+PSPData pspData
+
+; @proc             Set the write data offset and start the PSP update thread.
+; @param port       The port to which the receiver is connected, the first port is 0, the second 1, etc...
+proc pspStart(number port)
+    ; Reset the values...
+    pspData.buttonCircle   = 0
+    pspData.buttonCross    = 0
+    pspData.buttonTriangle = 0
+    pspData.buttonSquare   = 0
+    pspData.buttonR1       = 0
+    pspData.buttonR2       = 0
+    pspData.buttonL1       = 0
+    pspData.buttonL2       = 0
+    pspData.buttonLeft     = 0
+    pspData.buttonRight    = 0
+    pspData.buttonUp       = 0
+    pspData.buttonDown     = 0
+    pspData.buttonStart    = 0
+    pspData.buttonSelect   = 0
+    pspData.stickLeftX     = 0
+    pspData.stickLeftY     = 0
+    pspData.stickRightX    = 0
+    pspData.stickRightY    = 0
+    pspData.anyButton      = 0
+
+    addr pspData
+    mod  MODULE_PSP, MODULE_PSP_SET_WRITE_OFFSET
+    addr port
+    mod  MODULE_PSP, MODULE_PSP_START
+end
+
+; @proc             Stop the PSP update thread.
+proc pspStop()
+    mod  MODULE_PSP, MODULE_PSP_STOP
+end
+
+; @proc             Wait until a PSP button is press.
+proc pspWaitForButton()
+    repeat
+        if pspData.anyButton
+            break
+        end
+    end
+end

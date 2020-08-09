@@ -1,0 +1,57 @@
+@subject EV3_Example:Screen, rectangles
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Circle example
+This example shows how draw black and white, filled and line rectangles.
+
+@section Code
+@example
+#project "Screen rectangle example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/screen.whl"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    ; Draw two black filled rectangles at the left/top and right/bottom...
+    setFill(TRUE)
+    setFillColor(BLACK)
+    drawRect(0, 0, 89, 64)
+    drawRect(89, 64, 89, 64)
+
+    ; Draw a white line rectangle at the left/top...
+    setFill(FALSE)
+    setFillColor(WHITE)
+    drawRect(10, 10, 69, 44)
+
+    ; Draw a white filled rectangle at the right/bottom...
+    setFill(TRUE)
+    drawRect(99, 74, 69, 44)
+
+    ; Draw a black filled rectangle at the right/top...
+    setFillColor(BLACK)
+    drawRect(99, 10, 69, 44)
+
+    ; Draw a black line rectangle at the left/bottom...
+    setFill(FALSE)
+    drawRect(10, 74, 69, 44)
+
+    updateScreen()
+
+    ; Wait...
+    halt()
+end
+@end
+
+@section Screenshot
+@image images/display/rectangle.png
+
+@load Open the rectangle example|examples/ev3/screen/rectangle.whlp
+
+@see screen,standard,Modules

@@ -1,0 +1,36 @@
+@subject VM:VM Installing on EV3
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Standard firmware
+The Wheel VM is built on top of the standard EV3 VM. It's a small `.rbf` file which runs the code from a `.rtf` file.
+You don't have to use an SD card or change the firmware to run a Wheel program.
+
+@section Installing with Wheel
+When you've downloaded and installed the Wheel IDE then installing a compiled program is easy.
+After connecting your EV3 and compiling your program you can select the `"Install compiled files on EV3"`
+option from the EV3 menu.
+
+
+This option will show a dialog which allows you to install all files and resources
+of your project on the EV3 with a single click.
+
+
+You can also select the `"Autoinstall after compile"` option in the EV3 menu. When this option is active
+then all files will automatically be installed on your EV3 every time you rebuild your project.
+
+
+@section Manual installation
+If you're compiling a file on the demo website then the VM code is displayed in a new tab.
+The tab contains two views, the active view displays the readable version of the code.
+
+
+Below the source there's a button which allows you to select `text` or `rtf`. When you select the `rtf`
+view then the `select and copy` button will activate. You can click this button to select and copy the
+code. This code has to be pasted in a file named `program.rtf`.
+
+
+The `program.rtf` file and de `vm.rbf` have to be uploaded to your EV3 device and be placed in the same directory.
+The `vm.rbf` file can be found on github at: `https://github.com/ArnoVanDerVegt/wheel/tree/master/assets/template/vm`.
+
+@see connecting

@@ -1,0 +1,466 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Module:Math</title>
+    <meta name="description" content="Module:Math"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Math</h2>
+            <a id="Constants"></a>
+            <h4 class="">Constants</h4>
+            <p>
+                <a id="Themathmodule."></a>
+                <div>The math module.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 6<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MODULE_MATH</td><td>1</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Modulecallsformathfunctions."></a>
+                <div>Module calls for math functions.<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 9<br/></div>
+                <table class="help-table constants">
+                    <tr><td>MATH_ROUND</td><td>0</td></tr>
+                    <tr><td>MATH_FLOOR</td><td>1</td></tr>
+                    <tr><td>MATH_CEIL</td><td>2</td></tr>
+                    <tr><td>MATH_ABS</td><td>3</td></tr>
+                    <tr><td>MATH_NEG</td><td>4</td></tr>
+                    <tr><td>MATH_RANDOM</td><td>5</td></tr>
+                    <tr><td>MATH_SIN</td><td>6</td></tr>
+                    <tr><td>MATH_COS</td><td>7</td></tr>
+                    <tr><td>MATH_TAN</td><td>8</td></tr>
+                    <tr><td>MATH_ASIN</td><td>9</td></tr>
+                    <tr><td>MATH_ACOS</td><td>10</td></tr>
+                    <tr><td>MATH_ATAN</td><td>11</td></tr>
+                    <tr><td>MATH_REMAINDER</td><td>12</td></tr>
+                    <tr><td>MATH_EXP</td><td>13</td></tr>
+                    <tr><td>MATH_SQRT</td><td>14</td></tr>
+                    <tr><td>MATH_LOG</td><td>15</td></tr>
+                    <tr><td>MATH_POW</td><td>16</td></tr>
+                    <tr><td>MATH_ODD</td><td>19</td></tr>
+                    <tr><td>MATH_EVEN</td><td>20</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Pi"></a>
+                <div>Pi<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 30<br/></div>
+                <table class="help-table constants">
+                    <tr><td>PI</td><td>3.14159265359</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Tau"></a>
+                <div>Tau<br/></div>
+                <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 33<br/></div>
+                <table class="help-table constants">
+                    <tr><td>TAU</td><td>6.283185307179586</td></tr>
+                </table>
+            </p>
+            <a id="Procedures"></a>
+            <h4 class="">Procedures</h4>
+            <a id="Roundanumber."></a>
+            <h5 class="title-with-source">round</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 36<br/></div>
+            <p>Round a number.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">round</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to round.</td></tr>
+            </table>
+            <div><b>Return:</b> The rounded number.<br/><br/></div>
+            <p>Round a value to the closest integer value.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">a</span>
+    <span class="type">number</span> <span class="variable">b</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">0.6</span>
+    <span class="comment">; b will be a rounded up to 1</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">round</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">2.4</span>
+    <span class="comment">; b will be a rounded down to 2</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">round</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <hr/>
+            <a id="Roundanumberdown."></a>
+            <h5 class="title-with-source">floor</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 44<br/></div>
+            <p>Round a number down.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">floor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to round down.</td></tr>
+            </table>
+            <div><b>Return:</b> The rounded number.<br/><br/></div>
+            <p>Round a value down to the closest integer value.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">a</span>
+    <span class="type">number</span> <span class="variable">b</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">6.99</span>
+    <span class="comment">; b will be a rounded down to 6</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">floor</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">2.4</span>
+    <span class="comment">; b will be a rounded down to -3</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">floor</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <hr/>
+            <a id="Roundanumberup."></a>
+            <h5 class="title-with-source">ceil</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 52<br/></div>
+            <p>Round a number up.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">ceil</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to round up.</td></tr>
+            </table>
+            <div><b>Return:</b> The rounded number.<br/><br/></div>
+            <p>Round a value up to the closest integer value.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">a</span>
+    <span class="type">number</span> <span class="variable">b</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">15.01</span>
+    <span class="comment">; b will be a rounded up to 16</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">ceil</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">19.4</span>
+    <span class="comment">; b will be a rounded up to -19</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">ceil</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <hr/>
+            <a id="Makeanumberpositive."></a>
+            <h5 class="title-with-source">abs</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 60<br/></div>
+            <p>Make a number positive.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">abs</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to make positive.</td></tr>
+            </table>
+            <div><b>Return:</b> The positive number.<br/><br/></div>
+            <p>Get the absolute value.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">a</span>
+    <span class="type">number</span> <span class="variable">b</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">9</span>
+    <span class="comment">; b will be the positive value of a (9)</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">abs</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">67</span>
+    <span class="comment">; b will be the same value as a (67)</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">abs</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <hr/>
+            <a id="Makeanumbernegative."></a>
+            <h5 class="title-with-source">neg</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 68<br/></div>
+            <p>Make a number negative.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">neg</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>n</td><td>number</td><td>The number to make negative.</td></tr>
+            </table>
+            <div><b>Return:</b> The negative number.<br/><br/></div>
+            <p>Get the negative value.</p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">a</span>
+    <span class="type">number</span> <span class="variable">b</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">72</span>
+    <span class="comment">; b will be the positive value of a (72)</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">neg</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+
+    <span class="variable">a</span> <span class="operator">=</span> <span class="number">13</span>
+    <span class="comment">; b will be the negative value of a (-13)</span>
+    <span class="variable">b</span> <span class="operator">=</span> <span class="proc">neg</span><span class="operator">(</span><span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="variable">a</span><span class="operator">)</span>
+    <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> <span class="variable">b</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <hr/>
+            <a id="Getarandomnumber."></a>
+            <h5 class="title-with-source">random</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 76<br/></div>
+            <p>Get a random number.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">random</span><span class="operator">(</span><span class="type">number</span> <span class="variable">min</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">max</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>min</td><td>number</td><td>The minimum value.</td></tr>
+                <tr><td>max</td><td>number</td><td>The maximum value, the random value is always less than the maximum value.</td></tr>
+            </table>
+            <div><b>Return:</b> A randum integer number.<br/><br/></div>
+            <hr/>
+            <a id="Getthesinevalueforanangleinradians."></a>
+            <h5 class="title-with-source">sin</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 86<br/></div>
+            <p>Get the sine value for an angle in radians.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">sin</span><span class="operator">(</span><span class="type">number</span> <span class="variable">angle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>angle</td><td>number</td><td>The angle.</td></tr>
+            </table>
+            <div><b>Return:</b> The sine value.<br/><br/></div>
+            <hr/>
+            <a id="Getthecosinevalueforanangleinradians."></a>
+            <h5 class="title-with-source">cos</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 94<br/></div>
+            <p>Get the cosine value for an angle in radians.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">cos</span><span class="operator">(</span><span class="type">number</span> <span class="variable">angle</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>angle</td><td>number</td><td>The angle.</td></tr>
+            </table>
+            <div><b>Return:</b> The cosine value.<br/><br/></div>
+            <hr/>
+            <a id="Returntangentgeometryvalueinradians."></a>
+            <h5 class="title-with-source">tan</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 102<br/></div>
+            <p>Return tangent geometry value in radians.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">tan</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The tangent value.<br/><br/></div>
+            <hr/>
+            <a id="Getthearcsinevalueforavalue."></a>
+            <h5 class="title-with-source">asin</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 110<br/></div>
+            <p>Get the arcsine value for a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">asin</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The arcsine value in radians.<br/><br/></div>
+            <hr/>
+            <a id="Getthearccosinevalueforavalue."></a>
+            <h5 class="title-with-source">acos</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 118<br/></div>
+            <p>Get the arccosine value for a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">acos</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The arccosine value in radians.<br/><br/></div>
+            <hr/>
+            <a id="Getthearctanvalueforavalue."></a>
+            <h5 class="title-with-source">atan</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 126<br/></div>
+            <p>Get the arctan value for a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">atan</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The arctan value in radians.<br/><br/></div>
+            <hr/>
+            <a id="Gettheremainder(modulo)ofavalue."></a>
+            <h5 class="title-with-source">remainder</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 134<br/></div>
+            <p>Get the remainder (modulo) of a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">remainder</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">remainder</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+                <tr><td>remainder</td><td>number</td><td>The remainder.</td></tr>
+            </table>
+            <div><b>Return:</b> The module value.<br/><br/></div>
+            <hr/>
+            <a id="Gettheexpvalueofavalue."></a>
+            <h5 class="title-with-source">exp</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 143<br/></div>
+            <p>Get the exp value of a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">exp</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The exp value.<br/><br/></div>
+            <hr/>
+            <a id="Getthesquarerootvalueofavalue."></a>
+            <h5 class="title-with-source">sqrt</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 151<br/></div>
+            <p>Get the square root value of a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">sqrt</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The square root value.<br/><br/></div>
+            <hr/>
+            <a id="Getthelogarithmvalueofavalue."></a>
+            <h5 class="title-with-source">log</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 159<br/></div>
+            <p>Get the logarithm value of a value.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">log</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value.</td></tr>
+            </table>
+            <div><b>Return:</b> The logarithm value.<br/><br/></div>
+            <hr/>
+            <a id="Getbasetotheexponentpower."></a>
+            <h5 class="title-with-source">pow</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 167<br/></div>
+            <p>Get base to the exponent power.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">pow</span><span class="operator">(</span><span class="type">number</span> <span class="variable">base</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">exponent</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>base</td><td>number</td><td>The base value.</td></tr>
+                <tr><td>exponent</td><td>number</td><td>The exponent value.</td></tr>
+            </table>
+            <div><b>Return:</b> The base to the exponent value.<br/><br/></div>
+            <hr/>
+            <a id="Checkifanumberisodd."></a>
+            <h5 class="title-with-source">odd</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 176<br/></div>
+            <p>Check if a number is odd.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">odd</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value to check.</td></tr>
+            </table>
+            <div><b>Return:</b> Return 1 if odd, 0 if even.<br/><br/></div>
+            <hr/>
+            <a id="Checkifanumberiseven."></a>
+            <h5 class="title-with-source">even</h5>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/math.whl, line: 184<br/></div>
+            <p>Check if a number is even.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">even</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>value</td><td>number</td><td>The value to check.</td></tr>
+            </table>
+            <div><b>Return:</b> Return 1 if even, 0 if odd.<br/><br/></div>
+            <hr/>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

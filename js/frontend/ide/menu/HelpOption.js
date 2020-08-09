@@ -79,7 +79,8 @@ exports.HelpOption = class extends DOMNode {
                         uiId:        1,
                         tabIndex:    tabIndex.HELP,
                         onKeyUp:     this.onKeyUp.bind(this),
-                        onMousedown: this.onCancelEvent.bind(this)
+                        onMousedown: this.onCancelEvent.bind(this),
+                        placeholder: 'Search...'
                     },
                     {
                         id:        this.setHelpMenuElement.bind(this),

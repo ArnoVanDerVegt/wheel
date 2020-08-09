@@ -1,0 +1,69 @@
+; @module Component/Panel
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.panel
+
+; @const The tabs component module.
+#define MODULE_COMPONENT_PANEL        88
+
+; @const Module calls for button component functions.
+#define PANEL_COMPONENT_SET_HIDDEN     0
+#define PANEL_COMPONENT_SET_X          1
+#define PANEL_COMPONENT_SET_Y          2
+#define PANEL_COMPONENT_SET_WIDTH      3
+#define PANEL_COMPONENT_SET_HEIGHT     4
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The panel width.
+; @property height   number  The panel height.
+
+; @proc                   Hide the panel.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number tabIndex)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the panel.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the panel.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_Y
+end
+
+; @proc                   Set the width of the panel.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param width            The panel width.
+proc setWidth(number windowHandle, number componentHandle, number width)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_WIDTH
+end
+
+; @proc                   Set the height of the panel.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param width            The panel height.
+proc setHeight(number windowHandle, number componentHandle, number height)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_HEIGHT
+end

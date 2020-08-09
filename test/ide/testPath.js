@@ -181,30 +181,48 @@ describe(
             }
         );
         describe(
-            'Test add path',
+            'Test join',
             function() {
                 it(
                     'Should not change path',
                     function() {
-                        assert.equal(path.addPath('path', ''), 'path');
+                        assert.equal(path.join('path', ''), 'path');
                     }
                 );
                 it(
                     'Should not change path',
                     function() {
-                        assert.equal(path.addPath('', 'path'), 'path');
+                        assert.equal(path.join('', 'path'), 'path');
                     }
                 );
                 it(
                     'Should add path',
                     function() {
-                        assert.equal(path.addPath('path1', 'path2'), 'path1/path2');
+                        assert.equal(path.join('path1', 'path2'), 'path1/path2');
                     }
                 );
                 it(
                     'Should add path and remove slashes',
                     function() {
-                        assert.equal(path.addPath('/path1/', '/path2/'), 'path1/path2');
+                        assert.equal(path.join('/path1/', '/path2/'), '/path1/path2/');
+                    }
+                );
+                it(
+                    'Should add path with multiple parts',
+                    function() {
+                        assert.equal(path.join('/path1/path2/', '/path3/'), '/path1/path2/path3/');
+                    }
+                );
+                it(
+                    'Should add path with .. part',
+                    function() {
+                        assert.equal(path.join('/path1/../', '/path2/'), '/path2/');
+                    }
+                );
+                it(
+                    'Should not remove .. part',
+                    function() {
+                        assert.equal(path.join('../', '/path2/'), '../path2/');
                     }
                 );
             }
@@ -216,6 +234,48 @@ describe(
                     'Should make root path',
                     function() {
                         assert.equal(path.addRootPath('root'), '/root');
+                    }
+                );
+            }
+        );
+        describe(
+            'Test remove path',
+            function() {
+                it(
+                    'Should not remove path',
+                    function() {
+                        assert.equal(path.removePath('/no-match', '/some/path'), '/some/path');
+                    }
+                );
+                it(
+                    'Should remove path',
+                    function() {
+                        assert.equal(path.removePath('/match', '/match/path'), 'path');
+                    }
+                );
+                it(
+                    'Should remove same path as filename',
+                    function() {
+                        assert.equal(path.removePath('/match', '/match'), '');
+                    }
+                );
+            }
+        );
+        describe(
+            'Test platform path',
+            function() {
+                it(
+                    'Should not make platform path',
+                    function() {
+                        assert.equal(path.makePlatformPath('/platform/path'), '/platform/path');
+                    }
+                );
+                it(
+                    'Should make platform path',
+                    function() {
+                        path.setSep('\\');
+                        assert.equal(path.makePlatformPath('/platform/path'), '\\platform\\path');
+                        path.setSep('/');
                     }
                 );
             }

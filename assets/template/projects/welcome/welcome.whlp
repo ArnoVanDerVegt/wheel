@@ -58,6 +58,8 @@ proc main()
     setFillColor(WHITE)
     drawText(SCREEN_CENTER_X, 100, "Welcome to Wheel")
 
+    updateScreen()
+
     ; Wait...
     halt()
 end

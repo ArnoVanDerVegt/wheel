@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">
+    <g transform="scale(0.018,-0.018) translate(150, -1100)">
+        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z"/>
+    </g>
+</svg>

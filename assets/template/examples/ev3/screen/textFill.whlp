@@ -1,0 +1,48 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Screen text fill example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/screen.whl"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    setFill(BLACK)
+    drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+    setFillColor(WHITE)
+
+    number textSize
+    number y = 0
+    number n = 100
+    for textSize = 0 to 1
+        setTextSize(textSize)
+        setTextAlign(TEXT_ALIGN_LEFT)
+        drawNumber(0, y, n)
+        n++
+        setTextAlign(TEXT_ALIGN_CENTER)
+        drawNumber(SCREEN_CENTER_X, y + 18, n)
+        n++
+        setTextAlign(TEXT_ALIGN_RIGHT)
+        drawNumber(177, y + 36, n)
+        n++
+        y += 36
+    end
+
+    setTextSize(2)
+    setTextAlign(TEXT_ALIGN_LEFT)
+    drawText(0, y, "Left")
+    setTextAlign(TEXT_ALIGN_CENTER)
+    drawText(89, y + 18, "Center")
+    setTextAlign(TEXT_ALIGN_RIGHT)
+    drawText(177, y + 36, "Right")
+
+    updateScreen()
+
+    ; Wait...
+    halt()
+end

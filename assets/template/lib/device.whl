@@ -1,0 +1,28 @@
+; @module Device
+; @device E,P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The device module.
+#define MODULE_DEVICE     12
+
+; @const The avaialable layers.
+#define LAYER_1            0
+#define LAYER_2            1
+#define LAYER_3            2
+#define LAYER_4            3
+
+; @const The avaialable types of devices.
+#define DEVICE_EV3         0
+#define DEVICE_POWERED_UP  1
+
+; @const Module calls for device functions.
+#define DEVICE_SELECT      0
+
+; @proc             Select the device.
+; @device E,P
+; @param device     The device, valid values are `DEVICE_EV3` or `DEVICE_POWERED_UP`.
+proc selectDevice(number device)
+    addr device
+    mod  MODULE_DEVICE, DEVICE_SELECT
+end

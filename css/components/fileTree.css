@@ -22,7 +22,7 @@ body.ide.no-file-tree div.file-tree-wrapper {
     position:                       absolute;
     left:                           0;
     top:                            40px;
-    width:                          256px;
+    width:                          100%;
     bottom:                         0;
     padding:                        8px;
     overflow:                       auto;

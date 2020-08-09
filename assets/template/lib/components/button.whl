@@ -1,0 +1,111 @@
+; @module Component/Button
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.button
+
+; @const The button component module.
+#define MODULE_COMPONENT_BUTTON        65
+
+; @const Module calls for the button component functions.
+#define BUTTON_COMPONENT_SET_HIDDEN     0
+#define BUTTON_COMPONENT_SET_DISABLED   1
+#define BUTTON_COMPONENT_SET_X          2
+#define BUTTON_COMPONENT_SET_Y          3
+#define BUTTON_COMPONENT_SET_COLOR      4
+#define BUTTON_COMPONENT_SET_TITLE      5
+#define BUTTON_COMPONENT_SET_HINT       6
+
+; @property name     string       The component name.
+; @property tabIndex number       The tab index.
+; @property hidden   boolean      Hide the component.
+; @property disabled boolean      Disable the component.
+; @property x        number       The left position of the component inside the parent component.
+; @property y        number       The top position of the component inside the parent component.
+; @property zIndex   number       The depth of the component related to other components in the parent.
+; @property width    number|empty The width of the button, if empty then the default size is used.
+; @property height   number|empty The height of the button, if empty then the default size is used.
+; @property color    color        The color of the buttons, available colors are: `gray`, `yellow`, `green`, `blue` or `red`.
+; @property value    string       The title of the button.
+; @property title    string       The hint button which will show up after hovering on the button.
+
+; @event onClick             Called when the button is clicked.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onFocus             Called when the button is focussed.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onBlur              Called when the button looses focus.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseDown         Called when the mouse is pressed on the button.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseUp           Called when the mouse is released from the button.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @event onMouseOut          Called when the mouse moves from inside to outside the button.
+; @param windowHandle number The handle of the parent window of the button.
+
+; @proc                   Hide the button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Disable the button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param disabled         Disabled `TRUE` or `FALSE`.
+proc setDisabled(number windowHandle, number componentHandle, number disabled)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_DISABLED
+end
+
+; @proc                   Set the x position of the button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_Y
+end
+
+; @proc                   Set the button color.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param color            The button color.
+proc setColor(number windowHandle, number componentHandle, number color)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_COLOR
+end
+
+; @proc                   Set title of the button.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param title            The button title.
+proc setTitle(number windowHandle, number componentHandle, string title)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_TITLE
+end
+
+; @proc                   Set button hint.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hint             The button hint.
+proc setHint(number windowHandle, number componentHandle, string hint)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_HINT
+end

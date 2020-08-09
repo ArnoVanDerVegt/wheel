@@ -3,18 +3,26 @@
 #project "String charCode example"
 
 #include "lib/standard.whl"
+#include "lib/device.whl"
 #include "lib/screen.whl"
 #include "lib/string.whl"
+
+#display "EV3"
 
 string fruit[5] = ["Banana", "Apple", "Orange", "Pear", "Melon"]
 
 proc main()
+    ; This example uses the EV3 screen in the simulator...
+    selectDevice(DEVICE_EV3)
+
     number n
     for n = 0 to 4
         number y = 10 + 20 * n
         drawText(10, y, fruit[n])
         drawNumber(120, y, length(fruit[n]))
     end
+
+    updateScreen()
 
     halt()
 end

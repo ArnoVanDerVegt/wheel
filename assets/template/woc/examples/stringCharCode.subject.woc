@@ -1,0 +1,41 @@
+@subject Example:String, charCode
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String charCode example
+This example declares a string and changes the charCode of the characters in the string.
+
+@section Code
+@example
+#project "String charCode example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/string.whl"
+
+proc main()
+    clearConsole();
+
+    ; Declare a string and print it in the console:
+    string s = "ABCDE"
+    printS(s)
+
+    number n
+    number ch
+    for n = 0 to 4
+        ; Get the char code at index n and print it in the console:
+        ch = getCharCodeAt(s, n)
+        printN(ch)
+        ; Change the char code...
+        ch += 5
+        setCharCodeAt(s, n, ch)
+    end
+
+    ; Print the updated string:
+    printS(s)
+end
+@end
+
+@load Open add example|examples/string/charCode.whlp
+@load Open add example for EV3|examples/ev3/string/charCode.whlp
+
+@see string,getCharCodeAt,setCharCodeAt,standard,Modules

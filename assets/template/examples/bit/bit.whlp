@@ -1,32 +1,37 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Math bit demo"
+#project "Bit demo"
+
+; This example gets a random number greater or equal then 0 and less than 256
+; and converts the number using the bitAnd function.
 
 #include "lib/standard.whl"
 #include "lib/math.whl"
 #include "lib/bit.whl"
-#include "lib/screen.whl"
 
 proc main()
     number n = random(0, 255)
-    drawText(10, 10, "Decimal:")
-    drawNumber(80, 10, n)
 
-    drawText(10, 30, "Binary:")
-    number x   = 150
+    clearConsole()
+
+    ; Print the decimal number in the console:
+    printS("Decimal:")
+    printN(n)
+
+    string s   = ""
     number bit = 1
-    number bAnd
     number b
     for b = 1 to 8
-        bAnd = bitAnd(n, bit)
+        number bAnd = bitAnd(n, bit)
         if bAnd == bit
-            drawText(x, 30, "1")
+            s = s + "1"
         else
-            drawText(x, 30, "0")
+            s = s + "0"
         end
         bit *= 2
-        x -= 10
     end
-    ; Wait...
-    halt()
+
+    ; Print the binary string in the console:
+    printS("Binary:")
+    printS(s)
 end

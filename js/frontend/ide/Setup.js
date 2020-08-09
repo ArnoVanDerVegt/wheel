@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode         = require('../lib/dom').DOMNode;
+const platform        = require('../lib/platform');
 const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const Button          = require('../lib/components/Button').Button;
@@ -25,7 +26,7 @@ exports.Setup = class extends DOMNode {
         } else {
             this._ui.pushUIId(this._uiId);
         }
-        this._homedir    = settings.getUserDocumentPath();
+        this._homedir    = settings.getSystemDocumentPath();
         this._files      = null;
         this._onFinished = opts.onFinished;
         this.initDOM(document.body);
@@ -135,7 +136,7 @@ exports.Setup = class extends DOMNode {
                                         value:     'Install wheel files',
                                         onClick:   this.onInstallWheelFiles.bind(this)
                                     },
-                                    (settings.getIsInApplicationsFolder() || (settings.getOS().platform !== 'darwin')) ?
+                                    (settings.getIsInApplicationsFolder() || (settings.getOS().platform !== 'darwin') || platform.isNode()) ?
                                         null :
                                         {
                                             ref:       this.setRef('moveToApplicationFolder'),
@@ -247,24 +248,26 @@ exports.Setup = class extends DOMNode {
     }
 
     onShow(opts) {
+        let refs = this._refs;
         this._setupElement.className = 'setup';
         this._fileIndex              = 0;
-        this._refs.cancelButton
+        refs.cancelButton
             .setDisabled(false)
             .setVisible(true);
         this._homedirButtonElement
             .setDisabled(false)
             .focus();
-        this._refs.installWheelFilesButton.setDisabled(false);
+        refs.installWheelFilesButton.setDisabled(false);
         this._ui.pushUIId(this._uiId);
         if (opts && opts.canCancel) {
-            this._refs.cancelButton.setVisible(true);
+            refs.moveToApplicationFolder && refs.moveToApplicationFolder.setVisible(false);
+            refs.cancelButton.setVisible(true);
         }
         return this;
     }
 
     hide() {
-        this._setupElement.className = 'setup hidden';
+        this._setupElement.parentNode.removeChild(this._setupElement);
         this._ui.popUIId();
         return this;
     }
@@ -277,8 +280,8 @@ exports.Setup = class extends DOMNode {
         let index = this._fileIndex;
         if (index >= this._files.length) {
             this._progressElement.style.display = 'none';
-            this._onFinished();
             setTimeout(this.hide.bind(this), 500);
+            this._onFinished();
             dispatcher.dispatch('Dialog.Help.Rebuild');
             return;
         }

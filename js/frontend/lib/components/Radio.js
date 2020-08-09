@@ -4,6 +4,7 @@
 **/
 const dispatcher = require('../dispatcher').dispatcher;
 const DOMNode    = require('../dom').DOMNode;
+const Component  = require('./Component').Component;
 
 class RadioOption extends DOMNode {
     constructor(opts) {
@@ -12,13 +13,14 @@ class RadioOption extends DOMNode {
         this._option   = opts.option;
         this._radio    = opts.radio;
         this._tabIndex = opts.tabIndex;
+        this._onChange = opts.onChange;
         this.initDOM(opts.parentNode);
         opts.radio.addRadioElement(this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
                 type:      'a',
@@ -61,6 +63,7 @@ class RadioOption extends DOMNode {
         this._element.focus();
         if (this._focus) {
             this._radio.setValue(this._option.value);
+            (typeof this._onChange === 'function') && this._onChange(this._option.value);
         }
     }
 
@@ -74,8 +77,8 @@ class RadioOption extends DOMNode {
 
     getClassName() {
         return 'radio-option' +
-                    (this._focus                                   ? ' focus'    : '') +
-                    (this._option.value === this._radio.getValue() ? ' selected' : '');
+            (this._focus                                   ? ' focus'    : '') +
+            (this._option.value === this._radio.getValue() ? ' selected' : '');
     }
 
     updateClassName() {
@@ -91,42 +94,57 @@ class RadioOption extends DOMNode {
     }
 }
 
-exports.Radio = class extends DOMNode {
+exports.Radio = class extends Component {
     constructor(opts) {
+        opts.baseClassName = 'radio';
         super(opts);
         this._onChange      = opts.onChange;
         this._tabIndex      = opts.tabIndex;
-        this._options       = opts.options;
         this._value         = opts.value;
+        this._horizontal    = opts.horizontal;
         this._radioElements = [];
-        this._ui            = opts.ui;
-        this._uiId          = opts.uiId;
-        this._onGlobalUIId  = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        this._options       = this.getOptionsWithTitles(opts.options);
         this.initDOM(opts.parentNode);
-        (typeof opts.id === 'function') && opts.id(this);
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         let children = [];
         this._options.forEach(
-            function(option, index) {
+            (option, index) => {
                 children.push({
                     type:     RadioOption,
                     tabIndex: this._tabIndex + index,
                     radio:    this,
+                    onChange: this._onChange,
                     option:   option
                 });
-            },
-            this
+            }
         );
         this.create(
-            domNode,
+            parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'radio',
+                className: this.getClassName(),
+                style:     this._style,
                 children:  children
             }
         );
+    }
+
+    getClassName() {
+        return super.getClassName() + ' ' + (this._horizontal ? 'horizontal' : 'vertical');
+    }
+
+    getOptionsWithTitles(options) {
+        let result = [];
+        (options || []).forEach((option, index) => {
+            if (typeof option === 'string') {
+                result.push({value: index, title: option});
+            } else {
+                result.push(option);
+            }
+        });
+        return result;
     }
 
     setValue(value) {
@@ -143,8 +161,26 @@ exports.Radio = class extends DOMNode {
         return this._value;
     }
 
-    setElement(element) {
-        this._element = element;
+    setOptions(options) {
+        this._radioElements.length = 0;
+        let element    = this._element;
+        let childNodes = element.childNodes;
+        while (childNodes.length) {
+            element.removeChild(childNodes[0]);
+        }
+        options = this.getOptionsWithTitles(options);
+        options.forEach((option, index) => {
+            this.create(
+                element,
+                {
+                    type:     RadioOption,
+                    tabIndex: this._tabIndex + index,
+                    radio:    this,
+                    onChange: this._onChange,
+                    option:   option
+                }
+            );
+        });
     }
 
     addRadioElement(element) {
@@ -160,8 +196,21 @@ exports.Radio = class extends DOMNode {
         );
     }
 
+    onEvent(opts) {
+        if ('options' in opts) {
+            this.setOptions(opts.options);
+        }
+        if ('horizontal' in opts) {
+            this._horizontal        = opts.horizontal;
+            this._element.className = this.getClassName();
+        }
+        super.onEvent(opts);
+    }
+
     focus() {
         this._radioElements[0].focus();
         return this;
     }
 };
+
+exports.Component = exports.Radio;

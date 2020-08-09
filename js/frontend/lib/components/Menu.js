@@ -110,15 +110,15 @@ class MenuOption extends DOMNode {
         this._element = element;
         element.addEventListener(
             'mouseout',
-            (function() {
+            () => {
                 this._menu.selectMenuOption(null);
-            }).bind(this)
+            }
         );
         element.addEventListener(
             'mousemove',
-            (function() {
+            () => {
                 this._menu.selectMenuOption(this);
-            }).bind(this)
+            }
         );
         element.addEventListener(
             'mousedown',
@@ -126,10 +126,10 @@ class MenuOption extends DOMNode {
         );
         element.addEventListener(
             'click',
-            (function(event) {
+            (event) => {
                 this.onCancelEvent(event);
                 this.apply();
-            }).bind(this)
+            }
         );
     }
 
@@ -241,7 +241,7 @@ exports.Menu = class extends DOMNode {
     }
 
     selectMenuOption(menuOption) {
-        this._menuOptions.forEach(function(option) {
+        this._menuOptions.forEach((option) => {
             option.setActive(menuOption === option);
         });
     }

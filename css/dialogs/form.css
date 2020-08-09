@@ -1,0 +1,17 @@
+/* Alert/Confirm dialog */
+.dialog-background.form-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -100px;
+    width:                          600px;
+    height:                         200px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.form-dialog .dialog-center .dialog-content input[type="text"] {
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}

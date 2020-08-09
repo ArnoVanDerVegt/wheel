@@ -19,9 +19,12 @@ exports.CompileSelect = class extends CompileBlock {
         let done          = false;
         let lastCaseIndex = null;
         let selectOffset  = scope.getStackOffset() + 1;
+        let exitJumps     = [];
         let lastCase      = null;
+        let doneCase      = false;
         let doneDefault   = false;
         let tokens;
+
         scope.incStackOffset();
         AssignmentExpression.compileToTempStackValue(this._compiler, program, scope, iterator.nextUntilLexeme([t.LEXEME_NEWLINE]));
         scope.incStackOffset();
@@ -32,6 +35,7 @@ exports.CompileSelect = class extends CompileBlock {
                     done = true;
                     break;
                 case t.LEXEME_DEFAULT:
+                    exitJumps.push(program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, 0, 0).getLength() - 1);
                     if (doneDefault) {
                         throw errors.createError(err.DEFAULT_ALREADY_DEFINED, tokens[0], '"default" Case is already defined.');
                     }
@@ -39,7 +43,7 @@ exports.CompileSelect = class extends CompileBlock {
                     lastCase    = t.LEXEME_DEFAULT;
                     let defaultExpression = iterator.nextUntilLexeme([t.LEXEME_COLON, t.LEXEME_NEWLINE]);
                     tokens = defaultExpression.tokens; // Tokens needed to show duplicate default error!
-                    if (lastCaseIndex !== null) {
+                    if ((lastCaseIndex !== null) && program.getCodeUsed()) { // Check if code is removed by optimizer...
                         program.setCommandParamValue2(lastCaseIndex, program.getLength() + 1);
                     }
                     program.addCommand(
@@ -48,13 +52,17 @@ exports.CompileSelect = class extends CompileBlock {
                     lastCaseIndex = program.getLength() - 1;
                     break;
                 case t.LEXEME_CASE:
+                    if (doneCase) {
+                        exitJumps.push(program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, 0, 0).getLength() - 1);
+                    }
+                    doneCase = true;
                     if (lastCase === t.LEXEME_DEFAULT) {
                         throw errors.createError(err.DEFAULT_LAST_EXPECTED, tokens[0], 'Last case should be "default".');
                     }
                     lastCase = t.LEXEME_CASE;
                     let caseExpression = iterator.nextUntilLexeme([t.LEXEME_COLON, t.LEXEME_NEWLINE]);
                     tokens = caseExpression.tokens;
-                    if (lastCaseIndex !== null) {
+                    if ((lastCaseIndex !== null) && program.getCodeUsed()) { // Check if code is removed by optimizer...
                         program.setCommandParamValue2(lastCaseIndex, program.getLength());
                     }
                     program.addCommand(
@@ -70,9 +78,18 @@ exports.CompileSelect = class extends CompileBlock {
             if (lastCase === t.LEXEME_DEFAULT) {
                 index--;
             }
-            program.setCommandParamValue2(lastCaseIndex, index);
+            if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                program.setCommandParamValue2(lastCaseIndex, index);
+            }
         }
-        scope.decStackOffset();
-        scope.decStackOffset();
+        if (program.getCodeUsed()) {
+            let index = program.getLength() - 1;
+            exitJumps.forEach((exitJump) => {
+                program.setCommandParamValue2(exitJump, index);
+            });
+        }
+        scope
+            .decStackOffset()
+            .decStackOffset();
     }
 };

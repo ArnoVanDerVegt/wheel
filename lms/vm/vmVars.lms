@@ -16,10 +16,9 @@ DATA32 gStringDataSize_32                                               // The d
 DATA16 gStringCount_16                                                  // The current number of strings in use
 DATA8  gLayerCount_8                                                    // Number of connected extra EV3 devices
 DATA32 gCommandCount_32                                                 // The number of commands in the program
-HANDLE gCommandList_H                                                   // 8 Bit commands and parameter type info
-DATA32 gCommandListOffset_32
-HANDLE gCommandParam_H                                                  // Float command parameter values
-DATA32 gCommandParamOffset_32
+DATA32 gCommandInfo_32
+HANDLE gCommandList_H                                                   // Float command values
+DATA32 gCommandListffset_32
 DATA8  gCommand_8                                                       // 8 Bit command
 DATA8  gType1_8                                                         // 8 Bit parameter 1 type
 DATA8  gType2_8                                                         // 8 Bit parameter 2 type

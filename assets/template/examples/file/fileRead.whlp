@@ -4,8 +4,8 @@
 
 #include "lib/standard.whl"
 #include "lib/file.whl"
-#include "lib/screen.whl"
 
+; Declare a file named "fruit.rtf" and add data to it:
 #text "fruit.rtf"
 #line "1"
 #line "Apple"
@@ -18,15 +18,16 @@ proc main()
     number handle = fileOpenRead("fruit.rtf")
     string s
     number i, j
-    number y = 10
-    for i = 0 to 2
-        j = fileReadNumber(handle)
-        drawNumber(10, y, j)
-        fileReadString(handle, s)
-        drawText(40, y, s)
-        y += 20
-    end
 
-    ; Wait...
-    halt()
+    clearConsole()
+
+    for i = 0 to 2
+        ; Read a number from the file and print the number in de console:
+        j = fileReadNumber(handle)
+        printN(j)
+
+        ; Read a string from the file and print the string in the console:
+        fileReadString(handle, s)
+        printS(s)
+    end
 end

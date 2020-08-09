@@ -571,6 +571,36 @@ describe(
                     ],
                     'Error: #' + errors.SYNTAX_ERROR_STRING_CONSTANT_EXPECTED + ' String constant expected, got "1".'
                 );
+                testError(
+                    it,
+                    'Should throw UNION_SIZE_MISMATCH',
+                    [
+                        'record Rec',
+                        '    number a, b',
+                        'union',
+                        '    number x',
+                        'union',
+                        '    number q, r',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.UNION_SIZE_MISMATCH + ' Union size mismatch.'
+                );
+                testError(
+                    it,
+                    'Should throw UNION_SIZE_MISMATCH',
+                    [
+                        'record Rec',
+                        '    number a, b',
+                        'union',
+                        '    number x',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.UNION_SIZE_MISMATCH + ' Union size mismatch.'
+                );
             }
         );
         describe(

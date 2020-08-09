@@ -13,10 +13,23 @@ describe(
     function() {
         testModuleCall(
             it,
-            'Should call Screen.Clear',
+            'Should call Screen.Update',
             [
                 'proc main()',
                 '    mod 2, 0',
+                'end'
+            ],
+            2, // Module id
+            'Screen.Update',
+            {
+            }
+        );
+        testModuleCall(
+            it,
+            'Should call Screen.Clear',
+            [
+                'proc main()',
+                '    mod 2, 1',
                 'end'
             ],
             2, // Module id
@@ -35,7 +48,7 @@ describe(
                 '    Fill fill',
                 '    fill.fill = 1',
                 '    addr fill',
-                '    mod  2, 1',
+                '    mod  2, 2',
                 'end'
             ],
             2, // Module id
@@ -55,7 +68,7 @@ describe(
                 '    FillColor fillColor',
                 '    fillColor.color = 1',
                 '    addr fillColor',
-                '    mod  2, 2',
+                '    mod  2, 3',
                 'end'
             ],
             2, // Module id
@@ -75,7 +88,7 @@ describe(
                 '    TextSize textSize',
                 '    textSize.size = 2',
                 '    addr textSize',
-                '    mod  2, 3',
+                '    mod  2, 4',
                 'end'
             ],
             2, // Module id
@@ -95,7 +108,7 @@ describe(
                 '    TextAlign textAlign',
                 '    textAlign.align = 1',
                 '    addr textAlign',
-                '    mod  2, 4',
+                '    mod  2, 5',
                 'end'
             ],
             2, // Module id
@@ -116,7 +129,7 @@ describe(
                 '    drawPixel.x = 25',
                 '    drawPixel.y = 53',
                 '    addr drawPixel',
-                '    mod  2, 5',
+                '    mod  2, 6',
                 'end'
             ],
             2, // Module id
@@ -139,7 +152,7 @@ describe(
                 '    drawNum.y = 26',
                 '    drawNum.n = 11',
                 '    addr drawNum',
-                '    mod  2, 6',
+                '    mod  2, 7',
                 'end'
             ],
             2, // Module id
@@ -164,7 +177,7 @@ describe(
                 '    drawNum.y = 40',
                 '    drawNum.s = "Hello world"',
                 '    addr drawNum',
-                '    mod  2, 7',
+                '    mod  2, 8',
                 'end'
             ],
             2, // Module id
@@ -189,7 +202,7 @@ describe(
                 '    drawLine.x2 = 45',
                 '    drawLine.y2 = 67',
                 '    addr drawLine',
-                '    mod  2, 8',
+                '    mod  2, 9',
                 'end'
             ],
             2, // Module id
@@ -215,7 +228,7 @@ describe(
                 '    drawRect.width  = 89',
                 '    drawRect.height = 61',
                 '    addr drawRect',
-                '    mod  2, 9',
+                '    mod  2, 10',
                 'end'
             ],
             2, // Module id
@@ -240,7 +253,7 @@ describe(
                 '    drawCircle.y      = 93',
                 '    drawCircle.radius = 43',
                 '    addr drawCircle',
-                '    mod  2, 10',
+                '    mod  2, 11',
                 'end'
             ],
             2, // Module id
@@ -265,7 +278,7 @@ describe(
                 '    drawNum.y        = 10',
                 '    drawNum.filename = "test.rgf"',
                 '    addr drawNum',
-                '    mod  2, 11',
+                '    mod  2, 12',
                 'end'
             ],
             2, // Module id

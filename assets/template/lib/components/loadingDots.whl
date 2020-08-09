@@ -1,0 +1,48 @@
+; @module Component/LoadingDots
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.loadingDots
+
+; @const The status light component module.
+#define MODULE_COMPONENT_LOADING_DOTS        105
+
+; @const Module calls for status light component functions.
+#define LOADING_DOTS_COMPONENT_SET_HIDDEN      0
+#define LOADING_DOTS_COMPONENT_SET_X           1
+#define LOADING_DOTS_COMPONENT_SET_Y           2
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property color    color   The color of the dots, available colors are: `gray`, `yellow`, `green`, `blue` or `red`.
+
+; @proc                   Hide the loading dots.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number tabIndex)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LOADING_DOTS, LOADING_DOTS_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the loading dots.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LOADING_DOTS, LOADING_DOTS_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the loading dots.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LOADING_DOTS, LOADING_DOTS_COMPONENT_SET_Y
+end

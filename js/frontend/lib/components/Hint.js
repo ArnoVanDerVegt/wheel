@@ -33,7 +33,7 @@ exports.Hint = class extends Component {
         this._hidden        = true;
         this._hint          = '';
         this._database      = {preProcessor: null, compiler: null};
-        this.initDOM(document.body);
+        this.initDOM(opts.parentNode);
         dispatcher
             .on('Hint.Show',             this, this.onShow)
             .on('Hint.Hide',             this, this.onHide)
@@ -105,7 +105,7 @@ exports.Hint = class extends Component {
             hasMore = false;
             infoLength = name.length + 1;
             for (let j = 2; j < proc.getParamCount() + 2; j++) {
-                if (infoLength > 20) {
+                if (infoLength > 60) {
                     hasMore = true;
                     break;
                 }

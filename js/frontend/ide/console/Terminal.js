@@ -52,10 +52,10 @@ exports.Terminal = class extends DOMNode {
     initUsername() {
         const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/user-info',
             {},
-            (function(data) {
+            (data) => {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
@@ -64,7 +64,7 @@ exports.Terminal = class extends DOMNode {
                 this._username = data.username;
                 this._cwd      = data.cwd;
                 this.showUser();
-            }).bind(this)
+            }
         );
     }
 
@@ -146,7 +146,7 @@ exports.Terminal = class extends DOMNode {
             {
                 command: value
             },
-            (function(data) {
+            (data) => {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
@@ -164,7 +164,7 @@ exports.Terminal = class extends DOMNode {
                     this.showResult(data.error.trim(), 'error');
                 }
                 this.scrollIntoView();
-            }).bind(this)
+            }
         );
     }
 

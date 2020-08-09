@@ -22,20 +22,23 @@ subcall modScreen {                                                     // 02) S
     DATA8  lStringLength_8
     DATA16 lStringLength_16
 
-    MOVE8_8(1, gModScreenUpdated_8)
+    JR_EQ8(pModCall_8,  0, mod_screen_update)
+    JR_EQ8(pModCall_8,  1, mod_screen_clear)
+    JR_EQ8(pModCall_8,  2, mod_screen_fill)
+    JR_EQ8(pModCall_8,  3, mod_screen_fill_color)
+    JR_EQ8(pModCall_8,  4, mod_screen_text_size)
+    JR_EQ8(pModCall_8,  5, mod_screen_text_align)
+    JR_EQ8(pModCall_8,  6, mod_screen_draw_pixel)
+    JR_EQ8(pModCall_8,  7, mod_screen_draw_number)
+    JR_EQ8(pModCall_8,  8, mod_screen_draw_text)
+    JR_EQ8(pModCall_8,  9, mod_screen_draw_line)
+    JR_EQ8(pModCall_8, 10, mod_screen_draw_rect)
+    JR_EQ8(pModCall_8, 11, mod_screen_draw_circle)
+    JR_EQ8(pModCall_8, 12, mod_screen_draw_image)
+    RETURN()
 
-    JR_EQ8(pModCall_8,  0, mod_screen_clear)
-    JR_EQ8(pModCall_8,  1, mod_screen_fill)
-    JR_EQ8(pModCall_8,  2, mod_screen_fill_color)
-    JR_EQ8(pModCall_8,  3, mod_screen_text_size)
-    JR_EQ8(pModCall_8,  4, mod_screen_text_align)
-    JR_EQ8(pModCall_8,  5, mod_screen_draw_pixel)
-    JR_EQ8(pModCall_8,  6, mod_screen_draw_number)
-    JR_EQ8(pModCall_8,  7, mod_screen_draw_text)
-    JR_EQ8(pModCall_8,  8, mod_screen_draw_line)
-    JR_EQ8(pModCall_8,  9, mod_screen_draw_rect)
-    JR_EQ8(pModCall_8, 10, mod_screen_draw_circle)
-    JR_EQ8(pModCall_8, 11, mod_screen_draw_image)
+mod_screen_update:
+    UI_DRAW(UPDATE)
     RETURN()
 
 mod_screen_clear:                                                       // 00) screenClear

@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../../lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const path            = require('../../../lib/path');
 const Files           = require('../../../lib/components/files/Files').Files;
@@ -27,12 +28,13 @@ exports.FileDialog = class extends Dialog {
                     className: 'current-path',
                     innerHTML: ''
                 },
-                ('electron' in window) ?
+                platform.isElectron() ?
                     this.addToolOptions({
                         uiId:     this.getUIId.bind(this),
                         tabIndex: 1,
                         tool:     this._settings.getFilesDetail() ? 1 : 0,
                         label:    'View:',
+                        color:    'green',
                         onSelect: this.onSelectDetail.bind(this),
                         options: [
                             {title: 'Normal',   icon: 'icon-list'},
@@ -46,7 +48,7 @@ exports.FileDialog = class extends Dialog {
                     ui:       this._ui,
                     tabIndex: 2,
                     detail:   this._settings.getFilesDetail(),
-                    filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms'],
+                    filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
                     getImage: this._getImage,
                     getFiles: this.getFiles.bind(this),
                     onFile:   this.onFile.bind(this),
@@ -73,10 +75,11 @@ exports.FileDialog = class extends Dialog {
                             className: 'current-file'
                         },
                         this.addTextInput({
-                            ref:       this.setRef('currentFileInput'),
-                            tabIndex:  2048,
-                            className: 'current-file-input',
-                            onKeyUp:   this.onCurrentFileInputKeyUp.bind(this)
+                            ref:         this.setRef('currentFileInput'),
+                            tabIndex:    2048,
+                            className:   'current-file-input',
+                            onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
+                            placeholder: 'Enter filename'
                         })
                     ]
                 }
@@ -102,13 +105,13 @@ exports.FileDialog = class extends Dialog {
                     .setDisabled(true);
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
                 this.getFiles(
                     false,
                     false,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
             case 'openDirectory':
@@ -124,9 +127,9 @@ exports.FileDialog = class extends Dialog {
                 this.getFiles(
                     false,
                     opts.path,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
             case 'saveFile':
@@ -142,13 +145,13 @@ exports.FileDialog = class extends Dialog {
                     .setDisabled(filename.trim() === '');
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
                 this.getFiles(
                     false,
                     path,
-                    (function(path, files) {
+                    (path, files) => {
                         this._refs.files.onShowFiles(path, files);
-                    }).bind(this)
+                    }
                 );
                 break;
         }
@@ -185,10 +188,10 @@ exports.FileDialog = class extends Dialog {
                     if (path.getExtension(saveFilename) === '') {
                         saveFilename += this._extension;
                     }
-                    let save = (function() {
-                            dispatcher.dispatch('Dialog.File.SaveAs', saveFilename);
+                    let save = () => {
+                            dispatcher.dispatch('Dialog.File.SaveAs', saveFilename, this._startFilename === saveFilename);
                             this.hide();
-                        }).bind(this);
+                        };
                     let existingFile = this.getFileExists(this._refs.files.getFiles(), filename);
                     if (existingFile && (filename.toLowerCase() !== this._startFilename.toLowerCase())) {
                         if (existingFile.directory) {
@@ -206,12 +209,14 @@ exports.FileDialog = class extends Dialog {
                             this._save = save;
                             dispatcher.dispatch(
                                 'Dialog.Confirm.Show',
-                                'File exists',
-                                [
-                                    'The file "' + saveFilename + '" already exists.',
-                                    'Do you want to overwrite it?'
-                                ],
-                                'Dialog.Confirm.Save'
+                                {
+                                    title: 'File exists',
+                                    lines: [
+                                        'The file "' + saveFilename + '" already exists.',
+                                        'Do you want to overwrite it?'
+                                    ],
+                                    dispatchApply: 'Dialog.Confirm.Save'
+                                }
                             );
                         }
                     } else {
@@ -282,14 +287,14 @@ exports.FileDialog = class extends Dialog {
             'get',
             'ide/files',
             params,
-            (function(data) {
+            (data) => {
                 try {
                     let json = (typeof data === 'string') ? JSON.parse(data) : data;
                     this.onPath(json.path);
                     callback(json.path, json.files);
                 } catch (error) {
                 }
-            }).bind(this)
+            }
         );
     }
 

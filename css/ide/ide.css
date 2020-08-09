@@ -11,7 +11,7 @@ html {
     height:                         100%;
     padding:                        0;
     margin:                         0;
-    position:                       relative;
+    position:                       absolute;
     font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
     overflow:                       hidden;
     background-color:               var(--ui-background2);
@@ -36,18 +36,24 @@ input {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
     font-family:                    latolight;
     -webkit-user-select:            none;
 }
 
 /* Editor */
+body .root {
+    position:                       absolute;
+    left:                           0;
+    right:                          0;
+    width:                          100%;
+    height:                         100%;
+}
 body.ide div.editor-wrapper {
     position:                       absolute;
     top:                            40px;
-    /*bottom:                         256px;*/
     bottom:                         var(--console-height);
-    /*left:                           256px;*/
     left:                           var(--file-tree-width);
     right:                          304px;
     margin:                         0;
@@ -58,22 +64,12 @@ body.ide div.editor-wrapper {
 body.ide div.editor-wrapper .toolbar .tabs {
     width:                          calc(100% - 96px);
 }
-/* Hidden/showing */
-body.ide.no-motors .simulator .motors {
-    display:                        none;
-}
-body.ide.no-ev3 .simulator .ev3 {
-    display:                        none;
-}
-body.ide.no-sensors .simulator .sensors {
-    display:                        none;
-}
 /* No console */
 body.ide.no-console div.editor-wrapper {
     bottom:                         0;
 }
-/* No simulator */
-body.ide.no-simulator div.editor-wrapper {
+/* No simulator & No properties */
+body.ide.no-right-panel div.editor-wrapper {
     right:                          0;
 }
 /* No file tree */
@@ -96,14 +92,11 @@ body.ide div.editor-wrapper .editor {
     margin:                         8px 8px 0 0;
 }
 
-/* Auto reset sensors */
-.auto-reset,
+/* Connection status */
 .connection {
     float:                          left;
-    margin:                         16px 0 0 0;
+    margin:                         8px 0 16px 0;
     width:                          100%;
-}
-.connection {
     display:                        none;
 }
 .connection .device-info {
@@ -113,14 +106,7 @@ body.ide div.editor-wrapper .editor {
     text-overflow:                  ellipsis;
     width:                          268px;
 }
-.auto-reset .label {
-    float:                          left;
-    margin:                         2.5px 0 0 8px;
-    line-height:                    16px;
-}
-.auto-reset .checkbox {
-    float:                          left;
-}
+
 /* Storage in title bar */
 .main-menu .storage {
     float:                          right;
@@ -130,13 +116,14 @@ body.ide div.editor-wrapper .editor {
 }
 .main-menu .storage .progress-bar {
     width:                          0;
+    height:                         16px;
     opacity:                        0;
     transition:                     width 0.3s, opacity 0.3s;
 }
 .main-menu .storage:hover {
     opacity:                        1;
 }
-.main-menu .storage:hover .progress-bar {
+.main-menu .storage .progress-bar {
     opacity:                        1;
     width:                          64px;
 }

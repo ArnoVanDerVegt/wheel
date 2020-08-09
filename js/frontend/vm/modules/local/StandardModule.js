@@ -3,10 +3,14 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const standardModuleConstants = require('../../../../shared/vm/modules/standardModuleConstants');
-const utils                   = require('./../../../lib/utils');
 const dispatcher              = require('./../../../lib/dispatcher').dispatcher;
+const SettingsState           = require('./../../../ide/settings/SettingsState');
 const $                       = require('../../../program/commands');
 const VMModule                = require('./../VMModule').VMModule;
+
+const sanitizeString = function(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    };
 
 exports.StandardModule = class extends VMModule {
     run(commandId) {
@@ -23,15 +27,22 @@ exports.StandardModule = class extends VMModule {
                 }
                 break;
             case standardModuleConstants.STANDARD_PRINT_NUMBER:
-                let printNumber = vmData.getRecordFromAtOffset(['n']);
-                this.emit('Console.Log', {message: printNumber.n, pos: {lineNumber: 0, filename: ''}});
-                break;
-            case standardModuleConstants.STANDARD_PRINT_STRING:
-                let printString = vmData.getRecordFromAtOffset(['s']);
+                let printNumber = vmData.getRecordFromSrcOffset(['n']);
                 this.emit(
                     'Console.Log',
                     {
-                        message: utils.sanitizeString(vmData.getStringList()[printString.s]),
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                        message: printNumber.n, pos: {lineNumber: 0, filename: ''}
+                    }
+                );
+                break;
+            case standardModuleConstants.STANDARD_PRINT_STRING:
+                let printString = vmData.getRecordFromSrcOffset(['s']);
+                this.emit(
+                    'Console.Log',
+                    {
+                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                        message: sanitizeString(vmData.getStringList()[printString.s]),
                         pos:     {lineNumber: 0, filename: ''}
                     }
                 );
@@ -40,7 +51,7 @@ exports.StandardModule = class extends VMModule {
                 this.emit('Console.Clear');
                 break;
             case standardModuleConstants.STANDARD_SLEEP:
-                vm.sleep(vmData.getRecordFromAtOffset(['time']).time);
+                vm.sleep(vmData.getRecordFromSrcOffset(['time']).time);
                 break;
             case standardModuleConstants.STANDARD_STOP_VM:
                 vm.stop();

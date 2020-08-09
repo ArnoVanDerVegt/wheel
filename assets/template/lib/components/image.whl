@@ -1,0 +1,96 @@
+; @module Component/Image
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.image
+
+; @const The form component module.
+#define MODULE_COMPONENT_IMAGE     98
+
+; @const Module calls for image component functions.
+#define IMAGE_COMPONENT_SET_HIDDEN  0
+#define IMAGE_COMPONENT_SET_X       1
+#define IMAGE_COMPONENT_SET_Y       2
+#define IMAGE_COMPONENT_SET_WIDTH   3
+#define IMAGE_COMPONENT_SET_HEIGHT  4
+#define IMAGE_COMPONENT_SET_SRC     5
+
+; @property name        string  The component name.
+; @property tabIndex    number  The tab index.
+; @property hidden      boolean Hide the component.
+; @property x           number  The left position of the component inside the parent component.
+; @property y           number  The top position of the component inside the parent component.
+; @property zIndex      number  The depth of the component related to other components in the parent.
+; @property naturalSize boolean If this option is selected then the original format of the image is used and the width and height values are ignored.
+; @property width       number  The image width.
+; @property height      number  The image height.
+; @property src         string  The path and filename, when the `http://` then the image will be downloaded else the file is loaded from the project location.
+
+; @event onClick             Called when the image is clicked.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseDown         Called when the mouse is pressed on the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseUp           Called when the mouse is released on the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseMove         Called when the mouse moves over the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @event onMouseOut           Called when the mouse moves out of the image.
+; @param windowHandle number The handle of the parent window of the image.
+
+; @proc                   Hide the image.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the image.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the image.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_Y
+end
+
+; @proc                   Set the image width.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param width            The image width.
+proc setWidth(number windowHandle, number componentHandle, number width)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_WIDTH
+end
+
+; @proc                   Set the image height.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param height           The image height.
+proc setHeight(number windowHandle, number componentHandle, number height)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_HEIGHT
+end
+
+; @proc                   Set the source location.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param src              The location of the image file.
+proc setSrc(number windowHandle, number componentHandle, string src)
+    addr windowHandle
+    mod  MODULE_COMPONENT_IMAGE, IMAGE_COMPONENT_SET_SRC
+end

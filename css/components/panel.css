@@ -1,0 +1,16 @@
+.panel {
+    position:                       absolute;
+    min-width:                      128px;
+    min-height:                     80px;
+    border:                         var(--ui-border1);
+    background-color:               var(--ui-background1);
+    overflow:                       hidden;
+}
+.panel .panel-panel {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+    z-index:                        10;
+}

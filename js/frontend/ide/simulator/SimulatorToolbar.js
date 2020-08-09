@@ -8,7 +8,6 @@ const Button      = require('../../lib/components/Button').Button;
 const ToolOptions = require('../../lib/components/ToolOptions').ToolOptions;
 const CloseButton = require('../../lib/components/CloseButton').CloseButton;
 const tabIndex    = require('../tabIndex');
-const Motor       = require('./io/Motor').Motor;
 
 exports.SimulatorToolbar = class extends DOMNode {
     constructor(opts) {
@@ -18,15 +17,21 @@ exports.SimulatorToolbar = class extends DOMNode {
         this._simulator = opts.simulator;
         this.initDOM(opts.parentNode);
         dispatcher
-            .on('Button.Layer0', this, this.onToggleLayer0.bind(this))
-            .on('Button.Layer1', this, this.onToggleLayer1.bind(this))
-            .on('Button.Layer2', this, this.onToggleLayer2.bind(this))
-            .on('Button.Layer3', this, this.onToggleLayer3.bind(this));
+            .on('Button.Layer0',                  this, this.onToggleLayer0)
+            .on('Button.Layer1',                  this, this.onToggleLayer1)
+            .on('Button.Layer2',                  this, this.onToggleLayer2)
+            .on('Button.Layer3',                  this, this.onToggleLayer3)
+            .on('Button.Device.EV3.Change',       this, this.onEV3Device)
+            .on('Button.Device.PoweredUp.Change', this, this.onPoweredUpDevice);
         this._settings
-            .addEventListener('Settings.EV3',  this, this.updateSettings.bind(this));
+            .addEventListener('Settings.EV3',       this, this.updateSettings)
+            .addEventListener('Settings.PoweredUp', this, this.updateSettings);
+        let activeDevice = this._settings.getActiveDevice();
+        dispatcher.dispatch('Button.Device.EV3.Change',       {className: activeDevice ? 'in-active' : 'active'});
+        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: activeDevice ? 'active' : 'in-active'});
     }
 
-    initDOM(domNode) {
+    initDOM(parentNode) {
         let children = [
                 {
                     type:      Button,
@@ -75,10 +80,34 @@ exports.SimulatorToolbar = class extends DOMNode {
             ui:       this._ui,
             uiId:     1,
             tabIndex: tabIndex.LAYER_1_BUTTON,
-            options:  options
+            options:  options,
+            color:    'green'
+        });
+        children.push({
+            type:     ToolOptions,
+            ui:       this._ui,
+            uiId:     1,
+            tabIndex: tabIndex.DEVICE_EV3_BUTTON,
+            color:    'green',
+            options:  [
+                {
+                    ui:       this._ui,
+                    uiId:     1,
+                    dispatch: 'Button.Device.EV3',
+                    event:    'Button.Device.EV3.Change',
+                    value:    'EV3'
+                },
+                {
+                    ui:       this._ui,
+                    uiId:     1,
+                    dispatch: 'Button.Device.PoweredUp',
+                    event:    'Button.Device.PoweredUp.Change',
+                    value:    'Hub'
+                }
+            ]
         });
         this.create(
-            domNode,
+            parentNode,
             {
                 className: 'simulator-options',
                 children:  children
@@ -87,49 +116,55 @@ exports.SimulatorToolbar = class extends DOMNode {
         this.updateLayerButtons();
     }
 
+    getLayerCount() {
+        let settings = this._settings;
+        return (settings.getActiveDevice() === 0) ? settings.getDaisyChainMode() : (settings.getDeviceCount() - 1);
+    }
+
     updateLayerButtons() {
-        let settings       = this._settings;
-        let daisyChainMode = settings.getDaisyChainMode();
-        let layer          = this._simulator.getLayer();
+        let settings   = this._settings;
+        let layerCount = this.getLayerCount();
+        let layer      = this._simulator.getLayer();
+        if (layer > layerCount) {
+            dispatcher.dispatch('Button.Layer' + layerCount);
+            layer = layerCount;
+        }
         dispatcher.dispatch(
             'Button.Layer0.Change',
             {
-                hidden:    (daisyChainMode === 0),
-                className: (daisyChainMode === 0 ? 'last ' : '') +
+                hidden:    false,
+                className: (layerCount === 0 ? 'last ' : '') +
                             (layer === 0 ? 'active' : 'in-active')
             }
         );
         dispatcher.dispatch(
             'Button.Layer1.Change',
             {
-                hidden:    (daisyChainMode < 1),
-                className: (daisyChainMode === 1 ? 'last ' : '') +
+                hidden:    (layerCount < 1),
+                className: (layerCount === 1 ? 'last ' : '') +
                             (layer === 1 ? ' active' : 'in-active')
             }
         );
         dispatcher.dispatch(
             'Button.Layer2.Change',
             {
-                hidden:    (daisyChainMode < 2),
-                className: (daisyChainMode === 2 ? 'last ' : '') +
+                hidden:    (layerCount < 2),
+                className: (layerCount === 2 ? 'last ' : '') +
                             (layer === 2 ? ' active' : 'in-active')
             }
         );
         dispatcher.dispatch(
             'Button.Layer3.Change',
             {
-                hidden:    (daisyChainMode < 3),
-                className: (daisyChainMode === 3 ? 'last ' : '') +
+                hidden:    (layerCount < 3),
+                className: (layerCount === 3 ? 'last ' : '') +
                             (layer === 3 ? ' active' : 'in-active')
             }
         );
     }
 
     updateSettings() {
-        let settings       = this._settings;
-        let daisyChainMode = settings.getDaisyChainMode();
-        let layer          = this._simulator.getLayer();
-        if (layer > daisyChainMode) {
+        if (this._simulator.getLayer() > this.getLayerCount()) {
             this._simulator.setLayer(0);
         }
         this.updateLayerButtons();
@@ -155,10 +190,15 @@ exports.SimulatorToolbar = class extends DOMNode {
         this.updateLayerButtons();
     }
 
+    onEV3Device() {
+        this.updateLayerButtons();
+    }
+
+    onPoweredUpDevice() {
+        this.updateLayerButtons();
+    }
+
     onCloseSimulator() {
-        let settings = this._settings;
-        settings.getShowSimulatorMotors()  && dispatcher.dispatch('Settings.Toggle.ShowSimulatorMotors');
-        settings.getShowSimulatorEV3()     && dispatcher.dispatch('Settings.Toggle.ShowSimulatorEV3');
-        settings.getShowSimulatorSensors() && dispatcher.dispatch('Settings.Toggle.ShowSimulatorSensors');
+        this._settings.getShowSimulator() && dispatcher.dispatch('Settings.Toggle.ShowSimulator');
     }
 };

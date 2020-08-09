@@ -1,0 +1,73 @@
+.dropdown,
+.dropdown .dropdown-list {
+    border:                         var(--ui-border1);
+    background-color:               var(--text-input-background);
+}
+.dropdown {
+    position:                       relative;
+    height:                         24px;
+    min-width:                      64px;
+    border-radius:                  2px;
+}
+.dropdown .dropdown-list {
+    position:                       absolute;
+    left:                           -1px;
+    top:                            22px;
+    width:                          calc(100% + 2px);
+    height:                         208px;
+    z-index:                        1000;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    text-overflow:                  ellipsis;
+    display:                        none;
+}
+.dropdown .dropdown-value,
+.dropdown .dropdown-value:visited,
+.dropdown .dropdown-value:hover {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    height:                         22px;
+    width:                          100%;
+    line-height:                    22px;
+    font-size:                      14px;
+    color:                          var(--ui-text1);
+    padding:                        0 0 0 4px;
+    text-decoration:                none;
+    outline:                        none;
+    border:                         1px solid transparent;
+    border-radius:                  2px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+}
+.dropdown.focus .dropdown-value,
+.dropdown.focus .dropdown-value:focus {
+    border:                         var(--focus-border-dotted);
+}
+.dropdown.focus {
+    border-radius:                  2px 2px 0 0;
+}
+.dropdown.focus .dropdown-list {
+    display:                        block;
+    border-radius:                  0 0 2px 2px;
+}
+.dropdown .dropdown-list-item {
+    float:                          left;
+    width:                          100%;
+    height:                         24px;
+    line-height:                    24px;
+    font-size:                      14px;
+    padding:                        0 0 0 5px;
+    color:                          var(--ui-text1);
+    cursor:                         pointer;
+    background-color:               var(--text-input-background);
+}
+.dropdown .dropdown-list-item:hover {
+    background-color:               var(--files-hover-background);
+    color:                          var(--files-hover-color);
+}
+.dropdown .dropdown-list-item.selected {
+    background-color:               var(--files-selected-background);
+    color:                          var(--files-hover-color);
+}

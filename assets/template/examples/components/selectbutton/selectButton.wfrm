@@ -1,0 +1,44 @@
+[
+    {
+        "type": "form",
+        "uid": "0x7A5619EF",
+        "name": "selectButton",
+        "title": "SelectButton example",
+        "width": "340",
+        "height": "70",
+        "id": 1
+    },
+    {
+        "x": 40,
+        "y": 20,
+        "parentId": 1,
+        "id": 2,
+        "uid": "0xF121D096",
+        "tabIndex": "1",
+        "hidden": false,
+        "disabled": false,
+        "type": "selectButton",
+        "name": "SelectButton",
+        "options": [
+            "Red",
+            "Green",
+            "Blue"
+        ],
+        "color": "green",
+        "onChange": "onSelectButtonSelectButtonChange"
+    },
+    {
+        "x": 220,
+        "y": "25",
+        "parentId": 1,
+        "id": 3,
+        "uid": "0x8FBC7C0A",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "statusLight",
+        "name": "StatusLight",
+        "text": "StatusLight1",
+        "color": "gray"
+    }
+]

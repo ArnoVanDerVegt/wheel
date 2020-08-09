@@ -1,0 +1,413 @@
+.i {
+    float:                          left;
+    width:                          64px;
+    height:                         64px;
+    background-position:            0 0;
+    background-size:                64px 64px;
+    background-repeat:              no-repeat;
+    background-color:               transparent;
+    outline:                        none;
+}
+.i.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
+.i:focus {
+    border:                         var(--focus-border-dotted);
+    border-radius:                  4px;
+}
+.i.active {
+    background-color:               var(--color-blue);
+}
+.i-point {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M884 740.667q12-12 12-30t-12-30l-382-382-118 118 382 382q12 12 30 12t30-12zM298 340.667q52 0 90-38t38-90q0-70-50-120t-120-50q-104 0-170 86 30 0 57 23t27 61q0 52 38 90t90 38z"/>    </g></svg>');
+}
+.i-point.active,
+body.ide.dark .i-point {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M884 740.667q12-12 12-30t-12-30l-382-382-118 118 382 382q12 12 30 12t30-12zM298 340.667q52 0 90-38t38-90q0-70-50-120t-120-50q-104 0-170 86 30 0 57 23t27 61q0 52 38 90t90 38z"/>    </g></svg>');
+}
+.i-circle {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="6" fill="rgb(0,0,0)"/></svg>');
+}
+.i-circle.active,
+body.ide.dark .i-circle {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="6" fill="rgb(255,255,255)"/></svg>');
+}
+.i-circle-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+.i-circle-stripe.active,
+body.ide.dark .i-circle-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+.i-rect {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(0,0,0)"/></svg>');
+}
+.i-rect.active,
+body.ide.dark .i-rect {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255)"/></svg>');
+}
+.i-rect-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+.i-rect-stripe.active,
+body.ide.dark .i-rect-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+.i-line {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="20" height="20" xmlns="http://www.w3.org/2000/svg">    <line x1="4.5" y1="4.5" x2="15.5" y2="15.5" style="stroke:rgb(0,0,0);stroke-width:1.5"/></svg>');
+}
+.i-line.active,
+body.ide.dark .i-line {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:1.5"/></svg>');
+}
+.i-fill-white {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(0,0,0)"/></svg>');
+}
+.i-fill-white.active,
+body.ide.dark .i-fill-white {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
+}
+.i-fill-black {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(0,0,0);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
+}
+.i-fill-black.active,
+body.ide.dark .i-fill-black {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
+}
+.i-fill-transparent {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="7" y1="7" x2="17" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <line x1="17" y1="7" x2="7" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)"/></svg>');
+}
+.i-fill-transparent.active,
+body.ide.dark .i-fill-transparent {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="7" y1="7" x2="17" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <line x1="17" y1="7" x2="7" y2="17" style="stroke:rgb(231,76,60);stroke-width:1" stroke-linecap="round"/>    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(255,255,255)"/></svg>');
+}
+.i-line-white {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(0,0,0);stroke-width:5"/>    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
+}
+.i-line-white.active,
+body.ide.dark .i-line-white {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
+}
+.i-line-black {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(0,0,0);stroke-width:3"/></svg>');
+}
+.i-line-black.active,
+body.ide.dark .i-line-black {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
+}
+.i-size1 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="2" fill="rgb(0,0,0)"/></svg>');
+}
+.i-size1.active,
+body.ide.dark .i-size1 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="2" fill="rgb(255,255,255)"/></svg>');
+}
+.i-size2 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="3" fill="rgb(0,0,0)"/></svg>');
+}
+.i-size2.active,
+body.ide.dark .i-size2 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="3" fill="rgb(255,255,255)"/></svg>');
+}
+.i-size3 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="4" fill="rgb(0,0,0)"/></svg>');
+}
+.i-size3.active,
+body.ide.dark .i-size3 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="4" fill="rgb(255,255,255)"/></svg>');
+}
+.i-size4 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="5" fill="rgb(0,0,0)"/></svg>');
+}
+.i-size4.active,
+body.ide.dark .i-size4 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="5" fill="rgb(255,255,255)"/></svg>');
+}
+.i-text {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>    </g></svg>');
+}
+.i-text.active,
+body.ide.dark .i-text {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>    </g></svg>');
+}
+.i-header {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(0,0,0)">H</text>    </g></svg>');
+}
+.i-header.active,
+body.ide.dark .i-header {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(255,255,255)">H</text>    </g></svg>');
+}
+.i-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">Ok</text></svg>');
+}
+.i-btn.active,
+body.ide.dark .i-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);">Ok</text></svg>');
+}
+.i-select-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(0,0,0);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
+}
+.i-select-btn.active,
+body.ide.dark .i-select-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(255,255,255);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
+}
+.i-text-input {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/></svg>');
+}
+.i-text-input.active,
+body.ide.dark .i-text-input {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/></svg>');
+}
+.i-slider {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:rgb(0,0,0);"/>    </g></svg>');
+}
+.i-slider.active,
+body.ide.dark .i-slider {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:rgb(255,255,255);"/>    </g></svg>');
+}
+.i-text1 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">1</text>    </g></svg>');
+}
+.i-text1.active,
+body.ide.dark .i-text1 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">1</text>    </g></svg>');
+}
+.i-text2 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">2</text>    </g></svg>');
+}
+.i-text2.active,
+body.ide.dark .i-text2 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">2</text>    </g></svg>');
+}
+.i-text3 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(0,0,0)">3</text>    </g></svg>');
+}
+.i-text3.active,
+body.ide.dark .i-text3 {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>        <circle cx="14" cy="14" r="5" stroke="rgb(255,255,255)" stroke-width="1" fill="transparent"/>        <text x="11.5" y="17" style="font-family:monospace;font-size:9px;" fill="rgb(255,255,255)">3</text>    </g></svg>');
+}
+.i-move {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M598 298.667v-128h128l-214-214-214 214h128v128h172zM982 426.667l-214-214v128h-128v172h128v128zM384 512.667v-172h-128v-128l-214 214 214 214v-128h128zM426 554.667v128h-128l214 214 214-214h-128v-128h-172z"/>    </g></svg>');
+}
+.i-move.active,
+body.ide.dark .i-move {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M598 298.667v-128h128l-214-214-214 214h128v128h172zM982 426.667l-214-214v128h-128v172h128v128zM384 512.667v-172h-128v-128l-214 214 214 214v-128h128zM426 554.667v128h-128l214 214 214-214h-128v-128h-172z"/>    </g></svg>');
+}
+.i-label {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;" text-anchor="middle">Label</text></svg>');
+}
+.i-label.active,
+body.ide.dark .i-label {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;fill:rgb(255,255,255);" text-anchor="middle">Label</text></svg>');
+}
+.i-checkbox {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(0,0,0)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-checkbox.active,
+body.ide.dark .i-checkbox {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(255,255,255)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-tabs {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
+}
+.i-tabs.active,
+body.ide.dark .i-tabs {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
+}
+.i-panel {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
+}
+.i-panel.active,
+body.ide.dark .i-panel {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
+}
+.i-status-light {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(0,0,0);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
+}
+.i-status-light.active,
+body.ide.dark .i-status-light {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(255,255,255);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
+}
+.i-image {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-image.active,
+body.ide.dark .i-image {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-pu-device {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-pu-device.active,
+body.ide.dark .i-pu-device {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-ev3-sensor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-ev3-sensor.active,
+body.ide.dark .i-ev3-sensor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-ev3-motor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+.i-ev3-motor.active,
+body.ide.dark .i-ev3-motor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+.i-select {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)" stroke-dasharray="1 1"/></svg>');
+}
+.i-select.active,
+body.ide.dark .i-select {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(255,255,255)" stroke-dasharray="1 1"/></svg>');
+}
+.i-delete {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(0,0,0);stroke-width:3"/></svg>');
+}
+.i-delete.active,
+body.ide.dark .i-delete {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:3"/>    <line x1="6" y1="18" x2="18" y2="6" style="stroke:rgb(255,255,255);stroke-width:3"/></svg>');
+}
+.i-copy {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z"/>    </g></svg>');
+}
+.i-copy.active,
+body.ide.dark .i-copy {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 42.667v598h-468v-598h468zM810 724.667q34 0 60-25t26-59v-598q0-34-26-60t-60-26h-468q-34 0-60 26t-26 60v598q0 34 26 59t60 25h468zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z"/>    </g></svg>');
+}
+.i-paste {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1125)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z"/>    </g></svg>');
+}
+.i-paste.active,
+body.ide.dark .i-paste {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(130, -1125)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M810 84.667v684h-84v-128h-428v128h-84v-684h596zM512 852.667q-18 0-30-12t-12-30 12-30 30-12 30 12 12 30-12 30-30 12zM810 852.667q34 0 60-25t26-59v-684q0-34-26-59t-60-25h-596q-34 0-60 25t-26 59v684q0 34 26 59t60 25h178q14 38 46 62t74 24 74-24 46-62h178z"/>    </g></svg>');
+}
+.i-grid {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M854 596.667v172h-172v-172h172zM854 340.667v172h-172v-172h172zM854 84.667v172h-172v-172h172zM598 596.667v172h-172v-172h172zM598 340.667v172h-172v-172h172zM598 84.667v172h-172v-172h172zM342 596.667v172h-172v-172h172zM342 340.667v172h-172v-172h172zM342 84.667v172h-172v-172h172zM854 852.667q34 0 59-25t25-59v-684q0-34-25-59t-59-25h-684q-34 0-59 25t-25 59v684q0 34 25 59t59 25h684z"/>    </g></svg>');
+}
+.i-grid.active,
+body.ide.dark .i-grid {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M854 596.667v172h-172v-172h172zM854 340.667v172h-172v-172h172zM854 84.667v172h-172v-172h172zM598 596.667v172h-172v-172h172zM598 340.667v172h-172v-172h172zM598 84.667v172h-172v-172h172zM342 596.667v172h-172v-172h172zM342 340.667v172h-172v-172h172zM342 84.667v172h-172v-172h172zM854 852.667q34 0 59-25t25-59v-684q0-34-25-59t-59-25h-684q-34 0-59 25t-25 59v684q0 34 25 59t59 25h684z"/>    </g></svg>');
+}
+.i-binary {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3" y="11" fill="rgb(0,0,0)" style="font-family:monospace;font-size:10px;line-height:7px;">010</text>    <text x="3" y="19" fill="rgb(0,0,0)" style="font-family:monospace;font-size:10px;line-height:7px;">110</text></svg>');
+}
+.i-binary.active,
+body.ide.dark .i-binary {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3" y="11" fill="rgb(255,255,255)" style="font-family:monospace;font-size:10px;line-height:7px;">010</text>    <text x="3" y="19" fill="rgb(255,255,255)" style="font-family:monospace;font-size:10px;line-height:7px;">110</text></svg>');
+}
+.i-volume {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="5" height="10" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="4" width="5" height="16" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
+}
+.i-volume.active,
+body.ide.dark .i-volume {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="5" height="10" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="4" width="5" height="16" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
+}
+.i-fade-in {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="10" width="5" height="4" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
+}
+.i-fade-in.active,
+body.ide.dark .i-fade-in {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="10" width="5" height="4" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="15" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
+}
+.i-fade-out {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="15" y="10" width="5" height="4" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(0,0,0);stroke-width:0"/>    <rect x="3" y="6" width="5" height="12" style="fill:rgb(0,0,0);stroke-width:0"/></svg>');
+}
+.i-fade-out.active,
+body.ide.dark .i-fade-out {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="15" y="10" width="5" height="4" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="9" y="8" width="5" height="8" style="fill:rgb(255,255,255);stroke-width:0"/>    <rect x="3" y="6" width="5" height="12" style="fill:rgb(255,255,255);stroke-width:0"/></svg>');
+}
+.i-undo {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M534 596.667q146 0 262-86t162-222l-100-32q-34 104-123 169t-201 65q-124 0-220-80l156-154h-384v384l152-154q126 110 296 110z"/>    </g></svg>');
+}
+.i-undo.active,
+body.ide.dark .i-undo {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M534 596.667q146 0 262-86t162-222l-100-32q-34 104-123 169t-201 65q-124 0-220-80l156-154h-384v384l152-154q126 110 296 110z"/>    </g></svg>');
+}
+.i-play {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <polygon points="6,6 6,18 18,12" fill="rgb(0,0,0)"/></svg>');
+}
+.i-play.active,
+body.ide.dark .i-play {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <polygon points="6,6 6,18 18,12" fill="rgb(255,255,255)"/></svg>');
+}
+.i-progress {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(0,0,0);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(0,0,0);"/></svg>');
+}
+.i-progress.active,
+body.ide.dark .i-progress {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(255,255,255);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(255,255,255);"/></svg>');
+}
+.i-loading {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(0,0,0);"/></svg>');
+}
+.i-loading.active,
+body.ide.dark .i-loading {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(255,255,255);"/></svg>');
+}
+.i-radio {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:rgb(0,0,0);"/>    <text x="8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
+}
+.i-radio.active,
+body.ide.dark .i-radio {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:rgb(255,255,255);"/>    <text x="8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
+}
+.i-dropdown {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(0,0,0,0.2);"/>    <text x="5" y="7.25" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
+}
+.i-dropdown.active,
+body.ide.dark .i-dropdown {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(255,255,255,0.2);"/>    <text x="5" y="7.25" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
+}
+.i-list-items {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
+}
+.i-list-items.active,
+body.ide.dark .i-list-items {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
+}
+.i-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+.i-timer.active,
+body.ide.dark .i-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+.i-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
+}
+.i-clock.active,
+body.ide.dark .i-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
+}
+.i-alert-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-alert-dialog.active,
+body.ide.dark .i-alert-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-confirm-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-confirm-dialog.active,
+body.ide.dark .i-confirm-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-icon {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="8" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <circle cx="14" cy="8" r="1.5" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+.i-icon.active,
+body.ide.dark .i-icon {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="8" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <circle cx="14" cy="8" r="1.5" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}

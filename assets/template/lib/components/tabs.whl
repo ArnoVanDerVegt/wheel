@@ -1,0 +1,110 @@
+; @module Component/Tabs
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.tabs
+
+; @const The tabs component module.
+#define MODULE_COMPONENT_TABS        89
+
+; @const Module calls for button component functions.
+#define TABS_COMPONENT_SET_HIDDEN     0
+#define TABS_COMPONENT_SET_DISABLED   1
+#define TABS_COMPONENT_SET_X          2
+#define TABS_COMPONENT_SET_Y          3
+#define TABS_COMPONENT_SET_WIDTH      4
+#define TABS_COMPONENT_SET_HEIGHT     5
+#define TABS_COMPONENT_SET_ACTIVE     6
+#define TABS_COMPONENT_GET_ACTIVE     7
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The tab panel width.
+; @property height   number  The tab panel height.
+; @property tabs     list    A list of tabs.
+
+; @event onChange            Called when an other tab is selected.
+; @param windowHandle number The handle of the parent window of the tabs.
+; @param value        number Index of the selected tab, the index of the first tab is 0, the second is 1, etc..
+
+; @event onFocus             Called when the tabs are focussed.
+; @param windowHandle number The handle of the parent window of the tabs.
+
+; @event onBlur              Called when the tabs loose focus.
+; @param windowHandle number The handle of the parent window of the tabs.
+
+; @proc                   Hide the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Disable the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param disabled         Disabled `TRUE` or `FALSE`.
+proc setDisabled(number windowHandle, number componentHandle, number disabled)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_DISABLED
+end
+
+; @proc                   Set the x position of the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_Y
+end
+
+; @proc                   Set the width of the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param width            The width in pixels.
+proc setWidth(number windowHandle, number componentHandle, number width)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_WIDTH
+end
+
+; @proc                   Set the height of the tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param height           The height in pixels.
+proc setHeight(number windowHandle, number componentHandle, number height)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_HEIGHT
+end
+
+; @proc                   Set the active tabs.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param active           The active tab.
+proc setActive(number windowHandle, number componentHandle, number active)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_SET_ACTIVE
+end
+
+; @proc                   Get the active tab.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The active tab.
+proc getActive(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TABS, TABS_COMPONENT_GET_ACTIVE
+end

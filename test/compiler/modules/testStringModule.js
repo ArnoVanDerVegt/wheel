@@ -211,5 +211,106 @@ describe(
                 20
             ]
         );
+        testLogs(
+            it,
+            'Should check if strings are equal',
+            [
+                'proc equal(string s1, string s2)',
+                '    addr s1',
+                '    mod  10, 8',
+                'end',
+                'proc main()',
+                '    string s1 = "Hello"',
+                '    string s2 = "Hello"',
+                '    number n = equal(s1, s2)',
+                '    addr n',
+                '    mod  0, 1',
+                '    s2 = "Hello!"',
+                '    n = equal(s1, s2)',
+                '    addr n',
+                '    mod  0, 1',
+                'end'
+            ],
+            [
+                1,
+                0
+            ]
+        );
+        testLogs(
+            it,
+            'Should uppercase string',
+            [
+                'proc main()',
+                '    string s1 = "Hello world"',
+                '    addr s1',
+                '    mod  10, 9',
+                '    addr s1',
+                '    mod  0, 2',
+                'end'
+            ],
+            [
+                'HELLO WORLD'
+            ]
+        );
+        testLogs(
+            it,
+            'Should lowercase string',
+            [
+                'proc main()',
+                '    string s1 = "HELLO WORLD"',
+                '    addr s1',
+                '    mod  10, 10',
+                '    addr s1',
+                '    mod  0, 2',
+                'end'
+            ],
+            [
+                'hello world'
+            ]
+        );
+        testLogs(
+            it,
+            'Should get char code at',
+            [
+                'proc charCodeAt(string s, number index)',
+                '    addr s',
+                '    mod  10, 11',
+                'end',
+                'proc main()',
+                '    string s = "ABCD"',
+                '    number i, j',
+                '    for i = 0 to 3',
+                '        j = charCodeAt(s, i)',
+                '        addr j',
+                '        mod  0, 1',
+                '    end',
+                'end'
+            ],
+            [
+                65, 66, 67, 68
+            ]
+        );
+        testLogs(
+            it,
+            'Should set char code at',
+            [
+                'proc charCodeAt(string s, number index, number charCode)',
+                '    addr s',
+                '    mod  10, 12',
+                'end',
+                'proc main()',
+                '    string s = "ABCD"',
+                '    number i, j',
+                '    for i = 0 to 3',
+                '        j = charCodeAt(s, i, 66 + i)',
+                '    end',
+                '    addr s',
+                '    mod  0, 2',
+                'end'
+            ],
+            [
+                'BCDE'
+            ]
+        );
     }
 );

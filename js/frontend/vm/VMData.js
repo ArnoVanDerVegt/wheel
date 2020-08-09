@@ -11,7 +11,7 @@ class VMData {
             data[i] = 0;
         }
         data[$.REG_STACK] = opts.globalSize;
-        opts.constants.forEach(function(constant) {
+        opts.constants.forEach((constant) => {
             for (let i = 0; i < constant.data.length; i++) {
                 data[constant.offset + i] = constant.data[i];
             }
@@ -60,7 +60,7 @@ class VMData {
         return this._stringList;
     }
 
-    getRecordFromAtOffset(recordFields) {
+    getRecordFromSrcOffset(recordFields) {
         let regOffsetSrc = this._data[$.REG_SRC];
         let result       = {};
         for (let i = 0; i < recordFields.length; i++) {
@@ -69,9 +69,17 @@ class VMData {
         return result;
     }
 
+    getRegSrc() {
+        return this._data[$.REG_SRC];
+    }
+
     getNumberAtRegOffset() {
         let data = this._data;
         return data[data[$.REG_SRC]];
+    }
+
+    setNumberAtOffset(value, offset) {
+        this._data[offset ? offset : 0] = value;
     }
 
     setNumberAtRegOffset(value, offset) {
@@ -83,6 +91,22 @@ class VMData {
     setNumberAtRet(value) {
         this._data[$.REG_RET] = value;
         this._keepRet         = true;
+    }
+
+    getRegisters() {
+        let result = [];
+        let data   = this._data;
+        for (let i = 0; i <= $.REG_RANGE1; i++) {
+            result[i] = data[i];
+        }
+        return result;
+    }
+
+    setRegisters(registers) {
+        let data = this._data;
+        for (let i = 0; i <= $.REG_RANGE1; i++) {
+            data[i] = registers[i];
+        }
     }
 
     keepRet() {

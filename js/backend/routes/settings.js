@@ -27,7 +27,10 @@ exports.loadFromLocalStorage = function() {
 
 exports.saveToFile = function(settings) {
     try {
-        fs.writeFileSync('wheel.json', JSON.stringify(settings));
+        if (typeof settings === 'string') {
+            settings = JSON.parse(settings);
+        }
+        fs.writeFileSync('wheel.json', JSON.stringify(settings, null, 4));
         return true;
     } catch (error) {
     }

@@ -28,10 +28,10 @@ exports.FileSystem = class {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
         getDataProvider().getData(
-            'post',
+            'get',
             'ide/path-exists',
             {path: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 callback(data.exists ? 1 : 0);
                 vm.sleep(0);
             })
@@ -57,10 +57,10 @@ exports.FileSystem = class {
             let outputPath = this._vm.getOutputPath();
             let vm         = this._vm.sleep(10000);
             getDataProvider().getData(
-                'post',
+                'get',
                 'ide/file',
                 {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-                createJSONCallback(function(data) {
+                createJSONCallback((data) => {
                     if ('data' in data) {
                         file.lines = data.data.split('\r');
                     }
@@ -86,7 +86,7 @@ exports.FileSystem = class {
                 filename: path.join(outputPath, this.getValidatedFilename(file.filename)),
                 data:     s + '\r'
             },
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 vm.sleep(0);
             })
         );
@@ -129,7 +129,7 @@ exports.FileSystem = class {
             'post',
             'ide/file-delete',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 vm.sleep(0);
             })
         );
@@ -161,7 +161,7 @@ exports.FileSystem = class {
             'post',
             'ide/file-size',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 callback(data.success ? data.size : 0);
                 vm.sleep(0);
             })

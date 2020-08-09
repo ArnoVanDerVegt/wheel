@@ -1,0 +1,61 @@
+[
+    {
+        "type": "form",
+        "uid": "0xFF282A64",
+        "name": "tabs",
+        "title": "Tabs example",
+        "width": "270",
+        "height": "170",
+        "id": 1
+    },
+    {
+        "x": 30,
+        "y": 10,
+        "parentId": 1,
+        "id": 2,
+        "uid": "0xB7304559",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "tabs",
+        "name": "Tabs",
+        "tabs": [
+            "Tab 1",
+            "Tab 2"
+        ],
+        "width": 200,
+        "height": 128,
+        "containerIds": [
+            3,
+            4
+        ]
+    },
+    {
+        "x": 10,
+        "y": 10,
+        "parentId": 4,
+        "id": 5,
+        "uid": "0x0CDEA28A",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "button",
+        "name": "Button",
+        "value": "Button on tab 2",
+        "title": "Button",
+        "color": "green"
+    },
+    {
+        "x": 20,
+        "y": 10,
+        "parentId": 3,
+        "id": 6,
+        "uid": "0x20043D38",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "label",
+        "name": "Label",
+        "text": "Label on tab 1"
+    }
+]

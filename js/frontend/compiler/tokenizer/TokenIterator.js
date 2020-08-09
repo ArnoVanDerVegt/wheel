@@ -7,9 +7,10 @@ const err    = require('../errors').errors;
 const t      = require('./tokenizer');
 
 exports.Iterator = class {
-    constructor(tokens) {
-        this._tokens = tokens;
-        this._index  = 0;
+    constructor(opts) {
+        this._tokens   = opts.tokens;
+        this._compiler = opts.compiler;
+        this._index    = 0;
     }
 
     setIndexToToken(token) {
@@ -21,14 +22,14 @@ exports.Iterator = class {
         return (this._index >= this._tokens.length);
     }
 
-    next(ignoreEnd) {
+    next() {
         if (this._index < this._tokens.length) {
             return this._tokens[this._index++];
         }
-        if (ignoreEnd) {
-            return null;
+        if (this._compiler.getDepth() > 0) {
+            throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
         }
-        throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
+        return null;
     }
 
     peek() {
@@ -114,11 +115,11 @@ exports.Iterator = class {
     }
 
     nextUntilLexeme(lexeme) {
-        return this.nextUntilCondition(function(token) { return lexeme.indexOf(token.lexeme) !== -1; });
+        return this.nextUntilCondition((token) => { return lexeme.indexOf(token.lexeme) !== -1; });
     }
 
     nextUntilTokenCls(cls) {
-        return this.nextUntilCondition(function(token) { return cls.indexOf(token.cls) !== -1; });
+        return this.nextUntilCondition((token) => { return cls.indexOf(token.cls) !== -1; });
     }
 
     skipWhiteSpace() {

@@ -1,0 +1,238 @@
+/* Components */
+.components-container .components-content {
+    float:                          left;
+    width:                          100%;
+    height:                         840px;
+}
+.components-container .title,
+.components-container .group {
+    float:                          left;
+    width:                          100%;
+    padding:                        0 0 0 8px;
+    margin:                         0 0 0 0;
+}
+.components-container .title {
+    height:                         32px;
+    line-height:                    32px;
+    font-family:                    latolight;
+    font-size:                      17px;
+    color:                          var(--ui-text1);
+    opacity:                        0.65;
+}
+input[type="button"].component-button:active,
+input[type="button"].component-button:focus,
+input[type="button"].component-button {
+    float:                          left;
+    width:                          48px;
+    height:                         48px;
+    border:                         2px solid transparent;
+    border-radius:                  24px;
+    background-repeat:              no-repeat;
+    background-size:                44px 44px;
+    background-position:            0 0;
+    background-color:               transparent;
+    margin:                         0 4px 4px 0;
+    box-shadow:                     none;
+    opacity:                        0.6;
+    transition:                     opacity 0.3s, background-color 0.3s;
+}
+input[type="button"].active.component-button:focus,
+input[type="button"].active.component-button {
+    background-color:               var(--color-blue);
+    opacity:                        1;
+}
+input[type="button"].component-button:hover {
+    opacity:                        1;
+}
+input[type="button"].component-button:focus {
+    background-color:               var(--color-blue);
+}
+input[type="button"].component-button.component-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">Ok</text></svg>');
+}
+input[type="button"].active.component-button.component-btn,
+body.ide.dark input[type="button"].component-button.component-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="7.5" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);">Ok</text></svg>');
+}
+input[type="button"].component-button.component-select-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(0,0,0);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
+}
+input[type="button"].active.component-button.component-select-btn,
+body.ide.dark input[type="button"].component-button.component-select-btn {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(255,255,255);stroke-width:1;"/>    <text x="5.3" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text>    <text x="14.1" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg>');
+}
+input[type="button"].component-button.component-text-input {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/></svg>');
+}
+input[type="button"].active.component-button.component-text-input,
+body.ide.dark input[type="button"].component-button.component-text-input {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="4" y="14.6" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">ab</text>    <line x1="13" y1="9" x2="13" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="9" x2="14" y2="9" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    <line x1="12" y1="15" x2="14" y2="15" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/></svg>');
+}
+input[type="button"].component-button.component-status-light {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(0,0,0);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
+}
+input[type="button"].active.component-button.component-status-light,
+body.ide.dark input[type="button"].component-button.component-status-light {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 4)">        <circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(255,255,255);stroke-width:1;"/>        <line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>        <line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>        <line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:0.5;" stroke-linecap="round"/>    </g></svg>');
+}
+input[type="button"].component-button.component-panel {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
+}
+input[type="button"].active.component-button.component-panel,
+body.ide.dark input[type="button"].component-button.component-panel {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="5" y="5" width="14" height="14" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/></svg>');
+}
+input[type="button"].component-button.component-tabs {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
+}
+input[type="button"].active.component-button.component-tabs,
+body.ide.dark input[type="button"].component-button.component-tabs {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5,2)">        <polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(255,255,255)" fill="transparent" style="stroke-linejoin:round;"/>    </g></svg>');
+}
+input[type="button"].component-button.component-slider {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:rgb(0,0,0);"/>    </g></svg>');
+}
+input[type="button"].active.component-button.component-slider,
+body.ide.dark input[type="button"].component-button.component-slider {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <rect x="1" y="7.5" width="18" height="2" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>        <circle cx="8" cy="8.5" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:rgb(255,255,255);"/>    </g></svg>');
+}
+input[type="button"].component-button.component-label {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;" text-anchor="middle">Label</text></svg>');
+}
+input[type="button"].active.component-button.component-label,
+body.ide.dark input[type="button"].component-button.component-label {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="12" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;fill:rgb(255,255,255);" text-anchor="middle">Label</text></svg>');
+}
+input[type="button"].component-button.component-checkbox {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(0,0,0)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-checkbox,
+body.ide.dark input[type="button"].component-button.component-checkbox {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="9" y="14" fill="rgb(255,255,255)" style="font-family:monospace;font-size:12px;line-height:12px;">✓</text>    <rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-rect-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].active.component-button.component-rect-stripe,
+body.ide.dark input[type="button"].component-button.component-rect-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="6" y="6" width="12" height="12" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="10" y1="6" x2="18" y2="14" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="12" y1="6" x2="18" y2="12" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" y1="6" x2="18" y2="10" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="16" y1="6" x2="18" y2="8" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="6" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="8" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="10" x2="14" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="12" x2="12" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="14" x2="10" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6" y1="16" x2="8" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].component-button.component-circle-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].active.component-button.component-circle-stripe,
+body.ide.dark input[type="button"].component-button.component-circle-stripe {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="7" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="8" y1="6" x2="18" y2="16" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="9.5" y1="5.5" x2="18.5" y2="14.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="11" y1="5" x2="19" y2="13" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="13" y1="5" x2="19" y2="11" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="7.5" y1="7.5" x2="16.5" y2="16.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="6.5" y1="8.5" x2="16" y2="18" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5.5" y1="9.5" x2="14.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="11" x2="12.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="5" y1="13" x2="10.5" y2="18.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].component-button.component-image {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-image,
+body.ide.dark input[type="button"].component-button.component-image {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <circle cx="15" cy="8" r="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-pu-device {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-pu-device,
+body.ide.dark input[type="button"].component-button.component-pu-device {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">PU</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-ev3-sensor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-ev3-sensor,
+body.ide.dark input[type="button"].component-button.component-ev3-sensor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-ev3-motor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].active.component-button.component-ev3-motor,
+body.ide.dark input[type="button"].component-button.component-ev3-motor {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;fill:rgb(255,255,255);" text-anchor="middle">EV3</text>    <circle cx="12" cy="15.5" r="3" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/>    <line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(255,255,255);stroke-width:0.5;"/></svg>');
+}
+input[type="button"].component-button.component-radio {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:rgb(0,0,0);"/>    <text x="8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
+}
+input[type="button"].active.component-button.component-radio,
+body.ide.dark input[type="button"].component-button.component-radio {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:rgb(255,255,255);"/>    <text x="8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text>    <circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text>    <circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <text x="8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg>');
+}
+input[type="button"].component-button.component-loading {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(0,0,0);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(0,0,0);"/></svg>');
+}
+input[type="button"].active.component-button.component-loading,
+body.ide.dark input[type="button"].component-button.component-loading {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="6" cy="14" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="12" cy="9" r="2.5" style="fill:rgb(255,255,255);"/>    <circle cx="18" cy="12" r="2.5" style="fill:rgb(255,255,255);"/></svg>');
+}
+input[type="button"].component-button.component-progress {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(0,0,0);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(0,0,0);"/></svg>');
+}
+input[type="button"].active.component-button.component-progress,
+body.ide.dark input[type="button"].component-button.component-progress {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(255,255,255);"/>    <rect x="6" y="10" width="5" height="4" style="fill:rgb(255,255,255);"/></svg>');
+}
+input[type="button"].component-button.component-text {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text>    </g></svg>');
+}
+input[type="button"].active.component-button.component-text,
+body.ide.dark input[type="button"].component-button.component-text {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(255,255,255)">T</text>    </g></svg>');
+}
+input[type="button"].component-button.component-header {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(0,0,0)">H</text>    </g></svg>');
+}
+input[type="button"].active.component-button.component-header,
+body.ide.dark input[type="button"].component-button.component-header {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="translate(1.5, 3.5)">        <text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(255,255,255)">H</text>    </g></svg>');
+}
+input[type="button"].component-button.component-dropdown {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(0,0,0,0.2);"/>    <text x="5" y="7.25" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
+}
+input[type="button"].active.component-button.component-dropdown,
+body.ide.dark input[type="button"].component-button.component-dropdown {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(255,255,255);stroke-width:0.5;fill:transparent;"/>    <rect x="4" y="12.75" width="16" height="4" style="fill:rgba(255,255,255,0.2);"/>    <text x="5" y="7.25" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="11.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text>    <text x="5" y="15.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text>    <text x="5" y="19.75" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg>');
+}
+input[type="button"].component-button.component-list-items {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
+}
+input[type="button"].active.component-button.component-list-items,
+body.ide.dark input[type="button"].component-button.component-list-items {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <text x="3.3" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text>    <text x="7.8" y="8" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text>    <text x="3.3" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text>    <text x="7.8" y="14" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text>    <text x="3.3" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text>    <text x="7.8" y="20" fill="rgb(255,255,255)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg>');
+}
+input[type="button"].component-button.component-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+input[type="button"].active.component-button.component-timer,
+body.ide.dark input[type="button"].component-button.component-timer {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" />    </g></svg>');
+}
+input[type="button"].component-button.component-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
+}
+input[type="button"].active.component-button.component-clock,
+body.ide.dark input[type="button"].component-button.component-clock {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <g transform="scale(0.018,-0.018) translate(150, -1100)">        <path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" />    </g></svg>');
+}
+input[type="button"].component-button.component-alert-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-alert-dialog,
+body.ide.dark input[type="button"].component-button.component-alert-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-confirm-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-confirm-dialog,
+body.ide.dark input[type="button"].component-button.component-confirm-dialog {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <rect x="3" y="7" width="18" height="10" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].component-button.component-icon {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="8" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/>    <line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/>    <circle cx="14" cy="8" r="1.5" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg>');
+}
+input[type="button"].active.component-button.component-icon,
+body.ide.dark input[type="button"].component-button.component-icon {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1">    <circle cx="12" cy="12" r="8" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/>    <line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/>    <circle cx="14" cy="8" r="1.5" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
+}

@@ -1,0 +1,103 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; This demo shows how to read and display sensor values, the following sensors are displayed:
+; - Touch
+; - Color, the color value
+; - Infrared, the remote button
+#project "Sensor value name example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/screen.whl"
+#include "lib/sensor.whl"
+
+#display "EV3, EV3 Sensors"
+
+string colors[8]     = ["non", "blk", "blu", "grn", "yel", "red", "wht", "brn"]
+number touchValue    = FALSE
+number colorValue    = COLOR_NONE
+number infraredValue = BUTTON_0
+
+; Draw the touch value
+proc drawTouchValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(27, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(touchValue)
+    drawRect(31, 47, 30, 30)
+end
+
+; Draw the color value
+proc drawColorValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(71, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(72, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_2)
+    drawText(78, 57, colors[colorValue])
+end
+
+; Draw a the infrared sensor value
+proc drawInfraredValue()
+    setFill(FALSE)
+    setFillColor(TRUE)
+    drawRect(115, 43, 38, 38)
+    setFill(TRUE)
+    setFillColor(WHITE)
+    drawRect(116, 44, 36, 36)
+    setFill(FALSE)
+    setFillColor(BLACK)
+    setTextSize(TEXT_SIZE_3)
+    number x = 124
+    if infraredValue >= 10
+        x -= 7
+    end
+    drawNumber(x, 55, infraredValue)
+end
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    number value
+
+    drawTouchValue()
+    drawColorValue()
+    drawInfraredValue()
+    updateScreen()
+
+    ; Set the sensor types and modes...
+    sensorSetType(INPUT_1, SENSOR_TYPE_TOUCH)
+    sensorSetType(INPUT_2, SENSOR_TYPE_COLOR)
+    sensorSetMode(INPUT_2, COLOR_COLOR)
+    sensorSetType(INPUT_3, SENSOR_TYPE_INFRARED)
+    sensorSetMode(INPUT_3, IR_REMOTE)
+
+    repeat
+        value = sensorRead(INPUT_1)
+        if value != touchValue
+            touchValue = value
+            drawTouchValue()
+        end
+
+        value = sensorRead(INPUT_2)
+        if value != colorValue
+            colorValue = value
+            drawColorValue()
+        end
+
+        value = sensorRead(INPUT_3)
+        if value != infraredValue
+            infraredValue = value
+            drawInfraredValue()
+        end
+
+        updateScreen()
+    end
+end

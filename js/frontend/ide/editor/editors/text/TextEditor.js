@@ -53,6 +53,8 @@ exports.TextEditor = class extends Editor {
     }
 
     setValue(value, reset) {
-        this._textAreaElement.value = value;
+        if (this._textAreaElement.value !== value) {
+            this._textAreaElement.value = value;
+        }
     }
 };

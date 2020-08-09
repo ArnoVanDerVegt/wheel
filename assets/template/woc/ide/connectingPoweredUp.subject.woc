@@ -1,0 +1,26 @@
+@subject IDE:Connecting Powered Up
+@device  P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Connecting your Powered Up devices
+@keyword connecting
+If you're running the application -not the online version-, you can connect and control up to 4 Powered Up Hubs to Wheel.
+
+
+When you start connecting you should make sure that the device you're connecting to is actually on.
+It's possible to connect to a device which isn't turned on, if that happens then the device will
+show up in the simulator but isn't working properly. To avoid this from happening you can press the green button
+on the device -which makes the light blink- before setting up a connection.
+
+
+The order in which you connect your devices will determine the layer number, the first connection you setup
+will connnect to the first layer, the second to the second, etc.
+
+
+If you create a program to control multiple Powered Up devices you probably always want the connect them in the same order.
+
+
+Wheel can not update the firmware of your Powered Up devices, if you encounter problems connecting then try updating the
+firmware by connecting your device with to the official Lego® app.
+
+@see simulator,daisy

@@ -90,6 +90,8 @@ exports.WheelEditor = class extends Editor {
                         type:        ToolbarBottom,
                         ui:          this._ui,
                         settings:    this._settings,
+                        ev3:         this._ev3,
+                        poweredUp:   this._poweredUp,
                         wheelEditor: this
                     }
                 ]
@@ -111,6 +113,8 @@ exports.WheelEditor = class extends Editor {
 
     show() {
         super.show();
+        this._codeMirror.setOption('viewportMargin', Infinity);
+        this._codeMirror.refresh();
         dispatcher.dispatch('Screen.Ready');
     }
 
@@ -126,7 +130,9 @@ exports.WheelEditor = class extends Editor {
     }
 
     setValue(value, reset) {
-        this._codeMirror.setValue(value);
+        if (value !== this.getValue()) {
+            this._codeMirror.setValue(value);
+        }
         reset && this._codeMirror.clearHistory();
     }
 
@@ -155,6 +161,10 @@ exports.WheelEditor = class extends Editor {
 
     setTextareaElement(element) {
         this._textareaElement = element;
+    }
+
+    setBluetoothStatusElement(element) {
+        this._blueToothStatusElement = element;
     }
 
     clearAllBreakpoints() {
@@ -196,15 +206,19 @@ exports.WheelEditor = class extends Editor {
     }
 
     showFindToolbar() {
-        this._refs.findOptions.className = 'bottom-options';
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setFindVisible(true);
-        this._refs.findText.focus();
+        refs.findText.focus();
     }
 
     showReplaceToolbar() {
-        this._refs.wrapper.className        = 'code-mirror-wrapper with-replace';
-        this._refs.findOptions.className    = 'bottom-options';
-        this._refs.replaceOptions.className = 'bottom-options replace';
+        let refs = this._refs;
+        refs.wrapper.className          = 'code-mirror-wrapper with-replace';
+        refs.findOptions.className      = 'bottom-options';
+        refs.replaceOptions.className   = 'bottom-options replace';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setReplaceVisible(true);
         this._wheelEditorState.setFindVisible(true);
     }
@@ -220,13 +234,13 @@ exports.WheelEditor = class extends Editor {
     }
 
     disableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker disabled';
         });
     }
 
     enableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker';
         });
     }
@@ -306,10 +320,10 @@ exports.WheelEditor = class extends Editor {
         if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'.indexOf(ch) === -1) {
             return;
         }
-        let callback = (function() {
+        let callback = () => {
                 CodeMirror.commands.autocomplete(cm, null, {completeSingle: true});
                 this._autoCompleteTimeout = null;
-            }).bind(this);
+            };
         this._autoCompleteTimeout = setTimeout(callback, 1000);
     }
 
@@ -326,7 +340,7 @@ exports.WheelEditor = class extends Editor {
             clearTimeout(wheelEditorState.getHintTimeout());
         }
         wheelEditorState.setHintTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setHintTimeout(null);
                 let codeMirror = this._codeMirror;
                 let coords     = codeMirror.coordsChar({left: event.clientX, top: event.clientY});
@@ -336,7 +350,7 @@ exports.WheelEditor = class extends Editor {
                 if ((typeof hint === 'string') && (hint.trim() !== '')) {
                     dispatcher.dispatch('Hint.Show', event, hint, wheelEditorState.getDatabase());
                 }
-            }).bind(this),
+            },
             300
         ));
     }
@@ -354,18 +368,20 @@ exports.WheelEditor = class extends Editor {
         let wheelEditorState = this._wheelEditorState;
         wheelEditorState.getCodeMirrorRefreshTimeout() && clearTimeout(wheelEditorState.getCodeMirrorRefreshTimeout());
         wheelEditorState.setCodeMirrorRefreshTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setCodeMirrorRefreshTimeout(null);
                 this._codeMirror.setOption('mode', wheelEditorState.getMode());
-            }).bind(this),
+            }),
             10
-        ));
+        );
     }
 
     hideReplaceOptions() {
-        this._refs.findOptions.className    = 'bottom-options hidden';
-        this._refs.replaceOptions.className = 'bottom-options hidden';
-        this._refs.wrapper.className        = 'code-mirror-wrapper';
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options hidden';
+        refs.replaceOptions.className   = 'bottom-options hidden';
+        refs.connectionStatus.className = 'bottom-options connection-status';
+        refs.wrapper.className          = 'code-mirror-wrapper';
         this._wheelEditorState.setFindVisible(false);
         this._wheelEditorState.setReplaceVisible(false);
     }
@@ -438,7 +454,7 @@ exports.WheelEditor = class extends Editor {
 
     restoreCursor() {
         setTimeout(
-            (function() {
+            () => {
                 let lastCursor = this._lastCursor;
                 if (!lastCursor) {
                     return;
@@ -450,7 +466,7 @@ exports.WheelEditor = class extends Editor {
                 }
                 codeMirror.focus();
                 codeMirror.setCursor(lastCursor);
-            }).bind(this),
+            },
             0
         );
     }

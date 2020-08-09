@@ -10,14 +10,13 @@ const CompileBlock      = require('../compiler/CompileBlock').CompileBlock;
 const BooleanExpression = require('../expression/BooleanExpression').BooleanExpression;
 
 exports.CompileIf = class extends CompileBlock {
-    compile(iterator) {
-        this.checkNotInGlobalScope(iterator);
+    compileCondition(iterator) {
         let program             = this._program;
         let conditionExpression = iterator.nextUntilLexeme([t.LEXEME_NEWLINE]);
         let simple              = new BooleanExpression({
                 varExpression: this._varExpression,
                 compiler:      this._compiler,
-                program:       this._program,
+                program:       program,
                 scope:         this._scope
             })
                 .compile(conditionExpression)
@@ -52,16 +51,47 @@ exports.CompileIf = class extends CompileBlock {
                 $.CMD_JMPC, $.T_NUM_C, $.FLAG_EQUAL,                 $.T_NUM_C, 0
             );
         }
+    }
+
+    compile(iterator) {
+        let program = this._program;
+        this.checkNotInGlobalScope(iterator);
+        this.compileCondition(iterator);
         let jmpIndex  = program.getLength() - 1;
-        let lastToken = this.compileBlock(iterator, [t.LEXEME_ELSE]);
-        if (lastToken.is(t.LEXEME_ELSE)) {
-            let elseIndex = program.getLength();
-            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0);
-            program.setCommandParamValue2(jmpIndex, program.getLength());
-            this.compileBlock(iterator, null);
-            program.setCommandParamValue2(elseIndex, program.getLength() - 1);
-        } else {
-            program.setCommandParamValue2(jmpIndex, program.getLength());
+        let lastToken = this.compileBlock(iterator, [t.LEXEME_ELSE, t.LEXEME_ELSEIF]);
+        let done      = false;
+        let elseIndex = [];
+        while (!done) {
+            if (lastToken.is(t.LEXEME_ELSEIF)) {
+                elseIndex.push(program.getLength());
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                    program
+                        .addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0)
+                        .setCommandParamValue2(jmpIndex, program.getLength());
+                }
+                this.compileCondition(iterator);
+                jmpIndex  = program.getLength() - 1;
+                lastToken = this.compileBlock(iterator, [t.LEXEME_ELSE, t.LEXEME_ELSEIF]);
+            } else if (lastToken.is(t.LEXEME_ELSE)) {
+                elseIndex.push(program.getLength());
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                    program
+                        .addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, 0)
+                        .setCommandParamValue2(jmpIndex, program.getLength());
+                }
+                this.compileBlock(iterator, null);
+                done = true;
+            } else {
+                done = true;
+                if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+                    program.setCommandParamValue2(jmpIndex, program.getLength());
+                }
+            }
+        }
+        if (program.getCodeUsed()) { // Check if code is removed by optimizer...
+            elseIndex.forEach((index) => {
+                program.setCommandParamValue2(index, program.getLength() - 1);
+            });
         }
     }
 };

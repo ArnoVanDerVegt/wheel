@@ -30,10 +30,12 @@ exports.VolumeDialog = class extends Dialog {
                             inputType: 'text'
                         },
                         {
-                            ref:       this.setRef('slider'),
                             type:      Slider,
-                            maxValue:  100,
-                            onChange:  this.onChangeSlider.bind(this)
+                            ref:       this.setRef('slider'),
+                            ui:        this._ui,
+                            uiId:      this._uiId,
+                            onChange:  this.onChangeSlider.bind(this),
+                            maxValue:  100
                         }
                     ]
                 },
@@ -42,7 +44,7 @@ exports.VolumeDialog = class extends Dialog {
                     children: [
                         this.addButton({
                             ref:      this.setRef('buttonApply'),
-                            value:    'Ok',
+                            value:    'Change volume',
                             tabIndex: 128,
                             onClick:  this.onApply.bind(this)
                         }),

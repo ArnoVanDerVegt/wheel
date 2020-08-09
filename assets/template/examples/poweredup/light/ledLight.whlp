@@ -1,0 +1,30 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Leds light example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/poweredUp.whl"
+#include "lib/motor.whl"
+
+proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
+    ; Select the Hub device:
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
+
+    ; Select the Hub device:
+    motorLayerSetType(LAYER_1, OUTPUT_A, POWERED_UP_DEVICE_LED_LIGHTS)
+
+    motorSetSpeed(OUTPUT_A, 100)
+
+    repeat
+        ; You can turn the light on with the motor command:
+        motorOn(OUTPUT_A)
+        sleep(500)
+        ; You can turn the light off with the motor command:
+        motorStop(OUTPUT_A)
+        sleep(500)
+    end
+end

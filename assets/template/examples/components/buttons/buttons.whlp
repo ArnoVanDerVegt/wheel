@@ -1,0 +1,45 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Buttons example"
+
+#include "lib/standard.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/button.whl"
+#include "lib/components/statusLight.whl"
+
+#define BUTTONS_BUTTON_BLUE  0x780ACFDE
+#define BUTTONS_BUTTON_GREEN 0x4F7DB0F4
+#define BUTTONS_BUTTON_RED   0xD846C71A
+#define BUTTONS_STATUS_LIGHT 0x18551397
+
+#resource "buttons.wfrm"
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onButtonsButtonBlueClick(number windowHandle)
+    components.statusLight.setColor(windowHandle, BUTTONS_STATUS_LIGHT, COMPONENT_COLOR_BLUE)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onButtonsButtonGreenClick(number windowHandle)
+    components.statusLight.setColor(windowHandle, BUTTONS_STATUS_LIGHT, COMPONENT_COLOR_GREEN)
+end
+
+; @proc                   Button onClick event.
+; @param windowHandle     The handle to the active window.
+proc onButtonsButtonRedClick(number windowHandle)
+    components.statusLight.setColor(windowHandle, BUTTONS_STATUS_LIGHT, COMPONENT_COLOR_RED)
+end
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showButtonsForm()
+    ret components.form.show("buttons.wfrm")
+end
+
+proc main()
+    showButtonsForm()
+    halt()
+end

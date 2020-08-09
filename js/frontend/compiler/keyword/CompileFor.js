@@ -125,7 +125,9 @@ exports.CompileFor = class extends CompileLoop {
         this.compileCounterUpdate();
         // Compile the counter value to the pointer register again and store the value in the stack...
         this.compileJumpToStartIfInRange();
-        program.setCommandParamValue2(this._skipIndex, program.getLength());
+        if (program.getCodeUsed()) {
+            program.setCommandParamValue2(this._skipIndex, program.getLength());
+        }
         this._compiler.popLoop();
         if (this._step) {
             scope.decStackOffset();

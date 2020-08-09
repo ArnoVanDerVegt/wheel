@@ -32,6 +32,8 @@ exports.CompileWhile = class extends CompileLoop {
         let jmpIndex = program.getLength() - 1;
         this.compileBlock(iterator, null);
         program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_CODE, $.T_NUM_C, startIndex);
-        program.setCommandParamValue2(jmpIndex, program.getLength());
+        if (program.getCodeUsed()) {
+            program.setCommandParamValue2(jmpIndex, program.getLength());
+        }
     }
 };

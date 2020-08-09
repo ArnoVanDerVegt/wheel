@@ -27,25 +27,25 @@ exports.SystemModule = class extends VMModule {
                 vmData.setNumberAtRet(50);
                 break;
             case systemModuleConstants.SYSTEM_SET_VOLUME:
-                let setVolume = vmData.getRecordFromAtOffset(['volume']);
+                let setVolume = vmData.getRecordFromSrcOffset(['volume']);
                 this.emit('System.SetVolume', setVolume);
                 break;
             case systemModuleConstants.SYSTEM_GET_POWER_OFF_MINUTES:
-                let getPowerOffMinutes = vmData.getRecordFromAtOffset(['minutes']);
+                let getPowerOffMinutes = vmData.getRecordFromSrcOffset(['minutes']);
                 this.emit('System.GetPowerOffMinutes', getPowerOffMinutes);
                 vmData.setNumberAtRet(30);
                 break;
             case systemModuleConstants.SYSTEM_SET_POWER_OFF_MINUTES:
-                this.emit('System.SetPowerOffMinutes', vmData.getRecordFromAtOffset(['time']));
+                this.emit('System.SetPowerOffMinutes', vmData.getRecordFromSrcOffset(['time']));
                 break;
             case systemModuleConstants.SYSTEM_GET_BRICKNAME:
-                this.emit('System.GetBrickname', {});
-                let getBrickname = vmData.getRecordFromAtOffset(['name']);
-                vmData.getStringList()[getBrickname.name] = 'EV3';
+                this.emit('System.GetEV3name', {});
+                let getEV3name = vmData.getRecordFromSrcOffset(['name']);
+                vmData.getStringList()[getEV3name.name] = 'EV3';
                 break;
             case systemModuleConstants.SYSTEM_SET_BRICKNAME:
-                let setBrickname = vmData.getRecordFromAtOffset(['name']);
-                this.emit('System.SetBrickname', {name: vmData.getStringList()[setBrickname.name]});
+                let setEV3name = vmData.getRecordFromSrcOffset(['name']);
+                this.emit('System.SetBrickname', {name: vmData.getStringList()[setEV3name.name]});
                 break;
             case systemModuleConstants.SYSTEM_GET_MEMORY_TOTAL:
                 this.emit('System.GetMemoryTotal', {});

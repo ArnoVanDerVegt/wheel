@@ -14,7 +14,7 @@
                 return obj;
             }
             let keywords = words(
-                    'proc record and select case to downto else end for if not or repeat until while break default mod addr step ret ' +
+                    'proc record union and select case to downto else elseif end for if not or repeat until while break default mod addr step ret ' +
                     'static with object public private protected super namespace'
                 );
             let types    = words('number string');
@@ -39,7 +39,7 @@
                     stream.skipToEnd();
                     return 'comment';
                 }
-                if ('!:@^{}()[]+-/*<>=,'.indexOf(ch) !== -1) {
+                if ('!:@^{}()[]+-/*<>=,.'.indexOf(ch) !== -1) {
                     return 'operator';
                 }
                 stream.eatWhile(/[\w\$_]/);

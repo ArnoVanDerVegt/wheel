@@ -1,0 +1,94 @@
+; @module PoweredUp
+; @device P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @const The Powered Up module.
+#define MODULE_POWERED_UP                           13
+
+; @const The Powered Up output ports.
+#define POWERED_UP_OUTPUT_A                          0
+#define POWERED_UP_OUTPUT_B                          1
+#define POWERED_UP_OUTPUT_C                          2
+#define POWERED_UP_OUTPUT_D                          3
+
+; @const The Powered Up input ports.
+#define POWERED_UP_PORT_A                            0
+#define POWERED_UP_PORT_B                            1
+#define POWERED_UP_PORT_C                            2
+#define POWERED_UP_PORT_D                            3
+
+; @const Powered Up device types.
+#define POWERED_UP_MOVE_HUB                          2
+#define POWERED_UP_HUB                               3
+#define POWERED_UP_REMOTE_CONTROL                    4
+#define POWERED_UP_TECHNIC_MEDIUM_HUB                6
+
+; @const Module calls for device functions.
+#define POWERED_UP_START                             0
+#define POWERED_UP_SET_DEVICE                        1
+
+; @const Motor types, these constants can be used as a parameter for the `motorSetType` or `motorLayerSetType` procedures.
+#define POWERED_UP_DEVICE_BASIC_MOTOR                1
+#define POWERED_UP_DEVICE_TRAIN_MOTOR                2
+#define POWERED_UP_DEVICE_LED_LIGHTS                 8
+#define POWERED_UP_DEVICE_BOOST_TACHO_MOTOR         38
+#define POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR      39
+#define POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR  46
+#define POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR 47
+
+; @const Sensor types, these constants can be used as a parameter for the `sensorSetType` or `sensorLayerSetType` procedures.
+#define POWERED_UP_DEVICE_BOOST_DISTANCE            37
+
+; @const The sensor modes for the color/distance sensor.
+#define POWERED_UP_SENSOR_MODE_DISTANCE              0
+#define POWERED_UP_SENSOR_MODE_COLOR                 1
+
+; @record A record to contain vector data for acceleration and tilt values.
+record PoweredUpVector
+    number x, y, z
+end
+
+; @record A record for button, tilt and acceleration status data.
+record PoweredUpStatus
+    ; @field The device button value.
+    number          button
+    ; @field The tilt vector.
+    PoweredUpVector tilt
+    ; @field The acceleration vector.
+    PoweredUpVector accel
+end
+
+; @record The status of the Powered Up device for all layers.
+record PoweredUpDevices
+    ; @field Powered Up status data for all four layers.
+    PoweredUpStatus layer[4]
+union
+    ; @field Powered Up status data for layer one.
+    PoweredUpStatus layer1
+    ; @field Powered Up status data for layer two.
+    PoweredUpStatus layer2
+    ; @field Powered Up status data for layer three.
+    PoweredUpStatus layer3
+    ; @field Powered Up status data for layer four.
+    PoweredUpStatus layer4
+end
+
+; @var Powered Up device status data.
+PoweredUpDevices poweredUpDevices
+
+; @proc             Start reading updates from the Powered Up devices.
+proc poweredUpStart()
+    addr poweredUpDevices
+    mod  MODULE_POWERED_UP, POWERED_UP_START
+end
+
+; @proc             Select a Powered Up device, this function is only usefull for to simulate a device
+;                   without a connection. When connecting an actual device this value will be overruled
+;                   by the actual connected device type.
+; @param layer      The layer.
+; @param device     The device type.
+proc poweredUpSetDevice(number layer, number device)
+    addr layer
+    mod  MODULE_POWERED_UP, POWERED_UP_SET_DEVICE
+end

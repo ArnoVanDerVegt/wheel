@@ -1,0 +1,91 @@
+; @module Component/Slider
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.slider
+
+; @const The slider component module.
+#define MODULE_COMPONENT_SLIDER        71
+
+; @const Module calls for the slider component functions.
+#define SLIDER_COMPONENT_SET_HIDDEN     0
+#define SLIDER_COMPONENT_SET_DISABLED   1
+#define SLIDER_COMPONENT_SET_X          2
+#define SLIDER_COMPONENT_SET_Y          3
+#define SLIDER_COMPONENT_SET_VALUE      4
+#define SLIDER_COMPONENT_GET_VALUE      5
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property disabled boolean Disable the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The slider width.
+; @property maxValue number  The maximum value.
+; @property value    number  The current value, in the range of 0..`maxValue`.
+
+; @event onChange            Called when the slider is selected or unselected.
+; @param windowHandle number The handle of the parent window of the slider.
+; @param value        number `TRUE` when checked, `FALSE` if not checked.
+
+; @event onFocus             Called when the slider is focussed.
+; @param windowHandle number The handle of the parent window of the slider.
+
+; @event onBlur              Called when the slider looses focus.
+; @param windowHandle number The handle of the parent window of the slider.
+
+; @proc                   Hide the slider.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Disable the slider.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param disabled         Disabled `TRUE` or `FALSE`.
+proc setDisabled(number windowHandle, number componentHandle, number disabled)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_SET_DISABLED
+end
+
+; @proc                   Set the x position of the slider.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the slider.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_SET_Y
+end
+
+; @proc                   Set the slider number value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param value            The slider value.
+proc setValue(number windowHandle, number componentHandle, number value)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_SET_VALUE
+end
+
+; @proc                   Get the value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The value.
+proc getValue(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_SLIDER, SLIDER_COMPONENT_GET_VALUE
+end

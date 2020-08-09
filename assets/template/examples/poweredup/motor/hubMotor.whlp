@@ -1,0 +1,41 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Hub motor example"
+
+; This example shows how to select the Hub device in the simulator and move the motor
+; to a given angle.
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/motor.whl"
+#include "lib/poweredUp.whl"
+
+#display "Hub"
+
+proc main()
+    ; Select the Powered Up mode in the simulator:
+    selectDevice(DEVICE_POWERED_UP)
+
+    ; Select the Hub device:
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
+
+    ; Select the motor types:
+    motorSetType(OUTPUT_A, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)
+    motorSetType(OUTPUT_B, POWERED_UP_DEVICE_BASIC_MOTOR)
+
+    ; Set the motor speed and brake...
+    motorLayerSetSpeed(LAYER_1, OUTPUT_A, 50)
+    motorLayerSetSpeed(LAYER_1, OUTPUT_B, 75)
+    motorLayerSetBrake(LAYER_1, OUTPUT_A, MOTOR_BRAKE)
+
+    ; Reset output A on layer 1
+    motorLayerReset(LAYER_1, OUTPUT_A)
+    ; Move the motor to 720 degrees
+    motorLayerMoveTo(LAYER_1, OUTPUT_A, 720)
+
+    ; Set the speed of output B and turn the motor on...
+    motorLayerSetSpeed(LAYER_1, OUTPUT_B, 25)
+    motorLayerOn(LAYER_1, OUTPUT_B)
+
+    halt()
+end

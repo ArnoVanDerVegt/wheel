@@ -9,32 +9,32 @@ exports.SensorModule = class extends VMModule {
     run(commandId) {
         let vm     = this._vm;
         let vmData = this._vmData;
-        let brick  = this._brick;
+        let device = this._device();
         let sensor;
         switch (commandId) {
             case sensorModuleConstants.SENSOR_SET_TYPE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id', 'type']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id', 'type']);
                 this.emit('Sensor.SetType', sensor);
-                brick.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_TYPE, sensor);
+                device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_TYPE, sensor);
                 break;
             case sensorModuleConstants.SENSOR_GET_TYPE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 sensor.callback = function(value) { vmData.setNumberAtRet(value); };
                 this.emit('Sensor.GetType', sensor);
                 break;
             case sensorModuleConstants.SENSOR_SET_MODE:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id', 'mode']);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id', 'mode']);
                 this.emit('Sensor.SetMode', sensor);
-                brick.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_MODE, sensor);
+                device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_SET_MODE, sensor);
                 break;
             case sensorModuleConstants.SENSOR_RESET:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
-                brick.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_RESET, sensor);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
+                device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_RESET, sensor);
                 break;
             case sensorModuleConstants.SENSOR_READ:
-                sensor = vmData.getRecordFromAtOffset(['layer', 'id']);
-                brick.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_READ, sensor);
-                let state = brick.getLayerState(sensor.layer);
+                sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
+                device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_READ, sensor);
+                let state = device.getLayerState(sensor.layer);
                 if (state) {
                     let sensors = state.getSensors() || [];
                     let value   = sensors[sensor.id];

@@ -1,0 +1,37 @@
+@subject Example:String, number
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String number example
+This shows how to convert a number to a string and a string to a number.
+
+@section Code
+@example
+#project "String number example"
+
+#include "lib/standard.whl"
+#include "lib/string.whl"
+
+proc main()
+    clearConsole()
+
+    ; Declare a string and a number:
+    string s
+    number n = 2.79
+
+    ; Convert the number to a string and print the string in the console:
+    numberToString(n, s)
+    printS("Number to string:")
+    printS(s)
+
+    ; Assign a numeric value to a string, convert it to a number and print the number in the console:
+    s = "4.67"
+    n = stringToNumber(s)
+    printS("String to number:")
+    printN(n)
+end
+@end
+
+@load Open indexOf example|examples/string/number.whlp
+@load Open indexOf example for EV3|examples/ev3/string/number.whlp
+
+@see string,number,numberToString,stringToNumber,standard,Modules

@@ -1,5 +1,5 @@
 {
-    "version": "0.9.0",
+    "version": "0.9.1",
     "download": "http://arnovandervegt.github.io/wheel/site/install.html",
     "info": {
         "children": [
@@ -10,14 +10,9 @@
             {
                 "type": "ul",
                 "children": [
-                    {
-                        "type": "li",
-                        "innerHTML": "New feature"
-                    },
-                    {
-                        "type": "li",
-                        "innerHTML": "Another feature"
-                    }
+                    {"type": "li", "innerHTML": "Powered Up support!"},
+                    {"type": "li", "innerHTML": "EV3 Chart plugin"}
+                    {"type": "li", "innerHTML": "Updated image and sound editors toolbars"}
                 ]
             }
         ]

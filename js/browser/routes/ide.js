@@ -38,7 +38,7 @@
     class LocalStorageFiles {
         constructor() {
             try {
-                let data = localStorage.getItem('WHEEL_FILES');
+                let data = localStorage.getItem('WHEEL_FILES') || '';
                 this.dispatchSize(data.length);
                 this._files = JSON.parse(data);
             } catch (error) {
@@ -50,14 +50,14 @@
 
         dispatchSize(size) {
             let dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
-            dispatcher.dispatch('LocalStorage.Size', Math.min(size / (1024 * 1024) * 100, 100));
+            dispatcher.dispatch('LocalStorage.Size', {value: Math.min(size / (1024 * 1024) * 100, 100)});
         }
 
         _save() {
             try {
                 let data = JSON.stringify(this._files);
                 this.dispatchSize(data.length);
-                localStorage.setItem('WHEEL_FILES', data);
+                localStorage.setItem('WHEEL_FILES', data) || '';
             } catch (error) {
             }
         }
@@ -135,6 +135,7 @@
 
     exports.ideRoutes = {
         files: function(params, callback) {
+            getLocalStorageFiles();
             let currentPath;
             if ('changePath' in params) {
                 currentPath = getPathByIndex(params.index);
@@ -169,12 +170,24 @@
             let localFiles = getLocalStorageFiles().getFiles();
             let extension  = path.getExtension(params.filename);
             let data       = null;
-            if (params.filename in files) {
-                data = atob(files[params.filename]);
-            } else if ('Wheel' + params.filename in files) {
-                data = atob(files['Wheel' + params.filename]);
-            } else if (params.filename in localFiles) {
-                data = localFiles[params.filename];
+            let filenames  = (typeof params.filename === 'string') ? [params.filename] : params.filename;
+            let filename   = '';
+            const findFile = (filename) => {
+                    if (filename in files) {
+                        return atob(files[filename]);
+                    } else if ('Wheel' + filename in files) {
+                        return atob(files['Wheel' + filename]);
+                    } else if (filename in localFiles) {
+                        return localFiles[filename];
+                    }
+                    return null;
+                };
+            for (let i = filenames.length - 1; i >= 0; i--) {
+                filename = filenames[i];
+                data     = findFile(filename);
+                if (data) {
+                    break;
+                }
             }
             switch (extension) {
                 case '.rgf':
@@ -187,6 +200,15 @@
                         rsf.push(data.charCodeAt(i));
                     }
                     data = {data: rsf};
+                    break;
+                case '.wfrm':
+                    let whlData  = findFile(path.replaceExtension(filename, '.whl'));
+                    let whlpData = findFile(path.replaceExtension(filename, '.whlp'));
+                    if (whlData || whlpData) {
+                        data = {wfrm: data, whl: whlData || whlpData, isProject: !!whlpData};
+                    } else {
+                        data = {wfrm: data, whl: whlData || whlpData};
+                    }
                     break;
             }
             callback(JSON.stringify({success: !!data, data: data}));
@@ -212,7 +234,7 @@
             } catch (error) {
                 settings = {};
             }
-            settings.version      = '0.9.0';
+            settings.version      = '0.9.1';
             settings.documentPath = 'Wheel';
             settings.os           = {
                 homedir:  '',

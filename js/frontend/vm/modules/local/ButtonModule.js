@@ -11,13 +11,15 @@ exports.ButtonModule = class extends VMModule {
         let vm     = this._vm;
         switch (commandId) {
             case buttonModuleConstants.BUTTON_READ:
-                this.emit('Button.Button', function(button) { vmData.setNumberAtRet(button); });
+                let button = vmData.getRecordFromSrcOffset(['layer']);
+                button.callback = function(button) { vmData.setNumberAtRet(button); };
+                this.emit('Button.Button', button);
                 break;
 
             case buttonModuleConstants.BUTTON_WAIT_FOR_PRESS:
                 vm.sleep(1000);
                 let interval = setInterval(
-                        (function() {
+                        () => {
                             this.emit(
                                 'Button.WaitForPress',
                                 function(button) {
@@ -29,7 +31,7 @@ exports.ButtonModule = class extends VMModule {
                                     vm.sleep(0);
                                 }
                             );
-                        }).bind(this),
+                        },
                         50
                     );
                 break;

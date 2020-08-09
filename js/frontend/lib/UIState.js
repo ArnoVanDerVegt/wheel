@@ -13,13 +13,17 @@ exports.UIState = class extends Emitter {
         this._uiIdStack      = [];
         this._keyMetaDown    = false;
         this._keyControlDown = false;
-        document.addEventListener('mousedown', this.onMouseDown.bind(this));
-        document.addEventListener('mousemove', this.onMouseMove.bind(this));
-        document.addEventListener('mouseup',   this.onMouseUp.bind(this));
-        document.addEventListener('keydown',   this.onKeyDown.bind(this));
-        document.addEventListener('keyup',     this.onKeyUp.bind(this));
-        window.addEventListener('blur',  this.onBlur.bind(this));
-        window.addEventListener('focus', this.onFocus.bind(this));
+        if (typeof document !== 'undefined') {
+            document.addEventListener('mousedown', this.onMouseDown.bind(this));
+            document.addEventListener('mousemove', this.onMouseMove.bind(this));
+            document.addEventListener('mouseup',   this.onMouseUp.bind(this));
+            document.addEventListener('keydown',   this.onKeyDown.bind(this));
+            document.addEventListener('keyup',     this.onKeyUp.bind(this));
+        }
+        if (typeof window !== 'undefined') {
+            window.addEventListener('blur',  this.onBlur.bind(this));
+            window.addEventListener('focus', this.onFocus.bind(this));
+        }
         dispatcher.on('Global.HotKey.Clear', this, this.onClearHotKey);
     }
 
@@ -60,7 +64,7 @@ exports.UIState = class extends Emitter {
         this.emit('Global.UIId');
     }
 
-    popUIId(uiId) {
+    popUIId() {
         this._uiIdStack.pop();
         this.emit('Global.UIId');
     }
@@ -108,11 +112,11 @@ exports.UIState = class extends Emitter {
         this.emit('Global.Key.Up', event);
     }
 
-    onBlur() {
+    onBlur(event) {
         this.emit('Global.Window.Blur', event);
     }
 
-    onFocus() {
+    onFocus(event) {
         this.emit('Global.Window.Focus', event);
     }
 };

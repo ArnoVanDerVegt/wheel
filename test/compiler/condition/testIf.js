@@ -1070,5 +1070,27 @@ describe(
                 );
             }
         );
+        describe(
+            'Test if condition in function removed by optimizer',
+            function() {
+                testLogs(
+                    it,
+                    'Should compile removed if...else',
+                    [
+                        'proc test(number motor)',
+                        '    if motor == 2',
+                        '        motor = 1',
+                        '    else',
+                        '        motor = 3',
+                        '    end',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ],
+                    [
+                    ]
+                );
+            }
+        );
     }
 );

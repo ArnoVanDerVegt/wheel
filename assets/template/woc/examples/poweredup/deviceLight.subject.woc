@@ -1,0 +1,46 @@
+@subject PoweredUp_Example:Device light
+@device  P
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Powered Up Device light example
+This example shows how to control the built in light on the Powered Up device.
+
+
+The demo below selects the `Hub` device in the simulator with the `DEVICE_POWERED_UP` constant.
+If you have a different hub connected you should change the `POWERED_UP_HUB` to
+`POWERED_UP_MOVE_HUB`, `POWERED_UP_REMOTE_CONTROL` or `POWERED_UP_TECHNIC_MEDIUM_HUB`
+depending on the type of device you are using.
+
+@section Code
+@example
+#project "Powered Up Light example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/light.whl"
+
+#display "Hub"
+
+proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
+    ; Select the Hub device:
+    poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
+
+    repeat
+        light(LIGHT_PU_BLUE)
+        sleep(1000)
+        light(LIGHT_PU_GREEN)
+        sleep(1000)
+        light(LIGHT_PU_YELLOW)
+        sleep(1000)
+        light(LIGHT_PU_RED)
+        sleep(1000)
+    end
+end
+@end
+
+@load Open the light example|examples/poweredup/light/light.whlp
+
+@see poweredup,light,standard

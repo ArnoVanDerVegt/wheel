@@ -8,10 +8,11 @@ const ImageDialog = require('./ImageDialog').ImageDialog;
 
 exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
+        opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
         this.createWindow(
             'image-dialog new-image',
-            'New image',
+            opts.title || 'New image',
             [
                 {
                     className: 'image-dialog-text',
@@ -20,12 +21,14 @@ exports.ImageNewDialog = class extends ImageDialog {
                             className: 'image-dialog-row',
                             children: [
                                 {
+                                    className: 'form-label',
                                     innerHTML: 'Filename'
                                 },
                                 this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
+                                    ref:         this.setRef('filename'),
+                                    tabIndex:    1,
+                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                    placeholder: 'Enter filename'
                                 })
                             ]
                         },
@@ -39,7 +42,7 @@ exports.ImageNewDialog = class extends ImageDialog {
                         this.addButton({
                             ref:      this.setRef('buttonApply'),
                             tabIndex: 128,
-                            value:    'Ok',
+                            value:    opts.applyTitle || 'Ok',
                             onClick:  this.onApply.bind(this)
                         }),
                         this.addButton({
@@ -52,11 +55,11 @@ exports.ImageNewDialog = class extends ImageDialog {
                 }
             ]
         );
-        dispatcher.on('Dialog.Image.New.Show', this, this.onShow);
+        dispatcher.on(opts.dispatchShow || 'Dialog.Image.New.Show', this, this.onShow);
     }
 
     onShow(activeDirectory, documentPath) {
-        super.show();
+        this.show();
         this._activeDirectory         = activeDirectory || documentPath;
         this._refs.filename.className = '';
         this._refs.filename.value     = '';
@@ -78,7 +81,14 @@ exports.ImageNewDialog = class extends ImageDialog {
             this._filename += '.rgf';
         }
         let filename = path.join(this._activeDirectory, this._filename);
-        dispatcher.dispatch('Create.Image', filename, this._width, this._height);
+        dispatcher.dispatch(
+            'Create.Image',
+            {
+                filename: filename,
+                width:    this._width,
+                height:   this._height
+            }
+        );
         this.hide();
     }
 

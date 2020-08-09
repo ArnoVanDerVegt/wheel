@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Downloader   = require('../../../brick/Downloader');
+const Downloader   = require('../../../ev3/Downloader');
 const dispatcher   = require('../../../lib/dispatcher').dispatcher;
 const path         = require('../../../lib/path');
 const Dialog       = require('../../../lib/components/Dialog').Dialog;
@@ -88,7 +88,7 @@ exports.DownloadDialog = class extends Dialog {
             ]
         );
         dispatcher.on('Dialog.Download.Show', this, this.onShow);
-        this._brick    = opts.brick;
+        this._ev3      = opts.ev3;
         this._settings = opts.settings;
     }
 
@@ -136,7 +136,7 @@ exports.DownloadDialog = class extends Dialog {
         refs.downloadButton.setDisabled(true);
         refs.closeButton.setDisabled(true);
         new Downloader.Downloader().download({
-            brick:           this._brick,
+            ev3:             this._ev3,
             program:         this._program,
             resources:       this._resources,
             localPath:       this._settings.getDocumentPath(),
@@ -163,7 +163,7 @@ exports.DownloadDialog = class extends Dialog {
 
     onShow(opts) {
         let refs = this._refs;
-        this._brick.stopPolling();
+        this._ev3.stopPolling();
         this._program         = opts.program;
         this._remoteDirectory = Downloader.getRemoteDirectory(opts.filename);
         this._resources       = opts.resources;
@@ -175,7 +175,7 @@ exports.DownloadDialog = class extends Dialog {
     }
 
     hide() {
-        this._brick.resumePolling();
+        this._ev3.resumePolling();
         super.hide();
     }
 };

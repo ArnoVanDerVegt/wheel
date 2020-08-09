@@ -1,0 +1,407 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - VM:VM</title>
+    <meta name="description" content="VM:VM"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>VM</h2>
+            <a id="VM"></a>
+            <h4 class="">VM</h4>
+            <p>
+                The compiled code is executed on a very simple virtual machine.
+            </p>
+            <a id="Data"></a>
+            <h4 class="">Data</h4>
+            <p>
+                There is only one data type: <i>number</i>. Strings are handled as number references.
+                <br/>
+                The memory is a single list of numbers. The first part of the memory is used for globals,
+                the second is used as call stack for parameter and local variables.
+            </p>
+            <a id="Commands"></a>
+            <h4 class="">Commands</h4>
+            <p>
+                Since the virtual machine had to be implemented in the EV3 software it should be as simple as possible.
+                The VM uses only 16 commands which fit in 4 bits:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> #  </th>
+                    <th> Command </th>
+                    <th> Parameters       </th>
+                    <th> Description                                                 </th>
+                </th>
+                <tr>
+                    <td>0</td>
+                    <td>call</td>
+                    <td>var, stack</td>
+                    <td>Call the procedure in `var` allocate `stack`.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ret</td>
+                    <td>value</td>
+                    <td>Return to call point, set the `return` register to `value`.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>copy</td>
+                    <td>size</td>
+                    <td>Copy `size` from `src` to `dest`.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>jmpc</td>
+                    <td>offset, flag</td>
+                    <td>Jump to `offset` if the given flag is true.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>mod</td>
+                    <td>moduleId, procId</td>
+                    <td>Call the procedure `procId` of module `module`.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>set</td>
+                    <td>var, value</td>
+                    <td>Set `var` to `value`.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>add</td>
+                    <td>var, value</td>
+                    <td>Add `value` to `var`.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>sub</td>
+                    <td>var, value</td>
+                    <td>Subtract `value` to `var`.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>mul</td>
+                    <td>var, value</td>
+                    <td>Multiply `value` to `var`.</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>div</td>
+                    <td>var, value</td>
+                    <td>Divide `value` to `var`.</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>and</td>
+                    <td>var, value</td>
+                    <td>Boolean and `value` and `var`.</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>or</td>
+                    <td>var, value</td>
+                    <td>Boolean or `value` with `var`.</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>cmp</td>
+                    <td>a, b</td>
+                    <td>Compare `a` with `b` and set flags.</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>setf</td>
+                    <td>var, value</td>
+                    <td>Sets `value` to the compare flag values.</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>sets</td>
+                    <td>var, value</td>
+                    <td>Sets a `string value` to a `string var`.</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>adds</td>
+                    <td>var, value</td>
+                    <td>Add `string value` to `string var`.</td>
+                </tr>
+            </table>
+            <a id="Command`copy`"></a>
+            <h4 class="">Command `copy`</h4>
+            <p>
+                Copy <i>size</i> values from the <i>src</i> pointer to the <i>dest</i> pointer.
+            </p>
+            <pre class="wheel"><span class="keyword">copy</span> <span class="number">10</span> <span class="comment">; copy 10 numbers from src to dest</span>
+</pre>
+            <a id="Command`jmpc`"></a>
+            <h4 class="">Command `jmpc`</h4>
+            <p>
+                Conditional jump, based on the flag paramer.
+                The flags are set with the <i>cmp</i> command.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Flag          </th>
+                    <th> Value </th>
+                </th>
+                <tr>
+                    <td>equal</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Not equal</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Less</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Less equal</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Greater</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td>Greater equal</td>
+                    <td>32</td>
+                </tr>
+            </table>
+            <pre class="wheel"><span class="keyword">jmpc</span> <span class="number">45</span><span class="operator">,</span> <span class="number">1</span> <span class="comment">; Jump to 45 if equal...</span>
+</pre>
+            <a id="Command`cmp`"></a>
+            <h4 class="">Command `cmp`</h4>
+            <p>
+                Compare one value to another and set the flags.
+            </p>
+            <pre class="wheel"><span class="keyword">cmp</span> <span class="variable">a</span><span class="operator">,</span> <span class="number">3</span> <span class="comment">; Compare a with 3...</span>
+</pre>
+            <a id="Command`module`"></a>
+            <h4 class="">Command `module`</h4>
+            <p>
+                Call a module procedure.
+            </p>
+            <pre class="wheel"><span class="keyword">mod</span> <span class="number">1</span><span class="operator">,</span> <span class="number">5</span> <span class="comment">; Call procudure 5 from module 1</span>
+</pre>
+            <a id="Command`set`"></a>
+            <h4 class="">Command `set`</h4>
+            <p>
+                Set the value of a variable.<br/>
+            </p>
+            <pre class="wheel"><span class="keyword">set</span> <span class="variable">var</span><span class="operator">,</span> <span class="variable">n</span> <span class="comment">; var = n</span>
+</pre>
+            <a id="Command`add`,`sub`,`mul`,`div`"></a>
+            <h4 class="">Command `add`, `sub`, `mul`, `div`</h4>
+            <p>
+                These operators change the value of <i>var</i> by applying the value of <i>n</i>.
+            </p>
+            <pre class="wheel"><span class="keyword">add</span> <span class="variable">var</span><span class="operator">,</span> <span class="variable">n</span> <span class="comment">; var = var + n</span>
+<span class="keyword">sub</span> <span class="variable">var</span><span class="operator">,</span> <span class="variable">n</span> <span class="comment">; var = var - n</span>
+<span class="keyword">mul</span> <span class="variable">var</span><span class="operator">,</span> <span class="variable">n</span> <span class="comment">; var = var * n</span>
+<span class="keyword">div</span> <span class="variable">var</span><span class="operator">,</span> <span class="variable">n</span> <span class="comment">; var = var / n</span>
+</pre>
+            <a id="Registers"></a>
+            <h4 class="">Registers</h4>
+            <p>
+                The VM uses 9 registers: <i>stack</i>, <i>src</i>, <i>dest</i>, <i>ptr</i>, <i>code</i>, <i>return</i> and <i>flags</i>, <i>range1</i> and <i>range2</i>.
+                <br/>
+                A register in the Wheel VM is basicaly a reserved memory address with a special purpose.
+                The first (<i>stack</i>) register is located at offset 0, the last (<i>flags</i>) is located at offset 6.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Offset </th>
+                    <th> Register </th>
+                    <th> Description                                                                     </th>
+                </th>
+                <tr>
+                    <td>0</td>
+                    <td>stack</td>
+                    <td>Stack pointer, this register has a matching parameter type.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>src</td>
+                    <td>Source pointer for copy command/general purpose.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>dest</td>
+                    <td>Destination pointer for copy command/general purpose.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>ptr</td>
+                    <td>A register for pointer operations, this register has a matching parameter type.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>code</td>
+                    <td>Code execution offset.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>return</td>
+                    <td>Function return value.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>flags</td>
+                    <td>Compater flags, unused in EV3 VM.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>range0</td>
+                    <td>Range check register.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>range1</td>
+                    <td>Range check register.</td>
+                </tr>
+            </table>
+            <p>
+                The <i>stack</i> register points to the top of the stack and is increased when a call is made.
+                The <i>src</i> and <i>dest</i> are used in combibation with the <i>copy</i> command and are also used as general purpose registers.
+                The <i>code</i> register contains the pointer to the current execution position.
+                The <i>return</i> register is used to return a value from a procedure call.
+            </p>
+            <a id="The`code`register"></a>
+            <h4 class="">The `code` register</h4>
+            <p>
+                After each command which is executed the value of the <i>code</i> register is increased with 1.
+                When a call is executed then the offset of the <i>code</i> register is set to the procedure offset minus 1,
+                since the value will be increased immediately after setting it.
+            </p>
+            <a id="The`range0`and`range1`register."></a>
+            <h4 class="">The `range0` and `range1` register.</h4>
+            <p>
+                The <i>range0</i> and <i>range1</i> registers are currently not implemented but are created to be implemented for runtime range checking.
+            </p>
+            <a id="Callstack"></a>
+            <h4 class="">Call stack</h4>
+            <p>
+                The VM does not have a call command.
+                A call is made by changing the value of the <i>code</i> register.
+                The following table shows the local memory layout in a procedure, these values are relative to the <i>stack</i> pointer.
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Offset                                   </th>
+                    <th> Size      </th>
+                    <th> Description          </th>
+                </th>
+                <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>Caller stack pointer</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>Code return pointer</td>
+                </tr>
+                <tr>
+                    <td>2..2 + paramSize</td>
+                    <td>paramSize</td>
+                    <td>Parameter values</td>
+                </tr>
+                <tr>
+                    <td>2 + paramSize..2 + paramSize + localSize</td>
+                    <td>localSize</td>
+                    <td>Local values</td>
+                </tr>
+            </table>
+            <p>
+                The total memory use of a procedure is equal to the sum of the parameter variables size,
+                the local variables size and 2 numbers for the stack and code return values.
+                <br/>
+                When a call is made the value of the stack pointer will be increased with the size of
+                the local data, the sum of the sizes in the table.
+                <br/>
+                The following example shows how a call is compiled.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">demo</span><span class="operator">(</span><span class="type">number</span> <span class="variable">p1</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">p2</span><span class="operator">)</span>
+    <span class="keyword">addr</span> <span class="variable">p1</span>
+    <span class="keyword">mod</span>  <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>
+    <span class="keyword">addr</span> <span class="variable">p2</span>
+    <span class="keyword">mod</span>  <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>
+<span class="keyword">end</span>
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">test</span><span class="operator">(</span><span class="number">26</span><span class="operator">,</span> <span class="number">78</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                Which results in the following code:
+            </p>
+            <pre class="wheel"><span class="number">01</span> <span class="keyword">set</span>     <span class="register">src</span><span class="operator">,</span>            <span class="number">2</span>
+<span class="number">02</span> <span class="keyword">add</span>     <span class="register">src</span><span class="operator">,</span>            <span class="register">stack</span>
+<span class="number">03</span> <span class="keyword">mod</span>     <span class="number">0</span><span class="operator">,</span>              <span class="number">0</span>
+<span class="number">04</span> <span class="keyword">set</span>     <span class="register">src</span><span class="operator">,</span>            <span class="number">3</span>
+<span class="number">05</span> <span class="keyword">add</span>     <span class="register">src</span><span class="operator">,</span>            <span class="register">stack</span>
+<span class="number">06</span> <span class="keyword">mod</span>     <span class="number">0</span><span class="operator">,</span>              <span class="number">0</span>
+<span class="number">07</span> <span class="keyword">ret</span>     <span class="number">0</span>
+<span class="number">08</span> <span class="keyword">set</span>     <span class="operator">[</span><span class="register">stack</span> <span class="operator">+</span> <span class="number">4</span><span class="operator">]</span><span class="operator">,</span>    <span class="number">26</span>
+<span class="number">09</span> <span class="keyword">set</span>     <span class="operator">[</span><span class="register">stack</span> <span class="operator">+</span> <span class="number">5</span><span class="operator">]</span><span class="operator">,</span>    <span class="number">78</span>
+<span class="number">10</span> <span class="keyword">call</span>    <span class="number">0000</span><span class="operator">,</span>           <span class="number">2</span>
+</pre>
+            <p>
+                When a call is made then the first two values on the stack are set to the current stack register value
+                and the current code register value. These to values are used when the code returns from the procedure.
+                <br/>
+                <br/>
+                The first parameter of a <i>call</i> command is the address, the second parameter is the amount of stack
+                which is used in the current procedure scope. When the first parameter is accessed in the <i>demo</i> procedure,
+                the offset is 2, the <i>src</i> register is set to 2 on line 01.
+                <br/>
+                <br/>
+                When the paramters are set on the stack on lines 08 and 09 they are moved to offset 4 and 5. The offset 4
+                is the result of 2 local values used in the <i>main</i> procedure and the two return values (<i>code</i> and <i>stack</i> register).
+                <br/>
+                <br/>
+                In this example the 2 local values where used to move the two paramters to the stack but where optimized away by the
+                peephole optimizer.
+            </p>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="VM_Compiler.html" class="see-also">compiler(Compiler)</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

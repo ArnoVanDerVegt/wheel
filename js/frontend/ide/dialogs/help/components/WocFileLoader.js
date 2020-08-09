@@ -10,7 +10,7 @@ exports.WocFileLoader = class {
         setTimeout(
             function() {
                 getDataProvider().getData(
-                    'post',
+                    'get',
                     'ide/file',
                     {filename: filename},
                     function(data) {

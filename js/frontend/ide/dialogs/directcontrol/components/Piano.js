@@ -9,7 +9,7 @@ const PianoKey             = require('./PianoKey').PianoKey;
 exports.Piano = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._brick           = opts.brick;
+        this._device          = opts.device;
         this._dialog          = opts.dialog;
         this._uiId            = opts.uiId;
         this._keyElements     = [];
@@ -116,6 +116,6 @@ exports.Piano = class extends DOMNode {
         let volume = this._dialog.getVolumeSliderElement().getValue();
         let tones  = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 277, 311, 370, 415, 466, 554, 622];
         let sound  = {frequency: tones[key], duration: 500, volume: volume};
-        this._brick.module(soundModuleConstants.MODULE_SOUND, soundModuleConstants.SOUND_PLAY_TONE, sound);
+        this._device.module(soundModuleConstants.MODULE_SOUND, soundModuleConstants.SOUND_PLAY_TONE, sound);
     }
 };
