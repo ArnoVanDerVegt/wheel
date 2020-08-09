@@ -219,6 +219,12 @@ describe(
                         assert.equal(path.join('/path1/../', '/path2/'), '/path2/');
                     }
                 );
+                it(
+                    'Should not remove .. part',
+                    function() {
+                        assert.equal(path.join('../', '/path2/'), '../path2/');
+                    }
+                );
             }
         );
         describe(

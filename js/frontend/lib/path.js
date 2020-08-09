@@ -93,7 +93,7 @@ exports.join = function() {
     path = path.join('/').split('/');
     let result = [];
     path.forEach((p) => {
-        if (p === '..') {
+        if ((p === '..') && result.length) {
             result.pop();
         } else {
             result.push(p);
