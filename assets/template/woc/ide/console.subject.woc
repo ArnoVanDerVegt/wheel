@@ -1,15 +1,28 @@
 @subject IDE:Console
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-@section Console
+@section Messages
 The console displays the program status. The following messages can appear:
 * Compiler succeeded
 * Compiler error with details about the error
 * Compiler data output, information about created resources
-* EV3 Connection status
+* EV3 and Powered Up Connection status
+* Loading status messages
+* Custom messages from your own program
+
+@section Log levels
+There are different log level, the log level indicates the importance of the message.
+The log levels are:
+* Info
+* Hint
+* Warning
+* Error
+Some messages trigger the showing of the console panel. You can confige which log level message
+triggers the showing of the console from the `Settings` option in the `File` menu.
+The default setting to show the console is `Error`.
 
 @section Logging
-You can also log your own messages in the console from your program.
+You can log your own messages in the console from your program.
 There are three methods defined in the `Standard` module: `printN`, `printS` and `clearConsole`.
 The `printN` procedure prints a number, the `printS` procedure prints a string and `clearConsole` empties the console.
 
