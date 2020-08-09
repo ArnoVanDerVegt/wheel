@@ -271,13 +271,9 @@ exports.FormEditorState = class extends Emitter {
     }
 
     getCanCopy() {
-        // Todo: add types...
-        switch (this.getActiveComponentType()) {
-            case formEditorConstants.COMPONENT_TYPE_BUTTON:        return true;
-            case formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON: return true;
-            case formEditorConstants.COMPONENT_TYPE_LABEL:         return true;
-            case formEditorConstants.COMPONENT_TYPE_CHECKBOX:      return true;
-            case formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT:  return true;
+        let type = this.getActiveComponentType().toUpperCase();
+        if (type in formEditorConstants.PROPERTIES_BY_TYPE) {
+            return formEditorConstants.PROPERTIES_BY_TYPE[type].canCopy;
         }
         return false;
     }

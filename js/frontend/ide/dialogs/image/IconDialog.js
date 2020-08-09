@@ -4,14 +4,17 @@
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
+const Component  = require('../../../lib/components/Component').Component;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 
-class Icon extends DOMNode {
+class Icon extends Component {
     constructor(opts) {
         super(opts);
+        this._hintDiv   = null;
         this._dialog    = opts.dialog;
         this._tabIndex  = opts.tabIndex;
         this._className = opts.className;
+        this._title     = opts.title;
         this.initDOM(opts.parentNode);
     }
 
@@ -21,7 +24,9 @@ class Icon extends DOMNode {
             {
                 id: (element) => {
                     this._element = element;
-                    element.addEventListener('click', this.onClick.bind(this));
+                    element.addEventListener('click',     this.onClick.bind(this));
+                    element.addEventListener('mousemove', this.onMouseMove.bind(this));
+                    element.addEventListener('mouseout',  this.onMouseOut.bind(this));
                 },
                 type:      'input',
                 inputType: 'button',
@@ -33,6 +38,30 @@ class Icon extends DOMNode {
 
     onClick() {
         this._dialog.onSelect(this);
+    }
+
+    onMouseMove(event) {
+        let hintDiv;
+        if (this._hintDiv) {
+            hintDiv = this._hintDiv;
+        } else {
+            hintDiv = this.getHintDiv();
+            if (!hintDiv) {
+                return;
+            }
+            this._hintDiv     = hintDiv;
+            hintDiv.innerHTML = this._title;
+        }
+        let element  = this._element;
+        let position = this.getElementPosition();
+        hintDiv.style.zIndex = 99999;
+        hintDiv.style.display = 'block';
+        hintDiv.style.left    = position.x + (-hintDiv.offsetWidth / 2 + element.offsetWidth / 2) + 'px';
+        hintDiv.style.top     = (position.y + 52) + 'px';
+    }
+
+    onMouseOut() {
+        this.hideHintDiv();
     }
 
     getClassName() {
@@ -82,7 +111,7 @@ exports.IconDialog = class extends Dialog {
 
     initIcons() {
         let icons = [
-                {className: 'point',            title: 'Point'},
+                {className: 'point',            title: 'Pen'},
                 {className: 'circle',           title: 'Circle'},
                 {className: 'circle-stripe',    title: 'Circle-stripe'},
                 {className: 'rect',             title: 'Rectangle'},
@@ -144,7 +173,10 @@ exports.IconDialog = class extends Dialog {
                 type:      Icon,
                 dialog:    this,
                 className: icon.className,
-                tabIndex:  1 + index
+                title:     icon.title,
+                tabIndex:  1 + index,
+                ui:        this._ui,
+                uiId:      this._uiId
             });
         });
         return children;

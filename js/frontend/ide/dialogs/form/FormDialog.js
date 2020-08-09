@@ -4,24 +4,7 @@
 **/
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const Dialog              = require('../../../lib/components/Dialog').Dialog;
-const Button              = require('../../../lib/components/Button').Button;
-const Label               = require('../../../lib/components/Label').Label;
-const ToolOptions         = require('../../../lib/components/ToolOptions').ToolOptions;
-const CheckboxAndLabel    = require('../../../lib/components/CheckboxAndLabel').CheckboxAndLabel;
-const TextInput           = require('../../../lib/components/TextInput').TextInput;
-const Slider              = require('../../../lib/components/Slider').Slider;
-const StatusLight         = require('../../../lib/components/StatusLight').StatusLight;
 const TabPanel            = require('../../../lib/components/TabPanel').TabPanel;
-const Rectangle           = require('../../../lib/components/Rectangle').Rectangle;
-const Circle              = require('../../../lib/components/Circle').Circle;
-const Image               = require('../../../lib/components/Image').Image;
-const PoweredUpDevice     = require('../../../lib/components/io/PoweredUpDevice').PoweredUpDevice;
-const EV3Motor            = require('../../../lib/components/io/EV3Motor').EV3Motor;
-const EV3Sensor           = require('../../../lib/components/io/EV3Sensor').EV3Sensor;
-const Interval            = require('../../../lib/components/nonvisual/Interval').Interval;
-const Timeout             = require('../../../lib/components/nonvisual/Timeout').Timeout;
-const AlertDialog         = require('../../../lib/components/nonvisual/AlertDialog').AlertDialog;
-const ConfirmDialog       = require('../../../lib/components/nonvisual/ConfirmDialog').ConfirmDialog;
 const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
@@ -170,24 +153,6 @@ exports.FormDialog = class extends Dialog {
                 }
             }
         );
-        let constructorByType = {};
-        constructorByType[formEditorConstants.COMPONENT_TYPE_BUTTON        ] = Button;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_LABEL         ] = Label;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_SELECT_BUTTON ] = ToolOptions;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_CHECKBOX      ] = CheckboxAndLabel;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_TEXT_INPUT    ] = TextInput;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_SLIDER        ] = Slider;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT  ] = StatusLight;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_RECTANGLE     ] = Rectangle;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_CIRCLE        ] = Circle;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_IMAGE         ] = Image;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_PU_DEVICE     ] = PoweredUpDevice;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_EV3_MOTOR     ] = EV3Motor;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_EV3_SENSOR    ] = EV3Sensor;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_INTERVAL      ] = Interval;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_TIMEOUT       ] = Timeout;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG  ] = AlertDialog;
-        constructorByType[formEditorConstants.COMPONENT_TYPE_CONFIRM_DIALOG] = ConfirmDialog;
         componentById[mainParentId] = result;
         opts.data.forEach((component) => {
             let win    = this._win;
@@ -211,10 +176,8 @@ exports.FormDialog = class extends Dialog {
                     left:     component.x + 'px',
                     top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
                 };
-                if (component.type in constructorByType) {
-                    component.type = constructorByType[component.type];
-                    parent.push(this.getComponentEvents(component));
-                } else if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
+                let type = component.type.toUpperCase();
+                if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
                     component.type     = TabPanel;
                     component.children = [];
                     let containerIds = component.containerIds;
@@ -223,6 +186,9 @@ exports.FormDialog = class extends Dialog {
                         componentById[containerId] = children;
                         component.children.push(children);
                     });
+                    parent.push(this.getComponentEvents(component));
+                } else if (type in formEditorConstants.PROPERTIES_BY_TYPE) {
+                    component.type = require('../../../' + formEditorConstants.PROPERTIES_BY_TYPE[type].component).Component;
                     parent.push(this.getComponentEvents(component));
                 }
             }
