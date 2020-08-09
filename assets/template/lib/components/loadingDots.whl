@@ -12,6 +12,14 @@ namespace components.loadingDots
 #define LOADING_DOTS_COMPONENT_SET_X           1
 #define LOADING_DOTS_COMPONENT_SET_Y           2
 
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property color    color   The color of the dots, available colors are: `gray`, `yellow`, `green`, `blue` or `red`.
+
 ; @proc                   Hide the loading dots.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

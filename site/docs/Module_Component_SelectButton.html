@@ -58,6 +58,22 @@
                     <tr><td>SELECT_BUTTON_COMPONENT_GET_ACTIVE</td><td>6</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>disabled</td><td>boolean</td><td>Disable the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>color</td><td>color</td><td>The color of the buttons, available colors are: <i>gray</i>, <i>yellow</i>, <i>green</i>, <i>blue</i> or <i>red</i>.</td></tr>
+        <tr><td>options</td><td>string</td><td>A list of button titles.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhenanotherbuttonisselected."></a>
@@ -68,13 +84,13 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the selectButton.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the selectButton.</td>
                 </tr>
                 <tr>
-                    <td>value</td><td>number</td>Index of the selected button, the index of the first button is 0, the second is 1, etc..</td>
+                    <td>value</td><td>number</td><td>Index of the selected button, the index of the first button is 0, the second is 1, etc..</td>
                 </tr>
             </table>
         <a id="CalledwhentheselectButtonisfocussed."></a>
@@ -85,10 +101,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the selectButton.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the selectButton.</td>
                 </tr>
             </table>
         <a id="CalledwhentheselectButtonloosesfocus."></a>
@@ -99,10 +115,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the selectButton.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the selectButton.</td>
                 </tr>
             </table>
         <hr/>
@@ -110,7 +126,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidetheselectbutton."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 30<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 40<br/></div>
             <p>Hide the select button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -124,7 +140,7 @@
             <hr/>
             <a id="Disabletheselectbutton."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 39<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 49<br/></div>
             <p>Disable the select button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -138,7 +154,7 @@
             <hr/>
             <a id="Setthexpositionoftheselectbutton."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 48<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 58<br/></div>
             <p>Set the x position of the select button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -152,7 +168,7 @@
             <hr/>
             <a id="Settheypositionoftheselectbutton."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 57<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 67<br/></div>
             <p>Set the y position of the select button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -166,21 +182,21 @@
             <hr/>
             <a id="Settheselectbuttoncolor."></a>
             <h5 class="title-with-source">setColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 66<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 76<br/></div>
             <p>Set the select button color.</p>
-            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">color</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
                 <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
                 <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
-                <tr><td>y</td><td>number</td><td></td></tr>
+                <tr><td>color</td><td>number</td><td>The button color.</td></tr>
             </table>
             <hr/>
             <a id="Settheactivebutton."></a>
             <h5 class="title-with-source">setActive</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 75<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 85<br/></div>
             <p>Set the active button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setActive</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">active</span><span class="operator">)</span>
 </pre>
@@ -194,7 +210,7 @@
             <hr/>
             <a id="Gettheactivebutton."></a>
             <h5 class="title-with-source">getActive</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 84<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/selectButton.whl, line: 94<br/></div>
             <p>Get the active button.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getActive</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>

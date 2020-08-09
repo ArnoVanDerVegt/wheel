@@ -7,13 +7,24 @@ namespace components.slider
 ; @const The slider component module.
 #define MODULE_COMPONENT_SLIDER        71
 
-; @const Module calls for button component functions.
+; @const Module calls for the slider component functions.
 #define SLIDER_COMPONENT_SET_HIDDEN     0
 #define SLIDER_COMPONENT_SET_DISABLED   1
 #define SLIDER_COMPONENT_SET_X          2
 #define SLIDER_COMPONENT_SET_Y          3
 #define SLIDER_COMPONENT_SET_VALUE      4
 #define SLIDER_COMPONENT_GET_VALUE      5
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property disabled boolean Disable the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The slider width.
+; @property maxValue number  The maximum value.
+; @property value    number  The current value, in the range of 0..`maxValue`.
 
 ; @event onChange            Called when the slider is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the slider.

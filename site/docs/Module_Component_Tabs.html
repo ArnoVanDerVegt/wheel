@@ -59,6 +59,22 @@
                     <tr><td>TABS_COMPONENT_GET_ACTIVE</td><td>7</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number</td><td>The tab panel width.</td></tr>
+        <tr><td>height</td><td>number</td><td>The tab panel height.</td></tr>
+        <tr><td>tabs</td><td>list</td><td>A list of tabs.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhenanothertabisselected."></a>
@@ -69,13 +85,13 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the tabs.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the tabs.</td>
                 </tr>
                 <tr>
-                    <td>value</td><td>number</td>Index of the selected tab, the index of the first tab is 0, the second is 1, etc..</td>
+                    <td>value</td><td>number</td><td>Index of the selected tab, the index of the first tab is 0, the second is 1, etc..</td>
                 </tr>
             </table>
         <a id="Calledwhenthetabsarefocussed."></a>
@@ -86,10 +102,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the tabs.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the tabs.</td>
                 </tr>
             </table>
         <a id="Calledwhenthetabsloosefocus."></a>
@@ -100,10 +116,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the tabs.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the tabs.</td>
                 </tr>
             </table>
         <hr/>
@@ -111,7 +127,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidethetabs."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 31<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 41<br/></div>
             <p>Hide the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -125,7 +141,7 @@
             <hr/>
             <a id="Disablethetabs."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 40<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 50<br/></div>
             <p>Disable the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -139,7 +155,7 @@
             <hr/>
             <a id="Setthexpositionofthetabs."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 49<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 59<br/></div>
             <p>Set the x position of the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -153,7 +169,7 @@
             <hr/>
             <a id="Settheypositionofthetabs."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 58<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 68<br/></div>
             <p>Set the y position of the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -167,7 +183,7 @@
             <hr/>
             <a id="Setthewidthofthetabs."></a>
             <h5 class="title-with-source">setWidth</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 67<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 77<br/></div>
             <p>Set the width of the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setWidth</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">width</span><span class="operator">)</span>
 </pre>
@@ -181,7 +197,7 @@
             <hr/>
             <a id="Settheheightofthetabs."></a>
             <h5 class="title-with-source">setHeight</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 76<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 86<br/></div>
             <p>Set the height of the tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHeight</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">height</span><span class="operator">)</span>
 </pre>
@@ -195,7 +211,7 @@
             <hr/>
             <a id="Settheactivetabs."></a>
             <h5 class="title-with-source">setActive</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 85<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 95<br/></div>
             <p>Set the active tabs.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setActive</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">active</span><span class="operator">)</span>
 </pre>
@@ -209,7 +225,7 @@
             <hr/>
             <a id="Gettheactivetab."></a>
             <h5 class="title-with-source">getActive</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 94<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/tabs.whl, line: 104<br/></div>
             <p>Get the active tab.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getActive</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>

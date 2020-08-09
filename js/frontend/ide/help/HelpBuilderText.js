@@ -311,19 +311,40 @@ class HelpBuilderText {
                 '    <div>Parameters:<br/></div>',
                 '    <table class="help-table">',
                 '        <tr>',
-                '            <th>Name</th><th>Type</th>Description</th>',
+                '            <th>Name</th><th>Type</th><th>Description</th>',
                 '        </tr>'
             );
             for (let i = 0; i < event.params.length; i++) {
                 let param = event.params[i];
                 output.push(
                     '        <tr>',
-                    '            <td>' + param.name + '</td><td>' + param.type + '</td>' + param.description + '</td>',
+                    '            <td>' + param.name + '</td><td>' + param.type + '</td><td>' + param.description + '</td>',
                     '        </tr>'
                 );
             }
             output.push('    </table>');
         }
+    }
+
+    addProperties(properties) {
+        let output = this._output;
+        output.push(
+            '    <p>These properties can be edited with the property editor in the IDE.</p>',
+            '    <table class="help-table">',
+            '        <tr>',
+            '            <th>Name</th><th>Type</th><th>Description</th>',
+            '        </tr>'
+        );
+        properties.properties.forEach((property) => {
+            output.push(
+                '<tr>' +
+                    '<td>' + property.name + '</td>' +
+                    '<td>' + property.type + '</td>' +
+                    '<td>' + property.description + '</td>' +
+                '</tr>'
+            );
+        });
+        output.push('    </table>');
     }
 
     addImages(helpText) {
@@ -609,6 +630,9 @@ class HelpBuilderText {
                     case 'event':
                         lastEvent = true;
                         this.addEvent(content[j].text);
+                        break;
+                    case 'properties':
+                        this.addProperties(content[j].text);
                         break;
                     case 'proc':
                         this.addProc(content[j].text);

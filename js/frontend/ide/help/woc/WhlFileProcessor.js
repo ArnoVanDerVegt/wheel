@@ -151,8 +151,37 @@ exports.WhlFileProcessor = class extends FileProcessor {
                 description: description.trim()
             });
         }
-        nextLine = this.readLine(true);
+        this.readLine(true);
         return this.addTypedText(section, 'event', event);
+    }
+
+    processProperties(section, line) {
+        let properties = {
+                id:          this.getNextId(),
+                name:        '',
+                description: '',
+                properties:  []
+            };
+        let nextLine = line;
+        while (this.getComment(nextLine).indexOf('@property') === 0) {
+            let propertyLine = this.getComment(nextLine).trim();
+            let i            = propertyLine.indexOf(' ');
+            propertyLine = propertyLine.substr(i, propertyLine.length - i).trim();
+            i            = propertyLine.indexOf(' ');
+            let property = propertyLine.substr(0, i);
+            propertyLine = propertyLine.substr(i, propertyLine.length - i).trim();
+            i            = propertyLine.indexOf(' ');
+            let type     = propertyLine.substr(0, i);
+            properties.properties.push({
+                name:        property,
+                type:        type,
+                description: this.getItalicWords(propertyLine.substr(i, propertyLine.length - i).trim())
+            });
+            this.readLine();
+            nextLine = this.peekLine().trim();
+        }
+        this.readLine(true);
+        return this.addTypedText(section, 'properties', properties);
     }
 
     processProc(section, wocByName, line) {
@@ -242,14 +271,15 @@ exports.WhlFileProcessor = class extends FileProcessor {
     }
 
     process(wocByName) {
-        let device           = false;
-        let mod              = false;
-        let namespace        = false;
-        let constantsSection = {id: this.getNextId(), title: 'Constants',  content: []};
-        let varSection       = {id: this.getNextId(), title: 'Variables',  content: []};
-        let recordSection    = {id: this.getNextId(), title: 'Records',    content: []};
-        let eventSection     = {id: this.getNextId(), title: 'Events',     content: []};
-        let procSection      = {id: this.getNextId(), title: 'Procedures', content: []};
+        let device            = false;
+        let mod               = false;
+        let namespace         = false;
+        let constantsSection  = {id: this.getNextId(), title: 'Constants',  content: []};
+        let varSection        = {id: this.getNextId(), title: 'Variables',  content: []};
+        let recordSection     = {id: this.getNextId(), title: 'Records',    content: []};
+        let eventSection      = {id: this.getNextId(), title: 'Events',     content: []};
+        let propertiesSection = {id: this.getNextId(), title: 'Properties', content: []};
+        let procSection       = {id: this.getNextId(), title: 'Procedures', content: []};
         while (this._index < this._lines.length) {
             let line = this.readLine();
             if (line[0] === ';') {
@@ -276,6 +306,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
                         case '@event':
                             this.processEvent(eventSection, line.substr(j, line.length - j).trim());
                             break;
+                        case '@property':
+                            this.processProperties(propertiesSection, ';' + line);
+                            break;
                         case '@proc':
                             try {
                                 this.processProc(procSection, wocByName, line.substr(j, line.length - j).trim());
@@ -299,6 +332,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
         }
         if (varSection.content.length) {
             this.addSection(varSection);
+        }
+        if (propertiesSection.content.length) {
+            this.addSection(propertiesSection);
         }
         if (eventSection.content.length) {
             this.addSection(eventSection);

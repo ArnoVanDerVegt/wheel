@@ -45,8 +45,8 @@
                 </table>
             </p>
             <p>
-                <a id="Modulecallsforbuttoncomponentfunctions."></a>
-                <div>Module calls for button component functions.<br/></div>
+                <a id="Modulecallsfortheslidercomponentfunctions."></a>
+                <div>Module calls for the slider component functions.<br/></div>
                 <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 11<br/></div>
                 <table class="help-table constants">
                     <tr><td>SLIDER_COMPONENT_SET_HIDDEN</td><td>0</td></tr>
@@ -57,6 +57,23 @@
                     <tr><td>SLIDER_COMPONENT_GET_VALUE</td><td>5</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>disabled</td><td>boolean</td><td>Disable the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number</td><td>The slider width.</td></tr>
+        <tr><td>maxValue</td><td>number</td><td>The maximum value.</td></tr>
+        <tr><td>value</td><td>number</td><td>The current value, in the range of 0..<i>maxValue</i>.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhenthesliderisselectedorunselected."></a>
@@ -67,13 +84,13 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the slider.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the slider.</td>
                 </tr>
                 <tr>
-                    <td>value</td><td>number</td>`TRUE` when checked, `FALSE` if not checked.</td>
+                    <td>value</td><td>number</td><td>`TRUE` when checked, `FALSE` if not checked.</td>
                 </tr>
             </table>
         <a id="Calledwhenthesliderisfocussed."></a>
@@ -84,10 +101,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the slider.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the slider.</td>
                 </tr>
             </table>
         <a id="Calledwhenthesliderloosesfocus."></a>
@@ -98,10 +115,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the slider.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the slider.</td>
                 </tr>
             </table>
         <hr/>
@@ -109,7 +126,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidetheslider."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 29<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 40<br/></div>
             <p>Hide the slider.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -123,7 +140,7 @@
             <hr/>
             <a id="Disabletheslider."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 38<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 49<br/></div>
             <p>Disable the slider.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -137,7 +154,7 @@
             <hr/>
             <a id="Setthexpositionoftheslider."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 47<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 58<br/></div>
             <p>Set the x position of the slider.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -151,7 +168,7 @@
             <hr/>
             <a id="Settheypositionoftheslider."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 56<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 67<br/></div>
             <p>Set the y position of the slider.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -165,7 +182,7 @@
             <hr/>
             <a id="Settheslidernumbervalue."></a>
             <h5 class="title-with-source">setValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 65<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 76<br/></div>
             <p>Set the slider number value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -179,7 +196,7 @@
             <hr/>
             <a id="Getthevalue."></a>
             <h5 class="title-with-source">getValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 74<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/slider.whl, line: 85<br/></div>
             <p>Get the value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>

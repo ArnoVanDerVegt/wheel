@@ -291,6 +291,16 @@ class HelpBuilder {
         }
     }
 
+    addProperties(parentNode, properties) {
+        new P({parentNode: parentNode, innerHTML: 'These properties can be edited with the property editor in the IDE.'});
+        let head = ['Name', 'Type', 'Description'];
+        let body = [];
+        properties.properties.forEach((property) => {
+            body.push([property.name, property.type, property.description]);
+        });
+        new Table({parentNode, className: 'help-table', head: head, body: body});
+    }
+
     addImages(helpText) {
         let i      = helpText.indexOf('src="', 0);
         let id     = 0;
@@ -625,6 +635,9 @@ class HelpBuilder {
                     case 'event':
                         lastEvent = true;
                         this.addEvent(parentNode, content[j].text);
+                        break;
+                    case 'properties':
+                        this.addProperties(parentNode, content[j].text);
                         break;
                     case 'proc':
                         this.addProc(parentNode, content[j].text);

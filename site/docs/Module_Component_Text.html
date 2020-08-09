@@ -55,11 +55,26 @@
                     <tr><td>TEXT_COMPONENT_SET_TEXT</td><td>3</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number</td><td>The label width.</td></tr>
+        <tr><td>halign</td><td>halign</td><td>The horizontal alignment of the text which can be: <i>left</i>, <i>center</i> or <i>right</i>.</td></tr>
+        <tr><td>text</td><td>string</td><td>The text.</td></tr>
+            </table>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Hidethetext."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 17<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 26<br/></div>
             <p>Hide the text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -73,7 +88,7 @@
             <hr/>
             <a id="Setthexpositionofthetext."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 26<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 35<br/></div>
             <p>Set the x position of the text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -87,7 +102,7 @@
             <hr/>
             <a id="Settheypositionofthetext."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 35<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 44<br/></div>
             <p>Set the y position of the text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -101,7 +116,7 @@
             <hr/>
             <a id="Settexttext."></a>
             <h5 class="title-with-source">setText</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 44<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/text.whl, line: 53<br/></div>
             <p>Set text text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>

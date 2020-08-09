@@ -7,8 +7,16 @@ namespace components.confirmDialog
 ; @const The confirm dialog component module.
 #define MODULE_COMPONENT_CONFIRM_DIALOG 141
 
-; @const Module calls for alert dialog component functions.
+; @const Module calls for the confirm dialog component functions.
 #define CONFIRM_DIALOG_COMPONENT_SHOW     0
+
+; @property name        string The component name.
+; @property x           number The left position of the component icon, this only applies to the icon in design mode.
+; @property y           number The top position of the component icon, this only applies to the icon in design mode.
+; @property title       string The title of the dialog.
+; @property text        string The information text shown on the dialog.
+; @property okTitle     string The title of the `ok` button.
+; @property cancelTitle string The title of the `cancel` button.
 
 ; @event onOk         Called when the ok button is clicked.
 ; @param windowHandle number The handle of the parent window of the dialog.

@@ -7,7 +7,7 @@ namespace components.button
 ; @const The button component module.
 #define MODULE_COMPONENT_BUTTON        65
 
-; @const Module calls for button component functions.
+; @const Module calls for the button component functions.
 #define BUTTON_COMPONENT_SET_HIDDEN     0
 #define BUTTON_COMPONENT_SET_DISABLED   1
 #define BUTTON_COMPONENT_SET_X          2
@@ -15,6 +15,19 @@ namespace components.button
 #define BUTTON_COMPONENT_SET_COLOR      4
 #define BUTTON_COMPONENT_SET_TITLE      5
 #define BUTTON_COMPONENT_SET_HINT       6
+
+; @property name     string       The component name.
+; @property tabIndex number       The tab index.
+; @property hidden   boolean      Hide the component.
+; @property disabled boolean      Disable the component.
+; @property x        number       The left position of the component inside the parent component.
+; @property y        number       The top position of the component inside the parent component.
+; @property zIndex   number       The depth of the component related to other components in the parent.
+; @property width    number|empty The width of the button, if empty then the default size is used.
+; @property height   number|empty The height of the button, if empty then the default size is used.
+; @property color    color        The color of the buttons, available colors are: `gray`, `yellow`, `green`, `blue` or `red`.
+; @property value    string       The title of the button.
+; @property title    string       The hint button which will show up after hovering on the button.
 
 ; @event onClick             Called when the button is clicked.
 ; @param windowHandle number The handle of the parent window of the button.
@@ -74,7 +87,7 @@ end
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @param color            The button color.
-proc setColor(number windowHandle, number componentHandle, number y)
+proc setColor(number windowHandle, number componentHandle, number color)
     addr windowHandle
     mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_COLOR
 end

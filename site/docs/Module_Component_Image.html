@@ -57,6 +57,23 @@
                     <tr><td>IMAGE_COMPONENT_SET_SRC</td><td>5</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>naturalSize</td><td>boolean</td><td>If this option is selected then the original format of the image is used and the width and height values are ignored.</td></tr>
+        <tr><td>width</td><td>number</td><td>The image width.</td></tr>
+        <tr><td>height</td><td>number</td><td>The image height.</td></tr>
+        <tr><td>src</td><td>string</td><td>The path and filename, when the <i>http://</i> then the image will be downloaded else the file is loaded from the project location.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhentheimageisclicked."></a>
@@ -67,10 +84,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the image.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the image.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemouseispressedontheimage."></a>
@@ -81,10 +98,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the image.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the image.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemouseisreleasedontheimage."></a>
@@ -95,10 +112,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the image.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the image.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemousemovesovertheimage."></a>
@@ -109,10 +126,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the image.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the image.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemousemovesoutoftheimage."></a>
@@ -123,10 +140,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the image.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the image.</td>
                 </tr>
             </table>
         <hr/>
@@ -134,7 +151,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidetheimage."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 34<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 45<br/></div>
             <p>Hide the image.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -148,7 +165,7 @@
             <hr/>
             <a id="Setthexpositionoftheimage."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 43<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 54<br/></div>
             <p>Set the x position of the image.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -162,7 +179,7 @@
             <hr/>
             <a id="Settheypositionoftheimage."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 52<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 63<br/></div>
             <p>Set the y position of the image.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -176,7 +193,7 @@
             <hr/>
             <a id="Settheimagewidth."></a>
             <h5 class="title-with-source">setWidth</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 61<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 72<br/></div>
             <p>Set the image width.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setWidth</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">width</span><span class="operator">)</span>
 </pre>
@@ -190,7 +207,7 @@
             <hr/>
             <a id="Settheimageheight."></a>
             <h5 class="title-with-source">setHeight</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 70<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 81<br/></div>
             <p>Set the image height.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHeight</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">height</span><span class="operator">)</span>
 </pre>
@@ -204,7 +221,7 @@
             <hr/>
             <a id="Setthesourcelocation."></a>
             <h5 class="title-with-source">setSrc</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 79<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/image.whl, line: 90<br/></div>
             <p>Set the source location.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setSrc</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="register">src</span><span class="operator">)</span>
 </pre>

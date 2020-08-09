@@ -45,8 +45,8 @@
                 </table>
             </p>
             <p>
-                <a id="Modulecallsforbuttoncomponentfunctions."></a>
-                <div>Module calls for button component functions.<br/></div>
+                <a id="Modulecallsfortheev3motorcomponentfunctions."></a>
+                <div>Module calls for the ev3 motor component functions.<br/></div>
                 <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 11<br/></div>
                 <table class="help-table constants">
                     <tr><td>EV3_MOTOR_COMPONENT_SET_TYPE</td><td>0</td></tr>
@@ -67,11 +67,25 @@
                     <tr><td>EV3_MOTOR_READY_GREEN</td><td>3</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>port</td><td>list</td><td>A list of selectable ports, options are: <i>A</i>, <i>B</i>, <i>C</i> or <i>D</i>.</td></tr>
+        <tr><td>device</td><td>list</td><td>A list of motor types, options are: <i>Medium motor</i> or <i>Large motor</i>.</td></tr>
+            </table>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Setthetypeofdevice."></a>
             <h5 class="title-with-source">setType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 24<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 32<br/></div>
             <p>Set the type of device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">type</span><span class="operator">)</span>
 </pre>
@@ -85,7 +99,7 @@
             <hr/>
             <a id="Settheportofthedevice."></a>
             <h5 class="title-with-source">setPort</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 33<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 41<br/></div>
             <p>Set the port of the device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setPort</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
 </pre>
@@ -99,7 +113,7 @@
             <hr/>
             <a id="Setthespeedbarvalue."></a>
             <h5 class="title-with-source">setSpeed</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 42<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 50<br/></div>
             <p>Set the speed bar value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setSpeed</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">speed</span><span class="operator">)</span>
 </pre>
@@ -113,7 +127,7 @@
             <hr/>
             <a id="Setthevalue."></a>
             <h5 class="title-with-source">setValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 51<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 59<br/></div>
             <p>Set the value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -127,7 +141,7 @@
             <hr/>
             <a id="Setthereadystate."></a>
             <h5 class="title-with-source">setReady</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 60<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/ev3Motor.whl, line: 68<br/></div>
             <p>Set the ready state.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setReady</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">ready</span><span class="operator">)</span>
 </pre>

@@ -57,11 +57,26 @@
                     <tr><td>PU_DEVICE_COMPONENT_SET_COLOR_MODE</td><td>5</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>port</td><td>list</td><td>A list of selectable ports, options are: <i>1</i>, <i>2</i>, <i>3</i> or <i>4</i>.</td></tr>
+        <tr><td>device</td><td>list</td><td>A list of sensor types, options are: <i>Basic motor</i>, <i>Train motor</i>, <i>Led lights</i>, <i>Tacho motor</i>, <i>Move hub motor</i>, <i>Ctrl+ L motor</i>, <i>Ctrl+ XL motor</i> or <i>Distance sensor</i>.</td></tr>
+        <tr><td>colorMode</td><td>boolean</td><td>If this option is selected and the input type is <i>Distance sensor</i> then the value will be displayed as a color instead of a text.</td></tr>
+            </table>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Setthetypeofdevice."></a>
             <h5 class="title-with-source">setType</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 19<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 28<br/></div>
             <p>Set the type of device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setType</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">type</span><span class="operator">)</span>
 </pre>
@@ -75,7 +90,7 @@
             <hr/>
             <a id="Settheportofthedevice."></a>
             <h5 class="title-with-source">setPort</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 28<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 37<br/></div>
             <p>Set the port of the device.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setPort</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">port</span><span class="operator">)</span>
 </pre>
@@ -89,7 +104,7 @@
             <hr/>
             <a id="Setthespeedbarvalue."></a>
             <h5 class="title-with-source">setSpeed</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 37<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 46<br/></div>
             <p>Set the speed bar value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setSpeed</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">speed</span><span class="operator">)</span>
 </pre>
@@ -103,7 +118,7 @@
             <hr/>
             <a id="Setthevalue."></a>
             <h5 class="title-with-source">setValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 46<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 55<br/></div>
             <p>Set the value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -117,7 +132,7 @@
             <hr/>
             <a id="Setthereadystate."></a>
             <h5 class="title-with-source">setReady</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 55<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 64<br/></div>
             <p>Set the ready state.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setReady</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">ready</span><span class="operator">)</span>
 </pre>
@@ -131,7 +146,7 @@
             <hr/>
             <a id="Setcolormode,showthevalueasacolor."></a>
             <h5 class="title-with-source">setColorMode</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 64<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/poweredUpDevice.whl, line: 73<br/></div>
             <p>Set color mode, show the value as a color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setColorMode</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">colorMode</span><span class="operator">)</span>
 </pre>

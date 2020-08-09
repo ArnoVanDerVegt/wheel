@@ -15,6 +15,17 @@ namespace components.image
 #define IMAGE_COMPONENT_SET_HEIGHT  4
 #define IMAGE_COMPONENT_SET_SRC     5
 
+; @property name        string  The component name.
+; @property tabIndex    number  The tab index.
+; @property hidden      boolean Hide the component.
+; @property x           number  The left position of the component inside the parent component.
+; @property y           number  The top position of the component inside the parent component.
+; @property zIndex      number  The depth of the component related to other components in the parent.
+; @property naturalSize boolean If this option is selected then the original format of the image is used and the width and height values are ignored.
+; @property width       number  The image width.
+; @property height      number  The image height.
+; @property src         string  The path and filename, when the `http://` then the image will be downloaded else the file is loaded from the project location.
+
 ; @event onClick             Called when the image is clicked.
 ; @param windowHandle number The handle of the parent window of the image.
 

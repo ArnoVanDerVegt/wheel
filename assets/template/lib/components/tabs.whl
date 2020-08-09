@@ -17,6 +17,16 @@ namespace components.tabs
 #define TABS_COMPONENT_SET_ACTIVE     6
 #define TABS_COMPONENT_GET_ACTIVE     7
 
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The tab panel width.
+; @property height   number  The tab panel height.
+; @property tabs     list    A list of tabs.
+
 ; @event onChange            Called when an other tab is selected.
 ; @param windowHandle number The handle of the parent window of the tabs.
 ; @param value        number Index of the selected tab, the index of the first tab is 0, the second is 1, etc..

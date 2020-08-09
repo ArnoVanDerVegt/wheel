@@ -12,6 +12,11 @@ namespace components.interval
 #define INTERVAL_COMPONENT_PAUSE      1
 #define INTERVAL_COMPONENT_RESUME     2
 
+; @property name string The component name.
+; @property x    number The left position of the component icon, this only applies to the icon in design mode.
+; @property y    number The top position of the component icon, this only applies to the icon in design mode.
+; @property time number The interval time in milliseconds.
+
 ; @event onInterval   Called when interval time is expired.
 ; @param windowHandle number The handle of the parent window of the interval component.
 

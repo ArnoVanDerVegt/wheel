@@ -60,6 +60,25 @@
                     <tr><td>RECTANGLE_SET_BORDER_RADIUS</td><td>8</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number</td><td>The rectangle width.</td></tr>
+        <tr><td>height</td><td>number</td><td>The rectangle height.</td></tr>
+        <tr><td>fillColor</td><td>rgb</td><td>The fill color in red, green and blue.</td></tr>
+        <tr><td>borderColor</td><td>rgb</td><td>The border color in red, green and blue.</td></tr>
+        <tr><td>borderWidth</td><td>number</td><td>The border width.</td></tr>
+        <tr><td>borderRadius</td><td>number</td><td>The border radius, this value can give the rectangle rounded corners.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhentherectangleisclicked."></a>
@@ -70,10 +89,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the rectangle.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the rectangle.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemouseispressedontherectangle."></a>
@@ -84,10 +103,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the rectangle.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the rectangle.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemouseisreleasedontherectangle."></a>
@@ -98,10 +117,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the rectangle.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the rectangle.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemousemovesovertherectangle."></a>
@@ -112,10 +131,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the rectangle.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the rectangle.</td>
                 </tr>
             </table>
         <a id="Calledwhenthemousemovesoutoftherectangle."></a>
@@ -126,10 +145,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the rectangle.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the rectangle.</td>
                 </tr>
             </table>
         <hr/>
@@ -137,7 +156,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidetherectangle."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 37<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 50<br/></div>
             <p>Hide the rectangle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -151,7 +170,7 @@
             <hr/>
             <a id="Setthexpositionoftherectangle."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 46<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 59<br/></div>
             <p>Set the x position of the rectangle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -165,7 +184,7 @@
             <hr/>
             <a id="Settheypositionoftherectangle."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 55<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 68<br/></div>
             <p>Set the y position of the rectangle.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -179,7 +198,7 @@
             <hr/>
             <a id="Settherectanglewidth."></a>
             <h5 class="title-with-source">setWidth</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 64<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 77<br/></div>
             <p>Set the rectangle width.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setWidth</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">width</span><span class="operator">)</span>
 </pre>
@@ -193,7 +212,7 @@
             <hr/>
             <a id="Settherectangleheight."></a>
             <h5 class="title-with-source">setHeight</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 73<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 86<br/></div>
             <p>Set the rectangle height.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHeight</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">height</span><span class="operator">)</span>
 </pre>
@@ -207,7 +226,7 @@
             <hr/>
             <a id="Setthefillcolor."></a>
             <h5 class="title-with-source">setFillColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 82<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 95<br/></div>
             <p>Set the fill color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">setFillColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">red</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">green</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">blue</span><span class="operator">)</span>
 </pre>
@@ -223,7 +242,7 @@
             <hr/>
             <a id="Setthebordercolor."></a>
             <h5 class="title-with-source">setBorderColor</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 93<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 106<br/></div>
             <p>Set the border color.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderColor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">red</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">green</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">blue</span><span class="operator">)</span>
 </pre>
@@ -239,7 +258,7 @@
             <hr/>
             <a id="Settheborderwidth."></a>
             <h5 class="title-with-source">setBorderWidth</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 104<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 117<br/></div>
             <p>Set the border width.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderWidth</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">borderWidth</span><span class="operator">)</span>
 </pre>
@@ -253,7 +272,7 @@
             <hr/>
             <a id="Settheborderradius."></a>
             <h5 class="title-with-source">setBorderRadius</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 113<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/rectangle.whl, line: 126<br/></div>
             <p>Set the border radius.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setBorderRadius</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">borderRadius</span><span class="operator">)</span>
 </pre>

@@ -12,6 +12,11 @@ namespace components.form
 #define FORM_COMPONENT_HIDE       1
 #define FORM_COMPONENT_SET_TITLE  2
 
+; @property name   string The component name.
+; @property width  number The dialog width.
+; @property height number The dialog height.
+; @property title  string The title.
+
 ; @event onShow              Called when the form is shown.
 ; @param windowHandle number The handle of the window which is shown.
 

@@ -60,6 +60,23 @@
                     <tr><td>TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER</td><td>8</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>disabled</td><td>boolean</td><td>Disable the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number|empty</td><td>The width of the input, if empty then the default size is used.</td></tr>
+        <tr><td>value</td><td>number|string</td><td>The value.</td></tr>
+        <tr><td>numeric</td><td>boolean</td><td>Select if the input only accepts numeric values or any text.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhenthetextinputisselectedorunselected."></a>
@@ -70,13 +87,13 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the text input.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the text input.</td>
                 </tr>
                 <tr>
-                    <td>value</td><td>number</td>`TRUE` when checked, `FALSE` if not checked.</td>
+                    <td>value</td><td>number</td><td>`TRUE` when checked, `FALSE` if not checked.</td>
                 </tr>
             </table>
         <a id="Calledwhenthetextinputisfocussed."></a>
@@ -87,10 +104,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the text input.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the text input.</td>
                 </tr>
             </table>
         <a id="Calledwhenthetextinputloosesfocus."></a>
@@ -101,10 +118,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the text input.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the text input.</td>
                 </tr>
             </table>
         <hr/>
@@ -112,7 +129,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidethetextinput."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 32<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 43<br/></div>
             <p>Hide the text input.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -126,7 +143,7 @@
             <hr/>
             <a id="Disablethetextinput."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 41<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 52<br/></div>
             <p>Disable the text input.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -140,7 +157,7 @@
             <hr/>
             <a id="Setthexpositionofthetextinput."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 50<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 61<br/></div>
             <p>Set the x position of the text input.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -154,7 +171,7 @@
             <hr/>
             <a id="Settheypositionofthetextinput."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 59<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 70<br/></div>
             <p>Set the y position of the text input.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -168,7 +185,7 @@
             <hr/>
             <a id="Getthetextinputtextvalue."></a>
             <h5 class="title-with-source">getTextValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 68<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 79<br/></div>
             <p>Get the text input text value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getTextValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
@@ -182,7 +199,7 @@
             <hr/>
             <a id="Setthetextinputtextvalue."></a>
             <h5 class="title-with-source">setTextValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 77<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 88<br/></div>
             <p>Set the text input text value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setTextValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
@@ -196,7 +213,7 @@
             <hr/>
             <a id="Getthetextinputnumbervalue."></a>
             <h5 class="title-with-source">getNumberValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 86<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 97<br/></div>
             <p>Get the text input number value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getNumberValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>
@@ -210,7 +227,7 @@
             <hr/>
             <a id="Setthetextinputnumbervalue."></a>
             <h5 class="title-with-source">setNumberValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 95<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 106<br/></div>
             <p>Set the text input number value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setNumberValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -224,7 +241,7 @@
             <hr/>
             <a id="Setthetextinputplaceholdertext."></a>
             <h5 class="title-with-source">setPlaceHolder</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 104<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/textInput.whl, line: 115<br/></div>
             <p>Set the text input place holder text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setPlaceHolder</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">placeHolder</span><span class="operator">)</span>
 </pre>

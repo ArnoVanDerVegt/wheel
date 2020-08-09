@@ -7,13 +7,22 @@ namespace components.statusLight
 ; @const The status light component module.
 #define MODULE_COMPONENT_STATUS_LIGHT        104
 
-; @const Module calls for status light component functions.
+; @const Module calls for the status light component functions.
 #define STATUS_LIGHT_COMPONENT_SET_HIDDEN      0
 #define STATUS_LIGHT_COMPONENT_SET_X           1
 #define STATUS_LIGHT_COMPONENT_SET_Y           2
 #define STATUS_LIGHT_COMPONENT_SET_COLOR       3
 #define STATUS_LIGHT_COMPONENT_SET_RGB_COLOR   4
 #define STATUS_LIGHT_COMPONENT_SET_RGB         5
+
+; @property name     string  The component name.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property color    color   The color of the buttons, available colors are: `gray`, `yellow`, `green`, `blue` or `red`.
+; @property rgbColor boolean If this option is selected then the given `rgb` color will be applied.
+; @property rgb      rgb     The color in `red`, `green` and `blue`.
 
 ; @proc                   Hide the status light.
 ; @param windowhandle     The handle of the window.
@@ -46,7 +55,7 @@ end
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @param color            The status light color.
-proc setColor(number windowHandle, number componentHandle, number y)
+proc setColor(number windowHandle, number componentHandle, number color)
     addr windowHandle
     mod  MODULE_COMPONENT_STATUS_LIGHT, STATUS_LIGHT_COMPONENT_SET_COLOR
 end

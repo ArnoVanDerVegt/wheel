@@ -7,10 +7,17 @@ namespace components.icon
 ; @const The form component module.
 #define MODULE_COMPONENT_ICON     99
 
-; @const Module calls for icon component functions.
+; @const Module calls for the icon component functions.
 #define ICON_COMPONENT_SET_HIDDEN  0
 #define ICON_COMPONENT_SET_X       1
 #define ICON_COMPONENT_SET_Y       2
+
+; @property name   string  The component name.
+; @property hidden boolean Hide the component.
+; @property x      number  The left position of the component inside the parent component.
+; @property y      number  The top position of the component inside the parent component.
+; @property zIndex number  The depth of the component related to other components in the parent.
+; @property icon   icon    An icon image which is selectable from a list in the editor.
 
 ; @event onClick             Called when the icon is clicked.
 ; @param windowHandle number The handle of the parent window of the icon.

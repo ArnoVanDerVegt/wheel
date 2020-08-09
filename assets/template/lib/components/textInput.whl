@@ -18,6 +18,17 @@ namespace components.textInput
 #define TEXT_INPUT_COMPONENT_SET_NUMBER_VALUE  7
 #define TEXT_INPUT_COMPONENT_SET_PLACE_HOLDER  8
 
+; @property name     string        The component name.
+; @property tabIndex number        The tab index.
+; @property hidden   boolean       Hide the component.
+; @property disabled boolean       Disable the component.
+; @property x        number        The left position of the component inside the parent component.
+; @property y        number        The top position of the component inside the parent component.
+; @property zIndex   number        The depth of the component related to other components in the parent.
+; @property width    number|empty  The width of the input, if empty then the default size is used.
+; @property value    number|string The value.
+; @property numeric  boolean       Select if the input only accepts numeric values or any text.
+
 ; @event onChange            Called when the text input is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the text input.
 ; @param value        number `TRUE` when checked, `FALSE` if not checked.

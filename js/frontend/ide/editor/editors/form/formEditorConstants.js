@@ -565,7 +565,6 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-            {type: 'boolean',      name: 'numeric'},
             {type: 'text',         name: 'maxValue',     options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'value',        options: {validator: posNumberValidator,             type: 'number'}}
         ],
@@ -635,7 +634,6 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'parentId',     name: null},
             {type: 'text',         name: 'name',         options: {validator: nameValidator}},
             {type: 'boolean',      name: 'hidden'},
-            {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},

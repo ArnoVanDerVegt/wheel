@@ -13,6 +13,15 @@ namespace components.text
 #define TEXT_COMPONENT_SET_Y             2
 #define TEXT_COMPONENT_SET_TEXT          3
 
+; @property name   string  The component name.
+; @property hidden boolean Hide the component.
+; @property x      number  The left position of the component inside the parent component.
+; @property y      number  The top position of the component inside the parent component.
+; @property zIndex number  The depth of the component related to other components in the parent.
+; @property width  number  The label width.
+; @property halign halign  The horizontal alignment of the text which can be: `left`, `center` or `right`.
+; @property text   string  The text.
+
 ; @proc                   Hide the text.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

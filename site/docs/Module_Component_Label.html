@@ -57,11 +57,27 @@
                     <tr><td>LABEL_COMPONENT_SET_VALUE_STRING</td><td>5</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>width</td><td>number</td><td>The label width.</td></tr>
+        <tr><td>halign</td><td>halign</td><td>The horizontal alignment of the text which can be: <i>left</i>, <i>center</i> or <i>right</i>.</td></tr>
+        <tr><td>text</td><td>string</td><td>The label text.</td></tr>
+        <tr><td>value</td><td>string</td><td>The value text, displayed on the right side of the text.</td></tr>
+            </table>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Hidethelabel."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 19<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 29<br/></div>
             <p>Hide the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -75,7 +91,7 @@
             <hr/>
             <a id="Setthexpositionofthelabel."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 28<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 38<br/></div>
             <p>Set the x position of the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -89,7 +105,7 @@
             <hr/>
             <a id="Settheypositionofthelabel."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 37<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 47<br/></div>
             <p>Set the y position of the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -103,7 +119,7 @@
             <hr/>
             <a id="Setlabeltext."></a>
             <h5 class="title-with-source">setText</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 46<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 56<br/></div>
             <p>Set label text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
@@ -117,7 +133,7 @@
             <hr/>
             <a id="Setlabelvalueasanumber."></a>
             <h5 class="title-with-source">setValueNumber</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 55<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 65<br/></div>
             <p>Set label value as a number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValueNumber</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -131,7 +147,7 @@
             <hr/>
             <a id="Setlabelvalueasanumber."></a>
             <h5 class="title-with-source">setValueString</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 64<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/label.whl, line: 74<br/></div>
             <p>Set label value as a number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValueString</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>

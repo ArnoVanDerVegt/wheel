@@ -7,7 +7,7 @@ namespace components.checkbox
 ; @const The checkbox component module.
 #define MODULE_COMPONENT_CHECKBOX        67
 
-; @const Module calls for button component functions.
+; @const Module calls for the checkbox component functions.
 #define CHECKBOX_COMPONENT_SET_HIDDEN     0
 #define CHECKBOX_COMPONENT_SET_DISABLED   1
 #define CHECKBOX_COMPONENT_SET_X          2
@@ -16,6 +16,15 @@ namespace components.checkbox
 #define CHECKBOX_COMPONENT_SET_HINT       5
 #define CHECKBOX_COMPONENT_SET_CHECKED    6
 #define CHECKBOX_COMPONENT_GET_VALUE      7
+
+; @property name     string         The component name.
+; @property tabIndex number         The tab index.
+; @property hidden   boolean        Hide the component.
+; @property disabled boolean        Disable the component.
+; @property x        number         The left position of the component inside the parent component.
+; @property y        number         The top position of the component inside the parent component.
+; @property zIndex   number         The depth of the component related to other components in the parent.
+; @property text     string         The label text.
 
 ; @event onChange            Called when the checkbox is selected or unselected.
 ; @param windowHandle number The handle of the parent window of the checkbox.

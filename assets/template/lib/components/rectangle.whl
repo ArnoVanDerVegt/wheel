@@ -18,6 +18,19 @@ namespace components.rectangle
 #define RECTANGLE_SET_BORDER_WIDTH    7
 #define RECTANGLE_SET_BORDER_RADIUS   8
 
+; @property name         string  The component name.
+; @property tabIndex     number  The tab index.
+; @property hidden       boolean Hide the component.
+; @property x            number  The left position of the component inside the parent component.
+; @property y            number  The top position of the component inside the parent component.
+; @property zIndex       number  The depth of the component related to other components in the parent.
+; @property width        number  The rectangle width.
+; @property height       number  The rectangle height.
+; @property fillColor    rgb     The fill color in red, green and blue.
+; @property borderColor  rgb     The border color in red, green and blue.
+; @property borderWidth  number  The border width.
+; @property borderRadius number  The border radius, this value can give the rectangle rounded corners.
+
 ; @event onClick             Called when the rectangle is clicked.
 ; @param windowHandle number The handle of the parent window of the rectangle.
 

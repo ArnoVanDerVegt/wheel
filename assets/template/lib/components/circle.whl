@@ -7,7 +7,7 @@ namespace components.circle
 ; @const The form component module.
 #define MODULE_COMPONENT_CIRCLE   97
 
-; @const Module calls for circle component functions.
+; @const Module calls for the circle component functions.
 #define CIRCLE_SET_HIDDEN          0
 #define CIRCLE_SET_X               1
 #define CIRCLE_SET_Y               2
@@ -16,6 +16,17 @@ namespace components.circle
 #define CIRCLE_SET_BORDER_COLOR    5
 #define CIRCLE_SET_BORDER_WIDTH    6
 #define CIRCLE_SET_BORDER_RADIUS   7
+
+; @property name        string         The component name.
+; @property tabIndex    number         The tab index.
+; @property hidden      boolean        Hide the component.
+; @property x           number         The left position of the component inside the parent component.
+; @property y           number         The top position of the component inside the parent component.
+; @property zIndex      number         The depth of the component related to other components in the parent.
+; @property radius      number         The circle radius.
+; @property fillColor   rgb            The fill color in red, green and blue.
+; @property borderColor rgb            The border color in red, green and blue.
+; @property borderWidth number         The border width.
 
 ; @event onClick             Called when the circle is clicked.
 ; @param windowHandle number The handle of the parent window of the circle.

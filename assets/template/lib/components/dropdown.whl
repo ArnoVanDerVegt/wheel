@@ -7,13 +7,23 @@ namespace components.dropdown
 ; @const The form module.
 #define MODULE_COMPONENT_DROPDOWN        69
 
-; @const Module calls for dropdown component functions.
+; @const Module calls for the dropdown component functions.
 #define DROPDOWN_COMPONENT_SET_HIDDEN     0
 #define DROPDOWN_COMPONENT_SET_DISABLED   1
 #define DROPDOWN_COMPONENT_SET_X          2
 #define DROPDOWN_COMPONENT_SET_Y          3
 #define DROPDOWN_COMPONENT_SET_VALUE      4
 #define DROPDOWN_COMPONENT_GET_VALUE      5
+
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property disabled boolean Disable the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property items    list    A list of selectable items.
+; @property value    number  The selected item.
 
 ; @event onChange            Called when an other item is selected.
 ; @param windowHandle number The handle of the parent window of the dropdown.

@@ -14,6 +14,15 @@ namespace components.panel
 #define PANEL_COMPONENT_SET_WIDTH      3
 #define PANEL_COMPONENT_SET_HEIGHT     4
 
+; @property name     string  The component name.
+; @property tabIndex number  The tab index.
+; @property hidden   boolean Hide the component.
+; @property x        number  The left position of the component inside the parent component.
+; @property y        number  The top position of the component inside the parent component.
+; @property zIndex   number  The depth of the component related to other components in the parent.
+; @property width    number  The panel width.
+; @property height   number  The panel height.
+
 ; @proc                   Hide the panel.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

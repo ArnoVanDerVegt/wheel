@@ -15,6 +15,15 @@ namespace components.puDevice
 #define PU_DEVICE_COMPONENT_SET_READY        4
 #define PU_DEVICE_COMPONENT_SET_COLOR_MODE   5
 
+; @property name      string  The component name.
+; @property hidden    boolean Hide the component.
+; @property x         number  The left position of the component inside the parent component.
+; @property y         number  The top position of the component inside the parent component.
+; @property zIndex    number  The depth of the component related to other components in the parent.
+; @property port      list    A list of selectable ports, options are: `1`, `2`, `3` or `4`.
+; @property device    list    A list of sensor types, options are: `Basic motor`, `Train motor`, `Led lights`, `Tacho motor`, `Move hub motor`, `Ctrl+ L motor`, `Ctrl+ XL motor` or `Distance sensor`.
+; @property colorMode boolean If this option is selected and the input type is `Distance sensor` then the value will be displayed as a color instead of a text.
+
 ; @proc                   Set the type of device.
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.

@@ -45,8 +45,8 @@
                 </table>
             </p>
             <p>
-                <a id="Modulecallsforbuttoncomponentfunctions."></a>
-                <div>Module calls for button component functions.<br/></div>
+                <a id="Modulecallsforthecheckboxcomponentfunctions."></a>
+                <div>Module calls for the checkbox component functions.<br/></div>
                 <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 11<br/></div>
                 <table class="help-table constants">
                     <tr><td>CHECKBOX_COMPONENT_SET_HIDDEN</td><td>0</td></tr>
@@ -59,6 +59,21 @@
                     <tr><td>CHECKBOX_COMPONENT_GET_VALUE</td><td>7</td></tr>
                 </table>
             </p>
+            <a id="Properties"></a>
+            <h4 class="">Properties</h4>
+            <p>These properties can be edited with the property editor in the IDE.</p>
+            <table class="help-table">
+                <tr>
+                    <th>Name</th><th>Type</th><th>Description</th>
+                </tr>
+        <tr><td>name</td><td>string</td><td>The component name.</td></tr>
+        <tr><td>hidden</td><td>boolean</td><td>Hide the component.</td></tr>
+        <tr><td>disabled</td><td>boolean</td><td>Disable the component.</td></tr>
+        <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
+        <tr><td>text</td><td>string</td><td>The label text.</td></tr>
+            </table>
             <a id="Events"></a>
             <h4 class="">Events</h4>
         <a id="Calledwhenthecheckboxisselectedorunselected."></a>
@@ -69,13 +84,13 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the checkbox.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the checkbox.</td>
                 </tr>
                 <tr>
-                    <td>value</td><td>number</td>`TRUE` when checked, `FALSE` if not checked.</td>
+                    <td>value</td><td>number</td><td>`TRUE` when checked, `FALSE` if not checked.</td>
                 </tr>
             </table>
         <a id="Calledwhenthecheckboxisfocussed."></a>
@@ -86,10 +101,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the checkbox.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the checkbox.</td>
                 </tr>
             </table>
         <a id="Calledwhenthecheckboxloosesfocus."></a>
@@ -100,10 +115,10 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr>
-                    <th>Name</th><th>Type</th>Description</th>
+                    <th>Name</th><th>Type</th><th>Description</th>
                 </tr>
                 <tr>
-                    <td>windowHandle</td><td>number</td>The handle of the parent window of the checkbox.</td>
+                    <td>windowHandle</td><td>number</td><td>The handle of the parent window of the checkbox.</td>
                 </tr>
             </table>
         <hr/>
@@ -111,7 +126,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidethecheckbox."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 31<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 40<br/></div>
             <p>Hide the checkbox.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -125,7 +140,7 @@
             <hr/>
             <a id="Disablethecheckbox."></a>
             <h5 class="title-with-source">setDisabled</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 40<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 49<br/></div>
             <p>Disable the checkbox.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setDisabled</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">disabled</span><span class="operator">)</span>
 </pre>
@@ -139,7 +154,7 @@
             <hr/>
             <a id="Setthexpositionofthecheckbox."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 49<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 58<br/></div>
             <p>Set the x position of the checkbox.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -153,7 +168,7 @@
             <hr/>
             <a id="Settheypositionofthecheckbox."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 58<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 67<br/></div>
             <p>Set the y position of the checkbox.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -167,7 +182,7 @@
             <hr/>
             <a id="Setthecheckboxtext."></a>
             <h5 class="title-with-source">setText</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 67<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 76<br/></div>
             <p>Set the checkbox text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
@@ -181,7 +196,7 @@
             <hr/>
             <a id="Setthecheckboxhint."></a>
             <h5 class="title-with-source">setHint</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 76<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 85<br/></div>
             <p>Set the checkbox hint.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHint</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">hint</span><span class="operator">)</span>
 </pre>
@@ -195,7 +210,7 @@
             <hr/>
             <a id="Setthecheckboxvalue."></a>
             <h5 class="title-with-source">setChecked</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 85<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 94<br/></div>
             <p>Set the checkbox value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setChecked</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">checked</span><span class="operator">)</span>
 </pre>
@@ -209,7 +224,7 @@
             <hr/>
             <a id="Getthevalue."></a>
             <h5 class="title-with-source">getValue</h5>
-            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 94<br/></div>
+            <div class="source-location">Source: /Users/arnovandervegt/Documents/Wheel/lib/components/checkbox.whl, line: 103<br/></div>
             <p>Get the value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">getValue</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">)</span>
 </pre>
