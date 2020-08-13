@@ -391,13 +391,14 @@ exports.PoweredUp = class extends BasicDevice {
                 case DIRECTION_REVERSE:
                     motorDevice.setPower(-speed);
                     break;
+                case DIRECTION_FORWARD:
+                    motorDevice.setPower(speed);
+                    break;
                 case DIRECTION_NONE:
                     port.moving = false;
                     motorDevice.setPower(0);
+                    motorDevice.setBrakingStyle(HOLD);
                     motorDevice.brake();
-                    break;
-                case DIRECTION_FORWARD:
-                    motorDevice.setPower(speed);
                     break;
             }
             port.currentDirection = direction;
