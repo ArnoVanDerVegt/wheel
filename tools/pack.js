@@ -536,6 +536,7 @@ const files = [
         './js/frontend/ide/console/Log',
         './js/frontend/ide/console/Terminal',
         './js/frontend/ide/console/NewVersion',
+        './js/frontend/ide/console/FindResults',
         './js/frontend/ide/console/Console',
         './js/frontend/ide/properties/PropertiesToolbar',
         './js/frontend/ide/properties/Property',

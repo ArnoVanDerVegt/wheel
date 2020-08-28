@@ -29,7 +29,7 @@ exports.FindInFilesDialog = class extends FindDialog {
                             ref:         'caseSensitive',
                             tabIndex:    11
                         }),
-                        this.addTextRow('Search in file types:'),
+                        this.addTextRow('Search in file types'),
                         this.addSmallCheckboxRow({
                             title:       'Wheel file (*.whl)',
                             ref:         'typeWhl',

@@ -6,6 +6,7 @@ const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../lib/dom').DOMNode;
 const path       = require('../../lib/path');
+const platform   = require('../../lib/platform');
 
 class FindResult extends DOMNode {
     constructor(opts) {
@@ -44,8 +45,12 @@ class FindResult extends DOMNode {
     }
 
     onClick(event) {
-        let found = this._found;
-        dispatcher.dispatch('Dialog.File.Open', found.filename, {lineNum: found.num + 1, ch: found.pos});
+        let found    = this._found;
+        let filename = found.filename;
+        if (platform.forceWebVersion()) {
+            filename = path.join('Wheel', filename);
+        }
+        dispatcher.dispatch('Dialog.File.Open', filename, {lineNum: found.num + 1, ch: found.pos});
         this.onCancelEvent(event);
     }
 }

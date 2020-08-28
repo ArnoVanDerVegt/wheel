@@ -134,7 +134,7 @@
         };
 
     exports.ideRoutes = {
-        files: function(params, callback) {
+        files(params, callback) {
             getLocalStorageFiles();
             let currentPath;
             if ('changePath' in params) {
@@ -164,7 +164,8 @@
                 files: directoryList.getList()
             });
         },
-        file: function(params, callback) {
+
+        file(params, callback) {
             let path       = require('./js/frontend/lib/path');
             let files      = require('./js/frontend/ide/data/templates').files;
             let localFiles = getLocalStorageFiles().getFiles();
@@ -213,20 +214,70 @@
             }
             callback(JSON.stringify({success: !!data, data: data}));
         },
+
         fileSave(params, callback) {
             getLocalStorageFiles().setFile(params.filename, params.data);
             changes.push({eventType: 'change', path: params.filename});
             callback && callback({success: true});
         },
+
         fileDelete(params, callback) {
             getLocalStorageFiles().deleteFile(params.filename);
             changes.push({eventType: 'change', path: params.filename});
             callback && callback({success: true});
         },
+
         filesInPath(params, callback) {
             let files = require('./js/frontend/ide/data/templates').files;
             callback(JSON.stringify(Object.keys(files)));
         },
+
+        findInFile(params, callback) {
+            let caseSensitive = params.caseSensitive;
+            let filename      = params.filename;
+            let text          = params.text;
+            let textLength    = text.length;
+            let result        = {filename: filename, text: text, found: []};
+            const findInFile = (data) => {
+                    let origLines;
+                    if (!caseSensitive) {
+                        origLines = data.split('\n');
+                        data      = data.toLowerCase();
+                        text      = text.toLowerCase();
+                    }
+                    let lines = data.split('\n');
+                    if (caseSensitive) {
+                        origLines = lines;
+                    }
+                    for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+                        let line    = lines[lineNum];
+                        let linePos = line.indexOf(text, 0);
+                        while (linePos !== -1) {
+                            result.found.push({line: origLines[lineNum], num: lineNum, pos: linePos});
+                            linePos += textLength;
+                            linePos = line.indexOf(text, linePos);
+                        }
+                    }
+                    callback(JSON.stringify(result));
+                };
+            this.file(
+                params,
+                (file) => {
+                    try {
+                        file = JSON.parse(file);
+                        if (file.success) {
+                            findInFile(file.data);
+                        } else {
+                            callback(JSON.stringify(result));
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        callback(JSON.stringify(result));
+                    }
+                }
+            );
+        },
+
         settingsLoad(params, callback) {
             let settings = {};
             try {
@@ -244,19 +295,23 @@
             };
             callback(settings);
         },
+
         settingsSave(params, callback) {
             try {
                 localStorage.setItem('WHEEL_SETTINGS', JSON.stringify(params.settings));
             } catch (error) {
             }
         },
+
         changes(params, callback) {
             callback(JSON.stringify(changes));
             changes.length = 0;
         },
+
         pathCreate(params, callback) {
             callback({success: true});
         },
+
         directoryCreate(params, callback) {
             callback({success: getLocalStorageFiles().createDirectory(params.directory)});
             changes.push({eventType: 'change', path: params.directory});
