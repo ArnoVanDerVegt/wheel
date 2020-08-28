@@ -267,7 +267,7 @@
     margin:                         8px 8px 0 4px;
     height:                         24px;
     line-height:                    24px;
-    padding:                        1px 0 0 2px;
+    padding:                        0 0 0 2px;
     font-size:                      13px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content {

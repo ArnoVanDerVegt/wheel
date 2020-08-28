@@ -303,6 +303,15 @@ exports.WheelEditor = class extends Editor {
     }
 
     onCursorChanged() {
+        let wheelEditorState = this._wheelEditorState;
+        if (wheelEditorState.getCursorChangedAfterFind()) {
+            // The cursor changed after clicking find, reset the state...
+            wheelEditorState.setCursorChangedAfterFind(false);
+        } else {
+            // The cursor changed after clicking in the editor, reset the find text state...
+            // This forces the search to reset when find is clicked again.
+            wheelEditorState.setFindText(null);
+        }
         let cursor = this._codeMirror.getCursor();
         this._lastCursor                    = cursor;
         this._refs.cursorPosition.innerHTML = (cursor.line + 1) + ',' + cursor.ch;
@@ -382,8 +391,9 @@ exports.WheelEditor = class extends Editor {
         refs.replaceOptions.className   = 'bottom-options hidden';
         refs.connectionStatus.className = 'bottom-options connection-status';
         refs.wrapper.className          = 'code-mirror-wrapper';
-        this._wheelEditorState.setFindVisible(false);
-        this._wheelEditorState.setReplaceVisible(false);
+        this._wheelEditorState
+            .setFindVisible(false)
+            .setReplaceVisible(false);
     }
 
     find() {
@@ -391,9 +401,11 @@ exports.WheelEditor = class extends Editor {
         let findText          = this._refs.findText.getValue();
         let findCaseSensitive = this._refs.findCaseSensitive.getChecked();
         let findCursor        = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
-        wheelEditorState.setFindCursor(findCursor);
-        wheelEditorState.setFindCaseSensitive(findCaseSensitive);
-        wheelEditorState.setFindText(findText);
+        wheelEditorState
+            .setCursorChangedAfterFind(true)
+            .setFindCursor(findCursor)
+            .setFindCaseSensitive(findCaseSensitive)
+            .setFindText(findText);
         findCursor && findCursor.findNext();
         if (findCursor && !findCursor.from()) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
@@ -419,8 +431,10 @@ exports.WheelEditor = class extends Editor {
             (wheelEditorState.getFindCaseSensitive() !== findCaseSensitive)) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
         }
-        wheelEditorState.setFindText(findText);
-        wheelEditorState.setFindCaseSensitive(findCaseSensitive);
+        wheelEditorState
+            .setCursorChangedAfterFind(true)
+            .setFindText(findText)
+            .setFindCaseSensitive(findCaseSensitive);
         findCursor && findCursor.findNext();
         if (findCursor && !findCursor.from()) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
