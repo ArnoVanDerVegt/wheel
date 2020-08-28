@@ -28,6 +28,7 @@ const routes = {
         'ide/file-save':                  ideRoutes.fileSave,
         'ide/file-delete':                ideRoutes.fileDelete,
         'ide/files-in-path':              ideRoutes.filesInPath,
+        'ide/find-in-file':               ideRoutes.findInFile,
         'ide/settings-load':              ideRoutes.settingsLoad,
         'ide/settings-save':              ideRoutes.settingsSave,
         'ide/changes':                    ideRoutes.changes,

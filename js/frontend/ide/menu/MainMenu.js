@@ -178,6 +178,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Find...',                      hotkey: ['command', 'F'], dispatch: 'Menu.Find.Find'},
                 {title: 'Find next',                    hotkey: ['command', 'G'], dispatch: 'Menu.Find.FindNext'},
                 {title: '-'},
+                {title: 'Find in files...',                                       dispatch: 'Dialog.FindInFiles.Show'},
+                {title: '-'},
                 {title: 'Replace...',                                             dispatch: 'Menu.Find.Replace'},
                 {title: 'Replace next',                                           dispatch: 'Menu.Find.ReplaceNext'},
                 {title: 'Replace all...',                                         dispatch: 'Dialog.Replace.Show'}
@@ -186,9 +188,9 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._findMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled(false); // Find
         menuOptions[1].setEnabled(false); // Find next
-        menuOptions[2].setEnabled(false); // Replace
-        menuOptions[3].setEnabled(false); // Replace next
-        menuOptions[4].setEnabled(false); // Replace all
+        menuOptions[3].setEnabled(false); // Replace
+        menuOptions[4].setEnabled(false); // Replace next
+        menuOptions[5].setEnabled(false); // Replace all
         return this;
     }
 
@@ -452,9 +454,9 @@ exports.MainMenu = class extends MainMenu {
         let findMenuOptions       = this._findMenu.getMenu().getMenuOptions();
         let menuOptionFind        = findMenuOptions[0];
         let menuOptionFindNext    = findMenuOptions[1];
-        let menuOptionReplace     = findMenuOptions[2];
-        let menuOptionReplaceNext = findMenuOptions[3];
-        let menuOptionReplaceAll  = findMenuOptions[4];
+        let menuOptionReplace     = findMenuOptions[3];
+        let menuOptionReplaceNext = findMenuOptions[4];
+        let menuOptionReplaceAll  = findMenuOptions[5];
         if (info.activeEditor) {
             if (info.activeEditor.canCrop && info.activeEditor.canCrop()) {
                 menuOptionCrop.setEnabled(info.activeEditor.canCrop());

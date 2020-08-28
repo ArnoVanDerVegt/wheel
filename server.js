@@ -18,6 +18,7 @@ app.post('/ide/file-delete',                ideRoutes.fileDelete.bind(ideRoutes)
 app.post('/ide/file-size',                  ideRoutes.fileSize.bind(ideRoutes));
 app.get ('/ide/files',                      ideRoutes.files.bind(ideRoutes));
 app.get ('/ide/files-in-path',              ideRoutes.filesInPath.bind(ideRoutes));
+app.post('/ide/find-in-file',               ideRoutes.findInFile.bind(ideRoutes));
 app.post('/ide/directory-create',           ideRoutes.directoryCreate.bind(ideRoutes));
 app.post('/ide/directory-delete',           ideRoutes.directoryDelete.bind(ideRoutes));
 app.post('/ide/path-create',                ideRoutes.pathCreate.bind(ideRoutes));

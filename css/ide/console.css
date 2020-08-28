@@ -37,6 +37,7 @@ body.ide .console-content {
     bottom:                         0;
 }
 .console-content .console-lines,
+.console-content .find-results,
 .console-content .vars,
 .console-content .registers,
 .console-content .terminal {
@@ -47,6 +48,7 @@ body.ide .console-content {
     overflow-y:                     scroll;
 }
 .console-content .console-lines,
+.console-content .find-results,
 .console-content .vars,
 .console-content .registers {
     -webkit-user-select:            none;
@@ -56,7 +58,8 @@ body.ide .console-content {
 .console-content .terminal {
     display:                        none;
 }
-.console-content .console-lines .console-line {
+.console-content .console-lines .console-line,
+.console-content .find-results .find-result {
     float:                          left;
     position:                       relative;
     font-family:                    monospace;
@@ -71,6 +74,37 @@ body.ide .console-content {
     overflow:                       hidden;
     text-overflow:                  ellipsis;
     cursor:                         default;
+}
+.console-content .find-results .find-result.found {
+    padding-left:                   32px;
+}
+.console-content .find-results .find-result span {
+    border-radius:                  1px;
+    border:                         1px solid var(--color-green);
+    color:                          var(--color-green);
+}
+.console-content .find-results .find-result .found-line {
+    float:                          left;
+    width:                          calc(100% - 84px);
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    cursor:                         pointer;
+}
+.console-content .find-results .find-result .found-pos {
+    float:                          right;
+    text-align:                     right;
+    width:                          80px;
+}
+.console-content .find-results .find-result .found-line,
+.console-content .find-results .find-result .found-pos {
+    font-family:                    monospace;
+    font-size:                      13px;
+}
+.console-content .find-results .find-result .found-line span {
+    border-radius:                  1px;
+    border:                         1px solid var(--color-green);
+    color:                          var(--color-green);
 }
 .console-content .console-lines .console-line span {
     float:                          left;

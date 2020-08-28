@@ -16,6 +16,7 @@ const routes = {
         'ide/file-size':                  ideRoutes.fileSize,
         'ide/files':                      ideRoutes.files,
         'ide/files-in-path':              ideRoutes.filesInPath,
+        'ide/find-in-file':               ideRoutes.findInFile,
         'ide/directory-create':           ideRoutes.directoryCreate,
         'ide/directory-delete':           ideRoutes.directoryDelete,
         'ide/path-create':                ideRoutes.pathCreate,

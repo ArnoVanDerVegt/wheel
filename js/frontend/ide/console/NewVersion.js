@@ -35,6 +35,9 @@ exports.NewVersion = class extends DOMNode {
             {
                 id:        this.setElement.bind(this),
                 className: 'new-version',
+                style: {
+                    display: 'none'
+                },
                 children: [
                     {
                         className: 'new-version-logo',

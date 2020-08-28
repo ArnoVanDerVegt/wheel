@@ -13,7 +13,8 @@ exports.WheelEditor = class extends Editor {
         this._wheelEditorState = new WheelEditorState(opts);
         this._textareaElement  = null;
         this._codeMirror       = null;
-        this._onGlobalUIId     = opts.ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        this._onGlobalUIId     = opts.ui.addEventListener('Global.UIId',   this, this.onGlobalUIId);
+        this._onGlobalKeyUp    = opts.ui.addEventListener('Global.Key.Up', this, this.onGlobalKeyUp);
         this._cursorPosition   = opts.cursorPosition;
         this.initDOM(opts.parentNode);
         if (this._wheelEditorState.getMode() === 'text/x-wheel') {
@@ -109,6 +110,7 @@ exports.WheelEditor = class extends Editor {
     remove() {
         super.remove();
         this._onGlobalUIId();
+        this._onGlobalKeyUp();
     }
 
     show() {
@@ -122,6 +124,12 @@ exports.WheelEditor = class extends Editor {
         let textarea = this._refs.wrapper.querySelector('.CodeMirror textarea');
         if (textarea) {
             textarea.disabled = (this._ui.getActiveUIId() === 1) ? '' : 'disabled';
+        }
+    }
+
+    onGlobalKeyUp(event) {
+        if (event.keyCode === 27) { // Escape
+            this.hideReplaceOptions();
         }
     }
 
@@ -256,13 +264,8 @@ exports.WheelEditor = class extends Editor {
     }
 
     onFindKeyUp(event) {
-        switch (event.keyCode) {
-            case 13: // Enter
-                this.onFind();
-                break;
-            case 27: // Escape
-                this.hideReplaceOptions();
-                break;
+        if (event.keyCode === 13) { // Enter
+            this.onFind();
         }
     }
 

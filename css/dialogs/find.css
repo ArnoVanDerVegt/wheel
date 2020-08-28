@@ -1,0 +1,57 @@
+.dialog-background.find-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -124px;
+    height:                         248px;
+    width:                          544px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.find-dialog.find-in-files .dialog-center .dialog-content {
+    margin-top:                     -168px;
+    height:                         336px;
+}
+.dialog-background.find-dialog.new-image .dialog-center .dialog-content {
+    margin-top:                     -128px;
+    height:                         256px;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-text {
+    position:                       absolute;
+    left:                           32px;
+    top:                            64px;
+    width:                          calc(100% - 64px);
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row {
+    float:                          left;
+    width:                          100%;
+    padding:                        0 0 8px 0;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row.small {
+    padding:                        0;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row.small a.checkbox {
+    margin:                         0 8px 0 128px;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row div,
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row input {
+    float:                          left;
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row input.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row div {
+    width:                          128px;
+    -webkit-user-select:            none;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row a.checkbox {
+    float:                          left;
+    margin-top:                     5px;
+}
+.dialog-background.find-dialog .dialog-center .dialog-content .find-dialog-row input {
+    width:                          320px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}

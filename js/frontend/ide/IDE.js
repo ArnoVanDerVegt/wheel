@@ -49,7 +49,8 @@ const HelpDialog                 = require('./dialogs/help/HelpDialog').HelpDial
 const DaisyChainDialog           = require('./dialogs/DaisyChainDialog').DaisyChainDialog;
 const LicenseDialog              = require('./dialogs/LicenseDialog').LicenseDialog;
 const DirectoryNewDialog         = require('./dialogs/directory/DirectoryNewDialog').DirectoryNewDialog;
-const ReplaceDialog              = require('./dialogs/ReplaceDialog').ReplaceDialog;
+const ReplaceDialog              = require('./dialogs/find/ReplaceDialog').ReplaceDialog;
+const FindInFilesDialog          = require('./dialogs/find/FindInFilesDialog').FindInFilesDialog;
 const DownloadDialog             = require('./dialogs/download/DownloadDialog').DownloadDialog;
 const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
 const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
@@ -505,6 +506,7 @@ exports.IDE = class extends CompileAndRun {
         new LicenseDialog             ({getImage: getImage, ui: this._ui});
         new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
         new ReplaceDialog             ({getImage: getImage, ui: this._ui});
+        new FindInFilesDialog         ({getImage: getImage, ui: this._ui});
         new GraphDialog               ({getImage: getImage, ui: this._ui});
         new FormGridSizeDialog        ({getImage: getImage, ui: this._ui});
         new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
