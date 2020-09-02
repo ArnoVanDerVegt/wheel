@@ -24,7 +24,7 @@ const testDefineNumber = function(defineValue, callback) {
                 ].join('\n'));
             };
         let preProcessor = new PreProcessor({getFileData: getFileData});
-        let preProcessed = function() {
+        let preProcessed = () => {
                 dispatcher.reset();
                 let tokens  = preProcessor.getDefinedConcatTokens();
                 let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -43,10 +43,10 @@ const testDefineNumber = function(defineValue, callback) {
 
 describe(
     'Test PreProcessor',
-    function() {
+    () => {
         it(
             'Should define integer',
-            function() {
+            () => {
                 testDefineNumber(
                     355,
                     function(message) {
@@ -57,7 +57,7 @@ describe(
         );
         it(
             'Should define float',
-            function() {
+            () => {
                 testDefineNumber(
                     0.5,
                     function(message) {
@@ -68,7 +68,7 @@ describe(
         );
         it(
             'Should define string',
-            function() {
+            () => {
                 let getFileData = function(filename, token, callback) {
                         callback([
                             '#define TEST "Hello world"',
@@ -81,7 +81,7 @@ describe(
                         ].join('\n'));
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -110,7 +110,7 @@ describe(
             function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test.whl':
                                         callback([
@@ -136,7 +136,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -167,7 +167,7 @@ describe(
             function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test.whl':
                                         callback([
@@ -196,7 +196,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -227,7 +227,7 @@ describe(
             function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test1.whl':
                                         callback([
@@ -265,7 +265,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -327,7 +327,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData, setImage: setImage});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();

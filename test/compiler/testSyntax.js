@@ -8,7 +8,7 @@ const errors    = require('../../js/frontend/compiler/errors').errors;
 
 describe(
     'Test syntax error',
-    function() {
+    () => {
         // A testError(
         // B    it,
         // C     'Should throw SYNTAX_ERROR',
@@ -567,7 +567,7 @@ describe(
 
 describe(
     'Test syntax scope',
-    function() {
+    () => {
         testLogs(
             it,
             'For nested in for',

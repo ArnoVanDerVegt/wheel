@@ -5,7 +5,7 @@
 const dispatcher        = require('../../../../js/frontend/lib/dispatcher').dispatcher;
 const testComponentCall = require('../../../utils').testComponentCall;
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
@@ -13,7 +13,7 @@ const LIB_FILENAME = 'assets/template/lib/components/checkbox.whl';
 
 describe(
     'Test Checkbox component module',
-    function() {
+    () => {
         testComponentCall(it, {message: 'Should set hidden',   moduleFile: LIB_FILENAME, procName: 'components.checkbox.setHidden',   property: 'hidden',   type: 'number'});
         testComponentCall(it, {message: 'Should set disabled', moduleFile: LIB_FILENAME, procName: 'components.checkbox.setDisabled', property: 'disabled', type: 'number'});
         testComponentCall(it, {message: 'Should set x',        moduleFile: LIB_FILENAME, procName: 'components.checkbox.setX',        property: 'x',        type: 'number'});

@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Sound module',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should play tone',

@@ -10,10 +10,10 @@ const assert         = require('assert');
 
 describe(
     'Test modules',
-    function() {
+    () => {
         describe(
             'Test System',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should get the battery voltage',

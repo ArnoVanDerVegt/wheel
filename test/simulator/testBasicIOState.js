@@ -7,10 +7,10 @@ const assert       = require('assert');
 
 describe(
     'Test BasicIOState',
-    function() {
+    () => {
         it(
             'Should create BasicIOState',
-            function() {
+            () => {
                 let basicIOState = new BasicIOState({
                         layer: 1,
                         id:    2
@@ -22,7 +22,7 @@ describe(
         );
         it(
             'Should set speed',
-            function() {
+            () => {
                 let basicIOState = new BasicIOState({
                         layer: 1,
                         id:    2
@@ -36,7 +36,7 @@ describe(
         );
         it(
             'Should set connected',
-            function() {
+            () => {
                 let connected    = null;
                 let basicIOState = new BasicIOState({
                         onChangeConnected: function(c) {
@@ -54,7 +54,7 @@ describe(
         );
         it(
             'Should set type',
-            function() {
+            () => {
                 let type         = null;
                 let basicIOState = new BasicIOState({
                         onChangeType: function(t) {
@@ -72,7 +72,7 @@ describe(
         );
         it(
             'Should set mode',
-            function() {
+            () => {
                 let mode         = null;
                 let basicIOState = new BasicIOState({
                         onChangeMode: function(m) {
@@ -90,11 +90,11 @@ describe(
         );
         it(
             'Should set value',
-            function() {
+            () => {
                 let value        = null;
                 let basicIOState = new BasicIOState({
                         settings: {
-                            getSensorAutoReset: function() { return false; }
+                            getSensorAutoReset: () => { return false; }
                         },
                         onChangeValue: function(v) {
                             value = v;
@@ -111,7 +111,7 @@ describe(
         );
         it(
             'Should set motorMode',
-            function() {
+            () => {
                 let basicIOState = new BasicIOState({});
                 basicIOState.setOn(true);
                 assert.equal(basicIOState.getMotorMode(), 1);
@@ -119,7 +119,7 @@ describe(
         );
         it(
             'Should set motor',
-            function() {
+            () => {
                 let basicIOState = new BasicIOState({});
                 basicIOState.setIsMotor(true);
                 assert.equal(basicIOState.getIsMotor(), true);

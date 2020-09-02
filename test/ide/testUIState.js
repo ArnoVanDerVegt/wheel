@@ -6,44 +6,44 @@ const dispatcher = require('../../js/frontend/lib/dispatcher').dispatcher;
 const UIState    = require('../../js/frontend/lib/UIState').UIState;
 const assert     = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test UIState',
-    function() {
+    () => {
         it(
             'Should create UIState',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.notEqual(uiState, null);
             }
         );
         it(
             'Should get next uiId',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getNextUIId(), 2);
             }
         );
         it(
             'Should get active uiId with empty stack',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getActiveUIId(), 1);
             }
         );
         it(
             'Should get meta key down',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getKeyMetaDown(), false);
             }
         );
         it(
             'Should get control key down',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getKeyControlDown(), false);
             }

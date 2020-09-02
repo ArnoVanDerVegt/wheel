@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test elseif',
-    function() {
+    () => {
         describe(
             'Test elseif without parenthesis',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate if',
@@ -104,7 +104,7 @@ describe(
         );
         describe(
             'Test elseif with parenthesis',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate if',
@@ -199,7 +199,7 @@ describe(
         );
         describe(
             'Test elseif with not',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate if',

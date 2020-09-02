@@ -6,7 +6,7 @@ const dispatcher                          = require('../../../../js/frontend/lib
 const componentAlertDialogModuleConstants = require('../../../../js/shared/vm/modules/components/componentAlertDialogModuleConstants');
 const testComponentCall                   = require('../../../utils').testComponentCall;
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
@@ -14,7 +14,7 @@ const LIB_FILENAME = 'assets/template/lib/components/alertDialog.whl';
 
 describe(
     'Test Alert dialog module',
-    function() {
+    () => {
         testComponentCall(
             it,
             {

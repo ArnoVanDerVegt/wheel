@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test multi dimensional array',
-    function() {
+    () => {
         describe(
             'Test assign array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign array to multi dimensional array part',
@@ -75,7 +75,7 @@ describe(
         );
         describe(
             'Test parameter array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call with var parameter',
@@ -119,7 +119,7 @@ describe(
         );
         describe(
             'Test condition',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use if condition result true',
@@ -166,7 +166,7 @@ describe(
         );
         describe(
             'Test loop',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use repeat loop',

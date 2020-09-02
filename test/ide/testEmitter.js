@@ -7,13 +7,13 @@ const assert  = require('assert');
 
 describe(
     'Test Emitter',
-    function() {
+    () => {
         it(
             'Should Emit',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let done    = false;
-                emitter.addEventListener('Signal', this, function() {
+                emitter.addEventListener('Signal', this, () => {
                     done = true;
                 });
                 emitter.emit('Signal');
@@ -22,7 +22,7 @@ describe(
         );
         it(
             'Should Emit with parameter',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let done    = false;
                 let p       = null;
@@ -37,7 +37,7 @@ describe(
         );
         it(
             'Should Emit with parameters',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let done    = false;
                 let p1      = null;
@@ -55,7 +55,7 @@ describe(
         );
         it(
             'Should add multiple listeners',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let done    = false;
                 let p1      = null;
@@ -76,10 +76,10 @@ describe(
         );
         it(
             'Should remove a listener',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let done    = false;
-                emitter.addEventListener('Signal', this, function() {
+                emitter.addEventListener('Signal', this, () => {
                     done = true;
                 })();
                 emitter.emit('Signal');
@@ -88,7 +88,7 @@ describe(
         );
         it(
             'Should remove one listener',
-            function() {
+            () => {
                 let emitter = new Emitter();
                 let p1      = null;
                 let p2      = null;

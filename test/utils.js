@@ -137,7 +137,7 @@ const createMocks = () => {
 const createModules = (vm, mocks) => {
         const mockIDE        = mocks.mockIDE;
         const mockFileSystem = mocks.mockFileSystem;
-        const getDataProvider = function() { return mocks.mockDataProvider; };
+        const getDataProvider = () => { return mocks.mockDataProvider; };
         let modules = [];
         modules[standardModuleConstants              .MODULE_STANDARD      ] = new LocalStandardModule              ({vm: vm});
         modules[mathModuleConstants                  .MODULE_MATH          ] = new LocalMathModule                  ({vm: vm});
@@ -197,7 +197,7 @@ exports.createModules = createModules;
 exports.testCodeAndMemory = function(it, message, source, code, memory) {
     it(
         message,
-        function() {
+        () => {
             let preProcessor = new PreProcessor({});
             let program      = new compiler.Compiler({preProcessor: preProcessor}).build(source.join('\n')).getProgram();
             let text         = new Text(program, true).getOutput();
@@ -214,7 +214,7 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
     }
     it(
         message + ' - memory',
-        function() {
+        () => {
             dispatcher.reset();
             let preProcessor = new PreProcessor({});
             let program      = new compiler.Compiler({preProcessor: preProcessor}).build(source.join('\n')).getProgram();
@@ -244,7 +244,7 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
 exports.testLogs = function(it, message, source, logs, callback) {
     it(
         message,
-        function() {
+        () => {
             dispatcher.reset();
             let preProcessor = new PreProcessor({});
             let program      = new compiler.Compiler({preProcessor: preProcessor}).build(source.join('\n')).getProgram();
@@ -268,9 +268,9 @@ exports.testLogs = function(it, message, source, logs, callback) {
 };
 
 exports.testError = function(it, message, source, err) {
-    it(message, function() {
+    it(message, () => {
         assert.throws(
-            function() {
+            () => {
                 dispatcher.reset();
                 let getFileData = function(filename, token, callback) {
                         if (filename === '<main>') {
@@ -282,7 +282,7 @@ exports.testError = function(it, message, source, err) {
                         throw errors.createError(err.FILE_NOT_FOUND, token, 'File not found: "' + filename + '".');
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
                     };
@@ -298,7 +298,7 @@ exports.testError = function(it, message, source, err) {
 exports.testModuleCall = function(it, message, source, module, event, params) {
     it(
         message,
-        function() {
+        () => {
             dispatcher.reset();
             let called       = false;
             let preProcessor = new PreProcessor({});
@@ -358,7 +358,7 @@ exports.testPreProcessor = function(source, callback) {
             throw errors.createError(err.FILE_NOT_FOUND, token, 'File not found: "' + filename + '".');
         };
     let preProcessor = new PreProcessor({getFileData: getFileData});
-    let preProcessed = function() {
+    let preProcessed = () => {
             callback(preProcessor);
         };
     preProcessor.processFile({filename: '<main>', token: null}, 0, 0, preProcessed);
@@ -367,14 +367,14 @@ exports.testPreProcessor = function(source, callback) {
 exports.testRangeCheckError = function(it, message, source) {
     it(
         message,
-        function() {
+        () => {
             let info   = exports.testCompile(source);
             let called = false;
             dispatcher.reset();
             dispatcher.on(
                 'VM.Error.Range',
                 this,
-                function() {
+                () => {
                     called = true;
                 }
             );
@@ -387,7 +387,7 @@ exports.testRangeCheckError = function(it, message, source) {
 const getGetFileDataCallback = function(moduleFile, procName, win, component, value, type) {
         return function(filename, token, callback) {
             setTimeout(
-                function() {
+                () => {
                     if (filename === 'lib.whl') {
                         callback(fs.readFileSync(moduleFile).toString());
                     } else {
@@ -475,7 +475,7 @@ exports.testComponentCall = function(it, opts) {
             }
             let getFileData  = getGetFileDataCallback(opts.moduleFile, opts.procName, win, component, value, opts.type);
             let preProcessor = new PreProcessor({getFileData: getFileData});
-            let preProcessed = function() {
+            let preProcessed = () => {
                     dispatcher.reset();
                     let tokens  = preProcessor.getDefinedConcatTokens();
                     let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();

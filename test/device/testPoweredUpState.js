@@ -7,11 +7,11 @@ const LayerState     = require('../../js/frontend/vm/poweredup/LayerState').Laye
 const dispatcher     = require('../../js/frontend/lib/dispatcher').dispatcher;
 const assert         = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
-const getMockLayers = function() {
+const getMockLayers = () => {
         const getLayer = function(connected) {
                 let result = {
                         uuid:      'uuid',
@@ -103,10 +103,10 @@ class MockDataProvider {
 
 describe(
     'Test Powered Up state',
-    function() {
+    () => {
         it(
             'Should create PoweredUpState',
-            function() {
+            () => {
                 let poweredUpState = new PoweredUpState({dataProvider: new MockDataProvider({})});
                 assert.equal(poweredUpState.getConnected(),   false);
                 assert.equal(poweredUpState.getQueueLength(), 0);
@@ -114,35 +114,35 @@ describe(
         );
         it(
             'Should get LayerState',
-            function() {
+            () => {
                 let poweredUpState = new PoweredUpState({dataProvider: new MockDataProvider({})});
                 assert.equal(poweredUpState.getLayerState().length, 4);
             }
         );
         it(
             'Should get LayerState, layer',
-            function() {
+            () => {
                 let poweredUpState = new PoweredUpState({dataProvider: new MockDataProvider({})});
                 assert.equal(poweredUpState.getLayerState(1) instanceof LayerState, true);
             }
         );
         it(
             'Should get device name',
-            function() {
+            () => {
                 let poweredUpState = new PoweredUpState({dataProvider: new MockDataProvider({})});
                 assert.equal(poweredUpState.getDeviceName(), 'PoweredUp');
             }
         );
         it(
             'Should connect to device',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 let called           = false;
                 poweredUpState.addEventListener(
                     'PoweredUp.Connecting',
                     this,
-                    function() {
+                    () => {
                         called = true;
                     }
                 );
@@ -155,10 +155,10 @@ describe(
         );
         it(
             'Should connect to device and update',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState.addEventListener('PoweredUp.Connecting', this, function() {});
+                poweredUpState.addEventListener('PoweredUp.Connecting', this, () => {});
                 assert.equal(mockDataProvider.getUpdateCalled(), false);
                 poweredUpState.onConnectToDevice({uuid: 'xyz'});
                 assert.equal(mockDataProvider.getUpdateCalled(), true);
@@ -166,7 +166,7 @@ describe(
         );
         it(
             'Should connect to device and emit connected',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 let called           = false;
@@ -183,12 +183,12 @@ describe(
         );
         it(
             'Should set mode',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 poweredUpState._connecting = false; // Force correct state...
                 poweredUpState._connected  = true;  // Force correct state...
-                poweredUpState.setMode(112, 113, 114, function() {});
+                poweredUpState.setMode(112, 113, 114, () => {});
                 assert.equal(mockDataProvider.getLayer(), 112);
                 assert.equal(mockDataProvider.getPort(),  113);
                 assert.equal(mockDataProvider.getMode(),  114);
@@ -196,7 +196,7 @@ describe(
         );
         it(
             'Should stop all motors',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 poweredUpState._connecting = false; // Force correct state...
@@ -210,7 +210,7 @@ describe(
         );
         it(
             'Should add command to queue',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 poweredUpState._connecting = false; // Force correct state...
@@ -221,7 +221,7 @@ describe(
         );
         it(
             'Should add duplicate command to queue',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 poweredUpState._connecting = false; // Force correct state...
@@ -233,7 +233,7 @@ describe(
         );
         it(
             'Should create response handler',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 let called           = false;

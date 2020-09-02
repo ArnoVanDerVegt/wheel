@@ -10,10 +10,10 @@ const assert         = require('assert');
 
 describe(
     'Test Standard module',
-    function() {
+    () => {
         it(
             'Should clear console',
-            function() {
+            () => {
                 let source = [
                         'proc main()',
                         '    mod 0, 3',
@@ -21,7 +21,7 @@ describe(
                     ];
                 let info    = testCompile(source);
                 let cleared = false;
-                info.modules[0].on('Console.Clear', this, function() {
+                info.modules[0].on('Console.Clear', this, () => {
                     cleared = true;
                 });
                 info.vm.setCommands(info.commands).run();

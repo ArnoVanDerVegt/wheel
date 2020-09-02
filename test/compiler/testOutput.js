@@ -8,10 +8,10 @@ const Text        = require('../../js/frontend/program/output/Text').Text;
 
 describe(
     'Test output',
-    function() {
+    () => {
         it(
             'Should output simple program',
-            function() {
+            () => {
                 let info = testCompile([
                         'number n',
                         'proc main()',
@@ -51,7 +51,7 @@ describe(
         );
         it(
             'Should output program with string',
-            function() {
+            () => {
                 let info = testCompile([
                         'string s = "Jumped over the lazy dog"',
                         'proc main()',
@@ -93,7 +93,7 @@ describe(
         );
         it(
             'Should output program with condition',
-            function() {
+            () => {
                 let info = testCompile([
                         'number a',
                         'proc main()',
@@ -137,7 +137,7 @@ describe(
         );
         it(
             'Should output program with condition and',
-            function() {
+            () => {
                 let info = testCompile([
                         'number a',
                         'number b',
@@ -190,7 +190,7 @@ describe(
         );
         it(
             'Should output program with jump',
-            function() {
+            () => {
                 let info = testCompile([
                         'proc main()',
                         '    number i, j',
@@ -254,7 +254,7 @@ describe(
         );
         it(
             'Should output program with constants',
-            function() {
+            () => {
                 let info = testCompile([
                         'number a[3] = [0, 1, 2]',
                         'number b[4] = [4, 5, 6, 7]',

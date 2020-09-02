@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Light',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should set light pattern',

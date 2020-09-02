@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test single dimensional record arrays',
-    function() {
+    () => {
         describe(
             'Test array of record',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign global field values',
@@ -107,7 +107,7 @@ describe(
         );
         describe(
             'Test complex array index',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign array index with record index',

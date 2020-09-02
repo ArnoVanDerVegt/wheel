@@ -5,7 +5,7 @@
 const dispatcher        = require('../../../../js/frontend/lib/dispatcher').dispatcher;
 const testComponentCall = require('../../../utils').testComponentCall;
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
@@ -13,7 +13,7 @@ const LIB_FILENAME = 'assets/template/lib/components/progressBar.whl';
 
 describe(
     'Test Progress bar component module',
-    function() {
+    () => {
         testComponentCall(it, {message: 'Should set hidden', moduleFile: LIB_FILENAME, procName: 'components.progressBar.setHidden', property: 'hidden', type: 'number'});
         testComponentCall(it, {message: 'Should set x',      moduleFile: LIB_FILENAME, procName: 'components.progressBar.setX',      property: 'x',      type: 'number'});
         testComponentCall(it, {message: 'Should set y',      moduleFile: LIB_FILENAME, procName: 'components.progressBar.setY',      property: 'y',      type: 'number'});

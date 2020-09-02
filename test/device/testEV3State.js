@@ -8,16 +8,16 @@ const dispatcher          = require('../../js/frontend/lib/dispatcher').dispatch
 const MockEV3DataProvider = require('./MockEV3DataProvider').MockEV3DataProvider;
 const assert              = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test EV3 state',
-    function() {
+    () => {
         it(
             'Should create EV3State',
-            function() {
+            () => {
                 let ev3State = new EV3State({dataProvider: new MockEV3DataProvider({}), noTimeout: true});
                 assert.equal(ev3State.getConnected(),                         false);
                 assert.equal(ev3State.getDeviceName(),                        'EV3');
@@ -26,14 +26,14 @@ describe(
         );
         it(
             'Should get initial battery',
-            function() {
+            () => {
                 let ev3State = new EV3State({dataProvider: new MockEV3DataProvider({}), noTimeout: true});
                 assert.equal(ev3State.getBattery(), null);
             }
         );
         it(
             'Should connect',
-            function() {
+            () => {
                 let ev3State       = new EV3State({dataProvider: new MockEV3DataProvider({}), noTimeout: true});
                 let testDeviceName = null;
                 ev3State.on(
@@ -50,7 +50,7 @@ describe(
         );
         it(
             'Should poll connecting',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 dispatcher.dispatch('EV3.ConnectToDevice', 'TestDevice');
@@ -68,7 +68,7 @@ describe(
         );
         it(
             'Should disconnect after connecting',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 dispatcher.dispatch('EV3.ConnectToDevice', 'TestDevice');
@@ -85,39 +85,39 @@ describe(
         );
         it(
             'Should delete file',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 let called              = false;
                 ev3State._connecting = false;
                 ev3State._connected  = true;
-                ev3State.deleteFile('test.file', function() { called = true; });
+                ev3State.deleteFile('test.file', () => { called = true; });
                 assert.equal(mockEV3DataProvider.getDeletedFile(), 'test.file');
                 assert.equal(called, true);
             }
         );
         it(
             'Should create dir',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 let called           = false;
                 ev3State._connecting = false;
                 ev3State._connected  = true;
-                ev3State.createDir('test.dir', function() { called = true; });
+                ev3State.createDir('test.dir', () => { called = true; });
                 assert.equal(mockEV3DataProvider.getCreatedDir(), 'test.dir');
                 assert.equal(called, true);
             }
         );
         it(
             'Should set mode',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 let called           = false;
                 ev3State._connecting = false;
                 ev3State._connected  = true;
-                ev3State.setMode(2, 3, 4, function() { called = true; });
+                ev3State.setMode(2, 3, 4, () => { called = true; });
                 let mode = mockEV3DataProvider.getMode();
                 assert.equal(mode.layer, 2);
                 assert.equal(mode.port,  3);
@@ -127,13 +127,13 @@ describe(
         );
         it(
             'Should upload file',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 let called           = false;
                 ev3State._connecting = false;
                 ev3State._connected  = true;
-                ev3State.upload('remote.file', 'local.file', function() { called = true; });
+                ev3State.upload('remote.file', 'local.file', () => { called = true; });
                 assert.equal(mockEV3DataProvider.getLocalFilename(),  'local.file');
                 assert.equal(mockEV3DataProvider.getRemoteFilename(), 'remote.file');
                 assert.equal(called, true);
@@ -141,7 +141,7 @@ describe(
         );
         it(
             'Should stop all motors',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 ev3State._connecting = false;
@@ -153,21 +153,21 @@ describe(
         );
         it(
             'Should download data',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 ev3State._connecting = false;
                 ev3State._connected  = true;
                 assert.equal(mockEV3DataProvider.getDataV(),          null);
                 assert.equal(mockEV3DataProvider.getRemoteFilename(), null);
-                ev3State.downloadData('<data>', 'file.data', function() {});
+                ev3State.downloadData('<data>', 'file.data', () => {});
                 assert.equal(mockEV3DataProvider.getDataV(),          '<data>');
                 assert.equal(mockEV3DataProvider.getRemoteFilename(), 'file.data');
             }
         );
         it(
             'Should set layer count',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 dispatcher.dispatch('EV3.LayerCount', 1);
@@ -178,26 +178,26 @@ describe(
         );
         it(
             'Should stop polling',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 ev3State._connecting = false;
                 ev3State._connected  = true;
                 assert.equal(mockEV3DataProvider.getPolling(), true);
-                ev3State.stopPolling(function() {});
+                ev3State.stopPolling(() => {});
                 assert.equal(mockEV3DataProvider.getPolling(), false);
             }
         );
         it(
             'Should resume polling',
-            function() {
+            () => {
                 let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 ev3State._connecting = false;
                 ev3State._connected  = true;
                 assert.equal(mockEV3DataProvider.getPolling(), true);
-                ev3State.stopPolling(function() {});
-                ev3State.resumePolling(function() {});
+                ev3State.stopPolling(() => {});
+                ev3State.resumePolling(() => {});
                 assert.equal(mockEV3DataProvider.getPolling(), true);
             }
         );

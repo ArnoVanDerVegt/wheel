@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test vars',
-    function() {
+    () => {
         describe(
             'Test number',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares and assigns global number',
@@ -120,7 +120,7 @@ describe(
         );
         describe(
             'Test expression in declaration',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Declares and assigns expression',

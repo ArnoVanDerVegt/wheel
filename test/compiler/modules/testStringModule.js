@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test String module',
-    function() {
+    () => {
         testLogs(
             it,
             'Should convert a number to a string',

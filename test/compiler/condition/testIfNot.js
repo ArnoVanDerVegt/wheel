@@ -7,10 +7,10 @@ const testCodeAndMemory = require('../../utils').testCodeAndMemory;
 
 describe(
     'Test if not',
-    function() {
+    () => {
         describe(
             'Test conditions',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate equal true',
@@ -48,7 +48,7 @@ describe(
         );
         describe(
             'Test without condition operator',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true',
@@ -107,7 +107,7 @@ describe(
         );
         describe(
             'Test and not without parenthesis',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if a == 4 and not b == 5',
@@ -168,7 +168,7 @@ describe(
         );
         describe(
             'Test and not with parenthesis',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if (a == 4) and not (b == 5)',

@@ -6,19 +6,19 @@ const dispatcher    = require('../../js/frontend/lib/dispatcher').dispatcher;
 const SettingsState = require('../../js/frontend/ide/settings/SettingsState').SettingsState;
 const assert        = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test settings',
-    function() {
+    () => {
         describe(
             'Test constructor',
-            function() {
+            () => {
                 it(
                     'Should create settings',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getVersion(), null);
                     }
@@ -27,10 +27,10 @@ describe(
         );
         describe(
             'Test defaults',
-            function() {
+            () => {
                 it(
                     'Should check defaults',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getConsoleVisible(),      true);
                         assert.equal(settings.getShowFileTree(),       true);
@@ -47,13 +47,13 @@ describe(
         );
         describe(
             'Test toggle view option',
-            function() {
+            () => {
                 it(
                     'Should toggle file tree',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
+                        settings.on('Settings.View', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.ShowFileTree');
                         assert.equal(done,                       true);
                         assert.equal(settings.getShowFileTree(), false);
@@ -62,7 +62,7 @@ describe(
                 );
                 it(
                     'Should set file detail',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         assert.equal(settings.getFilesDetail(), false);
@@ -73,7 +73,7 @@ describe(
                 );
                 it(
                     'Should set local file detail',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         assert.equal(settings.getLocalFilesDetail(), false);
@@ -84,7 +84,7 @@ describe(
                 );
                 it(
                     'Should set remote file detail',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         assert.equal(settings.getRemoteFilesDetail(), false);
@@ -95,10 +95,10 @@ describe(
                 );
                 it(
                     'Should toggle console',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
+                        settings.on('Settings.View', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.ShowConsole');
                         assert.equal(done,                         true);
                         assert.equal(settings.getConsoleVisible(), false);
@@ -106,10 +106,10 @@ describe(
                 );
                 it(
                     'Should toggle simulator',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
+                        settings.on('Settings.View', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.ShowSimulator');
                         assert.equal(done,                        true);
                         assert.equal(settings.getShowSimulator(), false);
@@ -117,10 +117,10 @@ describe(
                 );
                 it(
                     'Should toggle dark mode',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.View', this, function() { done = true; });
+                        settings.on('Settings.View', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.DarkMode');
                         assert.equal(done,                   true);
                         assert.equal(settings.getDarkMode(), true);
@@ -128,7 +128,7 @@ describe(
                 );
                 it(
                     'Should set active device',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getActiveDevice(), 1);
                         dispatcher.dispatch('Settings.Set.ActiveDevice', 0);
@@ -137,7 +137,7 @@ describe(
                 );
                 it(
                     'Should set window size',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         dispatcher.dispatch('Settings.Set.WindowSize', 640, 480);
                         assert.equal(settings._windowSize.width,  640);
@@ -149,7 +149,7 @@ describe(
                 );
                 it(
                     'Should set show simulator',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         dispatcher.dispatch('Settings.Set.ShowSimulator', true);
                         assert.equal(settings.getShowSimulator(), true);
@@ -161,13 +161,13 @@ describe(
         );
         describe(
             'Test toggle compile option',
-            function() {
+            () => {
                 it(
                     'Should toggle create text output',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.Compile', this, function() { done = true; });
+                        settings.on('Settings.Compile', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.CreateVMTextOutput');
                         assert.equal(done,                             true);
                         assert.equal(settings.getCreateVMTextOutput(), true);
@@ -175,10 +175,10 @@ describe(
                 );
                 it(
                     'Should toggle linter',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.Compile', this, function() { done = true; });
+                        settings.on('Settings.Compile', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.Linter');
                         assert.equal(done,                 true);
                         assert.equal(settings.getLinter(), false);
@@ -188,13 +188,13 @@ describe(
         );
         describe(
             'Test ev3 options',
-            function() {
+            () => {
                 it(
                     'Should toggle auto connect',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.EV3', this, function() { done = true; });
+                        settings.on('Settings.EV3', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.EV3AutoConnect');
                         assert.equal(done,                         true);
                         assert.equal(settings.getEV3AutoConnect(), true);
@@ -202,10 +202,10 @@ describe(
                 );
                 it(
                     'Should toggle auto install',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.EV3', this, function() { done = true; });
+                        settings.on('Settings.EV3', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.AutoInstall');
                         assert.equal(done,                      true);
                         assert.equal(settings.getAutoInstall(), true);
@@ -213,10 +213,10 @@ describe(
                 );
                 it(
                     'Should set daisy chain mode',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
-                        settings.on('Settings.EV3', this, function() { done = true; });
+                        settings.on('Settings.EV3', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Set.DaisyChainMode', 1);
                         assert.equal(done,                         true);
                         assert.equal(settings.getDaisyChainMode(), 1);
@@ -224,7 +224,7 @@ describe(
                 );
                 it(
                     'Should validate daisy chain mode',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getValidatedDaisyChainMode(-1), 0);
                         assert.equal(settings.getValidatedDaisyChainMode(0),  0);
@@ -234,7 +234,7 @@ describe(
                 );
                 it(
                     'Should set device name',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         dispatcher.dispatch('Settings.Set.DeviceName', 'Wheel device');
@@ -245,10 +245,10 @@ describe(
         );
         describe(
             'Test settings',
-            function() {
+            () => {
                 it(
                     'Should set recent project',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         assert.equal(settings.getRecentProject(), '');
@@ -258,7 +258,7 @@ describe(
                 );
                 it(
                     'Should set last check version date',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         dispatcher.dispatch('Settings.Set.LastVersionCheckDate', '10-11-2020');
@@ -269,7 +269,7 @@ describe(
                 );
                 it(
                     'Should get packed',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({isPackaged: true});
                         assert.equal(settings.getIsPackaged(), true);
@@ -279,7 +279,7 @@ describe(
                 );
                 it(
                     'Should get in application folder',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         settings.onLoad({isInApplicationsFolder: true});
@@ -290,7 +290,7 @@ describe(
                 );
                 it(
                     'Should get document path',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         settings.onLoad({documentPath: '/user/'});
@@ -299,7 +299,7 @@ describe(
                 );
                 it(
                     'Should set document path',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         dispatcher.dispatch('Settings.Set.DocumentPath', '/path/');
@@ -308,7 +308,7 @@ describe(
                 );
                 it(
                     'Should get document path exists',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({});
                         settings.onLoad({documentPathExists: true});
@@ -319,7 +319,7 @@ describe(
                 );
                 it(
                     'Should get user document path',
-                    function() {
+                    () => {
                         let done     = false;
                         let settings = new SettingsState({systemDocumentPath: '/user/'});
                         assert.equal(settings.getSystemDocumentPath(), '/user/');
@@ -331,10 +331,10 @@ describe(
         );
         describe(
             'Test sizing',
-            function() {
+            () => {
                 it(
                     'Should set file tree size',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getResizerFileTreeSize(), 192);
                         dispatcher.dispatch('Settings.Set.Resizer.FileTreeSize', 166);
@@ -343,7 +343,7 @@ describe(
                 );
                 it(
                     'Should set console size',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getResizerConsoleSize(), 192);
                         dispatcher.dispatch('Settings.Set.Resizer.ConsoleSize', 477);
@@ -354,10 +354,10 @@ describe(
         );
         describe(
             'Test don\'t show',
-            function() {
+            () => {
                 it(
                     'Should set dont show connected',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDontShowConnected(), false);
                         dispatcher.dispatch('Settings.Set.DontShowConnected', true);
@@ -366,7 +366,7 @@ describe(
                 );
                 it(
                     'Should set dont show open form',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDontShowOpenForm(), false);
                         dispatcher.dispatch('Settings.Set.DontShowOpenForm', true);
@@ -375,7 +375,7 @@ describe(
                 );
                 it(
                     'Should set dont show theme tile',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDontShowThemeTile(), false);
                         dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
@@ -386,10 +386,10 @@ describe(
         );
         describe(
             'Test Powered Up',
-            function() {
+            () => {
                 it(
                     'Should set device count',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDeviceCount(), 1);
                         dispatcher.dispatch('Settings.Set.DeviceCount', 0);
@@ -400,7 +400,7 @@ describe(
                 );
                 it(
                     'Should validate device count',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getValidatedDeviceCount(0), 1);
                         assert.equal(settings.getValidatedDeviceCount(1), 1);
@@ -412,10 +412,10 @@ describe(
         );
         describe(
             'Test simulator',
-            function() {
+            () => {
                 it(
                     'Should toggle sensor auto reset',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getSensorAutoReset(), true);
                         dispatcher.dispatch('Settings.Toggle.SensorAutoReset');
@@ -426,10 +426,10 @@ describe(
         );
         describe(
             'Test device alias',
-            function() {
+            () => {
                 it(
                     'Should set device alias',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDeviceAlias('abc'), 'abc');
                         dispatcher.dispatch('Settings.Set.DeviceAlias', 'abc', 'def');
@@ -438,7 +438,7 @@ describe(
                 );
                 it(
                     'Should set device port alias',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getDevicePortAlias('abc', 1), 2);
                         dispatcher.dispatch('Settings.Set.DevicePortAlias', 'abc', 1, 'def');
@@ -449,10 +449,10 @@ describe(
         );
         describe(
             'Test image open options',
-            function() {
+            () => {
                 it(
                     'Should check initial open options',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getImageOpenBmp(), 'View');
                         assert.equal(settings.getImageOpenPng(), 'View');
@@ -462,7 +462,7 @@ describe(
                 );
                 it(
                     'Should validate options',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getValidatedImageOpenOption('View'),   'View');
                         assert.equal(settings.getValidatedImageOpenOption('Import'), 'Import');
@@ -472,7 +472,7 @@ describe(
                 );
                 it(
                     'Should set options',
-                    function() {
+                    () => {
                         let settings = new SettingsState({});
                         assert.equal(settings.getImageOpenBmp(), 'View');
                         dispatcher.dispatch('Settings.Set.ImageOpen.Bmp', 'Ask');

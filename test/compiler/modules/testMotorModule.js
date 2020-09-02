@@ -11,7 +11,7 @@ const assert               = require('assert');
 
 describe(
     'Test Motor module',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should set type',
@@ -74,7 +74,7 @@ describe(
         );
         it(
             'Should get motor type with connection',
-            function() {
+            () => {
                 let source = [
                         'proc motorLayerType(number layer, number id)',
                         '    number result',
@@ -88,7 +88,7 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[motorModuleConstants.MODULE_MOTOR]._device = function() { return { getConnected: function() { return true; }}; };
+                info.modules[motorModuleConstants.MODULE_MOTOR]._device = () => { return { getConnected: () => { return true; }}; };
                 info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.GetType', this, function(motor) {
                     assert.equal(motor.layer, 1);
                     assert.equal(motor.id, 3);
@@ -102,7 +102,7 @@ describe(
         );
         it(
             'Should get motor type without connection',
-            function() {
+            () => {
                 let source = [
                         'proc motorLayerType(number layer, number id)',
                         '    number result',
@@ -116,7 +116,7 @@ describe(
                         'end'
                     ];
                 let info = testCompile(source);
-                info.modules[motorModuleConstants.MODULE_MOTOR]._device = function() { return { getConnected: function() { return false; }}; };
+                info.modules[motorModuleConstants.MODULE_MOTOR]._device = () => { return { getConnected: () => { return false; }}; };
                 info.modules[motorModuleConstants.MODULE_MOTOR].on('Motor.GetType', this, function(motor) {
                     assert.equal(motor.layer, 1);
                     assert.equal(motor.id, 3);
@@ -227,7 +227,7 @@ describe(
         );
         it(
             'Should read motor',
-            function() {
+            () => {
                 let source = [
                         'proc motorLayerRead(number layer, number id)',
                         '    number result',
@@ -255,7 +255,7 @@ describe(
         );
         it(
             'Should get motor ready',
-            function() {
+            () => {
                 let source = [
                         'proc motorLayerReady(number layer, number id)',
                         '    number result',
@@ -282,7 +282,7 @@ describe(
         );
         it(
             'Should get motor ready bits',
-            function() {
+            () => {
                 let source = [
                         'proc motorLayerReadyBits(number layer, number bits)',
                         '    number result',

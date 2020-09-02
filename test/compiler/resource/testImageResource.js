@@ -8,21 +8,21 @@ const RgfImage         = require('../../../js/shared/lib/RgfImage').RgfImage;
 const MockDataProvider = require('./MockDataProvider').MockDataProvider;
 const assert           = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test ImageResource',
-    function() {
+    () => {
         it(
             'Should save image',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider();
                 let imageResource    = new ImageResource({
                         filename:        'test.rgf',
                         data:            [[0, 1, 2], [2, 3, 4]],
-                        getDataProvider: function() { return mockDataProvider; }
+                        getDataProvider: () => { return mockDataProvider; }
                     });
                 imageResource.save('outputpath');
                 assert.equal(mockDataProvider.getFilename(), 'outputpath/test.rgf');
@@ -31,13 +31,13 @@ describe(
         );
         it(
             'Should get download data',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider();
                 let testImage        = [[0, 1, 2], [2, 3, 4]];
                 let imageResource    = new ImageResource({
                         filename:        'test.rgf',
                         data:            [[0, 1, 2], [2, 3, 4]],
-                        getDataProvider: function() { return mockDataProvider; }
+                        getDataProvider: () => { return mockDataProvider; }
                     });
                 imageResource.getDownloadData(function(data) {
                     let rgfImage = new RgfImage();

@@ -8,31 +8,31 @@ const assert              = require('assert');
 
 describe(
     'Test SourceBuilder',
-    function() {
+    () => {
         it(
             'Should set and get lines',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 assert.equal(sourceBuilder.setSource('a\nb\n').getSource(), 'a\nb\n');
             }
         );
         it(
             'Should not get define info',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 assert.strictEqual(sourceBuilder.getDefineInfo('#include "test.whl"'), null);
             }
         );
         it(
             'Should get define info',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 assert.deepStrictEqual(sourceBuilder.getDefineInfo('#define BUTTON1 123'), {key: 'BUTTON1', value: '123'});
             }
         );
         it(
             'Should get constant from name',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 assert.deepEqual(sourceBuilder.getConstantFromName('button1'),   'BUTTON1');
                 assert.deepEqual(sourceBuilder.getConstantFromName('myButton1'), 'MY_BUTTON1');
@@ -40,7 +40,7 @@ describe(
         );
         it(
             'Should get includes from components',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 let components    = [
                         {type: formEditorConstants.COMPONENT_TYPE_CHECKBOX},
@@ -71,7 +71,7 @@ describe(
         );
         it(
             'Should get defines from components',
-            function() {
+            () => {
                 let sourceBuilder = new SourceBuilder({});
                 let components    = [
                         {type: 'form',     name: 'myForm',   uid: '0x123'},

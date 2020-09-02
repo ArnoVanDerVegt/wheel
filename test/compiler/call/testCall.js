@@ -7,10 +7,10 @@ const testCodeAndMemory = require('../../utils').testCodeAndMemory;
 
 describe(
     'Test call',
-    function() {
+    () => {
         describe(
             'Test call empty procedure',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Should generate code for empty procedure',
@@ -67,7 +67,7 @@ describe(
         );
         describe(
             'Test call without parameters',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call without parameters',
@@ -112,7 +112,7 @@ describe(
         );
         describe(
             'Test call with number parameters',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call with a single number parameter',
@@ -244,7 +244,7 @@ describe(
         );
         describe(
             'Test call from proc',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call from proc',
@@ -318,7 +318,7 @@ describe(
         );
         describe(
             'Test return value',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Should return a value',
@@ -501,7 +501,7 @@ describe(
         );
         describe(
             'Test output with paramters',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Should generate code for procedure with paramter',
@@ -574,7 +574,7 @@ describe(
         );
         describe(
             'Test expression',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould calculate expression with two proc calls - log',
@@ -621,7 +621,7 @@ describe(
         );
         describe(
             'Test record parameter',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould call with record parameter',
@@ -727,7 +727,7 @@ describe(
         );
         describe(
             'Test array parameter',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould call with array parameter',
@@ -821,7 +821,7 @@ describe(
         );
         describe(
             'Test call with string parameter',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould call with constant string parameter',
@@ -842,7 +842,7 @@ describe(
         );
         describe(
             'Test call in declaration',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould declare and call for value',
@@ -935,7 +935,7 @@ describe(
         );
         describe(
             'Test call with local number in proc',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call with local',
@@ -987,7 +987,7 @@ describe(
         );
         describe(
             'Test call with math expression parameter',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call with first constant expression parameter',

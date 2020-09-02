@@ -6,7 +6,7 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test repeat',
-    function() {
+    () => {
         testLogs(
             it,
             'Should repeat ten times',

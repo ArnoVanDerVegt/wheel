@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test multi dimensional array',
-    function() {
+    () => {
         describe(
             'Test global multi dimensional array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare simple global multi dimensional array',
@@ -190,7 +190,7 @@ describe(
         );
         describe(
             'Test local multi dimensional array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare simple local multi dimensional array',
@@ -230,7 +230,7 @@ describe(
         );
         describe(
             'Test local multi dimensional array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use simple parameter multi dimensional array with constant index',
