@@ -4,6 +4,7 @@
 **/
 const sensorModuleConstants    = require('../../vm/modules/sensorModuleConstants');
 const poweredUpModuleConstants = require('../../vm/modules/poweredUpModuleConstants');
+
 const BasicDevice              = require('../BasicDevice').BasicDevice;
 
 const PORT_TO_INDEX            = {A: 0, B: 1, C: 2, D: 3};
@@ -41,8 +42,11 @@ exports.PoweredUp = class extends BasicDevice {
         this._hubs          = [];
         this._hubsByUuid    = {};
         this._changed       = 0;
-        this._layers        = [this.initLayer(), this.initLayer(), this.initLayer(), this.initLayer()];
         this._poweredUP     = new PoweredUP.PoweredUP();
+        this._layers        = [];
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            this._layers.push(this.initLayer());
+        }
         this._poweredUP.on('discover', this._addHub.bind(this));
         setInterval(this.motorMonitor.bind(this), 5);
     }
@@ -421,7 +425,7 @@ exports.PoweredUp = class extends BasicDevice {
 
     motorMonitor() {
         let layers = this._layers;
-        for (let layer = 0; layer < 4; layer++) {
+        for (let layer = 0; layer < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; layer++) {
             for (let id = 0; id < 4; id++) {
                 let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;
@@ -597,7 +601,7 @@ exports.PoweredUp = class extends BasicDevice {
                 return result;
             };
         let result = {layers: []};
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             result.layers.push(copyLayer(layers[i]));
         }
         return result;

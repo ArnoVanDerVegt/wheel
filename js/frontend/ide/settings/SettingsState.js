@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const poweredUpModuleConstants        = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const platform                        = require('../../lib/platform');
 const path                            = require('../../lib/path');
 const dispatcher                      = require('../../lib/dispatcher').dispatcher;
@@ -369,7 +370,8 @@ exports.SettingsState = class extends Emitter {
     }
 
     getValidatedDeviceCount(deviceCount) {
-        return ((deviceCount >= 1) && (deviceCount <= 4)) ? deviceCount : 1;
+
+        return ((deviceCount >= 1) && (deviceCount <= poweredUpModuleConstants.POWERED_UP_LAYER_COUNT)) ? deviceCount : 1;
     }
 
     getImageOpenBmp() {

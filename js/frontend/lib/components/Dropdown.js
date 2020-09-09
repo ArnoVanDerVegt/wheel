@@ -188,6 +188,7 @@ exports.Dropdown = class extends Component {
             this._valueElement.innerHTML = '';
             this._value                  = null;
         }
+        return this;
     }
 
     updateHeight() {

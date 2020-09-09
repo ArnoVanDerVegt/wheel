@@ -71,7 +71,7 @@ exports.PoweredUpModule = class extends LocalPoweredUpModule {
             case poweredUpModuleConstants.POWERED_UP_START:
                 this._writeOffset = vmData.getRegSrc();
                 this.emit('PoweredUp.Start', {});
-                for (let i = 0; i < 4; i ++) {
+                for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i ++) {
                     this.subscribeToTilt(device,  'PoweredUp.Layer' + i + 'Tilt',  i);
                     this.subscribeToAccel(device, 'PoweredUp.Layer' + i + 'Accel', i);
                     for (let j = 0; j < 7; j++) {

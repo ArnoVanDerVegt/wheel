@@ -25,7 +25,11 @@ exports.DeviceCountDialog = class extends Dialog {
                         {value: 1, title: '1 Device'},
                         {value: 2, title: '2 Devices'},
                         {value: 3, title: '3 Devices'},
-                        {value: 4, title: '4 Devices'}
+                        {value: 4, title: '4 Devices'},
+                        {value: 5, title: '5 Devices'},
+                        {value: 6, title: '6 Devices'},
+                        {value: 7, title: '7 Devices'},
+                        {value: 8, title: '8 Devices'}
                     ]
                 },
                 {
