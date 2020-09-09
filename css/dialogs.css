@@ -22,7 +22,6 @@
     height:                         50%;
 }
 .dialog-background .dialog-center .dialog-content {
-    overflow:                       hidden;
     transform:                      scale(0.5, 0.25);
     opacity:                        0;
     transition:                     transform 0.2s, opacity 0.2s;
@@ -32,12 +31,39 @@
     transform:                      scale(1, 1);
     opacity:                        1;
 }
-.dialog-background .dialog-center .dialog-content .dialog-content-image {
+.dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+    overflow:                       hidden;
+    pointer-events:                 none;
+}
+
+@-moz-keyframes backgroundSpin {
+    100% {
+        -moz-transform:             rotate(360deg);
+    }
+}
+@-webkit-keyframes backgroundSpin {
+    100% {
+        -webkit-transform:          rotate(360deg);
+    }
+}
+@keyframes backgroundSpin {
+    100% {
+        -webkit-transform:          rotate(360deg); transform: rotate(360deg);
+    }
+}
+.dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper .dialog-content-image {
     position:                       absolute;
     right:                          -192px;
     bottom:                         -256px;
     -webkit-user-select:            none;
-    pointer-events:                 none;
+    -webkit-animation:              backgroundSpin 180s linear infinite;
+    -moz-animation:                 backgroundSpin 180s linear infinite;
+    animation:                      backgroundSpin 180s linear infinite;
 }
 .dialog-background .dialog-center .dialog-content .buttons {
     position:                       absolute;

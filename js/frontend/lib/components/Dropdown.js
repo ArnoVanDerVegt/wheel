@@ -133,6 +133,10 @@ exports.Dropdown = class extends Component {
         element.addEventListener('keyup',     this.onValueKeyUp.bind(this));
     }
 
+    getValue() {
+        return this._value;
+    }
+
     setValue(value) {
         let title = '';
         let found = false;

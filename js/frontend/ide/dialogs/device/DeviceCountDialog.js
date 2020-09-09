@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const Radio      = require('../../../lib/components/Radio').Radio;
+const Dropdown   = require('../../../lib/components/Dropdown').Dropdown;
 
 exports.DeviceCountDialog = class extends Dialog {
     constructor(opts) {
@@ -15,13 +15,12 @@ exports.DeviceCountDialog = class extends Dialog {
             'Number of Powered Up devices',
             [
                 {
-                    ref:      this.setRef('radio'),
-                    type:     Radio,
-                    ui:       this._ui,
-                    uiId:     this._uiId,
-                    tabIndex: 1,
-                    value:    1,
-                    options: [
+                    type:      Dropdown,
+                    ref:       this.setRef('deviceCount'),
+                    ui:        this._ui,
+                    uiId:      this._uiId,
+                    tabIndex:  1,
+                    items: [
                         {value: 1, title: '1 Device'},
                         {value: 2, title: '2 Devices'},
                         {value: 3, title: '3 Devices'},
@@ -49,15 +48,13 @@ exports.DeviceCountDialog = class extends Dialog {
 
     onApply() {
         this.hide();
-        let deviceCount = this._refs.radio.getValue();
+        let deviceCount = this._refs.deviceCount.getValue();
         dispatcher.dispatch('PoweredUp.DeviceCount', deviceCount);
         dispatcher.dispatch('Settings.Set.DeviceCount', deviceCount);
     }
 
     onShow(deviceCount) {
         this.show();
-        this._refs.radio
-            .setValue(deviceCount)
-            .focus();
+        this._refs.deviceCount.setValue(deviceCount);
     }
 };

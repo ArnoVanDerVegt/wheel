@@ -228,9 +228,14 @@ exports.Dialog = class extends ComponentContainer {
                                 className: 'dialog-content',
                                 children: [
                                     {
-                                        type:      'img',
-                                        src:       this._getImage('images/logos/wheelWindow.svg'),
-                                        className: 'dialog-content-image'
+                                        className: 'dialog-content-image-wrapper',
+                                        children: [
+                                            {
+                                                type:      'img',
+                                                src:       this._getImage('images/logos/wheelWindow.svg'),
+                                                className: 'dialog-content-image'
+                                            }
+                                        ]
                                     }
                                 ].concat(children)
                             }
