@@ -405,7 +405,7 @@ describe(
                         assert.equal(settings.getValidatedDeviceCount(0), 1);
                         assert.equal(settings.getValidatedDeviceCount(1), 1);
                         assert.equal(settings.getValidatedDeviceCount(4), 4);
-                        assert.equal(settings.getValidatedDeviceCount(5), 1);
+                        assert.equal(settings.getValidatedDeviceCount(9), 1);
                     }
                 );
             }
