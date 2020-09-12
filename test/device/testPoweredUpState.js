@@ -2,10 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const PoweredUpState = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
-const LayerState     = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
-const dispatcher     = require('../../js/frontend/lib/dispatcher').dispatcher;
-const assert         = require('assert');
+const poweredUpModuleConstants = require('../../js/shared/vm/modules/poweredUpModuleConstants');
+const PoweredUpState           = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
+const LayerState               = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
+const dispatcher               = require('../../js/frontend/lib/dispatcher').dispatcher;
+const assert                   = require('assert');
 
 afterEach(() => {
     dispatcher.reset();
@@ -32,10 +33,14 @@ const getMockLayers = () => {
                 return result;
             };
         return {layers: [
-            getLayer(false),
-            getLayer(false),
-            getLayer(true),
-            getLayer(false)
+            getLayer(false), // 0
+            getLayer(false), // 1
+            getLayer(true),  // 2
+            getLayer(false), // 3
+            getLayer(false), // 4
+            getLayer(false), // 5
+            getLayer(false), // 6
+            getLayer(false)  // 7
         ]};
     };
 
@@ -116,7 +121,7 @@ describe(
             'Should get LayerState',
             () => {
                 let poweredUpState = new PoweredUpState({dataProvider: new MockDataProvider({})});
-                assert.equal(poweredUpState.getLayerState().length, 4);
+                assert.equal(poweredUpState.getLayerState().length, poweredUpModuleConstants.POWERED_UP_LAYER_COUNT);
             }
         );
         it(

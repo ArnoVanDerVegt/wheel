@@ -103,10 +103,12 @@ exports.LayerState = class extends BasicLayerState {
 
     setState(state) {
         let time = Date.now();
-        if (state.connected && ((state.uuid && (state.uuid !== this._uuid)) || (time > this._uuidTime + 500))) {
+        if ((state.uuid && (state.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
             this._uuid     = state.uuid || '';
             this._uuidTime = time;
-            this._device.emit(this._signalPrefix + this._layer + 'Uuid', this._uuid);
+            if (state.connected) {
+                this._device.emit(this._signalPrefix + this._layer + 'Uuid', this._uuid);
+            }
         }
         if (state.type && (state.type !== this._type)) {
             this._type = state.type;
