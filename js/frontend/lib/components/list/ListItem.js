@@ -7,6 +7,8 @@ const DOMNode = require('../../../lib/dom').DOMNode;
 exports.ListItem = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._ui       = opts.ui;
+        this._uiId     = opts.uiId;
         this._settings = opts.settings;
         this._item     = opts.item;
         this._list     = opts.list;
@@ -47,9 +49,10 @@ exports.ListItem = class extends DOMNode {
                 children: [
                     {
                         id:        this.setLinkElement.bind(this),
-                        type:      'a',
                         tabIndex:  this._tabIndex,
+                        type:      'a',
                         href:      '#',
+                        className: 'list-item-item',
                         children: [
                             item.image ?
                                 {

@@ -9,6 +9,7 @@ const dispatcher                      = require('../../lib/dispatcher').dispatch
 const Emitter                         = require('../../lib/Emitter').Emitter;
 const PluginsState                    = require('./PluginsState').PluginsState;
 const IncludeFilesState               = require('./IncludeFilesState').IncludeFilesState;
+const PoweredUpAutoConnectState       = require('./PoweredUpAutoConnectState').PoweredUpAutoConnectState;
 
 // How to handle an image when opened:
 const IMAGE_OPEN_VIEW                 = 'View';
@@ -65,15 +66,16 @@ exports.SettingsState = class extends Emitter {
     **/
     constructor(opts) {
         super(opts);
-        this._onLoad             = function() {};
-        this._os                 = {};
-        this._isPackaged         = !!opts.isPackaged;
-        this._version            = null;
-        this._getDataProvider    = opts.getDataProvider;
-        this._documentPath       = '';
-        this._systemDocumentPath = (opts.systemDocumentPath || '').split('\\').join('/');
-        this._plugins            = new PluginsState({settings: this});
-        this._includeFiles       = new IncludeFilesState({settings: this});
+        this._onLoad               = function() {};
+        this._os                   = {};
+        this._isPackaged           = !!opts.isPackaged;
+        this._version              = null;
+        this._getDataProvider      = opts.getDataProvider;
+        this._documentPath         = '';
+        this._systemDocumentPath   = (opts.systemDocumentPath || '').split('\\').join('/');
+        this._plugins              = new PluginsState({settings: this});
+        this._includeFiles         = new IncludeFilesState({settings: this});
+        this._poweredUpAutoConnect = new PoweredUpAutoConnectState({settings: this});
         // Update...
         this.onLoad({});
         dispatcher
@@ -87,6 +89,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
             .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
+            .on('Settings.Set.PoweredUpAutoConnect',        this, this._setPoweredUpAutoConnect)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
@@ -134,7 +137,6 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.Linter',                   this, this._toggleLinter)
             .on('Settings.Toggle.EV3AutoConnect',           this, this._toggleEV3AutoConnect)
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
-            .on('Settings.Toggle.PoweredUpAutoConnect',     this, this._togglePoweredUpAutoConnect)
             .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode)
             .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset);
     }
@@ -235,7 +237,7 @@ exports.SettingsState = class extends Emitter {
                 daisyChainMode:    this._ev3.daisyChainMode
             },
             poweredUp: {
-                autoConnect:       this._poweredUp.autoConnect,
+                autoConnect:       this._poweredUpAutoConnect.toJSON(),
                 deviceCount:       this._poweredUp.deviceCount
             },
             imageOpen: {
@@ -367,6 +369,10 @@ exports.SettingsState = class extends Emitter {
 
     getDeviceCount() {
         return this._poweredUp.deviceCount || 1;
+    }
+
+    getPoweredUpAutoConnect() {
+        return this._poweredUpAutoConnect;
     }
 
     getValidatedDeviceCount(deviceCount) {
@@ -546,6 +552,12 @@ exports.SettingsState = class extends Emitter {
 
     _setDeviceCount(deviceCount) {
         this._poweredUp.deviceCount = this.getValidatedDeviceCount(deviceCount || 1);
+        this._save();
+        this.emit('Settings.PoweredUp');
+    }
+
+    _setPoweredUpAutoConnect(autoConnect) {
+        this._poweredUp.autoConnect = autoConnect;
         this._save();
         this.emit('Settings.PoweredUp');
     }
@@ -829,12 +841,6 @@ exports.SettingsState = class extends Emitter {
         this._setSensorAutoReset(!this._sensorAutoReset);
     }
 
-    _togglePoweredUpAutoConnect() {
-        this._poweredUp.autoConnect = !this._poweredUp.autoConnect;
-        this._save();
-        this.emit('Settings.PoweredUp');
-    }
-
     _loadNewSettings(settings) {
         this
             .onLoad(settings)
@@ -935,6 +941,9 @@ exports.SettingsState = class extends Emitter {
             this._includeFiles.load(data.includeFiles);
         } else {
             this._includeFiles.loadDefaults();
+        }
+        if ('autoConnect' in this._poweredUp) {
+            this._poweredUpAutoConnect.load(this._poweredUp.autoConnect);
         }
         this._updateViewSettings();
         dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);

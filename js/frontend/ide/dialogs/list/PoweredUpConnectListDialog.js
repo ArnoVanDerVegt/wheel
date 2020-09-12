@@ -38,7 +38,9 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
         getDataProvider().getData(
             'post',
             'powered-up/device-list',
-            {},
+            {
+                autoConnect: this._settings.getPoweredUpAutoConnect().toJSON()
+            },
             (data) => {
                 try {
                     data = JSON.parse(data);
@@ -49,12 +51,16 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
                 if (data && ((data.changed !== this._changed) || (time > this._changeTime + 5000))) {
                     this._changed    = data.changed;
                     this._changeTime = time;
+                    let list = [];
                     data.list.forEach(function(item) {
-                        if (!item.title) {
-                            item.title = '??';
+                        if (item) {
+                            if (!item.title) {
+                                item.title = '??';
+                            }
+                            list.push(item);
                         }
                     });
-                    this.onDeviceList(data.list);
+                    this.onDeviceList(list);
                 }
                 this._scanTimeout = setTimeout(this.getList.bind(this), 200);
             }

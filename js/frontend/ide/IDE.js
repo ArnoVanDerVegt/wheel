@@ -2,72 +2,28 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Downloader                 = require('../ev3/Downloader');
-const platform                   = require('../lib/platform');
-const path                       = require('../lib/path');
-const DOMNode                    = require('../lib/dom').DOMNode;
-const Http                       = require('../lib/Http').Http;
-const dispatcher                 = require('../lib/dispatcher').dispatcher;
-const Button                     = require('../lib/components/Button').Button;
-const Hint                       = require('../lib/components/Hint').Hint;
-const FileTree                   = require('../lib/components/filetree/FileTree').FileTree;
-const getDataProvider            = require('../lib/dataprovider/dataProvider').getDataProvider;
-const Text                       = require('../program/output/Text').Text;
-const Rtf                        = require('../program/output/Rtf').Rtf;
-const Linter                     = require('../compiler/linter/Linter');
-const getImage                   = require('./data/images').getImage;
-const tabIndex                   = require('./tabIndex');
-const CompileAndRun              = require('./CompileAndRun').CompileAndRun;
-const EditorsState               = require('./editor/EditorsState').EditorsState;
-const Editor                     = require('./editor/Editor').Editor;
-const Console                    = require('./console/Console').Console;
-const SettingsState              = require('./settings/SettingsState');
-const Log                        = require('./console/Log');
-const MainMenu                   = require('./menu/MainMenu').MainMenu;
-const FileDialog                 = require('./dialogs/file/FileDialog').FileDialog;
-const FileNewDialog              = require('./dialogs/file/FileNewDialog').FileNewDialog;
-const FileRenameDialog           = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
-const ExploreDialog              = require('./dialogs/ExploreDialog').ExploreDialog;
-const EV3ControlDialog           = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
-const PoweredUpControlDialog     = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
-const ConfirmDialog              = require('./dialogs/ConfirmDialog').ConfirmDialog;
-const AlertDialog                = require('./dialogs/AlertDialog').AlertDialog;
-const SettingsDialog             = require('./dialogs/settings/SettingsDialog').SettingsDialog;
-const YesNoCancelDialog          = require('./dialogs/YesNoCancelDialog').YesNoCancelDialog;
-const ImageNewDialog             = require('./dialogs/image/ImageNewDialog').ImageNewDialog;
-const ImageResizeDialog          = require('./dialogs/image/ImageResizeDialog').ImageResizeDialog;
-const ImageLoadDialog            = require('./dialogs/image/ImageLoadDialog').ImageLoadDialog;
-const IconDialog                 = require('./dialogs/image/IconDialog').IconDialog;
-const FormNewDialog              = require('./dialogs/form/FormNewDialog').FormNewDialog;
-const FormSizeDialog             = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
-const ListDialog                 = require('./dialogs/list/ListDialog').ListDialog;
-const EV3ConnectListDialog       = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
-const PoweredUpConnectListDialog = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
-const StatisticsDialog           = require('./dialogs/statistics/StatisticsDialog').StatisticsDialog;
-const VolumeDialog               = require('./dialogs/VolumeDialog').VolumeDialog;
-const HelpDialog                 = require('./dialogs/help/HelpDialog').HelpDialog;
-const DaisyChainDialog           = require('./dialogs/DaisyChainDialog').DaisyChainDialog;
-const LicenseDialog              = require('./dialogs/LicenseDialog').LicenseDialog;
-const DirectoryNewDialog         = require('./dialogs/directory/DirectoryNewDialog').DirectoryNewDialog;
-const ReplaceDialog              = require('./dialogs/find/ReplaceDialog').ReplaceDialog;
-const FindInFilesDialog          = require('./dialogs/find/FindInFilesDialog').FindInFilesDialog;
-const DownloadDialog             = require('./dialogs/download/DownloadDialog').DownloadDialog;
-const GraphDialog                = require('./dialogs/GraphDialog').GraphDialog;
-const DeviceAliasDialog          = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
-const DevicePortAliasDialog      = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
-const DeviceCountDialog          = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
-const FormDialog                 = require('./dialogs/form/FormDialog').FormDialog;
-const FormGridSizeDialog         = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
-const ComponentFormContainer     = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
-const OpenFormDialog             = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
-const ConnectedDialog            = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
-const Simulator                  = require('./simulator/Simulator').Simulator;
-const Properties                 = require('./properties/Properties').Properties;
-const CompileAndRunOutput        = require('./CompileAndRunOutput').CompileAndRunOutput;
-const CompileAndRunInstall       = require('./CompileAndRunInstall').CompileAndRunInstall;
-const IDEAssistant               = require('./IDEAssistant').IDEAssistant;
+const Downloader             = require('../ev3/Downloader');
+const platform               = require('../lib/platform');
+const path                   = require('../lib/path');
+const Http                   = require('../lib/Http').Http;
+const dispatcher             = require('../lib/dispatcher').dispatcher;
+const Button                 = require('../lib/components/Button').Button;
+const getDataProvider        = require('../lib/dataprovider/dataProvider').getDataProvider;
+const Text                   = require('../program/output/Text').Text;
+const Rtf                    = require('../program/output/Rtf').Rtf;
+const Linter                 = require('../compiler/linter/Linter');
+const getImage               = require('./data/images').getImage;
+const tabIndex               = require('./tabIndex');
+const EditorsState           = require('./editor/EditorsState').EditorsState;
+const SettingsState          = require('./settings/SettingsState');
+const Log                    = require('./console/Log');
+const CompileAndRunOutput    = require('./CompileAndRunOutput').CompileAndRunOutput;
+const CompileAndRunInstall   = require('./CompileAndRunInstall').CompileAndRunInstall;
+const ComponentFormContainer = require('./dialogs/form/ComponentFormContainer').ComponentFormContainer;
+const IDEAssistant           = require('./IDEAssistant').IDEAssistant;
+const IDEDOM                 = require('./IDEDOM').IDEDOM;
 
-exports.IDE = class extends CompileAndRun {
+exports.IDE = class extends IDEDOM {
     constructor(opts) {
         super(opts);
         let ui       = opts.ui;
@@ -82,78 +38,15 @@ exports.IDE = class extends CompileAndRun {
         this._title                  = 'No program selected.';
         this._linter                 = null;
         this._editorsState           = new EditorsState();
-        new IDEAssistant({settings: settings});
+        this._ideAssistant           = new IDEAssistant({settings: settings, poweredUp: this._poweredUp});
         this
             .initDOM()
             .initGlobalRequire()
             .initEV3()
+            .initPoweredUp()
             .initDialogs()
             .initDispatcher()
             .initWindowResizeListener();
-    }
-
-    initDOM() {
-        new DOMNode({}).create(
-            document.body,
-            {
-                className: 'root',
-                children: [
-                    {
-                        type:          MainMenu,
-                        tabIndex:      tabIndex.MAIN_MENU,
-                        getImage:      getImage,
-                        ui:            this._ui,
-                        settings:      this._settings,
-                        platform:      this._settings.getOS().platform,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp
-                    },
-                    {
-                        type:          FileTree,
-                        uiId:          1,
-                        ui:            this._ui,
-                        settings:      this._settings,
-                        tabIndex:      tabIndex.FILE_TREE,
-                        tabIndexClose: tabIndex.CLOSE_FILE_TREE,
-                        getImage:      getImage
-                    },
-                    {
-                        id:            (editor) => { this._editor = editor; },
-                        type:          Editor,
-                        ui:            this._ui,
-                        settings:      this._settings,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp,
-                        editorsState:  this._editorsState
-                    },
-                    {
-                        id:            (simulator) => { this._simulator = simulator; },
-                        type:          Simulator,
-                        ui:            this._ui,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp,
-                        settings:      this._settings,
-                        onStop:        this.stop.bind(this)
-                    },
-                    {
-                        type:          Properties,
-                        ui:            this._ui,
-                        settings:      this._settings
-                    },
-                    {
-                        type:          Hint,
-                        ui:            this._ui,
-                        settings:      this._settings
-                    },
-                    {
-                        type:          Console,
-                        ui:            this._ui,
-                        settings:      this._settings
-                    }
-                ]
-            }
-        );
-        return this;
     }
 
     initGlobalRequire() {
@@ -191,6 +84,7 @@ exports.IDE = class extends CompileAndRun {
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)
             .on('Menu.EV3.StopAllMotors',             this, this.onMenuEV3StopAllMotors)
             .on('Menu.PoweredUp.Connect',             this, this.onMenuPoweredUpConnect)
+            .on('Menu.PoweredUp.AutoConnect',         this, this.onMenuPoweredUpAutoConnect)
             .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
             .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
@@ -217,6 +111,9 @@ exports.IDE = class extends CompileAndRun {
             .addEventListener('EV3.Connected',  this, this.onEV3Connected);
         dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
         this._poweredUp
+            .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
+            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
+        this._ideAssistant
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
         // Editor...
@@ -248,229 +145,6 @@ exports.IDE = class extends CompileAndRun {
         return this;
     }
 
-    onEditorChanged(info) {
-        dispatcher.dispatch('Button.Compile.Change', {disabled: !info.canCompile});
-    }
-
-    onCancelCompile() {
-        this._compiling = false;
-    }
-
-    onEditorsSetBreakpoint() {
-        this.setBreakpoint();
-    }
-
-    // Buttons
-    onButtonCompile() {
-        this._compileSilent = false;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath(), '');
-    }
-
-    onButtonContinue() {
-        this.onContinue('');
-    }
-
-    // File menu...
-    onMenuFileNewFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
-    }
-
-    onMenuFileNewProjectFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
-    }
-
-    onMenuFileNewImageFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, this._settings.getDocumentPath());
-    }
-
-    onMenuFileNewFormFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, this._settings.getDocumentPath());
-    }
-
-    onMenuFileOpen() {
-        dispatcher.dispatch('Dialog.File.Show', {mode: 'openFile', index: 'main'});
-    }
-
-    onMenuFileSetup() {
-        dispatcher.dispatch('Setup.Show', {canCancel: true});
-    }
-
-    // Edit menu...
-    onResize() {
-        let activeEditor = this._editor.getActiveEditor();
-        if (activeEditor && activeEditor.canResize && activeEditor.canResize()) {
-            dispatcher.dispatch('Dialog.Image.Resize.Show', activeEditor.getWidth(), activeEditor.getHeight());
-        }
-    }
-
-    // Find menu...
-    onFindFind() {
-        this.callOnActiveEditor('showFindToolbar');
-    }
-
-    onFindFindNext() {
-        this.callOnActiveEditor('findNext');
-    }
-
-    onFindReplace() {
-        this.callOnActiveEditor('showReplaceToolbar');
-    }
-
-    onFindReplaceNext() {
-        this.callOnActiveEditor('replaceNext');
-    }
-
-    // Compile menu...
-    onMenuCompileCompile() {
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
-    }
-
-    onMenuCompileCompileAndRun() {
-        this._compileAndRun = true;
-        this.compile(this._settings.getDocumentPath());
-    }
-
-    onMenuCompileCompileAndInstall() {
-    }
-
-    onMenuCompileStatistics() {
-        dispatcher.dispatch('Dialog.Statistics.Show', {program: this._program});
-    }
-
-    // EV3 Menu...
-    onMenuEV3Connect() {
-        dispatcher.dispatch('Dialog.ConnectEV3.Show');
-        this.onSelectDeviceEV3();
-    }
-
-    onMenuEV3DaisyChain() {
-        dispatcher.dispatch('Dialog.DaisyChain.Show', this._settings.getDaisyChainMode());
-    }
-
-    onMenuEV3DirectControl() {
-        dispatcher.dispatch(
-            'Dialog.EV3Control.Show',
-            {
-                deviceCount: this._settings.getDaisyChainMode()
-            }
-        );
-    }
-
-    onMenuEV3StopAllMotors() {
-        this._ev3.stopAllMotors();
-    }
-
-    // Powered Up Menu...
-    onMenuPoweredUpConnect() {
-        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-        this.onSelectDevicePoweredUp();
-    }
-
-    onMenuPoweredDeviceCount() {
-        dispatcher.dispatch('Dialog.DeviceCount.Show', this._settings.getDeviceCount());
-        this.onSelectDevicePoweredUp();
-    }
-
-    onMenuPoweredUpDirectControl() {
-        dispatcher.dispatch(
-            'Dialog.PoweredUpControl.Show',
-            {
-                deviceCount: this._settings.getDeviceCount() - 1,
-                withAlias:   true
-            }
-        );
-    }
-
-    onMenuDownloadInstallCompiledFiles() {
-        dispatcher.dispatch(
-            'Dialog.Download.Show',
-            {
-                filename:  this._projectFilename,
-                resources: this._preProcessor.getResources(),
-                program:   this._program
-            }
-        );
-    }
-
-    // About menu...
-    onMenuAboutVersion() {
-        let settings = this._settings;
-        settings.load(() => {
-            let os = settings.getOS();
-            let info;
-            if (platform.isNode()) {
-                info = 'Version: ' + settings.getVersion() + ', Platform: NodeJS';
-            } else if (platform.isElectron()) {
-                info = 'Version: ' + settings.getVersion() + ', Platform: ' + os.platform + ', Arch: ' + os.arch;
-            } else {
-                info = 'Version: ' + settings.getVersion() + ', Platform: ' + navigator.product;
-            }
-            dispatcher.dispatch(
-                'Dialog.Alert.Show',
-                {
-                    title: 'Wheel',
-                    image: 'images/logos/logo.png',
-                    lines: [info]
-                }
-            );
-        });
-    }
-
-    onMenuAboutWebsite() {
-        if (platform.isElectron()) {
-            const shell = require('electron').shell;
-            shell.openExternal('https://arnovandervegt.github.io/wheel/');
-        } else {
-            window.open('https://arnovandervegt.github.io/wheel/', 'wheel_github');
-        }
-    }
-
-    onMenuAboutReportIssue() {
-        if (platform.isElectron()) {
-            const shell = require('electron').shell;
-            shell.openExternal('https://github.com/ArnoVanDerVegt/wheel/issues');
-        } else {
-            window.open('https://github.com/ArnoVanDerVegt/wheel/issues', 'wheel_github');
-        }
-    }
-
-    onCompileSilent() {
-        // Compile silent, don't show any messages...
-        this._compileSilent = true;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
-    }
-
-    onShowForm(data) {
-        if (!this._vm || !this._vm.running()) {
-            return;
-        }
-        let componentFormContainer = this._componentFormContainer;
-        let formDialogs            = this._formDialogs;
-        let index                  = formDialogs.length;
-        formDialogs.push(new FormDialog({
-            ide:                    this,
-            settings:               this._settings,
-            ui:                     this._ui,
-            vm:                     this._vm,
-            program:                this._program,
-            componentFormContainer: componentFormContainer,
-            getDataProvider:        getDataProvider,
-            data:                   data,
-            onHide: function(uiId) {
-                componentFormContainer.removeWindow(uiId);
-                formDialogs[index] = null;
-            }
-        }).show());
-    }
-
-    callOnActiveEditor(func) {
-        let activeEditor = this._editor.getActiveEditor();
-        activeEditor && activeEditor[func] && activeEditor[func]();
-    }
-
     initEV3() {
         let settings = this._settings;
         if (settings.getEV3AutoConnect() && (settings.getDeviceName() !== '')) {
@@ -479,248 +153,25 @@ exports.IDE = class extends CompileAndRun {
         return this;
     }
 
-    initDialogs() {
-        if (!platform.isElectron()) {
-            new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
+    initPoweredUp() {
+        let poweredUpAutoConnect = this._settings.getPoweredUpAutoConnect().toJSON();
+        getDataProvider().getData(
+            'post',
+            'powered-up/discover',
+            {
+                autoConnect: poweredUpAutoConnect
+            },
+            (data) => {}
+        );
+        if (poweredUpAutoConnect.length) {
+            this._ideAssistant.autoConnectPoweredUp();
         }
-        new FileNewDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new FileRenameDialog          ({getImage: getImage, ui: this._ui});
-        new ConfirmDialog             ({getImage: getImage, ui: this._ui});
-        new AlertDialog               ({getImage: getImage, ui: this._ui});
-        new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui});
-        new EV3ControlDialog          ({getImage: getImage, ui: this._ui, device: this._ev3});
-        new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
-        new PoweredUpControlDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
-        new SettingsDialog            ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new YesNoCancelDialog         ({getImage: getImage, ui: this._ui});
-        new ImageNewDialog            ({getImage: getImage, ui: this._ui});
-        new ImageResizeDialog         ({getImage: getImage, ui: this._ui});
-        new ImageLoadDialog           ({getImage: getImage, ui: this._ui});
-        new IconDialog                ({getImage: getImage, ui: this._ui});
-        new FormNewDialog             ({getImage: getImage, ui: this._ui});
-        new FormSizeDialog            ({getImage: getImage, ui: this._ui});
-        new ListDialog                ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
-        new StatisticsDialog          ({getImage: getImage, ui: this._ui});
-        new VolumeDialog              ({getImage: getImage, ui: this._ui});
-        new DaisyChainDialog          ({getImage: getImage, ui: this._ui});
-        new LicenseDialog             ({getImage: getImage, ui: this._ui});
-        new DirectoryNewDialog        ({getImage: getImage, ui: this._ui});
-        new ReplaceDialog             ({getImage: getImage, ui: this._ui});
-        new FindInFilesDialog         ({getImage: getImage, ui: this._ui});
-        new GraphDialog               ({getImage: getImage, ui: this._ui});
-        new FormGridSizeDialog        ({getImage: getImage, ui: this._ui});
-        new DeviceAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DevicePortAliasDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DeviceCountDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new HelpDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new OpenFormDialog            ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ConnectedDialog           ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ExploreDialog             ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
-        new DownloadDialog            ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         return this;
     }
 
-    onMenuModuleLoad(opts) {
-        this._editor.add({
-            value:    this._exportsByUrl[opts.url],
-            filename: filename,
-            path:     'lib/' + opts.filename
-        });
-    }
-
-    onEV3Connecting() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to EV3...'
-            }
-        );
-    }
-
-    onEV3Connected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to EV3.'
-            }
-        );
-    }
-
-    onPoweredUpConnecting(hub) {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'
-            }
-        );
-    }
-
-    onPoweredUpConnected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connected to Powered Up.', className: 'ok'
-            }
-        );
-    }
-
-    onCreatedPreProcessor(preProcessor) {
-        this._editor.setPreProcessor(this._preProcessor);
-        dispatcher.dispatch('Console.PreProcessor', this._preProcessor);
-    }
-
-    onBreakpoint(vm, breakpoint) {
-        this._editor.onBreakpoint(breakpoint);
-        dispatcher.dispatch('Console.Breakpoint', breakpoint);
-    }
-
-    onCompilerError(opts) {
-        if (this._compileSilent) {
-            return;
-        }
-        dispatcher
-            .dispatch('Console.Error',                opts)
-            .dispatch('Compile.Failed',               this._projectFilename)
-            .dispatch('Settings.Set.Console.Visible', true);
-        this._compileAndRun = false;
-    }
-
-    onBeforeCompile() {
-        if (this._compileSilent) {
-            return;
-        }
-        this._editor.hideBreakpoint();
-        dispatcher
-            .dispatch('Button.Run.Change', {disabled: true})
-            .dispatch('Compile.Start',     this._projectFilename)
-            .dispatch('Console.Clear');
-    }
-
-    onGetSource(callback) {
-        this._editor.getValue(
-            (info) => {
-                this._projectFilename = info.filename;
-                this._source          = info.source;
-                callback();
-            },
-            this._compileSilent
-        );
-    }
-
-    onCompileSuccess(program, lineCount) {
-        if (this._compileSilent) {
-            return;
-        }
-        if (this._linter) {
-            this.showLinterMessages();
-        }
-        dispatcher
-            .dispatch('Compile.Success',   this._projectFilename)
-            .dispatch('Button.Run.Change', {disabled: false});
-        let leadingZero     = function(v) { return ('00' + v).substr(-2); };
-        let date            = new Date();
-        let time            = leadingZero(date.getHours()) + ':' +
-                                leadingZero(date.getMinutes()) + ':' +
-                                leadingZero(date.getSeconds());
-        let pathAndFilename = path.getPathAndFilename(this._projectFilename);
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: time + ' <i>' + pathAndFilename.filename + '</i> ' +
-                    'Compiled ' + lineCount + ' lines, ' +
-                    'generated ' + program.getLength() + ' commands.'
-            }
-        );
-        if (this._settings.getCreateVMTextOutput()) {
-            this.showOutput(program);
-        }
-        this._compileAndRunOutput
-            .setProjectFilename(this._projectFilename)
-            .setPreProcessor(this._preProcessor)
-            .setSimulatorModules(this._simulatorModules)
-            .saveOutput(new Rtf(program).getOutput());
-        if (this._compileAndRun) {
-            this._compileAndRun = false;
-            setTimeout(this.run.bind(this), 200);
-        }
-        this._compileAndRunInstall
-            .setEV3(this._ev3)
-            .setProgram(this._program)
-            .setPreProcessor(this._preProcessor)
-            .setProjectFilename(this._projectFilename)
-            .installProgram();
-    }
-
-    onBeforeRun(program) {
-        let settings = this._settings;
-        if (settings.getShowSimulatorOnRun() && !settings.getShowSimulator()) {
-            dispatcher.dispatch('Settings.Toggle.ShowSimulator');
-        }
-        program.setBreakpoints(this._editor.getBreakpoints());
-    }
-
-    onStop() {
-        if (this._vm) {
-            this._vm.stop();
-            dispatcher.dispatch('Button.Run.Change', {value: 'Run'});
-            this.simulatorLoaded();
-        }
-    }
-
-    onVMStop() {
-        // Close all open windows when the VM stops...
-        let formDialogs = this._formDialogs;
-        for (let i = 0; i < formDialogs.length; i++) {
-            if (formDialogs[i]) {
-                formDialogs[i].hide();
-                formDialogs[i] = null;
-            }
-        }
-    }
-
-    onContinue() {
-        if (this._vm.getBreakpoint()) {
-            this._editor.hideBreakpoint();
-            if (!this._changedWhileRunning) {
-                this._program.setBreakpoints(this._editor.getBreakpoints());
-            }
-            this._vm.continueAfterBreakpoint();
-        }
-    }
-
-    onSaveAs() {
+    callOnActiveEditor(func) {
         let activeEditor = this._editor.getActiveEditor();
-        if (!activeEditor) {
-            return;
-        }
-        dispatcher.dispatch(
-            'Dialog.File.Show',
-            {
-                mode:     'saveFile',
-                path:     activeEditor.getPath(),
-                filename: activeEditor.getFilename()
-            }
-        );
-    }
-
-    onExit() {
-        let ipcRenderer = require('electron').ipcRenderer;
-        ipcRenderer.send('postMessage', {command: 'quit'});
-    }
-
-    onEditorSetBreakpoint() {
-        if (this._vm && this._vm.getBreakpoint() && !this._changedWhileRunning) {
-            this._program.setBreakpoints(this._editor.getBreakpoints());
-        }
-    }
-
-    onEditorsChanged() {
-        this.setChangedWhileRunning(true);
+        activeEditor && activeEditor[func] && activeEditor[func]();
     }
 
     showLinterMessages() {

@@ -29,6 +29,7 @@ exports.Editors = class extends DOMNode {
         this._settings     = opts.settings;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
+        this._ideAssistant = opts.ideAssistant;
         this._editorsState = opts.editorsState;
         this._soundLoader  = new SoundLoader();
         this._imageLoader  = new ImageLoader();
@@ -109,8 +110,8 @@ exports.Editors = class extends DOMNode {
                                 className: 'source-wrapper',
                                 children: [
                                     {
-                                        ref:       this.setRef('homeScreen'),
                                         type:      HomeScreen,
+                                        ref:       this.setRef('homeScreen'),
                                         ui:        this._ui,
                                         settings:  this._settings,
                                         ev3:       this._ev3,

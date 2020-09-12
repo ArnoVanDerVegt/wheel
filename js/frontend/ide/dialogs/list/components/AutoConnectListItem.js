@@ -2,10 +2,12 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode  = require('../../../../lib/dom').DOMNode;
-const ListItem = require('../../../../lib/components/list/ListItem').ListItem;
+const DOMNode    = require('../../../../lib/dom').DOMNode;
+const dispatcher = require('../../../../lib/dispatcher').dispatcher;
+const ListItem   = require('../../../../lib/components/list/ListItem').ListItem;
+const Checkbox   = require('../../../../lib/components/Checkbox').Checkbox;
 
-exports.ListItem = class extends ListItem {
+exports.AutoConnectListItem = class extends ListItem {
     initDOM(parentNode) {
         let item = this._item;
         if (typeof item === 'string') {
@@ -27,18 +29,6 @@ exports.ListItem = class extends ListItem {
             );
             return;
         }
-        let stateColor;
-        let stateText;
-        if (item.connecting) {
-            stateColor = 'yellow';
-            stateText  = 'Connecting';
-        } else if (item.connected) {
-            stateColor = 'green';
-            stateText  = 'Connected';
-        } else {
-            stateColor = 'red';
-            stateText  = 'Disconnected';
-        }
         this.create(
             parentNode,
             {
@@ -46,18 +36,20 @@ exports.ListItem = class extends ListItem {
                 className: 'list-item',
                 children: [
                     {
-                        id:        this.setLinkElement.bind(this),
-                        tabIndex:  this._tabIndex,
-                        type:      'a',
-                        href:      '#',
                         className: 'list-item-item',
                         children: [
-                            item.image ?
-                                {
-                                    type:      'img',
-                                    src:       item.image
-                                } :
-                                null,
+                            {
+                                className: 'item-number',
+                                innerHTML: (item.index + 1) + ''
+                            },
+                            {
+                                type:     Checkbox,
+                                ui:       this._ui,
+                                uiId:     this._uiId,
+                                tabIndex: this._tabIndex + 1,
+                                onChange: this.onChangeAutoConnect.bind(this, item),
+                                checked:  this.getAutoConnect(item)
+                            },
                             item.label ?
                                 {
                                     type:      'span',
@@ -79,15 +71,22 @@ exports.ListItem = class extends ListItem {
                                     innerHTML: this._settings.getDeviceAlias(item.subTitle) + ' (' + item.subTitle + ')',
                                     title:     item.subTitle
                                 } :
-                                null,
-                            {
-                                className: 'item-state ' + stateColor,
-                                innerHTML: stateText
-                            }
+                                null
                         ]
                     }
                 ]
             }
+        );
+    }
+
+    getAutoConnect(item) {
+        return this._settings.getPoweredUpAutoConnect().getAutoConnect(item.index, item.uuid);
+    }
+
+    onChangeAutoConnect(item, value) {
+        dispatcher.dispatch(
+            value ? 'Settings.Set.PoweredUpAutoLoad' : 'Settings.Remove.PoweredUpAutoLoad',
+            {index: item.index, uuid: item.uuid}
         );
     }
 };

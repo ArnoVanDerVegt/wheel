@@ -194,6 +194,8 @@ exports.Plugin = class extends Plugin {
         let device = this.getDeviceStateByLayer(layer);
         if (device && device.setType) {
             device.setType(type);
+        } else {
+            this._uuidElement.innerHTML = '';
         }
         if (layer === this._simulator.getLayer()) {
             this._hub.hide();

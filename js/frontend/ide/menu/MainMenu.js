@@ -232,6 +232,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Menu.PoweredUp.AutoConnect'},
                 {title: '-'},
                 {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
                 {title: '-'},
@@ -243,7 +244,8 @@ exports.MainMenu = class extends MainMenu {
         let available   = platform.isElectron() || platform.isNode() || window.PoweredUP.isWebBluetooth;
         menuOptions[0].setEnabled(available);  // Connect
         menuOptions[1].setEnabled(false);      // Disconnect
-        menuOptions[3].setEnabled(false);      // Direct control
+        menuOptions[2].setEnabled(available);  // Autoconnect
+        menuOptions[4].setEnabled(false);      // Direct control
         return this;
     }
 
@@ -376,8 +378,9 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[3].setEnabled(connected);                               // PoweredUp Direct control
-        menuOptions[4].setEnabled(connected);                               // Stop all motors
+        menuOptions[2].setEnabled(connected);                               // Autoconnect
+        menuOptions[4].setEnabled(connected);                               // PoweredUp Direct control
+        menuOptions[5].setEnabled(connected);                               // Stop all motors
         return this;
     }
 

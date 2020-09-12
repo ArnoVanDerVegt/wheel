@@ -18,15 +18,27 @@ const getPoweredUp = function() {
     };
 
 exports.poweredUpRoutes = {
+    discover: function(req, res) {
+        getPoweredUp().discover(req.body.autoConnect || []);
+        res.send(JSON.stringify({}));
+    },
+
     scan: function(req, res) {
         getPoweredUp().scan();
         res.send(JSON.stringify({}));
     },
 
     deviceList: function(req, res) {
-        let poweredUp = getPoweredUp();
+        let poweredUp   = getPoweredUp();
+        let autoConnect = req.body.autoConnect || [];
         poweredUp.getHubs();
-        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getDeviceList()}));
+        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getDeviceList(autoConnect)}));
+    },
+
+    connectedDeviceList(req, res) {
+        let poweredUp   = getPoweredUp();
+        let autoConnect = req.body.autoConnect || [];
+        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getConnectedDeviceList(autoConnect)}));
     },
 
     connect: function(req, res) {

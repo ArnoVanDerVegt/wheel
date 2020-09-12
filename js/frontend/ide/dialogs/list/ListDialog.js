@@ -37,17 +37,19 @@ exports.ListDialog = class extends Dialog {
                 {
                     className: 'buttons',
                     children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 256,
-                            value:    opts.applyTitle || 'Ok',
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
+                        (opts.applyTitle === null) ?
+                            null :
+                            this.addButton({
+                                ref:      this.setRef('buttonApply'),
+                                tabIndex: 256,
+                                value:    opts.applyTitle || 'Ok',
+                                disabled: true,
+                                onClick:  this.onApply.bind(this)
+                            }),
                         this.addButton({
                             ref:      this.setRef('buttonCancel'),
                             tabIndex: 257,
-                            value:    'Cancel',
+                            value:    opts.cancelTitle || 'Cancel',
                             color:    'dark-green',
                             onClick:  this.hide.bind(this)
                         })

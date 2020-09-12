@@ -12,12 +12,11 @@ exports.BasicDeviceState = class extends Emitter {
         this._connected  = false;
         this._queue      = [];
         this._layerCount = opts.layerCount || 0;
-        this._layerState = [
-            new opts.LayerState({layer: 0, device: this}),
-            new opts.LayerState({layer: 1, device: this}),
-            new opts.LayerState({layer: 2, device: this}),
-            new opts.LayerState({layer: 3, device: this})
-        ];
+        this._layerState = [];
+        let maxLayerCount = ('maxLayerCount' in opts) ? opts.maxLayerCount : 4;
+        for (let i = 0; i < maxLayerCount; i++) {
+            this._layerState.push(new opts.LayerState({layer: i, device: this}));
+        }
     }
 
     getQueueLength() {
