@@ -111,6 +111,7 @@ exports.MainMenu = class extends MainMenu {
             .initCompileMenu()
             .initViewMenu()
             .initSimulatorMenu()
+            .initToolsMenu()
             .initAboutMenu()
             .onUpdateViewMenu()
             .onUpdateSimulatorMenu()
@@ -319,6 +320,17 @@ exports.MainMenu = class extends MainMenu {
             width:     '256px',
             withCheck: true,
             items:     items
+        });
+        return this;
+    }
+
+    initToolsMenu() {
+        this._toolsMenu = this.addMenu({
+            title: '^Tools',
+            width: '256px',
+            items: [
+                {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'}
+            ]
         });
         return this;
     }

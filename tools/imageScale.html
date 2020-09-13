@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- http://127.0.0.1:3001/tools/imageScale.html -->
+    <meta charset="utf-8"/>
+    <title>Wheel</title>
+    <style>
+        body {
+            background-color:   #808080;
+        }
+        .row {
+            float:              left;
+            width:              100%;
+            padding:            16px;
+        }
+        .color-box,
+        .sensor-box,
+        .dark-box,
+        .light-box {
+            float:              left;
+            min-height:         64px;
+            padding:            16px;
+            margin-right:       16px;
+        }
+        .color-box {
+            background-color:   #3498DB;
+        }
+        .sensor-box {
+            background-color:   #D0D4D8;
+        }
+        .dark-box {
+            background-color:   #323538;
+        }
+        .light-box {
+            background-color:   #FFFFFF;
+        }
+        .label {
+            float:              left;
+            color:              #FFFFFF;
+            font-family:        Verdana;
+        }
+    </style>
+</head>
+
+<body>
+
+<script>
+const images = [
+        {src: 'images/w1.png',      dest: 'assets/images/gears/w1.png',              color: '#E74C3C', forceWidth: 64},
+        {src: 'images/g8.png',      dest: 'assets/images/gears/g8.png',              color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g12a.png',    dest: 'assets/images/gears/g12a.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g12b.png',    dest: 'assets/images/gears/g12b.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g14.png',     dest: 'assets/images/gears/g14.png',             color: '#F1C40F', forceWidth: 64},
+        {src: 'images/g16.png',     dest: 'assets/images/gears/g16.png',             color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g20a.png',    dest: 'assets/images/gears/g20a.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g20b.png',    dest: 'assets/images/gears/g20b.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g24.png',     dest: 'assets/images/gears/g24.png',             color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g28a.png',    dest: 'assets/images/gears/g28a.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g28b.png',    dest: 'assets/images/gears/g28b.png',            color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g36.png',     dest: 'assets/images/gears/g36.png',             color: '#2ECC71', forceWidth: 64},
+        {src: 'images/g40.png',     dest: 'assets/images/gears/g40.png',             color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g56a.png',    dest: 'assets/images/gears/g56a.png',            color: '#9B59B6', forceWidth: 64},
+        {src: 'images/g56b.png',    dest: 'assets/images/gears/g56b.png',            color: '#9B59B6', forceWidth: 64},
+        {src: 'images/d16.png',     dest: 'assets/images/gears/d16.png',             color: '#9B59B6', forceWidth: 64},
+        {src: 'images/d24.png',     dest: 'assets/images/gears/d24.png',             color: '#9B59B6', forceWidth: 64},
+        {src: 'images/d28a.png',    dest: 'assets/images/gears/d28a.png',            color: '#F1C40F', forceWidth: 64},
+        {src: 'images/d28b.png',    dest: 'assets/images/gears/d28b.png',            color: '#2ECC71', forceWidth: 64},
+        {src: 'images/m1.png',      dest: 'assets/images/poweredup/motorM.png',      trans: true,      forceWidth: 64},
+        {src: 'images/m5.png',      dest: 'assets/images/poweredup/motor.png',       trans: true,      forceWidth: 64},
+        {src: 'images/m6.png',      dest: 'assets/images/poweredup/train.png',       trans: true,      forceWidth: 64},
+        {src: 'images/h2.png',      dest: 'assets/images/poweredup/moveHub.png',     trans: true,      forceWidth: 64},
+        {src: 'images/s10.png',     dest: 'assets/images/poweredup/lightSensor.png', trans: true,      forceWidth: 64},
+        {src: 'images/m2.png',      dest: 'assets/images/ev3/motorLarge.png',        trans: true,      forceWidth: 64},
+        {src: 'images/m4.png',      dest: 'assets/images/ev3/motorMedium.png',       trans: true,      forceWidth: 64},
+        {src: 'images/s2.png',      dest: 'assets/images/ev3/ultrasonic.png',        trans: true,      forceWidth: 64},
+        {src: 'images/s9.png',      dest: 'assets/images/ev3/touch.png',             trans: true,      forceWidth: 64},
+        {src: 'images/s8.png',      dest: 'assets/images/ev3/microphone.png',        trans: true,      forceWidth: 64},
+        {src: 'images/s6.png',      dest: 'assets/images/ev3/gyro.png',              trans: true,      forceWidth: 64},
+        {src: 'images/s4.png',      dest: 'assets/images/ev3/infrared.png',          trans: true,      forceWidth: 64},
+        {src: 'images/s5.png',      dest: 'assets/images/ev3/color.png',             trans: true,      forceWidth: 64},
+        {src: 'images/m3.png',                                                       trans: true,      forceWidth: 64},
+        {src: 'images/s1.png',                                                       trans: true,      forceWidth: 64},
+        {src: 'images/s3.png',                                                       trans: true,      forceWidth: 64},
+        {src: 'images/s7.png',                                                       trans: true,      forceWidth: 64},
+        {src: 'images/remote.png',                                                   trans: true,      forceWidth: 64},
+        {src: 'images/h1.png',                                                       trans: true,      forceWidth: 64},
+        {src: 'images/h3.png',                                                       trans: true,      forceWidth: 64}
+        // Waiting for studio to provide these...
+        // {src: 'images/m7.png',      trans: true,      forceWidth: 64},
+        // {src: 'images/m8.png',      trans: true,      forceWidth: 64},
+    ];
+
+let canvas        = document.createElement('canvas');
+let canvasContext = canvas.getContext('2d');
+canvas.width  = 800;
+canvas.height = 800;
+
+let buffer        = document.createElement('canvas');
+let bufferContext = buffer.getContext('2d');
+buffer.width  = 800;
+buffer.height = 800;
+
+function processImage(image, opts, callback) {
+    bufferContext.drawImage(image, 0, 0);
+
+    let width     = image.width;
+    let height    = image.height;
+    let imageData = bufferContext.getImageData(0, 0, width, height);
+    let data      = imageData.data;
+    let red       = data[0];
+    let grn       = data[1];
+    let blu       = data[2];
+    let minX      = 0;
+    let maxX      = width;
+    let minY      = 0;
+    let maxY      = height;
+    let found     = false;
+    for (let x = 0; (x < width) && !found; x++) {
+        for (let y = 0; (y < height) && !found; y++) {
+            let offset = y * 4 * width + x * 4;
+            if ((data[offset] !== red) && (data[offset + 1] !== grn) && (data[offset + 2] !== blu)) {
+                minX  = x;
+                found = true;
+            }
+        }
+    }
+    found = false;
+    for (let x = width - 2; (x >= 0) && !found; x--) {
+        for (let y = 0; (y < height) && !found; y++) {
+            let offset = y * 4 * width + x * 4;
+            if ((data[offset] !== red) && (data[offset + 1] !== grn) && (data[offset + 2] !== blu)) {
+                maxX  = x;
+                found = true;
+            }
+        }
+    }
+    found = false;
+    for (let y = 0; (y < height) && !found; y++) {
+        for (let x = 0; (x < width) && !found; x++) {
+            let offset = y * 4 * width + x * 4;
+            if ((data[offset] !== red) && (data[offset + 1] !== grn) && (data[offset + 2] !== blu)) {
+                minY  = y;
+                found = true;
+            }
+        }
+    }
+    found = false;
+    for (let y = height - 1; (y >= 0) && !found; y--) {
+        for (let x = 0; (x < width) && !found; x++) {
+            let offset = y * 4 * width + x * 4;
+            if ((data[offset] !== red) && (data[offset + 1] !== grn) && (data[offset + 2] !== blu)) {
+                maxY  = y;
+                found = true;
+            }
+        }
+    }
+
+    if (opts.trans) {
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                let offset = y * 4 * width + x * 4;
+                if ((data[offset] === red) && (data[offset + 1] === grn) && (data[offset + 2] === blu)) {
+                    data[offset + 3] = 0;
+                }
+            }
+        }
+        bufferContext.putImageData(imageData, 0, 0);
+    }
+
+    let srcWidth   = maxX - minX;
+    let srcHeight  = maxY - minY;
+    let destWidth  = opts.forceWidth ? opts.forceWidth : Math.floor(srcWidth / 8) * 8;
+    let destHeight = Math.round(destWidth / srcWidth * srcHeight);
+
+    if (opts.forceWidth) {
+        if (destHeight > opts.forceWidth) {
+            destWidth  = destWidth / (destHeight / opts.forceWidth);
+            destHeight = opts.forceWidth;
+        }
+    }
+
+    if (opts.forceWidth) {
+        canvas.width = Math.max(destHeight, destWidth);
+    } else {
+        canvas.width = destWidth;
+    }
+    canvas.height = Math.max(destHeight, destWidth);
+    if (opts.color) {
+        canvasContext.fillStyle = opts.color;
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    canvasContext.drawImage(
+        buffer,
+        minX, minY, srcWidth, srcHeight,
+        (canvas.width - destWidth) / 2, (canvas.height - destHeight) / 2, destWidth, destHeight
+    );
+
+    alt = opts.dest || '';
+    let j = alt.lastIndexOf('/');
+    if (j !== -1) {
+        alt = alt.substr(j + 1 - alt.length);
+    }
+
+    let row     = document.createElement('div');
+    let output1 = new Image();
+    let output2 = new Image();
+    let output3 = new Image();
+    output1.src   = canvas.toDataURL('image/png');
+    output1.alt   = alt;
+    output2.src   = canvas.toDataURL('image/png');
+    output2.alt   = alt;
+    output3.src   = canvas.toDataURL('image/png');
+    output3.alt   = alt;
+    row.className = 'row';
+
+    if (opts.color) {
+        let colorBox = document.createElement('div');
+        colorBox.className             = 'color-box';
+        colorBox.style.backgroundColor = opts.color;
+        colorBox.appendChild(output1);
+        row.appendChild(colorBox);
+    } else {
+        let lightBox = document.createElement('div');
+        lightBox.className = 'light-box';
+        lightBox.appendChild(output1);
+        row.appendChild(lightBox);
+
+        let sensorBox = document.createElement('div');
+        sensorBox.className = 'sensor-box';
+        sensorBox.appendChild(output2);
+        row.appendChild(sensorBox);
+
+        let darkBox = document.createElement('div');
+        darkBox.className = 'dark-box';
+        darkBox.appendChild(output3);
+        row.appendChild(darkBox);
+    }
+
+    let label = document.createElement('div');
+    label.innerHTML = opts.src + (opts.dest ? ('<br/>' + opts.dest) : '');
+    label.className = 'label';
+    row.appendChild(label);
+
+    document.body.appendChild(row);
+    callback();
+}
+
+function loadImage(opts, callback) {
+    let image = new Image();
+    image.addEventListener('load', processImage.bind(this, image, opts, callback));
+    image.src = opts.src;
+}
+
+let imageIndex = 0;
+function updateImage() {
+    if (imageIndex < images.length) {
+        loadImage(images[imageIndex++], updateImage);
+    }
+}
+
+updateImage();
+</script>
+
+</body>
+
+</html>

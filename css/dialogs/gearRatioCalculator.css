@@ -1,0 +1,159 @@
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content {
+    margin:                         0 auto 0 auto;
+    margin-top:                     -300px;
+    width:                          680px;
+    height:                         600px;
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .inspired-by {
+    float:                          right;
+    font-size:                      10px;
+    opacity:                        0.5;
+    margin-top:                     16px;
+    height:                         16px;
+    line-height:                    16px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-settings,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
+    position:                       absolute;
+    left:                           32px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
+    position:                       absolute;
+    top:                            376px;
+    height:                         136px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
+    width:                          calc(100% - 64px);
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list {
+    height:                         256px;
+    top:                            64px;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    padding:                        8px;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result .gear-overview {
+    float:                          right;
+    width:                          calc(100% - 202px);
+    height:                         100%;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    font-size:                      11px;
+    padding:                        4px;
+    overflow:                       hidden;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list-content {
+    float:                          left;
+    width:                          100%;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item {
+    float:                          left;
+    position:                       relative;
+    width:                          100%;
+    height:                         72px;
+    border-radius:                  2px;
+    border:                         1px solid transparent;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper {
+    float:                          left;
+    position:                       relative;
+    width:                          62px;
+    height:                         62px;
+    margin:                         4px 0 0 4px;
+    border-radius:                  2px;
+    border:                         var(--ui-border1);
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper .value {
+    position:                       absolute;
+    left:                           34px;
+    top:                            34px;
+    width:                          22px;
+    height:                         22px;
+    border-radius:                  12px;
+    border:                         var(--ui-border1);
+    background-color:               var(--ui-background1);
+    color:                          var(--ui-text1);
+    line-height:                    20px;
+    text-align:                     center;
+    font-size:                      12px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper img {
+    float:                          left;
+    margin:                         4px 0 0 4px;
+    width:                          50px;
+    height:                         50px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-info {
+    float:                          left;
+    width:                          calc(100% - 140px);
+    margin:                         4px 0 0 8px;
+    color:                          var(--ui-text1);
+    font-size:                      11px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .close-button {
+    position:                       absolute;
+    right:                          4px;
+    top:                            4px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item.selected .gear-info {
+    color:                          var(--files-selected-color);
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item.selected {
+    background-color:               var(--files-selected-background);
+    border:                         var(--files-selected-border);
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item a.item {
+    position:                       absolute;
+    left:                           -1px;
+    top:                            -1px;
+    width:                          calc(100% + 2px);
+    height:                         calc(100% + 2px);
+    border-radius:                  2px;
+    border:                         1px solid transparent;
+    outline:                        none;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item a.item:focus {
+    border:                         var(--focus-border-dotted);
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-settings {
+    top:                            324px;
+    width:                          calc(100% - 32px);
+    height:                         48px;
+    line-height:                    28px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .dropdown,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-settings .button {
+    float:                          left;
+    margin-right:                   8px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .dropdown {
+    width:                          194px;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-settings .button {
+    height:                         48px;
+    width:                          102px;
+}
+.dialog-background.gear-ratio-calculator-dialog img.dialog-content-image {
+    display:                        block;
+}
+.dialog-background.gear-ratio-calculator-dialog.with-image .dialog-center .dialog-content .gear-ratio-calculator-text {
+    margin-left:                    80px;
+    width:                          504px;
+}
+.dialog-background.gear-ratio-calculator-dialog.with-image .dialog-center .dialog-content .buttons input[type="button"].button {
+    float:                          right;
+}
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content a,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content a:visited,
+.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content a:hover {
+    color:                          #3498DB;
+}

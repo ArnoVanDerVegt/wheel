@@ -40,6 +40,7 @@ const DeviceCountDialog              = require('./dialogs/device/DeviceCountDial
 const FormGridSizeDialog             = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const OpenFormDialog                 = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
+const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalculatorDialog').GearRatioCalculatorDialog;
 const IDEEvents                      = require('./IDEEvents').IDEEvents;
 
 exports.IDEDialogs = class extends IDEEvents {
@@ -82,6 +83,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new ConnectedDialog               ({getImage: getImage, ui: this._ui, settings: this._settings});
         new ExploreDialog                 ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new DownloadDialog                ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
+        new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         return this;
     }
 };

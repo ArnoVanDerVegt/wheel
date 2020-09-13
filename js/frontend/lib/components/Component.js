@@ -155,6 +155,11 @@ exports.Component = class extends DOMNode {
         return this;
     }
 
+    setTabIndex(tabIndex) {
+        this._tabIndex = tabIndex;
+        this._element.tabIndex = tabIndex;
+    }
+
     setHidden(hidden) {
         this._hidden                = hidden;
         this._element.style.display = hidden ? 'none' : 'block';
@@ -172,6 +177,7 @@ exports.Component = class extends DOMNode {
 
     setElement(element) {
         this._element = element;
+        element.disabled = this._disabled ? 'disabled' : '';
         element.addEventListener('click',     this.onClick.bind(this));
         element.addEventListener('focus',     this.onFocus.bind(this));
         element.addEventListener('blur',      this.onBlur.bind(this));
