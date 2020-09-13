@@ -37,7 +37,6 @@ const GraphDialog                    = require('./dialogs/GraphDialog').GraphDia
 const DeviceAliasDialog              = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
 const DevicePortAliasDialog          = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog              = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
-const FormDialog                     = require('./dialogs/form/FormDialog').FormDialog;
 const FormGridSizeDialog             = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const OpenFormDialog                 = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;

@@ -2,9 +2,13 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher    = require('../lib/dispatcher').dispatcher;
-const SettingsState = require('./settings/SettingsState');
-const CompileAndRun = require('./CompileAndRun').CompileAndRun;
+const dispatcher      = require('../lib/dispatcher').dispatcher;
+const path            = require('../lib/path');
+const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
+const Rtf             = require('../program/output/Rtf').Rtf;
+const SettingsState   = require('./settings/SettingsState');
+const CompileAndRun   = require('./CompileAndRun').CompileAndRun;
+const FormDialog      = require('./dialogs/form/FormDialog').FormDialog;
 
 exports.IDEEvents = class extends CompileAndRun {
     onEditorChanged(info) {
