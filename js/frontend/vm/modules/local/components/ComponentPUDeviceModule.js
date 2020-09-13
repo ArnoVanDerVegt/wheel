@@ -14,7 +14,7 @@ exports.ComponentPUDeviceModule = class extends VMModule {
         let puDevice = null;
         let opts     = {};
         switch (commandId) {
-            case componentPUDeviceModuleConstants.PU_DEVICE_SET_TYPE:       property = 'type';      break;
+            case componentPUDeviceModuleConstants.PU_DEVICE_SET_TYPE:       property = 'device';    break;
             case componentPUDeviceModuleConstants.PU_DEVICE_SET_PORT:       property = 'port';      break;
             case componentPUDeviceModuleConstants.PU_DEVICE_SET_SPEED:      property = 'speed';     break;
             case componentPUDeviceModuleConstants.PU_DEVICE_SET_VALUE:      property = 'value';     break;

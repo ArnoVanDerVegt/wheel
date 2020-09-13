@@ -14,11 +14,11 @@ exports.ComponentEV3MotorModule = class extends VMModule {
         let ev3Motor = null;
         let opts     = {};
         switch (commandId) {
-            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_TYPE:  property = 'type';  break;
-            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_PORT:  property = 'port';  break;
-            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_SPEED: property = 'speed'; break;
-            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_VALUE: property = 'value'; break;
-            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_READY: property = 'ready'; break;
+            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_TYPE:  property = 'device'; break;
+            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_PORT:  property = 'port';   break;
+            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_SPEED: property = 'speed';  break;
+            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_VALUE: property = 'value';  break;
+            case componentEV3MotorModuleConstants.EV3_MOTOR_SET_READY: property = 'ready';  break;
         }
         if (property !== '') {
             ev3Motor       = vmData.getRecordFromSrcOffset(['window', 'component', property]);
