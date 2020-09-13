@@ -14,10 +14,10 @@ const LIB_FILENAME = 'assets/template/lib/components/ev3Motor.whl';
 describe(
     'Test EV3Motor component module',
     () => {
-        testComponentCall(it, {message: 'Should set type',  moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setType',  property: 'type',  type: 'number'});
-        testComponentCall(it, {message: 'Should set port',  moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setPort',  property: 'port',  type: 'number'});
-        testComponentCall(it, {message: 'Should set speed', moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setSpeed', property: 'speed', type: 'number'});
-        testComponentCall(it, {message: 'Should set value', moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setValue', property: 'value', type: 'number'});
-        testComponentCall(it, {message: 'Should set ready', moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setReady', property: 'ready', type: 'number'});
+        testComponentCall(it, {message: 'Should set device', moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setType',  property: 'device', type: 'number'});
+        testComponentCall(it, {message: 'Should set port',   moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setPort',  property: 'port',   type: 'number'});
+        testComponentCall(it, {message: 'Should set speed',  moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setSpeed', property: 'speed',  type: 'number'});
+        testComponentCall(it, {message: 'Should set value',  moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setValue', property: 'value',  type: 'number'});
+        testComponentCall(it, {message: 'Should set ready',  moduleFile: LIB_FILENAME, procName: 'components.ev3Motor.setReady', property: 'ready',  type: 'number'});
     }
 );
