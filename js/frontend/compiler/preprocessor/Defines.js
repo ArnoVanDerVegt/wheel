@@ -22,6 +22,17 @@ exports.Defines = class {
         return (key in this._defines) ? this._defines[key] : false;
     }
 
+    getFullInfo(key) {
+        let list = this._list;
+        for (let i = 0; i < list.length; i++) {
+            let item = list[i];
+            if (item.key === key) {
+                return item;
+            }
+        }
+        return false;
+    }
+
     getList() {
         return this._list;
     }

@@ -175,6 +175,35 @@ exports.WheelEditor = class extends Editor {
         this._blueToothStatusElement = element;
     }
 
+    /**
+     * Check if the hint token is part of a potential namespace and return the complete namespaced identifier.
+     * For example:
+     *      The lines:                      "components.statusLight.setColor()"
+     *      The found token:                "statusLight"
+     *      Which results in the alt hint:  "components.statusLight.setColor"
+    **/
+    getAltHintFromLine(line, hint, start, end) {
+        let i;
+        let chars   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789.';
+        let altHint = hint;
+        let ch;
+        if ((start > 0) && (line[start - 1] === '.')) {
+            i = start - 1;
+            while ((i > 0) && (chars.indexOf(line[i]) !== -1)) {
+                ch      = line[i--];
+                altHint = (ch === '.' ? '~' : ch) + altHint;
+            }
+        }
+        if ((end < line.length) && (line[end] === '.')) {
+            let i = end;
+            while ((i < line.length) && (chars.indexOf(line[i]) !== -1)) {
+                ch = line[i++];
+                altHint += (ch === '.' ? '~' : ch);
+            }
+        }
+        return altHint;
+    }
+
     clearAllBreakpoints() {
         this._codeMirror.clearGutter('breakpoints');
         this._wheelEditorState.resetBreakpoints();
@@ -360,7 +389,14 @@ exports.WheelEditor = class extends Editor {
                 let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
                 let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
                 if ((typeof hint === 'string') && (hint.trim() !== '')) {
-                    dispatcher.dispatch('Hint.Show', event, hint, wheelEditorState.getDatabase());
+                    dispatcher.dispatch(
+                        'Hint.Show',
+                        {
+                            event:   event,
+                            hint:    hint,
+                            altHint: this.getAltHintFromLine(codeMirror.getLine(coords.line), hint, start, end)
+                        }
+                    );
                 }
             },
             300
@@ -374,6 +410,22 @@ exports.WheelEditor = class extends Editor {
             wheelEditorState.setHintTimeout(null);
         }
         dispatcher.dispatch('Hint.Hide');
+    }
+
+    onFileSavedHide() {
+        super.onFileSavedHide();
+        if (this._wheelEditorState.getFindVisible()) {
+            this._refs.findOptions.className = 'bottom-options';
+        }
+        if (this._wheelEditorState.getReplaceVisible()) {
+            this._refs.replaceOptions.className = 'bottom-options replace';
+        }
+    }
+
+    onFileSaved(filename) {
+        this._refs.findOptions.className    = 'bottom-options hidden';
+        this._refs.replaceOptions.className = 'bottom-options hidden';
+        super.onFileSaved(filename);
     }
 
     refresh() {
@@ -486,21 +538,5 @@ exports.WheelEditor = class extends Editor {
             },
             0
         );
-    }
-
-    onFileSavedHide() {
-        super.onFileSavedHide();
-        if (this._wheelEditorState.getFindVisible()) {
-            this._refs.findOptions.className = 'bottom-options';
-        }
-        if (this._wheelEditorState.getReplaceVisible()) {
-            this._refs.replaceOptions.className = 'bottom-options replace';
-        }
-    }
-
-    onFileSaved(filename) {
-        this._refs.findOptions.className    = 'bottom-options hidden';
-        this._refs.replaceOptions.className = 'bottom-options hidden';
-        super.onFileSaved(filename);
     }
 };

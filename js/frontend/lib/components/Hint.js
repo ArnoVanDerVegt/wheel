@@ -83,15 +83,20 @@ exports.Hint = class extends Component {
         return filename.substr(documentPath.length - filename.length) + ':' + token.lineNum;
     }
 
-    getHint(hint) {
+    getHintFromProc(proc) {
+
+    }
+
+    getHint(opts) {
         let infoLength;
-        let result   = '';
-        let database = this._database;
-        let type     = '';
         let name;
         let hasMore;
         let token;
-        let proc     = database.compiler.findProc(hint);
+        let result   = '';
+        let database = this._database;
+        let type     = '';
+        let hint     = '';
+        let proc     = database.compiler.findProc(opts.hint) || database.compiler.findProc(opts.altHint);
         const getSpan = function(s, className) {
                 infoLength += s.length;
                 return '<span class="' + className + '">' + s + '</span>';
@@ -101,11 +106,11 @@ exports.Hint = class extends Component {
             let paramList  = [];
             type    = 'proc';
             token   = proc.getToken();
-            name    = proc.getName();
+            name    = proc.getName().split('~').join('.');
             hasMore = false;
             infoLength = name.length + 1;
             for (let j = 2; j < proc.getParamCount() + 2; j++) {
-                if (infoLength > 60) {
+                if (infoLength > 80) {
                     hasMore = true;
                     break;
                 }
@@ -119,17 +124,17 @@ exports.Hint = class extends Component {
                 hint += getSpan(')', 'operator');
             }
         } else {
-            let record = database.compiler.findRecord(hint);
+            let record = database.compiler.findRecord(opts.hint) || database.compiler.findRecord(opts.altHint);
             if (record) {
                 let fields    = record.getVars();
                 let fieldList = [];
                 type    = 'record';
                 token   = record.getToken();
-                name    = record.getName();
+                name    = record.getName().split('~').join('.');
                 hasMore = false;
                 infoLength = name.length + 3;
                 for (let j = 0; j < fields.length; j++) {
-                    if (infoLength > 20) {
+                    if (infoLength > 30) {
                         hasMore = true;
                         break;
                     }
@@ -142,17 +147,11 @@ exports.Hint = class extends Component {
                 }
             } else {
                 type = 'define';
-                let value = database.defines.get(hint);
-                if (value !== false) {
-                    let list = database.defines.getList();
-                    for (let i = 0; i < list.length; i++) {
-                        if (list[i].key === hint) {
-                            token = list[i].token;
-                            break;
-                        }
-                    }
-                    hint = getSpan(hint, 'define') + getSpan(' = ', 'operator');
-                    value += '';
+                let define = database.defines.getFullInfo(opts.hint);
+                if (define !== false) {
+                    let value = define.value + '';
+                    token = define.token;
+                    hint  = getSpan(define.key, 'define') + getSpan(' = ', 'operator');
                     if (value.substr(0, 1) === '"') {
                         hint += getSpan(value, 'string');
                     } else {
@@ -179,21 +178,28 @@ exports.Hint = class extends Component {
         this._database.files   = database.files;
     }
 
-    onShow(event, hint, database) {
+    onShow(opts) {
         if (!this._database.compiler) {
             return;
         }
-        if (this._hint !== hint) {
-            hint = this.getHint(hint);
+        let measure = false;
+        if (this._hint !== opts.hint) {
+            let hint = this.getHint(opts);
             if (hint === '') {
                 return;
             }
             this._preElement.innerHTML = hint;
+            measure                    = true;
         }
         let element = this._element;
-        element.style.left = (event.clientX + 8) + 'px';
-        element.style.top  = (event.clientY + 8) + 'px';
+        let x       = opts.event.clientX + 8;
+        let y       = opts.event.clientY + 8;
         this.setHidden(false);
+        if (measure) {
+            x = Math.max(8, x - Math.round(this._element.offsetWidth / 2));
+        }
+        element.style.left = x + 'px';
+        element.style.top  = y + 'px';
     }
 
     onHide(event) {

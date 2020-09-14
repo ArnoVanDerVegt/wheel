@@ -30,6 +30,9 @@
     border:                         0;
     background-color:               transparent;
 }
+.hint pre.wheel span {
+    font-size:                      12px;
+}
 .hint.visible {
     display:                        block;
 }
