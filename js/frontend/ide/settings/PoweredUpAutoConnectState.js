@@ -10,10 +10,9 @@ exports.PoweredUpAutoConnectState = class extends Emitter {
         super(opts);
         this._settings    = opts.settings;
         this._autoConnect = [];
-        dispatcher.on(
-            'Settings.Set.PoweredUpAutoLoad',    this, this._setAutoLoad,
-            'Settings.Remove.PoweredUpAutoLoad', this, this._removeAutoLoad
-        );
+        dispatcher
+            .on('Settings.Set.PoweredUpAutoLoad',    this, this._setAutoLoad)
+            .on('Settings.Remove.PoweredUpAutoLoad', this, this._removeAutoLoad);
     }
 
     load(data) {

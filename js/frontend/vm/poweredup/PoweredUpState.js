@@ -49,8 +49,6 @@ exports.PoweredUpState = class extends BasicDeviceState {
             }
         }
         let layerState = this._layerState;
-        console.log('layerState.length:', layerState.length);
-        console.log('state.layers.length:', state.layers.length);
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             if (layerState[i].getConnected() !== state.layers[i].connected) {
                 if (state.layers[i].connected) {
