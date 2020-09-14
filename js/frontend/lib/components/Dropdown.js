@@ -152,13 +152,21 @@ exports.Dropdown = class extends Component {
             };
         }
         return {
-            id:        this.setElement.bind(this),
-            type:      'input',
-            inputType: 'button',
             className: 'dropdown-value',
-            innerHTML: '',
-            tabIndex:  this._tabIndex,
-            disabled:  this._disabled ? 'disabled' : ''
+            children: [
+                {
+                    id:        this.setElement.bind(this),
+                    tabIndex:  this._tabIndex,
+                    disabled:  this._disabled ? 'disabled' : '',
+                    type:      'input',
+                    inputType: 'button'
+                },
+                {
+                    className: 'dropdown-value-label',
+                    ref:       this.setRef('dropdownValue'),
+                    innerHTML: ''
+                }
+            ]
         };
     }
 
@@ -243,7 +251,7 @@ exports.Dropdown = class extends Component {
             refs.valueTitle.innerHTML                  = foundItem.title || '';
             refs.valueSubTitle.innerHTML               = foundItem.subTitle || '';
         } else {
-            this._element.value = foundItem.title;
+            this._refs.dropdownValue.innerHTML = foundItem.title;
         }
         return this;
     }

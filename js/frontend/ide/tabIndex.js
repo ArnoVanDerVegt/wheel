@@ -75,22 +75,22 @@ exports.VM_VIEWER_SELECT_RTF        = 4257;
 exports.VM_VIEWER_SELECT_AND_COPY   = 4258;
 
 // Above properties
-exports.PROPERTIES_LIST             = 4513;
+exports.PROPERTIES_LIST             = 4515;
 
-exports.CLOSE_PROPERTIES_BUTTON     = 4514;
+exports.CLOSE_PROPERTIES_BUTTON     = 4516;
 
-exports.PROPERTIES_CONTAINER        = 4515;
+exports.PROPERTIES_CONTAINER        = 4517;
 
 // Above simulator
-exports.SIMULATOR_RUN_BUTTON        = 4513;
-exports.SIMULATOR_CONTINUE_BUTTON   = 4514;
-exports.DEVICE_EV3_BUTTON           = 4515;
-exports.DEVICE_POWERED_UP_BUTTON    = 4516;
-exports.LAYER_1_BUTTON              = 4517;
-exports.LAYER_2_BUTTON              = 4518;
-exports.LAYER_3_BUTTON              = 4519;
-exports.LAYER_4_BUTTON              = 4520;
-exports.CLOSE_SIMULATOR_BUTTON      = 4521;
+exports.SIMULATOR_RUN_BUTTON        = 4518;
+exports.SIMULATOR_CONTINUE_BUTTON   = 4519;
+exports.DEVICE_EV3_BUTTON           = 4520;
+exports.DEVICE_POWERED_UP_BUTTON    = 4521;
+exports.LAYER_1_BUTTON              = 4522;
+exports.LAYER_2_BUTTON              = 4523;
+exports.LAYER_3_BUTTON              = 4524;
+exports.LAYER_4_BUTTON              = 4525;
+exports.CLOSE_SIMULATOR_BUTTON      = 4526;
 
 // Simulator
 exports.LAYER_1_SENSOR_1            = 4792;
