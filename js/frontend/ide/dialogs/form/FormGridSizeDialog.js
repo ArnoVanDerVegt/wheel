@@ -9,38 +9,38 @@ const Radio      = require('../../../lib/components/Radio').Radio;
 exports.FormGridSizeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'grid-size-dialog',
-            'Select grid size',
-            [
-                {
-                    ref:      this.setRef('radio'),
-                    type:     Radio,
-                    ui:       this._ui,
-                    uiId:     this._uiId,
-                    tabIndex: 1,
-                    value:    0,
-                    options: [
-                        {value:  0, title: 'No grid'},
-                        {value: 10, title: '10x10'},
-                        {value: 12, title: '12x12'},
-                        {value: 16, title: '16x16'},
-                        {value: 20, title: '20x20'}
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('grid-size-dialog', 'Select grid size', this.initWindowContent(opts));
         dispatcher.on('Dialog.SelectGridSize.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:      this.setRef('radio'),
+                type:     Radio,
+                ui:       this._ui,
+                uiId:     this._uiId,
+                tabIndex: 1,
+                value:    0,
+                options: [
+                    {value:  0, title: 'No grid'},
+                    {value: 10, title: '10x10'},
+                    {value: 12, title: '12x12'},
+                    {value: 16, title: '16x16'},
+                    {value: 20, title: '20x20'}
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.onApply.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onApply() {

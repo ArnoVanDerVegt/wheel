@@ -11,53 +11,53 @@ exports.GraphDialog = class extends Dialog {
         this._layer      = 0;
         this._port       = 0;
         this._sampleRate = 0;
-        this.createWindow(
-            'graph-dialog new-graph',
-            'New EV3 graph',
-            [
-                {
-                    className: 'graph-dialog-text',
-                    children: [
-                        this.addToolOptions({
-                            tabIndex: 1,
-                            title:    'Layer',
-                            options:  ['1', '2', '3', '4'],
-                            onSelect: this.onSelectLayer.bind(this)
-                        }),
-                        this.addToolOptions({
-                            tabIndex: 2,
-                            title:    'Port',
-                            options:  ['1', '2', '3', '4'],
-                            onSelect: this.onSelectPort.bind(this)
-                        }),
-                        this.addToolOptions({
-                            tabIndex: 3,
-                            title:   'Sample rate',
-                            options: ['1/sec', '2/sec', '5/sec', '10/sec', '20/sec'],
-                            onSelect: this.onSelectSampleRate.bind(this)
-                        })
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('graph-dialog new-graph', 'New EV3 graph', this.initWindowContent(opts));
         dispatcher.on('Dialog.Graph.New.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'graph-dialog-text',
+                children: [
+                    this.addToolOptions({
+                        tabIndex: 1,
+                        title:    'Layer',
+                        options:  ['1', '2', '3', '4'],
+                        onSelect: this.onSelectLayer.bind(this)
+                    }),
+                    this.addToolOptions({
+                        tabIndex: 2,
+                        title:    'Port',
+                        options:  ['1', '2', '3', '4'],
+                        onSelect: this.onSelectPort.bind(this)
+                    }),
+                    this.addToolOptions({
+                        tabIndex: 3,
+                        title:   'Sample rate',
+                        options: ['1/sec', '2/sec', '5/sec', '10/sec', '20/sec'],
+                        onSelect: this.onSelectSampleRate.bind(this)
+                    })
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex: 129,
+                        value:    'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     addToolOptions(opts) {

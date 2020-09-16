@@ -13,53 +13,53 @@ exports.ListDialog = class extends Dialog {
         opts || (opts = {});
         this._list          = [];
         this._dispatchApply = null;
-        this.createWindow(
-            'list-dialog' + (opts.comment ? ' with-comment' : ''),
-            opts.title || 'Title',
-            [
-                opts.comment ?
-                    {
-                        innerHTML: opts.comment,
-                        className: 'list-comment'
-                    } :
-                    null,
-                {
-                    type:      List,
-                    ListItem:  opts.ListItem,
-                    settings:  this._settings,
-                    ref:       this.setRef('list'),
-                    ui:        this._ui,
-                    tabIndex:  1,
-                    className: 'item-list',
-                    onChange:  this.onChangeItem.bind(this),
-                    onSelect:  this.onSelectItem.bind(this)
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        (opts.applyTitle === null) ?
-                            null :
-                            this.addButton({
-                                ref:      this.setRef('buttonApply'),
-                                tabIndex: 256,
-                                value:    opts.applyTitle || 'Ok',
-                                disabled: true,
-                                onClick:  this.onApply.bind(this)
-                            }),
-                        this.addButton({
-                            ref:      this.setRef('buttonCancel'),
-                            tabIndex: 257,
-                            value:    opts.cancelTitle || 'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ].concat(this.getExtraButtons())
-                }
-            ]
-        );
+        this.initWindow('list-dialog' + (opts.comment ? ' with-comment' : ''), opts.title || 'Title', this.initWindowContent(opts));
         if (opts && opts.signal) {
             dispatcher.on(opts.signal, this, this.onShow);
         }
+    }
+
+    initWindowContent(opts) {
+        return [
+            opts.comment ?
+                {
+                    innerHTML: opts.comment,
+                    className: 'list-comment'
+                } :
+                null,
+            {
+                type:      List,
+                ListItem:  opts.ListItem,
+                settings:  this._settings,
+                ref:       this.setRef('list'),
+                ui:        this._ui,
+                tabIndex:  1,
+                className: 'item-list',
+                onChange:  this.onChangeItem.bind(this),
+                onSelect:  this.onSelectItem.bind(this)
+            },
+            {
+                className: 'buttons',
+                children: [
+                    (opts.applyTitle === null) ?
+                        null :
+                        this.addButton({
+                            ref:      this.setRef('buttonApply'),
+                            tabIndex: 256,
+                            value:    opts.applyTitle || 'Ok',
+                            disabled: true,
+                            onClick:  this.onApply.bind(this)
+                        }),
+                    this.addButton({
+                        ref:      this.setRef('buttonCancel'),
+                        tabIndex: 257,
+                        value:    opts.cancelTitle || 'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ].concat(this.getExtraButtons())
+            }
+        ];
     }
 
     getExtraButtons() {

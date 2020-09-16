@@ -30,52 +30,52 @@ exports.SettingsDialog = class extends Dialog {
         this._settings        = opts.settings;
         this._updateFunctions = [];
         opts.uiId             = this._uiId;
-        this.createWindow(
-            'settings-dialog',
-            'Settings',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'settings-text',
-                    children: [
-                        {
-                            ref:      this.setRef('tabs'),
-                            type:     Tabs,
-                            ui:       this._ui,
-                            uiId:     this._uiId,
-                            tabIndex: 1,
-                            tabs:     [
-                                {title: 'Version',   onClick: this.onClickTab.bind(this, 'tabVersion')},
-                                {title: 'Export',    onClick: this.onClickTab.bind(this, 'tabExport')},
-                                {title: 'Editor',    onClick: this.onClickTab.bind(this, 'tabEditor')},
-                                {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'tabCompiler')},
-                                {title: 'View',      onClick: this.onClickTab.bind(this, 'tabView')},
-                                {title: 'Console',   onClick: this.onClickTab.bind(this, 'tabConsole')},
-                                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'tabSimulator')}
-                            ]
-                        },
-                        addVersionTab.tab(this, opts),
-                        addExportTab.tab(this, opts),
-                        addEditorTab.tab(this, opts),
-                        addCompilerTab.tab(this, opts),
-                        addViewTab.tab(this, opts),
-                        addConsoleTab.tab(this, opts),
-                        addSimulatorTab.tab(this, opts)
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:    'Ok',
-                            onClick:  this.hide.bind(this),
-                            tabIndex: 4096
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('settings-dialog', 'Settings', this.initWindowContent(opts));
         dispatcher.on('Dialog.Settings.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'settings-text',
+                children: [
+                    {
+                        ref:      this.setRef('tabs'),
+                        type:     Tabs,
+                        ui:       this._ui,
+                        uiId:     this._uiId,
+                        tabIndex: 1,
+                        tabs:     [
+                            {title: 'Version',   onClick: this.onClickTab.bind(this, 'tabVersion')},
+                            {title: 'Export',    onClick: this.onClickTab.bind(this, 'tabExport')},
+                            {title: 'Editor',    onClick: this.onClickTab.bind(this, 'tabEditor')},
+                            {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'tabCompiler')},
+                            {title: 'View',      onClick: this.onClickTab.bind(this, 'tabView')},
+                            {title: 'Console',   onClick: this.onClickTab.bind(this, 'tabConsole')},
+                            {title: 'Simulator', onClick: this.onClickTab.bind(this, 'tabSimulator')}
+                        ]
+                    },
+                    addVersionTab.tab(this, opts),
+                    addExportTab.tab(this, opts),
+                    addEditorTab.tab(this, opts),
+                    addCompilerTab.tab(this, opts),
+                    addViewTab.tab(this, opts),
+                    addConsoleTab.tab(this, opts),
+                    addSimulatorTab.tab(this, opts)
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        value:    'Ok',
+                        onClick:  this.hide.bind(this),
+                        tabIndex: 4096
+                    })
+                ]
+            }
+        ];
     }
 
     addHr() {

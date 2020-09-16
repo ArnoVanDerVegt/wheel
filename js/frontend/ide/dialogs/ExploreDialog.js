@@ -14,124 +14,124 @@ exports.ExploreDialog = class extends Dialog {
         this._settings    = opts.settings;
         this._ev3         = opts.ev3;
         this._currentFile = null;
-        this.createWindow(
-            'ev3-file-viewer-dialog',
-            'EV3 File viewer',
-            [
-                // Left...
-                {
-                    className:  'left-label',
-                    innerHTML:  'Local files:'
-                },
-                {
-                    ref:        this.setRef('leftPath'),
-                    className:  'left-path',
-                    innerHTML:  'Local'
-                },
-                this.addButton({
-                    ref:        this.setRef('copyToEV3'),
-                    tabIndex:   1,
-                    className:  'copy-to-ev3',
-                    icon:       'icon-right',
-                    disabled:   true,
-                    title:      'Copy file to EV3',
-                    onClick:    this.onCopyToEV3.bind(this)
-                }),
-                {
-                    ref:            this.setRef('localFiles'),
-                    type:           Files,
-                    uiOwner:        this,
-                    fileDialog:     this,
-                    className:      'left',
-                    tabIndex:       2,
-                    filter:         '*',
-                    canSelect:      true,
-                    colCount:       14,
-                    colCountDetail: 7,
-                    getImage:       this._getImage,
-                    getFiles:       this.getLocalFiles.bind(this),
-                    onSelect:       this.onSelectLocalFile.bind(this)
-                },
-                this.addToolOptions({
-                    ref:        this.setRef('leftView'),
-                    tabIndex:   3,
-                    tool:       this._settings.getLocalFilesDetail() ? 1 : 0,
-                    label:      false,
-                    onSelect:   this.onSelectLeftDetail.bind(this),
-                    className:  'left-view',
-                    color:      'green',
-                    options: [
-                        {title: 'Normal',   icon: 'icon-list'},
-                        {title: 'Detailed', icon: 'icon-list-detail'}
-                    ]
-                }),
-                // Right...
-                {
-                    className:  'right-label',
-                    innerHTML:  'EV3 files:'
-                },
-                {
-                    ref:        this.setRef('rightPath'),
-                    className:  'right-path',
-                    innerHTML:  'EV3'
-                },
-                this.addButton({
-                    className:  'create-dir',
-                    icon:       'icon-add',
-                    title:      'Create directory',
-                    onClick:    this.onCreateDir.bind(this)
-                }),
-                this.addButton({
-                    ref:        this.setRef('delete'),
-                    className:  'delete',
-                    icon:       'icon-delete-default',
-                    title:      'Delete',
-                    onClick:    this.onDeleteItem.bind(this),
-                    disabled:   true
-                }),
-                {
-                    ref:            this.setRef('remoteFiles'),
-                    type:           Files,
-                    uiOwner:        this,
-                    fileDialog:     this,
-                    className:      'right',
-                    filter:         '*',
-                    canSelect:      true,
-                    colCount:       14,
-                    colCountDetail: 7,
-                    getImage:       this._getImage,
-                    getFiles:       this.getRemoteFiles.bind(this),
-                    onSelect:       this.onSelectRemoteFile.bind(this)
-                },
-                this.addToolOptions({
-                    ref:        this.setRef('rightView'),
-                    tabIndex:   15,
-                    tool:       this._settings.getRemoteFilesDetail() ? 1 : 0,
-                    label:      false,
-                    onSelect:   this.onSelectRightDetail.bind(this),
-                    className:  'right-view',
-                    color:      'green',
-                    options: [
-                        {title: 'Normal',   icon: 'icon-list'},
-                        {title: 'Detailed', icon: 'icon-list-detail'}
-                    ]
-                }),
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:    'Close',
-                            tabIndex: 128,
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('ev3-file-viewer-dialog', 'EV3 File viewer', this.initWindowContent(opts));
         dispatcher
             .on('Dialog.Explore.Show',       this, this.onShow)
             .on('Dialog.CreateDir.Path',     this, this.onCreateDirecory)
             .on('Dialog.Confirm.DeleteItem', this, this.onDeleteItemConfirmed);
+    }
+
+    initWindowContent(opts) {
+        return [
+            // Left...
+            {
+                className:  'left-label',
+                innerHTML:  'Local files:'
+            },
+            {
+                ref:        this.setRef('leftPath'),
+                className:  'left-path',
+                innerHTML:  'Local'
+            },
+            this.addButton({
+                ref:        this.setRef('copyToEV3'),
+                tabIndex:   1,
+                className:  'copy-to-ev3',
+                icon:       'icon-right',
+                disabled:   true,
+                title:      'Copy file to EV3',
+                onClick:    this.onCopyToEV3.bind(this)
+            }),
+            {
+                ref:            this.setRef('localFiles'),
+                type:           Files,
+                uiOwner:        this,
+                fileDialog:     this,
+                className:      'left',
+                tabIndex:       2,
+                filter:         '*',
+                canSelect:      true,
+                colCount:       14,
+                colCountDetail: 7,
+                getImage:       this._getImage,
+                getFiles:       this.getLocalFiles.bind(this),
+                onSelect:       this.onSelectLocalFile.bind(this)
+            },
+            this.addToolOptions({
+                ref:        this.setRef('leftView'),
+                tabIndex:   3,
+                tool:       this._settings.getLocalFilesDetail() ? 1 : 0,
+                label:      false,
+                onSelect:   this.onSelectLeftDetail.bind(this),
+                className:  'left-view',
+                color:      'green',
+                options: [
+                    {title: 'Normal',   icon: 'icon-list'},
+                    {title: 'Detailed', icon: 'icon-list-detail'}
+                ]
+            }),
+            // Right...
+            {
+                className:  'right-label',
+                innerHTML:  'EV3 files:'
+            },
+            {
+                ref:        this.setRef('rightPath'),
+                className:  'right-path',
+                innerHTML:  'EV3'
+            },
+            this.addButton({
+                className:  'create-dir',
+                icon:       'icon-add',
+                title:      'Create directory',
+                onClick:    this.onCreateDir.bind(this)
+            }),
+            this.addButton({
+                ref:        this.setRef('delete'),
+                className:  'delete',
+                icon:       'icon-delete-default',
+                title:      'Delete',
+                onClick:    this.onDeleteItem.bind(this),
+                disabled:   true
+            }),
+            {
+                ref:            this.setRef('remoteFiles'),
+                type:           Files,
+                uiOwner:        this,
+                fileDialog:     this,
+                className:      'right',
+                filter:         '*',
+                canSelect:      true,
+                colCount:       14,
+                colCountDetail: 7,
+                getImage:       this._getImage,
+                getFiles:       this.getRemoteFiles.bind(this),
+                onSelect:       this.onSelectRemoteFile.bind(this)
+            },
+            this.addToolOptions({
+                ref:        this.setRef('rightView'),
+                tabIndex:   15,
+                tool:       this._settings.getRemoteFilesDetail() ? 1 : 0,
+                label:      false,
+                onSelect:   this.onSelectRightDetail.bind(this),
+                className:  'right-view',
+                color:      'green',
+                options: [
+                    {title: 'Normal',   icon: 'icon-list'},
+                    {title: 'Detailed', icon: 'icon-list-detail'}
+                ]
+            }),
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        value:    'Close',
+                        tabIndex: 128,
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     getLocalFiles(changePath, path, callback) {

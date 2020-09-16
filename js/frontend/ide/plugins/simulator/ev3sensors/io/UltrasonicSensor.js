@@ -10,7 +10,7 @@ exports.UltrasonicSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/ultrasonic.png',
+            'images/ev3/ultrasonic64.png',
             true, // With mode
             [
                 this.getNumberValueInput()

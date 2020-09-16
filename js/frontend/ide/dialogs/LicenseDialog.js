@@ -33,29 +33,29 @@ const license = [
 exports.LicenseDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'license-dialog',
-            'MIT License',
-            [
-                {
-                    type:      'pre',
-                    className: 'license-text',
-                    innerHTML: license.join('\n')
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('okButton'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('license-dialog', 'MIT License', this.initWindowContent(opts));
         dispatcher.on('Dialog.License.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                type:      'pre',
+                className: 'license-text',
+                innerHTML: license.join('\n')
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('okButton'),
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow() {

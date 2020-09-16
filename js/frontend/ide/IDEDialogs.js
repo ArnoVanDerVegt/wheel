@@ -4,9 +4,10 @@
 **/
 const platform                       = require('../lib/platform');
 const getImage                       = require('./data/images').getImage;
-const FileDialog                     = require('./dialogs/file/FileDialog').FileDialog;
+const FileOpenDialog                 = require('./dialogs/file/FileOpenDialog').FileOpenDialog;
 const FileNewDialog                  = require('./dialogs/file/FileNewDialog').FileNewDialog;
 const FileRenameDialog               = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
+const FilePoweredUpProjectDialog     = require('./dialogs/file/FilePoweredUpProjectDialog').FilePoweredUpProjectDialog;
 const ExploreDialog                  = require('./dialogs/ExploreDialog').ExploreDialog;
 const EV3ControlDialog               = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
 const PoweredUpControlDialog         = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
@@ -46,10 +47,11 @@ const IDEEvents                      = require('./IDEEvents').IDEEvents;
 exports.IDEDialogs = class extends IDEEvents {
     initDialogs() {
         if (!platform.isElectron()) {
-            new FileDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
+            new FileOpenDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
         new FileNewDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings});
         new FileRenameDialog              ({getImage: getImage, ui: this._ui});
+        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new ConfirmDialog                 ({getImage: getImage, ui: this._ui});
         new AlertDialog                   ({getImage: getImage, ui: this._ui});
         new EV3ConnectListDialog          ({getImage: getImage, ui: this._ui});

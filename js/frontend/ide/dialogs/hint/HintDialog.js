@@ -16,25 +16,25 @@ exports.HintDialog = class extends Dialog {
                 })
             ].concat(this.addCustomButtons());
         buttons.push(this.addDontShowAgain(2));
-        this.createWindow(
-            'hint-dialog ' + (opts.dialogClassName || ''),
-            'Title',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'hint-text'
-                },
-                {
-                    className: 'buttons',
-                    children:  buttons
-                }
-            ]
-        );
+        this.initWindow('hint-dialog ' + (opts.dialogClassName || ''), 'Title', this.initWindowContent(opts, buttons));
         this._title            = opts.title;
         this._lines            = opts.lines;
         this._dispatchDontShow = opts.dispatchDontShow;
         this._dispatchHide     = opts.dispatchHide;
         dispatcher.on(opts.signal || 'Dialog.Hint.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts, buttons) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'hint-text'
+            },
+            {
+                className: 'buttons',
+                children:  buttons
+            }
+        ];
     }
 
     addCustomButtons() {

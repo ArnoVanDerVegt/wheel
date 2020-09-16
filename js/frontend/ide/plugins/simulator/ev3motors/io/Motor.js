@@ -7,7 +7,7 @@ const Motor    = require('./../../lib/motor/io/Motor').Motor;
 
 exports.Motor = class extends Motor {
     constructor(opts) {
-        opts.image = 'images/ev3/motorMedium.png';
+        opts.image = 'images/ev3/motorMedium64.png';
         super(opts);
         let layer = opts.layer;
         let id    = opts.id;
@@ -23,8 +23,8 @@ exports.Motor = class extends Motor {
             type -= 7;
         }
         let images = [
-                'images/ev3/motorMedium.png',
-                'images/ev3/motorLarge.png'
+                'images/ev3/motorMedium64.png',
+                'images/ev3/motorLarge64.png'
             ];
         if (images[type]) {
             this._imageElement.style.display    = 'block';

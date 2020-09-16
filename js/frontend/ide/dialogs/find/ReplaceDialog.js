@@ -8,38 +8,38 @@ const FindDialog = require('./FindDialog').FindDialog;
 exports.ReplaceDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'find-dialog',
-            'Replace',
-            [
-                {
-                    className: 'find-dialog-text',
-                    children: [
-                        this.addTextInputRow({
-                            title:      'Replace',
-                            ref:        'replace',
-                            tabIndex:    10,
-                            onKeyUp:     this.onReplaceKeyUp.bind(this),
-                            placeholder: 'Find text'
-                        }),
-                        this.addTextInputRow({
-                            title:       'With',
-                            ref:         'with',
-                            tabIndex:    11,
-                            onKeyUp:     this.onWithKeyUp.bind(this),
-                            placeholder: 'Replace with text'
-                        }),
-                        this.addCheckboxRow({
-                            title:       'Match case',
-                            ref:         'caseSensitive',
-                            tabIndex:    12
-                        })
-                    ]
-                },
-                this.addButtons('Replace')
-            ]
-        );
+        this.initWindow('find-dialog', 'Replace', this.initWindowContent(opts));
         dispatcher.on('Dialog.Replace.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'find-dialog-text',
+                children: [
+                    this.addTextInputRow({
+                        title:      'Replace',
+                        ref:        'replace',
+                        tabIndex:    10,
+                        onKeyUp:     this.onReplaceKeyUp.bind(this),
+                        placeholder: 'Find text'
+                    }),
+                    this.addTextInputRow({
+                        title:       'With',
+                        ref:         'with',
+                        tabIndex:    11,
+                        onKeyUp:     this.onWithKeyUp.bind(this),
+                        placeholder: 'Replace with text'
+                    }),
+                    this.addCheckboxRow({
+                        title:       'Match case',
+                        ref:         'caseSensitive',
+                        tabIndex:    12
+                    })
+                ]
+            },
+            this.addButtons('Replace')
+        ];
     }
 
     validateReplace() {

@@ -30,7 +30,7 @@ exports.FormDialog = class extends Dialog {
         this._onHideEvent            = null; // Wheel event for hiding...
         this._onShowEvent            = null; // Wheel event for showing...
         let children = this.getChildren(opts);
-        this.createWindow('form-dialog', this._title, children);
+        this.initWindow('form-dialog', this._title, children);
     }
 
     addDefaultEvent(component, property) {

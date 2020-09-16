@@ -37,8 +37,11 @@ const ListItem = class extends DOMNode {
                                 style:     style,
                                 children: [
                                     {
-                                        type: 'img',
-                                        src:  this._getImage(this._image)
+                                        type:  'img',
+                                        src:   this._image ? this._getImage(this._image) : '',
+                                        style: {
+                                            display: this._image ? 'block' : 'none'
+                                        }
                                     }
                                 ]
                             },
@@ -85,7 +88,7 @@ const ListItem = class extends DOMNode {
 
 exports.Dropdown = class extends Component {
     constructor(opts) {
-        opts.baseClassName = 'dropdown' + (opts.images ? ' images' : '');
+        opts.baseClassName = 'dropdown' + (opts.images ? ' images' : '') + (opts.up ? ' up' : ' down');
         super(opts);
         this._items        = this.getUpdatedItems(opts.items);
         this._value        = null;
@@ -197,6 +200,10 @@ exports.Dropdown = class extends Component {
         this._itemElements.push(item);
     }
 
+    getDOMNode() {
+        return this._refs.dropdown;
+    }
+
     getUpdatedItems(items) {
         let result = [];
         (items || []).forEach((item, index) => {
@@ -246,8 +253,13 @@ exports.Dropdown = class extends Component {
         }
         if (this._images) {
             let refs = this._refs;
+            if (foundItem.image) {
+                refs.valueImg.src           = this._getImage(foundItem.image);
+                refs.valueImg.style.display = 'block';
+            } else {
+                refs.valueImg.style.display = 'none';
+            }
             refs.valueImgWrapper.style.backgroundColor = foundItem.color || 'transparent';
-            refs.valueImg.src                          = this._getImage(foundItem.image);
             refs.valueTitle.innerHTML                  = foundItem.title || '';
             refs.valueSubTitle.innerHTML               = foundItem.subTitle || '';
         } else {
@@ -299,10 +311,18 @@ exports.Dropdown = class extends Component {
     updateHeight() {
         let list  = this._refs.list;
         let items = this._items;
-        if (items.length >= 9) {
-            list.style.height = '208px';
+        if (this._images) {
+            if (items.length >= 5) {
+                list.style.height = '208px';
+            } else {
+                list.style.height = (items.length * 48 + 2) + 'px';
+            }
         } else {
-            list.style.height = (items.length * 24 + 2) + 'px';
+            if (items.length >= 9) {
+                list.style.height = '208px';
+            } else {
+                list.style.height = (items.length * 24 + 2) + 'px';
+            }
         }
     }
 

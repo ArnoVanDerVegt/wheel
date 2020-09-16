@@ -11,7 +11,7 @@ exports.TouchSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/touch.png',
+            'images/ev3/touch64.png',
             false, // With mode
             [
                 {

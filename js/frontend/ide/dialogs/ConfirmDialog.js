@@ -9,34 +9,34 @@ exports.ConfirmDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
-        this.createWindow(
-            'confirm-dialog',
-            'Confirm',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'confirm-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:       this.setRef('buttonApply'),
-                            tabIndex:  128,
-                            value:     'Ok',
-                            onClick:   this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:       this.setRef('buttonCancel'),
-                            tabIndex:  129,
-                            value:     'Cancel',
-                            onClick:   this.onCancel.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('confirm-dialog', 'Confirm', this.initWindowContent(opts));
         dispatcher.on('Dialog.Confirm.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'confirm-text'
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:       this.setRef('buttonApply'),
+                        tabIndex:  128,
+                        value:     'Ok',
+                        onClick:   this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        ref:       this.setRef('buttonCancel'),
+                        tabIndex:  129,
+                        value:     'Cancel',
+                        onClick:   this.onCancel.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onApply() {

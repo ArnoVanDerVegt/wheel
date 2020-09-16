@@ -12,298 +12,79 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 const getImage        = require('../../data/images').getImage;
 
 exports.FileDialog = class extends Dialog {
-    constructor(opts) {
-        opts.help = 'Supportedfile';
-        super(opts);
-        this._ui          = opts.ui;
-        this._settings    = opts.settings;
-        this._index       = 'main';
-        this._currentFile = null;
-        this.createWindow(
-            'file-dialog',
-            'Open file',
-            [
-                {
-                    ref:       this.setRef('currentPath'),
-                    className: 'current-path',
-                    innerHTML: ''
-                },
-                platform.isElectron() ?
-                    this.addToolOptions({
-                        uiId:     this.getUIId.bind(this),
-                        tabIndex: 1,
-                        tool:     this._settings.getFilesDetail() ? 1 : 0,
-                        label:    'View:',
-                        color:    'green',
-                        onSelect: this.onSelectDetail.bind(this),
-                        options: [
-                            {title: 'Normal',   icon: 'icon-list'},
-                            {title: 'Detailed', icon: 'icon-list-detail'}
-                        ]
-                    }) :
-                    null,
-                {
-                    ref:      this.setRef('files'),
-                    type:     Files,
-                    ui:       this._ui,
-                    tabIndex: 2,
-                    detail:   this._settings.getFilesDetail(),
-                    filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
-                    getImage: this._getImage,
-                    getFiles: this.getFiles.bind(this),
-                    onFile:   this.onFile.bind(this),
-                    onPath:   this.onPath.bind(this)
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:       this.setRef('buttonApply'),
-                            tabIndex:  2049,
-                            disabled:  true,
-                            value:     'Open',
-                            onClick:   this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex:  2050,
-                            value:     'Cancel',
-                            color:     'dark-green',
-                            onClick:   this.hide.bind(this)
-                        }),
-                        {
-                            ref:       this.setRef('currentFile'),
-                            className: 'current-file'
-                        },
-                        this.addTextInput({
-                            ref:         this.setRef('currentFileInput'),
-                            tabIndex:    2048,
-                            className:   'current-file-input',
-                            onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
-                            placeholder: 'Enter filename'
-                        })
-                    ]
-                }
-            ]
-        );
-        dispatcher
-            .on('Dialog.File.Show',    this, this.onShow)
-            .on('Dialog.Confirm.Save', this, this.onSaveConfirmed);
-    }
-
-    onShow(opts) {
-        let filename = opts.filename;
-        let refs     = this._refs;
-        this._mode  = opts.mode;
-        this._index = opts.index;
-        switch (opts.mode) {
-            case 'openFile':
-                refs.title.innerHTML           = 'Open file';
-                refs.currentFile.style.display = 'block';
-                refs.currentFileInput.hide();
-                refs.buttonApply
-                    .setValue('Open')
-                    .setDisabled(true);
-                refs.files
-                    .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
-                this.getFiles(
-                    false,
-                    false,
-                    (path, files) => {
-                        this._refs.files.onShowFiles(path, files);
-                    }
-                );
-                break;
-            case 'openDirectory':
-                refs.title.innerHTML           = opts.title || 'Select directory';
-                refs.currentFile.style.display = 'block';
-                refs.currentFileInput.hide();
-                refs.buttonApply
-                    .setValue('Select')
-                    .setDisabled(false);
-                refs.files
-                    .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter([]);
-                this.getFiles(
-                    false,
-                    opts.path,
-                    (path, files) => {
-                        this._refs.files.onShowFiles(path, files);
-                    }
-                );
-                break;
-            case 'saveFile':
-                this._startFilename  = filename;
-                this._extension      = path.getExtension(filename);
-                refs.title.innerHTML = 'Save file';
-                refs.currentFileInput
-                    .show()
-                    .setValue(filename)
-                    .setClassName('current-file-input');
-                refs.buttonApply
-                    .setValue('Save')
-                    .setDisabled(filename.trim() === '');
-                refs.files
-                    .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
-                this.getFiles(
-                    false,
-                    path,
-                    (path, files) => {
-                        this._refs.files.onShowFiles(path, files);
-                    }
-                );
-                break;
+    initRow(opts) {
+        let result = {
+                className: opts.className,
+                children: [
+                    {
+                        className: opts.labelClassName || '',
+                        innerHTML: opts.label
+                    },
+                    this.addTextInput({
+                        ref:         opts.ref,
+                        tabIndex:    opts.tabIndex,
+                        onKeyUp:     opts.onKeyUp ? opts.onKeyUp : () => {},
+                        placeholder: opts.placeHolder,
+                        value:       opts.value || ''
+                    })
+                ]
+            };
+        if (opts.rowRef) {
+            result.ref = opts.rowRef;
         }
-        refs.files.load();
-        this.show();
+        return result;
     }
 
-    onSelectDetail(detail) {
-        this._refs.files.setDetail(detail === 1);
-        dispatcher.dispatch('Settings.Set.FilesDetail', detail === 1);
-    }
-
-    onSaveConfirmed() {
-        this._save();
-    }
-
-    onApply() {
-        switch (this._mode) {
-            case 'openFile':
-                if (this._currentFile) {
-                    let filename = path.join(this._refs.files.getPath(), this._currentFile);
-                    dispatcher.dispatch('Dialog.File.Open', filename);
-                }
-                this.hide();
-                break;
-            case 'openDirectory':
-                dispatcher.dispatch('Dialog.File.OpenDirectory', this._index, this._refs.files.getPath());
-                this.hide();
-                break;
-            case 'saveFile':
-                let filename = this._refs.currentFileInput.getValue().trim();
-                if (filename !== '') {
-                    let saveFilename = path.join(this._refs.files.getPath(), filename);
-                    if (path.getExtension(saveFilename) === '') {
-                        saveFilename += this._extension;
-                    }
-                    let save = () => {
-                            dispatcher.dispatch('Dialog.File.SaveAs', saveFilename, this._startFilename === saveFilename);
-                            this.hide();
-                        };
-                    let existingFile = this.getFileExists(this._refs.files.getFiles(), filename);
-                    if (existingFile && (filename.toLowerCase() !== this._startFilename.toLowerCase())) {
-                        if (existingFile.directory) {
-                            dispatcher.dispatch(
-                                'Dialog.Alert.Show',
-                                {
-                                    title: 'Error',
-                                    lines: [
-                                        '"' + saveFilename + '" is a directory.',
-                                        'You can not save this file with this filename.'
-                                    ]
-                                }
-                            );
-                        } else {
-                            this._save = save;
-                            dispatcher.dispatch(
-                                'Dialog.Confirm.Show',
-                                {
-                                    title: 'File exists',
-                                    lines: [
-                                        'The file "' + saveFilename + '" already exists.',
-                                        'Do you want to overwrite it?'
-                                    ],
-                                    dispatchApply: 'Dialog.Confirm.Save'
-                                }
-                            );
-                        }
-                    } else {
-                        save();
-                    }
-                }
-                break;
-        }
-    }
-
-    onCurrentFileInputKeyUp() {
+    validateFilename() {
         let refs = this._refs;
-        if (refs.currentFileInput.getValue().trim() === '') {
-            refs.buttonApply.setDisabled(true);
-            refs.currentFileInput.setClassName('current-file-input invalid');
-            return false;
+        this._filename = refs.filename.getValue().trim();
+        let result = (this._filename !== '');
+        if ((this._type === 'project') && (['', '.whlp'].indexOf(path.getExtension(this._filename)) === -1)) {
+            result = false;
         }
-        refs.buttonApply.setDisabled(false);
-        refs.currentFileInput.setClassName('current-file-input');
-        return true;
+        if (!result) {
+            refs.filename.focus();
+            refs.filename.setClassName('invalid');
+        }
+        return result;
     }
 
-    onPath(path) {
-        this._refs.currentPath.innerHTML = path;
-    }
-
-    onFile(file) {
+    validateDescription() {
         let refs = this._refs;
-        switch (this._mode) {
-            case 'openFile':
-                if (file) {
-                    if (file.name === this._currentFile) {
-                        dispatcher.dispatch('Dialog.File.Open', path.join(refs.files.getPath(), file.name));
-                        this.hide();
-                    }
-                    refs.buttonApply.setDisabled(false);
-                    this._currentFile          = file.name;
-                    refs.currentFile.innerHTML = this._currentFile;
-                } else {
-                    refs.buttonApply.setDisabled(true);
-                    this._currentFile          = null;
-                    refs.currentFile.innerHTML = '';
-                }
-                break;
-            case 'saveFile':
-                if (file) {
-                    refs.buttonApply.setDisabled(false);
-                    refs.currentFileInput
-                        .setClassName('current-file-input')
-                        .setValue(file.name);
-                }
-                break;
+        this._description = refs.description.getValue().trim();
+        let result = (this._description !== '') && (this._description.indexOf('"') === -1);
+        if (!result) {
+            refs.description.focus();
+            refs.description.setClassName('description invalid');
         }
+        return result;
     }
 
-    getFiles(changePath, path, callback) {
-        let params = {index: this._index};
-        let that   = this;
-        if (changePath) {
-            params.changePath = changePath;
-        } else if (typeof path === 'string') {
-            params.path = path;
+    validateWidth() {
+        let result = true;
+        let refs   = this._refs;
+        this._width = parseInt(refs.width.getValue().trim(), 10);
+        if (isNaN(this._width) || (this._width < this._minWidth) || (this._width > this._maxWidth)) {
+            refs.width.focus();
+            refs.width.setClassName('invalid');
+            result = false;
+        } else {
+            refs.width.setClassName('');
         }
-        if (this._mode === 'openDirectory') {
-            params.fromRoot = true;
-        }
-        getDataProvider().getData(
-            'get',
-            'ide/files',
-            params,
-            (data) => {
-                try {
-                    let json = (typeof data === 'string') ? JSON.parse(data) : data;
-                    this.onPath(json.path);
-                    callback(json.path, json.files);
-                } catch (error) {
-                }
-            }
-        );
+        return result;
     }
 
-    getFileExists(files, filename) {
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].name.toLowerCase() === filename.toLowerCase()) {
-                return files[i];
-            }
+    validateHeight() {
+        let result = true;
+        let refs   = this._refs;
+        this._height = parseInt(refs.height.getValue().trim(), 10);
+        if (isNaN(this._height) || (this._height < this._minHeight) || (this._height > this._maxHeight)) {
+            refs.height.focus();
+            refs.height.setClassName('invalid');
+            result = false;
+        } else {
+            refs.height.setClassName('');
         }
-        return null;
+        return result;
     }
 };

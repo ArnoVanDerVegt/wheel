@@ -5,60 +5,59 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const path       = require('../../../lib/path');
-const Dialog     = require('../../../lib/components/Dialog').Dialog;
+const FileDialog = require('./FileDialog').FileDialog;
 
-exports.FileRenameDialog = class extends Dialog {
+exports.FileRenameDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
-        this._ui = opts.ui;
-        this.createWindow(
-            'file-rename-dialog',
-            'Rename',
-            [
-                {
-                    className: 'file-rename-text',
-                    children: [
-                        {
-                            ref:       this.setRef('name'),
-                            className: 'file-rename-row name',
-                            innerHTML: 'Hello'
-                        },
-                        {
-                            className: 'file-rename-row',
-                            children: [
-                                {
-                                    innerHTML: 'New name'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('filename'),
-                                    tabIndex:    1,
-                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
-                                    placeholder: 'Enter filename'
-                                })
-                            ]
-                        }
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('file-rename-dialog', 'Rename', this.initWindowContent(opts));
         dispatcher.on('Dialog.File.Rename.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'file-rename-text',
+                children: [
+                    {
+                        ref:       this.setRef('name'),
+                        className: 'file-rename-row name',
+                        innerHTML: ''
+                    },
+                    {
+                        className: 'file-rename-row',
+                        children: [
+                            {
+                                innerHTML: 'New name'
+                            },
+                            this.addTextInput({
+                                ref:         this.setRef('filename'),
+                                tabIndex:    1,
+                                onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                placeholder: 'Enter filename'
+                            })
+                        ]
+                    }
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex: 129,
+                        value:    'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(title, documentPath, filename, onApply) {

@@ -51,7 +51,7 @@ class GearItem extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('item'),
-                className: 'gear-list-item' + (this._selected ? ' selected' : ''),
+                className: 'gear-list-item vertical-list-item ' + (this._selected ? ' selected' : ''),
                 children: [
                     this.initImage('from', this._from),
                     this.initImage('to',   this._to),
@@ -139,7 +139,7 @@ class GearItem extends DOMNode {
 
     setSelected(selected) {
         this._selected            = selected;
-        this._refs.item.className = 'gear-list-item' + (selected ? ' selected' : '');
+        this._refs.item.className = 'gear-list-item vertical-list-item' + (selected ? ' selected' : '');
     }
 
     onRemove() {
@@ -179,7 +179,7 @@ exports.GearList = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'gear-list',
+                className: 'gear-list vertical-list',
                 children: [
                     {
                         className: 'gear-list-content',

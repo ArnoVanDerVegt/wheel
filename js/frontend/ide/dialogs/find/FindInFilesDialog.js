@@ -10,51 +10,51 @@ const FindDialog      = require('./FindDialog').FindDialog;
 exports.FindInFilesDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'find-dialog find-in-files',
-            'Find in files',
-            [
-                {
-                    className: 'find-dialog-text',
-                    children: [
-                        this.addTextInputRow({
-                            title:      'Find',
-                            ref:        'find',
-                            tabIndex:    10,
-                            onKeyUp:     this.onFindKeyUp.bind(this),
-                            placeholder: 'Enter text'
-                        }),
-                        this.addCheckboxRow({
-                            title:       'Match case',
-                            ref:         'caseSensitive',
-                            tabIndex:    11
-                        }),
-                        this.addTextRow('Search in file types'),
-                        this.addSmallCheckboxRow({
-                            title:       'Wheel file (*.whl)',
-                            ref:         'typeWhl',
-                            checked:     true,
-                            tabIndex:    12
-                        }),
-                        this.addSmallCheckboxRow({
-                            title:       'Wheel project file (*.whlp)',
-                            ref:         'typeWhlp',
-                            checked:     true,
-                            tabIndex:    13
-                        }),
-                        this.addSmallCheckboxRow({
-                            title:       'Wheel documentation file (*.woc)',
-                            ref:         'typeWoc',
-                            tabIndex:    14
-                        })
-                    ]
-                },
-                this.addButtons('Search')
-            ]
-        );
+        this.initWindow('find-dialog find-in-files', 'Find in files', this.initWindowContent(opts));
         dispatcher.on('Dialog.FindInFiles.Show', this, this.onShow);
         this._fileTypes = [];
         this._cancel    = false;
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'find-dialog-text',
+                children: [
+                    this.addTextInputRow({
+                        title:      'Find',
+                        ref:        'find',
+                        tabIndex:    10,
+                        onKeyUp:     this.onFindKeyUp.bind(this),
+                        placeholder: 'Enter text'
+                    }),
+                    this.addCheckboxRow({
+                        title:       'Match case',
+                        ref:         'caseSensitive',
+                        tabIndex:    11
+                    }),
+                    this.addTextRow('Search in file types'),
+                    this.addSmallCheckboxRow({
+                        title:       'Wheel file (*.whl)',
+                        ref:         'typeWhl',
+                        checked:     true,
+                        tabIndex:    12
+                    }),
+                    this.addSmallCheckboxRow({
+                        title:       'Wheel project file (*.whlp)',
+                        ref:         'typeWhlp',
+                        checked:     true,
+                        tabIndex:    13
+                    }),
+                    this.addSmallCheckboxRow({
+                        title:       'Wheel documentation file (*.woc)',
+                        ref:         'typeWoc',
+                        tabIndex:    14
+                    })
+                ]
+            },
+            this.addButtons('Search')
+        ];
     }
 
     validateFind() {

@@ -11,7 +11,7 @@ exports.InfraredSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/infrared.png',
+            'images/ev3/infrared64.png',
             true, // With mode
             [
                 {

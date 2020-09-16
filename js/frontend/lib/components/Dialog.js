@@ -27,6 +27,64 @@ exports.Dialog = class extends ComponentContainer {
         this._globalEvents   = [];
     }
 
+    initWindow(className, title, children) {
+        children.unshift(
+            {
+                id: (element) => {
+                    element.addEventListener('mousedown', this.onTitleMouseDown.bind(this));
+                    element.addEventListener('mouseup',   this.onTitleMouseUp.bind(this));
+                },
+                ref:       this.setRef('title'),
+                type:      'h2',
+                className: 'dialog-title',
+                innerHTML: title
+            },
+            this._help ?
+                {
+                    id:        this.setHelpElement.bind(this),
+                    className: 'dialog-help',
+                    innerHTML: '?'
+                } :
+                null,
+            {
+                id:        this.setCloseElement.bind(this),
+                className: 'dialog-close',
+                innerHTML: '&#x2716;'
+            }
+        );
+        this._dialogNode = this.create(
+            null,
+            {
+                id:        this.setDialogElement.bind(this),
+                className: 'dialog-background' + (className ? ' ' + className : ''),
+                children: [
+                    {
+                        className: 'dialog-center',
+                        children: [
+                            {
+                                id:        this.setDialogContentElement.bind(this),
+                                className: 'dialog-content',
+                                children: [
+                                    {
+                                        className: 'dialog-content-image-wrapper',
+                                        children: [
+                                            {
+                                                type:      'img',
+                                                src:       this._getImage('images/logos/wheelWindow.svg'),
+                                                className: 'dialog-content-image'
+                                            }
+                                        ]
+                                    }
+                                ].concat(children)
+                            }
+                        ]
+                    }
+                ]
+            }
+        );
+        return this;
+    }
+
     setCloseElement(element) {
         element.addEventListener('click', this.onClose.bind(this));
     }
@@ -187,63 +245,6 @@ exports.Dialog = class extends ComponentContainer {
 
     onTitleMouseUp(event) {
         this.onGlobalMouseUp(event);
-    }
-
-    createWindow(className, title, children) {
-        children.unshift(
-            {
-                id: (element) => {
-                    element.addEventListener('mousedown', this.onTitleMouseDown.bind(this));
-                    element.addEventListener('mouseup',   this.onTitleMouseUp.bind(this));
-                },
-                ref:       this.setRef('title'),
-                type:      'h2',
-                className: 'dialog-title',
-                innerHTML: title
-            },
-            this._help ?
-                {
-                    id:        this.setHelpElement.bind(this),
-                    className: 'dialog-help',
-                    innerHTML: '?'
-                } :
-                null,
-            {
-                id:        this.setCloseElement.bind(this),
-                className: 'dialog-close',
-                innerHTML: '&#x2716;'
-            }
-        );
-        this._dialogNode = this.create(
-            null,
-            {
-                id:        this.setDialogElement.bind(this),
-                className: 'dialog-background' + (className ? ' ' + className : ''),
-                children: [
-                    {
-                        className: 'dialog-center',
-                        children: [
-                            {
-                                id:        this.setDialogContentElement.bind(this),
-                                className: 'dialog-content',
-                                children: [
-                                    {
-                                        className: 'dialog-content-image-wrapper',
-                                        children: [
-                                            {
-                                                type:      'img',
-                                                src:       this._getImage('images/logos/wheelWindow.svg'),
-                                                className: 'dialog-content-image'
-                                            }
-                                        ]
-                                    }
-                                ].concat(children)
-                            }
-                        ]
-                    }
-                ]
-            }
-        );
     }
 
     addDontShowAgain(tabIndex) {

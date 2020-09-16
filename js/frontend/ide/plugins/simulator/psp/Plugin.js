@@ -223,7 +223,7 @@ exports.Plugin = class extends SimulatorPlugin {
                     },
                     {
                         type: 'img',
-                        src:  getImage('images/ev3/psp.png')
+                        src:  getImage('images/ev3/psp64.png')
                     }
                 ]
             }

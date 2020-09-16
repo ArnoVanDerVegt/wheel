@@ -10,30 +10,30 @@ const getImage   = require('../data/images').getImage;
 exports.AlertDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'alert-dialog',
-            'Alert',
-            [
-                {
-                    ref:  this.setRef('image'),
-                    type: Img
-                },
-                {
-                    ref:       this.setRef('text'),
-                    className: 'alert-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:   'Ok',
-                            onClick: this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('alert-dialog', 'Alert', this.initWindowContent(opts));
         dispatcher.on('Dialog.Alert.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:  this.setRef('image'),
+                type: Img
+            },
+            {
+                ref:       this.setRef('text'),
+                className: 'alert-text'
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        value:   'Ok',
+                        onClick: this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(opts) {

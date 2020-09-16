@@ -102,14 +102,14 @@ class Chart extends DOMNode {
         switch (type) {
             case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:
             case sensorModuleConstants.SENSOR_TYPE_TOUCH:
-                image = 'images/ev3/touch.png';
+                image = 'images/ev3/touch64.png';
                 this._gridDrawer   = this._binaryDrawer;
                 this._chartDrawers = [this._binaryDrawer];
                 this._maxValue     = 1;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_COLOR:
             case sensorModuleConstants.SENSOR_TYPE_COLOR:
-                image = 'images/ev3/color.png';
+                image = 'images/ev3/color64.png';
                 if (mode === sensorModuleConstants.COLOR_COLOR) {
                     this._gridDrawer   = this._binaryDrawer;
                     this._chartDrawers = [this._colorBarDrawer];
@@ -122,25 +122,25 @@ class Chart extends DOMNode {
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC:
             case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
-                image = 'images/ev3/ultrasonic.png';
+                image = 'images/ev3/ultrasonic64.png';
                 this._gridDrawer   = this._fillDrawer;
                 this._chartDrawers = [this._fillDrawer, this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_GYRO:
-                image = 'images/ev3/gyro.png';
+                image = 'images/ev3/gyro64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_INFRARED:
-                image = 'images/ev3/infrared.png';
+                image = 'images/ev3/infrared64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image = 'images/ev3/microphone.png';
+                image = 'images/ev3/microphone64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 100;

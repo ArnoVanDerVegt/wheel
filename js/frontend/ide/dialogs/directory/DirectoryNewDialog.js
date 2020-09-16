@@ -8,49 +8,49 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 exports.DirectoryNewDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'new-directory-dialog',
-            'New directory',
-            [
-                {
-                    className: 'new-directory-text',
-                    children: [
-                        {
-                            className: 'new-directory-row',
-                            children: [
-                                {
-                                    innerHTML: 'Directory'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('directory'),
-                                    tabIndex:    1,
-                                    onKeyUp:     this.onDirectoryKeyUp.bind(this),
-                                    placeholder: 'Enter directory name'
-                                })
-                            ]
-                        }
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('new-directory-dialog', 'New directory', this.initWindowContent(opts));
         dispatcher.on('Dialog.DirectoryNew.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'new-directory-text',
+                children: [
+                    {
+                        className: 'new-directory-row',
+                        children: [
+                            {
+                                innerHTML: 'Directory'
+                            },
+                            this.addTextInput({
+                                ref:         this.setRef('directory'),
+                                tabIndex:    1,
+                                onKeyUp:     this.onDirectoryKeyUp.bind(this),
+                                placeholder: 'Enter directory name'
+                            })
+                        ]
+                    }
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex: 129,
+                        value:    'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(opts) {

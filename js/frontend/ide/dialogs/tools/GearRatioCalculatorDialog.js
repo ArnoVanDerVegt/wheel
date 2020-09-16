@@ -35,14 +35,14 @@ const GEARS = [
     ];
 
 const MOTORS = [
-        {value: 0, t: 4.08, rpm9:  270, rpm7:  201, image: 'images/poweredup/motor.png',   color: '#D0D4D8', title: 'Powered up', subTitle: 'Basic motor'},
-        {value: 1, t: 4.08, rpm9:  171, rpm7:  126, image: 'images/poweredup/motorM.png',  color: '#D0D4D8', title: 'Powered up', subTitle: 'Medium motor'},
-        {value: 2, t: 8.81, rpm9:  198, rpm7:  141, image: 'images/poweredup/motorL.png',  color: '#D0D4D8', title: 'Powered up', subTitle: 'Technic L motor'},
-        {value: 3, t: 8.81, rpm9:  198, rpm7:  147, image: 'images/poweredup/motorXL.png', color: '#D0D4D8', title: 'Powered up', subTitle: 'Technic XL motor'},
-        {value: 4, t: 0.88, rpm9: 1242, rpm7:  855, image: 'images/poweredup/train.png',   color: '#D0D4D8', title: 'Powered up', subTitle: 'Train motor'},
-        {value: 5, t: 4.08, rpm9:  264, rpm7:  201, image: 'images/poweredup/moveHub.png', color: '#D0D4D8', title: 'Powered up', subTitle: 'MoveHub motor'},
-        {value: 6, t: 6.64, rpm9:  165, rpm7:  120, image: 'images/ev3/motorMedium.png',   color: '#D0D4D8', title: 'EV3',        subTitle: 'Medium motor'},
-        {value: 7, t: 17.3, rpm9:  105, rpm7:   78, image: 'images/ev3/motorLarge.png',    color: '#D0D4D8', title: 'EV3',        subTitle: 'Large motor'}
+        {value: 0, t: 4.08, rpm9:  270, rpm7:  201, image: 'images/poweredup/motor64.png',   color: '#D0D4D8', title: 'Powered up', subTitle: 'Basic motor'},
+        {value: 1, t: 4.08, rpm9:  171, rpm7:  126, image: 'images/poweredup/motorM64.png',  color: '#D0D4D8', title: 'Powered up', subTitle: 'Medium motor'},
+        {value: 2, t: 8.81, rpm9:  198, rpm7:  141, image: 'images/poweredup/motorL64.png',  color: '#D0D4D8', title: 'Powered up', subTitle: 'Technic L motor'},
+        {value: 3, t: 8.81, rpm9:  198, rpm7:  147, image: 'images/poweredup/motorXL64.png', color: '#D0D4D8', title: 'Powered up', subTitle: 'Technic XL motor'},
+        {value: 4, t: 0.88, rpm9: 1242, rpm7:  855, image: 'images/poweredup/train64.png',   color: '#D0D4D8', title: 'Powered up', subTitle: 'Train motor'},
+        {value: 5, t: 4.08, rpm9:  264, rpm7:  201, image: 'images/poweredup/moveHub64.png', color: '#D0D4D8', title: 'Powered up', subTitle: 'MoveHub motor'},
+        {value: 6, t: 6.64, rpm9:  165, rpm7:  120, image: 'images/ev3/motorMedium64.png',   color: '#D0D4D8', title: 'EV3',        subTitle: 'Medium motor'},
+        {value: 7, t: 17.3, rpm9:  105, rpm7:   78, image: 'images/ev3/motorLarge64.png',    color: '#D0D4D8', title: 'EV3',        subTitle: 'Large motor'}
     ];
 
 exports.GearRatioCalculatorDialog = class extends Dialog {
@@ -52,7 +52,7 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
         GEARS.forEach((gear) => {
             this._gearByValue[gear.value] = gear;
         });
-        this.createWindow(
+        this.initWindow(
             'gear-ratio-calculator-dialog',
             'Gear ratio calculator',
             [

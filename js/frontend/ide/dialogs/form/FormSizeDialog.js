@@ -12,37 +12,37 @@ exports.FormSizeDialog = class extends ImageDialog {
         opts.minHeight = 128;
         opts.maxHeight = 600;
         super(opts);
-        this.createWindow(
-            'image-dialog',
-            'Set form size',
-            [
-                {
-                    className: 'image-dialog-text',
-                    children: [
-                        this.getWidthRow(),
-                        this.getHeightRow()
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('image-dialog', 'Set form size', this.initWindowContent(opts));
         dispatcher.on('Dialog.Form.SetSize', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'image-dialog-text',
+                children: [
+                    this.getWidthRow(),
+                    this.getHeightRow()
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 128,
+                        value:    'Ok',
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex: 129,
+                        value:    'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(width, height) {

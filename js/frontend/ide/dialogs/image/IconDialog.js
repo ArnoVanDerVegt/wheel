@@ -78,35 +78,35 @@ exports.IconDialog = class extends Dialog {
         super(opts);
         this._onApply  = null;
         this._selected = null;
-        this.createWindow(
-            'icon-dialog',
-            'Select an icon',
-            [
-                {
-                    ref:       this.setRef('iconList'),
-                    className: 'icon-list',
-                    children:  this.initIcons()
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('ok'),
-                            value:    'Ok',
-                            tabIndex: 256,
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            value:    'Cancel',
-                            tabIndex: 257,
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('icon-dialog', 'Select an icon', this.initWindowContent(opts));
         dispatcher.on('Dialog.Icon.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('iconList'),
+                className: 'icon-list',
+                children:  this.initIcons()
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('ok'),
+                        value:    'Ok',
+                        tabIndex: 256,
+                        disabled: true,
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        value:    'Cancel',
+                        tabIndex: 257,
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     initIcons() {

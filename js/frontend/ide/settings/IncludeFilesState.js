@@ -23,23 +23,39 @@ exports.IncludeFilesState = class extends Emitter {
 
     getDefaultIncludeFiles() {
         return [
-            {file: 'lib/bit.whl',      description: 'Binary operations like `and` and `or`'},
-            {file: 'lib/button.whl',   description: 'Read EV3 buttons'},
-            {file: 'lib/file.whl',     description: 'Read and write files'},
-            {file: 'lib/light.whl',    description: 'Control the EV3 light'},
-            {file: 'lib/math.whl',     description: 'Math functions: `round`, `sin`, etc...'},
-            {file: 'lib/motor.whl',    description: 'Control motors'},
-            {file: 'lib/screen.whl',   description: 'Drawing functions'},
-            {file: 'lib/sensor.whl',   description: 'Read sensors'},
-            {file: 'lib/sound.whl',    description: 'Play tones and samples'},
-            {file: 'lib/standard.whl', description: 'Standard functions'},
-            {file: 'lib/string.whl',   description: 'String functions'},
-            {file: 'lib/system.whl',   description: 'Access to EV3 system functions'}
+            {file: 'lib/bit.whl',      type: 'General', description: 'Binary operations like `and` and `or`'},
+            {file: 'lib/button.whl',   type: 'EV3',     description: 'Read EV3 buttons'},
+            {file: 'lib/file.whl',     type: 'EV3',     description: 'Read and write files'},
+            {file: 'lib/light.whl',    type: 'EV3',     description: 'Control the EV3 light'},
+            {file: 'lib/math.whl',     type: 'General', description: 'Math functions: `round`, `sin`, etc...'},
+            {file: 'lib/motor.whl',    type: 'General', description: 'Control motors'},
+            {file: 'lib/screen.whl',   type: 'EV3',     description: 'Drawing functions'},
+            {file: 'lib/sensor.whl',   type: 'General', description: 'Read sensors'},
+            {file: 'lib/sound.whl',    type: 'EV3',     description: 'Play tones and samples'},
+            {file: 'lib/standard.whl', type: 'General', description: 'Standard functions'},
+            {file: 'lib/string.whl',   type: 'General', description: 'String functions'},
+            {file: 'lib/system.whl',   type: 'EV3',     description: 'Access to EV3 system functions'}
         ];
     }
 
-    getIncludeFiles() {
-        return JSON.parse(JSON.stringify(this._includeFiles));
+    getIncludeFiles(types) {
+        if (!types) {
+            return JSON.parse(JSON.stringify(this._includeFiles));
+        }
+        let result = [];
+        this._includeFiles.forEach((includeFile) => {
+            if (includeFile.type === undefined) {
+                result.push(JSON.parse(JSON.stringify(includeFile)));
+            } else {
+                for (let i = 0; i < types.length; i++) {
+                    if (includeFile.type.indexOf(types[i]) !== -1) {
+                        result.push(JSON.parse(JSON.stringify(includeFile)));
+                        break;
+                    }
+                }
+            }
+        });
+        return result;
     }
 
     load(data) {
@@ -47,10 +63,17 @@ exports.IncludeFilesState = class extends Emitter {
             this.loadDefaults();
             return;
         }
+        let includeFileByFile = {};
+        this.getDefaultIncludeFiles().forEach((includeFile) => {
+            includeFileByFile[includeFile.file] = includeFile;
+        });
         let includeFiles = this._includeFiles;
         includeFiles.length = 0;
         data.forEach(function(includeFile) {
             if (('file' in includeFile) && ('description' in includeFile)) {
+                if (includeFileByFile[includeFile.file]) {
+                    includeFile.type = includeFileByFile[includeFile.file].type;
+                }
                 includeFiles.push(Object.assign({}, includeFile));
             }
         });
@@ -71,6 +94,7 @@ exports.IncludeFilesState = class extends Emitter {
         let includeFiles = this._includeFiles;
         if ((index >= 0) && (index < includeFiles.length)) {
             includeFiles[index].file        = includeFile.file;
+            includeFiles[index].type        = includeFile.type;
             includeFiles[index].description = includeFile.description;
         }
         this._settings

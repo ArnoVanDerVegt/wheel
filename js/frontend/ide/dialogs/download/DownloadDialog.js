@@ -11,85 +11,85 @@ const ResourceLine = require('./components/ResourceLine').ResourceLine;
 exports.DownloadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'download-dialog',
-            'Download resources',
-            [
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Project filename:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('projectFilename'),
-                            className: 'value'
-                        }
-                    ]
-                },
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Project description:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('projectDescription'),
-                            className: 'value'
-                        }
-                    ]
-                },
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Remote directory:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('remoteDirectory'),
-                            className: 'value'
-                        }
-                    ]
-                },
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Actions:',
-                            className: 'label'
-                        }
-                    ]
-                },
-                {
-                    ref:       this.setRef('text'),
-                    className: 'download-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('downloadButton'),
-                            value:    'Download',
-                            tabIndex: 128,
-                            onClick:  this.onDownload.bind(this)
-                        }),
-                        this.addButton({
-                            ref:      this.setRef('closeButton'),
-                            value:    'Close',
-                            tabIndex: 129,
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('download-dialog', 'Download resources', this.initWindowContent(opts));
         dispatcher.on('Dialog.Download.Show', this, this.onShow);
         this._ev3      = opts.ev3;
         this._settings = opts.settings;
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'download-row',
+                children: [
+                    {
+                        innerHTML: 'Project filename:',
+                        className: 'label'
+                    },
+                    {
+                        ref:       this.setRef('projectFilename'),
+                        className: 'value'
+                    }
+                ]
+            },
+            {
+                className: 'download-row',
+                children: [
+                    {
+                        innerHTML: 'Project description:',
+                        className: 'label'
+                    },
+                    {
+                        ref:       this.setRef('projectDescription'),
+                        className: 'value'
+                    }
+                ]
+            },
+            {
+                className: 'download-row',
+                children: [
+                    {
+                        innerHTML: 'Remote directory:',
+                        className: 'label'
+                    },
+                    {
+                        ref:       this.setRef('remoteDirectory'),
+                        className: 'value'
+                    }
+                ]
+            },
+            {
+                className: 'download-row',
+                children: [
+                    {
+                        innerHTML: 'Actions:',
+                        className: 'label'
+                    }
+                ]
+            },
+            {
+                ref:       this.setRef('text'),
+                className: 'download-text'
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('downloadButton'),
+                        value:    'Download',
+                        tabIndex: 128,
+                        onClick:  this.onDownload.bind(this)
+                    }),
+                    this.addButton({
+                        ref:      this.setRef('closeButton'),
+                        value:    'Close',
+                        tabIndex: 129,
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     initLines(resources) {

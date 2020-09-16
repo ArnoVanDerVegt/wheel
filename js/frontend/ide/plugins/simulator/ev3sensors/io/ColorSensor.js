@@ -10,7 +10,7 @@ exports.ColorSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/color.png',
+            'images/ev3/color64.png',
             true, // With mode
             [
                 this.getColorValueInput(),

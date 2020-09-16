@@ -11,46 +11,46 @@ exports.DeviceAliasDialog = class extends Dialog {
     constructor(opts) {
         opts.title = 'Device alias';
         super(opts);
-        this.createWindow(
-            'device-alias-dialog',
-            'Device alias',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'device-alias-text'
-                },
-                {
-                    className: 'device-alias-row',
-                    children: [
-                        this.addTextInput({
-                            ref:         this.setRef('alias'),
-                            tabIndex:    1,
-                            onKeyUp:     this.onAliasKeyUp.bind(this),
-                            maxLength:   32,
-                            placeholder: 'Enter alias'
-                        })
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:       this.setRef('buttonApply'),
-                            tabIndex:  128,
-                            value:     'Set device alias',
-                            onClick:   this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:       this.setRef('buttonCancel'),
-                            tabIndex:  129,
-                            value:     'Cancel',
-                            onClick:   this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('device-alias-dialog', 'Device alias', this.initWindowContent(opts));
         dispatcher.on('Dialog.DeviceAlias.Show', this, this.onShow);
+    }
+
+    initWindowContent() {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'device-alias-text'
+            },
+            {
+                className: 'device-alias-row',
+                children: [
+                    this.addTextInput({
+                        ref:         this.setRef('alias'),
+                        tabIndex:    1,
+                        onKeyUp:     this.onAliasKeyUp.bind(this),
+                        maxLength:   32,
+                        placeholder: 'Enter alias'
+                    })
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:       this.setRef('buttonApply'),
+                        tabIndex:  128,
+                        value:     'Set device alias',
+                        onClick:   this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        ref:       this.setRef('buttonCancel'),
+                        tabIndex:  129,
+                        value:     'Cancel',
+                        onClick:   this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onApply() {

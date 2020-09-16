@@ -125,10 +125,11 @@ exports.MainMenu = class extends MainMenu {
     initFileMenu() {
         this._fileMenu = this.addMenu({
             title: '^File',
-            width: '200px',
+            width: '256px',
             items: [
                 {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
                 {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
+                {title: 'New Powered Up project',                                 dispatch: 'Dialog.File.PoweredUpProject'},
                 {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
                 {title: 'New form',                                               dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
@@ -243,10 +244,10 @@ exports.MainMenu = class extends MainMenu {
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
         let available   = platform.isElectron() || platform.isNode() || window.PoweredUP.isWebBluetooth;
-        menuOptions[0].setEnabled(available);  // Connect
-        menuOptions[1].setEnabled(false);      // Disconnect
-        menuOptions[2].setEnabled(available);  // Autoconnect
-        menuOptions[4].setEnabled(false);      // Direct control
+        menuOptions[0].setEnabled(available);                                   // Connect
+        menuOptions[1].setEnabled(false);                                       // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron() || platform.isNode());  // Autoconnect, not in browser!
+        menuOptions[4].setEnabled(false);                                       // Direct control
         return this;
     }
 
@@ -354,9 +355,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[7].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[7].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[8].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 

@@ -97,26 +97,26 @@ const Chart = class extends Component {
 exports.StatisticsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'statistics-dialog',
-            'Statistics',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'statistics-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:   'Ok',
-                            onClick: this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('statistics-dialog', 'Statistics', this.initWindowContent(opts));
         dispatcher.on('Dialog.Statistics.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'statistics-text'
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        value:   'Ok',
+                        onClick: this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(opts) {

@@ -10,52 +10,52 @@ exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
         opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
-        this.createWindow(
-            'image-dialog new-image',
-            opts.title || 'New image',
-            [
-                {
-                    className: 'image-dialog-text',
-                    children: [
-                        {
-                            className: 'image-dialog-row',
-                            children: [
-                                {
-                                    className: 'form-label',
-                                    innerHTML: 'Filename'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('filename'),
-                                    tabIndex:    1,
-                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
-                                    placeholder: 'Enter filename'
-                                })
-                            ]
-                        },
-                        this.getWidthRow(),
-                        this.getHeightRow()
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    opts.applyTitle || 'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('image-dialog new-image', opts.title || 'New image', this.initWindowContent(opts));
         dispatcher.on(opts.dispatchShow || 'Dialog.Image.New.Show', this, this.onShow);
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'image-dialog-text',
+                children: [
+                    {
+                        className: 'image-dialog-row',
+                        children: [
+                            {
+                                className: 'form-label',
+                                innerHTML: 'Filename'
+                            },
+                            this.addTextInput({
+                                ref:         this.setRef('filename'),
+                                tabIndex:    1,
+                                onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                placeholder: 'Enter filename'
+                            })
+                        ]
+                    },
+                    this.getWidthRow(),
+                    this.getHeightRow()
+                ]
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 128,
+                        value:    opts.applyTitle || 'Ok',
+                        onClick:  this.onApply.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex: 129,
+                        value:    'Cancel',
+                        color:    'dark-green',
+                        onClick:  this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     onShow(activeDirectory, documentPath) {

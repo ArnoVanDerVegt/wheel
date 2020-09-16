@@ -9,12 +9,12 @@ const path            = require('../lib/path');
 const Button          = require('../lib/components/Button').Button;
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('./data/images').getImage;
-const FileDialog      = require('./dialogs/file/FileDialog').FileDialog;
+const FileOpenDialog  = require('./dialogs/file/FileOpenDialog').FileOpenDialog;
 
 exports.Setup = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        new FileDialog({getImage: getImage, ui: opts.ui, settings: opts.settings});
+        new FileOpenDialog({getImage: getImage, ui: opts.ui, settings: opts.settings});
         this._ui       = opts.ui;
         this._uiId     = opts.ui.getNextUIId();
         this._hidden   = false;

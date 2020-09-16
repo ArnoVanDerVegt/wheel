@@ -8,6 +8,7 @@ const path         = require('../../../lib/path');
 const Files        = require('../../../lib/components/files/Files').Files;
 const Dialog       = require('../../../lib/components/Dialog').Dialog;
 const Button       = require('../../../lib/components/Button').Button;
+const WizardSteps  = require('../../../lib/components/WizardSteps').WizardSteps;
 const ImagePreview = require('./components/ImagePreview').ImagePreview;
 const Step         = require('./components/Step').Step;
 const StepSelect   = require('./components/StepSelect').StepSelect;
@@ -19,103 +20,78 @@ exports.ImageLoadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._currentStep         = 0;
-        this._stepElements        = [];
         this._stepContentElements = [];
-        this.createWindow(
-            'image-load-dialog',
-            'Load image file',
-            [
-                {
-                    className: 'steps',
-                    children: [
-                        {
-                            id:        this.addStepElement.bind(this),
-                            className: 'step active',
-                            innerHTML: 'Select'
-                        },
-                        {
-                            id:        this.addStepElement.bind(this),
-                            className: 'step',
-                            innerHTML: 'Scale'
-                        },
-                        {
-                            id:        this.addStepElement.bind(this),
-                            className: 'step',
-                            innerHTML: 'Contrast'
-                        },
-                        {
-                            id:        this.addStepElement.bind(this),
-                            className: 'step',
-                            innerHTML: 'Filename'
-                        }
-                    ]
-                },
-                {
-                    id:     this.addStepContentElement.bind(this),
-                    type:   StepSelect,
-                    ui:     this._ui,
-                    uiId:   this._uiId,
-                    hidden: false,
-                    dialog: this
-                },
-                {
-                    id:     this.addStepContentElement.bind(this),
-                    type:   StepScale,
-                    ui:     this._ui,
-                    uiId:   this._uiId,
-                    hidden: true,
-                    dialog: this
-                },
-                {
-                    id:     this.addStepContentElement.bind(this),
-                    type:   StepContrast,
-                    ui:     this._ui,
-                    uiId:   this._uiId,
-                    hidden: true,
-                    dialog: this
-                },
-                {
-                    id:     this.addStepContentElement.bind(this),
-                    type:   StepFilename,
-                    ui:     this._ui,
-                    uiId:   this._uiId,
-                    hidden: true,
-                    dialog: this
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            id:        this.setButtonPreviousElement.bind(this),
-                            tabIndex:  1024,
-                            disabled:  false,
-                            className: 'left previous',
-                            value:     'Previous',
-                            onClick:   this.onPrevious.bind(this)
-                        }),
-                        this.addButton({
-                            id:        this.setButtonNextElement.bind(this),
-                            tabIndex:  1025,
-                            disabled:  false,
-                            className: 'left',
-                            value:     'Next',
-                            onClick:   this.onNext.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex:  1026,
-                            value:     'Cancel',
-                            color:     'dark-green',
-                            onClick:   this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow('image-load-dialog', 'Load image file', this.initWindowContent(opts));
         dispatcher.on('Dialog.Image.Load.Show', this, this.onShow);
     }
 
-    addStepElement(element) {
-        this._stepElements.push(element);
+    initWindowContent(opts) {
+        return [
+            {
+                type:  WizardSteps,
+                ref:   this.setRef('wizardSteps'),
+                steps: ['Select', 'Scale', 'Contrast', 'Filename']
+            },
+            {
+                id:     this.addStepContentElement.bind(this),
+                type:   StepSelect,
+                ui:     this._ui,
+                uiId:   this._uiId,
+                hidden: false,
+                dialog: this
+            },
+            {
+                id:     this.addStepContentElement.bind(this),
+                type:   StepScale,
+                ui:     this._ui,
+                uiId:   this._uiId,
+                hidden: true,
+                dialog: this
+            },
+            {
+                id:     this.addStepContentElement.bind(this),
+                type:   StepContrast,
+                ui:     this._ui,
+                uiId:   this._uiId,
+                hidden: true,
+                dialog: this
+            },
+            {
+                id:     this.addStepContentElement.bind(this),
+                type:   StepFilename,
+                ui:     this._ui,
+                uiId:   this._uiId,
+                hidden: true,
+                dialog: this
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        id:        this.setButtonPreviousElement.bind(this),
+                        tabIndex:  1024,
+                        disabled:  false,
+                        className: 'left previous',
+                        value:     'Previous',
+                        onClick:   this.onPrevious.bind(this)
+                    }),
+                    this.addButton({
+                        id:        this.setButtonNextElement.bind(this),
+                        tabIndex:  1025,
+                        disabled:  false,
+                        className: 'left',
+                        value:     'Next',
+                        onClick:   this.onNext.bind(this)
+                    }),
+                    this.addButton({
+                        tabIndex:  1026,
+                        value:     'Cancel',
+                        color:     'dark-green',
+                        onClick:   this.hide.bind(this)
+                    })
+                ]
+            }
+        ];
     }
 
     addStepContentElement(element) {
@@ -135,20 +111,17 @@ exports.ImageLoadDialog = class extends Dialog {
     }
 
     showStep(step, opts) {
-        let stepElements        = this._stepElements;
         let stepContentElements = this._stepContentElements;
         for (let i = 0; i < stepContentElements.length; i++) {
-            let stepElement        = stepElements[i];
             let stepContentElement = stepContentElements[i];
             if (i === step) {
-                stepElement.className = 'step active';
                 stepContentElement.show(opts);
             } else {
-                stepElement.className = 'step';
                 stepContentElement.hide();
             }
         }
         this._currentStep = step;
+        this._refs.wizardSteps.setActiveStep(step);
     }
 
     onNext() {

@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode  = require('../../../../lib/dom').DOMNode;
-const Checkbox = require('../../../../lib/components/Checkbox').Checkbox;
+const DOMNode  = require('../dom').DOMNode;
+const Checkbox = require('./Checkbox').Checkbox;
 
 exports.IncludeFiles = class extends DOMNode {
     constructor(opts) {
@@ -11,6 +11,7 @@ exports.IncludeFiles = class extends DOMNode {
         this._ui               = opts.ui;
         this._uiId             = opts.uiId;
         this._settings         = opts.settings;
+        this._types            = opts.types || false;
         this._checkboxElements = [];
         this.initDOM(opts.parentNode);
         opts.id(this);
@@ -32,7 +33,7 @@ exports.IncludeFiles = class extends DOMNode {
 
     getIncludeFileChildren() {
         let children     = [];
-        let includeFiles = this._settings.getIncludeFiles().getIncludeFiles();
+        let includeFiles = this._settings.getIncludeFiles().getIncludeFiles(this._types);
         for (let i = 0; i < includeFiles.length; i++) {
             let includeFile = includeFiles[i];
             children.push({
@@ -61,7 +62,7 @@ exports.IncludeFiles = class extends DOMNode {
 
     getIncludeFiles() {
         let result       = [];
-        let includeFiles = this._settings.getIncludeFiles().getIncludeFiles();
+        let includeFiles = this._settings.getIncludeFiles().getIncludeFiles(this._types);
         this._checkboxElements.forEach((checkboxElement, index) => {
             if (checkboxElement.getValue()) {
                 result.push(includeFiles[index].file);

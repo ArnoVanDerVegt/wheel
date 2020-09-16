@@ -6,25 +6,6 @@ const dispatcher = require('../dispatcher').dispatcher;
 const Component  = require('./Component').Component;
 const path       = require('../../lib/path');
 
-const getVarString = function(vr, getSpan) {
-    let vrString = '';
-    let type     = vr.getType();
-    if (typeof type === 'string') {
-        vrString = getSpan(type, 'type');
-    } else {
-        vrString = getSpan(type.getName(), 'record');
-    }
-    vrString += ' ';
-    if (vr.getPointer()) {
-        vrString += getSpan('^', 'operator');
-    }
-    vrString += getSpan(vr.getName(), 'variable');
-    if (vr.getArraySize() !== false) {
-        vrString += getSpan('[', 'operator') + getSpan(vr.getArraySize(), 'number') + getSpan(']', 'operator');
-    }
-    return vrString;
-};
-
 exports.Hint = class extends Component {
     constructor(opts) {
         super(opts);
@@ -83,90 +64,119 @@ exports.Hint = class extends Component {
         return filename.substr(documentPath.length - filename.length) + ':' + token.lineNum;
     }
 
-    getHintFromProc(proc) {
+    getSpan(hintInfo, s, className) {
+        hintInfo.length += s.length;
+        return '<span class="' + className + '">' + s + '</span>';
+    }
 
+    getVarString(hintInfo, vr) {
+        let vrString = '';
+        let type     = vr.getType();
+        if (typeof type === 'string') {
+            vrString = this.getSpan(hintInfo, type, 'type');
+        } else {
+            vrString = this.getSpan(hintInfo, type.getName(), 'record');
+        }
+        vrString += ' ';
+        if (vr.getPointer()) {
+            vrString += this.getSpan(hintInfo, '^', 'operator');
+        }
+        vrString += this.getSpan(hintInfo, vr.getName(), 'variable');
+        if (vr.getArraySize() !== false) {
+            vrString += this.getSpan(hintInfo, '[', 'operator') +
+                this.getSpan(hintInfo, vr.getArraySize(), 'number') +
+                this.getSpan(hintInfo, ']', 'operator');
+        }
+        return vrString;
+    }
+
+    getHintFromProc(hintInfo, proc) {
+        let params    = proc.getVars();
+        let paramList = [];
+        let name      = proc.getName().split('~').join('.');
+        hintInfo.type    = 'proc';
+        hintInfo.token   = proc.getToken();
+        hintInfo.hasMore = false;
+        hintInfo.length = name.length + 1;
+        for (let i = 2; i < proc.getParamCount() + 2; i++) {
+            if (hintInfo.length > 80) {
+                hintInfo.hasMore = true;
+                break;
+            }
+            hintInfo.length += 2;
+            paramList.push(this.getVarString(hintInfo, params[i]));
+        }
+        hintInfo.hint = this.getSpan(hintInfo, name, 'proc') +
+            this.getSpan(hintInfo, '(', 'operator') + paramList.join(', ');
+        if (hintInfo.hasMore) {
+            hintInfo.hint += '...';
+        } else {
+            hintInfo.hint += this.getSpan(hintInfo, ')', 'operator');
+        }
+    }
+
+    getHintFromRecord(hintInfo, record) {
+        let fields    = record.getVars();
+        let fieldList = [];
+        let name      = record.getName().split('~').join('.');
+        hintInfo.type    = 'record';
+        hintInfo.token   = record.getToken();
+        hintInfo.hasMore = false;
+        hintInfo.length = name.length + 3;
+        for (let i = 0; i < fields.length; i++) {
+            if (hintInfo.length > 80) {
+                hintInfo.hasMore = true;
+                break;
+            }
+            hintInfo.length += 2;
+            fieldList.push(this.getVarString(hintInfo, fields[i]));
+        }
+        hintInfo.hint = this.getSpan(hintInfo, name, 'record') + ' - ' + fieldList.join(', ');
+        if (hintInfo.hasMore) {
+            hintInfo.hint += '...';
+        }
+    }
+
+    getHintFromDefine(hintInfo, define) {
+        let value = define.value + '';
+        hintInfo.token = define.token;
+        hintInfo.hint  = this.getSpan(hintInfo, define.key, 'define') + this.getSpan(hintInfo, ' = ', 'operator');
+        if (value.substr(0, 1) === '"') {
+            hintInfo.hint += this.getSpan(hintInfo, value, 'string');
+        } else {
+            hintInfo.hint += this.getSpan(hintInfo, value, 'number');
+        }
     }
 
     getHint(opts) {
-        let infoLength;
-        let name;
-        let hasMore;
-        let token;
-        let result   = '';
-        let database = this._database;
-        let type     = '';
-        let hint     = '';
-        let proc     = database.compiler.findProc(opts.hint) || database.compiler.findProc(opts.altHint);
-        const getSpan = function(s, className) {
-                infoLength += s.length;
-                return '<span class="' + className + '">' + s + '</span>';
+        let hintInfo = {
+                length:  0,
+                hasMore: false,
+                token:   null,
+                type:    '',
+                hint:    ''
             };
+        let database = this._database;
+        let proc     = database.compiler.findProc(opts.hint) || database.compiler.findProc(opts.altHint);
         if (proc) {
-            let params     = proc.getVars();
-            let paramList  = [];
-            type    = 'proc';
-            token   = proc.getToken();
-            name    = proc.getName().split('~').join('.');
-            hasMore = false;
-            infoLength = name.length + 1;
-            for (let j = 2; j < proc.getParamCount() + 2; j++) {
-                if (infoLength > 80) {
-                    hasMore = true;
-                    break;
-                }
-                infoLength += 2;
-                paramList.push(getVarString(params[j], getSpan));
-            }
-            hint = getSpan(name, 'proc') + getSpan('(', 'operator') + paramList.join(', ');
-            if (hasMore) {
-                hint += '...';
-            } else {
-                hint += getSpan(')', 'operator');
-            }
+            this.getHintFromProc(hintInfo, proc);
         } else {
             let record = database.compiler.findRecord(opts.hint) || database.compiler.findRecord(opts.altHint);
             if (record) {
-                let fields    = record.getVars();
-                let fieldList = [];
-                type    = 'record';
-                token   = record.getToken();
-                name    = record.getName().split('~').join('.');
-                hasMore = false;
-                infoLength = name.length + 3;
-                for (let j = 0; j < fields.length; j++) {
-                    if (infoLength > 30) {
-                        hasMore = true;
-                        break;
-                    }
-                    infoLength += 2;
-                    fieldList.push(getVarString(fields[j], getSpan));
-                }
-                hint = getSpan(name, 'record') + ' - ' + fieldList.join(', ');
-                if (hasMore) {
-                    hint += '...';
-                }
+                this.getHintFromRecord(hintInfo, record);
             } else {
-                type = 'define';
+                hintInfo.type = 'define';
                 let define = database.defines.getFullInfo(opts.hint);
                 if (define !== false) {
-                    let value = define.value + '';
-                    token = define.token;
-                    hint  = getSpan(define.key, 'define') + getSpan(' = ', 'operator');
-                    if (value.substr(0, 1) === '"') {
-                        hint += getSpan(value, 'string');
-                    } else {
-                        hint += getSpan(value, 'number');
-                    }
-                } else {
-                    hint = '';
+                    this.getHintFromDefine(hintInfo, define);
                 }
             }
         }
-        if (hint !== '') {
-            this._refs.title.innerHTML      = type;
-            this._locationElement.innerHTML = this.getLocationInfo(token);
+        if (hintInfo.hint !== '') {
+            this._refs.title.innerHTML      = hintInfo.type;
+            this._locationElement.innerHTML = this.getLocationInfo(hintInfo.token);
         }
-        return hint;
+        return hintInfo.hint;
     }
 
     onCompilerDatabase(database) {
