@@ -17,27 +17,6 @@
 .dialog-background.image-load-dialog .dialog-center .dialog-content .buttons .button.green.left.previous {
     margin:                         0 4px 0 0;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps {
-    float:                          left;
-    width:                          calc(100% - 64px);
-    height:                         48px;
-    background-color:               blue;
-    margin:                         0 32px 0 32px;
-    background-color:               var(--wizard-step-in-active);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps .step {
-    float:                          left;
-    width:                          25%;
-    height:                         48px;
-    padding:                        0 0 0 12px;
-    line-height:                    48px;
-    font-size:                      24px;
-    color:                          var(--wizard-step-active);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps .step.active {
-    background-color:               var(--wizard-step-active);
-    color:                          var(--wizard-step-active-color);
-}
 .dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview {
     float:                          left;
     width:                          608px;
