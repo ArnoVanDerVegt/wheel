@@ -96,12 +96,8 @@ exports.DeviceListState = class extends Emitter {
             .on('Dialog.File.PoweredUpProject.SetPortType',    this, this.onSetPortType)
             .on('Dialog.File.PoweredUpProject.AddDevice',      this, this.onAddDevice)
             .on('Dialog.File.PoweredUpProject.UpdateDevice',   this, this.onUpdateDevice)
-            .on('Dialog.File.PoweredUpProject.RemoveDevice',   this, this.onRemoveDevice);
-    }
-
-    reset() {
-        this._list.length = 0;
-        this._activeIndex = 0;
+            .on('Dialog.File.PoweredUpProject.RemoveDevice',   this, this.onRemoveDevice)
+            .on('Dialog.File.PoweredUpProject.Reset',          this, this.onReset);
     }
 
     onSetActiveIndex(activeIndex) {
@@ -163,6 +159,11 @@ exports.DeviceListState = class extends Emitter {
             this._activeIndex = list.length - 1;
         }
         this.emit('SetActiveIndex', -1, this._activeIndex, this._list[this._activeIndex]);
+    }
+
+    onReset() {
+        this._list.length = 0;
+        this._activeIndex = 0;
     }
 
     getActiveIndex() {

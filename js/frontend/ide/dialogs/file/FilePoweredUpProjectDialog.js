@@ -157,7 +157,7 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
         this._stepContentElements.forEach((stepContentElements) => {
             stepContentElements.reset();
         });
-        this._deviceList.reset();
+        dispatcher.dispatch('Dialog.File.PoweredUpProject.Reset');
         this._previousButtonElement.setDisabled(true);
         this._nextButtonElement.setDisabled(false);
         this.showStep(0);
