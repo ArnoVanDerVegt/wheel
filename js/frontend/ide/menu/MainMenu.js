@@ -125,13 +125,13 @@ exports.MainMenu = class extends MainMenu {
     initFileMenu() {
         this._fileMenu = this.addMenu({
             title: '^File',
-            width: '256px',
+            width: '272px',
             items: [
-                {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
-                {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
-                {title: 'New Powered Up project',                                 dispatch: 'Dialog.File.PoweredUpProject'},
-                {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
-                {title: 'New form',                                               dispatch: 'Menu.File.NewFormFile'},
+                {title: 'New file...',                  hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
+                {title: 'New project file...',          hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
+                {title: 'New Powered Up project...',                              dispatch: 'Dialog.File.PoweredUpProject'},
+                {title: 'New image...',                 hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New form...',                                            dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},
@@ -139,7 +139,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},
-                {title: 'Settings',                                               dispatch: 'Dialog.Settings.Show'},
+                {title: 'Settings...',                                            dispatch: 'Dialog.Settings.Show'},
                 {title: '-'},
                 {title: 'Exit Wheel',                   hotkey: ['command', 'Q'], dispatch: 'Menu.File.Exit'}
             ]

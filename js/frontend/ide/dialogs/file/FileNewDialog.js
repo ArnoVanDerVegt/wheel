@@ -2,12 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher    = require('../../../lib/dispatcher').dispatcher;
-const DOMNode       = require('../../../lib/dom').DOMNode;
-const path          = require('../../../lib/path');
-const IncludeFiles  = require('../../../lib/components/IncludeFiles').IncludeFiles;
-const SourceBuilder = require('../../editor/editors/form/SourceBuilder');
-const FileDialog    = require('./FileDialog').FileDialog;
+const dispatcher         = require('../../../lib/dispatcher').dispatcher;
+const DOMNode            = require('../../../lib/dom').DOMNode;
+const path               = require('../../../lib/path');
+const IncludeFiles       = require('../../../lib/components/IncludeFiles').IncludeFiles;
+const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
+const FileDialog         = require('./FileDialog').FileDialog;
 
 exports.FileNewDialog = class extends FileDialog {
     constructor(opts) {
@@ -131,10 +131,10 @@ exports.FileNewDialog = class extends FileDialog {
         this.addIncludes(file, includeFiles);
         if (createForm) {
             file.push('');
-            file.push.apply(file, SourceBuilder.getFormCode(formFilename));
+            file.push.apply(file, sourceBuilderUtils.getFormCode(formFilename));
             file.push(
                 'proc main()',
-                '    ' + SourceBuilder.getShowProcNameFromFormName(formName) + '()',
+                '    ' + sourceBuilderUtils.getShowProcNameFromFormName(formName) + '()',
                 '    halt()',
                 'end'
             );

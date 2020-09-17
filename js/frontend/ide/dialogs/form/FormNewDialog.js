@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher     = require('../../../lib/dispatcher').dispatcher;
-const path           = require('../../../lib/path');
-const ImageNewDialog = require('../image/ImageNewDialog').ImageNewDialog;
-const SourceBuilder  = require('../../editor/editors/form/SourceBuilder');
+const dispatcher         = require('../../../lib/dispatcher').dispatcher;
+const path               = require('../../../lib/path');
+const ImageNewDialog     = require('../image/ImageNewDialog').ImageNewDialog;
+const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
 
 exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
@@ -46,7 +46,7 @@ exports.FormNewDialog = class extends ImageNewDialog {
                 {
                     filename: whlFilename,
                     value:    ['#include "lib/components/form.whl"', ''].
-                        concat(SourceBuilder.getFormCode(this._filename)).join('\n')
+                        concat(sourceBuilderUtils.getFormCode(this._filename)).join('\n')
                 }
             )
             .dispatch(

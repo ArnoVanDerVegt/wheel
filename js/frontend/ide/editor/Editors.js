@@ -8,6 +8,7 @@ const DOMNode       = require('../../lib/dom').DOMNode;
 const Tabs          = require('../../lib/components/Tabs').Tabs;
 const Button        = require('../../lib/components/Button').Button;
 const SettingsState = require('../settings/SettingsState');
+const SourceBuilder = require('../source/SourceBuilder').SourceBuilder;
 const tabIndex      = require('../tabIndex');
 const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
 const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
@@ -20,7 +21,6 @@ const ImageViewer   = require('./editors/imageviewer/ImageViewer').ImageViewer;
 const ImageEditor   = require('./editors/image/ImageEditor').ImageEditor;
 const ImageLoader   = require('./editors/image/ImageLoader').ImageLoader;
 const FormEditor    = require('./editors/form/FormEditor').FormEditor;
-const SourceBuilder = require('./editors/form/SourceBuilder').SourceBuilder;
 
 exports.Editors = class extends DOMNode {
     constructor(opts) {

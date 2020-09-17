@@ -2,42 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
-const path                = require('../../../../lib/path');
-const formEditorConstants = require('./formEditorConstants');
-
-const getShowProcNameFromFilename = function(filename) {
-        let result = '';
-        filename = path.replaceExtension(filename, '');
-        for (let i = 0; i < filename.length; i++) {
-            let c = filename[i];
-            if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.indexOf(c) !== -1) {
-                result += c;
-            }
-        }
-        return result.substr(0, 1).toUpperCase() + result.substr(1 - result.length) + 'Form';
-    };
-
-const getShowProcNameFromFormName = function(formName) {
-        return 'show' + formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) + 'Form';
-    };
-
-const getFormCode = function(filename) {
-        let pathAndFilename = path.getPathAndFilename(filename);
-        return [
-            '#resource "' + path.replaceExtension(pathAndFilename.filename, '.wfrm') + '"',
-            '',
-            '; @proc                   Show the form.',
-            '; @ret                    The handle to the form.',
-            'proc show' + getShowProcNameFromFilename(filename) + '()',
-            '    ret components.form.show("' + filename + '")',
-            'end',
-            ''
-        ];
-    };
-
-exports.getFormCode                 = getFormCode;
-exports.getShowProcNameFromFormName = getShowProcNameFromFormName;
+const dispatcher          = require('../../lib/dispatcher').dispatcher;
+const path                = require('../../lib/path');
+const formEditorConstants = require('../editor/editors/form/formEditorConstants');
+const sourceBuilderUtils  = require('./sourceBuilderUtils');
 
 exports.SourceBuilder = class {
     constructor(opts) {
@@ -64,82 +32,6 @@ exports.SourceBuilder = class {
         return this._lines.join('\n');
     }
 
-    getConstantFromName(name) {
-        if (name.toUpperCase() === name) {
-            return name;
-        }
-        let result = name.substr(0, 1).toUpperCase();
-        let j      = name.length - 1;
-        for (let i = 1; i <= j; i++) {
-            let c = name.substr(i, 1).toUpperCase();
-            if (i < j) {
-                if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(name.substr(i + 1, 1)) === -1) {
-                    result += c;
-                } else {
-                    result += c + '_';
-                }
-            } else {
-                result += c;
-            }
-        }
-        return result;
-    }
-
-    getLastInclude(lines) {
-        let i = lines.length - 1;
-        while (i >= 0) {
-            let line = lines[i].trim();
-            if (line.indexOf('#include') === 0) {
-                return i;
-            }
-            i--;
-        }
-        return -1;
-    }
-
-    getDefineInfo(line) {
-        let i = line.indexOf('#define');
-        if (i !== -1) {
-            let s = line.substr(7, line.length - 7).trim();
-            i = s.indexOf(' ');
-            if (i !== -1) {
-                return {key: s.substr(0, i).trim(), value: s.substr(i, s.length - i).trim()};
-            }
-        }
-        return null;
-    }
-
-    getFormNameFromComponents(components) {
-        let formName = '';
-        for (let i = 0; i < components.length; i++) {
-            let component = components[i];
-            if (component.type === 'form') {
-                formName = component.name;
-                let j = formName.indexOf('.');
-                if (j !== -1) {
-                    formName = formName.substr(0, j);
-                }
-                break;
-            }
-        }
-        return formName;
-    }
-
-    generateIncludesFromComponents(components) {
-        let includes         = [];
-        let propertiesByType = formEditorConstants.PROPERTIES_BY_TYPE;
-        components.forEach((component) => {
-            if (component.type.toUpperCase() in propertiesByType) {
-                let include = propertiesByType[component.type.toUpperCase()].include;
-                if (includes.indexOf(include) === -1) {
-                    includes.push(include);
-                }
-            }
-        });
-        includes.sort();
-        return includes;
-    }
-
     generateDefinesFromComponents(formName, components) {
         let maxLength = 0;
         let toString  = function() {
@@ -159,11 +51,11 @@ exports.SourceBuilder = class {
                     toString: toString
                 });
             };
-        formName = this.getConstantFromName(formName);
+        formName = sourceBuilderUtils.getConstantFromName(formName);
         components.forEach(
             function(component) {
                 if (component.type !== 'form') {
-                    addDefine(formName + '_' + this.getConstantFromName(component.name), component.uid);
+                    addDefine(formName + '_' + sourceBuilderUtils.getConstantFromName(component.name), component.uid);
                 }
             },
             this
@@ -183,8 +75,8 @@ exports.SourceBuilder = class {
         this._lines = [];
         let components = data.components;
         let lines      = this._lines;
-        let includes   = this.generateIncludesFromComponents(components);
-        let formName   = this.getFormNameFromComponents(components);
+        let includes   = sourceBuilderUtils.generateIncludesFromComponents(components);
+        let formName   = sourceBuilderUtils.getFormNameFromComponents(components);
         if (data.project) {
             lines.push(
                 '#project "' + formName + '"',
@@ -213,7 +105,7 @@ exports.SourceBuilder = class {
                 );
             }
             lines.push(
-                'proc show' + getShowProcNameFromFilename(formName) + '()',
+                'proc show' + sourceBuilderUtils.getShowProcNameFromFilename(formName) + '()',
                 '    ret components.form.show("' + formName + '.wfrm")',
                 'end'
             );
@@ -222,7 +114,7 @@ exports.SourceBuilder = class {
             lines.push(
                 '',
                 'proc main()',
-                '    show' + getShowProcNameFromFilename(formName) + '()',
+                '    show' + sourceBuilderUtils.getShowProcNameFromFilename(formName) + '()',
                 '    halt()',
                 'end'
             );
@@ -331,15 +223,14 @@ exports.SourceBuilder = class {
 
     generateUpdatedSource(opts) {
         let lines = this._lines;
-        this
-            .updateLinesWithIncludes(lines, opts)
-            .generateEventsFromData(lines, opts.components);
-        let formName       = this.getFormNameFromComponents(opts.components);
+        sourceBuilderUtils.updateLinesWithIncludes(lines, opts)
+        this.generateEventsFromData(lines, opts.components);
+        let formName       = sourceBuilderUtils.getFormNameFromComponents(opts.components);
         let defines        = this.generateDefinesFromComponents(formName, opts.components);
         let insertPosition = -1;
         let i              = 0;
         while (i < lines.length) {
-            let defineInfo = this.getDefineInfo(lines[i]);
+            let defineInfo = sourceBuilderUtils.getDefineInfo(lines[i]);
             if (defineInfo && (defineInfo.key in defines.definesByName)) {
                 lines.splice(i, 1);
                 insertPosition = i;
@@ -379,10 +270,10 @@ exports.SourceBuilder = class {
     deleteComponent(opts) {
         let lines  = this._lines;
         const deleteComponent = (name) => {
-                let define = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(name);
+                let define = sourceBuilderUtils.getConstantFromName(opts.formName) + '_' + sourceBuilderUtils.getConstantFromName(name);
                 let i      = 0;
                 while (i < lines.length) {
-                    let defineInfo = this.getDefineInfo(lines[i]);
+                    let defineInfo = sourceBuilderUtils.getDefineInfo(lines[i]);
                     if (defineInfo && (defineInfo.key === define)) {
                         lines.splice(i, 1);
                         break;
@@ -393,29 +284,6 @@ exports.SourceBuilder = class {
             };
         opts.components.forEach((item) => {
             deleteComponent(item.name);
-        });
-        return this;
-    }
-
-    updateLinesWithIncludes(lines, opts) {
-        let currentIncludes = [];
-        let lastIndex       = 0;
-        lines.forEach((line, index) => {
-            line = line.trim();
-            if (line.indexOf('#include ') === 0) {
-                let i = line.indexOf('"');
-                let j = line.indexOf('"', i + 1);
-                if ((i !== -1) && (j !== -1)) {
-                    currentIncludes.push(line.substr(i + 1, j - i - 1));
-                }
-                lastIndex = index;
-            }
-        });
-        let includes = this.generateIncludesFromComponents(opts.components);
-        includes.forEach((include) => {
-            if (currentIncludes.indexOf(include) === -1) {
-                lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
-            }
         });
         return this;
     }
@@ -448,8 +316,8 @@ exports.SourceBuilder = class {
 
     updateFormNameAndRemoveDefines(opts) {
         let lines   = this._lines;
-        let oldName = getShowProcNameFromFormName(opts.oldName);
-        let newName = getShowProcNameFromFormName(opts.newName);
+        let oldName = sourceBuilderUtils.getShowProcNameFromFormName(opts.oldName);
+        let newName = sourceBuilderUtils.getShowProcNameFromFormName(opts.newName);
         if (newName === '') {
             return this;
         }
@@ -457,7 +325,7 @@ exports.SourceBuilder = class {
         let i       = 0;
         while (i < lines.length) {
             let line       = lines[i].trim();
-            let defineInfo = this.getDefineInfo(line);
+            let defineInfo = sourceBuilderUtils.getDefineInfo(line);
             if (defineInfo && (defineInfo.key in defines.definesByName)) {
                lines.splice(i, 1);
             } else {
@@ -473,8 +341,8 @@ exports.SourceBuilder = class {
     }
 
     updateComponentName(opts) {
-        let oldName = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.oldName);
-        let newName = this.getConstantFromName(opts.formName) + '_' + this.getConstantFromName(opts.newName);
+        let oldName = sourceBuilderUtils.getConstantFromName(opts.formName) + '_' + sourceBuilderUtils.getConstantFromName(opts.oldName);
+        let newName = sourceBuilderUtils.getConstantFromName(opts.formName) + '_' + sourceBuilderUtils.getConstantFromName(opts.newName);
         if (oldName === newName) {
             return this;
         }
@@ -483,7 +351,7 @@ exports.SourceBuilder = class {
         let maxLength = newName.length;
         for (let i = 0; i < lines.length; i++) {
             let line       = lines[i].trim();
-            let defineInfo = this.getDefineInfo(line);
+            let defineInfo = sourceBuilderUtils.getDefineInfo(line);
             if (defineInfo) {
                 maxLength = Math.max(maxLength, defineInfo.key.length);
             }
@@ -497,7 +365,7 @@ exports.SourceBuilder = class {
         let i       = 0;
         while (i < lines.length) {
             let line       = lines[i].trim();
-            let defineInfo = this.getDefineInfo(line);
+            let defineInfo = sourceBuilderUtils.getDefineInfo(line);
             if (defineInfo) {
                 if (defineInfo.key in defines) {
                     lines.splice(i, 1); // Remove duplicate define...

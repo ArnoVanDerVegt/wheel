@@ -6,6 +6,7 @@ const dispatcher                             = require('../../../../lib/dispatch
 const path                                   = require('../../../../lib/path');
 const TabPanel                               = require('../../../../lib/components/TabPanel').TabPanel;
 const getDataProvider                        = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
+const SourceBuilder                          = require('../../../source/SourceBuilder').SourceBuilder;
 const Editor                                 = require('../Editor').Editor;
 const Clipboard                              = require('../Clipboard');
 const ToolbarTop                             = require('./toolbar/ToolbarTop').ToolbarTop;
@@ -13,7 +14,6 @@ const ToolbarBottom                          = require('./toolbar/ToolbarBottom'
 const FormEditorState                        = require('./state/FormEditorState').FormEditorState;
 const formEditorConstants                    = require('./formEditorConstants');
 const FormComponent                          = require('./FormComponent').FormComponent;
-const SourceBuilder                          = require('./SourceBuilder').SourceBuilder;
 const ContainerIdsForForm                    = require('./ContainerIdsForForm').ContainerIdsForForm;
 
 exports.FormEditor = class extends Editor {
