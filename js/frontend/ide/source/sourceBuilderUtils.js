@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                = require('../../lib/path');
 const formEditorConstants = require('../editor/editors/form/formEditorConstants');
 
 exports.getShowProcNameFromFilename = (filename) => {
@@ -13,16 +14,25 @@ exports.getShowProcNameFromFilename = (filename) => {
             result += c;
         }
     }
+    if (result.length === 1) {
+        return result.toUpperCase() + 'Form';
+    }
     return result.substr(0, 1).toUpperCase() + result.substr(1 - result.length) + 'Form';
 };
 
 exports.getShowProcNameFromFormName = (formName) => {
-    return 'show' + formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length) + 'Form';
+    if (formName.length === 1) {
+        formName = formName.toUpperCase();
+    } else {
+        formName = formName.substr(0, 1).toUpperCase() + formName.substr(1 - formName.length);
+    }
+    return 'show' + formName + 'Form';
 };
 
 exports.getFormCode = (filename) => {
     let pathAndFilename = path.getPathAndFilename(filename);
     return [
+        '',
         '#resource "' + path.replaceExtension(pathAndFilename.filename, '.wfrm') + '"',
         '',
         '; @proc                   Show the form.',
@@ -118,4 +128,69 @@ exports.updateLinesWithIncludes = (lines, opts) => {
             lines.splice(lastIndex + 1, 0, '#include "' + include + '"');
         }
     });
+};
+
+const addIncludes = (lines, includeFiles) => {
+        for (let i = 0; i < includeFiles.length; i++) {
+            lines.push('#include "' + includeFiles[i] + '"');
+        }
+    };
+
+exports.removeDuplicateEmptyLines = (lines) => {
+    let result = [];
+    let empty  = false;
+    let i      = 0;
+    while (i < lines.length) {
+        let line = lines[i++];
+        if (line.trim() === '') {
+            if (!empty) {
+                result.push('');
+            }
+            empty = true;
+        } else {
+            result.push(line);
+            empty = false;
+        }
+    }
+    return result;
+};
+
+exports.createProjectFile = (opts) => {
+    let lines           = ['#project "' + opts.description + '"', ''];
+    let pathAndFilename = path.getPathAndFilename(opts.filename);
+    let includeFiles    = opts.includeFiles;
+    let formFilename;
+    let formName;
+    if (opts.createForm) {
+        formFilename = path.replaceExtension(path.getPathAndFilename(opts.filename).filename, '.wfrm');
+        formName     = path.replaceExtension(formFilename, '');
+        if (includeFiles.indexOf('lib/standard.whl') === -1) {
+            includeFiles.push('lib/standard.whl');
+        }
+        if (includeFiles.indexOf('lib/components/component.whl') === -1) {
+            includeFiles.push('lib/components/component.whl');
+        }
+        if (includeFiles.indexOf('lib/components/form.whl') === -1) {
+            includeFiles.push('lib/components/form.whl');
+        }
+    }
+    addIncludes(lines, includeFiles);
+    if (opts.createForm) {
+        lines.push.apply(lines, exports.getFormCode(formFilename));
+        lines.push(
+            'proc main()',
+            '    ' + exports.getShowProcNameFromFormName(formName) + '()',
+            '    halt()',
+            'end'
+        );
+    } else {
+        if (includeFiles.length) {
+            lines.push('');
+        }
+        lines.push(
+            'proc main()',
+            'end'
+        );
+    }
+    return exports.removeDuplicateEmptyLines(lines);
 };

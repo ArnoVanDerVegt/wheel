@@ -29,7 +29,7 @@ exports.SourceBuilder = class {
     }
 
     getSource() {
-        return this._lines.join('\n');
+        return sourceBuilderUtils.removeDuplicateEmptyLines(this._lines).join('\n');
     }
 
     generateDefinesFromComponents(formName, components) {

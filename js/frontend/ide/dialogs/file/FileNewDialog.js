@@ -99,59 +99,22 @@ exports.FileNewDialog = class extends FileDialog {
         ];
     }
 
-    addIncludes(file, includeFiles) {
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
-        }
-    }
-
     addProject(filename) {
         if (path.getExtension(filename) !== '.whlp') {
             filename += '.whlp';
         }
-        let file            = ['#project "' + this._description + '"', ''];
-        let includeFiles    = this._includeFilesElement.getIncludeFiles();
-        let createForm      = this._refs.createForm.getChecked();
-        let pathAndFilename = path.getPathAndFilename(filename);
-        let formFilename;
-        let formName;
-        if (createForm) {
-            formFilename = path.replaceExtension(path.getPathAndFilename(filename).filename, '.wfrm');
-            formName     = path.replaceExtension(formFilename, '');
-            if (includeFiles.indexOf('lib/standard.whl') === -1) {
-                includeFiles.push('lib/standard.whl');
-            }
-            if (includeFiles.indexOf('lib/components/component.whl') === -1) {
-                includeFiles.push('lib/components/component.whl');
-            }
-            if (includeFiles.indexOf('lib/components/form.whl') === -1) {
-                includeFiles.push('lib/components/form.whl');
-            }
-        }
-        this.addIncludes(file, includeFiles);
-        if (createForm) {
-            file.push('');
-            file.push.apply(file, sourceBuilderUtils.getFormCode(formFilename));
-            file.push(
-                'proc main()',
-                '    ' + sourceBuilderUtils.getShowProcNameFromFormName(formName) + '()',
-                '    halt()',
-                'end'
-            );
-        } else {
-            if (includeFiles.length) {
-                file.push('');
-            }
-            file.push(
-                'proc main()',
-                'end'
-            );
-        }
+        let createForm = this._refs.createForm.getChecked();
+        let lines      = sourceBuilderUtils.createProjectFile({
+                description:  this._description,
+                includeFiles: this._includeFilesElement.getIncludeFiles(),
+                createForm:   createForm,
+                filename:     filename
+            });
         dispatcher.dispatch(
             'Create.File',
             {
                 filename: filename,
-                value:    file.join('\n')
+                value:    lines.join('\n')
             }
         );
         if (createForm) {
