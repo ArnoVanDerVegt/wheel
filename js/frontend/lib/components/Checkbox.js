@@ -68,6 +68,13 @@ exports.Checkbox = class extends Component {
         this._element.className = this.getClassName();
     }
 
+    onKeyUp(event) {
+        if (event.keyCode === 32) { // Space
+            this.setChecked(!this._checked);
+        }
+        super.onKeyUp(event);
+    }
+
     focus() {
         this._element.focus();
     }
