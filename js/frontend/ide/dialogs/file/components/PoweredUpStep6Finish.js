@@ -51,4 +51,12 @@ exports.PoweredUpStep6Finish = class extends Step {
         }
         return true;
     }
+
+    getFilename() {
+        return this._refs.filename.getValue();
+    }
+
+    getDescription() {
+        return this._refs.description.getValue();
+    }
 };

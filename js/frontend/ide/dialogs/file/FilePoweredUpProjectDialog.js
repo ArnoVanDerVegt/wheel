@@ -11,8 +11,8 @@ const getImage              = require('../../data/images').getImage;
 const PoweredUpStep1Start   = require('./components/PoweredUpStep1Start').PoweredUpStep1Start;
 const PoweredUpStep2Device  = require('./components/PoweredUpStep2Device').PoweredUpStep2Device;
 const PoweredUpStep3Ports   = require('./components/PoweredUpStep3Ports').PoweredUpStep3Ports;
-const PoweredUpStep4Form    = require('./components/PoweredUpStep4Form').PoweredUpStep4Form;
-const PoweredUpStep5Include = require('./components/PoweredUpStep5Include').PoweredUpStep5Include;
+const PoweredUpStep4Include = require('./components/PoweredUpStep4Include').PoweredUpStep4Include;
+const PoweredUpStep5Form    = require('./components/PoweredUpStep5Form').PoweredUpStep5Form;
 const PoweredUpStep6Finish  = require('./components/PoweredUpStep6Finish').PoweredUpStep6Finish;
 const DeviceListState       = require('./state/DeviceListState').DeviceListState;
 const FileDialog            = require('./FileDialog').FileDialog;
@@ -33,13 +33,13 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
             {
                 type:       WizardSteps,
                 ref:        this.setRef('wizardSteps'),
-                steps:      ['Start', 'Devices', 'Ports', 'Form', 'Include', 'Finish']
+                steps:      ['Start', 'Devices', 'Ports', 'Include', 'Form', 'Finish']
             },
             this.addStep({type: PoweredUpStep1Start}),
             this.addStep({type: PoweredUpStep2Device, ports: false}),
             this.addStep({type: PoweredUpStep3Ports,  ports: true}),
-            this.addStep({type: PoweredUpStep4Form}),
-            this.addStep({type: PoweredUpStep5Include}),
+            this.addStep({type: PoweredUpStep4Include}),
+            this.addStep({type: PoweredUpStep5Form}),
             this.addStep({type: PoweredUpStep6Finish}),
             {
                 className: 'buttons',
@@ -119,6 +119,7 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
     }
 
     onNext() {
+        let stepContentElements = this._stepContentElements;
         if (!this._stepContentElements[this._currentStep].validate()) {
             return;
         }
@@ -130,6 +131,14 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
                 this._nextButtonElement.setValue('Finish');
                 break;
             case 5:
+                this.addProject({
+                    includeFiles: stepContentElements[3].getIncludeFiles(),
+                    createForm:   stepContentElements[4].getCreateForm(),
+                    formWidth:    stepContentElements[4].getFormWidth(),
+                    formHeight:   stepContentElements[4].getFormHeight(),
+                    filename:     stepContentElements[5].getFilename(),
+                    description:  stepContentElements[5].getDescription()
+                });
                 this.hide();
                 break;
             default:

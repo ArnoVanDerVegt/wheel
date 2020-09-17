@@ -223,7 +223,7 @@ exports.SourceBuilder = class {
 
     generateUpdatedSource(opts) {
         let lines = this._lines;
-        sourceBuilderUtils.updateLinesWithIncludes(lines, opts)
+        sourceBuilderUtils.updateLinesWithIncludes(lines, opts);
         this.generateEventsFromData(lines, opts.components);
         let formName       = sourceBuilderUtils.getFormNameFromComponents(opts.components);
         let defines        = this.generateDefinesFromComponents(formName, opts.components);

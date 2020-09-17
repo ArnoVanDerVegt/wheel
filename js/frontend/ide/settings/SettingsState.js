@@ -39,7 +39,7 @@ const CONSOLE_DEFAULT_MESSAGE_COUNT   = 100;
 
 // Source file header
 const SOURCE_HEADER_TEXT              = [
-        'Wheel, copyright (c) {year} - present by {yourName}',
+        'Copyright (c) {year} - present by {yourName}',
         'Distributed under an {yourLicense}'
     ];
 

@@ -2,12 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher         = require('../../../lib/dispatcher').dispatcher;
-const DOMNode            = require('../../../lib/dom').DOMNode;
-const path               = require('../../../lib/path');
-const IncludeFiles       = require('../../../lib/components/IncludeFiles').IncludeFiles;
-const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
-const FileDialog         = require('./FileDialog').FileDialog;
+const dispatcher   = require('../../../lib/dispatcher').dispatcher;
+const DOMNode      = require('../../../lib/dom').DOMNode;
+const path         = require('../../../lib/path');
+const IncludeFiles = require('../../../lib/components/IncludeFiles').IncludeFiles;
+const FileDialog   = require('./FileDialog').FileDialog;
 
 exports.FileNewDialog = class extends FileDialog {
     constructor(opts) {
@@ -99,36 +98,6 @@ exports.FileNewDialog = class extends FileDialog {
         ];
     }
 
-    addProject(filename) {
-        if (path.getExtension(filename) !== '.whlp') {
-            filename += '.whlp';
-        }
-        let createForm = this._refs.createForm.getChecked();
-        let lines      = sourceBuilderUtils.createProjectFile({
-                description:  this._description,
-                includeFiles: this._includeFilesElement.getIncludeFiles(),
-                createForm:   createForm,
-                filename:     filename
-            });
-        dispatcher.dispatch(
-            'Create.File',
-            {
-                filename: filename,
-                value:    lines.join('\n')
-            }
-        );
-        if (createForm) {
-            dispatcher.dispatch(
-                'Create.Form',
-                {
-                    filename: path.replaceExtension(filename, '.wfrm'),
-                    width:    this._formWidth,
-                    height:   this._formHeight
-                }
-            );
-        }
-    }
-
     addFile(filename) {
         if (path.getExtension(filename) !== '.whl') {
             filename += '.whl';
@@ -146,15 +115,21 @@ exports.FileNewDialog = class extends FileDialog {
 
     onShow(type, activeDirectory) {
         type = (type || 'file').toLowerCase();
-        let refs        = this._refs;
-        let projectType = (type === 'project');
-        this._type                        = type;
-        this._activeDirectory             = activeDirectory;
-        this._dialogElement.className     = 'dialog-background file-new-dialog ' + type.toLowerCase();
-        refs.descriptionRow.style.display = projectType ? 'block' : 'none';
-        refs.createFormRow.style.display  = projectType ? 'block' : 'none';
-        refs.title.innerHTML              = 'Create new ' + (projectType ? 'project file' : ' file');
-        refs.buttonApply.setValue((type === 'project') ? 'Create project file' : 'Create file');
+        let refs = this._refs;
+        this._type                    = type;
+        this._activeDirectory         = activeDirectory;
+        this._dialogElement.className = 'dialog-background file-new-dialog ' + type.toLowerCase();
+        if (type === 'project') {
+            refs.title.innerHTML              = 'Create new project file';
+            refs.descriptionRow.style.display = 'block';
+            refs.createFormRow.style.display  = 'block';
+            refs.buttonApply.setValue('Create project file');
+        } else {
+            refs.title.innerHTML              = 'Create new file';
+            refs.descriptionRow.style.display = 'none';
+            refs.createFormRow.style.display  = 'none';
+            refs.buttonApply.setValue('Create file');
+        }
         refs.includeFiles.update();
         super.show();
         this._includeFilesElement.reset();
@@ -185,7 +160,14 @@ exports.FileNewDialog = class extends FileDialog {
         let file;
         let filename = (this._activeDirectory ? this._activeDirectory + '/' : '') + this._filename;
         if (this._type === 'project') {
-            this.addProject(filename);
+            this.addProject({
+                filename:     filename,
+                createForm:   this._refs.createForm.getChecked(),
+                description:  this._description,
+                includeFiles: this._includeFilesElement.getIncludeFiles(),
+                formWidth:    this._formWidth,
+                formHeight:   this._formHeight
+            });
         } else {
             this.addFile(filename);
         }

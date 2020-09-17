@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const SourceBuilder       = require('../../js/frontend/ide/editor/editors/form/SourceBuilder').SourceBuilder;
+const SourceBuilder       = require('../../js/frontend/ide/source/SourceBuilder').SourceBuilder;
+const sourceBuilderUtils  = require('../../js/frontend/ide/source/sourceBuilderUtils');
 const formEditorConstants = require('../../js/frontend/ide/editor/editors/form/formEditorConstants');
 const assert              = require('assert');
 
@@ -19,23 +20,20 @@ describe(
         it(
             'Should not get define info',
             () => {
-                let sourceBuilder = new SourceBuilder({});
-                assert.strictEqual(sourceBuilder.getDefineInfo('#include "test.whl"'), null);
+                assert.strictEqual(sourceBuilderUtils.getDefineInfo('#include "test.whl"'), null);
             }
         );
         it(
             'Should get define info',
             () => {
-                let sourceBuilder = new SourceBuilder({});
-                assert.deepStrictEqual(sourceBuilder.getDefineInfo('#define BUTTON1 123'), {key: 'BUTTON1', value: '123'});
+                assert.deepStrictEqual(sourceBuilderUtils.getDefineInfo('#define BUTTON1 123'), {key: 'BUTTON1', value: '123'});
             }
         );
         it(
             'Should get constant from name',
             () => {
-                let sourceBuilder = new SourceBuilder({});
-                assert.deepEqual(sourceBuilder.getConstantFromName('button1'),   'BUTTON1');
-                assert.deepEqual(sourceBuilder.getConstantFromName('myButton1'), 'MY_BUTTON1');
+                assert.deepEqual(sourceBuilderUtils.getConstantFromName('button1'),   'BUTTON1');
+                assert.deepEqual(sourceBuilderUtils.getConstantFromName('myButton1'), 'MY_BUTTON1');
             }
         );
         it(
@@ -53,7 +51,7 @@ describe(
                         {type: formEditorConstants.COMPONENT_TYPE_PANEL},
                         {type: formEditorConstants.COMPONENT_TYPE_TABS}
                     ];
-                let includes      = sourceBuilder.generateIncludesFromComponents(components);
+                let includes      = sourceBuilderUtils.generateIncludesFromComponents(components);
                 assert.deepStrictEqual(
                     includes,
                     [

@@ -2,14 +2,15 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../../../lib/platform');
-const dispatcher      = require('../../../lib/dispatcher').dispatcher;
-const path            = require('../../../lib/path');
-const Files           = require('../../../lib/components/files/Files').Files;
-const Dialog          = require('../../../lib/components/Dialog').Dialog;
-const ToolOptions     = require('../../../lib/components/ToolOptions').ToolOptions;
-const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const getImage        = require('../../data/images').getImage;
+const platform           = require('../../../lib/platform');
+const dispatcher         = require('../../../lib/dispatcher').dispatcher;
+const path               = require('../../../lib/path');
+const Files              = require('../../../lib/components/files/Files').Files;
+const Dialog             = require('../../../lib/components/Dialog').Dialog;
+const ToolOptions        = require('../../../lib/components/ToolOptions').ToolOptions;
+const getDataProvider    = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const getImage           = require('../../data/images').getImage;
+const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
 
 exports.FileDialog = class extends Dialog {
     initRow(opts) {
@@ -24,8 +25,8 @@ exports.FileDialog = class extends Dialog {
                         ref:         opts.ref,
                         tabIndex:    opts.tabIndex,
                         onKeyUp:     opts.onKeyUp ? opts.onKeyUp : () => {},
-                        placeholder: opts.placeHolder,
-                        value:       opts.value || ''
+                        placeholder: opts.placeholder || '',
+                        value:       opts.value       || ''
                     })
                 ]
             };
@@ -86,5 +87,36 @@ exports.FileDialog = class extends Dialog {
             refs.height.setClassName('');
         }
         return result;
+    }
+
+    addProject(opts) {
+        let filename   = opts.filename;
+        let createForm = opts.createForm;
+        if (path.getExtension(filename) !== '.whlp') {
+            filename += '.whlp';
+        }
+        let lines = sourceBuilderUtils.createProjectFile({
+                description:  opts.description,
+                includeFiles: opts.includeFiles,
+                createForm:   createForm,
+                filename:     filename
+            });
+        dispatcher.dispatch(
+            'Create.File',
+            {
+                filename: filename,
+                value:    lines.join('\n')
+            }
+        );
+        if (createForm) {
+            dispatcher.dispatch(
+                'Create.Form',
+                {
+                    filename: path.replaceExtension(filename, '.wfrm'),
+                    width:    opts.formWidth,
+                    height:   opts.formHeight
+                }
+            );
+        }
     }
 };

@@ -12,7 +12,7 @@ const Step         = require('./Step').Step;
 const INITIAL_WIDTH  = 400;
 const INITIAL_HEIGHT = 320;
 
-exports.PoweredUpStep4Form = class extends Step {
+exports.PoweredUpStep5Form = class extends Step {
     constructor(opts) {
         super(opts);
         this._createForm = false;
@@ -82,5 +82,17 @@ exports.PoweredUpStep4Form = class extends Step {
             return false;
         }
         return true;
+    }
+
+    getCreateForm() {
+        return this._refs.createForm.getValue();
+    }
+
+    getFormWidth() {
+        return this._refs.width.getValue();
+    }
+
+    getFormHeight() {
+        return this._refs.height.getValue();
     }
 };

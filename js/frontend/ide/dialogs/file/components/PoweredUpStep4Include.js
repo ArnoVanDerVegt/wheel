@@ -10,7 +10,7 @@ const IncludeFiles = require('../../../../lib/components/IncludeFiles').IncludeF
 const getImage     = require('../../../data/images').getImage;
 const Step         = require('./Step').Step;
 
-exports.PoweredUpStep5Include = class extends Step {
+exports.PoweredUpStep4Include = class extends Step {
     initContent() {
         return {
             ui:        this._ui,
@@ -38,5 +38,9 @@ exports.PoweredUpStep5Include = class extends Step {
         this._includeFilesElement = element;
         element.reset();
         element.update();
+    }
+
+    getIncludeFiles() {
+        return this._includeFilesElement.getIncludeFiles();
     }
 };
