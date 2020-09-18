@@ -57,7 +57,7 @@ exports.DirectControlDialog = class extends Dialog {
                 null,
             {
                 ref:       this.setRef('brake'),
-                className: 'brake',
+                className: 'abs brake',
                 children: [
                     {
                         ref:      this.setRef('brakeCheckbox'),
@@ -178,8 +178,8 @@ exports.DirectControlDialog = class extends Dialog {
             layerState[i].speed = motorElements[i].getSpeed();
         }
         this._layer           = layer;
-        refs.brake.className  = 'brake';
-        refs.motors.className = 'motors';
+        refs.brake.className  = 'abs brake';
+        refs.motors.className = 'abs motors';
         if (refs.piano) {
             refs.piano.className = 'piano hidden';
         }
@@ -203,8 +203,8 @@ exports.DirectControlDialog = class extends Dialog {
         let refs = this._refs;
         refs.brake.className  = 'brake hidden';
         refs.motors.className = 'motors hidden';
-        refs.piano.className  = 'piano';
-        refs.volume.className = 'volume';
+        refs.piano.className  = 'abs piano';
+        refs.volume.className = 'abs volume';
     }
 
     onShow(opts) {

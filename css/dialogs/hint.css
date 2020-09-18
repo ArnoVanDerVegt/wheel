@@ -1,11 +1,7 @@
 .dialog-background.hint-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -200px;
     width:                          600px;
     height:                         400px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.hint-dialog.open-file .dialog-center .dialog-content {
     margin-top:                     -124px;

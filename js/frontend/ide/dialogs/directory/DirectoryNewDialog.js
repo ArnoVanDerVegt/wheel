@@ -15,10 +15,10 @@ exports.DirectoryNewDialog = class extends Dialog {
     initWindowContent(opts) {
         return [
             {
-                className: 'new-directory-text',
+                className: 'abs dialog-lt dialog-cw new-directory-text',
                 children: [
                     {
-                        className: 'new-directory-row',
+                        className: 'flt max-w new-directory-row',
                         children: [
                             {
                                 innerHTML: 'Directory'

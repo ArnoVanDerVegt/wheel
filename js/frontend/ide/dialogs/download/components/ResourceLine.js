@@ -20,13 +20,13 @@ exports.ResourceLine = class extends DOMNode {
         let refs = this._refs;
         if (result.error) {
             if (result.message) {
-                refs.errorLine.className    = 'download-line fail';
+                refs.errorLine.className    = 'flt max-w download-line fail';
                 refs.errorMessage.innerHTML = result.message;
             } else {
-                refs.line.className = 'download-line fail';
+                refs.line.className = 'flt max-w download-line fail';
             }
         } else {
-            refs.line.className = 'download-line success';
+            refs.line.className = 'flt max-w download-line success';
         }
     }
 
@@ -37,31 +37,31 @@ exports.ResourceLine = class extends DOMNode {
                 children: [
                     {
                         ref:       this.setRef('line'),
-                        className: 'download-line',
+                        className: 'flt max-w download-line',
                         children: [
                             {
                                 type:      'span',
-                                className: 'icon'
+                                className: 'flt icon'
                             },
                             {
                                 type:      'span',
-                                className: 'filename',
+                                className: 'flt filename',
                                 innerHTML: this._filename
                             }
                         ]
                     },
                     {
                         ref:       this.setRef('errorLine'),
-                        className: 'download-line fail hidden',
+                        className: 'flt max-w download-line fail hidden',
                         children: [
                             {
                                 type:      'span',
-                                className: 'icon'
+                                className: 'flt icon'
                             },
                             {
                                 ref:       this.setRef('errorMessage'),
                                 type:      'span',
-                                className: 'message'
+                                className: 'flt message'
                             }
                         ]
                     }

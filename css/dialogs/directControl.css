@@ -1,11 +1,7 @@
 .dialog-background.direct-control-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -214px;
     width:                          624px;
     height:                         428px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content.with-alias {
     height:                         460px;
@@ -13,7 +9,6 @@
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .brake,
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .volume {
-    position:                       absolute;
     z-index:                        100;
     right:                          32px;
     bottom:                         32px;
@@ -53,7 +48,6 @@
     border-width:                   0 0 4px 0;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors {
-    position:                       absolute;
     left:                           32px;
     top:                            120px;
     right:                          32px;
@@ -63,7 +57,6 @@
     display:                        none;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor-alias {
-    float:                          left;
     width:                          128px;
     height:                         32px;
     white-space:                    nowrap;
@@ -79,7 +72,6 @@
     margin:                         0;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor {
-    float:                          left;
     position:                       relative;
     background-color:               var(--ui-background1);
     border:                         var(--ui-border1);
@@ -119,7 +111,6 @@
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .speed,
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .position {
-    position:                       absolute;
     left:                           16px;
     width:                          96px;
     height:                         24px;
@@ -152,7 +143,6 @@
     display:                        none;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano {
-    position:                       absolute;
     left:                           32px;
     top:                            120px;
     right:                          32px;
@@ -162,10 +152,7 @@
     display:                        none;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key {
-    float:                          left;
-    position:                       relative;
     width:                          56px;
-    height:                         100%;
     padding:                        4px;
     -webkit-user-select:            none;
 }
@@ -173,7 +160,6 @@
     padding:                        6px 2px 2px 6px;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half {
-    position:                       absolute;
     top:                            0;
     width:                          40px;
     height:                         160px;
@@ -183,10 +169,8 @@
     position:                       relative;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key a span {
-    position:                       absolute;
     left:                           0;
     bottom:                         0;
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     text-align:                     center;
@@ -202,7 +186,6 @@
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half1 {
     left:                           92px;
 }
-
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half2 {
     left:                           204px;
 }
@@ -219,9 +202,6 @@
     left:                           484px;
 }
 .dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key a {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
     background-color:               #FFFFFF;
     border:                         var(--ui-border1);
     border-radius:                  4px;

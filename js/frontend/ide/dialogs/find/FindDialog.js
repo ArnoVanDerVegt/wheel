@@ -9,7 +9,7 @@ const Checkbox   = require('../../../lib/components/Checkbox').Checkbox;
 exports.FindDialog = class extends Dialog {
     addTextRow(text) {
         return {
-            className: 'find-dialog-row',
+            className: 'flt max-w find-dialog-row',
             children: [
                 {
                     type:      'span',
@@ -21,7 +21,7 @@ exports.FindDialog = class extends Dialog {
 
     addTextInputRow(opts) {
         return {
-            className: 'find-dialog-row',
+            className: 'flt max-w find-dialog-row',
             children: [
                 {
                     innerHTML: opts.title
@@ -38,7 +38,7 @@ exports.FindDialog = class extends Dialog {
 
     addCheckboxRow(opts) {
         return {
-            className: 'find-dialog-row',
+            className: 'flt max-w find-dialog-row',
             children: [
                 {
                     innerHTML: opts.title
@@ -56,7 +56,7 @@ exports.FindDialog = class extends Dialog {
 
     addSmallCheckboxRow(opts) {
         return {
-            className: 'find-dialog-row small',
+            className: 'flt max-w find-dialog-row small',
             children: [
                 {
                     ref:      this.setRef(opts.ref),

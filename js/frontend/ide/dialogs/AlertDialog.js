@@ -22,7 +22,7 @@ exports.AlertDialog = class extends Dialog {
             },
             {
                 ref:       this.setRef('text'),
-                className: 'alert-text'
+                className: 'dialog-lt dialog-cw abs alert-text'
             },
             {
                 className: 'buttons',

@@ -1,22 +1,13 @@
 .dialog-background.download-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -220px;
     width:                          600px;
     height:                         472px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-    -webkit-user-select:            none;
 }
-
 .dialog-background.download-dialog .dialog-center .dialog-content .download-row {
-    float:                          left;
-    width:                          100%;
     padding:                        0 0 8px 32px;
 }
 .dialog-background.download-dialog .dialog-center .dialog-content .download-row div.label,
 .dialog-background.download-dialog .dialog-center .dialog-content .download-row div.value {
-    float:                          left;
     height:                         32px;
     font-size:                      16px;
     line-height:                    32px;
@@ -32,10 +23,8 @@
     white-space:                    nowrap;
 }
 .dialog-background.download-dialog .dialog-center .dialog-content .download-text {
-    position:                       absolute;
     left:                           32px;
     top:                            216px;
-    width:                          calc(100% - 64px);
     height:                         176px;
     line-height:                    28px;
     background-color:               var(--ui-background1);
@@ -45,15 +34,10 @@
     overflow-y:                     scroll;
     padding:                        8px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line {
-    float:                          left;
-    width:                          100%;
-}
 .dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line.hidden {
     display:                        none;
 }
 .dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line span {
-    float:                          left;
     height:                         20px;
     line-height:                    20px;
 }

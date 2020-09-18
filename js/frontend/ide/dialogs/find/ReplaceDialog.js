@@ -15,7 +15,7 @@ exports.ReplaceDialog = class extends FindDialog {
     initWindowContent(opts) {
         return [
             {
-                className: 'find-dialog-text',
+                className: 'abs dialog-cw dialog-lt find-dialog-text',
                 children: [
                     this.addTextInputRow({
                         title:      'Replace',

@@ -27,7 +27,7 @@ class GearItem extends DOMNode {
     initImage(ref, opts) {
         return {
             ref:       this.setRef(ref + 'Wrapper'),
-            className: 'gear-list-image-wrapper',
+            className: 'flt rel gear-list-image-wrapper',
             style: {
                 backgroundColor: opts.color
             },
@@ -35,11 +35,12 @@ class GearItem extends DOMNode {
                 {
                     ref:       this.setRef(ref + 'Img'),
                     type:      'img',
+                    className: 'flt',
                     src:       getImage(opts.image)
                 },
                 {
                     ref:       this.setRef(ref + 'Value'),
-                    className: 'value',
+                    className: 'abs value',
                     innerHTML: opts.gear
                 }
             ]
@@ -51,14 +52,14 @@ class GearItem extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('item'),
-                className: 'gear-list-item vertical-list-item ' + (this._selected ? ' selected' : ''),
+                className: 'flt rel max-w gear-list-item vertical-list-item ' + (this._selected ? ' selected' : ''),
                 children: [
                     this.initImage('from', this._from),
                     this.initImage('to',   this._to),
                     {
                         ref:       this.setRef('gearInfo'),
                         innerHTML: this.getInfo(),
-                        className: 'gear-info'
+                        className: 'flt gear-info'
                     },
                     {
                         ref:       this.setRef('itemLink'),
@@ -139,7 +140,7 @@ class GearItem extends DOMNode {
 
     setSelected(selected) {
         this._selected            = selected;
-        this._refs.item.className = 'gear-list-item vertical-list-item' + (selected ? ' selected' : '');
+        this._refs.item.className = 'flt rel max-w gear-list-item vertical-list-item' + (selected ? ' selected' : '');
     }
 
     onRemove() {
@@ -179,10 +180,10 @@ exports.GearList = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'gear-list vertical-list',
+                className: 'abs dialog-cw gear-list vertical-list',
                 children: [
                     {
-                        className: 'gear-list-content',
+                        className: 'flt max-w gear-list-content',
                         ref: this.setRef('list')
                     }
                 ]

@@ -1,17 +1,11 @@
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -320px;
     width:                          800px;
     height:                         640px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content {
-    position:                       absolute;
     left:                           32px;
     top:                            120px;
-    width:                          calc(100% - 64px);
     bottom:                         80px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.hidden {
@@ -20,8 +14,6 @@
 /* Device */
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-item,
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .port-item {
-    float:                          left;
-    position:                       relative;
     background-color:               rgb(208, 212, 216);
     width:                          80px;
     height:                         80px;
@@ -30,7 +22,6 @@
     border-radius:                  2px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .port-item {
-    float:                          right;
     width:                          64px;
     height:                         64px;
     margin:                         7px 4px 0 0;
@@ -39,14 +30,12 @@
     margin-right:                   7px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-item img {
-    position:                       absolute;
     left:                           8px;
     top:                            8px;
     width:                          64px;
     height:                         64px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .port-item img {
-    position:                       absolute;
     left:                           4px;
     top:                            4px;
     width:                          56px;
@@ -54,7 +43,6 @@
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-item .value,
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .port-item .value {
-    position:                       absolute;
     right:                          4px;
     bottom:                         4px;
     width:                          22px;
@@ -68,13 +56,7 @@
     font-size:                      12px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-info {
-    float:                          left;
     width:                          256px;
-}
-.dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-info .device-title,
-.dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-info .device-description {
-    float:                          left;
-    width:                          100%;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .device-info .device-title {
     line-height:                    28px;
@@ -92,15 +74,12 @@
     padding:                        8px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .list .vertical-list-item {
-    float:                          left;
-    position:                       relative;
     width:                          100%;
     height:                         96px;
     margin-bottom:                  8px;
     border:                         1px solid transparent;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content .list .vertical-list-item a {
-    position:                       absolute;
     left:                           -1px;
     top:                            -1px;
     right:                          -1px;
@@ -122,7 +101,6 @@
 /* Step1: Start */
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step1 .text,
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step1 img {
-    position:                       absolute;
     top:                            32px;
 }
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step1 img {
@@ -144,7 +122,6 @@
 /* Step2: Device */
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .list,
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .device-options {
-    position:                       absolute;
     left:                           0;
     right:                          0;
     z-index:                        200;
@@ -175,16 +152,16 @@
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step3 .device-options .dropdown:first-child {
     margin:                         0;
 }
-/* Step4/Step6 */
-.dialog-background.file-new-dialog.file-new-powered-up-project .dialog-center .dialog-content .file-new-row:last-child {
-    display:                        block;
-}
-/* Step5: Include files */
-.dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step5 .include-files {
+/* Step4: Include files */
+.dialog-background.file-new-powered-up-project .dialog-center .dialog-content .step-content.step4 .include-files {
     top:                            0px;
     left:                           0px;
     width:                          100%;
     height:                         100%;
+}
+/* Step5/Step6 */
+.dialog-background.file-new-dialog.file-new-powered-up-project .dialog-center .dialog-content .file-new-row:last-child {
+    display:                        block;
 }
 /* Buttons */
 .dialog-background.file-new-powered-up-project .dialog-center .dialog-content .buttons .button.green.left {

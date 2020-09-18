@@ -25,18 +25,18 @@ exports.ExploreDialog = class extends Dialog {
         return [
             // Left...
             {
-                className:  'left-label',
+                className:  'abs left-label',
                 innerHTML:  'Local files:'
             },
             {
                 ref:        this.setRef('leftPath'),
-                className:  'left-path',
+                className:  'abs left-path',
                 innerHTML:  'Local'
             },
             this.addButton({
                 ref:        this.setRef('copyToEV3'),
                 tabIndex:   1,
-                className:  'copy-to-ev3',
+                className:  'abs copy-to-ev3',
                 icon:       'icon-right',
                 disabled:   true,
                 title:      'Copy file to EV3',
@@ -72,23 +72,23 @@ exports.ExploreDialog = class extends Dialog {
             }),
             // Right...
             {
-                className:  'right-label',
+                className:  'abs right-label',
                 innerHTML:  'EV3 files:'
             },
             {
                 ref:        this.setRef('rightPath'),
-                className:  'right-path',
+                className:  'abs right-path',
                 innerHTML:  'EV3'
             },
             this.addButton({
-                className:  'create-dir',
+                className:  'abs create-dir',
                 icon:       'icon-add',
                 title:      'Create directory',
                 onClick:    this.onCreateDir.bind(this)
             }),
             this.addButton({
                 ref:        this.setRef('delete'),
-                className:  'delete',
+                className:  'abs delete',
                 icon:       'icon-delete-default',
                 title:      'Delete',
                 onClick:    this.onDeleteItem.bind(this),

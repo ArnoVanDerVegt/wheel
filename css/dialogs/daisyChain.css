@@ -1,14 +1,5 @@
 .dialog-background.daisy-chain-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -118px;
     width:                          380px;
     height:                         236px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-}
-.dialog-background.daisy-chain-dialog .dialog-center .dialog-content .radio {
-    position:                       absolute;
-    left:                           32px;
-    top:                            64px;
 }

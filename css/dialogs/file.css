@@ -1,15 +1,10 @@
 .dialog-background.file-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -320px;
     width:                          800px;
     height:                         640px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.file-dialog .dialog-center .dialog-content .current-path,
 .dialog-background.file-dialog .dialog-center .dialog-content .label {
-    position:                       absolute;
     top:                            44px;
     max-width:                      calc(100% - 128px);
     height:                         64px;
@@ -18,21 +13,20 @@
     font-size:                      11px;
     -webkit-user-select:            none;
 }
-.dialog-background.file-dialog .dialog-center .dialog-content .current-path {
-    left:                           32px;
+.dialog-background.file-dialog .dialog-center .dialog-content .tool-options,
+.dialog-background.file-dialog .dialog-center .dialog-content .label {
+    position:                       absolute;
 }
 .dialog-background.file-dialog .dialog-center .dialog-content .label {
     left:                           auto;
     right:                          88px;
 }
 .dialog-background.file-dialog .dialog-center .dialog-content .tool-options {
-    position:                       absolute;
     top:                            64px;
     right:                          32px;
 }
 .dialog-background.file-dialog .dialog-center .dialog-content .current-file,
 .dialog-background.file-dialog .dialog-center .dialog-content .current-file-input {
-    position:                       absolute;
     right:                          32px;
     bottom:                         32px;
     height:                         32px;
@@ -47,9 +41,11 @@
     outline:                        none;
     padding:                        0 0 0 8px;
 }
+.dialog-background.file-dialog .dialog-center .dialog-content .current-path,
 .dialog-background.file-dialog .files {
-    position:                       absolute;
     left:                           32px;
+}
+.dialog-background.file-dialog .files {
     top:                            96px;
     width:                          calc(100% - 64px);
     height:                         calc(464px);

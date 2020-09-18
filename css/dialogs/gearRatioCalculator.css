@@ -1,14 +1,9 @@
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -300px;
     width:                          680px;
     height:                         600px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .inspired-by {
-    float:                          right;
     font-size:                      10px;
     opacity:                        0.5;
     margin-top:                     16px;
@@ -18,17 +13,11 @@
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-settings,
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list,
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
-    position:                       absolute;
     left:                           32px;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
-    position:                       absolute;
     top:                            376px;
     height:                         136px;
-}
-.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list,
-.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result {
-    width:                          calc(100% - 64px);
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list {
     height:                         256px;
@@ -36,7 +25,6 @@
     padding:                        8px;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-result .gear-overview {
-    float:                          right;
     width:                          calc(100% - 202px);
     height:                         100%;
     background-color:               var(--ui-background1);
@@ -46,21 +34,12 @@
     padding:                        4px;
     overflow:                       hidden;
 }
-.dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list-content {
-    float:                          left;
-    width:                          100%;
-}
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item {
-    float:                          left;
-    position:                       relative;
-    width:                          100%;
     height:                         72px;
     border-radius:                  2px;
     border:                         1px solid transparent;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper {
-    float:                          left;
-    position:                       relative;
     width:                          62px;
     height:                         62px;
     margin:                         4px 0 0 4px;
@@ -68,7 +47,6 @@
     border:                         var(--ui-border1);
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper .value {
-    position:                       absolute;
     left:                           34px;
     top:                            34px;
     width:                          22px;
@@ -82,13 +60,11 @@
     font-size:                      12px;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-list-image-wrapper img {
-    float:                          left;
     margin:                         4px 0 0 4px;
     width:                          50px;
     height:                         50px;
 }
 .dialog-background.gear-ratio-calculator-dialog .dialog-center .dialog-content .gear-list .gear-list-item .gear-info {
-    float:                          left;
     width:                          calc(100% - 140px);
     margin:                         4px 0 0 8px;
     color:                          inherited;

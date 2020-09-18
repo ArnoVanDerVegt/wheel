@@ -3,6 +3,7 @@ const exec = require('child_process').exec;
 
 const cssFiles = [
         '../css/fonts.css',
+        '../css/general.css',
         '../css/components/contextMenu.css',
         '../css/components/closeButton.css',
         '../css/components/button.css',

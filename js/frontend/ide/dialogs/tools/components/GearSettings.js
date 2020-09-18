@@ -25,7 +25,7 @@ exports.GearSettings = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'gear-settings',
+                className: 'abs gear-settings',
                 children: [
                     {
                         type:      Dropdown,

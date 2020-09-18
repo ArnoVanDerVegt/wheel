@@ -14,10 +14,10 @@ exports.PoweredUpStep6Finish = class extends Step {
         return {
             ui:        this._ui,
             uiId:      this._uiId,
-            className: 'step-content step6',
+            className: 'abs dialog-cw step-content step6',
             children: [
                 this._dialog.initRow({
-                    className:      'file-new-row',
+                    className:      'flt max-w file-new-row',
                     labelClassName: 'form-label',
                     label:          'Filename',
                     ref:            this.setRef('filename'),
@@ -25,7 +25,7 @@ exports.PoweredUpStep6Finish = class extends Step {
                     placeholder:    'Enter filename'
                 }),
                 this._dialog.initRow({
-                    className:      'file-new-row description',
+                    className:      'flt max-w file-new-row description',
                     labelClassName: 'form-label',
                     label:          'Description',
                     ref:            this.setRef('description'),

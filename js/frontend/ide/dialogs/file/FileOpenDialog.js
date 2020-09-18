@@ -28,7 +28,7 @@ exports.FileOpenDialog = class extends FileDialog {
         return [
             {
                 ref:       this.setRef('currentPath'),
-                className: 'current-path',
+                className: 'abs current-path',
                 innerHTML: ''
             },
             platform.isElectron() ?
@@ -75,12 +75,12 @@ exports.FileOpenDialog = class extends FileDialog {
                     }),
                     {
                         ref:       this.setRef('currentFile'),
-                        className: 'current-file'
+                        className: 'abs current-file'
                     },
                     this.addTextInput({
                         ref:         this.setRef('currentFileInput'),
                         tabIndex:    2048,
-                        className:   'current-file-input',
+                        className:   'abs current-file-input',
                         onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
                         placeholder: 'Enter filename'
                     })
@@ -138,7 +138,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 refs.currentFileInput
                     .show()
                     .setValue(filename)
-                    .setClassName('current-file-input');
+                    .setClassName('abs current-file-input');
                 refs.buttonApply
                     .setValue('Save')
                     .setDisabled(filename.trim() === '');
@@ -230,11 +230,11 @@ exports.FileOpenDialog = class extends FileDialog {
         let refs = this._refs;
         if (refs.currentFileInput.getValue().trim() === '') {
             refs.buttonApply.setDisabled(true);
-            refs.currentFileInput.setClassName('current-file-input invalid');
+            refs.currentFileInput.setClassName('abs current-file-input invalid');
             return false;
         }
         refs.buttonApply.setDisabled(false);
-        refs.currentFileInput.setClassName('current-file-input');
+        refs.currentFileInput.setClassName('abs current-file-input');
         return true;
     }
 
@@ -264,7 +264,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 if (file) {
                     refs.buttonApply.setDisabled(false);
                     refs.currentFileInput
-                        .setClassName('current-file-input')
+                        .setClassName('abs current-file-input')
                         .setValue(file.name);
                 }
                 break;

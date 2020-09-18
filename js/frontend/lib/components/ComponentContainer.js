@@ -61,11 +61,11 @@ exports.ComponentContainer = class extends Component {
         opts.options.forEach((option) => {
             // Don't bind to this with fat arrow here!
             option.onFocus = function() {
-                this._parentNode.className = baseClassName + ' focus';
+                this._parentNode.className = baseClassName + ' ' + (opts.className || '') + ' focus';
             };
             // Don't bind to this with fat arrow here!
             option.onBlur = function() {
-                this._parentNode.className = baseClassName;
+                this._parentNode.className = baseClassName + ' ' + (opts.className || '');
             };
         });
         return opts;

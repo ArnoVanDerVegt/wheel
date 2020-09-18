@@ -46,15 +46,15 @@ exports.PoweredUpStep3Ports = class extends PoweredUpDeviceList {
         return {
             ui:        this._ui,
             uiId:      this._uiId,
-            className: 'step-content step3',
+            className: 'abs dialog-cw step-content step3',
             children: [
                 {
-                    className: 'list vertical-list',
+                    className: 'abs list vertical-list',
                     ref:       this.setRef('list'),
                     list:      this._list
                 },
                 {
-                    className: 'device-options',
+                    className: 'abs device-options',
                     children: [
                         this.initDropdown('A'),
                         this.initDropdown('B'),

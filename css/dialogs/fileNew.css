@@ -1,26 +1,14 @@
 .dialog-background.file-new-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -232px;
     width:                          600px;
     height:                         464px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
 }
 .dialog-background.file-new-dialog.project .dialog-center .dialog-content {
     margin-top:                     -272px;
     height:                         544px;
 }
-.dialog-background.file-new-dialog .dialog-center .dialog-content .new-file-text {
-    position:                       absolute;
-    left:                           32px;
-    top:                            64px;
-    width:                          calc(100% - 64px);
-}
 .dialog-background.file-new-dialog .dialog-center .dialog-content .include-file-label {
-    position:                       absolute;
     top:                            104px;
-    -webkit-user-select:            none;
     left:                           32px;
     height:                         32px;
     line-height:                    32px;
@@ -49,8 +37,6 @@
     top:                            188px;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row {
-    float:                          left;
-    width:                          100%;
     padding:                        0 0 8px 0;
 }
 .dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row:last-child {

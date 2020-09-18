@@ -28,7 +28,7 @@ exports.MotorAlias = class extends DOMNode {
             {
                 id:        this.setElement.bind(this),
                 innerHTML: this._alias,
-                className: 'motor-alias ' + ((this._index === 3) ? 'last' : '')
+                className: 'flt motor-alias ' + ((this._index === 3) ? 'last' : '')
             }
         );
     }

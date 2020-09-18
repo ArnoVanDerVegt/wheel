@@ -23,10 +23,10 @@ exports.PoweredUpStep5Form = class extends Step {
         return {
             ui:        this._ui,
             uiId:      this._uiId,
-            className: 'step-content step4',
+            className: 'abs dialog-cw step-content step5',
             children: [
                 {
-                    className: 'file-new-row',
+                    className: 'flt dialog-cw file-new-row',
                     children: [
                         {
                             className: 'form-label',
@@ -39,7 +39,7 @@ exports.PoweredUpStep5Form = class extends Step {
                     ]
                 },
                 this._dialog.initRow({
-                    className:      'file-new-row number',
+                    className:      'flt max-w file-new-row number',
                     labelClassName: 'form-label',
                     label:          'Width',
                     ref:            this.setRef('width'),
@@ -48,7 +48,7 @@ exports.PoweredUpStep5Form = class extends Step {
                     value:          this._width
                 }),
                 this._dialog.initRow({
-                    className:      'file-new-row number',
+                    className:      'flt max-w file-new-row number',
                     labelClassName: 'form-label',
                     label:          'Height',
                     ref:            this.setRef('height'),

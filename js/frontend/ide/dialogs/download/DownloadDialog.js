@@ -20,56 +20,56 @@ exports.DownloadDialog = class extends Dialog {
     initWindowContent(opts) {
         return [
             {
-                className: 'download-row',
+                className: 'flt max-w download-row',
                 children: [
                     {
                         innerHTML: 'Project filename:',
-                        className: 'label'
+                        className: 'flt label'
                     },
                     {
                         ref:       this.setRef('projectFilename'),
-                        className: 'value'
+                        className: 'flt value'
                     }
                 ]
             },
             {
-                className: 'download-row',
+                className: 'flt max-w download-row',
                 children: [
                     {
                         innerHTML: 'Project description:',
-                        className: 'label'
+                        className: 'flt label'
                     },
                     {
                         ref:       this.setRef('projectDescription'),
-                        className: 'value'
+                        className: 'flt value'
                     }
                 ]
             },
             {
-                className: 'download-row',
+                className: 'flt max-w download-row',
                 children: [
                     {
                         innerHTML: 'Remote directory:',
-                        className: 'label'
+                        className: 'flt label'
                     },
                     {
                         ref:       this.setRef('remoteDirectory'),
-                        className: 'value'
+                        className: 'flt value'
                     }
                 ]
             },
             {
-                className: 'download-row',
+                className: 'flt max-w download-row',
                 children: [
                     {
                         innerHTML: 'Actions:',
-                        className: 'label'
+                        className: 'flt label'
                     }
                 ]
             },
             {
                 ref:       this.setRef('text'),
-                className: 'download-text'
+                className: 'abs dialog-cw download-text'
             },
             {
                 className: 'buttons',

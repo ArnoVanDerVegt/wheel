@@ -19,10 +19,10 @@ exports.DeviceAliasDialog = class extends Dialog {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'device-alias-text'
+                className: 'dialog-cw flt device-alias-text'
             },
             {
-                className: 'device-alias-row',
+                className: 'dialog-cw flt device-alias-row',
                 children: [
                     this.addTextInput({
                         ref:         this.setRef('alias'),

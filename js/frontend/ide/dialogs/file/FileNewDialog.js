@@ -22,10 +22,10 @@ exports.FileNewDialog = class extends FileDialog {
     initWindowContent(opts) {
         return [
             {
-                className: 'new-file-text',
+                className: 'abs dialog-cw dialog-lt new-file-text',
                 children: [
                     this.initRow({
-                        className:      'file-new-row',
+                        className:      'flt max-w file-new-row',
                         labelClassName: 'form-label',
                         label:          'Filename',
                         ref:            this.setRef('filename'),
@@ -35,7 +35,7 @@ exports.FileNewDialog = class extends FileDialog {
                     }),
                     this.initRow({
                         rowRef:         this.setRef('descriptionRow'),
-                        className:      'file-new-row description',
+                        className:      'flt max-w file-new-row description',
                         labelClassName: 'form-label',
                         label:          'Description',
                         ref:            this.setRef('description'),
@@ -45,7 +45,7 @@ exports.FileNewDialog = class extends FileDialog {
                     }),
                     {
                         ref:       this.setRef('createFormRow'),
-                        className: 'file-new-row',
+                        className: 'flt max-w file-new-row',
                         children: [
                             {
                                 className: 'form-label',
@@ -67,7 +67,7 @@ exports.FileNewDialog = class extends FileDialog {
                 ]
             },
             {
-                className: 'include-file-label',
+                className: 'abs include-file-label',
                 innerHTML: 'Include files'
             },
             {

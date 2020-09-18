@@ -37,7 +37,7 @@ exports.Files = class extends Component {
             this._element,
             {
                 id:        this.setFilesElement.bind(this),
-                className: 'files' + (this._className ? ' ' + this._className : ''),
+                className: 'abs files' + (this._className ? ' ' + this._className : ''),
                 children: [
                     {
                         className: 'files-content'

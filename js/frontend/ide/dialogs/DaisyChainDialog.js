@@ -17,12 +17,13 @@ exports.DaisyChainDialog = class extends Dialog {
     initWindowConent(opts) {
         return [
             {
-                ref:      this.setRef('radio'),
-                type:     Radio,
-                ui:       this._ui,
-                uiId:     this._uiId,
-                tabIndex: 1,
-                value:    0,
+                ref:       this.setRef('radio'),
+                type:      Radio,
+                ui:        this._ui,
+                uiId:      this._uiId,
+                tabIndex:  1,
+                value:     0,
+                className: 'dialog-lt abs',
                 options: [
                     {value: 0, title: '1 Layer'},
                     {value: 1, title: '2 Layers'},

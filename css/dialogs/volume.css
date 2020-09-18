@@ -1,10 +1,7 @@
 .dialog-background.volume-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
     margin-top:                     -104px;
     width:                          512px;
     height:                         208px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
 }
 .dialog-background.volume-dialog .dialog-center .dialog-content .volume-row {
     float:                          left;

@@ -17,15 +17,15 @@ exports.FileRenameDialog = class extends FileDialog {
     initWindowContent(opts) {
         return [
             {
-                className: 'file-rename-text',
+                className: 'abs dialog-cw dialog-lt file-rename-text',
                 children: [
                     {
                         ref:       this.setRef('name'),
-                        className: 'file-rename-row name',
+                        className: 'flt max-w file-rename-row name',
                         innerHTML: ''
                     },
                     {
-                        className: 'file-rename-row',
+                        className: 'flt max-w file-rename-row',
                         children: [
                             {
                                 innerHTML: 'New name'

@@ -92,7 +92,7 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
                             tabIndex: 512
                         }),
                         {
-                            className: 'inspired-by',
+                            className: 'frt inspired-by',
                             innerHTML: 'Data from: https://www.philohome.com/motors/motorcomp.htm - Inspired by http://gears.sariel.pl'
                         }
                     ]

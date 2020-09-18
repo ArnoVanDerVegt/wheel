@@ -135,21 +135,3 @@ body.ide div.editor-wrapper .editor {
     color:                          var(--color-white);
     font-size:                      13px;
 }
-
-/* Generic list */
-.vertical-list {
-    overflow:                       hidden;
-    overflow-y:                     scroll;
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
-}
-.vertical-list .vertical-list-item {
-    color:                          var(--ui-text1);
-}
-.vertical-list .vertical-list-item.selected {
-    color:                          var(--files-selected-color);
-    background-color:               var(--files-selected-background);
-    border:                         var(--files-selected-border);
-    border-radius:                  2px;
-}

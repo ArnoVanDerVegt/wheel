@@ -1,0 +1,50 @@
+/* Generic list */
+.vertical-list {
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+}
+.vertical-list .vertical-list-item {
+    color:                          var(--ui-text1);
+}
+.vertical-list .vertical-list-item.selected {
+    color:                          var(--files-selected-color);
+    background-color:               var(--files-selected-background);
+    border:                         var(--files-selected-border);
+    border-radius:                  2px;
+}
+/* Absolute position */
+.abs {
+    position:                       absolute;
+}
+/* Relative position */
+.rel {
+    position:                       relative;
+}
+/* Float left */
+.flt {
+    float:                          left;
+}
+/* Float right */
+.frt {
+    float:                          right;
+}
+/* Dialog content width */
+.dialog-cw {
+    width:                          calc(100% - 64px);
+}
+/* Dialog left/top */
+.dialog-lt {
+    left:                           32px;
+    top:                            64px;
+}
+/* Max width */
+.max-w {
+    width:                          100%;
+}
+/* Max height */
+.max-h {
+    height:                         100%;
+}

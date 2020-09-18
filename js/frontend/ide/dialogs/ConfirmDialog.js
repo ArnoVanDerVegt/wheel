@@ -17,7 +17,7 @@ exports.ConfirmDialog = class extends Dialog {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'confirm-text'
+                className: 'dialog-lt dialog-cw abs confirm-text'
             },
             {
                 className: 'buttons',

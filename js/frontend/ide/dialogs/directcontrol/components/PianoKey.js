@@ -25,10 +25,12 @@ exports.PianoKey = class extends DOMNode {
                 },
                 type:     'a',
                 href:     '#',
+                className: 'flt rel max-w max-h',
                 tabIndex: this._tabIndex,
                 children: [
                     {
                         type:      'span',
+                        className: 'abs max-w',
                         innerHTML: this._hotkey
                     }
                 ]

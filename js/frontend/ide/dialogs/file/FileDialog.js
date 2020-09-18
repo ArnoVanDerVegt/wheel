@@ -7,7 +7,6 @@ const dispatcher         = require('../../../lib/dispatcher').dispatcher;
 const path               = require('../../../lib/path');
 const Files              = require('../../../lib/components/files/Files').Files;
 const Dialog             = require('../../../lib/components/Dialog').Dialog;
-const ToolOptions        = require('../../../lib/components/ToolOptions').ToolOptions;
 const getDataProvider    = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage           = require('../../data/images').getImage;
 const sourceBuilderUtils = require('../../source/sourceBuilderUtils');

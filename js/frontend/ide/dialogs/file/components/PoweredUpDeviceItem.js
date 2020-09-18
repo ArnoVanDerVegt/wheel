@@ -39,15 +39,16 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
 
     initDeviceItem(opts) {
         return {
-            className: 'device-item',
+            className: 'flt rel device-item',
             children: [
                 {
                     type:      'img',
+                    className: 'abs',
                     ref:       this.setRef('deviceImage'),
                     src:       getImage(infoByDeviceType[opts.device.getType()].image)
                 },
                 {
-                    className: 'value',
+                    className: 'abs value',
                     ref:       this.setRef('deviceValue'),
                     innerHTML: this._index + 1
                 }
@@ -57,16 +58,16 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
 
     initDeviceInfo(opts) {
         return {
-            className: 'device-info',
+            className: 'flt device-info',
             children: [
                 {
                     ref:       this.setRef('deviceNumber'),
-                    className: 'device-title',
+                    className: 'flt max-w device-title',
                     innerHTML: 'Device ' + (this._index + 1)
                 },
                 {
                     ref:       this.setRef('deviceName'),
-                    className: 'device-description',
+                    className: 'flt max-w device-description',
                     innerHTML: infoByDeviceType[opts.device.getType()].name
                 }
             ]
@@ -77,7 +78,7 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
         let portInfo = opts.device.getPortInfo(port);
         return {
             ref:       this.setRef('portItem' + port),
-            className: 'port-item' + (port === 'D' ? ' last' : ''),
+            className: 'frt rel port-item' + (port === 'D' ? ' last' : ''),
             style: {
                 visibility: portInfo.available ? 'visible' : 'hidden',
                 opacity:    portInfo.enabled   ? 1         : 0.5
@@ -85,13 +86,14 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
             children: [
                 {
                     ref:       this.setRef('port' + port),
+                    className: 'abs',
                     type:      'img',
                     style: {
                         display: ((portInfo.type !== 0) && portInfo.available) ? 'block' : 'none'
                     }
                 },
                 {
-                    className: 'value',
+                    className: 'abs value',
                     innerHTML: port
                 }
             ]
@@ -112,9 +114,10 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
     initDOM(opts) {
         let children = [
                 {
-                    id:       this.setElement.bind(this),
-                    type:     'a',
-                    href:     '#',
+                    id:        this.setElement.bind(this),
+                    type:      'a',
+                    className: 'abs',
+                    href:      '#',
                     tabIndex: this._tabIndex
                 },
                 this.initDeviceItem(opts),
@@ -134,7 +137,7 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
             opts.parentNode,
             {
                 ref:       this.setRef('item'),
-                className: 'vertical-list-item selected',
+                className: 'flt rel vertical-list-item selected',
                 children:  children
             }
         );
@@ -147,7 +150,7 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
     }
 
     setSelected(selected) {
-        this._refs.item.className = 'vertical-list-item' + (selected ? ' selected' : '');
+        this._refs.item.className = 'flt rel vertical-list-item' + (selected ? ' selected' : '');
     }
 
     setElement(element) {
