@@ -10,6 +10,11 @@ const getImage     = require('../../../data/images').getImage;
 const Step         = require('./Step').Step;
 
 exports.PoweredUpStep6Finish = class extends Step {
+    constructor(opts) {
+        super(opts);
+        this._expectedExtensions = ['', '.whlp'];
+    }
+
     initContent() {
         return {
             ui:        this._ui,
