@@ -11,7 +11,7 @@ class MenuItem extends Component {
         super(opts);
         this._checked       = false;
         this._withCheck     = opts.withCheck;
-        this._baseClassName = 'context-menu-item' + (opts.withCheck ? ' with-check' : '');
+        this._baseClassName = 'flt rel max-w context-menu-item' + (opts.withCheck ? ' with-check' : '');
         this._option        = opts.option;
         this._menu          = opts.menu;
         this.initDOM(opts.parentNode);
@@ -43,7 +43,7 @@ class MenuItem extends Component {
 
     setChecked(checked) {
         this._checked              = checked;
-        this._refs.title.className = 'context-menu-item' +
+        this._refs.title.className = 'flt rel max-w context-menu-item' +
             (this._withCheck ? ' with-check' : '') +
             (checked         ? ' checked' : '');
     }
@@ -59,10 +59,10 @@ class MenuSeparator extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'context-menu-item-separator',
+                className: 'flt max-w context-menu-item-separator',
                 children: [
                     {
-                        className: 'line'
+                        className: 'max-w line'
                     }
                 ]
             }

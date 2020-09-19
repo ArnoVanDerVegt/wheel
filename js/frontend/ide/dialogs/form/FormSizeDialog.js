@@ -30,23 +30,20 @@ exports.FormSizeDialog = class extends ImageDialog {
                     this.getHeightRow()
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex: 129,
-                        value:    'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

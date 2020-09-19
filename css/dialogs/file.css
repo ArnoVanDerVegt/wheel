@@ -30,5 +30,5 @@
 .dialog-background.file-dialog .files {
     top:                            96px;
     width:                          calc(100% - 64px);
-    height:                         calc(464px);
+    height:                         464px;
 }

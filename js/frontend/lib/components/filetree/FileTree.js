@@ -48,7 +48,7 @@ exports.FileTree = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'file-tree-wrapper',
+                className: 'abs file-tree-wrapper',
                 children: [
                     {
                         className: 'toolbar',
@@ -63,7 +63,7 @@ exports.FileTree = class extends DOMNode {
                     },
                     {
                         id:        this.setFilesElement.bind(this),
-                        className: 'files'
+                        className: 'abs max-w files'
                     },
                     {
                         ref:       this.setRef('resizer'),

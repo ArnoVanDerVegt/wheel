@@ -22,7 +22,7 @@ exports.ToolbarTop = class extends Toolbar {
         this.create(
             this._parentNode,
             {
-                className: 'resource-options top',
+                className: 'flt max-w resource-options top',
                 children: [
                     {
                         ref:       imageEditor.setRef('topDefaultOptions'),

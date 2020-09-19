@@ -33,7 +33,8 @@ exports.FormDialog = class extends Dialog {
             width:     300,
             height:    300,
             className: 'form-dialog',
-            title:     this._title
+            title:     this._title,
+            data:      opts.data
         });
     }
 
@@ -162,9 +163,9 @@ exports.FormDialog = class extends Dialog {
             let win    = this._win;
             let parent = componentById[component.parentId];
             if (component.type === formEditorConstants.COMPONENT_TYPE_FORM) {
-                this._width  = component.width;
-                this._height = component.height;
                 this._title  = component.title;
+                this._width  = component.width;
+                this._height = parseInt(component.height, 10) + 64;
                 this.addFormEvents(component);
             } else if (parent) {
                 component.getFormPath         = this.getFormPath.bind(this);
@@ -198,14 +199,6 @@ exports.FormDialog = class extends Dialog {
             }
         });
         return result;
-    }
-
-    setDialogContentElement(element) {
-        super.setDialogContentElement(element);
-        let height = parseInt(this._height, 10) + 64;
-        element.style.marginTop = (height / -2) + 'px';
-        element.style.width     = this._width  + 'px';
-        element.style.height    = height + 'px';
     }
 
     onHide() {

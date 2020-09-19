@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher   = require('../dispatcher').dispatcher;
-const Menu         = require('./Menu').Menu;
+const dispatcher   = require('../../dispatcher').dispatcher;
+const DOMNode      = require('../../dom').DOMNode;
+const Menu         = require('../Menu').Menu;
 const MainMenuItem = require('./MainMenuItem').MainMenuItem;
-const DOMNode      = require('../dom').DOMNode;
 
 exports.MainMenu = class extends DOMNode {
     constructor(opts) {
@@ -29,7 +29,7 @@ exports.MainMenu = class extends DOMNode {
             parentNode,
             {
                 id:        this.setMainMenuElement.bind(this),
-                className: 'main-menu',
+                className: 'abs max-w main-menu',
                 children: [
                     {
                         type:      'img',

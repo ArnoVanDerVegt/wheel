@@ -22,13 +22,13 @@ exports.Hub = class extends BasicHub {
                         className: 'hub-hub-body small-hub',
                         children: [
                             {
-                                className: 'hub-box',
+                                className: 'abs hub-box',
                                 children: [
                                     {
-                                        className: 'hub-button'
+                                        className: 'abs hub-button'
                                     },
                                     {
-                                        className: 'hub-light',
+                                        className: 'abs hub-light',
                                         ref:       this.setRef('hubLight')
                                     }
                                 ]

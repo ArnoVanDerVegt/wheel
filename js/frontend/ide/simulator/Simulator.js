@@ -79,7 +79,7 @@ exports.Simulator = class extends DOMNode {
                         simulator: this
                     },
                     {
-                        className: 'plugin-container',
+                        className: 'abs plugin-container',
                         children:  this.initPlugins()
                     }
                 ]

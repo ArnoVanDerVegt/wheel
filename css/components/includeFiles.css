@@ -8,18 +8,7 @@
     overflow:                       hidden;
     overflow-y:                     scroll;
 }
-.include-files h3 {
-    float:                          left;
-    width:                          100%;
-    height:                         32px;
-    line-height:                    32px;
-    margin:                         0;
-    padding:                        0;
-    -webkit-user-select:            none;
-}
 .include-files .include-file {
-    float:                          left;
-    width:                          100%;
     height:                         32px;
 }
 .include-files .include-file .checkbox,

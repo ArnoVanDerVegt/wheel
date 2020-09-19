@@ -1,18 +1,11 @@
 .home-screen {
-    position:                       relative;
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
     overflow:                       auto;
     background:                     var(--home-background);
     -webkit-user-select:            none;
 }
 .home-screen .home-screen-image-clip {
-    position:                       absolute;
     left:                           0;
     top:                            0;
-    width:                          100%;
-    height:                         100%;
     overflow:                       hidden;
     z-index:                        10;
 }
@@ -22,14 +15,7 @@
     bottom:                         -230px;
     -webkit-user-select:            none;
 }
-.home-screen-content-wrapper {
-    float:                          left;
-    position:                       relative;
-    width:                          100%;
-    min-height:                     100%;
-}
 .home-screen-content {
-    position:                       absolute;
     left:                           50%;
     top:                            50%;
     width:                          300px;
@@ -38,7 +24,6 @@
     z-index:                        100;
 }
 .home-screen-content h1 {
-    width:                          100%;
     padding:                        0 0 0 8px;
     margin:                         0;
     color:                          var(--home-title-color);
@@ -69,9 +54,6 @@
     margin:                         0;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
     background-color:               var(--ui-background1);
     border:                         var(--ui-border1);
     border-radius:                  4px;
@@ -89,16 +71,12 @@
     top:                            15px;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text {
-    float:                          right;
     width:                          calc(100% - 76px);
-    height:                         100%;
     border:                         var(--ui-border1);
     border-width:                   0 0 0 1px;
     background-color:               var(--ui-background2);
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text .title {
-    float:                          left;
-    width:                          100%;
     height:                         80px;
     line-height:                    80px;
     padding:                        0 0 0 8px;

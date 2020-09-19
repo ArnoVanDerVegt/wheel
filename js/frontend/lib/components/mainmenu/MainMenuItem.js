@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Menu    = require('./Menu').Menu;
-const DOMNode = require('../dom').DOMNode;
+const DOMNode = require('../../dom').DOMNode;
+const Menu    = require('../Menu').Menu;
 
 exports.MainMenuItem = class extends DOMNode {
     constructor(opts) {
@@ -32,7 +32,7 @@ exports.MainMenuItem = class extends DOMNode {
             parentNode,
             {
                 id:        this.setMainMenuItem.bind(this),
-                className: 'main-menu-item',
+                className: 'flt main-menu-item',
                 children: [
                     {
                         id:        this.setMenuItemElement.bind(this),

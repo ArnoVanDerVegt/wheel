@@ -4,7 +4,7 @@
 **/
 const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const MainMenu    = require('../../lib/components/MainMenu').MainMenu;
+const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
 const tabIndex    = require('../tabIndex');
 const HelpOption  = require('./HelpOption').HelpOption;

@@ -90,20 +90,18 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
                 ui:          this._ui,
                 uiId:        this._uiId
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        value:    'Close',
-                        onClick:  this.hide.bind(this),
-                        tabIndex: 512
-                    }),
-                    {
-                        className: 'frt inspired-by',
-                        innerHTML: 'Data from: https://www.philohome.com/motors/motorcomp.htm - Inspired by http://gears.sariel.pl'
-                    }
-                ]
-            }
+            this.initButtons([
+                {
+                    value:    'Close',
+                    onClick:  this.hide.bind(this),
+                    tabIndex: 512
+                },
+                {
+                    type:      'div',
+                    className: 'frt inspired-by',
+                    innerHTML: 'Data from: https://www.philohome.com/motors/motorcomp.htm - Inspired by http://gears.sariel.pl'
+                }
+            ])
         ];
     }
 

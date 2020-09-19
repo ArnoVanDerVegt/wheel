@@ -34,13 +34,13 @@ exports.NewVersion = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'new-version',
+                className: 'flt max-w max-h vscroll new-version',
                 style: {
                     display: 'none'
                 },
                 children: [
                     {
-                        className: 'new-version-logo',
+                        className: 'flt new-version-logo',
                         children: [
                             {
                                 type:   'img',
@@ -51,7 +51,7 @@ exports.NewVersion = class extends DOMNode {
                         ]
                     },
                     {
-                        className: 'new-version-content',
+                        className: 'flt new-version-content',
                         ref:       this.setRef('newVersionContent')
                     }
                 ]

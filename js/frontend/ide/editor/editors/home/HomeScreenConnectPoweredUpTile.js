@@ -15,7 +15,7 @@ exports.HomeScreenConnectPoweredUpTile = class extends HomeScreenTile {
 
     onPoweredUpConnecting() {
         let refs = this._refs;
-        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'Powered Up';
     }
@@ -23,7 +23,7 @@ exports.HomeScreenConnectPoweredUpTile = class extends HomeScreenTile {
     onPoweredUpConnected() {
         let refs           = this._refs;
         let connectedCount = this._poweredUp.getConnectionCount();
-        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connected to ' + connectedCount + ' device' + (connectedCount > 1 ? 's' : '');
         refs.title.innerHTML              = 'Powered Up';
     }

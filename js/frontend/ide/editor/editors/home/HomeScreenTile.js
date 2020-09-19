@@ -35,17 +35,17 @@ exports.HomeScreenTile = class extends DOMNode {
                         id:        this.setElement.bind(this),
                         type:      'a',
                         tabIndex:  this._tabIndex,
-                        className: 'home-screen-tile-content',
+                        className: 'flt max-w max-h home-screen-tile-content',
                         children: [
                             this.getIcon(),
                             {
                                 ref:       this.setRef('homeScreenTileText'),
-                                className: 'home-screen-tile-text' + ((this._subTitle === '') ? '' : ' with-sub-title'),
+                                className: 'frt max-h home-screen-tile-text' + ((this._subTitle === '') ? '' : ' with-sub-title'),
                                 children: [
                                     {
                                         ref:       this.setRef('title'),
                                         type:      'span',
-                                        className: 'title',
+                                        className: 'flt max-w title',
                                         innerHTML: this._title
                                     },
                                     this.getSubTitle()
@@ -99,11 +99,11 @@ exports.HomeScreenTile = class extends DOMNode {
     }
 
     onFocus() {
-        this._element.className = 'home-screen-tile-content focus';
+        this._element.className = 'flt max-w max-h home-screen-tile-content focus';
     }
 
     onBlur() {
-        this._element.className = 'home-screen-tile-content';
+        this._element.className = 'flt max-w max-h home-screen-tile-content';
     }
 
     onClick() {

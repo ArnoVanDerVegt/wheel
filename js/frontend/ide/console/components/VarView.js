@@ -20,7 +20,7 @@ exports.VarView = class extends DOMNode {
 
     initNodeLine(indent, title) {
         return {
-            className: 'node-line',
+            className: 'flt node-line',
             style:     {marginLeft: indent + 'px'},
             children: [
                 {

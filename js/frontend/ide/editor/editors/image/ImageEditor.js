@@ -37,7 +37,7 @@ exports.ImageEditor = class extends Editor {
             parentNode,
             {
                 ref:       this.setRef('wrapper'),
-                className: 'resource-wrapper',
+                className: 'max-w resource-wrapper',
                 children: [
                     {
                         type:        ToolbarTop,

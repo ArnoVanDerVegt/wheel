@@ -30,7 +30,10 @@ exports.Dialog = class extends ComponentContainer {
         if (opts.showSignal) {
             dispatcher.on(opts.showSignal, this, this.onShow);
         }
-        this._help = opts.help;
+        this._help   = opts.help;
+        this._width  = opts.width;
+        this._height = opts.height;
+        this._title  = opts.title;
         let children = this.initWindowContent(opts);
         children.unshift(
             {
@@ -40,19 +43,19 @@ exports.Dialog = class extends ComponentContainer {
                 },
                 ref:       this.setRef('title'),
                 type:      'h2',
-                className: 'dialog-title',
-                innerHTML: opts.title
+                className: 'flt rel max-w dialog-title',
+                innerHTML: this._title
             },
             opts.help ?
                 {
                     id:        this.setHelpElement.bind(this),
-                    className: 'dialog-help',
+                    className: 'abs dialog-help',
                     innerHTML: '?'
                 } :
                 null,
             {
                 id:        this.setCloseElement.bind(this),
-                className: 'dialog-close',
+                className: 'abs dialog-close',
                 innerHTML: '&#x2716;'
             }
         );
@@ -63,24 +66,24 @@ exports.Dialog = class extends ComponentContainer {
                 className: 'dialog-background' + (opts.className ? ' ' + opts.className : ''),
                 children: [
                     {
-                        className: 'dialog-center',
+                        className: 'abs max-w dialog-center',
                         children: [
                             {
                                 id:        this.setDialogContentElement.bind(this),
                                 className: 'dialog-content',
                                 style: {
-                                    marginTop: (-opts.height / 2) + 'px',
-                                    width:     opts.width         + 'px',
-                                    height:    opts.height        + 'px'
+                                    marginTop: (-this._height / 2) + 'px',
+                                    width:     this._width         + 'px',
+                                    height:    this._height        + 'px'
                                 },
                                 children: [
                                     {
-                                        className: 'dialog-content-image-wrapper',
+                                        className: 'abs max-w max-h dialog-content-image-wrapper',
                                         children: [
                                             {
                                                 type:      'img',
                                                 src:       this._getImage('images/logos/wheelWindow.svg'),
-                                                className: 'dialog-content-image'
+                                                className: 'abs dialog-content-image'
                                             }
                                         ]
                                     }
@@ -180,7 +183,7 @@ exports.Dialog = class extends ComponentContainer {
             }
         });
         return {
-            className: 'buttons',
+            className: 'abs max-w buttons',
             children:  children
         };
     }
@@ -350,7 +353,7 @@ exports.Dialog = class extends ComponentContainer {
     addDontShowAgain(tabIndex) {
         return {
             type:      'div',
-            className: 'dont-show-again',
+            className: 'frt dont-show-again',
             children: [
                 {
                     type:     Checkbox,

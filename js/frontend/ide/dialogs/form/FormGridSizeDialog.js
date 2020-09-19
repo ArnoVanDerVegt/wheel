@@ -36,16 +36,13 @@ exports.FormGridSizeDialog = class extends Dialog {
                     {value: 20, title: '20x20'}
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                }
+            ])
         ];
     }
 

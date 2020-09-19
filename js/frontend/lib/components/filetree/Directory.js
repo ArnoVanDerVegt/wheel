@@ -32,14 +32,14 @@ exports.Directory = class extends Item {
                                 id:        this.setNameElement.bind(this),
                                 type:      'a',
                                 href:      '#',
-                                className: 'name',
+                                className: 'abs name',
                                 innerHTML: this._file.name
                             }
                         ]
                     },
                     {
                         id:        this.setChildElements.bind(this),
-                        className: 'directory-content',
+                        className: 'flt max-w directory-content',
                         style: {
                             display: this._open ? 'block' : 'none'
                         }

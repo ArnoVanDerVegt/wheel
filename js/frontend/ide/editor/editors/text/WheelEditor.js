@@ -80,7 +80,7 @@ exports.WheelEditor = class extends Editor {
             parentNode,
             {
                 id:        this.setRef('wrapper'),
-                className: 'code-mirror-wrapper',
+                className: 'max-w max-h code-mirror-wrapper',
                 children: [
                     {
                         id:    this.setTextareaElement.bind(this),
@@ -252,7 +252,7 @@ exports.WheelEditor = class extends Editor {
 
     showReplaceToolbar() {
         let refs = this._refs;
-        refs.wrapper.className          = 'code-mirror-wrapper with-replace';
+        refs.wrapper.className          = 'max-w max-h code-mirror-wrapper with-replace';
         refs.findOptions.className      = 'bottom-options';
         refs.replaceOptions.className   = 'bottom-options replace';
         refs.connectionStatus.className = 'bottom-options hidden';
@@ -445,7 +445,7 @@ exports.WheelEditor = class extends Editor {
         refs.findOptions.className      = 'bottom-options hidden';
         refs.replaceOptions.className   = 'bottom-options hidden';
         refs.connectionStatus.className = 'bottom-options connection-status';
-        refs.wrapper.className          = 'code-mirror-wrapper';
+        refs.wrapper.className          = 'max-w max-h code-mirror-wrapper';
         this._wheelEditorState
             .setFindVisible(false)
             .setReplaceVisible(false);

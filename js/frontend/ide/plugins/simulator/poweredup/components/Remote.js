@@ -18,26 +18,26 @@ const RemoteButtons = class extends DOMNode {
             this.create(
                 parentNode,
                 {
-                    className: 'control-circle ' + this._className,
+                    className: 'abs control-circle ' + this._className,
                     children: [
                         {
-                            className: 'buttons',
+                            className: 'abs buttons',
                             children: [
                                 {
                                     className: 'buttons',
                                     children: [
                                         {
                                             ref:       this._remote.setRef(this._prefix + 'Min'),
-                                            className: 'button-left',
+                                            className: 'flt max-h button-left',
                                             innerHTML: '-'
                                         },
                                         {
                                             ref:       this._remote.setRef(this._prefix + 'Center'),
-                                            className: 'button-center'
+                                            className: 'flt max-h button-center'
                                         },
                                         {
                                             ref:       this._remote.setRef(this._prefix + 'Plus'),
-                                            className: 'button-right',
+                                            className: 'flt max-h button-right',
                                             innerHTML: '+'
                                         }
                                     ]
@@ -74,10 +74,10 @@ exports.Remote = class extends BasicHub {
                         className: 'left'
                     },
                     {
-                        className: 'remote-button'
+                        className: 'abs remote-button'
                     },
                     {
-                        className: 'hub-light',
+                        className: 'abs hub-light',
                         ref:       this.setRef('hubLight')
                     },
                     {

@@ -56,11 +56,12 @@ exports.Plugin = class extends Plugin {
             className: 'powered-up remote',
             children: [
                 {
-                    className: 'hub-id',
+                    className: 'flt max-w hub-id',
                     children: [
                         {
                             id:        this.setUuidElement.bind(this),
                             type:      'span',
+                            className: 'flt',
                             innerHTML: ''
                         }
                     ]

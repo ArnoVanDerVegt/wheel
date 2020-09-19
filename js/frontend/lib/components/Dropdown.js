@@ -30,10 +30,10 @@ const ListItem = class extends DOMNode {
                     parentNode,
                     {
                         id:        this.setElement.bind(this),
-                        className: 'dropdown-list-item',
+                        className: 'flt max-w dropdown-list-item',
                         children: [
                             {
-                                className: 'dropdown-img-wrapper',
+                                className: 'flt dropdown-img-wrapper',
                                 style:     style,
                                 children: [
                                     {
@@ -46,11 +46,11 @@ const ListItem = class extends DOMNode {
                                 ]
                             },
                             {
-                                className: 'dropdown-title',
+                                className: 'flt dropdown-title',
                                 innerHTML: this._title
                             },
                             {
-                                className: 'dropdown-sub-title',
+                                className: 'flt dropdown-sub-title',
                                 innerHTML: this._subTitle
                             }
                         ]
@@ -61,7 +61,7 @@ const ListItem = class extends DOMNode {
                     parentNode,
                     {
                         id:        this.setElement.bind(this),
-                        className: 'dropdown-list-item',
+                        className: 'flt max-w dropdown-list-item',
                         innerHTML: this._title
                     }
                 );
@@ -69,7 +69,7 @@ const ListItem = class extends DOMNode {
         }
 
         setSelected(selected) {
-            this._element.className = 'dropdown-list-item' + (selected ? ' selected' : '');
+            this._element.className = 'flt max-w dropdown-list-item' + (selected ? ' selected' : '');
         }
 
         setElement(element) {
@@ -135,7 +135,7 @@ exports.Dropdown = class extends Component {
                     },
                     {
                         ref:       this.setRef('valueImgWrapper'),
-                        className: 'dropdown-img-wrapper',
+                        className: 'flt dropdown-img-wrapper',
                         children: [
                             {
                                 ref:  this.setRef('valueImg'),
@@ -145,11 +145,11 @@ exports.Dropdown = class extends Component {
                     },
                     {
                         ref:       this.setRef('valueTitle'),
-                        className: 'dropdown-title'
+                        className: 'flt dropdown-title'
                     },
                     {
                         ref:       this.setRef('valueSubTitle'),
-                        className: 'dropdown-sub-title'
+                        className: 'flt dropdown-sub-title'
                     }
                 ]
             };

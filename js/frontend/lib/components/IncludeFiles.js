@@ -37,7 +37,7 @@ exports.IncludeFiles = class extends DOMNode {
         for (let i = 0; i < includeFiles.length; i++) {
             let includeFile = includeFiles[i];
             children.push({
-                className: 'include-file',
+                className: 'flt max-w include-file',
                 children: [
                     {
                         id:       this.addCheckboxElement.bind(this),

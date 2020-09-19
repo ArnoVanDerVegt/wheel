@@ -39,17 +39,6 @@ body.ide .console-content {
 .console-content .console-lines,
 .console-content .find-results,
 .console-content .vars,
-.console-content .registers,
-.console-content .terminal {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
-    overflow:                       hidden;
-    overflow-y:                     scroll;
-}
-.console-content .console-lines,
-.console-content .find-results,
-.console-content .vars,
 .console-content .registers {
     -webkit-user-select:            none;
 }
@@ -60,11 +49,8 @@ body.ide .console-content {
 }
 .console-content .console-lines .console-line,
 .console-content .find-results .find-result {
-    float:                          left;
-    position:                       relative;
     font-family:                    monospace;
     font-size:                      13px;
-    width:                          100%;
     height:                         24px;
     line-height:                    24px;
     padding:                        0 8px 0 8px;
@@ -84,7 +70,6 @@ body.ide .console-content {
     color:                          var(--color-green);
 }
 .console-content .find-results .find-result .found-line {
-    float:                          left;
     width:                          calc(100% - 84px);
     white-space:                    nowrap;
     overflow:                       hidden;
@@ -92,7 +77,6 @@ body.ide .console-content {
     cursor:                         pointer;
 }
 .console-content .find-results .find-result .found-pos {
-    float:                          right;
     text-align:                     right;
     width:                          80px;
 }
@@ -198,7 +182,6 @@ body.ide .console-content {
     font-family:                    monospace;
 }
 .console-content tr td .node-line {
-    float:                          left;
     clear:                          both;
 }
 .console-content tr td div span {
@@ -250,20 +233,11 @@ body.ide .console-content {
     color:                          var(--color-red);
 }
 /* New version */
-.console-content .new-version {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
-    overflow:                       hidden;
-    overflow-y:                     scroll;
-}
 .console-content .new-version .new-version-logo {
-    float:                          left;
     width:                          152px;
     margin:                         8px 0 0 16px;
 }
 .console-content .new-version .new-version-content {
-    float:                          left;
     width:                          calc(100% - 168px);
     padding:                        16px 8px 16px 0;
 }

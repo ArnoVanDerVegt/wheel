@@ -51,7 +51,7 @@ class Chart extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'chart',
+                className: 'flt rel chart',
                 ref:       this.setRef('chart'),
                 children:
                 [
@@ -62,7 +62,7 @@ class Chart extends DOMNode {
                         height: 96
                     },
                     {
-                        className: 'chart-title',
+                        className: 'flt max-w chart-title',
                         children: [
                             {
                                 ref:  this.setRef('img'),
@@ -226,7 +226,7 @@ exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
         this._charts              = [];
-        this._baseClassName       = 'graph';
+        this._baseClassName       = 'flt rel max-w graph';
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
         this._device

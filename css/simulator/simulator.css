@@ -41,8 +41,6 @@ body.ide.no-simulator div.simulator {
     font-size:                      14px;
 }
 .simulator .sensors .sensor-container {
-    float:                          left;
-    position:                       relative;
     width:                          61px;
     margin:                         0 8px 0 0;
 }
@@ -92,8 +90,6 @@ body.ide.no-simulator div.simulator {
     line-height:                    39px;
 }
 .simulator .simulator-options {
-    float:                          left;
-    width:                          100%;
     height:                         40px;
     margin:                         0;
     border:                         var(--ui-border1);
@@ -117,7 +113,6 @@ body.ide.no-simulator div.simulator {
 
 /* Simulator plugins */
 .simulator .plugin-container {
-    position:                       absolute;
     top:                            40px;
     bottom:                         0px;
     width:                          100%;

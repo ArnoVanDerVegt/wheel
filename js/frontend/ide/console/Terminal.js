@@ -22,7 +22,7 @@ exports.Terminal = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'terminal',
+                className: 'flt max-w max-h vscroll terminal',
                 children: [
                     {
                         ref:       this.setRef('output'),

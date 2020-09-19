@@ -1,10 +1,4 @@
 /* Source */
-.editor .source-wrapper,
-.editor .source-wrapper .code-mirror-wrapper,
-.editor .source-wrapper .text-wrapper {
-    width:                          100%;
-    height:                         100%;
-}
 .editor .source-wrapper .code-mirror-wrapper .CodeMirror,
 .editor .source-wrapper .code-mirror-wrapper textarea {
     height:                         calc(100% - 40px);
@@ -25,13 +19,10 @@
     height:                         calc(100% - 80px);
 }
 .editor .source-wrapper .resource-wrapper {
-    width:                          100%;
     height:                         calc(100% + 1px);
 }
 .editor .source-wrapper .resource-wrapper .resource-options,
 .editor .code-mirror-wrapper .resource-options {
-    float:                          left;
-    width:                          100%;
     height:                         40px;
     border:                         var(--ui-border1);
     border-width:                   0;

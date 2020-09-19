@@ -32,7 +32,7 @@ exports.SimulatorToolbar = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'simulator-options',
+                className: 'flt max-w simulator-options',
                 children: [
                     {
                         type:      Button,

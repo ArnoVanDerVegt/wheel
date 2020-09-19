@@ -27,12 +27,12 @@ class FindResult extends DOMNode {
                 className: 'find-result found',
                 children: [
                     {
-                        className: 'found-pos',
+                        className: 'frt found-pos',
                         innerHTML: (found.num + 1) + ', ' + found.pos,
                         title:     'Line ' + (found.num + 1) + ' character ' + found.pos
                     },
                     {
-                        className: 'found-line',
+                        className: 'flt found-line',
                         innerHTML: line
                     }
                 ]
@@ -73,7 +73,7 @@ exports.FindResults = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'find-results'
+                className: 'flt max-w max-h vscroll find-results'
             }
         );
     }
@@ -91,7 +91,7 @@ exports.FindResults = class extends DOMNode {
         this.create(
             this._element,
             {
-                className: 'find-result',
+                className: 'flt rel max-w find-result',
                 innerHTML: filename
             }
         );

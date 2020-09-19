@@ -14,11 +14,9 @@
     background:                     rgba(0, 0, 0, 0.5);
 }
 .dialog-background .dialog-center {
-    position:                       absolute;
     left:                           0;
     right:                          0;
     top:                            50%;
-    width:                          100%;
     height:                         50%;
 }
 .dialog-background .dialog-center .dialog-content {
@@ -36,11 +34,8 @@
     opacity:                        1;
 }
 .dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper {
-    position:                       absolute;
     left:                           0;
     top:                            0;
-    width:                          100%;
-    height:                         100%;
     overflow:                       hidden;
     pointer-events:                 none;
 }
@@ -61,7 +56,6 @@
     }
 }
 .dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper .dialog-content-image {
-    position:                       absolute;
     right:                          -192px;
     bottom:                         -256px;
     -webkit-user-select:            none;
@@ -70,16 +64,11 @@
     animation:                      backgroundSpin 180s linear infinite;
 }
 .dialog-background .dialog-center .dialog-content .buttons {
-    position:                       absolute;
     left:                           0;
     bottom:                         0;
-    width:                          100%;
     height:                         80px;
     padding:                        16px 32px 0 32px;
     -webkit-user-select:            none;
-}
-.dialog-background .dialog-center .dialog-content .buttons .dont-show-again {
-    float:                          right;
 }
 .dialog-background .dialog-center .dialog-content .buttons .dont-show-again a.checkbox,
 .dialog-background .dialog-center .dialog-content .buttons .dont-show-again span.dont-show-label {
@@ -101,11 +90,8 @@
     font-size:                      17px;
 }
 .dialog-background .dialog-center .dialog-content .dialog-title {
-    float:                          left;
-    position:                       relative;
     left:                           0;
     top:                            0;
-    width:                          100%;
     height:                         64px;
     line-height:                    64px;
     padding:                        0 0 0 32px;
@@ -116,7 +102,6 @@
 }
 .dialog-background .dialog-center .dialog-content .dialog-close,
 .dialog-background .dialog-center .dialog-content .dialog-help {
-    position:                       absolute;
     width:                          32px;
     height:                         32px;
     right:                          32px;

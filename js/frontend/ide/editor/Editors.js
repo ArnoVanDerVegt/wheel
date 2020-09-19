@@ -107,7 +107,7 @@ exports.Editors = class extends DOMNode {
                         children: [
                             {
                                 ref:       this.setRef('sourceWrapper'),
-                                className: 'source-wrapper',
+                                className: 'max-w max-h source-wrapper',
                                 children: [
                                     {
                                         type:      HomeScreen,
