@@ -12,14 +12,19 @@ exports.FormSizeDialog = class extends ImageDialog {
         opts.minHeight = 128;
         opts.maxHeight = 600;
         super(opts);
-        this.initWindow('image-dialog', 'Set form size', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Form.SetSize', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Form.SetSize',
+            width:      400,
+            height:     216,
+            className:  'image-dialog',
+            title:      'Set form size'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                className: 'image-dialog-text',
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
                 children: [
                     this.getWidthRow(),
                     this.getHeightRow()

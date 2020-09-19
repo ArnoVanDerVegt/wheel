@@ -10,13 +10,13 @@ const AutoConnectListItem = require('./components/AutoConnectListItem').AutoConn
 
 exports.PoweredUpAutoConnectListDialog = class extends ListDialog {
     constructor(opts) {
+        opts.showSignal  = 'Dialog.AutoConnectPoweredUp.Show';
         opts.help        = 'Bluetooth';
         opts.title       = 'Auto connect Powered Up';
         opts.applyTitle  = null;
         opts.cancelTitle = 'Close';
         opts.ListItem    = AutoConnectListItem;
         super(opts);
-        dispatcher.on('Dialog.AutoConnectPoweredUp.Show', this, this.onShow);
     }
 
     getList() {

@@ -20,69 +20,71 @@ exports.HelpDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._needsRebuild = false;
-        this._settings     = opts.settings;
         this._documentPath = '';
         new WocFileLoader().load((loadedFiles) => { setHelp(new Woc().build(loadedFiles)); });
-        this.initWindow('help-dialog', 'Help', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Help.Show',    this, this.onShow);
-        dispatcher.on('Dialog.Help.Rebuild', this, this.onRebuild);
+        this.initWindow({
+            width:     960,
+            height:    600,
+            className: 'help-dialog',
+            title:     'Help'
+        });
+        dispatcher
+            .on('Dialog.Help.Show',    this, this.onShow)
+            .on('Dialog.Help.Rebuild', this, this.onRebuild);
     }
 
     initWindowContent(opts) {
         return [
             {
                 ref:       this.setRef('helpFiles'),
-                className: 'help-files'
+                className: 'abs ui1-box dialog-l dialog-b dialog-t dialog-r help-files'
             },
             {
                 ref:       this.setRef('helpFile'),
-                className: 'help-file',
+                className: 'abs dialog-l dialog-b dialog-r diaog-t help-file',
                 children: [
                     {
                         ref:       this.setRef('helpFileSubjects'),
-                        className: 'help-file-subjects'
+                        className: 'ui1-box help-file-subjects'
                     },
                     {
                         ref:       this.setRef('helpFileContent'),
-                        className: 'help-file-content'
+                        className: 'abs ui1-box help-file-content'
                     }
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('closeButton'),
-                        tabIndex: 1024,
-                        value:    'Index',
-                        onClick:  this.onClickIndex.bind(this)
-                    }),
-                    this.addButton({
-                        ref:      this.setRef('closeButton'),
-                        tabIndex: 1025,
-                        value:    'Close',
-                        color:   'dark-green',
-                        onClick:  this.hide.bind(this)
-                    }),
-                    platform.isElectron() ?
-                        this.addButton({
-                            tabIndex:  1026,
-                            value:     'Rebuild',
-                            color:     'blue',
-                            onClick:   this.onRebuild.bind(this)
-                        }) :
-                        null,
-                    platform.isElectron() ?
-                        this.addButton({
-                            ref:       this.setRef('saveTextFilesButton'),
-                            tabIndex:  1027,
-                            value:     'Save html files',
-                            color:     'blue',
-                            onClick:   this.onRebuildText.bind(this)
-                        }) :
-                        null
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('closeButton'),
+                    tabIndex: 1024,
+                    value:    'Index',
+                    onClick:  this.onClickIndex.bind(this)
+                },
+                {
+                    ref:      this.setRef('closeButton'),
+                    tabIndex: 1025,
+                    value:    'Close',
+                    color:   'dark-green',
+                    onClick:  this.hide.bind(this)
+                },
+                platform.isElectron() ?
+                    {
+                        tabIndex:  1026,
+                        value:     'Rebuild',
+                        color:     'blue',
+                        onClick:   this.onRebuild.bind(this)
+                    } :
+                    null,
+                platform.isElectron() ?
+                    {
+                        ref:       this.setRef('saveTextFilesButton'),
+                        tabIndex:  1027,
+                        value:     'Save html files',
+                        color:     'blue',
+                        onClick:   this.onRebuildText.bind(this)
+                    } :
+                    null
+            ])
         ];
     }
 

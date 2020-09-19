@@ -20,7 +20,7 @@ exports.GearResult = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'abs dialog-cw gear-result',
+                className: 'abs dialog-cw dialog-l gear-result',
                 children: [
                     {
                         type:      Dropdown,
@@ -34,7 +34,7 @@ exports.GearResult = class extends DOMNode {
                         onChange:  this.onChangeMotor.bind(this)
                     },
                     {
-                        className: 'frt gear-overview',
+                        className: 'frt ui1-box gear-overview',
                         ref:       this.setRef('overview')
                     }
                 ]

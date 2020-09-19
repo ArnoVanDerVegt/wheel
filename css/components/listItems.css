@@ -14,9 +14,6 @@ ol.list-items li {
     margin:                         0;
     padding:                        0;
 }
-ul.list-items li {
-
-}
 .list-items.design:before {
     position:                       absolute;
     z-index:                        -1;

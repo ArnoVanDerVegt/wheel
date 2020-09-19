@@ -29,8 +29,12 @@ exports.FormDialog = class extends Dialog {
         this._height                 = 300;
         this._onHideEvent            = null; // Wheel event for hiding...
         this._onShowEvent            = null; // Wheel event for showing...
-        let children = this.getChildren(opts);
-        this.initWindow('form-dialog', this._title, children);
+        this.initWindow({
+            width:     300,
+            height:    300,
+            className: 'form-dialog',
+            title:     this._title
+        });
     }
 
     addDefaultEvent(component, property) {
@@ -138,7 +142,7 @@ exports.FormDialog = class extends Dialog {
         return component;
     }
 
-    getChildren(opts) {
+    initWindowContent(opts) {
         let result        = [];
         let componentById = {};
         let mainParentId  = null;

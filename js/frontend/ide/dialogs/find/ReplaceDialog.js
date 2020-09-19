@@ -8,8 +8,13 @@ const FindDialog = require('./FindDialog').FindDialog;
 exports.ReplaceDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('find-dialog', 'Replace', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Replace.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Replace.Show',
+            width:      544,
+            height:     248,
+            className:  'find-dialog',
+            title:      'Replace'
+        });
     }
 
     initWindowContent(opts) {
@@ -17,24 +22,30 @@ exports.ReplaceDialog = class extends FindDialog {
             {
                 className: 'abs dialog-cw dialog-lt find-dialog-text',
                 children: [
-                    this.addTextInputRow({
-                        title:      'Replace',
-                        ref:        'replace',
-                        tabIndex:    10,
-                        onKeyUp:     this.onReplaceKeyUp.bind(this),
-                        placeholder: 'Find text'
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename',
+                        labelClassName: 'flt input-label',
+                        label:          'Replace',
+                        ref:            this.setRef('replace'),
+                        tabIndex:       10,
+                        onKeyUp:        this.onReplaceKeyUp.bind(this),
+                        placeholder:    'Find text'
                     }),
-                    this.addTextInputRow({
-                        title:       'With',
-                        ref:         'with',
-                        tabIndex:    11,
-                        onKeyUp:     this.onWithKeyUp.bind(this),
-                        placeholder: 'Replace with text'
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename',
+                        labelClassName: 'flt input-label',
+                        label:          'With',
+                        ref:            this.setRef('with'),
+                        tabIndex:       11,
+                        onKeyUp:        this.onWithKeyUp.bind(this),
+                        placeholder:    'Replace with text'
                     }),
-                    this.addCheckboxRow({
-                        title:       'Match case',
-                        ref:         'caseSensitive',
-                        tabIndex:    12
+                    this.initCheckboxRow({
+                        className:      'flt max-w input-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Match case',
+                        ref:            'caseSensitive',
+                        tabIndex:       12
                     })
                 ]
             },

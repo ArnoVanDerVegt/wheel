@@ -15,7 +15,7 @@ exports.PoweredUpStep4Include = class extends Step {
         return {
             ui:        this._ui,
             uiId:      this._uiId,
-            className: 'abs dialog-cw step-content step4',
+            className: 'abs dialog-cw dialog-l dialog-b step-content step4',
             children: [
                 {
                     type:     IncludeFiles,

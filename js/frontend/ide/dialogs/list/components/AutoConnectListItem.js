@@ -15,7 +15,7 @@ exports.AutoConnectListItem = class extends ListItem {
                 parentNode,
                 {
                     id:        this.setElement.bind(this),
-                    className: 'list-item',
+                    className: 'flt rel max-w list-item',
                     children: [
                         {
                             id:        this.setLinkElement.bind(this),
@@ -33,10 +33,10 @@ exports.AutoConnectListItem = class extends ListItem {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'list-item',
+                className: 'flt rel max-w list-item',
                 children: [
                     {
-                        className: 'list-item-item',
+                        className: 'flt rel max-w max-h list-item-item',
                         children: [
                             {
                                 className: 'item-number',

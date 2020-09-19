@@ -13,10 +13,14 @@ exports.ListDialog = class extends Dialog {
         opts || (opts = {});
         this._list          = [];
         this._dispatchApply = null;
-        this.initWindow('list-dialog' + (opts.comment ? ' with-comment' : ''), opts.title || 'Title', this.initWindowContent(opts));
-        if (opts && opts.signal) {
-            dispatcher.on(opts.signal, this, this.onShow);
-        }
+        this.initWindow({
+            help:       opts.help,
+            showSignal: opts.showSignal,
+            width:      500,
+            height:     400,
+            className:  'list-dialog' + (opts.comment ? ' with-comment' : ''),
+            title:      opts.title || 'Title'
+        });
     }
 
     initWindowContent(opts) {
@@ -24,7 +28,7 @@ exports.ListDialog = class extends Dialog {
             opts.comment ?
                 {
                     innerHTML: opts.comment,
-                    className: 'list-comment'
+                    className: 'dialog-cw dialog-lt list-comment'
                 } :
                 null,
             {
@@ -34,31 +38,28 @@ exports.ListDialog = class extends Dialog {
                 ref:       this.setRef('list'),
                 ui:        this._ui,
                 tabIndex:  1,
-                className: 'item-list',
+                className: 'abs ui1-box vscroll dialog-cw dialog-lt item-list',
                 onChange:  this.onChangeItem.bind(this),
                 onSelect:  this.onSelectItem.bind(this)
             },
-            {
-                className: 'buttons',
-                children: [
-                    (opts.applyTitle === null) ?
-                        null :
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 256,
-                            value:    opts.applyTitle || 'Ok',
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                    this.addButton({
-                        ref:      this.setRef('buttonCancel'),
-                        tabIndex: 257,
-                        value:    opts.cancelTitle || 'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ].concat(this.getExtraButtons())
-            }
+            this.initButtons([
+                (opts.applyTitle === null) ?
+                    null :
+                    {
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 256,
+                        value:    opts.applyTitle || 'Ok',
+                        disabled: true,
+                        onClick:  this.onApply.bind(this)
+                    },
+                {
+                    ref:      this.setRef('buttonCancel'),
+                    tabIndex: 257,
+                    value:    opts.cancelTitle || 'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ].concat(this.getExtraButtons()))
         ];
     }
 

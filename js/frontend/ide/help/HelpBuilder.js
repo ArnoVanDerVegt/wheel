@@ -496,7 +496,7 @@ class HelpBuilder {
                 ]
             };
         if (seeList.length > 1) {
-            node.children.push({className: 'breaker'});
+            node.children.push({className: 'flt max-w'});
             seeList.sort();
         }
         seeList.forEach(
@@ -759,14 +759,14 @@ class HelpBuilder {
     addLegend(parentNode) {
         const addLegendItem = function(type, title) {
                 return {
-                    className: 'legend-item',
+                    className: 'flt legend-item',
                     children: [
                         {
-                            className: 'device ' + type,
+                            className: 'flt device ' + type,
                             innerHTML: type.toUpperCase()
                         },
                         {
-                            className: 'title',
+                            className: 'flt title',
                             innerHTML: title
                         }
                     ]
@@ -775,7 +775,7 @@ class HelpBuilder {
         new DOMNode({}).create(
             parentNode,
             {
-                className: 'legend',
+                className: 'flt max-w legend',
                 children: [
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),

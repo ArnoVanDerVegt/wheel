@@ -13,13 +13,14 @@ exports.ListItem = class extends ListItem {
                 parentNode,
                 {
                     id:        this.setElement.bind(this),
-                    className: 'list-item',
+                    className: 'flt rel max-w list-item',
                     children: [
                         {
                             id:        this.setLinkElement.bind(this),
-                            type:      'a',
                             tabIndex:  this._tabIndex,
+                            type:      'a',
                             href:      '#',
+                            className: 'flt rel max-w max-h list-item-item',
                             innerHTML: item
                         }
                     ]
@@ -43,14 +44,14 @@ exports.ListItem = class extends ListItem {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'list-item',
+                className: 'flt rel max-w list-item',
                 children: [
                     {
                         id:        this.setLinkElement.bind(this),
                         tabIndex:  this._tabIndex,
                         type:      'a',
                         href:      '#',
-                        className: 'list-item-item',
+                        className: 'flt rel max-w max-h list-item-item',
                         children: [
                             item.image ?
                                 {

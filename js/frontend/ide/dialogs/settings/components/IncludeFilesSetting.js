@@ -28,10 +28,10 @@ exports.IncludeFilesSetting = class extends DOMNode {
                 children: [
                     {
                         ref:       this.setRef('includeFileList'),
-                        className: 'text-property-list'
+                        className: 'flt max-w text-property-list'
                     },
                     {
-                        className: 'text-property-row',
+                        className: 'flt max-w text-property-row',
                         children: [
                             {
                                 type:     Button,
@@ -69,7 +69,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
             this.create(
                 parentNode,
                 {
-                    className: 'text-property-row',
+                    className: 'flt max-w text-property-row',
                     children: [
                         {
                             type:      CloseButton,
@@ -98,7 +98,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
             this.create(
                 parentNode,
                 {
-                    className: 'text-property-row last',
+                    className: 'flt max-w text-property-row last',
                     children: [
                         {
                             type:      CloseButton,

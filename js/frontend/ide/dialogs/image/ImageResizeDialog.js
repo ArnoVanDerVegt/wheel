@@ -8,36 +8,38 @@ const ImageDialog = require('./ImageDialog').ImageDialog;
 exports.ImageResizeDialog = class extends ImageDialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('image-dialog', 'Resize image', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Image.Resize.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Image.Resize.Show',
+            width:      400,
+            height:     216,
+            className:  'image-dialog',
+            title:      'Resize image'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                className: 'image-dialog-text',
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
                 children: [
                     this.getWidthRow(),
                     this.getHeightRow()
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex: 129,
-                        value:    'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

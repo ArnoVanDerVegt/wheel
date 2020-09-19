@@ -11,10 +11,14 @@ const ResourceLine = require('./components/ResourceLine').ResourceLine;
 exports.DownloadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('download-dialog', 'Download resources', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Download.Show', this, this.onShow);
-        this._ev3      = opts.ev3;
-        this._settings = opts.settings;
+        this._ev3 = opts.ev3;
+        this.initWindow({
+            showSignal: 'Dialog.Download.Show',
+            width:      600,
+            height:     472,
+            className:  'download-dialog',
+            title:      'Download resources'
+        });
     }
 
     initWindowContent(opts) {
@@ -69,26 +73,23 @@ exports.DownloadDialog = class extends Dialog {
             },
             {
                 ref:       this.setRef('text'),
-                className: 'abs dialog-cw download-text'
+                className: 'abs dialog-cw dialog-l ui1-box vscroll pad download-text'
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('downloadButton'),
-                        value:    'Download',
-                        tabIndex: 128,
-                        onClick:  this.onDownload.bind(this)
-                    }),
-                    this.addButton({
-                        ref:      this.setRef('closeButton'),
-                        value:    'Close',
-                        tabIndex: 129,
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('downloadButton'),
+                    value:    'Download',
+                    tabIndex: 128,
+                    onClick:  this.onDownload.bind(this)
+                },
+                {
+                    ref:      this.setRef('closeButton'),
+                    value:    'Close',
+                    tabIndex: 129,
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

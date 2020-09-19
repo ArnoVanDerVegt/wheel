@@ -5,7 +5,7 @@
 exports.tab = (settingsDialog, opts) => {
     return {
         ref:       settingsDialog.setRef('tabSimulator'),
-        className: 'tab-panel tab-simulator',
+        className: 'abs max-w tab-panel ui1-box vscroll tab-simulator',
         children: [
             settingsDialog.addCheckboxSetting({
                 label:    'Auto reset sensor value',

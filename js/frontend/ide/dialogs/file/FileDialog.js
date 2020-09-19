@@ -12,34 +12,13 @@ const getImage           = require('../../data/images').getImage;
 const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
 
 exports.FileDialog = class extends Dialog {
-    initRow(opts) {
-        let result = {
-                className: opts.className,
-                children: [
-                    {
-                        className: opts.labelClassName || '',
-                        innerHTML: opts.label
-                    },
-                    this.addTextInput({
-                        ref:         opts.ref,
-                        tabIndex:    opts.tabIndex,
-                        onKeyUp:     opts.onKeyUp ? opts.onKeyUp : () => {},
-                        placeholder: opts.placeholder || '',
-                        value:       opts.value       || ''
-                    })
-                ]
-            };
-        if (opts.rowRef) {
-            result.ref = opts.rowRef;
-        }
-        return result;
-    }
-
     validateFilename() {
         let refs = this._refs;
         this._filename = refs.filename.getValue().trim();
-        let result = (this._filename !== '');
-        if ((this._type === 'project') && (['', '.whlp'].indexOf(path.getExtension(this._filename)) === -1)) {
+        let result = (this._filename !== '') &&
+                (this._filename.indexOf('/') === -1) &&
+                (this._filename.indexOf('\\') === -1);
+        if (this._expectedExtensions.indexOf(path.getExtension(this._filename)) === -1) {
             result = false;
         }
         if (!result) {

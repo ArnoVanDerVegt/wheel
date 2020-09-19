@@ -14,11 +14,16 @@ const FileDialog      = require('./FileDialog').FileDialog;
 
 exports.FileOpenDialog = class extends FileDialog {
     constructor(opts) {
-        opts.help = 'Supportedfile';
         super(opts);
         this._index       = 'main';
         this._currentFile = null;
-        this.initWindow('file-dialog', 'Open file', this.initWindowContent(opts));
+        this.initWindow({
+            width:     800,
+            height:    640,
+            className: 'file-dialog',
+            title:     'Open file',
+            help:      'Supportedfile'
+        });
         dispatcher
             .on('Dialog.File.Show',    this, this.onShow)
             .on('Dialog.Confirm.Save', this, this.onSaveConfirmed);
@@ -28,17 +33,18 @@ exports.FileOpenDialog = class extends FileDialog {
         return [
             {
                 ref:       this.setRef('currentPath'),
-                className: 'abs current-path',
+                className: 'abs dialog-l current-path',
                 innerHTML: ''
             },
             platform.isElectron() ?
                 this.addToolOptions({
-                    uiId:     this.getUIId.bind(this),
-                    tabIndex: 1,
-                    tool:     this._settings.getFilesDetail() ? 1 : 0,
-                    label:    'View:',
-                    color:    'green',
-                    onSelect: this.onSelectDetail.bind(this),
+                    uiId:      this.getUIId.bind(this),
+                    tabIndex:  1,
+                    tool:      this._settings.getFilesDetail() ? 1 : 0,
+                    label:     'View:',
+                    color:     'green',
+                    className: 'dialog-r dialog-t',
+                    onSelect:  this.onSelectDetail.bind(this),
                     options: [
                         {title: 'Normal',   icon: 'icon-list'},
                         {title: 'Detailed', icon: 'icon-list-detail'}
@@ -46,46 +52,45 @@ exports.FileOpenDialog = class extends FileDialog {
                 }) :
                 null,
             {
-                ref:      this.setRef('files'),
-                type:     Files,
-                ui:       this._ui,
-                tabIndex: 2,
-                detail:   this._settings.getFilesDetail(),
-                filter:   ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
-                getImage: this._getImage,
-                getFiles: this.getFiles.bind(this),
-                onFile:   this.onFile.bind(this),
-                onPath:   this.onPath.bind(this)
+                ref:       this.setRef('files'),
+                type:      Files,
+                ui:        this._ui,
+                tabIndex:  2,
+                detail:    this._settings.getFilesDetail(),
+                className: 'dialog-l',
+                filter:    ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
+                getImage:  this._getImage,
+                getFiles:  this.getFiles.bind(this),
+                onFile:    this.onFile.bind(this),
+                onPath:    this.onPath.bind(this)
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:       this.setRef('buttonApply'),
-                        tabIndex:  2049,
-                        disabled:  true,
-                        value:     'Open',
-                        onClick:   this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex:  2050,
-                        value:     'Cancel',
-                        color:     'dark-green',
-                        onClick:   this.hide.bind(this)
-                    }),
-                    {
-                        ref:       this.setRef('currentFile'),
-                        className: 'abs current-file'
-                    },
-                    this.addTextInput({
-                        ref:         this.setRef('currentFileInput'),
-                        tabIndex:    2048,
-                        className:   'abs current-file-input',
-                        onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
-                        placeholder: 'Enter filename'
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:       this.setRef('buttonApply'),
+                    tabIndex:  2049,
+                    disabled:  true,
+                    value:     'Open',
+                    onClick:   this.onApply.bind(this)
+                },
+                {
+                    tabIndex:  2050,
+                    value:     'Cancel',
+                    color:     'dark-green',
+                    onClick:   this.hide.bind(this)
+                },
+                {
+                    type:      'div',
+                    ref:       this.setRef('currentFile'),
+                    className: 'abs dialog-r current-file'
+                },
+                {
+                    ref:         this.setRef('currentFileInput'),
+                    tabIndex:    2048,
+                    className:   'abs dialog-r current-file-input',
+                    onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
+                    placeholder: 'Enter filename'
+                }
+            ])
         ];
     }
 
@@ -132,9 +137,10 @@ exports.FileOpenDialog = class extends FileDialog {
                 );
                 break;
             case 'saveFile':
-                this._startFilename  = filename;
-                this._extension      = path.getExtension(filename);
-                refs.title.innerHTML = 'Save file';
+                this._startFilename      = filename;
+                this._extension          = path.getExtension(filename);
+                this._expectedExtensions = [this._extension];
+                refs.title.innerHTML     = 'Save file';
                 refs.currentFileInput
                     .show()
                     .setValue(filename)

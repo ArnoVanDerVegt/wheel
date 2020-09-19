@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../lib/platform');
 const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;

@@ -12,10 +12,10 @@ const Step         = require('./Step').Step;
 exports.PoweredUpStep1Start = class extends Step {
     initContent() {
         return {
-            className: 'abs dialog-cw step-content step1',
+            className: 'abs dialog-cw dialog-l dialog-b step-content step1',
             children: [
                 {
-                    className: 'abs text',
+                    className: 'abs dialog-l text',
                     children: [
                         {
                             innerHTML: 'With this wizard you can create a Powered up project. It helps you setup the following items:'
@@ -49,7 +49,7 @@ exports.PoweredUpStep1Start = class extends Step {
                 },
                 {
                     type:      'img',
-                    className: 'abs',
+                    className: 'abs dialog-r',
                     src:       getImage('images/poweredup/technicHub256.png')
                 }
             ]

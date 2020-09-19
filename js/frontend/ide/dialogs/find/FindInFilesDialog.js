@@ -10,10 +10,15 @@ const FindDialog      = require('./FindDialog').FindDialog;
 exports.FindInFilesDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('find-dialog find-in-files', 'Find in files', this.initWindowContent(opts));
-        dispatcher.on('Dialog.FindInFiles.Show', this, this.onShow);
         this._fileTypes = [];
         this._cancel    = false;
+        this.initWindow({
+            showSignal: 'Dialog.FindInFiles.Show',
+            width:      544,
+            height:     336,
+            className:  'find-dialog find-in-files',
+            title:      'Find in files'
+        });
     }
 
     initWindowContent(opts) {
@@ -21,34 +26,38 @@ exports.FindInFilesDialog = class extends FindDialog {
             {
                 className: 'abs dialog-cw dialog-lt find-dialog-text',
                 children: [
-                    this.addTextInputRow({
-                        title:      'Find',
-                        ref:        'find',
-                        tabIndex:    10,
-                        onKeyUp:     this.onFindKeyUp.bind(this),
-                        placeholder: 'Enter text'
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename',
+                        labelClassName: 'flt input-label',
+                        label:          'File',
+                        ref:            this.setRef('find'),
+                        tabIndex:       10,
+                        onKeyUp:        this.onFindKeyUp.bind(this),
+                        placeholder:    'Enter text'
                     }),
-                    this.addCheckboxRow({
-                        title:       'Match case',
-                        ref:         'caseSensitive',
-                        tabIndex:    11
+                    this.initCheckboxRow({
+                        className:      'flt max-w input-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Match case',
+                        ref:            'caseSensitive',
+                        tabIndex:       11
                     }),
-                    this.addTextRow('Search in file types'),
-                    this.addSmallCheckboxRow({
+                    this.initTextRow('Search in file types'),
+                    this.initCheckboxListRow({
                         title:       'Wheel file (*.whl)',
-                        ref:         'typeWhl',
+                        ref:         this.setRef('typeWhl'),
                         checked:     true,
                         tabIndex:    12
                     }),
-                    this.addSmallCheckboxRow({
+                    this.initCheckboxListRow({
                         title:       'Wheel project file (*.whlp)',
-                        ref:         'typeWhlp',
+                        ref:         this.setRef('typeWhlp'),
                         checked:     true,
                         tabIndex:    13
                     }),
-                    this.addSmallCheckboxRow({
+                    this.initCheckboxListRow({
                         title:       'Wheel documentation file (*.woc)',
-                        ref:         'typeWoc',
+                        ref:         this.setRef('typeWoc'),
                         tabIndex:    14
                     })
                 ]

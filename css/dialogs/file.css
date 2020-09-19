@@ -1,49 +1,31 @@
-.dialog-background.file-dialog .dialog-center .dialog-content {
-    margin-top:                     -320px;
-    width:                          800px;
-    height:                         640px;
-}
-.dialog-background.file-dialog .dialog-center .dialog-content .current-path,
-.dialog-background.file-dialog .dialog-center .dialog-content .label {
+.dialog-background.file-dialog .current-path,
+.dialog-background.file-dialog .label {
     top:                            44px;
     max-width:                      calc(100% - 128px);
     height:                         64px;
     line-height:                    64px;
     overflow:                       hidden;
     font-size:                      11px;
-    -webkit-user-select:            none;
 }
-.dialog-background.file-dialog .dialog-center .dialog-content .tool-options,
-.dialog-background.file-dialog .dialog-center .dialog-content .label {
+.dialog-background.file-dialog .tool-options,
+.dialog-background.file-dialog .label {
     position:                       absolute;
 }
-.dialog-background.file-dialog .dialog-center .dialog-content .label {
+.dialog-background.file-dialog .label {
     left:                           auto;
     right:                          88px;
 }
-.dialog-background.file-dialog .dialog-center .dialog-content .tool-options {
-    top:                            64px;
-    right:                          32px;
-}
-.dialog-background.file-dialog .dialog-center .dialog-content .current-file,
-.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input {
-    right:                          32px;
+.dialog-background.file-dialog .current-file,
+.dialog-background.file-dialog .current-file-input {
     bottom:                         32px;
     height:                         32px;
     line-height:                    32px;
 }
-.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input.invalid {
-    border:                         var(--text-input-invalid-border);
-}
-.dialog-background.file-dialog .dialog-center .dialog-content .current-file-input {
+.dialog-background.file-dialog .current-file-input {
     width:                          180px;
     font-size:                      16px;
     outline:                        none;
     padding:                        0 0 0 8px;
-}
-.dialog-background.file-dialog .dialog-center .dialog-content .current-path,
-.dialog-background.file-dialog .files {
-    left:                           32px;
 }
 .dialog-background.file-dialog .files {
     top:                            96px;

@@ -11,14 +11,19 @@ exports.GraphDialog = class extends Dialog {
         this._layer      = 0;
         this._port       = 0;
         this._sampleRate = 0;
-        this.initWindow('graph-dialog new-graph', 'New EV3 graph', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Graph.New.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Graph.New.Show',
+            width:      640,
+            height:     256,
+            className:  'graph-dialog new-graph',
+            title:      'New EV3 graph'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                className: 'graph-dialog-text',
+                className: 'abs dialog-cw dialog-lt input-row graph-dialog-text',
                 children: [
                     this.addToolOptions({
                         tabIndex: 1,
@@ -40,23 +45,20 @@ exports.GraphDialog = class extends Dialog {
                     })
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex: 129,
-                        value:    'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 
@@ -66,7 +68,7 @@ exports.GraphDialog = class extends Dialog {
             options.push({value: option});
         });
         return {
-            className: 'graph-dialog-row',
+            className: 'flt max-w input-row graph-dialog-row',
             children: [
                 super.addToolOptions({
                     color:    'green',

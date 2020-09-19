@@ -34,10 +34,10 @@ exports.ImageDialog = class extends FileDialog {
 
     getWidthRow() {
         return {
-            className: 'image-dialog-row',
+            className: 'flt max-w input-row number image-dialog-row',
             children: [
                 {
-                    className: 'form-label',
+                    className: 'flt input-label',
                     innerHTML: 'Width'
                 },
                 this.addTextInput({
@@ -52,10 +52,10 @@ exports.ImageDialog = class extends FileDialog {
 
     getHeightRow() {
         return {
-            className: 'image-dialog-row',
+            className: 'flt max-w input-row number image-dialog-row',
             children: [
                 {
-                    className: 'form-label',
+                    className: 'flt input-label',
                     innerHTML: 'Height'
                 },
                 this.addTextInput({

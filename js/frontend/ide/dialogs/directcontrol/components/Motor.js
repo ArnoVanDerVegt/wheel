@@ -37,7 +37,7 @@ exports.Motor = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'flt motor disabled ' + this._className,
+                className: 'flt rel motor ui1-box disabled ' + this._className,
                 children: [
                     {
                         type:        Button,
@@ -117,7 +117,7 @@ exports.Motor = class extends DOMNode {
                 let motorValidator = this._motorValidator;
                 let disabled       = !motorValidator.valid(assigned);
                 let hasPosition    = motorValidator.hasPosition(assigned);
-                element.className = 'flt motor' +
+                element.className = 'flt rel motor ui1-box' +
                     (disabled    ? ' disabled' : '')             +
                     (hasPosition ? ''          : ' no-position') +
                     ' ' + className;

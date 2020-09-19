@@ -10,14 +10,19 @@ exports.VolumeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
-        this.initWindow('volume-dialog', 'Change volume', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Volume.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Volume.Show',
+            width:      512,
+            height:     208,
+            className:  'volume-dialog',
+            title:      'Change volume'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                className: 'volume-row',
+                className: 'flt max-w volume-row',
                 children: [
                     {
                         ref:       this.setRef('label'),
@@ -41,23 +46,20 @@ exports.VolumeDialog = class extends Dialog {
                     }
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        value:    'Change volume',
-                        tabIndex: 128,
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        value:    'Cancel',
-                        tabIndex: 129,
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    value:    'Change volume',
+                    tabIndex: 128,
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    value:    'Cancel',
+                    tabIndex: 129,
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

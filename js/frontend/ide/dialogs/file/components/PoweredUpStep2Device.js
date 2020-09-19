@@ -18,7 +18,7 @@ exports.PoweredUpStep2Device = class extends PoweredUpDeviceList {
 
     initContent() {
         return {
-            className: 'abs dialog-cw step-content step2',
+            className: 'abs dialog-cw dialog-l dialog-b step-content step2',
             children: [
                 {
                     className: 'abs list vertical-list',

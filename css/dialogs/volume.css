@@ -1,32 +1,21 @@
-.dialog-background.volume-dialog .dialog-center .dialog-content {
-    margin-top:                     -104px;
-    width:                          512px;
-    height:                         208px;
-}
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row {
-    float:                          left;
-    width:                          100%;
+.dialog-background.volume-dialog .volume-row {
     height:                         32px;
     padding:                        0 0 0 32px;
 }
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row span.label,
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row input {
+.dialog-background.volume-dialog .volume-row span.label,
+.dialog-background.volume-dialog .volume-row input {
     float:                          left;
     height:                         32px;
     font-size:                      16px;
     line-height:                    32px;
 }
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row input.invalid {
-    border:                         var(--text-input-invalid-border);
-}
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row span.label {
+.dialog-background.volume-dialog .volume-row span.label {
     width:                          160px;
-    -webkit-user-select:            none;
 }
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row .slider {
+.dialog-background.volume-dialog .volume-row .slider {
     margin-left:                    8px;
 }
-.dialog-background.volume-dialog .dialog-center .dialog-content .volume-row input {
+.dialog-background.volume-dialog .volume-row input {
     width:                          48px;
     outline:                        none;
     padding:                        0 0 0 8px;

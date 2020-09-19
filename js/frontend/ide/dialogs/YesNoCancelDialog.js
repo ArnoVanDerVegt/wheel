@@ -11,38 +11,40 @@ exports.YesNoCancelDialog = class extends Dialog {
         this._onYes    = null;
         this._onNo     = null;
         this._onCancel = null;
-        this.initWindow('confirm-dialog', 'Confirm', this.initWindowContent(opts));
-        dispatcher.on('Dialog.YesNoCancel.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.YesNoCancel.Show',
+            width:      600,
+            height:     200,
+            className:  'confirm-dialog',
+            title:      'Confirm'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'confirm-text'
+                className: 'dialog-lt dialog-cw abs confirm-text'
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('yesButton'),
-                        value:    'Yes',
-                        tabIndex: 128,
-                        onClick:  this.onYes.bind(this)
-                    }),
-                    this.addButton({
-                        value:    'No',
-                        tabIndex: 129,
-                        onClick:  this.onNo.bind(this)
-                    }),
-                    this.addButton({
-                        value:    'Cancel',
-                        tabIndex: 130,
-                        color:    'dark-green',
-                        onClick:  this.onCancel.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('yesButton'),
+                    value:    'Yes',
+                    tabIndex: 128,
+                    onClick:  this.onYes.bind(this)
+                },
+                {
+                    value:    'No',
+                    tabIndex: 129,
+                    onClick:  this.onNo.bind(this)
+                },
+                {
+                    value:    'Cancel',
+                    tabIndex: 130,
+                    color:    'dark-green',
+                    onClick:  this.onCancel.bind(this)
+                }
+            ])
         ];
     }
 

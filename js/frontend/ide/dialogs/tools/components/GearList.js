@@ -180,7 +180,7 @@ exports.GearList = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'abs dialog-cw gear-list vertical-list',
+                className: 'abs dialog-cw dialog-l dialog-t gear-list vertical-list',
                 children: [
                     {
                         className: 'flt max-w gear-list-content',

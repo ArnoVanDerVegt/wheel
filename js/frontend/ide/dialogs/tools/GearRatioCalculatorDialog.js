@@ -52,54 +52,59 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
         GEARS.forEach((gear) => {
             this._gearByValue[gear.value] = gear;
         });
-        this.initWindow(
-            'gear-ratio-calculator-dialog',
-            'Gear ratio calculator',
-            [
-                {
-                    type:        GearList,
-                    ref:         this.setRef('gearList'),
-                    dialog:      this,
-                    ui:          this._ui,
-                    uiId:        this._uiId,
-                    gearByValue: this._gearByValue,
-                    onSelect:    this.onSelect.bind(this)
-                },
-                {
-                    type:        GearSettings,
-                    gears:       GEARS,
-                    ref:         this.setRef('gearSettings'),
-                    ui:          this._ui,
-                    uiId:        this._uiId,
-                    gearByValue: this._gearByValue,
-                    onAdd:       this.onAdd.bind(this),
-                    onUpdate:    this.onUpdate.bind(this)
-                },
-                {
-                    type:        GearResult,
-                    motors:      MOTORS,
-                    dialog:      this,
-                    ref:         this.setRef('gearResult'),
-                    ui:          this._ui,
-                    uiId:        this._uiId
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:    'Close',
-                            onClick:  this.hide.bind(this),
-                            tabIndex: 512
-                        }),
-                        {
-                            className: 'frt inspired-by',
-                            innerHTML: 'Data from: https://www.philohome.com/motors/motorcomp.htm - Inspired by http://gears.sariel.pl'
-                        }
-                    ]
-                }
-            ]
-        );
-        dispatcher.on('Dialog.GearRatioCalculator.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.GearRatioCalculator.Show',
+            width:      680,
+            height:     600,
+            className:  'gear-ratio-calculator-dialog',
+            title:      'Gear ratio calculator'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                type:        GearList,
+                ref:         this.setRef('gearList'),
+                dialog:      this,
+                ui:          this._ui,
+                uiId:        this._uiId,
+                gearByValue: this._gearByValue,
+                onSelect:    this.onSelect.bind(this)
+            },
+            {
+                type:        GearSettings,
+                gears:       GEARS,
+                ref:         this.setRef('gearSettings'),
+                ui:          this._ui,
+                uiId:        this._uiId,
+                gearByValue: this._gearByValue,
+                onAdd:       this.onAdd.bind(this),
+                onUpdate:    this.onUpdate.bind(this)
+            },
+            {
+                type:        GearResult,
+                motors:      MOTORS,
+                dialog:      this,
+                ref:         this.setRef('gearResult'),
+                ui:          this._ui,
+                uiId:        this._uiId
+            },
+            {
+                className: 'buttons',
+                children: [
+                    this.addButton({
+                        value:    'Close',
+                        onClick:  this.hide.bind(this),
+                        tabIndex: 512
+                    }),
+                    {
+                        className: 'frt inspired-by',
+                        innerHTML: 'Data from: https://www.philohome.com/motors/motorcomp.htm - Inspired by http://gears.sariel.pl'
+                    }
+                ]
+            }
+        ];
     }
 
     onAdd(opts) {

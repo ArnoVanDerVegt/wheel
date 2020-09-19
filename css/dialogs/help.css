@@ -1,30 +1,17 @@
-.dialog-background.help-dialog .dialog-center .dialog-content {
-    margin-top:                     -300px;
-    width:                          960px;
-    height:                         600px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .buttons .button.blue {
+.dialog-background.help-dialog .buttons input[type="button"].button.blue {
     float:                          right;
     margin:                         0 0 0 8px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .breaker,
-.dialog-background.help-dialog .dialog-center .dialog-content .legend {
-    float:                          left;
-    width:                          100%;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item {
-    float:                          left;
+.dialog-background.help-dialog .legend .legend-item {
     height:                         32px;
     margin:                         0 32px 0 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .title {
-    float:                          left;
+.dialog-background.help-dialog .legend .legend-item .title {
     line-height:                    32px;
     font-size:                      18px;
     font-family:                    latolight;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device {
-    float:                          left;
+.dialog-background.help-dialog .legend .legend-item .device {
     width:                          32px;
     height:                         32px;
     line-height:                    32px;
@@ -34,97 +21,76 @@
     color:                          #FFFFFF;
     margin:                         0 16px 0 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.e {
+.dialog-background.help-dialog .legend .legend-item .device.e {
     background-color:               #0984E3;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.p {
+.dialog-background.help-dialog .legend .legend-item .device.p {
     background-color:               #F9CA24;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.m {
+.dialog-background.help-dialog .legend .legend-item .device.m {
     background-color:               #E74C3C;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .legend .legend-item .device.i {
+.dialog-background.help-dialog .legend .legend-item .device.i {
     background-color:               #4CD137;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content div.third,
-.dialog-background.help-dialog .dialog-center .dialog-content div.quarter {
-    float:                          left;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content div.third {
+.dialog-background.help-dialog div.third {
     width:                          33%;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content div.quarter {
+.dialog-background.help-dialog div.quarter {
     width:                          25%;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content div.third ul,
-.dialog-background.help-dialog .dialog-center .dialog-content div.third li,
-.dialog-background.help-dialog .dialog-center .dialog-content div.quarter ul,
-.dialog-background.help-dialog .dialog-center .dialog-content div.quarter li {
+.dialog-background.help-dialog div.third ul,
+.dialog-background.help-dialog div.third li,
+.dialog-background.help-dialog div.quarter ul,
+.dialog-background.help-dialog div.quarter li {
     list-style-type:                none;
     margin-left:                    0;
     padding-left:                   0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content div.third li,
-.dialog-background.help-dialog .dialog-center .dialog-content div.quarter li {
+.dialog-background.help-dialog div.third li,
+.dialog-background.help-dialog div.quarter li {
     padding-left:                   0;
     height:                         30px;
     max-width:                      calc(100% - 32px);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files {
-    position:                       absolute;
-    top:                            64px;
-    left:                           32px;
-    right:                          32px;
-    bottom:                         80px;
-}
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files {
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
+.dialog-background.help-dialog .help-files {
     overflow:                       auto;
     padding:                        16px;
-    background-color:               var(--ui-background1);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects {
+.dialog-background.help-dialog .help-file .help-file-subjects {
     position:                       absolute;
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
     top:                            0;
     left:                           0;
     width:                          178px;
     bottom:                         0;
     overflow:                       auto;
     padding:                        16px;
-    background-color:               var(--ui-background1);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects h2,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .subject,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .sub-subject {
+.dialog-background.help-dialog .help-file .help-file-subjects h2,
+.dialog-background.help-dialog .help-file .help-file-subjects .subject,
+.dialog-background.help-dialog .help-file .help-file-subjects .sub-subject {
     max-width:                      100%;
     white-space:                    nowrap;
     overflow:                       hidden;
     text-overflow:                  ellipsis;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .subject,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .sub-subject {
+.dialog-background.help-dialog .help-file .help-file-subjects .subject,
+.dialog-background.help-dialog .help-file .help-file-subjects .sub-subject {
     color:                          var(--help-link-color);
     cursor:                         pointer;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .sub-subject {
+.dialog-background.help-dialog .help-file .help-file-subjects .sub-subject {
     font-size:                      14px;
     margin:                         0 0 0 12px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects h2 {
+.dialog-background.help-dialog .help-file .help-file-subjects h2 {
     margin:                         0 0 20px 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .subject:hover,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-subjects .sub-subject:hover {
+.dialog-background.help-dialog .help-file .help-file-subjects .subject:hover,
+.dialog-background.help-dialog .help-file .help-file-subjects .sub-subject:hover {
     text-decoration:                underline;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-content {
-    position:                       absolute;
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
+.dialog-background.help-dialog .help-file .help-file-content {
     top:                            0;
     left:                           186px;
     right:                          0;
@@ -132,27 +98,26 @@
     overflow:                       scroll;
     overflow-x:                     hidden;
     padding:                        16px;
-    background-color:               var(--ui-background1);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .help-file-content-content {
+.dialog-background.help-dialog .help-file .help-file-content-content {
     float:                          left;
     position:                       relative;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link {
+.dialog-background.help-dialog .help-files .link,
+.dialog-background.help-dialog .help-file .link {
     color:                          var(--help-link-color);
     cursor:                         pointer;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link:hover,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link:hover {
+.dialog-background.help-dialog .help-files .link:hover,
+.dialog-background.help-dialog .help-file .link:hover {
     text-decoration:                underline;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices {
+.dialog-background.help-dialog .help-file .devices {
     float:                          right;
     margin-top:                     -43px;
     margin-right:                   10px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link span {
+.dialog-background.help-dialog .help-files .link span {
     float:                          left;
     max-width:                      calc(100% - 40px);
     height:                         28px;
@@ -160,12 +125,12 @@
     text-overflow:                  ellipsis;
     white-space:                    nowrap;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device {
+.dialog-background.help-dialog .help-files .link .device {
     float:                          right;
     margin:                         2px 8px 0 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices span {
+.dialog-background.help-dialog .help-files .link .device,
+.dialog-background.help-dialog .help-file .devices span {
     width:                          20px;
     height:                         20px;
     border-radius:                  10px;
@@ -174,147 +139,149 @@
     font-size:                      13px;
     font-family:                    latolight;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.e,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e {
+.dialog-background.help-dialog .help-files .link .device.e,
+.dialog-background.help-dialog .help-file .devices .e {
     background-color:               #0984E3;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.p,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .p {
+.dialog-background.help-dialog .help-files .link .device.p,
+.dialog-background.help-dialog .help-file .devices .p {
     background-color:               #F9CA24;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.m,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .m {
+.dialog-background.help-dialog .help-files .link .device.m,
+.dialog-background.help-dialog .help-file .devices .m {
     background-color:               #E74C3C;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-files .link .device.i,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .i {
+.dialog-background.help-dialog .help-files .link .device.i,
+.dialog-background.help-dialog .help-file .devices .i {
     background-color:               #4CD137;
     color:                          #FFFFFF;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .e,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .p,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .devices .m {
+.dialog-background.help-dialog .help-file .devices .e,
+.dialog-background.help-dialog .help-file .devices .p,
+.dialog-background.help-dialog .help-file .devices .m {
     float:                          left;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file pre.wheel,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file pre.error {
+.dialog-background.help-dialog .help-file pre.wheel,
+.dialog-background.help-dialog .help-file pre.error {
     float:                          left;
     clear:                          both;
     border-radius:                  2px;
     background-color:               var(--ui-background2);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file pre.error {
+.dialog-background.help-dialog .help-file pre.error {
     background-color:               var(--ui-background5);
     color:                          var(--error-color);
     padding:                        16px;
     font-size:                      14px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file h2 {
+.dialog-background.help-dialog .help-file h2,
+.dialog-background.help-dialog .help-file h3,
+.dialog-background.help-dialog .help-file h4,
+.dialog-background.help-dialog .help-file h5 {
+    font-weight:                    bold;
+}
+.dialog-background.help-dialog .help-file h2 {
     margin:                         0;
     font-size:                      20px;
-    font-weight:                    bold;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file h3 {
+.dialog-background.help-dialog .help-file h3 {
     font-size:                      19px;
-    font-weight:                    bold;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file h4 {
+.dialog-background.help-dialog .help-file h4 {
     font-size:                      18px;
-    font-weight:                    bold;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file h5 {
+.dialog-background.help-dialog .help-file h5 {
     font-size:                      17px;
-    font-weight:                    bold;
     margin-bottom:                  12px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file h5.title-with-source {
+.dialog-background.help-dialog .help-file h5.title-with-source {
     margin-bottom:                  2px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.source-location {
+.dialog-background.help-dialog .help-file div.source-location {
     font-size:                      11px;
     opacity:                        0.75;
     margin-bottom:                  16px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file hr {
+.dialog-background.help-dialog .help-file hr {
     width:                          100%;
     opacity:                        0.5;
     margin-top:                     16px;
     margin-bottom:                  32px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file pre {
+.dialog-background.help-dialog .help-file pre {
     float:                          left;
     margin:                         0 0 16px 0;
     width:                          calc(100% - 10px);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table {
+.dialog-background.help-dialog .help-file table {
     border-collapse:                collapse;
     font-size:                      12px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table td {
+.dialog-background.help-dialog .help-file table td {
     padding:                        4px;
     background-color:               var(--ui-background2);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table {
+.dialog-background.help-dialog .help-file table.help-table {
     margin:                         8px 0 0 8px;
     border:                         var(--help-table-border);
     border-width:                   1px 0 0 1px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table td {
+.dialog-background.help-dialog .help-file table.help-table td {
     border:                         var(--help-table-border);
     border-width:                   0 1px 1px 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table {
+.dialog-background.help-dialog .help-file table.help-table {
     border:                         var(--help-table-border);
     border-width:                   1px 0 0 1px;
     max-width:                      calc(100% - 10px);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table td,
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table th {
+.dialog-background.help-dialog .help-file table.help-table td,
+.dialog-background.help-dialog .help-file table.help-table th {
     border:                         var(--help-table-border);
     border-width:                   0 1px 1px 0;
     padding:                        8px;
     vertical-align:                 top;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table th {
+.dialog-background.help-dialog .help-file table.help-table th {
     text-align:                     left;
     font-weight:                    bold;
     background-color:               var(--help-table-header);
     color:                          var(--help-table-header-color);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table.constants td:first-child {
+.dialog-background.help-dialog .help-file table.help-table.constants td:first-child {
     min-width:                      360px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file table.help-table.constants td:nth-child(2) {
+.dialog-background.help-dialog .help-file table.help-table.constants td:nth-child(2) {
     min-width:                      64px;
     text-align:                     right;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file img.display-preview {
+.dialog-background.help-dialog .help-file img.display-preview {
     border:                         var(--ui-border1);
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file img.shadow {
+.dialog-background.help-dialog .help-file img.shadow {
     box-shadow:                     8px 8px 6px rgba(0, 0, 0, 0.05), 2px 2px 3px rgba(0, 0, 0, 0.25), -2px -2px 3px rgba(0, 0, 0, 0.25), -8px -8px 6px rgba(0, 0, 0, 0.05);
     margin-bottom:                  16px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box {
+.dialog-background.help-dialog .help-file .link-box {
     float:                          left;
     width:                          100%;
     margin:                         0 0 16px 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box .link {
+.dialog-background.help-dialog .help-file .link-box .link {
     color:                          #3498DB;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .link-box .link:hover {
+.dialog-background.help-dialog .help-file .link-box .link:hover {
     text-decoration:                underline;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .example-loader {
+.dialog-background.help-dialog .help-file .example-loader {
     float:                          left;
     width:                          100%;
     margin-bottom:                  16px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file .example-loader input[type="button"].button.blue {
+.dialog-background.help-dialog .help-file .example-loader input[type="button"].button.blue {
     float:                          left;
     min-width:                      80px;
     height:                         32px;
@@ -322,15 +289,15 @@
     line-height:                    28px;
     margin-right:                   12px;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.see-also-block {
+.dialog-background.help-dialog .help-file div.see-also-block {
     float:                          left;
     width:                          660px;
     margin:                         8px 0 8px 0;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.see-also-block span {
+.dialog-background.help-dialog .help-file div.see-also-block span {
     float:                          left;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.see-also-block span.see-also {
+.dialog-background.help-dialog .help-file div.see-also-block span.see-also {
     height:                         20px;
     line-height:                    18px;
     padding:                        0 10px 0 10px;
@@ -338,10 +305,9 @@
     border-radius:                  10px;
     margin:                         0 0 4px 8px;
     font-size:                      14px;
-    -webkit-user-select:            none;
     cursor:                         pointer;
     white-space:                    nowrap;
 }
-.dialog-background.help-dialog .dialog-center .dialog-content .help-file div.see-also-block span.see-also:hover {
+.dialog-background.help-dialog .help-file div.see-also-block span.see-also:hover {
     text-decoration:                underline;
 }

@@ -9,20 +9,24 @@ const getImage   = require('../../data/images').getImage;
 
 exports.DevicePortAliasDialog = class extends Dialog {
     constructor(opts) {
-        opts.title = 'Device alias';
         super(opts);
-        this.initWindow('device-alias-dialog', 'Device port alias', this.initWindowContent(opts));
-        dispatcher.on('Dialog.DevicePortAlias.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.DevicePortAlias.Show',
+            width:      512,
+            height:     216,
+            className:  'device-alias-dialog',
+            title:      'Device port alias'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'device-alias-text'
+                className: 'flt text-row'
             },
             {
-                className: 'device-alias-row',
+                className: 'dialog-cw flt input-row lt',
                 children: [
                     this.addTextInput({
                         ref:         this.setRef('alias'),
@@ -33,23 +37,20 @@ exports.DevicePortAliasDialog = class extends Dialog {
                     })
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:       this.setRef('buttonApply'),
-                        tabIndex:  128,
-                        value:     'Set device port alias',
-                        onClick:   this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        ref:       this.setRef('buttonCancel'),
-                        tabIndex:  129,
-                        value:     'Cancel',
-                        onClick:   this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:       this.setRef('buttonApply'),
+                    tabIndex:  128,
+                    value:     'Set device port alias',
+                    onClick:   this.onApply.bind(this)
+                },
+                {
+                    ref:       this.setRef('buttonCancel'),
+                    tabIndex:  129,
+                    value:     'Cancel',
+                    onClick:   this.hide.bind(this)
+                }
+            ])
         ];
     }
 

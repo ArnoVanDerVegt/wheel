@@ -1,13 +1,7 @@
 /* Alert/Confirm dialog */
-.dialog-background.alert-dialog .dialog-center .dialog-content,
-.dialog-background.confirm-dialog .dialog-center .dialog-content {
-    margin-top:                     -100px;
-    width:                          600px;
-    height:                         200px;
-}
-.dialog-background.alert-dialog .dialog-center .dialog-content .alert-text,
-.dialog-background.confirm-dialog .dialog-center .dialog-content .confirm-text {
-    height:                         calc(56px);
+.dialog-background.alert-dialog .alert-text,
+.dialog-background.confirm-dialog .confirm-text {
+    height:                         56px;
     line-height:                    28px;
 }
 .dialog-background.alert-dialog img {
@@ -21,15 +15,15 @@
     width:                          64px;
     margin-left:                    32px;
 }
-.dialog-background.alert-dialog.with-image .dialog-center .dialog-content .alert-text {
+.dialog-background.alert-dialog.with-image .alert-text {
     margin-left:                    80px;
     width:                          504px;
 }
-.dialog-background.alert-dialog.with-image .dialog-center .dialog-content .buttons input[type="button"].button {
+.dialog-background.alert-dialog.with-image .buttons input[type="button"].button {
     float:                          right;
 }
-.dialog-background.alert-dialog .dialog-center .dialog-content a,
-.dialog-background.alert-dialog .dialog-center .dialog-content a:visited,
-.dialog-background.alert-dialog .dialog-center .dialog-content a:hover {
+.dialog-background.alert-dialog a,
+.dialog-background.alert-dialog a:visited,
+.dialog-background.alert-dialog a:hover {
     color:                          #3498DB;
 }

@@ -10,12 +10,12 @@ const ListItem        = require('./components/ListItem').ListItem;
 
 exports.PoweredUpConnectListDialog = class extends ListDialog {
     constructor(opts) {
+        opts.showSignal = 'Dialog.ConnectPoweredUp.Show';
         opts.help       = 'Bluetooth';
         opts.title      = 'Connect Powered Up';
         opts.applyTitle = 'Connect';
         opts.ListItem   = ListItem;
         super(opts);
-        dispatcher.on('Dialog.ConnectPoweredUp.Show', this, this.onShow);
         this._scanTimeout = null;
         this._changed     = -1;
         this._changeTime  = Date.now();
@@ -24,12 +24,12 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
     getExtraButtons() {
         return [
             platform.forceWebVersion() ?
-                this.addButton({
+                {
                     color:    'blue',
                     tabIndex: 258,
                     value:    'Look for devices',
                     onClick:  this.onScan.bind(this)
-                }) :
+                } :
                 null
         ];
     }

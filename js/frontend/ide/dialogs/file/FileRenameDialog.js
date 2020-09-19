@@ -10,8 +10,13 @@ const FileDialog = require('./FileDialog').FileDialog;
 exports.FileRenameDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('file-rename-dialog', 'Rename', this.initWindowContent(opts));
-        dispatcher.on('Dialog.File.Rename.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.File.Rename.Show',
+            width:      480,
+            height:     208,
+            className:  'file-rename-dialog',
+            title:      'Rename'
+        });
     }
 
     initWindowContent(opts) {
@@ -21,42 +26,34 @@ exports.FileRenameDialog = class extends FileDialog {
                 children: [
                     {
                         ref:       this.setRef('name'),
-                        className: 'flt max-w file-rename-row name',
+                        className: 'flt text-row max-w',
                         innerHTML: ''
                     },
-                    {
-                        className: 'flt max-w file-rename-row',
-                        children: [
-                            {
-                                innerHTML: 'New name'
-                            },
-                            this.addTextInput({
-                                ref:         this.setRef('filename'),
-                                tabIndex:    1,
-                                onKeyUp:     this.onFilenameKeyUp.bind(this),
-                                placeholder: 'Enter filename'
-                            })
-                        ]
-                    }
-                ]
-            },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex: 129,
-                        value:    'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'New name',
+                        ref:            this.setRef('filename'),
+                        tabIndex:       1,
+                        onKeyUp:        this.onFilenameKeyUp.bind(this),
+                        placeholder:    'Enter filename'
                     })
                 ]
-            }
+            },
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

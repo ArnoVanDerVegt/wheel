@@ -22,7 +22,13 @@ exports.DirectControlDialog = class extends Dialog {
         this._motorAliasElements = [];
         this._hasSound           = opts.hasSound;
         this
-            .initWindow('direct-control-dialog', opts.title, this.initWindowContent(opts))
+            .initWindow({
+                width:          624,
+                height:         428,
+                className:      'direct-control-dialog',
+                title:          opts.title,
+                motorValidator: opts.motorValidator
+            })
             .initLayerState()
             .initEvents();
     }
@@ -30,12 +36,13 @@ exports.DirectControlDialog = class extends Dialog {
     initWindowContent(opts) {
         return [
             {
-                ref:      this.setRef('tabs'),
-                type:     Tabs,
-                ui:       this._ui,
-                uiId:     this._uiId,
-                tabIndex: 1,
-                active:   {title: 'Layer 1', meta: ''}
+                ref:       this.setRef('tabs'),
+                type:      Tabs,
+                ui:        this._ui,
+                uiId:      this._uiId,
+                tabIndex:  1,
+                active:    {title: 'Layer 1', meta: ''},
+                className: 'dialog-l dialog-r dialog-t'
             },
             {
                 type:           Motors,
@@ -94,17 +101,14 @@ exports.DirectControlDialog = class extends Dialog {
                     ]
                 } :
                 null,
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        tabIndex: 128,
-                        value:     'Close',
-                        onClick:   this.hide.bind(this),
-                        className: 'right'
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    tabIndex: 128,
+                    value:     'Close',
+                    onClick:   this.hide.bind(this),
+                    className: 'right'
+                }
+            ])
         ];
     }
 
@@ -178,8 +182,8 @@ exports.DirectControlDialog = class extends Dialog {
             layerState[i].speed = motorElements[i].getSpeed();
         }
         this._layer           = layer;
-        refs.brake.className  = 'abs brake';
-        refs.motors.className = 'abs motors';
+        refs.brake.className  = 'abs brake dialog-r';
+        refs.motors.className = 'abs dialog-l dialog-b dialog-r motors';
         if (refs.piano) {
             refs.piano.className = 'piano hidden';
         }
@@ -203,14 +207,19 @@ exports.DirectControlDialog = class extends Dialog {
         let refs = this._refs;
         refs.brake.className  = 'brake hidden';
         refs.motors.className = 'motors hidden';
-        refs.piano.className  = 'abs piano';
-        refs.volume.className = 'abs volume';
+        refs.piano.className  = 'abs dialog-l dialog-b dialog-r piano';
+        refs.volume.className = 'abs dialog-r volume';
     }
 
     onShow(opts) {
         this.show();
+        let contentElement = this._dialogNode.querySelector('.dialog-content');
         if (opts.withAlias) {
-            this._dialogNode.querySelector('.dialog-content').className += ' with-alias';
+            contentElement.style.height    = '460px';
+            contentElement.style.marginTop = '-230px';
+        } else {
+            contentElement.style.height    = '428px';
+            contentElement.style.marginTop = '-215px';
         }
         let tabs = [];
         for (let i = 0; i <= opts.deviceCount; i++) {

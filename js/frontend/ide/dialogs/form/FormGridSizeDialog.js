@@ -9,19 +9,25 @@ const Radio      = require('../../../lib/components/Radio').Radio;
 exports.FormGridSizeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('grid-size-dialog', 'Select grid size', this.initWindowContent(opts));
-        dispatcher.on('Dialog.SelectGridSize.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.SelectGridSize.Show',
+            width:      256,
+            height:     264,
+            className:  'grid-size-dialog',
+            title:      'Select grid size'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                ref:      this.setRef('radio'),
-                type:     Radio,
-                ui:       this._ui,
-                uiId:     this._uiId,
-                tabIndex: 1,
-                value:    0,
+                ref:       this.setRef('radio'),
+                type:      Radio,
+                ui:        this._ui,
+                uiId:      this._uiId,
+                tabIndex:  1,
+                value:     0,
+                className: 'abs dialog-lt',
                 options: [
                     {value:  0, title: 'No grid'},
                     {value: 10, title: '10x10'},

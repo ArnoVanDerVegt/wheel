@@ -11,10 +11,14 @@ const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataPr
 exports.ExploreDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this._settings    = opts.settings;
         this._ev3         = opts.ev3;
         this._currentFile = null;
-        this.initWindow('ev3-file-viewer-dialog', 'EV3 File viewer', this.initWindowContent(opts));
+        this.initWindow({
+            width:     800,
+            height:    640,
+            className: 'ev3-file-viewer-dialog',
+            title:     'EV3 File viewer'
+        });
         dispatcher
             .on('Dialog.Explore.Show',       this, this.onShow)
             .on('Dialog.CreateDir.Path',     this, this.onCreateDirecory)
@@ -25,12 +29,12 @@ exports.ExploreDialog = class extends Dialog {
         return [
             // Left...
             {
-                className:  'abs left-label',
+                className:  'abs dialog-l dialog-t left-label',
                 innerHTML:  'Local files:'
             },
             {
                 ref:        this.setRef('leftPath'),
-                className:  'abs left-path',
+                className:  'abs dialog-l left-path',
                 innerHTML:  'Local'
             },
             this.addButton({
@@ -47,7 +51,7 @@ exports.ExploreDialog = class extends Dialog {
                 type:           Files,
                 uiOwner:        this,
                 fileDialog:     this,
-                className:      'left',
+                className:      'left dialog-l',
                 tabIndex:       2,
                 filter:         '*',
                 canSelect:      true,
@@ -63,7 +67,7 @@ exports.ExploreDialog = class extends Dialog {
                 tool:       this._settings.getLocalFilesDetail() ? 1 : 0,
                 label:      false,
                 onSelect:   this.onSelectLeftDetail.bind(this),
-                className:  'left-view',
+                className:  'abs dialog-t left-view',
                 color:      'green',
                 options: [
                     {title: 'Normal',   icon: 'icon-list'},
@@ -72,7 +76,7 @@ exports.ExploreDialog = class extends Dialog {
             }),
             // Right...
             {
-                className:  'abs right-label',
+                className:  'abs dialog-t right-label',
                 innerHTML:  'EV3 files:'
             },
             {
@@ -99,7 +103,7 @@ exports.ExploreDialog = class extends Dialog {
                 type:           Files,
                 uiOwner:        this,
                 fileDialog:     this,
-                className:      'right',
+                className:      'right dialog-r',
                 filter:         '*',
                 canSelect:      true,
                 colCount:       14,
@@ -114,23 +118,20 @@ exports.ExploreDialog = class extends Dialog {
                 tool:       this._settings.getRemoteFilesDetail() ? 1 : 0,
                 label:      false,
                 onSelect:   this.onSelectRightDetail.bind(this),
-                className:  'right-view',
+                className:  'abs dialog-t dialog-r right-view',
                 color:      'green',
                 options: [
                     {title: 'Normal',   icon: 'icon-list'},
                     {title: 'Detailed', icon: 'icon-list-detail'}
                 ]
             }),
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        value:    'Close',
-                        tabIndex: 128,
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    value:    'Close',
+                    tabIndex: 128,
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 

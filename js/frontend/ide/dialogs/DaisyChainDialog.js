@@ -8,13 +8,18 @@ const Radio      = require('../../lib/components/Radio').Radio;
 
 exports.DaisyChainDialog = class extends Dialog {
     constructor(opts) {
-        opts.help = 'Chain';
         super(opts);
-        this.initWindow('daisy-chain-dialog', 'Select daisy chain mode', this.initWindowConent(opts));
+        this.initWindow({
+            width:     380,
+            height:    236,
+            className: 'daisy-chain-dialog',
+            title:     'Select daisy chain mode',
+            help:      'Chain'
+        });
         dispatcher.on('Dialog.DaisyChain.Show', this, this.onShow);
     }
 
-    initWindowConent(opts) {
+    initWindowContent(opts) {
         return [
             {
                 ref:       this.setRef('radio'),
@@ -31,16 +36,13 @@ exports.DaisyChainDialog = class extends Dialog {
                     {value: 3, title: '4 Layers'}
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        tabIndex: 128,
-                        value:    'Ok',
-                        onClick:  this.onApply.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                }
+            ])
         ];
     }
 

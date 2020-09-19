@@ -10,20 +10,26 @@ exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
         opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
-        this.initWindow('image-dialog new-image', opts.title || 'New image', this.initWindowContent(opts));
-        dispatcher.on(opts.dispatchShow || 'Dialog.Image.New.Show', this, this.onShow);
+        this._expectedExtensions = ['', '.rgf'];
+        this.initWindow({
+            showSignal: opts.showSignal || 'Dialog.Image.New.Show',
+            width:      400,
+            height:     256,
+            className:  'image-dialog new-image',
+            title:      opts.title || 'New image'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
-                className: 'image-dialog-text',
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
                 children: [
                     {
-                        className: 'image-dialog-row',
+                        className: 'flt max-w input-row image-dialog-row',
                         children: [
                             {
-                                className: 'form-label',
+                                className: 'flt input-label',
                                 innerHTML: 'Filename'
                             },
                             this.addTextInput({
@@ -38,23 +44,20 @@ exports.ImageNewDialog = class extends ImageDialog {
                     this.getHeightRow()
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 128,
-                        value:    opts.applyTitle || 'Ok',
-                        onClick:  this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex: 129,
-                        value:    'Cancel',
-                        color:    'dark-green',
-                        onClick:  this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    opts.applyTitle || 'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
+                }
+            ])
         ];
     }
 
@@ -90,21 +93,6 @@ exports.ImageNewDialog = class extends ImageDialog {
             }
         );
         this.hide();
-    }
-
-    validateFilename() {
-        let result = true;
-        let refs   = this._refs;
-        this._filename = refs.filename.getValue().trim();
-        let extension = path.getExtension(this._filename);
-        if ((this._filename === '') || (['', '.rgf'].indexOf(extension) === -1)) {
-            refs.filename.focus();
-            refs.filename.setClassName('invalid');
-            result = false;
-        } else {
-            refs.filename.setClassName('');
-        }
-        return result;
     }
 
     validate() {

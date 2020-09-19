@@ -23,13 +23,13 @@ exports.PoweredUpStep5Form = class extends Step {
         return {
             ui:        this._ui,
             uiId:      this._uiId,
-            className: 'abs dialog-cw step-content step5',
+            className: 'abs dialog-cw dialog-l dialog-b step-content step5',
             children: [
                 {
-                    className: 'flt dialog-cw file-new-row',
+                    className: 'flt dialog-cw input-row file-new-row',
                     children: [
                         {
-                            className: 'form-label',
+                            className: 'flt input-label',
                             innerHTML: 'Create a form'
                         },
                         this._dialog.addCheckbox({
@@ -38,18 +38,18 @@ exports.PoweredUpStep5Form = class extends Step {
                         })
                     ]
                 },
-                this._dialog.initRow({
-                    className:      'flt max-w file-new-row number',
-                    labelClassName: 'form-label',
+                this._dialog.initTextInputRow({
+                    className:      'flt max-w input-row file-new-row number',
+                    labelClassName: 'flt input-label',
                     label:          'Width',
                     ref:            this.setRef('width'),
                     tabIndex:       2,
                     placeholder:    '',
                     value:          this._width
                 }),
-                this._dialog.initRow({
-                    className:      'flt max-w file-new-row number',
-                    labelClassName: 'form-label',
+                this._dialog.initTextInputRow({
+                    className:      'flt max-w input-row file-new-row number',
+                    labelClassName: 'flt input-label',
                     label:          'Height',
                     ref:            this.setRef('height'),
                     tabIndex:       3,

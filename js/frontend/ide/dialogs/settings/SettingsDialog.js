@@ -27,18 +27,25 @@ const addSimulatorTab     = require('./tabs/addSimulatorTab');
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this._settings        = opts.settings;
         this._updateFunctions = [];
-        opts.uiId             = this._uiId;
-        this.initWindow('settings-dialog', 'Settings', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Settings.Show', this, this.onShow);
+        this.initWindow({
+            ui:         opts.ui,
+            uiId:       opts.uiId,
+            settings:   opts.settings,
+            showSignal: 'Dialog.Settings.Show',
+            width:      580,
+            height:     600,
+            className:  'settings-dialog',
+            title:      'Settings'
+        });
     }
 
     initWindowContent(opts) {
+        opts.uiId = this._uiId;
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'settings-text',
+                className: 'abs dialog-cw dialog-lt settings-text',
                 children: [
                     {
                         ref:      this.setRef('tabs'),
@@ -65,16 +72,13 @@ exports.SettingsDialog = class extends Dialog {
                     addSimulatorTab.tab(this, opts)
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        value:    'Ok',
-                        onClick:  this.hide.bind(this),
-                        tabIndex: 4096
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    value:    'Ok',
+                    onClick:  this.hide.bind(this),
+                    tabIndex: 4096
+                }
+            ])
         ];
     }
 
@@ -85,21 +89,21 @@ exports.SettingsDialog = class extends Dialog {
     addTitle(title) {
         return {
             type:      'h3',
-            className: 'title-row',
+            className: 'flt max-w title-row',
             innerHTML: title
         };
     }
 
     addDescriptionRow(description) {
         return {
-            className: 'description-row',
+            className: 'flt max-w description-row',
             innerHTML: description
         };
     }
 
     addSpacer() {
         return {
-            className: 'spacer'
+            className: 'flt max-w spacer'
         };
     }
 
@@ -132,7 +136,7 @@ exports.SettingsDialog = class extends Dialog {
 
     addRadioSetting(opts) {
         return {
-            className: 'radio-row',
+            className: 'flt max-w radio-row',
             children: [
                 {
                     className: 'label',

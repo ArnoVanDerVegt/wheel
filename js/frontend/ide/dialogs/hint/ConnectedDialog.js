@@ -7,6 +7,7 @@ const HintDialog = require('./HintDialog').HintDialog;
 
 exports.ConnectedDialog = class extends HintDialog {
     constructor(opts) {
+        opts.height           = 264;
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'connected';
         opts.signal           = 'Dialog.Hint.Connected';
@@ -24,11 +25,11 @@ exports.ConnectedDialog = class extends HintDialog {
 
     addCustomButtons() {
         return [
-            this.addButton({
+            {
                 value:    'Show the simulator',
                 tabIndex: 128,
                 onClick:  this.onShowSimulator.bind(this)
-            })
+            }
         ];
     }
 

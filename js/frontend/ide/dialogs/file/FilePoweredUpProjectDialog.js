@@ -20,11 +20,17 @@ const FileDialog            = require('./FileDialog').FileDialog;
 exports.FilePoweredUpProjectDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
+        this._expectedExtensions  = ['', '.whlp'];
         this._deviceList          = new DeviceListState();
         this._currentStep         = 0;
         this._stepContentElements = [];
-        this.initWindow('file-new-dialog file-new-powered-up-project', 'New Powered Up project', this.initWindowContent(opts));
-        dispatcher.on('Dialog.File.PoweredUpProject', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.File.PoweredUpProject',
+            width:      800,
+            height:     640,
+            className:  'file-new-dialog file-new-powered-up-project',
+            title:      'New Powered Up project'
+        });
         this.showStep(0);
     }
 
@@ -41,33 +47,30 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
             this.addStep({type: PoweredUpStep4Include}),
             this.addStep({type: PoweredUpStep5Form}),
             this.addStep({type: PoweredUpStep6Finish}),
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        id:        this.setButtonPreviousElement.bind(this),
-                        tabIndex:  1024,
-                        disabled:  false,
-                        className: 'left previous',
-                        value:     'Previous',
-                        onClick:   this.onPrevious.bind(this)
-                    }),
-                    this.addButton({
-                        id:        this.setButtonNextElement.bind(this),
-                        tabIndex:  1025,
-                        disabled:  false,
-                        className: 'left',
-                        value:     'Next',
-                        onClick:   this.onNext.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex:  1026,
-                        value:     'Cancel',
-                        color:     'dark-green',
-                        onClick:   this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    id:        this.setButtonPreviousElement.bind(this),
+                    tabIndex:  1024,
+                    disabled:  false,
+                    className: 'left previous',
+                    value:     'Previous',
+                    onClick:   this.onPrevious.bind(this)
+                },
+                {
+                    id:        this.setButtonNextElement.bind(this),
+                    tabIndex:  1025,
+                    disabled:  false,
+                    className: 'left',
+                    value:     'Next',
+                    onClick:   this.onNext.bind(this)
+                },
+                {
+                    tabIndex:  1026,
+                    value:     'Cancel',
+                    color:     'dark-green',
+                    onClick:   this.hide.bind(this)
+                }
+            ])
         ];
     }
 

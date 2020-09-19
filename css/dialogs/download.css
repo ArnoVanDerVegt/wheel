@@ -1,63 +1,51 @@
-.dialog-background.download-dialog .dialog-center .dialog-content {
-    margin-top:                     -220px;
-    width:                          600px;
-    height:                         472px;
-}
-.dialog-background.download-dialog .dialog-center .dialog-content .download-row {
+.dialog-background.download-dialog .download-row {
     padding:                        0 0 8px 32px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-row div.label,
-.dialog-background.download-dialog .dialog-center .dialog-content .download-row div.value {
+.dialog-background.download-dialog .download-row div.label,
+.dialog-background.download-dialog .download-row div.value {
     height:                         32px;
     font-size:                      16px;
     line-height:                    32px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-row div.label {
+.dialog-background.download-dialog .download-row div.label {
     width:                          160px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-row div.value {
+.dialog-background.download-dialog .download-row div.value {
     width:                          376px;
     font-style:                     italic;
     overflow:                       hidden;
     text-overflow:                  ellipsis;
     white-space:                    nowrap;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text {
-    left:                           32px;
+.dialog-background.download-dialog .download-text {
     top:                            216px;
     height:                         176px;
     line-height:                    28px;
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
-    overflow:                       hidden;
-    overflow-y:                     scroll;
-    padding:                        8px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line.hidden {
+.dialog-background.download-dialog .download-text .download-line.hidden {
     display:                        none;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line span {
+.dialog-background.download-dialog .download-text .download-line span {
     height:                         20px;
     line-height:                    20px;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line span.icon {
+.dialog-background.download-dialog .download-text .download-line span.icon {
     width:                          16px;
     position:                       relative;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line span.filename,
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line span.message {
+.dialog-background.download-dialog .download-text .download-line span.filename,
+.dialog-background.download-dialog .download-text .download-line span.message {
     width:                          calc(100% - 48px);
     overflow:                       hidden;
     text-overflow:                  ellipsis;
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line.success span {
+.dialog-background.download-dialog .download-text .download-line.success span {
     color:                          var(--color-green);
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line.fail span {
+.dialog-background.download-dialog .download-text .download-line.fail span {
     color:                          var(--color-red);
 }
-.dialog-background.download-dialog .dialog-center .dialog-content .download-text .download-line.success span.icon::before {
+.dialog-background.download-dialog .download-text .download-line.success span.icon::before {
     position:                       absolute;
     left:                           0px;
     top:                            0px;

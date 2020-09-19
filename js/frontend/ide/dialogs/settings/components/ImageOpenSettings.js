@@ -32,7 +32,7 @@ exports.ImageOpenSettings = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'image-open-settings',
+                className: 'flt max-w image-open-settings',
                 children: [
                     this._settingsDialog.addDescriptionRow('Image files can be converted to <i>.rgf</i> ' +
                         'files for the EV3 or they can be viewed.<br/>' +

@@ -1,80 +1,27 @@
-.dialog-background.file-new-dialog .dialog-center .dialog-content {
-    margin-top:                     -232px;
-    width:                          600px;
-    height:                         464px;
-}
-.dialog-background.file-new-dialog.project .dialog-center .dialog-content {
-    margin-top:                     -272px;
-    height:                         544px;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .include-file-label {
+.dialog-background.file-new-dialog .include-file-label {
     top:                            104px;
-    left:                           32px;
     height:                         32px;
     line-height:                    32px;
-    -webkit-user-select:            none;
     width:                          128px;
     text-align:                     right;
     padding:                        0 8px 0 0;
 }
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row a.checkbox {
-    float:                          left;
-    width:                          22px;
-    height:                         22px;
-    margin:                         6px 0 0 0;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .include-files {
+.dialog-background.file-new-dialog .include-files {
     left:                           160px;
     width:                          408px;
     height:                         272px;
 }
-.dialog-background.file-new-dialog .dialog-center .dialog-content .include-files,
-.dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-file-label {
+.dialog-background.file-new-dialog .include-files,
+.dialog-background.file-new-dialog.project .include-file-label {
     top:                            104px;
 }
-.dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-files,
-.dialog-background.file-new-dialog.project .dialog-center .dialog-content .include-file-label {
+.dialog-background.file-new-dialog.project .include-files,
+.dialog-background.file-new-dialog.project .include-file-label {
     top:                            188px;
 }
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row {
-    padding:                        0 0 8px 0;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row:last-child {
+.dialog-background.file-new-dialog .file-new-row:last-child {
     display:                        none;
 }
-.dialog-background.file-new-dialog.project .dialog-center .dialog-content .new-file-text .file-new-row:last-child {
+.dialog-background.file-new-dialog.project .file-new-row:last-child {
     display:                        block;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div,
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input {
-    float:                          left;
-    height:                         32px;
-    font-size:                      16px;
-    line-height:                    32px;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row.number input {
-    width:                          80px;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row.description input {
-    width:                          408px;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.invalid {
-    border:                         var(--text-input-invalid-border);
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div {
-    width:                          128px;
-    -webkit-user-select:            none;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row div.form-label {
-    text-align:                     right;
-    padding:                        0 8px 0 0;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input {
-    width:                          180px;
-    outline:                        none;
-    padding:                        0 0 0 8px;
-}
-.dialog-background.file-new-dialog .dialog-center .dialog-content .file-new-row input.button {
-    margin:                         0 0 0 32px;
-    padding:                        0;
 }

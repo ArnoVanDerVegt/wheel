@@ -35,7 +35,7 @@ const Chart = class extends Component {
                     optimizedCount += o.count;
                 }
                 children.push({
-                    className: 'chart-row',
+                    className: 'flt max-w chart-row',
                     children: [
                         {
                             className: 'chart-bar',
@@ -56,9 +56,9 @@ const Chart = class extends Component {
                 });
             });
 
-            this.create(parentNode, {className: 'text-line', innerHTML: commands.length + ' commands.'});
-            this.create(parentNode, {className: 'text-line', innerHTML: optimizedCount + ' optimized commands.'});
-            this.create(parentNode, {className: 'chart',     children:  children});
+            this.create(parentNode, {className: 'flt max-w text-line', innerHTML: commands.length + ' commands.'});
+            this.create(parentNode, {className: 'flt max-w text-line', innerHTML: optimizedCount + ' optimized commands.'});
+            this.create(parentNode, {className: 'flt max-w chart',     children:  children});
         }
 
         getOccurenceData(program) {
@@ -97,25 +97,27 @@ const Chart = class extends Component {
 exports.StatisticsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.initWindow('statistics-dialog', 'Statistics', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Statistics.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Statistics.Show',
+            width:      600,
+            height:     600,
+            className:  'statistics-dialog',
+            title:      'Statistics'
+        });
     }
 
     initWindowContent(opts) {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'statistics-text'
+                className: 'abs ui1-box vscroll dialog-cw dialog-lt statistics-text'
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        value:   'Ok',
-                        onClick: this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    value:   'Ok',
+                    onClick: this.hide.bind(this)
+                }
+            ])
         ];
     }
 

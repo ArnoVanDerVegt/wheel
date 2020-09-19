@@ -21,8 +21,13 @@ exports.ImageLoadDialog = class extends Dialog {
         super(opts);
         this._currentStep         = 0;
         this._stepContentElements = [];
-        this.initWindow('image-load-dialog', 'Load image file', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Image.Load.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Image.Load.Show',
+            width:      800,
+            height:     640,
+            className:  'image-load-dialog',
+            title:      'Load image file'
+        });
     }
 
     initWindowContent(opts) {
@@ -64,33 +69,30 @@ exports.ImageLoadDialog = class extends Dialog {
                 hidden: true,
                 dialog: this
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        id:        this.setButtonPreviousElement.bind(this),
-                        tabIndex:  1024,
-                        disabled:  false,
-                        className: 'left previous',
-                        value:     'Previous',
-                        onClick:   this.onPrevious.bind(this)
-                    }),
-                    this.addButton({
-                        id:        this.setButtonNextElement.bind(this),
-                        tabIndex:  1025,
-                        disabled:  false,
-                        className: 'left',
-                        value:     'Next',
-                        onClick:   this.onNext.bind(this)
-                    }),
-                    this.addButton({
-                        tabIndex:  1026,
-                        value:     'Cancel',
-                        color:     'dark-green',
-                        onClick:   this.hide.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    id:        this.setButtonPreviousElement.bind(this),
+                    tabIndex:  1024,
+                    disabled:  false,
+                    className: 'left previous',
+                    value:     'Previous',
+                    onClick:   this.onPrevious.bind(this)
+                },
+                {
+                    id:        this.setButtonNextElement.bind(this),
+                    tabIndex:  1025,
+                    disabled:  false,
+                    className: 'left',
+                    value:     'Next',
+                    onClick:   this.onNext.bind(this)
+                },
+                {
+                    tabIndex:  1026,
+                    value:     'Cancel',
+                    color:     'dark-green',
+                    onClick:   this.hide.bind(this)
+                }
+            ])
         ];
     }
 

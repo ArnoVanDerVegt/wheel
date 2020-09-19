@@ -40,6 +40,22 @@
     left:                           32px;
     top:                            64px;
 }
+/* Dialog left */
+.dialog-l {
+    left:                           32px;
+}
+/* Dialog right */
+.dialog-r {
+    right:                          32px;
+}
+/* Dialog top */
+.dialog-t {
+    top:                            64px;
+}
+/* Dialog bottom */
+.dialog-b {
+    bottom:                         80px;
+}
 /* Max width */
 .max-w {
     width:                          100%;
@@ -47,4 +63,31 @@
 /* Max height */
 .max-h {
     height:                         100%;
+}
+/* Box */
+.ui1-box {
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    color:                          var(--ui-text1);
+}
+.ui1-box.vscroll,
+.ui1-box.hscroll {
+    overflow:                       hidden;
+}
+.ui1-box.vscroll {
+    overflow-y:                     scroll;
+}
+.ui1-box.hscroll {
+    overflow-x:                     scroll;
+}
+.ui1-box.vscroll.pad,
+.ui1-box.hscroll.pad {
+    padding:                        8px;
+}
+/* No select */
+.no-select {
+    -webkit-user-select:            none;
+    -ms-user-select:                none;
+    user-select:                    none;
 }

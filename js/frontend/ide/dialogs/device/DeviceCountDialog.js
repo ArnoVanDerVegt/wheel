@@ -8,10 +8,15 @@ const Dropdown   = require('../../../lib/components/Dropdown').Dropdown;
 
 exports.DeviceCountDialog = class extends Dialog {
     constructor(opts) {
-        opts.help = 'Powered';
         super(opts);
-        this.initWindow('device-count-dialog', 'Number of Powered Up devices', this.initWindowContent(opts));
-        dispatcher.on('Dialog.DeviceCount.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.DeviceCount.Show',
+            width:      480,
+            height:     180,
+            className:  'device-count-dialog',
+            title:      'Number of Powered Up devices',
+            help:       'Powered'
+        });
     }
 
     initWindowContent() {
@@ -21,6 +26,7 @@ exports.DeviceCountDialog = class extends Dialog {
                 ref:       this.setRef('deviceCount'),
                 ui:        this._ui,
                 uiId:      this._uiId,
+                className: 'abs dialog-lt',
                 tabIndex:  1,
                 items: [
                     {value: 1, title: '1 Device'},
@@ -33,16 +39,13 @@ exports.DeviceCountDialog = class extends Dialog {
                     {value: 8, title: '8 Devices'}
                 ]
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        tabIndex: 128,
-                        value:    'Set device count',
-                        onClick:  this.onApply.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    tabIndex: 128,
+                    value:    'Set device count',
+                    onClick:  this.onApply.bind(this)
+                }
+            ])
         ];
     }
 

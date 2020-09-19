@@ -332,7 +332,8 @@ exports.Dropdown = class extends Component {
     }
 
     close() {
-        this._refs.dropdown.className = this._baseClassName;
+        this._focus                   = false;
+        this._refs.dropdown.className = this.getClassName();
     }
 
     onEvent(opts) {
@@ -348,13 +349,15 @@ exports.Dropdown = class extends Component {
     onValueFocus(event) {
         this.onCancelEvent(event);
         if (this._items.length) {
-            this._refs.dropdown.className = this._baseClassName + ' focus';
+            this._focus                   = true;
+            this._refs.dropdown.className = this.getClassName();
         }
     }
 
     onValueBlur(event) {
         this.onCancelEvent(event);
-        this._refs.dropdown.className = this._baseClassName;
+        this._focus                   = false;
+        this._refs.dropdown.className = this.getClassName();
     }
 
     onValueMouseDown(event) {
@@ -369,7 +372,8 @@ exports.Dropdown = class extends Component {
         this.onCancelEvent(event);
         this._element.focus();
         if (this._items.length) {
-            this._refs.dropdown.className = this._baseClassName + ' focus';
+            this._focus                   = true;
+            this._refs.dropdown.className = this.getClassName();
         }
     }
 
@@ -405,7 +409,8 @@ exports.Dropdown = class extends Component {
                         .setValueAndChange(items[0].value)
                         .dispatchValue();
                 }
-                refs.dropdown.className = this._baseClassName + ' focus';
+                this._focus             = true;
+                refs.dropdown.className = this.getClassName();
                 break;
             case 40: // Down
                 for (let i = 0; i < items.length - 1; i++) {
@@ -420,7 +425,8 @@ exports.Dropdown = class extends Component {
                         .setValueAndChange(value)
                         .dispatchValue();
                 }
-                refs.dropdown.className = this._baseClassName + ' focus';
+                this._focus             = true;
+                refs.dropdown.className = this.getClassName();
                 break;
         }
     }

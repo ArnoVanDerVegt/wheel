@@ -9,8 +9,13 @@ exports.ConfirmDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
-        this.initWindow('confirm-dialog', 'Confirm', this.initWindowContent(opts));
-        dispatcher.on('Dialog.Confirm.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: 'Dialog.Confirm.Show',
+            width:      600,
+            height:     200,
+            className:  'confirm-dialog',
+            title:      'Confirm'
+        });
     }
 
     initWindowContent(opts) {
@@ -19,23 +24,20 @@ exports.ConfirmDialog = class extends Dialog {
                 ref:       this.setRef('text'),
                 className: 'dialog-lt dialog-cw abs confirm-text'
             },
-            {
-                className: 'buttons',
-                children: [
-                    this.addButton({
-                        ref:       this.setRef('buttonApply'),
-                        tabIndex:  128,
-                        value:     'Ok',
-                        onClick:   this.onApply.bind(this)
-                    }),
-                    this.addButton({
-                        ref:       this.setRef('buttonCancel'),
-                        tabIndex:  129,
-                        value:     'Cancel',
-                        onClick:   this.onCancel.bind(this)
-                    })
-                ]
-            }
+            this.initButtons([
+                {
+                    ref:       this.setRef('buttonApply'),
+                    tabIndex:  128,
+                    value:     'Ok',
+                    onClick:   this.onApply.bind(this)
+                },
+                {
+                    ref:       this.setRef('buttonCancel'),
+                    tabIndex:  129,
+                    value:     'Cancel',
+                    onClick:   this.onCancel.bind(this)
+                }
+            ])
         ];
     }
 

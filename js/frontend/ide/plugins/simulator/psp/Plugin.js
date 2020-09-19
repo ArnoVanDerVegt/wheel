@@ -141,10 +141,10 @@ exports.Plugin = class extends SimulatorPlugin {
 
     initButtonRow(opts1, opts2, opts3, opts4) {
         return [
-            this.initButton('quarter', opts1),
-            this.initButton('quarter', opts2),
-            this.initButton('quarter', opts3),
-            this.initButton('quarter', opts4)
+            this.initButton('flt quarter', opts1),
+            this.initButton('flt quarter', opts2),
+            this.initButton('flt quarter', opts3),
+            this.initButton('flt quarter', opts4)
         ];
     }
 

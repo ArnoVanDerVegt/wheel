@@ -5,7 +5,7 @@
 exports.tab = (settingsDialog) => {
     return {
         ref:       settingsDialog.setRef('tabCompiler'),
-        className: 'tab-panel tab-compiler',
+        className: 'abs max-w tab-panel ui1-box vscroll tab-compiler',
         children: [
             settingsDialog.addTitle('Validation'),
             settingsDialog.addCheckboxSetting({
