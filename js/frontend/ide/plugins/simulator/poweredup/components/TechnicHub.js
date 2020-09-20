@@ -22,13 +22,13 @@ exports.TechnicHub = class extends BasicHub {
                         className: 'flt rel technic-hub-body',
                         children: [
                             {
-                                className: 'abs hub-top'
+                                className: 'flt hub-top'
                             },
                             {
-                                className: 'hub-middle'
+                                className: 'flt hub-middle'
                             },
                             {
-                                className: 'abs hub-bottom'
+                                className: 'flt hub-bottom'
                             },
                             {
                                 className: 'abs hub-box',
