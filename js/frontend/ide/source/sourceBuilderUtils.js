@@ -283,3 +283,96 @@ exports.generateSourceFromComponents = (opts) => {
     return exports.removeDuplicateEmptyLines(lines);
 };
 
+exports.generateEventProc = (opts) => {//componentName, componentType, eventType, procName) => {
+    let lines  = [];
+    let events = formEditorConstants.PROPERTIES_BY_TYPE[opts.componentType.toUpperCase()].events || [];
+    let event  = null;
+    for (let i = 0; i < events.length; i++) {
+        if (events[i].name === opts.eventType) {
+            event = events[i];
+            break;
+        }
+    }
+    if (!opts.procName || !event || (opts.database && opts.database.findProc(opts.procName))) {
+        return [];
+    }
+    let addComments = opts.createEventComments; //this._settings.getCreateEventComments();
+    let proc        = 'proc ' + opts.procName + '(';
+    if (addComments) {
+        lines.push('; @proc                   ' +
+            opts.componentType.substr(0, 1).toUpperCase() + opts.componentType.substr(1, opts.componentType.length - 1) +
+            ' ' + opts.eventType + ' event.');
+    }
+    event.params.forEach((param) => {
+        proc += param.type + ' ' + param.name + ', ';
+        if (addComments) {
+            lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
+        }
+    });
+    proc = proc.substr(0, proc.length - 2) + ')';
+    lines.push(proc);
+    if (event.code) {
+        event.code.forEach((code) => {
+            lines.push(code.replace('{name}', opts.componentName));
+        });
+    }
+    lines.push('end', '');
+    return lines;
+};
+
+exports.findProcedures = (lines) => {
+    let procedures = [];
+    lines.forEach((line, index) => {
+        let s = line.trim();
+        if (s.indexOf('proc') === 0) {
+            s = s.substr(4, s.length - 4).trim();
+            let i = s.indexOf('(');
+            if (i !== -1) {
+                procedures.push({
+                    name:  s.substr(0, i).trim(),
+                    index: index
+                });
+            }
+        }
+    });
+    return procedures;
+};
+
+exports.findProcedure = (procedures, proc) => {
+    for (let i = 0; i < procedures.length; i++) {
+        if (procedures[i].name === proc) {
+            return proc;
+        }
+    }
+    return null;
+};
+
+exports.insertProc = (lines, procedures, proc, procLines) => {
+    let found = false;
+    for (let i = 0; i < procedures.length; i++) {
+        // Try to insert in alpha order...
+        if (proc < procedures[i].name) {
+            let index = procedures[i].index;
+            // Insert before the comments of the proc...
+            while ((index > 0) && (lines[index - 1].trim().substr(0, 1) === ';')) {
+                index--;
+            }
+            if (procLines[procLines.length - 1].trim() !== '') {
+                procLines.push('');
+            }
+            procLines.reverse();
+            procLines.forEach((procLine) => {
+                lines.splice(index, 0, procLine);
+            });
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        if (procLines[procLines.length - 1].trim() === '') {
+            procLines.pop();
+        }
+        procLines.unshift('');
+        lines.push.apply(lines, procLines);
+    }
+};

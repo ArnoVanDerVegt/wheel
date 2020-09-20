@@ -517,5 +517,213 @@ describe(
                 );
             }
         );
+        describe(
+            'Test generate event proc',
+            () => {
+                it(
+                    'Should not generate event proc because of unknown event',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.generateEventProc({
+                                componentName:       'Btn1',
+                                componentType:       formEditorConstants.COMPONENT_TYPE_BUTTON,
+                                eventType:           'onWrong',
+                                procName:            'btn1OnClick',
+                                createEventComments: false,
+                                database:            { findProc(procName) { return false; }} // Not found, create a new procedure...
+                            }),
+                            []
+                        );
+                    }
+                );
+                it(
+                    'Should not generate event proc because of unknown missing proc name',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.generateEventProc({
+                                componentName:       'Btn1',
+                                componentType:       formEditorConstants.COMPONENT_TYPE_BUTTON,
+                                eventType:           'onWrong',
+                                createEventComments: false,
+                                database:            { findProc(procName) { return false; }} // Not found, create a new procedure...
+                            }),
+                            []
+                        );
+                    }
+                );
+                it(
+                    'Should generate event proc without comments',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.generateEventProc({
+                                componentName:       'Btn1',
+                                componentType:       formEditorConstants.COMPONENT_TYPE_BUTTON,
+                                eventType:           'onClick',
+                                procName:            'btn1OnClick',
+                                createEventComments: false,
+                                database:            { findProc(procName) { return false; }} // Not found, create a new procedure...
+                            }),
+                            [
+                                'proc btn1OnClick(number windowHandle)',
+                                '    printS("Click Btn1 button.")',
+                                'end',
+                                ''
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should generate event proc with comments',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.generateEventProc({
+                                componentName:       'Btn1',
+                                componentType:       formEditorConstants.COMPONENT_TYPE_BUTTON,
+                                eventType:           'onClick',
+                                procName:            'btn1OnClick',
+                                createEventComments: true,
+                                database:            { findProc(procName) { return false; }} // Not found, create a new procedure...
+                            }),
+                            [
+                                '; @proc                   Button onClick event.',
+                                '; @param windowHandle     The handle to the active window.',
+                                'proc btn1OnClick(number windowHandle)',
+                                '    printS("Click Btn1 button.")',
+                                'end',
+                                ''
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test find procedure',
+            () => {
+                it(
+                    'Should not find procedure',
+                    () => {
+                        assert.equal(sourceBuilderUtils.findProcedure([], 'test'), null);
+                    }
+                );
+                it(
+                    'Should find procedure',
+                    () => {
+                        assert.equal(sourceBuilderUtils.findProcedure([{name: 'test'}], 'test'), 'test');
+                    }
+                );
+            }
+        );
+        describe(
+            'Test find procedures',
+            () => {
+                it(
+                    'Should not find procedures in lines',
+                    () => {
+                        assert.equal(sourceBuilderUtils.findProcedures([]).length, 0);
+                    }
+                );
+                it(
+                    'Should not find invalid procedure',
+                    () => {
+                        assert.equal(
+                            sourceBuilderUtils.findProcedures([
+                                'proc test',
+                                'end'
+                            ]).length,
+                            0
+                        );
+                    }
+                );
+                it(
+                    'Should find one procedure',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.findProcedures([
+                                'proc test()',
+                                'end'
+                            ]),
+                            [{
+                                name:  'test',
+                                index: 0
+                            }]
+                        );
+                    }
+                );
+                it(
+                    'Should find two procedures',
+                    () => {
+                        assert.deepEqual(
+                            sourceBuilderUtils.findProcedures([
+                                'proc test1()',
+                                'end',
+                                '',
+                                'proc test2()',
+                                'end'
+                            ]),
+                            [
+                                {name: 'test1', index: 0},
+                                {name: 'test2', index: 3}
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test insert procedure',
+            () => {
+                it(
+                    'Should insert after existing procedure',
+                    () => {
+                        let lines = [
+                                'proc a()',
+                                'end'
+                            ];
+                        let newProc = [
+                                'proc b()',
+                                'end'
+                            ];
+                        let procedures = sourceBuilderUtils.findProcedures(lines);
+                        sourceBuilderUtils.insertProc(lines, procedures, 'b', newProc);
+                        assert.deepEqual(
+                            lines,
+                            [
+                                'proc a()',
+                                'end',
+                                '',
+                                'proc b()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should insert before existing procedure',
+                    () => {
+                        let lines = [
+                                'proc b()',
+                                'end'
+                            ];
+                        let newProc = [
+                                'proc a()',
+                                'end'
+                            ];
+                        let procedures = sourceBuilderUtils.findProcedures(lines);
+                        sourceBuilderUtils.insertProc(lines, procedures, 'a', newProc);
+                        assert.deepEqual(
+                            lines,
+                            [
+                                'proc a()',
+                                'end',
+                                '',
+                                'proc b()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+            }
+        );
     }
 );

@@ -42,89 +42,20 @@ exports.SourceBuilder = class {
     }
 
     generateEventProc(componentName, componentType, eventType, procName) {
-        let lines  = [];
-        let events = formEditorConstants.PROPERTIES_BY_TYPE[componentType.toUpperCase()].events || [];
-        let event  = null;
-        for (let i = 0; i < events.length; i++) {
-            if (events[i].name === eventType) {
-                event = events[i];
-                break;
-            }
-        }
-        if (!event || (this._database && this._database.findProc(procName))) {
-            return [];
-        }
-        let addComments = this._settings.getCreateEventComments();
-        let proc        = 'proc ' + procName + '(';
-        if (addComments) {
-            lines.push('; @proc                   ' +
-                componentType.substr(0, 1).toUpperCase() + componentType.substr(1, componentType.length - 1) +
-                ' ' + eventType + ' event.');
-        }
-        event.params.forEach((param) => {
-            proc += param.type + ' ' + param.name + ', ';
-            if (addComments) {
-                lines.push('; @param ' + (param.name + '                ').substr(0, 16) + ' ' + (param.comment || ''));
-            }
+        return sourceBuilderUtils.generateEventProc({
+            database:      this._database,
+            componentName: componentName,
+            componentType: componentType,
+            eventType:     eventType,
+            procName:      procName
         });
-        proc = proc.substr(0, proc.length - 2) + ')';
-        lines.push(proc);
-        if (event.code) {
-            event.code.forEach((code) => {
-                lines.push(code.replace('{name}', componentName));
-            });
-        }
-        lines.push('end', '');
-        return lines;
     }
 
     generateEventsFromData(lines, data) {
-        let procedures = [];
-        const findProcedures = function() {
-                lines.forEach((line, index) => {
-                    let s = line.trim();
-                    if (s.indexOf('proc') === 0) {
-                        s = s.substr(4, s.length - 4).trim();
-                        let j = s.indexOf('(');
-                        procedures.push({
-                            name:  s.substr(0, j).trim(),
-                            index: index
-                        });
-                    }
-                });
-            };
-        const findProc = function(proc) {
-                for (let i = 0; i < procedures.length; i++) {
-                    if (procedures[i].name === proc) {
-                        return proc;
-                    }
-                }
-                return null;
-            };
-        const insertProc = function(proc, procLines) {
-                let found = false;
-                for (let i = 0; i < procedures.length; i++) {
-                    // Try to insert in alpha order...
-                    if (proc < procedures[i].name) {
-                        let index = procedures[i].index;
-                        // Insert before the comments of the proc...
-                        while ((index > 0) && (lines[index - 1].trim().substr(0, 1) === ';')) {
-                            index--;
-                        }
-                        procLines.reverse();
-                        procLines.forEach((procLine) => {
-                            lines.splice(index, 0, procLine);
-                        });
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    procLines.pop();
-                    procLines.unshift('');
-                    lines.push.apply(lines, procLines);
-                }
-                findProcedures();
+        let procedures = sourceBuilderUtils.findProcedures(lines);
+        const insertProc = (proc, procLines) => {
+                sourceBuilderUtils.insertProc(lines, procedures, proc, procLines);
+                procedures = sourceBuilderUtils.findProcedures(lines);
             };
         findProcedures();
         let found = false;
@@ -132,7 +63,7 @@ exports.SourceBuilder = class {
             let component = data[i];
             for (let j in component) {
                 let value = component[j];
-                if ((j.substr(0, 2) === 'on') && value && !findProc(value)) {
+                if ((j.substr(0, 2) === 'on') && value && !sourceBuilderUtils.findProcedure(procedures, value)) {
                     found = true;
                     insertProc(value, this.generateEventProc(component.name, component.type, j, value));
                 }
