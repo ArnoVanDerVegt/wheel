@@ -158,7 +158,10 @@ describe(
         it(
             'Should generate an include list from components',
             () => {
-                let includes = sourceBuilderUtils.generateIncludesFromComponents([{type: 'BUTTON'}, {type: 'CHECKBOX'}]);
+                let includes = sourceBuilderUtils.generateIncludesFromComponents([
+                        {type: formEditorConstants.COMPONENT_TYPE_BUTTON},
+                        {type: formEditorConstants.COMPONENT_TYPE_CHECKBOX}
+                    ]);
                 assert.deepEqual(includes, ['lib/components/button.whl', 'lib/components/checkbox.whl']);
             }
         );
@@ -166,9 +169,9 @@ describe(
             'Should get defines from components',
             () => {
                 let components = [
-                        {type: 'form',     name: 'myForm',   uid: '0x123'},
-                        {type: 'checkbox', name: 'checkbox', uid: '0x005'},
-                        {type: 'button',   name: 'button1',  uid: '0x913'}
+                        {type: formEditorConstants.COMPONENT_TYPE_FORM,     name: 'myForm',   uid: '0x123'},
+                        {type: formEditorConstants.COMPONENT_TYPE_CHECKBOX, name: 'checkbox', uid: '0x005'},
+                        {type: formEditorConstants.COMPONENT_TYPE_BUTTON,   name: 'button1',  uid: '0x913'}
                     ];
                 let defines = sourceBuilderUtils.generateDefinesFromComponents('myForm', components);
                 assert.deepEqual(
@@ -719,6 +722,381 @@ describe(
                                 '',
                                 'proc b()',
                                 'end'
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test update event names',
+            () => {
+                it(
+                    'Should not update event name',
+                    () => {
+                        let lines = [
+                                'proc hello()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateEventNames({
+                            lines: lines,
+                            renameEvents: [
+                                {oldName: 'x', newName: 'world'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                'proc hello()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should update event name',
+                    () => {
+                        let lines = [
+                                'proc hello()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateEventNames({
+                            lines: lines,
+                            renameEvents: [
+                                {oldName: 'hello', newName: 'world'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                'proc world()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should update event names',
+                    () => {
+                        let lines = [
+                                'proc hello()',
+                                'end',
+                                '',
+                                'proc world()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateEventNames({
+                            lines: lines,
+                            renameEvents: [
+                                {oldName: 'hello', newName: 'world'},
+                                {oldName: 'world', newName: 'hello'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                'proc world()',
+                                'end',
+                                '',
+                                'proc hello()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test update component name',
+            () => {
+                it(
+                    'Should not update component name',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN 0x0345'
+                            ];
+                        sourceBuilderUtils.updateComponentName({
+                            formName: 'testForm',
+                            oldName:  'btn1',
+                            newName:  'btn2',
+                            lines:    lines
+                        });
+                        assert.deepEqual(lines, ['#define TEST_FORM_BTN 0x0345']);
+                    }
+                );
+                it(
+                    'Should update component name',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN 0x0345'
+                            ];
+                        sourceBuilderUtils.updateComponentName({
+                            formName: 'testForm',
+                            oldName:  'btn',
+                            newName:  'btn1',
+                            lines:    lines
+                        });
+                        assert.deepEqual(lines, ['#define TEST_FORM_BTN1 0x0345']);
+                    }
+                );
+                it(
+                    'Should update component name and align defines',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN 0x0345',
+                                '#define TEST_FORM_A 0x1234'
+                            ];
+                        sourceBuilderUtils.updateComponentName({
+                            formName: 'testForm',
+                            oldName:  'btn',
+                            newName:  'btn1',
+                            lines:    lines
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#define TEST_FORM_BTN1 0x0345',
+                                '#define TEST_FORM_A    0x1234'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should update component name and remove duplicate define',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN 0x0345',
+                                '#define TEST_FORM_A 0x1234',
+                                '#define TEST_FORM_A 0x1234'
+                            ];
+                        sourceBuilderUtils.updateComponentName({
+                            formName: 'testForm',
+                            oldName:  'btn',
+                            newName:  'btn1',
+                            lines:    lines
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#define TEST_FORM_BTN1 0x0345',
+                                '#define TEST_FORM_A    0x1234'
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test delete component',
+            () => {
+                it(
+                    'Should not delete component',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN 0x0345'
+                            ];
+                        sourceBuilderUtils.deleteComponent({
+                            formName:   'testForm',
+                            components: [{name: 'btn1'}],
+                            lines:      lines
+                        });
+                        assert.deepEqual(lines, ['#define TEST_FORM_BTN 0x0345']);
+                    }
+                );
+                it(
+                    'Should delete component',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN  0x0345',
+                                '#define TEST_FORM_BTN1 0x0347'
+                            ];
+                        sourceBuilderUtils.deleteComponent({
+                            formName:   'testForm',
+                            components: [{name: 'btn'}],
+                            lines:      lines
+                        });
+                        assert.deepEqual(lines, ['#define TEST_FORM_BTN1 0x0347']);
+                    }
+                );
+                it(
+                    'Should delete components',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN  0x0345',
+                                '#define TEST_FORM_BTN1 0x0347'
+                            ];
+                        sourceBuilderUtils.deleteComponent({
+                            formName:   'testForm',
+                            components: [{name: 'btn'}, {name: 'btn1'}],
+                            lines:      lines
+                        });
+                        assert.deepEqual(lines, []);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test update form name and remove defines',
+            () => {
+                it(
+                    'Should not delete define and rename show proc',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN1 0x0347',
+                                '#define KEEP_FORM_BTN1 0x0347',
+                                '',
+                                'proc showTestFormForm()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateFormNameAndRemoveDefines({
+                            lines:      lines,
+                            oldName:    'noForm',
+                            newName:    'newName',
+                            components: [
+                                {type: formEditorConstants.COMPONENT_TYPE_BUTTON, name: 'btn1'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#define TEST_FORM_BTN1 0x0347',
+                                '#define KEEP_FORM_BTN1 0x0347',
+                                '',
+                                'proc showTestFormForm()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should delete define and rename show proc',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN1 0x0347',
+                                '#define KEEP_FORM_BTN1 0x0347',
+                                '',
+                                'proc showTestFormForm()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateFormNameAndRemoveDefines({
+                            lines:      lines,
+                            oldName:    'testForm',
+                            newName:    'newName',
+                            components: [
+                                {type: formEditorConstants.COMPONENT_TYPE_BUTTON, name: 'btn1'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#define KEEP_FORM_BTN1 0x0347',
+                                '',
+                                'proc showNewNameForm()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should delete define and rename show proc, only delete known component',
+                    () => {
+                        let lines = [
+                                '#define TEST_FORM_BTN1 0x0347',
+                                '#define TEST_FORM_BTN2 0x0123',
+                                '#define KEEP_FORM_BTN1 0x0789',
+                                '',
+                                'proc showTestFormForm()',
+                                'end'
+                            ];
+                        sourceBuilderUtils.updateFormNameAndRemoveDefines({
+                            lines:      lines,
+                            oldName:    'testForm',
+                            newName:    'newName',
+                            components: [
+                                {type: formEditorConstants.COMPONENT_TYPE_BUTTON, name: 'btn1'}
+                            ]
+                        });
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#define TEST_FORM_BTN2 0x0123',
+                                '#define KEEP_FORM_BTN1 0x0789',
+                                '',
+                                'proc showNewNameForm()',
+                                'end'
+                            ]
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test remove existing defines',
+            () => {
+                it(
+                    'Should not remove existing define',
+                    () => {
+                        let lines = [
+                                '',
+                                '#define TEST_FORM_BTN2 0x0123',
+                                ''
+                            ];
+                        let insertPosition = sourceBuilderUtils.removeExistingDefines({
+                                lines: lines,
+                                defines: {
+                                    definesByName: {}
+                                }
+                            });
+                        assert.equal(insertPosition, -1);
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '',
+                                '#define TEST_FORM_BTN2 0x0123',
+                                ''
+                            ]
+                        );
+                    }
+                );
+                it(
+                    'Should remove existing define',
+                    () => {
+                        let lines = [
+                                '',
+                                '#define TEST_FORM_BTN2 0x0123',
+                                ''
+                            ];
+                        let insertPosition = sourceBuilderUtils.removeExistingDefines({
+                                lines: lines,
+                                defines: {
+                                    definesByName: {
+                                        TEST_FORM_BTN2: true
+                                    }
+                                }
+                            });
+                        assert.equal(insertPosition, 1);
+                        assert.deepEqual(lines, ['', '']);
+                    }
+                );
+                it(
+                    'Should not remove existing define, get insert position',
+                    () => {
+                        let lines = [
+                                '#include "lib/standard.whl',
+                                ''
+                            ];
+                        let insertPosition = sourceBuilderUtils.removeExistingDefines({
+                                lines: lines,
+                                defines: {
+                                    definesByName: {}
+                                }
+                            });
+                        assert.equal(insertPosition, 2);
+                        assert.deepEqual(
+                            lines,
+                            [
+                                '#include "lib/standard.whl',
+                                ''
                             ]
                         );
                     }

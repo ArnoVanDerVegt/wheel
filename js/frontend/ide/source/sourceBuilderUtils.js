@@ -112,6 +112,7 @@ exports.generateIncludesFromComponents = (components) => {
 exports.updateLinesWithIncludes = (lines, opts) => {
     let currentIncludes = [];
     let lastIndex       = 0;
+    let found           = false;
     lines.forEach((line, index) => {
         line = line.trim();
         if (line.indexOf('#include ') === 0) {
@@ -121,8 +122,13 @@ exports.updateLinesWithIncludes = (lines, opts) => {
                 currentIncludes.push(line.substr(i + 1, j - i - 1));
             }
             lastIndex = index;
+            found     = true;
         }
     });
+    if (!found && lines.length) {
+        lastIndex++;
+        lines.splice(lastIndex, 0, '');
+    }
     let includes = exports.generateIncludesFromComponents(opts.components);
     includes.forEach((include) => {
         if (currentIncludes.indexOf(include) === -1) {
@@ -259,7 +265,7 @@ exports.generateSourceFromComponents = (opts) => {
     );
     if (formName) {
         lines.push('');
-        if (opts.createEventComments) {//this._settings.getCreateEventComments()) {
+        if (opts.createEventComments) {
             lines.push(
                 '; @proc                   Show the form.',
                 '; @ret                    The handle to the form.'
@@ -283,7 +289,7 @@ exports.generateSourceFromComponents = (opts) => {
     return exports.removeDuplicateEmptyLines(lines);
 };
 
-exports.generateEventProc = (opts) => {//componentName, componentType, eventType, procName) => {
+exports.generateEventProc = (opts) => {
     let lines  = [];
     let events = formEditorConstants.PROPERTIES_BY_TYPE[opts.componentType.toUpperCase()].events || [];
     let event  = null;
@@ -296,7 +302,7 @@ exports.generateEventProc = (opts) => {//componentName, componentType, eventType
     if (!opts.procName || !event || (opts.database && opts.database.findProc(opts.procName))) {
         return [];
     }
-    let addComments = opts.createEventComments; //this._settings.getCreateEventComments();
+    let addComments = opts.createEventComments;
     let proc        = 'proc ' + opts.procName + '(';
     if (addComments) {
         lines.push('; @proc                   ' +
@@ -375,4 +381,160 @@ exports.insertProc = (lines, procedures, proc, procLines) => {
         procLines.unshift('');
         lines.push.apply(lines, procLines);
     }
+};
+
+exports.updateEventNames = (opts) => {
+    if (!opts.renameEvents.length) {
+        return;
+    }
+    let lines           = opts.lines;
+    let eventsByOldName = {};
+    opts.renameEvents.forEach((renameEvent) => {
+        eventsByOldName[renameEvent.oldName] = renameEvent;
+    });
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        if (line.trim().indexOf('proc') === 0) {
+            line = line.trim();
+            let j = line.indexOf('(');
+            if (j !== -1) {
+                let procName = line.substr(5, j - 5).trim();
+                if (procName in eventsByOldName) {
+                    lines[i] = 'proc ' + eventsByOldName[procName].newName + line.substr(j - line.length).trim();
+                    delete eventsByOldName[procName];
+                }
+            }
+        }
+    }
+};
+
+exports.updateComponentName = (opts) => {
+    let oldName = exports.getConstantFromName(opts.formName) + '_' + exports.getConstantFromName(opts.oldName);
+    let newName = exports.getConstantFromName(opts.formName) + '_' + exports.getConstantFromName(opts.newName);
+    if (oldName === newName) {
+        return;
+    }
+    let lines   = opts.lines;
+    let found   = false;
+    let defines = {};
+    let i       = 0;
+    // First check if there's anything to update...
+    while (!found && (i < lines.length)) {
+        let defineInfo = exports.getDefineInfo(lines[i].trim());
+        if (defineInfo && (defineInfo.key === oldName)) {
+            found = true;
+        } else {
+            i++;
+        }
+    }
+    if (!found) {
+        return; // Nothing to update found!
+    }
+    // Scan all lines for existing defines and get the maximum key length...
+    let maxLength = newName.length;
+    for (let i = 0; i < lines.length; i++) {
+        let line       = lines[i].trim();
+        let defineInfo = exports.getDefineInfo(line);
+        if (defineInfo) {
+            maxLength = Math.max(maxLength, defineInfo.key.length);
+        }
+    }
+    let space = '';
+    while (space.length < maxLength) {
+        space += ' ';
+    }
+    // Update all defines with the new alignment and rename the define key...
+    i = 0;
+    while (i < lines.length) {
+        let line       = lines[i].trim();
+        let defineInfo = exports.getDefineInfo(line);
+        if (defineInfo) {
+            if (defineInfo.key in defines) {
+                lines.splice(i, 1); // Remove duplicate define...
+            } else {
+                if (defineInfo.key === oldName) {
+                    defineInfo.key = newName;
+                }
+                lines[i] = '#define ' + (defineInfo.key + space).substr(0, maxLength) + ' ' + defineInfo.value;
+                defines[defineInfo.key] = true;
+                i++;
+            }
+        } else {
+            i++;
+        }
+    }
+};
+
+exports.updateFormNameAndRemoveDefines = (opts) => {
+    let lines   = opts.lines;
+    let oldName = exports.getShowProcNameFromFormName(opts.oldName);
+    let newName = exports.getShowProcNameFromFormName(opts.newName);
+    if (newName === '') {
+        return;
+    }
+    let defines = exports.generateDefinesFromComponents(opts.oldName, opts.components);
+    let i       = 0;
+    while (i < lines.length) {
+        let line       = lines[i].trim();
+        let defineInfo = exports.getDefineInfo(line);
+        if (defineInfo && (defineInfo.key in defines.definesByName)) {
+           lines.splice(i, 1);
+        } else {
+            if ((line.indexOf('proc') === 0) && (line.indexOf(' ' + oldName) !== -1)) {
+                let j = line.indexOf(oldName);
+                lines[i] = line.substr(0, j) + newName + line.substr(j + oldName.length, line.length - j - oldName.length);
+                break;
+            }
+            i++;
+        }
+    }
+};
+
+exports.deleteComponent = (opts) => {
+    let lines = opts.lines;
+    const deleteComponent = (name) => {
+            let define = exports.getConstantFromName(opts.formName) + '_' + exports.getConstantFromName(name);
+            let i      = 0;
+            while (i < lines.length) {
+                let defineInfo = exports.getDefineInfo(lines[i]);
+                if (defineInfo && (defineInfo.key === define)) {
+                    lines.splice(i, 1);
+                    break;
+                } else {
+                    i++;
+                }
+            }
+        };
+    opts.components.forEach((item) => {
+        deleteComponent(item.name);
+    });
+};
+
+exports.removeExistingDefines = (opts) => {
+    let lines          = opts.lines;
+    let defines        = opts.defines;
+    let insertPosition = -1;
+    let i              = 0;
+    while (i < lines.length) {
+        let defineInfo = exports.getDefineInfo(lines[i]);
+        if (defineInfo && (defineInfo.key in defines.definesByName)) {
+            lines.splice(i, 1);
+            insertPosition = i;
+        } else {
+            i++;
+        }
+    }
+    if (insertPosition === -1) {
+        i = 0;
+        while (i < lines.length) {
+            if (lines[i].trim().indexOf('#include') === 0) {
+                insertPosition = i;
+            }
+            i++;
+        }
+        if (insertPosition !== -1) {
+            insertPosition += 2;
+        }
+    }
+    return insertPosition;
 };
