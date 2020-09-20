@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../js/frontend/lib/dispatcher').dispatcher;
-const ContainerIdsForForm = require('../../js/frontend/ide/editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
-const FormEditorState     = require('../../js/frontend/ide/editor/editors/form/state/FormEditorState').FormEditorState;
-const formEditorConstants = require('../../js/frontend/ide/editor/editors/form/formEditorConstants');
+const dispatcher          = require('../../../../js/frontend/lib/dispatcher').dispatcher;
+const ContainerIdsForForm = require('../../../../js/frontend/ide/editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;
+const FormEditorState     = require('../../../../js/frontend/ide/editor/editors/form/state/FormEditorState').FormEditorState;
+const formEditorConstants = require('../../../../js/frontend/ide/editor/editors/form/formEditorConstants');
 const assert              = require('assert');
 
 afterEach(() => {
