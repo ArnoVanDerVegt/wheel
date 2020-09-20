@@ -32,93 +32,12 @@ exports.SourceBuilder = class {
         return sourceBuilderUtils.removeDuplicateEmptyLines(this._lines).join('\n');
     }
 
-    generateDefinesFromComponents(formName, components) {
-        let maxLength = 0;
-        let toString  = function() {
-                /* eslint-disable no-invalid-this */
-                maxLength = Math.max(maxLength, this.name.length);
-                /* eslint-disable no-invalid-this */
-                return this.name;
-            };
-        let defines       = [];
-        let definesByName = {};
-        let addDefine     = function(name, uid) {
-                definesByName[name] = uid;
-                defines.push({
-                    line:     '',
-                    name:     name,
-                    uid:      uid,
-                    toString: toString
-                });
-            };
-        formName = sourceBuilderUtils.getConstantFromName(formName);
-        components.forEach(
-            function(component) {
-                if (component.type !== 'form') {
-                    addDefine(formName + '_' + sourceBuilderUtils.getConstantFromName(component.name), component.uid);
-                }
-            },
-            this
-        );
-        defines.sort();
-        let space = '                                                                      ';
-        defines.forEach((define) => {
-            define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
-        });
-        return {
-            definesByName: definesByName,
-            list:          defines
-        };
-    }
-
     generateSourceFromFormData(data) {
-        this._lines = [];
-        let components = data.components;
-        let lines      = this._lines;
-        let includes   = sourceBuilderUtils.generateIncludesFromComponents(components);
-        let formName   = sourceBuilderUtils.getFormNameFromComponents(components);
-        if (data.project) {
-            lines.push(
-                '#project "' + formName + '"',
-                '',
-                '#include "lib/standard.whl"'
-            );
-        }
-        includes.forEach((include) => {
-            lines.push('#include "' + include + '"');
+        this._lines = sourceBuilderUtils.generateSourceFromComponents({
+            components:          data.components,
+            project:             data.project,
+            createEventComments: this._settings.getCreateEventComments()
         });
-        let defines = this.generateDefinesFromComponents(formName, components);
-        lines.push('');
-        defines.list.forEach((define) => {
-            lines.push(define.line);
-        });
-        lines.push(
-            '',
-            '#resource "' + formName + '.wfrm"'
-        );
-        if (formName) {
-            lines.push('');
-            if (this._settings.getCreateEventComments()) {
-                lines.push(
-                    '; @proc                   Show the form.',
-                    '; @ret                    The handle to the form.'
-                );
-            }
-            lines.push(
-                'proc show' + sourceBuilderUtils.getShowProcNameFromFilename(formName) + '()',
-                '    ret components.form.show("' + formName + '.wfrm")',
-                'end'
-            );
-        }
-        if (data.project) {
-            lines.push(
-                '',
-                'proc main()',
-                '    show' + sourceBuilderUtils.getShowProcNameFromFilename(formName) + '()',
-                '    halt()',
-                'end'
-            );
-        }
         return this;
     }
 
@@ -226,7 +145,7 @@ exports.SourceBuilder = class {
         sourceBuilderUtils.updateLinesWithIncludes(lines, opts);
         this.generateEventsFromData(lines, opts.components);
         let formName       = sourceBuilderUtils.getFormNameFromComponents(opts.components);
-        let defines        = this.generateDefinesFromComponents(formName, opts.components);
+        let defines        = sourceBuilderUtils.generateDefinesFromComponents(formName, opts.components);
         let insertPosition = -1;
         let i              = 0;
         while (i < lines.length) {
@@ -321,7 +240,7 @@ exports.SourceBuilder = class {
         if (newName === '') {
             return this;
         }
-        let defines = this.generateDefinesFromComponents(opts.oldName, opts.components);
+        let defines = sourceBuilderUtils.generateDefinesFromComponents(opts.oldName, opts.components);
         let i       = 0;
         while (i < lines.length) {
             let line       = lines[i].trim();

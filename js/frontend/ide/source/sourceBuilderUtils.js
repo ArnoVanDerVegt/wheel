@@ -5,7 +5,7 @@
 const path                = require('../../lib/path');
 const formEditorConstants = require('../editor/editors/form/formEditorConstants');
 
-exports.getShowProcNameFromFilename = (filename) => {
+exports.getProcNameFromFilename = (filename) => {
     let result = '';
     filename = path.replaceExtension(filename, '');
     for (let i = 0; i < filename.length; i++) {
@@ -31,14 +31,15 @@ exports.getShowProcNameFromFormName = (formName) => {
 
 exports.getFormCode = (filename) => {
     let pathAndFilename = path.getPathAndFilename(filename);
+    let wfrmFilename    = path.replaceExtension(pathAndFilename.filename, '.wfrm');
     return [
         '',
-        '#resource "' + path.replaceExtension(pathAndFilename.filename, '.wfrm') + '"',
+        '#resource "' + wfrmFilename + '"',
         '',
         '; @proc                   Show the form.',
         '; @ret                    The handle to the form.',
-        'proc show' + exports.getShowProcNameFromFilename(filename) + '()',
-        '    ret components.form.show("' + filename + '")',
+        'proc show' + exports.getProcNameFromFilename(wfrmFilename) + '()',
+        '    ret components.form.show("' + wfrmFilename + '")',
         'end',
         ''
     ];
@@ -69,7 +70,7 @@ exports.getFormNameFromComponents = (components) => {
     let formName = '';
     for (let i = 0; i < components.length; i++) {
         let component = components[i];
-        if (component.type === 'form') {
+        if (component.type.toLowerCase() === formEditorConstants.COMPONENT_TYPE_FORM) {
             formName = component.name;
             let j = formName.indexOf('.');
             if (j !== -1) {
@@ -194,3 +195,91 @@ exports.createProjectFile = (opts) => {
     }
     return exports.removeDuplicateEmptyLines(lines);
 };
+
+exports.generateDefinesFromComponents = (formName, components) => {
+    let maxLength = 0;
+    let toString  = function() {
+            /* eslint-disable no-invalid-this */
+            maxLength = Math.max(maxLength, this.name.length);
+            /* eslint-disable no-invalid-this */
+            return this.name;
+        };
+    let defines       = [];
+    let definesByName = {};
+    let addDefine     = function(name, uid) {
+            definesByName[name] = uid;
+            defines.push({
+                line:     '',
+                name:     name,
+                uid:      uid,
+                toString: toString
+            });
+        };
+    formName = exports.getConstantFromName(formName);
+    components.forEach((component) => {
+        if (component.type !== formEditorConstants.COMPONENT_TYPE_FORM) {
+            addDefine(formName + '_' + exports.getConstantFromName(component.name), component.uid);
+        }
+    });
+    defines.sort();
+    let space = '                                                                      ';
+    defines.forEach((define) => {
+        define.line = '#define ' + (define.name + space).substr(0, Math.max(maxLength, define.name.length)) + ' ' + define.uid;
+    });
+    return {
+        definesByName: definesByName,
+        list:          defines
+    };
+};
+
+exports.generateSourceFromComponents = (opts) => {
+    let lines      = [];
+    let components = opts.components;
+    let includes   = exports.generateIncludesFromComponents(components);
+    let formName   = exports.getFormNameFromComponents(components);
+    if (opts.project) {
+        lines.push(
+            '#project "' + formName + '"',
+            '',
+            '#include "lib/standard.whl"',
+            '#include "lib/components/component.whl"'
+        );
+    }
+    includes.forEach((include) => {
+        lines.push('#include "' + include + '"');
+    });
+    let defines = exports.generateDefinesFromComponents(formName, components);
+    lines.push('');
+    defines.list.forEach((define) => {
+        lines.push(define.line);
+    });
+    lines.push(
+        '',
+        '#resource "' + formName + '.wfrm"'
+    );
+    if (formName) {
+        lines.push('');
+        if (opts.createEventComments) {//this._settings.getCreateEventComments()) {
+            lines.push(
+                '; @proc                   Show the form.',
+                '; @ret                    The handle to the form.'
+            );
+        }
+        lines.push(
+            'proc show' + exports.getProcNameFromFilename(formName) + '()',
+            '    ret components.form.show("' + formName + '.wfrm")',
+            'end'
+        );
+    }
+    if (opts.project) {
+        lines.push(
+            '',
+            'proc main()',
+            '    show' + exports.getProcNameFromFilename(formName) + '()',
+            '    halt()',
+            'end'
+        );
+    }
+    return exports.removeDuplicateEmptyLines(lines);
+};
+
