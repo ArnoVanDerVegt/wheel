@@ -33,9 +33,10 @@ exports.FormResource = class extends ProjectResource {
                     data       = JSON.parse(data);
                     this._wfrm = JSON.parse(data.data.wfrm);
                 } catch (error) {
+                    data       = null;
                     this._wfrm = null;
                 }
-                callback({});
+                callback(data);
             }
         );
     }
@@ -51,7 +52,7 @@ exports.FormResource = class extends ProjectResource {
                 (data) => {
                     if (data) {
                         this._wfrm = data;
-                        callback({});
+                        callback(data);
                     } else {
                         this.loadFromDataProvider(callback);
                     }

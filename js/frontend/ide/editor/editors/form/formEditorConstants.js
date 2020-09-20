@@ -121,7 +121,7 @@ const NUMERIC                        = '0123456789';
 const ALPHA                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ALPHA_NUMERIC                  = ALPHA + NUMERIC;
 
-const nameValidator = function(value) {
+const nameValidator = (value) => {
         if ((value.length < 3) || (NUMERIC.indexOf(value[0]) !== -1)) {
             return false;
         }
@@ -134,7 +134,8 @@ const nameValidator = function(value) {
         return true;
     };
 
-const posNumberValidator = function(value) {
+const posNumberValidator = (value) => {
+        value += '';
         if (value.length < 1) {
             return false;
         }
@@ -146,7 +147,8 @@ const posNumberValidator = function(value) {
         return true;
     };
 
-const posNumberOrEmptyValidator = function(value) {
+const posNumberOrEmptyValidator = (value) => {
+        value += '';
         if (value.length < 1) {
             return true;
         }
@@ -158,7 +160,8 @@ const posNumberOrEmptyValidator = function(value) {
         return true;
     };
 
-const numberValidator = function(value) {
+const numberValidator = (value) => {
+        value += '';
         if (!value.length || ((value.length === 1) && (NUMERIC.indexOf(value) === -1))) {
             return false;
         }
@@ -172,11 +175,17 @@ const numberValidator = function(value) {
     };
 
 const posNumberValidatorWithMin = function(min) {
-        return function(value) {
+        return (value) => {
             let result = posNumberValidator(value);
             return result && (parseInt(value, 10) >= min);
         };
     };
+
+exports.nameValidator             = nameValidator;
+exports.posNumberValidator        = posNumberValidator;
+exports.posNumberOrEmptyValidator = posNumberOrEmptyValidator;
+exports.numberValidator           = numberValidator;
+exports.posNumberValidatorWithMin = posNumberValidatorWithMin;
 
 // Component properties...
 exports.PROPERTIES_BY_TYPE = {
