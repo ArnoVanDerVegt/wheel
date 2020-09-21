@@ -41,7 +41,7 @@ exports.HelpDialog = class extends Dialog {
             },
             {
                 ref:       this.setRef('helpFile'),
-                className: 'abs dialog-l dialog-b dialog-r diaog-t help-file',
+                className: 'abs dialog-l dialog-b dialog-r dialog-t help-file',
                 children: [
                     {
                         ref:       this.setRef('helpFileSubjects'),

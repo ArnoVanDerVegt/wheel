@@ -328,7 +328,7 @@ exports.MainMenu = class extends MainMenu {
     initToolsMenu() {
         this._toolsMenu = this.addMenu({
             title: '^Tools',
-            width: '256px',
+            width: '192px',
             items: [
                 {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'}
             ]

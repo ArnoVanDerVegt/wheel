@@ -788,7 +788,7 @@ class HelpBuilder {
     }
 
     addSeparator(parentNode) {
-        new DOMNode({}).create(parentNode, {className: 'breaker'});
+        new DOMNode({}).create(parentNode, {className: 'flt max-w'});
         return this;
     }
 
