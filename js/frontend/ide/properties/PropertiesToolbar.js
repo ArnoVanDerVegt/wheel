@@ -21,7 +21,7 @@ exports.PropertiesToolbar = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'properties-options',
+                className: 'flt max-w properties-options',
                 children:  [
                     {
                         type:      Button,

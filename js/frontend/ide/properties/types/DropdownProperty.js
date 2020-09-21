@@ -11,7 +11,7 @@ exports.DropdownProperty = class extends Property {
         let list = this._options.list;
         return {
             ref:       this.setRef('name'),
-            className: 'property-name' + (list[0].image ? ' image-dropdown' : ''),
+            className: 'flt property-name' + (list[0].image ? ' image-dropdown' : ''),
             innerHTML: this._name
         };
     }
@@ -19,7 +19,7 @@ exports.DropdownProperty = class extends Property {
     initPropertyValue() {
         let list = this._options.list;
         return {
-            className: 'property-value' + (list[0].image ? ' image-dropdown' : ''),
+            className: 'flt property-value' + (list[0].image ? ' image-dropdown' : ''),
             children: [
                 {
                     type:     Dropdown,

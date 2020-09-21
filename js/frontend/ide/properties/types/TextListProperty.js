@@ -41,7 +41,7 @@ class ListItem extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'list-item',
+                className: 'flt max-w list-item',
                 children: [
                     {
                         ref:       this.setRef('title'),
@@ -101,7 +101,7 @@ class ListItem extends DOMNode {
     }
 
     setActive(active) {
-        this._element.className = 'list-item' + (active ? ' active' : '');
+        this._element.className = 'flt max-w list-item' + (active ? ' active' : '');
     }
 
     getTitle(title) {
@@ -203,12 +203,12 @@ exports.TextListProperty = class extends Property {
         );
         return {
             ref:       this.setRef('name'),
-            className: 'property-name',
+            className: 'flt property-name',
             innerHTML: this._name,
             children: [
                 {
                     ref:       this.setRef('listContent'),
-                    className: 'list-content' + (this._options.removeLast ? ' remove-last' : ''),
+                    className: 'abs list-content' + (this._options.removeLast ? ' remove-last' : ''),
                     children:  children
                 }
             ]
@@ -230,13 +230,13 @@ exports.TextListProperty = class extends Property {
     setFocus(focus) {
         let refs = this._refs;
         if (focus) {
-            refs.name.className             = 'property-name list-focus';
-            refs.value.className            = 'property-value list-focus';
+            refs.name.className             = 'flt property-name list-focus';
+            refs.value.className            = 'flt property-value list-focus';
             this._propertyElement.className = 'property focus';
             this._inputElement.focus();
         } else {
-            refs.name.className             = 'property-name';
-            refs.value.className            = 'property-value';
+            refs.name.className             = 'flt property-name';
+            refs.value.className            = 'flt property-value';
             this._propertyElement.className = 'property';
             this.setActiveItem(null);
         }

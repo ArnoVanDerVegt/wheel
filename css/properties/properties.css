@@ -2,7 +2,6 @@ body.ide.no-properties div.properties {
     display:                        none;
 }
 .properties {
-    position:                       absolute;
     right:                          0;
     top:                            40px;
     width:                          304px;
@@ -17,8 +16,6 @@ body.ide.no-properties div.properties {
     z-index:                        100;
 }
 .properties .properties-options {
-    float:                          left;
-    width:                          100%;
     height:                         40px;
     margin:                         0;
     border:                         var(--ui-border1);
@@ -35,10 +32,8 @@ body.ide.no-properties div.properties {
     width:                          calc(100% - 140px);
 }
 .properties .component-uid {
-    position:                       absolute;
     left:                           0;
     top:                            calc(40px + 47px);
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     text-align:                     center;
@@ -52,10 +47,8 @@ body.ide.no-properties div.properties {
 .properties .properties-container,
 .properties .events-container,
 .properties .components-container {
-    position:                       absolute;
     left:                           0;
     top:                            calc(40px + 47px + 32px);
-    width:                          100%;
     height:                         calc(100% - 56px - 47px);
     overflow:                       hidden;
     overflow-y:                     scroll;
@@ -73,20 +66,16 @@ body.ide.no-properties div.properties {
 }
 .properties .properties-container .property-separator,
 .properties .events-container .event-separator {
-    position:                       absolute;
     top:                            0;
     border:                         var(--ui-border1);
     border-width:                   0 1px 0 0;
     border-style:                   dotted;
     width:                          50%;
-    height:                         100%;
     pointer-events:                 none;
     z-index:                        5;
 }
 .properties .properties-container .property,
 .properties .events-container .event {
-    float:                          left;
-    width:                          100%;
     border:                         var(--ui-border1);
     border-width:                   0 0 1px 0;
     border-style:                   dotted;
@@ -95,6 +84,10 @@ body.ide.no-properties div.properties {
 .properties .properties-container .property.focus,
 .properties .events-container .event.focus {
     background-color:               var(--ui-background2);
+}
+.properties .properties-container .property .property-name.image-dropdown,
+.properties .properties-container .property .property-value.image-dropdown {
+    height:                         52px;
 }
 .properties .properties-container .property .property-name,
 .properties .properties-container .property .property-value,

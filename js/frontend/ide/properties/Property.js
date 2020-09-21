@@ -25,14 +25,14 @@ exports.Property = class extends DOMNode {
     initPropertyName() {
         return {
             ref:       this.setRef('name'),
-            className: 'property-name',
+            className: 'flt property-name',
             innerHTML: this._name
         };
     }
 
     initPropertyValue() {
         return {
-            className: 'property-value',
+            className: 'flt property-value',
             innerHTML: this._value
         };
     }
@@ -42,7 +42,7 @@ exports.Property = class extends DOMNode {
             parentNode,
             {
                 id:        this.setPropertyElement.bind(this),
-                className: 'property',
+                className: 'flt max-w property',
                 children:  [
                     this.initPropertyName(),
                     this.initPropertyValue()
@@ -67,11 +67,11 @@ exports.Property = class extends DOMNode {
     }
 
     onFocus() {
-        this._propertyElement.className = 'property focus';
+        this._propertyElement.className = 'flt max-w property focus';
         this._properties.focusProperty(this);
     }
 
     onBlur() {
-        this._propertyElement.className = 'property';
+        this._propertyElement.className = 'flt max-w property';
     }
 };

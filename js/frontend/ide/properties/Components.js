@@ -65,7 +65,7 @@ exports.Components = class extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('container'),
-                className: 'flt max-w components-container',
+                className: 'abs max-w components-container',
                 children:  [
                     {
                         className: 'components-content',
