@@ -240,7 +240,6 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'StatusLight'))
             .addProperty(component, 'zIndex',       0)
-            .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'color',        component.color || 'gray');
         return component;
     }
@@ -250,7 +249,6 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_PROGRESS_BAR)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'ProgressBar'))
             .addProperty(component, 'zIndex',       0)
-            .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'width',        100)
             .addProperty(component, 'value',        50);
         return component;
@@ -261,7 +259,6 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LOADING_DOTS)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'LoadingDots'))
             .addProperty(component, 'zIndex',       0)
-            .addProperty(component, 'text',         component.text  || component.name)
             .addProperty(component, 'color',        component.color || 'gray');
         return component;
     }
