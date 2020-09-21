@@ -154,6 +154,9 @@ exports.DeviceListState = class extends Emitter {
     onRemoveDevice(index) {
         let list = this._list;
         list.splice(this._activeIndex, 1);
+        list.forEach((device, index) => {
+            device.setIndex(index);
+        });
         this.emit('RemoveDevice', index);
         if (this._activeIndex >= list.length) {
             this._activeIndex = list.length - 1;

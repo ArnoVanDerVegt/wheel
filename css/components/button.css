@@ -205,6 +205,7 @@ input[type="button"].button {
 }
 input[type="button"].button.focus {
     border:                         var(--focus-border-dotted);
+    box-shadow:                     0 0 4px var(--focus-outline-color);
 }
 
 /* Icon button */

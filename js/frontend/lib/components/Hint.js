@@ -34,6 +34,10 @@ exports.Hint = class extends Component {
                         className: 'title'
                     },
                     {
+                        ref:       this.setRef('namespace'),
+                        className: 'namespace'
+                    },
+                    {
                         id:        this.setPreElement.bind(this),
                         type:      'pre',
                         className: 'wheel'
@@ -93,11 +97,18 @@ exports.Hint = class extends Component {
     getHintFromProc(hintInfo, proc) {
         let params    = proc.getVars();
         let paramList = [];
-        let name      = proc.getName().split('~').join('.');
-        hintInfo.type    = 'proc';
-        hintInfo.token   = proc.getToken();
-        hintInfo.hasMore = false;
-        hintInfo.length = name.length + 1;
+        let nameParts = proc.getName().split('~');
+        let name      = nameParts[nameParts.length - 1];
+        let namespace = false;
+        if (nameParts.length > 1) {
+            nameParts.pop();
+            namespace = nameParts.join('.');
+        }
+        hintInfo.type      = 'proc';
+        hintInfo.namespace = namespace;
+        hintInfo.token     = proc.getToken();
+        hintInfo.hasMore   = false;
+        hintInfo.length    = name.length + 1;
         for (let i = 2; i < proc.getParamCount() + 2; i++) {
             if (hintInfo.length > 80) {
                 hintInfo.hasMore = true;
@@ -118,11 +129,18 @@ exports.Hint = class extends Component {
     getHintFromRecord(hintInfo, record) {
         let fields    = record.getVars();
         let fieldList = [];
-        let name      = record.getName().split('~').join('.');
-        hintInfo.type    = 'record';
-        hintInfo.token   = record.getToken();
-        hintInfo.hasMore = false;
-        hintInfo.length = name.length + 3;
+        let nameParts = proc.getName().split('~');
+        let name      = nameParts[nameParts.length - 1];
+        let namespace = false;
+        if (nameParts.length > 1) {
+            nameParts.pop();
+            namespace = nameParts.join('.');
+        }
+        hintInfo.type      = 'record';
+        hintInfo.namespace = namespace;
+        hintInfo.token     = record.getToken();
+        hintInfo.hasMore   = false;
+        hintInfo.length    = name.length + 3;
         for (let i = 0; i < fields.length; i++) {
             if (hintInfo.length > 80) {
                 hintInfo.hasMore = true;
@@ -172,8 +190,15 @@ exports.Hint = class extends Component {
                 }
             }
         }
+        let refs = this._refs;
         if (hintInfo.hint !== '') {
-            this._refs.title.innerHTML      = hintInfo.type;
+            if (hintInfo.namespace) {
+                refs.namespace.innerHTML     = 'namespace: <i>' + hintInfo.namespace + '</>';
+                refs.namespace.style.display = 'block';
+            } else {
+                refs.namespace.style.display = 'none';
+            }
+            refs.title.innerHTML            = hintInfo.type;
             this._locationElement.innerHTML = this.getLocationInfo(hintInfo.token);
         }
         return hintInfo.hint;

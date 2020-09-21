@@ -9,17 +9,23 @@
     padding:                        8px;
 }
 .hint .title,
+.hint .namespace,
 .hint .location {
     float:                          left;
     clear:                          both;
     width:                          100%;
     color:                          var(--ui-text1);
 }
+.hint .namespace,
+.hint .location {
+    font-size:                      12px;
+}
+.hint .namespace {
+    margin-bottom:                  4px;
+}
 .hint .location {
     margin-top:                     4px;
     font-style:                     italic;
-    font-size:                      12px;
-    color:                          var(--ui-text1);
 }
 .hint pre.wheel {
     float:                          left;
