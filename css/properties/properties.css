@@ -107,6 +107,10 @@ body.ide.no-properties div.properties {
     line-height:                    28px;
     padding:                        0;
 }
+.properties .properties-container .property .property-name.image-dropdown,
+.properties .properties-container .property .property-value.image-dropdown {
+    height:                         52px;
+}
 .properties .properties-container .property .property-name,
 .properties .events-container .event .event-name {
     padding:                        0 0 0 8px;

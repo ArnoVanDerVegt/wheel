@@ -28,34 +28,34 @@ exports.PoweredUpDevice = class extends BasicIODevice {
         this._device = device;
         switch (device) {
             case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
-                image             = 'images/poweredup/motor.png';
+                image             = 'images/poweredup/motor64.png';
                 this._canSetValue = false;
                 this._canSetReady = false;
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
-                image = 'images/poweredup/train.png';
+                image = 'images/poweredup/train64.png';
                 this._canSetValue = false;
                 this._canSetReady = false;
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR:
-                image             = 'images/poweredup/motorM.png';
+                image             = 'images/poweredup/motorM64.png';
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR:
-                image             = 'images/poweredup/moveHub.png';
+                image             = 'images/poweredup/moveHub64.png';
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR:
-                image             = 'images/poweredup/motorL.png';
+                image             = 'images/poweredup/motorL64.png';
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR:
-                image             = 'images/poweredup/motorXl.png';
+                image             = 'images/poweredup/motorXl64.png';
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS:
-                image             = 'images/poweredup/light.png';
+                image             = 'images/poweredup/light64.png';
                 this._canSetValue = false;
                 this._canSetReady = false;
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE:
-                image = 'images/poweredup/lightSensor.png';
+                image = 'images/poweredup/lightSensor64.png';
                 this._canSetReady = false;
                 this._canSetSpeed = false;
                 this._canSetColor = this._colorMode;
