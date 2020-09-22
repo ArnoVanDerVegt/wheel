@@ -25,4 +25,3 @@ The tools to pack all files can be found in the `tools` directory:
 * Update images: `$ node images.js`
 * Update template files: `$ node template.js`
 * Pack and minifiy the js and css files: `$ node template.js`
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/nzbin/photoviewer/blob/master/LICENSE)
