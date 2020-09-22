@@ -319,10 +319,6 @@ exports.SettingsState = class extends Emitter {
         return this._show.ev3ImageTile;
     }
 
-    getShowEV3ImageTile() {
-        return this._show.ev3ImageTile;
-    }
-
     getShowPoweredUpTile() {
         return this._show.poweredUpTile;
     }
@@ -419,7 +415,6 @@ exports.SettingsState = class extends Emitter {
             case '.bmp':  return this._imageOpen.bmp;
             case '.png':  return this._imageOpen.png;
             case '.jpg':  return this._imageOpen.jpg;
-            case '.jpeg': return this._imageOpen.jpeg;
             case '.gif':  return this._imageOpen.gif;
         }
         return IMAGE_OPEN_ASK;
