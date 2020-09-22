@@ -6,6 +6,12 @@ const platform   = require('../../lib/platform');
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Emitter    = require('../../lib/Emitter').Emitter;
 
+const INCLUDE_FILE_TYPE_GENERAL = 'General';
+const INCLUDE_FILE_TYPE_EV3     = 'EV3';
+
+exports.INCLUDE_FILE_TYPE_GENERAL = INCLUDE_FILE_TYPE_GENERAL;
+exports.INCLUDE_FILE_TYPE_EV3     = INCLUDE_FILE_TYPE_EV3;
+
 exports.IncludeFilesState = class extends Emitter {
     constructor(opts) {
         super(opts);
@@ -23,18 +29,18 @@ exports.IncludeFilesState = class extends Emitter {
 
     getDefaultIncludeFiles() {
         return [
-            {file: 'lib/bit.whl',      type: 'General', description: 'Binary operations like `and` and `or`'},
-            {file: 'lib/button.whl',   type: 'EV3',     description: 'Read EV3 buttons'},
-            {file: 'lib/file.whl',     type: 'EV3',     description: 'Read and write files'},
-            {file: 'lib/light.whl',    type: 'EV3',     description: 'Control the EV3 light'},
-            {file: 'lib/math.whl',     type: 'General', description: 'Math functions: `round`, `sin`, etc...'},
-            {file: 'lib/motor.whl',    type: 'General', description: 'Control motors'},
-            {file: 'lib/screen.whl',   type: 'EV3',     description: 'Drawing functions'},
-            {file: 'lib/sensor.whl',   type: 'General', description: 'Read sensors'},
-            {file: 'lib/sound.whl',    type: 'EV3',     description: 'Play tones and samples'},
-            {file: 'lib/standard.whl', type: 'General', description: 'Standard functions'},
-            {file: 'lib/string.whl',   type: 'General', description: 'String functions'},
-            {file: 'lib/system.whl',   type: 'EV3',     description: 'Access to EV3 system functions'}
+            {file: 'lib/bit.whl',      type: INCLUDE_FILE_TYPE_GENERAL, description: 'Binary operations like `and` and `or`'},
+            {file: 'lib/button.whl',   type: INCLUDE_FILE_TYPE_EV3,     description: 'Read EV3 buttons'},
+            {file: 'lib/file.whl',     type: INCLUDE_FILE_TYPE_EV3,     description: 'Read and write files'},
+            {file: 'lib/light.whl',    type: INCLUDE_FILE_TYPE_EV3,     description: 'Control the EV3 light'},
+            {file: 'lib/math.whl',     type: INCLUDE_FILE_TYPE_GENERAL, description: 'Math functions: `round`, `sin`, etc...'},
+            {file: 'lib/motor.whl',    type: INCLUDE_FILE_TYPE_GENERAL, description: 'Control motors'},
+            {file: 'lib/screen.whl',   type: INCLUDE_FILE_TYPE_EV3,     description: 'Drawing functions'},
+            {file: 'lib/sensor.whl',   type: INCLUDE_FILE_TYPE_GENERAL, description: 'Read sensors'},
+            {file: 'lib/sound.whl',    type: INCLUDE_FILE_TYPE_EV3,     description: 'Play tones and samples'},
+            {file: 'lib/standard.whl', type: INCLUDE_FILE_TYPE_GENERAL, description: 'Standard functions'},
+            {file: 'lib/string.whl',   type: INCLUDE_FILE_TYPE_GENERAL, description: 'String functions'},
+            {file: 'lib/system.whl',   type: INCLUDE_FILE_TYPE_EV3,     description: 'Access to EV3 system functions'}
         ];
     }
 
