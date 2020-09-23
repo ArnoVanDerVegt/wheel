@@ -32,7 +32,7 @@ exports.UndoStack = class {
         }
         let undoStack = this._undoStack;
         let lastItem  = undoStack.length ? undoStack[undoStack.length - 1] : null;
-        if (lastItem) {
+        if (lastItem && (lastItem.action === item.action)) {
             switch (lastItem.action) {
                 case formEditorConstants.ACTION_CHANGE_POSITION:
                     if (lastItem.id === item.id) {
@@ -40,7 +40,7 @@ exports.UndoStack = class {
                     }
                     break;
                 case formEditorConstants.ACTION_CHANGE_PROPERTY:
-                    if ((lastItem.id === item.id) && (lastItem.property === item.property)) {
+                    if (lastItem.property === item.property) {
                         return this;
                     }
                     break;

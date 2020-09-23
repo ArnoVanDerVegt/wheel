@@ -222,7 +222,7 @@ exports.FormEditorState = class extends Emitter {
         this._undoStack.undoStackPush({
             action:   formEditorConstants.ACTION_CHANGE_POSITION,
             id:       id,
-            position: {x: component.x, y: component.y}
+            position: {x: component.x || 0, y: component.y || 0}
         });
         let formGridSize = this._settings.getFormGridSize();
         if (formGridSize) {

@@ -94,7 +94,8 @@ const getFormEditorState0 = () => {
             initTime:            2,
             path:                'hello/world',
             filename:            'test.wfrm',
-            data:                EMPTY_FORM
+            data:                EMPTY_FORM,
+            settings:            {getFormGridSize() { return 10; }}
         });
     };
 
@@ -104,7 +105,8 @@ const getFormEditorState1 = () => {
             initTime:            2,
             path:                'hello/world',
             filename:            'test.wfrm',
-            data:                FORM_WITH_ONE_COMPONENT
+            data:                FORM_WITH_ONE_COMPONENT,
+            settings:            {getFormGridSize() { return 10; }}
         });
     };
 
@@ -114,7 +116,8 @@ const getFormEditorState2 = () => {
             initTime:            2,
             path:                'hello/world',
             filename:            'test.wfrm',
-            data:                FORM_WITH_TWO_COMPONENTS
+            data:                FORM_WITH_TWO_COMPONENTS,
+            settings:            {getFormGridSize() { return 10; }}
         });
     };
 
@@ -172,6 +175,7 @@ describe(
                                 assert.equal(formEditorState.getFormName(), 'label');
                                 let data = formEditorState.getData();
                                 assert.equal(data[0].id, 1);
+                                assert.equal(formEditorState.getFormComponent().name, 'label');
                                 done();
                             }
                         );
@@ -406,6 +410,205 @@ describe(
                             }
                         );
                         assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test setting a position',
+            () => {
+                it(
+                    'Should set component position',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                delete component.uid;
+                                assert.deepEqual(
+                                    component,
+                                    {
+                                        type:       'label',
+                                        id:         4,
+                                        tabIndex:   0,
+                                        hidden:     false,
+                                        disabled:   false,
+                                        name:       'Label2',
+                                        zIndex:     0,
+                                        text:       'Label2',
+                                        halign:     'left',
+                                        x:          10,
+                                        y:          20
+                                    }
+                                );
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should set component position, align to grid',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 15, y: 25});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                delete component.uid;
+                                assert.deepEqual(
+                                    component,
+                                    {
+                                        type:       'label',
+                                        id:         4,
+                                        tabIndex:   0,
+                                        hidden:     false,
+                                        disabled:   false,
+                                        name:       'Label2',
+                                        zIndex:     0,
+                                        text:       'Label2',
+                                        halign:     'left',
+                                        x:          20,
+                                        y:          30
+                                    }
+                                );
+                                done();
+                            }
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test changing a property',
+            () => {
+                it(
+                    'Should change zIndex',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'zIndex', 123);
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 123);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change zIndex and undo',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                // Set position to add an extra item on the undo stack...
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 0);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'zIndex', 123);
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 123);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 0);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change component name',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'name', 'newName');
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.name, 'newName');
+                                done();
+                            }
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test changing an event',
+            () => {
+                it(
+                    'Should change event',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', 'onClickEvent');
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onClickEvent');
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should remote event',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', 'onClickEvent');
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onClickEvent');
+                                dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', false);
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal('onClick' in component, false);
+                                done();
+                            }
+                        );
                     }
                 );
             }
