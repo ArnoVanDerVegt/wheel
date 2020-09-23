@@ -2,11 +2,31 @@
     position:                       absolute;
     z-index:                        5000;
     background-color:               var(--ui-background1);
-    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow:                     1px 1px 5px rgba(0, 0, 0, 0.5);
     display:                        none;
     pointer-events:                 none;
     margin:                         0;
     padding:                        8px;
+}
+.hint.with-image {
+    padding-left:                   88px;
+    min-height:                     88px;
+}
+.hint.with-image .image-wrapper {
+    position:                       absolute;
+    left:                           8px;
+    top:                            8px;
+    width:                          72px;
+    height:                         72px;
+    border-radius:                  2px;
+    background-color:               #D0D4D8;
+}
+.hint.with-image img {
+    position:                       absolute;
+    left:                           4px;
+    top:                            4px;
+    width:                          64px;
+    height:                         64px;
 }
 .hint .title,
 .hint .namespace,

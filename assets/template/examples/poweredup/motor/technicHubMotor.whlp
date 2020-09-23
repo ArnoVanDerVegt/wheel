@@ -17,7 +17,7 @@ proc main()
     selectDevice(DEVICE_POWERED_UP)
 
     ; Select the Move Hub device...
-    poweredUpSetDevice(LAYER_1, POWERED_UP_TECHNIC_MEDIUM_HUB)
+    poweredUpSetDevice(LAYER_1, POWERED_UP_TECHNIC_HUB)
 
     ; Select the motor type...
     motorLayerSetType(LAYER_1, OUTPUT_A, POWERED_UP_DEVICE_BOOST_TACHO_MOTOR)

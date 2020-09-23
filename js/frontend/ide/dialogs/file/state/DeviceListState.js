@@ -176,4 +176,19 @@ exports.DeviceListState = class extends Emitter {
     getList() {
         return this._list;
     }
+
+    toJSON() {
+        let result = [];
+        this._list.forEach((device) => {
+            let item = {
+                    type:  device.getType(),
+                    ports: []
+                };
+            ['A', 'B', 'C', 'D'].forEach((port) => {
+                item.ports.push(device.getPortInfo(port));
+            });
+            result.push(item);
+        });
+        return JSON.parse(JSON.stringify(result));
+    }
 };

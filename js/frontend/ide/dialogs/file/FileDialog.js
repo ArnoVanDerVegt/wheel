@@ -76,6 +76,7 @@ exports.FileDialog = class extends Dialog {
         let lines = sourceBuilderUtils.createProjectFile({
                 description:  opts.description,
                 includeFiles: opts.includeFiles,
+                poweredUp:    opts.poweredUp,
                 createForm:   createForm,
                 filename:     filename
             });

@@ -140,7 +140,8 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
                     formWidth:    stepContentElements[4].getFormWidth(),
                     formHeight:   stepContentElements[4].getFormHeight(),
                     filename:     stepContentElements[5].getFilename(),
-                    description:  stepContentElements[5].getDescription()
+                    description:  stepContentElements[5].getDescription(),
+                    poweredUp:    this._deviceList.toJSON()
                 });
                 this.hide();
                 break;

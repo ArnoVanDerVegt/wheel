@@ -2,8 +2,30 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const path                = require('../../lib/path');
-const formEditorConstants = require('../editor/editors/form/formEditorConstants');
+const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const path                     = require('../../lib/path');
+const formEditorConstants      = require('../editor/editors/form/formEditorConstants');
+
+let deviceTypeConst = {};
+deviceTypeConst[poweredUpModuleConstants.POWERED_UP_DEVICE_HUB        ] = 'POWERED_UP_HUB';
+deviceTypeConst[poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB   ] = 'POWERED_UP_MOVE_HUB';
+deviceTypeConst[poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB] = 'POWERED_UP_TECHNIC_HUB';
+deviceTypeConst[poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE     ] = 'POWERED_UP_REMOTE_CONTROL';
+
+let deviceTypeTitle = {};
+deviceTypeTitle[poweredUpModuleConstants.POWERED_UP_DEVICE_HUB        ] = 'Hub';
+deviceTypeTitle[poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB   ] = 'Move hub';
+deviceTypeTitle[poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_HUB] = 'Technic hub';
+deviceTypeTitle[poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE     ] = 'Remote control';
+
+let devicePortType = {};
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR              ] = 'POWERED_UP_DEVICE_BASIC_MOTOR';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR        ] = 'POWERED_UP_DEVICE_BOOST_TACHO_MOTOR';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR ] = 'POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR] = 'POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR              ] = 'POWERED_UP_DEVICE_TRAIN_MOTOR';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS               ] = 'POWERED_UP_DEVICE_LED_LIGHTS';
+devicePortType[poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE           ] = 'POWERED_UP_DEVICE_BOOST_DISTANCE';
 
 exports.getProcNameFromFilename = (filename) => {
     let result = '';
@@ -138,6 +160,7 @@ exports.updateLinesWithIncludes = (lines, opts) => {
 };
 
 const addIncludes = (lines, includeFiles) => {
+        includeFiles.sort();
         for (let i = 0; i < includeFiles.length; i++) {
             lines.push('#include "' + includeFiles[i] + '"');
         }
@@ -162,43 +185,117 @@ exports.removeDuplicateEmptyLines = (lines) => {
     return result;
 };
 
+exports.createPoweredUpSetup = (lines, poweredUp) => {
+    const ports = ['A', 'B', 'C', 'D'];
+    poweredUp.forEach((device, index) => {
+        let layerIndex = index + 1;
+        lines.push(
+            '',
+            '; Initialize the `' + deviceTypeTitle[device.type] + '` device.',
+            'proc initDevice' + layerIndex + '()',
+            '    ; Set the device type:',
+            '    poweredUpSetDevice(LAYER_' + layerIndex + ', ' + deviceTypeConst[device.type] + ')'
+        );
+        let first     = true;
+        let portCount = 0;
+        device.ports.forEach((portInfo, portIndex) => {
+            if (portInfo.enabled && portInfo.available && (portInfo.type in devicePortType)) {
+                portCount++;
+            }
+        });
+        device.ports.forEach((portInfo, portIndex) => {
+            if (portInfo.enabled && portInfo.available && (portInfo.type in devicePortType)) {
+                if (first) {
+                    lines.push(
+                        '    ; Configure the port' + ((portCount > 1) ? 's' : '') + '...',
+                        ''
+                    );
+                    first = false;
+                }
+                lines.push('');
+                let layer = 'LAYER_' + layerIndex;
+                let port  = ports[portIndex];
+                if (portInfo.type === poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE) {
+                    lines.push(
+                        '    ; Select the color/distance sensor:',
+                        '    sensorLayerSetType(' + layer + ', OUTPUT_' + port + ', ' + devicePortType[portInfo.type] + ')',
+                        '    ; Set the mode to `POWERED_UP_SENSOR_MODE_DISTANCE` or `POWERED_UP_SENSOR_MODE_COLOR`...',
+                        '    sensorLayerSetMode(' + layer + ', OUTPUT_' + port + ', POWERED_UP_SENSOR_MODE_DISTANCE)'
+                    );
+                } else {
+                    lines.push(
+                        '    ; Set the motor type:',
+                        '    motorLayerSetType(' + layer + ', OUTPUT_' + port + ', ' + devicePortType[portInfo.type] + ')',
+                        '    ; Set brake style to `MOTOR_COAST` or `MOTOR_BRAKE`...',
+                        '    motorLayerSetBrake(' + layer + ', OUTPUT_' + port + ', MOTOR_BRAKE)',
+                        '    motorLayerSetSpeed(' + layer + ', OUTPUT_' + port + ', 50)'
+                    );
+                }
+            }
+        });
+        lines.push(
+            'end',
+            ''
+        );
+    });
+};
+
 exports.createProjectFile = (opts) => {
     let lines           = ['#project "' + opts.description + '"', ''];
     let pathAndFilename = path.getPathAndFilename(opts.filename);
     let includeFiles    = opts.includeFiles;
     let formFilename;
     let formName;
+    const addToIncludeFiles = (filename) => {
+            if (includeFiles.indexOf(filename) === -1) {
+                includeFiles.push(filename);
+            }
+        };
     if (opts.createForm) {
         formFilename = path.replaceExtension(path.getPathAndFilename(opts.filename).filename, '.wfrm');
         formName     = path.replaceExtension(formFilename, '');
-        if (includeFiles.indexOf('lib/standard.whl') === -1) {
-            includeFiles.push('lib/standard.whl');
-        }
-        if (includeFiles.indexOf('lib/components/component.whl') === -1) {
-            includeFiles.push('lib/components/component.whl');
-        }
-        if (includeFiles.indexOf('lib/components/form.whl') === -1) {
-            includeFiles.push('lib/components/form.whl');
-        }
+        addToIncludeFiles('lib/standard.whl');
+        addToIncludeFiles('lib/components/component.whl');
+        addToIncludeFiles('lib/components/form.whl');
+    }
+    if (opts.poweredUp) {
+        addToIncludeFiles('lib/device.whl');
+        addToIncludeFiles('lib/poweredUp.whl');
+        addToIncludeFiles('lib/motor.whl');
+        addToIncludeFiles('lib/sensor.whl');
     }
     addIncludes(lines, includeFiles);
     if (opts.createForm) {
         lines.push.apply(lines, exports.getFormCode(formFilename));
+    }
+    if (opts.poweredUp) {
+        exports.createPoweredUpSetup(lines, opts.poweredUp);
+    }
+    if (!opts.createForm && !opts.poweredUp) {
+        lines.push('');
+    }
+    lines.push('proc main()');
+    if (opts.poweredUp) {
         lines.push(
-            'proc main()',
-            '    ' + exports.getShowProcNameFromFormName(formName) + '()',
-            '    halt()',
-            'end'
+            '    ; Select the Powered Up mode in the simulator:',
+            '    selectDevice(DEVICE_POWERED_UP)',
+            '',
+            '    ; Initialize the Powered Up device' + ((opts.poweredUp.length > 1) ? 's' : '') + '.'
         );
-    } else {
-        if (includeFiles.length) {
+        opts.poweredUp.forEach((device, index) => {
+            lines.push('    initDevice' + (index + 1) + '()');
+        });
+    }
+    if (opts.createForm) {
+        if (opts.poweredUp) {
             lines.push('');
         }
         lines.push(
-            'proc main()',
-            'end'
+            '    ' + exports.getShowProcNameFromFormName(formName) + '()',
+            '    halt()'
         );
     }
+    lines.push('end');
     return exports.removeDuplicateEmptyLines(lines);
 };
 

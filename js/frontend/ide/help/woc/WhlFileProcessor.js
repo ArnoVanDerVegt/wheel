@@ -104,7 +104,24 @@ exports.WhlFileProcessor = class extends FileProcessor {
             let i     = constLine.indexOf(' ');
             let key   = constLine.substr(0, i).trim();
             let value = constLine.substr(i, constLine.length - i).trim();
-            constant.values.push({key: key, value: value});
+            let image = false;
+            let j     = value.indexOf(';');
+            if (j !== -1) {
+                image = value.substr(j + 1 - value.length).trim();
+                value = value.substr(0, j).trim();
+                if (image.substr(0, 7) === '`image:') {
+                    image = image.substr(7 - image.length);
+                    j     = image.indexOf('`');
+                    if (j === -1) {
+                        image = false;
+                    } else {
+                        image = image.substr(0, j);
+                    }
+                } else {
+                    image = false;
+                }
+            }
+            constant.values.push({key: key, value: value, image: image});
             nextLine = this.peekLine(true);
             this.addKeyword(this.getCleanName(key), constant);
         }

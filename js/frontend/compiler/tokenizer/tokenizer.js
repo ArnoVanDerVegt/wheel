@@ -88,6 +88,9 @@
     const TOKEN_COMMENT             = 20;
     const TOKEN_WHITE_SPACE         = 21;
 
+    const TAG_IMAGE                 = 'image';
+    const TAGS                      = [TAG_IMAGE];
+
     exports.LEXEME_NAMESPACE          = LEXEME_NAMESPACE;
     exports.LEXEME_PROC               = LEXEME_PROC;
     exports.LEXEME_NUMBER             = LEXEME_NUMBER;
@@ -246,10 +249,11 @@
         }
 
         reset() {
-            this._lexeme  = '';
-            this._tokens  = [];
-            this._offset  = 0;
-            this._lineNum = 1;
+            this._lastNonWhiteSpaceToken = null;
+            this._lexeme                 =  '';
+            this._tokens                 = [];
+            this._offset                 = 0;
+            this._lineNum                = 1;
             return this;
         }
 
@@ -355,6 +359,9 @@
                 token.cls   = TOKEN_NUMBER;
                 token.value = parseFloat(lexeme);
             }
+            if (token.cls !== TOKEN_WHITE_SPACE) {
+                this._lastNonWhiteSpaceToken = token;
+            }
             this._lexeme = '';
             token.index  = this._tokens.length;
             this._tokens.push(token);
@@ -431,6 +438,32 @@
                 }
             }
             return lines.join('\n');
+        }
+
+        parseTag(comment) {
+            if ((comment.length < 2) || (comment[0] !== '`')) {
+                return null;
+            }
+            let i = comment.indexOf('`');
+            comment = comment.substr(i + 1 - comment.length);
+            i       = comment.indexOf('`');
+            if (i === -1) {
+                return null;
+            }
+            comment = comment.substr(0, i);
+            i       = comment.indexOf(':');
+            if (i === -1) {
+                return null;
+            }
+            let tag  = comment.substr(0, i);
+            let data = comment.substr(i + 1 - comment.length);
+            if (TAGS.indexOf(tag) === -1) {
+                return null;
+            }
+            return {
+                name: tag,
+                data: data
+            };
         }
 
         tokenize(line) {
@@ -556,13 +589,20 @@
                         break;
                     case LEXEME_SEMICOLON:
                         this.addToken();
+                        let comment = '';
                         while (c !== null) {
                             c = this.readChar();
                             if (c === LEXEME_NEWLINE) {
+                                if (this._lastNonWhiteSpaceToken) {
+                                    this._lastNonWhiteSpaceToken.tag = this.parseTag(comment.trim());
+                                    this._lastNonWhiteSpaceToken     = null;
+                                }
                                 this.addToken(c);
                                 this._index--;
                                 this._lineNum++;
                                 break;
+                            } else {
+                                comment += c;
                             }
                         }
                         break;

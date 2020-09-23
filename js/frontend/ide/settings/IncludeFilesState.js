@@ -74,9 +74,16 @@ exports.IncludeFilesState = class extends Emitter {
             includeFileByFile[includeFile.file] = includeFile;
         });
         this.loadDefaults();
-        let includeFiles = this._includeFiles;
+        let includeFiles             = this._includeFiles;
+        let defaultIncludeFileByFile = {};
+        this.getDefaultIncludeFiles().forEach((includeFile) => {
+            defaultIncludeFileByFile[includeFile.file] = includeFile;
+        });
         data.forEach(function(includeFile) {
             if (('file' in includeFile) && ('description' in includeFile)) {
+                if (includeFile.file in defaultIncludeFileByFile) {
+                    return;
+                }
                 if (includeFileByFile[includeFile.file]) {
                     includeFile.type = includeFileByFile[includeFile.file].type;
                 }

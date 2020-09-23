@@ -6,11 +6,15 @@
 ; @const The device module.
 #define MODULE_DEVICE     12
 
-; @const The avaialable layers.
+; @const The avaialable layers, layers 5..8 are only available for Powered Up.
 #define LAYER_1            0
 #define LAYER_2            1
 #define LAYER_3            2
 #define LAYER_4            3
+#define LAYER_5            4
+#define LAYER_6            5
+#define LAYER_7            6
+#define LAYER_8            7
 
 ; @const The avaialable types of devices.
 #define DEVICE_EV3         0

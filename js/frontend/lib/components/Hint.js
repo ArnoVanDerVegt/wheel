@@ -4,7 +4,8 @@
 **/
 const dispatcher = require('../dispatcher').dispatcher;
 const Component  = require('./Component').Component;
-const path       = require('../../lib/path');
+const path       = require('../path');
+const getImage   = require('../../ide/data/images').getImage;
 
 exports.Hint = class extends Component {
     constructor(opts) {
@@ -13,6 +14,7 @@ exports.Hint = class extends Component {
         this._baseClassName = 'hint';
         this._hidden        = true;
         this._hint          = '';
+        this._hintImage     = false;
         this._database      = {preProcessor: null, compiler: null};
         this.initDOM(opts.parentNode);
         dispatcher
@@ -29,6 +31,16 @@ exports.Hint = class extends Component {
                 id:        this.setElement.bind(this),
                 className: this.getClassName(),
                 children: [
+                    {
+                        ref:       this.setRef('imageWrapper'),
+                        className: 'image-wrapper',
+                        children: [
+                            {
+                                ref:  this.setRef('image'),
+                                type: 'img'
+                            }
+                        ]
+                    },
                     {
                         ref:       this.setRef('title'),
                         className: 'title'
@@ -157,8 +169,12 @@ exports.Hint = class extends Component {
 
     getHintFromDefine(hintInfo, define) {
         let value = define.value + '';
-        hintInfo.token = define.token;
-        hintInfo.hint  = this.getSpan(hintInfo, define.key, 'define') + this.getSpan(hintInfo, ' = ', 'operator');
+        let token = define.token;
+        hintInfo.token  = token;
+        hintInfo.hint   = this.getSpan(hintInfo, define.key, 'define') + this.getSpan(hintInfo, ' = ', 'operator');
+        if (token.tag && (token.tag.name === 'image')) {
+            this._hintImage = token.tag.data;
+        }
         if (value.substr(0, 1) === '"') {
             hintInfo.hint += this.getSpan(hintInfo, value, 'string');
         } else {
@@ -213,16 +229,32 @@ exports.Hint = class extends Component {
         this._database.files   = database.files;
     }
 
+    showImage(hintImage) {
+        let refs         = this._refs;
+        let image        = refs.image;
+        let imageWrapper = refs.imageWrapper;
+        if (this._hintImage) {
+            imageWrapper.style.display = 'block';
+            image.src                  = getImage(this._hintImage);
+        } else {
+            imageWrapper.style.display = 'none';
+        }
+    }
+
     onShow(opts) {
         if (!this._database.compiler) {
             return;
         }
         let measure = false;
         if (this._hint !== opts.hint) {
+            this._hintImage     = false;
             let hint = this.getHint(opts);
             if (hint === '') {
                 return;
             }
+            this.showImage(this._hintImage);
+            this._baseClassName        = 'hint' + (this._hintImage ? ' with-image' : '');
+            this._element.className    = this.getClassName();
             this._preElement.innerHTML = hint;
             measure                    = true;
         }

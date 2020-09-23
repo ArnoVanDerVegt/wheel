@@ -75,9 +75,23 @@ class HelpBuilder {
     }
 
     addConstants(parentNode, constant) {
-        let body = [];
+        let body     = [];
+        let hasImage = false;
         constant.values.forEach((value) => {
-            body.push([value.key, value.value]);
+            if (value.image) {
+                hasImage = true;
+            }
+        });
+        constant.values.forEach((value) => {
+            if (hasImage) {
+                if (value.image) {
+                    body.push(['<div class="image-wrapper"><img src="' + getImage(value.image) + '"/></div>', value.key, value.value]);
+                } else {
+                    body.push(['', value.key, value.value]);
+                }
+            } else {
+                body.push([value.key, value.value]);
+            }
         });
         let node = {
                 type: 'p',
@@ -95,7 +109,7 @@ class HelpBuilder {
                     },
                     {
                         type:      Table,
-                        className: 'help-table constants',
+                        className: 'help-table ' + (hasImage ? 'image-' : '') + 'constants',
                         body:      body
                     }
                 ]
