@@ -12,6 +12,7 @@ const Clipboard                              = require('../Clipboard');
 const ToolbarTop                             = require('./toolbar/ToolbarTop').ToolbarTop;
 const ToolbarBottom                          = require('./toolbar/ToolbarBottom').ToolbarBottom;
 const FormEditorState                        = require('./state/FormEditorState').FormEditorState;
+const FormEditorToolbarState                 = require('./state/FormEditorToolbarState').FormEditorToolbarState;
 const formEditorConstants                    = require('./formEditorConstants');
 const FormComponent                          = require('./FormComponent').FormComponent;
 const ContainerIdsForForm                    = require('./ContainerIdsForForm').ContainerIdsForForm;
@@ -19,11 +20,13 @@ const ContainerIdsForForm                    = require('./ContainerIdsForForm').
 exports.FormEditor = class extends Editor {
     constructor(opts) {
         super(opts);
-        opts.containerIdsForForm  = new ContainerIdsForForm();
-        this._containerIdsForForm = opts.containerIdsForForm;
-        this._settings            = opts.settings;
-        this._sourceBuilder       = new SourceBuilder({settings: opts.settings});
-        this._formEditorState     = new FormEditorState(opts);
+        opts.containerIdsForForm     = new ContainerIdsForForm();
+        opts.formEditorToolbarState  = new FormEditorToolbarState(opts);
+        this._formEditorToolbarState = opts.formEditorToolbarState;
+        this._containerIdsForForm    = opts.containerIdsForForm;
+        this._settings               = opts.settings;
+        this._sourceBuilder          = new SourceBuilder({settings: opts.settings});
+        this._formEditorState        = new FormEditorState(opts);
         this._formEditorState
             .on('ChangeForm',      this, this.onChangeForm)
             .on('ChangeEvent',     this, this.onChangeEvent)
@@ -253,15 +256,15 @@ exports.FormEditor = class extends Editor {
             refs.ioTools.getElement().style.display        = (component === 5) ? 'block' : 'none';
             refs.dialogTools.getElement().style.display    = (component === 6) ? 'block' : 'none';
             refs.nonVisualTools.getElement().style.display = (component === 7) ? 'block' : 'none';
-            formEditorState.setComponentTypes(components[component]);
-            dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorState.getActiveComponentIndices());
+            this._formEditorToolbarState.setComponentTypes(components[component]);
+            dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorToolbarState.getActiveComponentIndices());
         }
     }
 
     onSelectInputComponent(component) {
         const components = formEditorConstants.INPUT_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setInputComponent(components[component]);
+            this._formEditorToolbarState.setInputComponent(components[component]);
             this.updateComponentPanel(0, component);
         }
     }
@@ -269,7 +272,7 @@ exports.FormEditor = class extends Editor {
     onSelectTextComponent(component) {
         const components = formEditorConstants.TEXT_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setTextComponent(components[component]);
+            this._formEditorToolbarState.setTextComponent(components[component]);
             this.updateComponentPanel(1, component);
         }
     }
@@ -277,7 +280,7 @@ exports.FormEditor = class extends Editor {
     onSelectPanelComponent(component) {
         const components = formEditorConstants.PANEL_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setPanelComponent(components[component]);
+            this._formEditorToolbarState.setPanelComponent(components[component]);
             this.updateComponentPanel(2, component);
         }
     }
@@ -285,7 +288,7 @@ exports.FormEditor = class extends Editor {
     onSelectGraphicsComponent(component) {
         const components = formEditorConstants.GRAPHICS_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setGraphicsComponent(components[component]);
+            this._formEditorToolbarState.setGraphicsComponent(components[component]);
             this.updateComponentPanel(3, component);
         }
     }
@@ -293,7 +296,7 @@ exports.FormEditor = class extends Editor {
     onSelectStatusComponent(component) {
         const components = formEditorConstants.STATUS_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setStatusComponent(components[component]);
+            this._formEditorToolbarState.setStatusComponent(components[component]);
             this.updateComponentPanel(4, component);
         }
     }
@@ -301,7 +304,7 @@ exports.FormEditor = class extends Editor {
     onSelectIOComponent(component) {
         const components = formEditorConstants.IO_DISPLAY_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setIOComponent(components[component]);
+            this._formEditorToolbarState.setIOComponent(components[component]);
             this.updateComponentPanel(5, component);
         }
     }
@@ -309,7 +312,7 @@ exports.FormEditor = class extends Editor {
     onSelectDialogComponent(component) {
         const components = formEditorConstants.DIALOG_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setDialogComponent(components[component]);
+            this._formEditorToolbarState.setDialogComponent(components[component]);
             this.updateComponentPanel(6, component);
         }
     }
@@ -317,7 +320,7 @@ exports.FormEditor = class extends Editor {
     onSelectNonVisualComponent(component) {
         const components = formEditorConstants.NON_VISUAL_COMPONENTS;
         if (component in components) {
-            this._formEditorState.setNonVisualComponent(components[component]);
+            this._formEditorToolbarState.setNonVisualComponent(components[component]);
             this.updateComponentPanel(7, component);
         }
     }
