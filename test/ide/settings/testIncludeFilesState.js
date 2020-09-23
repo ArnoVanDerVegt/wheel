@@ -26,6 +26,13 @@ describe(
             }
         );
         it(
+            'Should get all files',
+            () => {
+                let includeFilesState = new IncludeFilesState({});
+                assert.equal(includeFilesState.getIncludeFiles().length, 12);
+            }
+        );
+        it(
             'Should get EV3 files',
             () => {
                 let includeFilesState = new IncludeFilesState({});
@@ -119,6 +126,29 @@ describe(
                 assert.equal(includeFilesState.toJSON().length, length + 1);
                 dispatcher.dispatch('Settings.Set.IncludeFileDefaults');
                 assert.equal(includeFilesState.toJSON().length, length);
+            }
+        );
+        it(
+            'Should load default',
+            () => {
+                let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
+                let length            = includeFilesState.toJSON().length;
+                dispatcher.dispatch('Settings.Add.IncludeFile');
+                assert.equal(includeFilesState.toJSON().length, length + 1);
+                includeFilesState.load();
+                assert.equal(includeFilesState.toJSON().length, length);
+            }
+        );
+        it(
+            'Should load',
+            () => {
+                let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
+                let length            = includeFilesState.toJSON().length;
+                includeFilesState.load([
+                    {file: 'lib/button1.whl', type: 'EV3', description: 'description1'},
+                    {file: 'lib/button2.whl',              description: 'description2'}
+                ]);
+                assert.equal(includeFilesState.toJSON().length, length + 2);
             }
         );
     }
