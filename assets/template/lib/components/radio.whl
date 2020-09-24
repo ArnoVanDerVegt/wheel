@@ -5,7 +5,7 @@
 namespace components.radio
 
 ; @const The form module.
-#define MODULE_COMPONENT_RADIO        68
+#define MODULE_COMPONENT_RADIO        68    ; `image:images/buttons/radioBlack.svg`
 
 ; @const Module calls for the radio component functions.
 #define RADIO_COMPONENT_SET_HIDDEN     0

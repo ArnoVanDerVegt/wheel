@@ -25,7 +25,7 @@ exports.EV3Sensor = class extends BasicIODevice {
         let image = false;
         switch (device) {
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image             = 'images/ev3/microphone64.png';
+                image             = 'images/ev3/nxtSound64.png';
                 this._canSetValue = true;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:

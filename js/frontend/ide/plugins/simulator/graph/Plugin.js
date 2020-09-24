@@ -140,7 +140,7 @@ class Chart extends DOMNode {
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image = 'images/ev3/microphone64.png';
+                image = 'images/ev3/nxtSound64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 100;

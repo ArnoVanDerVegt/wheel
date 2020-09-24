@@ -5,7 +5,7 @@
 namespace components.circle
 
 ; @const The form component module.
-#define MODULE_COMPONENT_CIRCLE   97
+#define MODULE_COMPONENT_CIRCLE   97 ; `image:images/buttons/circleBlack.svg`
 
 ; @const Module calls for the circle component functions.
 #define CIRCLE_SET_HIDDEN          0

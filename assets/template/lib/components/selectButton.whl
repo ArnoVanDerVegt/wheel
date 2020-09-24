@@ -5,7 +5,7 @@
 namespace components.selectButton
 
 ; @const The form module.
-#define MODULE_COMPONENT_SELECT_BUTTON        66
+#define MODULE_COMPONENT_SELECT_BUTTON        66    ; `image:images/buttons/selectButtonBlack.svg`
 
 ; @const Module calls for button component functions.
 #define SELECT_BUTTON_COMPONENT_SET_HIDDEN     0

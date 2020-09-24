@@ -5,7 +5,7 @@
 namespace components.confirmDialog
 
 ; @const The confirm dialog component module.
-#define MODULE_COMPONENT_CONFIRM_DIALOG 141
+#define MODULE_COMPONENT_CONFIRM_DIALOG 141 ; `image:images/buttons/confirmDialogBlack.svg`
 
 ; @const Module calls for the confirm dialog component functions.
 #define CONFIRM_DIALOG_COMPONENT_SHOW     0

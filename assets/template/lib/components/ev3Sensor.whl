@@ -5,7 +5,7 @@
 namespace components.ev3Sensor
 
 ; @const The button component module.
-#define MODULE_COMPONENT_EV3_SENSOR     130
+#define MODULE_COMPONENT_EV3_SENSOR     130 ; `image:images/buttons/ev3SensorBlack.svg`
 
 ; @const Module calls for the ev3 sensor component functions.
 #define EV3_SENSOR_COMPONENT_SET_TYPE     0

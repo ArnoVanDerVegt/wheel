@@ -14,7 +14,13 @@ let getFileList = function(dir) {
                     let s = dir + '/' + file;
                     let data;
                     if (extension === 'svg') {
-                        data = 'data:image/svg+xml,' + fs.readFileSync(s).toString().split('\n').join('');
+                        data = fs.readFileSync(s).toString();
+                        if ((data.indexOf('&') !== -1) || (data.indexOf('#') !== -1)) {
+                           data = 'data:image/svg+xml;base64,' + Buffer.from(data.split('\n').join('')).toString('base64');
+                           console.log(data);
+                        } else {
+                            data = 'data:image/svg+xml,' + data.split('\n').join('');
+                        }
                     } else {
                         data = 'data:image/' + extension + ';base64,' + fs.readFileSync(s).toString('base64');
                     }

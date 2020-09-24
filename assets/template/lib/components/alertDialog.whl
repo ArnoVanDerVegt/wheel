@@ -5,7 +5,7 @@
 namespace components.alertDialog
 
 ; @const The alert dialog component module.
-#define MODULE_COMPONENT_ALERT_DIALOG 140
+#define MODULE_COMPONENT_ALERT_DIALOG 140   ; `image:images/buttons/alertDialogBlack.svg`
 
 ; @const Module calls for the alert dialog component functions.
 #define ALERT_DIALOG_COMPONENT_SHOW     0

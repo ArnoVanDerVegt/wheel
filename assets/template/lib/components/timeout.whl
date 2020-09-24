@@ -5,7 +5,7 @@
 namespace components.timeout
 
 ; @const The timeout component module.
-#define MODULE_COMPONENT_TIMEOUT   133
+#define MODULE_COMPONENT_TIMEOUT   133  ; `image:images/buttons/timerBlack.svg`
 
 ; @const Module calls for timeout component functions.
 #define TIMEOUT_COMPONENT_SET_TIME   0

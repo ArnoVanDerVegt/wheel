@@ -1212,7 +1212,7 @@ exports.PROPERTIES_BY_TYPE = {
                 options: {
                     list: [
                         {value: sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH,      image: 'images/ev3/touch64.png',      color: '#D0D4D8', title: 'Touch',  subTitle: 'Sensor'},
-                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_SOUND,      image: 'images/ev3/microphone64.png', color: '#D0D4D8', title: 'Sound',  subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_SOUND,      image: 'images/ev3/nxtSound64.png',   color: '#D0D4D8', title: 'Sound',  subTitle: 'Sensor'},
                         {value: sensorModuleConstants.SENSOR_TYPE_NXT_COLOR,      image: 'images/ev3/color64.png',      color: '#D0D4D8', title: 'Color',  subTitle: 'Sensor'},
                         {value: sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC, image: 'images/ev3/ultrasonic64.png', color: '#D0D4D8', title: 'USonic', subTitle: 'Sensor'},
                         {value: sensorModuleConstants.SENSOR_TYPE_GYRO,           image: 'images/ev3/gyro64.png',       color: '#D0D4D8', title: 'Gyro',   subTitle: 'Sensor'},

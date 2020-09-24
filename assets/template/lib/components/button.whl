@@ -5,7 +5,7 @@
 namespace components.button
 
 ; @const The button component module.
-#define MODULE_COMPONENT_BUTTON        65
+#define MODULE_COMPONENT_BUTTON        65   ; `image:images/buttons/buttonBlack.svg`
 
 ; @const Module calls for the button component functions.
 #define BUTTON_COMPONENT_SET_HIDDEN     0

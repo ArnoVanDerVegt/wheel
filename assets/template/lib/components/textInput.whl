@@ -5,7 +5,7 @@
 namespace components.textInput
 
 ; @const The text input component module.
-#define MODULE_COMPONENT_TEXT_INPUT           70
+#define MODULE_COMPONENT_TEXT_INPUT           70    ; `image:images/buttons/textInputBlack.svg`
 
 ; @const Module calls for button component functions.
 #define TEXT_INPUT_COMPONENT_SET_HIDDEN        0

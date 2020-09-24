@@ -5,7 +5,7 @@
 namespace components.image
 
 ; @const The form component module.
-#define MODULE_COMPONENT_IMAGE     98
+#define MODULE_COMPONENT_IMAGE     98   ; `image:images/buttons/imageBlack.svg`
 
 ; @const Module calls for image component functions.
 #define IMAGE_COMPONENT_SET_HIDDEN  0

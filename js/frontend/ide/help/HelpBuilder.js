@@ -85,7 +85,13 @@ class HelpBuilder {
         constant.values.forEach((value) => {
             if (hasImage) {
                 if (value.image) {
-                    body.push(['<div class="image-wrapper"><img src="' + getImage(value.image) + '"/></div>', value.key, value.value]);
+                    let image  = getImage(value.image);
+                    let prefix = 'data:image/svg+xml,';
+                    if (image.substr(0, prefix.length) === prefix) {
+                        image = image.substr(prefix.length - image.length);
+                        image = 'data:image/svg+xml;base64,' + btoa(image);
+                    }
+                    body.push(['<div class="image-wrapper"><img src="' + image + '"/></div>', value.key, value.value]);
                 } else {
                     body.push(['', value.key, value.value]);
                 }

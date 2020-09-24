@@ -5,7 +5,7 @@
 namespace components.dropdown
 
 ; @const The form module.
-#define MODULE_COMPONENT_DROPDOWN        69
+#define MODULE_COMPONENT_DROPDOWN        69 ; `image:images/buttons/dropdownBlack.svg`
 
 ; @const Module calls for the dropdown component functions.
 #define DROPDOWN_COMPONENT_SET_HIDDEN     0
