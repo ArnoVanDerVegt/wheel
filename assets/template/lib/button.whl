@@ -2,6 +2,9 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains a procedures to read `EV3` or `Powered Up` buttons.
+
 ; @const The button module.
 #define MODULE_BUTTON            4
 

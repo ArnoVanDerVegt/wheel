@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to control `EV3` or `Powered Up` motors.
+
 ; @const The motor module.
-#define MODULE_MOTOR          6
+#define MODULE_MOTOR          6     ; `image:images/ev3/motorMedium64.png`
 
 ; @const Module calls to control the motors.
 #define MOTOR_SET_TYPE        0

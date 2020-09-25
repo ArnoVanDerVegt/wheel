@@ -3,6 +3,7 @@
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
 ; This module adds support for connecting a PSP wireless controller from Mindsensors.
 ; http://www.mindsensors.com/ev3-and-nxt/31-psp-nx-v4-ref-combo-with-wireless-controller
 

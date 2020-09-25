@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures for drawing on the `EV3` screen.
+
 ; @const The screen module.
-#define MODULE_SCREEN         2
+#define MODULE_SCREEN         2    ; `image:images/ev3/ev364.png`
 
 ; @const Screen size informtion.
 #define SCREEN_WIDTH        178

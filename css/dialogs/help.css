@@ -39,6 +39,9 @@
 .dialog-background.help-dialog div.quarter {
     width:                          25%;
 }
+.dialog-background.help-dialog p.description {
+    font-size:                      15px;
+}
 .dialog-background.help-dialog div.third ul,
 .dialog-background.help-dialog div.third li,
 .dialog-background.help-dialog div.quarter ul,
@@ -263,7 +266,7 @@
     height:                         64px;
 }
 .dialog-background.help-dialog .help-file table.help-table.image-constants td:first-child {
-    width:                          80px;
+    min-width:                      80px;
 }
 .dialog-background.help-dialog .help-file table.help-table.image-constants td:nth-child(2) {
     min-width:                      360px;

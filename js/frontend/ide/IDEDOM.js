@@ -66,7 +66,8 @@ exports.IDEDOM = class extends IDEDialogs {
                     {
                         type:          Hint,
                         ui:            this._ui,
-                        settings:      this._settings
+                        settings:      this._settings,
+                        getImage:      getImage
                     },
                     {
                         type:          Console,

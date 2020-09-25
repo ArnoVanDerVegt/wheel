@@ -5,7 +5,7 @@
 namespace components.checkbox
 
 ; @const The checkbox component module.
-#define MODULE_COMPONENT_CHECKBOX        67
+#define MODULE_COMPONENT_CHECKBOX        67     ; `image:images/buttons/checkboxBlack.svg`
 
 ; @const Module calls for the checkbox component functions.
 #define CHECKBOX_COMPONENT_SET_HIDDEN     0

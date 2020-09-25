@@ -578,10 +578,24 @@ class HelpBuilder {
                 continue;
             }
             new A({parentNode: parentNode, id: title.split(' ').join('')});
-            this.addSubSubTitle(parentNode, title);
+            if (title !== '-') {
+                this.addSubSubTitle(parentNode, title);
+            }
             let content = section.content;
             for (let j = 0; j < content.length; j++) {
                 switch (content[j].type) {
+                    case 'description':
+                        let paragraph = [];
+                        content[0].text.push('');
+                        content[0].text.forEach((line) => {
+                            if (line === '') {
+                                new P({parentNode: parentNode, className: 'description', innerHTML: paragraph.join(' ')});
+                                paragraph.length = 0;
+                            } else {
+                                paragraph.push(line);
+                            }
+                        });
+                        break;
                     case 'text':
                         let lines = [];
                         content[j].text.forEach((line) => {

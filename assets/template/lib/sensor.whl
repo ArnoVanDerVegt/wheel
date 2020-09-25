@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to read input from `EV3` and `Powered Up` sensors.
+
 ; @const The sensor module.
-#define MODULE_SENSOR                 7
+#define MODULE_SENSOR                 7     ; `image:images/ev3/touch64.png`
 
 ; @const Module calls for reading sensors.
 #define SENSOR_SET_TYPE               0

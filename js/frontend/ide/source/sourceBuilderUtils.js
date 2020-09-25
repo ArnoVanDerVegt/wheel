@@ -194,7 +194,8 @@ exports.createPoweredUpSetup = (lines, poweredUp) => {
             '; Initialize the `' + deviceTypeTitle[device.type] + '` device.',
             'proc initDevice' + layerIndex + '()',
             '    ; Set the device type:',
-            '    poweredUpSetDevice(LAYER_' + layerIndex + ', ' + deviceTypeConst[device.type] + ')'
+            '    poweredUpSetDevice(LAYER_' + layerIndex + ', ' + deviceTypeConst[device.type] + ')',
+            '    lightLayer(LAYER_' + layerIndex + ', LIGHT_PU_GREEN)'
         );
         let first     = true;
         let portCount = 0;
@@ -263,6 +264,7 @@ exports.createProjectFile = (opts) => {
         addToIncludeFiles('lib/poweredUp.whl');
         addToIncludeFiles('lib/motor.whl');
         addToIncludeFiles('lib/sensor.whl');
+        addToIncludeFiles('lib/light.whl');
     }
     addIncludes(lines, includeFiles);
     if (opts.createForm) {

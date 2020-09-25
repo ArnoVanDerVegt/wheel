@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to read built in sensors in `Powered Up` devices.
+
 ; @const The Powered Up module.
-#define MODULE_POWERED_UP                           13
+#define MODULE_POWERED_UP                           13  ; `image:images/poweredup/hub64.png`
 
 ; @const The Powered Up output ports.
 #define POWERED_UP_OUTPUT_A                          0

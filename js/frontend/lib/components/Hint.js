@@ -5,13 +5,13 @@
 const dispatcher = require('../dispatcher').dispatcher;
 const Component  = require('./Component').Component;
 const path       = require('../path');
-const getImage   = require('../../ide/data/images').getImage;
 
 exports.Hint = class extends Component {
     constructor(opts) {
         super(opts);
         this._settings      = opts.settings;
-        this._baseClassName = 'hint';
+        this._getImage      = opts.getImage;
+        this._baseClassName = 'abs hint';
         this._hidden        = true;
         this._hint          = '';
         this._hintImage     = false;
@@ -33,30 +33,31 @@ exports.Hint = class extends Component {
                 children: [
                     {
                         ref:       this.setRef('imageWrapper'),
-                        className: 'image-wrapper',
+                        className: 'abs image-wrapper',
                         children: [
                             {
-                                ref:  this.setRef('image'),
-                                type: 'img'
+                                ref:       this.setRef('image'),
+                                className: 'abs',
+                                type:      'img'
                             }
                         ]
                     },
                     {
                         ref:       this.setRef('title'),
-                        className: 'title'
+                        className: 'flt max-w title'
                     },
                     {
                         ref:       this.setRef('namespace'),
-                        className: 'namespace'
+                        className: 'flt max-w namespace'
                     },
                     {
                         id:        this.setPreElement.bind(this),
                         type:      'pre',
-                        className: 'wheel'
+                        className: 'flt max-w wheel'
                     },
                     {
                         id:        this.setLocationElement.bind(this),
-                        className: 'location'
+                        className: 'flt max-w location'
                     }
                 ]
             }
@@ -235,7 +236,7 @@ exports.Hint = class extends Component {
         let imageWrapper = refs.imageWrapper;
         if (this._hintImage) {
             imageWrapper.style.display = 'block';
-            image.src                  = getImage(this._hintImage);
+            image.src                  = this._getImage(this._hintImage);
         } else {
             imageWrapper.style.display = 'none';
         }
@@ -247,13 +248,13 @@ exports.Hint = class extends Component {
         }
         let measure = false;
         if (this._hint !== opts.hint) {
-            this._hintImage     = false;
+            this._hintImage = false;
             let hint = this.getHint(opts);
             if (hint === '') {
                 return;
             }
             this.showImage(this._hintImage);
-            this._baseClassName        = 'hint' + (this._hintImage ? ' with-image' : '');
+            this._baseClassName        = 'abs hint' + (this._hintImage ? ' with-image' : '');
             this._element.className    = this.getClassName();
             this._preElement.innerHTML = hint;
             measure                    = true;
