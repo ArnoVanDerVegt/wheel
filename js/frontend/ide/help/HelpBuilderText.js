@@ -20,8 +20,9 @@ const getFilename = function(subject) {
 
 class HelpBuilderText {
     constructor(opts) {
-        this._helpData = opts.helpData;
-        this._output   = [];
+        this._documentPath = opts.documentPath;
+        this._helpData     = opts.helpData;
+        this._output       = [];
     }
 
     getFilenameWithoutDocumentPath(filename) {
@@ -569,7 +570,6 @@ class HelpBuilderText {
 
     buildFile(opts) {
         this._output.length = 0;
-        this._documentPath  = opts.documentPath || '';
         this.addFileTitle(opts);
         let output      = this._output;
         let file        = opts.file;

@@ -20,7 +20,6 @@ exports.HelpDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._needsRebuild = false;
-        this._documentPath = '';
         new WocFileLoader().load((loadedFiles) => { setHelp(new Woc().build(loadedFiles)); });
         this.initWindow({
             width:     960,
@@ -99,7 +98,8 @@ exports.HelpDialog = class extends Dialog {
         refs.helpFiles.style.display   = 'block';
         refs.helpFiles.innerHTML       = '';
         refs.helpFileContent.scrollTop = 0;
-        helpBuilder.buildMainIndex(this, refs.helpFiles, getHelpData(), this._documentPath);
+        let documentPath = this._settings.getDocumentPath();
+        helpBuilder.buildMainIndex(this, refs.helpFiles, getHelpData(), documentPath);
     }
 
     onRebuild() {
@@ -108,7 +108,8 @@ exports.HelpDialog = class extends Dialog {
 
     onRebuildText() {
         let refs            = this._refs;
-        let helpBuilderText = new HelpBuilderText.HelpBuilderText({helpData: getHelpData()});
+        let documentPath    = this._settings.getDocumentPath();
+        let helpBuilderText = new HelpBuilderText.HelpBuilderText({helpData: getHelpData(), documentPath: documentPath});
         refs.saveTextFilesButton.setDisabled(true);
         helpBuilderText.generateAllHelp(() => {
             refs.saveTextFilesButton.setDisabled(false);
@@ -121,11 +122,12 @@ exports.HelpDialog = class extends Dialog {
         refs.helpFile.style.display    = 'block';
         refs.helpFileContent.innerHTML = '';
         refs.helpFileContent.scrollTop = 0;
+        let documentPath = this._settings.getDocumentPath();
         helpBuilder.buildFile({
             ui:           this._ui,
             uiId:         this._uiId,
             dialog:       this,
-            documentPath: this._documentPath,
+            documentPath: documentPath,
             parentNode:   refs.helpFileContent,
             file:         getHelpData().files[fileIndex]
         });
@@ -134,7 +136,7 @@ exports.HelpDialog = class extends Dialog {
             ui:           this._ui,
             uiId:         this._uiId,
             dialog:       this,
-            documentPath: this._documentPath,
+            documentPath: documentPath,
             parentNode:   refs.helpFileSubjects,
             container:    refs.helpFileContent,
             file:         getHelpData().files[fileIndex]
@@ -142,7 +144,6 @@ exports.HelpDialog = class extends Dialog {
     }
 
     onShow(opts) {
-        this._documentPath = this._settings.getDocumentPath();
         this.show();
         if (opts && ('fileIndex' in opts)) {
             this.onShowFileIndex(opts.fileIndex);
