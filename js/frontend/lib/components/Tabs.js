@@ -201,7 +201,7 @@ exports.Tabs = class extends DOMNode {
         }
         this._contextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: parentNode,
+            parentNode: document.body,
             options:    options
         });
     }

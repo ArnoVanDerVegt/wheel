@@ -30,7 +30,7 @@ exports.SimulatorPlugin = class extends DOMNode {
         }
         let contextMenu = new ContextMenu({
                 ui:         this._ui,
-                parentNode: this._parentNode,
+                parentNode: document.body,
                 options:    options,
                 withCheck:  true
             });
