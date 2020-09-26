@@ -62,7 +62,7 @@ exports.Terminal = class extends DOMNode {
                     return;
                 }
                 this._username = data.username;
-                this._cwd      = data.cwd;
+                this._cwd      = (typeof data.cwd === 'string') ? data.cwd : '';
                 this.showUser();
             }
         );
