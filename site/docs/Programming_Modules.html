@@ -60,12 +60,20 @@
             </p>
             <table class="help-table">
                 <tr>
-                    <th> Module   </th>
-                    <th> Function                   </th>
+                    <th> Module      </th>
+                    <th> Function                         </th>
                 </th>
+                <tr>
+                    <td>Bit</td>
+                    <td>Bit functions</td>
+                </tr>
                 <tr>
                     <td>Button</td>
                     <td>Read the EV3 buttons</td>
+                </tr>
+                <tr>
+                    <td>Device</td>
+                    <td>Select EV3 or Powered Up</td>
                 </tr>
                 <tr>
                     <td>File</td>
@@ -84,6 +92,14 @@
                     <td>Control EV3 motors</td>
                 </tr>
                 <tr>
+                    <td>Powered Up</td>
+                    <td>Control EV3 motors</td>
+                </tr>
+                <tr>
+                    <td>PSP</td>
+                    <td>Psp controller functions for EV3</td>
+                </tr>
+                <tr>
                     <td>Screen</td>
                     <td>Drawing functions</td>
                 </tr>
@@ -92,12 +108,81 @@
                     <td>Read and configure sensors</td>
                 </tr>
                 <tr>
+                    <td>SensorMulti</td>
+                    <td>Sensor multiplexer for EV3</td>
+                </tr>
+                <tr>
                     <td>Sound</td>
                     <td>Play tones or samples</td>
                 </tr>
                 <tr>
                     <td>Standard</td>
                     <td>Core functions</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>String functions</td>
+                </tr>
+                <tr>
+                    <td>System</td>
+                    <td>System functions for EV3</td>
+                </tr>
+            </table>
+            <p>
+                To build your own interfaces to control robots from the IDE there are several component modules available.
+                <br/>
+                Input components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                        </th>
+                    <th> Module       </th>
+                    <th> Function                         </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><text x="7.5" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">Ok</text></svg></div></td>
+                    <td>Button</td>
+                    <td>Buttons</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(0,0,0);stroke-width:1;"/><text x="5.3" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text><text x="14.1" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg></div></td>
+                    <td>SelectButton</td>
+                    <td>A horizontal list of buttons</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="10" y1="10" x2="11" y2="14" style="stroke:rgb(0,0,0);stroke-width:1.5;" stroke-linecap="round"/><line x1="11.25" y1="14" x2="16.2" y2="5.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/></svg></div></td>
+                    <td>Checkbox</td>
+                    <td>Checkbox</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:rgb(0,0,0);"/><text x="8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text><circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><text x="8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text><circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><text x="8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg></div></td>
+                    <td>Radio</td>
+                    <td>A radio group</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="7" y="7" width="10" height="10" style="fill:transparent;stroke-width:1;stroke:rgb(0,0,0)" stroke-dasharray="1 1"/></svg></div></td>
+                    <td>Dropdown</td>
+                    <td>Dropdown</td>
+                </tr>
+            </table>
+            <p>
+                Dialog components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                        </th>
+                    <th> Module        </th>
+                    <th> Function         </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>AlertDialog</td>
+                    <td>An alert dialog</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>ConfirmDialog</td>
+                    <td>A confirm dialog</td>
                 </tr>
             </table>
             <div class="see-also-block">

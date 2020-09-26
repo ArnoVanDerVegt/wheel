@@ -145,7 +145,7 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[9].setEnabled(platform.isElectron()); // Exit Wheel
+        menuOptions[10].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 
@@ -355,9 +355,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[7].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[8].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[ 6].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[ 7].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[10].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 

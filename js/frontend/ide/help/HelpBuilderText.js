@@ -526,7 +526,7 @@ class HelpBuilderText {
             output.push('        <tr>');
             r.forEach((c) => {
                 const loaderText = '<span class="image-loader">';
-                const svgHeader  = 'data:image/svg+xml,';
+                const svgHeader  = 'data:image/svg+xml';
                 let i = c.indexOf(loaderText);
                 if (i !== -1) {
                     let j        = c.indexOf('</span>', i);
@@ -534,8 +534,9 @@ class HelpBuilderText {
                     let image    = getImage(filename);
                     if (image) {
                         if (image.indexOf(svgHeader) === 0) {
-                            image = image.substr(svgHeader.length - image.length);
+                            image = image.substr(svgHeader.length + 1 - image.length);
                             c     = c.substr(0, i) + image + c.substr(j, i - j);
+                            c     = '<div class="image-wrapper">' + c + '</div>';
                         } else {
                             c     = c.substr(0, i) + '<img src="' + image + '"/>' + c.substr(j, i - j);
                         }

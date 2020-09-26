@@ -222,7 +222,7 @@ exports.Component = class extends DOMNode {
             } else {
                 div           = document.createElement('div');
                 div.id        = 'hint' + i;
-                div.className = 'hint with-arrow';
+                div.className = 'abs hint with-arrow';
                 div._free     = false;
                 document.body.appendChild(div);
                 return div;

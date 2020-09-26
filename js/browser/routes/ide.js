@@ -316,6 +316,7 @@
             callback({success: getLocalStorageFiles().createDirectory(params.directory)});
             changes.push({eventType: 'change', path: params.directory});
         },
+
         directoryDelete(params, callback) {
             getLocalStorageFiles().deleteDirectory(params.directory);
             let path = require('./js/frontend/lib/path');

@@ -114,7 +114,7 @@ end
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @param borderWidth      The border radius.
-proc setBorderRadius(number windowHandle, number componentHandle, number borderRadius)
+proc setBorderRadius(number windowHandle, number componentHandle, number borderWidth)
     addr windowHandle
     mod  MODULE_COMPONENT_CIRCLE, CIRCLE_SET_BORDER_RADIUS
 end

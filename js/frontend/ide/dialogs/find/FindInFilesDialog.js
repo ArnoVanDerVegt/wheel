@@ -39,7 +39,7 @@ exports.FindInFilesDialog = class extends FindDialog {
                         className:      'flt max-w input-row',
                         labelClassName: 'flt input-label',
                         label:          'Match case',
-                        ref:            'caseSensitive',
+                        ref:            this.setRef('caseSensitive'),
                         tabIndex:       11
                     }),
                     this.initTextRow('Search in file types'),

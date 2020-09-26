@@ -35,6 +35,7 @@ body.ide .console-content {
     left:                           0;
     right:                          0;
     bottom:                         0;
+    overflow:                       hidden;
 }
 .console-content .console-lines,
 .console-content .find-results,
@@ -42,6 +43,7 @@ body.ide .console-content {
 .console-content .registers {
     -webkit-user-select:            none;
 }
+.console-content .find-results,
 .console-content .vars,
 .console-content .registers,
 .console-content .terminal {

@@ -41,7 +41,7 @@ exports.Console = class extends DOMNode {
                 {title: 'Global vars',  onClick: this.onClickGlobalVarsTab.bind(this)},
                 {title: 'Local vars',   onClick: this.onClickLocalVarsTab.bind(this)}
             ];
-        if (platform.isElectron()) {
+        if (platform.isElectron() || platform.isNode()) {
             tabs.push({title: 'Terminal', onClick: this.onClickTerminalTab.bind(this)});
         }
         this.create(
@@ -88,7 +88,7 @@ exports.Console = class extends DOMNode {
                         ]
                     },
                     {
-                        className: 'console-content',
+                        className: 'abs console-content',
                         children: [
                             {
                                 type:     Log,
@@ -119,7 +119,7 @@ exports.Console = class extends DOMNode {
                                 ref:      this.setRef('registers'),
                                 ui:       this._ui
                             },
-                            platform.isElectron() ?
+                            platform.isElectron() || platform.isNode() ?
                                 {
                                     type:     Terminal,
                                     ref:      this.setRef('terminal'),

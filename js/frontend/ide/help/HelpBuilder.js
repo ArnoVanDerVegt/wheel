@@ -706,29 +706,30 @@ class HelpBuilder {
                 };
             };
         file.sections.forEach((section) => {
-            if (section.title !== '') {
-                node.children.push({
-                    id: function(element) {
-                        element.addEventListener('click', onClick(section.title));
-                    },
-                    className: 'subject',
-                    innerHTML: section.title,
-                    title:     section.title
-                });
-                section.content.forEach((content) => {
-                    if (['const', 'proc'].indexOf(content.type) !== -1) {
-                        let id = content.text.description.split(' ').join('');
-                        node.children.push({
-                            id: function(element) {
-                                element.addEventListener('click', onClick(id));
-                            },
-                            className: 'sub-subject',
-                            innerHTML: content.text.description,
-                            title:     content.text.description
-                        });
-                    }
-                });
+            if ((section.title === '') ||(section.title === '-')) {
+                return;
             }
+            node.children.push({
+                id: function(element) {
+                    element.addEventListener('click', onClick(section.title));
+                },
+                className: 'subject',
+                innerHTML: section.title,
+                title:     section.title
+            });
+            section.content.forEach((content) => {
+                if (['const', 'proc'].indexOf(content.type) !== -1) {
+                    let id = content.text.description.split(' ').join('');
+                    node.children.push({
+                        id: function(element) {
+                            element.addEventListener('click', onClick(id));
+                        },
+                        className: 'sub-subject',
+                        innerHTML: content.text.description,
+                        title:     content.text.description
+                    });
+                }
+            });
         });
         new DOMNode({}).create(opts.parentNode, node);
         this.updateImages();
@@ -831,13 +832,28 @@ class HelpBuilder {
         for (let i = 0; i < images.length; i++) {
             let src = images[i].innerHTML;
             images[i].innerHTML = '';
-            new DOMNode({}).create(
-                images[i],
-                {
-                    type: 'img',
-                    src:  getImage(src)
-                }
-            );
+            if (src.substr(-4) === '.svg') {
+                new DOMNode({}).create(
+                    images[i],
+                    {
+                        className: 'image-wrapper',
+                        children: [
+                            {
+                                type: 'img',
+                                src:  getImage(src)
+                            }
+                        ]
+                    }
+                );
+            } else {
+                new DOMNode({}).create(
+                    images[i],
+                    {
+                        type: 'img',
+                        src:  getImage(src)
+                    }
+                );
+            }
         }
     }
 }
