@@ -75,7 +75,7 @@ exports.Properties = class extends DOMNode {
                     },
                     {
                         ref:       this.setRef('componentUid'),
-                        className: 'abs max-w component-uid',
+                        className: 'no-select abs max-w component-uid',
                         innerHTML: '0x00000000'
                     },
                     {

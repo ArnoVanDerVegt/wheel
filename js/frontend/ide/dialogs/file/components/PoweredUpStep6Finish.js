@@ -23,7 +23,7 @@ exports.PoweredUpStep6Finish = class extends Step {
             children: [
                 this._dialog.initTextInputRow({
                     className:      'flt max-w input-row file-new-row',
-                    labelClassName: 'flt input-label',
+                    labelClassName: 'no-select flt input-label',
                     label:          'Filename',
                     ref:            this.setRef('filename'),
                     tabIndex:       1,
@@ -31,12 +31,21 @@ exports.PoweredUpStep6Finish = class extends Step {
                 }),
                 this._dialog.initTextInputRow({
                     className:      'flt max-w input-row file-new-row description',
-                    labelClassName: 'flt input-label',
+                    labelClassName: 'no-select flt input-label',
                     label:          'Description',
                     ref:            this.setRef('description'),
                     tabIndex:       2,
                     placeholder:    'Enter description'
-                })
+                }),
+                {
+                    className: 'no-select flt text',
+                    innerHTML: [
+                        '<h2>Please connect before running...</h2>',
+                        'If you connect your device while your program is already running then the program will not automatically start using the',
+                        'connected device. The connections have to be setup before you start running your program else the IDE will use modules which',
+                        'simulate device behaviour.'
+                    ].join('\n')
+                }
             ]
         };
     }

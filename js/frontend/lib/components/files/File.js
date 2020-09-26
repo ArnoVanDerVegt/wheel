@@ -8,7 +8,7 @@ const path    = require('../../path');
 const getIcon = function(getImage, file) {
     if (file.directory) {
         return {
-            className: 'folder-icon',
+            className: 'no-select folder-icon',
             type:      'img',
             src:       getImage('images/files/folder.svg')
         };
@@ -36,7 +36,7 @@ const getIcon = function(getImage, file) {
         case '.wfrm': image = 'images/files/form.svg'; break;
     }
     return {
-        className: 'file-icon',
+        className: 'no-select file-icon',
         type:      'img',
         src:       getImage(image)
     };
@@ -69,7 +69,7 @@ exports.File = class extends DOMNode {
                         id:        this.setLinkElement.bind(this),
                         type:      'a',
                         href:      '#',
-                        className: 'name',
+                        className: 'no-select name',
                         innerHTML: this._file.name
                     }
                 ]

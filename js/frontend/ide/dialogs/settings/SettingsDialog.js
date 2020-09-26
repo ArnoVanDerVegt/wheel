@@ -89,14 +89,14 @@ exports.SettingsDialog = class extends Dialog {
     addTitle(title) {
         return {
             type:      'h3',
-            className: 'flt max-w title-row',
+            className: 'no-select flt max-w title-row',
             innerHTML: title
         };
     }
 
     addDescriptionRow(description) {
         return {
-            className: 'flt max-w description-row',
+            className: 'no-select flt max-w description-row',
             innerHTML: description
         };
     }
@@ -139,7 +139,7 @@ exports.SettingsDialog = class extends Dialog {
             className: 'flt max-w radio-row',
             children: [
                 {
-                    className: 'label',
+                    className: 'no-select label',
                     innerHTML: opts.label
                 },
                 {

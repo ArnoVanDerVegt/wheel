@@ -26,10 +26,11 @@ exports.tab = (settingsDialog, opts) => {
                 children: [
                     {
                         type:      'img',
+                        className: 'no-select',
                         src:       getImage('images/logos/logo.png')
                     },
                     {
-                        className: 'flt version-info',
+                        className: 'no-select flt version-info',
                         innerHTML: info
                     }
                 ]

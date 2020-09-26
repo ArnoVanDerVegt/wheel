@@ -17,14 +17,14 @@ exports.WizardSteps = class extends DOMNode {
         this._steps.forEach((step, index) => {
             children.push({
                 id:        this.addStepElement.bind(this),
-                className: 'step' + (index ? '' : ' active'),
+                className: 'no-select step' + (index ? '' : ' active'),
                 innerHTML: step
             });
         });
         this.create(
             parentNode,
             {
-                className: 'wizard-steps count' + this._steps.length,
+                className: 'no-select wizard-steps count' + this._steps.length,
                 children:  children
             }
         );
@@ -36,7 +36,7 @@ exports.WizardSteps = class extends DOMNode {
 
     setActiveStep(activeStep) {
         this._stepElements.forEach((stepElement, index) => {
-            stepElement.className = 'step' + ((index === activeStep) ? ' active' : '');
+            stepElement.className = 'no-select step' + ((index === activeStep) ? ' active' : '');
         });
     }
 };

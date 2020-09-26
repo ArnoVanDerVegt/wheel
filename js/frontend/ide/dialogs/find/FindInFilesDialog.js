@@ -95,7 +95,8 @@ exports.FindInFilesDialog = class extends FindDialog {
     }
 
     onSearchFile(data) {
-        if (this._cancel) {
+        let refs = this._refs;
+        if ((refs.find.getValue() === '') || this._cancel) {
             this._cancel = false;
             return;
         }

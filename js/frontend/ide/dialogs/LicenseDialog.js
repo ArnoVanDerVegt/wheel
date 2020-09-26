@@ -37,7 +37,7 @@ exports.LicenseDialog = class extends Dialog {
             showSignal: 'Dialog.License.Show',
             width:      600,
             height:     600,
-            className:  'license-dialog',
+            className:  'no-select license-dialog',
             title:      'MIT License'
         });
     }

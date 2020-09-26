@@ -187,6 +187,15 @@ exports.removeDuplicateEmptyLines = (lines) => {
 
 exports.createPoweredUpSetup = (lines, poweredUp) => {
     const ports = ['A', 'B', 'C', 'D'];
+    lines.push(
+        '',
+        '; Please connect before running',
+        '; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '; If you connect you device while your program is already running then the program will',
+        '; not automatically start using the connected device. The connection has to be setup',
+        '; before you start running your program else the IDE will use modules which',
+        '; simulate device behaviour.',
+    );
     poweredUp.forEach((device, index) => {
         let layerIndex = index + 1;
         lines.push(

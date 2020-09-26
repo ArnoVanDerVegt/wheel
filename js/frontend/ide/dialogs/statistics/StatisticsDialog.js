@@ -50,15 +50,15 @@ const Chart = class extends Component {
                         },
                         {
                             innerHTML: title,
-                            className: 'chart-title'
+                            className: 'no-select chart-title'
                         }
                     ]
                 });
             });
 
-            this.create(parentNode, {className: 'flt max-w text-line', innerHTML: commands.length + ' commands.'});
-            this.create(parentNode, {className: 'flt max-w text-line', innerHTML: optimizedCount + ' optimized commands.'});
-            this.create(parentNode, {className: 'flt max-w chart',     children:  children});
+            this.create(parentNode, {className: 'no-select flt max-w text-line', innerHTML: commands.length + ' commands.'});
+            this.create(parentNode, {className: 'no-select flt max-w text-line', innerHTML: optimizedCount + ' optimized commands.'});
+            this.create(parentNode, {className: 'no-select flt max-w chart',     children:  children});
         }
 
         getOccurenceData(program) {

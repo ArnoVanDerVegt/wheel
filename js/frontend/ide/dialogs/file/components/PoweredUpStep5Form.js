@@ -29,7 +29,7 @@ exports.PoweredUpStep5Form = class extends Step {
                     className: 'flt dialog-cw input-row file-new-row',
                     children: [
                         {
-                            className: 'flt input-label',
+                            className: 'no-select flt input-label',
                             innerHTML: 'Create a form'
                         },
                         this._dialog.addCheckbox({
@@ -40,7 +40,7 @@ exports.PoweredUpStep5Form = class extends Step {
                 },
                 this._dialog.initTextInputRow({
                     className:      'flt max-w input-row file-new-row number',
-                    labelClassName: 'flt input-label',
+                    labelClassName: 'no-select flt input-label',
                     label:          'Width',
                     ref:            this.setRef('width'),
                     tabIndex:       2,
@@ -49,7 +49,7 @@ exports.PoweredUpStep5Form = class extends Step {
                 }),
                 this._dialog.initTextInputRow({
                     className:      'flt max-w input-row file-new-row number',
-                    labelClassName: 'flt input-label',
+                    labelClassName: 'no-select flt input-label',
                     label:          'Height',
                     ref:            this.setRef('height'),
                     tabIndex:       3,

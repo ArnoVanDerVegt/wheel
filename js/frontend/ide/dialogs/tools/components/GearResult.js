@@ -34,7 +34,7 @@ exports.GearResult = class extends DOMNode {
                         onChange:  this.onChangeMotor.bind(this)
                     },
                     {
-                        className: 'frt ui1-box gear-overview',
+                        className: 'no-select frt ui1-box gear-overview',
                         ref:       this.setRef('overview')
                     }
                 ]

@@ -30,7 +30,7 @@ exports.PianoKey = class extends DOMNode {
                 children: [
                     {
                         type:      'span',
-                        className: 'abs max-w',
+                        className: 'no-select abs max-w',
                         innerHTML: this._hotkey
                     }
                 ]

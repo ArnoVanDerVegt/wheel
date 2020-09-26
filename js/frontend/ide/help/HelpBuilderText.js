@@ -433,10 +433,12 @@ class HelpBuilderText {
         } else if (file.subject) {
             mainTitle = file.subject;
             let i = mainTitle.indexOf(':');
-            this.addTitle((i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length), '    ');
+            mainTitle = (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length);
+            this.addTitle(mainTitle, '    ');
         } else {
             this.addTitle(this.getFilenameWithoutDocumentPath(file.name), '    ');
         }
+        this._lastTitle = mainTitle;
     }
 
     addSee(opts) {
@@ -570,6 +572,7 @@ class HelpBuilderText {
     }
 
     buildFile(opts) {
+        this._lastTitle     = '';
         this._output.length = 0;
         this.addFileTitle(opts);
         let output      = this._output;
@@ -588,7 +591,7 @@ class HelpBuilderText {
                 continue;
             }
             output.push('    <a id="' + title.split(' ').join('') + '"></a>');
-            if (title !== '-') {
+            if ((title !== '-') && (this._lastTitle !== title)) {
                 this.addSubSubTitle(title, '', '    ');
             }
             let content = section.content;

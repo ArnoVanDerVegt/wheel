@@ -52,7 +52,7 @@ exports.Motor = class extends DOMNode {
                     },
                     {
                         ref:         this.setRef('speed'),
-                        className:   'abs speed',
+                        className:   'no-select abs speed',
                         innerHTML:   '50'
                     },
                     {

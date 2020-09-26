@@ -22,7 +22,7 @@ exports.Components = class extends DOMNode {
 
     initTitle(title) {
         return {
-            className: 'flt max-w title',
+            className: 'no-select flt max-w title',
             innerHTML: title
         };
     }

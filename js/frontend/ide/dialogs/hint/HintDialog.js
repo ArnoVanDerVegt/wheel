@@ -33,7 +33,7 @@ exports.HintDialog = class extends Dialog {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'abs dialog-cw dialog-lt hint-text'
+                className: 'no-select abs dialog-cw dialog-lt hint-text'
             },
             this.initButtons(buttons)
         ];

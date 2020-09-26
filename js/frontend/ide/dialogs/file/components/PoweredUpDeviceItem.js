@@ -43,12 +43,12 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
             children: [
                 {
                     type:      'img',
-                    className: 'abs',
+                    className: 'no-select abs',
                     ref:       this.setRef('deviceImage'),
                     src:       getImage(infoByDeviceType[opts.device.getType()].image)
                 },
                 {
-                    className: 'abs value',
+                    className: 'no-select abs value',
                     ref:       this.setRef('deviceValue'),
                     innerHTML: this._index + 1
                 }
@@ -62,12 +62,12 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
             children: [
                 {
                     ref:       this.setRef('deviceNumber'),
-                    className: 'flt max-w device-title',
+                    className: 'no-select flt max-w device-title',
                     innerHTML: 'Device ' + (this._index + 1)
                 },
                 {
                     ref:       this.setRef('deviceName'),
-                    className: 'flt max-w device-description',
+                    className: 'no-select flt max-w device-description',
                     innerHTML: infoByDeviceType[opts.device.getType()].name
                 }
             ]
@@ -86,14 +86,14 @@ exports.PoweredUpDeviceItem = class extends DOMNode {
             children: [
                 {
                     ref:       this.setRef('port' + port),
-                    className: 'abs',
+                    className: 'no-select abs',
                     type:      'img',
                     style: {
                         display: ((portInfo.type !== 0) && portInfo.available) ? 'block' : 'none'
                     }
                 },
                 {
-                    className: 'abs value',
+                    className: 'no-select abs value',
                     innerHTML: port
                 }
             ]

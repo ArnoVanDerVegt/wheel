@@ -44,7 +44,7 @@ class HelpBuilder {
             parentNode: parentNode,
             size:       size,
             innerHTML:  title,
-            className:  className || ''
+            className:  'no-select ' + (className || '')
         });
         return this;
     }
@@ -52,7 +52,7 @@ class HelpBuilder {
     addSpan(parentNode, text, className) {
         new Span({
             parentNode: parentNode,
-            className:  className,
+            className:  'no-select ' + className,
             innerHTML:  text
         });
         return this;
@@ -91,7 +91,7 @@ class HelpBuilder {
                         image = image.substr(prefix.length - image.length);
                         image = 'data:image/svg+xml;base64,' + btoa(image);
                     }
-                    body.push(['<div class="image-wrapper"><img src="' + image + '"/></div>', value.key, value.value]);
+                    body.push(['<div class="no-select image-wrapper"><img src="' + image + '"/></div>', value.key, value.value]);
                 } else {
                     body.push(['', value.key, value.value]);
                 }
@@ -107,15 +107,16 @@ class HelpBuilder {
                         id:   constant.description.split(' ').join('')
                     },
                     {
+                        className: 'no-select',
                         innerHTML: constant.description + '<br/>'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/>'
                     },
                     {
                         type:      Table,
-                        className: 'help-table ' + (hasImage ? 'image-' : '') + 'constants',
+                        className: 'no-select help-table ' + (hasImage ? 'image-' : '') + 'constants',
                         body:      body
                     }
                 ]
@@ -147,13 +148,14 @@ class HelpBuilder {
                         size:      5,
                         innerHTML: name,
                         title:     vr.name,
-                        className: 'title-with-source'
+                        className: 'no-select title-with-source'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(vr.filename) + ', line: ' + vr.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(vr.filename) + ', line: ' + vr.lineNumber + '<br/>'
                     },
                     {
+                        className: 'no-select',
                         innerHTML: vr.description + '<br/>'
                     },
                     {
@@ -214,18 +216,19 @@ class HelpBuilder {
                         size:      5,
                         innerHTML: record.name,
                         title:     record.name,
-                        className: 'title-with-source'
+                        className: 'no-select title-with-source'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(record.filename) + ', line: ' + record.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(record.filename) + ', line: ' + record.lineNumber + '<br/>'
                     },
                     {
+                        className: 'no-select',
                         innerHTML: record.description + '<br/>'
                     },
                     {
                         type:      Table,
-                        className: 'help-table',
+                        className: 'no-select help-table',
                         head:      head,
                         body:      body
                     }
@@ -240,8 +243,8 @@ class HelpBuilder {
         new DOMNode({}).create(
             parentNode,
             {
-                innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(proc.filename) + ', line: ' + proc.lineNumber + '<br/>',
-                className: 'source-location'
+                className: 'no-select source-location',
+                innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(proc.filename) + ', line: ' + proc.lineNumber + '<br/>'
             }
         );
         if (proc.device !== '') {
@@ -256,7 +259,7 @@ class HelpBuilder {
             );
             new DOMNode({}).create(parentNode, {className: 'devices', children: children});
         }
-        new P({parentNode: parentNode, innerHTML: proc.description});
+        new P({parentNode: parentNode, className: 'no-select', innerHTML: proc.description});
         let params = [];
         for (let i = 0; i < proc.params.length; i++) {
             let param = proc.params[i];
@@ -266,7 +269,7 @@ class HelpBuilder {
         let s           = 'proc ' + proc.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (proc.params.length) {
-            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
+            new DOMNode({}).create(parentNode, {className: 'no-select', innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
             let body = [];
             for (let i = 0; i < proc.params.length; i++) {
@@ -276,10 +279,10 @@ class HelpBuilder {
             new Table({parentNode, className: 'help-table', head: head, body: body});
         }
         if (proc.ret) {
-            new P({parentNode: parentNode, innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
+            new P({parentNode: parentNode, className: 'no-select', innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
         }
         if (proc.text) {
-            new P({parentNode: parentNode, innerHTML: proc.text.join('<br/>')});
+            new P({parentNode: parentNode, className: 'no-select', innerHTML: proc.text.join('<br/>')});
         }
         if (proc.example) {
             new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines(proc.example)});
@@ -290,7 +293,7 @@ class HelpBuilder {
     addEvent(parentNode, event) {
         new A({parentNode: parentNode, id: event.description.split(' ').join('')});
         this.addSubSubSubTitle(parentNode, event.name, 'title-with-source');
-        new P({parentNode: parentNode, innerHTML: event.description});
+        new P({parentNode: parentNode, className: 'no-select', innerHTML: event.description});
         let params = [];
         for (let i = 0; i < event.params.length; i++) {
             let param = event.params[i];
@@ -300,7 +303,7 @@ class HelpBuilder {
         let s           = 'proc ' + event.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (event.params.length) {
-            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
+            new DOMNode({}).create(parentNode, {className: 'no-select', innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
             let body = [];
             for (let i = 0; i < event.params.length; i++) {
@@ -443,10 +446,12 @@ class HelpBuilder {
         } else if (file.subject) {
             mainTitle = file.subject;
             let i = mainTitle.indexOf(':');
-            this.addTitle(parentNode, (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length));
+            mainTitle = (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length);
+            this.addTitle(parentNode, mainTitle);
         } else {
             this.addTitle(this.getFilenameWithoutDocumentPath(file.name));
         }
+        this._lastTitle = mainTitle;
     }
 
     addSee(opts) {
@@ -511,6 +516,7 @@ class HelpBuilder {
                 children: [
                     {
                         type:      'span',
+                        className: 'no-select',
                         innerHTML: 'See also: '
                     }
                 ]
@@ -523,7 +529,7 @@ class HelpBuilder {
             function(see) {
                 node.children.push({
                     type:      'span',
-                    className: 'see-also',
+                    className: 'no-select see-also',
                     innerHTML: see.title,
                     id: (element) => {
                         element.addEventListener('click', this.onClickSee.bind(this, see.fileIndex));
@@ -560,6 +566,7 @@ class HelpBuilder {
     }
 
     buildFile(opts) {
+        this._lastTitle    = '';
         this._documentPath = opts.documentPath || '';
         this.addFileTitle(opts);
         let parentNode  = opts.parentNode;
@@ -578,9 +585,10 @@ class HelpBuilder {
                 continue;
             }
             new A({parentNode: parentNode, id: title.split(' ').join('')});
-            if (title !== '-') {
+            if ((title !== '-') && (this._lastTitle !== title)) {
                 this.addSubSubTitle(parentNode, title);
             }
+            this._lastTitle = '';
             let content = section.content;
             for (let j = 0; j < content.length; j++) {
                 switch (content[j].type) {
@@ -589,7 +597,7 @@ class HelpBuilder {
                         content[0].text.push('');
                         content[0].text.forEach((line) => {
                             if (line === '') {
-                                new P({parentNode: parentNode, className: 'description', innerHTML: paragraph.join(' ')});
+                                new P({parentNode: parentNode, className: 'no-select description', innerHTML: paragraph.join(' ')});
                                 paragraph.length = 0;
                             } else {
                                 paragraph.push(line);
@@ -601,7 +609,7 @@ class HelpBuilder {
                         content[j].text.forEach((line) => {
                             lines.push((line.trim() === '') ? '<br/>' : line);
                         });
-                        new P({parentNode: parentNode, innerHTML: lines.join(' ')});
+                        new P({parentNode: parentNode, className: 'no-select', innerHTML: lines.join(' ')});
                         break;
                     case 'load':
                         let buttons = [];
@@ -645,6 +653,7 @@ class HelpBuilder {
                     case 'list':
                         new Ul({
                             parentNode: parentNode,
+                            className:  'no-select',
                             list:       content[j].text
                         });
                         break;
@@ -660,7 +669,7 @@ class HelpBuilder {
                         new Img({
                             parentNode: parentNode,
                             src:        getImage(content[j].text) || content[j].text,
-                            className:  (content[j].text.indexOf('components/') !== -1) ? 'shadow' : ''
+                            className:  'no-select ' + ((content[j].text.indexOf('components/') !== -1) ? 'shadow' : '')
                         });
                         break;
                     case 'const':
@@ -713,7 +722,7 @@ class HelpBuilder {
                 id: function(element) {
                     element.addEventListener('click', onClick(section.title));
                 },
-                className: 'subject',
+                className: 'no-select subject',
                 innerHTML: section.title,
                 title:     section.title
             });
@@ -724,7 +733,7 @@ class HelpBuilder {
                         id: function(element) {
                             element.addEventListener('click', onClick(id));
                         },
-                        className: 'sub-subject',
+                        className: 'no-select sub-subject',
                         innerHTML: content.text.description,
                         title:     content.text.description
                     });
@@ -797,11 +806,11 @@ class HelpBuilder {
                     className: 'flt legend-item',
                     children: [
                         {
-                            className: 'flt device ' + type,
+                            className: 'no-select flt device ' + type,
                             innerHTML: type.toUpperCase()
                         },
                         {
-                            className: 'flt title',
+                            className: 'no-select flt title',
                             innerHTML: title
                         }
                     ]

@@ -34,7 +34,7 @@ exports.ListItem = class extends DOMNode {
                             tabIndex:  this._tabIndex,
                             type:      'a',
                             href:      '#',
-                            className: 'flt rel max-w max-h list-item-item',
+                            className: 'no-select flt rel max-w max-h list-item-item',
                             innerHTML: item
                         }
                     ]
@@ -58,26 +58,28 @@ exports.ListItem = class extends DOMNode {
                             item.image ?
                                 {
                                     type:      'img',
+                                    className: 'no-select',
                                     src:       item.image
                                 } :
                                 null,
                             item.label ?
                                 {
                                     type:      'span',
+                                    className: 'no-select',
                                     innerHTML: item.label
                                 } :
                                 null,
                             item.title ?
                                 {
                                     type:      'span',
-                                    className: 'item-title',
+                                    className: 'no-select item-title',
                                     innerHTML: item.title
                                 } :
                                 null,
                             item.subTitle ?
                                 {
                                     type:      'span',
-                                    className: 'item-sub-title',
+                                    className: 'no-select item-sub-title',
                                     innerHTML: item.subTitle
                                 } :
                                 null

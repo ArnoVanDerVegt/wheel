@@ -44,7 +44,7 @@ exports.CheckboxSetting = class extends DOMNode {
                         }
                     },
                     {
-                        className: 'label',
+                        className: 'no-select label',
                         innerHTML: this._label
                     }
                 ]

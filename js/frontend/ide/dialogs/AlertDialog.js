@@ -14,7 +14,7 @@ exports.AlertDialog = class extends Dialog {
             showSignal: 'Dialog.Alert.Show',
             width:      600,
             height:     200,
-            className:  'alert-dialog',
+            className:  'no-select alert-dialog',
             title:      'Alert'
         });
     }

@@ -33,7 +33,7 @@ exports.FileOpenDialog = class extends FileDialog {
         return [
             {
                 ref:       this.setRef('currentPath'),
-                className: 'abs dialog-l current-path',
+                className: 'no-select abs dialog-l current-path',
                 innerHTML: ''
             },
             platform.isElectron() ?

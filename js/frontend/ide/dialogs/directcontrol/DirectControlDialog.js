@@ -75,7 +75,7 @@ exports.DirectControlDialog = class extends Dialog {
                         checked:  false
                     },
                     {
-                        className: 'label',
+                        className: 'no-select label',
                         innerHTML: 'Brake motor'
                     }
                 ]
@@ -86,7 +86,7 @@ exports.DirectControlDialog = class extends Dialog {
                     className: 'volume hidden',
                     children: [
                         {
-                            className: 'label',
+                            className: 'no-select label',
                             innerHTML: 'Volume:'
                         },
                         {

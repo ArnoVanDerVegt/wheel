@@ -154,6 +154,16 @@
 .dialog-background.file-new-dialog.file-new-powered-up-project .file-new-row:last-child {
     display:                        block;
 }
+.dialog-background.file-new-powered-up-project .step-content.step6 .text {
+    margin-top:                     64px;
+    width:                          540px;
+    font-size:                      14px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step6 h2 {
+    font-family:                    latolight;
+    font-size:                      17px;
+    color:                          var(--ui-text1);
+}
 /* Buttons */
 .dialog-background.file-new-powered-up-project .buttons .button.green.left {
     float:                          left;

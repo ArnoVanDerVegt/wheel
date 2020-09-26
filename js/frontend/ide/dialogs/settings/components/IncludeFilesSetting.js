@@ -81,7 +81,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             onClick:   this.onSortUp.bind(this, index)
                         },
                         {
-                            className: 'label',
+                            className: 'no-select label',
                             innerHTML: 'File'
                         },
                         {
@@ -117,7 +117,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                             onClick:   this.onDelete.bind(this, index)
                         },
                         {
-                            className: 'label',
+                            className: 'no-select label',
                             innerHTML: 'Description'
                         },
                         {

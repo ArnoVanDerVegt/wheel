@@ -39,7 +39,7 @@ exports.AutoConnectListItem = class extends ListItem {
                         className: 'flt rel max-w max-h list-item-item',
                         children: [
                             {
-                                className: 'item-number',
+                                className: 'no-select item-number',
                                 innerHTML: (item.index + 1) + ''
                             },
                             {
@@ -53,21 +53,21 @@ exports.AutoConnectListItem = class extends ListItem {
                             item.label ?
                                 {
                                     type:      'span',
-                                    className: 'item-label',
+                                    className: 'no-select item-label',
                                     innerHTML: item.label
                                 } :
                                 null,
                             item.title ?
                                 {
                                     type:      'span',
-                                    className: 'item-title',
+                                    className: 'no-select item-title',
                                     innerHTML: item.title
                                 } :
                                 null,
                             item.subTitle ?
                                 {
                                     type:      'span',
-                                    className: 'item-sub-title',
+                                    className: 'no-select item-sub-title',
                                     innerHTML: this._settings.getDeviceAlias(item.subTitle) + ' (' + item.subTitle + ')',
                                     title:     item.subTitle
                                 } :

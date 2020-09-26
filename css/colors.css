@@ -355,9 +355,9 @@ body.ide.dark {
     --files-selected-color:         #FFFFFF;
 
     --console-table-border:         1px solid #3A3D40; /* #404040 */
-    --console-table-header:         #484C50; /* #505050 */
-    --console-table-header-color:   #DFECF8; /* #F8F8F8 */
-    --console-table-color:          #DFECF8; /* #F8F8F8 */
+    --console-table-header:         #505050; /* #505050 */
+    --console-table-header-color:   #F8F8F8; /* #F8F8F8 */
+    --console-table-color:          #F8F8F8; /* #F8F8F8 */
 
     --sensor-background1:           #484C50; /* #505050 */
     --sensor-background2:           #2B2E30; /* #303030 */

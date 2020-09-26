@@ -358,7 +358,7 @@ exports.Editor = class extends DOMUtils {
 
     _closeFile() {
         let activeEditor = this.getActiveEditor();
-        activeEditor && activeEditor.onEditorClose(activeEditor.getPathAndFilename());
+        activeEditor && this._editors.onEditorClose(activeEditor.getPathAndFilename());
     }
 
     callActiveEditor(func) {

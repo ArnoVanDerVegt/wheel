@@ -41,7 +41,7 @@ exports.Toolbar = class extends ComponentContainer {
             children: [
                 {
                     innerHTML: 'Zoom:',
-                    className: 'label'
+                    className: 'no-select label'
                 },
                 {
                     type:     Slider,

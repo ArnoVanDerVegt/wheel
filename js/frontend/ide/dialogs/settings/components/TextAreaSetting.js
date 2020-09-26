@@ -14,7 +14,7 @@ exports.TextAreaSetting = class extends TextInputSetting {
                 children: [
                     (this._label !== '') ?
                         {
-                            className: 'label',
+                            className: 'no-select label',
                             innerHTML: this._label
                         } :
                         null,

@@ -35,12 +35,12 @@ class GearItem extends DOMNode {
                 {
                     ref:       this.setRef(ref + 'Img'),
                     type:      'img',
-                    className: 'flt',
+                    className: 'no-select flt',
                     src:       getImage(opts.image)
                 },
                 {
                     ref:       this.setRef(ref + 'Value'),
-                    className: 'abs value',
+                    className: 'no-select abs value',
                     innerHTML: opts.gear
                 }
             ]
@@ -59,7 +59,7 @@ class GearItem extends DOMNode {
                     {
                         ref:       this.setRef('gearInfo'),
                         innerHTML: this.getInfo(),
-                        className: 'flt gear-info'
+                        className: 'no-select flt gear-info'
                     },
                     {
                         ref:       this.setRef('itemLink'),

@@ -18,6 +18,7 @@ exports.PoweredUpStep1Start = class extends Step {
                     className: 'abs dialog-l text',
                     children: [
                         {
+                            className: 'no-select',
                             innerHTML: 'With this wizard you can create a Powered up project. It helps you setup the following items:'
                         },
                         {
@@ -25,22 +26,27 @@ exports.PoweredUpStep1Start = class extends Step {
                             children: [
                                 {
                                     type:      'li',
+                                    className: 'no-select',
                                     innerHTML: 'A project file'
                                 },
                                 {
                                     type:      'li',
+                                    className: 'no-select',
                                     innerHTML: 'Code to connect to different Powered Up devices'
                                 },
                                 {
                                     type:      'li',
+                                    className: 'no-select',
                                     innerHTML: 'Code to connect to different motors and sensors'
                                 },
                                 {
                                     type:      'li',
+                                    className: 'no-select',
                                     innerHTML: 'An -optional- application form'
                                 },
                                 {
                                     type:      'li',
+                                    className: 'no-select',
                                     innerHTML: 'Include library files in your project'
                                 }
                             ]
@@ -49,7 +55,7 @@ exports.PoweredUpStep1Start = class extends Step {
                 },
                 {
                     type:      'img',
-                    className: 'abs dialog-r',
+                    className: 'no-select abs dialog-r',
                     src:       getImage('images/poweredup/technicHub256.png')
                 }
             ]

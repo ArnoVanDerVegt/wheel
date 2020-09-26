@@ -37,8 +37,9 @@ const ListItem = class extends DOMNode {
                                 style:     style,
                                 children: [
                                     {
-                                        type:  'img',
-                                        src:   this._image ? this._getImage(this._image) : '',
+                                        type:      'img',
+                                        className: 'no-select',
+                                        src:       this._image ? this._getImage(this._image) : '',
                                         style: {
                                             display: this._image ? 'block' : 'none'
                                         }
@@ -46,11 +47,11 @@ const ListItem = class extends DOMNode {
                                 ]
                             },
                             {
-                                className: 'flt dropdown-title',
+                                className: 'no-select flt dropdown-title',
                                 innerHTML: this._title
                             },
                             {
-                                className: 'flt dropdown-sub-title',
+                                className: 'no-select flt dropdown-sub-title',
                                 innerHTML: this._subTitle
                             }
                         ]
@@ -61,7 +62,7 @@ const ListItem = class extends DOMNode {
                     parentNode,
                     {
                         id:        this.setElement.bind(this),
-                        className: 'flt max-w dropdown-list-item',
+                        className: 'no-select flt max-w dropdown-list-item',
                         innerHTML: this._title
                     }
                 );
@@ -138,18 +139,19 @@ exports.Dropdown = class extends Component {
                         className: 'flt dropdown-img-wrapper',
                         children: [
                             {
-                                ref:  this.setRef('valueImg'),
-                                type: 'img'
+                                ref:       this.setRef('valueImg'),
+                                className: 'no-select',
+                                type:      'img'
                             }
                         ]
                     },
                     {
                         ref:       this.setRef('valueTitle'),
-                        className: 'flt dropdown-title'
+                        className: 'no-select flt dropdown-title'
                     },
                     {
                         ref:       this.setRef('valueSubTitle'),
-                        className: 'flt dropdown-sub-title'
+                        className: 'no-select flt dropdown-sub-title'
                     }
                 ]
             };
@@ -165,7 +167,7 @@ exports.Dropdown = class extends Component {
                     inputType: 'button'
                 },
                 {
-                    className: 'dropdown-value-label',
+                    className: 'no-select dropdown-value-label',
                     ref:       this.setRef('dropdownValue'),
                     innerHTML: ''
                 }

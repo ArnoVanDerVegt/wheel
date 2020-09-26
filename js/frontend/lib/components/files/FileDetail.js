@@ -23,14 +23,14 @@ exports.FileDetail = class extends File.File {
                         id:        this.setLinkElement.bind(this),
                         type:      'a',
                         href:      '#',
-                        className: 'name',
+                        className: 'no-select name',
                         innerHTML: file.name
                     },
                     !file.directory && file.size ?
                         {
                             type:      'span',
                             href:      '#',
-                            className: 'size',
+                            className: 'no-select size',
                             innerHTML: file.size + ' - ' + this.bytesToSize(file.size)
                         } :
                         null,
@@ -38,7 +38,7 @@ exports.FileDetail = class extends File.File {
                         {
                             type:      'span',
                             href:      '#',
-                            className: 'modified',
+                            className: 'no-select modified',
                             innerHTML: file.modified || file.hash
                         } :
                         null
