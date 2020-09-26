@@ -96,27 +96,6 @@ exports.Component = class extends DOMNode {
         return this._design;
     }
 
-    getElementPosition() {
-        let element = this._element;
-        let offsetX = element.offsetLeft;
-        let offsetY = element.offsetTop;
-        let parent  = element.offsetParent;
-        let matrix;
-        let computedStyle;
-        while (parent) {
-            if (typeof WebKitCSSMatrix === 'undefined') {
-                matrix        = {m41: 0, m42: 0};
-            } else {
-                computedStyle = window.getComputedStyle(parent);
-                matrix        = new WebKitCSSMatrix(computedStyle.webkitTransform);
-            }
-            offsetX += matrix.m41 + parent.offsetLeft;
-            offsetY += matrix.m42 + parent.offsetTop - parent.scrollTop;
-            parent = parent.offsetParent;
-        }
-        return {x: offsetX, y: offsetY};
-    }
-
     getColorFromRgb(rgb) {
         if (typeof rgb !== 'object') {
             rgb = {red: 0, grn: 0, blu: 0};
