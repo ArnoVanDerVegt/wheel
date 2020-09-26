@@ -137,7 +137,7 @@ exports.HomeScreen = class extends DOMNode {
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
                 poweredUp:      this._poweredUp,
                 onClick: function() {
-                    if (!window.PoweredUP || !window.PoweredUP.isWebBluetooth) {
+                    if (platform.isElectron() || platform.isNode() || (window.PoweredUP && window.PoweredUP.isWebBluetooth)) {
                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                     } else {
                         dispatcher.dispatch(

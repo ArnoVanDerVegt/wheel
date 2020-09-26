@@ -669,7 +669,7 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     setMode(layer, port, mode) {
-        this.getLayerPort(layer, port).mode = mode;
+        this.getLayerPort(layer, port).mode = parseInt(mode, 10);
     }
 
     stopPolling() {}
