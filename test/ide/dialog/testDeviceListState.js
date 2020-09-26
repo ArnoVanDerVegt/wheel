@@ -36,6 +36,27 @@ describe(
             }
         );
         it(
+            'Should add device and get JSON',
+            () => {
+                let deviceListState = new DeviceListState({});
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice', 0);
+                assert.deepEqual(
+                    deviceListState.toJSON(),
+                    [
+                        {
+                            type: 0,
+                            ports: [
+                                {enabled: false, available: false, type: 0},
+                                {enabled: false, available: false, type: 0},
+                                {enabled: false, available: false, type: 0},
+                                {enabled: false, available: false, type: 0}
+                            ]
+                        }
+                    ]
+                );
+            }
+        );
+        it(
             'Should add device and get device type',
             () => {
                 let deviceListState = new DeviceListState({});
@@ -56,7 +77,45 @@ describe(
             }
         );
         it(
-            'Should update device and emit port info',
+            'Should update device and emit port info - POWERED_UP_DEVICE_HUB',
+            () => {
+                let deviceListState = new DeviceListState({});
+                let portInfo        = [];
+                deviceListState.on('ChangePort', this, (p) => { portInfo.push(p); });
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice',    poweredUpModuleConstants.POWERED_UP_DEVICE_HUB);
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.UpdateDevice', poweredUpModuleConstants.POWERED_UP_DEVICE_HUB);
+                assert.deepEqual(
+                    portInfo,
+                    [
+                        {index: 0, port: 'A', portInfo: {enabled: true,  available: true,  type: 0}},
+                        {index: 0, port: 'B', portInfo: {enabled: true,  available: true,  type: 0}},
+                        {index: 0, port: 'C', portInfo: {enabled: false, available: false, type: 0}},
+                        {index: 0, port: 'D', portInfo: {enabled: false, available: false, type: 0}}
+                    ]
+                );
+            }
+        );
+        it(
+            'Should update device and emit port info - POWERED_UP_DEVICE_MOVE_HUB',
+            () => {
+                let deviceListState = new DeviceListState({});
+                let portInfo        = [];
+                deviceListState.on('ChangePort', this, (p) => { portInfo.push(p); });
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice',    poweredUpModuleConstants.POWERED_UP_DEVICE_HUB);
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.UpdateDevice', poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB);
+                assert.deepEqual(
+                    portInfo,
+                    [
+                        {index: 0, port: 'A', portInfo: {enabled: false, available: true, type: 0}},
+                        {index: 0, port: 'B', portInfo: {enabled: false, available: true, type: 0}},
+                        {index: 0, port: 'C', portInfo: {enabled: true,  available: true, type: 0}},
+                        {index: 0, port: 'D', portInfo: {enabled: true,  available: true, type: 0}}
+                    ]
+                );
+            }
+        );
+        it(
+            'Should update device and emit port info - POWERED_UP_DEVICE_TECHNIC_HUB',
             () => {
                 let deviceListState = new DeviceListState({});
                 let portInfo        = [];
@@ -70,6 +129,25 @@ describe(
                         {index: 0, port: 'B', portInfo: {enabled: true, available: true, type: 0}},
                         {index: 0, port: 'C', portInfo: {enabled: true, available: true, type: 0}},
                         {index: 0, port: 'D', portInfo: {enabled: true, available: true, type: 0}}
+                    ]
+                );
+            }
+        );
+        it(
+            'Should update device and emit port info - POWERED_UP_DEVICE_TECHNIC_HUB',
+            () => {
+                let deviceListState = new DeviceListState({});
+                let portInfo        = [];
+                deviceListState.on('ChangePort', this, (p) => { portInfo.push(p); });
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice',    poweredUpModuleConstants.POWERED_UP_DEVICE_HUB);
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.UpdateDevice', poweredUpModuleConstants.POWERED_UP_DEVICE_REMOTE);
+                assert.deepEqual(
+                    portInfo,
+                    [
+                        {index: 0, port: 'A', portInfo: {enabled: false, available: false, type: 0}},
+                        {index: 0, port: 'B', portInfo: {enabled: false, available: false, type: 0}},
+                        {index: 0, port: 'C', portInfo: {enabled: false, available: false, type: 0}},
+                        {index: 0, port: 'D', portInfo: {enabled: false, available: false, type: 0}}
                     ]
                 );
             }

@@ -412,6 +412,130 @@ describe(
                         assert.equal(formEditorState.peekId(), 1);
                     }
                 );
+                it(
+                    'Should add a component check active component',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                let activeComponent = formEditorState.getActiveComponent();
+                                assert.equal(activeComponent.type, formEditorConstants.COMPONENT_TYPE_LABEL);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component check active component type',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                assert.equal(formEditorState.getActiveComponentType(), formEditorConstants.COMPONENT_TYPE_LABEL);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component, can copy',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                assert.equal(formEditorState.getCanCopy(), true);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component, can not copy',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                assert.equal(formEditorState.getCanCopy(), false);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component and check component list',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                let activeComponent = formEditorState.getActiveComponent();
+                                let list            = activeComponent.propertyList.getList();
+                                let types           = {};
+                                list.forEach((propery) => {
+                                    types[propery.type] = true;
+                                });
+                                assert.equal('id'       in types, true);
+                                assert.equal('uid'      in types, true);
+                                assert.equal('parentId' in types, true);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a component check container ids',
+                    function(done) {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                let activeComponent = formEditorState.getActiveComponent();
+                                assert.deepEqual(activeComponent.containerIds, [5, 6]);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
             }
         );
         describe(
