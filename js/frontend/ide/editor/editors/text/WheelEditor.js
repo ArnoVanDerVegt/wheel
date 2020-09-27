@@ -4,6 +4,7 @@
 **/
 const getDataProvider  = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
+const path             = require('../../../../lib/path');
 const Editor           = require('../Editor').Editor;
 const ToolbarBottom    = require('./toolbar/ToolbarBottom').ToolbarBottom;
 const WheelEditorState = require('./WheelEditorState').WheelEditorState;
@@ -14,6 +15,8 @@ exports.WheelEditor = class extends Editor {
         this._wheelEditorState = new WheelEditorState(opts);
         this._textareaElement  = null;
         this._codeMirror       = null;
+        this._mouseDown        = false;
+        this._keyDown          = false;
         this._onGlobalUIId     = opts.ui.addEventListener('Global.UIId',   this, this.onGlobalUIId);
         this._onGlobalKeyUp    = opts.ui.addEventListener('Global.Key.Up', this, this.onGlobalKeyUp);
         this._cursorPosition   = opts.cursorPosition;
@@ -75,6 +78,7 @@ exports.WheelEditor = class extends Editor {
                 codeMirrorElement.addEventListener('mousedown', this.onMouseDown.bind(this));
                 codeMirrorElement.addEventListener('mousemove', this.onMouseMove.bind(this));
                 codeMirrorElement.addEventListener('mouseout',  this.onMouseOut.bind(this));
+                codeMirrorElement.addEventListener('mouseup',   this.onMouseUp.bind(this));
             }
         }
         if (this._cursorPosition) {
@@ -229,6 +233,59 @@ exports.WheelEditor = class extends Editor {
         return false;
     }
 
+    getHintInfoAtCoords(coords) {
+        let codeMirror = this._codeMirror;
+        let start      = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).anchor.ch;
+        let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
+        let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
+        return {
+            coords:  coords,
+            hint:    hint,
+            proc:    this.getProc(coords.line),
+            altHint: this.getAltHintFromLine(codeMirror.getLine(coords.line), (typeof hint === 'string') ? hint : '', start, end)
+        };
+    }
+
+    getVarFromCompiler(opts) {
+        let vr       = false;
+        let database = this._wheelEditorState.getDatabase();
+        if (opts.proc) {
+            let proc = database.compiler.findProc(opts.proc);
+            if (proc) {
+                vr = proc.findLocalVar(opts.hint);
+                if (vr) {
+                    return vr;
+                }
+            }
+        }
+        return vr;
+    }
+
+    getTokenFromHintInfo(hintInfo) {
+        let database = this._wheelEditorState.getDatabase();
+        let proc     = database.compiler.findProc(hintInfo.hint) || database.compiler.findProc(hintInfo.altHint);
+        if (proc) {
+            return proc.getToken();
+        }
+        let record = database.compiler.findRecord(hintInfo.hint) || database.compiler.findRecord(hintInfo.altHint);
+        if (record) {
+            return record.getToken();
+        }
+        let define = database.defines.getFullInfo(hintInfo.hint);
+        if (define) {
+            return define.token;
+        }
+        let vr = this.getVarFromCompiler(hintInfo) || database.compiler.findVar(hintInfo.hint);
+        if (vr) {
+            return vr.getToken();
+        }
+        return null;
+    }
+
+    getFilenameFromToken(token) {
+        return this._wheelEditorState.getDatabase().files[token.fileIndex].filename;
+    }
+
     clearAllBreakpoints() {
         this._codeMirror.clearGutter('breakpoints');
         this._wheelEditorState.resetBreakpoints();
@@ -375,10 +432,12 @@ exports.WheelEditor = class extends Editor {
     }
 
     onKeyDown(cm, event) {
+        this._keyDown = event.key;
         this.onMouseOut(event);
     }
 
     onKeyUp(cm, event) {
+        this._keyDown = false;
         if (this._autoCompleteTimeout) {
             clearTimeout(this._autoCompleteTimeout);
         }
@@ -394,7 +453,19 @@ exports.WheelEditor = class extends Editor {
     }
 
     onMouseDown(event) {
+        this._mouseDown = true;
         this.onMouseOut(event);
+    }
+
+    onMouseUp(event) {
+        if (this._mouseDown && (this._keyDown === 'Control')) {
+            let cursor = this._codeMirror.getCursor();
+            let token  = this.getTokenFromHintInfo(this.getHintInfoAtCoords(cursor));
+            if (token) {
+                dispatcher.dispatch('Dialog.File.Open', this.getFilenameFromToken(token), token);
+            }
+        }
+        this._mouseDown = false;
     }
 
     onMouseMove(event) {
@@ -408,21 +479,10 @@ exports.WheelEditor = class extends Editor {
         wheelEditorState.setHintTimeout(setTimeout(
             () => {
                 wheelEditorState.setHintTimeout(null);
-                let codeMirror = this._codeMirror;
-                let coords     = codeMirror.coordsChar({left: event.clientX, top: event.clientY});
-                let start      = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).anchor.ch;
-                let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
-                let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
-                if ((typeof hint === 'string') && (hint.trim() !== '')) {
-                    dispatcher.dispatch(
-                        'Hint.Show',
-                        {
-                            event:   event,
-                            hint:    hint,
-                            proc:    this.getProc(coords.line),
-                            altHint: this.getAltHintFromLine(codeMirror.getLine(coords.line), hint, start, end)
-                        }
-                    );
+                let hintInfo = this.getHintInfoAtCoords(this._codeMirror.coordsChar({left: event.clientX, top: event.clientY}));
+                if ((typeof hintInfo.hint === 'string') && (hintInfo.hint.trim() !== '')) {
+                    hintInfo.event = event;
+                    dispatcher.dispatch('Hint.Show', hintInfo);
                 }
             },
             300
