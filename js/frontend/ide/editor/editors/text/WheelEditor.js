@@ -204,6 +204,23 @@ exports.WheelEditor = class extends Editor {
         return altHint;
     }
 
+    /**
+     * Get the first occurance of a proc declaration above the cursor line if there is any.
+    **/
+    getProc(line) {
+        let codeMirror = this._codeMirror;
+        while (line > 0) {
+            line--;
+            let s = codeMirror.getLine(line);
+            if (s.substr(0, 5) === 'proc ') {
+                s = s.substr(5 - s.length).trim();
+                let i = s.indexOf('(');
+                return (i === -1) ? false : s.substr(0, i);
+            }
+        }
+        return false;
+    }
+
     clearAllBreakpoints() {
         this._codeMirror.clearGutter('breakpoints');
         this._wheelEditorState.resetBreakpoints();
@@ -389,11 +406,13 @@ exports.WheelEditor = class extends Editor {
                 let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
                 let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
                 if ((typeof hint === 'string') && (hint.trim() !== '')) {
+
                     dispatcher.dispatch(
                         'Hint.Show',
                         {
                             event:   event,
                             hint:    hint,
+                            proc:    this.getProc(coords.line),
                             altHint: this.getAltHintFromLine(codeMirror.getLine(coords.line), hint, start, end)
                         }
                     );

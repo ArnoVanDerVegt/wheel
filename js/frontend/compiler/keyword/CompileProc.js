@@ -95,7 +95,7 @@ exports.CompileProc = class extends CompileBlock {
                             }
                         }
                         linter && linter.addParam(token);
-                        scope.addVar(token, token.lexeme, type, Var.getArraySize(arraySize), pointer, true);
+                        scope.addVar(token, token.lexeme, type, Var.getArraySize(arraySize), pointer, true).setIsParam(true);
                         expectComma = true;
                     }
                     pointer = false;

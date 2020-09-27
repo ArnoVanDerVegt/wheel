@@ -51,25 +51,17 @@ exports.Hint = class extends Component {
                         className: 'flt max-w namespace'
                     },
                     {
-                        id:        this.setPreElement.bind(this),
+                        id:        this.setRef('pre'),
                         type:      'pre',
                         className: 'flt max-w wheel'
                     },
                     {
-                        id:        this.setLocationElement.bind(this),
+                        id:        this.setRef('location'),
                         className: 'flt max-w location'
                     }
                 ]
             }
         );
-    }
-
-    setPreElement(element) {
-        this._preElement = element;
-    }
-
-    setLocationElement(element) {
-        this._locationElement = element;
     }
 
     getLocationInfo(token) {
@@ -142,7 +134,7 @@ exports.Hint = class extends Component {
     getHintFromRecord(hintInfo, record) {
         let fields    = record.getVars();
         let fieldList = [];
-        let nameParts = proc.getName().split('~');
+        let nameParts = record.getName().split('~');
         let name      = nameParts[nameParts.length - 1];
         let namespace = false;
         if (nameParts.length > 1) {
@@ -171,8 +163,9 @@ exports.Hint = class extends Component {
     getHintFromDefine(hintInfo, define) {
         let value = define.value + '';
         let token = define.token;
-        hintInfo.token  = token;
-        hintInfo.hint   = this.getSpan(hintInfo, define.key, 'define') + this.getSpan(hintInfo, ' = ', 'operator');
+        hintInfo.type  = 'define';
+        hintInfo.token = token;
+        hintInfo.hint  = this.getSpan(hintInfo, define.key, 'define') + this.getSpan(hintInfo, ' = ', 'operator');
         if (token.tag && (token.tag.name === 'image')) {
             this._hintImage = token.tag.data;
         }
@@ -183,7 +176,29 @@ exports.Hint = class extends Component {
         }
     }
 
-    getHint(opts) {
+    getVarFromCompiler(opts) {
+        let vr       = false;
+        let database = this._database;
+        if (opts.proc) {
+            let proc = database.compiler.findProc(opts.proc);
+            if (proc) {
+                vr = proc.findLocalVar(opts.hint);
+                if (vr) {
+                    return vr;
+                }
+            }
+        }
+        return vr;
+    }
+
+    getHintFromVar(hintInfo, vr, scope) {
+        let type = vr.getType();
+        hintInfo.type  = vr.getIsParam() ? 'param' : scope;
+        hintInfo.token = vr.getToken();
+        hintInfo.hint  = this.getVarString(hintInfo, vr);
+    }
+
+    getHintInfo(opts) {
         let hintInfo = {
                 length:  0,
                 hasMore: false,
@@ -195,29 +210,43 @@ exports.Hint = class extends Component {
         let proc     = database.compiler.findProc(opts.hint) || database.compiler.findProc(opts.altHint);
         if (proc) {
             this.getHintFromProc(hintInfo, proc);
-        } else {
-            let record = database.compiler.findRecord(opts.hint) || database.compiler.findRecord(opts.altHint);
-            if (record) {
-                this.getHintFromRecord(hintInfo, record);
-            } else {
-                hintInfo.type = 'define';
-                let define = database.defines.getFullInfo(opts.hint);
-                if (define !== false) {
-                    this.getHintFromDefine(hintInfo, define);
-                }
-            }
+            return hintInfo;
+        }
+        let record = database.compiler.findRecord(opts.hint) || database.compiler.findRecord(opts.altHint);
+        if (record) {
+            this.getHintFromRecord(hintInfo, record);
+            return hintInfo;
+        }
+        let define = database.defines.getFullInfo(opts.hint);
+        if (define) {
+            this.getHintFromDefine(hintInfo, define);
+            return hintInfo;
+        }
+        let vr = this.getVarFromCompiler(opts);
+        if (vr) {
+            this.getHintFromVar(hintInfo, vr, 'local');
+            return hintInfo;
+        }
+        vr = database.compiler.findVar(opts.hint);
+        if (vr) {
+            this.getHintFromVar(hintInfo, vr, 'global');
+            return hintInfo;
+        }
+        return hintInfo;
+    }
+
+    getHint(opts) {
+        let hintInfo = this.getHintInfo(opts);
+        if (hintInfo.hint === '') {
+            return '';
         }
         let refs = this._refs;
-        if (hintInfo.hint !== '') {
-            if (hintInfo.namespace) {
-                refs.namespace.innerHTML     = 'namespace: <i>' + hintInfo.namespace + '</>';
-                refs.namespace.style.display = 'block';
-            } else {
-                refs.namespace.style.display = 'none';
-            }
-            refs.title.innerHTML            = hintInfo.type;
-            this._locationElement.innerHTML = this.getLocationInfo(hintInfo.token);
+        if (hintInfo.namespace) {
+            refs.namespace.innerHTML     = 'namespace: <i>' + hintInfo.namespace + '</>';
+            refs.namespace.style.display = 'block';
         }
+        refs.title.innerHTML    = hintInfo.type;
+        refs.location.innerHTML = this.getLocationInfo(hintInfo.token);
         return hintInfo.hint;
     }
 
@@ -237,8 +266,6 @@ exports.Hint = class extends Component {
         if (this._hintImage) {
             imageWrapper.style.display = 'block';
             image.src                  = this._getImage(this._hintImage);
-        } else {
-            imageWrapper.style.display = 'none';
         }
     }
 
@@ -248,16 +275,19 @@ exports.Hint = class extends Component {
         }
         let measure = false;
         if (this._hint !== opts.hint) {
-            this._hintImage = false;
+            let refs = this._refs;
+            refs.imageWrapper.style.display = 'none';
+            refs.namespace.style.display    = 'none';
+            this._hintImage                 = false;
             let hint = this.getHint(opts);
             if (hint === '') {
                 return;
             }
             this.showImage(this._hintImage);
-            this._baseClassName        = 'abs hint' + (this._hintImage ? ' with-image' : '');
-            this._element.className    = this.getClassName();
-            this._preElement.innerHTML = hint;
-            measure                    = true;
+            this._baseClassName     = 'abs hint' + (this._hintImage ? ' with-image' : '');
+            this._element.className = this.getClassName();
+            refs.pre.innerHTML      = hint;
+            measure                 = true;
         }
         let element = this._element;
         let x       = opts.event.clientX + 8;
