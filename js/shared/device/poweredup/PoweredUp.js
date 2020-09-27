@@ -282,19 +282,16 @@ exports.PoweredUp = class extends BasicDevice {
     _updateConnectedHubs() {
         let connectedHubUuids = this._connectedHubUuids;
         let hubsByUuid        = this._hubsByUuid;
-        this._hubs.forEach(
-            function(h) {
-                if (!h || (h.uuid in connectedHubUuids)) {
-                    return;
-                }
-                let hub = hubsByUuid[h.uuid];
-                if (hub.connected) {
-                    connectedHubUuids[h.uuid] = true;
-                    this._attachEvents(hub.index, h, hub);
-                }
-            },
-            this
-        );
+        this._hubs.forEach((h) => {
+            if (!h || (h.uuid in connectedHubUuids)) {
+                return;
+            }
+            let hub = hubsByUuid[h.uuid];
+            if (hub.connected) {
+                connectedHubUuids[h.uuid] = true;
+                this._attachEvents(hub.index, h, hub);
+            }
+        });
     }
 
     /**
@@ -406,6 +403,19 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     disconnect() {
+    }
+
+    disconnectAll() {
+        this._hubs.forEach((hub) => {
+            hub.disconnect();
+        });
+        this._hubs.length   = 0;
+        this._layers.length = 0;
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            this._layers.push(this.initLayer());
+        }
+        this._hubsByUuid = {};
+        this.scan();
     }
 
     playtone(frequency, duration, volume, callback) {

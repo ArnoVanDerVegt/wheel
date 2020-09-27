@@ -99,12 +99,13 @@ exports.PoweredUpState = class extends BasicDeviceState {
                     'post',
                     'powered-up/update',
                     {
-                        queue: this._queue
+                        queue: this.updateSendQueue()
                     },
                     (data) => {
-                        this._queue.length = 0;
                         let json = JSON.parse(data);
-                        this.updateLayerState(json);
+                        this
+                            .updateReceivedQueue(json.messagesReceived)
+                            .updateLayerState(json);
                         if (!this._noTimeout) {
                             setTimeout(callback, 20);
                         }

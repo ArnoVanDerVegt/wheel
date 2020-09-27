@@ -154,6 +154,9 @@ exports.IDE = class extends IDEDOM {
     }
 
     initPoweredUp() {
+        if (platform.isNode()) {
+            getDataProvider().getData('post', 'powered-up/disconnect-all', {}, (data) => {});
+        }
         let poweredUpAutoConnect = this._settings.getPoweredUpAutoConnect().toJSON();
         getDataProvider().getData(
             'post',

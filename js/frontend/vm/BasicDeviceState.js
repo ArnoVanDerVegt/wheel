@@ -13,6 +13,7 @@ exports.BasicDeviceState = class extends Emitter {
         this._queue      = [];
         this._layerCount = opts.layerCount || 0;
         this._layerState = [];
+        this._messageId  = 0;
         let maxLayerCount = ('maxLayerCount' in opts) ? opts.maxLayerCount : 4;
         for (let i = 0; i < maxLayerCount; i++) {
             this._layerState.push(new opts.LayerState({layer: i, device: this}));
@@ -62,6 +63,28 @@ exports.BasicDeviceState = class extends Emitter {
             }
         }
         this._queue.push({module: module, command: command, data: data});
+    }
+
+    updateSendQueue() {
+        let queue = this._queue;
+        queue.forEach((message) => {
+            message.messageId = this._messageId++;
+        });
+        return queue;
+    }
+
+    updateReceivedQueue(messagesReceived) {
+        let queue = this._queue;
+        let i     = 0;
+        while (i < queue.length) {
+            let message = queue[i];
+            if (message.messageId in messagesReceived) {
+                queue.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        return this;
     }
 
     downloadData() {}

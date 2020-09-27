@@ -36,6 +36,7 @@ app.post('/powered-up/device-list',           poweredUpRoutes.deviceList.bind(po
 app.post('/powered-up/connected-device-list', poweredUpRoutes.connectedDeviceList.bind(poweredUpRoutes));
 app.post('/powered-up/connect',               poweredUpRoutes.connect.bind(poweredUpRoutes));
 app.post('/powered-up/disconnect',            poweredUpRoutes.disconnect.bind(poweredUpRoutes));
+app.post('/powered-up/disconnect-all',        poweredUpRoutes.disconnectAll.bind(poweredUpRoutes));
 app.post('/powered-up/connecting',            poweredUpRoutes.connecting.bind(poweredUpRoutes));
 app.post('/powered-up/connected',             poweredUpRoutes.connected.bind(poweredUpRoutes));
 app.post('/powered-up/update',                poweredUpRoutes.update.bind(poweredUpRoutes));

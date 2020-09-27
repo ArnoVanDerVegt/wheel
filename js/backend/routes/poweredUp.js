@@ -51,6 +51,11 @@ exports.poweredUpRoutes = {
         res.send(JSON.stringify({}));
     },
 
+    disconnectAll(req, res) {
+        getPoweredUp().disconnectAll(() => {});
+        res.send(JSON.stringify({}));
+    },
+
     connecting(req, res) {
         let connected = getPoweredUp().getConnected();
         let state     = {};
@@ -68,12 +73,15 @@ exports.poweredUpRoutes = {
     },
 
     update(req, res) {
-        let result = {error: false, connected: true};
-        let queue  = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+        let result           = {error: false, connected: true};
+        let queue            = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+        let messagesReceived = {};
         queue.forEach((params) => {
             poweredUp.module(params.module, params.command, params.data);
+            messagesReceived[params.messageId] = true;
         });
-        result.state = poweredUp.getState();
+        result.state            = poweredUp.getState();
+        result.messagesReceived = messagesReceived;
         res.send(JSON.stringify(result));
     },
 
