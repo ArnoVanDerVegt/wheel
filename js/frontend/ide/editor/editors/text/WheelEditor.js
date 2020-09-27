@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const getDataProvider  = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
 const Editor           = require('../Editor').Editor;
 const ToolbarBottom    = require('./toolbar/ToolbarBottom').ToolbarBottom;
@@ -22,6 +23,15 @@ exports.WheelEditor = class extends Editor {
                 .on('Compiler.Database',     this, this.onCompilerDatabase)
                 .on('PreProcessor.Database', this, this.onPreProcessorDatabase);
         }
+    }
+
+    initCodeMirrorDependencies(codeMirror) {
+        let settings         = this._settings;
+        let wheelEditorState = this._wheelEditorState;
+        codeMirror.getSettings     = function() { return settings; };
+        codeMirror.getDispatcher   = function() { return dispatcher; };
+        codeMirror.getCodeDatabase = function() { return wheelEditorState.getDatabase(); };
+        codeMirror.getDataProvider = function() { return getDataProvider(); };
     }
 
     initCodeMirror() {
@@ -51,9 +61,6 @@ exports.WheelEditor = class extends Editor {
                 'Ctrl-Space': 'autocomplete'
             }
         );
-        codeMirror.getCodeDatabase = function() {
-            return wheelEditorState.getDatabase();
-        };
         if (wheelEditorState.getGutters().length) {
             codeMirror.on('gutterClick', this.onGutterClick.bind(this));
         }
@@ -61,6 +68,7 @@ exports.WheelEditor = class extends Editor {
         codeMirror.on('cursorActivity', this.onCursorChanged.bind(this));
         codeMirror.on('keydown',        this.onKeyDown.bind(this));
         codeMirror.on('keyup',          this.onKeyUp.bind(this));
+        this.initCodeMirrorDependencies(codeMirror);
         if (wheelEditorState.getMode() === 'text/x-wheel') {
             let codeMirrorElement = this._refs.wrapper.querySelector('.CodeMirror');
             if (codeMirrorElement) {
@@ -406,7 +414,6 @@ exports.WheelEditor = class extends Editor {
                 let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
                 let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
                 if ((typeof hint === 'string') && (hint.trim() !== '')) {
-
                     dispatcher.dispatch(
                         'Hint.Show',
                         {

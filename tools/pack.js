@@ -84,7 +84,7 @@ const libraryFiles = [
         '../js/frontend/lib/codemirror/codemirror.js',
         '../js/frontend/lib/codemirror/addon/searchCursor.js',
         '../js/frontend/lib/codemirror/addon/search.js',
-        '../js/frontend/lib/codemirror/addon/jumpToDeclaration.js',
+        '../js/frontend/lib/codemirror/addon/openFileAtCursor.js',
         '../js/frontend/lib/codemirror/addon/showHint.js',
         '../js/frontend/lib/codemirror/addon/wheelHint.js',
         '../js/frontend/lib/codemirror/mode/wheel.js',
