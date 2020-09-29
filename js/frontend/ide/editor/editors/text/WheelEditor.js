@@ -462,7 +462,22 @@ exports.WheelEditor = class extends Editor {
             let cursor = this._codeMirror.getCursor();
             let token  = this.getTokenFromHintInfo(this.getHintInfoAtCoords(cursor));
             if (token) {
-                dispatcher.dispatch('Dialog.File.Open', this.getFilenameFromToken(token), token);
+                let filename = this.getFilenameFromToken(token);
+                getDataProvider().getData(
+                    'get',
+                    'ide/path-exists',
+                    {path: filename},
+                    (data) => {
+                        let exists = false;
+                        try {
+                            exists = JSON.parse(data).exists;
+                        } catch (error) {
+                        }
+                        if (exists) {
+                            dispatcher.dispatch('Dialog.File.Open', filename, token);
+                        }
+                    }
+                );
             }
         }
         this._mouseDown = false;
