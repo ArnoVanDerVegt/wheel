@@ -2,10 +2,25 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+
+// Todo: Fix inconsistent responses: sometimes object, sometimes JSON string.
+
 (function() {
-    let pathByIndex       = {};
-    let localStorageFiles = null;
-    let changes           = [];
+    let pathByIndex         = {};
+    let localStorageFiles   = null;
+    let changes             = [];
+    let requireDependencies = {};
+
+    const getRequireDependency = (filename) => {
+            if (filename in requireDependencies) {
+                return requireDependencies[filename];
+            }
+            return require(filename);
+        };
+
+    exports.setRequireDependencies = (dependencies) => {
+        requireDependencies = dependencies;
+    };
 
     class DirectoryList {
         constructor() {
@@ -49,7 +64,7 @@
         }
 
         dispatchSize(size) {
-            let dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
+            let dispatcher = getRequireDependency('./js/frontend/lib/dispatcher').dispatcher;
             dispatcher.dispatch('LocalStorage.Size', {value: Math.min(size / (1024 * 1024) * 100, 100)});
         }
 
@@ -102,7 +117,7 @@
         };
 
     const getFilesInPath = function(p, files, directoryList, readonly) {
-            let path = require('./js/frontend/lib/path');
+            let path = getRequireDependency('./js/frontend/lib/path');
             for (let filename in files) {
                 if (filename.indexOf(p) !== 0) {
                     continue;
@@ -134,6 +149,11 @@
         };
 
     exports.ideRoutes = {
+        reset() {
+            localStorageFiles = new LocalStorageFiles();
+            changes.length    = 0;
+        },
+
         files(params, callback) {
             getLocalStorageFiles();
             let currentPath;
@@ -154,8 +174,9 @@
             }
             pathByIndex[params.index] = currentPath;
             let directoryList = new DirectoryList();
-            getFilesInPath(currentPath, require('./js/frontend/ide/data/templates').files, directoryList, true);
-            getFilesInPath(currentPath, getLocalStorageFiles().getFiles(),                 directoryList, false);
+            let files         = getRequireDependency('./js/frontend/ide/data/templates').files;
+            getFilesInPath(currentPath, files,                             directoryList, true);
+            getFilesInPath(currentPath, getLocalStorageFiles().getFiles(), directoryList, false);
             if (currentPath !== 'Wheel') {
                 directoryList.addItem('..', true, true);
             }
@@ -166,8 +187,8 @@
         },
 
         file(params, callback) {
-            let path       = require('./js/frontend/lib/path');
-            let files      = require('./js/frontend/ide/data/templates').files;
+            let path       = getRequireDependency('./js/frontend/lib/path');
+            let files      = getRequireDependency('./js/frontend/ide/data/templates').files;
             let localFiles = getLocalStorageFiles().getFiles();
             let extension  = path.getExtension(params.filename);
             let data       = null;
@@ -192,7 +213,7 @@
             }
             switch (extension) {
                 case '.rgf':
-                    const RgfImage = require('./js/shared/lib/RgfImage').RgfImage;
+                    const RgfImage = getRequireDependency('./js/shared/lib/RgfImage').RgfImage;
                     data = new RgfImage().unpack(data);
                     break;
                 case '.rsf':
@@ -228,7 +249,7 @@
         },
 
         filesInPath(params, callback) {
-            let files = require('./js/frontend/ide/data/templates').files;
+            let files = getRequireDependency('./js/frontend/ide/data/templates').files;
             callback(JSON.stringify(Object.keys(files)));
         },
 
@@ -271,7 +292,6 @@
                             callback(JSON.stringify(result));
                         }
                     } catch (error) {
-                        console.log(error);
                         callback(JSON.stringify(result));
                     }
                 }
