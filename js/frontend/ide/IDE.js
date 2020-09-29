@@ -84,6 +84,7 @@ exports.IDE = class extends IDEDOM {
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)
             .on('Menu.EV3.StopAllMotors',             this, this.onMenuEV3StopAllMotors)
             .on('Menu.PoweredUp.Connect',             this, this.onMenuPoweredUpConnect)
+            .on('Menu.PoweredUp.Disconnect',          this, this.onMenuPoweredUpDisconnect)
             .on('Menu.PoweredUp.AutoConnect',         this, this.onMenuPoweredUpAutoConnect)
             .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
             .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)

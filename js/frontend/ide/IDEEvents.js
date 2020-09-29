@@ -132,6 +132,10 @@ exports.IDEEvents = class extends CompileAndRun {
         this.onSelectDevicePoweredUp();
     }
 
+    onMenuPoweredUpDisconnect() {
+        this._poweredUp.disconnect();
+    }
+
     onMenuPoweredUpAutoConnect() {
         dispatcher.dispatch('Dialog.AutoConnectPoweredUp.Show');
         this.onSelectDevicePoweredUp();

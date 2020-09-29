@@ -39,7 +39,8 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
         poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
-            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu);
+            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
+            .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)

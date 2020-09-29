@@ -50,6 +50,7 @@ const routes = {
         'powered-up/connected-device-list': poweredUpRoutes.connectedDeviceList,
         'powered-up/connect':               poweredUpRoutes.connect,
         'powered-up/disconnect':            poweredUpRoutes.disconnect,
+        'powered-up/disconnect-all':        poweredUpRoutes.disconnectAll,
         'powered-up/connecting':            poweredUpRoutes.connecting,
         'powered-up/connected':             poweredUpRoutes.connected,
         'powered-up/update':                poweredUpRoutes.update,
