@@ -35,7 +35,6 @@ describe(
             'Should get data from data provider',
             (done) => {
                 let mockDataProvider = new MockDataProvider();
-                console.log('mockDataProvider:', mockDataProvider);
                 let formResource     = new FormResource({
                         filename:        'test.wfrm',
                         getDataProvider: () => { return mockDataProvider; }

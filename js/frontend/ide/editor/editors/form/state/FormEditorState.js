@@ -171,7 +171,7 @@ exports.FormEditorState = class extends Emitter {
             (activeComponent.parentId === this._formId)) {
             return null;
         }
-        return activeComponent.parentId;
+        return activeComponent.parentId || null;
     }
 
     getActiveComponent() {
@@ -248,9 +248,13 @@ exports.FormEditorState = class extends Emitter {
 
     deleteComponentById(id, saveUndo) {
         let componentList = this._componentList;
-        let component     = componentList.deleteComponentById(id);
-        let components    = [];
+        let component     = this._componentList.getComponentById(id);
         let children      = componentList.getChildComponents(component);
+        let components    = [];
+        componentList.deleteComponentById(id);
+        children.forEach((child) => {
+            componentList.deleteComponentById(child.id);
+        });
         if (saveUndo) {
             if (children.length) {
                 component.children = children;
@@ -314,27 +318,23 @@ exports.FormEditorState = class extends Emitter {
         if (!component) {
             return;
         }
-        if ((component.type === formEditorConstants.COMPONENT_TYPE_TABS) && (property === 'tabs')) {
+        let renameEvents = [];
+        let oldValue     = component[property];
+        let isTabs       = (component.type === formEditorConstants.COMPONENT_TYPE_TABS) && (property === 'tabs');
+        if (isTabs) {
             this.changeTabs(component, value);
-        } else {
-            this._undoStack.undoStackPush({
-                action:   formEditorConstants.ACTION_CHANGE_PROPERTY,
-                id:       id,
-                property: property,
-                value:    component[property]
-            });
         }
         if (property === 'name') {
-            let renameEvents = [];
+            component[property] = value;
             if (id === this._formId) {
                 this._componentList.getList().forEach(
                     function(component) {
-                        this.updateEventsForComponent(renameEvents, component);
+                        renameEvents.push.apply(renameEvents, this.updateEventsForComponent(component));
                     },
                     this
                 );
             } else {
-                this.updateEventsForComponent(renameEvents, component);
+                renameEvents.push.apply(renameEvents, this.updateEventsForComponent(component));
             }
             this.emit(
                 (component.type === 'form') ? 'RenameForm' : 'RenameComponent',
@@ -345,8 +345,18 @@ exports.FormEditorState = class extends Emitter {
                     renameEvents: renameEvents
                 }
             );
+        } else {
+            component[property] = value;
         }
-        component[property] = value;
+        if (!isTabs) {
+            this._undoStack.undoStackPush({
+                action:       formEditorConstants.ACTION_CHANGE_PROPERTY,
+                id:           id,
+                property:     property,
+                value:        oldValue,
+                renameEvents: renameEvents
+            });
+        }
         if (component.type === 'form') {
             this.emit('ChangeForm');
         }
@@ -396,18 +406,26 @@ exports.FormEditorState = class extends Emitter {
         return this;
     }
 
-    updateEventsForComponent(renameEvents, component) {
-        let events = component.eventList.getUpdatedEvents();
+    updateEventsForComponent(component) {
+        let eventList     = new EventList({
+                component:       component,
+                formEditorState: this
+            });
+        let events        = eventList.getUpdatedEvents();
+        let componentList = this._componentList;
+        let renameEvents  = [];
         for (let event in events) {
             if (event in component) {
                 renameEvents.push({
-                    name:    event,
-                    newName: events[event],
-                    oldName: component[event]
+                    uid:      component.uid,
+                    name:     event,
+                    newValue: events[event],
+                    oldValue: component[event]
                 });
-                component[event] = events[event];
+                componentList.getComponentById(component.id)[event] = events[event];
             }
         }
+        return renameEvents;
     }
 
     updateComponents(id) {

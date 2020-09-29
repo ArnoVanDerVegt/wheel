@@ -136,11 +136,12 @@ describe(
                                 filename:            'test.wfrm'
                             });
                         assert.equal(formEditorState instanceof FormEditorState, true);
+                        formEditorState.remove();
                     }
                 );
                 it(
                     'Should peek initial Id',
-                    function(done) {
+                    (done) => {
                         let formEditorState = new FormEditorState({
                                 containerIdsForForm: new ContainerIdsForForm(),
                                 initTime:            2,
@@ -165,7 +166,7 @@ describe(
             () => {
                 it(
                     'Should load an empty form',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState0();
                         formEditorState.on(
                             'Loaded',
@@ -187,7 +188,7 @@ describe(
                 );
                 it(
                     'Should load a form with one component',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState1();
                         formEditorState.on(
                             'Loaded',
@@ -206,7 +207,7 @@ describe(
                 );
                 it(
                     'Should load a form with two components',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -229,7 +230,7 @@ describe(
         );
         it(
             'Should get a component by id',
-            function(done) {
+            (done) => {
                 let formEditorState = getFormEditorState1();
                 formEditorState.on(
                     'Loaded',
@@ -249,7 +250,7 @@ describe(
         );
         it(
             'Should get a component texts',
-            function(done) {
+            (done) => {
                 let formEditorState = getFormEditorState2();
                 formEditorState.on(
                     'Loaded',
@@ -270,7 +271,7 @@ describe(
             () => {
                 it(
                     'Should delete a component',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -290,7 +291,7 @@ describe(
                 );
                 it(
                     'Should delete a component, get renumbered ids',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -310,7 +311,7 @@ describe(
                 );
                 it(
                     'Should delete a component, save undo',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -318,8 +319,10 @@ describe(
                             () => {
                                 assert.equal(formEditorState.getData().length,     3);
                                 assert.equal(formEditorState.getUndoStackLength(), 0);
+                                assert.equal(formEditorState.getHasUndo(),         false);
                                 formEditorState.deleteComponentById(2, true);
                                 assert.equal(formEditorState.getUndoStackLength(), 1);
+                                assert.equal(formEditorState.getHasUndo(),         true);
                                 let data = formEditorState.getData(true);
                                 assert.equal(data.length, 2);
                                 assert.equal(data[0].id,  1);
@@ -332,7 +335,7 @@ describe(
                 );
                 it(
                     'Should delete a component, apply undo',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -358,6 +361,73 @@ describe(
                         assert.equal(formEditorState.peekId(), 1);
                     }
                 );
+                it(
+                    'Should delete active component',
+                    (done) => {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.deleteActiveComponent();
+                                assert.equal(formEditorState.getData().length, 2);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a tabs component and add a child component and delete tabs',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                formEditorState.addComponent({
+                                    type:     formEditorConstants.COMPONENT_TYPE_LABEL,
+                                    parentId: 3
+                                });
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.deleteComponentById(2);
+                                assert.equal(formEditorState.getData().length, 1);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a tabs component, add a child component, delete tabs and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                formEditorState.addComponent({
+                                    type:     formEditorConstants.COMPONENT_TYPE_LABEL,
+                                    parentId: 3
+                                });
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.deleteComponentById(2, true);
+                                assert.equal(formEditorState.getData().length, 1);
+                                formEditorState.undo();
+                                assert.equal(formEditorState.getData().length, 3);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
             }
         );
         describe(
@@ -365,7 +435,7 @@ describe(
             () => {
                 it(
                     'Should add a component',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -384,7 +454,7 @@ describe(
                 );
                 it(
                     'Should add a component and undo',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -414,7 +484,7 @@ describe(
                 );
                 it(
                     'Should add a component check active component',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -434,7 +504,7 @@ describe(
                 );
                 it(
                     'Should add a component check active component type',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -453,7 +523,7 @@ describe(
                 );
                 it(
                     'Should add a component, can copy',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -472,7 +542,7 @@ describe(
                 );
                 it(
                     'Should add a component, can not copy',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -491,7 +561,7 @@ describe(
                 );
                 it(
                     'Should add a component and check component list',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -510,6 +580,7 @@ describe(
                                 assert.equal('id'       in types, true);
                                 assert.equal('uid'      in types, true);
                                 assert.equal('parentId' in types, true);
+                                assert.strictEqual(formEditorState.getActiveComponentParentId(), null);
                                 done();
                             }
                         );
@@ -517,8 +588,8 @@ describe(
                     }
                 );
                 it(
-                    'Should add a component check container ids',
-                    function(done) {
+                    'Should add a tabs component check container ids',
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -530,6 +601,28 @@ describe(
                                 });
                                 let activeComponent = formEditorState.getActiveComponent();
                                 assert.deepEqual(activeComponent.containerIds, [5, 6]);
+                                assert.deepEqual(formEditorState.getActiveComponentParentId(), [5, 6]);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
+                it(
+                    'Should add a panel component check container ids',
+                    (done) => {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getData().length, 3);
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_PANEL
+                                });
+                                let activeComponent = formEditorState.getActiveComponent();
+                                assert.deepEqual(activeComponent.containerIds, [5]);
+                                assert.deepEqual(formEditorState.getActiveComponentParentId(), [5]);
                                 done();
                             }
                         );
@@ -543,7 +636,7 @@ describe(
             () => {
                 it(
                     'Should set component position',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -579,7 +672,7 @@ describe(
                 );
                 it(
                     'Should set component position, align to grid',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -619,8 +712,80 @@ describe(
             'Test changing a property',
             () => {
                 it(
+                    'Should change position',
+                    (done) => {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.x, 10);
+                                assert.equal(component.y, 20);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change position and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.x, 10);
+                                assert.equal(component.y, 20);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.x, 0);
+                                assert.equal(component.y, 0);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change position twice and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                formEditorState.setComponentPositionById(newId, {x: 40, y: 30});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.x, 40);
+                                assert.equal(component.y, 30);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.x, 0);
+                                assert.equal(component.y, 0);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
                     'Should change zIndex',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -641,7 +806,7 @@ describe(
                 );
                 it(
                     'Should change zIndex and undo',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -667,9 +832,37 @@ describe(
                     }
                 );
                 it(
-                    'Should change component name',
-                    function(done) {
+                    'Should change zIndex twice and undo',
+                    (done) => {
                         let formEditorState = getFormEditorState2();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_LABEL
+                                });
+                                // Set position to add an extra item on the undo stack...
+                                formEditorState.setComponentPositionById(newId, {x: 10, y: 20});
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 0);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'zIndex', 456);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'zIndex', 123);
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 123);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.zIndex, 0);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change component name',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
                         formEditorState.on(
                             'Loaded',
                             this,
@@ -687,6 +880,146 @@ describe(
                         );
                     }
                 );
+                it(
+                    'Should change form name',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_BUTTON
+                                });
+                                dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', 'onLabelButton1Click');
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onLabelButton1Click');
+                                dispatcher.dispatch('Properties.Property.Change', 1, 'name', 'newName');
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onNewNameButton1Click');
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should change form name and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_BUTTON
+                                });
+                                dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', 'onLabelButton1Click');
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onLabelButton1Click');
+                                dispatcher.dispatch('Properties.Property.Change', 1, 'name', 'newName');
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.equal(component.onClick, 'onLabelButton1Click');
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should remove tab and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(component.containerIds, [3, 4]);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'tabs', ['Test']);
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['Test']);
+                                assert.deepEqual(component.containerIds, [3]);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(component.containerIds, [3, 6]);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should remove tab with child component and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                formEditorState.addComponent({
+                                    type:     formEditorConstants.COMPONENT_TYPE_LABEL,
+                                    parentId: 4
+                                });
+                                let data = formEditorState.getData();
+                                assert.deepEqual(data.length,          3);
+                                assert.deepEqual(data[1].tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(data[1].containerIds, [3, 4]);
+                                assert.deepEqual(data[2].parentId,     4);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'tabs', ['Test']);
+                                data = formEditorState.getData();
+                                assert.deepEqual(data.length,          2);
+                                assert.deepEqual(data[1].tabs,         ['Test']);
+                                assert.deepEqual(data[1].containerIds, [3]);
+                                formEditorState.undo();
+                                data = formEditorState.getData();
+                                assert.deepEqual(data.length,          3);
+                                assert.deepEqual(data[1].tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(data[1].containerIds, [3, 7]);
+                                assert.deepEqual(data[2].parentId,     7);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should add a tab and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                let newId = formEditorState.peekId();
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                let component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(component.containerIds, [3, 4]);
+                                dispatcher.dispatch('Properties.Property.Change', newId, 'tabs', ['A', 'B', 'C']);
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['A', 'B', 'C']);
+                                assert.deepEqual(component.containerIds, [3, 4, 5]);
+                                formEditorState.undo();
+                                component = formEditorState.getComponentList().getComponentClone(newId);
+                                assert.deepEqual(component.tabs,         ['Tab(1)', 'Tab(2)']);
+                                assert.deepEqual(component.containerIds, [3, 4]);
+                                done();
+                            }
+                        );
+                    }
+                );
             }
         );
         describe(
@@ -694,7 +1027,7 @@ describe(
             () => {
                 it(
                     'Should change event',
-                    function(done) {
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -713,8 +1046,8 @@ describe(
                     }
                 );
                 it(
-                    'Should remote event',
-                    function(done) {
+                    'Should remove event',
+                    (done) => {
                         let formEditorState = getFormEditorState2();
                         formEditorState.on(
                             'Loaded',
@@ -730,6 +1063,78 @@ describe(
                                 dispatcher.dispatch('Properties.Event.Change', newId, 'onClick', false);
                                 component = formEditorState.getComponentList().getComponentClone(newId);
                                 assert.equal('onClick' in component, false);
+                                done();
+                            }
+                        );
+                    }
+                );
+            }
+        );
+        describe(
+            'Test clipboard',
+            () => {
+                it(
+                    'Should not be able to copy',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getCanCopy(), false);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should be able to copy',
+                    (done) => {
+                        let formEditorState = getFormEditorState1();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getCanCopy(), true);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should copy',
+                    (done) => {
+                        let formEditorState = getFormEditorState1();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getCanPaste(), false);
+                                formEditorState.copy();
+                                assert.equal(formEditorState.getCanPaste(), true);
+                                done();
+                            }
+                        );
+                    }
+                );
+                it(
+                    'Should paste',
+                    (done) => {
+                        let formEditorState = getFormEditorState1();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                assert.equal(formEditorState.getCanPaste(), false);
+                                let data = formEditorState.getData();
+                                assert.equal(data.length, 2);
+                                formEditorState.copy();
+                                formEditorState.paste(1, null);
+                                data = formEditorState.getData();
+                                assert.equal(data.length, 3);
+                                assert.equal(data[2].type, data[1].type);
+                                assert.equal(data[2].x,    data[1].x + 32);
+                                assert.equal(data[2].y,    data[1].y + 32);
                                 done();
                             }
                         );

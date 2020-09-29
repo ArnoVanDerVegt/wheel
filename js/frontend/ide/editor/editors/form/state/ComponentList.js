@@ -74,6 +74,16 @@ exports.ComponentList = class {
         return this._componentsById[id];
     }
 
+    getComponentByUid(uid) {
+        let componentsById = this._componentsById;
+        for (let id in componentsById) {
+            if (componentsById[id].uid === uid) {
+                return componentsById[id];
+            }
+        }
+        return null;
+    }
+
     getList() {
         let result = [];
         for (let id in this._componentsById) {
@@ -250,7 +260,8 @@ exports.ComponentList = class {
             component.containerIds.push(nextId);
             this._undoStack.undoStackPush({
                 action: formEditorConstants.ACTION_TAB_ADD_TAB,
-                id:     component.id
+                id:     component.id,
+                tabs:   [].concat(component.tabs)
             });
             this._formEditorState.emit('AddUndo');
         } else if (value.length < component.tabs.length) {
@@ -260,7 +271,7 @@ exports.ComponentList = class {
             this._undoStack.undoStackPush({
                 action:   formEditorConstants.ACTION_TAB_DELETE_TAB,
                 id:       component.id,
-                tab:      component.tabs[component.tabs.length - 1],
+                tabs:     [].concat(component.tabs),
                 children: children.reverse()
             });
             this._formEditorState.emit('AddUndo');

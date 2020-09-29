@@ -168,7 +168,7 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'width',        200)
             .addProperty(component, 'height',       128);
         if (!('containerIds' in component)) {
-            this.addProperty(component, 'containerIds', [this._formEditorState.peekId()]);
+            this.addProperty(component, 'containerIds', [this._formEditorState.getNextId()]);
         }
         return component;
     }
@@ -182,7 +182,7 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'width',        200)
             .addProperty(component, 'height',       128);
         if (!('containerIds' in component)) {
-            this.addProperty(component, 'containerIds', [this._formEditorState.peekId(), this._formEditorState.peekId() + 1]);
+            this.addProperty(component, 'containerIds', [this._formEditorState.getNextId(), this._formEditorState.getNextId()]);
         }
         return component;
     }

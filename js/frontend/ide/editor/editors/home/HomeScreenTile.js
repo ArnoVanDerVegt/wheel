@@ -107,11 +107,11 @@ exports.HomeScreenTile = class extends DOMNode {
     }
 
     onClick() {
-        this._onClick();
+        (typeof this._onClick === 'function') && this._onClick();
     }
 
     onKeyDown(event) {
-        if ([32, 13].indexOf(event.keyCode) !== -1) {
+        if (([32, 13].indexOf(event.keyCode) !== -1) && (typeof this._onClick === 'function')) {
             this._onClick();
         }
     }

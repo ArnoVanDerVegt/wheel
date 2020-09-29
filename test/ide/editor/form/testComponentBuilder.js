@@ -24,6 +24,7 @@ const shouldContainProperties = (it, message, component, properties) => {
 describe(
     'Test ComponentList',
     () => {
+        let nextId           = 1;
         let componentBuilder = new ComponentBuilder({
                 componentList: {
                     findComponentText(type, property, name) {
@@ -32,7 +33,10 @@ describe(
                 },
                 formEditorState: {
                     peekId() {
-                        return 1;
+                        return nextId;
+                    },
+                    getNextId() {
+                        return nextId++;
                     }
                 }
             });

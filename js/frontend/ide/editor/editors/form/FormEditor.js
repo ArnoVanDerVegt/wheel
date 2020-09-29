@@ -246,8 +246,9 @@ exports.FormEditor = class extends Editor {
                 formEditorConstants.COMPONENT_TYPES_NON_VISUAL
             ];
         if (component in components) {
-            let formEditorState = this._formEditorState;
-            let refs            = this._refs;
+            let formEditorState        = this._formEditorState;
+            let formEditorToolbarState = this._formEditorToolbarState;
+            let refs                   = this._refs;
             refs.inputTools.getElement().style.display     = (component === 0) ? 'block' : 'none';
             refs.textTools.getElement().style.display      = (component === 1) ? 'block' : 'none';
             refs.panelTools.getElement().style.display     = (component === 2) ? 'block' : 'none';
@@ -256,7 +257,7 @@ exports.FormEditor = class extends Editor {
             refs.ioTools.getElement().style.display        = (component === 5) ? 'block' : 'none';
             refs.dialogTools.getElement().style.display    = (component === 6) ? 'block' : 'none';
             refs.nonVisualTools.getElement().style.display = (component === 7) ? 'block' : 'none';
-            this._formEditorToolbarState.setComponentTypes(components[component]);
+            formEditorToolbarState.setComponentTypes(components[component]);
             dispatcher.dispatch('FormEditor.Select.ToolbarTool', formEditorToolbarState.getActiveComponentIndices());
         }
     }
