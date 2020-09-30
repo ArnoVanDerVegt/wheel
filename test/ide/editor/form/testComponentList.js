@@ -147,8 +147,8 @@ describe(
                 let uid1          = componentList.generateComponentUid();
                 let uid2          = componentList.generateComponentUid();
                 let uid3          = componentList.generateComponentUid();
-                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 55, parentId: 24};
-                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 55, parentId: 67, containerIds: [24]};
+                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 24};
+                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 67, containerIds: [24]};
                 let component3    = {uid: uid3, name: 'test3', id: 15, parentId: 56, containerIds: [67]};
                 let expected      = [
                         {name: 'test2', id: 14, parentId: 67, containerIds: [24]},
@@ -169,8 +169,8 @@ describe(
                 let uid1          = componentList.generateComponentUid();
                 let uid2          = componentList.generateComponentUid();
                 let uid3          = componentList.generateComponentUid();
-                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 55, parentId: 24};
-                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 55, parentId: 67, containerIds: [24]};
+                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 24};
+                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 67, containerIds: [24]};
                 let component3    = {uid: uid3, name: 'test3', id: 15, parentId: 56, containerIds: [67]};
                 let expected      = [
                         {name: 'test1', id: 13, parentId: 24},
@@ -195,8 +195,8 @@ describe(
                 let uid1          = componentList.generateComponentUid();
                 let uid2          = componentList.generateComponentUid();
                 let uid3          = componentList.generateComponentUid();
-                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 55, parentId: 24};
-                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 55, parentId: 67, containerIds: [24]};
+                let component1    = {uid: uid1, name: 'test1', id: 13, parentId: 24};
+                let component2    = {uid: uid2, name: 'test2', id: 14, parentId: 67, containerIds: [24]};
                 let component3    = {uid: uid3, name: 'test3', id: 15, parentId: 56, containerIds: [67]};
                 let expected      = [
                         {name: 'test1', id: 1, parentId: 3},

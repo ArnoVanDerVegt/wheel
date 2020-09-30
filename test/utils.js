@@ -466,7 +466,7 @@ exports.testComponentCall = function(it, opts) {
                     value = {
                         red: ~~(Math.random() * 256),
                         grn: ~~(Math.random() * 256),
-                        blu: ~~(Math.random() * 256),
+                        blu: ~~(Math.random() * 256)
                     };
                     break;
                 case 'getString':
@@ -498,7 +498,7 @@ exports.testComponentCall = function(it, opts) {
                             result = data;
                         }
                     );
-                    // getNumber and getString tests log their results...
+                    // | getNumber and getString tests log their results...
                     let logsReceived = [];
                     modules[0].on('Console.Log', this, function(opts) {
                         logsReceived.push(opts.message);

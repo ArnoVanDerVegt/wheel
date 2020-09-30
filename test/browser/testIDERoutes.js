@@ -8,7 +8,8 @@ const assert = require('assert');
 const getMockDependencies = () => {
         return {
             './js/frontend/ide/data/templates': require('../../js/frontend/ide/data/templates'),
-            './js/frontend/lib/path':           require('../../js/frontend/lib/path')
+            './js/frontend/lib/path':           require('../../js/frontend/lib/path'),
+            './js/shared/lib/RgfImage':         require('../../js/shared/lib/RgfImage')
         };
     };
 
@@ -82,6 +83,43 @@ describe(
             }
         );
         it(
+            'Should create directory',
+            (done) => {
+                ide.setRequireDependencies(getMockDependencies());
+                const onRecieveDirectories = (data) => {
+                        assert.deepEqual(
+                            getFilesFromData(data),
+                            ['examples', 'lib', 'projects', 'resources', 'testDir', 'vm', 'woc']
+                        );
+                        done();
+                    };
+                const onCreatedDirectory = (data) => {
+                        ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                    };
+                ide.ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
+            }
+        );
+        it(
+            'Should delete directory',
+            (done) => {
+                ide.setRequireDependencies(getMockDependencies());
+                const onRecieveDirectories = (data) => {
+                        assert.deepEqual(
+                            getFilesFromData(data),
+                            ['examples', 'lib', 'projects', 'resources', 'vm', 'woc']
+                        );
+                        done();
+                    };
+                const onDeletedDirectory = (data) => {
+                        ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                    };
+                const onCreatedDirectory = (data) => {
+                        ide.ideRoutes.directoryDelete({directory: 'Wheel/testDir'}, onDeletedDirectory);
+                    };
+                ide.ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
+            }
+        );
+        it(
             'Should get file',
             (done) => {
                 ide.setRequireDependencies(getMockDependencies());
@@ -90,6 +128,53 @@ describe(
                     (data) => {
                         data = JSON.parse(data);
                         assert.equal(data.success, true);
+                        done();
+                    }
+                );
+            }
+        );
+        it(
+            'Should get rgf file',
+            (done) => {
+                ide.setRequireDependencies(getMockDependencies());
+                ide.ideRoutes.file(
+                    {filename: 'Wheel/projects/sensor/images/color.rgf'},
+                    (data) => {
+                        data = JSON.parse(data);
+                        assert.equal(data.success,     true);
+                        assert.equal(data.data.width,  31);
+                        assert.equal(data.data.height, 31);
+                        done();
+                    }
+                );
+            }
+        );
+        it(
+            'Should get rsf file',
+            (done) => {
+                ide.setRequireDependencies(getMockDependencies());
+                ide.ideRoutes.file(
+                    {filename: 'Wheel/resources/sounds/animals/catPurr.rsf'},
+                    (data) => {
+                        data = JSON.parse(data);
+                        assert.equal(data.success,     true);
+                        assert.equal(typeof data.data, 'object');
+                        done();
+                    }
+                );
+            }
+        );
+        it(
+            'Should get wfrm file',
+            (done) => {
+                ide.setRequireDependencies(getMockDependencies());
+                ide.ideRoutes.file(
+                    {filename: 'Wheel/examples/components/buttons/buttons.wfrm'},
+                    (data) => {
+                        data = JSON.parse(data);
+                        assert.equal(data.success,          true);
+                        assert.equal(typeof data.data.wfrm, 'string');
+                        assert.equal(typeof data.data.whl,  'string');
                         done();
                     }
                 );

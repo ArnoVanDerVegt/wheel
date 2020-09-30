@@ -14,4 +14,4 @@ exports.MockSettings = class {
     getSaved() {
         return this._saved;
     }
-}
+};

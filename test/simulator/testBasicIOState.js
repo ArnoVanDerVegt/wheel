@@ -45,7 +45,7 @@ describe(
             () => {
                 let value        = -1;
                 let basicIOState = new BasicIOState.BasicIOState({
-                        onChangeValue: (v) => { value = v }
+                        onChangeValue: (v) => { value = v; }
                     });
                 basicIOState.onResetTimeout();
                 assert.equal(value, 0);

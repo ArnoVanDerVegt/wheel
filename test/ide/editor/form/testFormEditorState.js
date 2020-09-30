@@ -428,6 +428,46 @@ describe(
                         assert.equal(formEditorState.peekId(), 1);
                     }
                 );
+                it(
+                    'Should add a tabs component, add a panel with child component, delete tabs and undo',
+                    (done) => {
+                        let formEditorState = getFormEditorState0();
+                        formEditorState.on(
+                            'Loaded',
+                            this,
+                            () => {
+                                formEditorState.addComponent({
+                                    type: formEditorConstants.COMPONENT_TYPE_TABS
+                                });
+                                formEditorState.addComponent({
+                                    type:     formEditorConstants.COMPONENT_TYPE_PANEL,
+                                    parentId: 3
+                                });
+                                formEditorState.addComponent({
+                                    type:     formEditorConstants.COMPONENT_TYPE_LABEL,
+                                    parentId: 6
+                                });
+                                let data = formEditorState.getData();
+                                assert.equal(data.length, 4);
+                                assert.deepEqual(data[1].containerIds, [3, 4]);
+                                assert.equal(data[2].parentId, 3);
+                                assert.deepEqual(data[2].containerIds, [6]);
+                                assert.equal(data[3].parentId, 6);
+                                formEditorState.deleteComponentById(2, true);
+                                assert.equal(formEditorState.getData().length, 1);
+                                formEditorState.undo();
+                                data = formEditorState.getData();
+                                assert.equal(data.length, 4);
+                                assert.deepEqual(data[1].containerIds, [3, 4]);
+                                assert.equal(data[2].parentId, 3);
+                                assert.deepEqual(data[2].containerIds, [6]);
+                                assert.equal(data[3].parentId, 6);
+                                done();
+                            }
+                        );
+                        assert.equal(formEditorState.peekId(), 1);
+                    }
+                );
             }
         );
         describe(

@@ -151,6 +151,7 @@
     exports.ideRoutes = {
         reset() {
             localStorageFiles = new LocalStorageFiles();
+            pathByIndex       = {};
             changes.length    = 0;
         },
 
@@ -339,7 +340,7 @@
 
         directoryDelete(params, callback) {
             getLocalStorageFiles().deleteDirectory(params.directory);
-            let path = require('./js/frontend/lib/path');
+            let path = getRequireDependency('./js/frontend/lib/path');
             callback({success: true});
             changes.push({eventType: 'change', path: path.getPathAndFilename(params.directory).path});
         }

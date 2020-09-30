@@ -20,14 +20,15 @@ const createJSONCallback = function(callback) {
 
 exports.FileSystem = class {
     constructor(opts) {
-        this._vm    = opts.vm;
-        this._files = [];
+        this._getDataProvider = opts.getDataProvider || getDataProvider;
+        this._vm              = opts.vm;
+        this._files           = [];
     }
 
     exists(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'get',
             'ide/path-exists',
             {path: path.join(outputPath, this.getValidatedFilename(filename))},
@@ -56,7 +57,7 @@ exports.FileSystem = class {
         if (mode === MODE_READ) {
             let outputPath = this._vm.getOutputPath();
             let vm         = this._vm.sleep(10000);
-            getDataProvider().getData(
+            this._getDataProvider().getData(
                 'get',
                 'ide/file',
                 {filename: path.join(outputPath, this.getValidatedFilename(filename))},
@@ -72,14 +73,14 @@ exports.FileSystem = class {
         return files.length - 1;
     }
 
-    writeString(handle, s) {
+    writeString(handle, s, callback) {
         let file = this.getOpenFile(handle, MODE_WRITE);
         if (!file) {
             return this;
         }
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-append',
             {
@@ -87,14 +88,16 @@ exports.FileSystem = class {
                 data:     s + '\r'
             },
             createJSONCallback((data) => {
+                data.handle = handle;
+                callback && callback(data);
                 vm.sleep(0);
             })
         );
         return this;
     }
 
-    writeNumber(handle, n) {
-        return this.writeString(handle, n);
+    writeNumber(handle, n, callback) {
+        return this.writeString(handle, n, callback);
     }
 
     readString(handle) {
@@ -122,14 +125,15 @@ exports.FileSystem = class {
         return this;
     }
 
-    remove(filename) {
+    remove(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-delete',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},
             createJSONCallback((data) => {
+                callback && callback(data);
                 vm.sleep(0);
             })
         );
@@ -157,7 +161,7 @@ exports.FileSystem = class {
     fileSize(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-size',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},

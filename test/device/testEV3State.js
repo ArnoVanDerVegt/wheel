@@ -58,8 +58,7 @@ describe(
                 assert.equal(ev3State.getConnected(), false);
                 // The dataProvider should return connected with the following update call...
                 mockEV3DataProvider.setConnected(true);
-                // The EV3.ConnectToDevice dispatcher signal sets the _connecting value, force it to false
-                // to allow the ev3State.connecting() call to be executed...
+                // The EV3.ConnectToDevice dispatcher signal sets the _connecting value, force it to false to allow the ev3State.connecting() call to be executed...
                 ev3State._connecting = false;
                 ev3State.connecting();
                 ev3State.update();

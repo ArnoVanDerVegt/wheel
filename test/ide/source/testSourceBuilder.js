@@ -22,7 +22,7 @@ describe(
                 let sourceBuilder = new SourceBuilder({});
                 let lines         = sourceBuilder
                         .setSource([
-                            '#project "Test project"',
+                            '#project "Test project"'
                         ].join('\n')).
                         generateUpdatedSource({
                             components: [
