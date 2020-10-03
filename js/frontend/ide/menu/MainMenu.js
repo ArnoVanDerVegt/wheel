@@ -6,6 +6,7 @@ const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
+const Button      = require('../../lib/components/Button').Button;
 const tabIndex    = require('../tabIndex');
 const HelpOption  = require('./HelpOption').HelpOption;
 
@@ -21,6 +22,7 @@ exports.MainMenu = class extends MainMenu {
         this._settings  = settings;
         this
             .initMenu()
+            .initQuickMenu()
             .initHelp()
             .initStorage();
         // Settings events...
@@ -83,6 +85,62 @@ exports.MainMenu = class extends MainMenu {
                         type:  ProgressBar,
                         event: 'LocalStorage.Size',
                         ui:    this._ui
+                    }
+                ]
+            }
+        );
+        return this;
+    }
+
+    initQuickMenu() {
+        this.create(
+            this._mainMenuElement,
+            {
+                className: 'flt resource-options main-menu',
+                children: [
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-folder',
+                        hint:      {text: 'Toggle folder panel'},
+                        dispatch:  'Settings.Toggle.ShowFileTree'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 1,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-error',
+                        hint:      {text: 'Toggle console panel'},
+                        dispatch:  'Settings.Toggle.ShowConsole'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 2,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-tag',
+                        hint:      {text: 'Toggle component and properties panel'},
+                        dispatch:  'Settings.Toggle.ShowProperties'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 3,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-simulator',
+                        hint:      {text: 'Toggle simulator panel'},
+                        dispatch:  'Settings.Toggle.ShowSimulator'
                     }
                 ]
             }
@@ -289,6 +347,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Show properties',                                        dispatch: 'Settings.Toggle.ShowProperties'},
                 {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
+                {title: 'Show quick view menu',                                   dispatch: 'Settings.Toggle.ShowQuickViewMenu'},
+                {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
                 {title: '-'},
                 {title: 'Dark mode',                                              dispatch: 'Settings.Toggle.DarkMode'}
@@ -429,11 +489,12 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._viewMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
-        menuOptions[1].setChecked(settings.getConsoleVisible());
+        menuOptions[1].setChecked(settings.getShowConsole());
         menuOptions[2].setChecked(settings.getShowProperties());
         menuOptions[3].setChecked(settings.getShowSimulator());
-        menuOptions[4].setChecked(settings.getShowSimulatorOnRun());
-        menuOptions[5].setChecked(settings.getDarkMode());
+        menuOptions[4].setChecked(settings.getShowQuickViewMenu());
+        menuOptions[5].setChecked(settings.getShowSimulatorOnRun());
+        menuOptions[6].setChecked(settings.getDarkMode());
         return this;
     }
 

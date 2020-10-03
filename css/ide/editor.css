@@ -387,13 +387,33 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
     display:                        block;
 }
 
+/* Quick view menu options */
+body.no-quick-view-menu .resource-options.main-menu {
+    display:                        none;
+}
+.resource-options.main-menu {
+    margin:                         0 0 0 16px;
+}
+.resource-options.main-menu .icon-button.icon-error,
+.resource-options.main-menu .icon-button.icon-tag,
+.resource-options.main-menu .icon-button.icon-folder,
+.resource-options.main-menu .icon-button.icon-simulator {
+    margin:                         4px 0 0 2px;
+}
+.resource-options.main-menu .icon-button.icon-error:focus,
+.resource-options.main-menu .icon-button.icon-tag:focus,
+.resource-options.main-menu .icon-button.icon-folder:focus,
+.resource-options.main-menu .icon-button.icon-simulator:focus {
+    background-color:               transparent;
+}
+
 .icon-button.icon-copy,
 .icon-button.icon-copy.in-active,
 .icon-button.icon-play {
     margin-left:                    6px;
 }
-.icon-button.icon-undo {
-    margin:                         8px 2px 0 8px;
+.resource-options .icon-button.icon-undo {
+    margin:                         8px 2px 0 16px;
 }
 .icon-button.icon-delete,
 .icon-button.icon-delete-default,

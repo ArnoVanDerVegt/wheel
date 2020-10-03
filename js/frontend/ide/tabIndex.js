@@ -4,15 +4,16 @@
 **/
 // Top bar
 exports.MAIN_MENU                   =    1;
-exports.HELP                        =   10;
+exports.QUICK_VIEW_MENU             =   12;
+exports.HELP                        =   20;
 
 // File tree
-exports.DELETE_FILE                 =   12;
-exports.ADD_FILE                    =   13;
-exports.CLOSE_FILE_TREE             =   14;
+exports.DELETE_FILE                 =   22;
+exports.ADD_FILE                    =   23;
+exports.CLOSE_FILE_TREE             =   24;
 
 // Editor
-exports.FILE_TABS                   =   16;
+exports.FILE_TABS                   =   26;
 exports.COMPILE_BUTTON              =  128;
 exports.RUN_BUTTON                  =  129;
 exports.CONTINUE_BUTTON             =  130;

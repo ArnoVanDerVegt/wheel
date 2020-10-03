@@ -679,6 +679,20 @@ body.ide.dark input.icon-button.icon-icon {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="12" cy="12" r="8" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/><line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/><line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/><line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/><line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(255,255,255);stroke-width:1;" stroke-linecap="round"/><circle cx="14" cy="8" r="1.5" style="stroke:rgb(255,255,255);stroke-width:1;fill:transparent;"/></svg>');
 }
 
+/* Menu bar icons */
+input.icon-button.icon-folder {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(0.018,-0.018) translate(150, -1100)"><path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M854 170.667v426h-684v-426h684zM854 682.667q34 0 59-26t25-60v-426q0-34-25-60t-59-26h-684q-34 0-59 26t-25 60v512q0 34 25 60t59 26h256l86-86h342z" /></g></svg>');
+}
+input.icon-button.icon-error {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(0.019,-0.019) translate(130, -1060)"><path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M512 84.667q140 0 241 101t101 241-101 241-241 101-241-101-101-241 101-241 241-101zM512 852.667q176 0 301-125t125-301-125-301-301-125-301 125-125 301 125 301 301 125zM470 640.667h84v-256h-84v256zM470 298.667h84v-86h-84v86z" /></g></svg>');
+}
+input.icon-button.icon-tag {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(1.2,1.2) translate(0.25, -1)"><line x1="4" y1="14" x2="8" y2="18" style="stroke:rgb(255,255,255);stroke-width:1.2;" stroke-linecap="round"/><line x1="4" y1="14" x2="12" y2="6" style="stroke:rgb(255,255,255);stroke-width:1.2;" stroke-linecap="round"/><line x1="8" y1="18" x2="16" y2="10" style="stroke:rgb(255,255,255);stroke-width:1.2;" stroke-linecap="round"/><line x1="16" y1="10" x2="16" y2="6" style="stroke:rgb(255,255,255);stroke-width:1.2;" stroke-linecap="round"/><line x1="16" y1="6" x2="12" y2="6" style="stroke:rgb(255,255,255);stroke-width:1.2;" stroke-linecap="round"/><circle cx="13.5" cy="8.5" r="1" style="stroke:rgb(255,255,255);fill:rgb(255,255,255);stroke-width:0.5;"/></g></svg>');
+}
+input.icon-button.icon-simulator {
+    background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(0.018,-0.018) translate(150, -1100)"><path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" d="M896 810.667q34 0 60-26t26-60v-512q0-34-26-59t-60-25h-170v84h170v512h-768v-512h170v-84h-170q-34 0-60 25t-26 59v512q0 34 26 60t60 26h768zM256 0.667l256 256 256-256h-512z" /></g></svg>');
+}
+
 .icon-button.icon-line-transparent {
     background-image:               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><line x1="5" y1="5" x2="19" y2="19" style="stroke:rgb(231,76,60);stroke-width:3"/></svg>');
 }

@@ -27,7 +27,7 @@ exports.tab = (settingsDialog) => {
             settingsDialog.addCheckboxSetting({
                 label:       'Show console',
                 tabIndex:    3,
-                getter:      'getConsoleVisible',
+                getter:      'getShowConsole',
                 signal:      'Settings.Set.Console.Visible'
             }),
             settingsDialog.addCheckboxSetting({

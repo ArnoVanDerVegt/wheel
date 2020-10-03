@@ -79,7 +79,6 @@ exports.SettingsState = class extends Emitter {
         // Update...
         this.onLoad({});
         dispatcher
-            .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             .on('Settings.Load.New',                        this, this._loadNewSettings)
             // Setters...
             .on('Settings.Set.RecentPaths',                 this, this._setRecentPaths)
@@ -132,6 +131,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
             .on('Settings.Toggle.ShowProperties',           this, this._toggleShowProperties)
             .on('Settings.Toggle.ShowSimulator',            this, this._toggleShowSimulator)
+            .on('Settings.Toggle.ShowQuickViewMenu',        this, this._toggleShowQuickViewMenu)
             .on('Settings.Toggle.ShowSimulatorOnRun',       this, this._toggleShowSimulatorOnRun)
             .on('Settings.Toggle.CreateVMTextOutput',       this, this._toggleCreateVMTextOutput)
             .on('Settings.Toggle.Linter',                   this, this._toggleLinter)
@@ -155,30 +155,11 @@ exports.SettingsState = class extends Emitter {
         if (this._getDataProvider) {
             this._getDataProvider().getData('post', 'ide/settings-save', {settings: this.getSettings()});
         }
-    }
-
-    _updateViewSettings() {
-        if (typeof document === 'undefined') {
-            return;
-        }
-        let items        = ['ide'];
-        let noSimulator  = !this._show.simulator;
-        let noProperties = !this._show.properties;
-        noSimulator && noProperties      && items.push('no-right-panel');
-        noSimulator                      && items.push('no-simulator');
-        noProperties                     && items.push('no-properties');
-        this._show.fileTree              || items.push('no-file-tree');
-        this._console.visible            || items.push('no-console');
-        this._darkMode                   && items.push('dark');
-        (this._os.platform === 'darwin') || items.push('scroll-bar');
-        if (document.body) {
-            document.body.className = items.join(' ');
-        }
+        return this;
     }
 
     save() {
-        this._save();
-        return this;
+        return this._save();
     }
 
     getSettings() {
@@ -283,7 +264,7 @@ exports.SettingsState = class extends Emitter {
         return this._os;
     }
 
-    getConsoleVisible() {
+    getShowConsole() {
         return this._console.visible;
     }
 
@@ -305,6 +286,10 @@ exports.SettingsState = class extends Emitter {
 
     getShowProperties() {
         return this._show.properties;
+    }
+
+    getShowQuickViewMenu() {
+        return this._show.quickViewMenu;
     }
 
     getShowSimulatorOnRun() {
@@ -650,9 +635,7 @@ exports.SettingsState = class extends Emitter {
 
     _setConsoleVisible(visible) {
         this._console.visible = visible;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setConsoleShowOnLevel(level) {
@@ -690,16 +673,12 @@ exports.SettingsState = class extends Emitter {
 
     _setShowFileTree(showFileTree) {
         this._show.fileTree = showFileTree;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowSimulatorOnRun(showSimulatorOnRun) {
         this._show.simulatorOnRun = !this._show.simulatorOnRun;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowSimulator(showSimulator) {
@@ -707,9 +686,7 @@ exports.SettingsState = class extends Emitter {
         if (showSimulator) {
             this._show.properties = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowProperties(showProperties) {
@@ -717,9 +694,7 @@ exports.SettingsState = class extends Emitter {
         if (showProperties) {
             this._show.simulator = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowEV3Tile(showEV3Tile) {
@@ -748,9 +723,7 @@ exports.SettingsState = class extends Emitter {
 
     _setDarkMode(darkMode) {
         this._darkMode = darkMode;
-        this._save();
-        this._updateViewSettings();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setSensorAutoReset(sensorAutoReset) {
@@ -771,9 +744,7 @@ exports.SettingsState = class extends Emitter {
 
     _toggleShowFileTree() {
         this._show.fileTree = !this._show.fileTree;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _toggleShowConsole() {
@@ -785,9 +756,7 @@ exports.SettingsState = class extends Emitter {
         if (this._show.properties) {
             this._show.simulator = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _toggleShowSimulator() {
@@ -795,9 +764,12 @@ exports.SettingsState = class extends Emitter {
         if (this._show.simulator) {
             this._show.properties = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
+    }
+
+    _toggleShowQuickViewMenu() {
+        this._show.quickViewMenu = !this._show.quickViewMenu;
+        this._save().emit('Settings.View');
     }
 
     _toggleShowSimulatorOnRun() {
@@ -874,6 +846,7 @@ exports.SettingsState = class extends Emitter {
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
         this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
+        this._show.quickViewMenu         = ('quickViewMenu'         in this._show)       ? this._show.quickViewMenu                                  : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;
         this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                        : true;
         this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                   : true;
@@ -940,9 +913,9 @@ exports.SettingsState = class extends Emitter {
         if ('autoConnect' in this._poweredUp) {
             this._poweredUpAutoConnect.load(this._poweredUp.autoConnect);
         }
-        this._updateViewSettings();
         dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);
         this._onLoad();
+        this.emit('Settings.View');
         return this;
     }
 };

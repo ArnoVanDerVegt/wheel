@@ -45,7 +45,7 @@ exports.IDE = class extends IDEDOM {
             .initEV3()
             .initPoweredUp()
             .initDialogs()
-            .initDispatcher()
+            .initEvents()
             .initWindowResizeListener();
     }
 
@@ -55,8 +55,9 @@ exports.IDE = class extends IDEDOM {
         return this;
     }
 
-    initDispatcher() {
+    initEvents() {
         dispatcher
+            .on('Settings.UpdateViewSettings',        this, this.onViewChanged)
             .on('Editors.CloseEditor',                this, this.onEditorChanged)
             .on('Editors.ShowEditor',                 this, this.onEditorChanged)
             .on('Editors.SetBreakpoint',              this, this.onEditorsSetBreakpoint)
@@ -117,6 +118,8 @@ exports.IDE = class extends IDEDOM {
         this._ideAssistant
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
+        this._settings
+            .addEventListener('Settings.View',        this, this.onViewChanged);
         // Editor...
         let editor = this._editor;
         dispatcher

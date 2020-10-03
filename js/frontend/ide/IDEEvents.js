@@ -441,4 +441,30 @@ exports.IDEEvents = class extends CompileAndRun {
     onEditorsChanged() {
         this.setChangedWhileRunning(true);
     }
+
+    onViewChanged() {
+        if (typeof document === 'undefined') {
+            return;
+        }
+        let items             = ['ide'];
+        let settings          = this._settings;
+        let noSimulator       = !settings.getShowSimulator();
+        let noProperties      = !settings.getShowProperties();
+        let showFileTree      = settings.getShowFileTree();
+        let showQuickViewMenu = settings.getShowQuickViewMenu();
+        let showConsole       = settings.getShowConsole();
+        let darkMode          = settings.getDarkMode();
+        let os                = settings.getOS();
+        noSimulator && noProperties && items.push('no-right-panel');
+        noSimulator                 && items.push('no-simulator');
+        noProperties                && items.push('no-properties');
+        showFileTree                || items.push('no-file-tree');
+        showQuickViewMenu           || items.push('no-quick-view-menu');
+        showConsole                 || items.push('no-console');
+        darkMode                    && items.push('dark');
+        (os.platform === 'darwin') || items.push('scroll-bar');
+        if (document.body) {
+            document.body.className = items.join(' ');
+        }
+    }
 };

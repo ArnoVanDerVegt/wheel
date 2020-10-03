@@ -32,7 +32,7 @@ describe(
                     'Should check defaults',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getConsoleVisible(),      true);
+                        assert.equal(settings.getShowConsole(),         true);
                         assert.equal(settings.getShowFileTree(),        true);
                         assert.equal(settings.getShowSimulator(),       true);
                         assert.equal(settings.getShowSimulatorOnRun(),  true);
@@ -124,8 +124,8 @@ describe(
                         let settings = new SettingsState.SettingsState({});
                         settings.on('Settings.View', this, () => { done = true; });
                         dispatcher.dispatch('Settings.Toggle.ShowConsole');
-                        assert.equal(done,                         true);
-                        assert.equal(settings.getConsoleVisible(), false);
+                        assert.equal(done,                      true);
+                        assert.equal(settings.getShowConsole(), false);
                     }
                 );
                 it(

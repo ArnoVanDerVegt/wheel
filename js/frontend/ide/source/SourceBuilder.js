@@ -55,6 +55,9 @@ exports.SourceBuilder = class {
         let lines      = this._lines;
         let procedures = sourceBuilderUtils.findProcedures(lines);
         const insertProc = (proc, procLines) => {
+                if (!procLines.length) {
+                    return;
+                }
                 sourceBuilderUtils.insertProc(lines, procedures, proc, procLines);
                 procedures = sourceBuilderUtils.findProcedures(lines);
             };
