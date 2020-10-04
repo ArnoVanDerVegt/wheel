@@ -391,6 +391,11 @@ body.no-right-panel .editor-wrapper .continue-button-wrapper {
 body.no-quick-view-menu .resource-options.main-menu {
     display:                        none;
 }
+@media only screen and (max-width: 920px) {
+    .resource-options.main-menu {
+        display:                    none;
+    }
+}
 .resource-options.main-menu {
     margin:                         0 0 0 16px;
 }
