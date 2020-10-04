@@ -121,6 +121,11 @@ body.ide .main-menu div.main-menu-item.visible a {
     height:                         40px;
     font-size:                      15px;
 }
+@media only screen and (max-width: 760px) {
+    .main-menu .help {
+        display:                    none;
+    }
+}
 .main-menu .help span.label {
     float:                          left;
     height:                         40px;

@@ -116,6 +116,11 @@ body.ide div.editor-wrapper .editor {
     transition:                     opacity 0.3s;
     margin:                         0 16px 0 0;
 }
+@media only screen and (max-width: 1050px) {
+    .main-menu .storage {
+        display:                    none;
+    }
+}
 .main-menu .storage .progress-bar {
     width:                          0;
     height:                         16px;
