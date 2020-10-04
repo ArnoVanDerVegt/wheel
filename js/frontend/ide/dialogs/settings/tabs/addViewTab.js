@@ -7,7 +7,7 @@ const platform = require('../../../../lib/platform');
 exports.tab = (settingsDialog) => {
     return {
         ref:       settingsDialog.setRef('tabView'),
-        className: 'abs max-x tab-panel ui1-box vscroll tab-view',
+        className: 'abs max-w tab-panel ui1-box vscroll tab-view',
         children: [
             settingsDialog.addTitle('General'),
             settingsDialog.addCheckboxSetting({

@@ -19,7 +19,7 @@ exports.tab = (settingsDialog, opts) => {
     }
     return {
         ref:       settingsDialog.setRef('tabVersion'),
-        className: 'abs max-x tab-panel ui1-box vscroll tab-version',
+        className: 'abs max-w tab-panel ui1-box vscroll tab-version',
         children: [
             {
                 className: 'flt max-w version',
