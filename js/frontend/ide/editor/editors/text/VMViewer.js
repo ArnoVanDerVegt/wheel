@@ -35,7 +35,7 @@ exports.VMViewer = class extends Editor {
             parentNode,
             {
                 id:        this.setRef('wrapper'),
-                className: 'code-mirror-wrapper',
+                className: 'max-w max-h code-mirror-wrapper',
                 children: [
                     {
                         id:        this.setTextElement.bind(this),

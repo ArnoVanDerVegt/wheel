@@ -29,7 +29,7 @@ exports.ToolbarBottomViewer = class extends Toolbar {
         this.create(
             this._parentNode,
             {
-                className: 'resource-options bottom viewer',
+                className: 'flt max-w resource-options bottom viewer',
                 children: [
                     this.addFileSaved(wheelEditor),
                     {

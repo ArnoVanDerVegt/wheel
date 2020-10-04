@@ -5,7 +5,7 @@
 namespace components.tabs
 
 ; @const The tabs component module.
-#define MODULE_COMPONENT_TABS        89
+#define MODULE_COMPONENT_TABS        89     ; `image:images/buttons/tabsBlack.svg`
 
 ; @const Module calls for button component functions.
 #define TABS_COMPONENT_SET_HIDDEN     0

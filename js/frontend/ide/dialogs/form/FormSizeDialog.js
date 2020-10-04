@@ -12,37 +12,39 @@ exports.FormSizeDialog = class extends ImageDialog {
         opts.minHeight = 128;
         opts.maxHeight = 600;
         super(opts);
-        this.createWindow(
-            'image-dialog',
-            'Set form size',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Form.SetSize',
+            width:      400,
+            height:     216,
+            className:  'image-dialog',
+            title:      'Set form size'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
+                children: [
+                    this.getWidthRow(),
+                    this.getHeightRow()
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'image-dialog-text',
-                    children: [
-                        this.getWidthRow(),
-                        this.getHeightRow()
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Form.SetSize', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(width, height) {

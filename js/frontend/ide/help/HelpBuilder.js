@@ -44,7 +44,7 @@ class HelpBuilder {
             parentNode: parentNode,
             size:       size,
             innerHTML:  title,
-            className:  className || ''
+            className:  'no-select ' + (className || '')
         });
         return this;
     }
@@ -52,7 +52,7 @@ class HelpBuilder {
     addSpan(parentNode, text, className) {
         new Span({
             parentNode: parentNode,
-            className:  className,
+            className:  'no-select ' + className,
             innerHTML:  text
         });
         return this;
@@ -75,9 +75,29 @@ class HelpBuilder {
     }
 
     addConstants(parentNode, constant) {
-        let body = [];
+        let body     = [];
+        let hasImage = false;
         constant.values.forEach((value) => {
-            body.push([value.key, value.value]);
+            if (value.image) {
+                hasImage = true;
+            }
+        });
+        constant.values.forEach((value) => {
+            if (hasImage) {
+                if (value.image) {
+                    let image  = getImage(value.image);
+                    let prefix = 'data:image/svg+xml,';
+                    if (image.substr(0, prefix.length) === prefix) {
+                        image = image.substr(prefix.length - image.length);
+                        image = 'data:image/svg+xml;base64,' + btoa(image);
+                    }
+                    body.push(['<div class="no-select image-wrapper"><img src="' + image + '"/></div>', value.key, value.value]);
+                } else {
+                    body.push(['', value.key, value.value]);
+                }
+            } else {
+                body.push([value.key, value.value]);
+            }
         });
         let node = {
                 type: 'p',
@@ -87,15 +107,16 @@ class HelpBuilder {
                         id:   constant.description.split(' ').join('')
                     },
                     {
+                        className: 'no-select',
                         innerHTML: constant.description + '<br/>'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/>'
                     },
                     {
                         type:      Table,
-                        className: 'help-table constants',
+                        className: 'no-select help-table ' + (hasImage ? 'image-' : '') + 'constants',
                         body:      body
                     }
                 ]
@@ -127,13 +148,14 @@ class HelpBuilder {
                         size:      5,
                         innerHTML: name,
                         title:     vr.name,
-                        className: 'title-with-source'
+                        className: 'no-select title-with-source'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(vr.filename) + ', line: ' + vr.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(vr.filename) + ', line: ' + vr.lineNumber + '<br/>'
                     },
                     {
+                        className: 'no-select',
                         innerHTML: vr.description + '<br/>'
                     },
                     {
@@ -194,18 +216,19 @@ class HelpBuilder {
                         size:      5,
                         innerHTML: record.name,
                         title:     record.name,
-                        className: 'title-with-source'
+                        className: 'no-select title-with-source'
                     },
                     {
-                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(record.filename) + ', line: ' + record.lineNumber + '<br/>',
-                        className: 'source-location'
+                        className: 'no-select source-location',
+                        innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(record.filename) + ', line: ' + record.lineNumber + '<br/>'
                     },
                     {
+                        className: 'no-select',
                         innerHTML: record.description + '<br/>'
                     },
                     {
                         type:      Table,
-                        className: 'help-table',
+                        className: 'no-select help-table',
                         head:      head,
                         body:      body
                     }
@@ -220,8 +243,8 @@ class HelpBuilder {
         new DOMNode({}).create(
             parentNode,
             {
-                innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(proc.filename) + ', line: ' + proc.lineNumber + '<br/>',
-                className: 'source-location'
+                className: 'no-select source-location',
+                innerHTML: 'Source: ' +  this.getFilenameWithoutDocumentPath(proc.filename) + ', line: ' + proc.lineNumber + '<br/>'
             }
         );
         if (proc.device !== '') {
@@ -236,7 +259,7 @@ class HelpBuilder {
             );
             new DOMNode({}).create(parentNode, {className: 'devices', children: children});
         }
-        new P({parentNode: parentNode, innerHTML: proc.description});
+        new P({parentNode: parentNode, className: 'no-select', innerHTML: proc.description});
         let params = [];
         for (let i = 0; i < proc.params.length; i++) {
             let param = proc.params[i];
@@ -246,7 +269,7 @@ class HelpBuilder {
         let s           = 'proc ' + proc.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (proc.params.length) {
-            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
+            new DOMNode({}).create(parentNode, {className: 'no-select', innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
             let body = [];
             for (let i = 0; i < proc.params.length; i++) {
@@ -256,10 +279,10 @@ class HelpBuilder {
             new Table({parentNode, className: 'help-table', head: head, body: body});
         }
         if (proc.ret) {
-            new P({parentNode: parentNode, innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
+            new P({parentNode: parentNode, className: 'no-select', innerHTML: '<b>Return:</b> ' + proc.ret + '<br/><br/>'});
         }
         if (proc.text) {
-            new P({parentNode: parentNode, innerHTML: proc.text.join('<br/>')});
+            new P({parentNode: parentNode, className: 'no-select', innerHTML: proc.text.join('<br/>')});
         }
         if (proc.example) {
             new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines(proc.example)});
@@ -270,7 +293,7 @@ class HelpBuilder {
     addEvent(parentNode, event) {
         new A({parentNode: parentNode, id: event.description.split(' ').join('')});
         this.addSubSubSubTitle(parentNode, event.name, 'title-with-source');
-        new P({parentNode: parentNode, innerHTML: event.description});
+        new P({parentNode: parentNode, className: 'no-select', innerHTML: event.description});
         let params = [];
         for (let i = 0; i < event.params.length; i++) {
             let param = event.params[i];
@@ -280,7 +303,7 @@ class HelpBuilder {
         let s           = 'proc ' + event.name + '(' + params.join(', ') + ')';
         new Pre({parentNode: parentNode, className: 'wheel', innerHTML: wheelSyntax.parseLines([s])});
         if (event.params.length) {
-            new DOMNode({}).create(parentNode, {innerHTML: 'Parameters:<br/>'});
+            new DOMNode({}).create(parentNode, {className: 'no-select', innerHTML: 'Parameters:<br/>'});
             let head = ['Name', 'Type', 'Description'];
             let body = [];
             for (let i = 0; i < event.params.length; i++) {
@@ -423,10 +446,12 @@ class HelpBuilder {
         } else if (file.subject) {
             mainTitle = file.subject;
             let i = mainTitle.indexOf(':');
-            this.addTitle(parentNode, (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length));
+            mainTitle = (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length);
+            this.addTitle(parentNode, mainTitle);
         } else {
             this.addTitle(this.getFilenameWithoutDocumentPath(file.name));
         }
+        this._lastTitle = mainTitle;
     }
 
     addSee(opts) {
@@ -491,19 +516,20 @@ class HelpBuilder {
                 children: [
                     {
                         type:      'span',
+                        className: 'no-select',
                         innerHTML: 'See also: '
                     }
                 ]
             };
         if (seeList.length > 1) {
-            node.children.push({className: 'breaker'});
+            node.children.push({className: 'flt max-w'});
             seeList.sort();
         }
         seeList.forEach(
             function(see) {
                 node.children.push({
                     type:      'span',
-                    className: 'see-also',
+                    className: 'no-select see-also',
                     innerHTML: see.title,
                     id: (element) => {
                         element.addEventListener('click', this.onClickSee.bind(this, see.fileIndex));
@@ -540,6 +566,7 @@ class HelpBuilder {
     }
 
     buildFile(opts) {
+        this._lastTitle    = '';
         this._documentPath = opts.documentPath || '';
         this.addFileTitle(opts);
         let parentNode  = opts.parentNode;
@@ -558,16 +585,31 @@ class HelpBuilder {
                 continue;
             }
             new A({parentNode: parentNode, id: title.split(' ').join('')});
-            this.addSubSubTitle(parentNode, title);
+            if ((title !== '-') && (this._lastTitle !== title)) {
+                this.addSubSubTitle(parentNode, title);
+            }
+            this._lastTitle = '';
             let content = section.content;
             for (let j = 0; j < content.length; j++) {
                 switch (content[j].type) {
+                    case 'description':
+                        let paragraph = [];
+                        content[0].text.push('');
+                        content[0].text.forEach((line) => {
+                            if (line === '') {
+                                new P({parentNode: parentNode, className: 'no-select description', innerHTML: paragraph.join(' ')});
+                                paragraph.length = 0;
+                            } else {
+                                paragraph.push(line);
+                            }
+                        });
+                        break;
                     case 'text':
                         let lines = [];
                         content[j].text.forEach((line) => {
                             lines.push((line.trim() === '') ? '<br/>' : line);
                         });
-                        new P({parentNode: parentNode, innerHTML: lines.join(' ')});
+                        new P({parentNode: parentNode, className: 'no-select', innerHTML: lines.join(' ')});
                         break;
                     case 'load':
                         let buttons = [];
@@ -611,6 +653,7 @@ class HelpBuilder {
                     case 'list':
                         new Ul({
                             parentNode: parentNode,
+                            className:  'no-select',
                             list:       content[j].text
                         });
                         break;
@@ -626,7 +669,7 @@ class HelpBuilder {
                         new Img({
                             parentNode: parentNode,
                             src:        getImage(content[j].text) || content[j].text,
-                            className:  (content[j].text.indexOf('components/') !== -1) ? 'shadow' : ''
+                            className:  'no-select ' + ((content[j].text.indexOf('components/') !== -1) ? 'shadow' : '')
                         });
                         break;
                     case 'const':
@@ -672,29 +715,30 @@ class HelpBuilder {
                 };
             };
         file.sections.forEach((section) => {
-            if (section.title !== '') {
-                node.children.push({
-                    id: function(element) {
-                        element.addEventListener('click', onClick(section.title));
-                    },
-                    className: 'subject',
-                    innerHTML: section.title,
-                    title:     section.title
-                });
-                section.content.forEach((content) => {
-                    if (['const', 'proc'].indexOf(content.type) !== -1) {
-                        let id = content.text.description.split(' ').join('');
-                        node.children.push({
-                            id: function(element) {
-                                element.addEventListener('click', onClick(id));
-                            },
-                            className: 'sub-subject',
-                            innerHTML: content.text.description,
-                            title:     content.text.description
-                        });
-                    }
-                });
+            if ((section.title === '') ||(section.title === '-')) {
+                return;
             }
+            node.children.push({
+                id: function(element) {
+                    element.addEventListener('click', onClick(section.title));
+                },
+                className: 'no-select subject',
+                innerHTML: section.title,
+                title:     section.title
+            });
+            section.content.forEach((content) => {
+                if (['const', 'proc'].indexOf(content.type) !== -1) {
+                    let id = content.text.description.split(' ').join('');
+                    node.children.push({
+                        id: function(element) {
+                            element.addEventListener('click', onClick(id));
+                        },
+                        className: 'no-select sub-subject',
+                        innerHTML: content.text.description,
+                        title:     content.text.description
+                    });
+                }
+            });
         });
         new DOMNode({}).create(opts.parentNode, node);
         this.updateImages();
@@ -759,14 +803,14 @@ class HelpBuilder {
     addLegend(parentNode) {
         const addLegendItem = function(type, title) {
                 return {
-                    className: 'legend-item',
+                    className: 'flt legend-item',
                     children: [
                         {
-                            className: 'device ' + type,
+                            className: 'no-select flt device ' + type,
                             innerHTML: type.toUpperCase()
                         },
                         {
-                            className: 'title',
+                            className: 'no-select flt title',
                             innerHTML: title
                         }
                     ]
@@ -775,7 +819,7 @@ class HelpBuilder {
         new DOMNode({}).create(
             parentNode,
             {
-                className: 'legend',
+                className: 'flt max-w legend',
                 children: [
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),
@@ -788,7 +832,7 @@ class HelpBuilder {
     }
 
     addSeparator(parentNode) {
-        new DOMNode({}).create(parentNode, {className: 'breaker'});
+        new DOMNode({}).create(parentNode, {className: 'flt max-w'});
         return this;
     }
 
@@ -797,13 +841,28 @@ class HelpBuilder {
         for (let i = 0; i < images.length; i++) {
             let src = images[i].innerHTML;
             images[i].innerHTML = '';
-            new DOMNode({}).create(
-                images[i],
-                {
-                    type: 'img',
-                    src:  getImage(src)
-                }
-            );
+            if (src.substr(-4) === '.svg') {
+                new DOMNode({}).create(
+                    images[i],
+                    {
+                        className: 'image-wrapper',
+                        children: [
+                            {
+                                type: 'img',
+                                src:  getImage(src)
+                            }
+                        ]
+                    }
+                );
+            } else {
+                new DOMNode({}).create(
+                    images[i],
+                    {
+                        type: 'img',
+                        src:  getImage(src)
+                    }
+                );
+            }
         }
     }
 }

@@ -33,29 +33,31 @@ const license = [
 exports.LicenseDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'license-dialog',
-            'MIT License',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.License.Show',
+            width:      600,
+            height:     600,
+            className:  'no-select license-dialog',
+            title:      'MIT License'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                type:      'pre',
+                className: 'abs dialog-cw dialog-lt ui1-box vscroll pad license-text',
+                innerHTML: license.join('\n')
+            },
+            this.initButtons([
                 {
-                    type:      'pre',
-                    className: 'license-text',
-                    innerHTML: license.join('\n')
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('okButton'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    ref:      this.setRef('okButton'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.License.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow() {

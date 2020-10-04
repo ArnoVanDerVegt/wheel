@@ -7,10 +7,10 @@ const assert   = require('assert');
 
 describe(
     'Test RgfImage',
-    function() {
+    () => {
         it(
             'Should pack',
-            function() {
+            () => {
                 let rgfImage = new RgfImage();
                 let data     = rgfImage.pack({
                         width:  10,
@@ -28,7 +28,7 @@ describe(
         );
         it(
             'Should unpack',
-            function() {
+            () => {
                 let rgfImage = new RgfImage();
                 let data     = rgfImage.unpack([10, 5, 170, 2, 85, 1, 170, 2, 85, 1, 170, 2]);
                 assert.deepEqual(

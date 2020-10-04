@@ -140,7 +140,7 @@ exports.Log = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'console-lines'
+                className: 'flt max-w max-h vscroll console-lines'
             }
         );
     }
@@ -175,7 +175,7 @@ exports.Log = class extends DOMNode {
                 parentMessageId: opts.parentMessageId,
                 lineInfo:        opts.lineInfo,
                 type:            opts.type,
-                className:       'console-line type-' + (opts.type || '').toLowerCase()
+                className:       'flt rel max-w console-line type-' + (opts.type || '').toLowerCase()
             });
             this._messages.push(this._lastMessage);
         }

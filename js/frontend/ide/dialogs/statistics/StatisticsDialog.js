@@ -35,7 +35,7 @@ const Chart = class extends Component {
                     optimizedCount += o.count;
                 }
                 children.push({
-                    className: 'chart-row',
+                    className: 'flt max-w chart-row',
                     children: [
                         {
                             className: 'chart-bar',
@@ -50,15 +50,15 @@ const Chart = class extends Component {
                         },
                         {
                             innerHTML: title,
-                            className: 'chart-title'
+                            className: 'no-select chart-title'
                         }
                     ]
                 });
             });
 
-            this.create(parentNode, {className: 'text-line', innerHTML: commands.length + ' commands.'});
-            this.create(parentNode, {className: 'text-line', innerHTML: optimizedCount + ' optimized commands.'});
-            this.create(parentNode, {className: 'chart',     children:  children});
+            this.create(parentNode, {className: 'no-select flt max-w text-line', innerHTML: commands.length + ' commands.'});
+            this.create(parentNode, {className: 'no-select flt max-w text-line', innerHTML: optimizedCount + ' optimized commands.'});
+            this.create(parentNode, {className: 'no-select flt max-w chart',     children:  children});
         }
 
         getOccurenceData(program) {
@@ -97,26 +97,28 @@ const Chart = class extends Component {
 exports.StatisticsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'statistics-dialog',
-            'Statistics',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Statistics.Show',
+            width:      600,
+            height:     600,
+            className:  'statistics-dialog',
+            title:      'Statistics'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'abs ui1-box vscroll dialog-cw dialog-lt statistics-text'
+            },
+            this.initButtons([
                 {
-                    ref:       this.setRef('text'),
-                    className: 'statistics-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:   'Ok',
-                            onClick: this.hide.bind(this)
-                        })
-                    ]
+                    value:   'Ok',
+                    onClick: this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Statistics.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(opts) {

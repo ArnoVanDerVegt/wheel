@@ -9,34 +9,36 @@ exports.ConfirmDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
-        this.createWindow(
-            'confirm-dialog',
-            'Confirm',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Confirm.Show',
+            width:      600,
+            height:     200,
+            className:  'confirm-dialog',
+            title:      'Confirm'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'no-select dialog-lt dialog-cw abs confirm-text'
+            },
+            this.initButtons([
                 {
-                    ref:       this.setRef('text'),
-                    className: 'confirm-text'
+                    ref:       this.setRef('buttonApply'),
+                    tabIndex:  128,
+                    value:     'Ok',
+                    onClick:   this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:       this.setRef('buttonApply'),
-                            tabIndex:  128,
-                            value:     'Ok',
-                            onClick:   this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:       this.setRef('buttonCancel'),
-                            tabIndex:  129,
-                            value:     'Cancel',
-                            onClick:   this.onCancel.bind(this)
-                        })
-                    ]
+                    ref:       this.setRef('buttonCancel'),
+                    tabIndex:  129,
+                    value:     'Cancel',
+                    onClick:   this.onCancel.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Confirm.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onApply() {

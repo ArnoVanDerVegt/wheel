@@ -80,11 +80,6 @@ exports.BasicIODevice = class extends Component.Component {
         );
     }
 
-    onEvent(opts) {
-        let element = this._element;
-        super.onEvent(opts);
-    }
-
     setImageVisible(imageVisible) {
         this._refs.image.style.display = imageVisible ? 'block' : 'none';
         return this;

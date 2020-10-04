@@ -5,7 +5,7 @@
 namespace components.slider
 
 ; @const The slider component module.
-#define MODULE_COMPONENT_SLIDER        71
+#define MODULE_COMPONENT_SLIDER        71   ; `image:images/buttons/sliderBlack.svg`
 
 ; @const Module calls for the slider component functions.
 #define SLIDER_COMPONENT_SET_HIDDEN     0

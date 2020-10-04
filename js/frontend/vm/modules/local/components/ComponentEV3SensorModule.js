@@ -14,9 +14,9 @@ exports.ComponentEV3SensorModule = class extends VMModule {
         let ev3Sensor = null;
         let opts      = {};
         switch (commandId) {
-            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_TYPE:  property = 'type';  break;
-            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_PORT:  property = 'port';  break;
-            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_VALUE: property = 'value'; break;
+            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_TYPE:  property = 'device'; break;
+            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_PORT:  property = 'port';   break;
+            case componentEV3SensorModuleConstants.EV3_SENSOR_SET_VALUE: property = 'value';  break;
         }
         if (property !== '') {
             ev3Sensor      = vmData.getRecordFromSrcOffset(['window', 'component', property]);

@@ -33,13 +33,13 @@ exports.Plugin = class extends SimulatorPlugin {
                         className: 'ev3-left'
                     },
                     {
-                        className: 'ev3-body',
+                        className: 'flt max-w ev3-body',
                         children: [
                             {
-                                className: 'ev3-display',
+                                className: 'flt ev3-display',
                                 children: [
                                     {
-                                        className: 'display-border',
+                                        className: 'flt rel display-border',
                                         children: [
                                             {
                                                 id:   this.setDisplayElement.bind(this),
@@ -60,7 +60,7 @@ exports.Plugin = class extends SimulatorPlugin {
                                 ]
                             },
                             {
-                                className: 'ev3-panel',
+                                className: 'flt rel ev3-panel',
                                 children: [
                                     {
                                         id:   this.setButtons.bind(this),
@@ -70,22 +70,22 @@ exports.Plugin = class extends SimulatorPlugin {
                                     {
                                         type:      EV3Button,
                                         ui:        this._ui,
-                                        className: 'ev3-button-stop',
-                                        up:        'ev3-button-stop',
-                                        down:      'ev3-button-stop pressed',
+                                        className: 'abs ev3-button-stop',
+                                        up:        'abs ev3-button-stop',
+                                        down:      'abs ev3-button-stop pressed',
                                         onClick:   this._onStop
                                     }
                                 ]
                             },
                             {
-                                className: 'ev3-bottom',
+                                className: 'flt ev3-bottom',
                                 children: [
                                     {
-                                        className: 'ev3-log-text',
+                                        className: 'flt ev3-log-text',
                                         innerHTML: 'WHL'
                                     },
                                     {
-                                        className: 'ev3-logo'
+                                        className: 'frt ev3-logo'
                                     }
                                 ]
                             }

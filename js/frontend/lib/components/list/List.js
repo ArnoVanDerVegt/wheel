@@ -42,19 +42,18 @@ exports.List = class extends Component {
         let result   = [];
         let refs     = this._refs;
         let tabIndex = this._tabIndex;
-        this._items.forEach(
-            function(item, index) {
-                result.push(new this._listItemConstructor({
-                    list:       this,
-                    settings:   this._settings,
-                    parentNode: refs.list,
-                    index:      index,
-                    tabIndex:   tabIndex + 1 + index,
-                    item:       item
-                }));
-            },
-            this
-        );
+        this._items.forEach((item, index) => {
+            result.push(new this._listItemConstructor({
+                list:       this,
+                settings:   this._settings,
+                ui:         this._ui,
+                uiId:       this._uiId,
+                parentNode: refs.list,
+                index:      index,
+                tabIndex:   tabIndex + 1 + index * 2,
+                item:       item
+            }));
+        });
         return result;
     }
 

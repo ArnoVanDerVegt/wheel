@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test if',
-    function() {
+    () => {
         describe(
             'Test conditions',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate equal true',
@@ -283,7 +283,7 @@ describe(
         );
         describe(
             'Test without condition operator',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true',
@@ -395,7 +395,7 @@ describe(
         );
         describe(
             'Test single condition',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if a == 1',
@@ -433,7 +433,7 @@ describe(
         );
         describe(
             'Test and',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if a == 4 and b == 5',
@@ -493,7 +493,7 @@ describe(
         );
         describe(
             'Test or',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if a == 3 or b == 0',
@@ -554,7 +554,7 @@ describe(
         );
         describe(
             'Test and/or',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if a == 3 and b == 6 or c == 10',
@@ -641,7 +641,7 @@ describe(
         );
         describe(
             'Test (or)/and/(or)',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate true - if (a == 3 or b == 6) and (c == 10 or d == 1)',
@@ -736,7 +736,7 @@ describe(
         );
         describe(
             'Test if with proc result',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate result as false',
@@ -780,7 +780,7 @@ describe(
         );
         describe(
             'Test else',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate if',
@@ -941,7 +941,7 @@ describe(
         );
         describe(
             'Test if condition with expression',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should evaluate single argument as true',
@@ -1072,7 +1072,7 @@ describe(
         );
         describe(
             'Test if condition in function removed by optimizer',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should compile removed if...else',

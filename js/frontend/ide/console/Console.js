@@ -15,6 +15,7 @@ const Vars                 = require('./Vars').Vars;
 const NewVersion           = require('./NewVersion').NewVersion;
 const Registers            = require('./Registers').Registers;
 const Log                  = require('./Log').Log;
+const FindResults          = require('./FindResults').FindResults;
 const Terminal             = require('./Terminal').Terminal;
 
 exports.Console = class extends DOMNode {
@@ -27,18 +28,20 @@ exports.Console = class extends DOMNode {
             .on('Console.Breakpoint',   this, this.onBreakpoint)
             .on('Console.RuntimeError', this, this.onRuntimeError)
             .on('Console.Log',          this, this.onLog)
-            .on('Console.Error',        this, this.onError);
+            .on('Console.Error',        this, this.onError)
+            .on('Console.FindResult',   this, this.onFindResult);
         this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {
         let tabs = [
-                {title: 'Console',     onClick: this.onClickConsoleTab.bind(this)},
-                {title: 'Registers',   onClick: this.onClickRegistersTab.bind(this)},
-                {title: 'Global vars', onClick: this.onClickGlobalVarsTab.bind(this)},
-                {title: 'Local vars',  onClick: this.onClickLocalVarsTab.bind(this)}
+                {title: 'Console',      onClick: this.onClickConsoleTab.bind(this)},
+                {title: 'Find results', onClick: this.onClickFindResultsTab.bind(this)},
+                {title: 'Registers',    onClick: this.onClickRegistersTab.bind(this)},
+                {title: 'Global vars',  onClick: this.onClickGlobalVarsTab.bind(this)},
+                {title: 'Local vars',   onClick: this.onClickLocalVarsTab.bind(this)}
             ];
-        if (platform.isElectron()) {
+        if (platform.isElectron() || platform.isNode()) {
             tabs.push({title: 'Terminal', onClick: this.onClickTerminalTab.bind(this)});
         }
         this.create(
@@ -85,11 +88,17 @@ exports.Console = class extends DOMNode {
                         ]
                     },
                     {
-                        className: 'console-content',
+                        className: 'abs console-content',
                         children: [
                             {
                                 type:     Log,
                                 id:       this.setLogElement.bind(this),
+                                ui:       this._ui,
+                                settings: this._settings
+                            },
+                            {
+                                type:     FindResults,
+                                ref:      this.setRef('findResults'),
                                 ui:       this._ui,
                                 settings: this._settings
                             },
@@ -110,7 +119,7 @@ exports.Console = class extends DOMNode {
                                 ref:      this.setRef('registers'),
                                 ui:       this._ui
                             },
-                            platform.isElectron() ?
+                            platform.isElectron() || platform.isNode() ?
                                 {
                                     type:     Terminal,
                                     ref:      this.setRef('terminal'),
@@ -139,32 +148,45 @@ exports.Console = class extends DOMNode {
     }
 
     onClickConsoleTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: false});
         this.hide().show(this._logElement);
     }
 
     onClickRegistersTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.registers);
     }
 
     onClickGlobalVarsTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.globals);
     }
 
     onClickLocalVarsTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.locals);
     }
 
     onClickTerminalTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.terminal);
     }
 
     onClickNewVersionTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.newVersion);
+    }
+
+    onClickFindResultsTab() {
+        dispatcher.dispatch('Button.Console.Change', {hidden: false});
+        this.hide().show(this._refs.findResults);
     }
 
     onClickClear() {
         if (this._active === this._refs.terminal) {
             this._refs.terminal.clear().focus();
+        } else if (this._active === this._refs.findResults) {
+            dispatcher.dispatch('Console.FindResults.Clear');
         } else {
             dispatcher.dispatch('Console.Clear');
         }
@@ -197,6 +219,15 @@ exports.Console = class extends DOMNode {
         this.showForIncoming(message.type);
     }
 
+    onFindResult(findResult) {
+        let refs = this._refs;
+        dispatcher.dispatch('Settings.Set.Console.Visible', true);
+        this.hide().show(refs.findResults);
+        refs.findResults.addResult(findResult);
+        refs.tabs.setActiveTab('Find results');
+        dispatcher.dispatch('Button.Console.Change', {hidden: false});
+    }
+
     onError(message) {
         this.showForIncoming(SettingsState.CONSOLE_MESSAGE_TYPE_ERROR);
     }
@@ -212,6 +243,7 @@ exports.Console = class extends DOMNode {
             dispatcher.dispatch('Settings.Set.Console.Visible', true);
             this.hide().show(this._logElement);
             this._refs.tabs.setActiveTab('Console');
+            dispatcher.dispatch('Button.Console.Change', {hidden: false});
         }
     }
 

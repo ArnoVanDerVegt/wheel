@@ -7,10 +7,10 @@ const testLogs = require('../utils').testLogs;
 
 describe(
     'Test Strings',
-    function() {
+    () => {
         describe(
             'Test Log',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare a global string with initial value',
@@ -246,7 +246,7 @@ describe(
         );
         describe(
             'Test Array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should output a string array',

@@ -16,21 +16,21 @@ exports.HomeScreenConnectEV3Tile = class extends HomeScreenTile {
 
     onEV3Connecting() {
         let refs = this._refs;
-        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'EV3';
     }
 
     onEV3Connected() {
         let refs = this._refs;
-        refs.homeScreenTileText.className = 'home-screen-tile-text with-sub-title';
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connected';
         refs.title.innerHTML              = 'EV3';
     }
 
     onEV3Disconnected() {
         let refs = this._refs;
-        refs.homeScreenTileText.className = 'home-screen-tile-text';
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text';
         refs.subTitle.innerHTML           = '';
         refs.title.innerHTML              = 'Connect to EV3 &raquo;';
     }

@@ -5,7 +5,7 @@
 namespace components.progressBar
 
 ; @const The progress bar component module.
-#define MODULE_COMPONENT_PROGRESS_BAR        105
+#define MODULE_COMPONENT_PROGRESS_BAR        105    ; `image:images/buttons/progressBlack.svg`
 
 ; @const Module calls for the progress bar component functions.
 #define PROGRESS_BAR_COMPONENT_SET_HIDDEN      0

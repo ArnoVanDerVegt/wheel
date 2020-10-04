@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Screen module',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should call Screen.Update',

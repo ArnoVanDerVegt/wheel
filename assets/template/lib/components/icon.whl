@@ -5,7 +5,7 @@
 namespace components.icon
 
 ; @const The form component module.
-#define MODULE_COMPONENT_ICON     99
+#define MODULE_COMPONENT_ICON     99    ; `image:images/buttons/iconBlack.svg`
 
 ; @const Module calls for the icon component functions.
 #define ICON_COMPONENT_SET_HIDDEN  0

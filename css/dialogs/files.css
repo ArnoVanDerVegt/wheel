@@ -1,21 +1,7 @@
-.dialog-background .files {
-    position:                       absolute;
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
-    overflow:                       hidden;
-    overflow-x:                     scroll;
-    padding:                        8px;
-}
-.dialog-background .files .files-content {
-    float:                          left;
-    height:                         100%;
-}
 .dialog-background .files .file-box {
     float:                          left;
     width:                          180px;
     height:                         100%;
-    -webkit-user-select:            none;
 }
 .dialog-background .files .file-box.detail {
     width:                          256px;
@@ -30,7 +16,6 @@
     color:                          var(--ui-text1);
     border:                         1px solid transparent;
     border-radius:                  16px;
-    -webkit-user-select:            none;
 }
 .dialog-background .files .file-box .file.focus {
     border:                         var(--focus-border-dotted);

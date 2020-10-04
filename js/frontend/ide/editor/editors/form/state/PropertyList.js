@@ -32,7 +32,14 @@ exports.PropertyList = class {
         if (name in component) {
             return component[name];
         }
-        let info = formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()].properties;
+        let properties = formEditorConstants.PROPERTIES_BY_TYPE[component.type.toUpperCase()].properties;
+        let info       = null;
+        for (let i = 0; i < properties.length; i++) {
+            if (properties[i].name === name) {
+                info = properties[i];
+                break;
+            }
+        }
         if (!info) {
             return '';
         }

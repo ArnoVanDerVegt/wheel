@@ -4,7 +4,7 @@
 **/
 const $ = require('../program/commands');
 
-class VMData {
+exports.VMData = class {
     constructor(opts) {
         let data = [];
         for (let i = 0; i < 8; i++) {
@@ -78,6 +78,10 @@ class VMData {
         return data[data[$.REG_SRC]];
     }
 
+    getNumberAtOffset(offset) {
+        return this._data[offset];
+    }
+
     setNumberAtOffset(value, offset) {
         this._data[offset ? offset : 0] = value;
     }
@@ -114,6 +118,4 @@ class VMData {
         this._keepRet = false;
         return keepRet;
     }
-}
-
-exports.VMData = VMData;
+};

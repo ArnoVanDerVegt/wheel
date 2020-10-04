@@ -30,7 +30,7 @@ exports.Updater = class extends DOMNode {
                 children: [
                     {
                         ref:       this.setRef('currentFile'),
-                        className: 'current-file',
+                        className: 'no-select current-file',
                         innerHTML: 'Path: ' + this._settings.getDocumentPath()
                     },
                     {

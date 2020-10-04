@@ -353,6 +353,10 @@ div.quarter li {
     float:                          right;
     margin:                         2px 8px 0 0;
 }
+.help-file .devices span {
+    float:                          right;
+    margin:                         2px 0 0 4px;
+}
 .help-files .link .device,
 .help-file .devices span {
     width:                          20px;
@@ -489,6 +493,17 @@ div.quarter li {
 .help-file table.help-table.constants td:nth-child(2) {
     min-width:                      64px;
     text-align:                     right;
+}
+.help-file table.help-table td .image-wrapper {
+    float:                          left;
+    padding:                        4px;
+    border-radius:                  2px;
+    background-color:               #D0D4D8;
+}
+.help-file table.help-table td .image-wrapper img {
+    float:                          left;
+    width:                          64px;
+    height:                         64px;
 }
 .help-file img.display-preview {
     border:                         var(--ui-border1);

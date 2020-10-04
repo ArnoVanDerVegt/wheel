@@ -5,7 +5,7 @@
 namespace components.listItems
 
 ; @const The form component module.
-#define MODULE_COMPONENT_LIST_ITEMS           83
+#define MODULE_COMPONENT_LIST_ITEMS           83    ; `image:images/buttons/listItemsBlack.svg`
 
 ; @const Module calls for list items component functions.
 #define LIST_ITEMS_COMPONENT_SET_HIDDEN        0

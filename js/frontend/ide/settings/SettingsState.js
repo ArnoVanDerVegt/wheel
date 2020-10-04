@@ -2,12 +2,14 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const poweredUpModuleConstants        = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const platform                        = require('../../lib/platform');
 const path                            = require('../../lib/path');
 const dispatcher                      = require('../../lib/dispatcher').dispatcher;
 const Emitter                         = require('../../lib/Emitter').Emitter;
 const PluginsState                    = require('./PluginsState').PluginsState;
 const IncludeFilesState               = require('./IncludeFilesState').IncludeFilesState;
+const PoweredUpAutoConnectState       = require('./PoweredUpAutoConnectState').PoweredUpAutoConnectState;
 
 // How to handle an image when opened:
 const IMAGE_OPEN_VIEW                 = 'View';
@@ -37,7 +39,7 @@ const CONSOLE_DEFAULT_MESSAGE_COUNT   = 100;
 
 // Source file header
 const SOURCE_HEADER_TEXT              = [
-        'Wheel, copyright (c) {year} - present by {yourName}',
+        'Copyright (c) {year} - present by {yourName}',
         'Distributed under an {yourLicense}'
     ];
 
@@ -64,19 +66,19 @@ exports.SettingsState = class extends Emitter {
     **/
     constructor(opts) {
         super(opts);
-        this._onLoad             = function() {};
-        this._os                 = {};
-        this._isPackaged         = !!opts.isPackaged;
-        this._version            = null;
-        this._getDataProvider    = opts.getDataProvider;
-        this._documentPath       = '';
-        this._systemDocumentPath = (opts.systemDocumentPath || '').split('\\').join('/');
-        this._plugins            = new PluginsState({settings: this});
-        this._includeFiles       = new IncludeFilesState({settings: this});
+        this._onLoad               = function() {};
+        this._os                   = {};
+        this._isPackaged           = !!opts.isPackaged;
+        this._version              = null;
+        this._getDataProvider      = opts.getDataProvider;
+        this._documentPath         = '';
+        this._systemDocumentPath   = (opts.systemDocumentPath || '').split('\\').join('/');
+        this._plugins              = new PluginsState({settings: this});
+        this._includeFiles         = new IncludeFilesState({settings: this});
+        this._poweredUpAutoConnect = new PoweredUpAutoConnectState({settings: this});
         // Update...
         this.onLoad({});
         dispatcher
-            .on('Settings.UpdateViewSettings',              this, this._updateViewSettings)
             .on('Settings.Load.New',                        this, this._loadNewSettings)
             // Setters...
             .on('Settings.Set.RecentPaths',                 this, this._setRecentPaths)
@@ -86,6 +88,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
             .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
+            .on('Settings.Set.PoweredUpAutoConnect',        this, this._setPoweredUpAutoConnect)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
@@ -128,12 +131,12 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.ShowFileTree',             this, this._toggleShowFileTree)
             .on('Settings.Toggle.ShowProperties',           this, this._toggleShowProperties)
             .on('Settings.Toggle.ShowSimulator',            this, this._toggleShowSimulator)
+            .on('Settings.Toggle.ShowQuickViewMenu',        this, this._toggleShowQuickViewMenu)
             .on('Settings.Toggle.ShowSimulatorOnRun',       this, this._toggleShowSimulatorOnRun)
             .on('Settings.Toggle.CreateVMTextOutput',       this, this._toggleCreateVMTextOutput)
             .on('Settings.Toggle.Linter',                   this, this._toggleLinter)
             .on('Settings.Toggle.EV3AutoConnect',           this, this._toggleEV3AutoConnect)
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
-            .on('Settings.Toggle.PoweredUpAutoConnect',     this, this._togglePoweredUpAutoConnect)
             .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode)
             .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset);
     }
@@ -152,30 +155,11 @@ exports.SettingsState = class extends Emitter {
         if (this._getDataProvider) {
             this._getDataProvider().getData('post', 'ide/settings-save', {settings: this.getSettings()});
         }
-    }
-
-    _updateViewSettings() {
-        if (typeof document === 'undefined') {
-            return;
-        }
-        let items        = ['ide'];
-        let noSimulator  = !this._show.simulator;
-        let noProperties = !this._show.properties;
-        noSimulator && noProperties      && items.push('no-right-panel');
-        noSimulator                      && items.push('no-simulator');
-        noProperties                     && items.push('no-properties');
-        this._show.fileTree              || items.push('no-file-tree');
-        this._console.visible            || items.push('no-console');
-        this._darkMode                   && items.push('dark');
-        (this._os.platform === 'darwin') || items.push('scroll-bar');
-        if (document.body) {
-            document.body.className = items.join(' ');
-        }
+        return this;
     }
 
     save() {
-        this._save();
-        return this;
+        return this._save();
     }
 
     getSettings() {
@@ -234,7 +218,7 @@ exports.SettingsState = class extends Emitter {
                 daisyChainMode:    this._ev3.daisyChainMode
             },
             poweredUp: {
-                autoConnect:       this._poweredUp.autoConnect,
+                autoConnect:       this._poweredUpAutoConnect.toJSON(),
                 deviceCount:       this._poweredUp.deviceCount
             },
             imageOpen: {
@@ -280,7 +264,7 @@ exports.SettingsState = class extends Emitter {
         return this._os;
     }
 
-    getConsoleVisible() {
+    getShowConsole() {
         return this._console.visible;
     }
 
@@ -304,16 +288,16 @@ exports.SettingsState = class extends Emitter {
         return this._show.properties;
     }
 
+    getShowQuickViewMenu() {
+        return this._show.quickViewMenu;
+    }
+
     getShowSimulatorOnRun() {
         return this._show.simulatorOnRun;
     }
 
     getShowEV3Tile() {
         return this._show.ev3Tile;
-    }
-
-    getShowEV3ImageTile() {
-        return this._show.ev3ImageTile;
     }
 
     getShowEV3ImageTile() {
@@ -368,8 +352,13 @@ exports.SettingsState = class extends Emitter {
         return this._poweredUp.deviceCount || 1;
     }
 
+    getPoweredUpAutoConnect() {
+        return this._poweredUpAutoConnect;
+    }
+
     getValidatedDeviceCount(deviceCount) {
-        return ((deviceCount >= 1) && (deviceCount <= 4)) ? deviceCount : 1;
+
+        return ((deviceCount >= 1) && (deviceCount <= poweredUpModuleConstants.POWERED_UP_LAYER_COUNT)) ? deviceCount : 1;
     }
 
     getImageOpenBmp() {
@@ -411,7 +400,6 @@ exports.SettingsState = class extends Emitter {
             case '.bmp':  return this._imageOpen.bmp;
             case '.png':  return this._imageOpen.png;
             case '.jpg':  return this._imageOpen.jpg;
-            case '.jpeg': return this._imageOpen.jpeg;
             case '.gif':  return this._imageOpen.gif;
         }
         return IMAGE_OPEN_ASK;
@@ -548,6 +536,12 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.PoweredUp');
     }
 
+    _setPoweredUpAutoConnect(autoConnect) {
+        this._poweredUp.autoConnect = autoConnect;
+        this._save();
+        this.emit('Settings.PoweredUp');
+    }
+
     _setWindowSize(width, height) {
         this._windowSize.width  = width;
         this._windowSize.height = height;
@@ -641,9 +635,7 @@ exports.SettingsState = class extends Emitter {
 
     _setConsoleVisible(visible) {
         this._console.visible = visible;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setConsoleShowOnLevel(level) {
@@ -681,16 +673,12 @@ exports.SettingsState = class extends Emitter {
 
     _setShowFileTree(showFileTree) {
         this._show.fileTree = showFileTree;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowSimulatorOnRun(showSimulatorOnRun) {
         this._show.simulatorOnRun = !this._show.simulatorOnRun;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowSimulator(showSimulator) {
@@ -698,9 +686,7 @@ exports.SettingsState = class extends Emitter {
         if (showSimulator) {
             this._show.properties = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowProperties(showProperties) {
@@ -708,9 +694,7 @@ exports.SettingsState = class extends Emitter {
         if (showProperties) {
             this._show.simulator = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setShowEV3Tile(showEV3Tile) {
@@ -739,9 +723,7 @@ exports.SettingsState = class extends Emitter {
 
     _setDarkMode(darkMode) {
         this._darkMode = darkMode;
-        this._save();
-        this._updateViewSettings();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _setSensorAutoReset(sensorAutoReset) {
@@ -762,9 +744,7 @@ exports.SettingsState = class extends Emitter {
 
     _toggleShowFileTree() {
         this._show.fileTree = !this._show.fileTree;
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _toggleShowConsole() {
@@ -776,9 +756,7 @@ exports.SettingsState = class extends Emitter {
         if (this._show.properties) {
             this._show.simulator = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
     }
 
     _toggleShowSimulator() {
@@ -786,9 +764,12 @@ exports.SettingsState = class extends Emitter {
         if (this._show.simulator) {
             this._show.properties = false;
         }
-        this._updateViewSettings();
-        this._save();
-        this.emit('Settings.View');
+        this._save().emit('Settings.View');
+    }
+
+    _toggleShowQuickViewMenu() {
+        this._show.quickViewMenu = !this._show.quickViewMenu;
+        this._save().emit('Settings.View');
     }
 
     _toggleShowSimulatorOnRun() {
@@ -825,12 +806,6 @@ exports.SettingsState = class extends Emitter {
 
     _toggleAutoReset() {
         this._setSensorAutoReset(!this._sensorAutoReset);
-    }
-
-    _togglePoweredUpAutoConnect() {
-        this._poweredUp.autoConnect = !this._poweredUp.autoConnect;
-        this._save();
-        this.emit('Settings.PoweredUp');
     }
 
     _loadNewSettings(settings) {
@@ -871,6 +846,7 @@ exports.SettingsState = class extends Emitter {
         this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
         this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
+        this._show.quickViewMenu         = ('quickViewMenu'         in this._show)       ? this._show.quickViewMenu                                  : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;
         this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                        : true;
         this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                   : true;
@@ -934,9 +910,12 @@ exports.SettingsState = class extends Emitter {
         } else {
             this._includeFiles.loadDefaults();
         }
-        this._updateViewSettings();
+        if ('autoConnect' in this._poweredUp) {
+            this._poweredUpAutoConnect.load(this._poweredUp.autoConnect);
+        }
         dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);
         this._onLoad();
+        this.emit('Settings.View');
         return this;
     }
 };

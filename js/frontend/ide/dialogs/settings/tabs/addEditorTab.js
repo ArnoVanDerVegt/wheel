@@ -9,7 +9,7 @@ const ImageOpenSettings   = require('../components/ImageOpenSettings').ImageOpen
 exports.tab = (settingsDialog, opts) => {
     return {
         ref:       settingsDialog.setRef('tabEditor'),
-        className: 'tab-panel tab-editor',
+        className: 'abs max-x tab-panel ui1-box vscroll tab-editor',
         children: [
             settingsDialog.addTitle('Form editor'),
             settingsDialog.addCheckboxSetting({

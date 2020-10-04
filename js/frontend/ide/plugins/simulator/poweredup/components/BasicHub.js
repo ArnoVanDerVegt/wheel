@@ -27,7 +27,7 @@ exports.BasicHub = class extends DOMNode {
     getVectorRow(ref, title, addZ) {
         return [
             {
-                className: 'hub-state-row',
+                className: 'flt max-w hub-state-row',
                 children: [
                     {
                         type:      'span',
@@ -36,7 +36,7 @@ exports.BasicHub = class extends DOMNode {
                 ]
             },
             {
-                className: 'hub-state-row',
+                className: 'flt max-w hub-state-row',
                 children: [
                     {
                         ref:       this.setRef(ref + 'X'),
@@ -68,11 +68,11 @@ exports.BasicHub = class extends DOMNode {
         this._light = {
             setColor: function(color) {
                 if (colors[color] !== undefined) {
-                    hubLight.className = 'hub-light ' + colors[color];
+                    hubLight.className = 'abs hub-light ' + colors[color];
                 }
             },
             off: function() {
-                hubLight.className = 'hub-light none';
+                hubLight.className = 'abs hub-light none';
             }
         };
         return this._light;

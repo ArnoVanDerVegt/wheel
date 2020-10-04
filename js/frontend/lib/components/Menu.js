@@ -173,7 +173,7 @@ class MenuSeparator extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'menu-option-separator',
+                className: 'flt max-w menu-option-separator',
                 children: [
                     {
                         className: 'line'

@@ -9,7 +9,7 @@ exports.TextAreaProperty = class extends Property {
     initPropertyName() {
         return {
             ref:       this.setRef('name'),
-            className: 'property-name text-area',
+            className: 'flt property-name text-area',
             innerHTML: this._name
         };
     }
@@ -20,7 +20,7 @@ exports.TextAreaProperty = class extends Property {
             value = value.join('\n');
         }
         return {
-            className: 'property-value text-area',
+            className: 'flt property-value text-area',
             children: [
                 {
                     type:      TextArea,

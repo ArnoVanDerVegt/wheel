@@ -7,15 +7,12 @@
     box-sizing:                     border-box;
 }
 .powered-up .hub-id {
-    float:                          left;
-    width:                          100%;
     height:                         20px;
     font-size:                      13px;
     margin:                         0 0 8px 0;
     cursor:                         pointer;
 }
 .powered-up .hub-id span {
-    float:                          left;
     background-color:               var(--ui-background2);
     width:                          100%;
     height:                         20px;
@@ -36,8 +33,6 @@
     display:                        block;
 }
 .powered-up .technic-hub-body {
-    float:                          left;
-    position:                       relative;
     width:                          120px;
     height:                         120px;
 }
@@ -58,7 +53,6 @@
     border-radius:                  4px;
 }
 .powered-up .technic-hub-body .hub-box {
-    position:                       absolute;
     left:                           13px;
     top:                            0;
     width:                          94px;
@@ -68,7 +62,6 @@
 }
 .powered-up .technic-hub-body .hub-box .left-connections,
 .powered-up .technic-hub-body .hub-box .right-connections {
-    position:                       absolute;
     bottom:                         0;
     width:                          13px;
     height:                         66px;
@@ -84,7 +77,6 @@
     border-width:                   1px 0 0 1px;
 }
 .powered-up .technic-hub-body .hub-box .hub-button {
-    position:                       absolute;
     left:                           50%;
     top:                            75%;
     margin:                         -6.5px 0 0 -6.5px;
@@ -95,7 +87,6 @@
     border-radius:                  2px;
 }
 .powered-up .technic-hub-body .hub-box .hub-light {
-    position:                       absolute;
     left:                           50%;
     top:                            100%;
     margin:                         -13px 0 0 -3px;
@@ -110,8 +101,6 @@
     display:                        block;
 }
 .powered-up .move-hub-body {
-    float:                          left;
-    position:                       relative;
     width:                          120px;
     height:                         120px;
 }
@@ -120,7 +109,6 @@
 }
 .powered-up .move-hub-body .hub-top,
 .powered-up .move-hub-body .hub-bottom {
-    position:                       absolute;
     left:                           21px;
     top:                            0;
     width:                          78px;
@@ -143,7 +131,6 @@
     border:                         1px solid rgba(0, 0, 0, 0.5);
 }
 .powered-up .move-hub-body .hub-box .hub-button {
-    position:                       absolute;
     left:                           25px;
     top:                            31px;
     margin:                         -6.5px 0 0 -6.5px;
@@ -154,7 +141,6 @@
     border-radius:                  2px;
 }
 .powered-up .move-hub-body .hub-box .hub-light {
-    position:                       absolute;
     left:                           25px;
     top:                            58px;
     margin:                         -13px 0 0 -3px;
@@ -178,7 +164,6 @@
     display:                        none;
 }
 .powered-up .hub-hub-body .hub-box {
-    position:                       absolute;
     left:                           21px;
     top:                            0;
     width:                          66px;
@@ -190,7 +175,6 @@
     left:                           32px;
 }
 .powered-up .hub-hub-body .hub-box .hub-button {
-    position:                       absolute;
     left:                           32px;
     top:                            31px;
     margin:                         -6.5px 0 0 -6.5px;
@@ -201,7 +185,6 @@
     border-radius:                  2px;
 }
 .powered-up .hub-hub-body .hub-box .hub-light {
-    position:                       absolute;
     left:                           32px;
     top:                            0px;
     margin:                         -1px 0 0 -3px;
@@ -217,8 +200,6 @@
     width:                          148px;
 }
 .powered-up .hub-state .hub-state-row {
-    float:                          left;
-    width:                          100%;
     padding:                        0 0 0 16px;
     font-size:                      14px;
 }
@@ -247,7 +228,6 @@
     margin:                         0 0 0 14px;
 }
 .powered-up .hub-remote .control-circle {
-    position:                       absolute;
     width:                          96px;
     height:                         96px;
     border-radius:                  48px;
@@ -256,7 +236,6 @@
     background-color:               #FAFAFA;
 }
 .powered-up .hub-remote .control-circle .buttons {
-    position:                       absolute;
     width:                          80px;
     height:                         32px;
     border-radius:                  16px;
@@ -273,9 +252,7 @@
 }
 .powered-up .hub-remote .control-circle .buttons .buttons .button-left,
 .powered-up .hub-remote .control-circle .buttons .buttons .button-right {
-    float:                          left;
     width:                          33%;
-    height:                         100%;
     background-color:               #C0C0C0;
     text-align:                     center;
     line-height:                    22px;
@@ -296,9 +273,7 @@
     border-radius:                  0 11px 11px 0;
 }
 .powered-up .hub-remote .control-circle .buttons .buttons .button-center {
-    float:                          left;
     width:                          34%;
-    height:                         100%;
     background-color:               #AA0000;
     border:                         1px solid rgba(0, 0, 0, 0.5);
     border-width:                   0 1px 0 1px;
@@ -314,7 +289,6 @@
     right:                          5px;
 }
 .powered-up .hub-remote .hub-light {
-    position:                       absolute;
     left:                           50%;
     top:                            -1px;
     margin:                         0 0 0 -4px;
@@ -324,7 +298,6 @@
     border-radius:                  2px;
 }
 .powered-up .hub-remote  .remote-button {
-    position:                       absolute;
     left:                           50%;
     top:                            50%;
     margin:                         -10px 0 0 -10px;

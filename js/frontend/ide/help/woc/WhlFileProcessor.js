@@ -104,7 +104,24 @@ exports.WhlFileProcessor = class extends FileProcessor {
             let i     = constLine.indexOf(' ');
             let key   = constLine.substr(0, i).trim();
             let value = constLine.substr(i, constLine.length - i).trim();
-            constant.values.push({key: key, value: value});
+            let image = false;
+            let j     = value.indexOf(';');
+            if (j !== -1) {
+                image = value.substr(j + 1 - value.length).trim();
+                value = value.substr(0, j).trim();
+                if (image.substr(0, 7) === '`image:') {
+                    image = image.substr(7 - image.length);
+                    j     = image.indexOf('`');
+                    if (j === -1) {
+                        image = false;
+                    } else {
+                        image = image.substr(0, j);
+                    }
+                } else {
+                    image = false;
+                }
+            }
+            constant.values.push({key: key, value: value, image: image});
             nextLine = this.peekLine(true);
             this.addKeyword(this.getCleanName(key), constant);
         }
@@ -270,24 +287,37 @@ exports.WhlFileProcessor = class extends FileProcessor {
         return this.addTypedText(section, 'proc', proc);
     }
 
+    processDescription(section) {
+        let lines = [];
+        while ((this._index < this._lines.length - 1) && (this.peekLine().trim().substr(0, 1) === ';')) {
+            let line = this.readLine().trim();
+            lines.push(this.getItalicWords(line.substr(1, line.length - 1)));
+        }
+        this.addTypedText(section, 'description', lines);
+    }
+
     process(wocByName) {
-        let device            = false;
-        let mod               = false;
-        let namespace         = false;
-        let constantsSection  = {id: this.getNextId(), title: 'Constants',  content: []};
-        let varSection        = {id: this.getNextId(), title: 'Variables',  content: []};
-        let recordSection     = {id: this.getNextId(), title: 'Records',    content: []};
-        let eventSection      = {id: this.getNextId(), title: 'Events',     content: []};
-        let propertiesSection = {id: this.getNextId(), title: 'Properties', content: []};
-        let procSection       = {id: this.getNextId(), title: 'Procedures', content: []};
+        let device             = false;
+        let mod                = false;
+        let namespace          = false;
+        let descriptionSection = {id: this.getNextId(), title: '-',          content: []};
+        let constantsSection   = {id: this.getNextId(), title: 'Constants',  content: []};
+        let varSection         = {id: this.getNextId(), title: 'Variables',  content: []};
+        let recordSection      = {id: this.getNextId(), title: 'Records',    content: []};
+        let eventSection       = {id: this.getNextId(), title: 'Events',     content: []};
+        let propertiesSection  = {id: this.getNextId(), title: 'Properties', content: []};
+        let procSection        = {id: this.getNextId(), title: 'Procedures', content: []};
         while (this._index < this._lines.length) {
             let line = this.readLine();
             if (line[0] === ';') {
-                line = line.substr(1, line.length - 1).trim();
+                line = line.substr(1, line.length - 1).trim() + ' ';
                 let j = line.indexOf(' ');
                 if (j !== -1) {
                     let keyword = line.substr(0, j);
                     switch (keyword) {
+                        case '@description':
+                            this.processDescription(descriptionSection);
+                            break;
                         case '@module':
                             mod = line.substr(j, line.length - j).trim();
                             break;
@@ -323,6 +353,9 @@ exports.WhlFileProcessor = class extends FileProcessor {
                 let i = line.indexOf(' ');
                 namespace = (i === -1) ? line : line.substr(0, i);
             }
+        }
+        if (descriptionSection.content.length) {
+            this.addSection(descriptionSection);
         }
         if (constantsSection.content.length) {
             this.addSection(constantsSection);

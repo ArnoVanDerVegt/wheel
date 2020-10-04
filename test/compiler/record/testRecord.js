@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test records',
-    function() {
+    () => {
         describe(
             'Test global record',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares global record, assigns first field',
@@ -152,7 +152,7 @@ describe(
         );
         describe(
             'Test local record',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares local record, assigns first field',
@@ -293,7 +293,7 @@ describe(
         );
         describe(
             'Test nested record',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares nested record, assigns first/first field',
@@ -486,7 +486,7 @@ describe(
         );
         describe(
             'Test global array/record',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares global array and global record, assigns array with constant zero index to first record field',
@@ -699,7 +699,7 @@ describe(
         );
         describe(
             'Test local array/record',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares local array and local record, assigns array with constant zero index to first record field',
@@ -893,7 +893,7 @@ describe(
         );
         describe(
             'Test number array field',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares record with array of number as first field, assigns first index',
@@ -976,7 +976,7 @@ describe(
         );
         describe(
             'Test record array field',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares record and record with array of record field, assigns first field number value with zero constant index',
@@ -1204,7 +1204,7 @@ describe(
         );
         describe(
             'Test local record constant',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare constant',
@@ -1303,7 +1303,7 @@ describe(
         );
         describe(
             'Test global record constant',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare constant',
@@ -1402,7 +1402,7 @@ describe(
         );
         describe(
             'Test record constant assignments',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign to local record',

@@ -8,33 +8,35 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 exports.HintDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        let buttons = [
-                this.addButton({
-                    value:    opts.okButton || 'Ok',
-                    tabIndex: 128,
-                    onClick:  this.onClose.bind(this)
-                })
-            ].concat(this.addCustomButtons());
-        buttons.push(this.addDontShowAgain(2));
-        this.createWindow(
-            'hint-dialog ' + (opts.dialogClassName || ''),
-            'Title',
-            [
-                {
-                    ref:       this.setRef('text'),
-                    className: 'hint-text'
-                },
-                {
-                    className: 'buttons',
-                    children:  buttons
-                }
-            ]
-        );
         this._title            = opts.title;
         this._lines            = opts.lines;
         this._dispatchDontShow = opts.dispatchDontShow;
         this._dispatchHide     = opts.dispatchHide;
-        dispatcher.on(opts.signal || 'Dialog.Hint.Show', this, this.onShow);
+        this.initWindow({
+            showSignal: opts.signal || 'Dialog.Hint.Show',
+            width:      600,
+            height:     opts.height || 400,
+            className:  'hint-dialog ' + (opts.dialogClassName || ''),
+            title:      this._title
+        });
+    }
+
+    initWindowContent(opts) {
+        let buttons = [
+                {
+                    value:    opts.okButton || 'Ok',
+                    tabIndex: 128,
+                    onClick:  this.onClose.bind(this)
+                }
+            ].concat(this.addCustomButtons());
+        buttons.push(this.addDontShowAgain(2));
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'no-select abs dialog-cw dialog-lt hint-text'
+            },
+            this.initButtons(buttons)
+        ];
     }
 
     addCustomButtons() {

@@ -2,8 +2,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains a procedures to control the `EV3` or `Powered Up` light.
+
 ; @const The light module.
-#define MODULE_LIGHT        3
+#define MODULE_LIGHT           3
 
 ; @const Module call to control the light.
 #define LIGHT_UPDATE           0

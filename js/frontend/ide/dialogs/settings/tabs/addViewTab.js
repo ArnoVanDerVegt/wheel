@@ -7,7 +7,7 @@ const platform = require('../../../../lib/platform');
 exports.tab = (settingsDialog) => {
     return {
         ref:       settingsDialog.setRef('tabView'),
-        className: 'tab-panel tab-view',
+        className: 'abs max-x tab-panel ui1-box vscroll tab-view',
         children: [
             settingsDialog.addTitle('General'),
             settingsDialog.addCheckboxSetting({
@@ -27,7 +27,7 @@ exports.tab = (settingsDialog) => {
             settingsDialog.addCheckboxSetting({
                 label:       'Show console',
                 tabIndex:    3,
-                getter:      'getConsoleVisible',
+                getter:      'getShowConsole',
                 signal:      'Settings.Set.Console.Visible'
             }),
             settingsDialog.addCheckboxSetting({

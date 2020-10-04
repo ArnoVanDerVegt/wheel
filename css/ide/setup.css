@@ -1,7 +1,4 @@
 .setup {
-    position:                       absolute;
-    width:                          100%;
-    height:                         100%;
     overflow:                       hidden;
     background:                     linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
     z-index:                        50500;
@@ -10,10 +7,6 @@
     display:                        none;
 }
 .setup .setup-image-clip {
-    float:                          left;
-    position:                       relative;
-    width:                          100%;
-    height:                         100%;
     overflow:                       hidden;
     z-index:                        10;
 }
@@ -40,7 +33,6 @@
 .setup .setup-content-wrapper h1 {
     margin:                         0;
     padding:                        0;
-    width:                          100%;
     height:                         72px;
     border:                         2px solid #FFFFFF;
     border-width:                   0 0 2px 0;
@@ -60,8 +52,6 @@
 .setup .setup-content-wrapper .homedir,
 .setup .setup-content-wrapper .title,
 .setup .setup-content-wrapper .text {
-    float:                          left;
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     margin:                         0;
@@ -75,7 +65,6 @@
     font-size:                      15px;
 }
 .setup .setup-content-wrapper .homedir .current {
-    float:                          left;
     width:                          calc(100% - 80px);
     overflow:                       hidden;
     text-overflow:                  ellipsis;
@@ -86,14 +75,11 @@
     padding:                        2px;
 }
 .setup .setup-content-wrapper .progress {
-    float:                          left;
     width:                          calc(100% - 64px);
     margin:                         0 32px 0 32px;
     display:                        none;
 }
 .setup .setup-content-wrapper .progress .current-file {
-    float:                          left;
-    width:                          100%;
     height:                         20px;
     margin:                         40px 0 0 0;
     line-height:                    20px;
@@ -103,14 +89,10 @@
     color:                          #FFFFFF;
 }
 .setup .setup-content-wrapper .progress .setup-progress-bar {
-    float:                          left;
-    width:                          100%;
     height:                         40px;
     border:                         1px solid #FFFFFF;
 }
 .setup .setup-content-wrapper .progress .setup-progress-bar .bar {
-    float:                          left;
-    height:                         100%;
     background-color:               rgba(255, 255, 255, 0.75);
 }
 .setup .setup-content-wrapper .button.green {
@@ -122,7 +104,6 @@
     height:                         24px;
 }
 .setup .setup-content-wrapper .buttons {
-    position:                       absolute;
     left:                           16px;
     bottom:                         16px;
     width:                          calc(100% - 32px);

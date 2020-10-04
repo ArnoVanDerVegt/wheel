@@ -148,6 +148,29 @@ const DOMNode = class extends DOMUtils {
     getRefs() {
         return this._refs;
     }
+
+    getElementPosition(element) {
+        if (!element) {
+            element = this._element;
+        }
+        let offsetX = element.offsetLeft;
+        let offsetY = element.offsetTop;
+        let parent  = element.offsetParent;
+        let matrix;
+        let computedStyle;
+        while (parent) {
+            if (typeof WebKitCSSMatrix === 'undefined') {
+                matrix        = {m41: 0, m42: 0};
+            } else {
+                computedStyle = window.getComputedStyle(parent);
+                matrix        = new WebKitCSSMatrix(computedStyle.webkitTransform);
+            }
+            offsetX += matrix.m41 + parent.offsetLeft;
+            offsetY += matrix.m42 + parent.offsetTop - parent.scrollTop;
+            parent = parent.offsetParent;
+        }
+        return {x: offsetX, y: offsetY};
+    }
 };
 
 exports.DOMNode = DOMNode;

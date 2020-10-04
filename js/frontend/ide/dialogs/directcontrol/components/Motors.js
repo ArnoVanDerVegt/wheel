@@ -49,7 +49,7 @@ exports.Motors = class extends DOMNode {
             parentNode,
             {
                 ref:       dialog.setRef('motors'),
-                className: 'motors',
+                className: 'abs dialog-l dialog-r dialog-b motors',
                 children:  children
             }
         );

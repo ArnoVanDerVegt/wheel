@@ -13,13 +13,14 @@ exports.ListItem = class extends ListItem {
                 parentNode,
                 {
                     id:        this.setElement.bind(this),
-                    className: 'list-item',
+                    className: 'flt rel max-w list-item',
                     children: [
                         {
                             id:        this.setLinkElement.bind(this),
-                            type:      'a',
                             tabIndex:  this._tabIndex,
+                            type:      'a',
                             href:      '#',
+                            className: 'no-select flt rel max-w max-h list-item-item',
                             innerHTML: item
                         }
                     ]
@@ -27,48 +28,63 @@ exports.ListItem = class extends ListItem {
             );
             return;
         }
+        let stateColor;
+        let stateText;
+        if (item.connecting) {
+            stateColor = 'yellow';
+            stateText  = 'Connecting';
+        } else if (item.connected) {
+            stateColor = 'green';
+            stateText  = 'Connected';
+        } else {
+            stateColor = 'red';
+            stateText  = 'Disconnected';
+        }
         this.create(
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'list-item',
+                className: 'flt rel max-w list-item',
                 children: [
                     {
                         id:        this.setLinkElement.bind(this),
-                        type:      'a',
                         tabIndex:  this._tabIndex,
+                        type:      'a',
                         href:      '#',
+                        className: 'flt rel max-w max-h list-item-item',
                         children: [
                             item.image ?
                                 {
                                     type:      'img',
+                                    className: 'no-select',
                                     src:       item.image
                                 } :
                                 null,
                             item.label ?
                                 {
                                     type:      'span',
+                                    className: 'no-select item-label',
                                     innerHTML: item.label
                                 } :
                                 null,
                             item.title ?
                                 {
                                     type:      'span',
-                                    className: 'item-title',
+                                    className: 'no-select item-title',
                                     innerHTML: item.title
                                 } :
                                 null,
                             item.subTitle ?
                                 {
                                     type:      'span',
-                                    className: 'item-sub-title',
+                                    className: 'no-select item-sub-title',
                                     innerHTML: this._settings.getDeviceAlias(item.subTitle) + ' (' + item.subTitle + ')',
                                     title:     item.subTitle
                                 } :
                                 null,
                             {
-                                className: 'item-state ' + (item.connected ? 'green' : 'red'),
-                                innerHTML: item.connected ? 'Connected' : 'Disconnected'
+                                className: 'item-state ' + stateColor,
+                                innerHTML: stateText
                             }
                         ]
                     }

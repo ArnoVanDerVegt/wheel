@@ -77,7 +77,7 @@ exports.ToolOptions = class extends DOMNode {
                 this._parentNode,
                 {
                     innerHTML: this._label,
-                    className: 'label'
+                    className: 'no-select label'
                 }
             );
         }

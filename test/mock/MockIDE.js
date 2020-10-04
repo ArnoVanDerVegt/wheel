@@ -43,10 +43,10 @@ exports.MockIDE = class {
                             getValue: () => {
                                 return this._testValue;
                             }
-                        }
+                        };
                     }
-                }
+                };
             }
-        }
+        };
     }
 };

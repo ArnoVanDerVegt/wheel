@@ -8,16 +8,16 @@ const testLogs       = require('../../../utils').testLogs;
 const testCompile    = require('../../../utils').testCompile;
 const assert         = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test Form component module',
-    function() {
+    () => {
         it(
             'Should show a form',
-            function() {
+            () => {
                 let source = [
                         'proc formShow(string filename)',
                         '    addr filename',

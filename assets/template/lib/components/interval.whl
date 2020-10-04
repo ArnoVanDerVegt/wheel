@@ -5,7 +5,7 @@
 namespace components.interval
 
 ; @const The interval component module.
-#define MODULE_COMPONENT_INTERVAL   132
+#define MODULE_COMPONENT_INTERVAL   132     ; `image:images/buttons/clockBlack.svg`
 
 ; @const Module calls for interval component functions.
 #define INTERVAL_COMPONENT_SET_TIME   0

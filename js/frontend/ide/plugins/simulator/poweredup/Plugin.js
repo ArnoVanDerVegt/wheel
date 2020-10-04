@@ -39,7 +39,7 @@ exports.Plugin = class extends Plugin {
 
     initEvents() {
         let device = this._device;
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             device
                 .on('PoweredUp.Layer' + i + 'Uuid',   this, this.onUuid.bind(this, i))
                 .on('PoweredUp.Layer' + i + 'Type',   this, this.onType.bind(this, i))
@@ -48,11 +48,7 @@ exports.Plugin = class extends Plugin {
                 .on('PoweredUp.Layer' + i + 'Accel',  this, this.onAccel.bind(this, i));
         }
         this._settings.on('Settings.AliasChanged', this, this.onAliasChanged);
-        dispatcher
-            .on('Button.Layer0', this, this.onToggleLayer0.bind(this))
-            .on('Button.Layer1', this, this.onToggleLayer1.bind(this))
-            .on('Button.Layer2', this, this.onToggleLayer2.bind(this))
-            .on('Button.Layer3', this, this.onToggleLayer3.bind(this));
+        dispatcher.on('Simulator.Layer.Change', this, this.onChangeLayer.bind(this));
     }
 
     getMainElement() {
@@ -60,11 +56,12 @@ exports.Plugin = class extends Plugin {
             className: 'powered-up remote',
             children: [
                 {
-                    className: 'hub-id',
+                    className: 'flt max-w hub-id',
                     children: [
                         {
                             id:        this.setUuidElement.bind(this),
                             type:      'span',
+                            className: 'flt',
                             innerHTML: ''
                         }
                     ]
@@ -198,6 +195,8 @@ exports.Plugin = class extends Plugin {
         let device = this.getDeviceStateByLayer(layer);
         if (device && device.setType) {
             device.setType(type);
+        } else {
+            this._uuidElement.innerHTML = '';
         }
         if (layer === this._simulator.getLayer()) {
             this._hub.hide();
@@ -305,19 +304,9 @@ exports.Plugin = class extends Plugin {
         this._uuidElement.innerHTML = this._settings.getDeviceAlias(this._uuid);
     }
 
-    onToggleLayer0() {
-        this.showLayer(0);
-    }
-
-    onToggleLayer1() {
-        this.showLayer(1);
-    }
-
-    onToggleLayer2() {
-        this.showLayer(2);
-    }
-
-    onToggleLayer3() {
-        this.showLayer(3);
+    onChangeLayer(layer) {
+        if (layer < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT) {
+            this.showLayer(layer);
+        }
     }
 };

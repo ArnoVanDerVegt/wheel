@@ -11,53 +11,55 @@ exports.GraphDialog = class extends Dialog {
         this._layer      = 0;
         this._port       = 0;
         this._sampleRate = 0;
-        this.createWindow(
-            'graph-dialog new-graph',
-            'New EV3 graph',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Graph.New.Show',
+            width:      640,
+            height:     256,
+            className:  'graph-dialog new-graph',
+            title:      'New EV3 graph'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-cw dialog-lt input-row graph-dialog-text',
+                children: [
+                    this.addToolOptions({
+                        tabIndex: 1,
+                        title:    'Layer',
+                        options:  ['1', '2', '3', '4'],
+                        onSelect: this.onSelectLayer.bind(this)
+                    }),
+                    this.addToolOptions({
+                        tabIndex: 2,
+                        title:    'Port',
+                        options:  ['1', '2', '3', '4'],
+                        onSelect: this.onSelectPort.bind(this)
+                    }),
+                    this.addToolOptions({
+                        tabIndex: 3,
+                        title:   'Sample rate',
+                        options: ['1/sec', '2/sec', '5/sec', '10/sec', '20/sec'],
+                        onSelect: this.onSelectSampleRate.bind(this)
+                    })
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'graph-dialog-text',
-                    children: [
-                        this.addToolOptions({
-                            tabIndex: 1,
-                            title:    'Layer',
-                            options:  ['1', '2', '3', '4'],
-                            onSelect: this.onSelectLayer.bind(this)
-                        }),
-                        this.addToolOptions({
-                            tabIndex: 2,
-                            title:    'Port',
-                            options:  ['1', '2', '3', '4'],
-                            onSelect: this.onSelectPort.bind(this)
-                        }),
-                        this.addToolOptions({
-                            tabIndex: 3,
-                            title:   'Sample rate',
-                            options: ['1/sec', '2/sec', '5/sec', '10/sec', '20/sec'],
-                            onSelect: this.onSelectSampleRate.bind(this)
-                        })
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Graph.New.Show', this, this.onShow);
+            ])
+        ];
     }
 
     addToolOptions(opts) {
@@ -66,7 +68,7 @@ exports.GraphDialog = class extends Dialog {
             options.push({value: option});
         });
         return {
-            className: 'graph-dialog-row',
+            className: 'flt max-w input-row graph-dialog-row',
             children: [
                 super.addToolOptions({
                     color:    'green',

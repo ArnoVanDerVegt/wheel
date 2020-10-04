@@ -8,18 +8,30 @@ exports.Defines = class {
         this._list    = [];
     }
 
-    add(token, key, value) {
+    add(token, key, value, tag) {
         this._defines[key] = value;
         this._list.push({
             token:    token,
             key:      key,
             value:    value,
+            tag:      tag,
             toString: function() { return this.key; }
         });
     }
 
     get(key) {
         return (key in this._defines) ? this._defines[key] : false;
+    }
+
+    getFullInfo(key) {
+        let list = this._list;
+        for (let i = 0; i < list.length; i++) {
+            let item = list[i];
+            if (item.key === key) {
+                return item;
+            }
+        }
+        return false;
     }
 
     getList() {

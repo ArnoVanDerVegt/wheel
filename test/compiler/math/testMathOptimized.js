@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test optimize math',
-    function() {
+    () => {
         describe(
             'Test single operator',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Replaces two added number constants with a single constant',
@@ -71,7 +71,7 @@ describe(
         );
         describe(
             'Test two operators',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Replaces three added number constants with a single constant',
@@ -132,7 +132,7 @@ describe(
         );
         describe(
             'Test operator precedence',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Replaces three number constants with a single constant using subtract and add',

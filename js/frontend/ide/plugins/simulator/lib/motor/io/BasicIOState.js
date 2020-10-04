@@ -6,6 +6,10 @@ const MODE_OFF    = 0;
 const MODE_ON     = 1;
 const MODE_TARGET = 2;
 
+exports.MODE_OFF    = MODE_OFF;
+exports.MODE_ON     = MODE_ON;
+exports.MODE_TARGET = MODE_TARGET;
+
 exports.BasicIOState = class {
     constructor(opts) {
         this.reset();
@@ -14,6 +18,7 @@ exports.BasicIOState = class {
         this._device           = opts.device;
         this._layer            = opts.layer;
         this._id               = opts.id;
+        this._getCurrentTime   = opts.getCurrentTime || (() => { return Date.now(); });
         this._onChangeConneced = opts.onChangeConnected;
         this._onChangeType     = opts.onChangeType;
         this._onChangeMode     = opts.onChangeMode;
@@ -33,6 +38,7 @@ exports.BasicIOState = class {
         this._romotePosition = 0;
         this._target         = null;
         this._lastTime       = null;
+        return this;
     }
 
     getLayer() {
@@ -70,6 +76,7 @@ exports.BasicIOState = class {
     setMode(mode) {
         this._mode = mode;
         this._onChangeMode(mode);
+        return this;
     }
 
     getValue() {
@@ -108,6 +115,7 @@ exports.BasicIOState = class {
     setTarget(target) {
         this._target    = target;
         this._motorMode = MODE_TARGET;
+        return this;
     }
 
     getSpeed() {
@@ -135,6 +143,7 @@ exports.BasicIOState = class {
     setOn(on) {
         this._target    = null;
         this._motorMode = on ? MODE_ON : MODE_OFF;
+        return this;
     }
 
     onResetTimeout() {
@@ -152,11 +161,11 @@ exports.BasicIOState = class {
             return false;
         }
         if (this._lastTime === null) {
-            this._lastTime = Date.now();
+            this._lastTime = this._getCurrentTime();
             return false;
         }
         let position      = this._position;
-        let time          = Date.now();
+        let time          = this._getCurrentTime();
         let deltaTime     = time - this._lastTime;
         let deltaPosition = deltaTime / 1000 * this._rpm / 60 * this._speed;
         this._lastTime = time;

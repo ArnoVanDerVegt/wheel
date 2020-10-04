@@ -10,12 +10,12 @@ const ListItem        = require('./components/ListItem').ListItem;
 
 exports.PoweredUpConnectListDialog = class extends ListDialog {
     constructor(opts) {
+        opts.showSignal = 'Dialog.ConnectPoweredUp.Show';
         opts.help       = 'Bluetooth';
         opts.title      = 'Connect Powered Up';
         opts.applyTitle = 'Connect';
         opts.ListItem   = ListItem;
         super(opts);
-        dispatcher.on('Dialog.ConnectPoweredUp.Show', this, this.onShow);
         this._scanTimeout = null;
         this._changed     = -1;
         this._changeTime  = Date.now();
@@ -24,12 +24,12 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
     getExtraButtons() {
         return [
             platform.forceWebVersion() ?
-                this.addButton({
+                {
                     color:    'blue',
                     tabIndex: 258,
                     value:    'Look for devices',
                     onClick:  this.onScan.bind(this)
-                }) :
+                } :
                 null
         ];
     }
@@ -38,7 +38,9 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
         getDataProvider().getData(
             'post',
             'powered-up/device-list',
-            {},
+            {
+                autoConnect: this._settings.getPoweredUpAutoConnect().toJSON()
+            },
             (data) => {
                 try {
                     data = JSON.parse(data);
@@ -49,12 +51,16 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
                 if (data && ((data.changed !== this._changed) || (time > this._changeTime + 5000))) {
                     this._changed    = data.changed;
                     this._changeTime = time;
+                    let list = [];
                     data.list.forEach(function(item) {
-                        if (!item.title) {
-                            item.title = '??';
+                        if (item) {
+                            if (!item.title) {
+                                item.title = '??';
+                            }
+                            list.push(item);
                         }
                     });
-                    this.onDeviceList(data.list);
+                    this.onDeviceList(list);
                 }
                 this._scanTimeout = setTimeout(this.getList.bind(this), 200);
             }

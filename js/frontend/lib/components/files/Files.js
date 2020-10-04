@@ -37,10 +37,10 @@ exports.Files = class extends Component {
             this._element,
             {
                 id:        this.setFilesElement.bind(this),
-                className: 'files' + (this._className ? ' ' + this._className : ''),
+                className: 'abs files ui1-box hscroll pad' + (this._className ? ' ' + this._className : ''),
                 children: [
                     {
-                        className: 'files-content'
+                        className: 'flt max-h files-content'
                     }
                 ]
             }
@@ -103,7 +103,7 @@ exports.Files = class extends Component {
     }
 
     updateClassName() {
-        this._filesElement.className = 'files' +
+        this._filesElement.className = 'abs files ui1-box hscroll pad' +
             (this._className ? ' ' + this._className : '') +
             (this._loading   ? ' loading'            : '');
     }

@@ -67,7 +67,7 @@ exports.SensorContainer = class extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('sensor'),
-                className: 'sensor-container' + (this._hidden ? ' hidden' : ''),
+                className: 'flt rel sensor-container' + (this._hidden ? ' hidden' : ''),
                 children: [
                     this.initSensor(UnknownSensor)
                 ]

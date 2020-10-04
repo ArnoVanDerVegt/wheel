@@ -10,52 +10,55 @@ exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
         opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
-        this.createWindow(
-            'image-dialog new-image',
-            opts.title || 'New image',
-            [
+        this._expectedExtensions = ['', '.rgf'];
+        this.initWindow({
+            showSignal: opts.showSignal || 'Dialog.Image.New.Show',
+            width:      400,
+            height:     256,
+            className:  'image-dialog new-image',
+            title:      opts.title || 'New image'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
+                children: [
+                    {
+                        className: 'flt max-w input-row image-dialog-row',
+                        children: [
+                            {
+                                className: 'flt input-label',
+                                innerHTML: 'Filename'
+                            },
+                            this.addTextInput({
+                                ref:         this.setRef('filename'),
+                                tabIndex:    1,
+                                onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                placeholder: 'Enter filename'
+                            })
+                        ]
+                    },
+                    this.getWidthRow(),
+                    this.getHeightRow()
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'image-dialog-text',
-                    children: [
-                        {
-                            className: 'image-dialog-row',
-                            children: [
-                                {
-                                    className: 'form-label',
-                                    innerHTML: 'Filename'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('filename'),
-                                    tabIndex:    1,
-                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
-                                    placeholder: 'Enter filename'
-                                })
-                            ]
-                        },
-                        this.getWidthRow(),
-                        this.getHeightRow()
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    opts.applyTitle || 'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    opts.applyTitle || 'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on(opts.dispatchShow || 'Dialog.Image.New.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(activeDirectory, documentPath) {
@@ -90,21 +93,6 @@ exports.ImageNewDialog = class extends ImageDialog {
             }
         );
         this.hide();
-    }
-
-    validateFilename() {
-        let result = true;
-        let refs   = this._refs;
-        this._filename = refs.filename.getValue().trim();
-        let extension = path.getExtension(this._filename);
-        if ((this._filename === '') || (['', '.rgf'].indexOf(extension) === -1)) {
-            refs.filename.focus();
-            refs.filename.setClassName('invalid');
-            result = false;
-        } else {
-            refs.filename.setClassName('');
-        }
-        return result;
     }
 
     validate() {

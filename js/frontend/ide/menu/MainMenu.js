@@ -4,8 +4,9 @@
 **/
 const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const MainMenu    = require('../../lib/components/MainMenu').MainMenu;
+const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
+const Button      = require('../../lib/components/Button').Button;
 const tabIndex    = require('../tabIndex');
 const HelpOption  = require('./HelpOption').HelpOption;
 
@@ -21,6 +22,7 @@ exports.MainMenu = class extends MainMenu {
         this._settings  = settings;
         this
             .initMenu()
+            .initQuickMenu()
             .initHelp()
             .initStorage();
         // Settings events...
@@ -39,7 +41,8 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
         poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
-            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu);
+            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
+            .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -89,6 +92,62 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    initQuickMenu() {
+        this.create(
+            this._mainMenuElement,
+            {
+                className: 'flt resource-options main-menu',
+                children: [
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-folder',
+                        hint:      {text: 'Toggle folder panel'},
+                        dispatch:  'Settings.Toggle.ShowFileTree'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 1,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-error',
+                        hint:      {text: 'Toggle console panel'},
+                        dispatch:  'Settings.Toggle.ShowConsole'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 2,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-tag',
+                        hint:      {text: 'Toggle component and properties panel'},
+                        dispatch:  'Settings.Toggle.ShowProperties'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 3,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-simulator',
+                        hint:      {text: 'Toggle simulator panel'},
+                        dispatch:  'Settings.Toggle.ShowSimulator'
+                    }
+                ]
+            }
+        );
+        return this;
+    }
+
     initHelp() {
         this.create(
             this._mainMenuElement,
@@ -111,6 +170,7 @@ exports.MainMenu = class extends MainMenu {
             .initCompileMenu()
             .initViewMenu()
             .initSimulatorMenu()
+            .initToolsMenu()
             .initAboutMenu()
             .onUpdateViewMenu()
             .onUpdateSimulatorMenu()
@@ -124,12 +184,13 @@ exports.MainMenu = class extends MainMenu {
     initFileMenu() {
         this._fileMenu = this.addMenu({
             title: '^File',
-            width: '200px',
+            width: '272px',
             items: [
-                {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
-                {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
-                {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
-                {title: 'New form',                                               dispatch: 'Menu.File.NewFormFile'},
+                {title: 'New file...',                  hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
+                {title: 'New project file...',          hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
+                {title: 'New Powered Up project...',                              dispatch: 'Dialog.File.PoweredUpProject'},
+                {title: 'New image...',                 hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New form...',                                            dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},
@@ -137,13 +198,13 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},
-                {title: 'Settings',                                               dispatch: 'Dialog.Settings.Show'},
+                {title: 'Settings...',                                            dispatch: 'Dialog.Settings.Show'},
                 {title: '-'},
                 {title: 'Exit Wheel',                   hotkey: ['command', 'Q'], dispatch: 'Menu.File.Exit'}
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[9].setEnabled(platform.isElectron()); // Exit Wheel
+        menuOptions[10].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 
@@ -178,6 +239,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Find...',                      hotkey: ['command', 'F'], dispatch: 'Menu.Find.Find'},
                 {title: 'Find next',                    hotkey: ['command', 'G'], dispatch: 'Menu.Find.FindNext'},
                 {title: '-'},
+                {title: 'Find in files...',                                       dispatch: 'Dialog.FindInFiles.Show'},
+                {title: '-'},
                 {title: 'Replace...',                                             dispatch: 'Menu.Find.Replace'},
                 {title: 'Replace next',                                           dispatch: 'Menu.Find.ReplaceNext'},
                 {title: 'Replace all...',                                         dispatch: 'Dialog.Replace.Show'}
@@ -186,9 +249,9 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._findMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled(false); // Find
         menuOptions[1].setEnabled(false); // Find next
-        menuOptions[2].setEnabled(false); // Replace
-        menuOptions[3].setEnabled(false); // Replace next
-        menuOptions[4].setEnabled(false); // Replace all
+        menuOptions[3].setEnabled(false); // Replace
+        menuOptions[4].setEnabled(false); // Replace next
+        menuOptions[5].setEnabled(false); // Replace all
         return this;
     }
 
@@ -230,6 +293,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Menu.PoweredUp.AutoConnect'},
                 {title: '-'},
                 {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
                 {title: '-'},
@@ -239,9 +303,10 @@ exports.MainMenu = class extends MainMenu {
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
         let available   = platform.isElectron() || platform.isNode() || window.PoweredUP.isWebBluetooth;
-        menuOptions[0].setEnabled(available);  // Connect
-        menuOptions[1].setEnabled(false);      // Disconnect
-        menuOptions[3].setEnabled(false);      // Direct control
+        menuOptions[0].setEnabled(available);                                   // Connect
+        menuOptions[1].setEnabled(false);                                       // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron() || platform.isNode());  // Autoconnect, not in browser!
+        menuOptions[4].setEnabled(false);                                       // Direct control
         return this;
     }
 
@@ -282,6 +347,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Show properties',                                        dispatch: 'Settings.Toggle.ShowProperties'},
                 {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
+                {title: 'Show quick view menu',                                   dispatch: 'Settings.Toggle.ShowQuickViewMenu'},
+                {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
                 {title: '-'},
                 {title: 'Dark mode',                                              dispatch: 'Settings.Toggle.DarkMode'}
@@ -319,6 +386,17 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    initToolsMenu() {
+        this._toolsMenu = this.addMenu({
+            title: '^Tools',
+            width: '192px',
+            items: [
+                {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'}
+            ]
+        });
+        return this;
+    }
+
     initAboutMenu() {
         this._aboutMenu = this.addMenu({
             title: '^About',
@@ -338,9 +416,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[6].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[7].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[ 6].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[ 7].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[10].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 
@@ -374,8 +452,9 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[3].setEnabled(connected);                               // PoweredUp Direct control
-        menuOptions[4].setEnabled(connected);                               // Stop all motors
+        menuOptions[2].setEnabled(connected);                               // Autoconnect
+        menuOptions[4].setEnabled(connected);                               // PoweredUp Direct control
+        menuOptions[5].setEnabled(connected);                               // Stop all motors
         return this;
     }
 
@@ -410,11 +489,12 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._viewMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
-        menuOptions[1].setChecked(settings.getConsoleVisible());
+        menuOptions[1].setChecked(settings.getShowConsole());
         menuOptions[2].setChecked(settings.getShowProperties());
         menuOptions[3].setChecked(settings.getShowSimulator());
-        menuOptions[4].setChecked(settings.getShowSimulatorOnRun());
-        menuOptions[5].setChecked(settings.getDarkMode());
+        menuOptions[4].setChecked(settings.getShowQuickViewMenu());
+        menuOptions[5].setChecked(settings.getShowSimulatorOnRun());
+        menuOptions[6].setChecked(settings.getDarkMode());
         return this;
     }
 
@@ -452,9 +532,9 @@ exports.MainMenu = class extends MainMenu {
         let findMenuOptions       = this._findMenu.getMenu().getMenuOptions();
         let menuOptionFind        = findMenuOptions[0];
         let menuOptionFindNext    = findMenuOptions[1];
-        let menuOptionReplace     = findMenuOptions[2];
-        let menuOptionReplaceNext = findMenuOptions[3];
-        let menuOptionReplaceAll  = findMenuOptions[4];
+        let menuOptionReplace     = findMenuOptions[3];
+        let menuOptionReplaceNext = findMenuOptions[4];
+        let menuOptionReplaceAll  = findMenuOptions[5];
         if (info.activeEditor) {
             if (info.activeEditor.canCrop && info.activeEditor.canCrop()) {
                 menuOptionCrop.setEnabled(info.activeEditor.canCrop());

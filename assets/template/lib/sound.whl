@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to play samples and tones on the `EV3` device.
+
 ; @const The sound module.
-#define MODULE_SOUND        5
+#define MODULE_SOUND        5        ; `image:images/ev3/ev364.png`
 
 ; @const Module calls for playing sounds
 #define SOUND_PLAY_TONE     0

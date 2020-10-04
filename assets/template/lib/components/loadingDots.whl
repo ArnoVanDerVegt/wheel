@@ -5,7 +5,7 @@
 namespace components.loadingDots
 
 ; @const The status light component module.
-#define MODULE_COMPONENT_LOADING_DOTS        105
+#define MODULE_COMPONENT_LOADING_DOTS        105    ; `image:images/buttons/loadingBlack.svg`
 
 ; @const Module calls for status light component functions.
 #define LOADING_DOTS_COMPONENT_SET_HIDDEN      0

@@ -13,51 +13,54 @@ exports.ListDialog = class extends Dialog {
         opts || (opts = {});
         this._list          = [];
         this._dispatchApply = null;
-        this.createWindow(
-            'list-dialog' + (opts.comment ? ' with-comment' : ''),
-            opts.title || 'Title',
-            [
-                opts.comment ?
+        this.initWindow({
+            help:       opts.help,
+            showSignal: opts.showSignal,
+            width:      500,
+            height:     400,
+            className:  'list-dialog' + (opts.comment ? ' with-comment' : ''),
+            title:      opts.title || 'Title'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            opts.comment ?
+                {
+                    innerHTML: opts.comment,
+                    className: 'dialog-cw dialog-lt list-comment'
+                } :
+                null,
+            {
+                type:      List,
+                ListItem:  opts.ListItem,
+                settings:  this._settings,
+                ref:       this.setRef('list'),
+                ui:        this._ui,
+                tabIndex:  1,
+                className: 'abs ui1-box vscroll dialog-cw dialog-lt item-list',
+                onChange:  this.onChangeItem.bind(this),
+                onSelect:  this.onSelectItem.bind(this)
+            },
+            this.initButtons([
+                (opts.applyTitle === null) ?
+                    null :
                     {
-                        innerHTML: opts.comment,
-                        className: 'list-comment'
-                    } :
-                    null,
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 256,
+                        value:    opts.applyTitle || 'Ok',
+                        disabled: true,
+                        onClick:  this.onApply.bind(this)
+                    },
                 {
-                    type:      List,
-                    ListItem:  opts.ListItem,
-                    settings:  this._settings,
-                    ref:       this.setRef('list'),
-                    ui:        this._ui,
-                    tabIndex:  1,
-                    className: 'item-list',
-                    onChange:  this.onChangeItem.bind(this),
-                    onSelect:  this.onSelectItem.bind(this)
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 256,
-                            value:    opts.applyTitle || 'Ok',
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:      this.setRef('buttonCancel'),
-                            tabIndex: 257,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ].concat(this.getExtraButtons())
+                    ref:      this.setRef('buttonCancel'),
+                    tabIndex: 257,
+                    value:    opts.cancelTitle || 'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        if (opts && opts.signal) {
-            dispatcher.on(opts.signal, this, this.onShow);
-        }
+            ].concat(this.getExtraButtons()))
+        ];
     }
 
     getExtraButtons() {

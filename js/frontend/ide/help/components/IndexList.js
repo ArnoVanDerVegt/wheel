@@ -22,7 +22,7 @@ class HelpLink extends DOMNode {
                 if (!device) {
                     return;
                 }
-                deviceChildren.push({type: 'span', className: 'device ' + device.toLowerCase(), innerHTML: device});
+                deviceChildren.push({type: 'span', className: 'no-select device ' + device.toLowerCase(), innerHTML: device});
             });
         }
         this.create(
@@ -33,6 +33,7 @@ class HelpLink extends DOMNode {
                 children: [
                     {
                         type:      'span',
+                        className: 'no-select',
                         innerHTML: this._title
                     }
                 ].concat(deviceChildren)
@@ -62,11 +63,12 @@ exports.IndexList = class extends DOMNode {
 
     initDOM(parentNode) {
         let node = {
-                className: 'third',
+                className: 'flt third',
                 children: [
                     {
                         type:      H,
                         size:      '3',
+                        className: 'no-select',
                         innerHTML: this._title
                     },
                     {

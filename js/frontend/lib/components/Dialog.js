@@ -23,8 +23,169 @@ exports.Dialog = class extends ComponentContainer {
         this._ui             = opts.ui;
         this._uiId           = opts.ui.getNextUIId();
         this._getImage       = opts.getImage;
-        this._help           = opts.help;
         this._globalEvents   = [];
+    }
+
+    initWindow(opts) {
+        if (opts.showSignal) {
+            dispatcher.on(opts.showSignal, this, this.onShow);
+        }
+        this._help   = opts.help;
+        this._width  = opts.width;
+        this._height = opts.height;
+        this._title  = opts.title;
+        let children = this.initWindowContent(opts);
+        children.unshift(
+            {
+                id: (element) => {
+                    element.addEventListener('mousedown', this.onTitleMouseDown.bind(this));
+                    element.addEventListener('mouseup',   this.onTitleMouseUp.bind(this));
+                },
+                ref:       this.setRef('title'),
+                type:      'h2',
+                className: 'flt rel max-w dialog-title',
+                innerHTML: this._title
+            },
+            opts.help ?
+                {
+                    id:        this.setHelpElement.bind(this),
+                    className: 'abs dialog-help',
+                    innerHTML: '?'
+                } :
+                null,
+            {
+                id:        this.setCloseElement.bind(this),
+                className: 'abs dialog-close',
+                innerHTML: '&#x2716;'
+            }
+        );
+        this._dialogNode = this.create(
+            null,
+            {
+                id:        this.setDialogElement.bind(this),
+                className: 'dialog-background' + (opts.className ? ' ' + opts.className : ''),
+                children: [
+                    {
+                        className: 'abs max-w dialog-center',
+                        children: [
+                            {
+                                id:        this.setDialogContentElement.bind(this),
+                                className: 'dialog-content',
+                                style: {
+                                    marginTop: (-this._height / 2) + 'px',
+                                    width:     this._width         + 'px',
+                                    height:    this._height        + 'px'
+                                },
+                                children: [
+                                    {
+                                        className: 'abs max-w max-h dialog-content-image-wrapper',
+                                        children: [
+                                            {
+                                                type:      'img',
+                                                src:       this._getImage('images/logos/wheelWindow.svg'),
+                                                className: 'abs dialog-content-image'
+                                            }
+                                        ]
+                                    }
+                                ].concat(children)
+                            }
+                        ]
+                    }
+                ]
+            }
+        );
+        return this;
+    }
+
+    initTextInputRow(opts) {
+        let result = {
+                className: opts.className,
+                children: [
+                    {
+                        className: opts.labelClassName || '',
+                        innerHTML: opts.label
+                    },
+                    this.addTextInput({
+                        ref:         opts.ref,
+                        tabIndex:    opts.tabIndex,
+                        onKeyUp:     opts.onKeyUp ? opts.onKeyUp : () => {},
+                        placeholder: opts.placeholder || '',
+                        value:       opts.value       || ''
+                    })
+                ]
+            };
+        if (opts.rowRef) {
+            result.ref = opts.rowRef;
+        }
+        return result;
+    }
+
+    initCheckboxRow(opts) {
+        let result = {
+                className: opts.className,
+                children: [
+                    {
+                        className: opts.labelClassName || '',
+                        innerHTML: opts.label
+                    },
+                    this.addCheckbox({
+                        ref:      opts.ref,
+                        tabIndex: opts.tabIndex
+                    }),
+                    opts.extra || null
+                ]
+            };
+        if (opts.rowRef) {
+            result.ref = opts.rowRef;
+        }
+        return result;
+    }
+
+    initCheckboxListRow(opts) {
+        return {
+            className: 'flt max-w checkbox-list-row',
+            children: [
+                this.addCheckbox({
+                    ref:      opts.ref,
+                    tabIndex: opts.tabIndex,
+                    checked:  opts.checked
+                }),
+                {
+                    type:     'span',
+                    innerHTML: opts.title
+                }
+            ]
+        };
+    }
+
+    initTextRow(text) {
+        return {
+            className: 'flt text-row',
+            children: [
+                {
+                    type:      'span',
+                    innerHTML: text
+                }
+            ]
+        };
+    }
+
+    initButtons(buttons) {
+        let children = [];
+        buttons.forEach((button) => {
+            if (!button) {
+                return;
+            }
+            if (button.type) {
+                children.push(button);
+            } else {
+                children.push(this.addButton(button));
+            }
+        });
+        return {
+            className: 'abs max-w buttons',
+            children:  children
+        };
     }
 
     setCloseElement(element) {
@@ -189,61 +350,10 @@ exports.Dialog = class extends ComponentContainer {
         this.onGlobalMouseUp(event);
     }
 
-    createWindow(className, title, children) {
-        children.unshift(
-            {
-                id: (element) => {
-                    element.addEventListener('mousedown', this.onTitleMouseDown.bind(this));
-                    element.addEventListener('mouseup',   this.onTitleMouseUp.bind(this));
-                },
-                ref:       this.setRef('title'),
-                type:      'h2',
-                className: 'dialog-title',
-                innerHTML: title
-            },
-            this._help ?
-                {
-                    id:        this.setHelpElement.bind(this),
-                    className: 'dialog-help',
-                    innerHTML: '?'
-                } :
-                null,
-            {
-                id:        this.setCloseElement.bind(this),
-                className: 'dialog-close',
-                innerHTML: '&#x2716;'
-            }
-        );
-        this._dialogNode = this.create(
-            null,
-            {
-                id:        this.setDialogElement.bind(this),
-                className: 'dialog-background' + (className ? ' ' + className : ''),
-                children: [
-                    {
-                        className: 'dialog-center',
-                        children: [
-                            {
-                                id:        this.setDialogContentElement.bind(this),
-                                className: 'dialog-content',
-                                children: [
-                                    {
-                                        type:      'img',
-                                        src:       this._getImage('images/logos/wheelWindow.svg'),
-                                        className: 'dialog-content-image'
-                                    }
-                                ].concat(children)
-                            }
-                        ]
-                    }
-                ]
-            }
-        );
-    }
-
     addDontShowAgain(tabIndex) {
         return {
-            className: 'dont-show-again',
+            type:      'div',
+            className: 'frt dont-show-again',
             children: [
                 {
                     type:     Checkbox,

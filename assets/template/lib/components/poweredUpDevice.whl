@@ -5,7 +5,7 @@
 namespace components.puDevice
 
 ; @const The button component module.
-#define MODULE_COMPONENT_PU_DEVICE         128
+#define MODULE_COMPONENT_PU_DEVICE         128  ; `image:images/buttons/puDeviceBlack.svg`
 
 ; @const Module calls for button component functions.
 #define PU_DEVICE_COMPONENT_SET_TYPE         0

@@ -8,21 +8,21 @@ const RgfImage         = require('../../../js/shared/lib/RgfImage').RgfImage;
 const MockDataProvider = require('./MockDataProvider').MockDataProvider;
 const assert           = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test ProjectResource',
-    function() {
+    () => {
         it(
             'Should get rsf resource',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider();
                 let projectResource  = new ProjectResource({
                         filename:        'test.rsf',
                         data:            [65, 66, 67, 68],
-                        getDataProvider: function() { return mockDataProvider; }
+                        getDataProvider: () => { return mockDataProvider; }
                     });
                 projectResource.getDownloadData(function(data) {
                     assert.equal(data, 'ABCD');
@@ -31,13 +31,13 @@ describe(
         );
         it(
             'Should get gsf resource',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider();
                 let testImage        = [[0, 1, 2], [2, 3, 4]];
                 let projectResource  = new ProjectResource({
                         filename:        'test.rgf',
                         data:            testImage,
-                        getDataProvider: function() { return mockDataProvider; }
+                        getDataProvider: () => { return mockDataProvider; }
                     });
                 projectResource.getDownloadData(function(data) {
                     let rgfImage = new RgfImage();

@@ -19,31 +19,31 @@ exports.TechnicHub = class extends BasicHub {
                 children: [
                     {
                         ref:       this.setRef('hubBody'),
-                        className: 'technic-hub-body',
+                        className: 'flt rel technic-hub-body',
                         children: [
                             {
-                                className: 'hub-top'
+                                className: 'flt hub-top'
                             },
                             {
-                                className: 'hub-middle'
+                                className: 'flt hub-middle'
                             },
                             {
-                                className: 'hub-bottom'
+                                className: 'flt hub-bottom'
                             },
                             {
-                                className: 'hub-box',
+                                className: 'abs hub-box',
                                 children: [
                                     {
-                                        className: 'left-connections'
+                                        className: 'abs left-connections'
                                     },
                                     {
-                                        className: 'right-connections'
+                                        className: 'abs right-connections'
                                     },
                                     {
-                                        className: 'hub-button'
+                                        className: 'abs hub-button'
                                     },
                                     {
-                                        className: 'hub-light',
+                                        className: 'abs hub-light',
                                         ref:       this.setRef('hubLight')
                                     }
                                 ]
@@ -80,12 +80,12 @@ exports.TechnicHub = class extends BasicHub {
     }
 
     hide() {
-        this._refs.hubBody.className  = 'technic-hub-body';
+        this._refs.hubBody.className  = 'flt rel technic-hub-body';
         this._refs.hubState.className = 'hub-state';
     }
 
     show() {
-        this._refs.hubBody.className  = 'technic-hub-body visible';
+        this._refs.hubBody.className  = 'flt rel technic-hub-body visible';
         this._refs.hubState.className = 'hub-state visible';
     }
 };

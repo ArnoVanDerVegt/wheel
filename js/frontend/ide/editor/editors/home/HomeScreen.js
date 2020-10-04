@@ -40,6 +40,7 @@ exports.HomeScreen = class extends DOMNode {
         return [
             {
                 type:      'h1',
+                className: 'max-w',
                 children: [
                     {
                         type:      'img',
@@ -79,14 +80,14 @@ exports.HomeScreen = class extends DOMNode {
                 null),
             this.addHomeScreenTile({
                 id:       addTile(),
-                icon:     getImage('images/files/whlp.svg'),
+                icon:     getImage('images/files/homeWhlp.svg'),
                 title:    'Create new project &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 2,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'Project', activeDirectory)
             }),
             this.addHomeScreenTile({
                 id:       addTile(),
-                icon:     getImage('images/files/whl.svg'),
+                icon:     getImage('images/files/homeWhl.svg'),
                 title:    'New file &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 3,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'File', activeDirectory)
@@ -94,7 +95,7 @@ exports.HomeScreen = class extends DOMNode {
             platform.isElectron() ?
                 this.addHomeScreenTile({
                     id:             addTile(),
-                    icon:           getImage('images/files/rgf.svg'),
+                    icon:           getImage('images/files/homeRgf.svg'),
                     title:          'New image EV3 &raquo;',
                     tabIndex:       tabIndex.HOME_SCREEN + 4,
                     settings:       settings,
@@ -104,7 +105,7 @@ exports.HomeScreen = class extends DOMNode {
                 null,
             this.addHomeScreenTile({
                 id:             addTile(),
-                icon:           getImage('images/files/form.svg'),
+                icon:           getImage('images/files/homeForm.svg'),
                 title:          'New form &raquo;',
                 settings:       settings,
                 settingsGetter: settings.getShowNewFormTile.bind(settings),
@@ -115,7 +116,7 @@ exports.HomeScreen = class extends DOMNode {
                 {
                     id:             addTile(),
                     ui:             ui,
-                    icon:           getImage('images/files/ev3.svg'),
+                    icon:           getImage('images/files/homeEv3.svg'),
                     title:          'Connect to EV3 &raquo;',
                     type:           HomeScreenConnectEV3Tile,
                     tabIndex:       tabIndex.HOME_SCREEN + 6,
@@ -128,7 +129,7 @@ exports.HomeScreen = class extends DOMNode {
             {
                 id:             addTile(),
                 ui:             ui,
-                icon:           getImage('images/files/poweredUp.svg'),
+                icon:           getImage('images/files/homePoweredUp.svg'),
                 title:          'Connect to Powered Up &raquo;',
                 type:           HomeScreenConnectPoweredUpTile,
                 tabIndex:       tabIndex.HOME_SCREEN + 7,
@@ -136,7 +137,7 @@ exports.HomeScreen = class extends DOMNode {
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
                 poweredUp:      this._poweredUp,
                 onClick: function() {
-                    if (!window.PoweredUP || !window.PoweredUP.isWebBluetooth) {
+                    if (platform.isElectron() || platform.isNode() || (window.PoweredUP && window.PoweredUP.isWebBluetooth)) {
                         dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
                     } else {
                         dispatcher.dispatch(
@@ -154,7 +155,7 @@ exports.HomeScreen = class extends DOMNode {
             this.addHomeScreenTile({
                 id:       addTile(),
                 type:     HomeScreenDocumentationTile,
-                icon:     getImage('images/files/help.svg'),
+                icon:     getImage('images/files/homeHelp.svg'),
                 title:    'Open documentation &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 8,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
@@ -178,10 +179,10 @@ exports.HomeScreen = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'home-screen',
+                className: 'flt rel max-w max-h home-screen',
                 children: [
                     {
-                        className: 'home-screen-image-clip',
+                        className: 'abs max-w max-h home-screen-image-clip',
                         children: [
                             {
                                 type:      'img',
@@ -192,11 +193,11 @@ exports.HomeScreen = class extends DOMNode {
                     },
                     {
                         ref:       this.setRef('homeScreenContentWrapper'),
-                        className: 'home-screen-content-wrapper',
+                        className: 'flt rel max-w max-h home-screen-content-wrapper',
                         children: [
                             {
                                 ref:       this.setRef('homeScreenContent'),
-                                className: 'home-screen-content',
+                                className: 'abs home-screen-content',
                                 children:  this.initTiles()
                             }
                         ]
@@ -205,8 +206,8 @@ exports.HomeScreen = class extends DOMNode {
             }
         );
         let height = (Math.ceil(this._tileCount / 2) * 96 + 48) + 'px';
-        this._refs.homeScreenContentWrapper.style.height = height;
-        this._refs.homeScreenContent.style.height        = height;
+        this._refs.homeScreenContentWrapper.style.minHeight = height;
+        this._refs.homeScreenContent.style.height           = height;
     }
 
     addHomeScreenTile(opts) {

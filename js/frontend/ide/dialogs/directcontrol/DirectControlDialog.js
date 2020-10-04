@@ -21,90 +21,95 @@ exports.DirectControlDialog = class extends Dialog {
         this._motorElements      = [];
         this._motorAliasElements = [];
         this._hasSound           = opts.hasSound;
-        this.createWindow(
-            'direct-control-dialog',
-            opts.title,
-            [
+        this
+            .initWindow({
+                width:          624,
+                height:         428,
+                className:      'direct-control-dialog',
+                title:          opts.title,
+                motorValidator: opts.motorValidator
+            })
+            .initLayerState()
+            .initEvents();
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('tabs'),
+                type:      Tabs,
+                ui:        this._ui,
+                uiId:      this._uiId,
+                tabIndex:  1,
+                active:    {title: 'Layer 1', meta: ''},
+                className: 'dialog-l dialog-r dialog-t'
+            },
+            {
+                type:           Motors,
+                motorValidator: opts.motorValidator,
+                settings:       this._settings,
+                ui:             this._ui,
+                uiId:           this._uiId,
+                device:         this._device,
+                dialog:         this
+            },
+            this._hasSound ?
                 {
-                    ref:      this.setRef('tabs'),
-                    type:     Tabs,
+                    type:     Piano,
                     ui:       this._ui,
                     uiId:     this._uiId,
-                    tabIndex: 1,
-                    active:   {title: 'Layer 1', meta: ''}
-                },
-                {
-                    type:           Motors,
-                    motorValidator: opts.motorValidator,
-                    settings:       this._settings,
-                    ui:             this._ui,
-                    uiId:           this._uiId,
-                    device:         this._device,
-                    dialog:         this
-                },
-                this._hasSound ?
+                    device:   this._device,
+                    dialog:   this
+                } :
+                null,
+            {
+                ref:       this.setRef('brake'),
+                className: 'abs brake',
+                children: [
                     {
-                        type:     Piano,
+                        ref:      this.setRef('brakeCheckbox'),
                         ui:       this._ui,
                         uiId:     this._uiId,
-                        device:   this._device,
-                        dialog:   this
-                    } :
-                    null,
+                        type:     Checkbox,
+                        tabIndex: 50,
+                        checked:  false
+                    },
+                    {
+                        className: 'no-select label',
+                        innerHTML: 'Brake motor'
+                    }
+                ]
+            },
+            this._hasSound ?
                 {
-                    ref:       this.setRef('brake'),
-                    className: 'brake',
+                    ref:       this.setRef('volume'),
+                    className: 'volume hidden',
                     children: [
                         {
-                            ref:      this.setRef('brakeCheckbox'),
-                            ui:       this._ui,
-                            uiId:     this._uiId,
-                            type:     Checkbox,
-                            tabIndex: 50,
-                            checked:  false
+                            className: 'no-select label',
+                            innerHTML: 'Volume:'
                         },
                         {
-                            className: 'label',
-                            innerHTML: 'Brake motor'
+                            ref:      this.setRef('volumeSlider'),
+                            type:     Slider,
+                            ui:       this._ui,
+                            uiId:     this._uiId,
+                            value:    50,
+                            maxValue: 100,
+                            tabIndex: 100
                         }
                     ]
-                },
-                this._hasSound ?
-                    {
-                        ref:       this.setRef('volume'),
-                        className: 'volume hidden',
-                        children: [
-                            {
-                                className: 'label',
-                                innerHTML: 'Volume:'
-                            },
-                            {
-                                ref:      this.setRef('volumeSlider'),
-                                type:     Slider,
-                                ui:       this._ui,
-                                uiId:     this._uiId,
-                                value:    50,
-                                maxValue: 100,
-                                tabIndex: 100
-                            }
-                        ]
-                    } :
-                    null,
+                } :
+                null,
+            this.initButtons([
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            tabIndex: 128,
-                            value:     'Close',
-                            onClick:   this.hide.bind(this),
-                            className: 'right'
-                        })
-                    ]
+                    tabIndex: 128,
+                    value:     'Close',
+                    onClick:   this.hide.bind(this),
+                    className: 'right'
                 }
-            ]
-        );
-        this.initLayerState();
-        this.initEvents();
+            ])
+        ];
     }
 
     initLayerState() {
@@ -120,6 +125,7 @@ exports.DirectControlDialog = class extends Dialog {
             }
             this._layerState.push(layerOutputs);
         }
+        return this;
     }
 
     initEvents() {
@@ -176,8 +182,8 @@ exports.DirectControlDialog = class extends Dialog {
             layerState[i].speed = motorElements[i].getSpeed();
         }
         this._layer           = layer;
-        refs.brake.className  = 'brake';
-        refs.motors.className = 'motors';
+        refs.brake.className  = 'abs brake dialog-r';
+        refs.motors.className = 'abs dialog-l dialog-b dialog-r motors';
         if (refs.piano) {
             refs.piano.className = 'piano hidden';
         }
@@ -201,14 +207,19 @@ exports.DirectControlDialog = class extends Dialog {
         let refs = this._refs;
         refs.brake.className  = 'brake hidden';
         refs.motors.className = 'motors hidden';
-        refs.piano.className  = 'piano';
-        refs.volume.className = 'volume';
+        refs.piano.className  = 'abs dialog-l dialog-b dialog-r piano';
+        refs.volume.className = 'abs dialog-r volume';
     }
 
     onShow(opts) {
         this.show();
+        let contentElement = this._dialogNode.querySelector('.dialog-content');
         if (opts.withAlias) {
-            this._dialogNode.querySelector('.dialog-content').className += ' with-alias';
+            contentElement.style.height    = '460px';
+            contentElement.style.marginTop = '-230px';
+        } else {
+            contentElement.style.height    = '428px';
+            contentElement.style.marginTop = '-215px';
         }
         let tabs = [];
         for (let i = 0; i <= opts.deviceCount; i++) {

@@ -8,6 +8,7 @@ exports.P = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._innerHTML = opts.innerHTML || '';
+        this._className = opts.className || '';
         this.initDOM(opts.parentNode);
     }
 
@@ -16,6 +17,7 @@ exports.P = class extends DOMNode {
             parentNode,
             {
                 type:      'p',
+                className: this._className,
                 innerHTML: this._innerHTML
             }
         );

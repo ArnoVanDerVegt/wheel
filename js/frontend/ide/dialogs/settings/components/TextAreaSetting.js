@@ -10,11 +10,11 @@ exports.TextAreaSetting = class extends TextInputSetting {
         this.create(
             parentNode,
             {
-                className: 'text-input-setting',
+                className: 'flt text-input-setting',
                 children: [
                     (this._label !== '') ?
                         {
-                            className: 'label',
+                            className: 'no-select label',
                             innerHTML: this._label
                         } :
                         null,

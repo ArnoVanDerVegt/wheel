@@ -4,11 +4,22 @@
 **/
 const Dropdown = require('../../../lib/components/Dropdown').Dropdown;
 const Property = require('../Property').Property;
+const getImage = require('../../data/images').getImage;
 
 exports.DropdownProperty = class extends Property {
-    initPropertyValue() {
+    initPropertyName() {
+        let list = this._options.list;
         return {
-            className: 'property-value',
+            ref:       this.setRef('name'),
+            className: 'flt property-name' + (list[0].image ? ' image-dropdown' : ''),
+            innerHTML: this._name
+        };
+    }
+
+    initPropertyValue() {
+        let list = this._options.list;
+        return {
+            className: 'flt property-value' + (list[0].image ? ' image-dropdown' : ''),
             children: [
                 {
                     type:     Dropdown,
@@ -19,7 +30,9 @@ exports.DropdownProperty = class extends Property {
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
                     onChange: this.onChange.bind(this),
-                    items:    this._options.list
+                    images:   list[0].image,
+                    items:    list,
+                    getImage: getImage
                 }
             ]
         };

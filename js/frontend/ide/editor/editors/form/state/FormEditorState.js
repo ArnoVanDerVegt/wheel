@@ -15,15 +15,16 @@ const UndoStack           = require('./UndoStack').UndoStack;
 exports.FormEditorState = class extends Emitter {
     constructor(opts) {
         super(opts);
-        this._settings              = opts.settings;
-        this._loading               = !!opts.data;
-        this._clipboard             = null;
-        this._path                  = opts.path;
-        this._filename              = opts.filename;
-        this._containerIdsForForm   = opts.containerIdsForForm;
-        this._nextId                = 0;
-        this._formId                = this.peekId();
-        this._componentList         = new ComponentList({
+        this._formEditorToolbarState = opts.formEditorToolbarState; // Todo: remove this dependency...
+        this._settings               = opts.settings;
+        this._loading                = !!opts.data;
+        this._clipboard              = null;
+        this._path                   = opts.path;
+        this._filename               = opts.filename;
+        this._containerIdsForForm    = opts.containerIdsForForm;
+        this._nextId                 = 0;
+        this._formId                 = this.peekId();
+        this._componentList          = new ComponentList({
             formEditorState:     this
         });
         this._componentBuilder      = new ComponentBuilder({
@@ -37,15 +38,6 @@ exports.FormEditorState = class extends Emitter {
             containerIdsForForm: this._containerIdsForForm
         });
         this._componentList.setUndoStack(this._undoStack);
-        this._componentTypes        = formEditorConstants.COMPONENT_TYPES_INPUT;
-        this._inputComponent        = formEditorConstants.COMPONENT_TYPE_BUTTON;
-        this._textComponent         = formEditorConstants.COMPONENT_TYPE_LABEL;
-        this._panelComponent        = formEditorConstants.COMPONENT_TYPE_TABS;
-        this._graphicsComponent     = formEditorConstants.COMPONENT_TYPE_RECTANGLE;
-        this._statusComponent       = formEditorConstants.COMPONENT_TYPE_STATUS_LIGHT;
-        this._ioComponent           = formEditorConstants.COMPONENT_TYPE_PU_DEVICE;
-        this._dialogComponent       = formEditorConstants.COMPONENT_TYPE_ALERT_DIALOG;
-        this._nonVisualComponent    = formEditorConstants.COMPONENT_TYPE_INTERVAL;
         this._dispatch              = [
             dispatcher.on('Properties.Property.Change',   this, this.onChangeProperty),
             dispatcher.on('Properties.Event.Change',      this, this.onChangeEvent),
@@ -130,85 +122,6 @@ exports.FormEditorState = class extends Emitter {
         return this._filename;
     }
 
-    getComponentTypes() {
-        return this._componentTypes;
-    }
-
-    /**
-     * Select the types of component: COMPONENT_TYPES_STANDARD, COMPONENT_TYPES_GRAPHICS
-    **/
-    setComponentTypes(componentTypes) {
-        this._componentTypes = componentTypes;
-    }
-
-    getActiveAddComponentType() {
-        switch (this._componentTypes) {
-            case formEditorConstants.COMPONENT_TYPES_INPUT:      return this._inputComponent;
-            case formEditorConstants.COMPONENT_TYPES_TEXT:       return this._textComponent;
-            case formEditorConstants.COMPONENT_TYPES_PANEL:      return this._panelComponent;
-            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:   return this._graphicsComponent;
-            case formEditorConstants.COMPONENT_TYPES_STATUS:     return this._statusComponent;
-            case formEditorConstants.COMPONENT_TYPES_IO:         return this._ioComponent;
-            case formEditorConstants.COMPONENT_TYPES_DIALOG:     return this._dialogComponent;
-            case formEditorConstants.COMPONENT_TYPES_NON_VISUAL: return this._nonVisualComponent;
-        }
-        return formEditorConstants.COMPONENT_TYPE_BUTTON;
-    }
-
-    getActiveComponentIndices() {
-        switch (this._componentTypes) {
-            case formEditorConstants.COMPONENT_TYPES_INPUT:
-                return {toolGroup: 0, toolIndex: formEditorConstants.INPUT_COMPONENTS.indexOf(this._inputComponent)};
-            case formEditorConstants.COMPONENT_TYPES_TEXT:
-                return {toolGroup: 1, toolIndex: formEditorConstants.TEXT_COMPONENTS.indexOf(this._textComponent)};
-            case formEditorConstants.COMPONENT_TYPES_PANEL:
-                return {toolGroup: 2, toolIndex: formEditorConstants.PANEL_COMPONENTS.indexOf(this._panelComponent)};
-            case formEditorConstants.COMPONENT_TYPES_GRAPHICS:
-                return {toolGroup: 3, toolIndex: formEditorConstants.GRAPHICS_COMPONENTS.indexOf(this._graphicsComponent)};
-            case formEditorConstants.COMPONENT_TYPES_STATUS:
-                return {toolGroup: 4, toolIndex: formEditorConstants.STATUS_COMPONENTS.indexOf(this._statusComponent)};
-            case formEditorConstants.IO_DISPLAY_COMPONENTS:
-                return {toolGroup: 5, toolIndex: formEditorConstants.IO_DISPLAY_COMPONENTS.indexOf(this._ioComponent)};
-            case formEditorConstants.DIALOG_COMPONENTS:
-                return {toolGroup: 6, toolIndex: formEditorConstants.DIALOG_COMPONENTS.indexOf(this._dialogComponent)};
-            case formEditorConstants.NON_VISUAL_COMPONENTS:
-                return {toolGroup: 7, toolIndex: formEditorConstants.NON_VISUAL_COMPONENTS.indexOf(this._nonVisualComponent)};
-        }
-        return {toolGroup: 0, toolIndex: 0};
-    }
-
-    setInputComponent(inputComponent) {
-        this._inputComponent = inputComponent;
-    }
-
-    setTextComponent(textComponent) {
-        this._textComponent = textComponent;
-    }
-
-    setPanelComponent(panelComponent) {
-        this._panelComponent = panelComponent;
-    }
-
-    setGraphicsComponent(graphicsComponent) {
-        this._graphicsComponent = graphicsComponent;
-    }
-
-    setStatusComponent(statusComponent) {
-        this._statusComponent = statusComponent;
-    }
-
-    setIOComponent(ioComponent) {
-        this._ioComponent = ioComponent;
-    }
-
-    setDialogComponent(dialogComponent) {
-        this._dialogComponent = dialogComponent;
-    }
-
-    setNonVisualComponent(nonVisualComponent) {
-        this._nonVisualComponent = nonVisualComponent;
-    }
-
     getUndoStackLength() {
         return this._undoStack.getLength();
     }
@@ -222,7 +135,7 @@ exports.FormEditorState = class extends Emitter {
         this._undoStack.undoStackPush({
             action:   formEditorConstants.ACTION_CHANGE_POSITION,
             id:       id,
-            position: {x: component.x, y: component.y}
+            position: {x: component.x || 0, y: component.y || 0}
         });
         let formGridSize = this._settings.getFormGridSize();
         if (formGridSize) {
@@ -258,7 +171,7 @@ exports.FormEditorState = class extends Emitter {
             (activeComponent.parentId === this._formId)) {
             return null;
         }
-        return activeComponent.parentId;
+        return activeComponent.parentId || null;
     }
 
     getActiveComponent() {
@@ -318,7 +231,7 @@ exports.FormEditorState = class extends Emitter {
         this._componentList
             .setComponentById(component, component.id)
             .setActiveComponentId(component.id);
-        this._componentBuilder.addComponentForType(component, opts.type || this.getActiveAddComponentType());
+        this._componentBuilder.addComponentForType(component, opts.type || this._formEditorToolbarState.getActiveAddComponentType());
         this._undoStack.undoStackPush({action: formEditorConstants.ACTION_ADD_COMPONENT, id: component.id});
         this
             .emit('AddComponent', Object.assign({}, component))
@@ -335,9 +248,13 @@ exports.FormEditorState = class extends Emitter {
 
     deleteComponentById(id, saveUndo) {
         let componentList = this._componentList;
-        let component     = componentList.deleteComponentById(id);
-        let components    = [];
+        let component     = this._componentList.getComponentById(id);
         let children      = componentList.getChildComponents(component);
+        let components    = [];
+        componentList.deleteComponentById(id);
+        children.forEach((child) => {
+            componentList.deleteComponentById(child.id);
+        });
         if (saveUndo) {
             if (children.length) {
                 component.children = children;
@@ -401,27 +318,23 @@ exports.FormEditorState = class extends Emitter {
         if (!component) {
             return;
         }
-        if ((component.type === formEditorConstants.COMPONENT_TYPE_TABS) && (property === 'tabs')) {
+        let renameEvents = [];
+        let oldValue     = component[property];
+        let isTabs       = (component.type === formEditorConstants.COMPONENT_TYPE_TABS) && (property === 'tabs');
+        if (isTabs) {
             this.changeTabs(component, value);
-        } else {
-            this._undoStack.undoStackPush({
-                action:   formEditorConstants.ACTION_CHANGE_PROPERTY,
-                id:       id,
-                property: property,
-                value:    component[property]
-            });
         }
         if (property === 'name') {
-            let renameEvents = [];
+            component[property] = value;
             if (id === this._formId) {
                 this._componentList.getList().forEach(
                     function(component) {
-                        this.updateEventsForComponent(renameEvents, component);
+                        renameEvents.push.apply(renameEvents, this.updateEventsForComponent(component));
                     },
                     this
                 );
             } else {
-                this.updateEventsForComponent(renameEvents, component);
+                renameEvents.push.apply(renameEvents, this.updateEventsForComponent(component));
             }
             this.emit(
                 (component.type === 'form') ? 'RenameForm' : 'RenameComponent',
@@ -432,8 +345,18 @@ exports.FormEditorState = class extends Emitter {
                     renameEvents: renameEvents
                 }
             );
+        } else {
+            component[property] = value;
         }
-        component[property] = value;
+        if (!isTabs) {
+            this._undoStack.undoStackPush({
+                action:       formEditorConstants.ACTION_CHANGE_PROPERTY,
+                id:           id,
+                property:     property,
+                value:        oldValue,
+                renameEvents: renameEvents
+            });
+        }
         if (component.type === 'form') {
             this.emit('ChangeForm');
         }
@@ -483,18 +406,26 @@ exports.FormEditorState = class extends Emitter {
         return this;
     }
 
-    updateEventsForComponent(renameEvents, component) {
-        let events = component.eventList.getUpdatedEvents();
+    updateEventsForComponent(component) {
+        let eventList     = new EventList({
+                component:       component,
+                formEditorState: this
+            });
+        let events        = eventList.getUpdatedEvents();
+        let componentList = this._componentList;
+        let renameEvents  = [];
         for (let event in events) {
             if (event in component) {
                 renameEvents.push({
-                    name:    event,
-                    newName: events[event],
-                    oldName: component[event]
+                    uid:      component.uid,
+                    name:     event,
+                    newValue: events[event],
+                    oldValue: component[event]
                 });
-                component[event] = events[event];
+                componentList.getComponentById(component.id)[event] = events[event];
             }
         }
+        return renameEvents;
     }
 
     updateComponents(id) {

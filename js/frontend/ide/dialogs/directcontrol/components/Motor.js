@@ -37,7 +37,7 @@ exports.Motor = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'motor disabled ' + this._className,
+                className: 'flt rel motor ui1-box disabled ' + this._className,
                 children: [
                     {
                         type:        Button,
@@ -52,7 +52,7 @@ exports.Motor = class extends DOMNode {
                     },
                     {
                         ref:         this.setRef('speed'),
-                        className:   'speed',
+                        className:   'no-select abs speed',
                         innerHTML:   '50'
                     },
                     {
@@ -66,7 +66,7 @@ exports.Motor = class extends DOMNode {
                         onChange:    this.onChange.bind(this)
                     },
                     {
-                        className:   'position',
+                        className:   'abs position',
                         children: [
                             {
                                 type:     Button,
@@ -117,7 +117,7 @@ exports.Motor = class extends DOMNode {
                 let motorValidator = this._motorValidator;
                 let disabled       = !motorValidator.valid(assigned);
                 let hasPosition    = motorValidator.hasPosition(assigned);
-                element.className = 'motor' +
+                element.className = 'flt rel motor ui1-box' +
                     (disabled    ? ' disabled' : '')             +
                     (hasPosition ? ''          : ' no-position') +
                     ' ' + className;
@@ -161,11 +161,13 @@ exports.Motor = class extends DOMNode {
 
     onUpMousePressed(event) {
         if (!this._assignedTimeout) {
+            console.log('Up pressed');
             this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpReleased() {
+        console.log('Up released');
         this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
     }
 

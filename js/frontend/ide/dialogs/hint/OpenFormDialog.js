@@ -7,6 +7,7 @@ const HintDialog = require('./HintDialog').HintDialog;
 
 exports.OpenFormDialog = class extends HintDialog {
     constructor(opts) {
+        opts.height           = 248;
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'open-file';
         opts.signal           = 'Dialog.Hint.OpenForm';
@@ -24,11 +25,11 @@ exports.OpenFormDialog = class extends HintDialog {
 
     addCustomButtons() {
         return [
-            this.addButton({
+            {
                 value:    'Show the properties',
                 tabIndex: 128,
                 onClick:  this.onShowProperties.bind(this)
-            })
+            }
         ];
     }
 

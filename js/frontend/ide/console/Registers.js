@@ -19,7 +19,7 @@ exports.Registers = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'registers'
+                className: 'flt max-w max-h vscroll registers'
             }
         );
         this.updateDOM();

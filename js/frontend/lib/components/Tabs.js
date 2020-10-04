@@ -165,6 +165,7 @@ exports.Tabs = class extends DOMNode {
         this._uiId           = opts.uiId;
         this._onClick        = opts.onClick;
         this._onChange       = opts.onChange;
+        this._className      = opts.className || '';
         this._onGlobalUIId   = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this
             .initDOM(opts.parentNode, opts.tabs || [])
@@ -177,7 +178,7 @@ exports.Tabs = class extends DOMNode {
             parentNode,
             {
                 id:        this.setWrapperElement.bind(this),
-                className: 'tabs',
+                className: 'tabs ' + this._className,
                 children: [
                     {
                         id:        this.setTabsElement.bind(this),
@@ -200,7 +201,7 @@ exports.Tabs = class extends DOMNode {
         }
         this._contextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: parentNode,
+            parentNode: document.body,
             options:    options
         });
     }

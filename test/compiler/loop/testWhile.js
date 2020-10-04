@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test while',
-    function() {
+    () => {
         describe(
             'Test with local variable in condition',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should repeat five times',
@@ -68,7 +68,7 @@ describe(
         );
         describe(
             'Test with proc result in condition',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should repeat while proc result is not 0',

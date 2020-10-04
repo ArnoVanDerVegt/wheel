@@ -93,6 +93,7 @@ body.ide div.editor-wrapper .editor {
 }
 
 /* Connection status */
+/*
 .connection {
     float:                          left;
     margin:                         8px 0 16px 0;
@@ -106,6 +107,7 @@ body.ide div.editor-wrapper .editor {
     text-overflow:                  ellipsis;
     width:                          268px;
 }
+*/
 
 /* Storage in title bar */
 .main-menu .storage {

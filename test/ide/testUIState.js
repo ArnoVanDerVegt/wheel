@@ -6,46 +6,99 @@ const dispatcher = require('../../js/frontend/lib/dispatcher').dispatcher;
 const UIState    = require('../../js/frontend/lib/UIState').UIState;
 const assert     = require('assert');
 
-afterEach(function() {
+class MockEventEmitter {
+    constructor() {
+        this._events  = {};
+    }
+
+    addEventListener(eventName, callback) {
+        this._events[eventName] = callback;
+    }
+
+    triggerEvent(eventName, event) {
+        event.preventDefault = () => {};
+        this._events[eventName](event);
+    }
+}
+
+class MockDocument extends MockEventEmitter {
+    constructor() {
+        super();
+        this.location = {host: '', href: ''};
+    }
+}
+
+class MockWindow extends MockEventEmitter {
+}
+
+beforeEach(() => {
+    global.document = new MockDocument();
+    global.window   = new MockWindow();
+});
+
+afterEach(() => {
     dispatcher.reset();
+    delete global.document;
+    delete global.window;
 });
 
 describe(
     'Test UIState',
-    function() {
+    () => {
         it(
             'Should create UIState',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.notEqual(uiState, null);
             }
         );
         it(
             'Should get next uiId',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getNextUIId(), 2);
             }
         );
         it(
             'Should get active uiId with empty stack',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getActiveUIId(), 1);
             }
         );
         it(
             'Should get meta key down',
-            function() {
+            () => {
                 let uiState = new UIState();
+                assert.equal(uiState.getKeyMetaDown(), false);
+                global.document.triggerEvent('keydown', {key: 'Meta'});
+                assert.equal(uiState.getKeyMetaDown(), true);
+                global.document.triggerEvent('keyup', {key: 'Meta'});
                 assert.equal(uiState.getKeyMetaDown(), false);
             }
         );
         it(
             'Should get control key down',
-            function() {
+            () => {
                 let uiState = new UIState();
                 assert.equal(uiState.getKeyControlDown(), false);
+                global.document.triggerEvent('keydown', {key: 'Control'});
+                assert.equal(uiState.getKeyControlDown(), true);
+                global.document.triggerEvent('keyup', {key: 'Control'});
+                assert.equal(uiState.getKeyControlDown(), false);
+            }
+        );
+        it(
+            'Should clear hotkey',
+            () => {
+                let uiState = new UIState();
+                global.document.triggerEvent('keydown', {key: 'Control'});
+                global.document.triggerEvent('keydown', {key: 'Meta'});
+                assert.equal(uiState.getKeyControlDown(), true);
+                assert.equal(uiState.getKeyMetaDown(),    true);
+                dispatcher.dispatch('Global.HotKey.Clear');
+                assert.equal(uiState.getKeyControlDown(), false);
+                assert.equal(uiState.getKeyMetaDown(),    false);
             }
         );
         it(
@@ -181,11 +234,11 @@ describe(
                     'Global.Window.Blur',
                     this,
                     (event) => {
-                        assert.equal(event, 'testWindowBlur');
+                        assert.equal(event.test, 'testWindowBlur');
                         done();
                     }
                 );
-                uiState.onBlur('testWindowBlur');
+                window.triggerEvent('blur', {test: 'testWindowBlur'});
             }
         );
         it(
@@ -196,11 +249,11 @@ describe(
                     'Global.Window.Focus',
                     this,
                     (event) => {
-                        assert.equal(event, 'testWindowFocus');
+                        assert.equal(event.test, 'testWindowFocus');
                         done();
                     }
                 );
-                uiState.onFocus('testWindowFocus');
+                window.triggerEvent('focus', {test: 'testWindowFocus'});
             }
         );
     }

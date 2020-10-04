@@ -8,7 +8,7 @@ This example shows how to control the built in light on the Powered Up device.
 
 The demo below selects the `Hub` device in the simulator with the `DEVICE_POWERED_UP` constant.
 If you have a different hub connected you should change the `POWERED_UP_HUB` to
-`POWERED_UP_MOVE_HUB`, `POWERED_UP_REMOTE_CONTROL` or `POWERED_UP_TECHNIC_MEDIUM_HUB`
+`POWERED_UP_MOVE_HUB`, `POWERED_UP_REMOTE_CONTROL` or `POWERED_UP_TECHNIC_HUB`
 depending on the type of device you are using.
 
 @section Code

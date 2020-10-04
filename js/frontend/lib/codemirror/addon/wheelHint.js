@@ -4,8 +4,8 @@
 
 (function(mod) {mod(CodeMirror);})(function(CodeMirror) {
 
-let Pos        = CodeMirror.Pos;
-let database   = null;
+let Pos         = CodeMirror.Pos;
+let database    = null;
 let completions = null;
 
 function scriptHint(editor, getToken, options) {

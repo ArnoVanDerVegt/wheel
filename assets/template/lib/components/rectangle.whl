@@ -5,7 +5,7 @@
 namespace components.rectangle
 
 ; @const The form component module.
-#define MODULE_COMPONENT_RECTANGLE   96
+#define MODULE_COMPONENT_RECTANGLE   96     ; `image:images/buttons/rectBlack.svg`
 
 ; @const Module calls for rectangle component functions.
 #define RECTANGLE_SET_HIDDEN          0

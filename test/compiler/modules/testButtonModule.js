@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Button module',
-    function() {
+    () => {
         let source = [
                 'proc button()',
                 '    number b',
@@ -26,7 +26,7 @@ describe(
             ];
         it(
             'Should read button',
-            function() {
+            () => {
                 let info = testCompile(source);
                 info.modules[4].on('Button.Button', this, function(b) {
                     b.callback(3);
@@ -55,7 +55,7 @@ describe(
                 info.modules[4].on('Button.WaitForPress', this, function(button) {
                     button(false);
                     setTimeout(
-                        function() {
+                        () => {
                             button(true);
                             assert.equal(typeof button === 'function', true);
                         },

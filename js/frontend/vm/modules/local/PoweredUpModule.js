@@ -16,7 +16,7 @@ exports.PoweredUpModule = class extends VMModule {
                 // Button:        1
                 // Tilt vector:   3
                 // Accell vector: 3
-                for (let i = 0; i < 4 * (3 + 3 + 1); i++) {
+                for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT * (3 + 3 + 1); i++) {
                     vmData.setGlobalNumber(offset + i, 0);
                 }
                 break;

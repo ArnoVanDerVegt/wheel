@@ -2,16 +2,22 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const BasicIOState = require('../../js/frontend/ide/plugins/simulator/lib/motor/io/BasicIOState').BasicIOState;
+const BasicIOState = require('../../js/frontend/ide/plugins/simulator/lib/motor/io/BasicIOState');
 const assert       = require('assert');
+
+class MockDevice {
+    getConnected() {
+        return false;
+    }
+}
 
 describe(
     'Test BasicIOState',
-    function() {
+    () => {
         it(
             'Should create BasicIOState',
-            function() {
-                let basicIOState = new BasicIOState({
+            () => {
+                let basicIOState = new BasicIOState.BasicIOState({
                         layer: 1,
                         id:    2
                     });
@@ -22,8 +28,8 @@ describe(
         );
         it(
             'Should set speed',
-            function() {
-                let basicIOState = new BasicIOState({
+            () => {
+                let basicIOState = new BasicIOState.BasicIOState({
                         layer: 1,
                         id:    2
                     });
@@ -35,10 +41,21 @@ describe(
             }
         );
         it(
+            'Should reset timeout',
+            () => {
+                let value        = -1;
+                let basicIOState = new BasicIOState.BasicIOState({
+                        onChangeValue: (v) => { value = v; }
+                    });
+                basicIOState.onResetTimeout();
+                assert.equal(value, 0);
+            }
+        );
+        it(
             'Should set connected',
-            function() {
+            () => {
                 let connected    = null;
-                let basicIOState = new BasicIOState({
+                let basicIOState = new BasicIOState.BasicIOState({
                         onChangeConnected: function(c) {
                             connected = c;
                         }
@@ -54,9 +71,9 @@ describe(
         );
         it(
             'Should set type',
-            function() {
+            () => {
                 let type         = null;
-                let basicIOState = new BasicIOState({
+                let basicIOState = new BasicIOState.BasicIOState({
                         onChangeType: function(t) {
                             type = t;
                         }
@@ -72,9 +89,9 @@ describe(
         );
         it(
             'Should set mode',
-            function() {
+            () => {
                 let mode         = null;
-                let basicIOState = new BasicIOState({
+                let basicIOState = new BasicIOState.BasicIOState({
                         onChangeMode: function(m) {
                             mode = m;
                         }
@@ -90,11 +107,11 @@ describe(
         );
         it(
             'Should set value',
-            function() {
+            () => {
                 let value        = null;
-                let basicIOState = new BasicIOState({
+                let basicIOState = new BasicIOState.BasicIOState({
                         settings: {
-                            getSensorAutoReset: function() { return false; }
+                            getSensorAutoReset: () => { return false; }
                         },
                         onChangeValue: function(v) {
                             value = v;
@@ -111,20 +128,100 @@ describe(
         );
         it(
             'Should set motorMode',
-            function() {
-                let basicIOState = new BasicIOState({});
+            () => {
+                let basicIOState = new BasicIOState.BasicIOState({});
                 basicIOState.setOn(true);
                 assert.equal(basicIOState.getMotorMode(), 1);
             }
         );
         it(
             'Should set motor',
-            function() {
-                let basicIOState = new BasicIOState({});
+            () => {
+                let basicIOState = new BasicIOState.BasicIOState({});
                 basicIOState.setIsMotor(true);
                 assert.equal(basicIOState.getIsMotor(), true);
                 basicIOState.setIsMotor(false);
                 assert.equal(basicIOState.getIsMotor(), false);
+            }
+        );
+        it(
+            'Should update with motor on',
+            () => {
+                let time         = 1000;
+                let basicIOState = new BasicIOState.BasicIOState({
+                        device:         new MockDevice(),
+                        onChangeMode:   () => {},
+                        getCurrentTime: () => {
+                            time += 1000;
+                            return time;
+                        }
+                    });
+                basicIOState
+                    .setIsMotor(true)
+                    .setOn(true)
+                    .updateSimulatedMotor();
+                basicIOState.updateSimulatedMotor();
+                assert.equal(basicIOState.getPosition(), Math.round(1000 / 1000 * 272 / 60 * 100));
+            }
+        );
+        it(
+            'Should update with motor move to target',
+            () => {
+                let time         = 1000;
+                let basicIOState = new BasicIOState.BasicIOState({
+                        device:         new MockDevice(),
+                        onChangeMode:   () => {},
+                        getCurrentTime: () => {
+                            time += 1000;
+                            return time;
+                        }
+                    });
+                basicIOState
+                    .setIsMotor(true)
+                    .setTarget(1000)
+                    .updateSimulatedMotor();
+                basicIOState.updateSimulatedMotor();
+                assert.equal(basicIOState.getPosition(), Math.round(1000 / 1000 * 272 / 60 * 100));
+            }
+        );
+        it(
+            'Should update with motor move to target, reached max',
+            () => {
+                let time         = 1000;
+                let basicIOState = new BasicIOState.BasicIOState({
+                        device:         new MockDevice(),
+                        onChangeMode:   () => {},
+                        getCurrentTime: () => {
+                            time += 1000;
+                            return time;
+                        }
+                    });
+                basicIOState
+                    .setIsMotor(true)
+                    .setTarget(200)
+                    .updateSimulatedMotor();
+                basicIOState.updateSimulatedMotor();
+                assert.equal(basicIOState.getPosition(), 200);
+            }
+        );
+        it(
+            'Should update with motor move to target, reached min',
+            () => {
+                let time         = 1000;
+                let basicIOState = new BasicIOState.BasicIOState({
+                        device:         new MockDevice(),
+                        onChangeMode:   () => {},
+                        getCurrentTime: () => {
+                            time += 1000;
+                            return time;
+                        }
+                    });
+                basicIOState
+                    .setIsMotor(true)
+                    .setTarget(-200)
+                    .updateSimulatedMotor();
+                basicIOState.updateSimulatedMotor();
+                assert.equal(basicIOState.getPosition(), -200);
             }
         );
     }

@@ -9,13 +9,13 @@ const assert      = require('assert');
 
 describe(
     'Test proc namespace',
-    function() {
+    () => {
         describe(
             'Test namespace declarations',
-            function() {
+            () => {
                 it(
                     'Should declare a namespace',
-                    function() {
+                    () => {
                         let info = testCompile(
                                 [
                                     'namespace test',
@@ -28,7 +28,7 @@ describe(
                 );
                 it(
                     'Should declare a namespace with a dot',
-                    function() {
+                    () => {
                         let info = testCompile(
                                 [
                                     'namespace test.abc',
@@ -41,7 +41,7 @@ describe(
                 );
                 it(
                     'Should declare a namespace with two dots',
-                    function() {
+                    () => {
                         let info = testCompile(
                                 [
                                     'namespace test.abc.def',
@@ -56,7 +56,7 @@ describe(
         );
         describe(
             'Test call local procedure in namespace',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call in namespace',
@@ -97,7 +97,7 @@ describe(
         );
         describe(
             'Test call procedure in namespace',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call in namespace',
@@ -138,7 +138,7 @@ describe(
         );
         describe(
             'Test call function in namespace',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call function in namespace',
@@ -197,7 +197,7 @@ describe(
         );
         describe(
             'Test call function in local namespace',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should call function in namespace',

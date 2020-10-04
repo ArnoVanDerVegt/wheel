@@ -1,44 +1,14 @@
-.dialog-background.image-load-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
-    margin-top:                     -320px;
-    width:                          800px;
-    height:                         640px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .step-content.hidden {
+.dialog-background.image-load-dialog .step-content.hidden {
     display:                        none;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .buttons .button.green.left {
+.dialog-background.image-load-dialog .buttons .button.green.left {
     float:                          left;
     margin:                         0;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .buttons .button.green.left.previous {
+.dialog-background.image-load-dialog .buttons .button.green.left.previous {
     margin:                         0 4px 0 0;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps {
-    float:                          left;
-    width:                          calc(100% - 64px);
-    height:                         48px;
-    background-color:               blue;
-    margin:                         0 32px 0 32px;
-    background-color:               var(--wizard-step-in-active);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps .step {
-    float:                          left;
-    width:                          25%;
-    height:                         48px;
-    padding:                        0 0 0 12px;
-    line-height:                    48px;
-    font-size:                      24px;
-    color:                          var(--wizard-step-active);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .steps .step.active {
-    background-color:               var(--wizard-step-active);
-    color:                          var(--wizard-step-active-color);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview {
+.dialog-background.image-load-dialog .image-preview {
     float:                          left;
     width:                          608px;
     height:                         440px;
@@ -47,39 +17,36 @@
     border:                         var(--ui-border1);
     overflow:                       auto;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename {
+.dialog-background.image-load-dialog .image-filename {
     float:                          left;
     width:                          736px;
     height:                         32px;
     margin:                         8px 0 0 32px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename .label,
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename input[type="text"] {
+.dialog-background.image-load-dialog .image-filename .label,
+.dialog-background.image-load-dialog .image-filename input[type="text"] {
     float:                          left;
     height:                         32px;
     line-height:                    32px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename .label {
+.dialog-background.image-load-dialog .image-filename .label {
     width:                          88px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename input[type="text"] {
+.dialog-background.image-load-dialog .image-filename input[type="text"] {
     width:                          320px;
     font-size:                      15px;
     padding:                        0 0 0 2px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-filename input[type="text"].invalid {
-    border:                         var(--text-input-invalid-border);
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview.full {
+.dialog-background.image-load-dialog .image-preview.full {
     width:                          736px;
     height:                         400px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview .image-content {
+.dialog-background.image-load-dialog .image-preview .image-content {
     position:                       relative;
     min-width:                      100%;
     min-height:                     100%;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview .image-content .image-container {
+.dialog-background.image-load-dialog .image-preview .image-content .image-container {
     position:                       absolute;
     left:                           50%;
     top:                            50%;
@@ -87,27 +54,27 @@
     border:                         var(--ui-border1);
     box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview .image-content .image-container .selected1 {
+.dialog-background.image-load-dialog .image-preview .image-content .image-container .selected1 {
     position:                       absolute;
     border:                         var(--focus-border-solid);
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-preview .image-content .image-container .selected2 {
+.dialog-background.image-load-dialog .image-preview .image-content .image-container .selected2 {
     position:                       absolute;
     border:                         var(--text-input-invalid-border);
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options {
+.dialog-background.image-load-dialog .image-options {
     float:                          left;
     width:                          128px;
     height:                         448px;
     padding:                        8px 0 0 8px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option {
+.dialog-background.image-load-dialog .image-options .image-option {
     float:                          left;
     width:                          120px;
     margin:                         0 0 8px 0;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option .label,
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option input[type="text"] {
+.dialog-background.image-load-dialog .image-options .image-option .label,
+.dialog-background.image-load-dialog .image-options .image-option input[type="text"] {
     float:                          left;
     width:                          60px;
     height:                         24px;
@@ -115,21 +82,17 @@
     font-size:                      13px;
     outline:                        none;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option input[type="text"] {
+.dialog-background.image-load-dialog .image-options .image-option input[type="text"] {
     padding:                        1px 0 0 2px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option input[type="text"].invalid {
-    border:                         var(--text-input-invalid-border);
-    padding:                        1px 0 0 3px;
-}
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option .button.green {
+.dialog-background.image-load-dialog .image-options .image-option .button.green {
     float:                          left;
     width:                          120px;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .image-options .image-option .button.green input[type="button"] {
+.dialog-background.image-load-dialog .image-options .image-option .button.green input[type="button"] {
     width:                          100%;
 }
-.dialog-background.image-load-dialog .dialog-center .dialog-content .buttons input[type="button"].button.dark-green {
+.dialog-background.image-load-dialog .buttons input[type="button"].button.dark-green {
     float:                          right;
     margin-right:                   0;
 }

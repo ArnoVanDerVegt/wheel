@@ -25,7 +25,7 @@ exports.CheckboxSetting = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'checkbox-setting',
+                className: 'flt checkbox-setting',
                 children: [
                     {
                         ref: this.setRef('checkbox'),
@@ -44,7 +44,7 @@ exports.CheckboxSetting = class extends DOMNode {
                         }
                     },
                     {
-                        className: 'label',
+                        className: 'no-select label',
                         innerHTML: this._label
                     }
                 ]

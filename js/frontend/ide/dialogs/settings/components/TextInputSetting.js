@@ -25,10 +25,10 @@ exports.TextInputSetting = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'text-input-setting',
+                className: 'flt text-input-setting',
                 children: [
                     {
-                        className: 'label',
+                        className: 'no-select label',
                         innerHTML: this._label
                     },
                     {

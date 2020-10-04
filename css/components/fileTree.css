@@ -5,7 +5,6 @@ body.ide.no-file-tree div.file-tree-wrapper {
     -webkit-user-select:            none;
 }
 .file-tree-wrapper {
-    position:                       absolute;
     left:                           0;
     top:                            40px;
     width:                          var(--file-tree-width);
@@ -19,10 +18,8 @@ body.ide.no-file-tree div.file-tree-wrapper {
     margin-left:                    8px;
 }
 .file-tree-wrapper .files {
-    position:                       absolute;
     left:                           0;
     top:                            40px;
-    width:                          100%;
     bottom:                         0;
     padding:                        8px;
     overflow:                       auto;
@@ -40,7 +37,6 @@ body.ide.no-file-tree div.file-tree-wrapper {
     -webkit-user-select:            none;
 }
 .file-tree-wrapper .files .file a.name {
-    position:                       absolute;
     top:                            0;
     height:                         24px;
     padding:                        0 12px 0 8px;
@@ -72,7 +68,5 @@ body.ide.no-file-tree div.file-tree-wrapper {
     border:                         var(--focus-border-dotted);
 }
 .file-tree-wrapper .files .file.directory .directory-content {
-    float:                          left;
     clear:                          both;
-    width:                          100%;
 }

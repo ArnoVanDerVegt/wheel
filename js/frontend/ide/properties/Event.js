@@ -24,14 +24,14 @@ exports.Event = class extends DOMNode {
     initEventName() {
         return {
             ref:       this.setRef('name'),
-            className: 'event-name',
+            className: 'flt event-name',
             innerHTML: this._name
         };
     }
 
     initEventValue() {
         return {
-            className: 'event-value',
+            className: 'flt event-value',
             children: [
                 {
                     ref:       this.setRef('addButton'),
@@ -44,7 +44,7 @@ exports.Event = class extends DOMNode {
                 },
                 {
                     id:        this.setRef('currentValue'),
-                    className: 'current-value',
+                    className: 'frt current-value',
                     innerHTML: this._value,
                     title:     this._value
                 }
@@ -57,7 +57,7 @@ exports.Event = class extends DOMNode {
             parentNode,
             {
                 id:        this.setEventElement.bind(this),
-                className: 'event',
+                className: 'flt max-w event',
                 children:  [
                     this.initEventName(),
                     this.initEventValue()
@@ -103,11 +103,11 @@ exports.Event = class extends DOMNode {
     }
 
     onFocus() {
-        this._eventElement.className = 'event focus';
+        this._eventElement.className = 'flt max-w event focus';
         this._properties.focusEvent(this);
     }
 
     onBlur() {
-        this._eventElement.className = 'event';
+        this._eventElement.className = 'flt max-w event';
     }
 };

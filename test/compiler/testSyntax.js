@@ -8,7 +8,7 @@ const errors    = require('../../js/frontend/compiler/errors').errors;
 
 describe(
     'Test syntax error',
-    function() {
+    () => {
         // A testError(
         // B    it,
         // C     'Should throw SYNTAX_ERROR',
@@ -54,7 +54,7 @@ describe(
         // Q );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing comma)',
             [
                 'proc test(number p)',
                 'end',
@@ -66,7 +66,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected comma)',
             [
                 'proc test(number p)',
                 'end',
@@ -78,7 +78,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected keyword)',
             [
                 'proc test(number p)',
                 'end',
@@ -90,7 +90,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing parenthesis)',
             [
                 'proc main',
                 'end'
@@ -99,7 +99,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected numer)',
             [
                 'proc main()',
                 '    number i = 2',
@@ -110,7 +110,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected identifier)',
             [
                 'proc main()',
                 '    number i',
@@ -121,7 +121,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing identifier)',
             [
                 'proc test(number)',
                 'end',
@@ -132,7 +132,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected identifier)',
             [
                 'proc test(number p m)',
                 'end',
@@ -144,7 +144,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing comma)',
             [
                 'proc test(number p number)',
                 'end',
@@ -155,7 +155,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected operator)',
             [
                 'proc test(number p +)',
                 'end',
@@ -166,7 +166,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected type)',
             [
                 'proc test(number number)',
                 'end',
@@ -177,7 +177,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected comma)',
             [
                 'proc test(number n,,)',
                 'end',
@@ -188,7 +188,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected operator)',
             [
                 'proc test(number n, +)',
                 'end',
@@ -199,7 +199,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing comma, unexpected number)',
             [
                 'proc test(number n[3])',
                 'end',
@@ -211,7 +211,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing bracket)',
             [
                 'proc test(number n[10)',
                 'end',
@@ -222,7 +222,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing bracket)',
             [
                 'proc test(number n["1")',
                 'end',
@@ -233,7 +233,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected keyword)',
             [
                 'proc main()',
                 '    number i = repeat',
@@ -243,7 +243,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected type)',
             [
                 'record Rec',
                 '    number f',
@@ -257,7 +257,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected type)',
             [
                 'record Rec',
                 '    number number',
@@ -269,7 +269,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected type)',
             [
                 'record Rec',
                 '    number n record',
@@ -281,7 +281,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected identifier)',
             [
                 'record Rec',
                 '    number n[x]',
@@ -293,7 +293,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected parenthesis)',
             [
                 'record Rec',
                 '    number n[1)',
@@ -304,7 +304,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected dot)',
             [
                 'record Rec',
                 '    number n .',
@@ -315,7 +315,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected character)',
             [
                 'record Rec',
                 '    number n',
@@ -328,7 +328,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected identifier, constant number expected)',
             [
                 'proc main()',
                 '    number n',
@@ -339,7 +339,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Unexpected identifier, constant number expected)',
             [
                 'proc main()',
                 '    number n',
@@ -350,7 +350,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing comma)',
             [
                 'proc main()',
                 '    mod 0 1',
@@ -360,7 +360,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Number constant expected)',
             [
                 'proc main()',
                 '    mod "wrong", 0',
@@ -370,11 +370,11 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (to expected)',
             [
                 'proc main()',
                 '    number n',
-                '    for n = 1 end 10',
+                '    for n = 1 end 10', // "end" should be "to"
                 '    end',
                 'end'
             ],
@@ -382,9 +382,9 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing comma)',
             [
-                'number n[3] = [0 1]',
+                'number n[3] = [0 1]', // Missing comma
                 'proc main()',
                 'end'
             ],
@@ -392,25 +392,12 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
-            [
-                'proc main()',
-                '    number i',
-                '    select i',
-                '        case a:',
-                '    end',
-                'end'
-            ],
-            'Error: #' + errors.SYNTAX_ERROR + ' Syntax error.'
-        );
-        testError(
-            it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Number constant expected)',
             [
                 'proc main()',
                 '    number i',
                 '    select i',
-                '        case "a":',
+                '        case a:', // Number constant expected
                 '    end',
                 'end'
             ],
@@ -418,12 +405,12 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Number constant expected)',
             [
                 'proc main()',
                 '    number i',
                 '    select i',
-                '        case:',
+                '        case "a":', // Number contant expected
                 '    end',
                 'end'
             ],
@@ -431,7 +418,20 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Number constant expected)',
+            [
+                'proc main()',
+                '    number i',
+                '    select i',
+                '        case:', // Missing number constant
+                '    end',
+                'end'
+            ],
+            'Error: #' + errors.SYNTAX_ERROR + ' Syntax error.'
+        );
+        testError(
+            it,
+            'Should throw SYNTAX_ERROR (Unexpected number constant)',
             [
                 'proc main()',
                 '    number i',
@@ -445,7 +445,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("for" Not in procedure scope)',
             [
                 'number i',
                 'for i = 0 to 10',
@@ -455,7 +455,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("if" Not in procedure scope)',
             [
                 'number i',
                 'if i == 0',
@@ -465,7 +465,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("repeat" Not in procedure scope)',
             [
                 'repeat',
                 'end'
@@ -474,7 +474,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("select" Not in procedure scope)',
             [
                 'number i',
                 'select i',
@@ -484,7 +484,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("while" Not in procedure scope)',
             [
                 'number i',
                 'while i',
@@ -494,7 +494,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("mod" Not in procedure scope)',
             [
                 'mod 0, 1'
             ],
@@ -502,7 +502,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR ("addr" Not in procedure scope)',
             [
                 'number i',
                 'addr i'
@@ -511,7 +511,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Invalid operator)',
             [
                 'proc main()',
                 '    number n',
@@ -523,7 +523,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Missing curly brace)',
             [
                 'record Rec',
                 '    number n',
@@ -538,7 +538,7 @@ describe(
         );
         testError(
             it,
-            'Should throw SYNTAX_ERROR',
+            'Should throw SYNTAX_ERROR (Array found, record expected)',
             [
                 'record Point',
                 '    number x, y',
@@ -567,7 +567,7 @@ describe(
 
 describe(
     'Test syntax scope',
-    function() {
+    () => {
         testLogs(
             it,
             'For nested in for',

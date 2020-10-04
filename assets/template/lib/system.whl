@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2019 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains `EV3` system procedures.
+
 ; @const The system module.
-#define MODULE_SYSTEM                  9
+#define MODULE_SYSTEM                  9   ; `image:images/ev3/ev364.png`
 
 ; @const System module calls.
 #define SYSTEM_GET_BATTERY_VOLTAGE     0

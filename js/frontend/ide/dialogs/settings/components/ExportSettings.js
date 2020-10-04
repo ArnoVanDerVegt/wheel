@@ -26,7 +26,7 @@ exports.ExportSettings = class extends DOMNode {
                 children: [
                     {
                         type:      'h3',
-                        className: 'text-property-row',
+                        className: 'no-select flt max-w text-property-row',
                         innerHTML: 'Settings'
                     },
                     {
@@ -36,7 +36,7 @@ exports.ExportSettings = class extends DOMNode {
                         uiId: this._uiId
                     },
                     {
-                        className: 'text-property-row',
+                        className: 'flt max-w text-property-row',
                         children: [
                             {
                                 type:     Button,

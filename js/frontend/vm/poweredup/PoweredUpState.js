@@ -2,14 +2,16 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher       = require('../../lib/dispatcher').dispatcher;
-const getDataProvider  = require('../../lib/dataprovider/dataProvider').getDataProvider;
-const BasicDeviceState = require('../BasicDeviceState').BasicDeviceState;
-const LayerState       = require('./LayerState').LayerState;
+const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const dispatcher               = require('../../lib/dispatcher').dispatcher;
+const getDataProvider          = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const BasicDeviceState         = require('../BasicDeviceState').BasicDeviceState;
+const LayerState               = require('./LayerState').LayerState;
 
 exports.PoweredUpState = class extends BasicDeviceState {
     constructor(opts) {
-        opts.LayerState = LayerState;
+        opts.LayerState    = LayerState;
+        opts.maxLayerCount = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         super(opts);
         // Allow dependency injection for unit tests...
         this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
@@ -30,8 +32,8 @@ exports.PoweredUpState = class extends BasicDeviceState {
     getConnectionCount() {
         let result     = 0;
         let layerState = this._layerState;
-        for (let i = 0; i < 4; i++) {
-            if (layerState[i].getConnected()) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            if (layerState[i] && layerState[i].getConnected()) {
                 result++;
             }
         }
@@ -40,18 +42,21 @@ exports.PoweredUpState = class extends BasicDeviceState {
 
     setState(state) {
         this._connected = false;
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             if (state.layers[i].connected) {
                 this._connected = true;
                 break;
             }
         }
         let layerState = this._layerState;
-        for (let i = 0; i < 4; i++) {
-            if (state.layers[i].connected && (layerState[i].getConnected() !== state.layers[i].connected)) {
-                layerState[i].setConnected(true);
-                this.emit('PoweredUp.Connected', i);
-                break;
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            if (layerState[i].getConnected() !== state.layers[i].connected) {
+                if (state.layers[i].connected) {
+                    layerState[i].setConnected(true);
+                    this.emit('PoweredUp.Connected', i);
+                } else {
+                    this.emit('PoweredUp.Disconnected', i);
+                }
             }
         }
     }
@@ -79,7 +84,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
 
     updateLayerState(data) {
         this.setState(data.state);
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
         }
     }
@@ -94,12 +99,13 @@ exports.PoweredUpState = class extends BasicDeviceState {
                     'post',
                     'powered-up/update',
                     {
-                        queue: this._queue
+                        queue: this.updateSendQueue()
                     },
                     (data) => {
-                        this._queue.length = 0;
                         let json = JSON.parse(data);
-                        this.updateLayerState(json);
+                        this
+                            .updateReceivedQueue(json.messagesReceived)
+                            .updateLayerState(json);
                         if (!this._noTimeout) {
                             setTimeout(callback, 20);
                         }
@@ -110,7 +116,18 @@ exports.PoweredUpState = class extends BasicDeviceState {
     }
 
     connecting() {}
-    disconnect() {}
+
+    disconnect() {
+        this._dataProvider.getData('post', 'powered-up/disconnect-all', {});
+        this._connected  = false;
+        this._connecting = false;
+        let layerState = this._layerState;
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            layerState[i].setConnected(false);
+            this.emit('PoweredUp.Disconnected', i);
+        }
+        this.emit('PoweredUp.Disconnect');
+    }
 
     module(module, command, data) {
         if (this._connecting || !this._connected) {

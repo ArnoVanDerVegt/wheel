@@ -9,13 +9,13 @@ const assert      = require('assert');
 
 describe(
     'Test record namespace',
-    function() {
+    () => {
         describe(
             'Test namespace declarations',
-            function() {
+            () => {
                 it(
                     'Should declare a namespace',
-                    function() {
+                    () => {
                         let info = testCompile(
                                 [
                                     'namespace test',

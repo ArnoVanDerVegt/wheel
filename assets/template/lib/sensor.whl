@@ -3,8 +3,11 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to read input from `EV3` and `Powered Up` sensors.
+
 ; @const The sensor module.
-#define MODULE_SENSOR                 7
+#define MODULE_SENSOR                 7     ; `image:images/ev3/touch64.png`
 
 ; @const Module calls for reading sensors.
 #define SENSOR_SET_TYPE               0
@@ -14,17 +17,17 @@
 #define SENSOR_READ                   4
 
 ; @const The different sensor types.
-#define SENSOR_TYPE_NXT_TOUCH         1
-#define SENSOR_TYPE_NXT_LIGHT         2
-#define SENSOR_TYPE_NXT_SOUND         3
-#define SENSOR_TYPE_NXT_COLOR         4
-#define SENSOR_TYPE_NXT_ULTRASONIC    5
+#define SENSOR_TYPE_NXT_TOUCH         1     ; `image:images/ev3/nxtTouch64.png`
+#define SENSOR_TYPE_NXT_LIGHT         2     ; `image:images/ev3/nxtLight64.png`
+#define SENSOR_TYPE_NXT_SOUND         3     ; `image:images/ev3/nxtSound64.png`
+#define SENSOR_TYPE_NXT_COLOR         4     ; `image:images/ev3/nxtColor64.png`
+#define SENSOR_TYPE_NXT_ULTRASONIC    5     ; `image:images/ev3/nxtUltrasonic64.png`
+#define SENSOR_TYPE_TOUCH            16     ; `image:images/ev3/touch64.png`
+#define SENSOR_TYPE_COLOR            29     ; `image:images/ev3/color64.png`
+#define SENSOR_TYPE_ULTRASONIC       30     ; `image:images/ev3/ultrasonic64.png`
+#define SENSOR_TYPE_GYRO             32     ; `image:images/ev3/gyro64.png`
+#define SENSOR_TYPE_INFRARED         33     ; `image:images/ev3/infrared64.png`
 #define SENSOR_TYPE_NXT_TEMPERATURE   6
-#define SENSOR_TYPE_TOUCH            16
-#define SENSOR_TYPE_COLOR            29
-#define SENSOR_TYPE_ULTRASONIC       30
-#define SENSOR_TYPE_GYRO             32
-#define SENSOR_TYPE_INFRARED         33
 
 ; @const The sensor read value is invalid.
 #define SENSOR_VALUE_INVALID         -1

@@ -10,55 +10,57 @@ exports.VolumeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
-        this.createWindow(
-            'volume-dialog',
-            'Change volume',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Volume.Show',
+            width:      512,
+            height:     208,
+            className:  'volume-dialog',
+            title:      'Change volume'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'flt max-w volume-row',
+                children: [
+                    {
+                        ref:       this.setRef('label'),
+                        type:      'span',
+                        className: 'label',
+                        innerHTML: 'Volume'
+                    },
+                    {
+                        id:        this.setVolumeInputElement.bind(this),
+                        type:      'input',
+                        maxLength: 3,
+                        inputType: 'text'
+                    },
+                    {
+                        type:      Slider,
+                        ref:       this.setRef('slider'),
+                        ui:        this._ui,
+                        uiId:      this._uiId,
+                        onChange:  this.onChangeSlider.bind(this),
+                        maxValue:  100
+                    }
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'volume-row',
-                    children: [
-                        {
-                            ref:       this.setRef('label'),
-                            type:      'span',
-                            className: 'label',
-                            innerHTML: 'Volume'
-                        },
-                        {
-                            id:        this.setVolumeInputElement.bind(this),
-                            type:      'input',
-                            maxLength: 3,
-                            inputType: 'text'
-                        },
-                        {
-                            type:      Slider,
-                            ref:       this.setRef('slider'),
-                            ui:        this._ui,
-                            uiId:      this._uiId,
-                            onChange:  this.onChangeSlider.bind(this),
-                            maxValue:  100
-                        }
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    value:    'Change volume',
+                    tabIndex: 128,
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            value:    'Change volume',
-                            tabIndex: 128,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            value:    'Cancel',
-                            tabIndex: 129,
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    value:    'Cancel',
+                    tabIndex: 129,
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Volume.Show', this, this.onShow);
+            ])
+        ];
     }
 
     setVolumeInputElement(element) {

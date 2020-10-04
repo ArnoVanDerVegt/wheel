@@ -10,10 +10,10 @@ const assert         = require('assert');
 
 describe(
     'Test File module',
-    function() {
+    () => {
         it(
             'Should open',
-            function() {
+            () => {
                 let source = [
                         'proc fileOpen(string filename)',
                         '    addr filename',
@@ -34,7 +34,7 @@ describe(
         );
         it(
             'Should ingore writing to unopened file',
-            function() {
+            () => {
                 let source = [
                         'proc fileWriteNumber(number handle, number n)',
                         '    addr handle',
@@ -53,7 +53,7 @@ describe(
         );
         it(
             'Should ingore removing with invalid handle',
-            function() {
+            () => {
                 let source = [
                         'proc fileDelete(number handle)',
                         '    addr handle',
@@ -69,7 +69,7 @@ describe(
         );
         it(
             'Should ingore closing with invalid handle',
-            function() {
+            () => {
                 let source = [
                         'proc fileClose(number handle)',
                         '    addr handle',
@@ -85,7 +85,7 @@ describe(
         );
         it(
             'Should return empty string when reading from unopened file',
-            function() {
+            () => {
                 let source = [
                         'proc fileReadString(number handle, string result)',
                         '    addr handle',
@@ -107,7 +107,7 @@ describe(
         );
         it(
             'Should read',
-            function() {
+            () => {
                 let source = [
                         'proc fileOpen(string filename)',
                         '    addr filename',
@@ -152,7 +152,7 @@ describe(
         );
         it(
             'Should write and read',
-            function() {
+            () => {
                 let source = [
                         'proc fileOpen(string filename)',
                         '    addr filename',

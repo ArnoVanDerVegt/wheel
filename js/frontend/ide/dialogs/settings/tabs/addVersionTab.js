@@ -19,17 +19,18 @@ exports.tab = (settingsDialog, opts) => {
     }
     return {
         ref:       settingsDialog.setRef('tabVersion'),
-        className: 'tab-panel tab-version',
+        className: 'abs max-x tab-panel ui1-box vscroll tab-version',
         children: [
             {
-                className: 'version',
+                className: 'flt max-w version',
                 children: [
                     {
                         type:      'img',
+                        className: 'no-select',
                         src:       getImage('images/logos/logo.png')
                     },
                     {
-                        className: 'version-info',
+                        className: 'no-select flt version-info',
                         innerHTML: info
                     }
                 ]

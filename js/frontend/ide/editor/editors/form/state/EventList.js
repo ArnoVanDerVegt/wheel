@@ -31,7 +31,7 @@ exports.EventList = class {
     }
 
     getEvent(name) {
-        this._component[name] || '';
+        return this._component[name] || '';
     }
 
     getEventName(name) {

@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
 'Test single dimensional array',
-        function() {
+        () => {
         describe(
             'Test number array',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Declares global array, assigns constant to first index',
@@ -127,7 +127,7 @@ describe(
         );
         describe(
             'Test constant array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign local constant array',
@@ -170,7 +170,7 @@ describe(
         );
         describe(
             'Test complex array index',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign array index with array value',

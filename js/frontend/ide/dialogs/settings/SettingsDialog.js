@@ -27,55 +27,59 @@ const addSimulatorTab     = require('./tabs/addSimulatorTab');
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this._settings        = opts.settings;
         this._updateFunctions = [];
-        opts.uiId             = this._uiId;
-        this.createWindow(
-            'settings-dialog',
-            'Settings',
-            [
+        this.initWindow({
+            ui:         opts.ui,
+            uiId:       opts.uiId,
+            settings:   opts.settings,
+            showSignal: 'Dialog.Settings.Show',
+            width:      580,
+            height:     600,
+            className:  'settings-dialog',
+            title:      'Settings'
+        });
+    }
+
+    initWindowContent(opts) {
+        opts.uiId = this._uiId;
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'abs dialog-cw dialog-lt settings-text',
+                children: [
+                    {
+                        ref:      this.setRef('tabs'),
+                        type:     Tabs,
+                        ui:       this._ui,
+                        uiId:     this._uiId,
+                        tabIndex: 1,
+                        tabs:     [
+                            {title: 'Version',   onClick: this.onClickTab.bind(this, 'tabVersion')},
+                            {title: 'Export',    onClick: this.onClickTab.bind(this, 'tabExport')},
+                            {title: 'Editor',    onClick: this.onClickTab.bind(this, 'tabEditor')},
+                            {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'tabCompiler')},
+                            {title: 'View',      onClick: this.onClickTab.bind(this, 'tabView')},
+                            {title: 'Console',   onClick: this.onClickTab.bind(this, 'tabConsole')},
+                            {title: 'Simulator', onClick: this.onClickTab.bind(this, 'tabSimulator')}
+                        ]
+                    },
+                    addVersionTab.tab(this, opts),
+                    addExportTab.tab(this, opts),
+                    addEditorTab.tab(this, opts),
+                    addCompilerTab.tab(this, opts),
+                    addViewTab.tab(this, opts),
+                    addConsoleTab.tab(this, opts),
+                    addSimulatorTab.tab(this, opts)
+                ]
+            },
+            this.initButtons([
                 {
-                    ref:       this.setRef('text'),
-                    className: 'settings-text',
-                    children: [
-                        {
-                            ref:      this.setRef('tabs'),
-                            type:     Tabs,
-                            ui:       this._ui,
-                            uiId:     this._uiId,
-                            tabIndex: 1,
-                            tabs:     [
-                                {title: 'Version',   onClick: this.onClickTab.bind(this, 'tabVersion')},
-                                {title: 'Export',    onClick: this.onClickTab.bind(this, 'tabExport')},
-                                {title: 'Editor',    onClick: this.onClickTab.bind(this, 'tabEditor')},
-                                {title: 'Compiler',  onClick: this.onClickTab.bind(this, 'tabCompiler')},
-                                {title: 'View',      onClick: this.onClickTab.bind(this, 'tabView')},
-                                {title: 'Console',   onClick: this.onClickTab.bind(this, 'tabConsole')},
-                                {title: 'Simulator', onClick: this.onClickTab.bind(this, 'tabSimulator')}
-                            ]
-                        },
-                        addVersionTab.tab(this, opts),
-                        addExportTab.tab(this, opts),
-                        addEditorTab.tab(this, opts),
-                        addCompilerTab.tab(this, opts),
-                        addViewTab.tab(this, opts),
-                        addConsoleTab.tab(this, opts),
-                        addSimulatorTab.tab(this, opts)
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            value:    'Ok',
-                            onClick:  this.hide.bind(this),
-                            tabIndex: 4096
-                        })
-                    ]
+                    value:    'Ok',
+                    onClick:  this.hide.bind(this),
+                    tabIndex: 4096
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Settings.Show', this, this.onShow);
+            ])
+        ];
     }
 
     addHr() {
@@ -85,21 +89,21 @@ exports.SettingsDialog = class extends Dialog {
     addTitle(title) {
         return {
             type:      'h3',
-            className: 'title-row',
+            className: 'no-select flt max-w title-row',
             innerHTML: title
         };
     }
 
     addDescriptionRow(description) {
         return {
-            className: 'description-row',
+            className: 'no-select flt max-w description-row',
             innerHTML: description
         };
     }
 
     addSpacer() {
         return {
-            className: 'spacer'
+            className: 'flt max-w spacer'
         };
     }
 
@@ -132,10 +136,10 @@ exports.SettingsDialog = class extends Dialog {
 
     addRadioSetting(opts) {
         return {
-            className: 'radio-row',
+            className: 'flt max-w radio-row',
             children: [
                 {
-                    className: 'label',
+                    className: 'no-select label',
                     innerHTML: opts.label
                 },
                 {

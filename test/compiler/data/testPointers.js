@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test pointers',
-    function() {
+    () => {
         describe(
             'Test number',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign number pointer',
@@ -71,7 +71,7 @@ describe(
         );
         describe(
             'Test strings',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use a string pointer parameter',
@@ -131,7 +131,7 @@ describe(
         );
         describe(
             'Test records',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use a record pointer parameter',
@@ -340,7 +340,7 @@ describe(
         );
         describe(
             'Test pointer parameter',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use a pointer to record parameter',

@@ -1,0 +1,94 @@
+/* Generic list */
+.vertical-list {
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+}
+.vertical-list .vertical-list-item {
+    color:                          var(--ui-text1);
+}
+.vertical-list .vertical-list-item.selected {
+    color:                          var(--files-selected-color);
+    background-color:               var(--files-selected-background);
+    border:                         var(--files-selected-border);
+    border-radius:                  2px;
+}
+/* Absolute position */
+.abs {
+    position:                       absolute;
+}
+/* Relative position */
+.rel {
+    position:                       relative;
+}
+/* Float left */
+.flt {
+    float:                          left;
+}
+/* Float right */
+.frt {
+    float:                          right;
+}
+/* Dialog content width */
+.dialog-cw {
+    width:                          calc(100% - 64px);
+}
+/* Dialog left/top */
+.dialog-lt {
+    left:                           32px;
+    top:                            64px;
+}
+/* Dialog left */
+.dialog-l {
+    left:                           32px;
+}
+/* Dialog right */
+.dialog-r {
+    right:                          32px;
+}
+/* Dialog top */
+.dialog-t {
+    top:                            64px;
+}
+/* Dialog bottom */
+.dialog-b {
+    bottom:                         80px;
+}
+/* Max width */
+.max-w {
+    width:                          100%;
+}
+/* Max height */
+.max-h {
+    height:                         100%;
+}
+/* Box */
+.ui1-box {
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    color:                          var(--ui-text1);
+}
+.ui1-box.vscroll.pad,
+.ui1-box.hscroll.pad {
+    padding:                        8px;
+}
+/* Scroll */
+.vscroll,
+.hscroll {
+    overflow:                       hidden;
+}
+.vscroll {
+    overflow-y:                     scroll;
+}
+.hscroll {
+    overflow-x:                     scroll;
+}
+/* No select */
+.no-select {
+    -webkit-user-select:            none;
+    -ms-user-select:                none;
+    user-select:                    none;
+}

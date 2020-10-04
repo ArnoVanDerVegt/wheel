@@ -42,8 +42,9 @@
 }
 .io-device .title img.type {
     border-radius:                  2px 0 0 0;
-    width:                          34px;
-    height:                         34px;
+    width:                          32px;
+    height:                         32px;
+    margin:                         3px 0 0 3px;
 }
 .io-device .speed {
     display:                        none;

@@ -9,12 +9,12 @@ const path            = require('../lib/path');
 const Button          = require('../lib/components/Button').Button;
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('./data/images').getImage;
-const FileDialog      = require('./dialogs/file/FileDialog').FileDialog;
+const FileOpenDialog  = require('./dialogs/file/FileOpenDialog').FileOpenDialog;
 
 exports.Setup = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        new FileDialog({getImage: getImage, ui: opts.ui, settings: opts.settings});
+        new FileOpenDialog({getImage: getImage, ui: opts.ui, settings: opts.settings});
         this._ui       = opts.ui;
         this._uiId     = opts.ui.getNextUIId();
         this._hidden   = false;
@@ -42,10 +42,10 @@ exports.Setup = class extends DOMNode {
             parentNode,
             {
                 id:        this.setSetupElement.bind(this),
-                className: 'setup' + (this._hidden ? ' hidden' : ''),
+                className: 'abs max-w max-h setup' + (this._hidden ? ' hidden' : ''),
                 children: [
                     {
-                        className: 'setup-image-clip',
+                        className: 'flt rel max-w max-h setup-image-clip',
                         children: [
                             {
                                 type: 'img',
@@ -57,7 +57,8 @@ exports.Setup = class extends DOMNode {
                         className: 'setup-content-wrapper',
                         children: [
                             {
-                                type: 'h1',
+                                type:      'h1',
+                                className: 'max-w',
                                 children: [
                                     {
                                         type:      'img',
@@ -72,19 +73,19 @@ exports.Setup = class extends DOMNode {
                                 ]
                             },
                             {
-                                className: 'text',
+                                className: 'flt max-w text',
                                 innerHTML: 'Welcome to Wheel, this setup installs library, help, image, sound and examples files.'
                             },
                             {
-                                className: 'title',
+                                className: 'flt max-w title',
                                 innerHTML: 'Install wheel in:'
                             },
                             {
-                                className: 'homedir',
+                                className: 'flt max-w homedir',
                                 children: [
                                     {
                                         id:        this.setHomeDirElement.bind(this),
-                                        className: 'current',
+                                        className: 'flt current',
                                         innerHTML: homedir + '<span>' + '/' + 'Wheel</span>'
                                     },
                                     {
@@ -99,25 +100,25 @@ exports.Setup = class extends DOMNode {
                             },
                             {
                                 id:        this.setProgressElement.bind(this),
-                                className: 'progress',
+                                className: 'flt progress',
                                 children: [
                                     {
                                         id:        this.setCurrentFileElement.bind(this),
-                                        className: 'current-file'
+                                        className: 'flt max-w current-file'
                                     },
                                     {
-                                        className: 'setup-progress-bar',
+                                        className: 'flt max-w setup-progress-bar',
                                         children: [
                                             {
                                                 id:        this.setProgressBarElement.bind(this),
-                                                className: 'bar'
+                                                className: 'flt max-w bar'
                                             }
                                         ]
                                     }
                                 ]
                             },
                             {
-                                className: 'buttons',
+                                className: 'abs buttons',
                                 children: [
                                     {
                                         ref:       this.setRef('cancelButton'),
@@ -249,7 +250,7 @@ exports.Setup = class extends DOMNode {
 
     onShow(opts) {
         let refs = this._refs;
-        this._setupElement.className = 'setup';
+        this._setupElement.className = 'abs max-w max-h setup';
         this._fileIndex              = 0;
         refs.cancelButton
             .setDisabled(false)

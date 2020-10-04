@@ -7,10 +7,10 @@ const assert     = require('assert');
 
 describe(
     'Test tokenUtils',
-    function() {
+    () => {
         describe(
             'Test getLineFromToken',
-            function() {
+            () => {
                 let tokens = [
                         {index: 0, lineNum: 0, lexeme: 'a'},
                         {index: 1, lineNum: 0, lexeme: 'b'},
@@ -24,21 +24,21 @@ describe(
                     ];
                 it(
                     'Should get line from middle index',
-                    function() {
+                    () => {
                         let line = tokenUtils.getLineFromToken(tokens[4], tokens);
                         assert.deepEqual(line, {left: 'd', lexeme: 'e', right: 'f'});
                     }
                 );
                 it(
                     'Should get line from start index',
-                    function() {
+                    () => {
                         let line = tokenUtils.getLineFromToken(tokens[3], tokens);
                         assert.deepEqual(line, {left: '', lexeme: 'd', right: 'ef'});
                     }
                 );
                 it(
                     'Should get line from end index',
-                    function() {
+                    () => {
                         let line = tokenUtils.getLineFromToken(tokens[5], tokens);
                         assert.deepEqual(line, {left: 'de', lexeme: 'f', right: ''});
                     }

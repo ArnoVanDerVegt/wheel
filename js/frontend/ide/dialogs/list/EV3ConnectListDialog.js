@@ -13,8 +13,8 @@ exports.EV3ConnectListDialog = class extends ListDialog {
         opts.applyTitle = 'Connect';
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
+        opts.showSignal = 'Dialog.ConnectEV3.Show';
         super(opts);
-        dispatcher.on('Dialog.ConnectEV3.Show', this, this.onShow);
     }
 
     getList() {

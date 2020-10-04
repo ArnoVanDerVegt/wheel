@@ -51,7 +51,7 @@ class Chart extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'chart',
+                className: 'flt rel chart',
                 ref:       this.setRef('chart'),
                 children:
                 [
@@ -62,7 +62,7 @@ class Chart extends DOMNode {
                         height: 96
                     },
                     {
-                        className: 'chart-title',
+                        className: 'flt max-w chart-title',
                         children: [
                             {
                                 ref:  this.setRef('img'),
@@ -102,14 +102,14 @@ class Chart extends DOMNode {
         switch (type) {
             case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:
             case sensorModuleConstants.SENSOR_TYPE_TOUCH:
-                image = 'images/ev3/touch.png';
+                image = 'images/ev3/touch64.png';
                 this._gridDrawer   = this._binaryDrawer;
                 this._chartDrawers = [this._binaryDrawer];
                 this._maxValue     = 1;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_COLOR:
             case sensorModuleConstants.SENSOR_TYPE_COLOR:
-                image = 'images/ev3/color.png';
+                image = 'images/ev3/color64.png';
                 if (mode === sensorModuleConstants.COLOR_COLOR) {
                     this._gridDrawer   = this._binaryDrawer;
                     this._chartDrawers = [this._colorBarDrawer];
@@ -122,25 +122,25 @@ class Chart extends DOMNode {
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC:
             case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
-                image = 'images/ev3/ultrasonic.png';
+                image = 'images/ev3/ultrasonic64.png';
                 this._gridDrawer   = this._fillDrawer;
                 this._chartDrawers = [this._fillDrawer, this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_GYRO:
-                image = 'images/ev3/gyro.png';
+                image = 'images/ev3/gyro64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_INFRARED:
-                image = 'images/ev3/infrared.png';
+                image = 'images/ev3/infrared64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 255;
                 break;
             case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image = 'images/ev3/microphone.png';
+                image = 'images/ev3/nxtSound64.png';
                 this._gridDrawer   = this._lineDrawer;
                 this._chartDrawers = [this._lineDrawer];
                 this._maxValue     = 100;
@@ -226,7 +226,7 @@ exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         super(opts);
         this._charts              = [];
-        this._baseClassName       = 'graph';
+        this._baseClassName       = 'flt rel max-w graph';
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
         this._device

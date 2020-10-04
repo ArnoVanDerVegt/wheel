@@ -9,26 +9,68 @@ const Component  = require('./Component').Component;
 const ListItem = class extends DOMNode {
         constructor(opts) {
             super(opts);
+            this._getImage = opts.getImage;
             this._title    = opts.title;
+            this._subTitle = opts.subTitle;
             this._value    = opts.value;
+            this._image    = opts.image;
+            this._color    = opts.color;
             this._dropdown = opts.dropdown;
             this._dropdown.addItem(this);
             this.initDOM(opts.parentNode);
         }
 
         initDOM(parentNode) {
-            this.create(
-                parentNode,
-                {
-                    id:        this.setElement.bind(this),
-                    className: 'dropdown-list-item',
-                    innerHTML: this._title
+            if (this._dropdown.getImages()) {
+                let style = {};
+                if (this._color) {
+                    style.backgroundColor = this._color;
                 }
-            );
+                this.create(
+                    parentNode,
+                    {
+                        id:        this.setElement.bind(this),
+                        className: 'flt max-w dropdown-list-item',
+                        children: [
+                            {
+                                className: 'flt dropdown-img-wrapper',
+                                style:     style,
+                                children: [
+                                    {
+                                        type:      'img',
+                                        className: 'no-select',
+                                        src:       this._image ? this._getImage(this._image) : '',
+                                        style: {
+                                            display: this._image ? 'block' : 'none'
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                className: 'no-select flt dropdown-title',
+                                innerHTML: this._title
+                            },
+                            {
+                                className: 'no-select flt dropdown-sub-title',
+                                innerHTML: this._subTitle
+                            }
+                        ]
+                    }
+                );
+            } else {
+                this.create(
+                    parentNode,
+                    {
+                        id:        this.setElement.bind(this),
+                        className: 'no-select flt max-w dropdown-list-item',
+                        innerHTML: this._title
+                    }
+                );
+            }
         }
 
         setSelected(selected) {
-            this._element.className = 'dropdown-list-item' + (selected ? ' selected' : '');
+            this._element.className = 'flt max-w dropdown-list-item' + (selected ? ' selected' : '');
         }
 
         setElement(element) {
@@ -47,11 +89,13 @@ const ListItem = class extends DOMNode {
 
 exports.Dropdown = class extends Component {
     constructor(opts) {
-        opts.baseClassName = 'dropdown';
+        opts.baseClassName = 'dropdown' + (opts.images ? ' images' : '') + (opts.up ? ' up' : ' down');
         super(opts);
         this._items        = this.getUpdatedItems(opts.items);
         this._value        = null;
         this._itemElements = [];
+        this._images       = opts.images;
+        this._getImage     = opts.getImage;
         this._tabIndex     = opts.tabIndex;
         this._onChange     = opts.onChange;
         this.initDOM(opts.parentNode);
@@ -65,7 +109,11 @@ exports.Dropdown = class extends Component {
                     dropdown: this,
                     type:     ListItem,
                     title:    item.title,
-                    value:    item.value
+                    subTitle: item.subTitle,
+                    value:    item.value,
+                    image:    item.image,
+                    color:    item.color,
+                    getImage: this._getImage
                 });
             },
             this
@@ -73,23 +121,69 @@ exports.Dropdown = class extends Component {
         return children;
     }
 
+    initValue() {
+        if (this._images) {
+            return {
+                className: 'dropdown-value',
+                tabIndex:  this._tabIndex,
+                children: [
+                    {
+                        id:        this.setElement.bind(this),
+                        disabled:  this._disabled ? 'disabled' : '',
+                        type:      'input',
+                        inputType: 'button',
+                        tabIndex:  this._tabIndex
+                    },
+                    {
+                        ref:       this.setRef('valueImgWrapper'),
+                        className: 'flt dropdown-img-wrapper',
+                        children: [
+                            {
+                                ref:       this.setRef('valueImg'),
+                                className: 'no-select',
+                                type:      'img'
+                            }
+                        ]
+                    },
+                    {
+                        ref:       this.setRef('valueTitle'),
+                        className: 'no-select flt dropdown-title'
+                    },
+                    {
+                        ref:       this.setRef('valueSubTitle'),
+                        className: 'no-select flt dropdown-sub-title'
+                    }
+                ]
+            };
+        }
+        return {
+            className: 'dropdown-value',
+            children: [
+                {
+                    id:        this.setElement.bind(this),
+                    tabIndex:  this._tabIndex,
+                    disabled:  this._disabled ? 'disabled' : '',
+                    type:      'input',
+                    inputType: 'button'
+                },
+                {
+                    className: 'no-select dropdown-value-label',
+                    ref:       this.setRef('dropdownValue'),
+                    innerHTML: ''
+                }
+            ]
+        };
+    }
+
     initDOM(parentNode) {
         this.create(
             parentNode,
             {
-                id:        this.setElement.bind(this),
                 ref:       this.setRef('dropdown'),
                 className: this.getClassName(),
                 style:     this._style,
                 children: [
-                    {
-                        id:        this.setValueElement.bind(this),
-                        type:      'a',
-                        href:      '#',
-                        className: 'dropdown-value',
-                        innerHTML: '',
-                        tabIndex:  this._tabIndex
-                    },
+                    this.initValue(),
                     {
                         ref:       this.setRef('list'),
                         className: 'dropdown-list',
@@ -108,6 +202,10 @@ exports.Dropdown = class extends Component {
         this._itemElements.push(item);
     }
 
+    getDOMNode() {
+        return this._refs.dropdown;
+    }
+
     getUpdatedItems(items) {
         let result = [];
         (items || []).forEach((item, index) => {
@@ -120,8 +218,8 @@ exports.Dropdown = class extends Component {
         return result;
     }
 
-    setValueElement(element) {
-        this._valueElement = element;
+    setElement(element) {
+        this._element = element;
         if (this._design) {
             return;
         }
@@ -133,16 +231,20 @@ exports.Dropdown = class extends Component {
         element.addEventListener('keyup',     this.onValueKeyUp.bind(this));
     }
 
+    getValue() {
+        return this._value;
+    }
+
     setValue(value) {
-        let title = '';
-        let found = false;
+        let found     = false;
+        let foundItem = {};
         this._items.forEach(
             function(item, index) {
                 let active = (item.value === value);
                 this._itemElements[index].setSelected(active);
                 if (active) {
                     this._value = item.value;
-                    title       = item.title;
+                    foundItem   = item;
                     found       = true;
                 }
             },
@@ -151,7 +253,20 @@ exports.Dropdown = class extends Component {
         if (!found) {
             this._value = null;
         }
-        this._valueElement.innerHTML = title;
+        if (this._images) {
+            let refs = this._refs;
+            if (foundItem.image) {
+                refs.valueImg.src           = this._getImage(foundItem.image);
+                refs.valueImg.style.display = 'block';
+            } else {
+                refs.valueImg.style.display = 'none';
+            }
+            refs.valueImgWrapper.style.backgroundColor = foundItem.color || 'transparent';
+            refs.valueTitle.innerHTML                  = foundItem.title || '';
+            refs.valueSubTitle.innerHTML               = foundItem.subTitle || '';
+        } else {
+            this._refs.dropdownValue.innerHTML = foundItem.title;
+        }
         return this;
     }
 
@@ -185,35 +300,42 @@ exports.Dropdown = class extends Component {
             }
             this.updateHeight();
         } else {
-            this._valueElement.innerHTML = '';
-            this._value                  = null;
+            this._element.innerHTML = '';
+            this._value             = null;
         }
+        return this;
+    }
+
+    getImages() {
+        return this._images;
     }
 
     updateHeight() {
         let list  = this._refs.list;
         let items = this._items;
-        if (items.length >= 9) {
-            list.style.height = '208px';
+        if (this._images) {
+            if (items.length >= 5) {
+                list.style.height = '208px';
+            } else {
+                list.style.height = (items.length * 48 + 2) + 'px';
+            }
         } else {
-            list.style.height = (items.length * 24 + 2) + 'px';
+            if (items.length >= 9) {
+                list.style.height = '208px';
+            } else {
+                list.style.height = (items.length * 24 + 2) + 'px';
+            }
         }
     }
 
     focus() {
-        this._valueElement.focus();
+        this._element.focus();
         return this;
     }
 
     close() {
-        this._refs.dropdown.className = 'dropdown';
-    }
-
-    onValueFocus(event) {
-        this.onCancelEvent(event);
-        if (this._items.length) {
-            this._refs.dropdown.className = 'dropdown focus';
-        }
+        this._focus                   = false;
+        this._refs.dropdown.className = this.getClassName();
     }
 
     onEvent(opts) {
@@ -226,9 +348,18 @@ exports.Dropdown = class extends Component {
         super.onEvent(opts);
     }
 
+    onValueFocus(event) {
+        this.onCancelEvent(event);
+        if (this._items.length) {
+            this._focus                   = true;
+            this._refs.dropdown.className = this.getClassName();
+        }
+    }
+
     onValueBlur(event) {
         this.onCancelEvent(event);
-        this._refs.dropdown.className = 'dropdown';
+        this._focus                   = false;
+        this._refs.dropdown.className = this.getClassName();
     }
 
     onValueMouseDown(event) {
@@ -241,9 +372,10 @@ exports.Dropdown = class extends Component {
 
     onValueClick(event) {
         this.onCancelEvent(event);
-        this._valueElement.focus();
+        this._element.focus();
         if (this._items.length) {
-            this._refs.dropdown.className = 'dropdown focus';
+            this._focus                   = true;
+            this._refs.dropdown.className = this.getClassName();
         }
     }
 
@@ -279,7 +411,8 @@ exports.Dropdown = class extends Component {
                         .setValueAndChange(items[0].value)
                         .dispatchValue();
                 }
-                refs.dropdown.className = 'dropdown focus';
+                this._focus             = true;
+                refs.dropdown.className = this.getClassName();
                 break;
             case 40: // Down
                 for (let i = 0; i < items.length - 1; i++) {
@@ -294,7 +427,8 @@ exports.Dropdown = class extends Component {
                         .setValueAndChange(value)
                         .dispatchValue();
                 }
-                refs.dropdown.className = 'dropdown focus';
+                this._focus             = true;
+                refs.dropdown.className = this.getClassName();
                 break;
         }
     }

@@ -44,7 +44,7 @@ exports.Properties = class extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('property'),
-                className: 'properties',
+                className: 'abs properties',
                 children: [
                     {
                         type:      PropertiesToolbar,
@@ -75,24 +75,24 @@ exports.Properties = class extends DOMNode {
                     },
                     {
                         ref:       this.setRef('componentUid'),
-                        className: 'component-uid',
+                        className: 'no-select abs max-w component-uid',
                         innerHTML: '0x00000000'
                     },
                     {
                         ref:       this.setRef('propertiesContainer'),
-                        className: 'properties-container visible',
+                        className: 'abs max-w properties-container visible',
                         children:  [
                             {
-                                className: 'property-separator'
+                                className: 'abs max-h property-separator'
                             }
                         ]
                     },
                     {
                         ref:       this.setRef('eventsContainer'),
-                        className: 'events-container',
+                        className: 'abs max-w events-container',
                         children:  [
                             {
-                                className: 'event-separator'
+                                className: 'abs max-h event-separator'
                             }
                         ]
                     },

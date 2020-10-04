@@ -7,23 +7,23 @@ const PluginsState = require('../../js/frontend/ide/settings/PluginsState').Plug
 const pluginUuid   = require('../../js/frontend/ide/plugins/pluginUuid');
 const assert       = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test plugins state',
-    function() {
+    () => {
         it(
             'Should create PluginsState',
-            function() {
+            () => {
                 let pluginsState = new PluginsState({});
                 assert.equal(pluginsState.getDefaultPlugins().length, 6);
             }
         );
         it(
             'Should get sorted plugins',
-            function() {
+            () => {
                 let pluginsState = new PluginsState({});
                 let names        = [];
                 pluginsState.getSortedPlugins().forEach(function(plugin) {
@@ -34,7 +34,7 @@ describe(
         );
         it(
             'Should get plugin by uuid',
-            function() {
+            () => {
                 let pluginsState = new PluginsState({});
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID),          null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_SENSORS_UUID),  null);
@@ -46,7 +46,7 @@ describe(
         );
         it(
             'Should load and add new plugin',
-            function() {
+            () => {
                 let pluginsState = new PluginsState({});
                 pluginsState.load([{
                     uuid:    '94f5d48e-6de0-11ea-bc55-0242ac130003',
@@ -61,7 +61,7 @@ describe(
         );
         it(
             'Should load and add existing plugin',
-            function() {
+            () => {
                 let pluginsState = new PluginsState({});
                 pluginsState.load([{
                     uuid:    pluginUuid.SIMULATOR_EV3_UUID,
@@ -76,8 +76,8 @@ describe(
         );
         it(
             'Should toggle plugin visible',
-            function() {
-                let pluginsState = new PluginsState({settings: {save: function() {}, emit: function() {}}});
+            () => {
+                let pluginsState = new PluginsState({settings: {save: () => {}, emit: () => {}}});
                 let startVisible = pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible;
                 dispatcher.dispatch('Settings.Toggle.PluginByUuid', pluginUuid.SIMULATOR_EV3_UUID);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible, startVisible);
@@ -85,8 +85,8 @@ describe(
         );
         it(
             'Should set visible',
-            function() {
-                let pluginsState = new PluginsState({settings: {save: function() {}, emit: function() {}}});
+            () => {
+                let pluginsState = new PluginsState({settings: {save: () => {}, emit: () => {}}});
                 let testUuid     = '94f5d48e-6de0-11ea-bc55-0242ac130003';
                 pluginsState.load([{
                     uuid:    testUuid,

@@ -18,7 +18,7 @@ exports.TextEditor = class extends Editor {
             parentNode,
             {
                 ref:       this.setRef('wrapper'),
-                className: 'text-wrapper',
+                className: 'max-w max-h text-wrapper',
                 children: [
                     {
                         id:    this.setTextareaElement.bind(this),

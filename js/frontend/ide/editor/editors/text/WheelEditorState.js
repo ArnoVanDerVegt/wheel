@@ -9,6 +9,7 @@ exports.WheelEditorState = class {
         this._findCaseSensitive        = false;
         this._findText                 = '';
         this._findVisible              = false;
+        this._cursorChangedAfterFind   = false;
         this._replaceVisible           = false;
         this._database                 = {defines: null, files: null, compiler: null};
     }
@@ -47,6 +48,7 @@ exports.WheelEditorState = class {
 
     setFindCursor(findCursor) {
         this._findCursor = findCursor;
+        return this;
     }
 
     getFindCaseSensitive() {
@@ -55,6 +57,7 @@ exports.WheelEditorState = class {
 
     setFindCaseSensitive(findCaseSensitive) {
         this._findCaseSensitive = findCaseSensitive;
+        return this;
     }
 
     getFindText() {
@@ -63,6 +66,7 @@ exports.WheelEditorState = class {
 
     setFindText(findText) {
         this._findText = findText;
+        return this;
     }
 
     getFindVisible() {
@@ -71,6 +75,7 @@ exports.WheelEditorState = class {
 
     setFindVisible(findVisible) {
         this._findVisible = findVisible;
+        return this;
     }
 
     getReplaceVisible() {
@@ -104,6 +109,15 @@ exports.WheelEditorState = class {
 
     getBreakpoints() {
         return this._breakpoints;
+    }
+
+    getCursorChangedAfterFind() {
+        return this._cursorChangedAfterFind;
+    }
+
+    setCursorChangedAfterFind(cursorChangedAfterFind) {
+        this._cursorChangedAfterFind = cursorChangedAfterFind;
+        return this;
     }
 
     toggleBreakpoint(line) {

@@ -5,7 +5,7 @@
 namespace components.ev3Motor
 
 ; @const The button component module.
-#define MODULE_COMPONENT_EV3_MOTOR     129
+#define MODULE_COMPONENT_EV3_MOTOR     129  ; `image:images/buttons/ev3MotorBlack.svg`
 
 ; @const Module calls for the ev3 motor component functions.
 #define EV3_MOTOR_COMPONENT_SET_TYPE     0

@@ -27,46 +27,46 @@ exports.Buttons = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'ev3-buttons',
+                className: 'flt rel ev3-buttons',
                 children: [
                     {
                         id:        this.setLightElement.bind(this),
-                        className: 'ev3-light'
+                        className: 'abs ev3-light'
                     },
                     {
                         id:        function(element) { this._buttonUp = element; }.bind(this),
                         type:      Button,
-                        className: 'ev3-button-up',
-                        up:        'ev3-button-up',
-                        down:      'ev3-button-up pressed'
+                        className: 'abs ev3-button-up',
+                        up:        'abs ev3-button-up',
+                        down:      'abs ev3-button-up pressed'
                     },
                     {
                         id:        function(element) { this._buttonLeft = element; }.bind(this),
                         type:      Button,
-                        className: 'ev3-button-left',
-                        up:        'ev3-button-left',
-                        down:      'ev3-button-left pressed'
+                        className: 'abs ev3-button-left',
+                        up:        'abs ev3-button-left',
+                        down:      'abs ev3-button-left pressed'
                     },
                     {
                         id:        function(element) { this._buttonCenter = element; }.bind(this),
                         type:      Button,
-                        className: 'ev3-button-center',
-                        up:        'ev3-button-center',
-                        down:      'ev3-button-center pressed'
+                        className: 'abs ev3-button-center',
+                        up:        'abs ev3-button-center',
+                        down:      'abs ev3-button-center pressed'
                     },
                     {
                         id:        function(element) { this._buttonRight = element; }.bind(this),
                         type:      Button,
-                        className: 'ev3-button-right',
-                        up:        'ev3-button-right',
-                        down:      'ev3-button-right pressed'
+                        className: 'abs ev3-button-right',
+                        up:        'abs ev3-button-right',
+                        down:      'abs ev3-button-right pressed'
                     },
                     {
                         id:        function(element) { this._buttonDown = element; }.bind(this),
                         type:      Button,
-                        className: 'ev3-button-down',
-                        up:        'ev3-button-down',
-                        down:      'ev3-button-down pressed'
+                        className: 'abs ev3-button-down',
+                        up:        'abs ev3-button-down',
+                        down:      'abs ev3-button-down pressed'
                     }
                 ]
             }

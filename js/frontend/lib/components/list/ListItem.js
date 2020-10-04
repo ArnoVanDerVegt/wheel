@@ -7,6 +7,8 @@ const DOMNode = require('../../../lib/dom').DOMNode;
 exports.ListItem = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._ui       = opts.ui;
+        this._uiId     = opts.uiId;
         this._settings = opts.settings;
         this._item     = opts.item;
         this._list     = opts.list;
@@ -25,13 +27,14 @@ exports.ListItem = class extends DOMNode {
                 parentNode,
                 {
                     id:        this.setElement.bind(this),
-                    className: 'list-item',
+                    className: 'flt rel max-w list-item',
                     children: [
                         {
                             id:        this.setLinkElement.bind(this),
-                            type:      'a',
                             tabIndex:  this._tabIndex,
+                            type:      'a',
                             href:      '#',
+                            className: 'no-select flt rel max-w max-h list-item-item',
                             innerHTML: item
                         }
                     ]
@@ -43,37 +46,40 @@ exports.ListItem = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'list-item',
+                className: 'flt rel max-w list-item',
                 children: [
                     {
                         id:        this.setLinkElement.bind(this),
-                        type:      'a',
                         tabIndex:  this._tabIndex,
+                        type:      'a',
                         href:      '#',
+                        className: 'flt rel max-w max-h list-item-item',
                         children: [
                             item.image ?
                                 {
                                     type:      'img',
+                                    className: 'no-select',
                                     src:       item.image
                                 } :
                                 null,
                             item.label ?
                                 {
                                     type:      'span',
+                                    className: 'no-select',
                                     innerHTML: item.label
                                 } :
                                 null,
                             item.title ?
                                 {
                                     type:      'span',
-                                    className: 'item-title',
+                                    className: 'no-select item-title',
                                     innerHTML: item.title
                                 } :
                                 null,
                             item.subTitle ?
                                 {
                                     type:      'span',
-                                    className: 'item-sub-title',
+                                    className: 'no-select item-sub-title',
                                     innerHTML: item.subTitle
                                 } :
                                 null

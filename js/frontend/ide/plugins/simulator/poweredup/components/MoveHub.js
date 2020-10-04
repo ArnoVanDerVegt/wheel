@@ -19,22 +19,22 @@ exports.MoveHub = class extends BasicHub {
                 children: [
                     {
                         ref:       this.setRef('hubBody'),
-                        className: 'move-hub-body',
+                        className: 'flt rel move-hub-body',
                         children: [
                             {
-                                className: 'hub-top'
+                                className: 'abs hub-top'
                             },
                             {
-                                className: 'hub-bottom'
+                                className: 'abs hub-bottom'
                             },
                             {
-                                className: 'hub-box',
+                                className: 'abs hub-box',
                                 children: [
                                     {
-                                        className: 'hub-button'
+                                        className: 'abs hub-button'
                                     },
                                     {
-                                        className: 'hub-light',
+                                        className: 'abs hub-light',
                                         ref:       this.setRef('hubLight')
                                     }
                                 ]
@@ -53,12 +53,12 @@ exports.MoveHub = class extends BasicHub {
     }
 
     hide() {
-        this._refs.hubBody.className  = 'move-hub-body';
+        this._refs.hubBody.className  = 'flt rel move-hub-body';
         this._refs.hubState.className = 'hub-state';
     }
 
     show() {
-        this._refs.hubBody.className  = 'move-hub-body visible';
+        this._refs.hubBody.className  = 'flt rel move-hub-body visible';
         this._refs.hubState.className = 'hub-state visible';
     }
 };

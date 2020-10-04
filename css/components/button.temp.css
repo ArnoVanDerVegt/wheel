@@ -679,6 +679,20 @@ body.ide.dark input.icon-button.icon-icon {
     background-image:               url('images/buttons/iconWhite.svg');
 }
 
+/* Menu bar icons */
+input.icon-button.icon-folder {
+    background-image:               url('images/buttons/folderWhite.svg');
+}
+input.icon-button.icon-error {
+    background-image:               url('images/buttons/errorWhite.svg');
+}
+input.icon-button.icon-tag {
+    background-image:               url('images/buttons/tagWhite.svg');
+}
+input.icon-button.icon-simulator {
+    background-image:               url('images/buttons/simulatorWhite.svg');
+}
+
 .icon-button.icon-line-transparent {
     background-image:               url('images/buttons/lineTransparent.svg');
 }

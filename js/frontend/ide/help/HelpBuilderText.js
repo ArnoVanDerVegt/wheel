@@ -20,8 +20,9 @@ const getFilename = function(subject) {
 
 class HelpBuilderText {
     constructor(opts) {
-        this._helpData = opts.helpData;
-        this._output   = [];
+        this._documentPath = opts.documentPath;
+        this._helpData     = opts.helpData;
+        this._output       = [];
     }
 
     getFilenameWithoutDocumentPath(filename) {
@@ -126,19 +127,34 @@ class HelpBuilderText {
     }
 
     addConstants(constant) {
-        let output = this._output;
+        let output   = this._output;
+        let hasImage = false;
+        constant.values.forEach((value) => {
+            if (value.image) {
+                hasImage = true;
+            }
+        });
         output.push(
             '    <p>',
             '        <a id="' + constant.description.split(' ').join('') + '"></a>',
             '        <div>' + constant.description + '<br/></div>',
             '        <div class="source-location">Source: ' +  this.getFilenameWithoutDocumentPath(constant.filename) + ', line: ' + constant.lineNumber + '<br/></div>',
-            '        <table class="help-table constants">'
+            '        <table class="help-table ' + (hasImage ? 'image-' : '') + 'constants">'
         );
-
         let body = [];
-        constant.values.forEach((value) => {
-            output.push('            <tr><td>' + value.key + '</td><td>' + value.value + '</td></tr>');
-        });
+        if (hasImage) {
+            constant.values.forEach((value) => {
+                if (value.image) {
+                    output.push('            <tr><td><div class="image-wrapper"><img src="../../assets/' + value.image + '"/></td></div><td>' + value.key + '</td><td>' + value.value + '</td></tr>');
+                } else {
+                    output.push('            <tr><td>&nbsp;<td>' + value.key + '</td><td>' + value.value + '</td></tr>');
+                }
+            });
+        } else {
+            constant.values.forEach((value) => {
+                output.push('            <tr><td>' + value.key + '</td><td>' + value.value + '</td></tr>');
+            });
+        }
         output.push(
             '        </table>',
             '    </p>'
@@ -417,10 +433,12 @@ class HelpBuilderText {
         } else if (file.subject) {
             mainTitle = file.subject;
             let i = mainTitle.indexOf(':');
-            this.addTitle((i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length), '    ');
+            mainTitle = (i === -1) ? mainTitle : mainTitle.substr(i + 1 - mainTitle.length);
+            this.addTitle(mainTitle, '    ');
         } else {
             this.addTitle(this.getFilenameWithoutDocumentPath(file.name), '    ');
         }
+        this._lastTitle = mainTitle;
     }
 
     addSee(opts) {
@@ -510,7 +528,7 @@ class HelpBuilderText {
             output.push('        <tr>');
             r.forEach((c) => {
                 const loaderText = '<span class="image-loader">';
-                const svgHeader  = 'data:image/svg+xml,';
+                const svgHeader  = 'data:image/svg+xml';
                 let i = c.indexOf(loaderText);
                 if (i !== -1) {
                     let j        = c.indexOf('</span>', i);
@@ -518,8 +536,9 @@ class HelpBuilderText {
                     let image    = getImage(filename);
                     if (image) {
                         if (image.indexOf(svgHeader) === 0) {
-                            image = image.substr(svgHeader.length - image.length);
+                            image = image.substr(svgHeader.length + 1 - image.length);
                             c     = c.substr(0, i) + image + c.substr(j, i - j);
+                            c     = '<div class="image-wrapper">' + c + '</div>';
                         } else {
                             c     = c.substr(0, i) + '<img src="' + image + '"/>' + c.substr(j, i - j);
                         }
@@ -553,8 +572,8 @@ class HelpBuilderText {
     }
 
     buildFile(opts) {
+        this._lastTitle     = '';
         this._output.length = 0;
-        this._documentPath  = opts.documentPath || '';
         this.addFileTitle(opts);
         let output      = this._output;
         let file        = opts.file;
@@ -572,10 +591,24 @@ class HelpBuilderText {
                 continue;
             }
             output.push('    <a id="' + title.split(' ').join('') + '"></a>');
-            this.addSubSubTitle(title, '', '    ');
+            if ((title !== '-') && (this._lastTitle !== title)) {
+                this.addSubSubTitle(title, '', '    ');
+            }
             let content = section.content;
             for (let j = 0; j < content.length; j++) {
                 switch (content[j].type) {
+                    case 'description':
+                        let paragraph = [];
+                        content[0].text.push('');
+                        content[0].text.forEach((line) => {
+                            if (line === '') {
+                                output.push('    <p>' + paragraph.join(' ') + '</p>');
+                                paragraph.length = 0;
+                            } else {
+                                paragraph.push(line);
+                            }
+                        });
+                        break;
                     case 'text':
                         output.push('    <p>');
                         content[j].text.forEach(

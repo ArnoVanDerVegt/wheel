@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test record unions',
-    function() {
+    () => {
         describe(
             'Test single union',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare a union record',
@@ -164,7 +164,7 @@ describe(
         );
         describe(
             'Test double union',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare a double union record',
@@ -252,7 +252,7 @@ describe(
         );
         describe(
             'Test nested union',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign a nested union record - test first array index and field - write array',

@@ -11,85 +11,86 @@ const ResourceLine = require('./components/ResourceLine').ResourceLine;
 exports.DownloadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'download-dialog',
-            'Download resources',
-            [
+        this._ev3 = opts.ev3;
+        this.initWindow({
+            showSignal: 'Dialog.Download.Show',
+            width:      600,
+            height:     472,
+            className:  'download-dialog',
+            title:      'Download resources'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'flt max-w download-row',
+                children: [
+                    {
+                        innerHTML: 'Project filename:',
+                        className: 'flt label'
+                    },
+                    {
+                        ref:       this.setRef('projectFilename'),
+                        className: 'flt value'
+                    }
+                ]
+            },
+            {
+                className: 'flt max-w download-row',
+                children: [
+                    {
+                        innerHTML: 'Project description:',
+                        className: 'flt label'
+                    },
+                    {
+                        ref:       this.setRef('projectDescription'),
+                        className: 'flt value'
+                    }
+                ]
+            },
+            {
+                className: 'flt max-w download-row',
+                children: [
+                    {
+                        innerHTML: 'Remote directory:',
+                        className: 'flt label'
+                    },
+                    {
+                        ref:       this.setRef('remoteDirectory'),
+                        className: 'flt value'
+                    }
+                ]
+            },
+            {
+                className: 'flt max-w download-row',
+                children: [
+                    {
+                        innerHTML: 'Actions:',
+                        className: 'flt label'
+                    }
+                ]
+            },
+            {
+                ref:       this.setRef('text'),
+                className: 'abs dialog-cw dialog-l ui1-box vscroll pad download-text'
+            },
+            this.initButtons([
                 {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Project filename:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('projectFilename'),
-                            className: 'value'
-                        }
-                    ]
+                    ref:      this.setRef('downloadButton'),
+                    value:    'Download',
+                    tabIndex: 128,
+                    onClick:  this.onDownload.bind(this)
                 },
                 {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Project description:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('projectDescription'),
-                            className: 'value'
-                        }
-                    ]
-                },
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Remote directory:',
-                            className: 'label'
-                        },
-                        {
-                            ref:       this.setRef('remoteDirectory'),
-                            className: 'value'
-                        }
-                    ]
-                },
-                {
-                    className: 'download-row',
-                    children: [
-                        {
-                            innerHTML: 'Actions:',
-                            className: 'label'
-                        }
-                    ]
-                },
-                {
-                    ref:       this.setRef('text'),
-                    className: 'download-text'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('downloadButton'),
-                            value:    'Download',
-                            tabIndex: 128,
-                            onClick:  this.onDownload.bind(this)
-                        }),
-                        this.addButton({
-                            ref:      this.setRef('closeButton'),
-                            value:    'Close',
-                            tabIndex: 129,
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    ref:      this.setRef('closeButton'),
+                    value:    'Close',
+                    tabIndex: 129,
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Download.Show', this, this.onShow);
-        this._ev3      = opts.ev3;
-        this._settings = opts.settings;
+            ])
+        ];
     }
 
     initLines(resources) {

@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test constant',
-    function() {
+    () => {
         describe(
             'Test number',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare global constant number',

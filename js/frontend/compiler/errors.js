@@ -62,7 +62,7 @@ exports.errors = {
 };
 
 exports.createError = function(num, token, message) {
-    let error = new Error('#' + num + ' ' + message);
+    let error = new Error('#' + num + ' ' + message.split('~').join('.'));
     error.num   = num;
     error.token = token;
     return error;

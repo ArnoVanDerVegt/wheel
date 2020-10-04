@@ -5,7 +5,7 @@
 namespace components.circle
 
 ; @const The form component module.
-#define MODULE_COMPONENT_CIRCLE   97
+#define MODULE_COMPONENT_CIRCLE   97 ; `image:images/buttons/circleBlack.svg`
 
 ; @const Module calls for the circle component functions.
 #define CIRCLE_SET_HIDDEN          0
@@ -114,7 +114,7 @@ end
 ; @param windowhandle     The handle of the window.
 ; @param componentHandle  The handle of the component.
 ; @param borderWidth      The border radius.
-proc setBorderRadius(number windowHandle, number componentHandle, number borderRadius)
+proc setBorderRadius(number windowHandle, number componentHandle, number borderWidth)
     addr windowHandle
     mod  MODULE_COMPONENT_CIRCLE, CIRCLE_SET_BORDER_RADIUS
 end

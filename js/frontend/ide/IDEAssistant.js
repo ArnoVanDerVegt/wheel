@@ -2,11 +2,15 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../lib/dispatcher').dispatcher;
+const Emitter         = require('../lib/Emitter').Emitter;
+const dispatcher      = require('../lib/dispatcher').dispatcher;
+const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 
-exports.IDEAssistant = class {
+exports.IDEAssistant = class extends Emitter {
     constructor(opts) {
-        this._settings = opts.settings;
+        super(opts);
+        this._settings  = opts.settings;
+        this._poweredUp = opts.poweredUp;
         dispatcher
             .on('Create.Form',            this, this.onOpenForm)
             .on('IDE.Assistant.OpenForm', this, this.onOpenForm)
@@ -41,5 +45,39 @@ exports.IDEAssistant = class {
             },
             500
         );
+    }
+
+    updatePoweredUpDeviceList() {
+        getDataProvider().getData(
+            'post',
+            'powered-up/device-list',
+            {
+                autoConnect: this._settings.getPoweredUpAutoConnect().toJSON()
+            },
+            (data) => {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    data = null;
+                }
+                if (data) {
+                    this.onPoweredUpDeviceList(data.list);
+                }
+            }
+        );
+    }
+
+    onPoweredUpDeviceList(list) {
+        let autoConnectByUuid = this._settings.getPoweredUpAutoConnect().getAutoConnectByUuid();
+        list.forEach((device) => {
+            if (device && !device.connected && !device.connecting && (device.uuid in autoConnectByUuid)) {
+                dispatcher.dispatch('PoweredUp.ConnectToDevice', device);
+            }
+        });
+        setTimeout(this.updatePoweredUpDeviceList.bind(this), 2500);
+    }
+
+    autoConnectPoweredUp() {
+        this.updatePoweredUpDeviceList();
     }
 };

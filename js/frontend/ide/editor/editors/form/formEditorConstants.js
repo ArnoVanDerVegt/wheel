@@ -2,6 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const poweredUpModuleConstants = require('../../../../../shared/vm/modules/poweredUpModuleConstants');
+const sensorModuleConstants    = require('../../../../../shared/vm/modules/sensorModuleConstants');
 
 // Component types...
 exports.COMPONENT_TYPES_INPUT        = 'input';
@@ -121,7 +123,7 @@ const NUMERIC                        = '0123456789';
 const ALPHA                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ALPHA_NUMERIC                  = ALPHA + NUMERIC;
 
-const nameValidator = function(value) {
+const nameValidator = (value) => {
         if ((value.length < 3) || (NUMERIC.indexOf(value[0]) !== -1)) {
             return false;
         }
@@ -134,7 +136,8 @@ const nameValidator = function(value) {
         return true;
     };
 
-const posNumberValidator = function(value) {
+const posNumberValidator = (value) => {
+        value += '';
         if (value.length < 1) {
             return false;
         }
@@ -146,7 +149,8 @@ const posNumberValidator = function(value) {
         return true;
     };
 
-const posNumberOrEmptyValidator = function(value) {
+const posNumberOrEmptyValidator = (value) => {
+        value += '';
         if (value.length < 1) {
             return true;
         }
@@ -158,7 +162,8 @@ const posNumberOrEmptyValidator = function(value) {
         return true;
     };
 
-const numberValidator = function(value) {
+const numberValidator = (value) => {
+        value += '';
         if (!value.length || ((value.length === 1) && (NUMERIC.indexOf(value) === -1))) {
             return false;
         }
@@ -172,11 +177,17 @@ const numberValidator = function(value) {
     };
 
 const posNumberValidatorWithMin = function(min) {
-        return function(value) {
+        return (value) => {
             let result = posNumberValidator(value);
             return result && (parseInt(value, 10) >= min);
         };
     };
+
+exports.nameValidator             = nameValidator;
+exports.posNumberValidator        = posNumberValidator;
+exports.posNumberOrEmptyValidator = posNumberOrEmptyValidator;
+exports.numberValidator           = numberValidator;
+exports.posNumberValidatorWithMin = posNumberValidatorWithMin;
 
 // Component properties...
 exports.PROPERTIES_BY_TYPE = {
@@ -1114,14 +1125,13 @@ exports.PROPERTIES_BY_TYPE = {
                 name: 'device',
                 options: {
                     list: [
-                        {title: 'Basic motor',     value:  1},
-                        {title: 'Train motor',     value:  2},
-                        {title: 'Led lights',      value:  8},
-                        {title: 'Tacho motor',     value: 38},
-                        {title: 'Move hub motor',  value: 39},
-                        {title: 'Ctrl+ L motor',   value: 46},
-                        {title: 'Ctrl+ XL motor',  value: 47},
-                        {title: 'Distance sensor', value: 37}
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR,               image: 'images/poweredup/motor64.png',       color: '#D0D4D8', title: 'Basic',    subTitle: 'Motor'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR,         image: 'images/poweredup/motorM64.png',      color: '#D0D4D8', title: 'Medium',   subTitle: 'Motor'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR,  image: 'images/poweredup/motorL64.png',      color: '#D0D4D8', title: 'Tchnc L',  subTitle: 'Motor'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR, image: 'images/poweredup/motorXL64.png',     color: '#D0D4D8', title: 'Tchnc XL', subTitle: 'Motor'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR,               image: 'images/poweredup/train64.png',       color: '#D0D4D8', title: 'Train',    subTitle: 'Motor'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS,                image: 'images/poweredup/light64.png',       color: '#D0D4D8', title: 'Lights',   subTitle: 'Light'},
+                        {value: poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_DISTANCE,            image: 'images/poweredup/lightSensor64.png', color: '#D0D4D8', title: 'Color',    subTitle: 'Sensor'}
                     ]
                 }
             },
@@ -1161,8 +1171,8 @@ exports.PROPERTIES_BY_TYPE = {
                 name: 'device',
                 options: {
                     list: [
-                        {title: 'Medium motor', value:  7},
-                        {title: 'Large motor',  value:  8}
+                        {value: 7, image: 'images/ev3/motorMedium64.png', color: '#D0D4D8', title: 'Medium', subTitle: 'Motor'},
+                        {value: 8, image: 'images/ev3/motorLarge64.png',  color: '#D0D4D8', title: 'Large',  subTitle: 'Motor'}
                     ]
                 }
             }
@@ -1201,12 +1211,12 @@ exports.PROPERTIES_BY_TYPE = {
                 name: 'device',
                 options: {
                     list: [
-                        {title: 'Touch sensor',      value:  1},
-                        {title: 'Sound sensor',      value:  3},
-                        {title: 'Color sensor',      value:  4},
-                        {title: 'Ultrasonic sensor', value:  5},
-                        {title: 'Gyro sensor',       value: 32},
-                        {title: 'Infrared sensor',   value: 33}
+                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH,      image: 'images/ev3/touch64.png',      color: '#D0D4D8', title: 'Touch',  subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_SOUND,      image: 'images/ev3/nxtSound64.png',   color: '#D0D4D8', title: 'Sound',  subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_COLOR,      image: 'images/ev3/color64.png',      color: '#D0D4D8', title: 'Color',  subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC, image: 'images/ev3/ultrasonic64.png', color: '#D0D4D8', title: 'USonic', subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_GYRO,           image: 'images/ev3/gyro64.png',       color: '#D0D4D8', title: 'Gyro',   subTitle: 'Sensor'},
+                        {value: sensorModuleConstants.SENSOR_TYPE_INFRARED,       image: 'images/ev3/infrared64.png',   color: '#D0D4D8', title: 'InfraR', subTitle: 'Sensor'}
                     ]
                 }
             }

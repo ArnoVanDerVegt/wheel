@@ -2,182 +2,96 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher    = require('../../../lib/dispatcher').dispatcher;
-const DOMNode       = require('../../../lib/dom').DOMNode;
-const path          = require('../../../lib/path');
-const Dialog        = require('../../../lib/components/Dialog').Dialog;
-const SourceBuilder = require('../../editor/editors/form/SourceBuilder');
-const IncludeFiles  = require('./components/IncludeFiles').IncludeFiles;
+const dispatcher   = require('../../../lib/dispatcher').dispatcher;
+const DOMNode      = require('../../../lib/dom').DOMNode;
+const path         = require('../../../lib/path');
+const IncludeFiles = require('../../../lib/components/IncludeFiles').IncludeFiles;
+const FileDialog   = require('./FileDialog').FileDialog;
 
-exports.FileNewDialog = class extends Dialog {
+exports.FileNewDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
-        this._ui         = opts.ui;
         this._formWidth  = 400;
         this._formHeight = 320;
-        this.createWindow(
-            'file-new-dialog',
-            'Confirm',
-            [
-                {
-                    className: 'new-file-text',
-                    children: [
-                        {
-                            className: 'file-new-row',
-                            children: [
-                                {
-                                    className: 'form-label',
-                                    innerHTML: 'Filename'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('filename'),
-                                    tabIndex:    1,
-                                    onKeyUp:     this.onFilenameKeyUp.bind(this),
-                                    placeholder: 'Enter filename'
-                                })
-                            ]
-                        },
-                        {
-                            ref:       this.setRef('descriptionRow'),
-                            className: 'file-new-row',
-                            children: [
-                                {
-                                    className: 'form-label',
-                                    innerHTML: 'Description'
-                                },
-                                this.addTextInput({
-                                    ref:         this.setRef('description'),
-                                    tabIndex:    2,
-                                    className:   'description',
-                                    onKeyUp:     this.onDescriptionKeyUp.bind(this),
-                                    placeholder: 'Enter description'
-                                })
-                            ]
-                        },
-                        {
-                            ref:       this.setRef('createFormRow'),
-                            className: 'file-new-row',
-                            children: [
-                                {
-                                    className: 'form-label',
-                                    innerHTML: 'Create a form'
-                                },
-                                this.addCheckbox({
-                                    ref:      this.setRef('createForm'),
-                                    tabIndex: 3
-                                }),
-                                this.addButton({
-                                    ref:      this.setRef('formSizeButton'),
-                                    tabIndex: 4,
-                                    value:    'Size: 400x320',
-                                    color:    'gray',
-                                    onClick:  this.onClickFormSize.bind(this)
-                                })
-                            ]
-                        }
-                    ]
-                },
-                {
-                    className: 'include-file-label',
-                    innerHTML: 'Include files'
-                },
-                {
-                    type:     IncludeFiles,
-                    ref:      this.setRef('includeFiles'),
-                    id:       this.setIncludeFilesElement.bind(this),
-                    ui:       this._ui,
-                    uiId:     this._uiId,
-                    settings: opts.settings
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
-                }
-            ]
-        );
+        this.initWindow({
+            width:     600,
+            height:    464,
+            className: 'file-new-dialog',
+            title:     'Confirm'
+        });
         dispatcher
             .on('Dialog.File.New.Show', this, this.onShow)
             .on('OnSetFormSize',        this, this.onUpdateFormSize);
     }
 
-    addIncludes(file, includeFiles) {
-        for (let i = 0; i < includeFiles.length; i++) {
-            file.push('#include "' + includeFiles[i] + '"');
-        }
-    }
-
-    addProject(filename) {
-        if (path.getExtension(filename) !== '.whlp') {
-            filename += '.whlp';
-        }
-        let file            = ['#project "' + this._description + '"', ''];
-        let includeFiles    = this._includeFilesElement.getIncludeFiles();
-        let createForm      = this._refs.createForm.getChecked();
-        let pathAndFilename = path.getPathAndFilename(filename);
-        let formFilename;
-        let formName;
-        if (createForm) {
-            formFilename = path.replaceExtension(path.getPathAndFilename(filename).filename, '.wfrm');
-            formName     = path.replaceExtension(formFilename, '');
-            if (includeFiles.indexOf('lib/standard.whl') === -1) {
-                includeFiles.push('lib/standard.whl');
-            }
-            if (includeFiles.indexOf('lib/components/component.whl') === -1) {
-                includeFiles.push('lib/components/component.whl');
-            }
-            if (includeFiles.indexOf('lib/components/form.whl') === -1) {
-                includeFiles.push('lib/components/form.whl');
-            }
-        }
-        this.addIncludes(file, includeFiles);
-        if (createForm) {
-            file.push('');
-            file.push.apply(file, SourceBuilder.getFormCode(formFilename));
-            file.push(
-                'proc main()',
-                '    ' + SourceBuilder.getShowProcNameFromFormName(formName) + '()',
-                '    halt()',
-                'end'
-            );
-        } else {
-            if (includeFiles.length) {
-                file.push('');
-            }
-            file.push(
-                'proc main()',
-                'end'
-            );
-        }
-        dispatcher.dispatch(
-            'Create.File',
+    initWindowContent(opts) {
+        return [
             {
-                filename: filename,
-                value:    file.join('\n')
-            }
-        );
-        if (createForm) {
-            dispatcher.dispatch(
-                'Create.Form',
+                className: 'abs dialog-cw dialog-lt new-file-text',
+                children: [
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Filename',
+                        ref:            this.setRef('filename'),
+                        tabIndex:       1,
+                        onKeyUp:        this.onFilenameKeyUp.bind(this),
+                        placeholder:    'Enter filename'
+                    }),
+                    this.initTextInputRow({
+                        rowRef:         this.setRef('descriptionRow'),
+                        className:      'flt max-w input-row description file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Description',
+                        ref:            this.setRef('description'),
+                        tabIndex:       2,
+                        onKeyUp:        this.onDescriptionKeyUp.bind(this),
+                        placeholder:    'Enter description'
+                    }),
+                    this.initCheckboxRow({
+                        rowRef:         this.setRef('createFormRow'),
+                        className:      'flt max-w input-row file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Create a form',
+                        ref:            this.setRef('createForm'),
+                        tabIndex:       3,
+                        extra:          this.addButton({
+                            ref:      this.setRef('formSizeButton'),
+                            tabIndex: 4,
+                            value:    'Size: 400x320',
+                            color:    'gray',
+                            onClick:  this.onClickFormSize.bind(this)
+                        })
+                    })
+                ]
+            },
+            {
+                className: 'abs dialog-l include-file-label',
+                innerHTML: 'Include files'
+            },
+            {
+                type:     IncludeFiles,
+                ref:      this.setRef('includeFiles'),
+                id:       this.setIncludeFilesElement.bind(this),
+                ui:       this._ui,
+                uiId:     this._uiId,
+                settings: this._settings
+            },
+            this.initButtons([
                 {
-                    filename: path.replaceExtension(filename, '.wfrm'),
-                    width:    this._formWidth,
-                    height:   this._formHeight
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
+                },
+                {
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            );
-        }
+            ])
+        ];
     }
 
     addFile(filename) {
@@ -197,15 +111,28 @@ exports.FileNewDialog = class extends Dialog {
 
     onShow(type, activeDirectory) {
         type = (type || 'file').toLowerCase();
-        let refs        = this._refs;
-        let projectType = (type === 'project');
-        this._type                        = type;
-        this._activeDirectory             = activeDirectory;
-        this._dialogElement.className     = 'dialog-background file-new-dialog ' + type.toLowerCase();
-        refs.descriptionRow.style.display = projectType ? 'block' : 'none';
-        refs.createFormRow.style.display  = projectType ? 'block' : 'none';
-        refs.title.innerHTML              = 'Create new ' + (projectType ? 'project file' : ' file');
-        refs.buttonApply.setValue((type === 'project') ? 'Create project file' : 'Create file');
+        let refs           = this._refs;
+        let contentElement = this._dialogNode.querySelector('.dialog-content');
+        this._type                    = type;
+        this._activeDirectory         = activeDirectory;
+        this._dialogElement.className = 'dialog-background file-new-dialog ' + type.toLowerCase();
+        if (type === 'project') {
+            this._expectedExtensions          = ['', '.whlp'];
+            contentElement.style.marginTop    = '-272px';
+            contentElement.style.height       = '544px';
+            refs.title.innerHTML              = 'Create new project file';
+            refs.descriptionRow.style.display = 'block';
+            refs.createFormRow.style.display  = 'block';
+            refs.buttonApply.setValue('Create project file');
+        } else {
+            this._expectedExtensions          = ['', '.whl'];
+            contentElement.style.marginTop    = '-232px';
+            contentElement.style.height       = '464px';
+            refs.title.innerHTML              = 'Create new file';
+            refs.descriptionRow.style.display = 'none';
+            refs.createFormRow.style.display  = 'none';
+            refs.buttonApply.setValue('Create file');
+        }
         refs.includeFiles.update();
         super.show();
         this._includeFilesElement.reset();
@@ -236,7 +163,14 @@ exports.FileNewDialog = class extends Dialog {
         let file;
         let filename = (this._activeDirectory ? this._activeDirectory + '/' : '') + this._filename;
         if (this._type === 'project') {
-            this.addProject(filename);
+            this.addProject({
+                filename:     filename,
+                createForm:   this._refs.createForm.getChecked(),
+                description:  this._description,
+                includeFiles: this._includeFilesElement.getIncludeFiles(),
+                formWidth:    this._formWidth,
+                formHeight:   this._formHeight
+            });
         } else {
             this.addFile(filename);
         }
@@ -257,31 +191,6 @@ exports.FileNewDialog = class extends Dialog {
         if ((event.keyCode === 13) && this.validateDescription()) {
             this.onApply();
         }
-    }
-
-    validateFilename() {
-        let refs = this._refs;
-        this._filename = refs.filename.getValue().trim();
-        let result = (this._filename !== '');
-        if ((this._type === 'project') && (['', '.whlp'].indexOf(path.getExtension(this._filename)) === -1)) {
-            result = false;
-        }
-        if (!result) {
-            refs.filename.focus();
-            refs.filename.setClassName('invalid');
-        }
-        return result;
-    }
-
-    validateDescription() {
-        let refs = this._refs;
-        this._description = refs.description.getValue().trim();
-        let result = (this._description !== '') && (this._description.indexOf('"') === -1);
-        if (!result) {
-            refs.description.focus();
-            refs.description.setClassName('description invalid');
-        }
-        return result;
     }
 
     validate() {

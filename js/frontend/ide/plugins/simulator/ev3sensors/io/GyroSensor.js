@@ -10,7 +10,7 @@ exports.GyroSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/gyro.png',
+            'images/ev3/gyro64.png',
             true, // With mode
             [
                 this.getNumberValueInput()

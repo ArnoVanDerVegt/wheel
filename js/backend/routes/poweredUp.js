@@ -18,12 +18,25 @@ const getPoweredUp = function() {
     };
 
 exports.poweredUpRoutes = {
-    deviceList: function(req, res) {
-        let poweredUp = getPoweredUp();
-        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getDeviceList()}));
+    discover(req, res) {
+        getPoweredUp().discover(req.body.autoConnect || []);
+        res.send(JSON.stringify({}));
     },
 
-    connect: function(req, res) {
+    deviceList(req, res) {
+        let poweredUp   = getPoweredUp();
+        let autoConnect = req.body.autoConnect || [];
+        let list = poweredUp.getDeviceList(autoConnect);
+        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: list}));
+    },
+
+    connectedDeviceList(req, res) {
+        let poweredUp   = getPoweredUp();
+        let autoConnect = req.body.autoConnect || [];
+        res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: poweredUp.getConnectedDeviceList(autoConnect)}));
+    },
+
+    connect(req, res) {
         let uuid = req.body.uuid;
         getPoweredUp().connect(
             uuid,
@@ -33,12 +46,17 @@ exports.poweredUpRoutes = {
         );
     },
 
-    disconnect: function(req, res) {
+    disconnect(req, res) {
         getPoweredUp().disconnect(() => {});
         res.send(JSON.stringify({}));
     },
 
-    connecting: function(req, res) {
+    disconnectAll(req, res) {
+        getPoweredUp().disconnectAll(() => {});
+        res.send(JSON.stringify({}));
+    },
+
+    connecting(req, res) {
         let connected = getPoweredUp().getConnected();
         let state     = {};
         if (connected) {
@@ -50,17 +68,20 @@ exports.poweredUpRoutes = {
         }));
     },
 
-    connected: function(req, res) {
+    connected(req, res) {
         res.send(JSON.stringify({connected: getPoweredUp().getConnected()}));
     },
 
-    update: function(req, res) {
-        let result = {error: false, connected: true};
-        let queue  = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+    update(req, res) {
+        let result           = {error: false, connected: true};
+        let queue            = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+        let messagesReceived = {};
         queue.forEach((params) => {
             poweredUp.module(params.module, params.command, params.data);
+            messagesReceived[params.messageId] = true;
         });
-        result.state = poweredUp.getState();
+        result.state            = poweredUp.getState();
+        result.messagesReceived = messagesReceived;
         res.send(JSON.stringify(result));
     },
 

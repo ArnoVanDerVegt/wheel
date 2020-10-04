@@ -5,7 +5,7 @@
 namespace components.title
 
 ; @const The form component module.
-#define MODULE_COMPONENT_TITLE           81
+#define MODULE_COMPONENT_TITLE           81     ; `image:images/buttons/headerBlack.svg`
 
 ; @const Module calls for title component functions.
 #define TITLE_COMPONENT_SET_HIDDEN        0

@@ -9,48 +9,49 @@ const getImage   = require('../../data/images').getImage;
 
 exports.DevicePortAliasDialog = class extends Dialog {
     constructor(opts) {
-        opts.title = 'Device alias';
         super(opts);
-        this.createWindow(
-            'device-alias-dialog',
-            'Device port alias',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.DevicePortAlias.Show',
+            width:      512,
+            height:     216,
+            className:  'device-alias-dialog',
+            title:      'Device port alias'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('text'),
+                className: 'flt text-row'
+            },
+            {
+                className: 'dialog-cw flt input-row lt',
+                children: [
+                    this.addTextInput({
+                        ref:         this.setRef('alias'),
+                        tabIndex:    1,
+                        onKeyUp:     this.onAliasKeyUp.bind(this),
+                        maxLength:   32,
+                        placeholder: 'Enter port alias'
+                    })
+                ]
+            },
+            this.initButtons([
                 {
-                    ref:       this.setRef('text'),
-                    className: 'device-alias-text'
+                    ref:       this.setRef('buttonApply'),
+                    tabIndex:  128,
+                    value:     'Set device port alias',
+                    onClick:   this.onApply.bind(this)
                 },
                 {
-                    className: 'device-alias-row',
-                    children: [
-                        this.addTextInput({
-                            ref:         this.setRef('alias'),
-                            tabIndex:    1,
-                            onKeyUp:     this.onAliasKeyUp.bind(this),
-                            maxLength:   32,
-                            placeholder: 'Enter port alias'
-                        })
-                    ]
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:       this.setRef('buttonApply'),
-                            tabIndex:  128,
-                            value:     'Set device port alias',
-                            onClick:   this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:       this.setRef('buttonCancel'),
-                            tabIndex:  129,
-                            value:     'Cancel',
-                            onClick:   this.hide.bind(this)
-                        })
-                    ]
+                    ref:       this.setRef('buttonCancel'),
+                    tabIndex:  129,
+                    value:     'Cancel',
+                    onClick:   this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.DevicePortAlias.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onApply() {

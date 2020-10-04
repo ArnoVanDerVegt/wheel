@@ -6,7 +6,7 @@ const dispatcher                            = require('../../../../js/frontend/l
 const componentConfirmDialogModuleConstants = require('../../../../js/shared/vm/modules/components/componentConfirmDialogModuleConstants');
 const testComponentCall                     = require('../../../utils').testComponentCall;
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
@@ -14,7 +14,7 @@ const LIB_FILENAME = 'assets/template/lib/components/confirmDialog.whl';
 
 describe(
     'Test Confirm dialog module',
-    function() {
+    () => {
         testComponentCall(
             it,
             {

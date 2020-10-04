@@ -32,7 +32,7 @@ exports.UndoStack = class {
         }
         let undoStack = this._undoStack;
         let lastItem  = undoStack.length ? undoStack[undoStack.length - 1] : null;
-        if (lastItem) {
+        if (lastItem && (lastItem.action === item.action)) {
             switch (lastItem.action) {
                 case formEditorConstants.ACTION_CHANGE_POSITION:
                     if (lastItem.id === item.id) {
@@ -40,7 +40,7 @@ exports.UndoStack = class {
                     }
                     break;
                 case formEditorConstants.ACTION_CHANGE_PROPERTY:
-                    if ((lastItem.id === item.id) && (lastItem.property === item.property)) {
+                    if (lastItem.property === item.property) {
                         return this;
                     }
                     break;
@@ -96,12 +96,24 @@ exports.UndoStack = class {
             case formEditorConstants.ACTION_CHANGE_PROPERTY:
                 component                = componentList.getComponentById(item.id);
                 component[item.property] = item.value;
+                item.renameEvents.forEach((renameEvent) => {
+                    let component = componentList.getComponentByUid(renameEvent.uid);
+                    if (component) {
+                        component[renameEvent.name] = renameEvent.oldValue;
+                    }
+                });
                 formEditorState
                     .onSelectComponent(item.id)
                     .emit('ChangeProperty', item.id, item.property, item.value);
                 if (component.type === 'form') {
                     formEditorState.emit('ChangeForm');
                 }
+                break;
+            case formEditorConstants.ACTION_TAB_ADD_TAB:
+                component      = this._componentList.getComponentById(item.id);
+                component.tabs = item.tabs;
+                component.containerIds.pop();
+                formEditorState.emit('ChangeProperty', item.id, 'tab', item);
                 break;
             case formEditorConstants.ACTION_TAB_DELETE_TAB:
                 let parentMap = {};
@@ -124,7 +136,9 @@ exports.UndoStack = class {
                         }
                     }
                 );
-                componentList.addTab(item, parentId);
+                component      = this._componentList.getComponentById(item.id);
+                component.tabs = item.tabs;
+                component.containerIds.push(parentId);
                 formEditorState.emit('ChangeProperty', item.id, 'tab', item);
                 item.children.forEach(
                     function(component) {

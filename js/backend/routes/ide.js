@@ -303,6 +303,40 @@ exports.ideRoutes = {
         res.send(JSON.stringify(filelist));
     },
 
+    findInFile: function(req, res) {
+        let caseSensitive = req.body.caseSensitive;
+        let filename      = req.body.filename;
+        let text          = req.body.text;
+        let textLength    = text.length;
+        let result        = {filename: filename, text: text, found: []};
+        try {
+            if (fs.existsSync(filename)) {
+                let data = fs.readFileSync(filename).toString();
+                let origLines;
+                if (!caseSensitive) {
+                    origLines = data.split('\n');
+                    data      = data.toLowerCase();
+                    text      = text.toLowerCase();
+                }
+                let lines = data.split('\n');
+                if (caseSensitive) {
+                    origLines = lines;
+                }
+                for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+                    let line    = lines[lineNum];
+                    let linePos = line.indexOf(text, 0);
+                    while (linePos !== -1) {
+                        result.found.push({line: origLines[lineNum], num: lineNum, pos: linePos});
+                        linePos += textLength;
+                        linePos = line.indexOf(text, linePos);
+                    }
+                }
+            }
+        } catch (error) {
+        }
+        res.send(JSON.stringify(result));
+    },
+
     directoryCreate: function(req, res) {
         let directory = req.body.directory;
         let result    = {success: false};

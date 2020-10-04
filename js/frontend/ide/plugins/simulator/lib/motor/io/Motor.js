@@ -13,7 +13,7 @@ exports.Motor = class extends BasicIODevice {
     constructor(opts) {
         super(opts);
         opts.onChangeType = this.onChangeType.bind(this);
-        this._image             = opts.image || 'images/ev3/motorMedium.png';
+        this._image             = opts.image || 'images/ev3/motorMedium64.png';
         this._motorElement      = null;
         this._imageElement      = null;
         this._positionElement   = null;

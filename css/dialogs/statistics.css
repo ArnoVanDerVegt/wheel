@@ -1,45 +1,22 @@
 /* Statistics dialog */
-.dialog-background.statistics-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
-    margin-top:                     -300px;
-    width:                          600px;
-    height:                         600px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-}
-.dialog-background.statistics-dialog .dialog-center .dialog-content .statistics-text {
-    position:                       absolute;
-    left:                           32px;
-    top:                            64px;
-    width:                          calc(100% - 64px);
-    height:                         calc(456px);
+.dialog-background.statistics-dialog .statistics-text {
+    height:                         456px;
     line-height:                    28px;
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    overflow:                       hidden;
-    overflow-y:                     scroll;
     padding:                        16px 0 0 0;
 }
-.dialog-background.statistics-dialog.with-image .dialog-center .dialog-content .buttons input[type="button"].button {
+.dialog-background.statistics-dialog.with-image .buttons input[type="button"].button {
     float:                          right;
 }
 .dialog-background.statistics-dialog .text-line {
-    float:                          left;
-    width:                          100%;
     height:                         20px;
     line-height:                    20px;
     padding:                        0 16px 0 16px;
 }
 .dialog-background.statistics-dialog .chart {
-    float:                          left;
-    width:                          100%;
     padding:                        16px;
 }
 .dialog-background.statistics-dialog .chart .chart-row {
-    float:                          left;
     margin:                         0;
-    width:                          100%;
     height:                         28px;
 }
 .dialog-background.statistics-dialog .chart .chart-bar,
@@ -64,7 +41,6 @@
     line-height:                    8px;
 }
 .dialog-background.statistics-dialog .chart .chart-bar .chart-bar-perc {
-    float:                          left;
     position:                       absolute;
     left:                           0;
     top:                            8px;

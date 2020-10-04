@@ -7,12 +7,12 @@ const assert     = require('assert');
 
 describe(
     'Test dispatcher',
-    function() {
+    () => {
         it(
             'Should Reset',
-            function() {
+            () => {
                 let done = false;
-                dispatcher.on('Signal', this, function() {
+                dispatcher.on('Signal', this, () => {
                     done = true;
                 });
                 dispatcher.dispatch('Signal');

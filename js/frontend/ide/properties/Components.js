@@ -22,7 +22,7 @@ exports.Components = class extends DOMNode {
 
     initTitle(title) {
         return {
-            className: 'title',
+            className: 'no-select flt max-w title',
             innerHTML: title
         };
     }
@@ -38,7 +38,7 @@ exports.Components = class extends DOMNode {
             type:      Button,
             ui:        this._ui,
             uiId:      1,
-            className: 'component-button component-' + item.image + (first ? ' active' : ''),
+            className: 'flt component-button component-' + item.image + (first ? ' active' : ''),
             hint:      item.hint ? {text: item.hint} : false,
             color:     '',
             onClick:   this.onSelectComponentWithDispatch.bind(this, item)
@@ -55,7 +55,7 @@ exports.Components = class extends DOMNode {
         });
         this._toolGroup++;
         return {
-            className: 'group',
+            className: 'flt max-w group',
             children:  children
         };
     }
@@ -65,7 +65,7 @@ exports.Components = class extends DOMNode {
             parentNode,
             {
                 ref:       this.setRef('container'),
-                className: 'components-container',
+                className: 'abs max-w components-container',
                 children:  [
                     {
                         className: 'components-content',
@@ -155,9 +155,9 @@ exports.Components = class extends DOMNode {
     onSelectComponent(item) {
         let buttons    = this._buttons;
         let activeItem = buttons[this._active];
-        activeItem.element.setClassName('component-button component-' + activeItem.image);
+        activeItem.element.setClassName('flt component-button component-' + activeItem.image);
         this._active = item.index;
-        buttons[this._active].element.setClassName('component-button component-' + item.image + ' active');
+        buttons[this._active].element.setClassName('flt component-button component-' + item.image + ' active');
     }
 
     onSelectComponentWithDispatch(item) {

@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test multi dimensional record arrays',
-    function() {
+    () => {
         describe(
             'Test declare global multi dimensional record array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare global array of records',
@@ -68,7 +68,7 @@ describe(
         );
         describe(
             'Test declare global record with multi dimensional field array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare global record with array of array',
@@ -143,7 +143,7 @@ describe(
         );
         describe(
             'Test declare global array of array of record with multi dimensional field array',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign global record with array of array with constant indices',

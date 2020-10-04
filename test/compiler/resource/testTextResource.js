@@ -8,21 +8,21 @@ const RgfImage         = require('../../../js/shared/lib/RgfImage').RgfImage;
 const MockDataProvider = require('./MockDataProvider').MockDataProvider;
 const assert           = require('assert');
 
-afterEach(function() {
+afterEach(() => {
     dispatcher.reset();
 });
 
 describe(
     'Test TextResource',
-    function() {
+    () => {
         it(
             'Should save text',
-            function() {
+            () => {
                 let mockDataProvider = new MockDataProvider();
                 let imageResource    = new TextResource({
                         filename:        'test.rgf',
                         data:            'Hello world',
-                        getDataProvider: function() { return mockDataProvider; }
+                        getDataProvider: () => { return mockDataProvider; }
                     });
                 imageResource.save('outputpath');
                 assert.equal(mockDataProvider.getFilename(), 'outputpath/test.rgf');

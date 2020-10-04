@@ -4,6 +4,7 @@
 **/
 const sensorModuleConstants    = require('../../vm/modules/sensorModuleConstants');
 const poweredUpModuleConstants = require('../../vm/modules/poweredUpModuleConstants');
+
 const BasicDevice              = require('../BasicDevice').BasicDevice;
 
 const PORT_TO_INDEX            = {A: 0, B: 1, C: 2, D: 3};
@@ -34,17 +35,20 @@ exports.setLibrary = function(pupConstants, pup) {
 exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
         super(opts);
-        this._gettingHubs   = false;
-        this._layerCount    = 0;
-        this._scanning      = false;
-        this._connectedHubs = [];
-        this._hubs          = [];
-        this._hubsByUuid    = {};
-        this._changed       = 0;
-        this._layers        = [this.initLayer(), this.initLayer(), this.initLayer(), this.initLayer()];
-        this._poweredUP     = new PoweredUP.PoweredUP();
-        this._poweredUP.on('discover', this._addHub.bind(this));
-        setInterval(this.motorMonitor.bind(this), 5);
+        this._gettingHubs       = false;
+        this._layerCount        = 0;
+        this._scanning          = false;
+        this._autoConnect       = [];
+        this._connectedHubUuids = {};
+        this._hubs              = [];
+        this._hubsByUuid        = {};
+        this._changed           = 0;
+        this._poweredUP         = new PoweredUP.PoweredUP();
+        this._discovering       = false;
+        this._layers            = [];
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            this._layers.push(this.initLayer());
+        }
     }
 
     initLayer() {
@@ -78,25 +82,62 @@ exports.PoweredUp = class extends BasicDevice {
         return result;
     }
 
+    discover(autoConnect) {
+        if (this._discovering) {
+            return;
+        }
+        this._discovering = true;
+        this._autoConnect = autoConnect;
+        this._poweredUP.on('discover', this._addHub.bind(this));
+        setInterval(this.motorMonitor.bind(this), 5);
+    }
+
     scan() {
         this._poweredUP.scan(); // Start scanning for hubs
     }
 
+    _isSupportedHubType(type) {
+        return ([
+            poweredUpConstants.HubType.HUB,
+            poweredUpConstants.HubType.MOVE_HUB,
+            poweredUpConstants.HubType.REMOTE_CONTROL,
+            poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
+        ].indexOf(type) !== -1);
+    }
+
     _addHub(hub) {
-        if ([
-                poweredUpConstants.HubType.HUB,
-                poweredUpConstants.HubType.MOVE_HUB,
-                poweredUpConstants.HubType.REMOTE_CONTROL,
-                poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
-            ].indexOf(hub.type) === -1) {
+        if (!this._isSupportedHubType(hub.type)) {
             return;
         }
         let uuid = hub.uuid;
         if (uuid in this._hubsByUuid) {
             return;
         }
+        let index       = -1;
+        let hubs        = this._hubs;
+        let autoConnect = this._autoConnect;
+        if (Array.isArray(autoConnect)) {
+            for (let i = 0; i < autoConnect.length; i++) {
+                let item = autoConnect[i];
+                if ((item.uuid === uuid) && !hubs[item.index]) {
+                    index = item.index;
+                    break;
+                }
+            }
+        }
+        if (index === -1) {
+            index = hubs.length;
+            hubs.push(hub);
+        } else {
+            for (let i = 0; i < index; i++) {
+                if (!hubs[i]) {
+                    hubs[i] = null;
+                }
+            }
+            hubs[index] = hub;
+        }
         this._hubsByUuid[uuid] = {
-            index:      this._hubs.length,
+            index:      index,
             layer:      null,
             uuid:       uuid,
             type:       hub.type,
@@ -105,7 +146,6 @@ exports.PoweredUp = class extends BasicDevice {
             connecting: false,
             connected:  false
         };
-        this._hubs.push(hub);
         this._changed++;
     }
 
@@ -158,8 +198,17 @@ exports.PoweredUp = class extends BasicDevice {
         }
     }
 
-    onDisconnect(hub) {
-        hub.connected = false;
+    onDisconnect(h) {
+        let hubsByUuid = this._hubsByUuid;
+        if (!(h.uuid in hubsByUuid)) {
+            return;
+        }
+        let hub   = hubsByUuid[h.uuid];
+        let layer = this._layers[hub.index];
+        hub.connected       = false;
+        layer.connected     = false;
+        layer.type          = -1;
+        this._hubs[h.index] = null;
     }
 
     onColorAndDistance(layer, port, event) {
@@ -231,24 +280,18 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     _updateConnectedHubs() {
-        let connectedHubs     = this._connectedHubs;
-        let connectedHubUuids = {};
+        let connectedHubUuids = this._connectedHubUuids;
         let hubsByUuid        = this._hubsByUuid;
-        connectedHubs.forEach((connectedHub) => {
-            connectedHubUuids[connectedHub.uuid] = true;
+        this._hubs.forEach((h) => {
+            if (!h || (h.uuid in connectedHubUuids)) {
+                return;
+            }
+            let hub = hubsByUuid[h.uuid];
+            if (hub.connected) {
+                connectedHubUuids[h.uuid] = true;
+                this._attachEvents(hub.index, h, hub);
+            }
         });
-        this._hubs.forEach(
-            function(hub) {
-                if (hub.uuid in connectedHubUuids) {
-                    return;
-                }
-                if (hubsByUuid[hub.uuid].connected) {
-                    this._attachEvents(connectedHubs.length, hub, hubsByUuid[hub.uuid]);
-                    connectedHubs.push(hub);
-                }
-            },
-            this
-        );
     }
 
     /**
@@ -269,22 +312,41 @@ exports.PoweredUp = class extends BasicDevice {
         return this._changed;
     }
 
-    getDeviceList() {
+    getDeviceList(autoConnect) {
+        if (autoConnect) {
+            this._autoConnect = autoConnect;
+        }
         if (!this._scanning) {
-            this._scanning      = true;
-            this._connectedHubs = [];
-            this._hubs          = [];
-            this._hubsByUuid    = {};
+            this._scanning   = true;
+            this._hubs       = [];
+            this._hubsByUuid = {};
             this._poweredUP.scan();
         }
         let list = [];
         this._hubs.forEach(
             function(hub) {
-                list.push(this._hubsByUuid[hub.uuid]);
+                if (hub) {
+                    list.push(this._hubsByUuid[hub.uuid]);
+                } else {
+                    list.push(null);
+                }
             },
             this
         );
         return list;
+    }
+
+    getConnectedDeviceList(autoConnect) {
+        if (autoConnect) {
+            this._autoConnect = autoConnect;
+        }
+        let result = [];
+        this.getDeviceList().forEach((device) => {
+            if (device && device.connected) {
+                result.push(device);
+            }
+        });
+        return result;
     }
 
     getLayerPort(layer, port) {
@@ -343,11 +405,24 @@ exports.PoweredUp = class extends BasicDevice {
     disconnect() {
     }
 
+    disconnectAll() {
+        this._hubs.forEach((hub) => {
+            hub.disconnect();
+        });
+        this._hubs.length   = 0;
+        this._layers.length = 0;
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            this._layers.push(this.initLayer());
+        }
+        this._hubsByUuid = {};
+        this.scan();
+    }
+
     playtone(frequency, duration, volume, callback) {
     }
 
     getHHubByLayer(layer) {
-        let h = this._connectedHubs[layer];
+        let h = this._hubs[layer];
         if (!h) {
             return null;
         }
@@ -391,13 +466,14 @@ exports.PoweredUp = class extends BasicDevice {
                 case DIRECTION_REVERSE:
                     motorDevice.setPower(-speed);
                     break;
+                case DIRECTION_FORWARD:
+                    motorDevice.setPower(speed);
+                    break;
                 case DIRECTION_NONE:
                     port.moving = false;
                     motorDevice.setPower(0);
+                    motorDevice.setBrakingStyle(HOLD);
                     motorDevice.brake();
-                    break;
-                case DIRECTION_FORWARD:
-                    motorDevice.setPower(speed);
                     break;
             }
             port.currentDirection = direction;
@@ -420,7 +496,7 @@ exports.PoweredUp = class extends BasicDevice {
 
     motorMonitor() {
         let layers = this._layers;
-        for (let layer = 0; layer < 4; layer++) {
+        for (let layer = 0; layer < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; layer++) {
             for (let id = 0; id < 4; id++) {
                 let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;
@@ -477,6 +553,7 @@ exports.PoweredUp = class extends BasicDevice {
             switch (motorDevice.type) {
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
+                case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR:
                     motorDevice.setPower        && motorDevice.setPower(speed);
                     break;
                 case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR:
@@ -555,35 +632,34 @@ exports.PoweredUp = class extends BasicDevice {
         let time   = Date.now();
         let layers = this._layers;
         this._hubs.forEach(
-            function(h) {
-                let hub = this._hubsByUuid[h.uuid];
+            (h) => {
+                if (!h) {
+                    return;
+                }
+                let hub   = this._hubsByUuid[h.uuid];
+                let index = hub.index;
                 if (hub.connecting && (time > hub.connectTime + 3000)) {
                     hub.connecting = false;
                     hub.connected  = true;
                     this._updateConnectedHubs();
                 }
-            },
-            this
-        );
-        this._connectedHubs.forEach(
-            function(h, index) {
-                let hub = this._hubsByUuid[h.uuid];
                 layers[index].uuid         = h.uuid;
                 layers[index].type         = h.type;
                 layers[index].batteryLevel = h.batteryLevel;
-                layers[index].connected    = true;
+                layers[index].connected    = hub.connected;
             },
             this
         );
         const copyLayer = function(layer) {
                 let result = {
-                        uuid:      layer.uuid,
-                        type:      layer.type,
-                        connected: layer.connected,
-                        button:    layer.button,
-                        tilt:      layer.tilt,
-                        accel:     layer.accel,
-                        ports:     []
+                        uuid:       layer.uuid,
+                        type:       layer.type,
+                        connecting: layer.connecting,
+                        connected:  layer.connected,
+                        button:     layer.button,
+                        tilt:       layer.tilt,
+                        accel:      layer.accel,
+                        ports:      []
                     };
                 for (let i = 0; i < 4; i++) {
                     let port = layer.ports[i];
@@ -596,14 +672,14 @@ exports.PoweredUp = class extends BasicDevice {
                 return result;
             };
         let result = {layers: []};
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             result.layers.push(copyLayer(layers[i]));
         }
         return result;
     }
 
     setMode(layer, port, mode) {
-        this.getLayerPort(layer, port).mode = mode;
+        this.getLayerPort(layer, port).mode = parseInt(mode, 10);
     }
 
     stopPolling() {}

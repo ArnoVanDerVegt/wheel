@@ -68,6 +68,7 @@ body.ide {
     --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
     --home-title-color:             #FFFFFF;
 
+    --focus-outline-color:          #000000;
     --focus-border-solid:           1px solid #383838;
     --focus-border-dotted:          1px dotted #383838;
 
@@ -272,6 +273,7 @@ body.ide.dark {
     --home-background:              #656A70;
     --home-title-color:             #FFFFFF;
 
+    --focus-outline-color:          #FFFFFF;
     --focus-border-solid:           1px solid #D1DCE8; /* #E8E8E8 */
     --focus-border-dotted:          1px dotted #D1DCE8; /* #E8E8E8 */
 
@@ -353,9 +355,9 @@ body.ide.dark {
     --files-selected-color:         #FFFFFF;
 
     --console-table-border:         1px solid #3A3D40; /* #404040 */
-    --console-table-header:         #484C50; /* #505050 */
-    --console-table-header-color:   #DFECF8; /* #F8F8F8 */
-    --console-table-color:          #DFECF8; /* #F8F8F8 */
+    --console-table-header:         #505050; /* #505050 */
+    --console-table-header-color:   #F8F8F8; /* #F8F8F8 */
+    --console-table-color:          #F8F8F8; /* #F8F8F8 */
 
     --sensor-background1:           #484C50; /* #505050 */
     --sensor-background2:           #2B2E30; /* #303030 */

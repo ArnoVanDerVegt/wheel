@@ -78,35 +78,37 @@ exports.IconDialog = class extends Dialog {
         super(opts);
         this._onApply  = null;
         this._selected = null;
-        this.createWindow(
-            'icon-dialog',
-            'Select an icon',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.Icon.Show',
+            width:      568,
+            height:     400,
+            className:  'icon-dialog',
+            title:      'Select an icon'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                ref:       this.setRef('iconList'),
+                className: 'abs ui1-box vscroll pad dialog-cw dialog-lt icon-list',
+                children:  this.initIcons()
+            },
+            this.initButtons([
                 {
-                    ref:       this.setRef('iconList'),
-                    className: 'icon-list',
-                    children:  this.initIcons()
+                    ref:      this.setRef('ok'),
+                    value:    'Ok',
+                    tabIndex: 256,
+                    disabled: true,
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('ok'),
-                            value:    'Ok',
-                            tabIndex: 256,
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            value:    'Cancel',
-                            tabIndex: 257,
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    value:    'Cancel',
+                    tabIndex: 257,
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Icon.Show', this, this.onShow);
+            ])
+        ];
     }
 
     initIcons() {

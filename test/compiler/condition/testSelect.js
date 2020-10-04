@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test select',
-    function() {
+    () => {
         describe(
             'Test select number',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should select first case',
@@ -78,7 +78,7 @@ describe(
         );
         describe(
             'Test select expression',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should select expression',
@@ -122,7 +122,7 @@ describe(
         );
         describe(
             'Test select with default',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should select first case',

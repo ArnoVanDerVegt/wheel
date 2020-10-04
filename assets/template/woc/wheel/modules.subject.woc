@@ -25,18 +25,108 @@ end
 
 Wheel comes with the following standard modules:
 
-+----------+----------------------------+
-| Module   | Function                   |
-+----------+----------------------------+
-| Button   | Read the EV3 buttons       |
-| File     | Reading and writing files  |
-| Light    | Control the EV3 light      |
-| Math     | Math functions             |
-| Motor    | Control EV3 motors         |
-| Screen   | Drawing functions          |
-| Sensor   | Read and configure sensors |
-| Sound    | Play tones or samples      |
-| Standard | Core functions             |
-+----------+----------------------------+
++-------------+----------------------------------+
+| Module      | Function                         |
++-------------+----------------------------------+
+| Bit         | Bit functions                    |
+| Button      | Read the EV3 buttons             |
+| Device      | Select EV3 or Powered Up         |
+| File        | Reading and writing files        |
+| Light       | Control the EV3 light            |
+| Math        | Math functions                   |
+| Motor       | Control EV3 motors               |
+| Powered Up  | Control EV3 motors               |
+| PSP         | Psp controller functions for EV3 |
+| Screen      | Drawing functions                |
+| Sensor      | Read and configure sensors       |
+| SensorMulti | Sensor multiplexer for EV3       |
+| Sound       | Play tones or samples            |
+| Standard    | Core functions                   |
+| String      | String functions                 |
+| System      | System functions for EV3         |
++-------------+----------------------------------+
+
+To build your own interfaces to control robots from the IDE there are several component modules available.
+
+Input components:
+
++----------------------------------------------+--------------+----------------------------------+
+| Image                                        | Module       | Function                         |
++----------------------------------------------+--------------+----------------------------------+
+| @image images/buttons/buttonBlack.svg        | Button       | Buttons                          |
+| @image images/buttons/selectButtonBlack.svg  | SelectButton | A horizontal list of buttons     |
+| @image images/buttons/checkboxBlack.svg      | Checkbox     | Checkbox                         |
+| @image images/buttons/radioBlack.svg         | Radio        | A radio group                    |
+| @image images/buttons/dropdownBlack.svg      | Dropdown     | Dropdown                         |
++----------------------------------------------+--------------+----------------------------------+
+
+Text components:
+
++----------------------------------------------+--------------+------------------------------------+
+| Image                                        | Module       | Function                           |
++----------------------------------------------+--------------+------------------------------------+
+| @image images/buttons/labelBlack.svg         | Label        | A label and value text             |
+| @image images/buttons/headerBlack.svg        | Title        | A title text                       |
+| @image images/buttons/textBlack.svg          | Text         | A text block                       |
+| @image images/buttons/listItemsBlack.svg     | ItemList     | A list of items with buller points |
++----------------------------------------------+--------------+------------------------------------+
+
+Panel components:
+
++--------------------------------------+--------+--------------------------------------+
+| Image                                | Module | Function                             |
++--------------------------------------+--------+--------------------------------------+
+| @image images/buttons/panelBlack.svg | Panel  | A panel which can contain components |
+| @image images/buttons/tabsBlack.svg  | Tabs   | Tabs with tab panels                 |
++--------------------------------------+--------+--------------------------------------+
+
+Graphics components:
+
++---------------------------------------+-----------+--------------------------------------+
+| Image                                 | Module    | Function                             |
++---------------------------------------+-----------+--------------------------------------+
+| @image images/buttons/rectBlack.svg   | Rectangle | A rectangle with an optinal border   |
+| @image images/buttons/circleBlack.svg | Circle    | A circle with an optinal border      |
+| @image images/buttons/imageBlack.svg  | Image     | An image                             |
+| @image images/buttons/iconBlack.svg   | Icon      | An icon with a list of icon options  |
++---------------------------------------+-----------+--------------------------------------+
+
+Status components:
+
++--------------------------------------------+-------------+--------------------------------------+
+| Image                                      | Module      | Function                             |
++--------------------------------------------+-------------+--------------------------------------+
+| @image images/buttons/statusLightBlack.svg | StatusLight | A status light                       |
+| @image images/buttons/progressBlack.svg    | ProgressBar | A horizontal progress bar            |
+| @image images/buttons/loadingBlack.svg     | LoadingDots | Animating loading dots               |
++--------------------------------------------+-------------+--------------------------------------+
+
+Device components:
+
++------------------------------------------+-----------------+--------------------------------------+
+| Image                                    | Module          | Function                             |
++------------------------------------------+-----------------+--------------------------------------+
+| @image images/buttons/puDeviceBlack.svg  | PoweredUpDevice | Displays Powered Up port information |
+| @image images/buttons/ev3MotorBlack.svg  | EV3Motor        | Displays EV3 motor port information  |
+| @image images/buttons/ev3SensorBlack.svg | EV3Sensor       | Displays EV3 sensor port information |
++------------------------------------------+-----------------+--------------------------------------+
+
+Dialog components:
+
++----------------------------------------------+---------------+------------------+
+| Image                                        | Module        | Function         |
++----------------------------------------------+---------------+------------------+
+| @image images/buttons/alertDialogBlack.svg   | AlertDialog   | An alert dialog  |
+| @image images/buttons/confirmDialogBlack.svg | ConfirmDialog | A confirm dialog |
++----------------------------------------------+---------------+------------------+
+
+Non visual components:
+
++--------------------------------------+----------+----------------------------+
+| Image                                | Module   | Function                   |
++--------------------------------------+----------+----------------------------+
+| @image images/buttons/timerBlack.svg | Interval | Schedule a repeating event |
+| @image images/buttons/clockBlack.svg | Timer    | Scedule an event           |
++--------------------------------------+----------+----------------------------+
 
 @see Standard,Screen,Button,Sound,Math,File,Sensor

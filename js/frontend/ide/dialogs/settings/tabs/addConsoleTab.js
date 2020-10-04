@@ -9,7 +9,7 @@ const TextInputSetting = require('../components/TextInputSetting').TextInputSett
 exports.tab = (settingsDialog, opts) => {
     return {
         ref:       settingsDialog.setRef('tabConsole'),
-        className: 'tab-panel tab-console',
+        className: 'abs max-x tab-panel ui1-box vscroll tab-console',
         children: [
             settingsDialog.addTitle('Automatically show console'),
             settingsDialog.addDescriptionRow('You can select at which log level the console automatically will be shown.'),

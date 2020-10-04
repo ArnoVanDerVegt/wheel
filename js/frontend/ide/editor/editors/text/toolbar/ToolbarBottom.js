@@ -33,7 +33,7 @@ exports.ToolbarBottom = class extends Toolbar {
         this.create(
             this._parentNode,
             {
-                className: 'resource-options bottom',
+                className: 'flt max-w resource-options bottom',
                 children: [
                     this.addFileSaved(wheelEditor),
                     this.addFind(wheelEditor),
@@ -123,6 +123,7 @@ exports.ToolbarBottom = class extends Toolbar {
 
     addConnectionStatus(wheelEditor) {
         return {
+            ref:       wheelEditor.setRef('connectionStatus'),
             type:      BluetoothState,
             ev3:       this._ev3,
             poweredUp: this._poweredUp

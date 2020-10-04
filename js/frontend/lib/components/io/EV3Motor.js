@@ -19,8 +19,8 @@ exports.EV3Motor = class extends BasicIODevice {
     setDevice(device) {
         let image = false;
         switch (device) {
-            case 7: image = 'images/ev3/motorMedium.png'; break;
-            case 8: image = 'images/ev3/motorLarge.png';  break;
+            case 7: image = 'images/ev3/motorMedium64.png'; break;
+            case 8: image = 'images/ev3/motorLarge64.png';  break;
         }
         if (image) {
             this

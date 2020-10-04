@@ -5,7 +5,7 @@
 namespace components.statusLight
 
 ; @const The status light component module.
-#define MODULE_COMPONENT_STATUS_LIGHT        104
+#define MODULE_COMPONENT_STATUS_LIGHT        104    ; `image:images/buttons/statusLightBlack.svg`
 
 ; @const Module calls for the status light component functions.
 #define STATUS_LIGHT_COMPONENT_SET_HIDDEN      0
