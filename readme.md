@@ -7,8 +7,12 @@
 </h1>
 
 <p align="center">
-  [![Build Status](https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master)](https://travis-ci.org/ArnoVanDerVegt/wheel)
-  [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/ArnoVanDerVegt/wheel/blob/master/license.txt)
+  <a href="https://travis-ci.org/ArnoVanDerVegt/wheel">
+    <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=develop" alt="Build Status">
+  </a>  
+  <a href="https://github.com/ArnoVanDerVegt/wheel/blob/master/license.txt">
+    <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="License">
+  </a>  
 </p>
 
 <h4 align="center">
