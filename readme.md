@@ -7,6 +7,7 @@
 </h1>
 
 <p align="center">
+  <img src="https://img.shields.io/github/last-commit/ArnoVanDerVegt/wheel?color=blue" alt="Last commit">
   <a href="https://travis-ci.org/ArnoVanDerVegt/wheel">
     <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=develop" alt="Build Status">
   </a>  
